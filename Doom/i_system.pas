@@ -141,7 +141,7 @@ procedure I_ClearInterface(var Dest: IInterface);
 type
   process_t = function(p: pointer): LongInt; stdcall;
 
-function I_CreateProcess(p: process_t; parm: pointer): integer;
+function I_CreateProcess(p: process_t; parm: pointer; suspended: boolean): integer;
 
 procedure I_WaitForProcess(pid: integer; msec: integer);
 
@@ -797,11 +797,14 @@ begin
   end;
 end;
 
-function I_CreateProcess(p: process_t; parm: pointer): integer;
+function I_CreateProcess(p: process_t; parm: pointer; suspended: boolean): integer;
 var
   id: LongWord;
 begin
-  result := CreateThread(nil, $1000, @p, parm, 0, id);
+  if suspended then
+    result := CreateThread(nil, $1000, @p, parm, CREATE_SUSPENDED, id)
+  else
+    result := CreateThread(nil, $1000, @p, parm, 0, id);
 end;
 
 procedure I_WaitForProcess(pid: integer; msec: integer);

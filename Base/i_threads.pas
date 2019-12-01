@@ -97,9 +97,8 @@ begin
   fparms := nil;
   fstatus := THR_IDLE;
   info.thread := Self;
-  fid := I_CreateProcess(@ThreadWorker, @info);
+  fid := I_CreateProcess(@ThreadWorker, @info, true);
   suspended := true;
-  SuspendThread(fid);
 end;
 
 destructor TDThread.Destroy;

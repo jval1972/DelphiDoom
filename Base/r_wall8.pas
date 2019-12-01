@@ -54,9 +54,9 @@ type
   batchwallrenderinfo8_tArray = array[0..$FFFF] of batchwallrenderinfo8_t;
   Pbatchwallrenderinfo8_tArray = ^batchwallrenderinfo8_tArray;
 
-procedure R_StoreWallColumn8(const walls: Pbatchwallrenderinfo8_t);
+procedure R_StoreWallColumn8(const idx: PInteger);
 
-procedure R_FlashWallColumns8(const walls: Pbatchwallrenderinfo8_t);
+procedure R_FlashWallColumns8(const idx: PInteger);
 
 procedure R_InitWallsCache8;
 
@@ -69,9 +69,9 @@ procedure R_RenderMultiThreadWalls8;
 procedure R_WaitWallsCache8;
 
 var
-  midwalls8: batchwallrenderinfo8_t = (numwalls: 0);
-  lowerwalls8: batchwallrenderinfo8_t = (numwalls: 0);
-  upperwalls8: batchwallrenderinfo8_t = (numwalls: 0);
+  midwalls8: integer;
+  lowerwalls8: integer;
+  upperwalls8: integer;
 
 implementation
 
@@ -87,23 +87,6 @@ uses
   r_draw,
   r_precalc,
   r_main;
-
-procedure R_StoreWallColumn8(const walls: Pbatchwallrenderinfo8_t);
-var
-  w: Pwallrenderinfo8_t;
-begin
-  w := @walls.walls[walls.numwalls];
-  w.dc_source := dc_source;
-  w.dc_colormap := dc_colormap;
-  w.dc_yh := dc_yh;
-  w.dc_yl := dc_yl;
-  w.dc_x := dc_x;
-  w.dc_iscale := dc_iscale;
-  w.dc_texturemid := dc_texturemid;
-  Inc(walls.numwalls);
-  if walls.numwalls = MAXBATCHWALLS then
-    R_FlashWallColumns8(walls);
-end;
 
 procedure R_DrawBatchColumn(const walls: Pbatchwallrenderinfo8_t);
 var
@@ -409,13 +392,93 @@ begin
 
 end;
 
-const
-  MAXWALLTHREADS8 = 16;
-
 var
   wallcache: Pbatchwallrenderinfo8_tArray;
   wallcachesize: integer;
   wallcacherealsize: integer;
+
+procedure R_GrowWallsCache8;
+begin
+  if wallcachesize >= wallcacherealsize then
+  begin
+    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo8_t));
+    wallcacherealsize := wallcacherealsize + 64;
+  end;
+end;
+
+procedure R_AddWallsToCache8(const idx: PInteger);
+begin
+  R_GrowWallsCache8;
+  idx^ := wallcachesize;
+  wallcache[wallcachesize].numwalls := 0;
+  Inc(wallcachesize);
+end;
+
+procedure R_DoFlashWallColumns8(const walls: Pbatchwallrenderinfo8_t; const idx: PInteger);
+var
+  i: integer;
+  w: Pwallrenderinfo8_t;
+begin
+  if walls.numwalls = 0 then
+    exit;
+
+  if walls.numwalls = MAXBATCHWALLS then
+  begin
+    if usemultithread then
+      R_AddWallsToCache8(idx)
+    else
+    begin
+      R_DrawBatchColumn(walls);
+      walls.numwalls := 0;
+    end
+  end
+  else
+  begin
+    w := @walls.walls[0];
+    for i := 0 to walls.numwalls - 1 do
+    begin
+      dc_source := w.dc_source;
+      dc_yh := w.dc_yh;
+      dc_yl := w.dc_yl;
+      dc_x := w.dc_x;
+      dc_iscale := w.dc_iscale;
+      dc_texturemid := w.dc_texturemid;
+      dc_colormap := w.dc_colormap;
+      wallcolfunc;
+      Inc(w);
+    end;
+    walls.numwalls := 0;
+  end;
+end;
+
+procedure R_FlashWallColumns8(const idx: PInteger);
+begin
+  R_DoFlashWallColumns8(@wallcache[idx^], idx);
+end;
+
+procedure R_StoreWallColumn8(const idx: PInteger);
+var
+  w: Pwallrenderinfo8_t;
+  walls: Pbatchwallrenderinfo8_t;
+begin
+  walls := @wallcache[idx^];
+  w := @walls.walls[walls.numwalls];
+  w.dc_source := dc_source;
+  w.dc_colormap := dc_colormap;
+  w.dc_yh := dc_yh;
+  w.dc_yl := dc_yl;
+  w.dc_x := dc_x;
+  w.dc_iscale := dc_iscale;
+  w.dc_texturemid := dc_texturemid;
+  Inc(walls.numwalls);
+  if walls.numwalls = MAXBATCHWALLS then
+    R_DoFlashWallColumns8(walls, idx);
+end;
+
+const
+  MAXWALLTHREADS8 = 16;
+
+var
   wallthreads8: array[0..MAXWALLTHREADS8 - 1] of TDThread;
   numwallthreads8: Integer = 0;
 
@@ -450,6 +513,14 @@ begin
   wallcache := nil;
   wallcachesize := 0;
   wallcacherealsize := 0;
+  R_GrowWallsCache8;
+  midwalls8 := 0;
+  lowerwalls8 := 1;
+  upperwalls8 := 2;
+  wallcache[midwalls8].numwalls := 0;
+  wallcache[lowerwalls8].numwalls := 0;
+  wallcache[upperwalls8].numwalls := 0;
+  wallcachesize := 3;
 
   numwallthreads8 := I_GetNumCPUs - 1;
   if numwallthreads8 < 1 then
@@ -473,23 +544,10 @@ end;
 
 procedure R_ClearWallsCache8;
 begin
-  wallcachesize := 0;
-end;
-
-procedure R_GrowWallsCache8;
-begin
-  if wallcachesize >= wallcacherealsize then
-  begin
-    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo8_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo8_t));
-    wallcacherealsize := wallcacherealsize + 64;
-  end;
-end;
-
-procedure R_AddWallsToCache8(const walls: Pbatchwallrenderinfo8_t);
-begin
-  R_GrowWallsCache8;
-  wallcache[wallcachesize] := walls^;
-  Inc(wallcachesize);
+  midwalls8 := 0;
+  lowerwalls8 := 1;
+  upperwalls8 := 2;
+  wallcachesize := 3;
 end;
 
 var
@@ -523,41 +581,6 @@ procedure R_WaitWallsCache8;
 begin
   while not _alldone do
     I_Sleep(0);
-end;
-
-procedure R_FlashWallColumns8(const walls: Pbatchwallrenderinfo8_t);
-var
-  i: integer;
-  w: Pwallrenderinfo8_t;
-begin
-  if walls.numwalls = 0 then
-    exit;
-
-  if walls.numwalls = MAXBATCHWALLS then
-  begin
-    if usemultithread then
-      R_AddWallsToCache8(walls)
-    else
-      R_DrawBatchColumn(walls);
-  end
-  else
-  begin
-    w := @walls.walls[0];
-    for i := 0 to walls.numwalls - 1 do
-    begin
-      dc_source := w.dc_source;
-      dc_yh := w.dc_yh;
-      dc_yl := w.dc_yl;
-      dc_x := w.dc_x;
-      dc_iscale := w.dc_iscale;
-      dc_texturemid := w.dc_texturemid;
-      dc_colormap := w.dc_colormap;
-      wallcolfunc;
-      Inc(w);
-    end;
-  end;
-
-  walls.numwalls := 0;
 end;
 
 end.

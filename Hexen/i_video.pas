@@ -360,7 +360,7 @@ begin
         parms1.stop := SCREENWIDTH * SCREENHEIGHT div 2;
         parms2.start := parms1.stop + 1;
         parms2.stop := SCREENWIDTH * SCREENHEIGHT - 1;
-        h1 := I_CreateProcess(@I_Thr_FinishUpdate8, @parms2);
+        h1 := I_CreateProcess(@I_Thr_FinishUpdate8, @parms2, false);
         I_FinishUpdate8(@parms1);
         I_WaitForProcess(h1, 1000);
       end

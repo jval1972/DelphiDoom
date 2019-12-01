@@ -677,7 +677,13 @@ begin
     mobj.floorclip := 0;
 
     Z_Free(mobj118);
-    result := true
+    result := true;
+  end
+  else if savegameversion = VERSION119 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t));
+    incp(pointer(save_p), SizeOf(mobj_t));
+    result := true;
   end
   else
     result := false;

@@ -403,7 +403,6 @@ begin
     begin
     // JVAL
     // Create a thread to process the half screen
-    //  h1 := I_CreateProcess(@R_Thr_Execute3DTransform32, @parms1);
     // The other half is processed by application thread
       threadworker32.Activate(@parms1);
       R_Execute3DTransform32(parms1.stop + 1, viewheight - 1, @buffer2);
@@ -413,7 +412,6 @@ begin
     begin
     // JVAL
     // As above
-    //  h1 := I_CreateProcess(@R_Thr_Execute3DTransform8, @parms1);
       threadworker8.Activate(@parms1);
       R_Execute3DTransform8(parms1.stop + 1, viewheight - 1, PByteArray(@buffer2));
       threadworker8.Wait;

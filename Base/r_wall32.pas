@@ -55,9 +55,9 @@ type
   batchwallrenderinfo32_tArray = array[0..$FFFF] of batchwallrenderinfo32_t;
   Pbatchwallrenderinfo32_tArray = ^batchwallrenderinfo32_tArray;
 
-procedure R_StoreWallColumn32(const walls: Pbatchwallrenderinfo32_t);
+procedure R_StoreWallColumn32(const idx: PInteger);
 
-procedure R_FlashWallColumns32(const walls: Pbatchwallrenderinfo32_t);
+procedure R_FlashWallColumns32(const idx: PInteger);
 
 procedure R_InitWallsCache32;
 
@@ -71,9 +71,9 @@ procedure R_WaitWallsCache32;
 
 
 var
-  midwalls32: batchwallrenderinfo32_t = (numwalls: 0);
-  lowerwalls32: batchwallrenderinfo32_t = (numwalls: 0);
-  upperwalls32: batchwallrenderinfo32_t = (numwalls: 0);
+  midwalls32: integer;
+  lowerwalls32: integer;
+  upperwalls32: integer;
 
 implementation
 
@@ -89,24 +89,6 @@ uses
   r_draw,
   r_precalc,
   r_main;
-
-procedure R_StoreWallColumn32(const walls: Pbatchwallrenderinfo32_t);
-var
-  w: Pwallrenderinfo32_t;
-begin
-  w := @walls.walls[walls.numwalls];
-  w.dc_source32 := dc_source32;
-  w.dc_texturefactorbits := dc_texturefactorbits;
-  w.dc_yh := dc_yh;
-  w.dc_yl := dc_yl;
-  w.dc_x := dc_x;
-  w.dc_iscale := dc_iscale;
-  w.dc_texturemid := dc_texturemid;
-  w.dc_lightlevel := dc_lightlevel;
-  Inc(walls.numwalls);
-  if walls.numwalls = MAXBATCHWALLS then
-    R_FlashWallColumns32(walls);
-end;
 
 procedure R_DrawBatchColumnHi(const walls: Pbatchwallrenderinfo32_t);
 var
@@ -1217,16 +1199,98 @@ begin
   end;
 end;
 
+var
+  wallcache: Pbatchwallrenderinfo32_tArray;
+  wallcachesize: integer;
+  wallcacherealsize: integer;
+
+procedure R_GrowWallsCache32;
+begin
+  if wallcachesize >= wallcacherealsize then
+  begin
+    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo32_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo32_t));
+    wallcacherealsize := wallcacherealsize + 64;
+  end;
+end;
+
+procedure R_AddWallsToCache32(const idx: PInteger);
+begin
+  R_GrowWallsCache32;
+  idx^ := wallcachesize;
+  wallcache[wallcachesize].numwalls := 0;
+  Inc(wallcachesize);
+end;
+
+procedure R_DoFlashWallColumns32(const walls: Pbatchwallrenderinfo32_t; const idx: PInteger);
+var
+  i: integer;
+  w: Pwallrenderinfo32_t;
+begin
+  if walls.numwalls = 0 then
+    exit;
+
+  if walls.numwalls = MAXBATCHWALLS then
+  begin
+    if usemultithread then
+      R_AddWallsToCache32(idx)
+    else
+    begin
+      R_DrawBatchColumnHi(walls);
+      walls.numwalls := 0;
+    end
+  end
+  else
+  begin
+    w := @walls.walls[0];
+    for i := 0 to walls.numwalls - 1 do
+    begin
+      dc_source32 := w.dc_source32;
+      dc_texturefactorbits := w.dc_texturefactorbits;
+      dc_yh := w.dc_yh;
+      dc_yl := w.dc_yl;
+      dc_x := w.dc_x;
+      dc_iscale := w.dc_iscale;
+      dc_texturemid := w.dc_texturemid;
+      dc_lightlevel := w.dc_lightlevel;
+      wallcolfunc;
+      Inc(w);
+    end;
+    walls.numwalls := 0;
+  end;
+end;
+
+procedure R_FlashWallColumns32(const idx: PInteger);
+begin
+  R_DoFlashWallColumns32(@wallcache[idx^], idx);
+end;
+
+procedure R_StoreWallColumn32(const idx: PInteger);
+var
+  w: Pwallrenderinfo32_t;
+  walls: Pbatchwallrenderinfo32_t;
+begin
+  walls := @wallcache[idx^];
+  w := @walls.walls[walls.numwalls];
+  w.dc_source32 := dc_source32;
+  w.dc_texturefactorbits := dc_texturefactorbits;
+  w.dc_yh := dc_yh;
+  w.dc_yl := dc_yl;
+  w.dc_x := dc_x;
+  w.dc_iscale := dc_iscale;
+  w.dc_texturemid := dc_texturemid;
+  w.dc_lightlevel := dc_lightlevel;
+  Inc(walls.numwalls);
+  if walls.numwalls = MAXBATCHWALLS then
+    R_DoFlashWallColumns32(walls, idx);
+end;
 
 const
   MAXWALLTHREADS32 = 16;
 
 var
-  wallcache: Pbatchwallrenderinfo32_tArray;
-  wallcachesize: integer;
-  wallcacherealsize: integer;
   wallthreads32: array[0..MAXWALLTHREADS32 - 1] of TDThread;
   numwallthreads32: Integer = 0;
+
 
 type
   wallthreadparms32_t = record
@@ -1259,6 +1323,14 @@ begin
   wallcache := nil;
   wallcachesize := 0;
   wallcacherealsize := 0;
+  R_GrowWallsCache32;
+  midwalls32 := 0;
+  lowerwalls32 := 1;
+  upperwalls32 := 2;
+  wallcache[midwalls32].numwalls := 0;
+  wallcache[lowerwalls32].numwalls := 0;
+  wallcache[upperwalls32].numwalls := 0;
+  wallcachesize := 3;
 
   numwallthreads32 := I_GetNumCPUs - 1;
   if numwallthreads32 < 1 then
@@ -1282,23 +1354,10 @@ end;
 
 procedure R_ClearWallsCache32;
 begin
-  wallcachesize := 0;
-end;
-
-procedure R_GrowWallsCache32;
-begin
-  if wallcachesize >= wallcacherealsize then
-  begin
-    realloc(Pointer(wallcache), wallcacherealsize * SizeOf(batchwallrenderinfo32_t), (64 + wallcacherealsize) * SizeOf(batchwallrenderinfo32_t));
-    wallcacherealsize := wallcacherealsize + 64;
-  end;
-end;
-
-procedure R_AddWallsToCache32(const walls: Pbatchwallrenderinfo32_t);
-begin
-  R_GrowWallsCache32;
-  wallcache[wallcachesize] := walls^;
-  Inc(wallcachesize);
+  midwalls32 := 0;
+  lowerwalls32 := 1;
+  upperwalls32 := 2;
+  wallcachesize := 3;
 end;
 
 var
@@ -1335,40 +1394,5 @@ begin
     I_Sleep(0);
 end;
 
-
-procedure R_FlashWallColumns32(const walls: Pbatchwallrenderinfo32_t);
-var
-  i: integer;
-  w: Pwallrenderinfo32_t;
-begin
-  if walls.numwalls = 0 then
-    exit;
-
-  if walls.numwalls = MAXBATCHWALLS then
-  begin
-    if usemultithread then
-      R_AddWallsToCache32(walls)
-    else
-      R_DrawBatchColumnHi(walls);
-  end
-  else
-  begin
-    w := @walls.walls[0];
-    for i := 0 to walls.numwalls - 1 do
-    begin
-      dc_source32 := w.dc_source32;
-      dc_texturefactorbits := w.dc_texturefactorbits;
-      dc_yh := w.dc_yh;
-      dc_yl := w.dc_yl;
-      dc_x := w.dc_x;
-      dc_iscale := w.dc_iscale;
-      dc_texturemid := w.dc_texturemid;
-      dc_lightlevel := w.dc_lightlevel;
-      wallcolfunc;
-      Inc(w);
-    end;
-  end;
-  walls.numwalls := 0;
-end;
 
 end.

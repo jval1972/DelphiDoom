@@ -2084,7 +2084,7 @@ begin
     if usemultithread then
     begin
     // JVAL
-      h1 := I_CreateProcess(@M_Thr_ShadeScreen, nil);
+      h1 := I_CreateProcess(@M_Thr_ShadeScreen, nil, false);
       {$IFDEF OPENGL}
       V_ShadeBackground(0, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2);
       {$ELSE}

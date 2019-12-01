@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -147,7 +147,7 @@ procedure I_ClearInterface(var Dest: IInterface);
 type
   process_t = function(p: pointer): LongInt; stdcall;
 
-function I_CreateProcess(p: process_t; parm: pointer): integer;
+function I_CreateProcess(p: process_t; parm: pointer; suspended: boolean): integer;
 
 procedure I_WaitForProcess(pid: integer; msecs: integer);
 
@@ -795,11 +795,14 @@ begin
   end;
 end;
 
-function I_CreateProcess(p: process_t; parm: pointer): integer;
+function I_CreateProcess(p: process_t; parm: pointer; suspended: boolean): integer;
 var
   id: LongWord;
 begin
-  result := CreateThread(nil, $1000, @p, parm, 0, id);
+  if suspended then
+    result := CreateThread(nil, $1000, @p, parm, CREATE_SUSPENDED, id)
+  else
+    result := CreateThread(nil, $1000, @p, parm, 0, id);
 end;
 
 procedure I_WaitForProcess(pid: integer; msecs: integer);
