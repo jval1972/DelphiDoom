@@ -128,7 +128,7 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
-  buf: fourbytes_t;
+  buf: eightbytes_t;
 begin
   w := @walls.walls[0];
   min_yh := w.dc_yh;
@@ -303,10 +303,9 @@ begin
     buf.byte4 := dc_colormap8[dc_source8[(LongWord(frac8) shr FRACBITS) and 127]];
     inc(frac8, fracstep8);
     PLongWord(dest)^ := PLongWord(@buf)^;
-
     dest := PByte(integer(dest) + swidth2);
-    inc(ypos);
 
+    inc(ypos);
   end;
 
   while ypos <= max_yh do
@@ -1710,7 +1709,7 @@ begin
   if force_numwallrenderingthreads_8bit > 0 then
     numwallthreads8 := force_numwallrenderingthreads_8bit
   else
-    numwallthreads8 := I_GetNumCPUs - 2;
+    numwallthreads8 := I_GetNumCPUs - 1;
 
   if numwallthreads8 < 1 then
     numwallthreads8 := 1
@@ -1771,7 +1770,7 @@ begin
 
   if newnumthreads <= 0 then
   begin
-    newnumthreads := I_GetNumCPUs - 2;
+    newnumthreads := I_GetNumCPUs - 1;
     if newnumthreads <= 0 then
       newnumthreads := 1;
   end;

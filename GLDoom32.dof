@@ -100,18 +100,22 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-cgaX3 -nofullscreen DVII-1i.wad
+RunParams=-geom 1920x1080 -fullscreen
 HostApplication=
 Launcher=
 UseLauncher=0
 DebugCWD=
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=710
+Build=711
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=2.0.4.710
+FileVersion=2.0.4.711
 InternalName=GLDoom
 LegalCopyright=Copyright 2005 - 2017, Jim Valavanis
 LegalTrademarks=

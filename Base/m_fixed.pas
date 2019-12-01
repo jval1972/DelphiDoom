@@ -74,6 +74,8 @@ function FixedDiv2(const a, b: fixed_t): fixed_t;
 
 function FixedInt(const x: integer): integer;
 
+function FixedInt64(const x: int64): integer;
+
 function FloatToFixed(const f: float): fixed_t;
 
 function DoubleToFixed(const f: double): fixed_t;
@@ -219,6 +221,24 @@ end;
 function FixedInt(const x: integer): integer; assembler;
 asm
   sar eax, FRACBITS
+end;
+
+
+//
+// FixedInt64
+// JVAL: This is 30 times faster than using  result := x div FRACUNIT;
+//
+function FixedInt64(const x: int64): integer;
+var
+  x2: int64;
+begin
+  if x < 0 then
+  begin
+    x2 := -x;
+    result := -PInteger(integer(@x2) + 2)^;
+  end
+  else
+    result := PInteger(integer(@x) + 2)^;
 end;
 
 function FloatToFixed(const f: float): fixed_t;

@@ -619,13 +619,12 @@ begin
   if fake3dlookdir = 0 then
     exit;
 
+  parms1.start := 0;
+  parms1.stop := (viewwidth div 2) and (not 3);
+  parms1.buffer := @buffer1;
   // If we use multithreading
   if usemultithread then
   begin
-    parms1.start := 0;
-    parms1.stop := (viewwidth div 2) and (not 3);
-    parms1.buffer := @buffer1;
-
     if videomode = vm32bit then
     begin
     // JVAL
@@ -649,9 +648,15 @@ begin
   begin
   // JVAL: The simple stuff
     if videomode = vm32bit then
-      R_Execute3DTransform32(0, viewwidth - 1, @buffer1)
+    begin
+      R_Execute3DTransform32(parms1.start, parms1.stop, @buffer1);
+      R_Execute3DTransform32(parms1.stop + 1, viewwidth - 1, @buffer2);
+    end
     else
-      R_Execute3DTransform8(0, viewwidth - 1, PByteArray(@buffer1));
+    begin
+      R_Execute3DTransform8(parms1.start, parms1.stop, PByteArray(@buffer1));
+      R_Execute3DTransform8(parms1.stop + 1, viewwidth - 1, PByteArray(@buffer2));
+    end;
   end;
 
 end;

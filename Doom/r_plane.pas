@@ -61,8 +61,8 @@ procedure R_DrawPlanes;
 procedure R_DoDrawPlane(const pl: Pvisplane_t); // JVAL: 3d Floors
 {$ENDIF}
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
-  xoffs, yoffs: fixed_t; flags: LongWord; {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF}
-  slopeSID: integer = -1): Pvisplane_t;
+  xoffs, yoffs: fixed_t; flags: LongWord; const floor_or_ceiling: boolean;
+  {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF} slopeSID: integer = -1): Pvisplane_t;
 
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 
@@ -152,6 +152,7 @@ uses
   r_depthbuffer,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
+  r_patch,
 {$ENDIF}
   z_zone;
 
@@ -292,7 +293,7 @@ begin
       db_distance := 0
     else
       db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
-    R_DrawSpanToDepthBuffer;
+    spandepthbufferproc;
   end;
 end;
 {$ENDIF}
@@ -407,8 +408,8 @@ end;
 // R_FindPlane
 //
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
-  xoffs, yoffs: fixed_t; flags: LongWord; {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF}
-  slopeSID: integer = -1): Pvisplane_t;
+  xoffs, yoffs: fixed_t; flags: LongWord; const floor_or_ceiling: boolean;
+  {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF} slopeSID: integer = -1): Pvisplane_t;
 var
   check: integer;
   hash: LongWord;
@@ -416,7 +417,10 @@ var
 begin
   if picnum = skyflatnum then
   begin
-    height := 0; // all skies map together
+    if floor_or_ceiling then
+      height := 1  // all skies map together
+    else
+      height := 0; // all skies map together
     lightlevel := 0;
     xoffs := 0;
     yoffs := 0;
@@ -603,7 +607,6 @@ begin
   result := pl;
 
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
-
 end;
 
 //
@@ -684,6 +687,7 @@ begin
   // sky flat
   if pl.picnum = skyflatnum then
   begin
+    R_DisableFixedColumn;
     if zaxisshift and (viewangleoffset = 0) then
       dc_iscale := FRACUNIT * 93 div viewheight // JVAL adjust z axis shift also
     else
@@ -702,8 +706,16 @@ begin
           if dc_yl < dc_yh then
           begin
             angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-            dc_mod := dc_texturemod;
+            if detaillevel = DL_NORMAL then
+            begin
+              dc_texturemod := 0;
+              dc_mod := 0;
+            end
+            else
+            begin
+              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              dc_mod := dc_texturemod;
+            end;
             dc_x := x;
             R_ReadDC32Cache(skytexture, angle);
           // JVAL
@@ -723,8 +735,8 @@ begin
           if dc_yl < dc_yh then
           begin
             angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-            dc_mod := dc_texturemod;
+{            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            dc_mod := dc_texturemod;}
             dc_x := x;
             dc_source := R_GetColumn(skytexture, angle);
             // JVAL
@@ -745,8 +757,16 @@ begin
         if dc_yl < dc_yh then
         begin
           angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-          dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-          dc_mod := dc_texturemod;
+          if detaillevel <= DL_NORMAL then
+          begin
+            dc_texturemod := 0;
+            dc_mod := 0;
+          end
+          else
+          begin
+            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            dc_mod := dc_texturemod;
+          end;
           dc_x := x;
           R_GetDCs(skytexture, angle);
           // Sky is allways drawn full bright,
@@ -759,6 +779,7 @@ begin
         end;
       end;
     end;
+    R_EnableFixedColumn;
     exit;
   end;
 
@@ -785,12 +806,14 @@ begin
   if pl.renderflags and SRF_RIPPLE <> 0 then
   begin
     spanfunc := ripplespanfunc;
-    ds_ripple := curripple
+    ds_ripple := curripple;
+    spanfuncMT := ripplespanfuncMT;
   end
   else
   begin
     spanfunc := basespanfunc;
     ds_ripple := nil;
+    spanfuncMT := basespanfuncMT;
   end;
 
   stop := pl.maxx + 1;

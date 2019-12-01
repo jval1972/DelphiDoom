@@ -325,7 +325,7 @@ begin
   Set8087CW($133f); { Disable all fpu exceptions }
 
   try
-    D_DoomMain;
+    DoomMain;
   except
     I_FlashCachedOutput;
   end;

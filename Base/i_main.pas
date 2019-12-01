@@ -50,6 +50,7 @@ procedure DoomMain;
 implementation
 
 uses
+  d_delphi,
   Messages,
   doomdef,
   g_game,
@@ -114,6 +115,8 @@ var
   WindowClass: TWndClass;
   exStyle: integer;
 begin
+  I_SetDPIAwareness;
+  
   ZeroMemory(@WindowClass, SizeOf(WindowClass));
   WindowClass.lpfnWndProc := @WindowProc;
   WindowClass.hbrBackground := GetStockObject(DKGRAY_BRUSH);

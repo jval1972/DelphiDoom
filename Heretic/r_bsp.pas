@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -726,6 +726,7 @@ begin
                                 frontsector.floorpic,
                                 floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                true,
                                 {$IFNDEF OPENGL}
                                 floorslope,
                                 {$ENDIF}
@@ -735,6 +736,7 @@ begin
                                 frontsector.floorpic,
                                 floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                true,
                                 {$IFNDEF OPENGL}
                                 nil,
                                 {$ENDIF}
@@ -751,6 +753,7 @@ begin
                                   frontsector.ceilingpic,
                                   frontsector.lightlevel,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  false,
                                   {$IFNDEF OPENGL}
                                   ceilingslope,
                                   {$ENDIF}
@@ -760,6 +763,7 @@ begin
                                   frontsector.ceilingpic,
                                   frontsector.lightlevel,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  false,
                                   {$IFNDEF OPENGL}
                                   nil,
                                   {$ENDIF}

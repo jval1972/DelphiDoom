@@ -2454,7 +2454,7 @@ begin
   if force_numwallrenderingthreads_32bit > 0 then
     numwallthreads32 := force_numwallrenderingthreads_32bit
   else
-    numwallthreads32 := I_GetNumCPUs - 2;
+    numwallthreads32 := I_GetNumCPUs - 1;
 
   if numwallthreads32 < 1 then
     numwallthreads32 := 1
@@ -2515,7 +2515,7 @@ begin
 
   if newnumthreads <= 0 then
   begin
-    newnumthreads := I_GetNumCPUs - 2;
+    newnumthreads := I_GetNumCPUs - 1;
     if newnumthreads <= 0 then
       newnumthreads := 1;
   end;

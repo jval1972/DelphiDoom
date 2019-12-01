@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -64,9 +64,9 @@ var
 implementation
 
 var
-  precal32_r: array[0..255] of PIntegerArray;
-  precal32_g: array[0..255] of PIntegerArray;
-  precal32_b: array[0..255] of PIntegerArray;
+  precalc32_r: array[0..255] of PIntegerArray;
+  precalc32_g: array[0..255] of PIntegerArray;
+  precalc32_b: array[0..255] of PIntegerArray;
 
 procedure R_InitPrecalc;
 var
@@ -75,19 +75,23 @@ var
   l: LongWord;
   buf2: twobytes_t;
   buf4: fourbytes_t;
+{$IFDEF HEXEN}
+  f1, f2: integer;
+  p2: PIntegerArray;
+{$ENDIF}
 begin
   for i := 0 to 255 do
   begin
     p := malloc(256 * SizeOf(Integer));
-    precal32_r[i] := p;
+    precalc32_r[i] := p;
     for j := 0 to 255 do
       p[j] := (i * j * 256) shr FRACBITS;
     p := malloc(256 * SizeOf(Integer));
-    precal32_g[i] := p;
+    precalc32_g[i] := p;
     for j := 0 to 255 do
       p[j] := (((i * j * 256) shr FRACBITS) shl 8) and $FF00;
     p := malloc(256 * SizeOf(Integer));
-    precal32_b[i] := p;
+    precalc32_b[i] := p;
     for j := 0 to 255 do
       p[j] := (i * j * 256) and $FF0000;
 
@@ -102,10 +106,18 @@ begin
     precal8_toword[i] := PWord(@buf2)^;
 
     {$IFDEF HEXEN}
+    f1 := i;
+    f2 := 256 - f1;
+
     p := malloc(256 * SizeOf(Integer));
     precalc_fog_r[i] := p;
     for j := 0 to 255 do
       p[j] := 255 - (i * (255 - j)) shr 8;
+
+    p2 := precalc32_r[i];
+    for j := 0 to 255 do
+      p[j] := (p[j] * f2 + p2[j] * f1) shr 8;
+
     p := malloc(256 * SizeOf(Integer));
     precalc_fog_g[i] := p;
     for j := 0 to 255 do
@@ -131,9 +143,9 @@ var
 begin
   for i := 0 to 255 do
   begin
-    memfree(pointer(precal32_r[i]), 256 * SizeOf(Integer));
-    memfree(pointer(precal32_g[i]), 256 * SizeOf(Integer));
-    memfree(pointer(precal32_b[i]), 256 * SizeOf(Integer));
+    memfree(pointer(precalc32_r[i]), 256 * SizeOf(Integer));
+    memfree(pointer(precalc32_g[i]), 256 * SizeOf(Integer));
+    memfree(pointer(precalc32_b[i]), 256 * SizeOf(Integer));
     {$IFDEF HEXEN}
     memfree(pointer(precalc_fog_r[i]), 256 * SizeOf(Integer));
     memfree(pointer(precalc_fog_g[i]), 256 * SizeOf(Integer));
@@ -149,9 +161,9 @@ begin
   lf := f shr 8;
   if lf > 255 then
     lf := 255;
-  tr := precal32_r[lf];
-  tg := precal32_g[lf];
-  tb := precal32_b[lf];
+  tr := precalc32_r[lf];
+  tg := precalc32_g[lf];
+  tb := precalc32_b[lf];
 end;
 
 {$IFDEF HEXEN}

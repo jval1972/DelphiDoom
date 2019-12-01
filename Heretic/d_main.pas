@@ -307,6 +307,9 @@ end;
 
 var
   diskbusyend: integer = -1;
+  {$IFNDEF OPENGL}
+  oldusemultithread: boolean = false;
+  {$ENDIF}
 
 procedure D_Display;
 
@@ -355,6 +358,13 @@ begin
     oldgamestate := -1; // force background redraw
     borderdrawcount := 3;
   end;
+{$IFNDEF OPENGL}
+  if oldusemultithread <> usemultithread then
+  begin
+    R_SetRenderingFunctions;
+    oldusemultithread := usemultithread;
+  end;
+{$ENDIF}
 
 {$IFNDEF OPENGL}
   // save the current screen if about to wipe

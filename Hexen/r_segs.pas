@@ -195,10 +195,10 @@ begin
 
   lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-  if curline.v1.y = curline.v2.y then
+{  if curline.v1.y = curline.v2.y then
     dec(lightnum)
   else if curline.v1.x = curline.v2.x then
-    inc(lightnum);
+    inc(lightnum);}
 
   if lightnum < 0 then
     lightnum := 0
@@ -256,17 +256,20 @@ begin
     begin
       if fixedcolormap = nil then
       begin
-        if not forcecolormaps then
+        if videomode = vm32bit then
         begin
-          if spryscale > 256 * FRACUNIT then
-            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
-          else
-            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 2) * 320) div SCREENWIDTH;
-          if index >= HLL_MAXLIGHTSCALE then
-            index := HLL_MAXLIGHTSCALE - 1
-          else if index < 0 then
-            index := 0;
-          dc_lightlevel := scalelightlevels[dc_llindex, index];
+          if not forcecolormaps or LevelUseFog then
+          begin
+            if spryscale > 256 * FRACUNIT then
+              index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
+            else
+              index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 2) * 320) div SCREENWIDTH;
+            if index >= HLL_MAXLIGHTSCALE then
+              index := HLL_MAXLIGHTSCALE - 1
+            else if index < 0 then
+              index := 0;
+            dc_lightlevel := scalelightlevels[dc_llindex, index];
+          end;
         end;
         index := _SHR(spryscale, LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
 
@@ -574,10 +577,10 @@ begin
     begin
       lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-      if curline.v1.y = curline.v2.y then
+      {if curline.v1.y = curline.v2.y then
         dec(lightnum)
       else if curline.v1.x = curline.v2.x then
-        inc(lightnum);
+        inc(lightnum); }
 
       if lightnum < 0 then
         lightnum := 0
@@ -898,7 +901,6 @@ begin
   rw_x := start;
   pds.x1 := rw_x;
   pds.x2 := stop;
-  pds.curline := curline;
   rw_stopx := stop + 1;
 
   // calculate scale at both ends and step
@@ -1132,10 +1134,10 @@ begin
     begin
       lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-      if curline.v1.y = curline.v2.y then
+     { if curline.v1.y = curline.v2.y then
         dec(lightnum)
       else if curline.v1.x = curline.v2.x then
-        inc(lightnum);
+        inc(lightnum);  }
 
       if lightnum < 0 then
         lightnum := 0

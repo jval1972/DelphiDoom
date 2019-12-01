@@ -4946,7 +4946,7 @@ begin
 
     infotable[0].filepos := f.Position;
     infotable[0].size := 0;
-    infotable[0].name := stringtochar8(lumpname);
+    infotable[0].name := stringtochar8(strupper(lumpname));
 
     if has_things > 0 then
       llen := W_LumpLength(lumpnum + has_things)

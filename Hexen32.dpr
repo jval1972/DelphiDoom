@@ -329,11 +329,13 @@ uses
   ps_defs in 'SCRIPT\ps_defs.pas',
   p_gravity in 'Base\p_gravity.pas',
   t_patch in 'TEXLIB\t_patch.pas',
-  r_patch in 'Base\r_patch.pas';
+  r_patch in 'Base\r_patch.pas',
+  r_flat8 in 'Base\r_flat8.pas',
+  r_flat32 in 'Base\r_flat32.pas',
+  r_cache_sky1_dbl in 'Hexen\r_cache_sky1_dbl.pas';
 
 var
   Saved8087CW: Word;
-
 begin
   { Save the current FPU state and then disable FPU exceptions }
   Saved8087CW := Default8087CW;

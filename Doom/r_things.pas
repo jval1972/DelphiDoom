@@ -423,8 +423,8 @@ end;
 //
 procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 var
-  topscreen: integer;
-  bottomscreen: integer;
+  topscreen: int64;
+  bottomscreen: int64;
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
 begin
@@ -439,11 +439,11 @@ begin
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + spryscale * column.topdelta;
-      bottomscreen := topscreen + spryscale * column.length;
+      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      bottomscreen := topscreen + int64(spryscale * column.length);
 
-      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt(bottomscreen - 1);
+      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt64(bottomscreen - 1);
 
       if dc_yh >= fc_x then
         dc_yh := fc_x - 1;
@@ -475,11 +475,11 @@ begin
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + spryscale * column.topdelta;
-      bottomscreen := topscreen + spryscale * column.length;
+      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      bottomscreen := topscreen + int64(spryscale * column.length);
 
-      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt(bottomscreen - 1);
+      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt64(bottomscreen - 1);
 
       if dc_yh >= fc_x then
         dc_yh := fc_x - 1;
@@ -509,8 +509,8 @@ end;
 // For Walls only
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 var
-  topscreen: integer;
-  bottomscreen: integer;
+  topscreen: int64;
+  bottomscreen: int64;
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
 begin
@@ -520,10 +520,10 @@ begin
   cc_x := mceilingclip[dc_x];
 
   topscreen := sprtopscreen;
-  bottomscreen := topscreen + spryscale * mc2h;
+  bottomscreen := topscreen + int64(spryscale * mc2h);
 
-  dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-  dc_yh := FixedInt(bottomscreen - 1);
+  dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+  dc_yh := FixedInt64(bottomscreen - 1);
 
   if dc_yh >= fc_x then
     dc_yh := fc_x - 1;
@@ -548,8 +548,8 @@ end;
 // JVAL: batch column drawing
 procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1);
 var
-  topscreen: integer;
-  bottomscreen: integer;
+  topscreen: int64;
+  bottomscreen: int64;
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
 begin
@@ -564,11 +564,11 @@ begin
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + spryscale * column.topdelta;
-      bottomscreen := topscreen + spryscale * column.length;
+      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      bottomscreen := topscreen + int64(spryscale * column.length);
 
-      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt(bottomscreen - 1);
+      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt64(bottomscreen - 1);
 
       if dc_yh >= fc_x then
         dc_yh := fc_x - 1;
@@ -597,11 +597,11 @@ begin
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + spryscale * column.topdelta;
-      bottomscreen := topscreen + spryscale * column.length;
+      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      bottomscreen := topscreen + int64(spryscale * column.length);
 
-      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt(bottomscreen - 1);
+      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt64(bottomscreen - 1);
 
       if dc_yh >= fc_x then
         dc_yh := fc_x - 1;
@@ -765,10 +765,6 @@ begin
 end;
 
 
-var
-  ltopdelta: integer;
-  llength: integer;
-
 //
 // R_DrawVisSpriteLight
 // Used for sprites that emits light
@@ -780,14 +776,16 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   patch: Ppatch_t;
-  topscreen: integer;
-  bottomscreen: integer;
+  topscreen: int64;
+  bottomscreen: int64;
   basetexturemid: fixed_t;
   last_dc_x: integer;
   save_dc_x: integer;
   last_texturecolumn: integer;
   last_floorclip, last_ceilingclip: SmallInt;
   checkcolumn: integer;
+  ltopdelta: integer;
+  llength: integer;
 begin
   patch := W_CacheLumpNum2(vis.patch + firstspritelump, PU_STATIC);
 
@@ -849,11 +847,11 @@ begin
 
       basetexturemid := dc_texturemid;
 
-      topscreen := sprtopscreen + spryscale * ltopdelta;
-      bottomscreen := topscreen + spryscale * llength;
+      topscreen := sprtopscreen + int64(spryscale * ltopdelta);
+      bottomscreen := topscreen + int64(spryscale * llength);
 
-      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt(bottomscreen - 1);
+      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt64(bottomscreen - 1);
       dc_texturemid := (centery - dc_yl) * dc_iscale;
 
       if dc_yh >= mfloorclip[dc_x] then
@@ -902,11 +900,11 @@ begin
 
         basetexturemid := dc_texturemid;
 
-        topscreen := sprtopscreen + spryscale * ltopdelta;
-        bottomscreen := topscreen + spryscale * llength;
+        topscreen := sprtopscreen + int64(spryscale * ltopdelta);
+        bottomscreen := topscreen + int64(spryscale * llength);
 
-        dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-        dc_yh := FixedInt(bottomscreen - 1);
+        dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+        dc_yh := FixedInt64(bottomscreen - 1);
         dc_texturemid := (centery - dc_yl) * dc_iscale;
 
         if dc_yh >= mfloorclip[dc_x] then
@@ -1260,7 +1258,7 @@ var
   lightnum: integer;
 {$IFNDEF OPENGL}
   lightnum2: integer;
-{$ENDIF}  
+{$ENDIF}
 begin
   // BSP is traversed by subsector.
   // A sector might have been split into several
@@ -1495,6 +1493,13 @@ end;
 //
 procedure R_SortVisSprites;
 
+  function getvissortscale(const vis: Pvissprite_t): integer;
+  begin
+    result := vis.scale;
+    if vis.mobjflags and MF_DROPPED <> 0 then
+      inc(result);
+  end;
+
   procedure qsortvs(l, r: Integer);
   var
     i, j: Integer;
@@ -1504,11 +1509,11 @@ procedure R_SortVisSprites;
     repeat
       i := l;
       j := r;
-      scale := vissprites[(l + r) shr 1].scale;
+      scale := getvissortscale(vissprites[(l + r) shr 1]);
       repeat
-        while vissprites[i].scale < scale do
+        while getvissortscale(vissprites[i]) < scale do
           inc(i);
-        while vissprites[j].scale > scale do
+        while getvissortscale(vissprites[j]) > scale do
           dec(j);
         if i <= j then
         begin

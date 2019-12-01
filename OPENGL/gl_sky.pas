@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -324,9 +324,12 @@ end;
 {$ENDIF}
 
 procedure gld_DrawSky(const up, down: boolean);
+var
+  stex: PGLTexture;
 begin
   gld_ResetLastTexture;
-  gld_BindTexture(gld_RegisterTexture(skytexture, false));
+  stex := gld_RegisterTexture(skytexture, false);
+  gld_BindTexture(stex);
   if up then
     glCallList(fSkyListUpper);
   if down then

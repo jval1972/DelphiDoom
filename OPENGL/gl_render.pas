@@ -1739,6 +1739,7 @@ end;
 
 var
   dodrawsky: boolean;
+  didfirstscreensync: boolean = false;
 
 procedure gld_StartDrawScene;
 var
@@ -1750,13 +1751,14 @@ begin
     glEnable(GL_SHARED_TEXTURE_PALETTE_EXT);
   gld_SetPalette(-1);
 
-  if last_screensync <> gl_screensync then
+  if (last_screensync <> gl_screensync) or not didfirstscreensync then
   begin
     if gl_screensync then
       gld_VSync(vsmSync)
     else
       gld_VSync(vsmNoSync);
     last_screensync := gl_screensync;
+    didfirstscreensync := true;
   end;
 
   if screenblocks > 10 then
@@ -2238,7 +2240,7 @@ var
   end;
 
 begin
-  if {$IFDEF DEBUG}(not gl_drawsky) and {$ENDIF}(wall.flag >= GLDWF_SKY) then
+  if (not gl_drawsky) and (wall.flag >= GLDWF_SKY) then
     exit;
 
   if wall.gltexture.index = 0 then
@@ -2252,7 +2254,7 @@ begin
   begin
     glMatrixMode(GL_TEXTURE);
     glPushMatrix;
-    if wall.flag and GLDWF_SKYFLIP = GLDWF_SKYFLIP then
+    if wall.flag = GLDWF_SKYFLIP then
       glScalef(-128.0 / wall.gltexture.buffer_width / 2, 200.0 / 320.0 * 2.0, 1.0)
     else
       glScalef(128.0 / wall.gltexture.buffer_width, 200.0 / 320.0 * 2.0, 1.0);
@@ -4270,7 +4272,7 @@ begin
       begin
         if count >= pglitem.itemcount then
           continue;
-        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
+        if gl_drawsky and (k >= GLDWF_SKY) then
         begin
           gld_PauseLightmap;
           if gl_shared_texture_palette then
@@ -4290,7 +4292,7 @@ begin
             inc(count);
             gld_DrawWall(@gld_drawinfo.walls[j + pglitem.firstitemindex], fblend);
           end;
-        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
+        if gl_drawsky and (k >= GLDWF_SKY) then
         begin
           gld_ResumeLightmap;
           gld_StartFog;
@@ -4407,7 +4409,7 @@ begin
     end;
   end;
 
-  gld_DrawWalls(wallrange, true);
+  gld_DrawWalls(GLDWF_BOT, true);
 
   if gl_uselightmaps then
     gld_DeActivateLightmap;
@@ -4421,7 +4423,7 @@ begin
 
   if zaxisshift then
   begin
-    if {$IFDEF DEBUG}gl_drawsky and{$ENDIF} dodrawsky then
+    if gl_drawsky and dodrawsky then
     begin
 
       if gl_stencilsky then

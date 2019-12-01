@@ -260,6 +260,11 @@ var
   curpal: array[0..255] of LongWord;
   videopal: array[0..255] of LongWord;
   cvideopal: array[0..255] of LongWord;
+{$IFNDEF OPENGL}
+  {$IFDEF HEXEN}
+  skvideopal: array[0..255] of LongWord;
+  {$ENDIF}
+{$ENDIF}
 
 function V_FindAproxColorIndex(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255): integer;
@@ -2341,10 +2346,20 @@ end;
 procedure V_SetPalette(const palette: PByteArray);
 var
   dest: PLongWord;
+{$IFNDEF OPENGL}
+  {$IFDEF HEXEN}
+  destsk: PLongWord;
+  {$ENDIF}
+{$ENDIF}
   src: PByteArray;
   curgamma: PByteArray;
 begin
   dest := @videopal[0];
+{$IFNDEF OPENGL}
+  {$IFDEF HEXEN}
+  destsk := @skvideopal[0];
+  {$ENDIF}
+{$ENDIF}
   src := palette;
   curgamma := @gammatable[usegamma];
   while integer(src) < integer(@palette[256 * 3]) do
@@ -2352,9 +2367,20 @@ begin
     dest^ := (LongWord(curgamma[src[0]]) shl 16) or
              (LongWord(curgamma[src[1]]) shl 8) or
              (LongWord(curgamma[src[2]])) or $FF000000;
+    {$IFNDEF OPENGL}
+    {$IFDEF HEXEN}
+    destsk^ := dest^;
+    inc(destsk);
+    {$ENDIF}
+    {$ENDIF}
     inc(dest);
     src := PByteArray(integer(src) + 3);
   end;
+{$IFNDEF OPENGL}
+{$IFDEF HEXEN}
+  skvideopal[0] := 0;
+{$ENDIF}
+{$ENDIF}
 {$IFDEF DOOM_OR_STRIFE}
   videopal[0] := videopal[0] and $FFFFFF;
 {$ENDIF}

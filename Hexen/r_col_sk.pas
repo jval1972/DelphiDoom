@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,7 +45,10 @@ uses
   d_delphi,
   m_fixed,
   doomdef,
-  r_draw, r_main, r_column, r_hires,
+  r_draw,
+  r_main,
+  r_column,
+  r_hires,
   v_video;
 
 //
@@ -78,7 +81,7 @@ begin
   // Invert Sky Texture if below horizont level
     spot := LongWord(frac) shr FRACBITS;
     if spot > 199 then
-      spot := 400 - spot;
+      spot := 399 - spot;
 
     bdest := dc_source[spot];
     dest^ := bdest;
@@ -100,7 +103,7 @@ begin
   // Invert Sky Texture if below horizont level
     spot := LongWord(frac) shr FRACBITS;
     if spot > 199 then
-      spot := 400 - spot;
+      spot := 399 - spot;
 
     dest^ := dc_source[spot];
     inc(dest, swidth);
@@ -157,9 +160,10 @@ begin
   fracstep := dc_iscale * shift;
   frac := dc_yl * fracstep + skytopy * (FRACUNIT * 61 div 50) * shift;
   sky_max := 256 * shift - 1;
-  sky_sub := 512 * shift;
+  sky_sub := 512 * shift - 1;
 
   swidth := SCREENWIDTH32PITCH;
+
   {$I R_DrawSkyColumnHi.inc}
 end;
 
@@ -195,9 +199,10 @@ begin
   fracstep := dc_iscale * shift;
   frac := dc_yl * fracstep + skytopy * (FRACUNIT * 61 div 50) * shift;
   sky_max := 256 * shift - 1;
-  sky_sub := 512 * shift;
+  sky_sub := 512 * shift - 1;
 
   swidth := SCREENWIDTH32PITCH;
+  
   {$I R_DrawSkyColumnUltra.inc}
 end;
 

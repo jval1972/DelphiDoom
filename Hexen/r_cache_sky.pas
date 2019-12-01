@@ -39,7 +39,9 @@ implementation
 
 uses
   r_column,
+  r_sky,
   r_cache_sky1,
+  r_cache_sky1_dbl,
   r_cache_sky2;
 
 //
@@ -51,7 +53,12 @@ uses
 procedure R_ReadDC32InternalSkyCache(const rtex, rcol: integer);
 begin
   if dc_mod = 0 then
-    R_ReadDC32InternalSkyCache1(rtex, rcol)
+  begin
+    if DoubleSky then
+      R_ReadDC32InternalSkyCache1dbl(rtex, rcol)
+    else
+      R_ReadDC32InternalSkyCache1(rtex, rcol);
+  end
   else
     R_ReadDC32InternalSkyCache2(rtex, rcol)
 end;

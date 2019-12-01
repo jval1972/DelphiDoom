@@ -13,6 +13,8 @@ uses
 {$R *.res}
 
 begin
+  //I_SetDPIAwareness;
+  
   Application.Initialize;
   Application.Title := 'DelphiDoom Launcher';
   Application.CreateForm(TForm1, Form1);

@@ -65,6 +65,7 @@ type
   PBooleanArray = ^TBooleanArray;
 
   PProcedure = procedure;
+  PPointerParmProcedure = procedure(const p: pointer);
   PIntFunction = function: integer;
 
   TStringArray = array[0..$7FFF] of string;
@@ -105,6 +106,11 @@ type
 
   fourbytes_t = packed record
     byte1, byte2, byte3, byte4: byte;
+  end;
+
+  eightbytes_t = packed record
+    byte1, byte2, byte3, byte4: byte;
+    byte5, byte6, byte7, byte8: byte;
   end;
 
   twointegers_t = packed record

@@ -92,13 +92,16 @@ begin
   else
     numlmps := wi.numlumps;
   f.Free;
-  crc32 := GetCRC32(filename);
   for i := 0 to NUMWADDETECTITEMS - 1 do
-    if (wdtbl[i].crc32 = crc32) and (wdtbl[i].size = size) and (wdtbl[i].numlumps = numlmps) then
+    if (wdtbl[i].size = size) and (wdtbl[i].numlumps = numlmps) then
     begin
-      gameversion := wdtbl[i].version;
-      customgame := wdtbl[i].customgame;
-      exit;
+      crc32 := GetCRC32(filename);
+      if wdtbl[i].crc32 = crc32 then
+      begin
+        gameversion := wdtbl[i].version;
+        customgame := wdtbl[i].customgame;
+        exit;
+      end;
     end;
     
   sname := strupper(fname(filename));

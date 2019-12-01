@@ -2167,7 +2167,7 @@ object Form1: TForm1
         Top = 0
         Width = 426
         Height = 320
-        ActivePage = TabSheet5
+        ActivePage = TabSheet1
         Align = alClient
         TabOrder = 0
         object TabSheet8: TTabSheet
@@ -2178,7 +2178,7 @@ object Form1: TForm1
             Top = 8
             Width = 417
             Height = 281
-            ActivePage = TabSheet10
+            ActivePage = TabSheet9
             Style = tsFlatButtons
             TabOrder = 0
             object TabSheet9: TTabSheet
@@ -2599,6 +2599,7 @@ object Form1: TForm1
             Top = 200
             Width = 177
             Height = 17
+            AllowGrayed = True
             Caption = 'Use transparent sprites'
             State = cbGrayed
             TabOrder = 8
@@ -2608,6 +2609,7 @@ object Form1: TForm1
             Top = 224
             Width = 177
             Height = 17
+            AllowGrayed = True
             Caption = 'Use light effects'
             State = cbGrayed
             TabOrder = 9
@@ -2617,6 +2619,7 @@ object Form1: TForm1
             Top = 248
             Width = 121
             Height = 17
+            AllowGrayed = True
             Caption = 'Specify light boost:'
             TabOrder = 10
             OnClick = SpecifyLightBoostCheckBoxClick
@@ -2638,6 +2641,7 @@ object Form1: TForm1
             Top = 176
             Width = 97
             Height = 17
+            AllowGrayed = True
             Caption = 'Chase camera'
             State = cbGrayed
             TabOrder = 7

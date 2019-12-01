@@ -143,6 +143,32 @@ var
   gamepaths: array[0..Ord(NUMGAMEENGINES) - 1] of string;
   gameinfo: array[0..Ord(NUMGAMETYPES) - 1] of gameinfo_t;
 
+var
+  opt_ScreenResolution: string;
+  opt_DetailLevel: integer;
+  opt_Skill: integer;
+  opt_DevelopmentMode: integer;
+  opt_NoMonsters: integer;
+  opt_Respawn: integer;
+  opt_UseMMX: integer;
+  opt_RandomMonsters: integer;
+  opt_Fast: integer;
+  opt_SpecifyZoneSize: boolean;
+  opt_ZoneSize: integer;
+  opt_FullScreen: integer;
+  opt_Interpolation: integer;
+  opt_ZAxisShift: integer;
+  opt_Emulate3d: integer;
+  opt_UseTransparentSprites: integer;
+  opt_ChaseCamera: integer;
+  opt_UseLightBoost: integer;
+  opt_SpecifyLightBoost: boolean;
+  opt_LightBoost: integer;
+  opt_NoSound: integer;
+  opt_NoMusic: integer;
+  opt_UseMouse: integer;
+  opt_UseJoystick: integer;
+
 procedure MakeDefaultGameInfo;
 
 type
@@ -159,7 +185,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 5;
+  NUMDEFAULTS = 30;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Directories';
@@ -195,7 +221,183 @@ const
      defaultsvalue: 'strife\';
      defaultivalue: 0;
      defaultbvalue: false;
-     _type: tString)
+     _type: tString),
+
+    (name: 'Options';
+     location: nil;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
+    (name: 'screen_resolution';
+     location: @opt_ScreenResolution;
+     defaultsvalue: '640x480';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString),
+
+    (name: 'detail_level';
+     location: @opt_DetailLevel;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'skill';
+     location: @opt_Skill;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'development_mode';
+     location: @opt_DevelopmentMode;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'no_monsters';
+     location: @opt_NoMonsters;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'respawn_monsters';
+     location: @opt_Respawn;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'use_mmx';
+     location: @opt_UseMMX;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'random_monsters';
+     location: @opt_RandomMonsters;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'fast';
+     location: @opt_Fast;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'specify_zone';
+     location: @opt_SpecifyZoneSize;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'zone_size';
+     location: @opt_ZoneSize;
+     defaultsvalue: '';
+     defaultivalue: 32;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'fullscreen';
+     location: @opt_FullScreen;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'interpolate';
+     location: @opt_Interpolation;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'zaxisshift';
+     location: @opt_ZAxisShift;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'fake3d';
+     location: @opt_Emulate3d;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'transparent_sprites';
+     location: @opt_UseTransparentSprites;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'chase_camera';
+     location: @opt_ChaseCamera;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'use_light_boost';
+     location: @opt_UseLightBoost;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'specify_light_boost';
+     location: @opt_SpecifyLightBoost;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'light_boost';
+     location: @opt_LightBoost;
+     defaultsvalue: '';
+     defaultivalue: 256;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'no_sound';
+     location: @opt_NoSound;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'no_music';
+     location: @opt_NoMusic;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'use_mouse';
+     location: @opt_UseMouse;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'use_joystick';
+     location: @opt_UseJoystick;
+     defaultsvalue: '';
+     defaultivalue: 2;
+     defaultbvalue: false;
+     _type: tInteger)
+
   );
 
 procedure M_LoadDefaults(const defaultfile: string);
@@ -203,7 +405,7 @@ procedure M_LoadDefaults(const defaultfile: string);
 procedure M_SaveDefaults(const defaultfile: string);
 
 const
-  LAUNCHERVERSION = 'DelphiDoom Launcher version 1.4';
+  LAUNCHERVERSION = 'DelphiDoom Launcher version 1.7';
 
 implementation
 

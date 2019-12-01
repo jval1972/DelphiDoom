@@ -375,6 +375,7 @@ begin
     {$I R_ReadDC32SkyCache_Loop2.inc}
     {$I R_ReadDC32SkyCache_Loop2.inc}
     {$I R_ReadDC32SkyCache_Loop2.inc}
+    {$I R_ReadDC32SkyCache_Loop2.inc}
     {$DEFINE PRELASTLOOP}
     {$I R_ReadDC32SkyCache_Loop2.inc}
     {$DEFINE LASTLOOP}
@@ -384,6 +385,7 @@ begin
     dc32cache[hash][index].UID := UID;
   end;
   dc_texturefactorbits := 0;
+  dc_columnsize := 256;
   dc_source32 := PLongWordArray(dc32cache[hash][index].dc32);
 end;
 

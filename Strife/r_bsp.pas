@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -956,6 +956,7 @@ begin
                                 frontsector.floor_xoffs,
                                 frontsector.floor_yoffs,
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                true,
                                 {$IFNDEF OPENGL}
                                 floorslope,
                                 {$ENDIF}
@@ -967,6 +968,7 @@ begin
                                 frontsector.floor_xoffs,
                                 frontsector.floor_yoffs,
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                true,
                                 {$IFNDEF OPENGL}
                                 nil,
                                 {$ENDIF}
@@ -986,6 +988,7 @@ begin
                                   frontsector.ceiling_xoffs,
                                   frontsector.ceiling_yoffs,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  false,
                                   {$IFNDEF OPENGL}
                                   ceilingslope,
                                   {$ENDIF}
@@ -997,6 +1000,7 @@ begin
                                   frontsector.ceiling_xoffs,
                                   frontsector.ceiling_yoffs,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  false,
                                   {$IFNDEF OPENGL}
                                   nil,
                                   {$ENDIF}

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -149,11 +149,36 @@ var
   jwXpos: UINT;
   jwYpos: UINT;
 
+type
+  setcursorposfunc_t = function(x, y:Integer): BOOL; stdcall;
+  getcursorposfunc_t = function(var lpPoint: TPoint): BOOL; stdcall;
+
+var
+  getcursorposfunc: getcursorposfunc_t;
+  setcursorposfunc: setcursorposfunc_t;
+  user32inst: THandle;
+
+procedure I_InitMouse;
+begin
+  user32inst := LoadLibrary(user32);
+  getcursorposfunc := GetProcAddress(user32inst, 'GetPhysicalCursorPos');
+  if not assigned(getcursorposfunc) then
+    getcursorposfunc := GetProcAddress(user32inst, 'GetCursorPos');
+  setcursorposfunc := GetProcAddress(user32inst, 'SetPhysicalCursorPos');
+  if not assigned(setcursorposfunc) then
+    setcursorposfunc := GetProcAddress(user32inst, 'SetCursorPos');
+end;
+
+procedure I_ShutDownMouse;
+begin
+  FreeLibrary(user32inst);
+end;
+
 procedure I_ResetMouse;
 begin
   mlastx := SCREENWIDTH div 2;
   mlasty := SCREENHEIGHT div 2;
-  SetCursorPos(mlastx, mlasty);
+  setcursorposfunc(mlastx, mlasty);
   mflags := 0;
 end;
 
@@ -177,6 +202,8 @@ var
 
 begin
   ignoretics := 0;
+
+  I_InitMouse;
 
   if usedirectinput then
   begin
@@ -278,6 +305,8 @@ begin
   memfree(pointer(oldkeys), SizeOf(TKeyboardState));
 
   joyReleaseCapture(JOYSTICKID1);
+
+  I_ShutDownMouse;
 end;
 
 //-----------------------------------------------------------------------------
@@ -478,7 +507,7 @@ begin
   if GetKeyState(VK_MBUTTON) < 0 then
     mflags := mflags or 4;
 
-  GetCursorPos(pt);
+  getcursorposfunc(pt);
 
   ev._type := ev_mouse;
   ev.data1 := mflags;

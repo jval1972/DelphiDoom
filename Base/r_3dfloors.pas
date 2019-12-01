@@ -70,16 +70,20 @@ var
 
 procedure R_DrawFFloors;  // JVAL: 3d Floors
 
+procedure R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
+
 implementation
 
 uses
   doomtype,
   doomdef,
   p_setup,
+  i_system,
   r_bsp,
   r_column,
   r_data,
   r_draw,
+  r_flat8,
   r_hires,
   r_main,
   r_plane,
@@ -223,10 +227,12 @@ begin
 
   lightnum := _SHR(ds.midsiderange.lightlevel[0], LIGHTSEGSHIFT) + extralight;
 
+  {$IFNDEF HEXEN}
   if curline.v1.y = curline.v2.y then
     dec(lightnum)
   else if curline.v1.x = curline.v2.x then
     inc(lightnum);
+  {$ENDIF}
 
   if lightnum < 0 then
     lightnum := 0
@@ -287,7 +293,7 @@ begin
             index := 0;
           dc_lightlevel := scalelightlevels[dc_llindex, index];
         end;
-        index := _SHR(Round(spryscale), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
+        index := _SHR(Round(spryscale_dbl), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
 
         if index >=  MAXLIGHTSCALE then
           index := MAXLIGHTSCALE - 1
@@ -471,7 +477,7 @@ begin
           dc_lightlevel := scalelightlevels[dc_llindex, index];
           dc_lightlevel2 := scalelightlevels[dc_llindex2, index];
         end;
-        index := _SHR(Round(spryscale), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
+        index := _SHR(Round(spryscale_dbl), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
 
         if index >=  MAXLIGHTSCALE then
           index := MAXLIGHTSCALE - 1
@@ -599,10 +605,12 @@ begin
 
   lightnum := _SHR(ds.midsiderange.lightlevel[0], LIGHTSEGSHIFT) + extralight;
 
+  {$IFNDEF HEXEN}
   if curline.v1.y = curline.v2.y then
     dec(lightnum)
   else if curline.v1.x = curline.v2.x then
     inc(lightnum);
+  {$ENDIF}
 
   if lightnum < 0 then
     lightnum := 0
@@ -1329,6 +1337,24 @@ begin
     if pl.renderflags and SRF_DONOTDRAW = 0 then
       R_DoDrawPlane(pl);
   end;
+end;
+
+procedure R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
+var
+  i: integer;
+  pl: Pvisplane_t;
+begin
+  if lastvisplane3d = 0 then
+    exit;
+
+  R_StartDepthBuffer;
+  for i := lastvisplane3d - 1 downto 0 do
+  begin
+    pl := visplanes3d[i].vis;
+    if pl.renderflags and SRF_DONOTDRAW = 0 then
+      R_DoDrawPlane(pl);
+  end;
+  R_FlashSpansToDepthBufferMT;
 end;
 
 end.

@@ -1,4 +1,8 @@
+{$IFDEF DOUBLESKY}
+        plw^ := skvideopal[src1^];
+{$ELSE}
         plw^ := videopal[src1^];
+{$ENDIF}
         inc(plw);
 {$IFNDEF LASTLOOP}
         inc(frac, fracstep);

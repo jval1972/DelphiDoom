@@ -44,7 +44,7 @@ procedure R_DrawColorColumnAlphaHi_Batch;
 
 var
   dc_color: byte;
-  dc_color32: byte;
+  dc_color32: LongWord;
 
 type
   putpixelfunc_t = procedure(const x, y: integer);
@@ -256,21 +256,19 @@ begin
       end;
     2:
       begin
-        swidth := SCREENWIDTH;
         wdest := precal8_toword[bdest];
         PWord(dest)^ := wdest;
-        inc(dest, swidth);
+        inc(dest, SCREENWIDTH);
         PWord(dest)^ := wdest;
         exit;
       end;
     3:
       begin
-        swidth := SCREENWIDTH - 1;
         wdest := precal8_toword[bdest];
         dest^ := bdest;
         inc(dest);
         PWord(dest)^ := wdest;
-        inc(dest, swidth);
+        inc(dest, SCREENWIDTH - 1);
         dest^ := bdest;
         inc(dest);
         PWord(dest)^ := wdest;
@@ -279,9 +277,8 @@ begin
     4:
       begin
         ldest := precal8_tolong[bdest];
-        swidth := SCREENWIDTH;
         PLongWord(dest)^ := ldest;
-        inc(dest, swidth);
+        inc(dest, SCREENWIDTH);
         PLongWord(dest)^ := ldest;
         exit;
       end;

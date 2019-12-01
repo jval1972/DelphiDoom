@@ -1786,7 +1786,7 @@ begin
   StreamOutString(description);
 
   // Write version info
-  versionText := HXS_VERSION_TEXT_142;
+  versionText := HXS_VERSION_TEXT;
   StreamOutString(versionText);
 
   // Place a header marker

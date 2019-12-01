@@ -70,13 +70,15 @@ implementation
 uses
   d_delphi,
   mt_utils,
+  i_system,
   t_main,
   r_cache_main,
 {$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
   r_diher,
-{$ENDIF}  
+{$ENDIF}
   r_data,
+  r_flat32,
   r_grow,
   r_span32,
   r_hires,
@@ -105,7 +107,7 @@ var
   c: LongWord;
 {$IFDEF DOOM_OR_STRIFE}  
   dihertable: Pdihertable_t;
-{$ENDIF}  
+{$ENDIF}
   lump: integer;
   lumplen: integer;
   loops: integer;
@@ -128,6 +130,16 @@ begin
   lump := R_GetLumpForFlat(flat);
   if cachemiss or (pds.lump <> lump) then
   begin
+    // JVAL
+    // 32 bit span cache miss
+    // We render the flats buffer in a single thread
+    // This is just a tiny performance loss because:
+    //  1) the column drawing threads are still working parallel
+    //  2) we will render in single thread only a portion of the total flats of the frame
+    if usemultithread then
+      if pds.lump <> lump then
+        R_RenderSingleThreadFlats32;
+
     inc(c_smiss);
     pds.lump := lump;
     t := flats[flats[flat].translation].flat32;
@@ -194,7 +206,7 @@ begin
           t.ConvertTo32bit;
       {$ENDIF}
 
-        MT_memcpy(pds32, t.GetImage, numpixels * SizeOf(LongWord));
+        MT_memcpy(pds32, t.GetImage, numpixels * SizeOf(LongWord), 2);
 
         // Simulate palette changes
         plw := @pds32[0];

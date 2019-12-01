@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -48,6 +48,10 @@ var
 
 procedure R_DrawSpanToDepthBuffer;
 
+procedure R_StoreSpanToDepthBufferMT; // Store span information for Multithread depthbuffer drawing
+
+procedure R_FlashSpansToDepthBufferMT; // Flash stored span information using multiple threads
+
 procedure R_DrawColumnWithDepthBufferCheck(const cfunc: Pprocedure);
 
 procedure R_DrawBatchColumnWithDepthBufferCheck(const cfunc: Pprocedure); overload;
@@ -64,11 +68,15 @@ procedure R_StartDepthBuffer;
 
 procedure R_StopDepthBuffer;
 
+var
+  spandepthbufferproc: PProcedure;
+
 implementation
 
 uses
   doomdef,
   i_threads,
+  i_system,
   mt_utils,
   r_draw,
   r_column,
@@ -94,6 +102,132 @@ var
 begin
   destl := @((ylookupdb[curbuffer][ds_y]^)[columnofs[ds_x1]]);
   memseti(destl, db_distance, ds_x2 - ds_x1 + 1);
+end;
+
+type
+  dbSpanCacheInfo_t = record
+    destl: PLongWord;
+    distance: LongWord;
+    len: integer;
+  end;
+  PdbSpanCacheInfo_t = ^dbSpanCacheInfo_t;
+  dbSpanCacheInfo_tArray = array[0..$FFFF] of dbSpanCacheInfo_t;
+  PdbSpanCacheInfo_tArray = ^dbSpanCacheInfo_tArray;
+
+var
+  dbspancacheinfo: PdbSpanCacheInfo_tArray = nil;
+  dbspancacheinfo_size: integer = 0;
+  dbspancacheinfo_realsize: integer = 0;
+
+procedure R_GrowDBSpanCacheInfo;
+var
+  newsize: integer;
+begin
+  if dbspancacheinfo_size >= dbspancacheinfo_realsize then
+  begin
+    newsize := dbspancacheinfo_realsize + 16;
+    realloc(pointer(dbspancacheinfo), dbspancacheinfo_realsize * SizeOf(dbSpanCacheInfo_t), newsize * SizeOf(dbSpanCacheInfo_t));
+    dbspancacheinfo_realsize := newsize;
+  end;
+  inc(dbspancacheinfo_size);
+end;
+
+// Store span information for Multithread depthbuffer drawing
+procedure R_StoreSpanToDepthBufferMT;
+var
+  info: PdbSpanCacheInfo_t;
+begin
+  R_GrowDBSpanCacheInfo;
+  info := @dbspancacheinfo[dbspancacheinfo_size - 1];
+  info.destl := @((ylookupdb[curbuffer][ds_y]^)[columnofs[ds_x1]]);
+  info.distance := db_distance;
+  info.len := ds_x2 - ds_x1 + 1;
+end;
+
+function _thr_span_db_writer(const p: mt_range_p): integer; stdcall;
+var
+  info1, info2: PdbSpanCacheInfo_t;
+begin
+  info1 := @dbspancacheinfo[p.start];
+  info2 := @dbspancacheinfo[p.finish];
+  while integer(info1) <= integer(info2) do
+  begin
+    memseti(info1.destl, info1.distance, info1.len);
+    inc(info1);
+  end;
+  result := 0;
+end;
+
+// Flash stored span information using multiple threads
+procedure R_FlashSpansToDepthBufferMT;
+var
+  r1, r2, r3, r4: mt_range_t;
+  r5, r6, r7, r8: mt_range_t;
+  ts: integer;
+begin
+  if dbspancacheinfo_size < 16 then
+  begin
+    if dbspancacheinfo_size > 0 then
+    begin
+      r1.start := 0;
+      r1.finish := dbspancacheinfo_size - 1;
+      _thr_span_db_writer(@r1);
+      dbspancacheinfo_size := 0;
+    end;
+    exit;
+  end;
+
+  // Quickly decide how many threads to use
+  if I_GetNumCPUs <= 4 then
+  begin
+    ts := dbspancacheinfo_size div 4;
+    r1.start := 0;
+    r1.finish := ts;
+    r2.start := r1.finish + 1;
+    r2.finish := 2 * ts;
+    r3.start := r2.finish + 1;
+    r3.finish := 3 * ts;
+    r4.start := r3.finish + 1;
+    r4.finish := dbspancacheinfo_size - 1;
+    MT_Execute(
+      @_thr_span_db_writer, @r1,
+      @_thr_span_db_writer, @r2,
+      @_thr_span_db_writer, @r3,
+      @_thr_span_db_writer, @r4
+    );
+  end
+  else
+  begin
+    ts := dbspancacheinfo_size div 8;
+    r1.start := 0;
+    r1.finish := ts;
+    r2.start := r1.finish + 1;
+    r2.finish := 2 * ts;
+    r3.start := r2.finish + 1;
+    r3.finish := 3 * ts;
+    r4.start := r3.finish + 1;
+    r4.finish := 4 * ts;
+    r5.start := r4.finish + 1;
+    r5.finish := 5 * ts;
+    r6.start := r5.finish + 1;
+    r6.finish := 6 * ts;
+    r7.start := r6.finish + 1;
+    r7.finish := 7 * ts;
+    r8.start := r7.finish + 1;
+    r8.finish := dbspancacheinfo_size - 1;
+    MT_Execute(
+      @_thr_span_db_writer, @r1,
+      @_thr_span_db_writer, @r2,
+      @_thr_span_db_writer, @r3,
+      @_thr_span_db_writer, @r4,
+      @_thr_span_db_writer, @r5,
+      @_thr_span_db_writer, @r6,
+      @_thr_span_db_writer, @r7,
+      @_thr_span_db_writer, @r8
+    );
+  end;
+
+  dbspancacheinfo_size := 0;
 end;
 
 procedure R_DrawColumnWithDepthBufferCheck(const cfunc: Pprocedure);
@@ -276,6 +410,9 @@ begin
   depthbufferthread.Free;
   for i := 0 to NUMDEPTHBUFFERS - 1 do
     memfree(Pointer(depthbuffertmp[i]), dbsize + $10000);
+
+  if dbspancacheinfo <> nil then
+    memfree(Pointer(dbspancacheinfo), dbspancacheinfo_realsize * SizeOf(dbSpanCacheInfo_t));
 end;
 
 // Called in each render tic before we start depth buffer
@@ -290,6 +427,10 @@ begin
   if depthbufferactive then // JVAL: Slopes
     exit;
   R_WaitDepthBuffer;  // Wait thread to clear depthbuffer
+  if usemultithread then
+    @spandepthbufferproc := @R_StoreSpanToDepthBufferMT
+  else
+    @spandepthbufferproc := @R_DrawSpanToDepthBuffer;
   if (lastviewwindowy <> viewwindowy) or (lastviewheight <> viewheight) then
   begin
     lastviewwindowy := viewwindowy;

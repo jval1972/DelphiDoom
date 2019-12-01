@@ -65,8 +65,8 @@ procedure R_DoDrawPlane(const pl: Pvisplane_t); // JVAL: 3d Floors
 procedure R_CalcPlaneOffsets(const pl: Pvisplane_t);
 
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
-  special: integer; flags: LongWord; {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF}
-  slopeSID: integer = -1): Pvisplane_t;
+  special: integer; flags: LongWord; const floor_or_ceiling: boolean;
+  {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF} slopeSID: integer = -1): Pvisplane_t;
 
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 
@@ -151,6 +151,7 @@ uses
   r_things,
   r_draw,
 {$IFNDEF OPENGL}
+  r_patch,
   r_ripple,
   r_span,
   r_span32,
@@ -302,7 +303,7 @@ begin
       db_distance := 0
     else
       db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
-    R_DrawSpanToDepthBuffer;
+    spandepthbufferproc;
   end;
 end;
 {$ENDIF}
@@ -416,8 +417,8 @@ end;
 // R_FindPlane
 //
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
-  special: integer; flags: LongWord; {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF}
-  slopeSID: integer = -1): Pvisplane_t;
+  special: integer; flags: LongWord; const floor_or_ceiling: boolean;
+  {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF} slopeSID: integer = -1): Pvisplane_t;
 var
   check: integer;
   hash: LongWord;
@@ -430,7 +431,10 @@ begin
 
   if picnum = skyflatnum then
   begin
-    height := 0; // all skys map together
+    if floor_or_ceiling then
+      height := 1  // all skys map together
+    else
+      height := 0; // all skys map together
     lightlevel := 0;
     flags := flags and not SRF_SLOPED; // JVAL: Sloped surface do not have sky (why not ?) -> Just copy the sky code to R_DoDrawSlope from R_DoDrawPlane
     slopeSID := -1; // JVAL: Slopes
@@ -783,6 +787,7 @@ begin
 
     if DoubleSky then
     begin // Render 2 layers, sky 1 in front
+      R_DisableFixedColumn;
       offset := Sky1ColumnOffset * 64;
       offset2 := Sky2ColumnOffset * 64;
       for x := pl.minx to pl.maxx do
@@ -808,8 +813,11 @@ begin
           end;
 
           angle := (viewangle + xtoviewangle[x] + offset2) div ANGLETOSKYUNIT;
-          dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-          dc_mod := dc_texturemod;
+          if detaillevel > DL_NORMAL then
+          begin
+            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            dc_mod := dc_texturemod;
+          end;
           dc_x := x;
           R_GetDCs(Sky2Texture, angle);
 
@@ -839,9 +847,12 @@ begin
           skycolfunc;
         end;
       end;
+      R_EnableFixedColumn;
       exit; // Next visplane
     end;
 
+
+    R_DisableFixedColumn;
 
     if pl.special = 200 then
     begin
@@ -862,8 +873,16 @@ begin
       if dc_yl < dc_yh then
       begin
         angle := (viewangle + xtoviewangle[x] + offset) div ANGLETOSKYUNIT;
-        dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-        dc_mod := dc_texturemod;
+        if detaillevel <= DL_NORMAL then
+        begin
+          dc_texturemod := 0;
+          dc_mod := 0;
+        end
+        else
+        begin
+          dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+          dc_mod := dc_texturemod;
+        end;
         dc_x := x;
         R_GetDCs(skytex, angle);
         // Sky is always drawn full bright,
@@ -875,6 +894,7 @@ begin
         skycolfunc;
       end;
     end;
+    R_EnableFixedColumn;
     exit;
   end;
 
@@ -901,12 +921,14 @@ begin
   if pl.renderflags and SRF_RIPPLE <> 0 then
   begin
     spanfunc := ripplespanfunc;
-    ds_ripple := curripple
+    ds_ripple := curripple;
+    spanfuncMT := ripplespanfuncMT;
   end
   else
   begin
     spanfunc := basespanfunc;
     ds_ripple := nil;
+    spanfuncMT := basespanfuncMT;
   end;
 
   stop := pl.maxx + 1;

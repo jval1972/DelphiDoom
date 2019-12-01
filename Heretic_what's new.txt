@@ -1,3 +1,12 @@
+Version 2.0.4 build 711 - (31/12/2017)
+-----------
+Fixes to sky drawing (both software and OpenGL mode).
+Corrected z-fighting between corpse and dropped item (software renderer).
+Multithreading depthbuffer calculation for the software renderer.
+Multiple threads for spans drawing.
+Multithreading performance improvements in computers with 4 or more CPU threads (software renderer). 
+Screen DPI awareness when running in Windows 8.1 or greater.
+
 Version 2.0.4 build 710 - (23/12/2017)
 -----------
 Automatically unset the TWO-SIDED flag for lines without backsector.

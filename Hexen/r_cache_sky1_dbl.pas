@@ -28,12 +28,12 @@
 
 {$I Doom32.inc}
 
-unit r_cache_sky1;
+unit r_cache_sky1_dbl;
 
 interface
 
 // Sky Cache, dc_mod = 0
-procedure R_ReadDC32InternalSkyCache1(const rtex, rcol: integer);
+procedure R_ReadDC32InternalSkyCache1dbl(const rtex, rcol: integer);
 
 implementation
 
@@ -49,13 +49,14 @@ uses
   v_video;
 
 //
-// R_ReadDC32InternalCache
+// R_ReadDC32InternalCachedbl
 //
 // JVAL
 //  Create dc_source32 from internal (IWAD) texture
+//  This version is for the first sky of DoubleSky
 //
-{$UNDEF DOUBLESKY}
-procedure R_ReadDC32InternalSkyCache1(const rtex, rcol: integer);
+{$DEFINE DOUBLESKY}
+procedure R_ReadDC32InternalSkyCache1dbl(const rtex, rcol: integer);
 var
   plw: PLongWord;
 {$IFDEF FPC}

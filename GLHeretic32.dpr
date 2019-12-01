@@ -318,7 +318,11 @@ begin
   Saved8087CW := Default8087CW;
   Set8087CW($133f); { Disable all fpu exceptions }
 
-  D_DoomMain;
+  try
+    DoomMain;
+  except
+    I_FlashCachedOutput;
+  end;
 
   { Reset the FPU to the previous state }
   Set8087CW(Saved8087CW);

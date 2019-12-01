@@ -34,6 +34,8 @@ function I_ScreenWidth: integer;
 
 function I_ScreenHeight: integer;
 
+function I_SetDPIAwareness: boolean;
+
 implementation
 
 uses
@@ -347,6 +349,33 @@ end;
 function I_ScreenHeight: integer;
 begin
   result := GetSystemMetrics(SM_CYSCREEN);
+end;
+
+type
+  dpiproc_t = function: BOOL; stdcall;
+  dpiproc2_t = function(value: integer): HRESULT; stdcall;
+
+function I_SetDPIAwareness: boolean;
+var
+  dpifunc: dpiproc_t;
+  dpifunc2: dpiproc2_t;
+  dllinst: THandle;
+begin
+  result := false;
+
+  dllinst := LoadLibrary(user32);
+  dpifunc2 := GetProcAddress(dllinst, 'SetProcessDpiAwareness');
+  if assigned(dpifunc2) then
+  begin
+    result := dpifunc2(2) = S_OK;
+    FreeLibrary(dllinst);
+    exit;
+  end;
+
+  dpifunc := GetProcAddress(dllinst, 'SetProcessDPIAware');
+  if assigned(dpifunc) then
+    result := dpifunc;
+  FreeLibrary(dllinst);
 end;
 
 var

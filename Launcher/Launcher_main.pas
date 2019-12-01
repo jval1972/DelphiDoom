@@ -8,6 +8,14 @@ uses
   XPMan, ImgList;
 
 type
+  resolution_t = record
+    width, height: integer;
+  end;
+  Presolution_t = ^resolution_t;
+  resolution_tArray = array[0..$FFF] of resolution_t;
+  Presolution_tArray = ^resolution_tArray;
+
+type
   TForm1 = class(TForm)
     Panel1: TPanel;
     Image1: TImage;
@@ -143,7 +151,11 @@ type
     basedir: string;
     gameengine: gameengine_t;
     closing: boolean;
+    resolutions: Presolution_tArray;
+    numresolutions: integer;
     { Private declarations }
+    procedure Controls_To_Ini;
+    procedure Ini_To_Controls;
     function GetExecutableName: string;
     procedure CheckGameEngine;
     procedure UpdateNetwork;
@@ -300,8 +312,11 @@ var
   i: integer;
   s: string;
 begin
+  scaled := false;
   closing := false;
   privatedemos := TStringList.Create;
+  resolutions := nil;
+  numresolutions := 0;
 
   basedir := ExtractFilePath(ParamStr(0));
   if basedir = '' then
@@ -321,15 +336,29 @@ begin
     begin
       s := Format('%dx%d', [dm.dmPelsWidth, dm.dmPelsHeight]);
       if ScreenResolutionCombobox.Items.IndexOf(s) = -1 then
+      begin
         ScreenResolutionCombobox.Items.Add(s);
+        inc(numresolutions);
+        ReallocMem(resolutions, numresolutions * SizeOf(resolution_t));
+        resolutions[numresolutions - 1].width := dm.dmPelsWidth;
+        resolutions[numresolutions - 1].height := dm.dmPelsHeight;
+      end;
     end;
     Inc(i);
   end;
   if ScreenResolutionCombobox.Items.Count = 0 then // JVAL -> uneeded :)
     ScreenResolutionCombobox.Items.Add('640x480');
+  if numresolutions = 0 then
+  begin
+    numresolutions := 1;
+    ReallocMem(resolutions, numresolutions * SizeOf(resolution_t));
+    resolutions[numresolutions - 1].width := 640;
+    resolutions[numresolutions - 1].height := 480;
+  end;
   ScreenResolutionCombobox.ItemIndex := ScreenResolutionCombobox.Items.Count - 1;
 
-  DetailLevelComboBox.ItemIndex := 0;
+  Ini_To_Controls;
+
   GameModeComboBox.ItemIndex := 0;
   PageControl2.ActivepageIndex := 0;
   PageControl1.ActivepageIndex := 0;
@@ -343,6 +372,62 @@ begin
   RecordDemoEdit.Enabled := false;
   LoadDemoButton.Enabled := false;
   SaveDemoButton.Enabled := false;
+end;
+
+procedure TForm1.Controls_To_Ini;
+begin
+  opt_ScreenResolution := ScreenResolutionComboBox.Text;
+  opt_DetailLevel := DetailLevelComboBox.ItemIndex;
+  opt_Skill := SkillComboBox.ItemIndex;
+  opt_DevelopmentMode := Ord(DevelopmentModeCheckBox.State);
+  opt_NoMonsters := Ord(NoMonstersCheckBox.State);
+  opt_Respawn := Ord(RespawnCheckBox.State);
+  opt_UseMMX := Ord(UseMMXCheckBox.State);
+  opt_RandomMonsters := Ord(RandomMonstersCheckBox.State);
+  opt_Fast := Ord(FastCheckBox.State);
+  opt_SpecifyZoneSize := SpecifyZoneSizeCheckBox.Checked;
+  opt_ZoneSize := ZoneSizeTrackBar.Position;
+  opt_FullScreen := Ord(FullScreenCheckBox.State);
+  opt_Interpolation := Ord(InterpolationCheckBox.State);
+  opt_ZAxisShift := Ord(ZAxisShiftCheckBox.State);
+  opt_Emulate3d := Ord(Emulate3dCheckBox.State);
+  opt_UseTransparentSprites := Ord(UseTransparentSpritesCheckBox.State);
+  opt_ChaseCamera := Ord(ChaseCameraCheckBox.State);
+  opt_UseLightBoost := Ord(UseLightBoostCheckBox.State);
+  opt_SpecifyLightBoost := SpecifyLightBoostCheckBox.Checked;
+  opt_LightBoost := LightBoostTrackBar.Position;
+  opt_NoSound := Ord(NoSoundCheckBox.State);
+  opt_NoMusic := Ord(NoMusicCheckBox.State);
+  opt_UseMouse := Ord(UseMouseCheckBox.State);
+  opt_UseJoystick := Ord(UseJoystickCheckBox.State);
+end;
+
+procedure TForm1.Ini_To_Controls;
+begin
+  ScreenResolutionComboBox.Text := opt_ScreenResolution;
+  DetailLevelComboBox.ItemIndex := opt_DetailLevel;
+  SkillComboBox.ItemIndex := opt_Skill;
+  DevelopmentModeCheckBox.State := TCheckBoxState(opt_DevelopmentMode);
+  NoMonstersCheckBox.State := TCheckBoxState(opt_NoMonsters);
+  RespawnCheckBox.State := TCheckBoxState(opt_Respawn);
+  UseMMXCheckBox.State := TCheckBoxState(opt_UseMMX);
+  RandomMonstersCheckBox.State := TCheckBoxState(opt_RandomMonsters);
+  FastCheckBox.State := TCheckBoxState(opt_Fast);
+  SpecifyZoneSizeCheckBox.Checked := opt_SpecifyZoneSize;
+  ZoneSizeTrackBar.Position := opt_ZoneSize;
+  FullScreenCheckBox.State := TCheckBoxState(opt_FullScreen);
+  InterpolationCheckBox.State := TCheckBoxState(opt_Interpolation);
+  ZAxisShiftCheckBox.State := TCheckBoxState(opt_ZAxisShift);
+  Emulate3dCheckBox.State := TCheckBoxState(opt_Emulate3d);
+  UseTransparentSpritesCheckBox.State := TCheckBoxState(opt_UseTransparentSprites);
+  ChaseCameraCheckBox.State := TCheckBoxState(opt_ChaseCamera);
+  UseLightBoostCheckBox.State := TCheckBoxState(opt_UseLightBoost);
+  SpecifyLightBoostCheckBox.Checked := opt_SpecifyLightBoost;
+  LightBoostTrackBar.Position := opt_LightBoost;
+  NoSoundCheckBox.State := TCheckBoxState(opt_NoSound);
+  NoMusicCheckBox.State := TCheckBoxState(opt_NoMusic);
+  UseMouseCheckBox.State := TCheckBoxState(opt_UseMouse);
+  UseJoystickCheckBox.State := TCheckBoxState(opt_UseJoystick);
 end;
 
 function TForm1.GetExecutableName: string;
@@ -763,9 +848,12 @@ end;
 procedure TForm1.AutodetectDetailButtonClick(Sender: TObject);
 var
   cpuspeed: double;
+  cpusfactor: double;
   w, h: integer;
+  mindiff, diff: integer;
+  best: integer;
+  i: integer;
 begin
-
   Screen.Cursor := crHourglass;
   try
     GetCPUSpeed(100);
@@ -774,7 +862,11 @@ begin
     Screen.Cursor := crDefault;
   end;
 
-  cpuspeed := cpuspeed * I_GetNumCPUs;
+  cpusfactor := sqrt(I_GetNumCPUs);
+  if cpusfactor > 8.0 then
+    cpusfactor := 8.0;
+
+  cpuspeed := cpuspeed * cpusfactor;
 
   if cpuspeed < 81 then
   begin
@@ -818,31 +910,68 @@ begin
     h := 800;
     DetailLevelComboBox.ItemIndex := 4;
   end
-  else if cpuspeed < 3500 then
+  else if cpuspeed < 3000 then
   begin
     w := 1366;
     h := 768;
     DetailLevelComboBox.ItemIndex := 4;
   end
-  else if cpuspeed < 4500 then
+  else if cpuspeed < 4000 then
   begin
     w := 1600;
     h := 900;
     DetailLevelComboBox.ItemIndex := 4;
   end
-  else
+  else if cpuspeed < 5000 then
   begin
     w := 1920;
     h := 1080;
     DetailLevelComboBox.ItemIndex := 4;
+  end
+  else if cpuspeed < 6000 then
+  begin
+    w := 2560;
+    h := 1080;
+    DetailLevelComboBox.ItemIndex := 4;
+  end
+  else if cpuspeed < 8000 then
+  begin
+    w := 2560;
+    h := 1440;
+    DetailLevelComboBox.ItemIndex := 4;
+  end
+  else
+  begin
+    w := 3840;
+    h := 2160;
+    DetailLevelComboBox.ItemIndex := 4;
   end;
 
-  if w > I_ScreenWidth then
+{  if w > I_ScreenWidth then
     w := I_ScreenWidth;
   if h > I_ScreenHeight then
-    h := I_ScreenHeight;
-    
-  ScreenResolutionComboBox.Text := IntToStr(w) + 'x' + IntToStr(h);
+    h := I_ScreenHeight;}
+
+  best := -1;
+  mindiff := MAXINT;
+
+  for i := 0 to numresolutions - 1 do
+  begin
+    diff := abs(resolutions[i].width * resolutions[i].height - w * h);
+    if diff < mindiff then
+    begin
+      best := i;
+      mindiff := diff;
+      if w = resolutions[i].width then
+        if h = resolutions[i].height then
+          break;
+    end;
+  end;
+
+  if best >= 0 then
+    ScreenResolutionComboBox.Text := IntToStr(resolutions[best].width) + 'x' + IntToStr(resolutions[best].height)
+  else
+    ScreenResolutionComboBox.Text := IntToStr(w) + 'x' + IntToStr(h);
 
 end;
 
@@ -1099,7 +1228,10 @@ procedure TForm1.FormDestroy(Sender: TObject);
 begin
   closing := true;
   privatedemos.Free;
+  Controls_To_Ini;
   M_SaveDefaults(defaultsfile);
+  ReallocMem(resolutions, 0);
+  numresolutions := 0;
 end;
 
 procedure TForm1.EngineRadioGroupClick(Sender: TObject);

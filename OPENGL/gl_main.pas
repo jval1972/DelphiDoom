@@ -68,6 +68,8 @@ var
 var
   gl_initialized: boolean = false;
 
+procedure DoomMain;
+
 implementation
 
 uses
@@ -712,6 +714,12 @@ end;
 procedure I_ReadScreen32(dest: pointer);
 begin
   glReadPixels(0, 0, SCREENWIDTH, SCREENHEIGHT, GL_BGRA, GL_UNSIGNED_BYTE, dest);
+end;
+
+procedure DoomMain;
+begin
+  I_SetDPIAwareness;
+  D_DoomMain;
 end;
 
 end.

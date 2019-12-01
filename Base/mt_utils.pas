@@ -40,18 +40,27 @@ procedure MT_Init;
 
 procedure MT_ShutDown;
 
-procedure MT_ZeroMemory(const dest0: pointer; const count0: integer);
+procedure MT_ZeroMemory(const dest0: pointer;
+  const count0: integer; threadsuse: integer = 0);
 
-procedure MT_memset(const dest0: pointer; const val: integer; const count0: integer);
+procedure MT_memset(const dest0: pointer; const val: integer;
+  const count0: integer; threadsuse: integer = 0);
 
-procedure MT_memseti(const dest0: pointer; const val: integer; const count0: integer);
+procedure MT_memseti(const dest0: pointer; const val: integer;
+  const count0: integer; threadsuse: integer = 0);
 
-procedure MT_memcpy(const dest0: pointer; const src0: pointer; const count0: integer);
+procedure MT_memcpy(const dest0: pointer; const src0: pointer;
+  const count0: integer; threadsuse: integer = 0);
+
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t = nil; const parms2: pointer = nil
+  ); overload;
 
 procedure MT_Execute(
   const func1: threadfunc_t; const parms1: pointer;
   const func2: threadfunc_t; const parms2: pointer;
-  const func3: threadfunc_t = nil; const parms3: pointer = nil;
+  const func3: threadfunc_t; const parms3: pointer;
   const func4: threadfunc_t = nil; const parms4: pointer = nil
   ); overload;
 
@@ -134,13 +143,13 @@ begin
   result := 1;
 end;
 
-procedure MT_ZeroMemory(const dest0: pointer; const count0: integer);
+procedure MT_ZeroMemory(const dest0: pointer;
+  const count0: integer; threadsuse: integer = 0);
 var
   parms: zmparams_a;
   sz: integer;
   dst: pointer;
   i: integer;
-  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -148,10 +157,14 @@ begin
     exit;
   end;
 
-  threadsuse := count0 div 1024;
   if threadsuse < 2 then
-    threadsuse := 2
-  else if threadsuse > numgpthreads then
+  begin
+    threadsuse := count0 div 1024;
+    if threadsuse < 2 then
+      threadsuse := 2;
+  end;
+
+  if threadsuse > numgpthreads then
     threadsuse := numgpthreads;
 
   sz := (count0 div threadsuse) and not 7;
@@ -197,13 +210,13 @@ begin
   result := 1;
 end;
 
-procedure MT_memset(const dest0: pointer; const val: integer; const count0: integer);
+procedure MT_memset(const dest0: pointer; const val: integer;
+  const count0: integer; threadsuse: integer = 0);
 var
   parms: msparams_a;
   sz: integer;
   dst: pointer;
   i: integer;
-  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -211,10 +224,14 @@ begin
     exit;
   end;
 
-  threadsuse := count0 div 1024;
   if threadsuse < 2 then
-    threadsuse := 2
-  else if threadsuse > numgpthreads then
+  begin
+    threadsuse := count0 div 1024;
+    if threadsuse < 2 then
+      threadsuse := 2;
+  end;
+
+  if threadsuse > numgpthreads then
     threadsuse := numgpthreads;
 
   sz := (count0 div threadsuse) and not 7;
@@ -236,13 +253,13 @@ begin
     gp_threads[i].Wait;
 end;
 
-procedure MT_memseti(const dest0: pointer; const val: integer; const count0: integer);
+procedure MT_memseti(const dest0: pointer; const val: integer;
+  const count0: integer; threadsuse: integer = 0);
 var
   parms: msparams_a;
   sz, sz4: integer;
   dst: pointer;
   i: integer;
-  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -250,10 +267,14 @@ begin
     exit;
   end;
 
-  threadsuse := count0 div 1024;
   if threadsuse < 2 then
-    threadsuse := 2
-  else if threadsuse > numgpthreads then
+  begin
+    threadsuse := count0 div 1024;
+    if threadsuse < 2 then
+      threadsuse := 2;
+  end;
+
+  if threadsuse > numgpthreads then
     threadsuse := numgpthreads;
 
   sz := (count0 div threadsuse) and not 7;
@@ -291,13 +312,13 @@ begin
   result := 1;
 end;
 
-procedure MT_memcpy(const dest0: pointer; const src0: pointer; const count0: integer);
+procedure MT_memcpy(const dest0: pointer; const src0: pointer;
+  const count0: integer; threadsuse: integer = 0);
 var
   parms: mcparams_a;
   sz: integer;
   dst, src: pointer;
   i: integer;
-  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -305,10 +326,14 @@ begin
     exit;
   end;
 
-  threadsuse := count0 div 1024;
   if threadsuse < 2 then
-    threadsuse := 2
-  else if threadsuse > numgpthreads then
+  begin
+    threadsuse := count0 div 1024;
+    if threadsuse < 2 then
+      threadsuse := 2;
+  end;
+
+  if threadsuse > numgpthreads then
     threadsuse := numgpthreads;
 
   sz := (count0 div threadsuse) and not 7;
@@ -364,10 +389,37 @@ var
 
 procedure MT_Execute(
   const func1: threadfunc_t; const parms1: pointer;
-  const func2: threadfunc_t; const parms2: pointer;
-  const func3: threadfunc_t = nil; const parms3: pointer = nil;
-  const func4: threadfunc_t = nil; const parms4: pointer = nil
+  const func2: threadfunc_t = nil; const parms2: pointer = nil
   );
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  if @func2 <> nil then
+  begin
+    exec_threads[0].Activate(func2, parms2);
+    if @func1 = nil then
+      I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
+    else
+      func1(parms1);
+    exec_threads[0].Wait;
+  end
+  else if @func1 = nil then
+    I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
+  else
+    func1(parms1);
+
+  mt_execute_fetched := False;
+end;
+
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t = nil; const parms4: pointer = nil
+  ); 
 var
   nt: integer;
   i: integer;

@@ -328,7 +328,9 @@ uses
   ps_defs in 'SCRIPT\ps_defs.pas',
   p_gravity in 'Base\p_gravity.pas',
   t_patch in 'TEXLIB\t_patch.pas',
-  r_patch in 'Base\r_patch.pas';
+  r_patch in 'Base\r_patch.pas',
+  r_flat32 in 'Base\r_flat32.pas',
+  r_flat8 in 'Base\r_flat8.pas';
 
 var
   Saved8087CW: Word;

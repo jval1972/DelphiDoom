@@ -105,13 +105,17 @@ HostApplication=
 Launcher=
 UseLauncher=0
 DebugCWD=
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=1
-MinorVer=6
+MinorVer=7
 Release=1
-Build=39
+Build=42
 Debug=0
 PreRelease=0
 Special=0
@@ -122,13 +126,13 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Launcher
-FileVersion=1.6.1.39
+FileVersion=1.7.1.42
 InternalName=Launcher
 LegalCopyright=Copyright 2008 - 2017, Jim Valavanis
 LegalTrademarks=
 OriginalFilename=Launcher.exe
 ProductName=
-ProductVersion=1.6
+ProductVersion=1.7
 Comments=http://sourceforge.net/projects/delphidoom/
 [HistoryLists\hlDebugSourcePath]
 Count=5

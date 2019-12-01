@@ -169,6 +169,14 @@ var
   baseslopefunc: PProcedure;
   rippleslopefunc: PProcedure;
 
+  // JVAL: Multithreading flats
+  spanfuncMT: PPointerParmProcedure;
+  basespanfuncMT: PPointerParmProcedure;
+  ripplespanfuncMT: PPointerParmProcedure;
+  slopefuncMT: PPointerParmProcedure;
+  baseslopefuncMT: PPointerParmProcedure;
+  rippleslopefuncMT: PPointerParmProcedure;
+
   centerxfrac: fixed_t;
   centeryfrac: fixed_t;
   centerxshift: fixed_t;
@@ -326,6 +334,8 @@ uses
 {$ELSE}
   r_wall8,
   r_wall32,
+  r_flat8,
+  r_flat32,
   r_span,
   r_span32,
   r_span32_fog,
@@ -875,12 +885,33 @@ begin
         alphacolfunc := R_DrawColumnAlphaMedium;
         maskedcolfunc := R_DrawColumnLowest;
         maskedcolfunc2 := R_DrawColumnLowest;
-        spanfunc := R_DrawSpanLow;
-        basespanfunc := R_DrawSpanLow;
-        ripplespanfunc := R_DrawSpanLow;
-        slopefunc := R_DrawSpanLow; // JVAL: Slopes
-        baseslopefunc := R_DrawSpanLow;
-        rippleslopefunc := R_DrawSpanLow;
+
+        if usemultithread then
+        begin
+          spanfunc := R_StoreFlatSpan8;
+          basespanfunc := R_StoreFlatSpan8;
+          ripplespanfunc := R_StoreFlatSpan8;
+          slopefunc := R_StoreFlatSpan8;
+          baseslopefunc := R_StoreFlatSpan8;
+          rippleslopefunc := R_StoreFlatSpan8;
+
+          spanfuncMT := R_DrawSpanLowMT;
+          basespanfuncMT := R_DrawSpanLowMT;
+          ripplespanfuncMT := R_DrawSpanLowMT;
+          slopefuncMT := R_DrawSpanLowMT;
+          baseslopefuncMT := R_DrawSpanLowMT;
+          rippleslopefuncMT := R_DrawSpanLowMT;
+        end
+        else
+        begin
+          spanfunc := R_DrawSpanLow;
+          basespanfunc := R_DrawSpanLow;
+          ripplespanfunc := R_DrawSpanLow;
+          slopefunc := R_DrawSpanLow; // JVAL: Slopes
+          baseslopefunc := R_DrawSpanLow;
+          rippleslopefunc := R_DrawSpanLow;
+        end;
+
         if useclassicfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn
         else
@@ -917,12 +948,33 @@ begin
         alphacolfunc := R_DrawColumnAlphaMedium;
         maskedcolfunc := R_DrawColumnLow;
         maskedcolfunc2 := R_DrawColumnLow;
-        spanfunc := R_DrawSpanLow;
-        basespanfunc := R_DrawSpanLow;
-        ripplespanfunc := R_DrawSpanLow;
-        slopefunc := R_DrawSpanLow; // JVAL: Slopes
-        baseslopefunc := R_DrawSpanLow;
-        rippleslopefunc := R_DrawSpanLow;
+
+        if usemultithread then
+        begin
+          spanfunc := R_StoreFlatSpan8;
+          basespanfunc := R_StoreFlatSpan8;
+          ripplespanfunc := R_StoreFlatSpan8;
+          slopefunc := R_StoreFlatSpan8;
+          baseslopefunc := R_StoreFlatSpan8;
+          rippleslopefunc := R_StoreFlatSpan8;
+
+          spanfuncMT := R_DrawSpanLowMT;
+          basespanfuncMT := R_DrawSpanLowMT;
+          ripplespanfuncMT := R_DrawSpanLowMT;
+          slopefuncMT := R_DrawSpanLowMT;
+          baseslopefuncMT := R_DrawSpanLowMT;
+          rippleslopefuncMT := R_DrawSpanLowMT;
+        end
+        else
+        begin
+          spanfunc := R_DrawSpanLow;
+          basespanfunc := R_DrawSpanLow;
+          ripplespanfunc := R_DrawSpanLow;
+          slopefunc := R_DrawSpanLow; // JVAL: Slopes
+          baseslopefunc := R_DrawSpanLow;
+          rippleslopefunc := R_DrawSpanLow;
+        end;
+
         if useclassicfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn
         else
@@ -957,12 +1009,33 @@ begin
         alphacolfunc := R_DrawColumnAlphaMedium;
         maskedcolfunc := R_DrawColumnMedium;
         maskedcolfunc2 := R_DrawColumnMedium;
-        spanfunc := R_DrawSpanMedium;
-        basespanfunc := R_DrawSpanMedium;
-        ripplespanfunc := R_DrawSpanMedium_Ripple;
-        slopefunc := R_DrawSlopeMedium; // JVAL: Slopes
-        baseslopefunc := R_DrawSlopeMedium;
-        rippleslopefunc := R_DrawSlopeMedium_Ripple;
+
+        if usemultithread then
+        begin
+          spanfunc := R_StoreFlatSpan8;
+          basespanfunc := R_StoreFlatSpan8;
+          ripplespanfunc := R_StoreFlatSpan8;
+          slopefunc := R_StoreFlatSpan8;
+          baseslopefunc := R_StoreFlatSpan8;
+          rippleslopefunc := R_StoreFlatSpan8;
+
+          spanfuncMT := R_DrawSpanMediumMT;
+          basespanfuncMT := R_DrawSpanMediumMT;
+          ripplespanfuncMT := R_DrawSpanMedium_RippleMT;
+          slopefuncMT := R_DrawSpanMediumMT;
+          baseslopefuncMT := R_DrawSpanMediumMT;
+          rippleslopefuncMT := R_DrawSpanMedium_RippleMT;
+        end
+        else
+        begin
+          spanfunc := R_DrawSpanMedium;
+          basespanfunc := R_DrawSpanMedium;
+          ripplespanfunc := R_DrawSpanMedium_Ripple;
+          slopefunc := R_DrawSlopeMedium; // JVAL: Slopes
+          baseslopefunc := R_DrawSlopeMedium;
+          rippleslopefunc := R_DrawSlopeMedium_Ripple;
+        end;
+
         if useclassicfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn
         else
@@ -1020,12 +1093,32 @@ begin
         begin
           maskedcolfunc := R_DrawMaskedColumnNormal;
           maskedcolfunc2 := R_DrawMaskedColumnHi32;
-          spanfunc := R_DrawSpanNormal;
-          basespanfunc := R_DrawSpanNormal;
-          ripplespanfunc := R_DrawSpanNormal_Ripple;
-          slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
-          baseslopefunc := R_DrawSpanNormal;
-          rippleslopefunc := R_DrawSpanNormal_Ripple;
+
+          if usemultithread then
+          begin
+            spanfunc := R_StoreFlatSpan32;
+            basespanfunc := R_StoreFlatSpan32;
+            ripplespanfunc := R_StoreFlatSpan32;
+            slopefunc := R_StoreFlatSpan32;
+            baseslopefunc := R_StoreFlatSpan32;
+            rippleslopefunc := R_StoreFlatSpan32;
+
+            spanfuncMT := R_DrawSpanNormalMT;
+            basespanfuncMT := R_DrawSpanNormalMT;
+            ripplespanfuncMT := R_DrawSpanNormal_RippleMT;
+            slopefuncMT := R_DrawSpanNormalMT;
+            baseslopefuncMT := R_DrawSpanNormalMT;
+            rippleslopefuncMT := R_DrawSpanNormal_RippleMT;
+          end
+          else
+          begin
+            spanfunc := R_DrawSpanNormal;
+            basespanfunc := R_DrawSpanNormal;
+            ripplespanfunc := R_DrawSpanNormal_Ripple;
+            slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
+            baseslopefunc := R_DrawSpanNormal;
+            rippleslopefunc := R_DrawSpanNormal_Ripple;
+          end;
         end;
         if useclassicfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
@@ -1084,12 +1177,32 @@ begin
         begin
           maskedcolfunc := R_DrawMaskedColumnHi;
           maskedcolfunc2 := R_DrawMaskedColumnHi32;
-          spanfunc := R_DrawSpanNormal;
-          basespanfunc := R_DrawSpanNormal;
-          ripplespanfunc := R_DrawSpanNormal_Ripple;
-          slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
-          baseslopefunc := R_DrawSpanNormal;
-          rippleslopefunc := R_DrawSpanNormal_Ripple;
+
+          if usemultithread then
+          begin
+            spanfunc := R_StoreFlatSpan32;
+            basespanfunc := R_StoreFlatSpan32;
+            ripplespanfunc := R_StoreFlatSpan32;
+            slopefunc := R_StoreFlatSpan32;
+            baseslopefunc := R_StoreFlatSpan32;
+            rippleslopefunc := R_StoreFlatSpan32;
+
+            spanfuncMT := R_DrawSpanNormalMT;
+            basespanfuncMT := R_DrawSpanNormalMT;
+            ripplespanfuncMT := R_DrawSpanNormal_RippleMT;
+            slopefuncMT := R_DrawSpanNormalMT;
+            baseslopefuncMT := R_DrawSpanNormalMT;
+            rippleslopefuncMT := R_DrawSpanNormal_RippleMT;
+          end
+          else
+          begin
+            spanfunc := R_DrawSpanNormal;
+            basespanfunc := R_DrawSpanNormal;
+            ripplespanfunc := R_DrawSpanNormal_Ripple;
+            slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
+            baseslopefunc := R_DrawSpanNormal;
+            rippleslopefunc := R_DrawSpanNormal_Ripple;
+          end;
         end;
         if useclassicfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
@@ -1148,12 +1261,32 @@ begin
         begin
           maskedcolfunc := R_DrawMaskedColumnHi;
           maskedcolfunc2 := R_DrawMaskedColumnUltra32;
-          spanfunc := R_DrawSpanNormal;
-          basespanfunc := R_DrawSpanNormal;
-          ripplespanfunc := R_DrawSpanNormal_Ripple;
-          slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
-          baseslopefunc := R_DrawSpanNormal;
-          rippleslopefunc := R_DrawSpanNormal_Ripple;
+
+          if usemultithread then
+          begin
+            spanfunc := R_StoreFlatSpan32;
+            basespanfunc := R_StoreFlatSpan32;
+            ripplespanfunc := R_StoreFlatSpan32;
+            slopefunc := R_StoreFlatSpan32;
+            baseslopefunc := R_StoreFlatSpan32;
+            rippleslopefunc := R_StoreFlatSpan32;
+
+            spanfuncMT := R_DrawSpanNormalMT;
+            basespanfuncMT := R_DrawSpanNormalMT;
+            ripplespanfuncMT := R_DrawSpanNormal_RippleMT;
+            slopefuncMT := R_DrawSpanNormalMT;
+            baseslopefuncMT := R_DrawSpanNormalMT;
+            rippleslopefuncMT := R_DrawSpanNormal_RippleMT;
+          end
+          else
+          begin
+            spanfunc := R_DrawSpanNormal;
+            basespanfunc := R_DrawSpanNormal;
+            ripplespanfunc := R_DrawSpanNormal_Ripple;
+            slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
+            baseslopefunc := R_DrawSpanNormal;
+            rippleslopefunc := R_DrawSpanNormal_Ripple;
+          end;
         end;
         if useclassicfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
@@ -1466,6 +1599,10 @@ begin
   R_InitWallsCache8;
   printf(#13#10 + 'R_InitWallsCache32');
   R_InitWallsCache32;
+  printf(#13#10 + 'R_InitFlatsCache8');
+  R_InitFlatsCache8;
+  printf(#13#10 + 'R_InitFlatsCache32');
+  R_InitFlatsCache32;
   printf(#13#10 + 'R_InitVoxels'#13#10);
   R_InitVoxels;
   printf(#13#10 + 'R_InitDepthBuffer'#13#10); // JVAL: 3d Floors
@@ -1523,6 +1660,10 @@ begin
   R_ShutDownWallsCache8;
   printf(#13#10 + 'R_ShutDownWallsCache32');
   R_ShutDownWallsCache32;
+  printf(#13#10 + 'R_ShutDownFlatsCache8');
+  R_ShutDownFlatsCache8;
+  printf(#13#10 + 'R_ShutDownFlatsCache32');
+  R_ShutDownFlatsCache32;
   printf(#13#10 + 'R_VoxelsDone');
   R_VoxelsDone;
   printf(#13#10 + 'R_ShutDownDepthBuffer'#13#10); // JVAL: 3d Floors
@@ -1736,9 +1877,13 @@ begin
 
   R_DrawPlanes;
 
+  R_RenderMultiThreadFlats8;
+
   R_WaitWallsCache8;
 
-  R_DrawFFloors;  // JVAL: 3d Floors
+  R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
+
+  R_RenderMultiThreadFFloors8;
 
   R_DrawMasked;
 
@@ -1780,9 +1925,13 @@ begin
 
   R_DrawPlanes;
 
+  R_RenderMultiThreadFlats32;
+
   R_WaitWallsCache32;
 
-  R_DrawFFloors;  // JVAL: 3d Floors
+  R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
+
+  R_RenderMultiThreadFFloors32;
 
   R_DrawMasked;
 

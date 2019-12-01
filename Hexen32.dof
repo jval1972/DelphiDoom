@@ -97,21 +97,25 @@ PackageDCPOutputDir=
 SearchPath=C:\Program Files\Borland\Delphi7\Lib
 Packages=Vcl50;Vclx50;VclSmp50;Vcldb50;vclado50;ibevnt50;Vclbde50;vcldbx50;Qrpt50;TeeUI50;TeeDB50;Tee50;Dss50;TeeQR50;VCLIB50;Vclmid50;vclie50;Inetdb50;Inet50;NMFast50;webmid50;dclocx50;dclaxserver50;MyWisdomNT;Custom;Components2002;BcBarMenus50;BcXPMenuDrawModule50;dcslib25;Delphi6;dfwD5_NT;D5DIB;DShow;GLScene5;GLSS_BASS5;GLSS_FMOD5;MyGamesNT;ProLibDB50;ProLib50;ractl5;radb5;rai5;rmCmpLib_d5;WinshoesPkgD5;RegComponents5;B304_r50;O406_R50;Components2003_Part2;DelphiX_for5;MNOgl;Components2003
 Conditionals=HEXEN;
-DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
+DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Hexen\
 UsePackages=0
 [Parameters]
-RunParams=-cgax3 -nofullscreen
+RunParams=-geom 1920x1080 -fullscreen
 HostApplication=
 Launcher=
 UseLauncher=0
 DebugCWD=
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=710
+Build=711
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Hexen to Delphi Total Conversion
-FileVersion=2.0.4.710
+FileVersion=2.0.4.711
 InternalName=Hexen
 LegalCopyright=Copyright 2005 - 2017, Jim Valavanis
 LegalTrademarks=
@@ -131,12 +135,13 @@ ProductName=Hexen 32 bit engine
 ProductVersion=2.0
 Comments=http://sourceforge.net/projects/delphidoom/
 [HistoryLists\hlDebugSourcePath]
-Count=5
-Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
-Item1=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
-Item2=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\;F:\DelphiDoomSrc\Src\Doom\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\;F:\DelphiDoomSrc\Src\Base\
-Item3=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
-Item4=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
+Count=6
+Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Hexen\
+Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
+Item2=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
+Item3=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\;F:\DelphiDoomSrc\Src\Doom\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\;F:\DelphiDoomSrc\Src\Base\
+Item4=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item5=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
 Count=28
 Item0=HEXEN;

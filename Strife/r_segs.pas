@@ -945,7 +945,6 @@ begin
   rw_x := start;
   pds.x1 := rw_x;
   pds.x2 := stop;
-  pds.curline := curline;
   rw_stopx := stop + 1;
 
   // calculate scale at both ends and step

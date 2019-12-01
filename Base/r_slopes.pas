@@ -529,12 +529,14 @@ begin
   if pl.renderflags and SRF_RIPPLE <> 0 then
   begin
     slopefunc := rippleslopefunc;
-    ds_ripple := curripple
+    ds_ripple := curripple;
+    spanfuncMT := rippleslopefuncMT;
   end
   else
   begin
     slopefunc := baseslopefunc;
     ds_ripple := nil;
+    spanfuncMT := baseslopefuncMT;
   end;
 
   stop := pl.maxx + 1;
@@ -651,10 +653,12 @@ begin
   begin
     lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
+    {$IFNDEF HEXEN}
     if curline.v1.y = curline.v2.y then
       dec(lightnum)
     else if curline.v1.x = curline.v2.x then
       inc(lightnum);
+    {$ENDIF}
 
     if lightnum < 0 then
       lightnum := 0
