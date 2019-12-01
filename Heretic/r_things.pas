@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -81,13 +81,13 @@ var
   sprtopscreen: fixed_t;
   sprbotscreen: fixed_t;
 
-  // constant arrays
-  //  used for psprite clipping and initializing clipping
+// constant arrays
+//  used for psprite clipping and initializing clipping
   negonearray: packed array[0..MAXWIDTH - 1] of smallint;
   screenheightarray: packed array[0..MAXWIDTH - 1] of smallint;
 
-  // variables used to look up
-  //  and range check thing_t sprites patches
+// variables used to look up
+//  and range check thing_t sprites patches
   sprites: Pspritedef_tArray;
   numspritespresent: integer;
 
@@ -122,16 +122,20 @@ uses
   r_data,
   r_draw,
   r_main,
-  r_bsp,
-  r_segs,
+  p_setup,
 {$IFNDEF OPENGL}
+  r_segs,
   r_column,
   r_batchcolumn,
-  r_voxels, // JVAL voxel support
-  r_fake3d,
-{$ENDIF}
   r_hires,
   r_lights,
+  r_bsp,
+  r_voxels, // JVAL voxel support
+  r_fake3d,
+  r_3dfloors, // JVAL: 3d Floors
+  r_depthbuffer, // JVAL: 3d Floors
+{$ENDIF}
+  r_camera,
   z_zone,
   w_wad,
   doomstat;
@@ -140,24 +144,23 @@ type
   maskdraw_t = record
     x1: integer;
     x2: integer;
-
     column: integer;
     topclip: integer;
     bottomclip: integer;
   end;
   Pmaskdraw_t = ^maskdraw_t;
 
-  //
-  // Sprite rotation 0 is facing the viewer,
-  //  rotation 1 is one angle turn CLOCKWISE around the axis.
-  // This is not the same as the angle,
-  //  which increases counter clockwise (protractor).
-  // There was a lot of stuff grabbed wrong, so I changed it...
-  //
+//
+// Sprite rotation 0 is facing the viewer,
+//  rotation 1 is one angle turn CLOCKWISE around the axis.
+// This is not the same as the angle,
+//  which increases counter clockwise (protractor).
+// There was a lot of stuff grabbed wrong, so I changed it...
+//
 
-  //
-  // INITIALIZATION FUNCTIONS
-  //
+//
+// INITIALIZATION FUNCTIONS
+//
 const
   MAXFRAMES = 29; // Maximun number of frames in sprite
 
@@ -166,11 +169,10 @@ var
   maxframe: integer;
   spritename: string;
 
-  //
-  // R_InstallSpriteLump
-  // Local function for R_InitSprites.
-  //
-
+//
+// R_InstallSpriteLump
+// Local function for R_InitSprites.
+//
 procedure R_InstallSpriteLump(lump: integer;
   frame: LongWord; rotation: LongWord; flipped: boolean);
 var
@@ -204,7 +206,7 @@ begin
 
   // the lump is only used for one rotation
   if sprtemp[frame].rotate = 0 then
-    I_DevError('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
+    I_Warning('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
       [spritename, Chr(Ord('A') + frame)]);
 
   sprtemp[frame].rotate := 1;
@@ -234,7 +236,6 @@ end;
 //  letter/number appended.
 // The rotation character can be 0 to signify no rotations.
 //
-
 procedure R_InitSpriteDefs(namelist: PIntegerArray);
 
   procedure sprtempreset;
@@ -260,7 +261,7 @@ var
   frame: integer;
   rotation: integer;
   start: integer;
-  _end: integer;
+  finish: integer;
   patched: integer;
 begin
   // count the number of sprite names
@@ -276,15 +277,14 @@ begin
   ZeroMemory(sprites, numspritespresent * SizeOf(spritedef_t));
 
   start := firstspritelump - 1;
-  _end := lastspritelump + 1;
+  finish := lastspritelump + 1;
 
   // scan all the lump names for each of the names,
   //  noting the highest frame letter.
   // Just compare 4 characters as ints
   for i := 0 to numspritespresent - 1 do
   begin
-    spritename := Chr(namelist[i]) + Chr(namelist[i] shr 8) + Chr(namelist[i] shr
-      16) + Chr(namelist[i] shr 24);
+    spritename := Chr(namelist[i]) + Chr(namelist[i] shr 8) + Chr(namelist[i] shr 16) + Chr(namelist[i] shr 24);
 
     sprtempreset;
 
@@ -293,7 +293,7 @@ begin
 
     // scan the lumps,
     //  filling in the frames for whatever is found
-    for l := start + 1 to _end - 1 do
+    for l := start + 1 to finish - 1 do
     begin
       if spritepresent[l - firstspritelump] then
 
@@ -337,11 +337,11 @@ begin
             I_Warning('R_InitSprites(): No patches found for %s frame %s'#13#10,
               [spritename, Chr(frame + Ord('A'))]);
           end;
-        0:
+         0:
           begin
             // only the first rotation is needed
           end;
-        1:
+         1:
           begin
             // must have all 8 frames
             for rotation := 0 to 7 do
@@ -368,11 +368,10 @@ var
   vissprite_p: integer;
   visspritessize: Integer = 0;
 
-  //
-  // R_InitSprites
-  // Called at program start.
-  //
-
+//
+// R_InitSprites
+// Called at program start.
+//
 procedure R_InitSprites(namelist: PIntegerArray);
 var
   i: integer;
@@ -387,7 +386,6 @@ end;
 // R_ClearSprites
 // Called at frame start.
 //
-
 procedure R_ClearSprites;
 begin
   vissprite_p := 0;
@@ -398,7 +396,6 @@ end;
 //
 // JVAL Now we allocate a new visprite dynamically
 //
-
 function R_NewVisSprite: Pvissprite_t;
 begin
   if vissprite_p = visspritessize then
@@ -428,7 +425,6 @@ end;
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
-
 procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 var
   topscreen: integer;
@@ -443,7 +439,7 @@ begin
 
   if baseclip <> -1 then
   begin
-    while column.topdelta <> $FF do
+    while column.topdelta <> $ff do
     begin
       // calculate unclipped screen coordinates
       // for post
@@ -469,14 +465,17 @@ begin
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
         //  or R_DrawTranslatedColumn
-        colfunc;
+        if depthbufferactive then                   // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+        else
+          colfunc;
       end;
       column := Pcolumn_t(integer(column) + column.length + 4);
     end;
   end
   else
   begin
-    while column.topdelta <> $FF do
+    while column.topdelta <> $ff do
     begin
       // calculate unclipped screen coordinates
       // for post
@@ -499,7 +498,10 @@ begin
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
         //  or R_DrawTranslatedColumn
-        colfunc;
+        if depthbufferactive then                   // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+        else
+          colfunc;
       end;
       column := Pcolumn_t(integer(column) + column.length + 4);
     end;
@@ -508,6 +510,7 @@ begin
   dc_texturemid := basetexturemid;
 end;
 
+// For Walls only
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 var
   topscreen: integer;
@@ -537,14 +540,16 @@ begin
     //  or (SHADOW) R_DrawFuzzColumn
     //  or R_DrawColumnAverage
     //  or R_DrawTranslatedColumn
-    colfunc;
+    if depthbufferactive then                   // JVAL: 3d Floors
+      R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+    else
+      colfunc;
   end;
 
   dc_texturemid := basetexturemid;
 end;
 
-// jval: batch column drawing
-
+// JVAL: batch column drawing
 procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1);
 var
   topscreen: integer;
@@ -559,7 +564,7 @@ begin
 
   if baseclip <> -1 then
   begin
-    while column.topdelta <> $FF do
+    while column.topdelta <> $ff do
     begin
       // calculate unclipped screen coordinates
       // for post
@@ -592,7 +597,7 @@ begin
   end
   else
   begin
-    while column.topdelta <> $FF do
+    while column.topdelta <> $ff do
     begin
       // calculate unclipped screen coordinates
       // for post
@@ -627,9 +632,7 @@ end;
 // R_DrawVisSprite
 //  mfloorclip and mceilingclip should also be set.
 //
-
-procedure R_DrawVisSprite(vis: Pvissprite_t; const playerweapon: boolean =
-  false);
+procedure R_DrawVisSprite(vis: Pvissprite_t; const playerweapon: boolean = false);
 var
   column: Pcolumn_t;
   texturecolumn: integer;
@@ -644,7 +647,7 @@ var
   last_cc_x: smallint;
   save_dc_x: integer;
 begin
-  patch := W_CacheLumpNum(vis.patch + firstspritelump, PU_CACHE);
+  patch := W_CacheLumpNum2(vis.patch + firstspritelump, PU_STATIC);
 
   dc_colormap := vis.colormap;
 
@@ -670,14 +673,12 @@ begin
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
-  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0)
-    then
+  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
   begin
     colfunc := averagecolfunc;
     batchcolfunc := batchtaveragecolfunc;
   end
-  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle =
-    mrs_translucent) then
+  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
     colfunc := alphacolfunc;
@@ -689,7 +690,7 @@ begin
     batchcolfunc := basebatchcolfunc;
   end;
 
-  dc_iscale := FixedDiv(FRACUNIT, vis.scale);
+  dc_iscale := FixedDivEx(FRACUNIT, vis.scale);
   dc_texturemid := vis.texturemid;
   frac := vis.startfrac;
   spryscale := vis.scale;
@@ -698,17 +699,16 @@ begin
   if (vis.footclip <> 0) and (not playerweapon) then
   begin
     sprbotscreen := sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale);
-    baseclip := FixedInt((sprbotscreen - FixedMul(vis.footclip * FRACUNIT,
-      spryscale)));
+    baseclip := FixedInt((sprbotscreen - FixedMul(vis.footclip * FRACUNIT, spryscale)));
   end
   else
     baseclip := -1;
 
-  // jval: batch column drawing
+// JVAL: batch column drawing
   xiscale := vis.xiscale;
   dc_x := vis.x1;
-  if (xiscale > FRACUNIT div 2) or (not optimizedthingsrendering) or (not
-    Assigned(batchcolfunc)) then
+
+  if depthbufferactive or (xiscale > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
   begin
     while dc_x <= vis.x2 do
     begin
@@ -730,8 +730,8 @@ begin
     begin
       checkcolumn := LongWord(frac) shr FRACBITS;
       if (last_fc_x <> mfloorclip[dc_x]) or
-        (last_cc_x <> mceilingclip[dc_x]) or
-        (last_texturecolumn <> checkcolumn) then
+         (last_cc_x <> mceilingclip[dc_x]) or
+         (last_texturecolumn <> checkcolumn) then
       begin
         num_batch_columns := dc_x - last_dc_x;
         texturecolumn := last_texturecolumn;
@@ -768,46 +768,16 @@ begin
   end;
 
   Z_ChangeTag(patch, PU_CACHE);
-
 end;
 
-//
-// R_DrawLightColumn
-// Used for sprites that emits light
-//
 
 var
   ltopdelta: integer;
   llength: integer;
 
-procedure R_DrawLightColumn;
-var
-  topscreen: integer;
-  bottomscreen: integer;
-  basetexturemid: fixed_t;
-begin
-  basetexturemid := dc_texturemid;
-
-  topscreen := sprtopscreen + spryscale * ltopdelta;
-  bottomscreen := topscreen + spryscale * llength;
-
-  dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-  dc_yh := FixedInt(bottomscreen - 1);
-  dc_texturemid := (centery - dc_yl) * dc_iscale;
-
-  if dc_yh >= mfloorclip[dc_x] then
-    dc_yh := mfloorclip[dc_x] - 1;
-  if dc_yl <= mceilingclip[dc_x] then
-    dc_yl := mceilingclip[dc_x] + 1;
-
-  if dc_yl <= dc_yh then
-    lightcolfunc;
-
-  dc_texturemid := basetexturemid;
-end;
-
 //
 // R_DrawVisSpriteLight
+// Used for sprites that emits light
 //
 
 procedure R_DrawVisSpriteLight(vis: Pvissprite_t; x1: integer; x2: integer);
@@ -816,7 +786,6 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   patch: Ppatch_t;
-  i: integer;
   topscreen: integer;
   bottomscreen: integer;
   basetexturemid: fixed_t;
@@ -826,16 +795,16 @@ var
   last_floorclip, last_ceilingclip: SmallInt;
   checkcolumn: integer;
 begin
-  patch := W_CacheLumpNum(vis.patch + firstspritelump, PU_CACHE);
+  patch := W_CacheLumpNum2(vis.patch + firstspritelump, PU_STATIC);
 
   frac := vis.startfrac * LIGHTBOOSTSIZE div patch.width;
   fracstep := vis.xiscale * (LIGHTBOOSTSIZE shr 1) div patch.width;
   spryscale := vis.scale * patch.height div (LIGHTBOOSTSIZE shr 1);
-  dc_iscale := FixedDiv(FRACUNIT, spryscale);
+  dc_iscale := FixedDivEx(FRACUNIT, spryscale);
   sprtopscreen := centeryfrac - FixedMul(vis.texturemid2, vis.scale);
 
   if fixedcolormapnum = INVERSECOLORMAP then
-    // JVAL: if in invulnerability mode use white color
+  // JVAL: if in invulnerability mode use white color
   begin
     lightcolfunc := whitelightcolfunc;
     batchlightcolfunc := batchwhitelightcolfunc;
@@ -875,8 +844,7 @@ begin
   end;
 
   dc_x := x1;
-  if (fracstep > FRACUNIT div 2) or (not optimizedthingsrendering) or (not
-    Assigned(batchlightcolfunc)) then
+  if depthbufferactive or (fracstep > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) then
   begin
     while dc_x <= x2 do
     begin
@@ -899,13 +867,17 @@ begin
       if dc_yl <= mceilingclip[dc_x] then
         dc_yl := mceilingclip[dc_x] + 1;
 
-      if dc_yl <= dc_yh then
-        lightcolfunc;
+      if frac < 256 * FRACUNIT then  // JVAL: SOS (Heretic, Hexen & Strife ?
+        if dc_yl <= dc_yh then
+          if depthbufferactive then                         // JVAL: 3d Floors
+            R_DrawColumnWithDepthBufferCheck(lightcolfunc)  // JVAL: 3d Floors
+          else
+            lightcolfunc;
 
       dc_texturemid := basetexturemid;
 
       frac := frac + fracstep;
-      Inc(dc_x);
+      inc(dc_x);
     end;
   end
   else
@@ -918,9 +890,9 @@ begin
     begin
       checkcolumn := LongWord(frac) shr FRACBITS;
       if (last_floorclip <> mfloorclip[dc_x]) or
-        (last_ceilingclip <> mceilingclip[dc_x]) or
-        (last_texturecolumn <> checkcolumn) or
-        (dc_x = x2) then
+         (last_ceilingclip <> mceilingclip[dc_x]) or
+         (last_texturecolumn <> checkcolumn) or
+         (dc_x = x2) then
       begin
         num_batch_columns := dc_x - last_dc_x;
         texturecolumn := last_texturecolumn;
@@ -948,21 +920,22 @@ begin
         if dc_yl <= mceilingclip[dc_x] then
           dc_yl := mceilingclip[dc_x] + 1;
 
-        if dc_yl <= dc_yh then
-        begin
-          dc_x := save_dc_x;
-          if num_batch_columns > 1 then
-            batchlightcolfunc
-          else
-            lightcolfunc;
-          dc_x := last_dc_x;
-        end;
+        if frac < 256 * FRACUNIT then
+          if dc_yl <= dc_yh then
+          begin
+            dc_x := save_dc_x;
+            if num_batch_columns > 1 then
+              batchlightcolfunc
+            else
+              lightcolfunc;
+            dc_x := last_dc_x;
+          end;
 
         dc_texturemid := basetexturemid;
       end;
 
       frac := frac + fracstep;
-      Inc(dc_x);
+      inc(dc_x);
     end;
   end;
 
@@ -976,7 +949,6 @@ end;
 // Generates a vissprite for a thing
 //  if it might be visible.
 //
-
 procedure R_ProjectSprite(thing: Pmobj_t);
 var
   tr_x: fixed_t;
@@ -993,16 +965,20 @@ var
   lump: integer;
   rot: LongWord;
   flip: boolean;
-  index: integer;
   vis: Pvissprite_t;
   ang: angle_t;
 {$IFDEF OPENGL}
   checksides: boolean;
 {$ELSE}
+  index: integer;
   iscale: fixed_t;
   voxelflag: integer;
   vx1, vx2: integer;
+  mid: Psector_t; // JVAL: 3d floors
+  midn: integer;  // JVAL: 3d floors
+  sprlights: PBytePArray; // JVAL: 3d floors
 {$ENDIF}
+  soffset, swidth: fixed_t;
 begin
   if (thing.player = viewplayer) and not chasecamera then
     exit;
@@ -1031,11 +1007,11 @@ begin
   // thing is behind view plane?
 {$IFDEF OPENGL}
   checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and
-    (thing.state.models = nil) and (thing.state.voxels = nil);
+   (thing.state.models = nil) and (thing.state.voxels = nil);
 
   if checksides then
 {$ENDIF}
-    if tz < MINZ{$IFNDEF OPENGL} - 128 * FRACUNIT * voxelflag{$ENDIF} then
+    if tz < MINZ {$IFNDEF OPENGL} - 128 * FRACUNIT * voxelflag {$ENDIF} then
       exit;
 
   xscale := FixedDiv(projection, tz);
@@ -1054,18 +1030,21 @@ begin
       exit;
 
   // decide which patch to use for sprite relative to player
-
   sprdef := @sprites[thing.sprite];
 
   if sprdef.numframes <= 0 then
-    sprframe := nil
+  begin
+    sprdef := @sprites[Ord(SPR_TNT1)];
+    sprframe := @sprdef.spriteframes[0];
+  end
   else
+  begin
     sprframe := @sprdef.spriteframes[thing.frame and FF_FRAMEMASK];
+  end;
 
   if sprframe = nil then
   begin
-    I_DevError('R_ProjectSprite(): Sprite for "%s" is NULL.'#13#10,
-      [thing.info.name]);
+    I_DevError('R_ProjectSprite(): Sprite for "%s" is NULL.'#13#10, [thing.info.name]);
     exit;
   end;
 
@@ -1084,11 +1063,12 @@ begin
     flip := sprframe.flip[0];
   end;
 
-{$IFNDEF OPENGL}
-  vx1 := FixedInt(centerxfrac + FixedMul(tx - thing.state.voxelradius, xscale));
-{$ENDIF}
-  tx := tx - spriteoffset[lump];
+  soffset := spriteoffset[lump];
+  tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
+{$IFNDEF OPENGL}
+  vx1 := FixedInt(centerxfrac + FixedMul(tx + soffset - thing.state.voxelradius, xscale));
+{$ENDIF}
 
   // off the right side?
 {$IFDEF OPENGL}
@@ -1099,11 +1079,11 @@ begin
     if x1 > viewwidth then
       exit;
 
-  tx := tx + spritewidth[lump];
+  swidth := spritewidth[lump];
+  tx := tx + swidth;
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
 {$IFNDEF OPENGL}
-  vx2 := FixedInt(centerxfrac + FixedMul(tx - spritewidth[lump] + 2 *
-    thing.state.voxelradius, xscale));
+  vx2 := FixedInt(centerxfrac + FixedMul(tx - swidth + 2 * thing.state.voxelradius, xscale));
 {$ENDIF}
 
   // off the left side
@@ -1119,8 +1099,7 @@ begin
   vis := R_NewVisSprite;
   vis.mobjflags := thing.flags;
   vis.mobjflags2 := thing.flags2;
-  vis.mobjflags_ex := thing.flags_ex or thing.state.flags_ex;
-    // JVAL: extended flags passed to vis
+  vis.mobjflags_ex := thing.flags_ex or thing.state.flags_ex; // JVAL: extended flags passed to vis
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
   vis._type := thing._type;
@@ -1158,9 +1137,35 @@ begin
     vis.vx2 := vx2;
   iscale := FixedDiv(FRACUNIT, xscale);
 
+  // JVAL: 3d Floors
+  sprlights := spritelights;
+  if hasExtrafloors then
+  begin
+    if spritetopoffset[lump] < 60 * FRACUNIT then
+      vis.ceilingz := vis.gz + 60 * FRACUNIT
+    else
+      vis.ceilingz := vis.gzt;
+
+    if thing.ceilingz < vis.ceilingz then
+      vis.ceilingz := thing.ceilingz;
+
+    vis.drawn := false;
+
+    midn := Psubsector_t(thing.subsector).sector.midsec;
+    if midn >= 0 then
+    begin
+      mid := @sectors[midn];
+      if ((vis.gz >= mid.ceilingheight) and (viewz < mid.ceilingheight)) or
+         ((vis.ceilingz <= mid.floorheight) and (viewz > mid.floorheight)) then
+           vis.drawn := true;
+      if vis.gz < mid.floorheight then
+        sprlights := spritelights2;
+    end;
+  end;
+
   if flip then
   begin
-    vis.startfrac := spritewidth[lump] - 1;
+    vis.startfrac := swidth - 1;
     vis.xiscale := -iscale;
   end
   else
@@ -1179,6 +1184,7 @@ begin
 {$ENDIF}
   vis.patch := lump;
 
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
   // get light level
   if thing.flags and MF_SHADOW <> 0 then
   begin
@@ -1205,8 +1211,9 @@ begin
     else if index < 0 then
       index := 0;
 
-    vis.colormap := spritelights[index];
+    vis.colormap := sprlights[index]; // JVAL: 3d Floors
   end;
+{$ENDIF}
 
 {$IFDEF OPENGL}
   gld_AddSprite(vis); // JVAL: OPENGL
@@ -1217,11 +1224,13 @@ end;
 // R_AddSprites
 // During BSP traversal, this adds sprites by sector.
 //
-
 procedure R_AddSprites(sec: Psector_t);
 var
   thing: Pmobj_t;
   lightnum: integer;
+{$IFNDEF OPENGL}
+  lightnum2: integer;
+{$ENDIF}  
 begin
   // BSP is traversed by subsector.
   // A sector might have been split into several
@@ -1233,6 +1242,10 @@ begin
   // Well, now it will be done.
   sec.validcount := validcount;
 
+{$IFNDEF OPENGL}
+  hasExtraFloors := hasExtraFloors or (sec.midsec >= 0);  // JVAL: 3d Floors
+{$ENDIF}
+
   lightnum := _SHR(sec.lightlevel, LIGHTSEGSHIFT) + extralight;
 
   if lightnum <= 0 then
@@ -1241,6 +1254,20 @@ begin
     spritelights := @scalelight[LIGHTLEVELS - 1]
   else
     spritelights := @scalelight[lightnum];
+
+  // JVAL: 3d Floors
+  {$IFNDEF OPENGL}
+  if sec.midsec >= 0 then
+  begin
+    lightnum2 := _SHR(sectors[sec.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
+    if lightnum2 <= 0 then
+      spritelights2 := @scalelight[0]
+    else if lightnum2 >= LIGHTLEVELS then
+      spritelights2 := @scalelight[LIGHTLEVELS - 1]
+    else
+      spritelights2 := @scalelight[lightnum2];
+  end;
+  {$ENDIF}
 
   // Handle all things in sector.
   thing := sec.thinglist;
@@ -1252,11 +1279,7 @@ begin
 end;
 
 //
-//========================
-//
 // R_DrawPSprite
-//
-//========================
 //
 
 const
@@ -1299,6 +1322,7 @@ begin
 {$IFNDEF OPENGL}
   flip := sprframe.flip[0];
 {$ENDIF}
+
   // calculate edges of the shape
   tx := psp.sx - 160 * FRACUNIT;
 
@@ -1324,11 +1348,9 @@ begin
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
   vis._type := Ord(MT_PLAYER);
-  vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy -
-    spritetopoffset[lump]);
+  vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - PSpriteSY[Ord(viewplayer.readyweapon)];
-  //    vis.texturemid := vis.texturemid - (BASEYCENTER * FRACUNIT) div 6;
 
   if x1 < 0 then
     vis.x1 := 0
@@ -1338,7 +1360,9 @@ begin
     vis.x2 := viewwidth - 1
   else
     vis.x2 := x2;
+
   vis.scale := pspriteyscale;
+
 {$IFNDEF OPENGL}
   if flip then
   begin
@@ -1358,58 +1382,74 @@ begin
 
 {$IFNDEF OPENGL}
   if (viewplayer.powers[Ord(pw_invisibility)] > 4 * 32) or
-  (viewplayer.powers[Ord(pw_invisibility)] and 8 <> 0) then
+     (viewplayer.powers[Ord(pw_invisibility)] and 8 <> 0) then
   begin
     // shadow draw
     vis.colormap := nil;
   end
   else
 {$ENDIF}if fixedcolormap <> nil then
-    begin
-      // fixed color
-      vis.colormap := fixedcolormap;
-{$IFDEF OPENGL}
-      lightlevel := 255;
+  begin
+    // fixed color
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
+    vis.colormap := fixedcolormap;
 {$ENDIF}
-    end
-    else if psp.state.frame and FF_FULLBRIGHT <> 0 then
-    begin
-      // full bright
-      vis.colormap := colormaps;
 {$IFDEF OPENGL}
-      lightlevel := 255;
+    lightlevel := 255;
 {$ENDIF}
-    end
-    else
-    begin
-      // local light
-      vis.colormap := spritelights[MAXLIGHTSCALE - 1];
+  end
+  else if psp.state.frame and FF_FULLBRIGHT <> 0 then
+  begin
+    // full bright
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
+    vis.colormap := colormaps;
+{$ENDIF}
 {$IFDEF OPENGL}
-      lightlevel := Psubsector_t(vis.mo.subsector).sector.lightlevel + extralight
-        shl LIGHTSEGSHIFT
+    lightlevel := 255;
 {$ENDIF}
-    end;
+  end
+  else
+  begin
+    // local light
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
+    vis.colormap := spritelights[MAXLIGHTSCALE - 1];
+{$ENDIF}    
+{$IFDEF OPENGL}
+    lightlevel := Psubsector_t(vis.mo.subsector).sector.lightlevel + extralight shl LIGHTSEGSHIFT
+{$ENDIF}
+  end;
 
 {$IFDEF OPENGL}
   gld_DrawWeapon(lump, vis, lightlevel); // JVAL OPENGL
 {$ELSE}
-  R_DrawVisSprite(vis, true);
+  R_DrawVisSprite(vis, true); // JVAL OPENGL
 {$ENDIF}
 end;
 
 //
 // R_DrawPlayerSprites
 //
-
 procedure R_DrawPlayerSprites;
 var
   i: integer;
   lightnum: integer;
+  playerlightlevel: integer;  // JVAL: 3d Floors
+  s: Psector_t; // JVAL: 3d Floors
 begin
   // get light level
+  s := Psubsector_t(viewplayer.mo.subsector).sector;
+  if s.midsec >= 0 then
+  begin
+    if viewplayer.mo.z > sectors[s.midsec].floorheight then
+      playerlightlevel := s.lightlevel
+    else
+      playerlightlevel := sectors[s.midsec].lightlevel;
+  end
+  else
+    playerlightlevel := s.lightlevel;
+
   lightnum :=
-    _SHR(Psubsector_t(viewplayer.mo.subsector).sector.lightlevel, LIGHTSEGSHIFT)
-      +
+    _SHR(playerlightlevel, LIGHTSEGSHIFT) + // JVAL: 3d Floors
     extralight;
 
   if lightnum <= 0 then
@@ -1427,7 +1467,7 @@ begin
   if shiftangle < 128 then
     centerxshift := shiftangle * FRACUNIT div 40 * viewwidth
   else
-    centerxshift := -(255 - shiftangle) * FRACUNIT div 40 * viewwidth;
+    centerxshift := - (255 - shiftangle) * FRACUNIT div 40 * viewwidth;
   for i := 0 to Ord(NUMPSPRITES) - 1 do
   begin
     if viewplayer.psprites[i].state <> nil then
@@ -1439,23 +1479,22 @@ end;
 //
 // R_SortVisSprites
 //
-
 procedure R_SortVisSprites;
 
   procedure qsortvs(l, r: Integer);
   var
     i, j: Integer;
     t: Pvissprite_t;
-    p: Pvissprite_t;
+    scale: fixed_t;
   begin
     repeat
       i := l;
       j := r;
-      p := vissprites[(l + r) shr 1];
+      scale := vissprites[(l + r) shr 1].scale;
       repeat
-        while vissprites[i].scale < p.scale do
+        while vissprites[i].scale < scale do
           inc(i);
-        while vissprites[j].scale > p.scale do
+        while vissprites[j].scale > scale do
           dec(j);
         if i <= j then
         begin
@@ -1477,6 +1516,44 @@ begin
     qsortvs(0, vissprite_p - 1);
 end;
 
+// JVAL: 3d Floors
+procedure R_SortDrawSegs;
+
+  procedure qsortds(l, r: Integer);
+  var
+    i, j: Integer;
+    t: Pdrawseg_t;
+    scale: fixed_t;
+  begin
+    repeat
+      i := l;
+      j := r;
+      scale := drawsegs[(l + r) shr 1].scale1;
+      repeat
+        while drawsegs[i].scale1 < scale do
+          inc(i);
+        while drawsegs[j].scale1 > scale do
+          dec(j);
+        if i <= j then
+        begin
+          t := drawsegs[i];
+          drawsegs[i] := drawsegs[j];
+          drawsegs[j] := t;
+          inc(i);
+          dec(j);
+        end;
+      until i > j;
+      if l < j then
+        qsortds(l, j);
+      l := i;
+    until i >= r;
+  end;
+
+begin
+  if ds_p > 0 then
+    qsortds(0, ds_p - 1);
+end;
+
 //
 // R_DrawSprite
 //
@@ -1491,6 +1568,7 @@ var
   lowscale: fixed_t;
   silhouette: integer;
   i: integer;
+  size: integer;
 begin
   // JVAL voxel support
   if spr.voxelflag <> 0 then
@@ -1499,11 +1577,9 @@ begin
     exit;
   end;
 
-  for x := spr.x1 to spr.x2 do
-  begin
-    clipbot[x] := -2;
-    cliptop[x] := -2;
-  end;
+  size := spr.x2 - spr.x1 + 1;
+  memsetsi(@clipbot[spr.x1], - 2, size);
+  memsetsi(@cliptop[spr.x1], - 2, size);
 
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
@@ -1513,8 +1589,8 @@ begin
     ds := drawsegs[i];
     // determine if the drawseg obscures the sprite
     if (ds.x1 > spr.x2) or
-      (ds.x2 < spr.x1) or
-      ((ds.silhouette = 0) and (ds.maskedtexturecol = nil)) then
+       (ds.x2 < spr.x1) or
+       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil) and (ds.thicksidecol = nil)) then // JVAL: 3d Floors
     begin
       // does not cover sprite
       continue;
@@ -1541,10 +1617,11 @@ begin
     end;
 
     if (scale < spr.scale) or
-      ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy,
-        ds.curline))) then
+       ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy, ds.curline))) then
     begin
       // masked mid texture?
+      if ds.thicksidecol <> nil then        // JVAL: 3d Floors
+        R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
       if ds.maskedtexturecol <> nil then
         R_RenderMaskedSegRange(ds, r1, r2);
       // seg is behind sprite
@@ -1593,19 +1670,14 @@ begin
   for x := spr.x1 to spr.x2 do
   begin
     if clipbot[x] = -2 then
-      clipbot[x] := fake3dbottomclip // viewheight;
+      clipbot[x] := fake3dbottomclip
     else if clipbot[x] > fake3dbottomclip then
       clipbot[x] := fake3dbottomclip;
 
     if cliptop[x] = -2 then
-      cliptop[x] := fake3dtopclip // -1;
+      cliptop[x] := fake3dtopclip
     else if cliptop[x] < fake3dtopclip then
       cliptop[x] := fake3dtopclip;
-    {    if clipbot[x] = -2 then
-          clipbot[x] := viewheight;
-
-        if cliptop[x] = -2 then
-          cliptop[x] := -1;}
   end;
 
   mfloorclip := @clipbot;
@@ -1625,6 +1697,7 @@ var
   silhouette: integer;
   i: integer;
   x1, x2: integer;
+  size: integer;
 begin
   x := (spr.x2 - spr.x1) div 2;
   x1 := spr.x1 - x;
@@ -1635,11 +1708,9 @@ begin
   if x2 >= viewwidth then
     x2 := viewwidth - 1;
 
-  for x := x1 to x2 do
-  begin
-    clipbot[x] := -2;
-    cliptop[x] := -2;
-  end;
+  size := x2 - x1 + 1;
+  memsetsi(@clipbot[x1], - 2, size);
+  memsetsi(@cliptop[x1], - 2, size);
 
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
@@ -1649,8 +1720,8 @@ begin
     ds := drawsegs[i];
     // determine if the drawseg obscures the sprite
     if (ds.x1 > x2) or
-      (ds.x2 < x1) or
-      ((ds.silhouette = 0) and (ds.maskedtexturecol = nil)) then
+       (ds.x2 < x1) or
+       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil) and (ds.thicksidecol = nil)) then // JVAL: 3d Floors
     begin
       // does not cover sprite
       continue;
@@ -1677,10 +1748,11 @@ begin
     end;
 
     if (scale < spr.scale) or
-      ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy,
-        ds.curline))) then
+       ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy, ds.curline))) then
     begin
       // masked mid texture?
+      if ds.thicksidecol <> nil then        // JVAL: 3d Floors
+        R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
       if ds.maskedtexturecol <> nil then
         R_RenderMaskedSegRange(ds, r1, r2);
       // seg is behind sprite
@@ -1729,19 +1801,14 @@ begin
   for x := x1 to x2 do
   begin
     if clipbot[x] = -2 then
-      clipbot[x] := fake3dbottomclip // viewheight;
+      clipbot[x] := fake3dbottomclip
     else if clipbot[x] > fake3dbottomclip then
       clipbot[x] := fake3dbottomclip;
 
     if cliptop[x] = -2 then
-      cliptop[x] := fake3dtopclip // -1;
+      cliptop[x] := fake3dtopclip
     else if cliptop[x] < fake3dtopclip then
       cliptop[x] := fake3dtopclip;
-    {    if clipbot[x] = -2 then
-          clipbot[x] := viewheight;
-
-        if cliptop[x] = -2 then
-          cliptop[x] := -1;}
   end;
 
   mfloorclip := @clipbot;
@@ -1754,10 +1821,9 @@ end;
 //
 // R_DrawMasked
 //
-
 procedure R_DrawMasked;
 var
-  ds: Pdrawseg_t;
+  pds: Pdrawseg_t;
   i: integer;
 begin
   R_SortVisSprites;
@@ -1782,13 +1848,18 @@ begin
   end;
 
   // render any remaining masked mid textures
-  colfunc := maskedcolfunc;
+  // colfunc := maskedcolfunc; // JVAL: 3d Floors
   for i := ds_p - 1 downto 0 do
   begin
-    ds := drawsegs[i];
-    if ds.maskedtexturecol <> nil then
-      R_RenderMaskedSegRange(ds, ds.x1, ds.x2);
+    pds := drawsegs[i];
+    if pds.thicksidecol <> nil then      // JVAL: 3d Floors
+      R_RenderThickSideRange(pds,  pds.x1, pds.x2); // JVAL: 3d Floors
+    if pds.maskedtexturecol <> nil then
+      R_RenderMaskedSegRange(pds, pds.x1, pds.x2);
   end;
+
+  R_StopDepthBuffer;  // JVAL: 3d Floors
+
 end;
 {$ENDIF}
 

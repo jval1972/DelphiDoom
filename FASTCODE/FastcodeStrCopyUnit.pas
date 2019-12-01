@@ -256,7 +256,8 @@ begin
     begin
       repeat
         Dst^ := Src^;
-        if Dst^ = 0 then Exit;
+        if Dst^ = 0 then
+          Exit;
         inc(Dst);
         inc(Src);
       until (Integer(Src) and 3) = 0;
@@ -275,7 +276,8 @@ begin
    end;
   repeat
     Dst^ := Src^;
-    if Dst^ = 0 then Exit;
+    if Dst^ = 0 then
+      Exit;
     inc(Dst);
     inc(Src);
   until False;

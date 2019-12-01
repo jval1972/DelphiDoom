@@ -19,6 +19,9 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Multithreading wall rendering - 8 bit color
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -72,6 +75,10 @@ var
   midwalls8: integer;
   lowerwalls8: integer;
   upperwalls8: integer;
+  // JVAL: 3d Floors
+  midwalls8b: integer;
+  lowerwalls8b: integer;
+  upperwalls8b: integer;
 
 var
   force_numwallrenderingthreads_8bit: integer = 0;
@@ -626,7 +633,7 @@ begin
 end;
 
 const
-  MAXWALLTHREADS8 = 16;
+  MAXWALLTHREADS8 = 256;
 
 var
   wallthreads8: array[0..MAXWALLTHREADS8 - 1] of TDThread;
@@ -670,10 +677,17 @@ begin
   midwalls8 := 0;
   lowerwalls8 := 1;
   upperwalls8 := 2;
+  // JVAL: 3d Floors
+  midwalls8b := 3;
+  lowerwalls8b := 4;
+  upperwalls8b := 5;
   wallcache[midwalls8].numwalls := 0;
   wallcache[lowerwalls8].numwalls := 0;
   wallcache[upperwalls8].numwalls := 0;
-  wallcachesize := 3;
+  wallcache[midwalls8b].numwalls := 0;
+  wallcache[lowerwalls8b].numwalls := 0;
+  wallcache[upperwalls8b].numwalls := 0;
+  wallcachesize := 6;
 
   if force_numwallrenderingthreads_8bit > 0 then
     numwallthreads8 := force_numwallrenderingthreads_8bit
@@ -705,7 +719,11 @@ begin
   midwalls8 := 0;
   lowerwalls8 := 1;
   upperwalls8 := 2;
-  wallcachesize := 3;
+  // JVAL: 3d Floors
+  midwalls8b := 3;
+  lowerwalls8b := 4;
+  upperwalls8b := 5;
+  wallcachesize := 6;
 end;
 
 var
@@ -749,8 +767,9 @@ begin
     numwallthreads8 := newnumthreads;
   end;
 
-  for i := 0 to numwallthreads8 - 1 do
-    parms[i].start := (wallcachesize div numwallthreads8) * i;
+  parms[0].start := 0;
+  for i := 1 to numwallthreads8 - 1 do
+    parms[i].start := Round((wallcachesize / numwallthreads8) * i);
   for i := 0 to numwallthreads8 - 2 do
     parms[i].stop := parms[i + 1].start - 1;
   parms[numwallthreads8 - 1].stop := wallcachesize - 1;

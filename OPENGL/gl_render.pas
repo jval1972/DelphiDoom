@@ -37,6 +37,7 @@ uses
   d_player,
   gl_defs,
   r_defs,
+  r_visplanes,
   m_fixed;
 
 var
@@ -120,6 +121,8 @@ uses
   gl_lightmaps,
   gl_clipper,
   gl_shadows,
+  gl_slopes,
+  p_3dfloors,
   p_maputl,
   p_mobj_h,
   p_local,
@@ -415,24 +418,37 @@ begin
 
 end;
 
+var
+  gld_InitLightTable_initialized: Boolean = false;
+
 procedure gld_InitLightTable;
 var
   sc: TScriptEngine;
   lump: integer;
   i, j: integer;
 begin
-  lump := W_CheckNumForName('GLGAMMA');
-  if lump < 0 then
-    exit;
+  if gld_InitLightTable_initialized then
+    Exit;
 
-  sc := TScriptEngine.Create(W_TextLumpNum(lump));
+  lump := W_CheckNumForName('GLGAMMA');
+  if lump > 0 then
+  begin
+
+    sc := TScriptEngine.Create(W_TextLumpNum(lump));
+    for i := 0 to GAMMASIZE - 1 do
+      for j := 0 to 255 do
+      begin
+        sc.MustGetFloat;
+        gl_lighttable[i, j] := sc._Float;
+      end;
+    sc.Free;
+  end;
+
   for i := 0 to GAMMASIZE - 1 do
     for j := 0 to 255 do
-    begin
-      sc.MustGetFloat;
-      gl_lighttable[i, j] := sc._Float;
-    end;
-  sc.Free;
+      gl_lighttable[i, j] := Sqrt(gl_lighttable[i, j]);
+
+  gld_InitLightTable_initialized := true;
 end;
 
 var
@@ -1021,6 +1037,8 @@ type
   TGLSeg = record
     x1, x2: float;
     z1, z2: float;
+    frontsector: Psector_t;
+    backsector: Psector_t;
   end;
   PGLSeg = ^TGLSeg;
   GLSegArray = array[0..$FFFF] of TGLSeg;
@@ -1032,17 +1050,21 @@ var
 const
   GLDWF_TOP = 1;
   GLDWF_M1S = 2;
-  GLDWF_M2S = 3;
-  GLDWF_BOT = 4;
-  GLDWF_SKY = 5;
-  GLDWF_SKYFLIP = 6;
+  GLDWF_MTS = 3;  // Thick Side
+  GLDWF_M2S = 4;
+  GLDWF_BOT = 5;
+  GLDWF_SKY = 6;
+  GLDWF_SKYFLIP = 7;
 
 type
+  glwalltype_t = (glwbottom, glwtop, glwmid);
   GLWall = record
     glseg: PGLSeg;
-    ytop, ybottom: float;
+    ytop, ybottom, ymid: float;
     ul, ur, vt, vb: float;
     light: float;
+    light2: float;
+    doublelight: boolean;
     alpha: float;
     skyymid: float;
     skyyaw: float;
@@ -1144,7 +1166,9 @@ var
 
   rendermarker: byte = 0;
   sectorrendered: PByteArray; // true if sector rendered (only here for malloc)
-  sectorrenderedflatex: PByteArray;
+  csectorrenderedflatex: PByteArray;
+  fsectorrenderedflatex: PByteArray;
+  sectorrenderedflatex2: PByteArray;
   segrendered: PByteArray; // true if sector rendered (only here for malloc)
 
 
@@ -1304,9 +1328,11 @@ var
   plist: Pdivline_t;
   ploop: PGLLoopDef;
   vert: PGLVertex;
+  snum: integer;
 begin
   ssec := @subsectors[ssidx];
-  numclippers := num + ssec.numlines;
+  snum := ssec.numlines;
+  numclippers := num + snum;
 
   clippers := malloc(numclippers * SizeOf(divline_t));
   for i := 0 to num - 1 do
@@ -1319,7 +1345,8 @@ begin
   end;
   for i := num to numclippers - 1 do
   begin
-    seg := @segs[ssec.firstline + i - num];
+    snum := ssec.firstline;
+    seg := @segs[snum + i - num];
     clippers[i].x := seg.v1.x;
     clippers[i].y := seg.v1.y;
     clippers[i].dx := seg.v2.x - seg.v1.x;
@@ -1576,10 +1603,20 @@ begin
     I_Error('gld_PreprocessSectors(): Not enough memory for array sectorrendered');
   ZeroMemory(sectorrendered, numsectors * SizeOf(byte));
 
-  sectorrenderedflatex := Z_Malloc2(numsectors * SizeOf(byte), PU_LEVEL, nil);
-  if sectorrenderedflatex = nil then
-    I_Error('gld_PreprocessSectors(): Not enough memory for array sectorrenderedflatex');
-  ZeroMemory(sectorrenderedflatex, numsectors * SizeOf(byte));
+  csectorrenderedflatex := Z_Malloc2(numsectors * SizeOf(byte), PU_LEVEL, nil);
+  if csectorrenderedflatex = nil then
+    I_Error('gld_PreprocessSectors(): Not enough memory for array csectorrenderedflatex');
+  ZeroMemory(csectorrenderedflatex, numsectors * SizeOf(byte));
+
+  fsectorrenderedflatex := Z_Malloc2(numsectors * SizeOf(byte), PU_LEVEL, nil);
+  if fsectorrenderedflatex = nil then
+    I_Error('gld_PreprocessSectors(): Not enough memory for array fsectorrenderedflatex');
+  ZeroMemory(fsectorrenderedflatex, numsectors * SizeOf(byte));
+
+  sectorrenderedflatex2 := Z_Malloc2(numsectors * SizeOf(byte), PU_LEVEL, nil);
+  if sectorrenderedflatex2 = nil then
+    I_Error('gld_PreprocessSectors(): Not enough memory for array sectorrenderedflatex2');
+  ZeroMemory(sectorrenderedflatex2, numsectors * SizeOf(byte));
 
   segrendered := Z_Malloc2(numsegs * SizeOf(byte), PU_LEVEL, nil);
   if segrendered = nil then
@@ -1940,49 +1977,6 @@ end;
  *               *
  *****************)
 
-procedure gld_DrawWall(wall: PGLWall);
-var
-  seg: PGLSeg;
-begin
-  if (not gl_drawsky) and (wall.flag >= GLDWF_SKY) then
-    exit;
-  if wall.gltexture.index = 0 then
-    exit;
-
-  gld_BindTexture(wall.gltexture);
-  if wall.flag >= GLDWF_SKY then
-  begin
-    glMatrixMode(GL_TEXTURE);
-    glPushMatrix;
-    if wall.flag and GLDWF_SKYFLIP = GLDWF_SKYFLIP then
-      glScalef(-128.0 / wall.gltexture.buffer_width / 2, 200.0 / 320.0 * 2.0, 1.0)
-    else
-      glScalef(128.0 / wall.gltexture.buffer_width, 200.0 / 320.0 * 2.0, 1.0);
-    glTranslatef(wall.skyyaw, wall.skyymid, 0.0);
-
-    seg := wall.glseg;
-    glBegin(GL_TRIANGLE_STRIP);
-      glVertex3f(seg.x1, wall.ytop, seg.z1);
-      glVertex3f(seg.x1, wall.ybottom, seg.z1);
-      glVertex3f(seg.x2, wall.ytop, seg.z2);
-      glVertex3f(seg.x2, wall.ybottom, seg.z2);
-    glEnd;
-    glPopMatrix;
-    glMatrixMode(GL_MODELVIEW);
-  end
-  else
-  begin
-    gld_StaticLightAlpha(wall.light, wall.alpha);
-    seg := wall.glseg;
-    glBegin(GL_TRIANGLE_STRIP);
-      glTexCoord2f(wall.ul, wall.vt); glVertex3f(seg.x1, wall.ytop, seg.z1);
-      glTexCoord2f(wall.ul, wall.vb); glVertex3f(seg.x1, wall.ybottom, seg.z1);
-      glTexCoord2f(wall.ur, wall.vt); glVertex3f(seg.x2, wall.ytop, seg.z2);
-      glTexCoord2f(wall.ur, wall.vb); glVertex3f(seg.x2, wall.ybottom, seg.z2);
-    glEnd;
-  end;
-end;
-
 procedure CALC_Y_VALUES(w: PGLWall; var lineheight: float; floor_height, ceiling_height: integer);
 begin
   w.ytop := ceiling_height / MAP_SCALE + 0.001;
@@ -2037,6 +2031,26 @@ var
   tex: PGLTexture;
 begin
   w.flag := GLDWF_M1S;
+  tex := w.gltexture;
+  w.ul := OU(tex, seg);
+  w.ur := w.ul + (linelength / tex.buffer_width);
+  if peg then
+  begin
+    w.vb := OV(tex, seg) + tex.heightscale;
+    w.vt := w.vb - (lineheight / tex.buffer_height);
+  end
+  else
+  begin
+    w.vt := OV(tex, seg);
+    w.vb := w.vt + (lineheight / tex.buffer_height);
+  end;
+end;
+
+procedure CALC_TEX_VALUES_MIDDLETS(w: PGLWall; seg: Pseg_t; peg: boolean; linelength, lineheight: float);
+var
+  tex: PGLTexture;
+begin
+  w.flag := GLDWF_MTS;
   tex := w.gltexture;
   w.ul := OU(tex, seg);
   w.ur := w.ul + (linelength / tex.buffer_width);
@@ -2113,7 +2127,276 @@ begin
   inc(gld_drawinfo.num_walls);
 end;
 
-procedure gld_AddFlatEx(sectornum: integer; pic, zheight: integer; ripple: boolean);
+procedure gld_DrawWall(wall: PGLWall);
+var
+  seg: PGLSeg;
+  floorheight: float;
+  ceilingheight: float;
+  theight: float;
+  frontslope: Boolean;
+  backslope: Boolean;
+  vm: float;
+  A: array[0..3] of GLVertexUV;
+  iA: integer;
+
+  procedure ADD_A_COORD(const au, av: float);
+  begin
+    A[iA].u := au;
+    A[iA].v := av;
+  end;
+
+  procedure ADD_A_XYZ(const ax, ay, az: float);
+  begin
+    A[iA].x := ax;
+    A[iA].y := ay;
+    A[iA].z := az;
+  end;
+
+  procedure RENDER_A_SIMPLE;
+  var
+    ii: integer;
+  begin
+    if iA < 3 then
+      Exit;
+
+    glBegin(GL_TRIANGLE_STRIP);
+      for ii := 0 to iA - 1 do
+      begin
+        glTexCoord2f(A[ii].u, A[ii].v);
+        glVertex3f(A[ii].x, A[ii].y, A[ii].z);
+      end;
+    glEnd;
+  end;
+
+  procedure RENDER_A;
+  var
+    ii: integer;
+  begin
+    if (iA < 4) or not wall.doublelight then
+    begin
+      RENDER_A_SIMPLE;
+      Exit;
+    end;
+
+    if (wall.ymid <= A[0].y) and
+       (wall.ymid >= A[1].y) and
+       (wall.ymid <= A[2].y) and
+       (wall.ymid >= A[3].y) then
+    begin
+      theight := wall.gltexture.buffer_height / MAP_COEFF;
+      vm := wall.vt + (wall.ytop - wall.ymid) / theight;
+
+      glBegin(GL_TRIANGLE_STRIP);
+        glTexCoord2f(A[0].u, A[0].v); glVertex3f(A[0].x, A[0].y, A[0].z);
+        glTexCoord2f(A[1].u, vm);     glVertex3f(A[1].x, wall.ymid, A[1].z);
+        glTexCoord2f(A[2].u, A[2].v); glVertex3f(A[2].x, A[2].y, A[2].z);
+        glTexCoord2f(A[3].u, vm);     glVertex3f(A[3].x, wall.ymid, A[3].z);
+      glEnd;
+
+      gld_StaticLightAlpha(wall.light2, wall.alpha);
+
+      glBegin(GL_TRIANGLE_STRIP);
+        glTexCoord2f(A[0].u, vm);     glVertex3f(A[0].x, wall.ymid, A[0].z);
+        glTexCoord2f(A[1].u, A[1].v); glVertex3f(A[1].x, A[1].y, A[1].z);
+        glTexCoord2f(A[2].u, vm);     glVertex3f(A[2].x, wall.ymid, A[2].z);
+        glTexCoord2f(A[3].u, A[3].v); glVertex3f(A[3].x, A[3].y, A[3].z);
+
+        glTexCoord2f(wall.ul, vm); glVertex3f(seg.x1, wall.ymid, seg.z1);
+        glTexCoord2f(wall.ul, wall.vb); glVertex3f(seg.x1, wall.ybottom, seg.z1);
+        glTexCoord2f(wall.ur, vm); glVertex3f(seg.x2, wall.ymid, seg.z2);
+        glTexCoord2f(wall.ur, wall.vb); glVertex3f(seg.x2, wall.ybottom, seg.z2);
+      glEnd;
+    end
+    else
+    begin
+      glBegin(GL_TRIANGLE_STRIP);
+        for ii := 0 to iA - 1 do
+        begin
+          glTexCoord2f(A[ii].u, A[ii].v);
+          glVertex3f(A[ii].x, A[ii].y, A[ii].z);
+        end;
+      glEnd;
+    end;
+  end;
+
+begin
+  if (not gl_drawsky) and (wall.flag >= GLDWF_SKY) then
+    exit;
+
+  if wall.gltexture.index = 0 then
+    exit;
+
+  gld_BindTexture(wall.gltexture);
+  if wall.flag >= GLDWF_SKY then
+  begin
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix;
+    if wall.flag and GLDWF_SKYFLIP = GLDWF_SKYFLIP then
+      glScalef(-128.0 / wall.gltexture.buffer_width / 2, 200.0 / 320.0 * 2.0, 1.0)
+    else
+      glScalef(128.0 / wall.gltexture.buffer_width, 200.0 / 320.0 * 2.0, 1.0);
+    glTranslatef(wall.skyyaw, wall.skyymid, 0.0);
+
+    seg := wall.glseg;
+
+    glBegin(GL_TRIANGLE_STRIP);
+      glVertex3f(seg.x1, wall.ytop, seg.z1);
+      glVertex3f(seg.x1, wall.ybottom, seg.z1);
+      glVertex3f(seg.x2, wall.ytop, seg.z2);
+      glVertex3f(seg.x2, wall.ybottom, seg.z2);
+    glEnd;
+
+    glPopMatrix;
+    glMatrixMode(GL_MODELVIEW);
+  end
+  else
+  begin
+    gld_StaticLightAlpha(wall.light, wall.alpha);
+    seg := wall.glseg;
+
+    if (wall.flag in [GLDWF_TOP, GLDWF_M1S, GLDWF_BOT]) or (wall.alpha > 0.999) then
+      glDisable(GL_BLEND);
+
+    frontslope := seg.frontsector.renderflags and SRF_SLOPED <> 0;
+    if seg.backsector = nil then
+      backslope := false
+    else
+      backslope := seg.backsector.renderflags and SRF_SLOPED <> 0;
+
+    if frontslope and (wall.flag = GLDWF_M1S) then
+    begin
+      theight := wall.gltexture.buffer_height / MAP_COEFF;
+
+      iA := 0;
+
+      floorheight := gld_FloorHeight(seg.frontsector, seg.x1, seg.z1);
+      ceilingheight := gld_CeilingHeight(seg.frontsector, seg.x1, seg.z1);
+
+      if ceilingheight - floorheight > GLEPSILON then
+      begin
+        ADD_A_COORD(wall.ul, wall.vt + (wall.ytop - ceilingheight) / theight);
+        ADD_A_XYZ(seg.x1, ceilingheight, seg.z1);
+        Inc(iA);
+      end;
+
+      ADD_A_COORD(wall.ul, wall.vt + (wall.ytop - floorheight) / theight);
+      ADD_A_XYZ(seg.x1, floorheight, seg.z1);
+      Inc(iA);
+
+      floorheight := gld_FloorHeight(seg.frontsector, seg.x2, seg.z2);
+      ceilingheight := gld_CeilingHeight(seg.frontsector, seg.x2, seg.z2);
+
+      if ceilingheight - floorheight > GLEPSILON then
+      begin
+        ADD_A_COORD(wall.ur, wall.vt + (wall.ytop - ceilingheight) / theight);
+        ADD_A_XYZ(seg.x2, ceilingheight, seg.z2);
+        Inc(iA);
+      end;
+
+      ADD_A_COORD(wall.ur, wall.vt + (wall.ytop - floorheight) / theight);
+      ADD_A_XYZ(seg.x2, floorheight, seg.z2);
+      Inc(iA);
+
+      RENDER_A;
+    end
+    else if (frontslope or backslope) and (wall.flag = GLDWF_BOT) then
+    begin
+      theight := wall.gltexture.buffer_height / MAP_COEFF;
+
+      iA := 0;
+
+      floorheight := gld_FloorHeight(seg.frontsector, seg.x1, seg.z1);
+      ceilingheight := gld_FloorHeight(seg.backsector, seg.x1, seg.z1);
+
+      if ceilingheight - floorheight > GLEPSILON then
+      begin
+        ADD_A_COORD(wall.ul, wall.vt + (wall.ytop - ceilingheight) / theight);
+        ADD_A_XYZ(seg.x1, ceilingheight, seg.z1);
+        Inc(iA);
+      end;
+
+      ADD_A_COORD(wall.ul, wall.vt + (wall.ytop - floorheight) / theight);
+      ADD_A_XYZ(seg.x1, floorheight, seg.z1);
+      Inc(iA);
+
+      floorheight := gld_FloorHeight(seg.frontsector, seg.x2, seg.z2);
+      ceilingheight := gld_FloorHeight(seg.backsector, seg.x2, seg.z2);
+
+      if ceilingheight - floorheight > GLEPSILON then
+      begin
+        ADD_A_COORD(wall.ur, wall.vt + (wall.ytop - ceilingheight) / theight);
+        ADD_A_XYZ(seg.x2, ceilingheight, seg.z2);
+        Inc(iA);
+      end;
+
+      ADD_A_COORD(wall.ur, wall.vt + (wall.ytop - floorheight) / theight);
+      ADD_A_XYZ(seg.x2, floorheight, seg.z2);
+      Inc(iA);
+
+      RENDER_A;
+    end
+    else if (frontslope or backslope) and (wall.flag = GLDWF_TOP) then
+    begin
+      theight := wall.gltexture.buffer_height / MAP_COEFF;
+
+      glBegin(GL_TRIANGLE_STRIP);
+        floorheight := gld_CeilingHeight(seg.frontsector, seg.x1, seg.z1);
+        ceilingheight := gld_CeilingHeight(seg.backsector, seg.x1, seg.z1);
+
+        glTexCoord2f(wall.ul, wall.vt + (wall.ytop - ceilingheight) / theight);
+        glVertex3f(seg.x1, ceilingheight, seg.z1);
+        glTexCoord2f(wall.ul, wall.vt + (wall.ytop - floorheight) / theight);
+        glVertex3f(seg.x1, floorheight, seg.z1);
+
+        floorheight := gld_CeilingHeight(seg.frontsector, seg.x2, seg.z2);
+        ceilingheight := gld_CeilingHeight(seg.backsector, seg.x2, seg.z2);
+
+        glTexCoord2f(wall.ur, wall.vt + (wall.ytop - ceilingheight) / theight);
+        glVertex3f(seg.x2, ceilingheight, seg.z2);
+        glTexCoord2f(wall.ur, wall.vt + (wall.ytop - floorheight) / theight);
+        glVertex3f(seg.x2, floorheight, seg.z2);
+      glEnd;
+    end
+    else
+    begin
+      if not wall.doublelight or (wall.ymid < wall.ybottom) or (wall.ymid > wall.ytop) then
+      begin
+        glBegin(GL_TRIANGLE_STRIP);
+          glTexCoord2f(wall.ul, wall.vt); glVertex3f(seg.x1, wall.ytop, seg.z1);
+          glTexCoord2f(wall.ul, wall.vb); glVertex3f(seg.x1, wall.ybottom, seg.z1);
+          glTexCoord2f(wall.ur, wall.vt); glVertex3f(seg.x2, wall.ytop, seg.z2);
+          glTexCoord2f(wall.ur, wall.vb); glVertex3f(seg.x2, wall.ybottom, seg.z2);
+        glEnd;
+      end
+      else
+      begin
+        theight := wall.gltexture.buffer_height / MAP_COEFF;
+        vm := wall.vt + (wall.ytop - wall.ymid) / theight;
+
+        glBegin(GL_TRIANGLE_STRIP);
+          glTexCoord2f(wall.ul, wall.vt); glVertex3f(seg.x1, wall.ytop, seg.z1);
+          glTexCoord2f(wall.ul, vm); glVertex3f(seg.x1, wall.ymid, seg.z1);
+          glTexCoord2f(wall.ur, wall.vt); glVertex3f(seg.x2, wall.ytop, seg.z2);
+          glTexCoord2f(wall.ur, vm); glVertex3f(seg.x2, wall.ymid, seg.z2);
+        glEnd;
+
+        gld_StaticLightAlpha(wall.light2, wall.alpha);
+
+        glBegin(GL_TRIANGLE_STRIP);
+          glTexCoord2f(wall.ul, vm); glVertex3f(seg.x1, wall.ymid, seg.z1);
+          glTexCoord2f(wall.ul, wall.vb); glVertex3f(seg.x1, wall.ybottom, seg.z1);
+          glTexCoord2f(wall.ur, vm); glVertex3f(seg.x2, wall.ymid, seg.z2);
+          glTexCoord2f(wall.ur, wall.vb); glVertex3f(seg.x2, wall.ybottom, seg.z2);
+        glEnd;
+      end;
+    end;
+
+    if (wall.flag in [GLDWF_TOP, GLDWF_M1S, GLDWF_BOT]) or (wall.alpha > 0.999) then
+      glEnable(GL_BLEND);
+  end;
+end;
+
+procedure gld_AddFlatEx(sectornum: integer; pic, zheight: integer; isfloor: Boolean; ripple: boolean);
 var
   {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t; // needed for R_FakeFlat
@@ -2124,13 +2407,26 @@ begin
   if sectornum < 0 then
     exit;
 
-  if sectorrenderedflatex = nil then
-    exit;
+  if isfloor then
+  begin
+    if fsectorrenderedflatex = nil then
+      exit;
 
-  if sectorrenderedflatex[sectornum] = rendermarker then
-    exit;
+    if fsectorrenderedflatex[sectornum] = rendermarker then
+      exit;
 
-  sectorrenderedflatex[sectornum] := rendermarker;
+    fsectorrenderedflatex[sectornum] := rendermarker;
+  end
+  else
+  begin
+    if csectorrenderedflatex = nil then
+      exit;
+
+    if csectorrenderedflatex[sectornum] = rendermarker then
+      exit;
+
+    csectorrenderedflatex[sectornum] := rendermarker;
+  end;
 
   flat.sectornum := sectornum;
   sector := @sectors[sectornum]; // get the sector
@@ -2172,6 +2468,147 @@ begin
   inc(gld_drawinfo.num_flats);
 end;
 
+// For mid textures (3d Floors)
+procedure gld_AddFlatEx2(sectornum: integer; pic, zheight: integer; ripple: boolean; light: integer);
+var
+  {$IFDEF DOOM_OR_STRIFE}
+  tempsec: sector_t; // needed for R_FakeFlat
+  {$ENDIF}
+  sector: Psector_t; // the sector we want to draw
+  flat: GLFlat;
+begin
+  if sectornum < 0 then
+    exit;
+
+  if sectorrenderedflatex2 = nil then
+    exit;
+
+  if sectorrenderedflatex2[sectornum] = rendermarker then
+    exit;
+
+  sectorrenderedflatex2[sectornum] := rendermarker;
+
+  flat.sectornum := sectornum;
+  sector := @sectors[sectornum]; // get the sector
+  {$IFDEF DOOM_OR_STRIFE}
+  sector := R_FakeFlat(sector, @tempsec, nil, nil, false); // for boom effects
+  {$ENDIF}
+  flat.ceiling := true;
+
+  // get the texture. flattranslation is maintained by doom and
+  // contains the number of the current animation frame
+  flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(pic), true);
+  if flat.gltexture = nil then
+    exit;
+  // get the lightlevel
+  flat.light := gld_CalcLightLevel(light + (extralight shl 5));
+  // calculate texture offsets
+  {$IFDEF DOOM_OR_STRIFE}
+  flat.hasoffset := (sector.ceiling_xoffs <> 0) or (sector.ceiling_yoffs <> 0);
+  flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
+  flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  flat.hasoffset := false;
+  flat.uoffs := 0;
+  flat.voffs := 0;
+  {$ENDIF}
+  flat.ripple := ripple;
+
+  // get height from plane
+  flat.z := zheight / MAP_SCALE;
+
+  if gld_drawinfo.num_flats >= gld_drawinfo.max_flats then
+  begin
+    gld_drawinfo.max_flats := gld_drawinfo.max_flats + 128;
+    gld_drawinfo.flats := Z_Realloc(gld_drawinfo.flats, gld_drawinfo.max_flats * SizeOf(GLFlat), PU_LEVEL, nil);
+  end;
+  gld_AddDrawItem(GLDIT_FLAT, gld_drawinfo.num_flats);
+  gld_drawinfo.flats[gld_drawinfo.num_flats] := flat;
+  inc(gld_drawinfo.num_flats);
+end;
+
+// JVAL: 3d floors
+procedure gld_AddMidWall(seg: Pseg_t; const ssec, msec: Psector_t);
+var
+  wall: GLWall;
+  temptex: PGLTexture;
+  rellight: integer;
+  texid: integer;
+  line: Pline_t;
+  other: Psector_t;
+begin
+  wall.glseg := @gl_segs[seg.iSegID];
+
+  if seg.linedef.dx = 0 then
+    rellight := 16 // 8
+  else if seg.linedef.dy = 0 then
+    rellight := -16 // -8
+  else
+    rellight := 0;
+
+  wall.light := gld_CalcLightLevel(ssec.lightlevel + rellight + (extralight shl 5));
+  
+  if ssec = seg.frontsector then
+    other := seg.backsector
+  else
+    other := nil;
+  if other = nil then
+  begin
+    wall.light2 := wall.light;
+    wall.doublelight := False;
+  end
+  else if other.midsec < 0 then
+  begin
+    wall.light2 := wall.light;
+    wall.doublelight := False;
+  end
+  else
+  begin
+    other := @sectors[other.midsec];
+    wall.light2 := gld_CalcLightLevel(other.lightlevel + rellight + (extralight shl 5));
+    wall.doublelight := true;
+    wall.ymid := (other.floorheight / MAP_SCALE + other.ceilingheight / MAP_SCALE) / 2;
+  end;
+
+
+  {$IFDEF DOOM}
+  if seg.linedef.renderflags and LRF_TRANSPARENT <> 0 then
+    wall.alpha := 0.5
+  else
+  {$ENDIF}
+    wall.alpha := 1.0;
+
+  wall.gltexture := nil;
+
+  wall.glseg.x1 := -seg.v1.x / MAP_SCALE;
+  wall.glseg.z1 :=  seg.v1.y / MAP_SCALE;
+  wall.glseg.x2 := -seg.v2.x / MAP_SCALE;
+  wall.glseg.z2 :=  seg.v2.y / MAP_SCALE;
+  wall.ytop := msec.floorheight / MAP_SCALE;
+  wall.ybottom := msec.ceilingheight / MAP_SCALE;
+
+  line := @lines[ssec.midline];
+
+  if line.sidenum[0] > -1 then
+    texid := sides[line.sidenum[0]].midtexture
+  else if line.sidenum[1] > -1 then
+    texid := sides[line.sidenum[1]].midtexture
+  else
+    exit;
+
+  temptex := gld_RegisterTexture(texturetranslation[texid], true);
+  if temptex <> nil then
+  begin
+    wall.gltexture := temptex;
+    CALC_TEX_VALUES_MIDDLETS(
+      @wall, seg, false,
+      seg.length, (msec.ceilingheight - msec.floorheight) / FRACUNIT
+    );
+    ADDWALL(@wall);
+  end;
+end;
+
 procedure gld_AddWall(seg: Pseg_t{$IFDEF HEXEN}; const ispolyobj: boolean; const ssec: Psector_t{$ENDIF});
 var
   wall: GLWall;
@@ -2183,6 +2620,7 @@ var
   floor_height, ceiling_height: integer;
   floormax, ceilingmin, linelen: integer;
   mip: float;
+  other: Psector_t;
 {$IFDEF DOOM_OR_STRIFE}
   ftempsec: sector_t; // needed for R_FakeFlat
   btempsec: sector_t; // needed for R_FakeFlat
@@ -2220,7 +2658,26 @@ begin
 
   wall.light := gld_CalcLightLevel(frontsector.lightlevel + rellight + (extralight shl 5));
 
-  {$IFDEF DOOM_OR_STRIFE}
+// JVAL: 3d floors
+  if seg.frontsector.midsec >= 0 then
+  begin
+    other := @sectors[seg.frontsector.midsec];
+    gld_AddMidWall(seg, seg.frontsector, other);
+    wall.light2 := gld_CalcLightLevel(other.lightlevel + rellight + (extralight shl 5));
+    wall.doublelight := true;
+    wall.ymid := (other.floorheight / MAP_SCALE + other.ceilingheight / MAP_SCALE) / 2;
+  end
+  else
+  begin
+    wall.light2 := wall.light;
+    wall.doublelight := False;
+  end;
+
+  if seg.backsector <> nil then
+    if seg.backsector.midsec >= 0 then
+      gld_AddMidWall(seg, seg.backsector, @sectors[seg.backsector.midsec]);
+
+  {$IFNDEF HEXEN}
   if seg.linedef.renderflags and LRF_TRANSPARENT <> 0 then
     wall.alpha := 0.5
   else
@@ -2361,7 +2818,9 @@ begin
         end;
       end;
     end;
-    if floor_height < ceiling_height then
+    if (floor_height < ceiling_height) or
+       (backsector.renderflags and SRF_SLOPED <> 0) or // JVAL: Slopes
+       (frontsector.renderflags and SRF_SLOPED <> 0) then
     begin
       if not ((frontsector.ceilingpic = skyflatnum) and (backsector.ceilingpic = skyflatnum)) then
       begin
@@ -2379,7 +2838,7 @@ begin
         else if (backsector <> nil) and (seg.linedef.renderflags and LRF_ISOLATED = 0) and
                 (frontsector.ceilingpic <> skyflatnum) and (backsector.ceilingpic <> skyflatnum) then
         begin
-       //   gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.ceilingpic, seg.frontsector.floorheight);
+          //gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.ceilingpic, seg.frontsector.floorheight); // here
         end;
       end;
     end;
@@ -2466,13 +2925,15 @@ bottomtexture:
           end;
       end;
     end;
-    if floor_height < ceiling_height then
+    if (floor_height < ceiling_height) or
+       (backsector.renderflags and SRF_SLOPED <> 0) or
+       (frontsector.renderflags and SRF_SLOPED <> 0) then // JVAL: Slopes
     begin
       if (frontsector.floorpic <> skyflatnum) and // JVAL 21/5/2011
          (backsector.floorheight > frontsector.floorheight) and
          (texturetranslation[seg.sidedef.bottomtexture] = NO_TEXTURE) then
       begin
-      //  gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.backsector.floorheight);
+        //gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.backsector.floorheight); // here
       end
       else
       begin
@@ -2491,7 +2952,7 @@ bottomtexture:
         else if (backsector <> nil) and (seg.linedef.renderflags and LRF_ISOLATED = 0) and
                 (frontsector.ceilingpic <> skyflatnum) and (backsector.ceilingpic <> skyflatnum) then
         begin
-          gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.frontsector.floorheight, seg.frontsector.renderflags and SRF_RIPPLE_CEILING <> 0);
+          gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.frontsector.floorheight, False, seg.frontsector.renderflags and SRF_RIPPLE_CEILING <> 0);
         end;
       end;
     end;
@@ -2500,7 +2961,7 @@ end;
 
 procedure gld_PreprocessSegs;
 var
-  i: integer;                                   
+  i: integer;
 begin
   gl_segs := Z_Malloc(numsegs * SizeOf(TGLSeg), PU_LEVEL, nil);
   for i := 0 to numsegs - 1 do
@@ -2509,6 +2970,8 @@ begin
     gl_segs[i].z1 :=  segs[i].v1.y / MAP_SCALE;
     gl_segs[i].x2 := -segs[i].v2.x / MAP_SCALE;
     gl_segs[i].z2 :=  segs[i].v2.y / MAP_SCALE;
+    gl_segs[i].frontsector := segs[i].frontsector;
+    gl_segs[i].backsector := segs[i].backsector;
   end;
 end;
 
@@ -2562,6 +3025,8 @@ var
   loopnum, i: integer; // current loop number
   currentloop: PGLLoopDef; // the current loop
   glsec: PGLSector;
+  sec: Psector_t;
+  fz: float;
 begin
   if flat.sectornum < 0 then
     exit;
@@ -2572,6 +3037,7 @@ begin
     glCullFace(GL_FRONT);   }
 
   glsec := @sectorloops[flat.sectornum];
+  sec := @sectors[flat.sectornum];
   if glsec.list = 0 then
   begin
     if glsec.loopcount > 0 then
@@ -2597,7 +3063,8 @@ begin
 
         glEndList;
 
-        Z_Free(glsec.loops);
+        if G_PlayingEngineVersion < VERSIONSLOPES then
+          Z_Free(glsec.loops);  // JVAL: Slopes
       end
       else
         glsec.list := GL_BAD_LIST;
@@ -2619,7 +3086,8 @@ begin
   gld_StaticLight(flat.light);
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix;
-  glTranslatef(0.0, flat.z, 0.0);
+  fz := flat.z;
+  glTranslatef(0.0, fz, 0.0);
   {$IFNDEF HERETIC}
   if flat.hasoffset then
   begin
@@ -2637,17 +3105,50 @@ begin
     glPushMatrix;
     glMultMatrixf(@rippletexmatrix);
   end;
-  // JVAL: Call the precalced list if available
-  if glsec.list <> GL_BAD_LIST then
-    glCallList(glsec.list)
-  else
+  if (not flat.ceiling) and (sec.renderflags and SRF_SLOPEFLOOR <> 0) then
   begin
-  // go through all loops of this sector
+    // go through all loops of this sector
     for loopnum := 0 to glsec.loopcount - 1 do
     begin
-        // set the current loop
       currentloop := @glsec.loops[loopnum];
-      glDrawArrays(currentloop.mode, currentloop.vertexindex, currentloop.vertexcount);
+      glBegin(currentloop.mode);
+      for i := currentloop.vertexindex to currentloop.vertexindex + currentloop.vertexcount - 1 do
+      begin
+        glTexCoord2fv(@gld_texcoords[i]);
+        glVertex3f(gld_vertexes[i].x, gld_FloorHeight(sec, gld_vertexes[i].x, gld_vertexes[i].z) - fz, gld_vertexes[i].z)
+      end;
+      glEnd;
+    end;
+  end
+  else if flat.ceiling and (sec.renderflags and SRF_SLOPECEILING <> 0) then
+  begin
+    // go through all loops of this sector
+    for loopnum := 0 to glsec.loopcount - 1 do
+    begin
+      currentloop := @glsec.loops[loopnum];
+      glBegin(currentloop.mode);
+      for i := currentloop.vertexindex to currentloop.vertexindex + currentloop.vertexcount - 1 do
+      begin
+        glTexCoord2fv(@gld_texcoords[i]);
+        glVertex3f(gld_vertexes[i].x, gld_CeilingHeight(sec, gld_vertexes[i].x, gld_vertexes[i].z) - fz, gld_vertexes[i].z)
+      end;
+      glEnd;
+    end;
+  end
+  else
+  begin
+    // JVAL: Call the precalced list if available
+    if glsec.list <> GL_BAD_LIST then
+      glCallList(glsec.list)
+    else
+    begin
+    // go through all loops of this sector
+      for loopnum := 0 to glsec.loopcount - 1 do
+      begin
+          // set the current loop
+        currentloop := @glsec.loops[loopnum];
+        glDrawArrays(currentloop.mode, currentloop.vertexindex, currentloop.vertexcount);
+      end;
     end;
   end;
   if flat.ripple then
@@ -2687,6 +3188,7 @@ var
   {$ENDIF}
   sector: Psector_t; // the sector we want to draw
   flat: GLFlat;
+  msec: Psector_t;  // JVAL: 3d Floors
 begin
   if sectornum < 0 then
     exit;
@@ -2731,7 +3233,14 @@ begin
     if flat.gltexture = nil then
       exit;
     // get the lightlevel from ceilinglightlevel
-    flat.light := gld_CalcLightLevel({$IFDEF DOOM_OR_STRIFE}sector.floorlightlevel{$ELSE}sector.lightlevel{$ENDIF} + (extralight shl 5));
+
+    if sector.midsec >= 0 then  // JVAL: 3d Floors
+    begin
+      msec := @sectors[sector.midsec];
+      flat.light := gld_CalcLightLevel({$IFDEF DOOM_OR_STRIFE}msec.floorlightlevel{$ELSE}msec.lightlevel{$ENDIF} + (extralight shl 5));
+    end
+    else
+      flat.light := gld_CalcLightLevel({$IFDEF DOOM_OR_STRIFE}sector.floorlightlevel{$ELSE}sector.lightlevel{$ENDIF} + (extralight shl 5));
     // calculate texture offsets
     {$IFDEF DOOM_OR_STRIFE}
     flat.hasoffset := (sector.floor_xoffs <> 0) or (sector.floor_yoffs <> 0);
@@ -2763,6 +3272,7 @@ procedure gld_AddPlane(subsectornum: integer; floor, ceiling: Pvisplane_t);
 var
   subsector: Psubsector_t;
   secID: integer;
+  msec: Psector_t; // JVAL: 3d floors
 begin
   // check if all arrays are allocated
   if sectorrendered = nil then
@@ -2779,12 +3289,22 @@ begin
   begin
     // render the floor
     if floor <> nil then
-      if floor.height < viewz then
+      if (floor.height < viewz) or (sectors[secID].renderflags and SRF_SLOPEFLOOR <> 0) then
         gld_AddFlat(secID, false, floor);
     // render the ceiling
     if ceiling <> nil then
-      if ceiling.height > viewz then
+      if (ceiling.height > viewz)  or (sectors[secID].renderflags and SRF_SLOPECEILING <> 0)  then
         gld_AddFlat(secID, true, ceiling);
+
+    if sectors[secID].midsec >= 0 then
+    begin
+      msec := @sectors[sectors[secID].midsec];
+      if viewz < msec.floorheight then
+        gld_AddFlatEx2(secID, msec.floorpic, msec.floorheight, msec.renderflags and SRF_RIPPLE_FLOOR <> 0, msec.lightlevel);
+      if viewz > msec.ceilingheight then
+        gld_AddFlatEx2(secID, msec.ceilingpic, msec.ceilingheight, msec.renderflags and SRF_RIPPLE_CEILING <> 0, sectors[secID].lightlevel);
+    end;
+
     // set rendered true
     sectorrendered[secID] := rendermarker;
   end;
@@ -3463,13 +3983,22 @@ var
   sprite: GLSprite;
   voff, hoff: float;
   tex: PGLTexture;
+  sec: Psector_t;
 begin
   pSpr := vspr.mo;
   sprite.scale := vspr.scale;
   if pSpr.frame and FF_FULLBRIGHT <> 0 then
     sprite.light := 1.0
   else
-    sprite.light := gld_CalcLightLevel(Psubsector_t(pSpr.subsector).sector.lightlevel + (extralight shl 5));
+  begin
+    sec := Psubsector_t(pSpr.subsector).sector;
+    if sec.midsec < 0 then
+      sprite.light := gld_CalcLightLevel(sec.lightlevel + (extralight shl 5))
+    else if P_3dFloorNumber(pSpr) = 0 then
+      sprite.light := gld_CalcLightLevel(sectors[sec.midsec].lightlevel + (extralight shl 5))
+    else
+      sprite.light := gld_CalcLightLevel(sec.lightlevel + (extralight shl 5));
+  end;
   sprite.cm := Ord(CR_LIMIT) + ((pSpr.flags and MF_TRANSLATION) shr MF_TRANSSHIFT);
   sprite.gltexture := gld_RegisterPatch(vspr.patch + firstspritelump, sprite.cm);
   if sprite.gltexture = nil then
@@ -3521,7 +4050,7 @@ begin
   sprite.dlights := vspr.mo.state.dlights;
   sprite.models := vspr.mo.state.models;
   sprite.voxels := vspr.mo.state.voxels;
-  sprite.mo := vspr.mo;
+  sprite.mo := pSpr;
   sprite.aproxdist := P_AproxDistance(sprite.mo.x - viewx, sprite.mo.y - viewy);
 
   sprite.x := -pSpr.x / MAP_SCALE;
@@ -3750,7 +4279,7 @@ begin
   end;
 
   // Sprites
-  if gld_drawinfo.num_sprites > 100 then
+  if gld_drawinfo.num_sprites > 1000 then
   begin
     for i := 0 to gld_drawinfo.num_sprites - 1 do
     begin

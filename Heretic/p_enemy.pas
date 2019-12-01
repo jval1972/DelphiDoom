@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -159,8 +159,6 @@ procedure A_SnakeAttack2(actor: Pmobj_t);
 
 procedure A_ClinkAttack(actor: Pmobj_t);
 
-procedure A_GhostOff(actor: Pmobj_t);
-
 procedure A_WizAtk1(actor: Pmobj_t);
 
 procedure A_WizAtk2(actor: Pmobj_t);
@@ -275,6 +273,7 @@ uses
   p_pspr,
   p_extra,
   p_sounds,
+  ps_main,
   r_defs,
   r_main;
 
@@ -381,7 +380,7 @@ begin
     if (check.flags and ML_TWOSIDED) = 0 then
       continue;
 
-    P_LineOpening(check);
+    P_LineOpening(check, false);
 
     if openrange <= 0 then
       continue; // closed door
@@ -569,6 +568,11 @@ begin
     begin
       dec(numspechit);
       ld := spechit[numspechit];
+
+      if ld.flags and ML_TRIGGERSCRIPTS <> 0 then
+        if actor.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
+          PS_EventUseLine(actor, pDiff(ld, lines, SizeOf(line_t)), P_PointOnLineSide(actor.x, actor.y, ld));
+
       // if the special is not a door
       // that can be opened,
       // return false
@@ -2246,17 +2250,6 @@ begin
     damage := (P_Random mod 7) + 3;
     P_DamageMobj(actor.target, actor, actor, damage);
   end;
-end;
-
-//----------------------------------------------------------------------------
-//
-// PROC A_GhostOff
-//
-//----------------------------------------------------------------------------
-
-procedure A_GhostOff(actor: Pmobj_t);
-begin
-  actor.flags := actor.flags and not MF_SHADOW;
 end;
 
 //----------------------------------------------------------------------------

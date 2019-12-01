@@ -1,0 +1,26 @@
+Hi-Resolution texture support for DelphiDoom's 32 bit software renderer
+-----------------------------------------------------------------------
+Currently 32 bit color software rendering is supported via external textures. Bitmaps(*.bmp), Targa(*.tga), Portable Network Graphics (*.png) and JPEG (*.jpg, *.jpeg) files supported. External textures replace floors and wall textures (Patches/sprites currently are not supported) using the same name, to use them either place them in the current folder, or make PK3/ZIP or even (Quake)PAK file and load them with -pakfile command line parameter. For example if you want to replace FLOOR7_1 flat place a bitmap (or targa) image named FLOOR7_1.bmp (FLOOR7_1.tga) in current folder or gather all your textures in a ZIP(PK3) file and load it with the -pakfile command line parameter. In addition hi-resolution flats are also supported inside WAD files (Doom palette - 8 bit raw format).
+
+For example:
+doom32 -pakfile mytextures.zip
+
+or
+
+you can edit the default.cmd file and add the following line:
+-pakfile mytextures.zip
+
+Flats can be any size, if they have dimentions greater than 64x64 there will be automatically converted to 128x128, 256x256 or 512x512 for high resolution rendering. Flats greater than 512x512 are not supported and will be automatically scaled to 512x512. Texture scaling also supported with a limit of 1024x1024.
+32 bit color lighting can be configured with console commands:
+-type [SET useransparentsprites (true/false)] to enable/disable transparency.
+-type [SET uselightboost (true/false)] to enable/disable dynamic lighting arround standard light sources.
+-type [SET lightboostfactor (16..1024)] to adjust the light arround standard light sources.
+You can also configure the rendering engine from the Options/Display menu.
+
+Notes 
+- Sprite transparency and dynamic lighting (colored lights) is predefined in mobjinfo constants.
+- Sprite transparency and dynamic lighting can reduce performance. You may need to turn them off if you are running in big screen resolution and/or using a slow computer.
+- Usage of external 32 bit walls and flats of the same resolution as original game data does not affect performance, just loading time.
+- Usage of hi-resolution flats and walls require a lot of memory. Make sure you use a machine with at least 256 MB RAM.
+
+Using hi-resolution 32 bit color external textures with opengl renderer version (gldoom32.exe) may also slow down performance.

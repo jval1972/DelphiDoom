@@ -54,7 +54,8 @@ procedure R_Precache32bittexture(const rtex: integer);
 const
   MAXTEXTUREHEIGHT = 1024;
   MAXTEXTUREWIDTH = 1 shl CACHECOLBITS;
-  MAXEQUALHASH = MAXBATCHWALLS * 2; // Allow MAXEQUALHASH same hash values to increase performance.
+  MAXEQUALHASH = MAXBATCHWALLS * 2; // Allow MAXEQUALHASH same hash values to
+                                    // increase performance.
 {$IFDEF HEXEN}
 var
   dc_columnsize: integer;
@@ -269,10 +270,10 @@ begin
           theight := (1 shl i) * ptex.height;
         end;
         t.ScaleTo(twidth, theight); // JVAL Scale the texture if needed
-	{$IFDEF DOOM_OR_STRIFE}
+  {$IFDEF DOOM_OR_STRIFE}
         if rtex = skytexture then
           t.Mirror;
-	{$ENDIF}
+  {$ENDIF}
         ptex.factorbits := i;
       end;
     end;
@@ -861,11 +862,13 @@ var
   i, j: integer;
 begin
   for i := 0 to numtextures - 1 do
-  begin
-    if LongWord(textures[i].texture32) > 1 then
-      dispose(textures[i].texture32, destroy);
-    textures[i].texture32 := nil;
-  end;
+    if textures[i] <> nil then  // JVAL: This could happen if wrong IWAD used
+                                //  with PWAD, eg sunlust.wad with DOOM.WAD 
+    begin
+      if LongWord(textures[i].texture32) > 1 then
+        dispose(textures[i].texture32, destroy);
+      textures[i].texture32 := nil;
+    end;
 
   for i := 0 to COL32CACHESIZE - 1 do
     if dc32cache[i] <> nil then
@@ -874,7 +877,8 @@ begin
         if dc32cache[i][j] <> nil then
         begin
           if dc32cache[i][j].dc32 <> nil then
-            memfree(pointer(dc32cache[i][j].dc32), (dc32cache[i][j].columnsize + 1) * SizeOf(LongWord));
+            memfree(pointer(dc32cache[i][j].dc32),
+                   (dc32cache[i][j].columnsize + 1) * SizeOf(LongWord));
           memfree(pointer(dc32cache[i][j]), SizeOf(dc32cacheitem_t));
         end;
       memfree(pointer(dc32cache[i]), SizeOf(dc32cacheinfo_t));

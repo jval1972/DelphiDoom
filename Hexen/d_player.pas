@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -55,8 +55,8 @@ uses
 // 
 //----------------------------------------------------------------------------- 
 
-// 
-// Player states. 
+//
+// Player states.
 //
 
 type
@@ -74,13 +74,13 @@ type
 
 const
   // No clipping, walk through barriers.
-    CF_NOCLIP = 1;
+  CF_NOCLIP = 1;
   // No damage, no health loss.
-    CF_GODMODE = 2;
+  CF_GODMODE = 2;
   // Not really a cheat, just a debug aid.
-    CF_NOMOMENTUM = 4;
+  CF_NOMOMENTUM = 4;
   // Low gravity cheat
-    CF_LOWGRAVITY = 8;
+  CF_LOWGRAVITY = 8;
 
 type
 //
@@ -193,9 +193,127 @@ type
     ultimateMessage: boolean;
     yellowMessage: boolean;
     jumpTics: integer;
+    laddertics: integer;
+    viewbob: fixed_t; // JVAL: Slopes
+    slopetics: integer; // JVAL: Slopes
+    oldviewz: fixed_t; // JVAL: Slopes
+    teleporttics: integer;
+    quaketics: integer;
   end;
 
   Pplayer_t = ^player_t;
+
+type
+  player_t141 = record
+    mo: Pmobj_t;
+    playerstate: playerstate_t;
+    cmd: ticcmd_t;
+
+    _class: pclass_t;
+    // Determine POV,
+    //  including viewpoint bobbing during movement.
+    // Focal origin above r.z
+    viewz: fixed_t;
+    // Base height above floor for viewz.
+    viewheight: fixed_t;
+    // Bob/squat speed.
+    deltaviewheight: fixed_t;
+    // bounded/scaled total momentum.
+    bob: fixed_t;
+
+    flyheight: integer;
+    // Look UP/DOWN support
+    lookdir: integer;
+    centering: boolean;
+    // Look LEFT/RIGHT support
+    lookdir2: byte;
+    oldlook2: integer;
+    forwarding: boolean;
+
+    // jump
+    oldjump: integer;
+
+    // This is only used between levels,
+    // mo->health is used during levels.
+    health: integer;
+    armorpoints: array[0..Ord(NUMARMOR) - 1] of integer;
+
+    inventory: array[0..NUMINVENTORYSLOTS - 1] of inventory_t;
+    readyArtifact: artitype_t;
+    artifactCount: integer;
+    inventorySlotNum: integer;
+    // Power ups. invinc and invis are tic counters.
+    powers: array[0..Ord(NUMPOWERS) - 1] of integer;
+    keys: integer;
+    pieces: integer;          // Fourth Weapon pieces
+
+    // Frags, kills of other players.
+    frags: array[0..MAXPLAYERS - 1] of integer;
+    readyweapon: weapontype_t;
+
+    // Is wp_nochange if not changing.
+    pendingweapon: weapontype_t;
+
+    weaponowned: array[0..Ord(NUMWEAPONS) - 1] of boolean;
+    mana: array[0..Ord(NUMMANA) - 1] of integer;
+
+    // True if button down last tic.
+    attackdown: boolean;
+    usedown: boolean;
+
+    // Bit flags, for cheats and debug.
+    // See cheat_t, above.
+    cheats: integer;
+
+    // Refired shots are less accurate.
+    refire: integer;
+
+    // For intermission stats.
+    killcount: integer;
+    itemcount: integer;
+    secretcount: integer;
+
+    // Hint messages.
+    _message: string[255];
+    messagetics: integer;
+
+    // For screen flashing (red or bright).
+    damagecount: integer;
+    bonuscount: integer;
+    poisoncount: integer;      // screen flash for poison damage
+
+    poisoner: Pmobj_t;  // NULL for non-player mobjs
+    // Who did damage (NULL for floors/ceilings).
+    attacker: Pmobj_t;
+    attackerx: fixed_t; // JVAL last attacker coordinates
+    attackery: fixed_t;
+
+    // So gun flashes light up areas.
+    extralight: integer;
+
+    // Current PLAYPAL, ???
+    //  can be set to REDCOLORMAP for pain, etc.
+    fixedcolormap: integer;
+
+    // Player skin colorshift,
+    //  0-3 for which color to draw player.
+    colormap: integer;
+
+    // Overlay view sprites (gun, etc).
+    psprites: array[0..Ord(NUMPSPRITES) - 1] of pspdef_t;
+
+    // True if secret level has been done.
+    didsecret: boolean;
+
+    morphTics: integer; // player is a pig if > 0
+    jumpTicks: integer; // delay the next jump for a moment
+    worldtimer: longword; // total time the player's been playing
+    ultimateMessage: boolean;
+    yellowMessage: boolean;
+    jumpTics: integer;
+  end;
+
+  Pplayer_t141 = ^player_t141;
 
 //
 // INTERMISSION

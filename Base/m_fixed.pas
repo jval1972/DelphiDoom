@@ -76,7 +76,19 @@ function FixedInt(const x: integer): integer;
 
 function FloatToFixed(const f: float): fixed_t;
 
-function FixedInt_FixedMul(const a, b: fixed_t): fixed_t; 
+function DoubleToFixed(const f: double): fixed_t;
+
+function ExtendedToFixed(const f: extended): fixed_t;
+
+function FixedToFloat(const x: fixed_t): float;
+
+function FixedToDouble(const x: fixed_t): double;
+
+function FixedToExtended(const x: fixed_t): extended;
+
+function FixedInt_FixedMul(const a, b: fixed_t): fixed_t;
+
+function FixedSqrt(const a: fixed_t): fixed_t;
 
 implementation
 
@@ -214,11 +226,41 @@ begin
   result := Round(f * FRACUNIT);
 end;
 
+function DoubleToFixed(const f: double): fixed_t;
+begin
+  result := Round(f * FRACUNIT);
+end;
+
+function ExtendedToFixed(const f: extended): fixed_t;
+begin
+  result := Round(f * FRACUNIT);
+end;
+
+function FixedToFloat(const x: fixed_t): float;
+begin
+  result := x / FRACUNIT;
+end;
+
+function FixedToDouble(const x: fixed_t): double;
+begin
+  result := x / FRACUNIT;
+end;
+
+function FixedToExtended(const x: fixed_t): extended;
+begin
+  result := x / FRACUNIT;
+end;
+
 function FixedInt_FixedMul(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
   shrd eax, edx, 16
   sar eax, FRACBITS
+end;
+
+function FixedSqrt(const a: fixed_t): fixed_t;
+begin
+  Result := Round(Sqrt(a / FRACUNIT) * FRACUNIT);
 end;
 
 end.

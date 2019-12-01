@@ -74,13 +74,16 @@ uses
   vx_base,
 {$IFNDEF OPENGL}
   r_fake3d,
+  r_slopes, // JVAL: Slopes
 {$ENDIF}
+  r_camera,
   r_draw,
   s_sound,
   t_main,
 {$IFNDEF FPC}
   t_png,
 {$ENDIF}
+  m_sshot_jpg,
   v_video;
 
 
@@ -101,6 +104,7 @@ var
   force_numwallrenderingthreads_8bit: integer;
   force_numwallrenderingthreads_32bit: integer;
   precisescalefromglobalangle: boolean;
+  preciseslopedrawing: boolean; // JVAL: Slopes
   r_drawvoxels: boolean;
 {$ELSE}
   tran_filter_pct: integer;
@@ -122,7 +126,7 @@ var
   gl_smoothmodelmovement: boolean;
   gl_precachemodeltextures: boolean;
   gl_uselightmaps: boolean;
-  gl_drawshadows: Boolean;
+  gl_drawshadows: boolean;
   gl_renderwireframe: boolean;
 {$ENDIF}
 
@@ -141,7 +145,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}152{$ELSE}155{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}154{$ELSE}157{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -222,15 +226,15 @@ const
      location: @zaxisshift;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 0;
-     defaultbvalue: false;
+     defaultivalue: 1;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'usefake3d';
      location: @usefake3d;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 0;
+     defaultivalue: 1;
      defaultbvalue: true;
      _type: tBoolean),
 
@@ -448,6 +452,15 @@ const
      defaultsvalue: '0.00';
      defaultivalue: 0;
      defaultbvalue: true;
+     _type: tBoolean),
+
+     // JVAL: Slopes
+    (name: 'preciseslopedrawing';
+     location: @preciseslopedrawing;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '0.00';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'OpenGL';
@@ -812,7 +825,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'Keyboard';
@@ -1194,6 +1207,14 @@ const
 
     (name: 'mirror_stdout';
      location: @mirror_stdout;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'mirrorjpgsshot';
+     location: @mirrorjpgsshot;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;

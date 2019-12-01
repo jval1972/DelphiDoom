@@ -321,6 +321,8 @@ begin
     R_AddInterpolationItem(@player.lookdir, iinteger);
     R_AddInterpolationItem(@player.lookdir2, ibyte);
     R_AddInterpolationItem(@player.viewz, iinteger);
+    R_AddInterpolationItem(@player.teleporttics, iinteger);
+    R_AddInterpolationItem(@player.quaketics, iinteger);
   end;
 
   // Interpolate Sectors

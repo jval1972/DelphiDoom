@@ -143,6 +143,7 @@ uses
   p_tick,
   p_user,
   p_enemy,
+  ps_main, // JVAL: Script Events
   r_defs,
   r_main,
   sb_bar,
@@ -1272,17 +1273,30 @@ begin
 
 //  if target.tics < 1 then
 //    target.tics := 1;
+  if target.player <> nil then    // JVAL: Script Events
+    PS_EventPlayerDied(pDiff(@players[0], target.player, SizeOf(player_t)), source);
+  PS_EventActorDied(target, source); // JVAL: Script Events
 
   // Drop stuff.
   // This determines the kind of object spawned
   // during the death frame of a thing.
 
-  // JVAL: Check if dropitem is set to drop a custom item.
   if target.info.dropitem > 0 then
-  begin
-    item := target.info.dropitem;
+    item := target.info.dropitem
+  else
+    item := 0;
+
+  // JVAL: Check if dropitem is set to drop a custom item.
+  if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
+    item := target.dropitem;
+
+  if item = 0 then
+    exit;
+
+  if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
+    P_SpawnDroppedMobj(target.x, target.y, target.z, item)
+  else
     P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, item);
-  end;
 end;
 
 //

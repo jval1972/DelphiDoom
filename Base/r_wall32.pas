@@ -19,6 +19,9 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Multithreading wall rendering - 32 bit color
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -74,6 +77,10 @@ var
   midwalls32: integer;
   lowerwalls32: integer;
   upperwalls32: integer;
+  // JVAL: 3d Floors
+  midwalls32b: integer;
+  lowerwalls32b: integer;
+  upperwalls32b: integer;
 
 var
   force_numwallrenderingthreads_32bit: integer = 0;
@@ -1972,7 +1979,7 @@ begin
 end;
 
 const
-  MAXWALLTHREADS32 = 16;
+  MAXWALLTHREADS32 = 256;
 
 var
   wallthreads32: array[0..MAXWALLTHREADS32 - 1] of TDThread;
@@ -2016,10 +2023,16 @@ begin
   midwalls32 := 0;
   lowerwalls32 := 1;
   upperwalls32 := 2;
+  midwalls32b := 3;
+  lowerwalls32b := 4;
+  upperwalls32b := 5;
   wallcache[midwalls32].numwalls := 0;
   wallcache[lowerwalls32].numwalls := 0;
   wallcache[upperwalls32].numwalls := 0;
-  wallcachesize := 3;
+  wallcache[midwalls32b].numwalls := 0;
+  wallcache[lowerwalls32b].numwalls := 0;
+  wallcache[upperwalls32b].numwalls := 0;
+  wallcachesize := 6;
 
   if force_numwallrenderingthreads_32bit > 0 then
     numwallthreads32 := force_numwallrenderingthreads_32bit
@@ -2051,7 +2064,11 @@ begin
   midwalls32 := 0;
   lowerwalls32 := 1;
   upperwalls32 := 2;
-  wallcachesize := 3;
+  // JVAL: 3d Floors
+  midwalls32b := 3;
+  lowerwalls32b := 4;
+  upperwalls32b := 5;
+  wallcachesize := 6;
 end;
 
 var
@@ -2095,8 +2112,9 @@ begin
     numwallthreads32 := newnumthreads;
   end;
 
-  for i := 0 to numwallthreads32 - 1 do
-    parms[i].start := (wallcachesize div numwallthreads32) * i;
+  parms[0].start := 0;
+  for i := 1 to numwallthreads32 - 1 do
+    parms[i].start := Round((wallcachesize / numwallthreads32) * i);
   for i := 0 to numwallthreads32 - 2 do
     parms[i].stop := parms[i + 1].start - 1;
   parms[numwallthreads32 - 1].stop := wallcachesize - 1;
@@ -2116,6 +2134,8 @@ procedure R_WaitWallsCache32;
     for i := 0 to numwallthreads32 - 1 do
     begin
       result := result and wallthreads32[i].CheckJobDone;
+      if not result then
+        exit;
     end;
   end;
 

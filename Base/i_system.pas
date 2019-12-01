@@ -715,7 +715,9 @@ begin
             osname := 'Server 2003';
         end
         else if (info.dwMajorVersion = 6) and (info.dwMinorVersion = 0) then
-          osname := 'Vista';
+          osname := 'Vista'
+        else if (info.dwMajorVersion = 6) and (info.dwMinorVersion = 1) then
+          osname := '7';
       end;
     else
       begin

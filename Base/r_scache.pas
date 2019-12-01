@@ -66,6 +66,7 @@ implementation
 
 uses
   d_delphi,
+  mt_utils,
   t_main,
   r_cache,
 {$IFDEF DOOM_OR_STRIFE}
@@ -165,7 +166,7 @@ begin
       numpixels := fsize * fsize;
       curgamma := @gammatable[usegamma]; // To Adjust gamma
 
-      if (t.GetBytesPerPixel = 1) {$IFDEF DOOM_OR_STRIFE}and (customcolormap = nil){$ENDIF} then
+      if (t.GetBytesPerPixel = 1) {$IFDEF DOOM_OR_STRIFE} and (customcolormap = nil){$ENDIF} then
       begin
         r1 := pal_color;
         g1 := pal_color shr 8;
@@ -190,7 +191,7 @@ begin
           t.ConvertTo32bit;
       {$ENDIF}
 
-        memcpy(pds32, t.GetImage, numpixels * SizeOf(LongWord));
+        MT_memcpy(pds32, t.GetImage, numpixels * SizeOf(LongWord));
 
         // Simulate palette changes
         plw := @pds32[0];
@@ -219,7 +220,7 @@ begin
           end;
           dec(plw, numpixels);
         end;
-      {$ENDIF}	
+      {$ENDIF}
 
 
         if dc_32bittexturepaletteeffects and (pal_color <> 0) then

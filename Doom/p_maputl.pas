@@ -19,11 +19,11 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//   Movement/collision utility functions,
-//   as used by function in p_map.c.
-//   BLOCKMAP Iterator functions,
-//   and some PIT_* functions to use for iteration.
+// DESCRIPTION:
+//  Movement/collision utility functions,
+//  as used by function in p_map.c.
+//  BLOCKMAP Iterator functions,
+//  and some PIT_* functions to use for iteration.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -51,7 +51,9 @@ function P_BoxOnLineSide(tmbox: Pfixed_tArray; ld: Pline_t): integer;
 
 function P_InterceptVector(v2: Pdivline_t; v1: Pdivline_t): fixed_t;
 
-procedure P_LineOpening(linedef: Pline_t);
+procedure P_LineOpening(linedef: Pline_t; check3dfloor: boolean);
+
+procedure P_LineOpeningTM(linedef: Pline_t; check3dfloor: boolean); // JVAL: Slopes
 
 procedure P_UnsetThingPosition(thing: Pmobj_t);
 
@@ -61,7 +63,8 @@ function P_BlockLinesIterator(x, y: integer; func: ltraverser_t): boolean;
 
 function P_BlockThingsIterator(x, y: integer; func: ttraverser_t): boolean;
 
-function P_PathTraverse(x1, y1, x2, y2: fixed_t; flags: integer; trav: traverser_t): boolean;
+function P_PathTraverse(x1, y1, x2, y2: fixed_t; flags: integer;
+  trav: traverser_t): boolean;
 
 var
   opentop: fixed_t;
@@ -79,15 +82,10 @@ uses
   d_delphi,
   i_system,
   p_setup,
+  p_slopes,
   p_map,
   r_main,
   z_zone;
-
-
-
-
-
-
 
 //
 // P_AproxDistance
@@ -311,10 +309,16 @@ end;
 // through a two sided line.
 // OPTIMIZE: keep this precalculated
 //
-procedure P_LineOpening(linedef: Pline_t);
+procedure P_LineOpening(linedef: Pline_t; check3dfloor: boolean);
 var
   front: Psector_t;
   back: Psector_t;
+  mid: Psector_t;
+  lowestceiling: fixed_t;
+  highestfloor: fixed_t;
+  lowestfloor: fixed_t;
+  delta1, delta2, rr: fixed_t;
+  thingtop: fixed_t;
 begin
   if linedef.sidenum[1] = -1 then
   begin
@@ -340,6 +344,158 @@ begin
   begin
     openbottom := back.floorheight;
     lowfloor := front.floorheight;
+  end;
+
+  // JVAL: 3d Floors
+  if check3dfloor then
+  begin
+    lowestceiling := opentop;
+    highestfloor := openbottom;
+    lowestfloor := lowfloor;
+    thingtop := tmthing.z + tmthing.height;
+    if front.midsec >= 0 then
+    begin
+      mid := @sectors[front.midsec];
+      rr := (mid.ceilingheight + mid.floorheight) div 2;
+      delta1 := abs(tmthing.z - rr);
+      delta2 := abs(thingtop - rr);
+      if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
+        lowestceiling := mid.floorheight;
+      if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
+        highestfloor := mid.ceilingheight
+      else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
+        lowestfloor := mid.ceilingheight;
+    end;
+    if back.midsec >= 0 then
+    begin
+      mid := @sectors[back.midsec];
+      rr := (mid.ceilingheight + mid.floorheight) div 2;
+      delta1 := abs(tmthing.z - rr);
+      delta2 := abs(thingtop - rr);
+      if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
+        lowestceiling := mid.floorheight;
+      if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
+        highestfloor := mid.ceilingheight
+      else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
+        lowestfloor := mid.ceilingheight;
+    end;
+    if highestfloor > openbottom then
+      openbottom := highestfloor;
+    if lowestceiling < opentop then
+      opentop := lowestceiling;
+    if lowestfloor > lowfloor then
+      lowfloor := lowestfloor;
+  end;
+
+  openrange := opentop - openbottom;
+end;
+
+// JVAL: Slopes
+procedure P_LineOpeningTM(linedef: Pline_t; check3dfloor: boolean);
+var
+  front: Psector_t;
+  back: Psector_t;
+  mid: Psector_t;
+  lowestceiling: fixed_t;
+  highestfloor: fixed_t;
+  lowestfloor: fixed_t;
+  delta1, delta2, rr: fixed_t;
+  thingtop: fixed_t;
+  // JVAL: Slopes
+  frontfloorheight: fixed_t;
+  frontceilingheight: fixed_t;
+  backfloorheight: fixed_t;
+  backceilingheight: fixed_t;
+  x, y: fixed_t;  // JVAL: Slopes
+  moside: integer;
+begin
+  if linedef.sidenum[1] = -1 then
+  begin
+    // single sided line
+    openrange := 0;
+    exit;
+  end;
+
+  front := linedef.frontsector;
+  back := linedef.backsector;
+
+
+  // JVAL: Slopes
+  moside := P_PointOnLineSide(tmthing.x, tmthing.y, linedef);
+
+  x := tmthing.x;
+  y := tmthing.y;
+  if moside = 0 then
+  begin
+    frontfloorheight := P_FloorHeight(front, x, y);
+    frontceilingheight := P_CeilingHeight(front, x, y);
+    backfloorheight := P_FloorHeight(back, tmx, tmy);
+    backceilingheight := P_CeilingHeight(back, tmx, tmy);
+  end
+  else
+  begin
+    frontfloorheight := P_FloorHeight(front, tmx, tmy);
+    frontceilingheight := P_CeilingHeight(front, tmx, tmy);
+    backfloorheight := P_FloorHeight(back, x, y);
+    backceilingheight := P_CeilingHeight(back, x, y);
+  end;
+
+
+  if frontceilingheight < backceilingheight then
+    opentop := frontceilingheight + P_SectorJumpOverhead(front)
+  else
+    opentop := backceilingheight + P_SectorJumpOverhead(back);
+
+  if frontfloorheight > backfloorheight then
+  begin
+    openbottom := frontfloorheight;
+    lowfloor := backfloorheight;
+  end
+  else
+  begin
+    openbottom := backfloorheight;
+    lowfloor := frontfloorheight;
+  end;
+
+  // JVAL: 3d Floors
+  if check3dfloor then
+  begin
+    lowestceiling := opentop;
+    highestfloor := openbottom;
+    lowestfloor := lowfloor;
+    thingtop := tmthing.z + tmthing.height;
+    if front.midsec >= 0 then
+    begin
+      mid := @sectors[front.midsec];
+      rr := (mid.ceilingheight + mid.floorheight) div 2;
+      delta1 := abs(tmthing.z - rr);
+      delta2 := abs(thingtop - rr);
+      if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
+        lowestceiling := mid.floorheight;
+      if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
+        highestfloor := mid.ceilingheight
+      else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
+        lowestfloor := mid.ceilingheight;
+    end;
+    if back.midsec >= 0 then
+    begin
+      mid := @sectors[back.midsec];
+      rr := (mid.ceilingheight + mid.floorheight) div 2;
+      delta1 := abs(tmthing.z - rr);
+      delta2 := abs(thingtop - rr);
+      if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
+        lowestceiling := mid.floorheight;
+      if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
+        highestfloor := mid.ceilingheight
+      else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
+        lowestfloor := mid.ceilingheight;
+    end;
+    if highestfloor > openbottom then
+      openbottom := highestfloor;
+    if lowestceiling < opentop then
+      opentop := lowestceiling;
+    if lowestfloor > lowfloor then
+      lowfloor := lowestfloor;
   end;
 
   openrange := opentop - openbottom;

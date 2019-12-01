@@ -213,14 +213,25 @@ uses
 // and the Frame Sequence table.
   d_event,
   m_rnd,
-  p_local, p_plats, p_tick, p_mobj, p_enemy, p_map, p_inter, p_maputl, p_extra,
-  r_main, r_draw, r_defs,
+  p_local,
+  p_plats,
+  p_tick,
+  p_mobj,
+  p_enemy,
+  p_map,
+  p_inter,
+  p_maputl,
+  p_common,
+  r_main,
+  r_draw,
+  r_defs,
   s_sound,
 // State.
   doomstat,
 // Data.
   sounds,
-  v_data, v_video,
+  v_data,
+  v_video,
   z_zone;
 
 //

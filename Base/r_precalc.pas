@@ -119,7 +119,7 @@ begin
 
   for i := 0 to 767 do
   begin
-    l := 255 - i div 3;
+    l := 255 - i div 6;
     precal32_ic[i] := l + l shl 8 + l shl 16;
   end;
 

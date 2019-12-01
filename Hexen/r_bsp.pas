@@ -18,12 +18,12 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//   Refresh module, BSP traversal and handling.
-//   BSP traversal, handling of LineSegs for rendering.
+// DESCRIPTION:
+//  Refresh module, BSP traversal and handling.
+//  BSP traversal, handling of LineSegs for rendering.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -67,23 +67,30 @@ implementation
 uses
   d_delphi,
   doomdata,
-  doomdef,
   m_fixed,
   tables,
+  doomdef,
   m_bbox,
   p_setup,
+  p_slopes, // JVAL: Slopes
+  {$IFNDEF OPENGL}
   r_segs,
+  r_3dfloors, // JVAL: 3d Floors
+  r_slopes,   // JVAL: Slopes
+  {$ENDIF}
   r_main,
   r_plane,
   r_things,
   r_draw,
   r_sky,
 // State.
-  doomstat{$IFDEF OPENGL},
+  doomstat
+  {$IFDEF OPENGL},
   doomtype,
   r_data,
-  gl_render,      // JVAL OPENGL
-  gl_clipper,     // JVAL OPENGL
+  r_visplanes,
+  gl_render, // JVAL OPENGL
+  gl_clipper, // JVAL OPENGL
   gl_defs,
   z_zone{$ENDIF}; // JVAL OPENGL
 
@@ -373,11 +380,11 @@ procedure R_AddLine(line: Pseg_t);
 var
   x1: integer;
   x2: integer;
+  tspan: angle_t;
+  clipangle2: angle_t;
   angle1: angle_t;
   angle2: angle_t;
   span: angle_t;
-  tspan: angle_t;
-  clipangle2: angle_t;
 begin
   curline := line;
 
@@ -410,52 +417,53 @@ begin
 
   if absviewpitch < 10 then
   begin
+{$ELSE}  
+    // Global angle needed by segcalc.
+    rw_angle1 := angle1;
 {$ENDIF}
-  // Global angle needed by segcalc.
-  rw_angle1 := angle1;
-  angle1 := angle1 - viewangle;
-  angle2 := angle2 - viewangle;
+    angle1 := angle1 - viewangle;
+    angle2 := angle2 - viewangle;
 
-  tspan := angle1 + clipangle;
-  clipangle2 := 2 * clipangle;
-  if tspan > clipangle2 then
-  begin
-    tspan := tspan - clipangle2;
+    tspan := angle1 + clipangle;
+    clipangle2 := 2 * clipangle;
+    if tspan > clipangle2 then
+    begin
+      tspan := tspan - clipangle2;
 
-    // Totally off the left edge?
-    if tspan >= span then
+      // Totally off the left edge?
+      if tspan >= span then
+        exit;
+
+      angle1 := clipangle;
+    end;
+
+    tspan := clipangle - angle2;
+    if tspan > clipangle2 then
+    begin
+      tspan := tspan - clipangle2;
+
+      // Totally off the left edge?
+      if tspan >= span then
+        exit;
+
+      angle2 := -clipangle;
+    end;
+
+    // The seg is in the view range,
+    // but not necessarily visible.
+    {$IFDEF FPC}
+    angle1 := _SHRW(angle1 + ANG90, ANGLETOFINESHIFT);
+    angle2 := _SHRW(angle2 + ANG90, ANGLETOFINESHIFT);
+    {$ELSE}
+    angle1 := (angle1 + ANG90) shr ANGLETOFINESHIFT;
+    angle2 := (angle2 + ANG90) shr ANGLETOFINESHIFT;
+    {$ENDIF}
+    x1 := viewangletox[angle1];
+    x2 := viewangletox[angle2];
+
+    // Does not cross a pixel?
+    if x1 >= x2 then
       exit;
-
-    angle1 := clipangle;
-  end;
-
-  tspan := clipangle - angle2;
-  if tspan > clipangle2 then
-  begin
-    tspan := tspan - clipangle2;
-
-    // Totally off the left edge?
-    if tspan >= span then
-      exit;
-
-    angle2 := -clipangle;
-  end;
-
-  // The seg is in the view range,
-  // but not necessarily visible.
-  {$IFDEF FPC}
-  angle1 := _SHRW(angle1 + ANG90, ANGLETOFINESHIFT);
-  angle2 := _SHRW(angle2 + ANG90, ANGLETOFINESHIFT);
-  {$ELSE}
-  angle1 := (angle1 + ANG90) shr ANGLETOFINESHIFT;
-  angle2 := (angle2 + ANG90) shr ANGLETOFINESHIFT;
-  {$ENDIF}
-  x1 := viewangletox[angle1];
-  x2 := viewangletox[angle2];
-
-  // Does not cross a pixel?
-  if x1 >= x2 then
-    exit;
 
 {$IFDEF OPENGL}
   end;
@@ -468,6 +476,14 @@ begin
   if backsector = nil then
   begin
     R_ClipSolidWallSegment(x1, x2 - 1);
+    exit;
+  end;
+
+  // JVAL: Slopes
+  if (backsector.renderflags and SRF_SLOPED <> 0) or
+     (frontsector.renderflags and SRF_SLOPED <> 0) then
+  begin
+    R_ClipPassWallSegment(x1, x2 - 1);
     exit;
   end;
 
@@ -496,7 +512,9 @@ begin
      (backsector.floorpic = frontsector.floorpic) and
      (backsector.lightlevel = frontsector.lightlevel) and
      (backsector.special = frontsector.special) and
-     (curline.sidedef.midtexture = 0) then
+     (curline.sidedef.midtexture = 0) and
+     (backsector.midsec = frontsector.midsec) then // JVAL: 3d Floors
+
     exit;
 
   R_ClipPassWallSegment(x1, x2 - 1);
@@ -665,7 +683,7 @@ begin
     result := false
   else
     result := true;
-{$ENDIF}    
+{$ENDIF}
 end;
 
 //
@@ -682,6 +700,7 @@ var
   sub: Psubsector_t;
   polyCount: integer;
   polySeg: PPseg_t;
+  floorlightlevel: smallint;  // JVAL: 3d Floors
 {$IFDEF OPENGL}
   i: integer;
   dummyfloorplane: visplane_t;
@@ -691,30 +710,67 @@ var
 begin
   inc(sscount);
   sub := @subsectors[num];
+
   frontsector := sub.sector;
   count := sub.numlines;
   i_line := sub.firstline;
   line := @segs[i_line];
 
-  if frontsector.floorheight < viewz then
+  floorlightlevel := frontsector.lightlevel;
+{$IFNDEF OPENGL}
+  R_3dVisplaneFromSubsector(sub, @floorlightlevel);
+  R_VisSlopesFromSubsector(sub);  // JVAL: Slopes
+{$ENDIF}
+
+  if (P_FloorHeight(frontsector, viewx, viewy) < viewz) then  // JVAL: Slopes
   begin
-    floorplane := R_FindPlane(frontsector.floorheight,
-                              frontsector.floorpic,
-                              frontsector.lightlevel,
-                              frontsector.special,
-                              frontsector.renderflags and not SRF_RIPPLE_CEILING);
+    if frontsector.renderflags and SRF_SLOPEFLOOR <> 0 then // JVAL: Slopes
+      floorplane := R_FindPlane(frontsector.floorheight,
+                                frontsector.floorpic,
+                                floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
+                                frontsector.special,
+                                frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                {$IFNDEF OPENGL}
+                                floorslope,
+                                {$ENDIF}
+                                frontsector.iSectorID)  // JVAL: Slopes
+    else
+      floorplane := R_FindPlane(frontsector.floorheight,
+                                frontsector.floorpic,
+                                floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
+                                frontsector.special,
+                                frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                {$IFNDEF OPENGL}
+                                nil,
+                                {$ENDIF}
+                                -1)  // JVAL: Slopes
   end
   else
     floorplane := nil;
 
-  if (frontsector.ceilingheight > viewz) or
+  if (P_CeilingHeight(frontsector, viewx, viewy) > viewz) or  // JVAL: Slopes
      (frontsector.ceilingpic = skyflatnum) then
   begin
-    ceilingplane := R_FindPlane(frontsector.ceilingheight,
-                                frontsector.ceilingpic,
-                                frontsector.lightlevel,
-                                0,
-                                frontsector.renderflags and not SRF_RIPPLE_FLOOR);
+    if frontsector.renderflags and SRF_SLOPECEILING <> 0 then // JVAL: Slopes
+      ceilingplane := R_FindPlane(frontsector.ceilingheight,
+                                  frontsector.ceilingpic,
+                                  frontsector.lightlevel,
+                                  0,
+                                  frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  {$IFNDEF OPENGL}
+                                  ceilingslope,
+                                  {$ENDIF}
+                                  frontsector.iSectorID)  // JVAL: Slopes
+    else
+      ceilingplane := R_FindPlane(frontsector.ceilingheight,
+                                  frontsector.ceilingpic,
+                                  frontsector.lightlevel,
+                                  0,
+                                  frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  {$IFNDEF OPENGL}
+                                  nil,
+                                  {$ENDIF}
+                                  -1);
   end
   else
     ceilingplane := nil;
@@ -845,7 +901,7 @@ begin
     inc(line);
     dec(count);
   end;
-{$ENDIF}  
+{$ENDIF}
 end;
 
 //
@@ -858,12 +914,12 @@ var
   bsp: Pnode_t;
 begin
   // Found a subsector?
-  if bspnum and NF_SUBSECTOR <> 0 then
+  if bspnum and NF_SUBSECTOR_V5 <> 0 then
   begin
     if bspnum = -1 then
       R_Subsector(0)
     else
-      R_Subsector(bspnum and (not NF_SUBSECTOR));
+      R_Subsector(bspnum and (not NF_SUBSECTOR_V5));
     exit;
   end;
 
@@ -893,3 +949,4 @@ end;
 
 
 end.
+

@@ -18,8 +18,13 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  Enemy thinking, AI.
+//  Action Pointer Functions
+//  that are associated with states/frames.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -89,8 +94,6 @@ procedure A_MinotaurAtk3(actor: Pmobj_t);
 procedure A_MntrFloorFire(actor: Pmobj_t);
 
 procedure A_Scream(actor: Pmobj_t);
-
-procedure A_NoBlocking(actor: Pmobj_t);
 
 procedure A_Explode(actor: Pmobj_t);
 
@@ -404,6 +407,7 @@ uses
   m_rnd,
   a_action,
   p_mobj,
+  p_common,
   p_extra,
   p_tick,
   p_inter,
@@ -417,6 +421,7 @@ uses
   p_pspr,
   p_telept,
   p_acs,
+  ps_main,
   r_defs,
   r_main,
   s_sound,
@@ -499,7 +504,7 @@ begin
       continue;
     end;
 
-    P_LineOpening(check);
+    P_LineOpening(check, false);
     if openrange <= 0 then
     begin // Closed door
       continue;
@@ -743,6 +748,11 @@ begin
     begin
       dec(numspechit);
       ld := spechit[numspechit];
+
+      if ld.flags and ML_TRIGGERSCRIPTS <> 0 then
+        if actor.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
+          PS_EventUseLine(actor, pDiff(ld, lines, SizeOf(line_t)), P_PointOnLineSide(actor.x, actor.y, ld));
+
       // if the special isn't a door that can be opened, return false
       if P_ActivateLine(ld, actor, 0, SPAC_USE) then
         good := true;
@@ -1966,17 +1976,6 @@ begin
   begin
     A_DeathSound(actor, actor);
   end;
-end;
-
-//----------------------------------------------------------------------------
-//
-// PROC A_NoBlocking
-//
-//----------------------------------------------------------------------------
-
-procedure A_NoBlocking(actor: Pmobj_t);
-begin
-  actor.flags := actor.flags and not MF_SOLID;
 end;
 
 //----------------------------------------------------------------------------
@@ -5084,7 +5083,7 @@ begin
     lastfound := 0;
     spot := P_FindMobjFromTID(KORAX_FIRST_TELEPORT_TID, @lastfound);
     if spot <> nil then
-      P_Teleport(actor, spot.x, spot.y, spot.angle, true);
+      P_Teleport(actor, spot.x, spot.y, spot.angle, true, spot.floorz, spot.ceilingz);
 
     P_StartACS(249, 0, @args, actor, nil, 0);
     actor.special2 := 1;  // Don't run again
@@ -5109,7 +5108,7 @@ begin
       spot := P_FindMobjFromTID(KORAX_TELEPORT_TID, @lastfound);
       actor.special1 := lastfound;
       if spot <> nil then
-        P_Teleport(actor, spot.x, spot.y, spot.angle, true);
+        P_Teleport(actor, spot.x, spot.y, spot.angle, true, spot.floorz, spot.ceilingz);
     end;
   end;
 end;

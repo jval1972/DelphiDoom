@@ -40,6 +40,7 @@ implementation
 uses
   d_delphi,
   doomdata,
+  doomdef,
   m_argv,
   m_crc32,
   m_base,
@@ -47,7 +48,6 @@ uses
   sc_engine,
   sc_tokens,
 {$IFDEF HEXEN}
-  doomdef,
   z_zone,
 {$ENDIF}
   w_wad;
@@ -170,7 +170,7 @@ begin
     if token = 'NAMESPACE' then
     begin
       GetToken;
-      if (token <> strupper(_GAME)) and (token <> 'ZDOOMTRANSLATED') then
+      if (token <> strupper(_GAME)) and (token <> 'DELPHI' + strupper(_GAME)) and (token <> 'ZDOOMTRANSLATED') then
       begin
         I_Warning('TUDMFManager.LoadFromString(): Unknown namespace "%s"'#13#10, [sc._String]);
         sc.Free;
@@ -181,10 +181,12 @@ begin
     begin
       realloc(Pointer(fthings), fnumthings * SizeOf(mapthing_t), (fnumthings + 1) * SizeOf(mapthing_t));
       pthing := @fthings[fnumthings];
-      {$IFNDEF HEXEN}pthing.options := 16 or 32 or 64{$ENDIF};
       ZeroMemory(pthing, SizeOf(mapthing_t));
+      {$IFNDEF HEXEN}pthing.options := 16{$ENDIF};
       inc(fnumthings);
       GetToken; // _BEGINBLOCK
+      if token <> '_BEGINBLOCK' then
+        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in thing definition'#13#10, [token]);
       while token <> '_ENDBLOCK' do
       begin
         GetToken;
@@ -231,6 +233,18 @@ begin
           GetToken;
           if token = 'TRUE' then
             pthing.options := pthing.options or 8;
+        end
+        else if (token = 'ONMIDDLEFLOOR') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pthing.options := pthing.options or MTF_ONMIDSECTOR;
+        end
+        else if (token = 'TRIGGERSCRIPTS') then
+        begin
+          GetToken;
+          if token = 'FALSE' then
+            pthing.options := pthing.options or MTF_DONOTTRIGGERSCRIPTS;
         end
         {$IFDEF HEXEN}
         else if (token = 'SINGLE') then
@@ -316,13 +330,13 @@ begin
         begin
           GetToken;
           if token = 'TRUE' then
-            pthing.options := pthing.options and not 32;
+            pthing.options := pthing.options or 32;
         end
         else if (token = 'DM') then
         begin
           GetToken;
           if token = 'TRUE' then
-            pthing.options := pthing.options and not 64;
+            pthing.options := pthing.options or 64;
         end
         {$ENDIF}
         else if (token = 'COMMENT') then
@@ -343,6 +357,8 @@ begin
       pmaplinedef.sidenum[1] := -1;
       inc(fnummaplinedefs);
       GetToken; // _BEGINBLOCK
+      if token <> '_BEGINBLOCK' then
+        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in linedef definition'#13#10, [token]);
       while token <> '_ENDBLOCK' do
       begin
         GetToken;
@@ -423,9 +439,15 @@ begin
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or ML_MAPPED;
+            pmaplinedef.flags := pmaplinedef.flags or ML_SECRET;
         end
-        {$IFNDEF HERETIC_OR_HEXEN}
+        else if (token = 'TRIGGERSCRIPTS') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pmaplinedef.flags := pmaplinedef.flags or ML_TRIGGERSCRIPTS;
+        end
+        {$IFDEF DOOM_OR_STRIFE}
         else if (token = 'PASSUSE') then
         begin
           GetToken;
@@ -439,6 +461,12 @@ begin
           GetToken;
           if token = 'TRUE' then
             pmaplinedef.flags := pmaplinedef.flags or ML_TRANSPARENT1;
+        end
+        else if (token = 'TRANSLUCENT2') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pmaplinedef.flags := pmaplinedef.flags or ML_TRANSPARENT2;
         end
         else if (token = 'JUMPOVER') then
         begin
@@ -464,37 +492,37 @@ begin
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(1, ML_SPAC_SHIFT + SPAC_CROSS);
+            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_CROSS, ML_SPAC_SHIFT);
         end
         else if (token = 'PLAYERUSE') then
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(1, ML_SPAC_SHIFT + SPAC_USE);
+            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_USE, ML_SPAC_SHIFT);
         end
         else if (token = 'MONSTERCROSS') then
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(1, ML_SPAC_SHIFT + SPAC_MCROSS);
+            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_MCROSS, ML_SPAC_SHIFT);
         end
         else if (token = 'IMPACT') then
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(1, ML_SPAC_SHIFT + SPAC_IMPACT);
+            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_IMPACT, ML_SPAC_SHIFT);
         end
         else if (token = 'PLAYERPUSH') then
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(1, ML_SPAC_SHIFT + SPAC_PUSH);
+            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PUSH, ML_SPAC_SHIFT);
         end
         else if (token = 'MISSILECROSS') then
         begin
           GetToken;
           if token = 'TRUE' then
-            pmaplinedef.flags := pmaplinedef.flags or _SHL(1, ML_SPAC_SHIFT + SPAC_PCROSS);
+            pmaplinedef.flags := pmaplinedef.flags or _SHL(SPAC_PCROSS, ML_SPAC_SHIFT);
         end
         else if (token = 'ARG0') then
         begin
@@ -554,6 +582,8 @@ begin
       pmapsidedef.midtexture[0] := '-';
       inc(fnummapsidedefs);
       GetToken; // _BEGINBLOCK
+      if token <> '_BEGINBLOCK' then
+        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in sidedef definition'#13#10, [token]);
       while token <> '_ENDBLOCK' do
       begin
         GetToken;
@@ -600,6 +630,8 @@ begin
       ZeroMemory(pmapvertex, SizeOf(mapvertex_t));
       inc(fnummapvertexes);
       GetToken; // _BEGINBLOCK
+      if token <> '_BEGINBLOCK' then
+        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in vertex definition'#13#10, [token]);
       while token <> '_ENDBLOCK' do
       begin
         GetToken;
@@ -627,6 +659,8 @@ begin
       pmapsector.lightlevel := 160;
       inc(fnummapsectors);
       GetToken; // _BEGINBLOCK
+      if token <> '_BEGINBLOCK' then
+        I_Warning('TUDMFManager.LoadFromString(): Unexpected token "%s" in sector definition'#13#10, [token]);
       while token <> '_ENDBLOCK' do
       begin
         GetToken;
@@ -755,7 +789,7 @@ begin
   end
   else
     infotable[11].size := 0;
-  infotable[11].name := stringtochar8('BEHAVIOUR');
+  infotable[11].name := stringtochar8('BEHAVIOR');
   {$ENDIF}
 
   header.infotableofs := f.Position;
@@ -763,7 +797,6 @@ begin
   f.Seek(0, sFromBeginning);
   f.Write(header, SizeOf(header));
   f.Free;
-
 end;
 
 procedure TUDMFManager.Clear;
@@ -801,9 +834,9 @@ begin
 
   {$IFDEF HEXEN}
   behav_lump := -1;
-  if lumpnum + 1 < W_NumLumps then
-    if strupper(stringtochar8(lumpinfo[lumpnum + 1].name)) = 'BEHAVIOR' then
-      behav_lump := lumpnum + 1;
+  if lumpnum + 2 < W_NumLumps then
+    if strupper(stringtochar8(lumpinfo[lumpnum + 2].name)) = 'BEHAVIOR' then
+      behav_lump := lumpnum + 2;
   {$ENDIF}
 
   inc(lumpnum);
@@ -816,7 +849,6 @@ begin
   wadfilemap := wadfilemap + mapname + '_' + crc32 + '.wad';
 
   udmf := TUDMFManager.Create;
-
   udmf.LoadFromString(W_TextLumpNum(lumpnum));
   udmf.SaveUDMFToVanilla(mapname, wadfilemap{$IFDEF HEXEN}, behav_lump{$ENDIF});
   udmf.Free;

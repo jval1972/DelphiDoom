@@ -60,10 +60,6 @@ procedure A_BridgeInit(actor: Pmobj_t);
 
 procedure A_BridgeRemove(actor: Pmobj_t);
 
-procedure A_GhostOn(actor: Pmobj_t);
-
-procedure A_GhostOff(actor: Pmobj_t);
-
 procedure A_HideThing(actor: Pmobj_t);
 
 procedure A_UnHideThing(actor: Pmobj_t);
@@ -158,7 +154,7 @@ uses
   m_rnd,
   p_mobj,
   p_things,
-  p_extra,
+  p_common,
   p_sight,
   p_map,
   p_tick,
@@ -526,28 +522,6 @@ begin
   P_SetMobjState(actor, S_FREE_BRIDGE1);
 end;
 
-
-//==========================================================================
-//
-// A_GhostOn
-//
-//==========================================================================
-
-procedure A_GhostOn(actor: Pmobj_t);
-begin
-  actor.flags := actor.flags or MF_SHADOW;
-end;
-
-//==========================================================================
-//
-// A_GhostOff
-//
-//==========================================================================
-
-procedure A_GhostOff(actor: Pmobj_t);
-begin
-  actor.flags := actor.flags and not MF_SHADOW;
-end;
 
 //==========================================================================
 //

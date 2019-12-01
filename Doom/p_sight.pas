@@ -43,30 +43,25 @@ function P_CheckCameraSight(const camx, camy, camz: fixed_t; mo: Pmobj_t): boole
 
 function P_CheckVisibility(const atx, aty, atz: fixed_t; const atradious: fixed_t): boolean;
 
-var
-  bottomslope: fixed_t; // slopes to top and bottom of target
-  topslope: fixed_t;
 
 implementation
 
 uses
   d_delphi,
+  doomdef,
   doomdata,
+  g_game,
+  m_bbox,
   p_local,
-  p_setup,
   p_map,
+  p_setup,
+  p_slopes,
   r_defs,
   r_main;
 
 //
 // P_CheckSight
 //
-var
-  sightzstart: fixed_t; // eye z of looker
-
-  strace: divline_t; // from t1 to t2
-  t2x: fixed_t;
-  t2y: fixed_t;
 
 //
 // P_DivlineSide
@@ -167,12 +162,25 @@ begin
   result := FixedDiv(num , den);
 end;
 
+// JVAL: 3d Floors
+type
+  los_t = record
+    sightzstart: fixed_t;
+    t2x: fixed_t;
+    t2y: fixed_t;
+    strace: divline_t;
+    topslope: fixed_t;
+    bottomslope: fixed_t;
+    bbox: array[0..3] of fixed_t;
+  end;
+  Plos_t = ^los_t;
+
 //
 // P_CrossSubsector
 // Returns true
 //  if strace crosses the given subsector successfully.
 //
-function P_CrossSubsector(const num: integer): boolean;
+function P_CrossSubsector(const num: integer; const los: Plos_t): boolean;
 var
   seg: Pseg_t;
   line: Pline_t;
@@ -182,6 +190,7 @@ var
   sub: Psubsector_t;
   front: Psector_t;
   back: Psector_t;
+  mid: Psector_t;
   opentop: fixed_t;
   openbottom: fixed_t;
   divl: divline_t;
@@ -189,6 +198,12 @@ var
   v2: Pvertex_t;
   frac: fixed_t;
   slope: fixed_t;
+  front_floorheight: fixed_t;
+  back_floorheight: fixed_t;
+  front_ceilingheight: fixed_t;
+  back_ceilingheight: fixed_t;
+  vmidx: fixed_t;
+  vmidy: fixed_t;
 begin
   sub := @subsectors[num];
 
@@ -208,10 +223,18 @@ begin
 
     line.validcount := validcount;
 
+    // JVAL: 3d Floors
+    if G_PlayingEngineVersion >= VERSION122 then
+      if (line.bbox[BOXLEFT] > los.bbox[BOXRIGHT]) or
+         (line.bbox[BOXRIGHT] < los.bbox[BOXLEFT]) or
+         (line.bbox[BOXBOTTOM] > los.bbox[BOXTOP]) or
+         (line.bbox[BOXTOP] < los.bbox[BOXBOTTOM]) then
+        continue;
+
     v1 := line.v1;
     v2 := line.v2;
-    s1 := P_DivlineSide(v1.x, v1.y, @strace);
-    s2 := P_DivlineSide(v2.x, v2.y, @strace);
+    s1 := P_DivlineSide(v1.x, v1.y, @los.strace);
+    s2 := P_DivlineSide(v2.x, v2.y, @los.strace);
 
     // line isn't crossed?
     if s1 = s2 then
@@ -221,8 +244,8 @@ begin
     divl.y := v1.y;
     divl.dx := v2.x - v1.x;
     divl.dy := v2.y - v1.y;
-    s1 := P_DivlineSide(strace.x, strace.y, @divl);
-    s2 := P_DivlineSide(t2x, t2y, @divl);
+    s1 := P_DivlineSide(los.strace.x, los.strace.y, @divl);
+    s2 := P_DivlineSide(los.t2x, los.t2y, @divl);
 
     // line isn't crossed?
     if s1 = s2 then
@@ -237,26 +260,56 @@ begin
     end;
 
     // crosses a two sided line
-    front := seg.frontsector;
     back := seg.backsector;
 
+    // JVAL: 3d Floors
+    if back.midsec >= 0 then
+    begin
+      mid := @sectors[back.midsec];
+      if los.sightzstart <= mid.ceilingheight then
+        if los.sightzstart >= mid.floorheight then
+        begin
+          result := false;
+          exit;
+        end;
+    end;
+
+    front := seg.frontsector;
+
+    if G_PlayingEngineVersion >= VERSION122 then
+    begin
+      vmidx := (v1.x + v2.x) div 2;
+      vmidy := (v1.y + v2.y) div 2;
+      front_floorheight := P_FloorHeight(front, vmidx, vmidy);
+      back_floorheight := P_FloorHeight(back, vmidx, vmidy);
+      front_ceilingheight := P_CeilingHeight(front, vmidx, vmidy);
+      back_ceilingheight := P_CeilingHeight(back, vmidx, vmidy);
+    end
+    else
+    begin
+      front_floorheight := front.floorheight;
+      back_floorheight := back.floorheight;
+      front_ceilingheight := front.ceilingheight;
+      back_ceilingheight := back.ceilingheight;
+    end;
+
     // no wall to block sight with?
-    if (front.floorheight = back.floorheight) and
-       (front.ceilingheight = back.ceilingheight) then
+    if (front_floorheight = back_floorheight) and
+       (front_ceilingheight = back_ceilingheight) then
       continue;
 
     // possible occluder
     // because of ceiling height differences
-    if front.ceilingheight < back.ceilingheight then
-      opentop := front.ceilingheight + P_SectorJumpOverhead(front)
+    if front_ceilingheight < back_ceilingheight then
+      opentop := front_ceilingheight + P_SectorJumpOverhead(front)
     else
-      opentop := back.ceilingheight + P_SectorJumpOverhead(back);
+      opentop := back_ceilingheight + P_SectorJumpOverhead(back);
 
     // because of ceiling height differences
-    if front.floorheight > back.floorheight then
-      openbottom := front.floorheight
+    if front_floorheight > back_floorheight then
+      openbottom := front_floorheight
     else
-      openbottom := back.floorheight;
+      openbottom := back_floorheight;
 
     // quick test for totally closed doors
     if openbottom >= opentop then
@@ -265,23 +318,23 @@ begin
       exit;
     end;
 
-    frac := P_InterceptVector2(@strace, @divl);
+    frac := P_InterceptVector2(@los.strace, @divl);
 
-    if front.floorheight <> back.floorheight then
+    if front_floorheight <> back_floorheight then
     begin
-      slope := FixedDiv(openbottom - sightzstart, frac);
-      if slope > bottomslope then
-        bottomslope := slope;
+      slope := FixedDiv(openbottom - los.sightzstart, frac);
+      if slope > los.bottomslope then
+        los.bottomslope := slope;
     end;
 
-    if front.ceilingheight <> back.ceilingheight then
+    if front_ceilingheight <> back_ceilingheight then
     begin
-      slope := FixedDiv(opentop - sightzstart, frac);
-      if slope < topslope then
-        topslope := slope;
+      slope := FixedDiv(opentop - los.sightzstart, frac);
+      if slope < los.topslope then
+        los.topslope := slope;
     end;
 
-    if topslope <= bottomslope then
+    if los.topslope <= los.bottomslope then
     begin
       result := false; // stop
       exit;
@@ -297,36 +350,36 @@ end;
 // Returns true
 //  if strace crosses the given node successfully.
 //
-function P_CrossBSPNode(bspnum: integer): boolean;
+function P_CrossBSPNode(bspnum: integer; const los: Plos_t): boolean;
 var
   bsp: Pnode_t;
   side: integer;
 begin
-  if bspnum and NF_SUBSECTOR <> 0 then
+  if bspnum and NF_SUBSECTOR_V5 <> 0 then
   begin
     if bspnum = -1 then
-      result := P_CrossSubsector(0)
+      result := P_CrossSubsector(0, los)
     else
-      result := P_CrossSubsector(bspnum and (not NF_SUBSECTOR));
+      result := P_CrossSubsector(bspnum and (not NF_SUBSECTOR_V5), los);
     exit;
   end;
 
   bsp := @nodes[bspnum];
 
   // decide which side the start point is on
-  side := P_DivlineSide(strace.x, strace.y, Pdivline_t(bsp));
+  side := P_DivlineSide(los.strace.x, los.strace.y, Pdivline_t(bsp));
   if side = 2 then
     side := 0; // an "on" should cross both sides
 
   // cross the starting side
-  if not P_CrossBSPNode(bsp.children[side]) then
+  if not P_CrossBSPNode(bsp.children[side], los) then
   begin
     result := false;
     exit;
   end;
 
   // the partition plane is crossed here
-  if side = P_DivlineSide(t2x, t2y, Pdivline_t(bsp)) then
+  if side = P_DivlineSide(los.t2x, los.t2y, Pdivline_t(bsp)) then
   begin
     // the line doesn't touch the other side
     result := true;
@@ -334,7 +387,7 @@ begin
   end;
 
   // cross the ending side
-  result := P_CrossBSPNode(bsp.children[side xor 1]);
+  result := P_CrossBSPNode(bsp.children[side xor 1], los);
 end;
 
 //
@@ -352,22 +405,45 @@ var
   pnum: integer;
   bytenum: integer;
   bitnum: integer;
+  los: los_t;
+  mid: Psector_t; // JVAL: 3d Floors
+  midn: integer;
 begin
   // First check for trivial rejection.
 
   // Determine subsector entries in REJECT table.
   s1 := pDiff(Psubsector_t(t1.subsector).sector, sectors, SizeOf(sector_t));
   s2 := pDiff(Psubsector_t(t2.subsector).sector, sectors, SizeOf(sector_t));
-  pnum := s1 * numsectors + s2;
-  bytenum := _SHR(pnum, 3);
-  bitnum := 1 shl (pnum and 7);
 
-  // Check in REJECT table.
-  if rejectmatrix[bytenum] and bitnum <> 0 then
+  if numsectors > 1 then
   begin
-    // can't possibly be connected
-    result := false;
-    exit;
+    pnum := s1 * numsectors + s2;
+    bytenum := pnum div 8;
+    bitnum := 1 shl (pnum and 7);
+
+    // Check in REJECT table.
+    if bytenum >= 0 then
+      if bytenum < rejectmatrixsize then
+        if rejectmatrix[bytenum] and bitnum <> 0 then
+        begin
+          // can't possibly be connected
+          result := false;
+          exit;
+        end;
+
+  end;
+
+  // JVAL: 3D floors
+  midn := sectors[s2].midsec;
+  if midn > -1 then
+  begin
+    mid := @sectors[midn];
+    if ((t1.z + t1.height <= mid.floorheight) and (t2.z >= mid.floorheight)) or
+       ((t1.z >= mid.ceilingheight) and (t2.z + t1.height <= mid.ceilingheight)) then
+    begin
+      result := false;
+      exit;
+    end;
   end;
 
   hsec1 := sectors[s1].heightsec;
@@ -392,25 +468,54 @@ begin
     exit;
   end;
 
+  // JVAL: 3D floors
+  if G_PlayingEngineVersion >= VERSION122 then
+    if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
+    begin
+      result := t1.floorz = t2.floorz;
+      exit;
+    end;
+
   // An unobstructed LOS is possible.
   // Now look from eyes of t1 to any part of t2.
   inc(validcount);
 
-  sightzstart := t1.z + t1.height - _SHR2(t1.height);
-  topslope := (t2.z + t2.height) - sightzstart;
-  bottomslope := t2.z - sightzstart;
+  los.sightzstart := t1.z + t1.height - (t1.height div 4);
+  los.topslope := (t2.z + t2.height) - los.sightzstart;
+  los.bottomslope := t2.z - los.sightzstart;
 
-  strace.x := t1.x;
-  strace.y := t1.y;
-  t2x := t2.x;
-  t2y := t2.y;
-  strace.dx := t2.x - t1.x;
-  strace.dy := t2.y - t1.y;
+  los.strace.x := t1.x;
+  los.strace.y := t1.y;
+  los.t2x := t2.x;
+  los.t2y := t2.y;
+  los.strace.dx := t2.x - t1.x;
+  los.strace.dy := t2.y - t1.y;
+
+  if t1.x > t2.x then
+  begin
+    los.bbox[BOXRIGHT] := t1.x;
+    los.bbox[BOXLEFT] := t2.x;
+  end
+  else
+  begin
+    los.bbox[BOXRIGHT] := t2.x;
+    los.bbox[BOXLEFT] := t1.x;
+  end;
+
+  if t1.y > t2.y then
+  begin
+    los.bbox[BOXTOP] := t1.y;
+    los.bbox[BOXBOTTOM] := t2.y;
+  end
+  else
+  begin
+    los.bbox[BOXTOP] := t2.y;
+    los.bbox[BOXBOTTOM] := t1.y;
+  end;
 
   // the head node is the last node output
-  result := P_CrossBSPNode(numnodes - 1);
+  result := P_CrossBSPNode(numnodes - 1, @los);
 end;
-
 
 //
 // P_CheckCameraSight
@@ -418,6 +523,8 @@ end;
 // JVAL: To determine if camera chase view can see the player
 //
 function P_CheckCameraSight(const camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
+var
+  los: los_t;
 begin
   if mo = nil then
   begin
@@ -430,19 +537,41 @@ begin
   // Now look from eyes of t1 to any part of t2.
   inc(validcount);
 
-  sightzstart := camz + mo.height - _SHR2(mo.height);
-  topslope := (mo.z + mo.height) - sightzstart;
-  bottomslope := mo.z - sightzstart;
+  los.sightzstart := camz + mo.height - (mo.height div 4);
+  los.topslope := (mo.z + mo.height) - los.sightzstart;
+  los.bottomslope := mo.z - los.sightzstart;
 
-  strace.x := camx;
-  strace.y := camy;
-  t2x := mo.x;
-  t2y := mo.y;
-  strace.dx := mo.x - camx;
-  strace.dy := mo.y - camy;
+  los.strace.x := camx;
+  los.strace.y := camy;
+  los.t2x := mo.x;
+  los.t2y := mo.y;
+  los.strace.dx := mo.x - camx;
+  los.strace.dy := mo.y - camy;
+
+  if camx > mo.x then
+  begin
+    los.bbox[BOXRIGHT] := camx;
+    los.bbox[BOXLEFT] := mo.x;
+  end
+  else
+  begin
+    los.bbox[BOXRIGHT] := mo.x;
+    los.bbox[BOXLEFT] := camx;
+  end;
+
+  if camy > mo.y then
+  begin
+    los.bbox[BOXTOP] := camy;
+    los.bbox[BOXBOTTOM] := mo.y;
+  end
+  else
+  begin
+    los.bbox[BOXTOP] := mo.y;
+    los.bbox[BOXBOTTOM] := camy;
+  end;
 
   // the head node is the last node output
-  result := P_CrossBSPNode(numnodes - 1);
+  result := P_CrossBSPNode(numnodes - 1, @los);
 end;
 
 //
@@ -453,22 +582,47 @@ end;
 // possibly visible
 //
 function P_CheckVisibility(const atx, aty, atz: fixed_t; const atradious: fixed_t): boolean;
+var
+  los: los_t;
 begin
   inc(validcount);
 
-  sightzstart := viewz + atradious - _SHR2(atradious);
-  topslope := (atz + atradious) - sightzstart;
-  bottomslope := atz - sightzstart;
+  los.sightzstart := viewz + atradious - (atradious div 4);
+  los.topslope := (atz + atradious) - los.sightzstart;
+  los.bottomslope := atz - los.sightzstart;
 
-  strace.x := viewx;
-  strace.y := viewy;
-  t2x := atx;
-  t2y := aty;
-  strace.dx := atx - viewx;
-  strace.dy := aty - viewy;
+  los.strace.x := viewx;
+  los.strace.y := viewy;
+  los.t2x := atx;
+  los.t2y := aty;
+  los.strace.dx := atx - viewx;
+  los.strace.dy := aty - viewy;
+
+  if viewx > atx then
+  begin
+    los.bbox[BOXRIGHT] := viewx;
+    los.bbox[BOXLEFT] := atx;
+  end
+  else
+  begin
+    los.bbox[BOXRIGHT] := atx;
+    los.bbox[BOXLEFT] := viewx;
+  end;
+
+  if viewy > aty then
+  begin
+    los.bbox[BOXTOP] := viewy;
+    los.bbox[BOXBOTTOM] := aty;
+  end
+  else
+  begin
+    los.bbox[BOXTOP] := aty;
+    los.bbox[BOXBOTTOM] := viewy;
+  end;
 
   // the head node is the last node output
-  result := P_CrossBSPNode(numnodes - 1);
+  result := P_CrossBSPNode(numnodes - 1, @los);
 end;
 
 end.
+

@@ -24,10 +24,10 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//   Enemy thinking, AI.
-//   Action Pointer Functions
-//   that are associated with states/frames.
+// DESCRIPTION:
+//  Enemy thinking, AI.
+//  Action Pointer Functions
+//  that are associated with states/frames.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -297,9 +297,11 @@ uses
   p_floor,
   p_pspr,
   p_extra,
+  p_common,
   p_sounds,
   p_dialog,
   p_terrain,
+  ps_main,
   r_defs,
   r_main;
 
@@ -373,7 +375,7 @@ begin
     if (check.flags and ML_TWOSIDED) = 0 then
       continue;
 
-    P_LineOpening(check);
+    P_LineOpening(check, false);
 
     if openrange <= 0 then
       continue; // closed door
@@ -684,6 +686,11 @@ begin
     begin
       dec(numspechit);
       ld := spechit[numspechit];
+
+      if ld.flags and ML_TRIGGERSCRIPTS <> 0 then
+        if actor.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
+          PS_EventUseLine(actor, pDiff(ld, lines, SizeOf(line_t)), P_PointOnLineSide(actor.x, actor.y, ld));
+
       // if the special is not a door
       // that can be opened,
       // return false

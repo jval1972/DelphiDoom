@@ -18,8 +18,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  LineOfSight/Visibility checks, uses REJECT Lookup Table.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -36,19 +39,11 @@ uses
   m_fixed,
   p_mobj_h;
 
-//
-//==============================================================================
-//
-//              P_CheckSight
-//
-//This uses specialized forms of the maputils routines for optimized performance
-//
-//==============================================================================
-//
-
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 
 function P_SightPathTraverse (x1, y1, x2, y2: fixed_t): boolean;
+
+function P_CheckCameraSight(camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
 
 var
   bottomslope: fixed_t; // slopes to top and bottom of target
@@ -59,6 +54,8 @@ implementation
 
 uses
   d_delphi,
+  doomdef,
+  g_game,
   p_local,
   p_maputl,
   p_setup,
@@ -66,8 +63,19 @@ uses
   r_defs,
   r_main;
 
-var
-  sightcounts: array[0..2] of integer;
+// JVAL: 3d Floors
+type
+  los_t = record
+    sightzstart: fixed_t;
+    t2x: fixed_t;
+    t2y: fixed_t;
+    strace: divline_t;
+    topslope: fixed_t;
+    bottomslope: fixed_t;
+    bbox: array[0..3] of fixed_t;
+  end;
+  Plos_t = ^los_t;
+
 
 //
 //==============
@@ -87,7 +95,7 @@ begin
 //
 // crosses a two sided line
 //
-  P_LineOpening(li);
+  P_LineOpening(li, false);
 
   if openbottom >= opentop then // quick test for totally closed doors
   begin
@@ -401,7 +409,6 @@ begin
   begin
     if not P_SightBlockLinesIterator(mapx, mapy) then
     begin
-      inc(sightcounts[1]);
       result := false;   // early out
       exit;
     end;
@@ -426,8 +433,6 @@ begin
 //
 // couldn't early out, so go through the sorted list
 //
-  inc(sightcounts[2]);
-
   result := P_SightTraverseIntercepts;
 end;
 
@@ -446,24 +451,60 @@ end;
 
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 var
-  s1, s2: integer;
-  pnum, bytenum, bitnum: integer;
+  s1: integer;
+  s2: integer;
+  pnum: integer;
+  bytenum: integer;
+  bitnum: integer;
+  midn: integer;
+  mid: Psector_t;
 begin
-//
-// check for trivial rejection
-//
+  // First check for trivial rejection.
+
+  // Determine subsector entries in REJECT table.
   s1 := (integer(Psubsector_t(t1.subsector).sector) - integer(sectors)) div SizeOf(sector_t);
   s2 := (integer(Psubsector_t(t2.subsector).sector) - integer(sectors)) div SizeOf(sector_t);
-  pnum := s1 * numsectors + s2;
-  bytenum := _SHR3(pnum);
-  bitnum := _SHL(1, pnum and 7);
 
-  if rejectmatrix[bytenum] and bitnum <> 0 then
+  if numsectors > 1 then
   begin
-    inc(sightcounts[0]);
-    result := false;  // can't possibly be connected
-    exit;
+  
+    pnum := s1 * numsectors + s2;
+    bytenum := pnum div 8;
+    bitnum := 1 shl (pnum and 7);
+
+    // Check in REJECT table.
+    if bytenum >= 0 then
+      if bytenum < rejectmatrixsize then
+        if rejectmatrix[bytenum] and bitnum <> 0 then
+        begin
+          // can't possibly be connected
+          result := false;
+          exit;
+        end;
+
   end;
+
+  // JVAL: 3D floors
+  midn := sectors[s2].midsec;
+  if midn > -1 then
+  begin
+    mid := @sectors[midn];
+    if ((t1.z + t1.height <= mid.floorheight) and (t2.z >= mid.floorheight)) or
+       ((t1.z >= mid.ceilingheight) and (t2.z + t1.height <= mid.ceilingheight)) then
+    begin
+      result := false;
+      exit;
+    end;
+  end;
+
+  // JVAL: 3D floors
+  if G_PlayingEngineVersion >= VERSION142 then
+    if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
+    begin
+      result := t1.floorz = t2.floorz;
+      exit;
+    end;
+
 
 //
 // check precisely
@@ -475,4 +516,28 @@ begin
   result := P_SightPathTraverse(t1.x, t1.y, t2.x, t2.y);
 end;
 
+//
+// P_CheckCameraSight
+//
+// JVAL: Check if the camera can see mo (=player.mo)
+//
+
+function P_CheckCameraSight(camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
+begin
+  if mo = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  inc(validcount);
+
+  sightzstart := camz + mo.height - _SHR2(mo.height);
+  topslope := (mo.z + mo.height) - sightzstart;
+  bottomslope := mo.z - sightzstart;
+
+  result := P_SightPathTraverse(camx, camy, mo.x, mo.y);
+end;
+
 end.
+

@@ -75,10 +75,14 @@ uses
   p_user,
   p_spec,
   p_mobj,
+  p_mobj_h,
+  p_mobjlist,
+  ps_main,  // JVAL: Script Events
   z_zone;
 
 procedure P_InitThinkers;
 begin
+  mobjlist.Clear;
   thinkercap.prev := @thinkercap;
   thinkercap.next := @thinkercap;
 end;
@@ -89,6 +93,9 @@ end;
 //
 procedure P_AddThinker(thinker: Pthinker_t);
 begin
+  if @thinker._function.acp1 = @P_MobjThinker then
+    mobjlist.Add(Pmobj_t(thinker));
+
   thinkercap.prev.next := thinker;
   thinker.next := @thinkercap;
   thinker.prev := thinkercap.prev;
@@ -102,6 +109,8 @@ end;
 //
 procedure P_RemoveThinker(thinker: Pthinker_t);
 begin
+  if @thinker._function.acp1 = @P_MobjThinker then
+    mobjlist.Remove(Pmobj_t(thinker));
   // FIXME: NOP.
   thinker._function.acv := nil;
 end;
@@ -150,9 +159,18 @@ begin
     exit;
 
   if (not demoplayback) and (not demorecording) and C_IsConsoleActive and (not netgame) and (leveltime <> 0) then
-    exit;   
+    exit;
 
   isgamesuspended := false;
+
+  // JVAL: Script Events
+  if leveltime = 0 then
+  begin
+    PS_EventMapStart;
+    for i := 0 to MAXPLAYERS - 1 do
+      if playeringame[i] then
+        PS_EventPlayerEnter(i);
+  end;
 
   for i := 0 to MAXPLAYERS - 1 do
     if playeringame[i] then
@@ -161,6 +179,16 @@ begin
   P_RunThinkers;
   P_UpdateSpecials;
   P_RespawnSpecials;
+
+  // JVAL: Script Events
+  PS_EventTick(leveltime);
+
+  if leveltime mod TICRATE = 0 then
+  begin
+    PS_EventTimerEverySecond(leveltime div TICRATE);
+    if leveltime mod (60 * TICRATE) = 0 then
+      PS_EventTimerEveryMinute(leveltime div (60 * TICRATE));
+  end;
 
   // for par times
   inc(leveltime);

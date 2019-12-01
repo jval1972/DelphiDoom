@@ -83,9 +83,6 @@ var
   forcecolormaps: boolean;
   use32bitfuzzeffect: boolean;
   diher8bittransparency: boolean;
-  chasecamera: boolean;
-  chasecamera_viewxy: integer;
-  chasecamera_viewz: integer;
 
 //
 // Utility functions.
@@ -163,6 +160,11 @@ var
   spanfunc: PProcedure;
   basespanfunc: PProcedure;
   ripplespanfunc: PProcedure;
+
+  // JVAL: Slopes
+  slopefunc: PProcedure;
+  baseslopefunc: PProcedure;
+  rippleslopefunc: PProcedure;
 
   centerxfrac: fixed_t;
   centeryfrac: fixed_t;
@@ -254,7 +256,7 @@ var
   linecount: integer;
   loopcount: integer;
 
-  viewangleoffset: angle_t = 0; // never a value assigned to this variable!
+  viewangleoffset: angle_t = 0; // Net drone angle
 
   setsizeneeded: boolean;
 
@@ -275,11 +277,17 @@ var
 
 var
   monitor_relative_aspect: Double = 1.0;
+  fov: fixed_t; // JVAL: 3d Floors (Made global - moved from R_InitTextureMapping)
+{$IFNDEF OPENGL}
+  xfocallen: float; // JVAL: Slopes
+{$ENDIF}
 
 implementation
 
 uses
+{$IFDEF OPENGL}
   Math,
+{$ENDIF}
   doomdata,
   c_cmds,
   d_net,
@@ -289,25 +297,31 @@ uses
   p_setup,
   p_sight,
   p_map,
+  p_3dfloors,  // JVAL: 3d floors
   {$IFNDEF OPENGL}
   i_video,
   i_system,
   {$ENDIF}
   r_colormaps,
-  r_draw,
   r_aspect,
+  r_draw,
   r_bsp,
+  r_earthquake,
   r_things,
   r_plane,
   r_sky,
   r_segs,
   r_hires,
+  r_camera,
 {$IFNDEF OPENGL}
   r_precalc,
   r_cache,
   r_fake3d,
   r_ripple,
+  r_trans8,
   r_voxels,
+  r_3dfloors, // JVAL: 3d Floors
+  r_slopes, // JVAL: Slopes
 {$ENDIF}
   r_lights,
   r_intrpl,
@@ -316,7 +330,6 @@ uses
   gl_clipper,
   gl_tex,
 {$ELSE}
-  r_trans8,
   r_wall8,
   r_wall32,
   r_span,
@@ -330,6 +343,7 @@ uses
   r_col_av,
   r_col_al,
   r_col_tr,
+  r_depthbuffer,  // JVAL: 3d Floors
   v_video,
 {$ENDIF}
   v_data,
@@ -689,7 +703,6 @@ var
   t: integer;
   focallength: fixed_t;
   an: angle_t;
-  fov: fixed_t;
 begin
   // Use tangent table to generate viewangletox:
   //  viewangletox will give the next greatest x
@@ -746,7 +759,7 @@ begin
 end;
 
 //
-//
+// R_InitLightTables
 // Only inits the zlight table,
 //  because the scalelight table changes with view size.
 //
@@ -878,6 +891,9 @@ begin
         spanfunc := R_DrawSpanLow;
         basespanfunc := R_DrawSpanLow;
         ripplespanfunc := R_DrawSpanLow;
+        slopefunc := R_DrawSpanLow; // JVAL: Slopes
+        baseslopefunc := R_DrawSpanLow;
+        rippleslopefunc := R_DrawSpanLow;
         fuzzcolfunc := R_DrawFuzzColumn;
         lightcolfunc := R_DrawFuzzColumn;
         whitelightcolfunc := R_DrawFuzzColumn;
@@ -923,6 +939,9 @@ begin
         spanfunc := R_DrawSpanLow;
         basespanfunc := R_DrawSpanLow;
         ripplespanfunc := R_DrawSpanLow;
+        slopefunc := R_DrawSpanLow; // JVAL: Slopes
+        baseslopefunc := R_DrawSpanLow;
+        rippleslopefunc := R_DrawSpanLow;
         fuzzcolfunc := R_DrawFuzzColumn;
         lightcolfunc := R_DrawFuzzColumn;
         whitelightcolfunc := R_DrawFuzzColumn;
@@ -968,6 +987,9 @@ begin
         spanfunc := R_DrawSpanMedium;
         basespanfunc := R_DrawSpanMedium;
         ripplespanfunc := R_DrawSpanMedium_Ripple;
+        slopefunc := R_DrawSlopeMedium; // JVAL: Slopes
+        baseslopefunc := R_DrawSlopeMedium;
+        rippleslopefunc := R_DrawSlopeMedium_Ripple;
         fuzzcolfunc := R_DrawFuzzColumn;
         lightcolfunc := R_DrawFuzzColumn;
         whitelightcolfunc := R_DrawFuzzColumn;
@@ -1006,6 +1028,9 @@ begin
         spanfunc := R_DrawSpanNormal;
         basespanfunc := R_DrawSpanNormal;
         ripplespanfunc := R_DrawSpanNormal_Ripple;
+        slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
+        baseslopefunc := R_DrawSpanNormal;
+        rippleslopefunc := R_DrawSpanNormal_Ripple;
         if use32bitfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
         else
@@ -1047,6 +1072,9 @@ begin
         spanfunc := R_DrawSpanNormal; //R_DrawSpanHi;
         basespanfunc := R_DrawSpanNormal;
         ripplespanfunc := R_DrawSpanNormal_Ripple;
+        slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
+        baseslopefunc := R_DrawSpanNormal;
+        rippleslopefunc := R_DrawSpanNormal_Ripple;
         if use32bitfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
         else
@@ -1088,6 +1116,9 @@ begin
         spanfunc := R_DrawSpanNormal; //R_DrawSpanUltra;
         basespanfunc := R_DrawSpanNormal;
         ripplespanfunc := R_DrawSpanNormal_Ripple;
+        slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
+        baseslopefunc := R_DrawSpanNormal;
+        rippleslopefunc := R_DrawSpanNormal_Ripple;
         if use32bitfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
         else
@@ -1152,14 +1183,17 @@ begin
   viewwidth := scaledviewwidth;
   centery := viewheight div 2;
   centerx := viewwidth div 2;
+  {$IFNDEF OPENGL}
+  xfocallen := centerx / tan(fov * ANGLE_T_TO_RAD / 2); // JVAL: Slopes
+  {$ENDIF}
+
   centerxfrac := centerx * FRACUNIT;
   centeryfrac := centery * FRACUNIT;
 
 // JVAL: Widescreen support
   monitor_relative_aspect := R_GetRelativeAspect{$IFNDEF OPENGL} * R_Fake3DAspectCorrection(viewplayer){$ENDIF};
-//  printf('%2.4f'#13#10, [monitor_relative_aspect]);
   projection := Round(centerx / monitor_relative_aspect * FRACUNIT);
-  projectiony := (((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT); // JVAL for correct aspect}
+  projectiony := (((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT); // JVAL for correct aspect
 
   if olddetail <> setdetail then
   begin
@@ -1206,7 +1240,6 @@ begin
     cosadj := abs(finecosine[xtoviewangle[i] div ANGLETOFINEUNIT]);
     distscale[i] := FixedDiv(FRACUNIT, cosadj);
   end;
-
 {$ENDIF}
 
   // Calculate the light levels to use
@@ -1236,7 +1269,7 @@ begin
       startmaphi := ((LIGHTLEVELS - 1 - i) * 2 * FRACUNIT) div LIGHTLEVELS;
       for j := 0 to HLL_MAXLIGHTSCALE - 1 do
       begin
-        levelhi := startmaphi - j * 16 * SCREENWIDTH div viewwidth;
+        levelhi := startmaphi - (j * SCREENWIDTH) div viewwidth * 16;
 
         if levelhi < 0 then
           scalelightlevels[i][j] := FRACUNIT
@@ -1394,7 +1427,7 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitRippleEffects');
   R_InitRippleEffects;
-{$ENDIF}  
+{$ENDIF}
   printf(#13#10 + 'R_InitInterpolations');
   R_InitInterpolations;
   printf(#13#10 + 'R_InitPointToAngle');
@@ -1423,6 +1456,8 @@ begin
   R_InitWallsCache32;
   printf(#13#10 + 'R_InitVoxels'#13#10);
   R_InitVoxels;
+  printf(#13#10 + 'R_InitDepthBuffer'#13#10); // JVAL: 3d Floors
+  R_InitDepthBuffer;
 {$ENDIF}
 
   framecount := 0;
@@ -1430,7 +1465,7 @@ begin
   C_AddCmd('zaxisshift', @R_CmdZAxisShift);
 {$IFNDEF OPENGL}
   C_AddCmd('fake3d, usefake3d', @R_CmdUseFake3D);
-{$ENDIF}  
+{$ENDIF}
   C_AddCmd('lowestres, lowestresolution', @R_CmdLowestRes);
   C_AddCmd('lowres, lowresolution', @R_CmdLowRes);
   C_AddCmd('mediumres, mediumresolution', @R_CmdMediumRes);
@@ -1482,6 +1517,8 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_VoxelsDone');
   R_VoxelsDone;
+  printf(#13#10 + 'R_ShutDownDepthBuffer'#13#10); // JVAL: 3d Floors
+  R_ShutDownDepthBuffer;
 {$ENDIF}
 {$IFDEF OPENGL}
   printf(#13#10 + 'R_ShutDownOpenGL');
@@ -1496,7 +1533,7 @@ end;
 function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;
 var
   node: Pnode_t;
-  nodenum: integer;
+  nodenum: LongWord;
 begin
   // single subsector is a special case
   if numnodes = 0 then
@@ -1507,7 +1544,7 @@ begin
 
   nodenum := numnodes - 1;
 
-  while nodenum and NF_SUBSECTOR = 0 do
+  while nodenum and NF_SUBSECTOR_V5 = 0 do
   begin
     node := @nodes[nodenum];
     if R_PointOnSide(x, y, node) then
@@ -1516,78 +1553,8 @@ begin
       nodenum := node.children[0]
   end;
 
-  result := @subsectors[nodenum and (not NF_SUBSECTOR)];
+  result := @subsectors[nodenum and (not NF_SUBSECTOR_V5)]; // jval: glbsp
 end;
-
-//
-// R_AdjustChaseCamera
-//
-// JVAL: Adjust the chace camera position
-//       A bit clumsy but works OK
-//
-const
-  CAMERARADIOUS = 8 * FRACUNIT;
-
-procedure R_AdjustChaseCamera;
-var
-  c_an: angle_t;
-  cx, cy, cz: fixed_t;
-  dx, dy: fixed_t;
-  loops: integer;
-  sec: Psector_t;
-  sec2: Psector_t;
-  ceilz, floorz: fixed_t;
-begin
-
-  if chasecamera then
-  begin
-    sec := Psubsector_t(viewplayer.mo.subsector).sector;
-    ceilz := sec.ceilingheight + P_SectorJumpOverhead(sec) - CAMERARADIOUS;
-    cz := viewz + chasecamera_viewz * FRACUNIT;
-    if cz > ceilz then
-      cz := ceilz
-    else
-    begin
-      floorz := sec.floorheight + CAMERARADIOUS;
-      if cz < floorz then
-        cz := floorz
-    end;
-
-
-    c_an := (viewangle + ANG180) shr ANGLETOFINESHIFT;
-    dx := chasecamera_viewxy * finecosine[c_an];
-    dy := chasecamera_viewxy * finesine[c_an];
-
-    loops := 0;
-    repeat
-      cx := viewx + dx;
-      cy := viewy + dy;
-      if P_CheckCameraSight(cx, cy, cz, viewplayer.mo) then
-        break;
-      dx := dx * 31 div 32;
-      dy := dy * 31 div 32;
-      inc(loops);
-    until loops > 64;
-    {$IFNDEF OPENGL}
-    if loops > 1 then
-      R_PlayerViewBlanc(aprox_black);
-    {$ENDIF}
-    viewx := cx;
-    viewy := cy;
-
-    sec2 := R_PointInSubsector(viewx, viewy).sector;
-    floorz := sec2.floorheight;
-    if cz < floorz then
-      cz := floorz + 1 * FRACUNIT;
-    ceilz := sec2.ceilingheight + P_SectorJumpOverhead(sec2);
-    if cz > ceilz then
-      cz := ceilz - 1 * FRACUNIT;
-    
-    viewz := cz;
-  end;
-
-end;
-
 
 var
   lastcm: integer = -2;
@@ -1611,7 +1578,14 @@ begin
 
   viewz := player.viewz;
 
+  R_AdjustTeleportZoom(player);
   R_AdjustChaseCamera;
+  R_AdjustGlobalEarthQuake(player);
+
+{$IFNDEF OPENGL}
+  viewsubsector := R_PointInSubSector(viewx, viewy); // JVAL: 3d Floors
+  hasExtraFloors := viewsubsector.sector.midsec >= 0;  // JVAL: 3d Floors
+{$ENDIF}
 
   {$IFDEF OPENGL}
   viewpitch := 0;
@@ -1625,7 +1599,6 @@ begin
     if sblocks > 11 then
       sblocks := 11;
     cy := (viewheight + player.lookdir * sblocks * SCREENHEIGHT div 1000) div 2;
-    //cy := viewheight div 2+(player.lookdir)*screenblocks div 10;
     if centery <> cy then
     begin
       centery := cy;
@@ -1656,8 +1629,8 @@ begin
   viewsin := finesine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
   viewcos := finecosine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
 {$IFNDEF OPENGL}
-  dviewsin := Sin(viewangle/$FFFFFFFF * 2 * pi);
-  dviewcos := Cos(viewangle/$FFFFFFFF * 2 * pi);
+  dviewsin := Sin(viewangle / $FFFFFFFF * 2 * pi);
+  dviewcos := Cos(viewangle / $FFFFFFFF * 2 * pi);
 // JVAL: Widescreen support
   relativeaspect := 320 / 200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
 {$ENDIF}
@@ -1776,7 +1749,7 @@ begin
   R_ClearSprites;
 
   // check for new console commands.
-//  NetUpdate;
+  NetUpdate;
 
   R_ClearWallsCache8;
 
@@ -1789,10 +1762,12 @@ begin
 
   R_WaitWallsCache8;
 
+  R_DrawFFloors;  // JVAL: 3d Floors
+
   R_DrawMasked;
 
   // Check for new console commands.
-//  NetUpdate;
+  NetUpdate;
 
   R_Execute3DTransform;
 
@@ -1817,7 +1792,7 @@ begin
   R_ClearSprites;
 
   // check for new console commands.
-//  NetUpdate;
+  NetUpdate;
 
   R_ClearWallsCache32;
 
@@ -1830,10 +1805,12 @@ begin
 
   R_WaitWallsCache32;
 
+  R_DrawFFloors;  // JVAL: 3d Floors
+
   R_DrawMasked;
 
   // Check for new console commands.
-//  NetUpdate;
+  NetUpdate;
 
   R_Execute3DTransform;
 
@@ -1897,7 +1874,7 @@ begin
 {$ENDIF}
 
   // check for new console commands.
-//  NetUpdate;
+  NetUpdate;
 
 {$IFDEF OPENGL}
   gld_ClipperAddViewRange;
@@ -1907,12 +1884,12 @@ begin
   R_RenderBSPNode(numnodes - 1);
 
   // Check for new console commands.
-//  NetUpdate;
+  NetUpdate;
 
 {$IFDEF OPENGL}
   gld_DrawScene(player);
 
-//  NetUpdate;
+  NetUpdate;
 
   gld_EndDrawScene;
 
@@ -1920,7 +1897,9 @@ begin
   R_DrawPlanes;
 
   // Check for new console commands.
-//  NetUpdate;
+  NetUpdate;
+
+  R_DrawFFloors;  // JVAL: 3d Floors
 
   R_DrawMasked;
 

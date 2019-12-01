@@ -80,7 +80,12 @@ uses
   doomdef,
   i_system,
   m_fixed,
-  p_enemy, p_pspr, p_mobj_h, p_inter,
+  p_enemy,
+  p_pspr,
+  p_mobj_h,
+  p_inter,
+  p_common,
+  info_common,
   sounds;
 
 const
@@ -12150,7 +12155,7 @@ const // Doom Original Sprite Names
     'FX15', 'BEAS', 'FRB1', 'SNKE', 'SNFX', 'HEAD', 'FX05', 'FX06', 'FX07', 'CLNK',
     'WZRD', 'FX11', 'FX10', 'KNIG', 'SPAX', 'RAXE', 'SRCR', 'FX14', 'SOR2', 'SDTH',
     'FX16', 'MNTR', 'FX12', 'FX13', 'AKYY', 'BKYY', 'CKYY', 'AMG2', 'AMM1', 'AMM2',
-    'AMC1', 'AMC2', 'AMS1', 'AMS2', 'AMP1', 'AMP2', 'AMB1', 'AMB2', ''
+    'AMC1', 'AMC2', 'AMS1', 'AMS2', 'AMP1', 'AMP2', 'AMB1', 'AMB2', 'TNT1', ''
   );
 
 const // Doom Original mobjinfo
@@ -16321,6 +16326,7 @@ procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;
 begin
+  Info_InitDnLookUp;
   if states = nil then
   begin
     states := malloc(Ord(DO_NUMSTATES) * SizeOf(state_t));
@@ -16926,6 +16932,7 @@ procedure Info_ShutDown;
 var
   i: integer;
 begin
+  Info_ShutDownDnLookUp;
   for i := 0 to numstates - 1 do
   begin
     if states[i].params <> nil then
@@ -16979,6 +16986,4 @@ begin
 end;
 
 end.
-
-
 

@@ -90,6 +90,8 @@ uses
   r_trans8,
   r_fake3d,
   r_intrpl,
+  r_3dfloors, // JVAL: 3d Floors
+  r_depthbuffer, // JVAL: 3d Floors
   p_setup,
   p_pspr,
   p_tick,
@@ -820,6 +822,16 @@ begin
   memfree(Pointer(vbuf), SizeOf(voxelbuffer2D_t));
 end;
 
+function SwapRGB(const c: LongWord): LongWord;
+var
+  r, g, b: byte;
+begin
+  r := c shr 16;
+  g := c shr 8;
+  b := c;
+  result := b shl 16 + g shl 8 + r;
+end;
+
 function R_LoadDDVOX(const fname: string; const offset, scale: fixed_t): voxelcolumns_p;
 var
   buf: TDStringList;
@@ -863,7 +875,7 @@ begin
     begin
       sc.UnGet;
       sc.MustGetInteger;
-      voxelbuffer[xx, yy, zz].color := sc._Integer;
+      voxelbuffer[xx, yy, zz].color := SwapRGB(sc._Integer);
       inc(zz);
     end;
     if zz = voxelsize then
@@ -885,16 +897,6 @@ begin
   R_OptimizeVoxelBuffer(voxelbuffer, voxelsize);
   R_PrepareVoxelColumns(voxelbuffer, voxelsize);
   result := R_VoxelColumnsFromBuffer(voxelbuffer, voxelsize, offset, scale);
-end;
-
-function SwapRGB(const c: LongWord): LongWord;
-var
-  r, g, b: byte;
-begin
-  r := c shr 16;
-  g := c shr 8;
-  b := c;
-  result := b shl 16 + g shl 8 + r;
 end;
 
 type
@@ -986,10 +988,10 @@ type
 
 type
   kvxslab_t = record
-	  ztop: byte;		// starting z coordinate of top of slab
-	  zleng: byte;  // # of bytes in the color array - slab height
-	  backfacecull: byte;	// low 6 bits tell which of 6 faces are exposed
-	  col: array[0..255] of byte;// color data from top to bottom
+    ztop: byte;    // starting z coordinate of top of slab
+    zleng: byte;  // # of bytes in the color array - slab height
+    backfacecull: byte;  // low 6 bits tell which of 6 faces are exposed
+    col: array[0..255] of byte;// color data from top to bottom
   end;
   kvxslab_p = ^kvxslab_t;
 
@@ -1002,9 +1004,9 @@ var
   r, g, b: byte;
   buf: PByteArray;
   numbytes: integer;
-	xsiz, ysiz, zsiz, xpivot, ypivot, zpivot: integer;
-	xoffset: PIntegerArray;
-	xyoffset: PSmallIntPArray;
+  xsiz, ysiz, zsiz, xpivot, ypivot, zpivot: integer;
+  xoffset: PIntegerArray;
+  xyoffset: PSmallIntPArray;
   voxdata: PByteArray;
   xx, yy, zz: integer;
   slab: kvxslab_p;
@@ -1261,7 +1263,7 @@ begin
   VX_VoxelsDone;
 end;
 
-procedure R_DrawThingVoxel(const thing: Pmobj_t; const vidx: integer{; const aleftx, arightx: integer});
+procedure R_DrawThingVoxel(const thing: Pmobj_t; const vidx: integer; const depth: LongWord);
 var
   info: Pvoxelstate_t;
   voxelinf: Pvoxelmanageritem_t;
@@ -1323,6 +1325,8 @@ var
   t_x, t_y, t_z: fixed_t;
   t_ang: angle_t;
   tmp_top, tmp_bottom: fixed_t;
+  vprojection, vprojectiony: fixed_t;
+  voxelinfscale: fixed_t;
 begin
   info := @voxelstates[vidx];
   voxelinf := @voxelmanager.items[info.voxelidx];
@@ -1369,8 +1373,13 @@ begin
     if tz < MINZ {- clms.range} then
       exit;
 
+    // scale y
+    voxelinfscale := voxelinf.voxel.fscale;
+    vprojection := projection;
+    vprojectiony := projectiony;
+
     // scale: small at large distances
-    vscale := FixedDiv(projection, tz);
+    vscale := FixedDiv(vprojection, tz);
     if detailLevel <= DL_LOW then
     begin
       if vscale >= FRACUNIT then
@@ -1443,7 +1452,13 @@ begin
               if top < mfloorclip[left] then
               begin
                 dc_color := col.dc_color;
-                putpixelfunc(left, top);
+                if depthbufferactive then
+                begin
+                  if depth >= R_DepthBufferAt(left, top) then
+                    putpixelfunc(left, top);
+                end
+                else
+                  putpixelfunc(left, top);
               end;
 
           col := col.next;
@@ -1477,47 +1492,47 @@ begin
       tz := FixedMul(a_x[0], viewcos) + FixedMul(a_y[0], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv2(projection, tz);
+      scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[0], viewsin) - FixedMul(a_y[0], viewcos);
       left := FixedInt_FixedMul(tx, scale);
       right := left;
-      scaley0 := FixedDiv2(projectiony, tz);
+      scaley0 := FixedDiv2(vprojectiony, tz);
 
       tz := FixedMul(a_x[1], viewcos) + FixedMul(a_y[1], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv2(projection, tz);
+      scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[1], viewsin) - FixedMul(a_y[1], viewcos);
       Xup := FixedInt_FixedMul(tx, scale);
       if left > Xup then
         left := Xup
       else if right < Xup then
         right := Xup;
-      scaley1 := FixedDiv2(projectiony, tz);
+      scaley1 := FixedDiv2(vprojectiony, tz);
 
       tz := FixedMul(a_x[2], viewcos) + FixedMul(a_y[2], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv2(projection, tz);
+      scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[2], viewsin) - FixedMul(a_y[2], viewcos);
       Xup := FixedInt_FixedMul(tx, scale);
       if left > Xup then
         left := Xup
       else if right < Xup then
         right := Xup;
-      scaley2 := FixedDiv2(projectiony, tz);
+      scaley2 := FixedDiv2(vprojectiony, tz);
 
       tz := FixedMul(a_x[3], viewcos) + FixedMul(a_y[3], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv2(projection, tz);
+      scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[3], viewsin) - FixedMul(a_y[3], viewcos);
       Xup := FixedInt_FixedMul(tx, scale);
       if left > Xup then
         left := Xup
       else if right < Xup then
         right := Xup;
-      scaley3 := FixedDiv2(projectiony, tz);
+      scaley3 := FixedDiv2(vprojectiony, tz);
 
 //--------------------------------------------------------      
 {      left := left + centerx;
@@ -1559,8 +1574,8 @@ begin
       while col <> nil do
       begin
       // Any optimization inside here will give good fps boost
-        topz := t_z + col.fixedoffset;
-        bottomz := topz - col.fixedlength;
+        topz := t_z + FixedMul(col.fixedoffset, voxelinfscale);
+        bottomz := topz - FixedMul(col.fixedlength, voxelinfscale);
         if topz > ceilz then
           topz := ceilz;
         if bottomz < floorz then
@@ -1640,7 +1655,10 @@ begin
           else
             dc_yh := bottom;
 
-          batchcolfunc;
+          if depthbufferactive then
+            R_DrawBatchColumnWithDepthBufferCheck(batchcolfunc, depth)
+          else
+            batchcolfunc;
 
           col := col.next;
 
@@ -1674,7 +1692,10 @@ begin
             dc_yl := last_top;
             dc_yh := last_bot;
 
-            batchcolfunc;
+            if depthbufferactive then
+              R_DrawBatchColumnWithDepthBufferCheck(batchcolfunc, depth)
+            else
+              batchcolfunc;
 
             last_top := cur_top;
             last_bot := cur_bot;
@@ -1690,7 +1711,10 @@ begin
           dc_yl := last_top;
           dc_yh := last_bot;
 
-          batchcolfunc;
+          if depthbufferactive then
+            R_DrawBatchColumnWithDepthBufferCheck(batchcolfunc, depth)
+          else
+            batchcolfunc;
         end;
 
         col := col.next;
@@ -1701,12 +1725,12 @@ begin
   end;
 end;
 
-procedure R_DrawThingVoxels(const thing: Pmobj_t);
+procedure R_DrawThingVoxels(const thing: Pmobj_t; const depth: LongWord);
 var
   i: integer;
 begin
   for i := 0 to thing.state.voxels.Count - 1 do
-    R_DrawThingVoxel(thing, thing.state.voxels.Numbers[i]{, 0, 320});
+    R_DrawThingVoxel(thing, thing.state.voxels.Numbers[i], depth);
 end;
 
 procedure R_DrawVoxel(const vis: Pvissprite_t);
@@ -1722,15 +1746,15 @@ var
 {$IFDEF DOOM_OR_STRIFE}
   h, mh: fixed_t;
   plheightsec: integer;
-  y: integer;
+//  y: integer;
 {$ENDIF}
   flag: boolean;
+  depth: LongWord;
+  size: integer;
 begin
-  for x := vis.vx1 to vis.vx2 do
-  begin
-    clipbot[x] := -2;
-    cliptop[x] := -2;
-  end;
+  size := vis.vx2 - vis.vx1 + 1;
+  memsetsi(@clipbot[vis.x1], -2, size);
+  memsetsi(@cliptop[vis.x1], -2, size);
 
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
@@ -1741,7 +1765,7 @@ begin
     // determine if the drawseg obscures the sprite
     if (ds.x1 > vis.vx2) or
        (ds.x2 < vis.vx1) or
-       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil)) then
+       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil) and (ds.thicksidecol = nil)) then
     begin
       // does not cover sprite
       continue;
@@ -1771,6 +1795,8 @@ begin
        ((lowscale < vis.scale) and (not R_PointOnSegSide(vis.gx, vis.gy, ds.curline))) then
     begin
       // masked mid texture?
+      if ds.thicksidecol <> nil then        // JVAL: 3d Floors
+        R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
       if ds.maskedtexturecol <> nil then
         R_RenderMaskedSegRange(ds, r1, r2);
       // seg is behind sprite
@@ -1839,7 +1865,7 @@ begin
               if (clipbot[x] = -2) or (h < clipbot[x]) then
                 clipbot[x] := h;
           end
-          else
+          else if (plheightsec <> -1) and (viewz <= sectors[plheightsec].floorheight) then
           begin
             for x := vis.vx1 to vis.vx2 do
               if (cliptop[x] = -2) or (h > cliptop[x]) then
@@ -1977,6 +2003,7 @@ begin
     flag := true;
   end;
 
+  depth := vis.scale;
   if not flag then
   begin
     dc_texturemid := 0;
@@ -2000,7 +2027,7 @@ begin
     end;
   end;
 
-  R_DrawThingVoxels(vis.mo);
+  R_DrawThingVoxels(vis.mo, depth);
 end;
 
 end.

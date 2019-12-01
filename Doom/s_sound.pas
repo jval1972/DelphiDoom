@@ -326,7 +326,12 @@ begin
   mus_paused := false;
 
   if gamemode = commercial then
-    mnum := Ord(mus_runnin) + gamemap - 1
+  begin
+    if gamemap = 99 then
+      mnum := Ord(mus_runnin)
+    else
+      mnum := Ord(mus_runnin) + gamemap - 1;
+  end
   else
   begin
     // JVAL: Use DEH files to specify new sounds for E4
@@ -453,14 +458,16 @@ begin
 
   // get lumpnum if necessary
   if sfx.lumpnum < 0 then
+  begin
     sfx.lumpnum := I_GetSfxLumpNum(sfx);
 
-  // JVAL
-  // Prevent crash, simply don't play the sound
-  if sfx.lumpnum < 0 then
-  begin
-    I_Warning('S_StartSoundAtVolume(): Sfx #: %d not found.'#13#10, [sfx_id]);
-    exit;
+    // JVAL
+    // Prevent crash, simply don't play the sound
+    if sfx.lumpnum < 0 then
+    begin
+      I_Warning('S_StartSoundAtVolume(): Sfx #: %d not found.'#13#10, [sfx_id]);
+      exit;
+    end;
   end;
 
   // increase the usefulness
@@ -989,7 +996,10 @@ begin
       S_sfx[i].lumpnum := I_GetSfxLumpNum(@S_sfx[i]);
       if S_sfx[i].lumpnum >= 0 then
       begin
-        W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
+        // jval
+        // avoid, cause serious mess-up with sounds
+        // W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
+        W_CacheLumpNum(S_sfx[i].lumpnum, PU_SOUND);
         sndmem := sndmem + W_LumpLength(S_sfx[i].lumpnum);
       end;
     end;

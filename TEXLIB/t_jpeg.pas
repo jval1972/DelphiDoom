@@ -492,7 +492,8 @@ begin
       err^.output_message(cinfo);
     {Always count warnings in num_warnings}
     inc( err^.num_warnings );
-  end else
+  end
+  else
     {It's a trace message. Show it if trace_level >= msg_level}
     if (err^.trace_level >= msg_level) then
       err^.output_message (cinfo);

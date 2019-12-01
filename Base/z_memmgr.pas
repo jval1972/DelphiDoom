@@ -49,8 +49,8 @@ type
 type
   TMemManager = class
   private
-    items: Pmemmanageritems_t;
-    numitems: integer;
+    fitems: Pmemmanageritems_t;
+    fnumitems: integer;
     realsize: integer;
     function item2ptr(const id: integer): Pointer;
     function ptr2item(const ptr: Pointer): integer;
@@ -62,6 +62,8 @@ type
     procedure M_ChangeTag(ptr: Pointer; tag: integer);
     function M_Malloc(size: integer; tag: integer; user: Pointer): pointer;
     function M_Realloc(ptr: Pointer; size: integer; tag: integer; user: Pointer): pointer;
+    property items: Pmemmanageritems_t read fitems write fitems;
+    property numitems: integer read fnumitems write fnumitems;
   end;
 
 
@@ -69,8 +71,8 @@ implementation
 
 constructor TMemManager.Create;
 begin
-  items := nil;
-  numitems := 0;
+  fitems := nil;
+  fnumitems := 0;
   realsize := 0;
 end;
 
@@ -78,15 +80,15 @@ destructor TMemManager.Destroy;
 var
   i: integer;
 begin
-  for i := numitems - 1 downto 0 do
-    FreeMem(items[i]);
-  FreeMem(items);
+  for i := fnumitems - 1 downto 0 do
+    memfree(Pointer(fitems[i]), fitems[i].size + SizeOf(memmanageritem_t));
+  memfree(pointer(fitems), realsize * SizeOf(Pmemmanageritem_t));
   inherited;
 end;
 
 function TMemManager.item2ptr(const id: integer): Pointer;
 begin
-  result := pointer(integer(items[id]) + SizeOf(memmanageritem_t));
+  result := pointer(integer(fitems[id]) + SizeOf(memmanageritem_t));
 end;
 
 function TMemManager.ptr2item(const ptr: Pointer): integer;
@@ -99,51 +101,53 @@ var
   i: integer;
 begin
   i := ptr2item(ptr);
-  if items[i].user <> nil then
-    items[i].user^ := nil;
-  FreeMem(items[i]);
-  if i < numitems - 1 then
+  if fitems[i].user <> nil then
+    fitems[i].user^ := nil;
+  memfree(pointer(fitems[i]), fitems[i].size + SizeOf(memmanageritem_t));
+  if i < fnumitems - 1 then
   begin
-    items[i] := items[numitems - 1];
-    items[numitems - 1] := nil;
-    items[i].index := i;
-  end;
-  dec(numitems);
+    fitems[i] := fitems[fnumitems - 1];
+    fitems[fnumitems - 1] := nil;
+    fitems[i].index := i;
+  end
+  else
+    fitems[i] := nil;
+  dec(fnumitems);
 end;
 
 procedure TMemManager.M_FreeTags(lowtag, hightag: integer);
 var
   i: integer;
 begin
-  for i := numitems - 1 downto 0 do
-    if (items[i].tag >= lowtag) and (items[i].tag <= hightag) then
+  for i := fnumitems - 1 downto 0 do
+    if (fitems[i].tag >= lowtag) and (fitems[i].tag <= hightag) then
       M_Free(item2ptr(i));
 end;
 
 procedure TMemManager.M_ChangeTag(ptr: Pointer; tag: integer);
 begin
-  items[ptr2item(ptr)].tag := tag;
+  fitems[ptr2item(ptr)].tag := tag;
 end;
 
 function TMemManager.M_Malloc(size: integer; tag: integer; user: Pointer): pointer;
 var
   i: integer;
 begin
-  if realsize <= numitems then
+  if realsize <= fnumitems then
   begin
     realsize := (realsize * 4 div 3 + 64) and (not 7);
-    ReallocMem(items, realsize * SizeOf(Pmemmanageritem_t));
-    for i := numitems + 1 to realsize - 1 do
-      items[i] := nil;
+    realloc(pointer(fitems), fnumitems * SizeOf(Pmemmanageritem_t), realsize * SizeOf(Pmemmanageritem_t));
+    for i := fnumitems + 1 to realsize - 1 do
+      fitems[i] := nil;
   end;
 
-  items[numitems] := malloc(size + SizeOf(memmanageritem_t));
-  items[numitems].size := size;
-  items[numitems].tag := tag;
-  items[numitems].index := numitems;
-  items[numitems].user := user;
-  result := item2ptr(numitems);
-  inc(numitems);
+  fitems[fnumitems] := malloc(size + SizeOf(memmanageritem_t));
+  fitems[fnumitems].size := size;
+  fitems[fnumitems].tag := tag;
+  fitems[fnumitems].index := fnumitems;
+  fitems[fnumitems].user := user;
+  result := item2ptr(fnumitems);
+  inc(fnumitems);
   if user <> nil then
     PPointer(user)^ := result;
 end;
@@ -168,14 +172,14 @@ begin
   end;
 
   i := ptr2item(ptr);
-  if items[i].size = size then
+  if fitems[i].size = size then
   begin
     result := ptr;
     exit;
   end;
 
-  if size > items[i].size then
-    copysize := items[i].size
+  if size > fitems[i].size then
+    copysize := fitems[i].size
   else
     copysize := size;
 

@@ -10,7 +10,8 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = Doom32.exe GLDoom32.exe GLHeretic32.exe Heretic32.exe Launcher.exe \
-  Hexen32.exe GLHexen32.exe
+  Hexen32.exe GLHexen32.exe GLStrife32.exe Strife32.exe ddc.exe ddc_doom.dll \
+  ddc_heretic.dll ddc_hexen.dll ddc_strife.dll DD_IDE.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -34,6 +35,30 @@ Hexen32.exe: Hexen32.dpr
   $(DCC)
 
 GLHexen32.exe: GLHexen32.dpr
+  $(DCC)
+
+GLStrife32.exe: GLStrife32.dpr
+  $(DCC)
+
+Strife32.exe: Strife32.dpr
+  $(DCC)
+
+ddc.exe: ddc.dpr
+  $(DCC)
+
+ddc_doom.dll: ddc_doom.dpr
+  $(DCC)
+
+ddc_heretic.dll: ddc_heretic.dpr
+  $(DCC)
+
+ddc_hexen.dll: ddc_hexen.dpr
+  $(DCC)
+
+ddc_strife.dll: ddc_strife.dpr
+  $(DCC)
+
+DD_IDE.exe: DD_IDE.dpr
   $(DCC)
 
 

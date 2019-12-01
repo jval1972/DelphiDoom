@@ -1558,7 +1558,7 @@ implementation
 
 uses
   i_system,
-  sc_decorate,
+  sc_actordef,
   w_wad;
 
 function S_GetSoundNumForName(const sfx_name: string): integer;
@@ -1759,7 +1759,6 @@ begin
       FreeAndNil(S_music[i].mp3stream);
     end;
 end;
-
 
 end.
 

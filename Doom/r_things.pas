@@ -76,7 +76,7 @@ var
   spryscale: fixed_t;
   sprtopscreen: fixed_t;
 
-// constant arrays             
+// constant arrays
 //  used for psprite clipping and initializing clipping
   negonearray: packed array[0..MAXWIDTH - 1] of smallint;
   screenheightarray: packed array[0..MAXWIDTH - 1] of smallint;
@@ -117,8 +117,8 @@ uses
   r_data,
   r_draw,
   r_main,
-{$IFNDEF OPENGL}
   p_setup,
+{$IFNDEF OPENGL}
   r_segs,
   r_column,
   r_batchcolumn,
@@ -128,7 +128,10 @@ uses
   r_bsp,
   r_voxels, // JVAL voxel support
   r_fake3d,
+  r_3dfloors, // JVAL: 3d Floors
+  r_depthbuffer, // JVAL: 3d Floors
 {$ENDIF}
+  r_camera,
   z_zone,
   w_wad,
   doomstat;
@@ -290,25 +293,25 @@ begin
     begin
       if spritepresent[l - firstspritelump] then
 
-      if lumpinfo[l].v1 = intname then // JVAL
-      begin
-        frame := Ord(lumpinfo[l].name[4]) - Ord('A');
-        rotation := Ord(lumpinfo[l].name[5]) - Ord('0');
-
-        if modifiedgame then
-          patched := W_GetNumForName(lumpinfo[l].name)
-        else
-          patched := l;
-
-        R_InstallSpriteLump(patched, frame, rotation, false);
-
-        if lumpinfo[l].name[6] <> #0 then
+        if lumpinfo[l].v1 = intname then // JVAL
         begin
-          frame := Ord(lumpinfo[l].name[6]) - Ord('A');
-          rotation := Ord(lumpinfo[l].name[7]) - Ord('0');
-          R_InstallSpriteLump(l, frame, rotation, true);
+          frame := Ord(lumpinfo[l].name[4]) - Ord('A');
+          rotation := Ord(lumpinfo[l].name[5]) - Ord('0');
+
+          if modifiedgame then
+            patched := W_GetNumForName(lumpinfo[l].name)
+          else
+            patched := l;
+
+          R_InstallSpriteLump(patched, frame, rotation, false);
+
+          if lumpinfo[l].name[6] <> #0 then
+          begin
+            frame := Ord(lumpinfo[l].name[6]) - Ord('A');
+            rotation := Ord(lumpinfo[l].name[7]) - Ord('0');
+            R_InstallSpriteLump(l, frame, rotation, true);
+          end;
         end;
-      end;
     end;
 
     // check the frames that were found for completeness
@@ -393,7 +396,8 @@ function R_NewVisSprite: Pvissprite_t;
 begin
   if vissprite_p = visspritessize then
   begin
-    realloc(pointer(vissprites), visspritessize * SizeOf(Pvissprite_t), (128 + visspritessize) * SizeOf(Pvissprite_t));
+    realloc(pointer(vissprites), visspritessize * SizeOf(Pvissprite_t), (128 +
+      visspritessize) * SizeOf(Pvissprite_t));
     visspritessize := visspritessize + 128;
   end;
   if vissprite_p > maxvissprite then
@@ -417,7 +421,6 @@ end;
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
-
 procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 var
   topscreen: integer;
@@ -458,7 +461,10 @@ begin
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
         //  or R_DrawTranslatedColumn
-        colfunc;
+        if depthbufferactive then                   // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+        else
+          colfunc;
       end;
       column := Pcolumn_t(integer(column) + column.length + 4);
     end;
@@ -488,7 +494,10 @@ begin
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
         //  or R_DrawTranslatedColumn
-        colfunc;
+        if depthbufferactive then                   // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+        else
+          colfunc;
       end;
       column := Pcolumn_t(integer(column) + column.length + 4);
     end;
@@ -523,11 +532,14 @@ begin
 
   if dc_yl <= dc_yh then
   begin
-      // Drawn by either R_DrawColumn
-      //  or (SHADOW) R_DrawFuzzColumn
-      //  or R_DrawColumnAverage
-      //  or R_DrawTranslatedColumn
-    colfunc;
+    // Drawn by either R_DrawColumn
+    //  or (SHADOW) R_DrawFuzzColumn
+    //  or R_DrawColumnAverage
+    //  or R_DrawTranslatedColumn
+    if depthbufferactive then                   // JVAL: 3d Floors
+      R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+    else
+      colfunc;
   end;
 
   dc_texturemid := basetexturemid;
@@ -690,7 +702,7 @@ begin
   xiscale := vis.xiscale;
   dc_x := vis.x1;
 
-  if (xiscale > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
+  if depthbufferactive or (xiscale > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
   begin
     while dc_x <= vis.x2 do
     begin
@@ -785,7 +797,8 @@ begin
   dc_iscale := FixedDivEx(FRACUNIT, spryscale);
   sprtopscreen := centeryfrac - FixedMul(vis.texturemid2, vis.scale);
 
-  if fixedcolormapnum = INVERSECOLORMAP then // JVAL: if in invulnerability mode use white color
+  if fixedcolormapnum = INVERSECOLORMAP then
+  // JVAL: if in invulnerability mode use white color
   begin
     lightcolfunc := whitelightcolfunc;
     batchlightcolfunc := batchwhitelightcolfunc;
@@ -824,9 +837,8 @@ begin
     batchlightcolfunc := batchwhitelightcolfunc;
   end;
 
-
   dc_x := x1;
-  if (fracstep > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) then
+  if depthbufferactive or (fracstep > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) then
   begin
     while dc_x <= x2 do
     begin
@@ -849,9 +861,12 @@ begin
       if dc_yl <= mceilingclip[dc_x] then
         dc_yl := mceilingclip[dc_x] + 1;
 
-        if frac < 256 * FRACUNIT then
-      if dc_yl <= dc_yh then
-        lightcolfunc;
+      if frac < 256 * FRACUNIT then  // JVAL: SOS (Heretic, Hexen & Strife ?
+        if dc_yl <= dc_yh then
+          if depthbufferactive then                         // JVAL: 3d Floors
+            R_DrawColumnWithDepthBufferCheck(lightcolfunc)  // JVAL: 3d Floors
+          else
+            lightcolfunc;
 
       dc_texturemid := basetexturemid;
 
@@ -900,15 +915,15 @@ begin
           dc_yl := mceilingclip[dc_x] + 1;
 
         if frac < 256 * FRACUNIT then
-        if dc_yl <= dc_yh then
-        begin
-          dc_x := save_dc_x;
-          if num_batch_columns > 1 then
-            batchlightcolfunc
-          else
-            lightcolfunc;
-          dc_x := last_dc_x;
-        end;
+          if dc_yl <= dc_yh then
+          begin
+            dc_x := save_dc_x;
+            if num_batch_columns > 1 then
+              batchlightcolfunc
+            else
+              lightcolfunc;
+            dc_x := last_dc_x;
+          end;
 
         dc_texturemid := basetexturemid;
       end;
@@ -944,18 +959,21 @@ var
   lump: integer;
   rot: LongWord;
   flip: boolean;
-  index: integer;
   vis: Pvissprite_t;
   ang: angle_t;
 {$IFDEF OPENGL}
   checksides: boolean;
 {$ELSE}
+  index: integer;
   iscale: fixed_t;
   heightsec: integer;
   plheightsec: integer;
   gzt: integer;
   voxelflag: integer;
   vx1, vx2: integer;
+  mid: Psector_t; // JVAL: 3d floors
+  midn: integer;  // JVAL: 3d floors
+  sprlights: PBytePArray; // JVAL: 3d floors
 {$ENDIF}
   soffset, swidth: fixed_t;
 begin
@@ -984,29 +1002,27 @@ begin
 {$ENDIF}
 
   // thing is behind view plane?
-  {$IFDEF OPENGL}
-  checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and (thing.state.models = nil) and (thing.state.voxels = nil);
+{$IFDEF OPENGL}
+  checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and
+   (thing.state.models = nil) and (thing.state.voxels = nil);
 
   if checksides then
-  {$ENDIF}
+{$ENDIF}
     if tz < MINZ {$IFNDEF OPENGL} - 128 * FRACUNIT * voxelflag {$ENDIF} then
       exit;
 
   xscale := FixedDiv(projection, tz);
   if xscale <= 0 then
- //   if voxelflag = 0 then
-      exit;
+    exit;
 
   gxt := -FixedMul(tr_x, viewsin);
   gyt := FixedMul(tr_y, viewcos);
   tx := -(gyt + gxt);
 
   // too far off the side?
-  {$IFDEF OPENGL}
+{$IFDEF OPENGL}
   if checksides then
-  {$ELSE}
-//  if voxelflag = 0 then
-  {$ENDIF}
+{$ENDIF}
     if abs(tx) > 4 * tz then
       exit;
 
@@ -1033,11 +1049,7 @@ begin
   begin
     // choose a different rotation based on player view
     ang := R_PointToAngle(thing.x, thing.y);
-    {$IFDEF FPC}
-    rot := _SHRW(ang - thing.angle + LongWord(ANG45 div 2) * 9), 29);
-    {$ELSE}
     rot := (ang - thing.angle + LongWord(ANG45 div 2) * 9) shr 29;
-    {$ENDIF}
     lump := sprframe.lump[rot];
     flip := sprframe.flip[rot];
   end
@@ -1051,36 +1063,36 @@ begin
   soffset := spriteoffset[lump];
   tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
-  {$IFNDEF OPENGL}
+{$IFNDEF OPENGL}
   vx1 := FixedInt(centerxfrac + FixedMul(tx + soffset - thing.state.voxelradius, xscale));
-  {$ENDIF}
+{$ENDIF}
 
   // off the right side?
-  {$IFDEF OPENGL}
+{$IFDEF OPENGL}
   if checksides then
-  {$ELSE}
+{$ELSE}
   if voxelflag = 0 then
-  {$ENDIF}
+{$ENDIF}
     if x1 > viewwidth then
       exit;
 
   swidth := spritewidth[lump];
   tx := tx + swidth;
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
-  {$IFNDEF OPENGL}
+{$IFNDEF OPENGL}
   vx2 := FixedInt(centerxfrac + FixedMul(tx - swidth + 2 * thing.state.voxelradius, xscale));
-  {$ENDIF}
+{$ENDIF}
 
   // off the left side
-  {$IFDEF OPENGL}
+{$IFDEF OPENGL}
   if checksides then
-  {$ELSE}
+{$ELSE}
   if voxelflag = 0 then
-  {$ENDIF}
+{$ENDIF}
     if x2 < 0 then
       exit;
 
-  {$IFNDEF OPENGL}
+{$IFNDEF OPENGL}
 {  if voxelflag = 1 then
     gzt := thing.z
   else          }
@@ -1116,7 +1128,7 @@ begin
       end;
     end;
   end;
-  {$ENDIF}
+{$ENDIF}
 
   // store information in a vissprite
   vis := R_NewVisSprite;
@@ -1148,12 +1160,38 @@ begin
   if vx1 <= 0 then
     vis.vx1 := 0
   else
-    vis.vx1:= vx1;
+    vis.vx1 := vx1;
   if vx2 >= viewwidth then
     vis.vx2 := viewwidth - 1
   else
     vis.vx2 := vx2;
   iscale := FixedDiv(FRACUNIT, xscale);
+
+  // JVAL: 3d Floors
+  sprlights := spritelights;
+  if hasExtrafloors then
+  begin
+    if spritetopoffset[lump] < 60 * FRACUNIT then
+      vis.ceilingz := vis.gz + 60 * FRACUNIT
+    else
+      vis.ceilingz := vis.gzt;
+
+    if thing.ceilingz < vis.ceilingz then
+      vis.ceilingz := thing.ceilingz;
+
+    vis.drawn := false;
+
+    midn := Psubsector_t(thing.subsector).sector.midsec;
+    if midn >= 0 then
+    begin
+      mid := @sectors[midn];
+      if ((vis.gz >= mid.ceilingheight) and (viewz < mid.ceilingheight)) or
+         ((vis.ceilingz <= mid.floorheight) and (viewz > mid.floorheight)) then
+           vis.drawn := true;
+      if vis.gz < mid.floorheight then
+        sprlights := spritelights2;
+    end;
+  end;
 
   if flip then
   begin
@@ -1176,6 +1214,7 @@ begin
 {$ENDIF}
   vis.patch := lump;
 
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
   // get light level
   if thing.flags and MF_SHADOW <> 0 then
   begin
@@ -1202,8 +1241,9 @@ begin
     else if index < 0 then
       index := 0;
 
-    vis.colormap := spritelights[index];
+    vis.colormap := sprlights[index]; // JVAL: 3d Floors
   end;
+{$ENDIF}
 
 {$IFDEF OPENGL}
   gld_AddSprite(vis); // JVAL: OPENGL
@@ -1218,6 +1258,9 @@ procedure R_AddSprites(sec: Psector_t);
 var
   thing: Pmobj_t;
   lightnum: integer;
+{$IFNDEF OPENGL}
+  lightnum2: integer;
+{$ENDIF}  
 begin
   // BSP is traversed by subsector.
   // A sector might have been split into several
@@ -1229,6 +1272,10 @@ begin
   // Well, now it will be done.
   sec.validcount := validcount;
 
+{$IFNDEF OPENGL}
+  hasExtraFloors := hasExtraFloors or (sec.midsec >= 0);  // JVAL: 3d Floors
+{$ENDIF}
+
   lightnum := _SHR(sec.lightlevel, LIGHTSEGSHIFT) + extralight;
 
   if lightnum <= 0 then
@@ -1237,6 +1284,20 @@ begin
     spritelights := @scalelight[LIGHTLEVELS - 1]
   else
     spritelights := @scalelight[lightnum];
+
+  // JVAL: 3d Floors
+  {$IFNDEF OPENGL}
+  if sec.midsec >= 0 then
+  begin
+    lightnum2 := _SHR(sectors[sec.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
+    if lightnum2 <= 0 then
+      spritelights2 := @scalelight[0]
+    else if lightnum2 >= LIGHTLEVELS then
+      spritelights2 := @scalelight[LIGHTLEVELS - 1]
+    else
+      spritelights2 := @scalelight[lightnum2];
+  end;
+  {$ENDIF}
 
   // Handle all things in sector.
   thing := sec.thinglist;
@@ -1277,6 +1338,7 @@ begin
 {$IFNDEF OPENGL}
   flip := sprframe.flip[0];
 {$ENDIF}
+
   // calculate edges of the shape
   tx := psp.sx - 160 * FRACUNIT;
 
@@ -1303,6 +1365,7 @@ begin
   vis._type := Ord(MT_PLAYER);
 
   vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
+
   if x1 < 0 then
     vis.x1 := 0
   else
@@ -1325,6 +1388,7 @@ begin
     vis.xiscale := pspriteiscalep;
     vis.startfrac := 0;
   end;
+
   if vis.x1 > x1 then
     vis.startfrac := vis.startfrac + vis.xiscale * (vis.x1 - x1);
 {$ENDIF}
@@ -1337,10 +1401,13 @@ begin
     // shadow draw
     vis.colormap := nil;
   end
-  else{$ENDIF} if fixedcolormap <> nil then
+  else
+{$ENDIF}if fixedcolormap <> nil then
   begin
     // fixed color
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
     vis.colormap := fixedcolormap;
+{$ENDIF}
 {$IFDEF OPENGL}
     lightlevel := 255;
 {$ENDIF}
@@ -1348,7 +1415,9 @@ begin
   else if psp.state.frame and FF_FULLBRIGHT <> 0 then
   begin
     // full bright
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
     vis.colormap := colormaps;
+{$ENDIF}
 {$IFDEF OPENGL}
     lightlevel := 255;
 {$ENDIF}
@@ -1356,7 +1425,9 @@ begin
   else
   begin
     // local light
+{$IFNDEF OPENGL}  // JVAL: 3d Floors
     vis.colormap := spritelights[MAXLIGHTSCALE - 1];
+{$ENDIF}    
 {$IFDEF OPENGL}
     lightlevel := Psubsector_t(vis.mo.subsector).sector.lightlevel + extralight shl LIGHTSEGSHIFT
 {$ENDIF}
@@ -1376,11 +1447,24 @@ procedure R_DrawPlayerSprites;
 var
   i: integer;
   lightnum: integer;
+  playerlightlevel: integer;  // JVAL: 3d Floors
+  s: Psector_t; // JVAL: 3d Floors
 begin
   // get light level
+  s := Psubsector_t(viewplayer.mo.subsector).sector;
+  if s.midsec >= 0 then
+  begin
+    if viewplayer.mo.z > sectors[s.midsec].floorheight then
+      playerlightlevel := s.lightlevel
+    else
+      playerlightlevel := sectors[s.midsec].lightlevel;
+  end
+  else
+    playerlightlevel := s.lightlevel;
+
   lightnum :=
-    _SHR(Psubsector_t(viewplayer.mo.subsector).sector.lightlevel, LIGHTSEGSHIFT) +
-      extralight;
+    _SHR(playerlightlevel, LIGHTSEGSHIFT) + // JVAL: 3d Floors
+    extralight;
 
   if lightnum <= 0 then
     spritelights := @scalelight[0]
@@ -1446,6 +1530,44 @@ begin
     qsortvs(0, vissprite_p - 1);
 end;
 
+// JVAL: 3d Floors
+procedure R_SortDrawSegs;
+
+  procedure qsortds(l, r: Integer);
+  var
+    i, j: Integer;
+    t: Pdrawseg_t;
+    scale: fixed_t;
+  begin
+    repeat
+      i := l;
+      j := r;
+      scale := drawsegs[(l + r) shr 1].scale1;
+      repeat
+        while drawsegs[i].scale1 < scale do
+          inc(i);
+        while drawsegs[j].scale1 > scale do
+          dec(j);
+        if i <= j then
+        begin
+          t := drawsegs[i];
+          drawsegs[i] := drawsegs[j];
+          drawsegs[j] := t;
+          inc(i);
+          dec(j);
+        end;
+      until i > j;
+      if l < j then
+        qsortds(l, j);
+      l := i;
+    until i >= r;
+  end;
+
+begin
+  if ds_p > 0 then
+    qsortds(0, ds_p - 1);
+end;
+
 //
 // R_DrawSprite
 //
@@ -1460,6 +1582,7 @@ var
   lowscale: fixed_t;
   silhouette: integer;
   i: integer;
+  size: integer;
   h, mh: fixed_t;
   plheightsec: integer;
 begin
@@ -1470,11 +1593,9 @@ begin
     exit;
   end;
 
-  for x := spr.x1 to spr.x2 do
-  begin
-    clipbot[x] := -2;
-    cliptop[x] := -2;
-  end;
+  size := spr.x2 - spr.x1 + 1;
+  memsetsi(@clipbot[spr.x1], - 2, size);
+  memsetsi(@cliptop[spr.x1], - 2, size);
 
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
@@ -1485,7 +1606,7 @@ begin
     // determine if the drawseg obscures the sprite
     if (ds.x1 > spr.x2) or
        (ds.x2 < spr.x1) or
-       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil)) then
+       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil) and (ds.thicksidecol = nil)) then // JVAL: 3d Floors
     begin
       // does not cover sprite
       continue;
@@ -1515,6 +1636,8 @@ begin
        ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy, ds.curline))) then
     begin
       // masked mid texture?
+      if ds.thicksidecol <> nil then        // JVAL: 3d Floors
+        R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
       if ds.maskedtexturecol <> nil then
         R_RenderMaskedSegRange(ds, r1, r2);
       // seg is behind sprite
@@ -1582,7 +1705,7 @@ begin
               if (clipbot[x] = -2) or (h < clipbot[x]) then
                 clipbot[x] := h;
           end
-          else
+          else if (plheightsec <> -1) and (viewz <= sectors[plheightsec].floorheight) then
           begin
             for x := spr.x1 to spr.x2 do
               if (cliptop[x] = -2) or (h > cliptop[x]) then
@@ -1626,25 +1749,20 @@ begin
   for x := spr.x1 to spr.x2 do
   begin
     if clipbot[x] = -2 then
-      clipbot[x] := fake3dbottomclip // viewheight;
+      clipbot[x] := fake3dbottomclip
     else if clipbot[x] > fake3dbottomclip then
       clipbot[x] := fake3dbottomclip;
 
     if cliptop[x] = -2 then
-      cliptop[x] := fake3dtopclip // -1;
+      cliptop[x] := fake3dtopclip
     else if cliptop[x] < fake3dtopclip then
       cliptop[x] := fake3dtopclip;
-{    if clipbot[x] = -2 then
-      clipbot[x] := viewheight;
-
-    if cliptop[x] = -2 then
-      cliptop[x] := -1;}
   end;
 
   mfloorclip := @clipbot;
   mceilingclip := @cliptop;
 
-  R_DrawVisSprite(spr)
+  R_DrawVisSprite(spr);
 end;
 
 procedure R_DrawSpriteLight(spr: Pvissprite_t);
@@ -1658,6 +1776,7 @@ var
   silhouette: integer;
   i: integer;
   x1, x2: integer;
+  size: integer;
 begin
   x := (spr.x2 - spr.x1) div 2;
   x1 := spr.x1 - x;
@@ -1668,11 +1787,9 @@ begin
   if x2 >= viewwidth then
     x2 := viewwidth - 1;
 
-  for x := x1 to x2 do
-  begin
-    clipbot[x] := -2;
-    cliptop[x] := -2;
-  end;
+  size := x2 - x1 + 1;
+  memsetsi(@clipbot[x1], - 2, size);
+  memsetsi(@cliptop[x1], - 2, size);
 
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
@@ -1683,7 +1800,7 @@ begin
     // determine if the drawseg obscures the sprite
     if (ds.x1 > x2) or
        (ds.x2 < x1) or
-       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil)) then
+       ((ds.silhouette = 0) and (ds.maskedtexturecol = nil) and (ds.thicksidecol = nil)) then // JVAL: 3d Floors
     begin
       // does not cover sprite
       continue;
@@ -1713,6 +1830,8 @@ begin
        ((lowscale < spr.scale) and (not R_PointOnSegSide(spr.gx, spr.gy, ds.curline))) then
     begin
       // masked mid texture?
+      if ds.thicksidecol <> nil then        // JVAL: 3d Floors
+        R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
       if ds.maskedtexturecol <> nil then
         R_RenderMaskedSegRange(ds, r1, r2);
       // seg is behind sprite
@@ -1766,7 +1885,7 @@ begin
       clipbot[x] := fake3dbottomclip;
 
     if cliptop[x] = -2 then
-      cliptop[x] := fake3dtopclip 
+      cliptop[x] := fake3dtopclip
     else if cliptop[x] < fake3dtopclip then
       cliptop[x] := fake3dtopclip;
   end;
@@ -1783,7 +1902,7 @@ end;
 //
 procedure R_DrawMasked;
 var
-  ds: Pdrawseg_t;
+  pds: Pdrawseg_t;
   i: integer;
 begin
   R_SortVisSprites;
@@ -1808,13 +1927,18 @@ begin
   end;
 
   // render any remaining masked mid textures
-  colfunc := maskedcolfunc;
+  // colfunc := maskedcolfunc; // JVAL: 3d Floors
   for i := ds_p - 1 downto 0 do
   begin
-    ds := drawsegs[i];
-    if ds.maskedtexturecol <> nil then
-      R_RenderMaskedSegRange(ds, ds.x1, ds.x2);
+    pds := drawsegs[i];
+    if pds.thicksidecol <> nil then                 // JVAL: 3d Floors
+      R_RenderThickSideRange(pds,  pds.x1, pds.x2); // JVAL: 3d Floors
+    if pds.maskedtexturecol <> nil then
+      R_RenderMaskedSegRange(pds, pds.x1, pds.x2);
   end;
+
+  R_StopDepthBuffer;  // JVAL: 3d Floors
+
 end;
 {$ENDIF}
 
@@ -1844,5 +1968,4 @@ begin
 end;
 
 end.
-
 

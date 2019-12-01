@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -47,7 +47,10 @@ uses
 //
 function EV_Teleport(line: Pline_t; side: integer; thing: Pmobj_t): boolean;
 
-function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t): boolean;
+function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; destfogdz: fixed_t = 0): boolean;
+
+const
+  TELEPORTZOOM = 15 * FRACUNIT;
 
 implementation
 
@@ -56,7 +59,9 @@ uses
   doomdef,
   d_think,
   d_player,
+  g_game,
   info_h,
+  p_3dfloors,
   p_setup,
   p_tick,
   p_mobj,
@@ -71,9 +76,17 @@ var
   m: Pmobj_t;
   thinker: Pthinker_t;
   sector: Psector_t;
+  destfogdz: fixed_t; // JVAL: 3d Floors
+  dz: fixed_t;
 begin
   // don't teleport missiles
   if thing.flags and MF_MISSILE <> 0 then
+  begin
+    result := false;
+    exit;
+  end;
+
+	if thing.flags2 and MF2_NOTELEPORT <> 0 then
   begin
     result := false;
     exit;
@@ -119,7 +132,19 @@ begin
           continue;
         end;
 
-        result := P_Teleport(thing, m.x, m.y, m.angle);
+        // JVAL: 3d Floors
+        if (G_PlayingEngineVersion >= VERSION115) and (P_3dFloorNumber(m) > 0) then
+        begin
+          destfogdz := m.floorz - Psubsector_t(m.subsector).sector.floorheight;
+          dz := thing.z - thing.floorz;
+          result := P_Teleport(thing, m.x, m.y, m.angle, destfogdz);
+          thing.floorz := m.floorz;
+          thing.ceilingz := m.ceilingz;
+          thing.z := thing.floorz + dz;
+        end
+        else
+          result := P_Teleport(thing, m.x, m.y, m.angle);
+
         exit;
       end;
     end;
@@ -133,7 +158,7 @@ end;
 //
 //----------------------------------------------------------------------------
 
-function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t): boolean;
+function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; destfogdz: fixed_t = 0): boolean;
 var
   oldx: fixed_t;
   oldy: fixed_t;
@@ -187,10 +212,13 @@ begin
   fog := P_SpawnMobj(oldx, oldy, oldz + fogDelta, Ord(MT_TFOG));
   S_StartSound(fog, Ord(sfx_telept));
   an := angle shr ANGLETOFINESHIFT;
-  fog := P_SpawnMobj(x + 20 * finecosine[an], y + 20 * finesine[an], thing.z + fogDelta, Ord(MT_TFOG));
+  fog := P_SpawnMobj(x + 20 * finecosine[an], y + 20 * finesine[an], thing.z + fogDelta + destfogdz, Ord(MT_TFOG));
   S_StartSound(fog, Ord(sfx_telept));
   if (thing.player <> nil) and (Pplayer_t(thing.player).powers[Ord(pw_weaponlevel2)] = 0) then // Freeze player for about .5 sec
     thing.reactiontime := 18;
+
+  if thing.player <> nil then
+    Pplayer_t(thing.player).teleporttics := TELEPORTZOOM;
 
   thing.angle := angle;
   if (thing.flags2 and MF2_FOOTCLIP <> 0) and (P_GetThingFloorType(thing) <> FLOOR_SOLID) then

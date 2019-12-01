@@ -110,8 +110,8 @@ var
   ACScriptCount: integer;
   ActionCodeBase: PByteArray;
   ACSInfo: PacsInfo_tArray;
-  MapVars: array[0..MAX_ACS_MAP_VARS - 1] of integer;
-  WorldVars: array[0..MAX_ACS_WORLD_VARS - 1] of integer;
+  ACSMapVars: array[0..MAX_ACS_MAP_VARS - 1] of integer;
+  ACSWorldVars: array[0..MAX_ACS_WORLD_VARS - 1] of integer;
   ACSStore: array[0..MAX_ACS_STORE] of acsstore_t; // +1 for termination marker
 
 procedure T_InterpretACS(script: Pacs_t);
@@ -133,11 +133,19 @@ uses
   g_game,
   info_h,
   m_rnd,
-  p_tick, p_inter, p_spec, p_setup, p_mobj, p_things,
+  p_tick,
+  p_inter,
+  p_spec,
+  p_setup,
+  p_mobj,
+  p_things,
   po_man,
   r_data,
-  s_sound, sounds, s_sndseq,
-  doomdef, xn_strings,
+  s_sound,
+  sounds,
+  s_sndseq,
+  doomdef,
+  xn_strings,
   w_wad,
   z_zone;
 
@@ -330,7 +338,6 @@ begin
   ACStrings.Clear;
   for i := 0 to ACStringCount - 1 do
   begin
-//    b := PByteArray(buffer^ + integer(ActionCodeBase));
     b := @ActionCodeBase[buffer^];
     j := 0;
     stmp := '';
@@ -342,7 +349,7 @@ begin
     ACStrings.Add(stmp);
     inc(buffer);
   end;
-  ZeroMemory(@MapVars, SizeOf(MapVars));
+  ZeroMemory(@ACSMapVars, SizeOf(ACSMapVars));
 end;
 
 //==========================================================================
@@ -609,7 +616,7 @@ end;
 
 procedure P_ACSInitNewGame;
 begin
-  ZeroMemory(@WorldVars, SizeOf(WorldVars));
+  ZeroMemory(@ACSWorldVars, SizeOf(ACSWorldVars));
   ZeroMemory(@ACSStore, SizeOf(ACSStore));
 end;
 
@@ -621,7 +628,6 @@ end;
 function P_TagBusy(tag: integer): boolean;
 var
   sectorIndex: integer;
-
 begin
   sectorIndex := -1;
   while P_FindSectorFromTag2(tag, sectorIndex) >= 0 do
@@ -773,7 +779,6 @@ function CmdLSpec3: integer;
 var
   special: integer;
 begin
-
   special := PCodePtr^; inc(PCodePtr);
   SpecArgs[2] := ACS_Pop;
   SpecArgs[1] := ACS_Pop;
@@ -973,14 +978,14 @@ end;
 
 function CmdAssignMapVar: integer;
 begin
-  MapVars[PCodePtr^] := ACS_Pop;
+  ACSMapVars[PCodePtr^] := ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdAssignWorldVar: integer;
 begin
-  WorldVars[PCodePtr^] := ACS_Pop;
+  ACSWorldVars[PCodePtr^] := ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -994,14 +999,14 @@ end;
 
 function CmdPushMapVar: integer;
 begin
-  ACS_Push(MapVars[PCodePtr^]);
+  ACS_Push(ACSMapVars[PCodePtr^]);
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdPushWorldVar: integer;
 begin
-  ACS_Push(WorldVars[PCodePtr^]);
+  ACS_Push(ACSWorldVars[PCodePtr^]);
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -1015,14 +1020,14 @@ end;
 
 function CmdAddMapVar: integer;
 begin
-  MapVars[PCodePtr^] := MapVars[PCodePtr^] + ACS_Pop;
+  ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] + ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdAddWorldVar: integer;
 begin
-  WorldVars[PCodePtr^] := WorldVars[PCodePtr^] + ACS_Pop;
+  ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] + ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -1036,14 +1041,14 @@ end;
 
 function CmdSubMapVar: integer;
 begin
-  MapVars[PCodePtr^] := MapVars[PCodePtr^] - ACS_Pop;
+  ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] - ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdSubWorldVar: integer;
 begin
-  WorldVars[PCodePtr^] := WorldVars[PCodePtr^] - ACS_Pop;
+  ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] - ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -1057,14 +1062,14 @@ end;
 
 function CmdMulMapVar: integer;
 begin
-  MapVars[PCodePtr^] := MapVars[PCodePtr^] * ACS_Pop;
+  ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] * ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdMulWorldVar: integer;
 begin
-  WorldVars[PCodePtr^] := WorldVars[PCodePtr^] * ACS_Pop;
+  ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] * ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -1078,14 +1083,14 @@ end;
 
 function CmdDivMapVar: integer;
 begin
-  MapVars[PCodePtr^] := MapVars[PCodePtr^] div ACS_Pop;
+  ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] div ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdDivWorldVar: integer;
 begin
-  WorldVars[PCodePtr^] := WorldVars[PCodePtr^] div ACS_Pop;
+  ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] div ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -1099,14 +1104,14 @@ end;
 
 function CmdModMapVar: integer;
 begin
-  MapVars[PCodePtr^] := MapVars[PCodePtr^] mod ACS_Pop;
+  ACSMapVars[PCodePtr^] := ACSMapVars[PCodePtr^] mod ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdModWorldVar: integer;
 begin
-  WorldVars[PCodePtr^] := WorldVars[PCodePtr^] mod ACS_Pop;
+  ACSWorldVars[PCodePtr^] := ACSWorldVars[PCodePtr^] mod ACS_Pop;
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -1120,14 +1125,14 @@ end;
 
 function CmdIncMapVar: integer;
 begin
-  inc(MapVars[PCodePtr^]);
+  inc(ACSMapVars[PCodePtr^]);
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdIncWorldVar: integer;
 begin
-  inc(WorldVars[PCodePtr^]);
+  inc(ACSWorldVars[PCodePtr^]);
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
@@ -1141,14 +1146,14 @@ end;
 
 function CmdDecMapVar: integer;
 begin
-  dec(MapVars[PCodePtr^]);
+  dec(ACSMapVars[PCodePtr^]);
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;
 
 function CmdDecWorldVar: integer;
 begin
-  dec(WorldVars[PCodePtr^]);
+  dec(ACSWorldVars[PCodePtr^]);
   inc(PCodePtr);
   result := SCRIPT_CONTINUE;
 end;

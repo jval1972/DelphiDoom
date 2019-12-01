@@ -221,10 +221,10 @@ begin
     r := FRACUNIT / viewwidth;
     for i := 0 to viewheightdiff do
     begin
-      f3d.left[i] := Round(f3d.lefttop + leftstep * i / viewheightdiff - l / MAXLOOKDIR * Sin(i / viewheightdiff) * viewheight / 10);
+      f3d.left[i] := Round(f3d.lefttop + leftstep * i / viewheightdiff - l / MAXLOOKDIR * Sin(i / (viewheight + viewheightrest)) * viewheight / 10);
       if f3d.left[i] < 0 then
         f3d.left[i] := 0;
-      f3d.right[i] := Round(f3d.righttop + rightstep * i / viewheightdiff + l / MAXLOOKDIR * Sin(i / viewheightdiff) * viewheight / 10);
+      f3d.right[i] := Round(f3d.righttop + rightstep * i / viewheightdiff + l / MAXLOOKDIR * Sin(i / (viewheight + viewheightrest)) * viewheight / 10);
       if f3d.right[i] >= viewwidth then
         f3d.right[i] := viewwidth - 1;
       f3d.fracstep[i] := Round((f3d.right[i] - f3d.left[i]) * r);
@@ -270,7 +270,7 @@ begin
     for i := 0 to viewheightdiff - 1 do
     begin
       j := i + viewheightrest;
-      f3d.left[j] := Round(f3d.lefttop + leftstep * i / viewheightdiff);
+      f3d.left[j] := Round(f3d.lefttop + leftstep * i /  viewheightdiff);
       if f3d.left[j] < 0 then
         f3d.left[j] := 0;
       f3d.right[j] := Round(f3d.righttop + rightstep * i / viewheightdiff);
@@ -603,7 +603,6 @@ var
 
 procedure R_Execute3DTransform;
 var
-//  h1: integer;
   parms1: exec3dtransparms_t;
 begin
   // If we don't use fake 3d return

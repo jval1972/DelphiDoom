@@ -18,17 +18,17 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION (d_main.h:
+// DESCRIPTION (d_main.h):
 //  System specific interface stuff.
 //
-// DESCRIPTION (d_main.c:
-// DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
-// plus functions to determine game mode (shareware, registered),
-// parse command line parameters, configure game parameters (turbo),
-// and call the startup functions.
+// DESCRIPTION (d_main.c):
+//  DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
+//  plus functions to determine game mode (shareware, registered),
+//  parse command line parameters, configure game parameters (turbo),
+//  and call the startup functions.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -159,6 +159,9 @@ uses
   am_map,
   p_setup,
   p_mobj_h,
+  p_mobj,
+  ps_main,
+  psi_overlay,
   r_draw,
   r_main,
   r_hires,
@@ -168,10 +171,11 @@ uses
 {$IFNDEF OPENGL}
   r_fake3d,
 {$ENDIF}
+  r_camera,
   r_lights,
   sounds,
   s_sound,
-  sc_decorate,
+  sc_actordef,
   t_main,
   v_data,
   v_video,
@@ -249,6 +253,7 @@ var
   noblit: boolean = false;    // for comparative timing purposes
   norender: boolean = false;  // for comparative timing purposes
 {$IFNDEF OPENGL}
+  hom: boolean = false; // HOM detection
   blancbeforerender: Boolean = false;
 {$ENDIF}
   autoscreenshot: boolean = false;
@@ -280,7 +285,14 @@ begin
   end;
 
 {$IFNDEF OPENGL}
-  if blancbeforerender then
+  if hom then
+  begin
+    if round(I_GetSysTime) = Trunc(I_GetSysTime) then
+      R_PlayerViewBlanc(aprox_black)
+    else
+      R_PlayerViewBlanc(aprox_red);
+  end
+  else if blancbeforerender then
     R_PlayerViewBlanc(aprox_black);
 {$ENDIF}
 
@@ -458,6 +470,9 @@ begin
 
   if diskbusyend > nowtime then
   begin
+    // JVAL: Overlay Drawer before menus
+    OVR_Drawer;
+
     // Menus go directly to the screen
     M_Drawer; // Menu is drawn even on top of everything
 
@@ -476,12 +491,16 @@ begin
         HU_Drawer;
     end;
 
+    // JVAL: Overlay Drawer before menus
+    OVR_Drawer;
     M_Drawer;
     C_Drawer;
     diskbusyend := -1;
   end
   else
   begin
+    // JVAL: Overlay Drawer before menus
+    OVR_Drawer;
     M_Drawer;
     C_Drawer;
   end;
@@ -728,6 +747,7 @@ begin
       exit;
     try
       wadfiles.Add(fname);
+      PAK_AddFile(fname);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
       if autoloadgwafiles then
@@ -938,6 +958,17 @@ begin
   end;
 end;
 
+{$IFNDEF OPENGL}
+procedure D_CmdHOM;
+begin
+  hom := not hom;
+  if hom then
+    printf('HOM detection enabled'#13#10)
+  else
+    printf('HOM detection disabled'#13#10);
+end;
+{$ENDIF}
+
 function D_Version: string;
 begin
   sprintf(result, Apptitle + ' version %d.%d', [VERSION div 100, VERSION mod 100]);
@@ -1122,12 +1153,16 @@ var
   j: integer;
   oldoutproc: TOutProc;
   mb_min: integer; // minimum zone size
+  s1, s2: string;
 begin
   SUC_Open;
   outproc := @SUC_Outproc;
   wadfiles := TDSTringList.Create;
 
   printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
+{$IFNDEF OPENGL}
+  C_AddCmd('tnthom, hom', @D_CmdHOM);
+{$ENDIF}
   C_AddCmd('ver, version', @D_CmdVersion);
   C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
   C_AddCmd('startthinkers', @D_StartThinkers);
@@ -1149,11 +1184,6 @@ begin
   I_InitTempFiles;
 
   SUC_Progress(3);
-
-  printf('MT_Init: Initializing multithreading utilities.'#13#10);
-  MT_Init;
-
-  SUC_Progress(4);
 
   D_AddSystemWAD; // Add system wad first
 
@@ -1254,6 +1284,10 @@ begin
 
   printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
   PAK_InitFileSystem;
+
+  SUC_Progress(10);
+
+  PAK_LoadPendingPaks;
 
   SUC_Progress(15);
 
@@ -1440,8 +1474,20 @@ begin
   if SCREENHEIGHT > MAXHEIGHT then
     SCREENHEIGHT := MAXHEIGHT;
 
-  p := M_CheckParm('-fullhd');
+  p := M_CheckParm('-geom');
   if (p <> 0) and (p < myargc - 1) then
+  begin
+    splitstring(myargv[p + 1], s1, s2, ['X', 'x']);
+    SCREENWIDTH := atoi(s1);
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := atoi(s2);
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-fullhd');
+  if (p <> 0) and (p < myargc) then
   begin
     SCREENWIDTH := 1920;
     if SCREENWIDTH > MAXWIDTH then
@@ -1452,7 +1498,7 @@ begin
   end;
 
   p := M_CheckParm('-vga');
-  if (p <> 0) and (p < myargc - 1) then
+  if (p <> 0) and (p < myargc) then
   begin
     SCREENWIDTH := 640;
     if SCREENWIDTH > MAXWIDTH then
@@ -1463,7 +1509,7 @@ begin
   end;
 
   p := M_CheckParm('-svga');
-  if (p <> 0) and (p < myargc - 1) then
+  if (p <> 0) and (p < myargc) then
   begin
     SCREENWIDTH := 800;
     if SCREENWIDTH > MAXWIDTH then
@@ -1474,7 +1520,7 @@ begin
   end;
 
   p := M_CheckParm('-cga');
-  if (p <> 0) and (p < myargc - 1) then
+  if (p <> 0) and (p < myargc) then
   begin
     SCREENWIDTH := 320;
     if SCREENWIDTH > MAXWIDTH then
@@ -1485,12 +1531,23 @@ begin
   end;
 
   p := M_CheckParm('-cgaX2');
-  if (p <> 0) and (p < myargc - 1) then
+  if (p <> 0) and (p < myargc) then
   begin
     SCREENWIDTH := 640;
     if SCREENWIDTH > MAXWIDTH then
       SCREENWIDTH := MAXWIDTH;
     SCREENHEIGHT := 400;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-cgaX3');
+  if (p <> 0) and (p < myargc) then
+  begin
+    SCREENWIDTH := 960;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 600;
     if SCREENHEIGHT > MAXHEIGHT then
       SCREENHEIGHT := MAXHEIGHT;
   end;
@@ -1629,8 +1686,11 @@ begin
 
   printf('SC_Init: Initializing script engine.'#13#10);
   SC_Init;
-  printf('SC_ParseDecorateLumps(): Parsing DECORATE lumps.'#13#10);
-  SC_ParseDecorateLumps;
+  // jval: PascalScript
+  printf('PS_Init: Initializing pascal script compiler.'#13#10);
+  PS_Init;
+  printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
+  SC_ParseActordefLumps;
 
   SUC_Progress(45);
 
@@ -1662,6 +1722,9 @@ begin
 
   printf('AM_Init: initializing automap.'#13#10);
   AM_Init;
+
+  printf('MObj_Init: initializing mobj commands.'#13#10);
+  MObj_Init;
 
   SUC_Progress(57);
 
@@ -1805,6 +1868,8 @@ begin
     printf('I_DetectCPU: Detecting CPU extensions.'#13#10);
     I_DetectCPU;
   end;
+  printf('MT_Init: Initializing multithreading utilities.'#13#10);
+  MT_Init;
 
   SUC_Progress(69);
 
@@ -1867,8 +1932,15 @@ begin
     autostart := true;
   end;
 
+  SUC_Progress(96);
+
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
+
+  // jval: PascalScript
+  SUC_Progress(97);
+  printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
+  PS_CompileAllScripts;
 
   SUC_Progress(100);
 
@@ -1921,7 +1993,7 @@ procedure D_ShutDown;
 var
   i: integer;
 begin
-  printf('M_ShutDownMenus: Shut dowm menus.'#13#10);
+  printf('M_ShutDownMenus: Shut down menus.'#13#10);
   M_ShutDownMenus;
   printf('C_ShutDown: Shut down console.'#13#10);
   C_ShutDown;
@@ -1933,6 +2005,9 @@ begin
   T_ShutDown;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
+  // jval: PascalScript
+  printf('PS_ShutDown: Shut down pascal script compiler.'#13#10);
+  PS_ShutDown;
   printf('DEH_ShutDown: Shut down dehacked subsystem.'#13#10);
   DEH_ShutDown;
   printf('Info_ShutDown: Shut down game definition.'#13#10);
@@ -1949,10 +2024,12 @@ begin
   Z_ShutDown;
   printf('V_ShutDown: Shut down screens.'#13#10, [mb_used]);
   V_ShutDown;
-  printf('MT_ShutDown: Shut dowm multithreading utilities.'#13#10);
+  printf('MT_ShutDown: Shut down multithreading utilities.'#13#10);
   MT_ShutDown;
-  printf('AM_ShutDown: Shut dowm automap.'#13#10);
+  printf('AM_ShutDown: Shut down automap.'#13#10);
   AM_ShutDown;
+  printf('MObj_ShutDown: Shut down mobjs.'#13#10);
+  MObj_ShutDown;
 
   gamedirectories.Free;
 

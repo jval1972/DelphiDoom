@@ -24,9 +24,9 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//   Internally used data structures for virtually everything,
-//   key definitions, lots of other stuff.
+// DESCRIPTION:
+//  Internally used data structures for virtually everything,
+//  key definitions, lots of other stuff.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -47,9 +47,11 @@ uses
 //
 // STRIFE version
 const
-  VERSION121 = 121;
   VERSION120 = 120;
-  VERSION = VERSION121;
+  VERSION121 = 121;
+  VERSION122 = 122;
+  VERSION = VERSION122;
+  VERSIONSLOPES = VERSION122;
 
 
 type
@@ -88,6 +90,7 @@ var
   WINDOWWIDTH: integer;
   WINDOWHEIGHT: integer;
 {$ENDIF}
+
   SCREENWIDTH32PITCH: integer;
 
   fullscreen: boolean = true;
@@ -142,6 +145,10 @@ const
   MTF_MVIS = 512;
 // villsa [STRIFE] TODO - identify
   MTF_UNKNOWN2 = 1024;
+// JVAL: 3d floors
+  MTF_ONMIDSECTOR = 2048;
+// JVAL: Script Events
+  MTF_DONOTTRIGGERSCRIPTS = 4096;
 
 type
   skill_t = (

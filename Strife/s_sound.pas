@@ -448,14 +448,16 @@ begin
 
   // get lumpnum if necessary
   if sfx.lumpnum < 0 then
+  begin
     sfx.lumpnum := I_GetSfxLumpNum(sfx);
 
-  // JVAL
-  // Prevent crash, simply don't play the sound
-  if sfx.lumpnum < 0 then
-  begin
-    I_Warning('S_StartSoundAtVolume(): Sfx #: %d not found.'#13#10, [sfx_id]);
-    exit;
+    // JVAL
+    // Prevent crash, simply don't play the sound
+    if sfx.lumpnum < 0 then
+    begin
+      I_Warning('S_StartSoundAtVolume(): Sfx #: %d not found.'#13#10, [sfx_id]);
+      exit;
+    end;
   end;
 
   // increase the usefulness
@@ -561,14 +563,16 @@ begin
 
   // get lumpnum if necessary
   if sfx.lumpnum < 0 then
+  begin
     sfx.lumpnum := I_GetSfxLumpNum(sfx);
 
-  // JVAL
-  // Prevent crash, simply don't play the sound
-  if sfx.lumpnum < 0 then
-  begin
-    I_Warning('S_StartVoiceAtVolume(): Sfx #: %d not found.'#13#10, [sfx_id]);
-    exit;
+    // JVAL
+    // Prevent crash, simply don't play the sound
+    if sfx.lumpnum < 0 then
+    begin
+      I_Warning('S_StartVoiceAtVolume(): Sfx #: %d not found.'#13#10, [sfx_id]);
+      exit;
+    end;
   end;
 
   // increase the usefulness
@@ -587,6 +591,7 @@ var
 begin
   if disable_voices then
     exit;
+
   id := S_GetSoundNumForName(sndname);
   if (id < 0) or (id > numsfx) then
     exit;
@@ -1133,7 +1138,9 @@ begin
       S_sfx[i].lumpnum := I_GetSfxLumpNum(@S_sfx[i]);
       if S_sfx[i].lumpnum >= 0 then
       begin
-        W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
+        // jval
+        // avoid, cause serious mess-up with sounds
+        // W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
         sndmem := sndmem + W_LumpLength(S_sfx[i].lumpnum);
       end;
     end;

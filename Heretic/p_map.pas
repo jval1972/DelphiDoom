@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -102,6 +102,12 @@ function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t): integer;
 
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;
 
+// JVAL: 3d Floors move from implementation section to interface  
+var
+  tmthing: Pmobj_t;
+  tmx: fixed_t; // JVAL: Slopes - move from implementation section to interface
+  tmy: fixed_t; // JVAL: Slopes - move from implementation section to interface
+
 implementation
 
 uses
@@ -116,8 +122,10 @@ uses
   p_mobj,
   p_spec,
   p_sight,
+  p_slopes, // JVAL: Slopes
   p_switch,
   p_tick,
+  ps_main,
   r_main,
   r_sky,
   r_intrpl,
@@ -125,14 +133,11 @@ uses
 
 var
   tmbbox: array[0..3] of fixed_t;
-  tmthing: Pmobj_t;
   tmflags: integer;
-  tmx: fixed_t;
-  tmy: fixed_t;
 
 //
 // TELEPORT MOVE
-// 
+//
 
 //
 // PIT_StompThing
@@ -207,12 +212,14 @@ begin
   // that contains the point.
   // Any contacted lines the step closer together
   // will adjust them.
-  tmdropoffz := newsubsec.sector.floorheight;
+  //**tmdropoffz := newsubsec.sector.floorheight;
+  tmdropoffz := P_FloorHeight(newsubsec.sector, x, y); // JVAL: Slopes
   tmfloorz := tmdropoffz;
 
-  tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+  //**tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector);
+  tmceilingz := P_CeilingHeight(newsubsec.sector, x, y) + P_SectorJumpOverhead(newsubsec.sector, thing.player);  // JVAL: Slopes
 
-  inc(validcount); 
+  inc(validcount);
   numspechit := 0;
 
   // stomp on any things contacted
@@ -273,7 +280,7 @@ begin
     result := true;
     exit;
   end;
-    
+
   // A line has been hit
 
   // The moving thing's destination position will cross
@@ -307,7 +314,7 @@ begin
   end;
 
   // set openrange, opentop, openbottom
-  P_LineOpening(ld);
+  P_LineOpening(ld, true);
 
   // adjust floor / ceiling heights
   if opentop < tmceilingz then
@@ -323,12 +330,101 @@ begin
     tmdropoffz := lowfloor;
 
   // if contacted a special line, add it to the list
-  if ld.special <> 0 then
+  if (ld.special <> 0) or (ld.flags and ML_TRIGGERSCRIPTS <> 0) then
   begin
     if maxspechit = 0 then
     begin
       maxspechit := 64;
-      spechit := Z_Malloc(64 * SizeOf(Pline_t), PU_STATIC, nil)
+      spechit := Z_Malloc(64 * SizeOf(Pline_t), PU_STATIC, nil);
+    end
+    else if numspechit = maxspechit then
+    begin
+      maxspechit := maxspechit + 8;
+      spechit := Z_ReAlloc(spechit, maxspechit * SizeOf(Pline_t), PU_STATIC, nil)
+    end;
+
+    spechit[numspechit] := ld;
+    inc(numspechit);
+
+//    fprintf(stderr, 'numspechit = %d' + #13#10, [numspechit]);
+  end;
+
+  result := true;
+end;
+
+// JVAL: Slopes
+function PIT_CheckLineTM(ld: Pline_t): boolean;
+begin
+  if (tmbbox[BOXRIGHT] <= ld.bbox[BOXLEFT]) or
+     (tmbbox[BOXLEFT] >= ld.bbox[BOXRIGHT]) or
+     (tmbbox[BOXTOP] <= ld.bbox[BOXBOTTOM]) or
+     (tmbbox[BOXBOTTOM] >= ld.bbox[BOXTOP]) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  if P_BoxOnLineSide(@tmbbox, ld) <> -1 then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // A line has been hit
+
+  // The moving thing's destination position will cross
+  // the given line.
+  // If this should not be allowed, return false.
+  // If the line is special, keep track of it
+  // to process later if the move is proven ok.
+  // NOTE: specials are NOT sorted by order,
+  // so two special lines that are only 8 pixels apart
+  // could be crossed in either order.
+
+  if ld.backsector = nil then
+  begin
+    result := false;  // one sided line
+    exit;
+  end;
+
+  if tmthing.flags and MF_MISSILE = 0 then
+  begin
+    if ld.flags and ML_BLOCKING <> 0 then
+    begin
+      result := false;  // explicitly blocking everything
+      exit;
+    end;
+
+    if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+    begin
+      result := false;  // block monsters only
+      exit;
+    end;
+  end;
+
+  // set openrange, opentop, openbottom
+  P_LineOpeningTM(ld, true);
+
+  // adjust floor / ceiling heights
+  if opentop < tmceilingz then
+  begin
+    tmceilingz := opentop;
+    ceilingline := ld;
+  end;
+
+  if openbottom > tmfloorz then
+    tmfloorz := openbottom;
+
+  if lowfloor < tmdropoffz then
+    tmdropoffz := lowfloor;
+
+  // if contacted a special line, add it to the list
+  if (ld.special <> 0) or (ld.flags and ML_TRIGGERSCRIPTS <> 0) then
+  begin
+    if maxspechit = 0 then
+    begin
+      maxspechit := 64;
+      spechit := Z_Malloc(64 * SizeOf(Pline_t), PU_STATIC, nil);
     end
     else if numspechit = maxspechit then
     begin
@@ -374,6 +470,33 @@ begin
     // didn't hit it
     result := true;
     exit;
+  end;
+
+  // JVAL: 3d Floors
+  if G_PlayingEngineVersion >= VERSION115 then
+  begin
+{    if Psubsector_t(tmthing.subsector).sector = Psubsector_t(thing.subsector).sector then
+      if tmthing.floorz <> thing.floorz then
+      begin
+        result := true;
+        exit;
+      end;
+                                                             }
+    if (tmthing.player <> nil) or (thing.player <> nil) then
+      if tmfloorz <> thing.floorz then
+      begin
+        if tmthing.z > thing.z + thing.height then
+        begin
+          result := true;
+          exit;
+        end;
+
+        if tmthing.z + tmthing.height < thing.z then
+        begin // under thing
+          result := true;
+          exit;
+        end;
+      end;
   end;
 
   if tmthing.flags2 and MF2_PASSMOBJ <> 0 then
@@ -564,6 +687,9 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
+  midsec: Psector_t; // JVAL: 3d floors
+  delta1, delta2, rr: integer;
+  thingtop: integer;
 begin
   tmthing := thing;
   tmflags := thing.flags;
@@ -583,9 +709,25 @@ begin
   // that contains the point.
   // Any contacted lines the step closer together
   // will adjust them.
-  tmdropoffz := newsubsec.sector.floorheight;
+  tmdropoffz := P_FloorHeight(newsubsec.sector, x, y); // JVAL: Slopes
   tmfloorz := tmdropoffz;
-  tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+  tmceilingz := P_CeilingHeight(newsubsec.sector, x, y) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+
+  if newsubsec.sector.midsec >= 0 then  // JVAL: 3d floors
+  begin
+    thingtop := thing.z + thing.height;
+    midsec := @sectors[newsubsec.sector.midsec];
+    rr := (midsec.floorheight + midsec.ceilingheight) div 2;
+    delta1 := abs(thing.z - rr);
+    delta2 := abs(thingtop - rr);
+    if (midsec.ceilingheight > tmfloorz) and (delta1 < delta2) then
+    begin
+      tmdropoffz := midsec.ceilingheight;
+      tmfloorz := tmdropoffz;
+    end;
+    if (midsec.floorheight < tmceilingz) and (delta1 >= delta2) then
+      tmceilingz := midsec.floorheight;
+  end;
 
   inc(validcount);
   numspechit := 0;
@@ -620,13 +762,27 @@ begin
   yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy);
   yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy);
 
-  for bx := xl to xh do
-    for by := yl to yh do
-      if not P_BlockLinesIterator(bx, by, PIT_CheckLine) then
-      begin
-        result := false;
-        exit;
-      end;
+  // JVAL: Slopes
+  if G_PlayingEngineVersion >= VERSION115 then
+  begin
+    for bx := xl to xh do
+      for by := yl to yh do
+        if not P_BlockLinesIterator(bx, by, PIT_CheckLineTM) then // JVAL: Slopes
+        begin
+          result := false;
+          exit;
+        end;
+  end
+  else
+  begin
+    for bx := xl to xh do
+      for by := yl to yh do
+        if not P_BlockLinesIterator(bx, by, PIT_CheckLine) then
+        begin
+          result := false;
+          exit;
+        end;
+  end;
 
   result := true;
 end;
@@ -793,9 +949,9 @@ begin
 // the base floor / ceiling is from the subsector that contains the
 // point.  Any contacted lines the step closer together will adjust them
 //
-  tmfloorz := newsubsec.sector.floorheight;
+  tmfloorz := P_FloorHeight(newsubsec.sector, x, y);  // JVAL: Slopes
   tmdropoffz := tmfloorz;
-  tmceilingz := newsubsec.sector.ceilingheight;
+  tmceilingz := P_CeilingHeight(newsubsec.sector, x, y);  // JVAL: Slopes
 
   inc(validcount);
   numspechit := 0;
@@ -843,6 +999,10 @@ var
   side: integer;
   oldside: integer;
   ld: Pline_t;
+  p: Pplayer_t;
+  oldfloorz: fixed_t; // JVAL: Slopes
+  oldsector: Psector_t; // JVAL: Slopes
+  oldonfloorz: boolean;
 begin
   floatok := false;
   if not P_CheckPosition(thing, x, y) then
@@ -868,6 +1028,16 @@ begin
       exit;
     end;
 
+    // JVAL: Do not step up in ladder movement
+    p := thing.player;
+    if p <> nil then
+      if p.laddertics > 0 then
+        if tmfloorz > thing.z then
+        begin
+          result := false;
+          exit;
+        end;
+
     if (thing.flags and MF_TELEPORT = 0) and
        (tmfloorz - thing.z > 24 * FRACUNIT) then
     begin
@@ -885,17 +1055,42 @@ begin
 
   // the move is ok,
   // so link the thing into its new position
+  oldsector := Psubsector_t(thing.subsector).sector;  // JVAL: Slopes
+  oldfloorz := P_FloorHeight({oldsector, }thing.x, thing.y); // JVAL: Slopes
+  oldonfloorz := oldfloorz >= thing.z; // JVAL: Slopes
   P_UnsetThingPosition(thing);
 
   oldx := thing.x;
   oldy := thing.y;
+
   thing.floorz := tmfloorz;
   thing.ceilingz := tmceilingz;
+
   thing.x := x;
   thing.y := y;
 
   P_SetThingPosition(thing);
 
+  // JVAL: Slopes
+  if Psubsector_t(thing.subsector).sector.renderflags and SRF_SLOPED <> 0 then
+  begin
+    p := thing.player;
+    if p = nil then
+    begin
+      if thing.z < tmfloorz then
+        thing.z := tmfloorz;
+    end
+    else
+    begin
+      p.slopetics := SLOPECOUNTDOWN;
+      if oldonfloorz then
+        if oldfloorz > tmfloorz then
+          thing.momz := thing.momz + (tmfloorz - oldfloorz);
+    end;
+
+  end;
+
+  // JVAL: Slopes - 3d Floors SOS -> Get right P_GetThingFloorType()
   if (thing.flags2 and MF2_FOOTCLIP <> 0) and (P_GetThingFloorType(thing) <> FLOOR_SOLID) then
     thing.flags2 := thing.flags2 or MF2_FEETARECLIPPED
   else if thing.flags2 and MF2_FEETARECLIPPED <> 0 then
@@ -908,12 +1103,17 @@ begin
     while numspechit > 0 do
     begin
       // see if the line was crossed
-      dec(numspechit); // JVAL what happens to while loops ???
+      dec(numspechit);
       ld := spechit[numspechit];
       side := P_PointOnLineSide(thing.x, thing.y, ld);
       oldside := P_PointOnLineSide(oldx, oldy, ld);
       if side <> oldside then
       begin
+        // JVAL: Script Events
+        if ld.flags and ML_TRIGGERSCRIPTS <> 0 then
+          if thing.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
+            PS_EventCrossLine(thing, pDiff(ld, lines, SizeOf(line_t)), oldside);
+
         if ld.special <> 0 then
           P_CrossSpecialLine(pDiff(ld, @lines[0], SizeOf(ld^)), oldside, thing);
       end;
@@ -1071,7 +1271,7 @@ begin
   end;
 
   // set openrange, opentop, openbottom
-  P_LineOpening(li);
+  P_LineOpening(li, true);
 
   if openrange < slidemo.height then
   begin
@@ -1225,6 +1425,11 @@ var
 
   aimslope: fixed_t;
 
+// JVAL: 3d floors : Moved from P_Sight  
+  bottomslope: fixed_t; // slopes to top and bottom of target
+  topslope: fixed_t;
+
+
 //
 // PTR_AimTraverse
 // Sets linetaget and aimslope when a target is aimed at.
@@ -1251,7 +1456,7 @@ begin
     // Crosses a two sided line.
     // A two sided line will restrict
     // the possible target ranges.
-    P_LineOpening(li);
+    P_LineOpening(li, false); // JVAL: 3dFloors We do not aim at the side of the midsec
 
     if openbottom >= opentop then
     begin
@@ -1345,11 +1550,57 @@ var
   dist: fixed_t;
   thingtopslope: fixed_t;
   thingbottomslope: fixed_t;
+  mid: Psector_t;  // JVAL: 3d Floors
+  midn: integer;
 
-  function hitline: boolean;
+  function hitline(const check3dfloors: boolean): boolean;
   var
     zoffs: fixed_t;
+    midfront: Psector_t;
+    midback: Psector_t;
+    ok: boolean;
   begin
+    if check3dfloors then
+    begin
+      // JVAL: 3d Floors
+      if li.frontsector.midsec >= 0 then
+        midfront := @sectors[li.frontsector.midsec]
+      else
+        midfront := nil;
+
+      if li.backsector.midsec >= 0 then
+        midback := @sectors[li.backsector.midsec]
+      else
+        midback := nil;
+
+      if (midfront <> nil) or (midback <> nil) then
+      begin
+        if midfront = nil then
+        begin
+          midfront := midback;
+          midback := nil;
+        end;
+        ok := true;
+        if (FixedDiv(midfront.ceilingheight - shootz, dist) <= aimslope) or
+           (FixedDiv(midfront.floorheight - shootz, dist) >= aimslope) then
+        else
+          ok := false;
+        if midback <> nil then
+        begin
+          if (FixedDiv(midback.ceilingheight - shootz, dist) <= aimslope) or
+             (FixedDiv(midback.floorheight - shootz, dist) >= aimslope) then
+            ok := true
+          else
+            ok := false;
+        end;
+        if ok then
+        begin
+          result := true;
+          exit;
+        end;
+      end;
+    end;
+
     // hit line
     // position a bit closer
     frac := _in.frac - FixedDiv(4 * FRACUNIT, attackrange);
@@ -1400,17 +1651,21 @@ begin
   begin
     li := _in.d.line;
 
+    if li.flags and ML_TRIGGERSCRIPTS <> 0 then
+      if shootthing.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
+        PS_EventShootLine(shootthing, pDiff(li, lines, SizeOf(line_t)), P_PointOnLineSide(shootthing.x, shootthing.y, li));
+
     if li.special <> 0 then
       P_ShootSpecialLine(shootthing, li);
 
     if li.flags and ML_TWOSIDED = 0 then
     begin
-      result := hitline;
+      result := hitline(false);
       exit;
     end;
 
     // crosses a two sided line
-    P_LineOpening(li);
+    P_LineOpening(li, false);
 
     dist := FixedMul(attackrange, _in.frac);
 
@@ -1419,7 +1674,7 @@ begin
       slope := FixedDiv(openbottom - shootz, dist);
       if slope > aimslope then
       begin
-        result := hitline;
+        result := hitline(true);
         exit;
       end;
     end;
@@ -1429,7 +1684,7 @@ begin
       slope := FixedDiv(opentop - shootz, dist);
       if slope < aimslope then
       begin
-        result := hitline;
+        result := hitline(true);
         exit;
       end;
     end;
@@ -1471,6 +1726,23 @@ begin
     exit;
   end;
 
+  // JVAL: 3d Floors
+  // Can not shoot if in same subsector but different floor
+  if shootthing.subsector = th.subsector then
+  begin
+    midn := Psubsector_t(shootthing.subsector).sector.midsec;
+
+    if midn > -1 then
+    begin
+      mid := @sectors[midn];
+      if ((shootz <= mid.floorheight) and (th.z >= mid.ceilingheight)) or
+         ((th.z + th.height <= mid.floorheight) and (shootz >= mid.ceilingheight)) then
+      begin
+        result := false;
+        exit;
+      end;
+    end;
+  end;
 
   // hit thing
   // position a bit closer
@@ -1567,10 +1839,18 @@ var
 function PTR_UseTraverse(_in: Pintercept_t): boolean;
 var
   side: integer;
+  li: Pline_t;
 begin
-  if _in.d.line.special = 0 then
+  side := P_PointOnLineSide(usething.x, usething.y, _in.d.line);
+  li := _in.d.line;
+
+  if li.flags and ML_TRIGGERSCRIPTS <> 0 then
+    if usething.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
+      PS_EventUseLine(usething, pDiff(li, lines, SizeOf(line_t)), side);
+
+  if li.special = 0 then
   begin
-    P_LineOpening(_in.d.line);
+    P_LineOpening(li, true);
     if openrange <= 0 then
     begin
       //S_StartSound(usething, Ord(sfx_noway));
@@ -1582,12 +1862,6 @@ begin
     result := true;
     exit;
   end;
-
-  side := 0;
-  if P_PointOnLineSide(usething.x, usething.y, _in.d.line) = 1 then
-    side := 1;
-
-    //  return false;    // don't use back side
 
   P_UseSpecialLine(usething, _in.d.line, side);
 
@@ -1848,28 +2122,47 @@ end;
 //
 // P_ChangeSector
 //
-function P_ChangeSector(sector: Psector_t; crunch: boolean): boolean;
+procedure P_DoChangeSector(sector: Psector_t; crunch: boolean);
 var
   x: integer;
   y: integer;
   pbox: PIntegerArray;
 begin
-  nofit := false;
-  crushchange := crunch;
-
   // re-check heights for all things near the moving sector
   pbox := @sector.blockbox;
   for x := pbox[BOXLEFT] to pbox[BOXRIGHT] do
     for y := pbox[BOXBOTTOM] to pbox[BOXTOP] do
       P_BlockThingsIterator(x, y, PIT_ChangeSector);
+end;
+
+function P_ChangeSector(sector: Psector_t; crunch: boolean): boolean;
+var
+  i: integer;
+begin
+  nofit := false;
+  crushchange := crunch;
+
+  if (G_PlayingEngineVersion >= VERSION115) and (sector.num_saffectees > 0) then
+  begin
+    for i := 0 to sector.num_saffectees - 1 do
+      P_DoChangeSector(@sectors[sector.saffectees[i]], crunch);
+  end
+  else
+    P_DoChangeSector(sector, crunch);
 
   result := nofit;
 end;
 
-
 // JVAL Allow jumps in sectors with sky ceiling.... (7/8/2007)
 function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t): integer;
 begin
+  // JVAL: 3d floors
+  if s.midsec >= 0 then
+  begin
+    result := 0;
+    Exit;
+  end;
+
   result := 0;
   if s.ceilingpic = skyflatnum then
   begin

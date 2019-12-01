@@ -169,7 +169,9 @@ const
 const  
   COORDMIN = -1.0E38;
   COORDMAX =  1.0E38;
-  COORDEPSILON = 0.0001;
+
+const
+  GLEPSILON = 0.000001;
 
 implementation
 

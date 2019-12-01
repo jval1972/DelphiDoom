@@ -196,7 +196,7 @@ type
     side: word;
     partner_seg: LongWord;
   end;
-  PGLSeg3_t = ^GLSeg1_t;
+  PGLSeg3_t = ^GLSeg3_t;
   GLSeg3_tArray = array[0..$FFFF] of GLSeg3_t;
   PGLSeg3_tArray = ^GLSeg3_tArray;
 
@@ -266,11 +266,6 @@ type
   GLSubSector3_tArray = array[0..$FFFF] of GLSubSector3_t;
   PGLSubSector3_tArray = ^GLSubSector3_tArray;
 
-  GLSubSector_t = GLSubSector3_t;
-  PGLSubSector_t = ^GLSubSector_t;
-  GLSubSector_tArray = array[0..$FFFF] of GLSubSector_t;
-  PGLSubSector_tArray = ^GLSubSector_tArray;
-
 // JVAL: glBSP GLNode structures
 // LUMP GL_NODES
 //
@@ -312,8 +307,8 @@ type
     y: smallint;
     dx: smallint;
     dy: smallint;
-    right_bbox: packed array[0..1] of smallint;
-    left_bbox: packed array[0..1] of smallint;
+    right_bbox: packed array[0..3] of smallint;
+    left_bbox: packed array[0..3] of smallint;
     right_child: word;
     left_child: word;
   end;
@@ -326,8 +321,8 @@ type
     y: smallint;
     dx: smallint;
     dy: smallint;
-    right_bbox: packed array[0..1] of smallint;
-    left_bbox: packed array[0..1] of smallint;
+    right_bbox: packed array[0..3] of smallint;
+    left_bbox: packed array[0..3] of smallint;
     right_child: LongWord;
     left_child: LongWord;
   end;
@@ -357,11 +352,11 @@ type
     fnumglvertexes: integer;
     fglvertexes: PGLVertex2_tArray;
     fnummapsubsectors: integer;
-    fmapsubsectors: Pmapsubsector_tArray;
+    fmapsubsectors: PGLSubSector3_tArray;
     fnummapnodes: integer;
-    fmapnodes: Pmapnode_tArray;
+    fmapnodes: PGLNode4_tArray;
     fnummapsegs: integer;
-    fmapsegs: PGLSeg1_tArray;
+    fmapsegs: PGLSeg3_tArray;
   public
     constructor Create(const afilename: string); virtual;
     destructor Destroy; override;
@@ -369,11 +364,11 @@ type
     property numglvertexes: integer read fnumglvertexes;
     property glvertexes: PGLVertex2_tArray read fglvertexes;
     property nummapsubsectors: integer read fnummapsubsectors;
-    property mapsubsectors: Pmapsubsector_tArray read fmapsubsectors;
+    property mapsubsectors: PGLSubSector3_tArray read fmapsubsectors;
     property nummapnodes: integer read fnummapnodes;
-    property mapnodes: Pmapnode_tArray read fmapnodes;
+    property mapnodes: PGLNode4_tArray read fmapnodes;
     property nummapsegs: integer read fnummapsegs;
-    property mapsegs: PGLSeg1_tArray read fmapsegs;
+    property mapsegs: PGLSeg3_tArray read fmapsegs;
   end;
 
 procedure ND_LoadVertexes(lump: integer; gwa: TGWAFile);
@@ -426,29 +421,34 @@ begin
     exit;
   end;
 
-  data := W_CacheLumpNum(base + Ord(ML_GL_VERTS), PU_CACHE);
+  data := W_CacheLumpNum(base + Ord(ML_GL_VERTS), PU_STATIC);
   if PLongWord(data)^ = gNd2 then
   begin
-    data := W_CacheLumpNum(base + Ord(ML_GL_SEGS), PU_CACHE);
+    Z_ChangeTag(data, PU_CACHE);
+    data := W_CacheLumpNum(base + Ord(ML_GL_SEGS), PU_STATIC);
     if PLongWord(data)^ = gNd3 then
       result := 3
     else
       result := 2;
+    Z_ChangeTag(data, PU_CACHE);
     exit;
   end;
 
   if PLongWord(data)^ = gNd4 then
   begin
+    Z_ChangeTag(data, PU_CACHE);
     result := 4;
     exit;
   end;
 
   if PLongWord(data)^ = gNd5 then
   begin
+    Z_ChangeTag(data, PU_CACHE);
     result := 5;
     exit;
   end;
 
+  Z_ChangeTag(data, PU_CACHE);
   result := 0;
 end;
 
@@ -4154,7 +4154,7 @@ const
     $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, $1F, $02, $00, $00, $6C, $01, 
     $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, $2E, $02, $00, $00, 
     $BC, $01, $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, $3D, $02, 
-    $00, $00, $DC, $01, $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, 
+    $00, $00, $DC, $01, $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, $00, $00,
     $4B, $02, $00, $00, $A8, $01, $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, 
     $00, $00, $59, $02, $00, $00, $08, $02, $00, $00, $06, $00, $00, $00, $02, $00, 
     $00, $00, $00, $00, $67, $02, $00, $00, $AC, $01, $00, $00, $06, $00, $00, $00, 
@@ -4169,7 +4169,7 @@ const
     $00, $00, $00, $00, $E4, $02, $00, $00, $04, $02, $00, $00, $06, $00, $00, $00, 
     $02, $00, $00, $00, $00, $00, $F4, $02, $00, $00, $C4, $01, $00, $00, $06, $00, 
     $00, $00, $02, $00, $00, $00, $00, $00, $00, $03, $00, $00, $4C, $01, $00, $00, 
-    $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, $25, $03, $00, $00, $18, $02, 
+    $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, $25, $03, $00, $00, $18, $02,
     $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, $34, $03, $00, $00, 
     $CC, $01, $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, $41, $03, 
     $00, $00, $38, $01, $00, $00, $06, $00, $00, $00, $02, $00, $00, $00, $00, $00, 
@@ -4184,7 +4184,7 @@ const
     $00, $00, $D0, $01, $00, $00, $06, $00, $00, $00, $02, $00, $E0, $03, $00, $00, 
     $5F, $5F, $69, $6D, $70, $5F, $5F, $76, $70, $72, $69, $6E, $74, $66, $00, $5F, 
     $5F, $69, $6D, $70, $5F, $5F, $66, $6C, $6F, $6F, $72, $00, $5F, $5F, $69, $6D, 
-    $70, $5F, $5F, $5F, $73, $65, $74, $6D, $6F, $64, $65, $00, $5F, $5F, $69, $6D, 
+    $70, $5F, $5F, $5F, $73, $65, $74, $6D, $6F, $64, $65, $00, $5F, $5F, $69, $6D,
     $70, $5F, $5F, $5F, $6F, $6E, $65, $78, $69, $74, $00, $5F, $5F, $69, $6D, $70, 
     $5F, $5F, $73, $65, $74, $62, $75, $66, $00, $5F, $5F, $6C, $69, $62, $6D, $73, 
     $76, $63, $72, $74, $5F, $61, $5F, $69, $6E, $61, $6D, $65, $00, $5F, $5F, $69, 
@@ -4199,7 +4199,7 @@ const
     $6D, $70, $5F, $5F, $5F, $65, $72, $72, $6E, $6F, $00, $5F, $5F, $69, $6D, $70, 
     $5F, $5F, $73, $69, $67, $6E, $61, $6C, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, 
     $61, $74, $65, $78, $69, $74, $00, $5F, $5F, $68, $65, $61, $64, $5F, $6C, $69, 
-    $62, $6D, $73, $76, $63, $72, $74, $5F, $61, $00, $5F, $5F, $69, $6D, $70, $5F, 
+    $62, $6D, $73, $76, $63, $72, $74, $5F, $61, $00, $5F, $5F, $69, $6D, $70, $5F,
     $5F, $63, $65, $69, $6C, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $65, $78, $69, 
     $74, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $66, $73, $65, $65, $6B, $00, $5F, 
     $5F, $69, $6D, $70, $5F, $5F, $74, $6F, $75, $70, $70, $65, $72, $00, $5F, $5F, 
@@ -4214,7 +4214,7 @@ const
     $63, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $73, $74, $72, $63, $6D, $70, $00,
     $5F, $5F, $69, $6D, $70, $5F, $5F, $73, $74, $72, $72, $63, $68, $72, $00, $5F, 
     $5F, $69, $6D, $70, $5F, $5F, $6D, $61, $6C, $6C, $6F, $63, $00, $5F, $5F, $69, 
-    $6D, $70, $5F, $5F, $73, $74, $72, $6E, $63, $70, $79, $00, $5F, $5F, $69, $6D, 
+    $6D, $70, $5F, $5F, $73, $74, $72, $6E, $63, $70, $79, $00, $5F, $5F, $69, $6D,
     $70, $5F, $5F, $72, $65, $61, $6C, $6C, $6F, $63, $00, $5F, $5F, $69, $6D, $70, 
     $5F, $5F, $5F, $61, $73, $73, $65, $72, $74, $00, $5F, $5F, $69, $6D, $70, $5F, 
     $5F, $66, $70, $72, $69, $6E, $74, $66, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, 
@@ -4229,20 +4229,20 @@ const
     $6D, $70, $5F, $5F, $72, $65, $6D, $6F, $76, $65, $00, $5F, $5F, $69, $6D, $70, 
     $5F, $5F, $45, $78, $69, $74, $50, $72, $6F, $63, $65, $73, $73, $40, $34, $00, 
     $5F, $5F, $69, $6D, $70, $5F, $5F, $73, $74, $72, $65, $72, $72, $6F, $72, $00,
-    $5F, $5F, $69, $6D, $70, $5F, $5F, $66, $72, $65, $65, $00, $5F, $5F, $69, $6D, 
+    $5F, $5F, $69, $6D, $70, $5F, $5F, $66, $72, $65, $65, $00, $5F, $5F, $69, $6D,
     $70, $5F, $5F, $53, $65, $74, $55, $6E, $68, $61, $6E, $64, $6C, $65, $64, $45, 
     $78, $63, $65, $70, $74, $69, $6F, $6E, $46, $69, $6C, $74, $65, $72, $40, $34, 
     $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $74, $6F, $6C, $6F, $77, $65, $72, $00, 
     $5F, $5F, $69, $6D, $70, $5F, $5F, $66, $74, $65, $6C, $6C, $00, $5F, $5F, $69, 
     $6D, $70, $5F, $5F, $41, $64, $64, $41, $74, $6F, $6D, $41, $40, $34, $00, $5F, 
     $5F, $68, $65, $61, $64, $5F, $6C, $69, $62, $6B, $65, $72, $6E, $65, $6C, $33, 
-    $32, $5F, $61, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $5F, $63, $65, $78, $69, 
-    $74, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $76, $66, $70, $72, $69, $6E, $74, 
-    $66, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $5F, $5F, $73, $65, $74, $5F, $61, 
-    $70, $70, $5F, $74, $79, $70, $65, $00, $5F, $5F, $6C, $69, $62, $6B, $65, $72, 
+    $32, $5F, $61, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $5F, $63, $65, $78, $69,
+    $74, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $76, $66, $70, $72, $69, $6E, $74,
+    $66, $00, $5F, $5F, $69, $6D, $70, $5F, $5F, $5F, $5F, $73, $65, $74, $5F, $61,
+    $70, $70, $5F, $74, $79, $70, $65, $00, $5F, $5F, $6C, $69, $62, $6B, $65, $72,
     $6E, $65, $6C, $33, $32, $5F, $61, $5F, $69, $6E, $61, $6D, $65, $00, $5F, $5F,
-    $69, $6D, $70, $5F, $5F, $5F, $76, $73, $6E, $70, $72, $69, $6E, $74, $66, $00, 
-    $5F, $5F, $69, $6D, $70, $5F, $5F, $73, $74, $72, $63, $61, $74, $00, $5F, $5F, 
+    $69, $6D, $70, $5F, $5F, $5F, $76, $73, $6E, $70, $72, $69, $6E, $74, $66, $00,
+    $5F, $5F, $69, $6D, $70, $5F, $5F, $73, $74, $72, $63, $61, $74, $00, $5F, $5F,
     $69, $6D, $70, $5F, $5F, $66, $77, $72, $69, $74, $65, $00
   );
 
@@ -4268,7 +4268,6 @@ begin
   printf(#13#10);
   if not result then
     I_Warning('gld_BuildNodes(): Failed to build GL-Friendly nodes for %s'#13#10, [wadfile]);
-
 end;
 
 function HextW(w: Word): string;
@@ -4328,6 +4327,9 @@ begin
     for i := 0 to {$IFDEF HEXEN}11{$ELSE}10{$ENDIF} do
     begin
       lump := maplump + i;
+      if lump >= W_NumLumps then
+        Break;
+
       len := W_LumpLength(lump);
 
       infotable[i].filepos := f.Position;
@@ -4367,7 +4369,11 @@ var
   f: TFile;
   h: wadinfo_t;
   infotable: array[0..9] of filelump_t;
-  i : integer;
+  i, j: integer;
+  ver, ver2: LongWord;
+  seg1: GLSeg1_t;
+  node1: GLNode1_t;
+  subsector1: GLSubSector1_t;
 begin
   ffilename := afilename;
   f := TFile.Create(ffilename, fOpenReadOnly);
@@ -4391,38 +4397,153 @@ begin
   fnummapsegs := 0;
   fmapsegs := nil;
 
+  ver := 0;
   for i := 0 to h.numlumps - 1 do
   begin
     if strupper(char8tostring(infotable[i].name)) = 'GL_VERT' then
     begin
-      f.Seek(infotable[i].filepos + 4, sFromBeginning);
-      fnumglvertexes := (infotable[i].size - 4) div SizeOf(GLVertex2_t);
+      f.Seek(infotable[i].filepos, sFromBeginning);
+      f.Read(ver, SizeOf(ver));
+    end
+    else if strupper(char8tostring(infotable[i].name)) = 'GL_SEGS' then
+    begin
+      f.Seek(infotable[i].filepos, sFromBeginning);
+      f.Read(ver2, SizeOf(ver2));
+      if ver2 = gNd3 then
+        ver := gNd3;
+    end;
+  end;
+
+  if ver = gNd2 then
+    glnodesver := 2
+  else if ver = gNd3 then
+    glnodesver := 3
+  else if ver = gNd4 then
+    glnodesver := 4
+  else if ver = gNd5 then
+    glnodesver := 5
+  else
+    glnodesver := 0;
+
+  for i := 0 to h.numlumps - 1 do
+  begin
+    if strupper(char8tostring(infotable[i].name)) = 'GL_VERT' then
+    begin
+      if glnodesver > 0 then
+      begin
+        f.Seek(infotable[i].filepos + 4, sFromBeginning);
+        fnumglvertexes := (infotable[i].size - 4) div SizeOf(GLVertex2_t);
+      end
+      else
+        fnumglvertexes := infotable[i].size div SizeOf(GLVertex2_t);
       fglvertexes := malloc(fnumglvertexes * SizeOf(GLVertex2_t));
       f.Read(fglvertexes^, fnumglvertexes * SizeOf(GLVertex2_t));
-    end;
-
-    if strupper(char8tostring(infotable[i].name)) = 'GL_SSECT' then
+    end
+    else if strupper(char8tostring(infotable[i].name)) = 'GL_SSECT' then
     begin
       f.Seek(infotable[i].filepos, sFromBeginning);
-      fnummapsubsectors := infotable[i].size div SizeOf(mapsubsector_t);
-      fmapsubsectors := malloc(fnummapsubsectors * SizeOf(mapsubsector_t));
-      f.Read(fmapsubsectors^, fnummapsubsectors * SizeOf(mapsubsector_t));
-    end;
-
-    if strupper(char8tostring(infotable[i].name)) = 'GL_NODES' then
+      if glnodesver >= 3 then
+      begin
+        if glnodesver = 3 then
+        begin
+          fnummapsubsectors := (infotable[i].size - 4) div SizeOf(GLSubSector3_t);
+          f.Seek(infotable[i].filepos + 4, sFromBeginning);
+        end
+        else
+          fnummapsubsectors := infotable[i].size div SizeOf(GLSubSector3_t);
+        fmapsubsectors := malloc(fnummapsubsectors * SizeOf(GLSubSector3_t));
+        f.Read(fmapsubsectors^, fnummapsubsectors * SizeOf(GLSubSector3_t));
+      end
+      else
+      begin
+        fnummapsubsectors := infotable[i].size div SizeOf(GLSubSector1_t);
+        fmapsubsectors := malloc(fnummapsubsectors * SizeOf(GLSubSector3_t));
+        for j := 0 to fnummapsubsectors - 1 do
+        begin
+          f.Read(subsector1, SizeOf(GLSubSector1_t));
+          fmapsubsectors[j].count := subsector1.count;
+          fmapsubsectors[j].first_seg := subsector1.first_seg;
+        end;
+      end;
+    end
+    else if strupper(char8tostring(infotable[i].name)) = 'GL_NODES' then
     begin
       f.Seek(infotable[i].filepos, sFromBeginning);
-      fnummapnodes := infotable[i].size div SizeOf(mapnode_t);
-      fmapnodes := malloc(fnummapnodes * SizeOf(mapnode_t));
-      f.Read(fmapnodes^, fnummapnodes * SizeOf(mapnode_t));
-    end;
-
-    if strupper(char8tostring(infotable[i].name)) = 'GL_SEGS' then
+      if glnodesver >= 4 then
+      begin
+        fnummapnodes := infotable[i].size div SizeOf(GLNode4_t);
+        fmapnodes := malloc(fnummapnodes * SizeOf(GLNode4_t));
+        f.Read(fmapnodes^, fnummapnodes * SizeOf(GLNode4_t));
+      end
+      else
+      begin
+        fnummapnodes := infotable[i].size div SizeOf(GLNode1_t);
+        fmapnodes := malloc(fnummapnodes * SizeOf(GLNode4_t));
+        for j := 0 to fnummapnodes - 1 do
+        begin
+          f.Read(node1, SizeOf(GLNode1_t));
+          fmapnodes[j].x := node1.x;
+          fmapnodes[j].y := node1.y;
+          fmapnodes[j].dx := node1.dx;
+          fmapnodes[j].dy := node1.dy;
+          fmapnodes[j].right_bbox[0] := node1.right_bbox[0];
+          fmapnodes[j].right_bbox[1] := node1.right_bbox[1];
+          fmapnodes[j].right_bbox[2] := node1.right_bbox[2];
+          fmapnodes[j].right_bbox[3] := node1.right_bbox[3];
+          fmapnodes[j].left_bbox[0] := node1.left_bbox[0];
+          fmapnodes[j].left_bbox[1] := node1.left_bbox[1];
+          fmapnodes[j].left_bbox[2] := node1.left_bbox[2];
+          fmapnodes[j].left_bbox[3] := node1.left_bbox[3];
+          if node1.right_child and NF_SUBSECTOR <> 0 then
+          begin
+            node1.right_child := node1.right_child and not NF_SUBSECTOR;
+            fmapnodes[j].right_child := node1.right_child;
+            fmapnodes[j].right_child := fmapnodes[j].right_child or NF_SUBSECTOR_V5;
+          end
+          else
+            fmapnodes[j].right_child := node1.right_child;
+          if node1.left_child and NF_SUBSECTOR <> 0 then
+          begin
+            node1.left_child := node1.left_child and not NF_SUBSECTOR;
+            fmapnodes[j].left_child := node1.left_child;
+            fmapnodes[j].left_child := fmapnodes[j].left_child or NF_SUBSECTOR_V5;
+          end
+          else
+            fmapnodes[j].left_child := node1.left_child;
+        end;
+      end;
+    end
+    else if strupper(char8tostring(infotable[i].name)) = 'GL_SEGS' then
     begin
-      f.Seek(infotable[i].filepos, sFromBeginning);
-      fnummapsegs := infotable[i].size div SizeOf(GLSeg1_t);
-      fmapsegs := malloc(fnummapsegs * SizeOf(GLSeg1_t));
-      f.Read(fmapsegs^, fnummapsegs * SizeOf(GLSeg1_t));
+      if glnodesver = 3 then
+      begin
+        f.Seek(infotable[i].filepos + 4, sFromBeginning);
+        fnummapsegs := (infotable[i].size - 4) div SizeOf(GLSeg3_t);
+      end
+      else
+      begin
+        f.Seek(infotable[i].filepos, sFromBeginning);
+        if glnodesver < 3 then
+          fnummapsegs := infotable[i].size div SizeOf(GLSeg1_t)
+        else
+          fnummapsegs := infotable[i].size div SizeOf(GLSeg3_t);
+      end;
+
+      fmapsegs := malloc(fnummapsegs * SizeOf(GLSeg3_t));
+      if glnodesver >= 3 then
+        f.Read(fmapsegs^, fnummapsegs * SizeOf(GLSeg3_t))
+      else
+      begin
+        for j := 0 to fnummapsegs - 1 do
+        begin
+          f.Read(seg1, SizeOf(GLSeg1_t));
+          fmapsegs[j].start_vertex := seg1.start_vertex;
+          fmapsegs[j].end_vertex := seg1.end_vertex;
+          fmapsegs[j].linedef := seg1.linedef;
+          fmapsegs[j].side := seg1.side;
+          fmapsegs[j].partner_seg := seg1.partner_seg;
+        end;
+      end;
     end;
 
   end;
@@ -4432,9 +4553,9 @@ end;
 destructor TGWAFile.Destroy;
 begin
   memfree(pointer(fglvertexes), fnumglvertexes * SizeOf(GLVertex2_t));
-  memfree(pointer(fmapsubsectors), fnummapsubsectors * SizeOf(mapsubsector_t));
-  memfree(pointer(fmapnodes), fnummapnodes * SizeOf(mapnode_t));
-  memfree(pointer(fmapsegs), fnummapsegs * SizeOf(GLSeg1_t));
+  memfree(pointer(fmapsubsectors), fnummapsubsectors * SizeOf(GLSubSector3_t));
+  memfree(pointer(fmapnodes), fnummapnodes * SizeOf(GLNode4_t));
+  memfree(pointer(fmapsegs), fnummapsegs * SizeOf(GLSeg3_t));
   inherited;
 end;
 
@@ -4504,8 +4625,8 @@ begin
   ss := @subsectors[0];
   for i := 0 to numsubsectors - 1 do
   begin
-    ss.numlines :=  gwa.mapsubsectors[i].numsegs;
-    ss.firstline := gwa.mapsubsectors[i].firstseg;
+    ss.numlines :=  gwa.mapsubsectors[i].count;
+    ss.firstline := gwa.mapsubsectors[i].first_seg;
     inc(ss);
   end;
 end;
@@ -4513,7 +4634,6 @@ end;
 procedure ND_LoadNodes(gwa: TGWAFile);
 var
   i: integer;
-  j: integer;
   k: integer;
   no: Pnode_t;
 begin
@@ -4528,12 +4648,12 @@ begin
     no.y := gwa.mapnodes[i].y * FRACUNIT;
     no.dx := gwa.mapnodes[i].dx * FRACUNIT;
     no.dy := gwa.mapnodes[i].dy * FRACUNIT;
-    for j := 0 to 1 do
-    begin
-      no.children[j] := gwa.mapnodes[i].children[j];
-      for k := 0 to 3 do
-        no.bbox[j, k] := gwa.mapnodes[i].bbox[j, k] * FRACUNIT;
-    end;
+    no.children[0] := gwa.mapnodes[i].right_child;
+    no.children[1] := gwa.mapnodes[i].left_child;
+    for k := 0 to 3 do
+      no.bbox[0, k] := gwa.mapnodes[i].right_bbox[k] * FRACUNIT;
+    for k := 0 to 3 do
+      no.bbox[1, k] := gwa.mapnodes[i].left_bbox[k] * FRACUNIT;
     inc(no);
   end;
 end;
@@ -4551,7 +4671,7 @@ end;
 
 function CheckGLVertex(num: integer): integer;
 begin
-  if glnodesver < 3 then
+  if glnodesver <= 2 then
   begin
     if num and (1 shl 15) <> 0 then
     begin
@@ -4559,11 +4679,19 @@ begin
       exit;
     end
   end
-  else if glnodesver < 3 then
+  else if glnodesver <= 4 then
   begin
     if num and (1 shl 30) <> 0 then
     begin
       result := num and (1 shl 30 - 1) + firstglvert;
+      exit;
+    end
+  end
+  else if glnodesver = 5 then
+  begin
+    if num and (1 shl 31) <> 0 then
+    begin
+      result := LongWord(num) and LongWord(_SHLW(1, 31) - 1) + firstglvert;
       exit;
     end
   end;
@@ -4583,7 +4711,7 @@ end;
 procedure ND_LoadSegs(gwa: TGWAFile);
 var
   i: integer;
-  ml: PGLSeg1_t;
+  ml: PGLSeg3_t;
   li: Pseg_t;
   ldef: Pline_t;
   linedef: integer;

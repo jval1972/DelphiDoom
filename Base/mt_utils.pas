@@ -43,6 +43,8 @@ procedure MT_memset(const dest0: pointer; const val: integer; const count0: inte
 
 procedure MT_memseti(const dest0: pointer; const val: integer; const count0: integer);
 
+procedure MT_memcpy(const dest0: pointer; const src0: pointer; const count0: integer);
+
 implementation
 
 uses
@@ -55,7 +57,7 @@ var
 
 // jval: General purpose threads  
 const
-  MAXGPTHREADS = 8;
+  MAXGPTHREADS = 256;
 
 var
   numgpthreads: integer;
@@ -102,10 +104,10 @@ begin
       parms[i].dest := dst;
       parms[i].size := sz;
       gp_threads[i].Activate(MT_ZeroMemory_thr, @parms[i]);
-      dst := pointer(integer(dest0) + sz);
+      dst := pointer(integer(dst) + sz);
     end;
   end;
-  for i := 0 to numgpthreads - 1 do
+  for i := 0 to numgpthreads - 2 do
     gp_threads[i].Wait;
 end;
 
@@ -159,10 +161,10 @@ begin
       parms[i].value := val;
       parms[i].size := sz;
       gp_threads[i].Activate(MT_memset_thr, @parms[i]);
-      dst := pointer(integer(dest0) + sz);
+      dst := pointer(integer(dst) + sz);
     end;
   end;
-  for i := 0 to numgpthreads - 1 do
+  for i := 0 to numgpthreads - 2 do
     gp_threads[i].Wait;
 end;
 
@@ -192,23 +194,71 @@ begin
       parms[i].value := val;
       parms[i].size := sz;
       gp_threads[i].Activate(MT_memseti_thr, @parms[i]);
-      dst := pointer(integer(dest0) + sz4);
+      dst := pointer(integer(dst) + sz4);
     end;
   end;
-  for i := 0 to numgpthreads - 1 do
+  for i := 0 to numgpthreads - 2 do
     gp_threads[i].Wait;
 end;
 
+type
+  mcparams_t = record
+    dest: pointer;
+    src: pointer;
+    size: integer;
+  end;
+  mcparams_p = ^mcparams_t;
+  mcparams_a = array[0..MAXGPTHREADS - 1] of mcparams_t;
+
+function MT_memcpy_thr(p: pointer): integer; stdcall;
+begin
+  memcpy(mcparams_p(p).dest, mcparams_p(p).src, mcparams_p(p).size);
+  result := 1;
+end;
+
+procedure MT_memcpy(const dest0: pointer; const src0: pointer; const count0: integer);
+var
+  parms: mcparams_a;
+  sz: integer;
+  dst, src: pointer;
+  i: integer;
+begin
+  if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
+  begin
+    memcpy(dest0, src0, count0);
+    exit;
+  end;
+
+  sz := (count0 div numgpthreads) and not 7;
+  dst := dest0;
+  src := src0;
+  for i := 0 to numgpthreads - 1 do
+  begin
+    if i = numgpthreads - 1 then
+      memcpy(dst, src, count0 - i * sz)
+    else
+    begin
+      parms[i].dest := dst;
+      parms[i].src := src;
+      parms[i].size := sz;
+      gp_threads[i].Activate(MT_memcpy_thr, @parms[i]);
+      dst := pointer(integer(dst) + sz);
+      src := pointer(integer(src) + sz);
+    end;
+  end;
+  for i := 0 to numgpthreads - 2 do
+    gp_threads[i].Wait;
+end;
 
 procedure MT_Init;
 var
   i: integer;
 begin
   numgpthreads := I_GetNumCPUs;
-  if numgpthreads > MAXGPTHREADS then
-    numgpthreads := MAXGPTHREADS
-  else if numgpthreads < 2 then
+  if numgpthreads < 2 then
     numgpthreads := 2;
+  if numgpthreads > MAXGPTHREADS then
+    numgpthreads := MAXGPTHREADS;
   for i := 0 to numgpthreads - 1 do
     gp_threads[i] := TDThread.Create;
   mt_initialized := true;

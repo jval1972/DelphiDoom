@@ -24,8 +24,8 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//    Floor animation: raising stairs.
+// DESCRIPTION:
+//  Floor animation: raising stairs.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -76,6 +76,7 @@ uses
   p_tick,
   p_mobj_h,
   p_setup,
+  p_slopes,
   r_data;
 
 //
@@ -222,6 +223,7 @@ begin
         end;
       end;
   end;
+  P_DynamicSlope(sector); // JVAL: Slopes
   result := ok;
 end;
 
@@ -614,6 +616,7 @@ begin
           end;
         end;
     end;
+    P_DynamicSlope(sec);  // JVAL: Slopes
   until secnum < 0;
 end;
 

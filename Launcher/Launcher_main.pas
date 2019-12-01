@@ -193,7 +193,9 @@ begin
   begin
     repeat
       if IsIWAD(sr.Name) then
-        IWADsComboBox.Items.Add(sr.Name);
+        if (gameengine = ge_strife) and (UpperCase(sr.Name) = 'VOICES.WAD') then
+        else
+          IWADsComboBox.Items.Add(sr.Name);
     until FindNext(sr) <> 0;
   end;
   IWADsComboBox.ItemIndex := 0;
@@ -761,6 +763,7 @@ end;
 procedure TForm1.AutodetectDetailButtonClick(Sender: TObject);
 var
   cpuspeed: double;
+  w, h: integer;
 begin
 
   Screen.Cursor := crHourglass;
@@ -771,46 +774,76 @@ begin
     Screen.Cursor := crDefault;
   end;
 
-  if cpuspeed < 80 then
+  cpuspeed := cpuspeed * I_GetNumCPUs;
+
+  if cpuspeed < 81 then
   begin
-    ScreenResolutionComboBox.Text := '320x200';
+    w := 320;
+    h := 200;
     DetailLevelComboBox.ItemIndex := 3;
   end
-  else if cpuspeed < 200 then
+  else if cpuspeed < 201 then
   begin
-    ScreenResolutionComboBox.Text := '400x300';
+    w := 400;
+    h := 300;
     DetailLevelComboBox.ItemIndex := 3;
   end
-  else if cpuspeed < 800 then
+  else if cpuspeed < 601 then
   begin
-    ScreenResolutionComboBox.Text := '640x480';
+    w := 640;
+    h := 400;
     DetailLevelComboBox.ItemIndex := 3;
   end
-  else if cpuspeed < 1500 then
+  else if cpuspeed < 801 then
   begin
-    ScreenResolutionComboBox.Text := '640x480';
+    w := 640;
+    h := 480;
+    DetailLevelComboBox.ItemIndex := 3;
+  end
+  else if cpuspeed < 1001 then
+  begin
+    w := 640;
+    h := 480;
+    DetailLevelComboBox.ItemIndex := 4;
+  end
+  else if cpuspeed < 1501 then
+  begin
+    w := 800;
+    h := 600;
     DetailLevelComboBox.ItemIndex := 4;
   end
   else if cpuspeed < 2200 then
   begin
-    ScreenResolutionComboBox.Text := '800x600';
-    DetailLevelComboBox.ItemIndex := 4;
-  end
-  else if cpuspeed < 3000 then
-  begin
-    ScreenResolutionComboBox.Text := '800x600';
+    w := 1280;
+    h := 800;
     DetailLevelComboBox.ItemIndex := 4;
   end
   else if cpuspeed < 3500 then
   begin
-    ScreenResolutionComboBox.Text := '800x600';
+    w := 1366;
+    h := 768;
+    DetailLevelComboBox.ItemIndex := 4;
+  end
+  else if cpuspeed < 4500 then
+  begin
+    w := 1600;
+    h := 900;
     DetailLevelComboBox.ItemIndex := 4;
   end
   else
   begin
-    ScreenResolutionComboBox.Text := '1024x768';
+    w := 1920;
+    h := 1080;
     DetailLevelComboBox.ItemIndex := 4;
-  end
+  end;
+
+  if w > I_ScreenWidth then
+    w := I_ScreenWidth;
+  if h > I_ScreenHeight then
+    h := I_ScreenHeight;
+    
+  ScreenResolutionComboBox.Text := IntToStr(w) + 'x' + IntToStr(h);
+
 end;
 
 

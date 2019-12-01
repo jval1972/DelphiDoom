@@ -63,7 +63,7 @@ procedure I_SetPalette64;
 
 var
   fixstallhack: boolean = true;
-
+  
 implementation
 
 uses

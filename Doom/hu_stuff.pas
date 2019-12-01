@@ -122,20 +122,24 @@ implementation
 uses
   d_delphi,
   c_cmds,
-  z_zone, w_wad,
+  z_zone,
+  w_wad,
   i_system,
   doomstat,
   am_map,
-  dstrings, d_englsh,
+  dstrings,
+  d_englsh,
   d_player,
   g_game,
   hu_lib,
-  m_menu, m_fixed,
+  m_menu,
+  m_fixed,
   p_tick,
   r_draw,
-  s_sound, sounds,
-  
-  v_data, v_video;
+  s_sound,
+  sounds,
+  v_data,
+  v_video;
 
 // FPS Stuff
 

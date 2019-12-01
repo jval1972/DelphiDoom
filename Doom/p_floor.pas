@@ -19,8 +19,8 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//    Floor animation: raising stairs.
+// DESCRIPTION:
+//  Floor animation: raising stairs.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -38,10 +38,8 @@ uses
   z_zone,
   p_spec,
   m_fixed,
-  
   r_defs,
   s_sound,
-  
   sounds;
 
 //
@@ -73,6 +71,7 @@ uses
   p_tick,
   p_mobj_h,
   p_setup,
+  p_slopes,
   r_data;
 
 //
@@ -220,6 +219,7 @@ begin
         end;
       end;
   end;
+  P_DynamicSlope(sector); // JVAL: Slopes
   result := ok;
 end;
 
@@ -349,7 +349,7 @@ begin
       1,                          // move floor
       elevator.direction
     );
-    if (res = ok) or (res = pastdest)  then// jff 4/7/98 don't move ceil if blocked
+    if (res = ok) or (res = pastdest) then// jff 4/7/98 don't move ceil if blocked
       T_MovePlane
       (
         elevator.sector,
@@ -602,6 +602,7 @@ begin
           end;
         end;
     end;
+    P_DynamicSlope(sec);  // JVAL: Slopes
   until secnum < 0;
 end;
 

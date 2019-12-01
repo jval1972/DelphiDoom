@@ -28,6 +28,12 @@ procedure splitstring(const inp: string; var out1, out2: string; const splitter:
 
 function firstword(const inp: string; const splitter: string = ' '): string;
 
+function I_GetNumCPUs: integer;
+
+function I_ScreenWidth: integer;
+
+function I_ScreenHeight: integer;
+
 implementation
 
 uses
@@ -325,6 +331,23 @@ begin
   splitstring(inp, result, tmp, splitter);
 end;
 
+function I_GetNumCPUs: integer;
+var
+  info: TSystemInfo;
+begin
+  GetSystemInfo(info);
+  result := info.dwNumberOfProcessors;
+end;
+
+function I_ScreenWidth: integer;
+begin
+  result := GetSystemMetrics(SM_CXSCREEN);
+end;
+
+function I_ScreenHeight: integer;
+begin
+  result := GetSystemMetrics(SM_CYSCREEN);
+end;
 
 var
   mHandle: THandle;    // Mutexhandle

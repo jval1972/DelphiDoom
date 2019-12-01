@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -39,23 +39,32 @@ unit r_plane;
 interface
 
 uses
-  m_fixed,
+  d_delphi,
   doomdef,
+  m_fixed,
   r_data,
-  r_defs;
+  r_defs,
+  r_visplanes;  // JVAL: 3d Floors
 
 procedure R_InitPlanes;
+
 procedure R_ClearPlanes;
 
 {$IFNDEF OPENGL}
+type
+  mapplanefunc_t = procedure(const y: integer; const x1, x2: integer);
+                                        
 procedure R_MapPlane(const y: integer; const x1, x2: integer);
 
-procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: integer);
+procedure R_MakeSpans(x, t1, b1, t2, b2: integer; const func: mapplanefunc_t);
 
 procedure R_DrawPlanes;
-{$ENDIF}
 
-function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer; flags: LongWord): Pvisplane_t;
+procedure R_DoDrawPlane(const pl: Pvisplane_t); // JVAL: 3d Floors
+{$ENDIF}
+function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
+  flags: LongWord; {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF}
+  slopeSID: integer = -1): Pvisplane_t;
 
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 
@@ -78,9 +87,11 @@ var
 // opening
 //
 
-// ?
+//
+//https://www.doomworld.com/vb/source-ports/85967-reasonable-static-limit-for-maxopenings/
+//
 const
-  MAXOPENINGS = MAXWIDTH * 64;
+  MAXOPENINGS = MAXWIDTH * MAXHEIGHT;
 
 var
   openings: packed array[0..MAXOPENINGS - 1] of smallint;
@@ -89,36 +100,13 @@ var
 {$IFNDEF OPENGL}
   yslope: array[0..MAXHEIGHT - 1] of fixed_t;
   distscale: array[0..MAXWIDTH - 1] of fixed_t;
-{$ENDIF}  
+{$ENDIF}
 
-implementation
-
-uses
-  d_delphi,
-  doomstat,
-  d_player,
-  tables,
-  i_system,
-  r_sky,
-  r_draw,
-  r_main,
-  r_things,
-  r_hires,
 {$IFNDEF OPENGL}
-  r_batchsky,
-  r_span,
-  r_span32,
-  r_column,
-  r_ccache,
-  r_ripple,
-  r_fake3d,
+function R_NewVisPlane: Pvisplane_t;  // JVAL: 3d Floors
 {$ENDIF}
-{$IFDEF DEBUG}
-  r_debug,
-{$ENDIF}
-  z_zone,
-  w_wad;
 
+// JVAL: 3d Floors -> moved to interface
 // Here comes the obnoxious "visplane".
 const
 // JVAL - Note about visplanes:
@@ -127,19 +115,16 @@ const
 //   Use -zone cmdline param to specify more zone memory allocation
 //   if out of memory.
 //   See also R_NewVisPlane()
-// Now maximum visplanes are 8192 (originally 128)
-  MAXVISPLANES = 8192;
+// Now maximum visplanes are 64K (originally 128)
+  MAXVISPLANES = $10000;
 
 var
   visplanes: array[0..MAXVISPLANES - 1] of visplane_t;
   lastvisplane: integer;
 
-//
-// spanstart holds the start of a plane span
-// initialized to 0 at start
-//
 {$IFNDEF OPENGL}
-  spanstart: array[0..MAXHEIGHT - 1] of integer;
+// JVAL: Slopes - Move to interface
+var
 
 //
 // texture mapping
@@ -148,11 +133,44 @@ var
   planeheight: fixed_t;
 {$ENDIF}
 
+implementation
+
+uses
+  tables,
+  i_system,
+  r_sky,
+  r_main,
+  r_draw,
+{$IFNDEF OPENGL}
+  r_batchsky,
+  r_ripple,
+  r_span,
+  r_span32,
+  r_column,
+  r_hires,
+  r_ccache,
+  r_fake3d,
+  r_depthbuffer,
+  r_3dfloors, // JVAL: 3d Floors
+  r_slopes, // JVAL: Slopes
+{$ENDIF}
+  z_zone;
+
+
+//
+// spanstart holds the start of a plane span
+// initialized to 0 at start
+//
+var
+{$IFNDEF OPENGL}
+  spanstart: array[0..MAXHEIGHT - 1] of integer;
+{$ENDIF}
+
   basexscale: fixed_t;
   baseyscale: fixed_t;
 
-  cachedheight: array[0..MAXHEIGHT - 1] of fixed_t;
 {$IFNDEF OPENGL}
+  cachedheight: array[0..MAXHEIGHT - 1] of fixed_t;
   cacheddistance: array[0..MAXHEIGHT -1] of fixed_t;
   cachedxstep: array[0..MAXHEIGHT - 1] of fixed_t;
   cachedystep: array[0..MAXHEIGHT - 1] of fixed_t;
@@ -194,6 +212,9 @@ begin
   if x2 - x1 < 0 then
     exit;
 
+  if y >= viewheight then
+    exit;
+
   if usefake3d and zaxisshift then
     if fake3dspanpresent <> nil then
       if not fake3dspanpresent[y] then
@@ -204,9 +225,9 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    slope := (planeheight / 65535.0 / abs(centery - y));
-    ds_xstep := round(dviewsin * slope * relativeaspect);
-    ds_ystep := round(dviewcos * slope * relativeaspect);
+    slope := (planeheight / 65535.0 / abs(centery - y)) * relativeaspect;
+    ds_xstep := round(dviewsin * slope);
+    ds_ystep := round(dviewcos * slope);
     cachedxstep[y] := ds_xstep;
     cachedystep[y] := ds_ystep;
   end
@@ -270,8 +291,26 @@ begin
 
   // high or low detail
   spanfunc;
+
+  // JVAL: 3d Floors
+  if depthbufferactive then
+  begin
+    if y = centery then
+      db_distance := 0
+    else
+      db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
+    R_DrawSpanToDepthBuffer;
+  end;
 end;
 {$ENDIF}
+
+// jval: Visplane hash
+const
+  VISPLANEHASHSIZE = MAXVISPLANES;
+  VISPLANEHASHOVER = 10;
+
+var
+  visplanehash: array[0..VISPLANEHASHSIZE + VISPLANEHASHOVER - 1] of LongWord;
 
 //
 // R_ClearPlanes
@@ -302,24 +341,22 @@ begin
   vv := PInteger(@cc)^;
   memseti(@ceilingclip, vv, viewwidth div 2);
 
-  if Odd(viewwidth) then
+  if Odd(viewwidth) then // JVAL: This shouldn't happen
   begin
     floorclip[viewwidth - 1] := viewheight;
     ceilingclip[viewwidth - 1] := -1;
   end;
-  {$IFDEF DEBUG}
-  R_CheckClipTable(@floorclip, 0, viewwidth - 1);
-  {$ENDIF}
-  {$IFDEF DEBUG}
-  R_CheckClipTable(@ceilingclip, 0, viewwidth - 1);
-  {$ENDIF}
-{$ENDIF}
+
+  ZeroMemory(@visplanehash, SizeOf(visplanehash));
 
   lastvisplane := 0;
+  lastvisplane3d := 0;  // JVAL: 3d Floors
+  lastvisslope := 0;    // JVAL: Slopes
   lastopening := 0;
 
   // texture calculation
   ZeroMemory(@cachedheight, SizeOf(cachedheight));
+{$ENDIF}  // JVAL: 3d Floors
 
   // left to right mapping
   {$IFDEF FPC}
@@ -340,7 +377,7 @@ end;
 //   Create a new visplane
 //   Uses zone memory to allocate top and bottom arrays
 //
-procedure R_NewVisPlane;
+function R_NewVisPlane: Pvisplane_t;
 begin
   if lastvisplane > maxvisplane then
   begin
@@ -351,20 +388,82 @@ begin
     maxvisplane := lastvisplane;
   end;
 
+  result := @visplanes[lastvisplane];
   inc(lastvisplane);
+end;
+
+//
+// R_VisplaneHash
+//
+function R_VisplaneHash(height: fixed_t; picnum: integer; lightlevel: integer;
+  flags: LongWord; slopeSID: integer): LongWord;
+begin
+  result := (((LongWord(flags) * 3 +
+               LongWord(lightlevel)) * 19 +
+               LongWord(height)) * 233 +
+               LongWord(picnum)) * 3 +
+               LongWord(height div FRACUNIT) +
+               LongWord(height and (FRACUNIT - 1));
+  result := result + LongWord(slopeSID + 1) * 7;  // JVAL: Slopes
+  result := result and (VISPLANEHASHSIZE - 1);
 end;
 
 //
 // R_FindPlane
 //
-function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer; flags: LongWord): Pvisplane_t;
+function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
+  flags: LongWord; {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF}
+  slopeSID: integer = -1): Pvisplane_t;
 var
   check: integer;
+  hash: LongWord;
+  p: LongWord;
 begin
   if picnum = skyflatnum then
   begin
-    height := 0; // all skys map together
+    height := 0; // all skies map together
     lightlevel := 0;
+    flags := flags and not SRF_SLOPED; // JVAL: Sloped surface do not have sky (why not ?) -> Just copy the sky code to R_DoDrawSlope from R_DoDrawPlane
+    slopeSID := -1; // JVAL: Slopes
+  end;
+
+  hash := R_VisplaneHash(height, picnum, lightlevel, flags, slopeSID);
+  check := hash;
+  while check < hash + VISPLANEHASHOVER do
+  begin
+    p := visplanehash[check];
+    if p = 0 then
+    begin
+      result := R_NewVisPlane;  // JVAL: 3d Floors
+
+      result.height := height;
+      result.picnum := picnum;
+      result.lightlevel := lightlevel;
+      result.minx := viewwidth;
+      result.maxx := -1;
+      result.renderflags := flags;
+      result.slopeSID := slopeSID;  // JVAL: Slopes
+      {$IFNDEF OPENGL}
+      result.slope := slope;  // JVAL: Slopes
+      {$ENDIF}
+
+      memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
+
+      visplanehash[check] := lastvisplane;
+      exit;
+    end;
+    Dec(p);
+    // jval: should not happen
+    if p >= lastvisplane then
+      break;
+    result := @visplanes[p];
+    if (height = result.height) and
+       (picnum = result.picnum) and
+       (lightlevel = result.lightlevel) and
+       (slopeSID = result.slopeSID) and // JVAL: Slopes
+       (flags = result.renderflags) then
+      exit;
+    Inc(check);
   end;
 
   check := 0;
@@ -374,6 +473,7 @@ begin
     if (height = result.height) and
        (picnum = result.picnum) and
        (lightlevel = result.lightlevel) and
+       (slopeSID = result.slopeSID) and // JVAL: Slopes
        (flags = result.renderflags) then
       break;
     inc(check);
@@ -393,11 +493,27 @@ begin
   result.height := height;
   result.picnum := picnum;
   result.lightlevel := lightlevel;
-  result.minx := SCREENWIDTH;
+  result.minx := viewwidth;
   result.maxx := -1;
   result.renderflags := flags;
+  result.slopeSID := slopeSID;  // JVAL: Slopes
+  {$IFNDEF OPENGL}
+  result.slope := slope;  // JVAL: Slopes
+  {$ENDIF}
 
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
+
+  check := hash;
+  while check < hash + VISPLANEHASHOVER do
+  begin
+    if visplanehash[check] = 0 then
+    begin
+      visplanehash[check] := lastvisplane;
+      Break;
+    end;
+    Inc(check);
+  end;
+
 end;
 
 //
@@ -447,9 +563,6 @@ begin
   begin
     pl.minx := unionl;
     pl.maxx := unionh;
-    {$IFDEF DEBUG}
-    R_DebugCheckVisPlane(pl);
-    {$ENDIF}
 
     // use the same one
     result := pl;
@@ -466,13 +579,20 @@ begin
   pll.picnum := pl.picnum;
   pll.lightlevel := pl.lightlevel;
   pll.renderflags := pl.renderflags;
+  pll.slopeSID := pl.slopeSID;  // JVAL: Slopes
+  {$IFNDEF OPENGL}
+  pll.slope := pl.slope;        // JVAL: Slopes
+  {$ENDIF}
 
   pl := pll;
 
   R_NewVisPlane;
+  visplanehash[R_VisplaneHash(pl.height, pl.picnum, pl.lightlevel,
+    pl.renderflags, pl.slopeSID)] := lastvisplane;
 
   pl.minx := start;
   pl.maxx := stop;
+
   result := pl;
 
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
@@ -483,34 +603,41 @@ end;
 // R_MakeSpans
 //
 {$IFNDEF OPENGL}
-procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: integer);
+procedure R_MakeSpans(x, t1, b1, t2, b2: integer; const func: mapplanefunc_t);
+var
+  x1: integer;
 begin
+  x1 := x - 1;
+  if t1 < 0 then
+    t1 := 0;
   while (t1 < t2) and (t1 <= b1) do
   begin
   // JVAL 9/7/05
-    if (t1 >= 0) and (t1 < Length(spanstart)) then
-      R_MapPlane(t1, spanstart[t1], x);
+    if t1 < viewwidth then
+      func(t1, spanstart[t1], x1);
     inc(t1);
   end;
   while (b1 > b2) and (b1 >= t1) do
   begin
   // JVAL 9/7/05
-    if (b1 >= 0) and (b1 < Length(spanstart)) then
-      R_MapPlane(b1, spanstart[b1], x);
+    if (b1 >= 0) and (b1 < viewwidth) then
+      func(b1, spanstart[b1], x1);
     dec(b1);
   end;
 
+  if t2 < 0 then
+    t2 := 0;
   while (t2 < t1) and (t2 <= b2) do
   begin
   // JVAL 9/7/05
-    if (t2 >= 0) and (t2 < Length(spanstart)) then
+    if t2 < viewwidth then
       spanstart[t2] := x;
     inc(t2);
   end;
   while (b2 > b1) and (b2 >= t2) do
   begin
   // JVAL 9/7/05
-    if (b2 >= 0) and (b2 < Length(spanstart)) then
+    if (b2 >= 0) and (b2 < viewwidth) then //Length(spanstart)) then
       spanstart[b2] := x;
     dec(b2);
   end;
@@ -522,77 +649,62 @@ end;
 // At the end of each frame.
 //
 {$IFNDEF OPENGL}
-procedure R_DrawPlanes;
+procedure R_DrawPlanes; // JVAL: 3d Floors
 var
-  pl: Pvisplane_t;
   i: integer;
+  pl: Pvisplane_t;
+begin
+  for i := 0 to lastvisplane - 1 do
+  begin
+    pl := @visplanes[i];
+    if pl.renderflags and SRF_SLOPED = 0 then
+      R_DoDrawPlane(pl)
+    else
+      R_DoDrawSlope(pl);  //JVAL: Slopes
+  end;
+end;
+
+procedure R_DoDrawPlane(const pl: Pvisplane_t); // JVAL: 3d Floors
+var
   light: integer;
   x: integer;
   stop: integer;
   angle: integer;
 begin
-  for i := 0 to lastvisplane - 1 do
+  if pl.minx > pl.maxx then
+    exit; // JVAL: 3d Floors
+
+  // sky flat
+  if pl.picnum = skyflatnum then
   begin
-    pl := @visplanes[i];
-    {$IFDEF DEBUG}
-    R_DebugCheckVisPlane(pl);
-    {$ENDIF}
-    if pl.minx > pl.maxx then
-      continue;
+    if zaxisshift and (viewangleoffset = 0) then
+      dc_iscale := FRACUNIT * 93 div viewheight // JVAL adjust z axis shift also
+    else
+      dc_iscale := FRACUNIT * 200 div viewheight;
 
-    // sky flat
-    if pl.picnum = skyflatnum then
+    dc_texturemid := skytexturemid;
+    if optimizedcolumnrendering then
     begin
-      if zaxisshift and (viewangleoffset = 0) then
-        dc_iscale := FRACUNIT * 93 div viewheight // JVAL adjust z axis shift also
-      else
-        dc_iscale := FRACUNIT * 200 div viewheight;
-
-      dc_texturemid := skytexturemid;
-      if optimizedcolumnrendering then
+      if videomode = vm32bit then
       begin
-        if videomode = vm32bit then
+        for x := pl.minx to pl.maxx do
         begin
-          for x := pl.minx to pl.maxx do
-          begin
-            dc_yl := pl.top[x];
-            dc_yh := pl.bottom[x];
+          dc_yl := pl.top[x];
+          dc_yh := pl.bottom[x];
 
-            if dc_yl < dc_yh then
-            begin
-              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-              dc_mod := dc_texturemod;
-              dc_x := x;
-              R_ReadDC32Cache(skytexture, angle);
-            // JVAL
-            //  Store columns to buffer
-              R_StoreSkyColumn32;
-            end;
-          end;
-          R_FlashSkyColumns32;
-        end
-        else
-        begin
-          for x := pl.minx to pl.maxx do
+          if dc_yl < dc_yh then
           begin
-            dc_yl := pl.top[x];
-            dc_yh := pl.bottom[x];
-
-            if dc_yl < dc_yh then
-            begin
-              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-              dc_mod := dc_texturemod;
-              dc_x := x;
-              dc_source := R_GetColumn(skytexture, angle);
-            // JVAL
-            //  Store columns to buffer
-              R_StoreSkyColumn8;
-            end;
+            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            dc_mod := dc_texturemod;
+            dc_x := x;
+            R_ReadDC32Cache(skytexture, angle);
+          // JVAL
+          //  Store columns to buffer
+            R_StoreSkyColumn32;
           end;
-          R_FlashSkyColumns8;
         end;
+        R_FlashSkyColumns32;
       end
       else
       begin
@@ -607,62 +719,82 @@ begin
             dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
             dc_mod := dc_texturemod;
             dc_x := x;
-            R_GetDCs(skytexture, angle);
-            // Sky is allways drawn full bright,
-            //  i.e. colormaps[0] is used.
-            //  Because of this hack, sky is not affected
-            //  by INVUL inverse mapping.
+            dc_source := R_GetColumn(skytexture, angle);
             // JVAL
-            //  call skycolfunc(), not colfunc(), does not use colormaps!
-            skycolfunc;
+            //  Store columns to buffer
+            R_StoreSkyColumn8;
           end;
         end;
+        R_FlashSkyColumns8;
       end;
-      continue;
-    end;
-
-    // regular flat
-    R_GetDSs(pl.picnum);
-
-    planeheight := abs(pl.height - viewz);
-    light := _SHR(pl.lightlevel, LIGHTSEGSHIFT) + extralight;
-
-    if light >= LIGHTLEVELS then
-      light := LIGHTLEVELS - 1;
-
-    if light < 0 then
-      light := 0;
-
-    planezlight := @zlight[light];
-    ds_llzindex := light;
-
-    pl.top[pl.maxx + 1] := VISEND;
-    pl.top[pl.minx - 1] := VISEND;
-
-    if pl.renderflags and SRF_RIPPLE <> 0 then
-    begin
-      spanfunc := ripplespanfunc;
-      ds_ripple := curripple
     end
     else
     begin
-      spanfunc := basespanfunc;
-      ds_ripple := nil;
+      for x := pl.minx to pl.maxx do
+      begin
+        dc_yl := pl.top[x];
+        dc_yh := pl.bottom[x];
+
+        if dc_yl < dc_yh then
+        begin
+          angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+          dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+          dc_mod := dc_texturemod;
+          dc_x := x;
+          R_GetDCs(skytexture, angle);
+          // Sky is allways drawn full bright,
+          //  i.e. colormaps[0] is used.
+          //  Because of this hack, sky is not affected
+          //  by INVUL inverse mapping.
+          // JVAL
+          //  call skycolfunc(), not colfunc(), does not use colormaps!
+          skycolfunc;
+        end;
+      end;
     end;
-
-    stop := pl.maxx + 1;
-
-    for x := pl.minx to stop do
-    begin
-      R_MakeSpans(x, pl.top[x - 1], pl.bottom[x - 1], pl.top[x], pl.bottom[x]);
-    end;
-
-    if ds_source <> nil then
-      Z_ChangeTag(ds_source, PU_CACHE);
+    exit;
   end;
+
+  // regular flat
+  R_GetDSs(pl.picnum);
+
+  planeheight := abs(pl.height - viewz);
+  light := _SHR(pl.lightlevel, LIGHTSEGSHIFT) + extralight;
+
+  if light >= LIGHTLEVELS then
+    light := LIGHTLEVELS - 1;
+
+  if light < 0 then
+    light := 0;
+
+  planezlight := @zlight[light];
+  ds_llzindex := light;
+
+  pl.top[pl.maxx + 1] := VISEND;
+  pl.top[pl.minx - 1] := VISEND;
+
+  if pl.renderflags and SRF_RIPPLE <> 0 then
+  begin
+    spanfunc := ripplespanfunc;
+    ds_ripple := curripple
+  end
+  else
+  begin
+    spanfunc := basespanfunc;
+    ds_ripple := nil;
+  end;
+
+  stop := pl.maxx + 1;
+
+  for x := pl.minx to stop do
+  begin
+    R_MakeSpans(x, pl.top[x - 1], pl.bottom[x - 1], pl.top[x], pl.bottom[x], @R_MapPlane);
+  end;
+
+  if ds_source <> nil then
+    Z_ChangeTag(ds_source, PU_CACHE);
 end;
 {$ENDIF}
 
 end.
-
 

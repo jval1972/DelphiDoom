@@ -41,8 +41,11 @@ interface
 
 uses
   m_fixed,
-  d_player, d_think,
-  p_local, p_mobj_h, p_tick,
+  d_player,
+  d_think,
+  p_local,
+  p_mobj_h,
+  p_tick,
   r_defs;
 
 //
@@ -69,7 +72,7 @@ procedure P_ShootSpecialLine(thing: Pmobj_t; line: Pline_t);
 
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
 
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
 function twoSided(sector: integer; line: integer): integer;
 
@@ -326,6 +329,8 @@ type
     pastdest
   );
 
+function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
+
 implementation
 
 uses
@@ -357,6 +362,7 @@ uses
   p_user,
   p_floor,
   p_telept,
+  p_common,
   tables,
   s_sound,
 // Data.
@@ -675,7 +681,10 @@ var
   check: Pline_t;
   other: Psector_t;
 begin
-  result := 0;
+  if G_PlayingEngineVersion > VERSION114 then
+    result := -32000 * FRACUNIT
+  else
+    result := 0;
 
   for i := 0 to sec.linecount - 1 do
   begin
@@ -1271,15 +1280,12 @@ const
     2048 * 35
   );
 
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
-var
-  sector: Psector_t;
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 begin
-  sector := Psubsector_t(player.mo.subsector).sector;
-
   // Falling, not all the way down yet?
-  if player.mo.z <> sector.floorheight then
+  if player.mo.z <> height then
     exit;
+
 
   // Has hitten ground.
   case sector.special of
@@ -1690,6 +1696,13 @@ begin
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_CEILING;
+        end;
+      // JVAL: ladder to tagged sectors (when sliding)
+      282:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].flags := sectors[s].flags or SRF_LADDER;
         end;
     end;
 end;

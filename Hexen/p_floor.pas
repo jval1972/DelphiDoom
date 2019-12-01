@@ -18,11 +18,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//    Floor animation: raising stairs.
+// DESCRIPTION:
+//  Floor animation: raising stairs.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -82,8 +82,16 @@ uses
   doomdata,
   d_think,
   i_system,
-  p_map, p_tick, p_mobj_h, p_setup, p_ceilng, p_acs, p_extra,
-  r_data, r_main,
+  p_map,
+  p_tick,
+  p_mobj_h,
+  p_setup,
+  p_slopes,
+  p_ceilng,
+  p_acs,
+  p_common,
+  r_data,
+  r_main,
   s_sndseq;
 
 //
@@ -213,6 +221,7 @@ begin
         end;
       end;
   end;
+  P_DynamicSlope(sector); // JVAL: Slopes
   result := RES_OK;
 end;
 
@@ -300,13 +309,11 @@ begin
   begin
     sec := @sectors[secnum];
 
-    //      ALREADY MOVING?  IF SO, KEEP GOING...
+    // ALREADY MOVING?  IF SO, KEEP GOING...
     if sec.specialdata <> nil then
       continue;
 
-    //
-    //      new floor thinker
-    //
+    // new floor thinker
     result := true;
     floor := Z_Malloc(SizeOf(floormove_t), PU_LEVSPEC, nil);
     memset(floor, 0, sizeof(floormove_t));
@@ -398,7 +405,10 @@ begin
   end;
 
   if result then
+  begin
     S_StartSequence(Pmobj_t(@floor.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(floor.sector.seqType));  // JVAL SOS
+    P_DynamicSlope(sec);  // JVAL: Slopes
+  end;
 end;
 
 //============================================================================

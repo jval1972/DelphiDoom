@@ -128,6 +128,7 @@ type
     procedure Grow;
     procedure AddEntry(var H: FPakHead; const Pakn: string); overload;
     procedure AddEntry(var HD: FWADhead; const Pakn: string); overload;
+    procedure AddEntry(const aPos, aSize: integer; const aname: string; const Pakn: string); overload;
   {$IFNDEF FPC}
     procedure AddEntry(ZIPFILE: TZipFile; const ZIPFileName, EntryName: string; const index: integer); overload;
   {$ENDIF}
@@ -192,10 +193,15 @@ type
 
 function PAK_StringIterator(const filename: string; proc: stringiteratorproc): integer;
 
+function PAK_ReadFileAsString(const filename: string): string;
+
+procedure PAK_LoadPendingPaks;
+
 implementation
 
 uses
-  i_system;
+  i_system,
+  w_wad;
 
 {$IFNDEF FPC}
 {******** TCompressorCache ********}
@@ -383,6 +389,26 @@ begin
   AddEntryToHashTable(NumEntries - 1);
 end;
 
+procedure TPakManager.AddEntry(const aPos, aSize: integer; const aname: string; const Pakn: string);
+var
+  e: PPakEntry;
+begin
+  Grow;
+
+  e := @Entries[NumEntries - 1];
+  e.Pak := Pakn;
+  e.Name := strupper(aname);
+  e.ShortName := fshortname(e.Name);
+  e.Hash := MkHash(e.ShortName);
+  e.Offset := aPos;
+  e.Size := aSize;
+{$IFNDEF FPC}
+  e.ZIP := nil;
+{$ENDIF}
+
+  AddEntryToHashTable(NumEntries - 1);
+end;
+
 function TPakManager.HashToHashTableIndex(const hash: integer): integer;
 begin
   result := abs(hash) mod PAKHASHSIZE;
@@ -408,16 +434,21 @@ var
   N, Id, Ofs:Integer;
   F: file;
   P: Pointer;
-  I: Integer;
+  I, J: Integer;
 {$IFNDEF FPC}
   z: TZipFile;
 {$ENDIF}
   pkid: integer;
   Fn: string;
+  inHIRES: boolean;
+  wadlump: filelump_t;
+  b4: packed array[0..9] of byte;
+  pk3lumps: TDStringList;
+  pk3lump: string;
 begin
   result := false;
   Fn := strupper(FileName);
-  if PAKS.IndexOf(Fn) > -1  then
+  if PAKS.IndexOf(Fn) > -1 then
     exit;
 
   pkid := PAKS.Add(Fn);
@@ -432,7 +463,8 @@ begin
     close(F);
     exit;
   end;
-  if (Id <> Pakid) and (Id <> WAD2Id) and (Id <> WAD3Id){$IFNDEF FPC} and (id <> ZIPFILESIGNATURE) {$ENDIF} then
+  if (Id <> Pakid) and (Id <> WAD2Id) and (Id <> WAD3Id){$IFNDEF FPC} and (id <> ZIPFILESIGNATURE) {$ENDIF} and
+     (Id <> IWAD) and (Id <> PWAD) and (Id <> DWAD) then
   begin
     result := false;
     close(F);
@@ -470,6 +502,68 @@ begin
       AddEntry(z, Fn, z.Files[i], i);
   end
 {$ENDIF}
+  else if (Id = IWAD) or (Id = PWAD) or (Id = DWAD) then  // DOOM WAD
+  begin
+    BlockRead(F, Nr, 4, N);
+    if N <> 4 then
+    begin
+      close(F);
+      exit;
+    end;
+    BlockRead(F, Ofs, 4, N);
+    if N <> 4 then
+    begin
+      close(F);
+      exit;
+    end;
+    seek(F, Ofs);
+    inHIRES := false;
+    pk3lumps := TDStringList.Create;
+    for i := 0 to Nr - 1 do
+    begin
+      BlockRead(F, wadlump, SizeOf(filelump_t), N);
+      // 'PK3ENTRY' wad lump contains aliases for wad lumps (8 characters - short filename)
+      // to the PK3/PAK filesystem (long filenames).
+      if char8tostring(wadlump.name) = 'PK3ENTRY' then
+      begin
+        Seek(F, wadlump.filepos);
+        SetLength(pk3lump, wadlump.size);
+        for j := 1 to wadlump.size do
+          BlockRead(F, pk3lump[j], SizeOf(Char));
+        pk3lumps.Text := pk3lumps.Text + pk3lump;
+        Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
+      end
+      else if char8tostring(wadlump.name) = 'HI_START' then
+        inHIRES := True
+      else if char8tostring(wadlump.name) = 'HI_END' then
+        inHIRES := False
+      else if inHIRES then
+      begin
+        Seek(F, wadlump.filepos);
+        BlockRead(F, b4, 10);
+        if (b4[0] = 0) and (b4[1] = 0) and (b4[2] = 2) and (b4[3] = 0) then // TGA
+          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.TGA', Fn)
+        else if (b4[1] = $50) and (b4[2] = $4E) and (b4[3] = $47) then // PNG
+          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.PNG', Fn)
+        else if (b4[0] = $42) and (b4[1] = $4D) then // BMP
+          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.BMP', Fn)
+        else if (b4[6] = $4A) and (b4[7] = $46) and (b4[8] = $49) and (b4[9] = $46) then // JPEG
+          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.JPG', Fn);
+        Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
+      end;
+    end;
+    if pk3lumps.Count > 0 then
+    begin
+      seek(F, Ofs);
+      for i := 0 to Nr - 1 do
+      begin
+        BlockRead(F, wadlump, SizeOf(filelump_t), N);
+        if pk3lumps.IndexOfName(char8tostring(wadlump.name)) > -1 then
+          AddEntry(wadlump.filepos, wadlump.size, pk3lumps.Values[char8tostring(wadlump.name)], Fn)
+      end;
+    end;
+    pk3lumps.Free;
+  end
   else // WAD2 or WAD3
   begin
     BlockRead(F, Nr, 4, N);
@@ -565,7 +659,7 @@ begin
         else
       {$ENDIF}
         begin // Standard Quake1/2 pak file
-          if not fopen(F.F, string(pe.Pak), fOpenReadOnly)  then
+          if not fopen(F.F, string(pe.Pak), fOpenReadOnly) then
             exit;
           Seek(F.F, pe.Offset);
         end;
@@ -589,7 +683,7 @@ begin
         else
       {$ENDIF}
         begin // Standard Quake1/2 pak file
-          if not fopen(F.F, string(pe.Pak), fOpenReadOnly)  then
+          if not fopen(F.F, string(pe.Pak), fOpenReadOnly) then
             exit;
           Seek(F.F, pe.Offset);
         end;
@@ -619,7 +713,7 @@ begin
   else
   {$ENDIF}
   begin // Standard Quake1/2 pak file
-    if not fopen(F.F, string(pe.Pak), fOpenReadOnly)  then
+    if not fopen(F.F, string(pe.Pak), fOpenReadOnly) then
       exit;
     Seek(F.F, pe.Offset);
   end;
@@ -663,7 +757,7 @@ begin
         else
       {$ENDIF}
         begin // Standard Quake1/2 pak file
-          if not fopen(F.F, string(pe.Pak), fOpenReadOnly)  then
+          if not fopen(F.F, string(pe.Pak), fOpenReadOnly) then
             exit;
           Seek(F.F, pe.Offset);
         end;
@@ -1167,14 +1261,49 @@ begin
   pakmanager.Free;
 end;
 
+var
+  pendingpaks: TDStringList;
+
+procedure PAK_LoadPendingPaks;
+var
+  i: integer;
+begin
+  if pendingpaks.Count = 0 then
+    Exit;
+
+  for i := 0 to pendingpaks.Count - 1 do
+    if I_DirectoryExists(pendingpaks.Strings[i]) then
+      pakmanager.PAddDirectory(pendingpaks.Strings[i])
+    else
+      pakmanager.PAddFile(pendingpaks.Strings[i]);
+  pendingpaks.Clear;
+end;
+
 procedure PAK_AddDirectory(const path: string);
 begin
+  if pakmanager = nil then
+  begin
+    pendingpaks.Add(path);
+    exit;
+  end;
+
+  PAK_LoadPendingPaks;
+
   printf(' adding directory %s'#13#10, [path]);
   pakmanager.PAddDirectory(path);
 end;
 
 function PAK_AddFile(const FileName: string): boolean;
 begin
+  if pakmanager = nil then
+  begin
+    pendingpaks.Add(FileName);
+    Result := false;
+    exit;
+  end;
+
+  PAK_LoadPendingPaks;
+
   if I_DirectoryExists(FileName) then
   begin
     result := true;
@@ -1213,6 +1342,36 @@ begin
   list.Free;
   entries.Free;
 end;
+
+function PAK_ReadFileAsString(const filename: string): string;
+var
+  entries: TDNumberList;
+  strm: TPakStream;
+  list: TDStringList;
+begin
+  entries := PAK_GetMatchingEntries(filename);
+  if entries.Count > 0 then
+  begin
+    list := TDStringList.Create;
+    strm := TPakStream.Create(entries.Numbers[entries.Count - 1]);
+    if strm.IOResult = 0 then
+    begin
+      list.LoadFromStream(strm);
+      Result := list.Text;
+    end;
+    strm.Free;
+    list.Free;
+  end
+  else
+    Result := '';
+  entries.Free;
+end;
+
+initialization
+  pendingpaks := TDStringList.Create;
+
+finalization
+  pendingpaks.Free;
 
 end.
 

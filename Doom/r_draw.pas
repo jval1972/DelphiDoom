@@ -112,7 +112,6 @@ implementation
 uses
   am_map,
   m_argv,
-  
   w_wad,
   z_zone,
   st_stuff,
@@ -400,7 +399,7 @@ begin
   begin
     lblack := curpal[black];
     lstrart := @screen32[ofs];
-    for i := 0 to count -1 do
+    for i := 0 to count - 1 do
     begin
       lstrart^ := lblack;
       inc(lstrart);

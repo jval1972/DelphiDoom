@@ -345,12 +345,12 @@ var
   fracstep: fixed_t;
   fraclimit: fixed_t;
   fraclimit2: fixed_t;
-  destlimit: integer;
+//  destlimit: integer;
   spot: integer;
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c{, c1, r, g, b}: LongWord;
   lfactor: integer;
   lspot: integer;
   ldest: LongWord;
@@ -508,5 +508,4 @@ begin
 end;
 
 end.
-
 

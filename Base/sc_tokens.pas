@@ -37,6 +37,7 @@ type
   TTokenList = class(TDStringList)
   public
     function IndexOfToken(const S: string): Integer; virtual;
+    function AllTokens: TDStringList;
   end;
 
 implementation
@@ -79,5 +80,33 @@ begin
   list.Free;
 end;
 
+function TTokenList.AllTokens: TDStringList;
+var
+  i, j: integer;
+  list: TDStringList;
+  stmp, stmp2: string;
+begin
+  Result := TDStringList.Create;
+
+  list := TDStringList.Create;
+  for i := 0 to Count - 1 do
+  begin
+    stmp := Strings[i];
+    stmp2 := '';
+    for j := 1 to Length(stmp) do
+      if stmp[j] = ',' then
+        stmp2 := stmp2 + #13#10
+      else
+        stmp2 := stmp2 + stmp[j];
+    stmp := strtrim(stmp2);
+    if stmp <> '' then
+    begin
+      list.Text := stmp;
+      for j := 0 to list.Count - 1 do
+        Result.Add(strtrim(list.Strings[j]));
+    end;
+  end;
+  list.Free;
+end;
+
 end.
- 

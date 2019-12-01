@@ -143,18 +143,21 @@ var
 begin
   if M_CheckParm('-debugfile') <> 0 then
 {$IFDEF OPENGL}
-    sprintf(dfilename, 'GL%s32_debug%d.txt', [basename, consoleplayer])
+    sprintf(dfilename, 'DATA\LOGS\GL%s32_debug%d.txt', [basename, consoleplayer])
   else
-    sprintf(dfilename, 'GL%s32_debug.txt', [basename]);
-  sprintf(efilename, 'GL%s32_stderr.txt', [basename]);
-  sprintf(sfilename, 'GL%s32_stdout.txt', [basename]);
+    sprintf(dfilename, 'DATA\LOGS\GL%s32_debug.txt', [basename]);
+  sprintf(efilename, 'DATA\LOGS\GL%s32_stderr.txt', [basename]);
+  sprintf(sfilename, 'DATA\LOGS\GL%s32_stdout.txt', [basename]);
 {$ELSE}
-    sprintf(dfilename, '%s32_debug%d.txt', [basename, consoleplayer])
+    sprintf(dfilename, 'DATA\LOGS\%s32_debug%d.txt', [basename, consoleplayer])
   else
-    sprintf(dfilename, '%s32_debug.txt', [basename]);
-  sprintf(efilename, '%s32_stderr.txt', [basename]);
-  sprintf(sfilename, '%s32_stdout.txt', [basename]);
+    sprintf(dfilename, 'DATA\LOGS\%s32_debug.txt', [basename]);
+  sprintf(efilename, 'DATA\LOGS\%s32_stderr.txt', [basename]);
+  sprintf(sfilename, 'DATA\LOGS\%s32_stdout.txt', [basename]);
 {$ENDIF}
+
+  MkDir(M_SaveFileName('DATA'));
+  MkDir(M_SaveFileName('DATA\LOGS'));
 
   if M_CheckParmCDROM then
   begin

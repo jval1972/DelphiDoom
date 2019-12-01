@@ -73,7 +73,9 @@ procedure gld_ResumeLightmap;
 implementation
 
 uses
+  m_fixed,
   p_tick,
+  p_3dfloors,
   gl_defs,
   gl_dlights;
 
@@ -197,6 +199,8 @@ var
   fx1, fx2, fy1, fy2, fz1, fz2: float;
   i_xy: integer;
   pdls: Pdlsortitem_t;
+  pdlsx, pdlsy, pdlsz: float;
+  pdlsy1, pdlsy2: float;
   l: PGLDRenderLight;
   squaredist, squarecheck: float;
   point: PByte;
@@ -208,7 +212,8 @@ var
   lo_ix, lo_ixy: float;
   xy_offs: integer;
   rgb_max: float;
-
+  ffloorz, fceilingz: float;
+  xx, yy, zz: fixed_t;  // Map Coordinates
 begin
   if lightmapdefined and (lmvalidcount = leveltime) then
     exit;
@@ -294,10 +299,14 @@ begin
        (pdls.z <> lastitem.z) then
     begin
       lastitem := pdls^;
+      pdlsx := lastitem.x;
+      pdlsy := lastitem.y;
+      pdlsz := lastitem.z;
+
       // Check if the light source is inside the lightmap boundaries
-      if (pdls.x >= fx1) and (pdls.x <= fx2) and
-         (pdls.y >= fy1) and (pdls.y <= fy2) and
-         (pdls.z >= fz1) and (pdls.z <= fz2) then
+      if (pdlsx >= fx1) and (pdlsx <= fx2) and
+         (pdlsy >= fy1) and (pdlsy <= fy2) and
+         (pdlsz >= fz1) and (pdlsz <= fz2) then
       begin
         l := pdls.l;
         checkradious := l.radious;
@@ -305,37 +314,54 @@ begin
           checkradious := MINLIGHTMAPRADIOUS;
         squarecheck := checkradious * checkradious;
 
-        ix1 := opengl2lightmapx(pdls.x - checkradious);
+        ix1 := opengl2lightmapx(pdlsx - checkradious);
         if ix1 < 0 then
           ix1 := 0
         else if ix1 >= LIGHTMAPSIZEX then
           ix1 := LIGHTMAPSIZEX - 1;
 
-        ix2 := opengl2lightmapx(pdls.x + checkradious);
+        ix2 := opengl2lightmapx(pdlsx + checkradious);
         if ix2 < 0 then
           ix2 := 0
         else if ix2 >= LIGHTMAPSIZEX then
           ix2 := LIGHTMAPSIZEX - 1;
 
-        iy1 := opengl2lightmapy(pdls.y - checkradious);
+        pdlsy1 := pdlsy - checkradious;
+        pdlsy2 := pdlsy + checkradious;
+
+        xx := -Round(pdlsx * MAP_SCALE);
+        yy := Round(pdlsz * MAP_SCALE);
+        zz := Round(pdlsy * MAP_SCALE);
+        ffloorz := (P_3dFloorHeight(xx, yy, zz) - 4 * FRACUNIT) / MAP_SCALE;
+        fceilingz := (P_3dCeilingHeight(xx, yy, zz) + 4 * FRACUNIT) / MAP_SCALE;
+        if pdlsy1 < ffloorz then
+          pdlsy1 := ffloorz
+        else if pdlsy1 > fceilingz then
+          pdlsy1 := fceilingz;
+        if pdlsy2 < ffloorz then
+          pdlsy2 := ffloorz
+        else if pdlsy2 > fceilingz then
+          pdlsy2 := fceilingz;
+
+        iy1 := opengl2lightmapy(pdlsy1);
         if iy1 < 0 then
           iy1 := 0
         else if iy1 >= LIGHTMAPSIZEY then
           iy1 := LIGHTMAPSIZEY - 1;
 
-        iy2 := opengl2lightmapy(pdls.y + checkradious);
+        iy2 := opengl2lightmapy(pdlsy2);
         if iy2 < 0 then
           iy2 := 0
         else if iy2 >= LIGHTMAPSIZEY then
           iy2 := LIGHTMAPSIZEY - 1;
 
-        iz1 := opengl2lightmapz(pdls.z - checkradious);
+        iz1 := opengl2lightmapz(pdlsz - checkradious);
         if iz1 < 0 then
           iz1 := 0
         else if iz1 >= LIGHTMAPSIZEZ then
           iz1 := LIGHTMAPSIZEZ - 1;
 
-        iz2 := opengl2lightmapz(pdls.z + checkradious);
+        iz2 := opengl2lightmapz(pdlsz + checkradious);
         if iz2 < 0 then
           iz2 := 0
         else if iz2 >= LIGHTMAPSIZEZ then
@@ -351,17 +377,17 @@ begin
 
         for ix := ix1 to ix2 do
         begin
-          lo_ix := sqr(pdls.x - lightmap2openglx(ix));
+          lo_ix := sqr(pdlsx - lightmap2openglx(ix));
           for iy := iy1 to iy2 do
           begin
-            lo_ixy := lo_ix + sqr(pdls.y - lightmap2opengly(iy));
+            lo_ixy := lo_ix + sqr(pdlsy - lightmap2opengly(iy));
             if lo_ixy <= squarecheck then
             begin
               xy_offs := iy * LIGHTMAPSIZEX + ix;
               for iz := iz1 to iz2 do
               begin
                 rtlp := @rtllightmap[iz * (LIGHTMAPSIZEX * LIGHTMAPSIZEY) + xy_offs];
-                squaredist := lo_ixy + sqr(pdls.z - lightmap2openglz(iz));
+                squaredist := lo_ixy + sqr(pdlsz - lightmap2openglz(iz));
                 if squaredist <= squarecheck then
                 begin
                   if l.shadow then
@@ -552,7 +578,7 @@ begin
   glTexGenfv(GL_R, GL_OBJECT_PLANE, @TexGenRPlane);
 
   if not lightmapdefined then
-  	glBindTexture(GL_TEXTURE_3D, lightmap_tex_num);
+    glBindTexture(GL_TEXTURE_3D, lightmap_tex_num);
   gld_CalculateLightmap;
   gld_PlaceLightmapTexture;
 

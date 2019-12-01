@@ -214,7 +214,7 @@ begin
   current_length := integer(demoend) - integer(demobuffer);
 
   // Generate a new buffer twice the size
-  new_length := current_length + SAVEGAMESIZE;
+  new_length := current_length + $80000;
 
   new_demobuffer := Z_Malloc2(new_length, PU_STATIC, nil);
   if new_demobuffer = nil then
@@ -269,12 +269,9 @@ begin
 
   demo_p := demo_start;
 
-  if integer(demo_p) > integer(demoend) - 16 then
-  begin
-    // no more space
+  if integer(demo_p) >= integer(demoend) - SizeOf(ticcmd_t) then
     G_IncreaseDemoBuffer;
-    exit;
-  end;
+
   G_ReadDemoTiccmd(cmd);  // make SURE it is exactly the same
 end;
 

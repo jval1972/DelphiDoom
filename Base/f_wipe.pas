@@ -56,6 +56,7 @@ uses
   doomdef,
   m_rnd,
   m_fixed,
+  mt_utils,
   i_video,
   v_data,
   v_video,
@@ -79,7 +80,7 @@ var
   py, py1: Pfixed_t;
 begin
   // copy start screen to main screen
-  memcpy(screen32, wipe_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
+  MT_memcpy(screen32, wipe_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   // setup initial column positions
   // (y<0 => not ready to scroll yet)
   yy := Z_Malloc(SCREENWIDTH * SizeOf(fixed_t), PU_STATIC, nil);

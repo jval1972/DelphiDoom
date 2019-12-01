@@ -55,7 +55,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 182;
+  DEHNUMACTIONS = 193;
 
 type
   deh_action_t = record
@@ -111,8 +111,10 @@ uses
   g_game,
   hu_stuff,
   i_system,
-  info_h, info,
+  info_h,
+  info,
   m_argv,
+  ps_main,
   p_mobj,
   p_mobj_h,
   p_enemy,
@@ -126,7 +128,7 @@ uses
   w_wad,
   w_pak;
 
-function DHE_NextLine(const s: TDStringList; var str: string; var counter: integer; const skipblanc: boolean = true): boolean;
+function DEH_NextLine(const s: TDStringList; var str: string; var counter: integer; const skipblanc: boolean = true): boolean;
 var
   trimmed: string;
 begin
@@ -141,17 +143,17 @@ begin
   inc(counter);
   if skipblanc and (str = '') then
   begin
-    result := DHE_NextLine(s, str, counter);
+    result := DEH_NextLine(s, str, counter);
     exit;
   end;
   if Pos('#', trimmed) = 1 then
   begin
-    result := DHE_NextLine(s, str, counter);
+    result := DEH_NextLine(s, str, counter);
     exit;
   end;
   if Pos('//', trimmed) = 1 then // JVAL: Allow // as comments also
   begin
-    result := DHE_NextLine(s, str, counter);
+    result := DEH_NextLine(s, str, counter);
     exit;
   end;
   str := strupper(str);
@@ -415,7 +417,7 @@ begin
   while i < s.Count do
   begin
     if mustnextline then
-      if not DHE_NextLine(s, str, i) then
+      if not DEH_NextLine(s, str, i) then
         break;
     mustnextline := true;
 
@@ -461,7 +463,7 @@ begin
 
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
 
         if Pos('=', str) = 0 then
@@ -708,7 +710,7 @@ begin
 
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
         if Pos('=', str) = 0 then
         begin
@@ -840,7 +842,7 @@ begin
       stmp := '';
       while true do
       begin
-        if not DHE_NextLine(s, str, i, false) then
+        if not DEH_NextLine(s, str, i, false) then
           break;
 
         stmp := stmp + str;
@@ -923,7 +925,7 @@ begin
       if state_no < 0 then
         continue;
 
-      if not DHE_NextLine(s, str, i) then
+      if not DEH_NextLine(s, str, i) then
         break;
 
       if Pos('=', str) = 0 then
@@ -976,7 +978,7 @@ begin
 
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
 
         if Pos('=', str) = 0 then
@@ -1029,7 +1031,7 @@ begin
 
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
         if Pos('=', str) = 0 then
         begin
@@ -1080,7 +1082,7 @@ begin
 
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
 
         if Pos('=', str) = 0 then
@@ -1147,7 +1149,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
 
         if Pos('=', str) = 0 then
@@ -1202,7 +1204,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
 
         splitstring(str, token1, stmp);
@@ -1253,7 +1255,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
         if Pos('=', str) = 0 then
         begin
@@ -1264,7 +1266,7 @@ begin
         while str[length(str)] = '\' do  // Multiple lines devide by '\' char
         begin
           str[Length(str)] := #10; // Replace '\' with new line indicator
-          if not DHE_NextLine(s, stmp, i) then
+          if not DEH_NextLine(s, stmp, i) then
             break;
           str := str + stmp;
         end;
@@ -1291,7 +1293,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
         if Pos('=', str) = 0 then
         begin
@@ -1342,7 +1344,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
         if Pos('=', str) = 0 then
         begin
@@ -1392,7 +1394,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
       while true do
       begin
-        if not DHE_NextLine(s, str, i) then
+        if not DEH_NextLine(s, str, i) then
           break;
         if Pos('=', str) = 0 then
         begin
@@ -1924,6 +1926,9 @@ begin
   mobj_flags2_ex.Add('MF2_EX_NODAMAGE');
   mobj_flags2_ex.Add('MF2_EX_ONMOBJ');
   mobj_flags2_ex.Add('MF2_EX_PASSMOBJ');
+  mobj_flags2_ex.Add('MF2_EX_DONTRUNSCRIPTS');
+  mobj_flags2_ex.Add('MF2_EX_PRECISESPAWNANGLE');
+  mobj_flags2_ex.Add('MF2_EX_CUSTOMDROPITEM');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite
@@ -2300,6 +2305,28 @@ begin
   deh_actions[180].name := strupper('SetNoDamage');
   deh_actions[181].action.acp1 := @A_UnSetNoDamage;
   deh_actions[181].name := strupper('UnSetNoDamage');
+  deh_actions[182].action.acp1 := @A_RunScript;
+  deh_actions[182].name := strupper('RunScript');
+  deh_actions[183].action.acp1 := @A_GhostOn;
+  deh_actions[183].name := strupper('GhostOn');
+  deh_actions[184].action.acp1 := @A_GhostOff;
+  deh_actions[184].name := strupper('GhostOff');
+  deh_actions[185].action.acp1 := @A_Blocking;
+  deh_actions[185].name := strupper('Blocking');
+  deh_actions[186].action.acp1 := @A_DoNotRunScripts;
+  deh_actions[186].name := strupper('DoNotRunScripts');
+  deh_actions[187].action.acp1 := @A_DoRunScripts;
+  deh_actions[187].name := strupper('DoRunScripts');
+  deh_actions[188].action.acp1 := @A_TargetDropItem;
+  deh_actions[188].name := strupper('TargetDropItem');
+  deh_actions[189].action.acp1 := @A_DefaultTargetDropItem;
+  deh_actions[189].name := strupper('DefaultTargetDropItem');
+  deh_actions[190].action.acp1 := @A_SetDropItem;
+  deh_actions[190].name := strupper('SetDropItem');
+  deh_actions[191].action.acp1 := @A_SetDefaultDropItem;
+  deh_actions[191].name := strupper('SetDefaultDropItem');
+  deh_actions[192].action.acp1 := @A_GlobalEarthQuake;
+  deh_actions[192].name := strupper('GlobalEarthQuake');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

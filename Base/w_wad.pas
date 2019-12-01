@@ -43,6 +43,7 @@ uses
 
 type
   char8_t = array[0..7] of char;
+  Pchar8_t = ^char8_t;
 
   lumpindicator_t = record
     _START: char8_t;
@@ -51,16 +52,18 @@ type
   end;
 
 const
-  NUMINDICATORS = 37;
+  NUMINDICATORS = 38;
   IND_FLOOR = 1;
   IND_SPRITE = 2;
   IND_PATCH = 3;
   IND_VOXEL = 4;
-  IND_MAX = 5;
+  IND_HIRES = 5;
+  IND_MAX = 6;
   TYPE_FLOOR = 1 shl IND_FLOOR;
   TYPE_SPRITE = 1 shl IND_SPRITE;
   TYPE_PATCH = 1 shl IND_PATCH;
   TYPE_VOXEL = 1 shl IND_VOXEL;
+  TYPE_HIRES = 1 shl IND_HIRES;
 
   lumpindicators: array[0..NUMINDICATORS - 1] of lumpindicator_t = (
     (_START: 'F_START';  _END: 'F_END';    _type: IND_FLOOR),
@@ -99,7 +102,8 @@ const
     (_START: 'P9_START'; _END: 'P9_END';   _type: IND_PATCH),
     (_START: 'P0_START'; _END: 'P0_END';   _type: IND_PATCH),
     (_START: 'PP_START'; _END: 'PP_END';   _type: IND_PATCH),
-    (_START: 'VX_START'; _END: 'VX_END';   _type: IND_VOXEL)
+    (_START: 'VX_START'; _END: 'VX_END';   _type: IND_VOXEL),
+    (_START: 'HI_START'; _END: 'HI_END';   _type: IND_HIRES)
   );
 
 type
@@ -171,6 +175,8 @@ function W_GetNameForNum(const lump: integer): char8_t;
 
 function W_LumpLength(const lump: integer): integer;
 procedure W_ReadLump(const lump: integer; dest: pointer);
+var
+  lumpcache: PPointerArray;
 
 function W_CacheLumpNum(const lump: integer; const tag: integer): pointer;
 function W_CacheLumpNum2(const lump: integer; const tag: integer): pointer;
@@ -182,15 +188,6 @@ procedure ExtractFileBase8(const path: string; var dest: char8_t);
 
 var
   lumpinfo: Plumpinfo_tArray = nil;
-
-implementation
-
-uses
-  i_system,
-  z_zone;
-
-var
-  numlumps: integer;
 
 const
   IWAD = integer(Ord('I') or
@@ -209,6 +206,14 @@ const
                 (Ord('A') shl 16) or
                 (Ord('D') shl 24));
 
+implementation
+
+uses
+  i_system,
+  z_zone;
+
+var
+  numlumps: integer = 0;
 
 const
   LUMPHASHBITS = 14;
@@ -261,7 +266,7 @@ end;
 
 // Location of each lump on disk.
 var
-  lumpcache: PPointerArray;
+  lumpcacherealsize: integer;
 
 function char8tostring(src: char8_t): string;
 var
@@ -615,6 +620,14 @@ begin
   inherited;
 end;
 
+type
+  oldlumpcache_t = record
+    memmgr_id: integer;
+    lumpcache_id: integer;
+  end;
+  oldlumpcache_tArray = array[0..$1FFF] of oldlumpcache_t;
+  Poldlumpcache_tArray = ^oldlumpcache_tArray;
+
 procedure W_RuntimeLoad(fname: string);
 var
   header: wadinfo_t;
@@ -627,6 +640,9 @@ var
   idx: integer;
   rtlinf: rtlinfo_t;
   start, finish: integer;
+  A: Poldlumpcache_tArray;
+  p1, p2, p3: integer;
+  numA: integer;
 begin
   printf('W_RuntimeLoad(): adding %s' + #13#10, [fname]);
 
@@ -680,18 +696,48 @@ begin
   begin
     // Resize lumpinfo
     realloc(pointer(lumpinfo), numlumps * SizeOf(lumpinfo_t), (numlumps + lumpcount) * SizeOf(lumpinfo_t));
-    realloc(pointer(lumpcache), numlumps * SizeOf(pointer), (numlumps + lumpcount) * SizeOf(pointer));
+
+    if lumpcacherealsize < numlumps + lumpcount then
+    begin
+      A := mallocz(numlumps * SizeOf(oldlumpcache_t));
+      numA := 0;
+      p2 := Integer(@lumpcache[0]);
+      p3 := Integer(@lumpcache[numlumps]);
+      for i := 0 to memmanager.numitems - 1 do
+      begin
+        p1 := Integer(memmanager.items[i].user);
+        if p1 >= p2 then
+          if p1 < p3 then
+          begin
+            idx := (p1 - p2) div SizeOf(Pointer);
+            A[numA].memmgr_id := i;
+            A[numA].lumpcache_id := idx;
+            Inc(numA);
+          end;
+      end;
+
+      realloc(pointer(lumpcache), lumpcacherealsize * SizeOf(pointer), (numlumps + lumpcount + 1024) * SizeOf(pointer));
+      lumpcacherealsize := numlumps + lumpcount + 1024;
+
+      if Integer(@lumpcache[0]) <> p2 then
+        for i := 0 to numA - 1 do
+          memmanager.items[A[i].memmgr_id].user := @lumpcache[A[i].lumpcache_id];
+      memfree(Pointer(A), numlumps * SizeOf(oldlumpcache_t));
+    end;
 
     start := numlumps;
     finish := start + lumpcount - 1;
+    for i := start to finish do
+      lumpcache[i] := nil;
+
     inc(numlumps, lumpcount);
 
     rtlinf.startlump := start;
     rtlinf.numlumps := lumpcount;
   end;
-  rtlinf.stream.Free;
+  if rtlinf.stream <> nil then
+    rtlinf.stream.Free;
   rtlinf.stream := handle;
-
 
   // Fill in lumpinfo
 
@@ -705,6 +751,7 @@ begin
     lump_p.position := fileinfo[i - start].filepos;
     lump_p.size := fileinfo[i - start].size;
     lump_p.name := fileinfo[i - start].name;
+    lump_p.flags := 0;
   end;
 
   W_InitLumpHash;
@@ -747,7 +794,8 @@ begin
   if result > 0 then
   begin
     // set up caching
-    size := numlumps * SizeOf(pointer);
+    lumpcacherealsize := numlumps + 1024;
+    size := lumpcacherealsize * SizeOf(pointer);
     lumpcache := mallocz(size);
 
     if lumpcache = nil then
@@ -764,7 +812,7 @@ procedure W_ShutDown;
 var
   i: integer;
 begin
-  memfree(pointer(lumpcache), numlumps * SizeOf(pointer));
+  memfree(pointer(lumpcache), lumpcacherealsize * SizeOf(pointer));
   memfree(pointer(lumpinfo), numlumps * SizeOf(lumpinfo_t));
   memfree(pointer(lumphash), SizeOf(lumphash_tArray));
   if rtllist <> nil then
@@ -1051,7 +1099,6 @@ begin
 
   if l.handle = nil then
     handle.Free;
-
 end;
 
 //
@@ -1131,7 +1178,6 @@ begin
       result[i + 1] := ' ';
 
   Z_Free(p);
-
 end;
 
 function W_TextLumpName(const name: string): string;

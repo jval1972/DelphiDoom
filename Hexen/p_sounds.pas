@@ -56,7 +56,7 @@ procedure A_ActiveSound(actor: Pmobj_t); overload;
 implementation
 
 uses
-  p_extra,
+  p_common,
   s_sound;
   
 procedure A_SeeSound(actor: Pmobj_t; origin: Pmobj_t);

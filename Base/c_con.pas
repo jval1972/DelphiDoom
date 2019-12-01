@@ -365,6 +365,9 @@ begin
   C_AddCmd('screenshot', @G_ScreenShot);
   C_AddCmd('playdemo', @G_CmdPlayDemo);
   C_AddCmd('start, playgame, engage, visit'{$IFDEF STRIFE} + ', rift'{$ENDIF}, @G_CmdNewGame);
+  {$IFDEF DOOM}
+  C_AddCmd('testmap,test', @G_CmdTestMap);
+  {$ENDIF}
   C_AddCmd('load, loadgame', @G_LoadGame);
   C_AddCmd('save, savegame', @G_CmdSaveGame);
   C_AddCmd('exec, execcommandfile', @C_ExecCommandFile);
@@ -480,6 +483,7 @@ var
   str: TDstringList;
   deffile: string;
   i: integer;
+  p: integer;
 begin
   printf('C_RunAutoExec()'#13#10);
   if not fexists(DEFAUTOEXEC) then
@@ -487,7 +491,7 @@ begin
     str := TDStringList.Create;
     try
       str.Add('// Add autoexec console commands in this file.');
-      str.Add('// These console commands will be executed everytime you start DelphiDoom.');
+      str.Add('// These console commands will be executed everytime you start ' + AppTitle);
       deffile := M_SaveFileName(DEFAUTOEXEC);
       str.SaveToFile(deffile);
     finally
@@ -498,6 +502,11 @@ begin
   for i := 0 to W_NumLumps - 1 do
     if char8tostring(W_GetNameForNum(i)) = AUTOEXECLUMPNAME then
       C_ExecCommands(W_TextLumpNum(i));
+  p := M_CheckParm('-con');
+  if p > 0 then
+    if p < myargc - 1 then
+      C_ExecCommandFile(myargv[p + 1]);
+
 end;
 
 var

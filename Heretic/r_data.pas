@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -41,7 +41,8 @@ interface
 uses
   d_delphi,
   m_fixed,
-  r_defs;
+  r_defs,
+  w_wad;
 
 // Retrieve column data for span blitting.
 function R_GetColumn(const tex: integer; col: integer): PByteArray;
@@ -66,13 +67,15 @@ procedure R_PrecacheLevel;
 // Floor/ceiling opaque texture tiles,
 // lookup by name. For animation?
 function R_FlatNumForName(const name: string): integer;
-
+function R_SafeFlatNumForName(const name: string): integer;
 function R_CacheFlat(const lump: integer; const tag: integer): pointer;
 
 // Called by P_Ticker for switches and animations,
 // returns the texture number for the texture name.
-function R_TextureNumForName(const name: string): integer;
 function R_CheckTextureNumForName(const name: string): integer;
+function R_SafeTextureNumForName(const name: string): integer;
+function R_NameForSideTexture(const sn: SmallInt): char8_t;
+function R_TextureNumForName(const name: string): integer;
 
 var
 // for global animation
@@ -107,15 +110,18 @@ var
   textures: Ptexture_tPArray;
   flats: PflatPArray;
   aprox_black: byte = 254;
+  aprox_red: byte = 160;
 
 implementation
 
 uses
-  doomdef, doomstat,
+  doomdef,
+  doomstat,
 {$IFDEF FPC}
   d_fpc,
 {$ENDIF}
   d_think,
+  m_hash,
   g_game,
   i_system,
   p_local,
@@ -135,10 +141,11 @@ uses
   r_scache,
   r_col_fz,
   r_voxels,
+  r_3dfloors, // JVAL: 3d Floors
+  r_slopes, // JVAL: Slopes
 {$ENDIF}
   v_data,
   v_video,
-  w_wad,
   z_zone;
 
 //
@@ -531,7 +538,7 @@ procedure R_GetDCs(const tex: integer; const col: integer);
 begin
   if videomode = vm8bit then
     dc_source := R_GetColumn(tex, col)
-  else 
+  else
     R_ReadDC32Cache(tex, col);
 end;
 {$ENDIF}
@@ -571,13 +578,12 @@ begin
   nummappatches := PInteger(names)^;
   name_p := PByteArray(integer(names) + 4);
 
-//  patchlookup := malloc(nummappatches * SizeOf(integer));
   patchlookup := Z_Malloc(nummappatches * SizeOf(integer), PU_STATIC, nil);
 
   for i := 0 to nummappatches - 1 do
   begin
     j := 0;
-    while (j < 8) do
+    while j < 8 do
     begin
       name[j] := Chr(name_p[i * 8 + j]);
       if name[j] = #0 then
@@ -587,7 +593,7 @@ begin
       end;
       inc(j);
     end;
-    while (j < 8) do
+    while j < 8 do
     begin
       name[j] := #0;
       inc(j);
@@ -795,11 +801,12 @@ begin
       in_loop := false
     else if in_loop then
     begin
-      patch := W_CacheLumpNum(firstspritelump + i, PU_CACHE);
+      patch := W_CacheLumpNum(firstspritelump + i, PU_STATIC);
       spritewidth[i] := patch.width * FRACUNIT;
       spriteoffset[i] := patch.leftoffset * FRACUNIT;
       spritetopoffset[i] := patch.topoffset * FRACUNIT;
       spritepresent[i] := true;
+      Z_ChangeTag(patch, PU_CACHE);
     end;
   end;
 end;
@@ -829,7 +836,10 @@ begin
     inc(dest);
     src := PByteArray(integer(src) + 3);
   end;
+
   aprox_black := V_FindAproxColorIndex(@cpal, $0, 1, 255);
+  aprox_red := V_FindAproxColorIndex(@cpal, $FF0000, 1, 255);
+
   Z_ChangeTag(palette, PU_CACHE);
 
   // Load in the light tables,
@@ -870,6 +880,7 @@ end;
 function R_FlatNumForName(const name: string): integer;
 var
   i: integer;
+  s: string;
 begin
   i := W_CheckNumForName2(name, firstflat, lastflat);
   if i > -1 then
@@ -879,6 +890,24 @@ begin
     i := W_CheckNumForName(name);
     if i = -1 then
       I_Error('R_FlatNumForName(): %s not found', [name]);
+
+    s := strupper(name);
+    result := M_HashIndex(s);
+    if result >= 0 then
+      if result < numflats then
+        if flats[result].lump = i then
+          Exit;
+
+    result := numflats;
+    while result > 0 do
+    begin
+      dec(result);
+      if flats[result].lump = i then
+      begin
+        M_HashUpdate(s, result);
+        exit;
+      end;
+    end;
 
     // JVAL: Found a flat outside F_START, F_END
     result := numflats;
@@ -893,6 +922,60 @@ begin
     flats[result].flat32 := nil;
     {$ENDIF}
     flats[result].terraintype := P_TerrainTypeForName(flats[result].name);
+    M_HashUpdate(s, result);
+  end
+end;
+
+function R_SafeFlatNumForName(const name: string): integer;
+var
+  i: integer;
+  s: string;
+begin
+  i := W_CheckNumForName2(name, firstflat, lastflat);
+  if i > -1 then
+    result := i - firstflat
+  else
+  begin
+    i := W_CheckNumForName(name);
+    if i = -1 then
+    begin
+      result := -1;
+      exit;
+    end;
+
+    s := strupper(name);
+    result := M_HashIndex(s);
+    if result >= 0 then
+      if result < numflats then
+        if flats[result].lump = i then
+          Exit;
+
+    result := numflats;
+    while result > 0 do
+    begin
+      dec(result);
+      if flats[result].lump = i then
+      begin
+        M_HashUpdate(s, result);
+        exit;
+      end;
+    end;
+
+    // JVAL: Found a flat outside F_START, F_END
+    result := numflats;
+    inc(numflats);
+    flats := Z_ReAlloc(flats, numflats * SizeOf(pointer), PU_STATIC, nil);
+
+    flats[result] := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
+    flats[result].name := W_GetNameForNum(i);
+    flats[result].translation := result;
+    flats[result].lump := i;
+    {$IFNDEF OPENGL}
+    flats[result].flat32 := nil;
+    {$ENDIF}
+    // JVAL: 9 December 2007, Added terrain types
+    flats[result].terraintype := P_TerrainTypeForName(flats[result].name);
+    M_HashUpdate(s, result);
   end
 end;
 
@@ -904,8 +987,15 @@ end;
 function R_CheckTextureNumForName(const name: string): integer;
 var
   i: integer;
-  check: string;
+  s: string;
+  check: name8_t;
 begin
+  if name = '' then
+  begin
+    result := -1;
+    exit;
+  end;
+
   // "NoTexture" marker.
   if name[1] = '-' then
   begin
@@ -913,14 +1003,66 @@ begin
     exit;
   end;
 
-  check := strupper(name);
-  for i := 0 to numtextures - 1 do
-    if strupper(char8tostring(textures[i].name)) = check then
-    begin
-      result := i;
-      exit;
-    end;
+  s := strupper(name);
+  check.s := stringtochar8(s);
+  result := M_HashIndex(s);
+  if result >= 0 then
+    if result < numtextures then
+      if name8_t(textures[result].name).x[0] = check.x[0] then
+        if name8_t(textures[result].name).x[1] = check.x[1] then
+          exit;
 
+  for i := 0 to numtextures - 1 do
+    if name8_t(textures[i].name).x[0] = check.x[0] then
+      if name8_t(textures[i].name).x[1] = check.x[1] then
+      begin
+        result := i;
+        M_HashUpdate(s, result);
+        exit;
+      end;
+
+  result := -1;
+end;
+
+function R_SafeTextureNumForName(const name: string): integer;
+var
+  i: integer;
+  s: string;
+  check: name8_t;
+begin
+  if name = '' then
+  begin
+    I_Warning('R_SafeTextureNumForName(): Texture name is null.'#13#10);
+    result := -1;
+    exit;
+  end;
+
+  // "NoTexture" marker.
+  if name[1] = '-' then
+  begin
+    result := -1;
+    exit;
+  end;
+
+  s := strupper(name);
+  check.s := stringtochar8(s);
+  result := M_HashIndex(s);
+  if result >= 0 then
+    if result < numtextures then
+      if name8_t(textures[result].name).x[0] = check.x[0] then
+        if name8_t(textures[result].name).x[1] = check.x[1] then
+          exit;
+
+  for i := 0 to numtextures - 1 do
+    if name8_t(textures[i].name).x[0] = check.x[0] then
+      if name8_t(textures[i].name).x[1] = check.x[1] then
+      begin
+        result := i;
+        M_HashUpdate(s, result);
+        exit;
+      end;
+
+  I_Warning('R_SafeTextureNumForName(): %s not found.'#13#10, [name]);
   result := -1;
 end;
 
@@ -935,6 +1077,20 @@ begin
 
   if result = -1 then
     I_Error('R_TextureNumForName(): %s not found', [name]);
+end;
+
+function R_NameForSideTexture(const sn: SmallInt): char8_t;
+begin
+  ZeroMemory(@result, SizeOf(Result));
+  Result[0] := '-';
+
+  if sn < 0 then
+    exit;
+
+  if sn >= numtextures then
+    exit;
+
+  Result := textures[sn].name;
 end;
 
 function R_CacheFlat(const lump: integer; const tag: integer): pointer;
@@ -992,13 +1148,14 @@ begin
       flatmemory := flatmemory + 64 * 64;
     end;
   end;
+
   allocmemory := GetAllocMemSize - allocmemory;
   printf('%6d KB memory usage for flats'#13#10, [(flatmemory + allocmemory) div 1024]);
 
   // Precache textures.
   texturepresent := mallocz(numtextures);
 
- sd := @sides[numsides];
+  sd := @sides[numsides];
   while sd <> @sides[0] do
   begin
     dec(sd);
@@ -1085,11 +1242,13 @@ end;
 procedure R_SetupLevel;
 begin
   maxvisplane := -1;
+  {$IFNDEF OPENGL}
+  maxvisplane3d := -1;  // JVAL: 3d Floors
+  maxvisslope := -1;  // JVAL: Slopes
+  {$ENDIF}
   max_ds_p := -1;
   maxvissprite := -1;
 end;
 
-
 end.
-
 

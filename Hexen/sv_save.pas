@@ -48,9 +48,11 @@ function SV_GetRebornSlot: integer;
 
 var
   SAVEGAMENAME: string = '%s\hex%d00.hxs';
+  SAVEGLOBALSNAME: string = '%s\HEX%d00.HXW';
   SAVEGAMEMAP: string = '%s\hex%d%s.hxs';
   SAVEGAMENAMEDD: string = '%s\hexdd%d00.hxs';
   SAVEGAMEMAPDD: string = '%s\hexdd%d%s.hxs';
+  SAVEGLOBALSNAMEDD: string = '%s\HEXDD%d00.HXW';
   SAVEPATH: string = 'HEXNDATA';
 
 function SV_GetSaveGameName(const slot: integer): string;
@@ -69,6 +71,7 @@ uses
   d_player,
   d_main,
   i_system,
+  i_tmp,
   info_h,
   info,
   m_fixed,
@@ -77,6 +80,7 @@ uses
   m_argv,
   g_game,
   a_action,
+  p_3dfloors,
   p_mobj_h,
   p_floor,
   p_setup,
@@ -91,15 +95,21 @@ uses
   p_inter,
   p_tick,
   p_mobj,
+  p_mobjlist,
   p_enemy,
   p_map,
   p_params,
   po_man,
+  ps_main,
+  psi_globals,
+  psi_overlay,
   r_defs,
   r_main,
   s_sndseq,
   sb_bar,
   doomdef,
+  w_wad,
+  r_data,
   z_zone;
 
 var
@@ -120,6 +130,14 @@ begin
     Result := SAVEGAMEMAPDD
   else
     Result := SAVEGAMEMAP
+end;
+
+function _SAVEGLOBALSNAME: string;
+begin
+  if hexdd_pack then
+    Result := SAVEGLOBALSNAMEDD
+  else
+    Result := SAVEGLOBALSNAME
 end;
 
 function GET_BYTE: byte; overload;
@@ -153,6 +171,12 @@ begin
   saveptr := pointer(integer(saveptr) + SizeOf(integer));
 end;
 
+function GET_LONGWORD: LongWord;
+begin
+  result := PLongWord(saveptr)^;
+  saveptr := pointer(integer(saveptr) + SizeOf(LongWord));
+end;
+
 function GET_STRING: string;
 var
   b: byte;
@@ -166,6 +190,13 @@ begin
   end;
 end;
 
+function GET_CHAR8T: char8_t;
+var
+  i: integer;
+begin
+  for i := 0 to 7 do
+    result[i] := Chr(GET_BYTE);
+end;
 
 //==========================================================================
 //
@@ -233,6 +264,17 @@ end;
 
 //==========================================================================
 //
+// StreamOutLongWord
+//
+//==========================================================================
+
+procedure StreamOutLongWord(val: LongWord);
+begin
+  SavingFP.Write(val, SizeOf(LongWord));
+end;
+
+//==========================================================================
+//
 // StreamOutString
 //
 //==========================================================================
@@ -249,6 +291,18 @@ begin
   end;
   b := 0;
   SavingFP.Write(b, SizeOf(byte));
+end;
+
+procedure StreamOutChar8t(const s: char8_t);
+var
+  b: byte;
+  i: integer;
+begin
+  for i := 0 to 7 do
+  begin
+    b := Ord(s[i]);
+    SavingFP.Write(b, SizeOf(byte));
+  end;
 end;
 
 
@@ -317,8 +371,8 @@ type
   PTargetPlayerAddrs_t = ^TargetPlayerAddrs_t;
 
 var
-  MobjCount: integer;
-  MobjList: Pmobj_tPArray;
+  MapMobjCount: integer;
+  MapMobjList: Pmobj_tPArray;
   TargetPlayerAddrs: PTargetPlayerAddrs_t;
   TargetPlayerCount: integer;
   SaveBuffer: PByteArray;
@@ -371,8 +425,8 @@ begin
     archiveNum^ := 0;
     exit;
   end;
-  if archiveNum^ < MobjCount then
-    archiveNum^ := integer(MobjList[archiveNum^])
+  if archiveNum^ < MapMobjCount then
+    archiveNum^ := integer(MapMobjList[archiveNum^])
   else
     archiveNum^ := 0;
 end;
@@ -394,8 +448,8 @@ begin
   end;
   P_SetThingPosition(mobj);
   mobj.info := @mobjinfo[mobj._type];
-  mobj.floorz := Psubsector_t(mobj.subsector).sector.floorheight;
-  mobj.ceilingz := Psubsector_t(mobj.subsector).sector.ceilingheight;
+  mobj.floorz := P_3dFloorHeight(mobj);
+  mobj.ceilingz := P_3dCeilingHeight(mobj);
   SetMobjPtr(PInteger(@mobj.target));
   case mobj._type of
     Ord(MT_KORAX_SPIRIT1),
@@ -698,7 +752,7 @@ end;
 procedure AssertSegment(segType: integer);
 begin
   if GET_LONG <> segType then
-    I_Error('AssertSegment() Corrupted save game: Segment [%d] failed alignment check', [segType]);
+    I_Error('AssertSegment(): Corrupted save game: Segment [%d] failed alignment check', [segType]);
 end;
 
 
@@ -723,8 +777,23 @@ begin
       continue;
     end;
     PlayerClass[i] := pclass_t(GET_BYTE);
-    memcpy(@players[i], saveptr, SizeOf(player_t));
-    incp(saveptr, SizeOf(player_t));
+    if LOADVERSION <= VERSION141 then
+    begin
+      ZeroMemory(@players[i], SizeOf(player_t));
+      memcpy(@players[i], saveptr, SizeOf(player_t141));
+      players[i].laddertics := 0;
+      players[i].viewbob := players[i].bob;
+      players[i].slopetics := 0; // JVAL: Slopes
+      players[i].oldviewz := players[i].viewz;
+      players[i].teleporttics := 0;
+      players[i].quaketics := 0;
+      incp(saveptr, SizeOf(player_t141));
+    end
+    else
+    begin
+      memcpy(@players[i], saveptr, SizeOf(player_t));
+      incp(saveptr, SizeOf(player_t));
+    end;
     players[i].mo := nil; // Will be set when unarc thinker
     P_ClearMessage(@players[i]);
     players[i].attacker := nil;
@@ -759,12 +828,19 @@ begin
   begin
     StreamOutLong(sec.floorheight);
     StreamOutLong(sec.ceilingheight);
-    StreamOutWord(sec.floorpic);
-    StreamOutWord(sec.ceilingpic);
+    StreamOutChar8t(flats[sec.floorpic].name);
+    StreamOutChar8t(flats[sec.ceilingpic].name);
     StreamOutWord(sec.lightlevel);
     StreamOutWord(sec.special);
     StreamOutWord(sec.tag);
     StreamOutByte(Ord(sec.seqType));
+    StreamOutLongWord(sec.renderflags);
+    StreamOutLongWord(sec.flags);
+    StreamOutLong(sec.midsec);
+    StreamOutLong(sec.midline);
+    StreamOutLong(sec.num_saffectees);
+    for j := 0 to sec.num_saffectees - 1 do
+      StreamOutLong(sec.saffectees[j]);
     inc(sec);
   end;
   li := @lines[0];
@@ -786,9 +862,9 @@ begin
       si := @sides[li.sidenum[j]];
       StreamOutLong(si.textureoffset);
       StreamOutLong(si.rowoffset);
-      StreamOutWord(si.toptexture);
-      StreamOutWord(si.bottomtexture);
-      StreamOutWord(si.midtexture);
+      StreamOutChar8t(R_NameForSideTexture(si.toptexture));
+      StreamOutChar8t(R_NameForSideTexture(si.bottomtexture));
+      StreamOutChar8t(R_NameForSideTexture(si.midtexture));
     end;
     inc(li);
   end;
@@ -814,17 +890,42 @@ begin
   begin
     sec.floorheight := GET_LONG;
     sec.ceilingheight := GET_LONG;
-    sec.floorpic := GET_WORD;
-    sec.ceilingpic := GET_WORD;
+    if LOADVERSION <= VERSION141 then
+    begin
+      sec.floorpic := GET_WORD;
+      sec.ceilingpic := GET_WORD;
+    end
+    else
+    begin
+      sec.floorpic := R_FlatNumForName(GET_CHAR8T);
+      sec.ceilingpic := R_FlatNumForName(GET_CHAR8T);
+    end;
     sec.lightlevel := GET_WORD;
     sec.special := GET_WORD;
     sec.tag := GET_WORD;
     sec.seqType := seqtype_t(GET_BYTE);
+    if LOADVERSION >= VERSION142 then
+    begin
+      sec.renderflags := GET_LONGWORD;
+      sec.flags := GET_LONGWORD;
+      sec.midsec := GET_LONGWORD;
+      sec.midline := GET_LONGWORD;
+    end
+    else
+    begin
+      sec.midsec := -1;
+      sec.midline := -1;
+    end;
+    if LOADVERSION >= VERSION142 then
+    begin
+      sec.num_saffectees := GET_LONG;
+      sec.saffectees := Z_Realloc(sec.saffectees, sec.num_saffectees * SizeOf(integer), PU_LEVEL, nil);
+      for j := 0 to sec.num_saffectees - 1 do
+        sec.saffectees[j] := GET_LONG;
+    end;
     sec.specialdata := nil;
     sec.soundtarget := nil;
-    {$IFDEF OPENGL}
-    sec.iSectorID := i;  
-    {$ENDIF}
+    sec.iSectorID := i;
     inc(sec);
   end;
   li := @lines[0];
@@ -846,9 +947,18 @@ begin
       si := @sides[li.sidenum[j]];
       si.textureoffset := GET_LONG;
       si.rowoffset := GET_LONG;
-      si.toptexture := GET_WORD;
-      si.bottomtexture := GET_WORD;
-      si.midtexture := GET_WORD;
+      if LOADVERSION <= VERSION141 then
+      begin
+        si.toptexture := GET_WORD;
+        si.bottomtexture := GET_WORD;
+        si.midtexture := GET_WORD;
+      end
+      else
+      begin
+        si.toptexture := R_SafeTextureNumForName(GET_CHAR8T);
+        si.bottomtexture := R_SafeTextureNumForName(GET_CHAR8T);
+        si.midtexture := R_SafeTextureNumForName(GET_CHAR8T);
+      end;
     end;
     inc(li);
   end;
@@ -868,7 +978,7 @@ var
   mobj: Pmobj_t;
   thinker: Pthinker_t;
 begin
-  MobjCount := 0;
+  MapMobjCount := 0;
   thinker := thinkercap.next;
   while thinker <> @thinkercap do
   begin
@@ -880,8 +990,8 @@ begin
         thinker := thinker.next;
         continue;
       end;
-      mobj.archiveNum := MobjCount;
-      inc(MobjCount);
+      mobj.archiveNum := MapMobjCount;
+      inc(MapMobjCount);
     end;
     thinker := thinker.next;
   end;
@@ -990,7 +1100,7 @@ var
   parm: Pmobjcustomparam_t;
 begin
   StreamOutLong(ASEG_MOBJS);
-  StreamOutLong(MobjCount);
+  StreamOutLong(MapMobjCount);
   count := 0;
   thinker := thinkercap.next;
   while thinker <> @thinkercap do
@@ -1019,7 +1129,7 @@ begin
 
     thinker := thinker.next;
   end;
-  if count <> MobjCount then
+  if count <> MapMobjCount then
   begin
     I_Error('ArchiveMobjs(): bad mobj count');
   end;
@@ -1040,15 +1150,15 @@ begin
   AssertSegment(ASEG_MOBJS);
   TargetPlayerAddrs := Z_Malloc(MAX_TARGET_PLAYERS * SizeOf(PInteger), PU_STATIC, nil);
   TargetPlayerCount := 0;
-  MobjCount := GET_LONG;
-  MobjList := Z_Malloc(MobjCount * SizeOf(Pmobj_t), PU_STATIC, nil);
-  for i := 0 to MobjCount - 1 do
+  MapMobjCount := GET_LONG;
+  MapMobjList := Z_Malloc(MapMobjCount * SizeOf(Pmobj_t), PU_STATIC, nil);
+  for i := 0 to MapMobjCount - 1 do
   begin
-    MobjList[i] := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
+    MapMobjList[i] := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
   end;
-  for i := 0 to MobjCount - 1 do
+  for i := 0 to MapMobjCount - 1 do
   begin
-    mobj := MobjList[i];
+    mobj := MapMobjList[i];
     if LOADVERSION = VERSION140 then
     begin
       memcpy(mobj, saveptr, SizeOf(mobj_t140));
@@ -1064,6 +1174,15 @@ begin
       mobj.intrplcnt := 0;
       mobj.key := 0;
       mobj.customparams := nil;
+
+      mobj.dropitem := 0;
+    end
+    else if LOADVERSION = VERSION141 then
+    begin
+      memcpy(mobj, saveptr, SizeOf(mobj_t141));
+      incp(saveptr, SizeOf(mobj_t141));
+
+      mobj.dropitem := 0;
     end
     else
     begin
@@ -1072,8 +1191,9 @@ begin
     end;
     mobj.thinker._function.acp1 := @P_MobjThinker;
 
-    if mobj.key >= mobjkeycnt then
-      mobjkeycnt := mobj.key + 1;
+    if mobj.key < 2 then
+      mobj.key := P_GenGlobalMobjKey;
+    P_NotifyMobjKey(mobj);
 
     if mobj.customparams <> nil then
     begin
@@ -1169,6 +1289,102 @@ begin
   end;
 end;
 
+procedure SV_ArchiveGlobalVariables(const vars: TGlobalVariablesList);
+var
+  len: integer;
+  pp: pointer;
+  ppt: pointer;
+begin
+  len := vars.StructureSize;
+  pp := malloc(len + SizeOf(integer));
+  PInteger(pp)^ := len;
+  ppt := pp;
+  incp(pointer(ppt), SizeOf(integer));
+  vars.SaveToBuffer(ppt);
+  StreamOutBuffer(pp, len + SizeOf(integer));
+  memfree(pp, len + SizeOf(integer));
+end;
+
+procedure SV_UnArchiveGlobalVariables(const vars: TGlobalVariablesList);
+var
+  len: integer;
+begin
+  if LOADVERSION < VERSION142 then
+    Exit;
+
+  len := PInteger(saveptr)^;
+  incp(saveptr, SizeOf(integer));
+  vars.LoadFromBuffer(saveptr);
+  incp(saveptr, len);
+end;
+
+procedure SV_ArchivePSMapScript;
+var
+  fname: string;
+  sz: Integer;
+  pp: pointer;
+begin
+  fname := I_NewTempFile('mapscript' + itoa(Random(1000)));
+
+  PS_MapScriptSaveToFile(fname);
+  sz := fsize(fname);
+  StreamOutLong(sz);
+  pp := malloc(sz);
+  with TFile.Create(fname, fOpenReadOnly) do
+  try
+    Read(pp^, sz);
+  finally
+    Free;
+  end;
+  fdelete(fname);
+  StreamOutBuffer(pp, sz);
+  memfree(pp, sz);
+end;
+
+procedure SV_UnArchivePSMapScript;
+var
+  fname: string;
+  sz: Integer;
+begin
+  if LOADVERSION < VERSION142 then
+    Exit;
+
+  sz := PInteger(saveptr)^;
+  incp(Pointer(saveptr), SizeOf(Integer));
+
+  fname := I_NewTempFile('mapscript' + itoa(Random(1000)));
+  with TFile.Create(fname, fCreate) do
+  try
+    Write(saveptr^, sz);
+  finally
+    Free;
+  end;
+  PS_MapScriptLoadFromFile(fname);
+  fdelete(fname);
+  incp(Pointer(saveptr), sz);
+end;
+
+procedure SV_ArchiveOverlay;
+var
+  buf, buf1: pointer;
+  sz: integer;
+begin
+  sz := overlay.SaveSize;
+  buf := malloc(sz);
+  buf1 := buf;
+  overlay.SaveToBuffer(Pointer(buf));
+  StreamOutBuffer(buf1, sz);
+  memfree(buf1, sz);
+end;
+
+procedure SV_UnArchiveOverlay;
+begin
+  if LOADVERSION < VERSION142 then
+    Exit;
+
+  overlay.LoadFromBuffer(Pointer(saveptr));
+end;
+
 //==========================================================================
 //
 // ArchiveScripts
@@ -1185,7 +1401,10 @@ begin
     StreamOutByte(Ord(ACSInfo[i].state));
     StreamOutWord(ACSInfo[i].waitValue);
   end;
-  StreamOutBuffer(@MapVars, SizeOf(MapVars));
+  StreamOutBuffer(@ACSMapVars, SizeOf(ACSMapVars));
+  SV_ArchiveGlobalVariables(mapvars);
+  SV_ArchivePSMapScript;
+  SV_ArchiveOverlay;
 end;
 
 //==========================================================================
@@ -1204,8 +1423,11 @@ begin
     ACSInfo[i].state := aste_t(GET_BYTE);
     ACSInfo[i].waitValue := GET_WORD;
   end;
-  memcpy(@MapVars, saveptr, SizeOf(MapVars));
-  incp(saveptr, SizeOf(MapVars));
+  memcpy(@ACSMapVars, saveptr, SizeOf(ACSMapVars));
+  incp(saveptr, SizeOf(ACSMapVars));
+  SV_UnArchiveGlobalVariables(mapvars);
+  SV_UnArchivePSMapScript;
+  SV_UnArchiveOverlay;
 end;
 
 //==========================================================================
@@ -1435,6 +1657,9 @@ begin
   sprintf(fileName, _SAVEGAMENAME, [SAVEPATH, slot]);
   filename := M_SaveFileName(filename);
   fdelete(fileName);
+  sprintf(fileName, _SAVEGLOBALSNAME, [SAVEPATH, slot]);
+  filename := M_SaveFileName(filename);
+  fdelete(fileName);
 end;
 
 //==========================================================================
@@ -1470,6 +1695,14 @@ begin
     destName := M_SaveFileName(destName);
     CopyFile(sourceName, destName);
   end;
+  sprintf(sourceName, _SAVEGLOBALSNAME, [SAVEPATH, sourceSlot]);
+  sourceName := M_SaveFileName(sourceName);
+  if fexists(sourceName) then
+  begin
+    sprintf(destName, _SAVEGLOBALSNAME, [SAVEPATH, destSlot]);
+    destName := M_SaveFileName(destName);
+    CopyFile(sourceName, destName);
+  end;
 end;
 
 //==========================================================================
@@ -1490,7 +1723,7 @@ begin
   OpenStreamOut(fileName);
 
   // Place a header marker
-  StreamOutLong(ASEG_MAP_HEADER);
+  StreamOutLong(VERSION);
 
   // Write the level timer
   StreamOutLong(leveltime);
@@ -1534,7 +1767,7 @@ begin
   StreamOutString(description);
 
   // Write version info
-  versionText := HXS_VERSION_TEXT_141;
+  versionText := HXS_VERSION_TEXT_142;
   StreamOutString(versionText);
 
   // Place a header marker
@@ -1545,7 +1778,7 @@ begin
   StreamOutByte(Ord(gameskill));
 
   // Write global script info
-  StreamOutBuffer(@WorldVars, SizeOf(WorldVars));
+  StreamOutBuffer(@ACSWorldVars, SizeOf(ACSWorldVars));
   StreamOutBuffer(@ACSStore, SizeOf(ACSStore));
 
   ArchivePlayers;
@@ -1558,6 +1791,10 @@ begin
 
   // Save out the current map
   SV_SaveMap(true); // true := save player info
+
+  sprintf(fileName, _SAVEGLOBALSNAME, [SAVEPATH, BASE_SLOT]);
+  fileName := M_SaveFileName(fileName);
+  worldvars.SaveToFile(filename);
 
   // Clear all save files at destination slot
   ClearSaveSlot(slot);
@@ -1575,9 +1812,15 @@ end;
 procedure SV_LoadMap;
 var
   fileName: string;
+  ver: integer;
 begin
   // Load a base level
   G_InitNew(gameskill, gameepisode, gamemap);
+
+  sprintf(fileName, _SAVEGLOBALSNAME, [SAVEPATH, BASE_SLOT]);
+  fileName := M_SaveFileName(fileName);
+  if fexists(filename) then
+    worldvars.LoadFromFile(filename);
 
   // Remove all thinkers
   RemoveAllThinkers;
@@ -1590,7 +1833,11 @@ begin
   M_ReadFile(fileName, pointer(SaveBuffer));
   saveptr := SaveBuffer;
 
-  AssertSegment(ASEG_MAP_HEADER);
+  ver := GET_LONG;
+  if ver <> ASEG_MAP_HEADER then
+    LOADVERSION := ver
+  else if LOADVERSION >= VERSION142 then
+    LOADVERSION := VERSION141;
 
   // Read the level timer
   leveltime := GET_LONG;
@@ -1606,7 +1853,7 @@ begin
   AssertSegment(ASEG_END);
 
   // Free mobj list and save buffer
-  Z_Free(MobjList);
+  Z_Free(MapMobjList);
   Z_Free(SaveBuffer);
 end;
 
@@ -1649,6 +1896,8 @@ begin
     LOADVERSION := VERSION140
   else if vstring = HXS_VERSION_TEXT_141 then
     LOADVERSION := VERSION141
+  else if vstring = HXS_VERSION_TEXT_142 then
+    LOADVERSION := VERSION142
   else
   begin // Bad version
     I_Warning('SV_LoadGame(): Game is from unsupported version'#13#10);
@@ -1662,8 +1911,8 @@ begin
   gameskill := skill_t(GET_BYTE);
 
   // Read global script info
-  memcpy(@WorldVars, saveptr, SizeOf(WorldVars));
-  incp(saveptr, SizeOf(WorldVars));
+  memcpy(@ACSWorldVars, saveptr, SizeOf(ACSWorldVars));
+  incp(saveptr, SizeOf(ACSWorldVars));
   memcpy(@ACSStore, saveptr, SizeOf(ACSStore));
   incp(saveptr, SizeOf(ACSStore));
 
@@ -1784,6 +2033,11 @@ begin
   else
   begin // New map
     G_InitNew(gameskill, gameepisode, gamemap);
+
+    sprintf(fileName, _SAVEGLOBALSNAME, [SAVEPATH, BASE_SLOT]);
+    fileName := M_SaveFileName(fileName);
+    if fexists(filename) then
+      worldvars.LoadFromFile(filename);
 
     // Destroy all freshly spawned players
     for i := 0 to MAXPLAYERS - 1 do

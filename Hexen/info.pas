@@ -89,6 +89,7 @@ uses
   p_inter,
   p_extra,
   p_user,
+  info_common,
   sounds;
 
 const
@@ -28587,7 +28588,7 @@ const // Doom Original Sprite Names
     'KEY2', 'KEY3', 'KEY4', 'KEY5', 'KEY6', 'KEY7', 'KEY8', 'KEY9', 'KEYA', 'KEYB',
     'ETTN', 'ETTB', 'FDMN', 'FDMB', 'ICEY', 'ICPR', 'ICWS', 'SORC', 'SBMP', 'SBS4',
     'SBMB', 'SBS3', 'SBMG', 'SBS1', 'SBS2', 'SBFX', 'RADE', 'WATR', 'KORX', 'ABAT',
-    ''
+    'TNT1', ''
   );
 
 const // Hexen Original mobjinfo
@@ -39742,6 +39743,7 @@ procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;
 begin
+  Info_InitDnLookUp;
   if states = nil then
   begin
     states := malloc(Ord(DO_NUMSTATES) * SizeOf(state_t));
@@ -40980,6 +40982,7 @@ procedure Info_ShutDown;
 var
   i: integer;
 begin
+  Info_ShutDownDnLookUp;
   for i := 0 to numstates - 1 do
   begin
     if states[i].params <> nil then
@@ -41033,6 +41036,4 @@ begin
 end;
 
 end.
-
-
 

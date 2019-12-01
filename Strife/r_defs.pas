@@ -40,8 +40,8 @@ interface
 
 uses
   d_delphi,
+  doomdef,
   tables,
-// Screenwidth.
 {$IFNDEF OPENGL}
   t_main,
 {$ENDIF}
@@ -53,6 +53,10 @@ uses
   d_think,
 // SECTORS do store MObjs anyway.
   p_mobj_h,
+{$IFNDEF OPENGL}
+  r_range,  // JVAL: 3d Floors
+  r_visplanes, // JVAL: 3d Floors
+{$ENDIF}
   w_wad;
 
 // Silhouette, needed for clipping Segs (mainly)
@@ -63,7 +67,9 @@ const
   SIL_TOP = 2;
   SIL_BOTH = 3;
 
-  MAXDRAWSEGS = 4096; // JVAL Original was 256
+  MAXDRAWSEGS = $10000;
+{var
+  maxdrawsegs: integer = 0; // JVAL: Now allocated dynamically}
 
 var
   needsbackscreen: boolean = false;
@@ -106,15 +112,17 @@ type
   end;
   Pdegenmobj_t = ^degenmobj_t;
 
+  Pline_t = ^line_t;
   Pline_tArray = ^line_tArray;
   Pline_tPArray = ^line_tPArray;
 
   Pmsecnode_t = ^msecnode_t;
-  
+
 //
 // The SECTORS record, at runtime.
 // Stores things/mobjs.
 //
+  Psector_t = ^sector_t;
   sector_t = packed record
     floorheight: fixed_t;
     ceilingheight: fixed_t;
@@ -173,11 +181,24 @@ type
     bottommap: integer;
 
     renderflags: LongWord;
+    flags: LongWord;
 
+    iSectorID: integer; // JVAL: 3d floors
+
+    // JVAL: 3d floors
+    midsec: integer;
+    midline: integer;
+    numssector: integer;
+    // JVAL: Slopes
+    fa, fb, fd, fic, ca, cb, cd, cic: float;
+    slopesec: Psector_t;
+    slopeline: Pline_t;
+    // JVAL: sector affectees
+    num_saffectees: integer;
+    saffectees: PIntegerArray;
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
-    iSectorID: integer;
     floor_validcount: integer;
     ceil_validcount: integer;
     highestfloor_height: integer;
@@ -188,7 +209,6 @@ type
     no_bottomtextures: boolean;
 {$ENDIF}
   end;
-  Psector_t = ^sector_t;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
 
@@ -251,7 +271,7 @@ type
 
     // Visual appearance: SideDefs.
     //  sidenum[1] will be -1 if one sided
-    sidenum: packed array[0..1] of smallint;
+    sidenum: packed array[0..1] of integer;  // jval glbsp was smallint
 
     // Neat. Another bounding box, for the extent
     //  of the LineDef.
@@ -270,9 +290,11 @@ type
 
     // thinker_t for reversable actions
     specialdata: pointer;
-    renderflags: integer;
+    renderflags: LongWord;
+
+    clslopestep: array[0..1] of float; // JVAL: Slopes
+    flslopestep: array[0..1] of float; // JVAL: Slopes
   end;
-  Pline_t = ^line_t;
   PPline_t = ^Pline_t;
   line_tArray = packed array[0..$FFFF] of line_t;
   line_tPArray = packed array[0..$FFFF] of Pline_t;
@@ -281,12 +303,20 @@ const
   // Line rendering flags
   LRF_ISOLATED = 1;
   LRF_TRANSPARENT = 2;
+  LRF_SLOPED = 4; // JVAL: Slopes
 
+const
   // Sector rendering flags
   SRF_RIPPLE_FLOOR = 1;
   SRF_RIPPLE_CEILING = 2;
   SRF_RIPPLE = SRF_RIPPLE_FLOOR or SRF_RIPPLE_CEILING;
   SRF_NO_INTERPOLATE = 4;
+  SRF_FFLOOR = 8; // JVAL: 3d Floors
+  SRF_DONOTDRAW = 16; // JVAL: 3d Floors
+  SRF_SLOPEFLOOR = 32; // JVAL: Slopes
+  SRF_SLOPECEILING = 64; // JVAL: Slopes
+  SRF_SLOPED = SRF_SLOPEFLOOR + SRF_SLOPECEILING; // JVAL: Slopes
+
 //
 // A SubSector.
 // References a Sector.
@@ -297,8 +327,10 @@ const
 type
   subsector_t = packed record
     sector: Psector_t;
-    numlines: word; // JVAL SOS integer ?
-    firstline: word;
+    numlines: LongWord; // JVAL glbsp (was word)
+    firstline: LongWord;// JVAL glbsp (was word)
+    x, y: fixed_t; // JVAL 3d Floors (Subsector Centroid)
+    centroidcalced: Boolean;  // JVAL 3d Floors (Subsector Centroid)
   end;
   Psubsector_t = ^subsector_t;
   subsector_tArray = packed array[0..$FFFF] of subsector_t;
@@ -328,6 +360,7 @@ type
     iSegID: integer;
 {$ENDIF}
     miniseg: boolean;
+    diffloor: boolean;
   end;
   Pseg_t = ^seg_t;
   seg_tArray = packed array[0..$FFFF] of seg_t;
@@ -347,7 +380,7 @@ type
     bbox: packed array[0..1, 0..3] of fixed_t;
 
     // If NF_SUBSECTOR its a subsector.
-    children: packed array[0..1] of word;
+    children: packed array[0..1] of LongWord; // jval glbsp
   end;
   Pnode_t = ^node_t;
   node_tArray = packed array[0..$FFFF] of node_t;
@@ -368,9 +401,6 @@ type
 // OTHER TYPES
 //
 
-//
-// ?
-//
   drawseg_t = packed record
     curline: Pseg_t;
     x1: integer;
@@ -379,6 +409,11 @@ type
     scale1: fixed_t;
     scale2: fixed_t;
     scalestep: fixed_t;
+    {$IFNDEF OPENGL}
+    scale_dbl: Double;      // JVAL: 3d Floors
+    scalestep_dbl: Double;  // JVAL: 3d Floors
+    use_double: boolean;
+    {$ENDIF}
 
     // 0=none, 1=bottom, 2=top, 3=both
     silhouette: integer;
@@ -394,8 +429,18 @@ type
     sprtopclip: PSmallIntArray;
     sprbottomclip: PSmallIntArray;
     maskedtexturecol: PSmallIntArray;
+    // JVAL: 3d Floors
+    thicksidecol: PSmallintArray;
+    midsec: Psector_t;
+    midside: Pside_t;
+{$IFNDEF OPENGL}
+    midvis: Pvisplane3d_t;
+    midsiderange: midsiderange_t;
+{$ENDIF}
   end;
   Pdrawseg_t = ^drawseg_t;
+  drawsegsbuffer_t = array[0..$FFF] of Pdrawseg_t;
+  Pdrawsegsbuffer_t = ^ drawsegsbuffer_t;
 
 // Patches.
 // A patch holds one or more columns.
@@ -411,7 +456,7 @@ type
     // the [0] is &columnofs[width]
   end;
   Ppatch_t = ^patch_t;
-  patch_tArray = packed array[0..$FFFF] of patch_t;
+  patch_tArray = packed array[0..$FFFF] of patch_t; // JVAL: DO NOT USE
   Ppatch_tArray = ^patch_tArray;
   patch_tPArray = packed array[0..$FFFF] of Ppatch_t;
   Ppatch_tPArray = ^patch_tPArray;
@@ -446,17 +491,20 @@ type
     {$ENDIF}
     texturemid: fixed_t;
     {$IFNDEF OPENGL}
-    texturemid2: fixed_t;     // JVAL For light boost
-    heightsec: integer;       // killough 3/27/98: height sector for underwater/fake ceiling support
-    voxelflag: integer;       // JVAL voxel support (1 for sprites, 0 for skipped spites (only light), 1.... for voxels
+    texturemid2: fixed_t; // JVAL For light boost
+    heightsec: integer;   // killough 3/27/98: height sector for underwater/fake ceiling support
+    voxelflag: integer;   // JVAL voxel support (1 for sprites, 0 for skipped spites (only light), 1.... for voxels
     vx1, vx2: integer;
+    drawn: Boolean;       // JVAL 3d Floors
+    ceilingz: fixed_t;    // JVAL 3d Floors
     {$ENDIF}
     patch: integer;
 
     // for color translation and shadow draw,
     //  maxbright frames as well
+{$IFNDEF OPENGL} // JVAL: 3d Floors
     colormap: PByteArray;
-
+{$ENDIF}
     mobjflags: LongWord;
     mobjflags_ex: LongWord;
     mobjflags2_ex: LongWord;
@@ -512,37 +560,6 @@ type
   Pspritedef_t = ^spritedef_t;
   spritedef_tArray = packed array[0..$FFFF] of spritedef_t;
   Pspritedef_tArray = ^spritedef_tArray;
-
-const
-  VISEND = $FFFF;
-  iVISEND = integer($FFFFFFFF);
-
-type
-  visindex_t = word;
-  Pvisindex_t = ^visindex_t;
-  visindex_tArray = packed array[-1..$FFFF] of visindex_t;
-  Pvisindex_tArray = ^visindex_tArray;
-
-//
-// Now what is a visplane, anyway?
-//
-  visplane_t = packed record
-    height: fixed_t;
-    picnum: integer;
-    lightlevel: integer;
-    minx: integer;
-    maxx: integer;
-    xoffs: fixed_t;
-    yoffs: fixed_t;
-    renderflags: LongWord;
-
-    // leave pads for [minx-1] and [maxx+1]
-    top: Pvisindex_tArray;    // Now allocated dynamically!
-
-    // See above.
-    bottom: Pvisindex_tArray; // Now allocated dynamically!
-  end;
-  Pvisplane_t = ^visplane_t;
 
 //
 // Texture definition.
@@ -668,10 +685,7 @@ var
 //  will have new column_ts generated.
 //
 
-
 implementation
 
 end.
-
-
 

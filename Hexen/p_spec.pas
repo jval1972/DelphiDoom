@@ -80,7 +80,7 @@ function P_ExecuteLineSpecial(special: integer; args: PByteArray; line: Pline_t;
 function P_ActivateLine(line: Pline_t; mo: Pmobj_t; side: integer;
   activationType: integer): boolean;
 
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
 procedure P_PlayerOnSpecialFlat(player: Pplayer_t; floorType: integer);
 
@@ -363,6 +363,8 @@ type
 var
   LavaInflictor: mobj_t;
 
+function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
+
 implementation
 
 uses
@@ -398,6 +400,7 @@ uses
   p_anim,
   p_things,
   po_man,
+  p_common,
   tables,
   sb_bar,
   s_sound,
@@ -581,7 +584,10 @@ var
   check: Pline_t;
   other: Psector_t;
 begin
-  result := 0;
+  if G_PlayingEngineVersion > VERSION141 then
+    result := -32000 * FRACUNIT
+  else
+    result := 0;
 
   for i := 0 to sec.linecount - 1 do
   begin
@@ -1315,15 +1321,11 @@ const
     25 * 2048
   );
 
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
-var
-  sector: Psector_t;
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 begin
-  sector := Psubsector_t(player.mo.subsector).sector;
-  if player.mo.z <> sector.floorheight then
-  begin // Player is not touching the floor
+  // Falling, not all the way down yet?
+  if player.mo.z <> height then
     exit;
-  end;
 
   case sector.special of
     9: // SecretArea
@@ -1567,6 +1569,12 @@ begin
   for i := 0 to numlines - 1 do
     case lines[i].special of
       // JVAL: ripple effect to tagged sectors floor/Ceiling
+      254:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].flags := sectors[s].flags or SRF_LADDER;
+        end;
       255:
         begin
           s := -1;

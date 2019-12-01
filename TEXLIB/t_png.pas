@@ -1028,7 +1028,7 @@ begin
     c := crc_table[(c XOR buf^[n]) and $FF] XOR (c shr 8);
 
   {Returns}
-  result := c;
+  Result := c;
 end;
 
 {Calculates the paeth predictor}
@@ -1043,12 +1043,12 @@ begin
 
   { return nearest of a, b, c, breaking ties in order a, b, c }
   if (pa <= pb) and (pa <= pc) then
-    result := a
+    Result := a
   else
     if pb <= pc then
-      result := b
+      Result := b
     else
-      result := c;
+      Result := c;
 end;
 
 {Invert bytes using assembly}
@@ -1072,18 +1072,18 @@ begin
     {an value of size 2^bitdepth pointing to the palette index}
     {and grayscale the value from 0 to 2^bitdepth with color intesity}
     COLOR_GRAYSCALE, COLOR_PALETTE:
-      result := (Pixels * BitDepth + 7) div 8;
+      Result := (Pixels * BitDepth + 7) div 8;
     {RGB contains 3 values R, G, B with size 2^bitdepth each}
     COLOR_RGB:
-      result := (Pixels * BitDepth * 3) div 8;
+      Result := (Pixels * BitDepth * 3) div 8;
     {Contains one value followed by alpha value booth size 2^bitdepth}
     COLOR_GRAYSCALEALPHA:
-      result := (Pixels * BitDepth * 2) div 8;
+      Result := (Pixels * BitDepth * 2) div 8;
     {Contains four values size 2^bitdepth, Red, Green, Blue and alpha}
     COLOR_RGBALPHA:
-      result := (Pixels * BitDepth * 4) div 8;
+      Result := (Pixels * BitDepth * 4) div 8;
     else
-      result := 0;
+      Result := 0;
   end {case ColorType}
 end;
 
@@ -1159,8 +1159,8 @@ begin
     end;
 
   {Returns chunk class}
-  result := NewChunk.Create(Owner);
-  result.fName := Name;
+  Result := NewChunk.Create(Owner);
+  Result.fName := Name;
 end;
 
 {ZLIB support}
@@ -1172,17 +1172,17 @@ const
 function ZLIBInitInflate(Stream: TStream): TZStreamRec2;
 begin
   {Fill record}
-  Fillchar(result, SizeOf(TZStreamRec2), #0);
+  Fillchar(Result, SizeOf(TZStreamRec2), #0);
 
   {Set internal record information}
-  with result do
+  with Result do
   begin
     GetMem(Data, ZLIBAllocate);
     fStream := Stream;
   end;
 
   {Init decompression}
-  InflateInit_(result.zlib, zlib_version, SizeOf(TZStreamRec));
+  InflateInit_(Result.zlib, zlib_version, SizeOf(TZStreamRec));
 end;
 
 {Initializes ZLIB for compression}
@@ -1190,10 +1190,10 @@ function ZLIBInitDeflate(Stream: TStream;
   Level: TCompressionlevel; Size: Cardinal): TZStreamRec2;
 begin
   {Fill record}
-  FillChar(result, SizeOf(TZStreamRec2), #0);
+  FillChar(Result, SizeOf(TZStreamRec2), #0);
 
   {Set internal record information}
-  with result, ZLIB do
+  with Result, ZLIB do
   begin
     GetMem(Data, Size);
     fStream := Stream;
@@ -1202,7 +1202,7 @@ begin
   end;
 
   {Inits compression}
-  deflateInit_(result.zlib, Level, zlib_version, SizeOf(TZStreamRec));
+  deflateInit_(Result.zlib, Level, zlib_version, SizeOf(TZStreamRec));
 end;
 
 {Terminates ZLIB for compression}
@@ -1235,7 +1235,7 @@ begin
   with StreamRec do
   begin
     {Initializes}
-    result := true;
+    Result := true;
     OutputSize := 0;
 
     {Prepares the data to decompress}
@@ -1268,7 +1268,7 @@ begin
       {Now tests for errors}
       else if InflateRet < 0 then
       begin
-        result := false;
+        Result := false;
         ErrorOutput := StreamRec.msg;
         InflateEnd(StreamRec);
         Exit;
@@ -1292,7 +1292,7 @@ var
 begin
   with StreamRec do
   begin
-    result := true; {By default returns TRUE as everything might have gone ok}
+    Result := true; {By default returns TRUE as everything might have gone ok}
     OutputSize := 0; {Initialize}
     {Prepares the data to compress}
     FillChar(StreamRec, SizeOf(TZStreamRec), #0);
@@ -1328,7 +1328,7 @@ begin
       {Now tests for errors}
       else if DeflateRet < 0 then
       begin
-        result := false;
+        Result := false;
         ErrorOutput := StreamRec.msg;
         DeflateEnd(StreamRec);
         Exit;
@@ -1368,7 +1368,7 @@ begin
   {In case a match was found}
   if Position >= 0 then
   begin
-    result := Item[Position]; {Returns pointer}
+    Result := Item[Position]; {Returns pointer}
     {Remove item and move memory}
     dec(fCount);
     if Position < Integer(FCount) then
@@ -1376,7 +1376,7 @@ begin
       (Integer(fCount) - Position) * SizeOf(Pointer));
   end {if Position >= 0}
   else
-    result := nil
+    Result := nil
 end;
 
 {Add a new value in the list}
@@ -1402,10 +1402,10 @@ end;
 function TPngPointerList.GetItem(Index: Cardinal): Pointer;
 begin
   if Index <= Count - 1 then
-    result := fMemory[Index]
+    Result := fMemory[Index]
   else
     {In case it's out of bounds}
-    result := nil;
+    Result := nil;
 end;
 
 {Inserts a new item in the list}
@@ -1458,11 +1458,11 @@ function TPNGList.FindChunk(ChunkClass: TChunkClass): TChunk;
 var
   i: Integer;
 begin
-  result := nil;
+  Result := nil;
   for i := 0 to Count - 1 do
     if Item[i] is ChunkClass then
     begin
-      result := Item[i];
+      Result := Item[i];
       Break
     end
 end;
@@ -1484,7 +1484,7 @@ var
   IDAT: TChunkIDAT;
   PLTE: TChunkPLTE;
 begin
-  result := nil; {Default result}
+  Result := nil; {Default Result}
   {Adding these is not allowed}
   if ((ChunkClass = TChunkIHDR) or (ChunkClass = TChunkIDAT) or
     (ChunkClass = TChunkPLTE) or (ChunkClass = TChunkIEND)) and not
@@ -1505,16 +1505,16 @@ begin
     IHDR := ItemFromClass(TChunkIHDR) as TChunkIHDR;
     IEND := ItemFromClass(TChunkIEND) as TChunkIEND;
     {Create new chunk}
-    result := ChunkClass.Create(Owner);
+    Result := ChunkClass.Create(Owner);
     {Add to the list}
     if (ChunkClass = TChunkgAMA) or (ChunkClass = TChunkpHYs) or
       (ChunkClass = TChunkPLTE) then
-      Insert(result, IHDR.Index + 1)
+      Insert(Result, IHDR.Index + 1)
     {Header and end}
     else if (ChunkClass = TChunkIEND) then
-      Insert(result, Count)
+      Insert(Result, Count)
     else if (ChunkClass = TChunkIHDR) then
-      Insert(result, 0)
+      Insert(Result, 0)
     {Transparency chunk (fix by Ian Boyd)}
     else if (ChunkClass = TChunktRNS) then
     begin
@@ -1523,21 +1523,21 @@ begin
       PLTE := ItemFromClass(TChunkPLTE) as TChunkPLTE;
 
       if Assigned(PLTE) then
-        Insert(result, PLTE.Index + 1)
+        Insert(Result, PLTE.Index + 1)
       else if Assigned(IDAT) then
-        Insert(result, IDAT.Index)
+        Insert(Result, IDAT.Index)
       else
-        Insert(result, IHDR.Index + 1)
+        Insert(Result, IHDR.Index + 1)
     end
     else {All other chunks}
-      Insert(result, IEND.Index);
+      Insert(Result, IEND.Index);
   end {if}
 end;
 
 {Returns item from the list}
 function TPNGList.GetItem(Index: Cardinal): TChunk;
 begin
-  result := inherited GetItem(Index);
+  Result := inherited GetItem(Index);
 end;
 
 {Returns first item from the list using the class from parameter}
@@ -1545,13 +1545,13 @@ function TPNGList.ItemFromClass(ChunkClass: TChunkClass): TChunk;
 var
   i: Integer;
 begin
-  result := nil; {Initial result}
+  Result := nil; {Initial Result}
   for i := 0 to Count - 1 do
     {Test if this item has the same class}
     if Item[i] is ChunkClass then
     begin
-      {Returns this item and exit}
-      result := Item[i];
+      {Returns this item and Exit}
+      Result := Item[i];
       break;
     end {if}
 end;
@@ -1570,21 +1570,21 @@ function TChunk.GetIndex: Integer;
 var
   i: Integer;
 begin
-  result := -1; {Avoiding warnings}
+  Result := -1; {Avoiding warnings}
   {Searches in the list}
   for i := 0 to Owner.Chunks.Count - 1 do
     if Owner.Chunks.Item[i] = Self then
     begin
       {Found match}
-      result := i;
-      exit;
+      Result := i;
+      Exit;
     end {for i}
 end;
 
 {Returns pointer to the TChunkIHDR}
 function TChunk.GetHeader: TChunkIHDR;
 begin
-  result := Owner.Chunks.Item[0] as TChunkIHDR;
+  Result := Owner.Chunks.Item[0] as TChunkIHDR;
 end;
 
 {Assigns from another TChunk}
@@ -1634,7 +1634,7 @@ end;
 {Returns the chunk name 1}
 function TChunk.GetChunkName: String;
 begin
-  result := fName
+  Result := fName
 end;
 
 {Returns the chunk name 2}
@@ -1644,7 +1644,7 @@ begin
   {classes which don't declare GetName, it will look for the class name}
   {to extract the chunk kind. Example, if the class name is TChunkIEND }
   {this method extracts and returns IEND}
-  result := Copy(ClassName, Length('TChunk') + 1, Length(ClassName));
+  Result := Copy(ClassName, Length('TChunk') + 1, Length(ClassName));
 end;
 
 {Saves the data to the stream}
@@ -1666,13 +1666,13 @@ begin
   Stream.Write(ChunkCRC, 4);
 
   {Returns that everything went ok}
-  result := TRUE;
+  Result := TRUE;
 end;
 
 {Saves the chunk to the stream}
 function TChunk.SaveToStream(Stream: TStream): Boolean;
 begin
-  result := SaveData(Stream)
+  Result := SaveData(Stream)
 end;
 
 
@@ -1695,16 +1695,16 @@ begin
   {$IFDEF CheckCRC}
     RightCRC := update_crc($ffffffff, @ChunkName[0], 4);
     RightCRC := update_crc(RightCRC, fData, Size) xor $ffffffff;
-    result := RightCRC = CheckCrc;
+    Result := RightCRC = CheckCrc;
 
     {Handle CRC error}
-    if not result then
+    if not Result then
     begin
       {In case it coult not load chunk}
       Owner.RaiseError(EPngInvalidCRCText);
-      exit;
+      Exit;
     end
-  {$ELSE}result := TRUE; {$ENDIF}
+  {$ELSE}Result := TRUE; {$ENDIF}
 
 end;
 
@@ -1715,9 +1715,9 @@ function TChunktIME.LoadFromStream(Stream: TStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
 begin
   {Let ancestor load the data}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
-  if not result or (Size <> 7) then
-    exit; {Size must be 7}
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
+  if not Result or (Size <> 7) then
+    Exit; {Size must be 7}
 
   {Reads data}
   fYear := ((PByte(Longint(Data) )^) * 256)+ (PByte(Longint(Data) + 1)^);
@@ -1752,7 +1752,7 @@ begin
   PByte(Longint(Data) + 6)^ := Second;
 
   {Let inherited save data}
-  result := inherited SaveToStream(Stream);
+  Result := inherited SaveToStream(Stream);
 end;
 
 {TChunkztXt implementation}
@@ -1767,9 +1767,9 @@ var
   OutputSize: Integer;
 begin
   {Load data from stream and validate}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
-  if not result or (Size < 4) then
-    exit;
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
+  if not Result or (Size < 4) then
+    Exit;
   fKeyword := PChar(Data);  {Get keyword and compression method bellow}
   if Longint(fKeyword) = 0 then
     CompressionMethod := PByte(Data)^
@@ -1800,7 +1800,8 @@ var
   ErrorOutput: String;
 begin
   Output := nil; {Initializes output}
-  if fText = '' then fText := ' ';
+  if fText = '' then
+    fText := ' ';
 
   {Compresses the data}
   if CompressZLIB(@fText[1], Length(fText), Owner.CompressionLevel, Output,
@@ -1820,12 +1821,13 @@ begin
       memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Data) + Length(Keyword) + 2), Output, OutputSize);
 
     {Let ancestor calculate crc and save}
-    result := SaveData(Stream);
+    Result := SaveData(Stream);
   end {if CompressZLIB(...} else
-    result := false;
+    Result := false;
 
   {Frees output}
-  if Output <> nil then FreeMem(Output)
+  if Output <> nil then
+    FreeMem(Output)
 end;
 
 {TChunktEXt implementation}
@@ -1842,9 +1844,9 @@ function TChunktEXt.LoadFromStream(Stream: TStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
 begin
   {Load data from stream and validate}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
-  if not result or (Size < 3) then
-    exit;
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
+  if not Result or (Size < 3) then
+    Exit;
   {Get text}
   fKeyword := PChar(Data);
   SetLength(fText, Size - Length(fKeyword) - 1);
@@ -1866,7 +1868,7 @@ begin
     memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Data) + Length(Keyword) + 1), @fText[1],
       Length(Text));
   {Let ancestor calculate crc and save}
-  result := inherited SaveToStream(Stream);
+  Result := inherited SaveToStream(Stream);
 end;
 
 
@@ -1901,8 +1903,10 @@ var
   Entries: array[Byte] of TPaletteEntry;
 begin
   PaletteSize := 0;
-  if GetObject(Source, SizeOf(PaletteSize), @PaletteSize) = 0 then Exit;
-  if PaletteSize = 0 then Exit;
+  if GetObject(Source, SizeOf(PaletteSize), @PaletteSize) = 0 then
+    Exit;
+  if PaletteSize = 0 then
+    Exit;
   ResizePalette(Destination, PaletteSize);
   GetPaletteEntries(Source, 0, PaletteSize, Entries);
   SetPaletteEntries(Destination, 0, PaletteSize, Entries);
@@ -1940,15 +1944,24 @@ end;
 procedure TChunkIHDR.FreeImageData;
 begin
   {Free old image data}
-  if ImageHandle <> 0  then DeleteObject(ImageHandle);
-  if ImageDC     <> 0  then DeleteDC(ImageDC);
-  if ImageAlpha <> nil then FreeMem(ImageAlpha);
-  if ImagePalette <> 0 then DeleteObject(ImagePalette);
+  if ImageHandle <> 0 then
+    DeleteObject(ImageHandle);
+  if ImageDC <> 0
+    then DeleteDC(ImageDC);
+  if ImageAlpha <> nil then
+    FreeMem(ImageAlpha);
+  if ImagePalette <> 0 then
+    DeleteObject(ImagePalette);
   {$IFDEF Store16bits}
-  if ExtraImageData <> nil then FreeMem(ExtraImageData);
+  if ExtraImageData <> nil then
+    FreeMem(ExtraImageData);
   {$ENDIF}
-  ImageHandle := 0; ImageDC := 0; ImageAlpha := nil; ImageData := nil;
-  ImagePalette := 0; ExtraImageData := nil;
+  ImageHandle := 0;
+  ImageDC := 0;
+  ImageAlpha := nil;
+  ImageData := nil;
+  ImagePalette := 0;
+  ExtraImageData := nil;
 end;
 
 {Chunk being loaded from a stream}
@@ -1956,19 +1969,20 @@ function TChunkIHDR.LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
   Size: Integer): Boolean;
 begin
   {Let TChunk load it}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
-  if not result then Exit;
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
+  if not Result then
+    Exit;
 
   {Now check values}
   {Note: It's recommended by png specification to make sure that the size}
   {must be 13 bytes to be valid, but some images with 14 bytes were found}
   {which could be loaded by internet explorer and other tools}
-  if (fDataSize < SizeOf(TIHdrData)) then
+  if fDataSize < SizeOf(TIHdrData) then
   begin
     {Ihdr must always have at least 13 bytes}
-    result := false;
+    Result := false;
     Owner.RaiseError(EPNGInvalidIHDRText);
-    exit;
+    Exit;
   end;
 
   {Everything ok, reads IHDR}
@@ -1979,23 +1993,23 @@ begin
   {The width and height must not be larger than 65535 pixels}
   if (IHDRData.Width > High(Word)) or (IHDRData.Height > High(Word)) then
   begin
-    result := false;
+    Result := false;
     Owner.RaiseError(EPNGSizeExceedsText);
-    exit;
+    Exit;
   end {if IHDRData.Width > High(Word)};
   {Compression method must be 0 (inflate/deflate)}
   if IHDRData.CompressionMethod <> 0 then
   begin
-    result := false;
+    Result := false;
     Owner.RaiseError(EPNGUnknownCompressionText);
-    exit;
+    Exit;
   end;
   {Interlace must be either 0 (none) or 7 (adam7)}
   if (IHDRData.InterlaceMethod <> 0) and (IHDRData.InterlaceMethod <> 1) then
   begin
-    result := false;
+    Result := false;
     Owner.RaiseError(EPNGUnknownInterlaceText);
-    exit;
+    Exit;
   end;
 
   {Updates owner properties}
@@ -2021,7 +2035,7 @@ begin
   {..update interlace method}
   pIHDRData(fData)^.InterlaceMethod := Byte(Owner.InterlaceMethod);
   {..and then let the ancestor SaveToStream do the hard work}
-  result := inherited SaveToStream(Stream);
+  Result := inherited SaveToStream(Stream);
 end;
 
 {Creates a grayscale palette}
@@ -2044,7 +2058,7 @@ begin
     palEntries.palPalEntry[j].peBlue := palEntries.palPalEntry[j].peRed;
   end;
   {Creates and returns the palette}
-  result := CreatePalette(pLogPalette(@palEntries)^);
+  Result := CreatePalette(pLogPalette(@palEntries)^);
 end;
 
 {Copies the palette to the Device Independent bitmap header}
@@ -2158,13 +2172,13 @@ end;
 function CompareMem(P1, P2: PByte; const Size: Integer): Boolean;
 var i: Integer;
 begin
-  result := true;
+  Result := true;
   for i := 1 to Size do
   begin
     if P1^ <> P2^ then
     begin
-      result := False;
-      exit;
+      Result := False;
+      Exit;
     end;
     inc(P1);
     inc(P2);
@@ -2224,7 +2238,7 @@ var
   i: Integer;
   Value: Byte;
 begin
-  result := 0; {Default: Unknown transparent color}
+  Result := 0; {Default: Unknown transparent color}
 
   {Depends on the color type}
   with Header do
@@ -2232,10 +2246,10 @@ begin
       COLOR_GRAYSCALE:
       begin
         Value := BitmapInfo.bmiColors[PaletteValues[1]].rgbRed;
-        result := RGB(Value, Value, Value);
+        Result := RGB(Value, Value, Value);
       end;
       COLOR_RGB:
-        result := RGB(fOwner.GammaTable[PaletteValues[1]],
+        Result := RGB(fOwner.GammaTable[PaletteValues[1]],
         fOwner.GammaTable[PaletteValues[3]],
         fOwner.GammaTable[PaletteValues[5]]);
       COLOR_PALETTE:
@@ -2249,7 +2263,7 @@ begin
           if PaletteValues[i] = 0 then
             with PaletteChunk.GetPaletteItem(i) do
             begin
-              result := RGB(rgbRed, rgbGreen, rgbBlue);
+              Result := RGB(rgbRed, rgbGreen, rgbBlue);
               break
             end
       end {COLOR_PALETTE}
@@ -2263,7 +2277,7 @@ begin
   if DataSize <= 256 then
     memcpy(fData, @PaletteValues[0], DataSize);
 
-  result := inherited SaveToStream(Stream);
+  Result := inherited SaveToStream(Stream);
 end;
 
 {Assigns from another chunk}
@@ -2281,9 +2295,10 @@ var
   i, Differ255: Integer;
 begin
   {Let inherited load}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
 
-  if not result then Exit;
+  if not Result then
+    Exit;
 
   {Make sure size is correct}
   if Size > 256 then Owner.RaiseError(
@@ -2372,9 +2387,9 @@ begin
         {$IFDEF CheckCRC}
           if crcfile xor $ffffffff <> Cardinal(ByteSwap(IDATCRC)) then
           begin
-            result := -1;
+            Result := -1;
             Owner.RaiseError(EPNGInvalidCRCText);
-            exit;
+            Exit;
           end;
         {$ENDIF}
 
@@ -2386,8 +2401,8 @@ begin
         if IDATHeader <> 'IDAT' then
         begin
           Owner.RaiseError(EPNGMissingMultipleIDATText);
-          result := -1;
-          exit;
+          Result := -1;
+          Exit;
         end;
 
         {Calculate chunk name part of the crc}
@@ -2414,7 +2429,7 @@ begin
         {In case there is no more compressed data to read from}
         if avail_in = 0 then
         begin
-          result := Count - avail_out;
+          Result := Count - avail_out;
           Exit;
         end;
 
@@ -2425,13 +2440,13 @@ begin
 
       Procresult := inflate(zlib, 0);
 
-      {In case the result was not sucessfull}
+      {In case the Result was not sucessfull}
       if (Procresult < 0) then
       begin
-        result := -1;
+        Result := -1;
         Owner.RaiseError(
           EPNGZLIBErrorText + zliberrors[procresult]);
-        exit;
+        Exit;
       end;
 
     end {while avail_out > 0};
@@ -2439,7 +2454,7 @@ begin
   end {with};
 
   {If everything gone ok, it returns the count bytes}
-  result := Count;
+  Result := Count;
 end;
 
 {TChunkIDAT implementation}
@@ -3081,7 +3096,7 @@ begin
   case Row_Buffer[RowUsed]^[0] of
     {No filtering for this line}
     FILTER_NONE: begin end;
-    {AND 255 serves only to never let the result be larger than one byte}
+    {AND 255 serves only to never let the Result be larger than one byte}
     {Sub filter}
     FILTER_SUB:
       for Col := Offset + 1 to Row_Bytes do
@@ -3188,16 +3203,16 @@ begin
   {$IFDEF CheckCRC}
     CRCFile := CRCFile xor $ffffffff;
     CRCCheck := ByteSwap(CRCCheck);
-    result := CRCCheck = CRCFile;
+    Result := CRCCheck = CRCFile;
 
     {Handle CRC error}
-    if not result then
+    if not Result then
     begin
       {In case it coult not load chunk}
       Owner.RaiseError(EPngInvalidCRCText);
-      exit;
+      Exit;
     end;
-  {$ELSE}result := TRUE; {$ENDIF}
+  {$ELSE}Result := TRUE; {$ENDIF}
 end;
 
 const
@@ -3256,7 +3271,7 @@ begin
     FreeMem(Encode_Buffer[FILTER_PAETH], Row_Bytes);
 
   {Everything went ok}
-  result := true;
+  Result := true;
 end;
 
 {Writes the IDAT using the settings}
@@ -3883,13 +3898,13 @@ begin
   {to proceed and further}
   if (Owner.Filters = [pfNone]) or (Owner.Filters = []) then
   begin
-    result := FILTER_NONE;
-    exit;
+    Result := FILTER_NONE;
+    Exit;
   end {if (Owner.Filters = [pfNone...};
 
   {Check which filter is the best by checking which has the larger}
   {sequence of the same byte, since they are best compressed}
-  LongestRun := 0; result := FILTER_NONE;
+  LongestRun := 0; Result := FILTER_NONE;
   for ii := FILTER_NONE to FILTER_PAETH do
     {Check if this filter was selected}
     if TFilter(ii) in Owner.Filters then
@@ -3898,8 +3913,8 @@ begin
       {Check if it's the only filter}
       if Owner.Filters = [TFilter(ii)] then
       begin
-        result := ii;
-        exit;
+        Result := ii;
+        Exit;
       end;
 
       {Check using a sequence of four bytes}
@@ -3911,7 +3926,7 @@ begin
       {Check if this one is the best so far}
       if (Run > LongestRun) then
       begin
-        result := ii;
+        Result := ii;
         LongestRun := Run;
       end {if (Run > LongestRun)};
 
@@ -3928,7 +3943,7 @@ begin
     Owner.RaiseError(EPNGUnknownPalEntryText)
   else
     {Returns the item}
-    result := Header.BitmapInfo.bmiColors[Index];
+    Result := Header.BitmapInfo.bmiColors[Index];
 end;
 
 {Loads the palette chunk from a stream}
@@ -3945,16 +3960,17 @@ var
   palEntries: TMaxLogPalette;
 begin
   {Let ancestor load data and check CRC}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
-  if not result then exit;
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
+  if not Result then
+    Exit;
 
   {This chunk must be divisible by 3 in order to be valid}
   if (Size mod 3 <> 0) or (Size div 3 > 256) then
   begin
     {Raise error}
-    result := FALSE;
+    Result := FALSE;
     Owner.RaiseError(EPNGInvalidPaletteText);
-    exit;
+    Exit;
   end {if Size mod 3 <> 0};
 
   {Fill array with the palette entries}
@@ -3985,7 +4001,8 @@ var
   palEntries: TMaxLogPalette;
 begin
   {Adjust size to hold all the palette items}
-  if fCount = 0 then fCount := Header.BitmapInfo.bmiHeader.biClrUsed;
+  if fCount = 0 then
+    fCount := Header.BitmapInfo.bmiHeader.biClrUsed;
   ResizeData(fCount * 3);
   {Get all the palette entries}
   ZeroMemory(@palEntries, SizeOf(palEntries));
@@ -4004,7 +4021,7 @@ begin
     end {with BitmapInfo};
 
   {Let ancestor do the rest of the work}
-  result := inherited SaveToStream(Stream);
+  Result := inherited SaveToStream(Stream);
 end;
 
 {Assigns from another PLTE chunk}
@@ -4045,19 +4062,21 @@ begin
   begin
     {Adjust size and returns 1}
     ResizeData(4);
-    result := 1;
+    Result := 1;
   end
   {If it's right, read the value}
-  else result := Cardinal(ByteSwap(pCardinal(Data)^))
+  else
+    Result := Cardinal(ByteSwap(pCardinal(Data)^))
 end;
 
 function Power(Base, Exponent: Extended): Extended;
 begin
   if Exponent = 0.0 then
-    result := 1.0               {Math rule}
-  else if (Base = 0) or (Exponent = 0) then result := 0
+    Result := 1.0               {Math rule}
+  else if (Base = 0) or (Exponent = 0) then
+    Result := 0
   else
-    result := Exp(Exponent * Ln(Base));
+    Result := Exp(Exponent * Ln(Base));
 end;
 
 {Loading the chunk from a stream}
@@ -4068,8 +4087,9 @@ var
   Value: Cardinal;
 begin
   {Call ancestor and test if it went ok}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
-  if not result then exit;
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
+  if not Result then
+    Exit;
   Value := Gamma;
   {Build gamma table and inverse table for saving}
   if Value <> 0 then
@@ -4121,7 +4141,7 @@ begin
     ((ColorType = COLOR_RGB) and (BitDepth < 8)) then
   begin
     RaiseError(EInvalidSpec);
-    exit;
+    Exit;
   end;
   if Bitdepth = 2 then Bitdepth := 4;
 
@@ -4216,8 +4236,9 @@ function TPngObject.GetHeight: Integer;
 begin
   {There must be a Header chunk to get the size, otherwise returns 0}
   if HeaderPresent then
-    result := TChunkIHDR(Chunks.Item[0]).Height
-  else result := 0;
+    Result := TChunkIHDR(Chunks.Item[0]).Height
+  else
+    Result := 0;
 end;
 
 {Returns image width}
@@ -4225,14 +4246,15 @@ function TPngObject.GetWidth: Integer;
 begin
   {There must be a Header chunk to get the size, otherwise returns 0}
   if HeaderPresent then
-    result := Header.Width
-  else result := 0;
+    Result := Header.Width
+  else
+    Result := 0;
 end;
 
 {Returns if the image is empty}
 function TPngObject.GetEmpty: Boolean;
 begin
-  result := (Chunks.Count = 0);
+  Result := (Chunks.Count = 0);
 end;
 
 {Raises an error}
@@ -4243,7 +4265,7 @@ end;
 
 function TPngObject.IOresult: string;
 begin
-  result := fError;
+  Result := fError;
   fError := '';
 end;
 
@@ -4265,7 +4287,7 @@ end;
     begin
       {In case it does not exists, raise error}
       RaiseError(EPNGNotExistsText);
-      exit;
+      Exit;
     end;
 
     {Creates the file stream to read}
@@ -4289,17 +4311,17 @@ end;
 {Returns if it has the pixel information chunk}
 function TPngObject.HasPixelInformation: Boolean;
 begin
-  result := (Chunks.ItemFromClass(TChunkpHYs) as tChunkpHYs) <> nil;
+  Result := (Chunks.ItemFromClass(TChunkpHYs) as tChunkpHYs) <> nil;
 end;
 
 {Returns the pixel information chunk}
 function TPngObject.GetPixelInformation: TChunkpHYs;
 begin
-  result := Chunks.ItemFromClass(TChunkpHYs) as tChunkpHYs;
-  if not Assigned(result) then
+  Result := Chunks.ItemFromClass(TChunkpHYs) as tChunkpHYs;
+  if not Assigned(Result) then
   begin
-    result := Chunks.Add(tChunkpHYs) as tChunkpHYs;
-    result.fUnit := utMeter;
+    Result := Chunks.Add(tChunkpHYs) as tChunkpHYs;
+    Result.fUnit := utMeter;
   end;
 end;
 
@@ -4308,12 +4330,12 @@ function TPngObject.GetHeader: TChunkIHDR;
 begin
   {If there is a TChunkIHDR returns it, otherwise returns nil}
   if (Chunks.Count <> 0) and (Chunks.Item[0] is TChunkIHDR) then
-    result := Chunks.Item[0] as TChunkIHDR
+    Result := Chunks.Item[0] as TChunkIHDR
   else
   begin
     {No header, throw error message}
     RaiseError(EPNGHeaderNotPresentText);
-    result := nil
+    Result := nil
   end
 end;
 
@@ -4387,15 +4409,22 @@ var
   FactorX, FactorY: Double;
 begin
   {Prepares the rectangle structure to stretch draw}
-  if (Rect.Right = Rect.Left) or (Rect.Bottom = Rect.Top) then exit;
+  if (Rect.Right = Rect.Left) or (Rect.Bottom = Rect.Top) then
+    Exit;
   AdjustRect(Rect);
   {Gets the width and height}
   W := Rect.Right - Rect.Left;
   H := Rect.Bottom - Rect.Top;
   Header := Self.Header; {Fast access to header}
   Stretch := (W <> Header.Width) or (H <> Header.Height);
-  if Stretch then FactorX := W / Header.Width else FactorX := 1;
-  if Stretch then FactorY := H / Header.Height else FactorY := 1;
+  if Stretch then
+    FactorX := W / Header.Width
+  else
+    FactorX := 1;
+  if Stretch then
+    FactorY := H / Header.Height
+  else
+    FactorY := 1;
 
   {Prepare to create the bitmap}
   ZeroMemory(@BitmapInfo, SizeOf(BitmapInfo));
@@ -4407,7 +4436,8 @@ begin
   {alpha blending and then will be painted on the background}
   BufferDC := CreateCompatibleDC(0);
   {In case BufferDC could not be created}
-  if (BufferDC = 0) then RaiseError(EPNGOutMemoryText);
+  if BufferDC = 0 then
+    RaiseError(EPNGOutMemoryText);
   BufferBitmap := CreateDIBSection(BufferDC, BitmapInfo, DIB_RGB_COLORS,
     BufferBits, 0, 0);
   {In case buffer bitmap could not be created}
@@ -4627,7 +4657,7 @@ begin
     begin
       Chunks.Count := ChunkCount - 1;
       RaiseError(EPNGIHDRNotFirstText);
-      exit;
+      Exit;
     end;
 
     {Has a previous IDAT}
@@ -4687,7 +4717,7 @@ end;
 {Returns if the image is transparent}
 function TPngObject.GetTransparent: Boolean;
 begin
-  result := (TransparencyMode <> ptmNone);
+  Result := (TransparencyMode <> ptmNone);
 end;
 
 {Saving the PNG image to a stream of data}
@@ -4822,8 +4852,9 @@ function TPngObject.GetAlphaScanline(const LineIndex: Integer): PByteArray;
 begin
   with Header do
     if (ColorType = COLOR_RGBALPHA) or (ColorType = COLOR_GRAYSCALEALPHA) then
-      Longint(result) := Longint(ImageAlpha) + (LineIndex * Longint(Width))
-    else result := nil;  {In case the image does not use alpha information}
+      Longint(Result) := Longint(ImageAlpha) + (LineIndex * Longint(Width))
+    else
+      Result := nil;  {In case the image does not use alpha information}
 end;
 
 {$IFDEF Store16bits}
@@ -4831,7 +4862,7 @@ end;
 function TPngObject.GetExtraScanline(const LineIndex: Integer): Pointer;
 begin
   with Header do
-    Longint(result) := (Longint(ExtraImageData) + ((Longint(Height) - 1) *
+    Longint(Result) := (Longint(ExtraImageData) + ((Longint(Height) - 1) *
       BytesPerRow)) - (LineIndex * BytesPerRow);
 end;
 {$ENDIF}
@@ -4840,7 +4871,7 @@ end;
 function TPngObject.GetScanline(const LineIndex: Integer): Pointer;
 begin
   with Header do
-    Longint(result) := (Longint(ImageData) + ((Longint(Height) - 1) *
+    Longint(Result) := (Longint(ImageData) + ((Longint(Height) - 1) *
       BytesPerRow)) - (LineIndex * BytesPerRow);
 end;
 
@@ -4864,24 +4895,27 @@ var
 begin
   with Header do
   begin
-    result := ptmNone; {Default result}
+    Result := ptmNone; {Default Result}
     {Gets the TRNS chunk pointer}
     TRNS := Chunks.ItemFromClass(TChunkTRNS) as TChunkTRNS;
 
     {Test depending on the color type}
     case ColorType of
       {This modes are always partial}
-      COLOR_RGBALPHA, COLOR_GRAYSCALEALPHA: result := ptmPartial;
+      COLOR_RGBALPHA, COLOR_GRAYSCALEALPHA:
+        Result := ptmPartial;
       {This modes support bit transparency}
-      COLOR_RGB, COLOR_GRAYSCALE: if TRNS <> nil then result := ptmBit;
+      COLOR_RGB, COLOR_GRAYSCALE:
+        if TRNS <> nil then
+          Result := ptmBit;
       {Supports booth translucid and bit}
       COLOR_PALETTE:
         {A TRNS chunk must be present, otherwise it won't support transparency}
         if TRNS <> nil then
           if TRNS.BitTransparency then
-            result := ptmBit
+            Result := ptmBit
           else
-            result := ptmPartial
+            Result := ptmPartial
     end {case}
 
   end {with Header}
@@ -4990,9 +5024,9 @@ begin
   TRNS := Chunks.ItemFromClass(TChunkTRNS) as TChunkTRNS;
   {Reads the transparency chunk to get this info}
   if Assigned(TRNS) then
-    result := TRNS.TransparentColor
+    Result := TRNS.TransparentColor
   else
-    result := 0
+    Result := 0
 end;
 
 //{$OPTIMIZATION OFF}
@@ -5022,7 +5056,7 @@ end;
 {Returns if header is present}
 function TPngObject.HeaderPresent: Boolean;
 begin
-  result := ((Chunks.Count <> 0) and (Chunks.Item[0] is TChunkIHDR))
+  Result := ((Chunks.Count <> 0) and (Chunks.Item[0] is TChunkIHDR))
 end;
 
 {Returns pixel for png using palette and grayscale}
@@ -5049,16 +5083,17 @@ begin
     case ColorType of
       COLOR_PALETTE:
         with TChunkPLTE(png.Chunks.ItemFromClass(TChunkPLTE)).Item[ByteData] do
-          result := rgb(GammaTable[rgbRed], GammaTable[rgbGreen],
+          Result := rgb(GammaTable[rgbRed], GammaTable[rgbGreen],
             GammaTable[rgbBlue]);
       COLOR_GRAYSCALE:
       begin
         if BitDepth = 1
         then ByteData := GammaTable[Byte(ByteData * 255)]
         else ByteData := GammaTable[Byte(ByteData * ((1 shl DataDepth) + 1))];
-        result := rgb(ByteData, ByteData, ByteData);
+        Result := rgb(ByteData, ByteData, ByteData);
       end;
-      else result := 0;
+      else
+        Result := 0;
     end {case};
   end {with}
 end;
@@ -5098,7 +5133,7 @@ function GetRGBLinePixel(const png: TPngObject;
   const X, Y: Integer): LongWord;
 begin
   with pRGBLine(png.Scanline[Y])^[X] do
-    result := RGB(rgbtRed, rgbtGreen, rgbtBlue)
+    Result := RGB(rgbtRed, rgbtGreen, rgbtBlue)
 end;
 
 {Sets pixel when png uses RGB}
@@ -5120,7 +5155,7 @@ var
   B: Byte;
 begin
   B := PByteArray(png.Scanline[Y])^[X];
-  result := RGB(B, B, B);
+  Result := RGB(B, B, B);
 end;
 
 {Sets pixel when png uses grayscale}
@@ -5134,7 +5169,10 @@ end;
 procedure TPngObject.Resize(const CX, CY: Integer);
   function Min(const A, B: Integer): Integer;
   begin
-    if A < B then result := A else result := B;
+    if A < B then
+      Result := A
+    else
+      Result := B;
   end;
 var
   Header: TChunkIHDR;
@@ -5237,19 +5275,20 @@ begin
     with Header do
     begin
       if ColorType in [COLOR_GRAYSCALE, COLOR_PALETTE] then
-        result := GetByteArrayPixel(Self, X, Y)
+        Result := GetByteArrayPixel(Self, X, Y)
       else if ColorType in [COLOR_GRAYSCALEALPHA] then
-        result := GetGrayLinePixel(Self, X, Y)
+        Result := GetGrayLinePixel(Self, X, Y)
       else
-        result := GetRGBLinePixel(Self, X, Y)
+        Result := GetRGBLinePixel(Self, X, Y)
     end {with}
-  else result := 0
+  else
+    Result := 0
 end;
 
 {Returns the image palette}
 function TPngObject.GetPalette: HPalette;
 begin
-  result := Header.ImagePalette;
+  Result := Header.ImagePalette;
 end;
 
 {Assigns from another TChunk}
@@ -5265,8 +5304,9 @@ function TChunkpHYs.LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
   Size: Integer): Boolean;
 begin
   {Let ancestor load the data}
-  result := inherited LoadFromStream(Stream, ChunkName, Size);
-  if not result or (Size <> 9) then exit; {Size must be 9}
+  Result := inherited LoadFromStream(Stream, ChunkName, Size);
+  if not Result or (Size <> 9) then
+    Exit; {Size must be 9}
 
   {Reads data}
   fPPUnitX := ByteSwap(pCardinal(Longint(Data))^);
@@ -5284,12 +5324,12 @@ begin
   pUnitType(Longint(Data) + 8)^ := fUnit;
 
   {Let inherited save data}
-  result := inherited SaveToStream(Stream);
+  Result := inherited SaveToStream(Stream);
 end;
 
 procedure TPngObject.DoSetPalette(Value: HPALETTE; const UpdateColors: boolean);
 begin
-  if (Header.HasPalette)  then
+  if Header.HasPalette then
   begin
     {Update the palette entries}
     if UpdateColors then
@@ -5325,7 +5365,7 @@ end;
 {Returns the library version}
 function TPNGObject.GetLibraryVersion: String;
 begin
-  result := PNGLibraryVersion
+  Result := PNGLibraryVersion
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -5347,13 +5387,13 @@ function TPNGTextureManager.RGBSwap(buffer: LongWord): LongWord;
 var
   r, g, b: LongWord;
 begin
-  result := buffer;
-  b := result and $FF;
-  result := result shr 8;
-  g := result and $FF;
-  result := result shr 8;
-  r := result and $FF;
-  result := r + g shl 8 + b shl 16;
+  Result := buffer;
+  b := Result and $FF;
+  Result := Result shr 8;
+  g := Result and $FF;
+  Result := Result shr 8;
+  r := Result and $FF;
+  Result := r + g shl 8 + b shl 16;
 end;
 
 function TPNGTextureManager.CheckPNGError: boolean;
@@ -5361,8 +5401,8 @@ var
   pngerr: string;
 begin
   pngerr := png.IOresult;
-  result := pngerr = '';
-  if not result then
+  Result := pngerr = '';
+  if not Result then
     I_Warning('TPNGTextureManager(): ' + pngerr + #13#10);
 end;
 
@@ -5373,7 +5413,7 @@ begin
   FBitmap.SetTransparentColor2(RGBSwap(pngtransparentcolor));
   FBitmap.SetTransparentColor3(RGBSwap(pngtransparentcolor2));
   FBitmap.ScaleTo(png.Width, png.Height);
-  result := CheckPNGError;
+  Result := CheckPNGError;
 end;
 
 function T_IsCommonTransparentColor(c: LongWord): Boolean;
@@ -5398,7 +5438,7 @@ begin
     else if ca[i] = $FF then
       inc(xFF)
   end;
-  result := ((x00 + xFF) = 3) and (xFF > 1);
+  Result := ((x00 + xFF) = 3) and (xFF > 1);
 end;
 
 function TPNGTextureManager.LoadImage(stream: TStream): boolean;
@@ -5449,7 +5489,7 @@ begin
     FBitmap.SetTransparentColor2(0);
     FBitmap.SetTransparentColor3(0);
   end;
-  result := CheckPNGError;
+  Result := CheckPNGError;
 end;
 
 destructor TPNGTextureManager.Destroy;
@@ -5460,5 +5500,4 @@ begin
 end;
 
 end.
-
 

@@ -20,7 +20,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//    Ceiling aninmation (lowering, crushing, raising)
+//  Ceiling aninmation (lowering, crushing, raising)
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -61,6 +61,7 @@ uses
   p_mobj_h,
   p_tick,
   p_setup,
+  p_slopes,
   p_floor;
 
 //
@@ -362,6 +363,7 @@ begin
     ceiling.tag := sec.tag;
     ceiling._type := _type;
     P_AddActiveCeiling(ceiling);
+    P_DynamicSlope(sec);  // JVAL: Slopes
   end;
 end;
 

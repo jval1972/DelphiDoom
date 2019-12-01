@@ -150,7 +150,6 @@ begin
 end;
 
 initialization
-
   stack := TIntegerStack.Create;
   Randomize;
 

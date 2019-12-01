@@ -92,6 +92,9 @@ type
   PBytePArray = ^TBytePArray;
 
   float = single;
+  Pfloat = ^float;
+  TFloatArray = packed array[0..$7FFF] of float;
+  PFloatArray = ^TFloatArray;
 
 type
   charset_t = set of char;
@@ -149,6 +152,7 @@ function memmove(const destination, source: pointer; count: integer): pointer;
 procedure memcpy(const dest0: pointer; const src0: pointer; count0: integer);
 
 function memset(const dest0: pointer; const val: integer; const count0: integer): pointer;
+function memsetsi(const dest0: pointer; const val: smallint; count0: integer): pointer;
 function memseti(const dest0: pointer; const val: integer; const count0: integer): pointer;
 
 function malloc(const size: integer): Pointer;
@@ -311,9 +315,42 @@ type
     function Delete(const Index: integer): boolean;
     function IndexOf(const value: integer): integer;
     procedure Clear;
+    procedure Sort;
+    function Sum: integer;
     property Count: integer read fNumItems;
     property Numbers[Index: Integer]: integer read Get write Put; default;
     property List: PIntegerArray read fList;
+  end;
+
+  TDLimitNumberList = class(TDNumberList)
+  private
+    fLimit: integer;
+  public
+    constructor Create; override;
+    constructor CreateLimited(const v: Integer); virtual;
+    function Add(const value: integer): integer; overload; override;
+  end;
+
+  TDFloatList = class
+  private
+    fList: PFloatArray;
+    fNumItems: integer;
+  protected
+    function Get(Index: Integer): float; virtual;
+    procedure Put(Index: Integer; const value: float); virtual;
+  public
+    constructor Create; virtual;
+    destructor Destroy; override;
+    function Add(const value: float): integer; overload; virtual;
+    procedure Add(const nlist: TDFloatList); overload; virtual;
+    function Delete(const Index: integer): boolean;
+    function IndexOf(const value: float): integer;
+    procedure Clear;
+    procedure Sort;
+    function Sum: float;
+    property Count: integer read fNumItems;
+    property Floats[Index: Integer]: float read Get write Put; default;
+    property List: PFloatArray read fList;
   end;
 
 type
@@ -337,7 +374,7 @@ type
     function IndexOf(const value: string): integer;
     procedure Clear;
     property Count: integer read fNumItems;
-    property Numbers[Index: Integer]: string read Get write Put; default;
+    property Strings[Index: Integer]: string read Get write Put; default;
   end;
 
 
@@ -524,7 +561,13 @@ procedure CopyFile2(const FromN, ToN: string);
 
 function IsIntegerInRange(const test, f1, f2: integer): boolean;
 
+function IsLongWordInRange(const test, f1, f2: LongWord): boolean;
+
 function IsFloatInRange(const test, f1, f2: float): boolean;
+
+function IsDoubleInRange(const test, f1, f2: double): boolean;
+
+function IsExtendedInRange(const test, f1, f2: Extended): boolean;
 
 var
   mmxMachine: byte = 0;
@@ -536,11 +579,44 @@ type
       1: (bytes: array[0..7] of byte);
       2: (words: array[0..3] of word);
       3: (dwords: array[0..1] of LongWord);
+      4: (smallints: array[0..3] of word);
   end;
 
 function GetAllocMemSize: integer;
 
 function MkDir(const d: string): boolean;
+
+type
+  TString = class
+    str: string;
+    constructor Create(const astring: string);
+  end;
+
+  TInteger = class
+    intnum: integer;
+    constructor Create(const aint: integer);
+  end;
+
+  TFloat = class
+    floatnum: float;
+    constructor Create(const aflt: float);
+  end;
+
+function MinI(const a, b: integer): integer;
+
+function MaxI(const a, b: integer): integer;
+
+function NowTime: TDateTime;
+
+function formatDateTimeAsString(const Format: string; DateTime: TDateTime): string;
+
+procedure QSortIntegers(const A: PIntegerArray; const Len: integer);
+
+procedure QSortFloats(const A: PFloatArray; const Len: integer);
+
+function StrIsInteger(const s: string): Boolean;
+
+function StrIsFloat(const s: string): Boolean;
 
 implementation
 
@@ -610,7 +686,6 @@ function ftoa(f: single): string;
 begin
   result := FloatToStr(f);
 end;
-
 
 function atoi(const s: string): integer;
 var
@@ -1058,6 +1133,134 @@ begin
 {$ENDIF}
 end;
 
+function memsetsi(const dest0: pointer; const val: smallint; count0: integer): pointer;
+{$IFNDEF FPC}
+var
+  data: union_8b;
+  pdat: pointer;
+  dest: PByte;
+  count: integer;
+  i: integer;
+{$ENDIF}
+begin
+  {$IFNDEF FPC}
+  if mmxMachine = 0 then
+  begin
+  {$ENDIF}
+    for i := 0 to count0 - 1 do
+      PSmallIntArray(dest0)[i] := val;
+    result := dest0;
+    {$IFNDEF FPC}
+    exit;
+  end;
+
+  dest := PByte(dest0);
+  count := count0 * 2;
+
+  while (count > 0) and (integer(dest) and 7 <> 0) do
+  begin
+    PSmallInt(dest)^ := val;
+    inc(dest, 2);
+    dec(count, 2);
+  end;
+
+  if count = 0 then
+  begin
+    result := dest0;
+    exit;
+  end;
+
+  data.smallints[0] := val;
+  data.smallints[1] := data.smallints[0];
+  data.dwords[1] := data.dwords[0];
+  pdat := @data;
+
+  if count >= 64 then
+  begin
+    asm
+      push esi
+      push edi
+
+      mov edi, dest
+      mov esi, pdat
+
+      mov ecx, count
+      // 64 bytes per iteration
+      shr ecx, 6
+      // Read in source data
+      movq mm1, [esi]
+      movq mm2, mm1
+      movq mm3, mm1
+      movq mm4, mm1
+      movq mm5, mm1
+      movq mm6, mm1
+      movq mm7, mm1
+      movq mm0, mm1
+@@loop1:
+      movntq [edi], mm1
+      movntq [edi + 8], mm2
+      movntq [edi + 16], mm3
+      movntq [edi + 24], mm4
+      movntq [edi + 32], mm5
+      movntq [edi + 40], mm6
+      movntq [edi + 48], mm7
+      movntq [edi + 56], mm0
+
+      add edi, 64
+      dec ecx
+      jnz @@loop1
+
+      pop edi
+      pop esi
+    end;
+
+    inc(dest, count and (not 63));
+    count := count and 63;
+  end;
+
+  if count >= 8 then
+  begin
+    asm
+      push esi
+      push edi
+
+      mov edi, dest
+      mov esi, pdat
+
+      mov ecx, count
+      // 8 bytes per iteration
+      shr ecx, 3
+      // Read in source data
+      movq mm1, [esi]
+@@loop2:
+      movntq  [edi], mm1
+
+      add edi, 8
+      dec ecx
+      jnz @@loop2
+
+      pop edi
+      pop esi
+    end;
+    inc(dest, count and (not 7));
+    count := count and 7;
+  end;
+
+  while count > 0 do
+  begin
+    PSmallInt(dest)^ := val;
+    inc(dest, 2);
+    dec(count, 2);
+  end;
+
+  asm
+    emms
+  end;
+
+  result := dest0;
+{$ENDIF}
+end;
+
 function memseti(const dest0: pointer; const val: integer; const count0: integer): pointer;
 var
   data: union_8b;
@@ -1085,7 +1288,7 @@ begin
     exit;
   end;
 
-  if count = 0 then
+  if count <= 0 then
   begin
     result := dest0;
     exit;
@@ -1683,6 +1886,144 @@ begin
   fNumItems := 0;
 end;
 
+procedure TDNumberList.Sort;
+begin
+  QSortIntegers(fList, fNumItems);
+end;
+
+function TDNumberList.Sum: integer;
+var
+  i: integer;
+begin
+  result := 0;
+  for i := 0 to fNumItems - 1 do
+    result := result + fList[i];
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// TDLimitNumberList
+constructor TDLimitNumberList.Create;
+begin
+  inherited Create;
+  fLimit := MAXINT;
+end;
+
+constructor TDLimitNumberList.CreateLimited(const v: Integer);
+begin
+  inherited Create;
+  if v > 0 then // ?
+    fLimit := v;
+end;
+
+function TDLimitNumberList.Add(const value: integer): integer;
+var
+  i: integer;
+begin
+  if Count >= fLimit then
+  begin
+    for i := 1 to Count - 1 do
+      Numbers[i - 1] := Numbers[i];
+    Numbers[Count - 1] := value;
+    Result := Count - 1;
+  end
+  else
+    Result := inherited Add(value);
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// TDFloatList
+constructor TDFloatList.Create;
+begin
+  fList := nil;
+  fNumItems := 0;
+end;
+
+destructor TDFloatList.Destroy;
+begin
+  Clear;
+end;
+
+function TDFloatList.Get(Index: Integer): float;
+begin
+  if (Index < 0) or (Index >= fNumItems) then
+    result := 0
+  else
+    result := fList[Index];
+end;
+
+procedure TDFloatList.Put(Index: Integer; const value: float);
+begin
+  fList[Index] := value;
+end;
+
+function TDFloatList.Add(const value: float): integer;
+begin
+  realloc(pointer(fList), fNumItems * SizeOf(float), (fNumItems + 1) * SizeOf(float));
+  Put(fNumItems, value);
+  result := fNumItems;
+  inc(fNumItems);
+end;
+
+procedure TDFloatList.Add(const nlist: TDFloatList);
+var
+  i: integer;
+begin
+  for i := 0 to nlist.Count - 1 do
+    Add(nlist[i]);
+end;
+
+function TDFloatList.Delete(const Index: integer): boolean;
+var
+  i: integer;
+begin
+  if (Index < 0) or (Index >= fNumItems) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  for i := Index + 1 to fNumItems - 1 do
+    fList[i - 1] := fList[i];
+
+  realloc(pointer(fList), fNumItems * SizeOf(float), (fNumItems - 1) * SizeOf(float));
+  dec(fNumItems);
+
+  result := true;
+end;
+
+function TDFloatList.IndexOf(const value: float): integer;
+var
+  i: integer;
+begin
+  for i := 0 to fNumItems - 1 do
+    if fList[i] = value then
+    begin
+      result := i;
+      exit;
+    end;
+  result := -1;
+end;
+
+procedure TDFloatList.Clear;
+begin
+  realloc(pointer(fList), fNumItems * SizeOf(float), 0);
+  fList := nil;
+  fNumItems := 0;
+end;
+
+procedure TDFloatList.Sort;
+begin
+  QSortFloats(fList, fNumItems);
+end;
+
+function TDFloatList.Sum: float;
+var
+  i: integer;
+begin
+  result := 0.0;
+  for i := 0 to fNumItems - 1 do
+    result := result + fList[i];
+end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TDTextList
@@ -1805,8 +2146,11 @@ var
 begin
   result := false;
   iCount := GetCount;
-  if iCount <> Strings.GetCount then Exit;
-  for I := 0 to iCount - 1 do if Get(I) <> Strings.Get(I) then Exit;
+  if iCount <> Strings.GetCount then
+    Exit;
+  for I := 0 to iCount - 1 do
+    if Get(I) <> Strings.Get(I) then
+      Exit;
   result := true;
 end;
 
@@ -1921,7 +2265,8 @@ end;
 function TDStrings.IndexOf(const S: string): Integer;
 begin
   for result := 0 to GetCount - 1 do
-    if AnsiCompareText(Get(result), S) = 0 then Exit;
+    if AnsiCompareText(Get(result), S) = 0 then
+      Exit;
   result := -1;
 end;
 
@@ -1934,7 +2279,8 @@ begin
   begin
     S := Get(result);
     P := AnsiPos('=', S);
-    if (P <> 0) and (AnsiCompareText(Copy(S, 1, P - 1), Name) = 0) then Exit;
+    if (P <> 0) and (AnsiCompareText(Copy(S, 1, P - 1), Name) = 0) then
+      Exit;
   end;
   result := -1;
 end;
@@ -1942,7 +2288,8 @@ end;
 function TDStrings.IndexOfObject(AObject: TObject): Integer;
 begin
   for result := 0 to GetCount - 1 do
-    if GetObject(result) = AObject then Exit;
+    if GetObject(result) = AObject then
+      Exit;
   result := -1;
 end;
 
@@ -2120,7 +2467,8 @@ begin
   begin
     if I < 0 then I := Add('');
     Put(I, Name + '=' + Value);
-  end else
+  end
+  else
   begin
     if I >= 0 then Delete(I);
   end;
@@ -2131,7 +2479,8 @@ end;
 destructor TDStringList.Destroy;
 begin
   inherited Destroy;
-  if FCount <> 0 then Finalize(FList[0], FCount);
+  if FCount <> 0 then
+    Finalize(FList[0], FCount);
   FCount := 0;
   SetCapacity(0);
 end;
@@ -2166,8 +2515,10 @@ end;
 
 procedure TDStringList.Exchange(Index1, Index2: Integer);
 begin
-  if (Index1 < 0) or (Index1 >= FCount) then exit;
-  if (Index2 < 0) or (Index2 >= FCount) then exit;
+  if (Index1 < 0) or (Index1 >= FCount) then
+    exit;
+  if (Index2 < 0) or (Index2 >= FCount) then
+    exit;
   ExchangeItems(Index1, Index2);
 end;
 
@@ -2358,7 +2709,7 @@ end;
 
 function tan(const x: extended): extended;
 var
-  a: single;        
+  a: single;
   b: single;
 begin
   b := cos(x);
@@ -2699,7 +3050,9 @@ begin
   L := len;
   I := 1;
   while (I <= L) and (S[I] <= ' ') do inc(I);
-  if I > L then result := '' else
+  if I > L then
+    result := ''
+  else
   begin
     while S[L] <= ' ' do dec(L);
     if (I = 1) and (L = len) then
@@ -2980,7 +3333,31 @@ begin
     result := (test >= f2) and (test <= f1)
 end;
 
+function IsLongWordInRange(const test, f1, f2: LongWord): boolean;
+begin
+  if f1 < f2 then
+    result := (test >= f1) and (test <= f2)
+  else
+    result := (test >= f2) and (test <= f1)
+end;
+
 function IsFloatInRange(const test, f1, f2: float): boolean;
+begin
+  if f1 < f2 then
+    result := (test >= f1) and (test <= f2)
+  else
+    result := (test >= f2) and (test <= f1)
+end;
+
+function IsDoubleInRange(const test, f1, f2: double): boolean;
+begin
+  if f1 < f2 then
+    result := (test >= f1) and (test <= f2)
+  else
+    result := (test >= f2) and (test <= f1)
+end;
+
+function IsExtendedInRange(const test, f1, f2: Extended): boolean;
 begin
   if f1 < f2 then
     result := (test >= f1) and (test <= f2)
@@ -3023,6 +3400,167 @@ begin
       result := ForceDirectories(d);
   except
     result := false;
+  end;
+end;
+
+constructor TString.Create(const astring: string);
+begin
+  str := astring;
+end;
+
+constructor TInteger.Create(const aint: integer);
+begin
+  intnum := aint;
+end;
+
+constructor TFloat.Create(const aflt: float);
+begin
+  floatnum := aflt;
+end;
+
+function MinI(const a, b: integer): integer;
+begin
+  if a > b then
+    result := b
+  else
+    result := a;
+end;
+
+function MaxI(const a, b: integer): integer;
+begin
+  if a > b then
+    result := a
+  else
+    result := b;
+end;
+
+function NowTime: TDateTime;
+begin
+  result := Now;
+end;
+
+function formatDateTimeAsString(const Format: string; DateTime: TDateTime): string;
+begin
+  DateTimeToString(Result, Format, DateTime);
+end;
+
+procedure QSortIntegers(const A: PIntegerArray; const Len: integer);
+
+  procedure qsortI(l, r: Integer);
+  var
+    i, j: integer;
+    t: integer;
+    d: integer;
+  begin
+    repeat
+      i := l;
+      j := r;
+      d := A[(l + r) shr 1];
+      repeat
+        while A[i] < d do
+          inc(i);
+        while A[j] > d do
+          dec(j);
+        if i <= j then
+        begin
+          t := A[i];
+          A[i] := A[j];
+          A[j] := t;
+          inc(i);
+          dec(j);
+        end;
+      until i > j;
+      if l < j then
+        qsortI(l, j);
+      l := i;
+    until i >= r;
+  end;
+
+begin
+  if Len > 0 then
+    qsortI(0, Len - 1);
+end;
+
+procedure QSortFloats(const A: PFloatArray; const Len: integer);
+
+  procedure qsortF(l, r: Integer);
+  var
+    i, j: integer;
+    t: float;
+    f: float;
+  begin
+    repeat
+      i := l;
+      j := r;
+      f := A[(l + r) shr 1];
+      repeat
+        while A[i] < f do
+          inc(i);
+        while A[j] > f do
+          dec(j);
+        if i <= j then
+        begin
+          t := A[i];
+          A[i] := A[j];
+          A[j] := t;
+          inc(i);
+          dec(j);
+        end;
+      until i > j;
+      if l < j then
+        qsortF(l, j);
+      l := i;
+    until i >= r;
+  end;
+
+begin
+  if Len > 0 then
+    qsortF(0, Len - 1);
+end;
+
+function StrIsInteger(const s: string): Boolean;
+var
+  i: integer;
+begin
+  Result := False;
+  for i := 1 to Length(s) do
+  begin
+    if s[i] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] then
+      Result := True
+    else
+    begin
+      Result := False;
+      Exit;
+    end;
+  end;
+end;
+
+function StrIsFloat(const s: string): Boolean;
+var
+  i: integer;
+  dot: Boolean;
+begin
+  Result := False;
+  dot := False;
+  for i := 1 to Length(s) do
+  begin
+    if s[i] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] then
+      Result := True
+    else if s[i] in ['.', ',', DecimalSeparator] then
+    begin
+      if dot then
+      begin
+        Result := False;
+        Exit;
+      end
+      else
+        dot := True;
+    end
+    else
+    begin
+      Result := False;
+      Exit;
+    end;
   end;
 end;
 

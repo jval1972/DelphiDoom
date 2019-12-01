@@ -60,6 +60,14 @@ type
   GLuintArray = array[0..$FFFF] of GLuint;
   PGLuintArray = ^GLuintArray;
 
+  GLVertexUV = record
+    x: TGLfloat;
+    y: TGLfloat;
+    z: TGLfloat;
+    u: TGLfloat;
+    v: TGLfloat;
+  end;
+
 function MakeGLVertex(const x, y, z: single): GLVertex;
 
 implementation

@@ -67,9 +67,13 @@ procedure M_SaveMoveHereToMap;
 
 procedure M_ReadMisObj;
 
+procedure M_ReadWorldVars;
+
 procedure M_SaveMoveMapToHere;
 
 procedure M_SaveMisObj(const path: string);
+
+procedure M_SaveWorldVars(const path: string);
 
 procedure M_CreateSaveDirs(const savedir: string);
 
@@ -83,6 +87,7 @@ uses
   d_delphi,
   i_system,
   p_dialog,
+  p_saveg,
   m_argv,
   g_game;
 
@@ -313,14 +318,19 @@ end;
 procedure M_SaveMisObj(const path: string);
 var
  destpath: string;
- l: TDSTringList;
+ l: TDStringList;
 begin
   // haleyjd 20110210: use M_SafeFilePath, not sprintf
   destpath := M_SafeFilePath(path, 'mis_obj');
-  l := TDSTringList.Create;
+  l := TDStringList.Create;
   l.Text := mission_objective;
   l.SaveToFile(destpath);
   l.Free;
+end;
+
+procedure M_SaveWorldVars(const path: string);
+begin
+  P_ArchiveWorldVariables(M_SafeFilePath(path, 'world_vars'));
 end;
 
 //
@@ -331,7 +341,7 @@ end;
 procedure M_ReadMisObj;
 var
   srcpath: string;
-  l: TDSTringList;
+  l: TDStringList;
 begin
   // haleyjd: use M_SafeFilePath, not sprintf
   srcpath := M_SafeFilePath(savepathtemp, 'mis_obj');
@@ -341,6 +351,11 @@ begin
     I_Warning('M_ReadMisObj(): Can not load mission objective');
   mission_objective := l.Text;
   l.Free;
+end;
+
+procedure M_ReadWorldVars;
+begin
+  P_UnarchiveWorldVariables(M_SafeFilePath(savepathtemp, 'world_vars'));
 end;
 
 //

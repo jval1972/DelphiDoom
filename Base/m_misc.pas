@@ -39,7 +39,9 @@ interface
 // MISC 
 //
 
-function M_WriteFile(const name: string; source: pointer; length: integer): boolean;
+function M_WriteFile(const name: string; source: pointer; len: integer): boolean;
+
+function M_AppendFile(const name: string; source: pointer; len: integer): integer;
 
 function M_ReadFile(const name: string; var buffer: Pointer): integer;
 
@@ -76,8 +78,10 @@ uses
   d_player,
   g_game,
   m_argv,
+  m_base,
   m_defs,
   i_system,
+  m_sshot_jpg,
 {$IFDEF OPENGL}
   gl_main,
 {$ELSE}
@@ -85,21 +89,45 @@ uses
 {$ENDIF}
   z_zone;
 
-function M_WriteFile(const name: string; source: pointer; length: integer): boolean;
+function M_WriteFile(const name: string; source: pointer; len: integer): boolean;
 var
   handle: file;
   count: integer;
 begin
   if not fopen(handle, name, fCreate) then
   begin
-    result := false;
+    Result := false;
     exit;
   end;
 
-  BlockWrite(handle, source^, length, count);
+  BlockWrite(handle, source^, len, count);
   close(handle);
 
-  result := count > 0;
+  Result := count > 0;
+end;
+
+function M_AppendFile(const name: string; source: pointer; len: integer): integer;
+var
+  handle: TFile;
+begin
+  if not fexists(name) then
+  begin
+    if M_WriteFile(name, source, len) then
+      Result := len
+    else
+      Result := 0;
+    exit;
+  end;
+
+  if len > 0 then
+  begin
+    handle := TFile.Create(name, fOpenReadWrite);
+    handle.Seek(handle.Size, sFromBeginning);
+    Result := handle.Write(source^, len);
+    handle.Free;
+  end
+  else
+    Result := 0;
 end;
 
 function M_ReadFile(const name: string; var buffer: Pointer): integer;
@@ -110,14 +138,14 @@ begin
   if not fopen(handle, name, fOpenReadOnly) then
     I_Error('M_ReadFile(): Could not read file %s', [name]);
 
-  result := FileSize(handle);
+  Result := FileSize(handle);
   // JVAL
   // If Z_Malloc changed to malloc() a lot of changes must be made....
-  buffer := Z_Malloc(result, PU_STATIC, nil);
-  BlockRead(handle, buffer^, result, count);
+  buffer := Z_Malloc(Result, PU_STATIC, nil);
+  BlockRead(handle, buffer^, Result, count);
   close(handle);
 
-  if count < result then
+  if count < Result then
     I_Error('M_ReadFile(): Could not read file %s', [name]);
 end;
 
@@ -139,51 +167,60 @@ const
 procedure M_ScreenShot(const filename: string = ''; const silent: boolean = false);
 var
   tganame: string;
-  i: integer;
-  h: integer;
-  len: integer;
+  basetganame: string;
+  jpgname: string;
+  l: integer;
   ret: boolean;
+  dir: string;
+  date: TDateTime;
+  dfmt: string;
 begin
+  dir := M_SaveFileName('DATA');
+  MkDir(dir);
+  MkDir(dir + '\SCREENSHOTS');
+  MkDir(dir + '\SCREENSHOTS\TGA');
+  MkDir(dir + '\SCREENSHOTS\JPG');
   if filename = '' then
   begin
-    tganame := M_SaveFileName(
-                        {$IFDEF DOOM}'DOOM000.tga'{$ENDIF}
-                        {$IFDEF HERETIC}'HTIC000.tga'{$ENDIF}
-                        {$IFDEF HEXEN}'HEXN000.tga'{$ENDIF}
-                        {$IFDEF STRIFE}'STRIF000.tga'{$ENDIF}
-                      );
-//
-// find a file name to save it to
-//
+    basetganame := 'SSHOT_' + _GAME + '_';
 
-    len := length(tganame);
-    i := 0;
-    while i <= 999 do
-    begin
-      h := i div 100;
-      tganame[len - 6] := Chr(h + Ord('0'));
-      h := i mod 100;
-      tganame[len - 5] := Chr((h div 10) + Ord('0'));
-      tganame[len - 4] := Chr((h mod 10) + Ord('0'));
-      if not fexists(tganame) then
-        break;  // file doesn't exist
-      inc(i);
-    end;
-    if i = 1000 then
-    begin
-      players[consoleplayer]._message := MSG_ERR_SCREENSHOT;
-      exit;
-    end;
+    tganame := M_SaveFileName('DATA\SCREENSHOTS\TGA\' + basetganame);
+    jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + basetganame);
+    date := NowTime;
+    dfmt := formatDateTimeAsString('yyyymmdd', date) + '_' + formatDateTimeAsString('hhnnsszzz', date);
+    tganame := tganame + dfmt + '.tga';
+    jpgname := jpgname + dfmt + '.jpg';
+
   end
   else
   begin
-    if Pos('.', filename) = 0 then
-      tganame := filename + '.tga'
+    if strupper(fext(filename)) <> '.TGA' then
+    begin
+      tganame := filename + '.tga';
+      jpgname := filename + '.jpg';
+    end
     else
+    begin
       tganame := filename;
+      jpgname := tganame;
+      l := Length(jpgname);
+      jpgname[l - 2] := 'j';
+      jpgname[l - 1] := 'p';
+      jpgname[l] := 'g';
+    end;
+    if Pos('/', tganame) = 0 then
+      if Pos('\', tganame) = 0 then
+        tganame := M_SaveFileName('DATA\SCREENSHOTS\TGA\' + tganame);
+    if Pos('/', jpgname) = 0 then
+      if Pos('\', jpgname) = 0 then
+        jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + jpgname);
   end;
 
   ret := M_DoScreenShot(tganame);
+
+  if ret and mirrorjpgsshot then
+    TGAtoJPG(tganame, jpgname);
+
   if not silent then
   begin
     if ret then
@@ -214,7 +251,7 @@ begin
 
   I_ReadScreen32(src);
 
-  result := M_WriteFile(filename, buffer, SCREENWIDTH * SCREENHEIGHT * 4 + 18);
+  Result := M_WriteFile(filename, buffer, SCREENWIDTH * SCREENHEIGHT * 4 + 18);
 
   memfree(pointer(buffer), bufsize);
 end;

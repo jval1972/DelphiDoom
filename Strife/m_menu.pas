@@ -204,6 +204,7 @@ uses
   i_video,
   r_batchcolumn,
   r_scale,
+  r_slopes, // JVAL: Slopes
 {$ENDIF}
   i_mp3,
   i_sound,
@@ -217,6 +218,7 @@ uses
 {$IFNDEF OPENGL}
   r_fake3d,
 {$ENDIF}
+  r_camera,
   r_draw,
   t_main,
   v_data,
@@ -747,6 +749,7 @@ type
     od_optimizedcolumnrendering,
     od_optimizedthingsrendering,
     od_precisescalefromglobalangle,
+    od_preciseslopedrawing, // JVAL: Slopes
 {$ENDIF}
     od_widescreensupport,
     od_excludewidescreenplayersprites,
@@ -2474,6 +2477,7 @@ begin
   //  like five episodes extended version.
 
   C_AddCmd('exit, quit', @M_CmdQuit);
+  C_AddCmd('halt', @I_Quit);
   C_AddCmd('set', @Cmd_Set);
   C_AddCmd('get', @Cmd_Get);
   C_AddCmd('typeof', @Cmd_TypeOf);
@@ -3045,6 +3049,15 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @precisescalefromglobalangle;
   pmi.alphaKey := 'p';
+
+  // JVAL: Slopes
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Precise but slow slope drawing';
+  pmi.cmd := 'preciseslopedrawing';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @preciseslopedrawing;
+  pmi.alphaKey := 's';
 
 {$ENDIF}
 

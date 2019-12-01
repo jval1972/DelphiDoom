@@ -19,9 +19,9 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
-//  Play functions, animation, global header. 
-// 
+// DESCRIPTION:
+//  Play functions, animation, global header.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -105,8 +105,8 @@ type
     end;
 
   intercept_t = record
-    frac : fixed_t; // along trace line
-    isaline : boolean;
+    frac: fixed_t; // along trace line
+    isaline: boolean;
     d: thingORline_t;
   end;
   Pintercept_t = ^intercept_t;

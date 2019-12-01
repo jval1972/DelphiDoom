@@ -21,10 +21,10 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
+// DESCRIPTION:
 //  Internally used data structures for virtually everything, 
-//   key definitions, lots of other stuff. 
-// 
+//  key definitions, lots of other stuff. 
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -43,7 +43,6 @@ uses
 //
 // Global parameters/defines.
 //
-
 // Heretic version
 const
   VERSION110 = 110;
@@ -51,7 +50,9 @@ const
   VERSION112 = 112;
   VERSION113 = 113;
   VERSION114 = 114;
-  VERSION = VERSION114;
+  VERSION115 = 115;
+  VERSION = VERSION115;
+  VERSIONSLOPES = VERSION115;
 
 type
 // Game mode handling - identify IWAD version
@@ -91,6 +92,7 @@ var
   WINDOWWIDTH: integer;
   WINDOWHEIGHT: integer;
 {$ENDIF}
+
   SCREENWIDTH32PITCH: integer;
 
   fullscreen: boolean = true;
@@ -133,6 +135,8 @@ const
 
 // Deaf monsters/do not react to sound.
   MTF_AMBUSH = 8;
+  MTF_ONMIDSECTOR = 32;
+  MTF_DONOTTRIGGERSCRIPTS = 64;
 
 type
   skill_t = (
@@ -329,6 +333,4 @@ const
 implementation
 
 end.
-
-
 

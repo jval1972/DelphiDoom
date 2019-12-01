@@ -60,7 +60,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 225;
+  DEHNUMACTIONS = 236;
 
 type
   deh_action_t = record
@@ -118,7 +118,8 @@ uses
   g_game,
   hu_stuff,
   i_system,
-  info_h, info,
+  info_h,
+  info,
   m_argv,
   p_mobj,
   p_mobj_h,
@@ -127,6 +128,7 @@ uses
   p_common,
   p_pspr,
   p_inter,
+  ps_main,
   sounds,
   sc_params,
   v_data,
@@ -1825,6 +1827,9 @@ begin
   mobj_flags2_ex.Add('MF2_EX_DONTINFIGHTMONSTERS');
   mobj_flags2_ex.Add('MF2_EX_FRIGHTENED');
   mobj_flags2_ex.Add('MF2_EX_NODAMAGE');
+  mobj_flags2_ex.Add('MF2_EX_DONTRUNSCRIPTS');
+  mobj_flags2_ex.Add('MF2_EX_PRECISESPAWNANGLE');
+  mobj_flags2_ex.Add('MF2_EX_CUSTOMDROPITEM');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite
@@ -1834,6 +1839,7 @@ begin
   state_tokens.Add('CODEP FRAME');      // .action
   state_tokens.Add('UNKNOWN 1');        // .misc1
   state_tokens.Add('UNKNOWN 2');        // .misc2
+  state_tokens.Add('FLAGS_EX');         // jval: unused since in strife we do not have flags_ex field in state_t
 
   deh_actions[0].action.acp1 := nil;
   deh_actions[0].name := 'NULL';
@@ -2285,6 +2291,28 @@ begin
   deh_actions[223].name := strupper('SetNoDamage');
   deh_actions[224].action.acp1 := @A_UnSetNoDamage;
   deh_actions[224].name := strupper('UnSetNoDamage');
+  deh_actions[225].action.acp1 := @A_RunScript;
+  deh_actions[225].name := strupper('RunScript');
+  deh_actions[226].action.acp1 := @A_GhostOn;
+  deh_actions[226].name := strupper('GhostOn');
+  deh_actions[227].action.acp1 := @A_GhostOff;
+  deh_actions[227].name := strupper('GhostOff');
+  deh_actions[228].action.acp1 := @A_Blocking;
+  deh_actions[228].name := strupper('Blocking');
+  deh_actions[229].action.acp1 := @A_DoNotRunScripts;
+  deh_actions[229].name := strupper('DoNotRunScripts');
+  deh_actions[230].action.acp1 := @A_DoRunScripts;
+  deh_actions[230].name := strupper('DoRunScripts');
+  deh_actions[231].action.acp1 := @A_TargetDropItem;
+  deh_actions[231].name := strupper('TargetDropItem');
+  deh_actions[232].action.acp1 := @A_DefaultTargetDropItem;
+  deh_actions[232].name := strupper('DefaultTargetDropItem');
+  deh_actions[233].action.acp1 := @A_SetDropItem;
+  deh_actions[233].name := strupper('SetDropItem');
+  deh_actions[234].action.acp1 := @A_SetDefaultDropItem;
+  deh_actions[234].name := strupper('SetDefaultDropItem');
+  deh_actions[235].action.acp1 := @A_GlobalEarthQuake;
+  deh_actions[235].name := strupper('GlobalEarthQuake');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

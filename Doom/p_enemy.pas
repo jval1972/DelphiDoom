@@ -19,10 +19,10 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//   Enemy thinking, AI.
-//   Action Pointer Functions
-//   that are associated with states/frames.
+// DESCRIPTION:
+//  Enemy thinking, AI.
+//  Action Pointer Functions
+//  that are associated with states/frames.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -36,7 +36,12 @@ unit p_enemy;
 interface
 
 uses
-  doomdef, p_local, p_mobj_h, s_sound, d_player, p_pspr_h,
+  doomdef,
+  p_local,
+  p_mobj_h,
+  s_sound,
+  d_player,
+  p_pspr_h,
 // State.
   doomstat,
 // Data.
@@ -150,7 +155,6 @@ procedure A_SpawnSound(mo: Pmobj_t);
 
 procedure A_PlayerScream(mo: Pmobj_t);
 
-
 procedure P_DoChase(actor: Pmobj_t; const fast: boolean);
 
 procedure P_NoiseAlert(target: Pmobj_t; emmiter: Pmobj_t);
@@ -186,15 +190,33 @@ implementation
 uses
   d_delphi,
   doomdata,
-  d_think, d_main,
+  d_think,
+  d_main,
   g_game,
-  m_fixed, tables,
+  m_fixed,
+  tables,
   i_system,
-  info_h, info,
+  info_h,
+  info,
   m_rnd,
-  p_map, p_maputl, p_setup, p_sight, p_switch, p_tick, p_mobj, p_doors, p_spec,
-  p_inter, p_floor, p_pspr, p_extra, p_sounds,
-  r_defs, r_main;
+  p_map,
+  p_maputl,
+  p_setup,
+  p_sight,
+  p_switch,
+  p_tick,
+  p_mobj,
+  p_doors,
+  p_spec,
+  p_inter,
+  p_floor,
+  p_pspr,
+  p_extra,
+  p_common,
+  p_sounds,
+  ps_main,
+  r_defs,
+  r_main;
 
 const
   opposite: array[0..8] of dirtype_t = (
@@ -254,7 +276,7 @@ begin
     if (check.flags and ML_TWOSIDED) = 0 then
       continue;
 
-    P_LineOpening(check);
+    P_LineOpening(check, false);
 
     if openrange <= 0 then
       continue; // closed door
@@ -446,6 +468,11 @@ begin
     begin
       dec(numspechit);
       ld := spechit[numspechit];
+
+      if ld.flags and ML_TRIGGERSCRIPTS <> 0 then
+        if actor.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
+          PS_EventUseLine(actor, pDiff(ld, lines, SizeOf(line_t)), P_PointOnLineSide(actor.x, actor.y, ld));
+
       // if the special is not a door
       // that can be opened,
       // return false
@@ -2212,7 +2239,6 @@ procedure A_PlayerScream(mo: Pmobj_t);
 var
   sound: integer;
 begin
-
   if (gamemode = commercial) and (mo.health < -50) then
   begin
     // IF THE PLAYER DIES

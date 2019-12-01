@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -62,10 +62,12 @@ implementation
 
 uses
   d_delphi,
+  i_system,
   m_fixed,
   p_mobj_h,
   p_tick,
   p_setup,
+  p_slopes,
   p_floor;
 
 //
@@ -81,6 +83,7 @@ begin
       activeceilings[i] := c;
       exit;
     end;
+  I_Warning('P_AddActiveCeiling(): Can not add ceiling, limit %d reached'#13#10, [MAXCEILINGS]);
 end;
 
 //
@@ -279,6 +282,7 @@ begin
     ceiling.tag := sec.tag;
     ceiling._type := _type;
     P_AddActiveCeiling(ceiling);
+    P_DynamicSlope(sec);  // JVAL: Slopes
   end;
 end;
 

@@ -34,6 +34,7 @@ unit p_telept;
 interface
 
 uses
+  m_fixed,
   p_mobj_h,
   r_defs;
 
@@ -46,6 +47,9 @@ function EV_SilentTeleport(line: Pline_t; side: integer; thing: Pmobj_t): intege
 
 function EV_SilentLineTeleport(line: Pline_t; side: integer; thing: Pmobj_t; reverse: boolean): integer;
 
+const
+  TELEPORTZOOM = 15 * FRACUNIT;
+
 implementation
 
 uses
@@ -55,8 +59,8 @@ uses
   d_think,
   d_player,
   info_h,
-  m_fixed,
   g_game,
+  p_3dfloors,
   p_setup,
   p_tick,
   p_mobj,
@@ -82,6 +86,7 @@ var
   oldx: fixed_t;
   oldy: fixed_t;
   oldz: fixed_t;
+  dz: fixed_t; // JVAL: 3d Floors
 begin
   // don't teleport missiles
   if thing.flags and MF_MISSILE <> 0 then
@@ -141,6 +146,7 @@ begin
         oldx := thing.x;
         oldy := thing.y;
         oldz := thing.z;
+        dz := oldz - thing.floorz;
 
         if not P_TeleportMove(thing, m.x, m.y) then
         begin
@@ -156,7 +162,15 @@ begin
 
         if (gameversion < exe_final) or (gameversion = exe_chex) or (G_PlayingEngineVersion in [VERSION111..VERSION118]) then
           thing.z := thing.floorz;  //fixme: not needed?
-          
+
+        // JVAL: 3d Floors
+        if (G_PlayingEngineVersion >= VERSION122) and (P_3dFloorNumber(m) > 0) then
+        begin
+          thing.floorz := m.floorz;
+          thing.ceilingz := m.ceilingz;
+          thing.z := thing.floorz + dz;
+        end;
+
         p := Pplayer_t(thing.player);
         if p <> nil then
         begin
@@ -181,7 +195,10 @@ begin
 
         // don't move for a bit
         if thing.player <> nil then
+        begin
           thing.reactiontime := 18;
+          Pplayer_t(thing.player).teleporttics := TELEPORTZOOM;
+        end;
 
         thing.angle := m.angle;
         thing.momx := 0;

@@ -33,17 +33,18 @@ unit r_debug;
 
 interface
 
+{$IFDEF DEBUG}
 uses
   d_delphi,
   r_defs;
 
-{$IFDEF DEBUG}
 procedure R_DebugCheckVisPlane(const pl: Pvisplane_t);
 procedure R_CheckClipTable(const tbl: PSmallIntArray; const a1, a2: integer);
 procedure R_CheckClipItem(const x: PSmallInt);
 {$ENDIF}
 
 implementation
+
 {$IFDEF DEBUG}
 uses
   i_system,

@@ -1,0 +1,210 @@
+DelphiDoom now supports advanced scripting mechanism inside ACTORDEF lumps.
+The core of the scripting mechanism is based on RemObjects PascalScript. (http://www.remobjects.com/ps.aspx)
+
+Scripts can be mobj scripts (internal, external and precompiled) or map scripts.
+
+----------------------------------------------------------------------
+Internal script example: We write these lines inside an ACTORDEF lump: 
+----------------------------------------------------------------------
+script sc001;
+begin
+  ConsoleCommand('writeln sc001');
+end.
+endscript;
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Precompiled script example: We write these lines inside an ACTORDEF lump: 
+----------------------------------------------------------------------
+compiled script sc002 "externalscript.ddout"
+(or)
+precompiled script sc002 "externalscript.ddout"
+----------------------------------------------------------------------
+A file named externalscript.ddout must be loaded inside an external pk3/zip file.
+externalscript.ddout file contains the precompiled code for script sc002. 
+The *.ddout files can be produce with the DD_IDE (Windows Application) or ddc (command line) utilities. You can also compile scripts with the compile, compilescript & pscomp console commands of DelphiDoom.
+Note: compiled & precompiled keywords means the same for the ACTORDEF parser.
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+External script example: We write these lines inside an ACTORDEF lump: 
+----------------------------------------------------------------------
+external script sc003 "externalscript.ddscipt"
+----------------------------------------------------------------------
+A file named externalscript.ddscipt must be loaded inside an external pk3/zip file.
+externalscript.ddscipt file contains the source code for script sc003.
+----------------------------------------------------------------------
+
+----------------------------------------------------------------------
+Map script example: We write these lines inside an ACTORDEF lump (assumiong we define the MAP01 script): 
+----------------------------------------------------------------------
+script map01;
+
+uses
+  all;
+
+event OnPlayerEnter(const playerNO: integer);
+begin
+// Executes the first time a player spawns to the map, just after OnMapStart Event
+  if playerNO <> ConsolePlayer then
+    Exit;
+  Overlay.DrawText(5 * TICRATE, 'Hello World', alLeft, 0, 160);
+end;
+
+endscript;
+----------------------------------------------------------------------
+
+Calling Mobj Scripts:
+
+We use the A_RunScript mobj function for mobj scripts. 
+A_RunScript takes 1 or more parameters with the script(s) to run.
+
+actor MISSION_THINKER1 21091
+{
+    Health 10000
+    Radius 128
+    Height 128
+    Speed 0
+    Mass 1000
+    DONTDRAW
+    States
+    {
+    Spawn:
+        TNT1 A 1 A_RunScript(sc001)
+        Loop
+    }
+}
+
+actor MISSION_THINKER2 21092
+{
+    Health 10000
+    Radius 128
+    Height 128
+    Speed 0
+    Mass 1000
+    DONTDRAW
+    States
+    {
+    Spawn:
+        TNT1 A 1 A_RunScript(sc002)
+        Loop
+    }
+}
+
+actor MISSION_THINKER3 21093
+{
+    Health 10000
+    Radius 128
+    Height 128
+    Speed 0
+    Mass 1000
+    DONTDRAW
+    States
+    {
+    Spawn:
+        TNT1 A 1 A_RunScript(sc003)
+        Loop
+    }
+}
+
+----------------------------------------------------------------------
+Calling MAP Scripts:
+
+The engine will automatically call the events defined inside the MAP script.
+
+//Base example for currently supported events:
+
+uses
+  all;
+
+var
+  NUMENEMIES: integer;
+  
+event OnPlayerEnter(const playerNO: integer);
+begin
+// Executes the first time a player spawns to the map, just after OnMapStart Event
+  ConsoleCommand('writeln Player "' + IntToStr(playerNO) + '" spawned at tick ' + IntToStr(LevelTime));
+end;
+
+event OnPlayerDied(const playerNO: integer; const killer: LongWord);
+begin
+// Executes every time a player dies, before OnActorDied event 
+  ConsoleCommand('writeln Player "' + IntToStr(playerNO) + '" died at tick ' + IntToStr(LevelTime));
+end;
+
+event OnTick(const tick: Integer);
+var
+  x: integer;
+begin             
+// Executes in every tick (35 times/second), after running all thinkers
+  x := GetArrayLength(Actors.AllMonstersAlive);
+  if x <> NUMENEMIES then
+  begin
+    ConsoleCommand('writeln ' + IntToStr(x) + ' enemies alive');   
+    NUMENEMIES := x;
+  end;
+end;
+
+event OnTimerEverySecond(const second: Integer);
+begin
+// Executes every second (35 ticks), after OnTick Event
+  if second mod 10 = 0 then
+    ConsoleCommand('writeln second=' + IntToStr(second));
+end;
+
+event OnTimerEveryMinute(const minute: integer);
+begin
+// Executes every minute (35 * 60 ticks), after OnTimerEverySecond Event
+  ConsoleCommand('writeln minute=' + IntToStr(minute));
+end;
+
+event OnActorDied(const actorKEY: LongWord; const killer: LongWord);
+begin
+// Executes every time an actor dies, before dropping the dropitem 
+  ConsoleCommand(Format('writeln Actor "%d" died at tick %d', [actorKEY, LevelTime]));
+end;
+
+event OnCrossLine(const actorKEY: LongWord; const lineNO: Integer; 
+  const oldside: Integer);
+begin
+// Executes when the actor "actorKEY" crosses the line "lineNO" 
+// line must have the "Trigger Script" setting enabled
+// actor must not have the MF2_EX_DONTRUNSCRIPTS flag
+  ConsoleCommand(
+    'writeln Actor "' + IntToStr(actorKEY) + 
+    '" crossed line "' + IntToStr(lineNO) +
+    '" oldsize = "' + IntToStr(oldside) + '"');
+end;
+
+event OnShootLine(const actorKEY: LongWord; const lineNO: Integer; const side: Integer);
+begin
+// Executes when the actor "actorKEY" shoots the line "lineNO" 
+// line must have the "Trigger Script" setting enabled
+// actor must not have the MF2_EX_DONTRUNSCRIPTS flag
+  ConsoleCommand(
+    'writeln Actor "' + IntToStr(actorKEY) + 
+    '" shot line "' + IntToStr(lineNO) +
+    '" oldsize = "' + IntToStr(side) + '"');
+end;
+
+event OnUseLine(const actorKEY: LongWord; const lineNO: Integer; 
+  const side: Integer);
+begin
+// Executes when the actor "actorKEY" uses the line "lineNO" 
+// line must have the "Trigger Script" setting enabled
+// actor must not have the MF2_EX_DONTRUNSCRIPTS flag
+  ConsoleCommand(
+    'writeln Actor "' + IntToStr(actorKEY) + 
+    '" use line "' + IntToStr(lineNO) +
+    '" oldsize = "' + IntToStr(side) + '"');
+end;
+
+event OnMapStart;
+begin
+// Executes the first time the map loads, before runing thinkers
+  NUMENEMIES := 0;
+end;
+
+
+
+

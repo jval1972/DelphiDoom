@@ -284,6 +284,7 @@ uses
   p_inter,
   p_map,
   p_dialog,
+  ps_main,
   hu_stuff,
   st_stuff,
   w_wad,
@@ -330,7 +331,7 @@ var
   );
 
 const
-  SAVEGAMESIZE = $800000; // Originally $2C000
+  SAVEGAMESIZE = $1000000; // Originally $2C000
   SAVESTRINGSIZE = 24;
 
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
@@ -871,6 +872,7 @@ begin
     ZeroMemory(@players[i].frags, SizeOf(players[i].frags));
   end;
 
+  PS_NewMap;
   P_SetupLevel(gamemap, 0, gameskill);
   displayplayer := consoleplayer;    // view the guy you are playing
   starttime := I_GetTime;
@@ -1077,11 +1079,13 @@ begin
           G_DoLoadGame(true);
           M_SaveMoveHereToMap;
           M_ReadMisObj;
+          M_ReadWorldVars;
         end;
       ga_savegame:
         begin
           M_SaveMoveMapToHere;
           M_SaveMisObj(savepath);
+          M_SaveWorldVars(savepath);
           G_DoSaveGame(savepath);
         end;
       ga_playdemo:
@@ -1306,6 +1310,7 @@ function G_CheckSpot(playernum: integer; mthing: Pmapthing_t): boolean;
 var
   x: fixed_t;
   y: fixed_t;
+  z: fixed_t; // JVAL: 3d floor
   ss: Psubsector_t;
   an: angle_t; // JVAL was u long
   mo: Pmobj_t;
@@ -1327,6 +1332,12 @@ begin
     result := true;
     exit;
   end;
+
+  // JVAL: 3d floors
+  z := ss.sector.floorheight;
+  if ss.sector.midsec >= 0 then
+    if players[playernum].mo.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
+      z := sectors[ss.sector.midsec].ceilingheight;
 
   if not P_CheckPosition(players[playernum].mo, x, y) then
   begin
@@ -1351,7 +1362,7 @@ begin
   {$ENDIF}
 
   mo := P_SpawnMobj(x + 20 * finecosine[an], y + 20 * finesine[an],
-          ss.sector.floorheight, Ord(MT_TFOG));
+          z, Ord(MT_TFOG));
 
   if players[consoleplayer].viewz <> 1 then
     S_StartSound(mo, Ord(sfx_telept));  // don't start sound on first frame
@@ -1644,6 +1655,7 @@ begin
     G_RiftPlayer();
     G_DoSaveGame(savepathtemp);
     M_SaveMisObj(savepathtemp);
+    M_SaveWorldVars(savepathtemp);
   end;
 
   gameaction := ga_nothing;
@@ -1808,6 +1820,9 @@ begin
   P_UnArchiveWorld;
   P_UnArchiveThinkers;
   P_UnArchiveSpecials;
+  P_UnArchiveMapVariables;
+  P_UnArchivePSMapScript;
+  P_UnArchiveOverlay;
 
   if save_p[0] <> $1d then
     I_Error('G_DoLoadGame(): Bad savegame');
@@ -1907,6 +1922,7 @@ begin
   save_p := PByteArray(integer(save_p) + SAVESTRINGSIZE);
   name2 := '';
 
+  savegameversion := VERSION; 
   sprintf(name2, 'version %d', [VERSION]);
   memcpy(save_p, @name2[1], VERSIONSIZE);
   save_p := PByteArray(integer(save_p) + VERSIONSIZE);
@@ -1932,17 +1948,54 @@ begin
   save_p[0] := leveltime;
   save_p := PByteArray(integer(save_p) + 1);
 
+  len := integer(save_p) - integer(savebuffer);
+  M_WriteFile(savegame_file, savebuffer, len);
+  save_p := savebuffer;
+
   P_ArchivePlayers;
+
+  len := integer(save_p) - integer(savebuffer);
+  M_AppendFile(savegame_file, savebuffer, len);
+  save_p := savebuffer;
+
   P_ArchiveWorld;
+
+  len := integer(save_p) - integer(savebuffer);
+  M_AppendFile(savegame_file, savebuffer, len);
+  save_p := savebuffer;
+
   P_ArchiveThinkers;
+
+  len := integer(save_p) - integer(savebuffer);
+  M_AppendFile(savegame_file, savebuffer, len);
+  save_p := savebuffer;
+
   P_ArchiveSpecials;
+
+  len := integer(save_p) - integer(savebuffer);
+  M_AppendFile(savegame_file, savebuffer, len);
+  save_p := savebuffer;
+
+  P_ArchiveMapVariables;
+
+  len := integer(save_p) - integer(savebuffer);
+  M_AppendFile(savegame_file, savebuffer, len);
+  save_p := savebuffer;
+
+  P_ArchivePSMapScript;
+
+  len := integer(save_p) - integer(savebuffer);
+  M_AppendFile(savegame_file, savebuffer, len);
+  save_p := savebuffer;
+
+  P_ArchiveOverlay;
 
   save_p[0] := $1d; // consistancy marker
 
   len := integer(save_p) - integer(savebuffer) + 1;
   if len > maxsize then
     I_Error('G_DoSaveGame(): Savegame buffer overrun');
-  M_WriteFile(savegame_file, savebuffer, len);
+  M_AppendFile(savegame_file, savebuffer, len);
   Z_Free(savebuffer);
   gameaction := ga_nothing;
   savedescription := '';
@@ -2081,6 +2134,7 @@ begin
   R_ResetInterpolationBuffer;
 
   M_ClearRandom;
+  PS_NewWorld;
 
   if (skill = sk_nightmare) or respawnparm then
     respawnmonsters := true
@@ -2266,7 +2320,7 @@ begin
   current_length := integer(demoend) - integer(demobuffer);
 
   // Generate a new buffer twice the size
-  new_length := current_length + SAVEGAMESIZE;
+  new_length := current_length + $80000;
 
   new_demobuffer := Z_Malloc2(new_length, PU_STATIC, nil);
   if new_demobuffer = nil then
@@ -2324,12 +2378,9 @@ begin
 
   demo_p := demo_start;
 
-  if integer(demo_p) > integer(demoend) - 16 then
-  begin
-    // no more space
+  if integer(demo_p) >= integer(demoend) - SizeOf(ticcmd_t) then
     G_IncreaseDemoBuffer;
-    exit;
-  end;
+
   G_ReadDemoTiccmd(cmd);  // make SURE it is exactly the same
 end;
 

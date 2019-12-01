@@ -73,6 +73,7 @@ type
     procedure ScriptError(const Fmt: string; const Args: array of const); overload;
     function GetString: boolean;
     function GetStringEOL: string;
+    function GetStringEOLUnChanged: string;
     procedure MustGetString;
     procedure MustGetStringName(const name: string);
     function GetInteger: boolean;
@@ -474,7 +475,31 @@ begin
   end;
 end;
 
-
+function TScriptEngine.GetStringEOLUnChanged: string;
+begin
+  result := '';
+  if ScriptPtr < ScriptEndPtr then
+    if ScriptPtr^ = #10 then
+    begin
+      Inc(ScriptPtr);
+      if ScriptPtr < ScriptEndPtr then
+      begin
+        result := ScriptPtr^;
+      end;
+    end;
+  while ScriptPtr^ <> #10 do
+  begin
+    Inc(ScriptPtr);
+    if ScriptPtr >= ScriptEndPtr then
+    begin
+      sc_End := true;
+      exit;
+    end;
+    if not (ScriptPtr^ in [#10, #13]) then
+      result := result + ScriptPtr^;
+  end;
+end;
+                          
 function RemoveLineQuotes(const sctext: string): string;
 var
   stmp: string;

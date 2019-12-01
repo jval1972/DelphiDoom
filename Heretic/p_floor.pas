@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -68,6 +68,7 @@ uses
   p_tick,
   p_mobj_h,
   p_setup,
+  p_slopes,
   r_data;
 
 //
@@ -219,6 +220,7 @@ begin
         end;
       end;
   end;
+  P_DynamicSlope(sector); // JVAL: Slopes
   result := ok;
 end;
 
@@ -416,6 +418,7 @@ begin
           end;
         end;
     end;
+    P_DynamicSlope(sec);  // JVAL: Slopes
   until secnum < 0;
 end;
 

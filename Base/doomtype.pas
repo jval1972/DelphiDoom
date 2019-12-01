@@ -40,7 +40,23 @@ const
   MININT = integer($80000000);
   MAXSHORT = $7fff;
 
+function smallintwarp1(var sm: Smallint): integer;
+function smallintwarp2(var sm: Smallint): integer;
+
 implementation
+
+function smallintwarp1(var sm: Smallint): integer;
+begin
+  if sm = -1 then
+    result := -1
+  else
+    Result := PWord(@sm)^;
+end;
+
+function smallintwarp2(var sm: Smallint): integer;
+begin
+  Result := PWord(@sm)^;
+end;
 
 end.
 

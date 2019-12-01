@@ -51,7 +51,9 @@ function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;
 implementation
 
 uses
+  TypInfo,
   d_delphi,
+  info_h,
   sc_engine,
   w_wad;
 
@@ -62,16 +64,25 @@ procedure SC_ParseStatedefLump;
 var
   i: integer;
   sc: TScriptEngine;
+  st: statenum_t;
+  found: boolean;
 begin
+  found := false;
   for i := 0 to W_NumLumps - 1 do
     if char8tostring(W_GetNameForNum(i)) = STATEDEFLUMPNAME then
     begin
+      found := true;
       sc := TScriptEngine.Create(W_TextLumpNum(i));
       while sc.GetString do
         statenames.Add(strupper(sc._String));
       sc.Free;
       break;
     end;
+
+  // JVAL: Patch for stand alone script compiler
+  if not found then
+    for st := statenum_t(0) to statenum_t(Ord(DO_NUMSTATES) - 1) do
+      statenames.Add(strupper(GetENumName(TypeInfo(statenum_t), Ord(st))));
 end;
 
 function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;

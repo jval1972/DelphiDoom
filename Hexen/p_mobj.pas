@@ -18,8 +18,12 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  Map Objects, MObj, definition and handling.
+//  Moving object handling. Spawn functions.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -31,14 +35,6 @@
 unit p_mobj;
 
 interface
-
-//-----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//  Map Objects, MObj, definition and handling.
-//  Moving object handling. Spawn functions.
-//
-//-----------------------------------------------------------------------------
 
 uses
   d_delphi,
@@ -79,7 +75,7 @@ procedure P_PlayerLandedOnThing(mo: Pmobj_t; onmobj: Pmobj_t);
 
 procedure P_MobjThinker(mobj: Pmobj_t);
 
-function P_SpawnMobj(x: fixed_t; y: fixed_t; z: fixed_t; _type: integer): Pmobj_t;
+function P_SpawnMobj(x, y, z: fixed_t; _type: integer; const mthing: Pmapthing_t = nil): Pmobj_t;
 
 procedure P_RemoveMobj(mobj: Pmobj_t);
 
@@ -143,8 +139,9 @@ var
 
 function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
 
-var
-  mobjkeycnt: LongWord = 1;
+procedure MObj_Init;
+
+procedure MObj_ShutDown;
 
 var
   PuffType: mobjtype_t;
@@ -153,6 +150,8 @@ var
 implementation
 
 uses
+  c_cmds,
+  sc_engine,
   d_player,
   d_think,
   d_main,
@@ -165,16 +164,20 @@ uses
   p_local,
   p_map,
   p_maputl,
+  p_mobjlist,
   p_tick,
   p_pspr,
   p_setup,
-  p_extra,
+  p_common,
   p_user,
   p_inter,
   p_enemy,
   p_sounds,
+  p_3dfloors, // JVAL: 3d floors
+  p_slopes, // JVAL: Slopes
   po_man,
   p_spec,
+  p_ladder,
   r_defs,
   r_sky,
   r_main,
@@ -186,6 +189,7 @@ uses
   sb_bar,
   info,
   info_rnd,
+  info_common,
   doomstat;
 
 //
@@ -209,6 +213,7 @@ begin
     end;
 
     st := @states[Ord(state)];
+
     mobj.state := st;
     mobj.tics := st.tics;
     mobj.sprite := st.sprite;
@@ -516,13 +521,21 @@ begin
       ymove := 0;
     end;
 
+    // JVAL: Slopes
+    if mo.player <> nil then
+    begin
+      tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
+      tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
+    end;
+
     if not P_TryMove(mo, ptryx, ptryy) then
     begin // Blocked move
       if mo.flags2 and MF2_SLIDE <> 0 then
       begin // Try to slide along it
         if BlockingMobj = nil then
         begin // Slide against wall
-          P_SlideMove(mo);
+          if not P_LadderMove(mo) then
+            P_SlideMove(mo);
         end
         else
         begin // Slide against mobj
@@ -685,7 +698,7 @@ begin
     if (mo.momx > FRACUNIT div 4) or (mo.momx < -FRACUNIT div 4) or
        (mo.momy > FRACUNIT div 4) or (mo.momy < -FRACUNIT div 4) then
     begin
-      if mo.floorz <> Psubsector_t(mo.subsector).sector.floorheight then
+      if mo.floorz <> P_3dFloorHeight(mo) then // JVAL: 3d floors
         exit;
     end;
   end;
@@ -838,20 +851,43 @@ var
   dist: integer;
   delta: integer;
   pl: Pplayer_t;
+  laddertics: integer;
 begin
+  pl := mo.player;
+
+  laddertics := 0;
+  if pl <> nil then
+    if pl.laddertics > 0 then
+    begin
+      Dec(pl.laddertics);
+      laddertics := pl.laddertics;
+      if laddertics = 0 then
+        mo.momz := 0;
+    end;
+
 //
 // check for smooth step up
 //
-  pl := mo.player;
-  if (pl <> nil) and (mo.z < mo.floorz) then
+  if (pl <> nil) and (mo.z < mo.floorz) and (laddertics = 0) then
   begin
     pl.viewheight := pl.viewheight - mo.floorz - mo.z;
     pl.deltaviewheight := _SHR3(PVIEWHEIGHT - pl.viewheight);
   end;
+
 //
 // adjust height
 //
-  mo.z := mo.z + mo.momz;
+  // adjust height
+  if laddertics > 0 then
+  begin
+    mo.z := mo.z + mo.momz;
+    mo.momz := (mo.momz * 7) div 8;
+    if mo.momz < FRACUNIT div 8 then
+      mo.momz := 0;
+  end
+  else
+    mo.z := mo.z + mo.momz;
+
   if (mo.flags and MF_FLOAT <> 0) and (mo.target <> nil) then
   begin  // float down towards target if too close
     if (mo.flags and MF_SKULLFLY = 0) and (mo.flags and MF_INFLOAT = 0) then
@@ -1238,12 +1274,14 @@ begin
 
   // Handle X and Y momentums
   BlockingMobj := nil;
-  if (mobj.momx <> 0) or (mobj.momy <> 0) or (mobj.flags and MF_SKULLFLY <> 0) then
+  if (mobj.momx <> 0) or
+     (mobj.momy <> 0) or
+     (mobj.flags and MF_SKULLFLY <> 0) then
   begin
     P_XYMovement(mobj);
     if not Assigned(mobj.thinker._function.acp1) then
-    begin // mobj was removed
-      exit;
+    begin
+      exit; // mobj was removed
     end;
   end
   else if mobj.flags2 and MF2_BLASTED <> 0 then
@@ -1326,35 +1364,43 @@ end;
 //
 //==========================================================================
 
-function P_SpawnMobj(x: fixed_t; y: fixed_t; z: fixed_t; _type: integer): Pmobj_t;
+function P_SpawnMobj(x: fixed_t; y: fixed_t; z: fixed_t; _type: integer; const mthing: Pmapthing_t = nil): Pmobj_t;
 var
   mobj: Pmobj_t;
   st: Pstate_t;
   info: Pmobjinfo_t;
   space: fixed_t;
   sec: Psector_t;
+  msec: Psector_t;  // JVAL: 3d floors
+  lowfloorheight, hifloorheight: fixed_t; // JVAL: 3d floors
+  onmidfloor: Boolean;
+  spawnfloorheight, spawnceilingheight: fixed_t;  // JVAL: Slopes
 begin
   mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
-  memset(mobj, 0, SizeOf(mobj_t));
+
+  ZeroMemory(mobj, SizeOf(mobj_t));
+
+  mobj.key := P_GenGlobalMobjKey;
+
   info := @mobjinfo[_type];
   mobj._type := _type;
   mobj.info := info;
-
-  mobj.key := mobjkeycnt;
-  inc(mobjkeycnt);
-
   mobj.x := x;
   mobj.y := y;
   mobj.radius := info.radius;
   mobj.height := info.height;
-  mobj.flags := info.flags;
+  // JVAL: Set MF_JUSTAPPEARED flag
+  mobj.flags := info.flags or MF_JUSTAPPEARED;
   mobj.flags2 := info.flags2;
+  mobj.flags_ex := info.flags_ex;
+  mobj.flags2_ex := info.flags2_ex;
   mobj.damage := info.damage;
+  mobj.renderstyle := info.renderstyle;
+  mobj.alpha := info.alpha;
   mobj.health := info.spawnhealth;
   if gameskill <> sk_nightmare then
-  begin
     mobj.reactiontime := info.reactiontime;
-  end;
+
   mobj.lastlook := P_Random mod MAXPLAYERS;
 
   // Set the state, but do not use P_SetMobjState, because action
@@ -1366,15 +1412,58 @@ begin
   mobj.sprite := st.sprite;
   mobj.frame := st.frame;
 
-  // Set subsector and/or block links.
+  // set subsector and/or block links.
   P_SetThingPosition(mobj);
+
   sec := Psubsector_t(mobj.subsector).sector;
-  mobj.floorz := sec.floorheight;
-  mobj.ceilingz := sec.ceilingheight;
-  if z = ONFLOORZ then
+
+  // JVAL: Slopes
+  spawnfloorheight := P_FloorHeight(sec, x, y);
+  spawnceilingheight := P_CeilingHeight(sec, x, y);
+  mobj.floorz := spawnfloorheight;  // JVAL: Slopes
+  mobj.ceilingz := spawnceilingheight;  // JVAL: Slopes
+  onmidfloor := false;
+
+// JVAL: 3d floors
+  if sec.midsec >= 0 then
   begin
-    mobj.z := mobj.floorz;
+    msec := @sectors[sec.midsec];
+    if mthing <> nil then
+      if mthing.options and MTF_ONMIDSECTOR <> 0 then
+        onmidfloor := true;
+    if onmidfloor then
+      mobj.floorz := msec.ceilingheight
+    else if not onmidfloor and (z = ONCEILINGZ) then
+      mobj.ceilingz := msec.floorheight
+    else if z = FLOATRANDZ then
+    begin
+      lowfloorheight := msec.floorheight - spawnfloorheight;  // JVAL: Slopes
+      hifloorheight := spawnceilingheight - msec.ceilingheight; // JVAL: Slopes
+      if lowfloorheight < mobj.info.height then
+        mobj.floorz := msec.ceilingheight
+      else if hifloorheight < mobj.info.height then
+        mobj.ceilingz := msec.floorheight
+      else if mthing = nil then
+      begin
+        if N_Random < Round(lowfloorheight / (lowfloorheight + hifloorheight) * 255) then
+          mobj.ceilingz := msec.floorheight
+        else
+          mobj.floorz := msec.ceilingheight;
+      end;
+    end
+    else
+    begin
+      if z > msec.floorheight then
+        mobj.floorz := msec.ceilingheight
+      else
+        mobj.ceilingz := msec.floorheight;
+    end;
   end
+  else
+      msec := nil;
+
+  if z = ONFLOORZ then
+    mobj.z := mobj.floorz
   else if z = ONCEILINGZ then
   begin
     mobj.z := mobj.ceilingz - mobj.info.height;
@@ -1397,21 +1486,34 @@ begin
     mobj.z := mobj.floorz + z;    // artifact z passed in as height
   end
   else
-  begin
     mobj.z := z;
-  end;
-  if (mobj.flags2 and MF2_FLOORCLIP <> 0) and
-     (P_GetThingFloorType(mobj) >= FLOOR_LIQUID) and
-     (mobj.z = sec.floorheight) then
+
+  if (msec <> nil) or (sec.renderflags and SRF_SLOPED <> 0) then  // JVAL: Slopes
   begin
-    mobj.floorclip := 10 * FRACUNIT;
+    if mobj.z > mobj.ceilingz - mobj.info.height then
+      mobj.z := mobj.ceilingz - mobj.info.height;
+    if mobj.z < mobj.floorz then
+      mobj.z := mobj.floorz;
+
+    if (mobj.flags2_ex and MF2_FLOORCLIP <> 0) and
+       (P_GetThingFloorType(mobj) > FLOOR_SOLID) and
+       (mobj.z = mobj.floorz) then
+      mobj.floorclip := FOOTCLIPSIZE
+    else
+      mobj.floorclip := 0;
   end
   else
   begin
-    mobj.floorclip := 0;
+    if (mobj.flags2_ex and MF2_FLOORCLIP <> 0) and
+       (P_GetThingFloorType(mobj) > FLOOR_SOLID) and
+       (mobj.z = sec.floorheight) then
+      mobj.floorclip := FOOTCLIPSIZE
+    else
+      mobj.floorclip := 0;
   end;
 
   mobj.thinker._function.acp1 := @P_MobjThinker;
+
   P_AddThinker(@mobj.thinker);
 
   mobj.prevx := mobj.x;
@@ -1423,7 +1525,6 @@ begin
   mobj.prevangle := mobj.angle;
   mobj.nextangle := mobj.angle;
   mobj.intrplcnt := 0;
-  mobj.key := 0;  // jval: ToDO
 
   result := mobj;
 end;
@@ -1451,10 +1552,10 @@ begin
   // Unlink from sector and block lists
   P_UnsetThingPosition(mobj);
 
-  // Stop any playing sound
+  // stop any playing sound
   S_StopSound(mobj);
 
-  // Free block
+  // free block
   P_RemoveThinker(Pthinker_t(mobj));
 end;
 
@@ -1473,10 +1574,9 @@ var
   x, y, z: fixed_t;
   mobj: Pmobj_t;
 begin
+  // not playing?
   if not playeringame[mthing._type - 1] then
-  begin // Not playing
     exit;
-  end;
 
   p := @players[mthing._type - 1];
   if p.playerstate = PST_REBORN then
@@ -1502,11 +1602,11 @@ begin
 
   case p._class of
     PCLASS_FIGHTER:
-      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_FIGHTER));
+      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_FIGHTER), @mthing);
     PCLASS_CLERIC:
-      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_CLERIC));
+      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_CLERIC), @mthing);
     PCLASS_MAGE:
-      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_MAGE));
+      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_MAGE), @mthing);
   else
     begin
       I_Error('P_SpawnPlayer(): Unknown class type');
@@ -1529,7 +1629,10 @@ begin
     mobj.flags := mobj.flags or _SHL(mthing._type - 1, MF_TRANSSHIFT);
   end;
 
-  mobj.angle := ANG45 * (mthing.angle div 45);
+  if mobj.flags2_ex and MF2_EX_PRECISESPAWNANGLE <> 0 then
+    mobj.angle := ANG1 * mthing.angle
+  else
+    mobj.angle := ANG45 * (mthing.angle div 45);
   mobj.player := p;
   mobj.health := p.health;
   p.mo := mobj;
@@ -1578,7 +1681,12 @@ var
   i: integer;
   spawnMask: integer;
   mobj: Pmobj_t;
-  x, y, z: fixed_t;
+  x: fixed_t;
+  y: fixed_t;
+  z: fixed_t;
+  ss: Psubsector_t; // JVAL: 3d floors
+  msec: Psector_t;  // JVAL: 3d floors
+  isfloatbob: boolean;  // JVAL: 3d floors
 begin
   // Count deathmatch start positions
   if mthing._type = 11 then
@@ -1678,15 +1786,9 @@ begin
   end;
 
   // find which type to spawn
-  i := 0;
-  while i < nummobjtypes do
-  begin
-    if mthing._type = mobjinfo[i].doomednum then
-      break;
-    inc(i);
-  end;
 
-  if i = nummobjtypes then
+  i := Info_GetMobjNumForDoomNum(mthing._type);
+  if i < 0 then
     I_Error('P_SpawnMapThing(): Unknown type %d at (%d, %d)',
       [mthing._type, mthing.x, mthing.y]);
 
@@ -1707,27 +1809,56 @@ begin
   if spawnrandommonsters and Info_IsMonster(i) then
     i := Info_SelectRandomMonster(i);
 
+  isfloatbob := (mobjinfo[i].flags2 and MF2_FLOATBOB <> 0) or (mobjinfo[i].flags_ex and MF_EX_FLOATBOB <> 0);
   if mobjinfo[i].flags and MF_SPAWNCEILING <> 0 then
     z := ONCEILINGZ
   else if (mobjinfo[i].flags2 and MF2_SPAWNFLOAT <> 0) or (mobjinfo[i].flags_ex and MF_EX_SPAWNFLOAT <> 0) then
     z := FLOATRANDZ
-  else if (mobjinfo[i].flags2 and MF2_FLOATBOB <> 0) or (mobjinfo[i].flags_ex and MF_EX_FLOATBOB <> 0) then
+  else if isfloatbob then
     z := mthing.height * FRACUNIT
   else
   begin
     z := ONFLOORZ;
   end;
 
-
+// JVAL: 3d floors
+  ss := R_PointInSubsector(x, y);
+  if ss.sector.midsec >= 0 then
+  begin
+    msec := @sectors[ss.sector.midsec];
+    if mthing.options and MTF_ONMIDSECTOR <> 0 then
+    begin
+      if isfloatbob then
+        z := z + msec.ceilingheight
+      else if z = FLOATRANDZ then
+        z := (msec.ceilingheight + P_CeilingHeight(ss.sector, x, y)) div 2  // JVAL: Slopes
+      else if z = ONFLOORZ then
+        z := msec.ceilingheight;
+    end
+    else
+    begin
+      if isfloatbob then
+        z := z + P_FloorHeight(ss.sector, x, y) // JVAL: Slopes
+      else if z = FLOATRANDZ then
+        z := (P_FloorHeight(ss.sector, x, y) + msec.floorheight) div 2 // JVAL: Slopes
+      else if z = ONCEILINGZ then
+        z := msec.floorheight;
+    end;
+    if i = Ord(MT_ZLYNCHED_NOHEART) then
+      P_SpawnMobj(x, y, z, Ord(MT_BLOODPOOL));
+  end
+  else
+  begin
   // Special stuff
-  if i = Ord(MT_ZLYNCHED_NOHEART) then
-    P_SpawnMobj(x, y, ONFLOORZ, Ord(MT_BLOODPOOL));
+    if i = Ord(MT_ZLYNCHED_NOHEART) then
+      P_SpawnMobj(x, y, ONFLOORZ, Ord(MT_BLOODPOOL));
+  end;
 
-  mobj := P_SpawnMobj(x, y, z, i);
+  mobj := P_SpawnMobj(x, y, z, i, mthing);
   if z = ONFLOORZ then
     mobj.z := mobj.z + mthing.height * FRACUNIT
   else if z = ONCEILINGZ then
-    mobj.z := mobj.z - mthing.height *FRACUNIT;
+    mobj.z := mobj.z - mthing.height * FRACUNIT;
 
   mobj.tid := mthing.tid;
   mobj.special := mthing.special;
@@ -1755,6 +1886,9 @@ begin
     // Scale angle correctly (source is 0..359)
     mobj.angle := _SHL((mthing.angle * 256) div 360, 24);
   end;
+
+  if mthing.options and MTF_DONOTTRIGGERSCRIPTS <> 0 then
+    mobj.flags2_ex := mobj.flags2_ex or MF2_EX_DONTRUNSCRIPTS;
 
   if mthing.options and MTF_AMBUSH <> 0 then
     mobj.flags := mobj.flags or MF_AMBUSH;
@@ -1986,8 +2120,8 @@ begin
   y := mo.y + (P_Random - P_Random) * 4096;
   z := mo.z + (P_Random - P_Random) * 4096;
   th := P_SpawnMobj(x, y, z, Ord(MT_BLOOD));
-  th.momx := _SHR1(mo.momx);
-  th.momy := _SHR1(mo.momy);
+  th.momx := mo.momx div 2;
+  th.momy := mo.momy div 2;
   th.tics := th.tics + P_Random mod 3;
 end;
 
@@ -2115,9 +2249,9 @@ function P_CheckMissileSpawn(missile: Pmobj_t): boolean;
 begin
   // move a little forward so an angle can be computed if it
   // immediately explodes
-  missile.x := missile.x + _SHR1(missile.momx);
-  missile.y := missile.y + _SHR1(missile.momy);
-  missile.z := missile.z + _SHR1(missile.momz);
+  missile.x := missile.x + missile.momx div 2;
+  missile.y := missile.y + missile.momy div 2;
+  missile.z := missile.z + missile.momz div 2;
   if not P_TryMove(missile, missile.x, missile.y) then
   begin
     P_ExplodeMissile(missile);
@@ -2210,9 +2344,19 @@ begin
   flags_ex := mobjinfo[Ord(_type)].flags_ex;
 
   if flags_ex and MF_EX_FLOORHUGGER <> 0 then
-    z := ONFLOORZ
+  begin
+    if G_PlayingEngineVersion >= VERSION142 then
+      z := source.floorz
+    else
+      z := ONFLOORZ;
+  end
   else if flags_ex and MF_EX_CEILINGHUGGER <> 0 then
-    z := ONCEILINGZ
+  begin
+    if G_PlayingEngineVersion >= VERSION142 then
+      z := source.ceilingz
+    else
+      z := ONCEILINGZ;
+  end
   else if z <> ONFLOORZ then
     z := z - source.floorclip;
 
@@ -2262,9 +2406,19 @@ begin
   flags_ex := mobjinfo[Ord(_type)].flags_ex;
 
   if flags_ex and MF_EX_FLOORHUGGER <> 0 then
-    z := ONFLOORZ
+  begin
+    if G_PlayingEngineVersion >= VERSION142 then
+      z := source.floorz
+    else
+      z := ONFLOORZ;
+  end
   else if flags_ex and MF_EX_CEILINGHUGGER <> 0 then
-    z := ONCEILINGZ
+  begin
+    if G_PlayingEngineVersion >= VERSION142 then
+      z := source.ceilingz
+    else
+      z := ONCEILINGZ;
+  end
   else if z <> ONFLOORZ then
     z := z - source.floorz;
 
@@ -2431,12 +2585,18 @@ begin
   y := source.y;
   if _type = Ord(MT_LIGHTNING_FLOOR) then
   begin
-    z := ONFLOORZ;
+    if G_PlayingEngineVersion >= VERSION142 then
+      z := source.floorz
+    else
+      z := ONFLOORZ;
     slope := 0;
   end
   else if _type = Ord(MT_LIGHTNING_CEILING) then
   begin
-    z := ONCEILINGZ;
+    if G_PlayingEngineVersion >= VERSION142 then
+      z := source.ceilingz
+    else
+      z := ONCEILINGZ;
     slope := 0;
   end
   else
@@ -2655,16 +2815,92 @@ end;} // JVAL SOS
 //---------------------------------------------------------------------------
 
 function P_GetThingFloorType(thing: Pmobj_t): integer;
+var
+  s: Psector_t;
 begin
-  result := flats[Psubsector_t(thing.subsector).sector.floorpic].terraintype;
+  s := Psubsector_t(thing.subsector).sector;
+  // JVAL: 3d Floors
+  if s.midsec >= 0 then
+    if thing.z > sectors[s.midsec].floorheight then
+      s := @sectors[s.midsec];
+  result := flats[s.floorpic].terraintype;
 end;
 
-//---------------------------------------------------------------------------
+procedure CmdSpwanMobj(const parm1, parm2: string);
+var
+  sc: TScriptEngine;
+  x, y, z: fixed_t;
+  mobjno, dn: integer;
+  angle: angle_t;
+  parm, tmp: string;
+  mo: Pmobj_t;
+begin
+  parm := strtrim(parm1 + ' ' + parm2);
+  if parm = '' then
+  begin
+    printf('Usage:'#13#10' spawnmobj [x y z angle doomdnum/doomname]'#13#10);
+    exit;
+  end;
+
+  sc := TScriptEngine.Create(parm);
+  sc.MustGetInteger;
+  x := sc._Integer * FRACUNIT;
+  sc.MustGetInteger;
+  y := sc._Integer * FRACUNIT;
+  sc.MustGetString;
+  tmp := strupper(sc._String);
+  if (tmp = 'ONFLOORZ') or (tmp = 'FLOORZ') then
+    z := ONFLOORZ
+  else if (tmp = 'ONFLOATZ') or (tmp = 'FLOATZ') or (tmp = 'FLOATRANDZRAND') or (tmp = 'ONFLOATRANDZRAND') then
+    z := FLOATRANDZ
+  else if (tmp = 'ONCEILINGZ') or (tmp = 'CEILINGZ') then
+    z := ONCEILINGZ
+  else
+    z := atoi(tmp, ONFLOORZ) * FRACUNIT;
+
+  sc.MustGetInteger;
+  angle := sc._Integer * ANG1;
+
+  tmp := '';
+  while sc.GetString do
+    tmp := tmp + sc._String + ' ';
+  tmp := strupper(strtrim(tmp));
+
+  dn := atoi(tmp, 0);
+  if dn >= 1 then
+    mobjno := Info_GetMobjNumForDoomNum(dn)
+  else
+    mobjno := Info_GetMobjNumForName(tmp);
+  if (mobjno > 0) and (mobjno < nummobjtypes) then
+  begin
+    mo := P_SpawnMobj(x, y, z, mobjno);
+    if mo <> nil then
+    begin
+      mo.angle := angle;
+      printf('spawnmobj: mobj %s spawned, key=%d'#13#10, [tmp, mo.key]);
+    end
+    else
+      printf('spawnmobj: mobj %s can not be spawned'#13#10, [tmp]);
+  end
+  else
+    printf('Unknown mobj %s'#13#10, [tmp]);
+  sc.Free;
+end;
+
+procedure MObj_Init;
+begin
+  mobjlist := TMobjList.Create;
+  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpwanMobj);
+end;
+
+procedure MObj_ShutDown;
+begin
+  mobjlist.Free;
+end;
+
 //
 // FUNC P_FindMobjFromKey
 //
-//---------------------------------------------------------------------------
-
 function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
 var
   currentthinker: Pthinker_t;

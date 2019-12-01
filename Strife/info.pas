@@ -78,8 +78,6 @@ procedure Info_ShutDown;
 
 function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
 
-function Info_GetMobjNumForDoomNum(const dn: integer): integer;
-
 implementation
 
 uses
@@ -89,6 +87,7 @@ uses
   p_pspr,
   p_mobj_h,
   p_extra,
+  info_common,
   sounds;
 
 const
@@ -29004,6 +29003,7 @@ procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;
 begin
+  Info_InitDnLookUp;
   originalstates := @DO_states;
   if states = nil then
   begin
@@ -29952,6 +29952,7 @@ procedure Info_ShutDown;
 var
   i: integer;
 begin
+  Info_ShutDownDnLookUp;
   for i := 0 to numstates - 1 do
   begin
     if states[i].params <> nil then
@@ -30002,21 +30003,6 @@ begin
   if result = -1 then
     result :=  (integer(imo) - integer(@mobjinfo[0])) div SizeOf(mobjinfo_t);
 
-end;
-
-function Info_GetMobjNumForDoomNum(const dn: integer): integer;
-var
-  i: integer;
-begin
-  for i := 0 to nummobjtypes - 1 do
-  begin
-    if mobjinfo[i].doomednum = dn then
-    begin
-      result := i;
-      Exit;
-    end;
-  end;
-  result := -1;
 end;
 
 end.

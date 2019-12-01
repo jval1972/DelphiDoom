@@ -253,7 +253,7 @@ end;
 
 
 {----------------------------------------------------------------}
-{--- 	This determines if a cube is in or around our view    ---}
+{---    This determines if a cube is in or around our view    ---}
 {---    frustum by using it's center and 1/2 it's length      ---}
 {----------------------------------------------------------------}
 function fr_CubeInFrustum(X, Y, Z, Size: single): boolean;

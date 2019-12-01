@@ -126,7 +126,7 @@ begin
   repeat
     FillChar(b, SizeOf(b), 0);
     BlockRead(F, b, SizeOf(b), e);
-    for i := 0 to (e-1) do
+    for i := 0 to (e - 1) do
      CRC := RecountCRC(b[i], CRC);
   until (e < 255) or (IOresult <> 0);
 

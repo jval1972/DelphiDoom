@@ -84,6 +84,7 @@ uses
   g_game,
   p_mobj,
   p_pspr,
+  ps_main, // JVAL: Script Events
   r_defs,
   r_main,
   tables;
@@ -829,11 +830,14 @@ begin
   if target.tics < 1 then
     target.tics := 1;
 
+  if target.player <> nil then    // JVAL: Script Events
+    PS_EventPlayerDied(pDiff(@players[0], target.player, SizeOf(player_t)), source);
+  PS_EventActorDied(target, source); // JVAL: Script Events
+
   // Drop stuff.
   // This determines the kind of object spawned
   // during the death frame of a thing.
 
-  // JVAL: Check if dropitem is set to drop a custom item.
   if target.info.dropitem > 0 then
     item := target.info.dropitem
   else
@@ -841,22 +845,34 @@ begin
     // JVAL: Support for Chex Quest
     // Note: We allow the dropitems to custom defined actors
     if customgame in [cg_chex, cg_chex2] then
-      exit;
-
-    case target._type of
-      Ord(MT_WOLFSS),
-      Ord(MT_POSSESSED):
-        item := Ord(MT_CLIP);
-      Ord(MT_SHOTGUY):
-        item := Ord(MT_SHOTGUN);
-      Ord(MT_CHAINGUY):
-        item := Ord(MT_CHAINGUN);
-      else
-        exit;
+      item := 0
+    else
+    begin
+      case target._type of
+        Ord(MT_WOLFSS),
+        Ord(MT_POSSESSED):
+          item := Ord(MT_CLIP);
+        Ord(MT_SHOTGUY):
+          item := Ord(MT_SHOTGUN);
+        Ord(MT_CHAINGUY):
+          item := Ord(MT_CHAINGUN);
+        else
+          item := 0;
+      end;
     end;
   end;
 
-  P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, item);
+// JVAL: Check if dropitem is set to drop a custom item.
+  if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
+    item := target.dropitem;
+
+  if item = 0 then
+    Exit;
+
+  if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
+    P_SpawnDroppedMobj(target.x, target.y, target.z, item)
+  else
+    P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, item);
 end;
 
 //

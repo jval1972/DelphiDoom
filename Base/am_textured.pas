@@ -75,6 +75,7 @@ type
   end;
 
   drawtriangle_t = array[0..2] of drawpoint_t;
+  Pdrawtriangle_t = ^drawtriangle_t;
 
   drawsegfunc_t = procedure(const xx, yy, cc: integer; const amcolormap: pointer);
 
@@ -241,7 +242,7 @@ var
     xx := (idown - f_x) * scale_ftom + m_x;
     for i := idown to iup do
     begin
-      jup := cury2 div FRACUNIT;
+      jup := cury2 div FRACUNIT + 1;
       if jup >= 0 then
       begin
         if jup >= f_mx then
@@ -309,7 +310,7 @@ var
       cury1 := cury1 - invslope1;
       cury2 := cury2 - invslope2;
 
-      jup := cury2 div FRACUNIT;
+      jup := cury2 div FRACUNIT + 1;
       if jup >= 0 then
       begin
         if jup >= f_mx then
@@ -678,3 +679,4 @@ begin
 end;
 
 end.
+

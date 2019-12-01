@@ -88,6 +88,7 @@ uses
   i_system,
   m_argv,
   m_menu,
+  psi_overlay,
   dglOpenGL,
   gl_render, // JVAL OPENGL
   gl_tex,
@@ -248,7 +249,7 @@ var
 procedure I_FinishUpdate;
 {$IFDEF DOOM}
 var
-  sub_y1, y1, y2: integer;
+  sub_y1, y1, y2, yovr: integer;
 {$ENDIF}
 begin
   if (hMainWnd = 0) or (screens[SCN_FG] = nil) or (screen32 = nil) then
@@ -292,6 +293,9 @@ begin
         else
         begin
           y1 := C_ConsolePos;
+          yovr := OVR_OverlayHeight;
+          if yovr > y1 then
+            y1 := yovr;
           sub_y1 := V_PreserveY(HU_Height);
           if sub_y1 > y1 then
             y1 := sub_y1;
@@ -420,11 +424,11 @@ end;
 {------------------------------------------------------------------}
 procedure glInit;
 begin
-  glClearColor(0.0, 0.0, 0.0, 0.0); 	     // Black Background
+  glClearColor(0.0, 0.0, 0.0, 0.0);        // Black Background
   glShadeModel(GL_SMOOTH);                 // Enables Smooth Color Shading
   glClearDepth(1.0);                       // Depth Buffer Setup
   glEnable(GL_DEPTH_TEST);                 // Enable Depth Buffer
-  glDepthFunc(GL_LESS);		                 // The Type Of Depth Test To Do
+  glDepthFunc(GL_LESS);                    // The Type Of Depth Test To Do
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);   //Realy Nice perspective calculations
   glEnable(GL_TEXTURE_2D);                     // Enable Texture Mapping
 end;

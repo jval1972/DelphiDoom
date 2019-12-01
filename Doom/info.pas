@@ -72,8 +72,6 @@ procedure Info_ShutDown;
 
 function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
 
-function Info_GetMobjNumForDoomNum(const dn: integer): integer;
-
 implementation
 
 uses
@@ -83,6 +81,8 @@ uses
   p_pspr,
   p_mobj_h,
   p_extra,
+  p_common,
+  info_common,
   sounds;
 
 const
@@ -16264,6 +16264,8 @@ procedure Info_Init(const usethinkers: boolean);
 var
   i: integer;
 begin
+  Info_InitDnLookUp;
+
   if states = nil then
   begin
     states := malloc(Ord(DO_NUMSTATES) * SizeOf(state_t));
@@ -16917,6 +16919,7 @@ procedure Info_ShutDown;
 var
   i: integer;
 begin
+  Info_ShutDownDnLookUp;
   for i := 0 to numstates - 1 do
   begin
     if states[i].params <> nil then
@@ -16954,7 +16957,7 @@ begin
         exit
       else
         result := mo.inheritsfrom;
-    // JVAL: Prevent wrong inheritances of decorate lumps
+    // JVAL: Prevent wrong inheritances of actordef lumps
       inc(loops);
       if loops > nummobjtypes then
       begin
@@ -16969,21 +16972,5 @@ begin
 
 end;
 
-function Info_GetMobjNumForDoomNum(const dn: integer): integer;
-var
-  i: integer;
-begin
-  for i := 0 to nummobjtypes - 1 do
-  begin
-    if mobjinfo[i].doomednum = dn then
-    begin
-      result := i;
-      Exit;
-    end;
-  end;
-  result := -1;
-end;
-
 end.
-
 

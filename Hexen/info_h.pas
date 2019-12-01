@@ -346,6 +346,7 @@ type
     SPR_WATR,
     SPR_KORX,
     SPR_ABAT,
+    SPR_TNT1,
     DO_NUMSPRITES
   );
 

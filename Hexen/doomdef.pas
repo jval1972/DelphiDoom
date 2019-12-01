@@ -21,10 +21,10 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION: 
+// DESCRIPTION:
 //  Internally used data structures for virtually everything, 
-//   key definitions, lots of other stuff. 
-// 
+//  key definitions, lots of other stuff. 
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -47,9 +47,12 @@ uses
 const
   VERSION140 = 140; // unsupported
   VERSION141 = 141;
-  VERSION = VERSION141;
+  VERSION142 = 142;
+  VERSION = VERSION142;
+  VERSIONSLOPES = VERSION142;
   HXS_VERSION_TEXT_140 = 'DelphiHexen Saved Game (HXS)';
   HXS_VERSION_TEXT_141 = 'DelphiHexen Saved Game (HXS) 141';
+  HXS_VERSION_TEXT_142 = 'DelphiHexen Saved Game (HXS) 142';
 
 type
 // Game mode handling - identify IWAD version
@@ -132,6 +135,8 @@ const
   MTF_GSINGLE = 256;
   MTF_GCOOP = 512;
   MTF_GDEATHMATCH = 1024;
+  MTF_ONMIDSECTOR = 2048;
+  MTF_DONOTTRIGGERSCRIPTS = 4096;
 
 type
   skill_t = (

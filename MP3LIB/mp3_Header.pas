@@ -293,7 +293,8 @@ begin
 
     FVersion := TVersion((HeaderString shr 19) and 1);
     FSampleFrequency := TSampleFrequency((HeaderString shr 10) and 3);
-    if (FSampleFrequency = Unknown) then begin
+    if (FSampleFrequency = Unknown) then
+    begin
       // report error - not supported header
       exit;
     end;

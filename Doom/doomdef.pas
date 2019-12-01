@@ -19,10 +19,10 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//   Internally used data structures for virtually everything,
-//   key definitions, lots of other stuff.
-// 
+// DESCRIPTION:
+//  Internally used data structures for virtually everything,
+//  key definitions, lots of other stuff.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -54,7 +54,11 @@ const
   VERSION119 = 119;
   VERSION120 = 120;
   VERSION121 = 121;
-  VERSION = VERSION121;
+  VERSION122 = 122;
+  VERSION = VERSION122;
+{$IFDEF OPENGL}
+  VERSIONSLOPES = VERSION122;
+{$ENDIF}
 
 var
   oldsharewareversion: boolean = false;
@@ -121,6 +125,7 @@ var
   WINDOWWIDTH: integer;
   WINDOWHEIGHT: integer;
 {$ENDIF}
+
   SCREENWIDTH32PITCH: integer;
 
   fullscreen: boolean = true;
@@ -163,6 +168,8 @@ const
 
 // Deaf monsters/do not react to sound.
   MTF_AMBUSH = 8;
+  MTF_ONMIDSECTOR = 128;  // JVAL: 3d floors
+  MTF_DONOTTRIGGERSCRIPTS = 256;  // JVAL: Script Events
 
 type
   skill_t = (
@@ -288,6 +295,12 @@ const
 
 
   KEY_LALT = KEY_RALT;
+
+const
+  DEN_PLAYER5 = 4001;
+  DEN_PLAYER6 = 4002;
+  DEN_PLAYER7 = 4003;
+  DEN_PLAYER8 = 4004;
 
 implementation
 

@@ -112,6 +112,7 @@ uses
   p_spec,
   p_enemy,
   p_user,
+  ps_main, // JVAL: Script Events
   r_defs,
   r_main,
   tables;
@@ -965,102 +966,114 @@ begin
         P_SetMobjState(target, statenum_t(target.info.deathstate));
     end;
   end;
+  if target.player <> nil then    // JVAL: Script Events
+    PS_EventPlayerDied(pDiff(@players[0], target.player, SizeOf(player_t)), source);
+  PS_EventActorDied(target, source); // JVAL: Script Events
 
   // Drop stuff.
   // This determines the kind of object spawned
   // during the death frame of a thing.
   // villsa [STRIFE] get item from dialog target
-  item := P_DialogFind(mobjtype_t(target._type), target.miscdata).dropitem;
-
-  // JVAL: Check if dropitem is set, to drop a custom item.
-  if item = 0 then
-    if target.info.dropitem > 0 then
-      item := target.info.dropitem;
-
-  if item = 0 then
+  if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
   begin
-    // villsa [STRIFE] drop default items
-    case target._type of
-      Ord(MT_GUARD5):
-        begin
-          if teaser = 1 then
-            item := Ord(MT_KEY_TRAVEL);
-        end;
-      Ord(MT_ORACLE):
-        begin
-          item := Ord(MT_MEAT);
-        end;
+    item := target.dropitem;
+    if item <= 0 then
+      Exit;
+  end
+  else
+  begin
+    item := P_DialogFind(mobjtype_t(target._type), target.miscdata).dropitem;
 
-      Ord(MT_PROGRAMMER):
-        begin
-          item := Ord(MT_SIGIL_A);
-        end;
+    // JVAL: Check if dropitem is set, to drop a custom item.
+    if item = 0 then
+      if target.info.dropitem > 0 then
+        item := target.info.dropitem;
 
-      Ord(MT_PRIEST):
-        begin
-          item := Ord(MT_JUNK);
-        end;
+    if item = 0 then
+    begin
+      // villsa [STRIFE] drop default items
+      case target._type of
+        Ord(MT_GUARD5):
+          begin
+            if teaser = 1 then
+              item := Ord(MT_KEY_TRAVEL);
+          end;
+        Ord(MT_ORACLE):
+          begin
+            item := Ord(MT_MEAT);
+          end;
 
-      Ord(MT_BISHOP):
-        begin
-          item := Ord(MT_AMINIBOX);
-        end;
+        Ord(MT_PROGRAMMER):
+          begin
+            item := Ord(MT_SIGIL_A);
+          end;
 
-      Ord(MT_PGUARD),
-      Ord(MT_CRUSADER):
-        begin
-          item := Ord(MT_ACELL);
-        end;
+        Ord(MT_PRIEST):
+          begin
+            item := Ord(MT_JUNK);
+          end;
 
-      Ord(MT_RLEADER):
-        begin
-          item := Ord(MT_AAMMOBOX);
-        end;
+        Ord(MT_BISHOP):
+          begin
+            item := Ord(MT_AMINIBOX);
+          end;
 
-      Ord(MT_GUARD1),
-      Ord(MT_REBEL1),
-      Ord(MT_SHADOWGUARD):
-        begin
-          item := Ord(MT_ACLIP);
-        end;
+        Ord(MT_PGUARD),
+        Ord(MT_CRUSADER):
+          begin
+            item := Ord(MT_ACELL);
+          end;
 
-      Ord(MT_SPECTRE_B):
-        begin
-          item := Ord(MT_SIGIL_B);
-        end;
+        Ord(MT_RLEADER):
+          begin
+            item := Ord(MT_AAMMOBOX);
+          end;
 
-      Ord(MT_SPECTRE_C):
-        begin
-          item := Ord(MT_SIGIL_C);
-        end;
+        Ord(MT_GUARD1),
+        Ord(MT_REBEL1),
+        Ord(MT_SHADOWGUARD):
+          begin
+            item := Ord(MT_ACLIP);
+          end;
 
-      Ord(MT_SPECTRE_D):
-        begin
-          item := Ord(MT_SIGIL_D);
-        end;
+        Ord(MT_SPECTRE_B):
+          begin
+            item := Ord(MT_SIGIL_B);
+          end;
 
-      Ord(MT_SPECTRE_E):
-        begin
-          item := Ord(MT_SIGIL_E);
-        end;
+        Ord(MT_SPECTRE_C):
+          begin
+            item := Ord(MT_SIGIL_C);
+          end;
 
-      Ord(MT_COUPLING):
-        begin
-          junk.tag := 225;
-          EV_DoDoor(@junk, vld_close);
+        Ord(MT_SPECTRE_D):
+          begin
+            item := Ord(MT_SIGIL_D);
+          end;
 
-          junk.tag := 44;
-          EV_DoFloor(@junk, lowerFloor);
+        Ord(MT_SPECTRE_E):
+          begin
+            item := Ord(MT_SIGIL_E);
+          end;
 
-          P_GiveVoiceObjective('VOC13', 'LOG13', 0);
+        Ord(MT_COUPLING):
+          begin
+            junk.tag := 225;
+            EV_DoDoor(@junk, vld_close);
 
-          item := Ord(MT_COUPLING_BROKEN);
-          players[0].questflags := players[0].questflags or _SHLW(1, mobjinfo[Ord(MT_COUPLING)].speed - 1);
-        end;
+            junk.tag := 44;
+            EV_DoFloor(@junk, lowerFloor);
 
-      else
-        exit;
+            P_GiveVoiceObjective('VOC13', 'LOG13', 0);
 
+            item := Ord(MT_COUPLING_BROKEN);
+            players[0].questflags := players[0].questflags or _SHLW(1, mobjinfo[Ord(MT_COUPLING)].speed - 1);
+          end;
+
+        else
+          exit;
+
+      end;
     end;
   end;
 

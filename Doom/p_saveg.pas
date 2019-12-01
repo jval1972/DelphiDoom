@@ -54,6 +54,18 @@ procedure P_ArchiveSpecials;
 
 procedure P_UnArchiveSpecials;
 
+procedure P_ArchiveVariables;
+
+procedure P_UnArchiveVariables;
+
+procedure P_ArchivePSMapScript;
+
+procedure P_UnArchivePSMapScript;
+
+procedure P_ArchiveOverlay;
+
+procedure P_UnArchiveOverlay;
+
 var
   save_p: PByteArray;
   savegameversion: integer;
@@ -68,11 +80,14 @@ uses
   m_fixed,
   info_h,
   info,
+  i_tmp,
   i_system,
+  p_3dfloors,  // JVAL: 3d floors
   p_pspr_h,
   p_setup,
   p_mobj_h,
   p_mobj,
+  p_mobjlist,
   p_tick,
   p_maputl,
   p_spec,
@@ -83,7 +98,13 @@ uses
   p_lights,
   p_scroll,
   p_params,
+  ps_main,
+  psi_globals,
+  psi_overlay,
   r_defs,
+  r_data,
+  r_colormaps,
+  w_wad,
   z_zone;
 
 // Pads save_p to a 4-byte boundary
@@ -91,7 +112,8 @@ uses
 
 procedure PADSAVEP;
 begin
-  save_p := PByteArray(integer(save_p) + ((4 - (integer(save_p) and 3) and 3)));
+  if savegameversion < VERSION122 then
+    save_p := PByteArray(integer(save_p) + ((4 - (integer(save_p) and 3) and 3)));
 end;
 
 //
@@ -137,6 +159,12 @@ begin
     p.angletargetx := 0;
     p.angletargety := 0;
     p.angletargetticks := 0;
+    p.laddertics := 0;
+    p.viewbob := p.bob;
+    p.slopetics := 0; // JVAL: Slopes
+    p.oldviewz := p.viewz;
+    p.teleporttics := 0;
+    p.quaketics := 0;
     result := true;
   end
   else if savegameversion <= VERSION118 then
@@ -150,10 +178,27 @@ begin
     p.angletargetx := 0;
     p.angletargety := 0;
     p.angletargetticks := 0;
+    p.laddertics := 0;
+    p.viewbob := p.bob;
+    p.slopetics := 0; // JVAL: Slopes
+    p.oldviewz := p.viewz;
+    p.teleporttics := 0;
+    p.quaketics := 0;
+    result := true;
+  end
+  else if savegameversion <= VERSION121 then
+  begin
+    memcpy(pointer(p), save_p, SizeOf(player_t121));
+    incp(pointer(save_p), SizeOf(player_t121));
+    p.laddertics := 0;
+    p.viewbob := p.bob;
+    p.slopetics := 0; // JVAL: Slopes
+    p.oldviewz := p.viewz;
+    p.teleporttics := 0;
+    p.quaketics := 0;
     result := true;
   end
   else
-
     result := false
 end;
 
@@ -169,7 +214,7 @@ begin
 
     PADSAVEP;
 
-    if savegameversion > VERSION118 then
+    if savegameversion >= VERSION122 then
     begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
@@ -207,28 +252,46 @@ begin
   while i < numsectors do
   begin
     sec := Psector_t(@sectors[i]);
-    put[0] := sec.floorheight div FRACUNIT;
-    put := @put[1];
-    put[0] := sec.ceilingheight div FRACUNIT;
-    put := @put[1];
-    put[0] := sec.floorpic;
-    put := @put[1];
-    put[0] := sec.ceilingpic;
-    put := @put[1];
+    PInteger(put)^ := sec.floorheight;
+    put := @put[2];
+    PInteger(put)^ := sec.ceilingheight;
+    put := @put[2];
+    Pchar8_t(put)^ := flats[sec.floorpic].name;
+    put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+    Pchar8_t(put)^ := flats[sec.ceilingpic].name;
+    put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
     put[0] := sec.lightlevel;
     put := @put[1];
     put[0] := sec.special; // needed?
     put := @put[1];
     put[0] := sec.tag;  // needed?
     put := @put[1];
-    put[0] := sec.floor_xoffs div FRACUNIT;
-    put := @put[1];
-    put[0] := sec.floor_yoffs div FRACUNIT;
-    put := @put[1];
-    put[0] := sec.ceiling_xoffs div FRACUNIT;
-    put := @put[1];
-    put[0] := sec.ceiling_yoffs div FRACUNIT;
-    put := @put[1];
+    PInteger(put)^ := sec.floor_xoffs;
+    put := @put[2];
+    PInteger(put)^ := sec.floor_yoffs;
+    put := @put[2];
+    PInteger(put)^ := sec.ceiling_xoffs;
+    put := @put[2];
+    PInteger(put)^ := sec.ceiling_yoffs;
+    put := @put[2];
+    PLongWord(put)^ := sec.renderflags;
+    put := @put[2];
+    PLongWord(put)^ := sec.flags;
+    put := @put[2];
+    // JVAL: 3d Floors
+    PInteger(put)^ := sec.midsec;
+    put := @put[2];
+    PInteger(put)^ := sec.midline;
+    put := @put[2];
+
+    PInteger(put)^ := sec.num_saffectees;
+    put := @put[2];
+    for j := 0 to sec.num_saffectees - 1 do
+    begin
+      PInteger(put)^ := sec.saffectees[j];
+      put := @put[2];
+    end;
+
     inc(i);
   end;
 
@@ -243,6 +306,8 @@ begin
     put := @put[1];
     put[0] := li.tag;
     put := @put[1];
+    PLongWord(put)^ := li.renderflags;
+    put := @put[2];
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
@@ -250,16 +315,16 @@ begin
 
       si := @sides[li.sidenum[j]];
 
-      put[0] := si.textureoffset div FRACUNIT;
-      put := @put[1];
-      put[0] := si.rowoffset div FRACUNIT;
-      put := @put[1];
-      put[0] := si.toptexture;
-      put := @put[1];
-      put[0] := si.bottomtexture;
-      put := @put[1];
-      put[0] := si.midtexture;
-      put := @put[1];
+      PInteger(put)^ := si.textureoffset;
+      put := @put[2];
+      PInteger(put)^ := si.rowoffset;
+      put := @put[2];
+      Pchar8_t(put)^ := R_NameForSideTexture(si.toptexture);
+      put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+      Pchar8_t(put)^ := R_NameForSideTexture(si.bottomtexture);
+      put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+      Pchar8_t(put)^ := R_NameForSideTexture(si.midtexture);
+      put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
     end;
     inc(i);
   end;
@@ -286,14 +351,28 @@ begin
   while i < numsectors do
   begin
     sec := Psector_t(@sectors[i]);
-    sec.floorheight := get[0] * FRACUNIT;
-    get := @get[1];
-    sec.ceilingheight := get[0] * FRACUNIT;
-    get := @get[1];
-    sec.floorpic := get[0];
-    get := @get[1];
-    sec.ceilingpic := get[0];
-    get := @get[1];
+    if savegameversion <= VERSION121 then
+    begin
+      sec.floorheight := get[0] * FRACUNIT;
+      get := @get[1];
+      sec.ceilingheight := get[0] * FRACUNIT;
+      get := @get[1];
+      sec.floorpic := get[0];
+      get := @get[1];
+      sec.ceilingpic := get[0];
+      get := @get[1];
+    end
+    else
+    begin
+      sec.floorheight := PInteger(get)^;
+      get := @get[2];
+      sec.ceilingheight := PInteger(get)^;
+      get := @get[2];
+      sec.floorpic := R_FlatNumForName(Pchar8_t(get)^);
+      get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
+      sec.ceilingpic := R_FlatNumForName(Pchar8_t(get)^);
+      get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
+    end;
     sec.lightlevel := get[0];
     get := @get[1];
     sec.special := get[0]; // needed?
@@ -307,14 +386,32 @@ begin
 
     if savegameversion > VERSION115 then
     begin
-      sec.floor_xoffs := get[0] * FRACUNIT;
-      get := @get[1];
-      sec.floor_yoffs := get[0] * FRACUNIT;
-      get := @get[1];
-      sec.ceiling_xoffs := get[0] * FRACUNIT;
-      get := @get[1];
-      sec.ceiling_yoffs := get[0] * FRACUNIT;
-      get := @get[1];
+      if savegameversion <= VERSION121 then
+      begin
+        sec.floor_xoffs := get[0] * FRACUNIT;
+        get := @get[1];
+        sec.floor_yoffs := get[0] * FRACUNIT;
+        get := @get[1];
+        sec.ceiling_xoffs := get[0] * FRACUNIT;
+        get := @get[1];
+        sec.ceiling_yoffs := get[0] * FRACUNIT;
+        get := @get[1];
+      end
+      else
+      begin
+        sec.floor_xoffs := PInteger(get)^;
+        get := @get[2];
+        sec.floor_yoffs := PInteger(get)^;
+        get := @get[2];
+        sec.ceiling_xoffs := PInteger(get)^;
+        get := @get[2];
+        sec.ceiling_yoffs := PInteger(get)^;
+        get := @get[2];
+        sec.renderflags := PLongWord(get)^;
+        get := @get[2];
+        sec.flags := PLongWord(get)^;
+        get := @get[2];
+      end
     end
     else
     begin
@@ -323,10 +420,34 @@ begin
       sec.ceiling_xoffs := 0;
       sec.ceiling_yoffs := 0;
     end;
+    // JVAL: 3d Floors
+    if savegameversion >= VERSION122 then
+    begin
+      sec.midsec := PInteger(get)^;
+      get := @get[2];
+      sec.midline := PInteger(get)^;
+      get := @get[2];
+    end
+    else
+    begin
+      sec.midsec := -1;
+      sec.midline := -1;
+    end;
+
+    if savegameversion >= VERSION122 then
+    begin
+      sec.num_saffectees := PInteger(get)^;
+      get := @get[2];
+      Z_Realloc(sec.saffectees, sec.num_saffectees * SizeOf(integer), PU_LEVEL, nil);
+      for j := 0 to sec.num_saffectees - 1 do
+      begin
+        sec.saffectees[j] := PInteger(get)^;
+        get := @get[2];
+      end;
+    end;
+
     sec.touching_thinglist := nil;
-    {$IFDEF OPENGL}
-    sec.iSectorID := i;
-    {$ENDIF}
+    sec.iSectorID := i; // JVAL: 3d Floors
     inc(i);
   end;
 
@@ -341,21 +462,52 @@ begin
     get := @get[1];
     li.tag := get[0];
     get := @get[1];
+    if savegameversion >= VERSION122 then
+    begin
+      li.renderflags := PLongWord(get)^;
+      get := @get[2];
+    end;
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
         continue;
       si := @sides[li.sidenum[j]];
-      si.textureoffset := get[0] * FRACUNIT;
-      get := @get[1];
-      si.rowoffset := get[0] * FRACUNIT;
-      get := @get[1];
-      si.toptexture := get[0];
-      get := @get[1];
-      si.bottomtexture := get[0];
-      get := @get[1];
-      si.midtexture := get[0];
-      get := @get[1];
+
+      if savegameversion <= VERSION121 then
+      begin
+        si.textureoffset := get[0] * FRACUNIT;
+        get := @get[1];
+        si.rowoffset := get[0] * FRACUNIT;
+        get := @get[1];
+        si.toptexture := get[0];
+        get := @get[1];
+        si.bottomtexture := get[0];
+        get := @get[1];
+        si.midtexture := get[0];
+        get := @get[1];
+      end
+      else
+      begin
+        si.textureoffset := PInteger(get)^;
+        get := @get[2];
+        si.rowoffset := PInteger(get)^;
+        get := @get[2];
+
+        si.toptexture := R_SafeTextureNumForName(Pchar8_t(get)^);
+        if si.toptexture = 0 then
+          si.toptexture := -1 - R_CustomColorMapForName(Pchar8_t(get)^);
+        get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
+
+        si.bottomtexture := R_SafeTextureNumForName(Pchar8_t(get)^);
+        if si.bottomtexture = 0 then
+          si.bottomtexture := -1 - R_CustomColorMapForName(Pchar8_t(get)^);
+        get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
+
+        si.midtexture := R_SafeTextureNumForName(Pchar8_t(get)^);
+        if si.midtexture = 0 then
+          si.midtexture := -1 - R_CustomColorMapForName(Pchar8_t(get)^);
+        get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
+      end;
     end;
     inc(i);
   end;
@@ -481,6 +633,7 @@ begin
     mobj.nextangle := mobj.angle;
     mobj.intrplcnt := 0;
 
+    mobj.dropitem := 0;
 
     Z_Free(mobj113);
     result := true
@@ -543,6 +696,8 @@ begin
     mobj.nextangle := mobj.angle;
     mobj.intrplcnt := 0;
 
+    mobj.dropitem := 0;
+
     Z_Free(mobj114);
     result := true
   end
@@ -603,6 +758,8 @@ begin
     mobj.prevangle := mobj.angle;
     mobj.nextangle := mobj.angle;
     mobj.intrplcnt := 0;
+
+    mobj.dropitem := 0;
 
     Z_Free(mobj115);
     result := true
@@ -665,6 +822,8 @@ begin
     mobj.nextangle := mobj.angle;
     mobj.intrplcnt := 0;
 
+    mobj.dropitem := 0;
+
     Z_Free(mobj117);
     result := true
   end
@@ -726,6 +885,8 @@ begin
     mobj.nextangle := mobj.angle;
     mobj.intrplcnt := 0;
 
+    mobj.dropitem := 0;
+
     Z_Free(mobj118);
     result := true;
   end
@@ -743,6 +904,16 @@ begin
     mobj.prevangle := mobj.angle;
     mobj.nextangle := mobj.angle;
     mobj.intrplcnt := 0;
+    mobj.dropitem := 0;
+
+    result := true;
+  end
+  else if savegameversion = VERSION121 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t121));
+    incp(pointer(save_p), SizeOf(mobj_t121));
+
+    mobj.dropitem := 0;
 
     result := true;
   end
@@ -789,7 +960,7 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion = VERSION then
+          if savegameversion >= VERSION121 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
@@ -797,11 +968,13 @@ begin
           else if not P_UnArchiveOldPmobj(mobj) then
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
 
-          if mobj.key >= mobjkeycnt then
-            mobjkeycnt := mobj.key + 1;
+          if mobj.key < 2 then
+            mobj.key := P_GenGlobalMobjKey;
+          P_NotifyMobjKey(mobj);
 
           mobj.state := @states[integer(mobj.state)];
           mobj.prevstate := @states[integer(mobj.prevstate)];
+          mobj.info := @mobjinfo[Ord(mobj._type)];
           mobj.target := nil;
           mobj.tracer := nil;
           mobj.touching_sectorlist := nil;
@@ -824,9 +997,8 @@ begin
           end;
 
           P_SetThingPosition(mobj);
-          mobj.info := @mobjinfo[Ord(mobj._type)];
-          mobj.floorz := Psubsector_t(mobj.subsector).sector.floorheight;
-          mobj.ceilingz := Psubsector_t(mobj.subsector).sector.ceilingheight;
+          mobj.floorz := P_3dFloorHeight(mobj); // JVAL: 3d floors
+          mobj.ceilingz := P_3dCeilingHeight(mobj); // JVAL: 3d floors
           @mobj.thinker._function.acp1 := @P_MobjThinker;
           P_AddThinker(@mobj.thinker);
         end;
@@ -1262,6 +1434,7 @@ begin
           memcpy(pusher, save_p, SizeOf(pusher_t));
           incp(pointer(save_p), SizeOf(pusher_t));
           @pusher.thinker._function.acp1 := @T_Pusher;
+          pusher.source := P_GetPushThing(pusher.affectee);
           P_AddThinker(@pusher.thinker);
         end;
 
@@ -1271,6 +1444,101 @@ begin
         I_Error('P_UnarchiveSpecials(): Unknown tclass %d in savegame', [tclass]);
     end;
   end;
+end;
+
+procedure P_ArchiveGlobalVariables(const vars: TGlobalVariablesList);
+var
+  sz: integer;
+begin
+  sz := vars.StructureSize;
+  PInteger(save_p)^ := sz;
+  incp(pointer(save_p), SizeOf(integer));
+  vars.SaveToBuffer(save_p);
+  incp(pointer(save_p), sz);
+end;
+
+procedure P_ArchiveVariables;
+begin
+  P_ArchiveGlobalVariables(mapvars);
+  P_ArchiveGlobalVariables(worldvars);
+end;
+
+procedure P_ArchivePSMapScript;
+var
+  fname: string;
+  sz: Integer;
+begin
+  fname := I_NewTempFile('mapscript' + itoa(Random(1000)));
+  PS_MapScriptSaveToFile(fname);
+  sz := fsize(fname);
+  PInteger(save_p)^ := sz;
+  incp(pointer(save_p), SizeOf(integer));
+  with TFile.Create(fname, fOpenReadOnly) do
+  try
+    Read(save_p^, sz);
+  finally
+    Free;
+  end;
+  fdelete(fname);
+  incp(Pointer(save_p), sz);
+end;
+
+procedure P_UnArchiveGlobalVariables(const vars: TGlobalVariablesList);
+var
+  sz: integer;
+begin
+  if savegameversion <= VERSION121 then
+    Exit;
+
+  sz := PInteger(save_p)^;
+  incp(pointer(save_p), SizeOf(integer));
+  vars.LoadFromBuffer(save_p);
+  incp(pointer(save_p), sz);
+end;
+
+procedure P_UnArchiveVariables;
+begin
+  P_UnArchiveGlobalVariables(mapvars);
+  P_UnArchiveGlobalVariables(worldvars);
+end;
+
+procedure P_UnArchivePSMapScript;
+var
+  fname: string;
+  sz: Integer;
+begin
+  if savegameversion <= VERSION121 then
+    Exit;
+
+  sz := PInteger(save_p)^;
+  incp(pointer(save_p), SizeOf(integer));
+
+  fname := I_NewTempFile('mapscript' + itoa(Random(1000)));
+  with TFile.Create(fname, fCreate) do
+  try
+    Write(save_p^, sz);
+  finally
+    Free;
+  end;
+  PS_MapScriptLoadFromFile(fname);
+  fdelete(fname);
+  incp(Pointer(save_p), sz);
+end;
+
+procedure P_ArchiveOverlay;
+begin
+  if savegameversion <= VERSION121 then
+    Exit;
+
+  overlay.SaveToBuffer(Pointer(save_p));
+end;
+
+procedure P_UnArchiveOverlay;
+begin
+  if savegameversion <= VERSION121 then
+    Exit;
+
+  overlay.LoadFromBuffer(Pointer(save_p));
 end;
 
 end.

@@ -18,8 +18,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  Ceiling aninmation (lowering, crushing, raising)
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -34,8 +37,10 @@ interface
 
 uses
   d_delphi,
-  z_zone, doomdef,
-  p_local, p_spec,
+  z_zone,
+  doomdef,
+  p_local,
+  p_spec,
   r_defs,
   s_sound,
 // State.
@@ -64,8 +69,14 @@ function EV_CeilingCrushStop(line: Pline_t; args: PByteArray): boolean;
 implementation
 
 uses
+  i_system,
   m_fixed,
-  p_acs, p_mobj_h, p_tick, p_setup, p_floor,
+  p_acs,
+  p_mobj_h,
+  p_tick,
+  p_setup,
+  p_slopes,
+  p_floor,
   s_sndseq;
 
 //
@@ -81,6 +92,7 @@ begin
       activeceilings[i] := c;
       exit;
     end;
+  I_Warning('P_AddActiveCeiling(): Can not add ceiling, limit %d reached'#13#10, [MAXCEILINGS]);
 end;
 
 //
@@ -267,6 +279,7 @@ begin
     if result then
       S_StartSequence(Pmobj_t(@ceiling.sector.soundorg),
         Ord(SEQ_PLATFORM) + Ord(ceiling.sector.seqType));
+    P_DynamicSlope(sec);  // JVAL: Slopes
   end;
 end;
 

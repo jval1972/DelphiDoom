@@ -18,8 +18,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  Teleportation.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -41,9 +44,12 @@ uses
 //
 // TELEPORTATION
 //
-function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean): boolean;
+function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
 
 function EV_Teleport(tid: integer; thing: Pmobj_t; fog: boolean): boolean;
+
+const
+  TELEPORTZOOM = 15 * FRACUNIT;
 
 implementation
 
@@ -59,7 +65,7 @@ uses
   sounds,
   doomdef;
 
-function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean): boolean;
+function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean; floorz, ceilingz: fixed_t): boolean;
 var
   oldx: fixed_t;
   oldy: fixed_t;
@@ -79,6 +85,9 @@ begin
     result := false;
     exit;
   end;
+
+  thing.floorz := floorz;
+  thing.ceilingz := ceilingz;
 
   if thing.player <> nil then
   begin
@@ -126,13 +135,15 @@ begin
     begin // Freeze player for about .5 sec
       thing.reactiontime := 18;
     end;
+    if thing.player <> nil then
+      Pplayer_t(thing.player).teleporttics := TELEPORTZOOM;
     thing.angle := angle;
   end;
   if thing.flags2 and MF2_FLOORCLIP <> 0 then
   begin
-    if (thing.z = Psubsector_t(thing.subsector).sector.floorheight) and
+    if (thing.z = thing.floorz) and
        (P_GetThingFloorType(thing) > FLOOR_SOLID) then
-      thing.floorclip := 10 * FRACUNIT
+      thing.floorclip := FOOTCLIPSIZE
     else
       thing.floorclip := 0;
   end;
@@ -197,7 +208,8 @@ begin
   end;
   if mo = nil then
     I_Error('EV_Teleport(): Can''t find teleport mapspot');
-  result := P_Teleport(thing, mo.x, mo.y, mo.angle, fog);
+
+  result := P_Teleport(thing, mo.x, mo.y, mo.angle, fog, mo.floorz, mo.ceilingz);
 end;
 
 end.

@@ -1,0 +1,5 @@
+MP3 music support for DelphiDoom
+--------------------------------
+DelphiDoom now supports external mp3 music. MP3 music of each level can be replaced by mp3 files with the filename same as the level name (or original Doom music lump names) and the mp3 extention.
+The mp3 files can be loaded inside PK3/PAK files (using -pakfile console command), or as standalone files in the same directory as doom32.exe (no command line parameter needed).
+Variable bitrate is not supported.

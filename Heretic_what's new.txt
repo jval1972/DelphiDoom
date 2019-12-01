@@ -1,3 +1,50 @@
+Places screenshots inside data\screenshots folder.
+Mirror screenshot to jpg format.
+General purpose multithreading utilities will use more than 2 logical CPUs if available.
+Sound precaching discarted. (was causing problems with memory managment)
+Added -cgaX3 command line parameter, starts at 960X600 resolution.
+SpawnMobj console command also gets angle as parameter.
+Search for ACTORDEF lumps inside PK3/PAK files.
+Added support for V5 glnodes.
+Visplane hash. 
+Added -geom command line parameter. e.g. -geom 800x600
+Corrected teleport handling for mobjs with MF2_NOTELEPORT flag.
+Added TNTHOM and HOM console commands, to enable/disable HOM detection. (software renderer only)
+Added compile, compilescript & pscomp console commands, compiles pss script into bytecode (file input, file output).
+Added A_GhostOn mobj function.
+Added A_RunScript mobj function.
+Added A_Turn5 & A_Turn10 mobj functions.
+Added Spawnmobj console command.
+THINKER keyword inside ACTORDEF lumps (runs script).
+Added -con command line parameter, executes at loadtime a file containing console commands.
+Added halt console command, stops executing without endscreen and without end sound.
+Added line special 282, create ladder to tagged sectors.
+Saved games contain texture and flat names, no texture and flat numbers (SAVEGAMEVERSION = 115).
+Added A_Blocking mobj function.
+Added MF2_EX_DONRUNSCRIPTS mobj flag.
+Added A_DoNotRunScripts & A_DoRunScripts mobj functions.
+Added MF2_EX_PRECISESPAWNANGLE mobj flag. (Use precise spawnangle of mapthing to spawn mobj)
+Transparent middle textures for linedef (action=260)
+Keep sector renderflags in saved games.
+Keep linedef renderflags in saved games.
+Support for HI_START & HI_END namespace inside WADs.
+Bug fix: Now wall drawing uses correct light level in 32 bit color software rendering mode.
+Maximum number of general purpose threads increased to 16.
+Added TNT1 sprite for use with custom actor definitions.
+Added line special 281, create 3d middle floor to tagged sector(s).
+More accurate fake3d effect.
+Added line specials 386, 387, 388, 389, 390 & 391, create sloped sectors.
+Teleport zoom effect.
+Added getworldvar & getmapvar console commands. Display pascal script world and map variables.
+Added setworldvar & setmapvar console commands. Set pascal script world and map variables.
+Will use PK3ENTRY lump inside a wad file to define long filename aliases for other wad lumps.
+Added MF2_EX_CUSTOMDROPITEM mobj flag. When set, the specified instance of the mobj drops a cutom dropitem
+Added A_SetDropItem & A_SetDefaultDropItem mobj functions.
+Added A_TargetDropItem & A_DefaultTargetDropItem mobj functions.
+Added overlaydrawtextleft, overlaydrawtextright, overlaydrawtextcenter, overlaydrawpixel and overlayputpixel console commands.
+Added A_GlobalEarthQuake mobj function.
+Corrected voxel scale in software rendering mode. 
+
 Version 1.1.6 build 605 - (29/8/2016)
 -----------
 Fixes to the textured automap.

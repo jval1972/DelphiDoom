@@ -95,7 +95,8 @@ begin
   mciOpenParms.lpstrElementName := PChar(lpszMIDIFileName);
   result := mciSendCommand(0, MCI_OPEN, MCI_OPEN_TYPE or MCI_OPEN_ELEMENT, DWORD(@mciOpenParms));
   // Failed to open device. Don't close it; just return error.
-  if result <> 0 then exit;
+  if result <> 0 then
+    exit;
 
   // The device opened successfully; get the device ID.
   wDeviceID := mciOpenParms.wDeviceID;

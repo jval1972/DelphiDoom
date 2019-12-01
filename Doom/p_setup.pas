@@ -41,6 +41,7 @@ uses
   doomdata,
   m_fixed,
   p_mobj_h,
+  nd_main,
   r_defs;
 
 function P_GetMapName(const episode, map: integer): string;
@@ -119,9 +120,10 @@ var
 //  used as a PVS lookup as well.
 //
   rejectmatrix: PByteArray;
+  rejectmatrixsize: integer;
 
   p_justspawned: boolean = false;
-  
+
 const
 // Maintain single and multi player starting spots.
   MAX_DEATHMATCH_STARTS = 10;
@@ -162,6 +164,10 @@ uses
   p_maputl,
   p_adjust,
   p_udmf,
+  p_3dfloors, // JVAL: 3d Floors
+  p_slopes,   // JVAL: Slopes
+  p_affectees,
+  ps_main,    // JVAL: Script Events
   r_data,
   r_things,
   info_rnd,
@@ -176,7 +182,6 @@ uses
   gl_render,  // JVAL OPENGL
   r_main,
 {$ENDIF}
-  nd_main,
   s_sound,
   doomstat;
 
@@ -269,9 +274,8 @@ begin
 
   // Free buffer memory.
   Z_Free(data);
-  
-  gld_GetGLVertexes(li, gllump, numglverts, glnodesver);
 
+  gld_GetGLVertexes(li, gllump, numglverts, glnodesver);
 end;
 
 function GetDistance(dx, dy: integer): float;
@@ -306,14 +310,15 @@ begin
   li := @segs[0];
   for i := 0 to numsegs - 1 do
   begin
-    li.v1 := @vertexes[ml.v1];
-    li.v2 := @vertexes[ml.v2];
+    li.v1 := @vertexes[smallintwarp2(ml.v1)];
+    li.v2 := @vertexes[smallintwarp2(ml.v2)];
+
     li.angle := ml.angle * FRACUNIT;
     li.offset := ml.offset * FRACUNIT;
-    linedef := ml.linedef;
+    linedef := smallintwarp2(ml.linedef);
     ldef := @lines[linedef];
     li.linedef := ldef;
-    side := ml.side;
+    side := smallintwarp2(ml.side);
     li.sidedef := @sides[ldef.sidenum[side]];
     li.frontsector := li.sidedef.sector;
     if ldef.flags and ML_TWOSIDED <> 0 then
@@ -323,8 +328,8 @@ begin
     {$IFDEF OPENGL}
     li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);
     li.iSegID := i;
-    li.miniseg := false;
     {$ENDIF}
+    li.miniseg := false;
     inc(ml);
     inc(li);
   end;
@@ -335,7 +340,7 @@ end;
 {$IFDEF OPENGL}
 function CheckGLVertex(num: integer): integer;
 begin
-  if glnodesver < 3 then
+  if glnodesver <= 3 then
   begin
     if num and (1 shl 15) <> 0 then
     begin
@@ -343,21 +348,21 @@ begin
       exit;
     end
   end
-  else if glnodesver < 3 then
+  else if glnodesver = 4 then
   begin
     if num and (1 shl 30) <> 0 then
     begin
       result := num and (1 shl 30 - 1) + firstglvert;
       exit;
     end
-{  end
-  else
+  end
+  else if glnodesver = 5 then
   begin
     if num and (1 shl 31) <> 0 then
     begin
-      result := num and LongWord(1 shl 31 - 1) + firstglvert;
+      result := LongWord(num) and LongWord(_SHLW(1, 31) - 1) + firstglvert;
       exit;
-    end}
+    end
   end;
   result := num;
 end;
@@ -379,63 +384,120 @@ var
   data: pointer;
   i: integer;
   ml: PGLSeg1_t;
+  ml3: PGLSeg3_t;
   li: Pseg_t;
   ldef: Pline_t;
   linedef: integer;
   side: integer;
 begin
-  numsegs := W_LumpLength(lump) div SizeOf(GLSeg1_t);
+  // jval glbsp V5
+  if glnodesver = 3 then
+    numsegs := (W_LumpLength(lump) - 4) div SizeOf(GLSeg3_t)
+  else if glnodesver > 3 then
+    numsegs := W_LumpLength(lump) div SizeOf(GLSeg3_t)
+  else
+    numsegs := W_LumpLength(lump) div SizeOf(GLSeg1_t);
   segs := Z_Malloc(numsegs * SizeOf(seg_t), PU_LEVEL, nil);
   ZeroMemory(segs, numsegs * SizeOf(seg_t));
   data := W_CacheLumpNum(lump, PU_STATIC);
 
-  ml := PGLSeg1_t(data);
-  li := @segs[0];
-  for i := 0 to numsegs - 1 do
+  if glnodesver < 3 then
   begin
-    li.v1 := @vertexes[CheckGLVertex(ml.start_vertex)];
-    li.v2 := @vertexes[CheckGLVertex(ml.end_vertex)];
-    li.iSegID := i;
+    ml := PGLSeg1_t(data);
+    li := @segs[0];
+    for i := 0 to numsegs - 1 do
+    begin
+      li.v1 := @vertexes[CheckGLVertex(ml.start_vertex)];
+      li.v2 := @vertexes[CheckGLVertex(ml.end_vertex)];
+      li.iSegID := i;
 
-    if PWord(@ml.linedef)^ = word(1 shl 16 - 1) then
-    begin
-      li.miniseg := true;
-      li.angle := 0;
-      li.offset := 0;
-      li.length := 0;
-      li.linedef := nil;
-      li.sidedef := nil;
-      li.frontsector := nil;
-      li.backsector := nil;
-    end
-    else
-    begin
-      li.miniseg := false;
-      li.angle := R_PointToAngle2(li.v1.x, li.v1.y, li.v2.x, li.v2.y);
-      linedef := ml.linedef;
-      ldef := @lines[linedef];
-      if ml.side <> 0 then
-        li.offset := GetOffset(li.v1, ldef.v2)
-      else
-        li.offset := GetOffset(li.v1, ldef.v1);
-      li.linedef := ldef;
-      side := ml.side;
-      li.sidedef := @sides[ldef.sidenum[side]];
-      li.frontsector := li.sidedef.sector;
-      if ldef.flags and ML_TWOSIDED <> 0 then
-        li.backsector := sides[ldef.sidenum[side xor 1]].sector
-      else
+      if PWord(@ml.linedef)^ = word(1 shl 16 - 1) then
+      begin
+        li.miniseg := true;
+        li.angle := 0;
+        li.offset := 0;
+        li.length := 0;
+        li.linedef := nil;
+        li.sidedef := nil;
+        li.frontsector := nil;
         li.backsector := nil;
-      li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);
+      end
+      else
+      begin
+        li.miniseg := false;
+        li.angle := R_PointToAngle2(li.v1.x, li.v1.y, li.v2.x, li.v2.y);
+        linedef := ml.linedef;
+        ldef := @lines[linedef];
+        if ml.side <> 0 then
+          li.offset := GetOffset(li.v1, ldef.v2)
+        else
+          li.offset := GetOffset(li.v1, ldef.v1);
+        li.linedef := ldef;
+        side := ml.side;
+        li.sidedef := @sides[ldef.sidenum[side]];
+        li.frontsector := li.sidedef.sector;
+        if ldef.flags and ML_TWOSIDED <> 0 then
+          li.backsector := sides[ldef.sidenum[side xor 1]].sector
+        else
+          li.backsector := nil;
+        li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);
+      end;
+      inc(ml);
+      inc(li);
     end;
-    inc(ml);
-    inc(li);
+  end
+  else
+  begin
+    if glnodesver = 3 then
+      ml3 := PGLSeg3_t(Integer(data) + 4)
+    else
+      ml3 := PGLSeg3_t(data);
+    li := @segs[0];
+    for i := 0 to numsegs - 1 do
+    begin
+      li.v1 := @vertexes[CheckGLVertex(ml3.start_vertex)];
+      li.v2 := @vertexes[CheckGLVertex(ml3.end_vertex)];
+      li.iSegID := i;
+
+      if PWord(@ml3.linedef)^ = word(1 shl 16 - 1) then
+      begin
+        li.miniseg := true;
+        li.angle := 0;
+        li.offset := 0;
+        li.length := 0;
+        li.linedef := nil;
+        li.sidedef := nil;
+        li.frontsector := nil;
+        li.backsector := nil;
+      end
+      else
+      begin
+        li.miniseg := false;
+        li.angle := R_PointToAngle2(li.v1.x, li.v1.y, li.v2.x, li.v2.y);
+        linedef := ml3.linedef;
+        ldef := @lines[linedef];
+        if ml3.side <> 0 then
+          li.offset := GetOffset(li.v1, ldef.v2)
+        else
+          li.offset := GetOffset(li.v1, ldef.v1);
+        li.linedef := ldef;
+        side := ml3.side;
+        li.sidedef := @sides[ldef.sidenum[side]];
+        li.frontsector := li.sidedef.sector;
+        if ldef.flags and ML_TWOSIDED <> 0 then
+          li.backsector := sides[ldef.sidenum[side xor 1]].sector
+        else
+          li.backsector := nil;
+        li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);
+      end;
+      inc(ml3);
+      inc(li);
+    end;
   end;
 
   Z_Free(data);
 end;
 {$ENDIF}
-
 
 //
 // P_LoadSubsectors
@@ -465,6 +527,40 @@ begin
 
   Z_Free(data);
 end;
+
+{$IFDEF OPENGL}
+procedure P_LoadSubsectorsV3V5(lump: integer);
+var
+  data: pointer;
+  i: integer;
+  ms: PGLSubSector3_t;
+  ss: Psubsector_t;
+begin
+  if glnodesver = 3 then
+    numsubsectors := (W_LumpLength(lump) - 4) div SizeOf(GLSubSector3_t)
+  else
+    numsubsectors := W_LumpLength(lump) div SizeOf(GLSubSector3_t);
+  subsectors := Z_Malloc(numsubsectors * SizeOf(subsector_t), PU_LEVEL, nil);
+  data := W_CacheLumpNum(lump, PU_STATIC);
+
+  if glnodesver = 3 then
+    ms := PGLSubSector3_t(integer(data) + 4)
+  else
+    ms := PGLSubSector3_t(data);
+  ZeroMemory(subsectors, numsubsectors * SizeOf(subsector_t));
+
+  ss := @subsectors[0];
+  for i := 0 to numsubsectors - 1 do
+  begin
+    ss.numlines := ms.count;
+    ss.firstline := ms.first_seg;
+    inc(ms);
+    inc(ss);
+  end;
+
+  Z_Free(data);
+end;
+{$ENDIF}
 
 //
 // P_LoadSectors
@@ -502,11 +598,14 @@ begin
     ss.ceiling_xoffs := 0;
     ss.ceiling_yoffs := 0;
     ss.heightsec := -1;
+    ss.midsec := -1;    // JVAL: 3d floors
+    ss.midline := -1;
     ss.floorlightsec := -1;   // sector used to get floor lighting
     ss.topmap := -1;
     ss.midmap := -1;
     ss.bottommap := -1;
     ss.renderflags := 0;
+    ss.flags := 0;
 
 {$IFDEF OPENGL}
     ss.floorlightlevel := ss.lightlevel;
@@ -515,9 +614,7 @@ begin
     // killough 4/11/98 sector used to get ceiling lighting:
     ss.ceilinglightsec := -1;
 
-{$IFDEF OPENGL}
-    ss.iSectorID := i;
-{$ENDIF}
+    ss.iSectorID := i; // JVAL: 3d Floors
     inc(ms);
     inc(ss);
   end;
@@ -551,7 +648,16 @@ begin
     no.dy := mn.dy * FRACUNIT;
     for j := 0 to 1 do
     begin
-      no.children[j] := mn.children[j];
+      // jval: glbsp
+      if mn.children[j] and NF_SUBSECTOR <> 0 then
+      begin
+        mn.children[j] := mn.children[j] and not NF_SUBSECTOR;
+        no.children[j] := mn.children[j];
+        no.children[j] := no.children[j] or NF_SUBSECTOR_V5;
+      end
+      else
+        no.children[j] := mn.children[j];
+
       for k := 0 to 3 do
         no.bbox[j, k] := mn.bbox[j, k] * FRACUNIT;
     end;
@@ -559,8 +665,45 @@ begin
     inc(no);
   end;
 
+  Z_Free(data);
+end;
+
+{$IFDEF OPENGL}
+procedure P_LoadNodesV4V5(lump: integer);
+var
+  data: pointer;
+  i: integer;
+  k: integer;
+  mn: PGLNode4_t;
+  no: Pnode_t;
+begin
+  numnodes := W_LumpLength(lump) div SizeOf(GLNode4_t);
+  nodes := Z_Malloc(numnodes * SizeOf(node_t), PU_LEVEL, nil);
+  data := W_CacheLumpNum(lump, PU_STATIC);
+
+  mn := PGLNode4_t(data);
+  no := @nodes[0];
+  for i := 0 to numnodes - 1 do
+  begin
+    no.x := mn.x * FRACUNIT;
+    no.y := mn.y * FRACUNIT;
+    no.dx := mn.dx * FRACUNIT;
+    no.dy := mn.dy * FRACUNIT;
+
+    no.children[0] := mn.right_child;
+    no.children[1] := mn.left_child;
+    for k := 0 to 3 do
+      no.bbox[0, k] := mn.right_bbox[k] * FRACUNIT;
+    for k := 0 to 3 do
+      no.bbox[1, k] := mn.left_bbox[k] * FRACUNIT;
+
+    inc(mn);
+    inc(no);
+  end;
+
   Z_Free (data);
 end;
+{$ENDIF}
 
 function P_GameValidThing(const doomdnum: integer): boolean;
 begin
@@ -698,9 +841,9 @@ begin
     ld.flags := mld.flags;
     ld.special := mld.special;
     ld.tag := mld.tag;
-    ld.v1 := @vertexes[mld.v1];
+    ld.v1 := @vertexes[smallintwarp2(mld.v1)];
     v1 := ld.v1;
-    ld.v2 := @vertexes[mld.v2];
+    ld.v2 := @vertexes[smallintwarp2(mld.v2)];
     v2 := ld.v2;
     ld.dx := v2.x - v1.x;
     ld.dy := v2.y - v1.y;
@@ -736,8 +879,8 @@ begin
       ld.bbox[BOXTOP] := v1.y;
     end;
 
-    ld.sidenum[0] := mld.sidenum[0];
-    ld.sidenum[1] := mld.sidenum[1];
+    ld.sidenum[0] := smallintwarp1(mld.sidenum[0]);
+    ld.sidenum[1] := smallintwarp1(mld.sidenum[1]);
 
     if ld.sidenum[0] <> -1 then
       ld.frontsector := sides[ld.sidenum[0]].sector
@@ -750,6 +893,7 @@ begin
       ld.backsector := nil;
 
     ld.renderflags := 0;
+
     inc(mld);
     inc(ld);
   end;
@@ -819,7 +963,7 @@ begin
     if sd.midtexture = 0 then
       sd.midtexture := -1 - R_CustomColorMapForName(msd.midtexture);
 
-    sd.sector := @sectors[msd.sector];
+    sd.sector := @sectors[smallintwarp2(msd.sector)];
     inc(msd);
     inc(sd);
   end;
@@ -1216,6 +1360,7 @@ begin
   end;
 
   blockmap := @blockmaplump[4];
+
   bmaporgx := blockmaplump[0] * FRACUNIT;
   bmaporgy := blockmaplump[1] * FRACUNIT;
   bmapwidth := blockmaplump[2];
@@ -1250,7 +1395,6 @@ begin
   for i := 0 to numsubsectors - 1 do
   begin
     seg := @segs[pss.firstline];
-    {$IFDEF OPENGL}
     pss.sector := nil;
     for j := 0 to pss.numlines - 1 do
     begin
@@ -1267,9 +1411,6 @@ begin
     end;
     if pss.sector = nil then
       I_Error('P_GroupLines(): Subsector %d is not part of a sector', [i]);
-    {$ELSE}
-    pss.sector := seg.sidedef.sector;
-    {$ENDIF}
     inc(pss);
   end;
 
@@ -1287,7 +1428,7 @@ begin
       li.backsector.linecount := li.backsector.linecount + 1;
       inc(total);
     end;
-    
+
     if li.special = 260 then
     begin
       if li.tag = 0 then
@@ -1299,6 +1440,7 @@ begin
             lines[j].renderflags := lines[j].renderflags or LRF_TRANSPARENT
       end;
     end;
+
   end;
 
   // build line tables for each sector
@@ -1352,16 +1494,20 @@ begin
   end;
 
 
+  li := @lines[0];
   for i := 0 to numlines - 1 do
-    if lines[i].special = 242 then
+  begin
+    if li.special = 242 then
     begin
-      if sides[lines[i].sidenum[0]].toptexture < 0 then
-        sides[lines[i].sidenum[0]].sector.topmap := -sides[lines[i].sidenum[0]].toptexture - 1;
-      if sides[lines[i].sidenum[0]].bottomtexture < 0 then
-        sides[lines[i].sidenum[0]].sector.bottommap := -sides[lines[i].sidenum[0]].bottomtexture - 1;
-      if sides[lines[i].sidenum[0]].midtexture < 0 then
-        sides[lines[i].sidenum[0]].sector.midmap := -sides[lines[i].sidenum[0]].midtexture - 1;
+      if sides[li.sidenum[0]].toptexture < 0 then
+        sides[li.sidenum[0]].sector.topmap := -sides[li.sidenum[0]].toptexture - 1;
+      if sides[li.sidenum[0]].bottomtexture < 0 then
+        sides[li.sidenum[0]].sector.bottommap := -sides[li.sidenum[0]].bottomtexture - 1;
+      if sides[li.sidenum[0]].midtexture < 0 then
+        sides[li.sidenum[0]].sector.midmap := -sides[li.sidenum[0]].midtexture - 1;
     end;
+    Inc(li);
+  end;
 
   for i := 0 to numsides - 1 do
   begin
@@ -1470,8 +1616,8 @@ begin
             y0 := v.y;
             x1 := l.v1.x;
             y1 := l.v1.y;
-            v.x := integer((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) div s);
-            v.y := integer((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) div s);
+            v.x := Round((dx2 * x0 + dy2 * x1 + dxy * (y0 - y1)) / s);
+            v.y := Round((dy2 * y0 + dx2 * y1 + dxy * (x0 - x1)) / s);
           end;
         end;
         if v = segs[i].v2 then
@@ -1498,7 +1644,6 @@ var
   gwa: TGWAFile;
   gwaname: string;
   gwaloaded: boolean;
-  
 begin
   totalkills := 0;
   totalitems := 0;
@@ -1548,7 +1693,7 @@ begin
   if spawnrandommonsters then
     printf(' Random monsters seed=%d'#13#10, [rnd_monster_seed]);
 
-  UDMF_Check(lumpname);  
+  UDMF_Check(lumpname);
 
   lumpnum := W_GetNumForName(lumpname);
   gwaloaded := false;
@@ -1602,12 +1747,18 @@ begin
   P_LoadLineDefs(lumpnum + Ord(ML_LINEDEFS));
   P_LoadBlockMap(lumpnum + Ord(ML_BLOCKMAP));
   {$IFDEF OPENGL}
-  if glnodesver > 0 then
+  if (glnodesver > 0) and (glmapnum <> - 1) then
   begin
     glmapname := W_GetNameForNum(glmapnum);
     printf(' GL nodes v%d found (%s)'#13#10, [glnodesver, glmapname]);
-    P_LoadSubsectors(glmapnum + Ord(ML_GL_SSECT));
-    P_LoadNodes(glmapnum + Ord(ML_GL_NODES));
+    if glnodesver >= 3 then
+      P_LoadSubsectorsV3V5(glmapnum + Ord(ML_GL_SSECT))
+    else
+      P_LoadSubsectors(glmapnum + Ord(ML_GL_SSECT));
+    if glnodesver >= 4 then
+      P_LoadNodesV4V5(glmapnum + Ord(ML_GL_NODES))
+    else
+      P_LoadNodes(glmapnum + Ord(ML_GL_NODES));
     P_LoadGLSegs(glmapnum + Ord(ML_GL_SEGS));
   end
   else
@@ -1634,9 +1785,16 @@ begin
     gwa.Free;
 
   rejectmatrix := W_CacheLumpNum(lumpnum + Ord(ML_REJECT), PU_LEVEL);
+  rejectmatrixsize := W_LumpLength(lumpnum + Ord(ML_REJECT));
   P_GroupLines;
 
+  P_3dFloorSetupSegs; // JVAL: 3d Floors
+
   P_RemoveSlimeTrails;    // killough 10/98: remove slime trails from wad
+
+  P_SlopesSetup;// JVAL: Slopes
+
+  P_SetupSectorAffectees;
 
   if autoadjustmissingtextures then
     P_AdjustMissingTextures;
@@ -1678,6 +1836,8 @@ begin
 {$IFDEF OPENGL}
   gld_PreprocessLevel; // JVAL OPENGL
 {$ENDIF}
+
+  PS_LinkScriptEvents(lumpname);  // JVAL: Script Events
 
   R_SetInterpolateSkipTicks(2);
 end;

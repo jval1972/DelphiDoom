@@ -77,7 +77,7 @@ begin
   rsOutPut := '';
 
   // set up the security attributes for the anonymous pipe */
-  saPipe.nLength := sizeof(TSecurityAttributes);
+  saPipe.nLength := SizeOf(TSecurityAttributes);
   saPipe.lpSecurityDescriptor := nil;
   // In order for the child to be able to write to the pipe, the handle
   // must be marked as inheritable by setting this flag:

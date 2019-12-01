@@ -87,7 +87,7 @@ procedure P_ShootSpecialLine(thing: Pmobj_t; line: Pline_t);
 
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
 
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
 function twoSided(sector: integer; line: integer): boolean;
 
@@ -599,6 +599,8 @@ var
   levelTimer: boolean;
   levelTimeCount: integer;
 
+function P_GetPushThing(const snum: integer): Pmobj_t;
+
 implementation
 
 uses
@@ -639,6 +641,7 @@ uses
   p_mobj,
   p_user,
   p_scroll,
+  p_common,
   s_sound,
 // Data.
   sounds;
@@ -827,7 +830,7 @@ begin
       // JVAL
       // Create new flats as nessesary
       for i := flats[lanim.basepic].lump to flats[lanim.picnum].lump do
-        R_FlatNumForLump(i);
+        R_NewFlatNumForLump(i);
     end;
 
     if lanim.numpics < 2 then
@@ -3134,18 +3137,16 @@ end;
 //
 // [STRIFE] Modified for new sector types and changes to old ones.
 //
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 var
-  sector: Psector_t;
   tagval: integer;
   force: fixed_t;
   angle: angle_t;
 begin
-  sector := Psubsector_t(player.mo.subsector).sector;
-
   // Falling, not all the way down yet?
-  if player.mo.z <> sector.floorheight then
+  if player.mo.z <> height then
     exit;
+
 
   // Has hitten ground.
   case sector.special of
@@ -3554,6 +3555,13 @@ begin
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_CEILING;
+        end;
+      // JVAL: ladder to tagged sectors (when sliding)
+      282:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].flags := sectors[s].flags or SRF_LADDER;
         end;
     end;
 
@@ -4011,12 +4019,12 @@ end;
 // P_GetPushThing returns a pointer to an MT_PUSH or MT_PULL thing,
 // nil otherwise.
 
-function P_GetPushThing(s: integer): Pmobj_t;
+function P_GetPushThing(const snum: integer): Pmobj_t;
 var
   thing: Pmobj_t;
   sec: Psector_t;
 begin
-  sec := @sectors[s];
+  sec := @sectors[snum];
   thing := sec.thinglist;
   while thing <> nil do
   begin

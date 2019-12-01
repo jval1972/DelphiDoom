@@ -648,7 +648,8 @@ begin
         CodeLength := TableAB2CodeLength[Allocation];
         C := TableAB2C[Allocation];
         D := TableAB2D[Allocation];
-      end else if (FSubBandNumber <= 22) then
+      end
+      else if (FSubBandNumber <= 22) then
       begin
         Factor := TableAB3Factor[Allocation];
         CodeLength := TableAB3CodeLength[Allocation];

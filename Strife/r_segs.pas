@@ -24,9 +24,9 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-//  DESCRIPTION:
-//   Refresh module, drawing LineSegs from BSP.
-//   All the clipping: columns, horizontal spans, sky columns.
+// DESCRIPTION:
+//  Refresh module, drawing LineSegs from BSP.
+//  All the clipping: columns, horizontal spans, sky columns.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -105,7 +105,7 @@ var
 
 {$IFNDEF OPENGL}
 var
-  maskedtexturecol: PSmallIntArray; // JVAL : declared in r_defs
+  maskedtexturecol: PSmallIntArray; // JVAL: declared in r_defs
 
 // True if any of the segs textures might be visible.
   segtextured: boolean;
@@ -120,6 +120,8 @@ var
   midtexture: integer;
 {$ENDIF}
 
+function R_NewDrawSeg: Pdrawseg_t;  
+
 implementation
 
 uses
@@ -129,6 +131,9 @@ uses
   doomdef,
   doomdata,
   doomtype,
+  p_setup, // JVAL: 3d floors
+  r_3dfloors, // JVAL: 3d floors
+  r_slopes, // JVAL: Slopes
   r_column,
   r_data,
   r_hires,
@@ -144,8 +149,10 @@ uses
   r_segs2,
   r_col_fz,
 {$ENDIF}
+{$IFDEF DEBUG}
+  r_debug,
+{$ENDIF}
   z_zone;
-
 
 
 {$IFNDEF OPENGL}
@@ -164,6 +171,7 @@ var
   use32: boolean;
   mc2height: integer;
   texturecolumn: integer;
+  tempsec: sector_t;
 begin
   // Calculate light table.
   // Use different light tables
@@ -183,9 +191,9 @@ begin
       colfunc := averagecolfunc
     // villsa [STRIFE] render as transparent (25% or 75%?)
     else if curline.linedef.flags and ML_TRANSPARENT2 <> 0 then
-        colfunc := @R_DrawFuzzColumn2Hi32
+      colfunc := @R_DrawFuzzColumn2Hi32
     else if curline.linedef.flags and ML_TRANSPARENT1 <> 0 then
-        colfunc := @R_DrawFuzzColumn1Hi32
+      colfunc := @R_DrawFuzzColumn1Hi32
     else
       colfunc := maskedcolfunc2;
   end
@@ -195,14 +203,14 @@ begin
     if curline.linedef.renderflags and LRF_TRANSPARENT <> 0 then
       colfunc := averagecolfunc
     else if curline.linedef.flags and ML_TRANSPARENT2 <> 0 then
-        colfunc := fuzzcolfunc2
+      colfunc := fuzzcolfunc2
     else if curline.linedef.flags and ML_TRANSPARENT1 <> 0 then
-        colfunc := fuzzcolfunc1
+      colfunc := fuzzcolfunc1
     else
       colfunc := maskedcolfunc;
   end;
 
-  lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+  lightnum := _SHR(R_FakeFlat(frontsector, @tempsec, nil, nil, False).lightlevel, LIGHTSEGSHIFT) + extralight;
 
   if curline.v1.y = curline.v2.y then
     dec(lightnum)
@@ -268,9 +276,9 @@ begin
         if not forcecolormaps then
         begin
           if spryscale > 256 * FRACUNIT then
-            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 3) div SCREENWIDTH) * 320
+            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
           else
-            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 3) * 320) div SCREENWIDTH;
+            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 2) * 320) div SCREENWIDTH;
           if index >= HLL_MAXLIGHTSCALE then
             index := HLL_MAXLIGHTSCALE - 1
           else if index < 0 then
@@ -312,7 +320,6 @@ begin
     spryscale := spryscale + rw_scalestep;
   end;
 end;
-
 {$ENDIF}
 
 function R_NewDrawSeg: Pdrawseg_t;
@@ -320,7 +327,6 @@ begin
   // don't overflow and crash
   if ds_p = MAXDRAWSEGS then
   begin
-    I_Warning('R_NewDrawSeg(): MAXDRAWSEGS limit reached (%d)'#13#10, [MAXDRAWSEGS]);
     result := nil;
     exit;
   end;
@@ -334,6 +340,9 @@ begin
     max_ds_p := ds_p;
   end;
   result := drawsegs[ds_p];
+  {$IFNDEF OPENGL}
+  result.use_double := false; // JVAL: 3d Floors
+  {$ENDIF}
 end;
 
 //
@@ -350,6 +359,7 @@ var
   offsetangle: angle_t;
   vtop: fixed_t;
   lightnum: integer;
+  lightnum2: integer;
   rw_scale_dbl2: Double;
   worldtop_dbl: Double;
   worldbottom_dbl: Double;
@@ -376,7 +386,9 @@ begin
   rw_scale_dbl := R_ScaleFromGlobalAngle_DBL(viewangle + xtoviewangle[start]);
   rw_scale := Round(rw_scale_dbl);
 
+  pds.use_double := true;
   pds.scale1 := rw_scale;
+  pds.scale_dbl := rw_scale_dbl;
 
   if stop > start then
   begin
@@ -385,10 +397,12 @@ begin
     pds.scale2 := Round(rw_scale_dbl2);
     rw_scalestep := Round(rw_scalestep_dbl);
     pds.scalestep := rw_scalestep;
+    pds.scalestep_dbl := rw_scalestep_dbl;
   end
   else
   begin
     pds.scale2 := pds.scale1;
+    pds.scalestep_dbl := 0.0;
   end;
 
   // calculate texture boundaries
@@ -401,6 +415,8 @@ begin
   bottomtexture := 0;
   maskedtexture := false;
   pds.maskedtexturecol := nil;
+  pds.thicksidecol := nil;  // JVAL: 3d Floors
+  pds.midsec := nil;        // JVAL: 3d Floors
 
   if backsector = nil then
   begin
@@ -521,6 +537,7 @@ begin
                    // killough 4/15/98: prevent 2s normals
                    // from bleeding through deep water
                    (frontsector.heightsec <> -1) or
+                   ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                    // killough 4/17/98: draw floors if different light levels
                    (backsector.floorlightsec <> frontsector.floorlightsec) or
                    (backsector.renderflags <> frontsector.renderflags);
@@ -534,6 +551,7 @@ begin
                      // killough 4/15/98: prevent 2s normals
                      // from bleeding through fake ceilings
                      ((frontsector.heightsec <> -1) and (frontsector.ceilingpic <> skyflatnum)) or
+                     ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                      // killough 4/17/98: draw ceilings if different light levels
                      (backsector.ceilinglightsec <> frontsector.ceilinglightsec) or
                      (backsector.renderflags <> frontsector.renderflags);
@@ -573,6 +591,9 @@ begin
     end;
     rw_toptexturemid := rw_toptexturemid + sidedef.rowoffset;
     rw_bottomtexturemid := rw_bottomtexturemid + sidedef.rowoffset;
+
+    // JVAL: 3d Floors
+    R_StoreThickSideRange(pds, frontsector, backsector);
 
     // allocate space for masked texture tables
     if sidedef.midtexture <> 0 then
@@ -632,6 +653,68 @@ begin
       walllights := @scalelight[lightnum];
 
       dc_llindex := lightnum;
+
+      // JVAL: 3d Floors
+      if frontsector.midsec >= 0 then
+      begin
+        lightnum2 := _SHR(sectors[frontsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+
+        if lightnum2 < 0 then
+          lightnum2 := 0
+        else if lightnum2 >= LIGHTLEVELS then
+          lightnum2 := LIGHTLEVELS - 1;
+
+        walllights2 := @scalelight[lightnum2];
+
+        dc_llindex2 := lightnum2;
+      end
+      else if pds.midsec <> nil then
+      begin
+        lightnum2 := _SHR(pds.midsec.lightlevel, LIGHTSEGSHIFT) + extralight;
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+
+        if lightnum2 < 0 then
+          lightnum2 := 0
+        else if lightnum2 >= LIGHTLEVELS then
+          lightnum2 := LIGHTLEVELS - 1;
+
+        walllights2 := @scalelight[lightnum2];
+
+        dc_llindex2 := lightnum2;
+      end
+      else if pds.midvis <> nil then
+      begin
+        if backsector <> nil then
+        begin
+          if backsector.midsec >= 0 then
+            lightnum2 := _SHR(sectors[backsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight
+          else
+            lightnum2 := _SHR(backsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+        end
+        else
+          lightnum2 := _SHR(Psector_t(pds.midvis).lightlevel, LIGHTSEGSHIFT) + extralight;
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+
+        if lightnum2 < 0 then
+          lightnum2 := 0
+        else if lightnum2 >= LIGHTLEVELS then
+          lightnum2 := LIGHTLEVELS - 1;
+
+        walllights2 := @scalelight[lightnum2];
+
+        dc_llindex2 := lightnum2;
+      end;
+
     end;
   end;
 
@@ -718,19 +801,99 @@ begin
       markfloor := false;
   end;
 
-  if videomode = vm32bit then
+  if pds.midvis <> nil then
   begin
-    if optimizedcolumnrendering then
-      R_RenderSegLoop32Optimized_dbl
+    if pds.midsec <> nil then
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized_dbl_3dFloors_Vis(pds)
+        else
+          R_RenderSegLoop32_dbl_3dFloors_Vis(pds);
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized_dbl_3dFloors_Vis(pds)
+        else
+          R_RenderSegLoop8_dbl_3dFloors_Vis(pds);
+      end;
+    end
     else
-      R_RenderSegLoop32_dbl;
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized_dbl_Vis(pds)
+        else
+          R_RenderSegLoop32_dbl_Vis(pds);
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized_dbl_Vis(pds)
+        else
+          R_RenderSegLoop8_dbl_Vis(pds);
+      end;
+    end;
   end
   else
   begin
-    if optimizedcolumnrendering then
-      R_RenderSegLoop8Optimized_dbl
+    if pds.midsec <> nil then
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized_dbl_3dFloors(pds)
+        else
+          R_RenderSegLoop32_dbl_3dFloors(pds);
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized_dbl_3dFloors(pds)
+        else
+          R_RenderSegLoop8_dbl_3dFloors(pds);
+      end;
+    end
     else
-      R_RenderSegLoop8_dbl;
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized_dbl
+        else
+          R_RenderSegLoop32_dbl;
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized_dbl
+        else
+          R_RenderSegLoop8_dbl;
+      end;
+    end;
+  end;
+
+  // jval: Changed to fix accuracy for masked textures
+  // This fixes some glitches in 2s lines with midtexture (eg BOOMEDIT.WAD)
+  if maskedtexture then
+  begin
+    rw_scale := R_ScaleFromGlobalAngle_Fixed(viewangle + xtoviewangle[start]);
+    pds.scale1 := rw_scale;
+
+    if stop > start then
+    begin
+      pds.scale2 := R_ScaleFromGlobalAngle_Fixed(viewangle + xtoviewangle[stop]);
+      rw_scalestep := (pds.scale2 - rw_scale) div (stop - start);
+      pds.scalestep := rw_scalestep;
+    end
+    else
+    begin
+      pds.scale2 := pds.scale1;
+      pds.scalestep_dbl := 0.0;
+    end;
   end;
 
   // save sprite clipping info
@@ -738,6 +901,9 @@ begin
      (pds.sprtopclip = nil) then
   begin
     memcpy(@openings[lastopening], @ceilingclip[start], SizeOf(ceilingclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@ceilingclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprtopclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;
@@ -746,6 +912,9 @@ begin
      (pds.sprbottomclip = nil) then
   begin
     memcpy(@openings[lastopening], @floorclip[start], SizeOf(floorclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@floorclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprbottomclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;
@@ -763,6 +932,11 @@ begin
   inc(ds_p);
 end;
 
+//
+// R_StoreWallRange
+// A wall segment will be drawn
+//  between start and stop pixels (inclusive).
+//
 procedure R_StoreWallRange(const start: integer; const stop: integer);
 var
   hyp: fixed_t;
@@ -771,13 +945,21 @@ var
   offsetangle: angle_t;
   vtop: fixed_t;
   lightnum: integer;
+  lightnum2: integer; // JVAL: 3d Floors
   pds: Pdrawseg_t;
-  overflow: Boolean;
+  overflow: boolean;
 begin
+  if curline.linedef.renderflags and LRF_SLOPED <> 0 then
+  begin
+    R_StoreSlopeRange(start, stop); // JVAL: Slopes
+    Exit;
+  end;
+  
   pds := R_NewDrawSeg;
   if pds = nil then
     exit;
   pds.curline := curline;
+  pds.midvis := curmidvis;  // JVAL: 3d Floors
 
   sidedef := curline.sidedef;
   linedef := curline.linedef;
@@ -847,6 +1029,8 @@ begin
   bottomtexture := 0;
   maskedtexture := false;
   pds.maskedtexturecol := nil;
+  pds.thicksidecol := nil;  // JVAL: 3d Floors
+  pds.midsec := nil;        // JVAL: 3d Floors
 
   if backsector = nil then
   begin
@@ -967,6 +1151,7 @@ begin
                    // killough 4/15/98: prevent 2s normals
                    // from bleeding through deep water
                    (frontsector.heightsec <> -1) or
+                   ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                    // killough 4/17/98: draw floors if different light levels
                    (backsector.floorlightsec <> frontsector.floorlightsec) or
                    (backsector.renderflags <> frontsector.renderflags);
@@ -980,6 +1165,7 @@ begin
                      // killough 4/15/98: prevent 2s normals
                      // from bleeding through fake ceilings
                      ((frontsector.heightsec <> -1) and (frontsector.ceilingpic <> skyflatnum)) or
+                     ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                      // killough 4/17/98: draw ceilings if different light levels
                      (backsector.ceilinglightsec <> frontsector.ceilinglightsec) or
                      (backsector.renderflags <> frontsector.renderflags);
@@ -1019,6 +1205,9 @@ begin
     end;
     rw_toptexturemid := rw_toptexturemid + sidedef.rowoffset;
     rw_bottomtexturemid := rw_bottomtexturemid + sidedef.rowoffset;
+
+    // JVAL: 3d Floors
+    R_StoreThickSideRange(pds, frontsector, backsector);
 
     // allocate space for masked texture tables
     if sidedef.midtexture <> 0 then
@@ -1078,6 +1267,70 @@ begin
       walllights := @scalelight[lightnum];
 
       dc_llindex := lightnum;
+
+      if frontsector.midsec >= 0 then
+      begin
+        lightnum2 := _SHR(sectors[frontsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+
+        if lightnum2 < 0 then
+          lightnum2 := 0
+        else if lightnum2 >= LIGHTLEVELS then
+          lightnum2 := LIGHTLEVELS - 1;
+
+        walllights2 := @scalelight[lightnum2];
+
+        dc_llindex2 := lightnum2;
+      end
+      else
+
+      // JVAL: 3d Floors
+      if pds.midsec <> nil then
+      begin
+        lightnum2 := _SHR(pds.midsec.lightlevel, LIGHTSEGSHIFT) + extralight;
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+
+        if lightnum2 < 0 then
+          lightnum2 := 0
+        else if lightnum2 >= LIGHTLEVELS then
+          lightnum2 := LIGHTLEVELS - 1;
+
+        walllights2 := @scalelight[lightnum2];
+
+        dc_llindex2 := lightnum2;
+      end
+      else if pds.midvis <> nil then // SOS DEBUG!
+      begin
+        if backsector <> nil then
+        begin
+          if backsector.midsec >= 0 then
+            lightnum2 := _SHR(sectors[backsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight
+          else
+            lightnum2 := _SHR(backsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+        end
+        else
+          lightnum2 := _SHR(Psector_t(pds.midvis).lightlevel, LIGHTSEGSHIFT) + extralight;
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+
+        if lightnum2 < 0 then
+          lightnum2 := 0
+        else if lightnum2 >= LIGHTLEVELS then
+          lightnum2 := LIGHTLEVELS - 1;
+
+        walllights2 := @scalelight[lightnum2];
+
+        dc_llindex2 := lightnum2;
+      end;
+
     end;
   end;
 
@@ -1150,19 +1403,79 @@ begin
       markfloor := false;
   end;
 
-  if videomode = vm32bit then
+  if pds.midvis <> nil then
   begin
-    if optimizedcolumnrendering then
-      R_RenderSegLoop32Optimized
+    if (pds.midsec <> nil) then
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized_3dFloors_Vis(pds)
+        else
+          R_RenderSegLoop32_3dFloors_Vis(pds);
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized_3dFloors_Vis(pds)
+        else
+          R_RenderSegLoop8_3dFloors_Vis(pds);
+      end;
+    end
     else
-      R_RenderSegLoop32;
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized_Vis(pds)
+        else
+          R_RenderSegLoop32_Vis(pds);
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized_Vis(pds)
+        else
+          R_RenderSegLoop8_Vis(pds);
+      end;
+    end;
   end
   else
   begin
-    if optimizedcolumnrendering then
-      R_RenderSegLoop8Optimized
+    if (pds.midsec <> nil) then
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized_3dFloors(pds)
+        else
+          R_RenderSegLoop32_3dFloors(pds);
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized_3dFloors(pds)
+        else
+          R_RenderSegLoop8_3dFloors(pds);
+      end;
+    end
     else
-      R_RenderSegLoop8;
+    begin
+      if videomode = vm32bit then
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop32Optimized
+        else
+          R_RenderSegLoop32;
+      end
+      else
+      begin
+        if optimizedcolumnrendering then
+          R_RenderSegLoop8Optimized
+        else
+          R_RenderSegLoop8;
+      end;
+    end;
   end;
 
   // save sprite clipping info
@@ -1170,6 +1483,9 @@ begin
      (pds.sprtopclip = nil) then
   begin
     memcpy(@openings[lastopening], @ceilingclip[start], SizeOf(ceilingclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@ceilingclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprtopclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;
@@ -1178,6 +1494,9 @@ begin
      (pds.sprbottomclip = nil) then
   begin
     memcpy(@openings[lastopening], @floorclip[start], SizeOf(floorclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@floorclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprbottomclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;
@@ -1197,5 +1516,4 @@ end;
 {$ENDIF}
 
 end.
-
 

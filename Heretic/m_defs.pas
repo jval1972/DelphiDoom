@@ -73,11 +73,14 @@ uses
   vx_base,
 {$IFNDEF OPENGL}
   r_fake3d,
+  r_slopes, // JVAL: Slopes
 {$ENDIF}
+  r_camera,
   r_draw,
   s_sound,
   t_main,
   t_png,
+  m_sshot_jpg,
   v_video;
 
 const
@@ -96,6 +99,7 @@ var
   force_numwallrenderingthreads_8bit: integer;
   force_numwallrenderingthreads_32bit: integer;
   precisescalefromglobalangle: boolean;
+  preciseslopedrawing: Boolean; // JVAL: Slopes
   usefake3d: Boolean;
 {$ELSE}
   tran_filter_pct: integer;
@@ -135,7 +139,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 153;
+  NUMDEFAULTS = 155;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -150,7 +154,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENWIDTH{$ELSE}WINDOWWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: -1;
+     defaultivalue: 640;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -158,7 +162,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENHEIGHT{$ELSE}WINDOWHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: -1;
+     defaultivalue: 400;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -166,7 +170,7 @@ const
      location: @{$IFDEF OPENGL}SCREENWIDTH{$ELSE}gl_SCREENWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: -1;
+     defaultivalue: 640;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -174,7 +178,7 @@ const
      location: @{$IFDEF OPENGL}SCREENHEIGHT{$ELSE}gl_SCREENHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: -1;
+     defaultivalue: 400;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -413,9 +417,18 @@ const
     (name: 'precisescalefromglobalangle';
      location: @precisescalefromglobalangle;
      setable: DFS_ALWAYS;
-     defaultsvalue: '';
+     defaultsvalue: '0.00';
      defaultivalue: 0;
      defaultbvalue: true;
+     _type: tBoolean),
+
+     // JVAL: Slopes
+    (name: 'preciseslopedrawing';
+     location: @preciseslopedrawing;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '0.00';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'OpenGL';
@@ -1167,6 +1180,14 @@ const
 
     (name: 'mirror_stdout';
      location: @mirror_stdout;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'mirrorjpgsshot';
+     location: @mirrorjpgsshot;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;

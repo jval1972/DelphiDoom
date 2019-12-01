@@ -18,8 +18,11 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  Handling interactions (i.e., collisions).
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -44,13 +47,6 @@ uses
   p_mobj_h,
   s_sound,
   d_player;
-
-//-----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//  Handling interactions (i.e., collisions).
-//
-//-----------------------------------------------------------------------------
 
 function P_GiveMana(player: Pplayer_t; mana: manatype_t; num: integer): boolean;
 
@@ -144,10 +140,21 @@ uses
   d_think,
   info_h,
   info,
-  m_menu, m_rnd,
-  g_demo, g_game,
-  p_mobj, p_pspr, p_pspr_h, p_tick, p_user, p_enemy, p_spec, p_acs,
-  r_defs, r_main,
+  m_menu,
+  m_rnd,
+  g_demo,
+  g_game,
+  p_mobj,
+  p_pspr,
+  p_pspr_h,
+  p_tick,
+  p_user,
+  p_enemy,
+  p_spec,
+  p_acs,
+  ps_main, // JVAL: Script Events
+  r_defs,
+  r_main,
   sb_bar,
   tables;
 
@@ -1584,6 +1591,7 @@ var
   dummy: integer;
   master: Pmobj_t;
   pl: Pplayer_t;
+  item: integer;
 begin
   target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY or MF_NOGRAVITY);
   target.flags := target.flags or MF_CORPSE or MF_DROPOFF;
@@ -1862,14 +1870,30 @@ begin
   end;
   target.tics := target.tics - P_Random and 3;
 
+  if target.player <> nil then    // JVAL: Script Events
+    PS_EventPlayerDied(pDiff(@players[0], target.player, SizeOf(player_t)), source);
+  PS_EventActorDied(target, source); // JVAL: Script Events
+
   // Drop stuff.
   // This determines the kind of object spawned
   // during the death frame of a thing.
 
-  // JVAL: Check if dropitem is set to drop a custom item.
   if target.info.dropitem > 0 then
-    P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, target.info.dropitem);
-//  I_StartSound(&actor.r, actor.info.deathsound);
+    item := target.info.dropitem
+  else
+    item := 0;
+
+  // JVAL: Check if dropitem is set to drop a custom item.
+  if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
+    item := target.dropitem;
+
+  if item = 0 then
+    exit;
+
+  if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
+    P_SpawnDroppedMobj(target.x, target.y, target.z, item)
+  else
+    P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, item);
 end;
 
 

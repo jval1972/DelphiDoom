@@ -68,7 +68,7 @@ procedure P_ShootSpecialLine(thing: Pmobj_t; line: Pline_t);
 
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
 
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
 function twoSided(sector: integer; line: integer): boolean;
 
@@ -549,6 +549,8 @@ procedure P_SpawnFriction;
 
 procedure P_SpawnPushers;
 
+function P_GetPushThing(const snum: integer): Pmobj_t;
+
 implementation
 
 uses
@@ -585,6 +587,7 @@ uses
   p_map,
   p_maputl,
   p_scroll,
+  p_common,
   s_sound,
 // Data.
   sounds;
@@ -769,7 +772,7 @@ begin
       // JVAL
       // Create new flats as nessesary
       for i := flats[lanim.basepic].lump to flats[lanim.picnum].lump do
-        R_FlatNumForLump(i);
+        R_NewFlatNumForLump(i);
     end;
 
     if lanim.numpics < 2 then
@@ -2745,7 +2748,7 @@ begin
 
       linefunc := @EV_DoGenFloor;
     end
-    else if word(line.special) >= CGENCEILINGBASE  then
+    else if word(line.special) >= CGENCEILINGBASE then
     begin
       if thing.player = nil then
         if (line.special and CeilingChange <> 0) or (line.special and CeilingModel = 0) then
@@ -2887,14 +2890,10 @@ end;
 // Called every tic frame
 //  that the player origin is in a special sector
 //
-procedure P_PlayerInSpecialSector(player: Pplayer_t);
-var
-  sector: Psector_t;
+procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 begin
-  sector := Psubsector_t(player.mo.subsector).sector;
-
   // Falling, not all the way down yet?
-  if player.mo.z <> sector.floorheight then
+  if player.mo.z <> height then
     exit;
 
   // Has hitten ground.
@@ -3055,12 +3054,12 @@ begin
     // JVAL
     // Added new line specials for scrolling
       85: dec(sides[line.sidenum[0]].textureoffset, FRACUNIT);
-     273: inc(sides[line.sidenum[0]].rowoffset, FRACUNIT);
-     274: dec(sides[line.sidenum[0]].rowoffset, FRACUNIT);
+     273: inc(sides[line.sidenum[0]].rowoffset, FRACUNIT);  // Scroll Texture Up
+     274: dec(sides[line.sidenum[0]].rowoffset, FRACUNIT);  // Scroll Texture Down
      275: inc(sides[line.sidenum[0]].textureoffset, 2 * FRACUNIT);
      276: dec(sides[line.sidenum[0]].textureoffset, 2 * FRACUNIT);
-     277: inc(sides[line.sidenum[0]].rowoffset, 2 * FRACUNIT);
-     278: dec(sides[line.sidenum[0]].rowoffset, 2 * FRACUNIT);
+     277: inc(sides[line.sidenum[0]].rowoffset, 2 * FRACUNIT);  // Scroll Texture Up (Fast)
+     278: dec(sides[line.sidenum[0]].rowoffset, 2 * FRACUNIT);  // Scroll Texture Down Fast)
     end;
   end;
 
@@ -3298,6 +3297,14 @@ begin
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_CEILING;
         end;
+      // JVAL: ladder to tagged sectors (when sliding)
+      282:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].flags := sectors[s].flags or SRF_LADDER;
+        end;
+
     end;
 end;
 
@@ -3515,7 +3522,7 @@ const
 // tmpusher belongs to the point source (MT_PUSH/MT_PULL).
 //
 var
-  tmpusher: Ppusher_t; // pusher structure for blockmap searches
+  tmpusher: Ppusher_t = nil; // pusher structure for blockmap searches
 
 /////////////////////////////
 //
@@ -3723,8 +3730,6 @@ begin
   end;
 end;
 
-
-
 /////////////////////////////
 //
 // Add a push thinker to the thinker list
@@ -3756,12 +3761,12 @@ end;
 // P_GetPushThing returns a pointer to an MT_PUSH or MT_PULL thing,
 // nil otherwise.
 
-function P_GetPushThing(s: integer): Pmobj_t;
+function P_GetPushThing(const snum: integer): Pmobj_t;
 var
   thing: Pmobj_t;
   sec: Psector_t;
 begin
-  sec := @sectors[s];
+  sec := @sectors[snum];
   thing := sec.thinglist;
   while thing <> nil do
   begin

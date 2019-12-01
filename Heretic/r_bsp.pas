@@ -18,7 +18,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -72,18 +72,25 @@ uses
   doomdef,
   m_bbox,
   p_setup,
+  p_slopes, // JVAL: Slopes
+  {$IFNDEF OPENGL}
   r_segs,
+  r_3dfloors, // JVAL: 3d Floors
+  r_slopes,   // JVAL: Slopes
+  {$ENDIF}
   r_main,
   r_plane,
   r_things,
   r_draw,
   r_sky,
 // State.
-  doomstat{$IFDEF OPENGL},
+  doomstat
+  {$IFDEF OPENGL},
   doomtype,
   r_data,
-  gl_render,      // JVAL OPENGL
-  gl_clipper,     // JVAL OPENGL
+  r_visplanes,
+  gl_render, // JVAL OPENGL
+  gl_clipper, // JVAL OPENGL
   gl_defs,
   z_zone{$ENDIF}; // JVAL OPENGL
 
@@ -410,9 +417,10 @@ begin
 
   if absviewpitch < 10 then
   begin
-{$ENDIF}
+{$ELSE}
     // Global angle needed by segcalc.
     rw_angle1 := angle1;
+{$ENDIF}
     angle1 := angle1 - viewangle;
     angle2 := angle2 - viewangle;
 
@@ -471,6 +479,14 @@ begin
     exit;
   end;
 
+  // JVAL: Slopes
+  if (backsector.renderflags and SRF_SLOPED <> 0) or
+     (frontsector.renderflags and SRF_SLOPED <> 0) then
+  begin
+    R_ClipPassWallSegment(x1, x2 - 1);
+    exit;
+  end;
+
   // Closed door.
   if (backsector.ceilingheight <= frontsector.floorheight) or
      (backsector.floorheight >= frontsector.ceilingheight) then
@@ -495,7 +511,9 @@ begin
   if (backsector.ceilingpic = frontsector.ceilingpic) and
      (backsector.floorpic = frontsector.floorpic) and
      (backsector.lightlevel = frontsector.lightlevel) and
-     (curline.sidedef.midtexture = 0) then
+     (curline.sidedef.midtexture = 0) and
+     (backsector.midsec = frontsector.midsec) then // JVAL: 3d Floors
+
     exit;
 
   R_ClipPassWallSegment(x1, x2 - 1);
@@ -664,7 +682,7 @@ begin
     result := false
   else
     result := true;
-{$ENDIF}    
+{$ENDIF}
 end;
 
 //
@@ -679,6 +697,7 @@ var
   line: Pseg_t;
   i_line: integer;
   sub: Psubsector_t;
+  floorlightlevel: smallint;  // JVAL: 3d Floors
 {$IFDEF OPENGL}
   i: integer;
   dummyfloorplane: visplane_t;
@@ -688,28 +707,63 @@ var
 begin
   inc(sscount);
   sub := @subsectors[num];
+
   frontsector := sub.sector;
   count := sub.numlines;
   i_line := sub.firstline;
   line := @segs[i_line];
 
-  if frontsector.floorheight < viewz then
+  floorlightlevel := frontsector.lightlevel;
+{$IFNDEF OPENGL}
+  R_3dVisplaneFromSubsector(sub, @floorlightlevel);
+  R_VisSlopesFromSubsector(sub);  // JVAL: Slopes
+{$ENDIF}
+
+  if (P_FloorHeight(frontsector, viewx, viewy) < viewz) then  // JVAL: Slopes
   begin
-    floorplane := R_FindPlane(frontsector.floorheight,
-                              frontsector.floorpic,
-                              frontsector.lightlevel,
-                              frontsector.renderflags and not SRF_RIPPLE_CEILING);
+    if frontsector.renderflags and SRF_SLOPEFLOOR <> 0 then // JVAL: Slopes
+      floorplane := R_FindPlane(frontsector.floorheight,
+                                frontsector.floorpic,
+                                floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
+                                frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                {$IFNDEF OPENGL}
+                                floorslope,
+                                {$ENDIF}
+                                frontsector.iSectorID)  // JVAL: Slopes
+    else
+      floorplane := R_FindPlane(frontsector.floorheight,
+                                frontsector.floorpic,
+                                floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
+                                frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                {$IFNDEF OPENGL}
+                                nil,
+                                {$ENDIF}
+                                -1)  // JVAL: Slopes
   end
   else
     floorplane := nil;
 
-  if (frontsector.ceilingheight > viewz) or
+  if (P_CeilingHeight(frontsector, viewx, viewy) > viewz) or  // JVAL: Slopes
      (frontsector.ceilingpic = skyflatnum) then
   begin
-    ceilingplane := R_FindPlane(frontsector.ceilingheight,
-                                frontsector.ceilingpic,
-                                frontsector.lightlevel,
-                                frontsector.renderflags and not SRF_RIPPLE_FLOOR);
+    if frontsector.renderflags and SRF_SLOPECEILING <> 0 then // JVAL: Slopes
+      ceilingplane := R_FindPlane(frontsector.ceilingheight,
+                                  frontsector.ceilingpic,
+                                  frontsector.lightlevel,
+                                  frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  {$IFNDEF OPENGL}
+                                  ceilingslope,
+                                  {$ENDIF}
+                                  frontsector.iSectorID)  // JVAL: Slopes
+    else
+      ceilingplane := R_FindPlane(frontsector.ceilingheight,
+                                  frontsector.ceilingpic,
+                                  frontsector.lightlevel,
+                                  frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
+                                  {$IFNDEF OPENGL}
+                                  nil,
+                                  {$ENDIF}
+                                  -1);
   end
   else
     ceilingplane := nil;
@@ -831,7 +885,7 @@ var
   bsp: Pnode_t;
   side: integer;
 begin
-  while bspnum and NF_SUBSECTOR = 0 do  // Found a subsector?
+  while bspnum and NF_SUBSECTOR_V5 = 0 do  // Found a subsector?
   begin
     bsp := @nodes[bspnum];
 
@@ -854,7 +908,7 @@ begin
   if bspnum = -1 then
     R_Subsector(0)
   else
-    R_Subsector(bspnum and not NF_SUBSECTOR);
+    R_Subsector(bspnum and not NF_SUBSECTOR_V5);
 end;
 
 

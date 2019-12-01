@@ -1,3 +1,52 @@
+Version 2.0.1 build 700 - (22/12/2016)
+-----------
+Ignores map things 4001, 4002, 4003 & 4004 (Boom compatibility).
+Places screenshots inside data\screenshots folder.
+Mirror screenshot to jpg format.
+General purpose multithreading utilities will use more than 2 logical CPUs if available.
+Sound precaching discarted. (was causing problems with memory managment)
+Added -cgaX3 command line parameter, starts at 960X600 resolution.
+Advanced scripting mechanism (PascalScript).
+Added A_RunScript mobj function. Executes 1 or more PascalScripts.
+Added testmap and test console commands. Opens a minimum (build-in) map for testing.
+SpawnMobj console command also gets angle as parameter.
+Added support for V5 glnodes.
+Visplane hash. 
+Added -geom command line parameter. e.g. -geom 800x600
+Added TNTHOM and HOM console commands, to enable/disable HOM detection. (software renderer only)
+Added compile, compilescript & pscomp console commands, compiles pss script into bytecode (file input, file output).
+Added A_GhostOn mobj function.
+Added A_GhostOff mobj function.
+THINKER keyword inside ACTORDEF lumps (runs script).
+Added -con command line parameter, executes at loadtime a file containing console commands.
+Added halt console command, stops executing without endscreen and without end sound.
+Corrected bug that crashed programm while loading savegame with PULLERS(MT_PULL) or PUSHERS(MT_PUSH).
+Added line special 282, create ladder to tagged sectors.
+Saved games contain texture and flat names, no texture and flat numbers (SAVEGAMEVERSION = 122).
+Added A_Blocking mobj function.
+Added MF2_EX_DONRUNSCRIPTS mobj flag.
+Added A_DoNotRunScripts & A_DoRunScripts mobj functions.
+Added MF2_EX_PRECISESPAWNANGLE mobj flag. (Use precise spawnangle of mapthing to spawn mobj)
+Keep sector renderflags in saved games.
+Keep linedef renderflags in saved games.
+Support for HI_START & HI_END namespace inside WADs.
+Bug fix: Now wall drawing uses correct light level in 32 bit color software rendering mode.
+Inverse colormap is less dark in 32 bit color software mode.
+Maximum number of general purpose threads increased to 16.
+Added line special 281, create 3d middle floor to tagged sector(s).
+More accurate fake3d effect.
+Added line specials 386, 387, 388, 389, 390 & 391, create sloped sectors.
+Teleport zoom effect.
+Added getworldvar & getmapvar console commands. Display pascal script world and map variables.
+Added setworldvar & setmapvar console commands. Set pascal script world and map variables.
+Will use PK3ENTRY lump inside a wad file to define long filename aliases for other wad lumps.
+Added MF2_EX_CUSTOMDROPITEM mobj flag. When set, the specified instance of the mobj drops a cutom dropitem
+Added A_SetDropItem & A_SetDefaultDropItem mobj functions.
+Added A_TargetDropItem & A_DefaultTargetDropItem mobj functions.
+Added overlaydrawtextleft, overlaydrawtextright, overlaydrawtextcenter, overlaydrawpixel and overlayputpixel console commands.
+Added A_GlobalEarthQuake mobj function.
+Corrected voxel scale in software rendering mode. 
+
 Version 1.1.6 build 605 - (29/8/2016)
 -----------
 Fixes to the textured automap.
@@ -43,8 +92,8 @@ Status bar does not appear transparent when you open the menu (OpenGL)
 Default miditempo changed to 160
 Added missileheight mobjinfo field.
 MAXDRAWSEGS increased to 4096.
-Boom fake3d custom colormaps work with external textures in software mode.
-Boom fake3d custom colormaps work in OpenGL.
+Boom fakefloor custom colormaps work with external textures in software mode.
+Boom fakefloor custom colormaps work in OpenGL.
 Executes all console commands inside wad lumps with the "AUTOEXEC"name.
 Improved BOOM compatibility.
 Maximum visplanes increased to 8192.
@@ -652,7 +701,62 @@ Added -compatibilitymode and -nocompatibilitymode cmd parameters for old compati
   -nocompatibilitymode -> Use some new features
 
 
-
+----------------------------------
+Version 0.2 build 129 - (1/12/2005)
+-----------------------------------
+Now runs in 16 bit desktop in nofullscreen mode.
+You can specify width and height from command line.
 
 ----------------------------------
+Version 0.1 build 97 - (15/10/2005)
+----------------------------------
+Some bug fixes.
+Now starts at 1024x768 fullscreen by default, still hardcoded. 
+
+Version 0.09 build 82 - (16/2/2005)
+-----------------------------------
+Corrected weapon positioning. Support for midi files inside PWADS. Fixed support for high and low resolution.
+
+Version 0.08 build 63 - (14/2/2005)
+-----------------------------------
+
+This is to be considered as the first version to be stable enough for gameplay.
+Vile bug fixed. Full cheat support. Tested with DOOM2.WAD. Music now works!
+
+Version 0.07 build 34 - (12/2/2005)
+-----------------------------------
+Lot of bug fixes. 
+First implementation of cheats. 
+First major successful test with shareware Doom Episode 1, should work with registered Doom and Doom2, as well as TNT and PLUTONIA. 
+Added option to type -nofullscreen parameter in command line to prevent full screen. 
+Now starts at 640x480 fullscreen by default, still hardcoded. 
+
+Version 0.06 - (9/2/2005)
+-----------------------------------
+Most stuff for multi resolution support done. Just experiment with SCREENWIDTH and SCREENHEIGHT constants in doomdef.pas. 
+Added icon and version info.
+
+Version 0.05 - (8/2/2005)
+-----------------------------------
+Bug fixes, first step to support higher resolutions.
+
+Version 0.04 - (7/2/2005)
+-----------------------------------
+First public release.
+
+Version 0.03 - (6/2/2005)
+-----------------------------------
+DirectDraw support.
+
+Version 0.02 - (30/1/2005)
+-----------------------------------
+DirectSound support.
+
+Version 0.01 - (28/1/2005)
+-----------------------------------
+Finished Doom to Delphi initial conversion.
+
+Version 0.0 - (28/12/2004)
+-----------------------------------
+Started Doom to Delphi initial conversion.
 

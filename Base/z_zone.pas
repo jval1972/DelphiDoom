@@ -37,7 +37,8 @@ unit z_zone;
 interface
 
 uses
-  d_delphi;
+  d_delphi,
+  z_memmgr;
 
 //
 // ZONE MEMORY
@@ -101,12 +102,14 @@ type
     prev: Pmemblock_t;
   end;
 
+var
+  memmanager: TMemManager;
+
 implementation
 
 uses
   c_cmds,
-  i_system,
-  z_memmgr;
+  i_system;
 
 //
 // ZONE MEMORY ALLOCATION
@@ -118,9 +121,6 @@ uses
 // It is of no value to free a cachable block,
 //  because it will get overwritten automatically if needed.
 //
-
-var
-  memmanager: TMemManager;
 
 const
   ZONEID = $1d4a11;

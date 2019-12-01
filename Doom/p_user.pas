@@ -68,6 +68,9 @@ uses
   p_tick,
   p_pspr,
   p_local,
+  p_setup,    // JVAL: 3d Floors
+  p_slopes,   // JVAL: Slopes
+  p_3dfloors, // JVAL: Slopes
   p_spec,
   p_map,
   p_maputl,
@@ -111,7 +114,6 @@ end;
 procedure P_CalcHeight(player: Pplayer_t);
 var
   angle: integer;
-  bob: fixed_t;
 begin
   // Regular movement bobbing
   // (needs to be calculated for gun swing
@@ -127,6 +129,8 @@ begin
   if player.bob > MAXBOB then
     player.bob := MAXBOB;
 
+  player.oldviewz := player.viewz;  // JVAL: Slopes
+
   if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
@@ -139,7 +143,7 @@ begin
   end;
 
   angle := (FINEANGLES div 20 * leveltime) and FINEMASK;
-  bob := FixedMul(player.bob div 2, finesine[angle]);
+  player.viewbob := FixedMul(player.bob div 2, finesine[angle]);
 
   // move viewheight
   if player.playerstate = PST_LIVE then
@@ -166,10 +170,120 @@ begin
         player.deltaviewheight := 1;
     end;
   end;
-  player.viewz := player.mo.z + player.viewheight + bob;
+  player.viewz := player.mo.z + player.viewheight + player.viewbob;
 
   if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+end;
+
+// JVAL: Slopes
+procedure P_SlopesCalcHeight(player: Pplayer_t);
+var
+  angle: integer;
+  oldviewz: fixed_t;
+  oldviewz2: fixed_t;
+begin
+  // Regular movement bobbing
+  // (needs to be calculated for gun swing
+  // even if not on ground)
+  // OPTIMIZE: tablify angle
+  // Note: a LUT allows for effects
+  //  like a ramp with low health.
+
+  if G_PlayingEngineVersion < VERSION122 then
+  begin
+    P_CalcHeight(player);
+    exit;
+  end;
+
+  player.bob := FixedMul(player.mo.momx, player.mo.momx) +
+                FixedMul(player.mo.momy, player.mo.momy);
+  player.bob := player.bob div 4;
+
+  if player.bob > MAXBOB then
+    player.bob := MAXBOB;
+
+  oldviewz := player.viewz;
+
+  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  begin
+    player.viewz := player.mo.z + PVIEWHEIGHT;
+
+    if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
+      player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+
+    player.oldviewz := oldviewz;
+
+//    player.viewz := player.mo.z + player.viewheight;  JVAL removed!
+    exit;
+  end;
+
+  angle := (FINEANGLES div 20 * leveltime) and FINEMASK;
+  player.viewbob := FixedMul(player.bob div 2, finesine[angle]) div (player.slopetics + 1);
+
+  // move viewheight
+  if player.playerstate = PST_LIVE then
+  begin
+    player.viewheight := player.viewheight + player.deltaviewheight;
+
+    if player.viewheight > PVIEWHEIGHT then
+    begin
+      player.viewheight := PVIEWHEIGHT;
+      player.deltaviewheight := 0;
+    end;
+
+    if player.viewheight < PVIEWHEIGHT div 2 then
+    begin
+      player.viewheight := PVIEWHEIGHT div 2;
+      if player.deltaviewheight <= 0 then
+        player.deltaviewheight := 1;
+    end;
+
+    if player.deltaviewheight <> 0 then
+    begin
+      if player.slopetics > 0 then
+        player.deltaviewheight := player.deltaviewheight + (FRACUNIT div 4) * player.slopetics
+      else
+        player.deltaviewheight := player.deltaviewheight + FRACUNIT div 4;
+      if player.deltaviewheight = 0 then
+        player.deltaviewheight := 1;
+    end;
+  end;
+
+  if player.slopetics > 0 then
+  begin
+    oldviewz2 := player.oldviewz;
+
+    player.viewz :=
+      (player.slopetics * player.viewz +
+       player.mo.z + player.viewheight + player.viewbob) div (player.slopetics + 1); // Extra smooth
+
+    if oldviewz2 < oldviewz then
+    begin
+      if player.viewz < oldviewz then
+        player.viewz := oldviewz;
+    end
+    else if oldviewz2 > oldviewz then
+    begin
+      if player.viewz > oldviewz then
+        player.viewz := oldviewz;
+    end;
+
+    if player.viewz < player.mo.floorz + PVIEWHEIGHT div 2 - 4 * FRACUNIT then
+      player.viewz := player.mo.floorz + PVIEWHEIGHT div 2 - 4 * FRACUNIT;
+    if player.viewz < player.mo.floorz + 4 * FRACUNIT then
+      player.viewz := player.mo.floorz + 4 * FRACUNIT;
+  end
+  else
+    player.viewz := player.mo.z + player.viewheight + player.viewbob;
+
+  if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
+    player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+
+  if player.viewz < player.mo.floorz + 4 * FRACUNIT then
+    player.viewz := player.mo.floorz + 4 * FRACUNIT;
+    
+  player.oldviewz := oldviewz;
 end;
 
 function P_GetMoveFactor(const mo: Pmobj_t): fixed_t;
@@ -404,7 +518,7 @@ begin
 
   player.deltaviewheight := 0;
   onground := player.mo.z <= player.mo.floorz;
-  P_CalcHeight(player);
+  P_SlopesCalcHeight(player); // JVAL: Slopes
 
   if (player.attacker <> nil) and (player.attacker <> player.mo) then
   begin
@@ -514,6 +628,7 @@ procedure P_PlayerThink(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
   newweapon: weapontype_t;
+  sec: Psector_t; // JVAL: 3d Floors
 begin
   // fixme: do this in the cheat code
   if player.cheats and CF_NOCLIP <> 0 then
@@ -531,6 +646,19 @@ begin
     player.mo.flags := player.mo.flags and (not MF_JUSTATTACKED);
   end;
 
+  if player.quaketics > 0 then
+  begin
+    Dec(player.quaketics, FRACUNIT);
+    if player.quaketics < 0 then
+      player.quaketics := 0;
+  end;
+  
+  if player.teleporttics > 0 then
+  begin
+    Dec(player.teleporttics, FRACUNIT);
+    if player.teleporttics < 0 then
+      player.teleporttics := 0;
+  end;
 
   if player.playerstate = PST_DEAD then
   begin
@@ -548,10 +676,15 @@ begin
   else
     P_MovePlayer(player);
 
-  P_CalcHeight(player);
+  P_SlopesCalcHeight(player); // JVAL: Slopes
 
-  if Psubsector_t(player.mo.subsector).sector.special <> 0 then
-    P_PlayerInSpecialSector(player);
+  // JVAL: 3d Floors
+  sec := Psubsector_t(player.mo.subsector).sector;
+  if sec.special <> 0 then
+    P_PlayerInSpecialSector(player, sec, P_FloorHeight(sec, player.mo.x, player.mo.y));    // JVAL: 3d Floors
+  if sec.midsec >= 0 then
+    if sectors[sec.midsec].special <> 0 then
+      P_PlayerInSpecialSector(player, @sectors[sec.midsec], sectors[sec.midsec].ceilingheight);  // JVAL: 3d Floors
 
   // Check for weapon change.
 

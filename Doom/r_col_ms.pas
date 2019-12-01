@@ -124,7 +124,7 @@ var
   fraclimit: fixed_t;
   swidth: integer;
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c{, c1, r, g, b}: LongWord;
   lfactor: integer;
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;

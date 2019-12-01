@@ -319,7 +319,7 @@ begin
           end;
           donedata := true;
           sparm.length := dwlen;
-          sfx.data := Z_Malloc(dwlen, PU_STATIC, sfx.data);
+          sfx.data := Z_Malloc(dwlen, PU_SOUND, sfx.data);
           strm.Read(sfx.data^, dwlen);
           sparm.offset := 0;
         end
@@ -371,7 +371,7 @@ begin
         sfx.lumpnum := lump;
     end;
 
-    sfx.data := W_CacheLumpNum(sfx.lumpnum, PU_STATIC);
+    sfx.data := W_CacheLumpNum(sfx.lumpnum, PU_SOUND);
     PLData := sfx.data;
     PLData2 := PLongWordArray(Integer(PLData) + 2);
     if PLData[0] = CS_RIFF then // WAVE Sound inside WAD as lump

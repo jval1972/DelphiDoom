@@ -143,6 +143,13 @@ type
     procedure RenderVertexGL(const v: voxelvertex_p); override;
   end;
 
+  TVoxelMeshOptimizerDDVOX = class(TVoxelMeshOptimizer)
+  protected
+    midx, midy, midz: float;
+    step: float;
+    procedure RenderVertexGL(const v: voxelvertex_p); override;
+  end;
+
 constructor TVoxelMeshOptimizer.Create;
 begin
   fquads := nil;
@@ -741,13 +748,17 @@ end;
 
 procedure TVoxelMeshOptimizer.RenderVertexGL(const v: voxelvertex_p);
 begin
-//  glVertex3f(v.x, v.y, v.z);
   glVertex3fv(@v);
 end;
 
 procedure TVoxelMeshOptimizerKVX.RenderVertexGL(const v: voxelvertex_p);
 begin
   glVertex3f(v.x, v.z, -v.y);
+end;
+
+procedure TVoxelMeshOptimizerDDVOX.RenderVertexGL(const v: voxelvertex_p);
+begin
+  glVertex3f(midx - v.x * step, v.y * step - midy, v.z * step - midz);
 end;
 
 procedure TVoxelMeshOptimizer.RenderGL;
@@ -799,11 +810,9 @@ var
   strm: TPakStream;
   voxelbuffer: voxelbuffer_p;
   voxelsize: integer;
-  step: float;
-  midx, midy, midz: float;
   xxx, yyy, zzz,
   xxx1, yyy1, zzz1: float;
-  c, oldc: GLuint;
+  c: GLuint;
   vp: voxelitem_p;
   old_skip_x0, old_skip_x1: boolean;
   old_skip_y0, old_skip_y1: boolean;
@@ -813,7 +822,21 @@ var
   skip_z0, skip_z1: boolean;
   skip: integer;
   i: integer;
-  vmx: TVoxelMeshOptimizer;
+  vmx: TVoxelMeshOptimizerDDVOX;
+
+  function _RGBSwap(buffer: LongWord): LongWord;
+  var
+    r, g, b: LongWord;
+  begin
+    Result := buffer;
+    b := Result and $FF;
+    Result := Result shr 8;
+    g := Result and $FF;
+    Result := Result shr 8;
+    r := Result and $FF;
+    Result := r + g shl 8 + b shl 16;
+  end;
+
 begin
   strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
   if strm.IOResult <> 0 then
@@ -894,69 +917,37 @@ begin
           vp.flags := vp.flags or FLG_SKIPZ1;
       end;
 
-  step := - 1 / MAP_COEFF * scale;
-  midx := step * voxelsize / 2;
-  midy := step * voxelsize + offset / MAP_COEFF; // Align down
-  midz := step * voxelsize / 2;
-  oldc := 0;
+  vmx := TVoxelMeshOptimizerDDVOX.Create;
 
-  old_skip_x0 := true;
-  old_skip_x1 := true;
-  old_skip_y0 := true;
-  old_skip_y1 := true;
-  old_skip_z0 := true;
-  old_skip_z1 := true;
-  skip := 0;
-
-  vmx := TVoxelMeshOptimizer.Create;
+  vmx.step := - 1 / MAP_COEFF * scale;
+  vmx.midx := vmx.step * voxelsize / 2;
+  vmx.midy := vmx.step * voxelsize + offset / MAP_COEFF; // Align down
+  vmx.midz := vmx.step * voxelsize / 2;
 
   for xx := 0 to voxelsize - 1 do
   begin
-    xxx := midx - xx * step;
-    xxx1 := midx - (1 + xx) * step;
+    xxx := xx;
+    xxx1 := xx + 1;
     for yy := 0 to voxelsize - 1 do
     begin
-      yyy := yy * step - midy;
-      yyy1 := (1 + yy) * step - midy;
-{      yyy := midy - yy * step;
-      yyy1 := (1 + yy) * step - midy;}
+      yyy := yy;
+      yyy1 := yy + 1;
       for zz := 0 to voxelsize - 1 do
       begin
-        if skip > 0 then
-        begin
-          dec(skip);
-          Continue;
-        end;
-        skip := 0;
-
         vp := @voxelbuffer[xx, yy, zz];
-        c := vp.color;
+        c := _RGBSwap(vp.color);
 
         if c <> 0 then
         begin
+          zzz := zz;
+          zzz1 := zz + 1;
+
           skip_x0 := vp.flags and FLG_SKIPX0 <> 0;
           skip_x1 := vp.flags and FLG_SKIPX1 <> 0;
           skip_y0 := vp.flags and FLG_SKIPY0 <> 0;
           skip_y1 := vp.flags and FLG_SKIPY1 <> 0;
           skip_z0 := vp.flags and FLG_SKIPZ0 <> 0;
           skip_z1 := vp.flags and FLG_SKIPZ1 <> 0;
-          for i := zz to voxelsize - 1 do
-            if (old_skip_x0 = skip_x0) and
-               (old_skip_x1 = skip_x1) and
-               (old_skip_y0 = skip_y0) and
-               (old_skip_y1 = skip_y1) and
-               (old_skip_z0 = skip_z0) and
-               (old_skip_z1 = skip_z1) and
-               (voxelbuffer[xx, yy, i].color = c) then
-              Inc(skip)
-            else
-              break;
-
-
-          zzz := zz * step - midz;
-          if skip > 0 then
-            dec(skip);
-          zzz1 := (1 + skip + zz) * step - midz;
 
           if not skip_z0 then
           begin
@@ -1138,10 +1129,10 @@ type
 
 type
   kvxslab_t = record
-	  ztop: byte;		// starting z coordinate of top of slab
-	  zleng: byte;  // # of bytes in the color array - slab height
-	  backfacecull: byte;	// low 6 bits tell which of 6 faces are exposed
-	  col: array[0..255] of byte;// color data from top to bottom
+    ztop: byte;    // starting z coordinate of top of slab
+    zleng: byte;  // # of bytes in the color array - slab height
+    backfacecull: byte;  // low 6 bits tell which of 6 faces are exposed
+    col: array[0..255] of byte;// color data from top to bottom
   end;
   kvxslab_p = ^kvxslab_t;
 
@@ -1154,9 +1145,9 @@ var
   r, g, b: byte;
   buf: PByteArray;
   numbytes: integer;
-	xsiz, ysiz, zsiz, xpivot, ypivot, zpivot: integer;
-	xoffset: PIntegerArray;
-	xyoffset: PSmallIntPArray;
+  xsiz, ysiz, zsiz, xpivot, ypivot, zpivot: integer;
+  xoffset: PIntegerArray;
+  xyoffset: PSmallIntPArray;
   voxdata: PByteArray;
   xx, yy, zz: integer;
   step: float;
@@ -1303,12 +1294,6 @@ begin
   end;
 
   skip := 0;
-  old_skip_x0 := true;
-  old_skip_x1 := true;
-  old_skip_y0 := true;
-  old_skip_y1 := true;
-  old_skip_z0 := true;
-  old_skip_z1 := true;
 
   vmx := TVoxelMeshOptimizerKVX.Create;
 
@@ -1318,6 +1303,12 @@ begin
     xxx1 := midx - (1 + xx) * step;
     for yy := 0 to ysiz - 1 do
     begin
+      old_skip_x0 := true;
+      old_skip_x1 := true;
+      old_skip_y0 := true;
+      old_skip_y1 := true;
+      old_skip_z0 := true;
+      old_skip_z1 := true;
       yyy := yy * step - midy;
       yyy1 := (1 + yy) * step - midy;
       for zz := 0 to zsiz - 1 do

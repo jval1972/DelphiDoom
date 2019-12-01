@@ -12,6 +12,7 @@ object GamePropertiesForm: TGamePropertiesForm
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  Position = poScreenCenter
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -135,7 +136,8 @@ object GamePropertiesForm: TGamePropertiesForm
     Items.Strings = (
       'Doom'
       'Heretic'
-      'Hexen')
+      'Hexen'
+      'Strife')
   end
   object AdditionalParamsEdit: TEdit
     Left = 104

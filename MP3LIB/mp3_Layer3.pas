@@ -917,7 +917,8 @@ begin
         FSI.ch[ch].gr[0].subblock_gain[2] := FStream.GetBits(3);
 
         // Set region_count parameters since they are implicit in this case.
-        if (FSI.ch[ch].gr[0].block_type = 0) then begin
+        if (FSI.ch[ch].gr[0].block_type = 0) then
+        begin
           // Side info bad: block_type = 0 in split block
           result := False;
           exit;

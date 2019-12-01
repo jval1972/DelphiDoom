@@ -1331,6 +1331,20 @@ begin
   x^ := tmpx;
 end;
 
+procedure AM_rotate_dbl(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
+var
+  tmpx: fixed_t;
+  ang: double;
+  asin, acos: double;
+begin
+  ang := a * ANGLE_T_TO_RAD;
+  asin := Sin(ang);
+  acos := Cos(ang);
+  tmpx := xpos + Round((x^ - xpos) * acos - (y^ - ypos) * asin);
+  y^ := ypos + Round((x^ - xpos) * asin + (y^ - ypos) * acos);
+  x^ := tmpx;
+end;
+
 //
 // Determines visible lines, draws them.
 // This is LineDef based, not LineSeg based.
@@ -1427,7 +1441,7 @@ begin
     end;
 
     if angle <> 0 then
-      AM_rotate(@l.a.x, @l.a.y, angle, 0, 0);
+      AM_rotate_dbl(@l.a.x, @l.a.y, angle, 0, 0);
 
     l.a.x := l.a.x + x;
     l.a.y := l.a.y + y;
@@ -1442,7 +1456,7 @@ begin
     end;
 
     if angle <> 0 then
-      AM_rotate(@l.b.x, @l.b.y, angle, 0, 0);
+      AM_rotate_dbl(@l.b.x, @l.b.y, angle, 0, 0);
 
     l.b.x := l.b.x + x;
     l.b.y := l.b.y + y;

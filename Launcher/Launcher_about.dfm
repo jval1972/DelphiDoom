@@ -20,7 +20,7 @@ object AboutForm: TAboutForm
     Top = 24
     Width = 188
     Height = 13
-    Caption = 'DelphiDoom Launcher version 1.5'
+    Caption = 'DelphiDoom Launcher version 1.6'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
