@@ -16750,7 +16750,6 @@ begin
   states[Ord(S_BEXP2)].action.acp1 := @A_Scream; // S_BEXP2
   states[Ord(S_BEXP3)].action.acp1 := @A_FadeOut20;
   states[Ord(S_BEXP4)].action.acp1 := @A_Explode; // S_BEXP4
-
 end;
 
 function Info_GetNewState: integer;

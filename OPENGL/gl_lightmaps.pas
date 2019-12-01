@@ -42,12 +42,12 @@ uses
 
 const
   LIGHTMAPSIZEX = 256;
-  LIGHTMAPSIZEY = 128;
+  LIGHTMAPSIZEY = 64;
   LIGHTMAPSIZEZ = 256;
   LIGHTMAPUNIT = 16;
   LIGHTMAPBUFFERSIZE = LIGHTMAPSIZEX * LIGHTMAPSIZEY * LIGHTMAPSIZEZ * 4;
 
-var  
+var
   gl_uselightmaps: boolean = true;
   canuselightmaps: boolean = true;
 
@@ -66,6 +66,7 @@ procedure gld_ResumeLightmap;
 implementation
 
 uses
+  c_cmds,
   m_fixed,
   r_defs,
   r_main,
@@ -119,6 +120,92 @@ var
   lightmapdefined: boolean;
   rtllightmap: lightmaprtlitem_pArray;
 
+type
+  exportlightmap_t = array[0..LIGHTMAPSIZEX - 1, 0..LIGHTMAPSIZEX - 1, 0..LIGHTMAPSIZEX - 1] of LongWord;
+  exportlightmap_p = ^exportlightmap_t;
+
+procedure Vox_ExportLightmap(const fname: string);
+var
+  x, y, z: integer;
+  lst: TDStringList;
+  tmp: string;
+  c: LongWord;
+  skips: integer;
+  blancline: boolean;
+  lp: exportlightmap_p;
+
+  function _get_color(const rl: lightmaprtlitem_t): LongWord;
+  var
+    r, g, b: integer;
+  begin
+    r := Round(rl.r * 256);
+    if r < 0 then
+      r := 0
+    else if r > 255 then
+      r := 255;
+    g := Round(rl.g * 256);
+    if r < 0 then
+      g := 0
+    else if g > 255 then
+      g := 255;
+    b := Round(rl.b * 256);
+    if b < 0 then
+      b := 0
+    else if b > 255 then
+      b := 255;
+    Result := b shl 16 + g shl 8 + r;
+  end;
+
+begin
+  if strtrim(fname) = '' then
+  begin
+    printf('Please specify the output filename'#13#10);
+    exit;
+  end;
+  
+  lp := mallocz(SizeOf(exportlightmap_t));
+
+  for x := 0 to LIGHTMAPSIZEX - 1 do
+    for y := 0 to LIGHTMAPSIZEY - 1 do
+      for z := 0 to LIGHTMAPSIZEZ - 1 do
+        lp[x, y, z] := _get_color(rtllightmap[x * (LIGHTMAPSIZEX * LIGHTMAPSIZEY) + y * LIGHTMAPSIZEX + z]);
+
+  lst := TDStringList.Create;
+  try
+    lst.Add(itoa(LIGHTMAPSIZEX));
+    for x := 0 to LIGHTMAPSIZEX - 1 do
+      for y := 0 to LIGHTMAPSIZEX - 1 do
+      begin
+        tmp := '';
+        blancline := True;
+        skips := 0;
+        for z := 0 to LIGHTMAPSIZEX - 1 do
+        begin
+          c := lp[LIGHTMAPSIZEX - 1 - x, LIGHTMAPSIZEX - 1 - y, z];
+          if c <> 0 then
+            blancline := False
+          else if blancline then
+            inc(skips);
+          if not blancline then
+            tmp := tmp + ' ' + itoa(c);
+        end;
+        if blancline then
+          lst.Add('skip ' + itoa(LIGHTMAPSIZEX))
+        else
+        begin
+          if skips > 0 then
+            lst.Add('skip ' + itoa(skips) + ' ' + tmp)
+          else
+            lst.Add(tmp);
+        end;
+      end;
+    lst.SaveToFile(fname);
+  finally
+    lst.Free;
+  end;
+  freemem(pointer(lp), SizeOf(exportlightmap_t));
+end;
+
 procedure gld_InitLightmap;
 var
   i: integer;
@@ -160,6 +247,8 @@ begin
   lightmapbuffer := malloc(LIGHTMAPBUFFERSIZE);
   maxmarkbytes := LIGHTMAPBUFFERSIZE;
   lightmapdefined := false;
+
+  C_AddCmd('vox_exportlightmap', @Vox_ExportLightmap);
 end;
 
 procedure gld_LightmapDone;

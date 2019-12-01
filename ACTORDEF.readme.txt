@@ -1,7 +1,7 @@
 Custom actor support for DelphiDoom is supported via ACTORDEF lump.
 This is a text file, quite similar, with zDoom's DECORATE lumps (at the time of writting these lines ~year 2008). 
-You can take a look inside at DelphiDoom monsters pak (DDMONSTERS.WAD) which contains more than 50 new defined actors in ACTORDEF lumps.
-Lastest version of DDMONSTERS.WAD can be downloaded at https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DD_MONSTERS_20130522.rar/download
+You can take a look inside at DelphiDoom monsters pak (DDMONSTERS.WAD) which contains more than 70 new defined actors in ACTORDEF lumps.
+Lastest version of DDMONSTERS.WAD can be downloaded at https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DD_MONSTERS_20190917.zip/download
 
 To define the enemy flag FLOATBOB you can write:
 +FLOATBOB or
@@ -387,4 +387,5 @@ A_SetMapInt
 A_SetWorldInt
 A_SetMapFloat
 A_SetWorldFloat
-
+A_RandomGoto
+A_ResetHealth

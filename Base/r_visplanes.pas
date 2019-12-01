@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -69,10 +69,12 @@ const
   iVISEND = integer($FFFFFFFF);
 
 type
+  {$IFNDEF OPENGL}
   visindex_t = word;
   Pvisindex_t = ^visindex_t;
   visindex_tArray = packed array[-1..MAXWIDTH] of visindex_t;
   Pvisindex_tArray = ^visindex_tArray;
+  {$ENDIF}
 
 //
 // Now what is a visplane, anyway?
@@ -101,11 +103,11 @@ type
     slopeSID: integer;  // JVAL: Slopes
     {$IFNDEF OPENGL}
     slope: Pvisslope_t; // JVAL: Slopes
-    {$ENDIF}
     // leave pads for [minx-1] and [maxx+1]
     top: Pvisindex_tArray;    // Now allocated dynamically!
     // See above.
     bottom: Pvisindex_tArray; // Now allocated dynamically!
+    {$ENDIF}
   end;
 
 {$IFNDEF OPENGL}

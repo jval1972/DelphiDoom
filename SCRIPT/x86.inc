@@ -764,7 +764,7 @@ begin
               bts32:
                 TbtU32(res^.Dta^):= RealCall_Other(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil);
               btPChar:
-                TbtString(res^.dta^) := Pansichar(RealCall_Other(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil));
+                Pansichar(res^.dta^) := Pansichar(RealCall_Other(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil));
               {$IFNDEF PS_NOINT64}
               bts64:
                 begin
@@ -855,7 +855,7 @@ begin
               bts32:
                 TbtU32(res^.dta^) := RealCall_Cdecl(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil);
               btPChar:
-                TbtString(res^.dta^) := Pansichar(RealCall_Cdecl(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil));
+                Pansichar(res^.dta^) := Pansichar(RealCall_Cdecl(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil));
               {$IFNDEF PS_NOINT64}
               bts64:
                 begin
@@ -922,8 +922,9 @@ begin
               bts32:
                 TbtU32(res^.dta^) := RealCall_Other(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil);
               btPChar:
-                TbtString(res^.dta^) := Pansichar(RealCall_Other(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil));
-              {$IFNDEF PS_NOINT64}bts64:
+                Pansichar(res^.dta^) := Pansichar(RealCall_Other(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, nil));
+              {$IFNDEF PS_NOINT64}
+              bts64:
                 begin
                   EAX := RealCall_Other(Address, @Stack[Length(Stack) - 3], Length(Stack) div 4, 4, @EDX);
                   TbtS64(res^.dta^) := Int64(EAX) shl 32 or EDX;

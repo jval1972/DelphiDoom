@@ -136,7 +136,7 @@ uses
   d_fpc in 'Base\d_fpc.pas',
   d_items in 'Strife\d_items.pas',
   d_main in 'Strife\d_main.pas',
-  d_net in 'Strife\d_net.pas',
+  d_net in 'Base\d_net.pas',
   d_net_h in 'Base\d_net_h.pas',
   d_player in 'Strife\d_player.pas',
   d_think in 'Base\d_think.pas',

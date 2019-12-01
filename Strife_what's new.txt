@@ -1,3 +1,17 @@
+Now recornizes kvx voxels inside the VX_START/VX_END namespace.
+Added vox_exportlightmap console command (OpenGL version only). Exports the current lightmap into a ddvox voxel.
+Limit OpenGL framerate to monitor refresh rate is now preserved and executed right from defaults.
+Lower memory utilization for OpenGL renderer (visplane declaration does not include the unneeded for the gl renderer visindex arrays).
+Added support for slab6 VOX voxels.
+Added pushfactor mobjinfo field. It determines how much a PUSHABLE mobj can be pushed. Default is FRACUNIT div 4 (25% of pusher speed)
+Added PS_GetMobjInfoPushFactor PascalScript function. Returns the PushFactor of mobjinfo.
+Parse SNDINFO & SNDINFO.txt entries from PK3 files.
+Fixes to SNDINFO parsing.
+A_Jump* mobjinfo functions will check if parameter is a label and jump to it. 
+We can now define interval for THINKERs inside ACTORDEF lumps.
+We can use PG_UP & PG_DOWN keys in the console to view the previous messages.
+Added A_RandomGoto & A_ResetHealth ACTORDEF functions.
+
 Version 2.0.4 build 719 - (19/9/2019)
 -------------
 OpenGL models rendered from external DLL.

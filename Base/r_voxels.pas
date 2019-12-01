@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -189,9 +189,9 @@ var
 begin
   pal := R_DefaultPalette;
 
-  size2 := size div mip;
   if mip <> 1 then
   begin
+    size2 := size div mip;
     buf2 := malloc(size2 * SizeOf(voxelitem_t));
     i := 0;
     while i < size2 do
@@ -242,7 +242,10 @@ begin
     end;
   end
   else
+  begin
+    size2 := size;
     buf2 := buf;
+  end;
 
   i := 0;
   result := nil;
@@ -317,7 +320,7 @@ begin
     last.drawbottom := true;
 
   maxlistsize := 0;
-  rover := Result;
+  rover := result;
   while rover <> nil do
   begin
     if rover.length > maxlistsize then
@@ -325,7 +328,7 @@ begin
     rover := rover.next;
   end;
 
-  rover := Result;
+  rover := result;
   while rover <> nil do
   begin
     rover.maxlistsize := maxlistsize;
@@ -365,7 +368,6 @@ type
     voxelsize: integer;
     start, finish: integer;
   end;
-
   mt_struct1_p = ^mt_struct1_t;
 
 function _mt_prepare_optimize_voxel_buffer(r: mt_struct1_p): integer; stdcall;
@@ -389,7 +391,7 @@ begin
              (voxelbuffer[xx, yy, zz + 1].color <> 0) then
           voxelbuffer[xx, yy, zz].skip := true;
       end;
-  Result := 0;
+  result := 0;
 end;
 
 procedure R_OptimizeVoxelBuffer(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
@@ -467,7 +469,7 @@ begin
         end;
       voxelbuffer[xx, -1, zz].skip := skip;
     end;
-  Result := 0;
+  result := 0;
 end;
 
 procedure R_PrepareVoxelColumns(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
@@ -1159,6 +1161,13 @@ begin
     memfree(pointer(buf), len);
   end;
 
+  if strm.Size < 768 + 28 then
+  begin
+    strm.Free;
+    result := nil;
+    Exit;
+  end;
+
   strm.Seek(768, sFromEnd);
   maxpal := 0;
   for i := 0 to 255 do
@@ -1297,6 +1306,140 @@ begin
   memfree(pointer(voxdata), voxdatasize);
 end;
 
+//
+// R_LoadSlab6VOX
+// JVAL 20191004 Support for slab6 VOX files
+//
+function R_LoadSlab6VOX(const fn: string; const offset, scale: fixed_t): voxelcolumns_p;
+var
+  strm: TDStream;
+  pal: array[0..255] of LongWord;
+  i: integer;
+  r, g, b: byte;
+  xsiz, ysiz, zsiz: integer;
+  voxdatasize: integer;
+  voxdata: PByteArray;
+  voxelbuffer: voxelbuffer_p;
+  voxelsize: integer;
+  xx, yy, zz: integer;
+  x1, y1, z1: integer;
+  s: string;
+  maxpal: integer;
+  cc: integer;
+  palfactor: double;
+begin
+  strm := TPakStream.Create(fn, pm_prefered, gamedirectories);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    result := nil;
+    Exit;
+  end;
+
+  if strm.Size < 768 + 12 then
+  begin
+    strm.Free;
+    result := nil;
+    Exit;
+  end;
+
+  strm.Seek(768, sFromEnd);
+  maxpal := 0;
+  for i := 0 to 255 do
+  begin
+    strm.Read(r, SizeOf(Byte));
+    if r > maxpal then
+      maxpal := r;
+    strm.Read(g, SizeOf(Byte));
+    if g > maxpal then
+      maxpal := g;
+    strm.Read(b, SizeOf(Byte));
+    if b > maxpal then
+      maxpal := b;
+    pal[i] := r shl 16 + g shl 8 + b;
+    if pal[i] = 0 then
+      pal[i] := $01;
+  end;
+  if (maxpal < 255) and (maxpal > 0) then
+  begin
+    palfactor := 255 / maxpal;
+    if palfactor > 4.0 then
+      palfactor := 4.0;
+    for i := 0 to 255 do
+    begin
+      r := pal[i] shr 16;
+      g := pal[i] shr 8;
+      b := pal[i];
+      cc := round(palfactor * r);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      r := cc;
+      cc := round(palfactor * g);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      g := cc;
+      cc := round(palfactor * b);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      b := cc;
+      pal[i] := r shl 16 + g shl 8 + b;
+    end;
+  end;
+
+  strm.Seek(0, sFromBeginning);
+  strm.Read(xsiz, SizeOf(Integer));
+  strm.Read(ysiz, SizeOf(Integer));
+  strm.Read(zsiz, SizeOf(Integer));
+
+  if (xsiz <= 0) or (xsiz > 256) or
+     (ysiz <= 0) or (ysiz > 256) or
+     (zsiz <= 0) or (zsiz > 256) then
+  begin
+    strm.Free;
+    result := nil;
+    Exit;
+  end;
+
+  voxelsize := xsiz;
+  if voxelsize < ysiz then
+    voxelsize := ysiz;
+  if voxelsize < zsiz then
+    voxelsize := zsiz;
+
+  voxdatasize := xsiz * ysiz * zsiz;
+  GetMem(voxdata, voxdatasize);
+  strm.Read(voxdata^, voxdatasize);
+  strm.Free;
+
+  x1 := (voxelsize - xsiz) div 2;
+  y1 := (voxelsize - ysiz) div 2;
+  z1 := (voxelsize - zsiz) div 2;
+
+  voxelbuffer := @vx_membuffer[0];
+  R_ClearVoxelBuffer(voxelbuffer, voxelsize);
+
+  i := 0;
+  for xx := x1 to x1 + xsiz - 1 do
+    for yy := y1 to y1 + ysiz - 1 do
+      for zz := z1 to z1 + zsiz - 1 do
+      begin
+        if voxdata[i] <> 255 then
+          voxelbuffer[xx, zz, voxelsize - yy - 1].color := pal[voxdata[i]];
+        inc(i);
+      end;
+  memfree(pointer(voxdata), voxdatasize);
+
+  R_OptimizeVoxelBuffer(voxelbuffer, voxelsize);
+  R_PrepareVoxelColumns(voxelbuffer, voxelsize);
+  result := R_VoxelColumnsFromBuffer(voxelbuffer, voxelsize, offset, scale);
+end;
+
 constructor TVoxelModel.Create(const name: string; const offset, scale: fixed_t; flags: LongWord);
 var
   ext: string;
@@ -1324,6 +1467,11 @@ begin
   begin
     fnumframes := 1;
     frames.Add(integer(R_LoadKVX(name, offset, scale)));
+  end
+  else if ext = '.VOX' then
+  begin
+    fnumframes := 1;
+    frames.Add(integer(R_LoadSlab6VOX(name, offset, scale)));
   end
   else
     I_Error('TVoxelModel.Create(): Can not identify voxel type "%s"', [name]);
@@ -1637,7 +1785,7 @@ begin
       scaley2 := FixedDiv2(vprojectiony, tz);
 
       tz := FixedMul(a_x[3], viewcos) + FixedMul(a_y[3], viewsin);
-      if (tz < MINZ) then
+      if tz < MINZ then
         Continue;
       scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[3], viewsin) - FixedMul(a_y[3], viewcos);
@@ -1860,7 +2008,6 @@ var
 {$IFDEF DOOM_OR_STRIFE}
   h, mh: fixed_t;
   plheightsec: integer;
-//  y: integer;
 {$ENDIF}
   flag: boolean;
   depth: LongWord;

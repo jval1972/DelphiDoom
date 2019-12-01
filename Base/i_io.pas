@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -166,11 +166,11 @@ begin
     sfilename := CD_WORKDIR + sfilename;
   end;
 
-  printf(' error output to: %s' + #13#10, [efilename]);
+  printf(' error output to: %s'#13#10, [efilename]);
   stderr := TFile.Create(efilename, fCreate);
-  printf(' debug output to: %s' + #13#10, [dfilename]);
+  printf(' debug output to: %s'#13#10, [dfilename]);
   debugfile := TFile.Create(dfilename, fCreate);
-  printf(' standard output to: %s' + #13#10, [sfilename]);
+  printf(' standard output to: %s'#13#10, [sfilename]);
   stdout := TFile.Create(sfilename, fCreate);
 end;
 

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -546,7 +546,7 @@ begin
   ShowWindow(hMainWnd, SW_SHOW);
   UpdateWindow(hMainWnd);
 
-  printf('I_InitGraphics: Initializing directdraw.' + #13#10);
+  printf('I_InitGraphics: Initializing directdraw.'#13#10);
 
   fu8_64a := TDThread.Create(I_FinishUpdate8_64a);
   fu8_64b := TDThread.Create(I_FinishUpdate8_64a);
@@ -578,12 +578,12 @@ begin
         [SCREENWIDTH, SCREENHEIGHT, 32]);
       if I_AdjustWindowMode then
         V_ReInit;
-      printf('Window Mode %dx%d' + #13#10, [SCREENWIDTH, SCREENHEIGHT]);
+      printf('Window Mode %dx%d'#13#10, [SCREENWIDTH, SCREENHEIGHT]);
 
       hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
       if hres <> DD_OK then
       begin
-        I_Warning('SetDisplayMode(): Failed to window mode %dx%d...' + #13#10, [SCREENWIDTH, SCREENHEIGHT]);
+        I_Warning('SetDisplayMode(): Failed to window mode %dx%d...'#13#10, [SCREENWIDTH, SCREENHEIGHT]);
         SCREENWIDTH := 640;
         SCREENHEIGHT := 480;
         V_ReInit;

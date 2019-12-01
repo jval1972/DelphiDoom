@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -395,7 +395,7 @@ begin
 
   if not fexists(filename) then
   begin
-    I_Warning('W_AddFile(): File %s does not exist' + #13#10, [filename]);
+    I_Warning('W_AddFile(): File %s does not exist'#13#10, [filename]);
     result := nil;
     exit;
   end;
@@ -403,7 +403,7 @@ begin
   try
     handle := TCachedFile.Create(filename, fOpenReadOnly);
   except
-    I_Warning('W_AddFile(): couldn''t open %s' + #13#10, [filename]);
+    I_Warning('W_AddFile(): couldn''t open %s'#13#10, [filename]);
     result := nil;
     exit;
   end;
@@ -437,7 +437,7 @@ begin
     singleinfo.size := filelength(handle);
     ExtractFileBase8(filename, singleinfo.name);
     inc(numlumps);
-    printf(' adding %s' + #13#10, [filename]);
+    printf(' adding %s'#13#10, [filename]);
   end
   else
   begin
@@ -448,14 +448,14 @@ begin
       if header.identification <> PWAD then
         // DelphiDoom system ?
         if header.identification <> DWAD then
-          I_Error('W_AddFile(): Wad file %s doesn''t have IWAD, PWAD or DWAD id' + #13#10, [filename]);
+          I_Error('W_AddFile(): Wad file %s doesn''t have IWAD, PWAD or DWAD id'#13#10, [filename]);
 
     len := header.numlumps * SizeOf(filelump_t);
     fileinfo := malloc(len);
     handle.Seek(header.infotableofs, sFromBeginning);
     handle.Read(fileinfo^, len);
     numlumps := numlumps + header.numlumps;
-    printf(' adding %s (%d lumps)' + #13#10, [filename, header.numlumps]);
+    printf(' adding %s (%d lump' + decide(header.numlumps = 1, '', 's') + ')'#13#10, [filename, header.numlumps]);
   end;
 
 
@@ -570,7 +570,7 @@ begin
     exit;
 
   if not fexists(reloadname) then
-    I_Error('W_Reload(): File %s does not exist' + #13#10, [reloadname]);
+    I_Error('W_Reload(): File %s does not exist'#13#10, [reloadname]);
 
   handle := nil;
   try
@@ -657,7 +657,7 @@ var
   p1, p2, p3: integer;
   numA: integer;
 begin
-  printf('W_RuntimeLoad(): adding %s' + #13#10, [fname]);
+  printf('W_RuntimeLoad(): adding %s'#13#10, [fname]);
 
   fname := strupper(fname);
 

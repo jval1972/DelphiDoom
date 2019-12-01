@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -48,12 +48,15 @@ procedure SC_ParseStatedefLump;
 
 function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;
 
+function P_GetStateFromNameWithOffsetCheck(const actor: Pmobj_t; const s: string): integer;
+
 implementation
 
 uses
   TypInfo,
   d_delphi,
   info_h,
+  info,
   sc_engine,
   w_wad;
 
@@ -104,7 +107,7 @@ var
   end;
 
 begin
-  st := strupper(strtrim(s));
+  st := strtrim(strupper(strtrim(s)));
   pps := Pos('+', st);
   ppp := Pos('-', st);
   ppb := Pos(' ', st);
@@ -113,17 +116,22 @@ begin
     Result := _stindex(st);
     Exit;
   end
-  else // JVAL: 20170927 evaluate small expressions
+  else
+  // JVAL: 20170927 evaluate small expressions
+  //       20191003 rewritten, fixed
   begin
-    if (ppb > 0) or (pps > 0) then
+    st := strremovespaces(st);
+    pps := Pos('+', st);
+    ppp := Pos('-', st);
+    if pps > 0 then
     begin
-      splitstring(st, fw, sw, ' ');
+      splitstring(st, fw, sw, '+');
       Result := _stindex(fw) + atoi(sw, 0);
       Exit;
     end;
     if ppp > 0 then
     begin
-      splitstring(st, fw, sw, ' ');
+      splitstring(st, fw, sw, '-');
       Result := _stindex(fw) - atoi(sw, 0);
       Exit;
     end;
@@ -131,4 +139,25 @@ begin
   Result := -1; // JVAL: Unreachable code
 end;
 
+function P_GetStateFromNameWithOffsetCheck(const actor: Pmobj_t; const s: string): integer;
+var
+  check: string;
+begin
+  check := s;
+  if check = '' then
+  begin
+    Result := 0;
+    Exit;
+  end;
+
+  if check[1] in ['-', '+'] then
+    Delete(check, 1, 1);
+
+  if StrIsInteger(check) then
+    Result := ((integer(actor.state) - integer(states)) div SizeOf(state_t)) + atoi(s)
+  else
+    Result := P_GetStateFromName(actor, s);
+end;
+
 end.
+

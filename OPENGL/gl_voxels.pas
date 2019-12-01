@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -801,6 +801,57 @@ begin
   glEnd;
 end;
 
+procedure gld_BuildVoxelbufferFlags(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
+var
+  xx, yy, zz: integer;
+  vp: voxelitem_p;
+begin
+  for xx := 1 to voxelsize - 2 do
+    for yy := 1 to voxelsize - 2 do
+      for zz := 1 to voxelsize - 2 do
+      begin
+        vp := @voxelbuffer[xx, yy, zz];
+        if voxelbuffer[xx - 1, yy, zz].color <> 0 then
+          vp.flags := vp.flags or FLG_SKIPX0;
+        if voxelbuffer[xx + 1, yy, zz].color <> 0 then
+          vp.flags := vp.flags or FLG_SKIPX1;
+        if voxelbuffer[xx, yy - 1, zz].color <> 0 then
+          vp.flags := vp.flags or FLG_SKIPY0;
+        if voxelbuffer[xx, yy + 1, zz].color <> 0 then
+          vp.flags := vp.flags or FLG_SKIPY1;
+        if voxelbuffer[xx, yy, zz - 1].color <> 0 then
+          vp.flags := vp.flags or FLG_SKIPZ0;
+        if voxelbuffer[xx, yy, zz + 1].color <> 0 then
+          vp.flags := vp.flags or FLG_SKIPZ1;
+      end;
+end;
+
+function gld_VoxelRGBSwap(buffer: LongWord): LongWord;
+var
+  r, g, b: LongWord;
+begin
+  Result := buffer;
+  b := Result and $FF;
+  Result := Result shr 8;
+  g := Result and $FF;
+  Result := Result shr 8;
+  r := Result and $FF;
+  Result := r + g shl 8 + b shl 16;
+end;
+
+procedure gld_ClearVoxelBuffer(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
+var
+  xx, yy, zz: integer;
+begin
+  for xx := 0 to voxelsize - 1 do
+    for yy := 0 to voxelsize - 1 do
+      for zz := 0 to voxelsize - 1 do
+      begin
+        voxelbuffer[xx, yy, zz].color := 0;
+        voxelbuffer[xx, yy, zz].flags := 0;
+      end;
+end;
+
 function gld_LoadDDVOX(const fname: string; const offset, scale: float): GLuint;
 var
   buf: TDStringList;
@@ -810,10 +861,10 @@ var
   strm: TPakStream;
   voxelbuffer: voxelbuffer_p;
   voxelsize: integer;
-  xxx, yyy, zzz,
+  vp: voxelitem_p;
+  xxx, yyy, zzz: float;
   xxx1, yyy1, zzz1: float;
   c: GLuint;
-  vp: voxelitem_p;
   old_skip_x0, old_skip_x1: boolean;
   old_skip_y0, old_skip_y1: boolean;
   old_skip_z0, old_skip_z1: boolean;
@@ -821,22 +872,7 @@ var
   skip_y0, skip_y1: boolean;
   skip_z0, skip_z1: boolean;
   skip: integer;
-  i: integer;
   vmx: TVoxelMeshOptimizerDDVOX;
-
-  function _RGBSwap(buffer: LongWord): LongWord;
-  var
-    r, g, b: LongWord;
-  begin
-    Result := buffer;
-    b := Result and $FF;
-    Result := Result shr 8;
-    g := Result and $FF;
-    Result := Result shr 8;
-    r := Result and $FF;
-    Result := r + g shl 8 + b shl 16;
-  end;
-
 begin
   strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
   if strm.IOResult <> 0 then
@@ -856,13 +892,7 @@ begin
   voxelsize := sc._Integer;
 
   voxelbuffer := vx_membuffer;
-  for xx := 0 to voxelsize - 1 do
-    for yy := 0 to voxelsize - 1 do
-      for zz := 0 to voxelsize - 1 do
-      begin
-        voxelbuffer[xx, yy, zz].color := 0;
-        voxelbuffer[xx, yy, zz].flags := 0;
-      end;
+  gld_ClearVoxelBuffer(voxelbuffer, voxelsize);
 
   xx := 0;
   yy := 0;
@@ -894,28 +924,9 @@ begin
       end;
     end;
   end;
-
   sc.Free;
 
-
-  for xx := 1 to voxelsize - 2 do
-    for yy := 1 to voxelsize - 2 do
-      for zz := 1 to voxelsize - 2 do
-      begin
-        vp := @voxelbuffer[xx, yy, zz];
-        if voxelbuffer[xx - 1, yy, zz].color <> 0 then
-          vp.flags := vp.flags or FLG_SKIPX0;
-        if voxelbuffer[xx + 1, yy, zz].color <> 0 then
-          vp.flags := vp.flags or FLG_SKIPX1;
-        if voxelbuffer[xx, yy - 1, zz].color <> 0 then
-          vp.flags := vp.flags or FLG_SKIPY0;
-        if voxelbuffer[xx, yy + 1, zz].color <> 0 then
-          vp.flags := vp.flags or FLG_SKIPY1;
-        if voxelbuffer[xx, yy, zz - 1].color <> 0 then
-          vp.flags := vp.flags or FLG_SKIPZ0;
-        if voxelbuffer[xx, yy, zz + 1].color <> 0 then
-          vp.flags := vp.flags or FLG_SKIPZ1;
-      end;
+  gld_BuildVoxelbufferFlags(voxelbuffer, voxelsize);
 
   vmx := TVoxelMeshOptimizerDDVOX.Create;
 
@@ -935,7 +946,7 @@ begin
       for zz := 0 to voxelsize - 1 do
       begin
         vp := @voxelbuffer[xx, yy, zz];
-        c := _RGBSwap(vp.color);
+        c := gld_VoxelRGBSwap(vp.color);
 
         if c <> 0 then
         begin
@@ -1195,6 +1206,14 @@ begin
     strm.Seek(0, sFromBeginning);
     memfree(pointer(buf), len);
   end;
+
+  if strm.Size < 768 + 28 then
+  begin
+    strm.Free;
+    result := GL_BAD_LIST;
+    Exit;
+  end;
+
   strm.Seek(768, sFromEnd);
   maxpal := 0;
   for i := 0 to 255 do
@@ -1272,7 +1291,7 @@ begin
   midz := step * zpivot / 256;
   oldc := $FFFFFFFF;
 
-  kvxbuffer := vx_membuffer; //malloc(SizeOf(kvxbuffer_t));
+  kvxbuffer := vx_membuffer;
   for xx := 0 to xsiz - 1 do
     for yy := 0 to ysiz - 1 do
        for zz := 0 to zsiz - 1 do
@@ -1446,12 +1465,260 @@ begin
 end;
 
 
+//
+// R_LoadSlab6VOX
+// JVAL 20191004 Support for slab6 VOX files
+//
+function gld_LoadSlab6VOX(const fn: string; const offset, scale: float): GLuint;
+var
+  strm: TDStream;
+  pal: array[0..255] of LongWord;
+  i: integer;
+  r, g, b: byte;
+  xsiz, ysiz, zsiz: integer;
+  voxdatasize: integer;
+  voxdata: PByteArray;
+  voxelbuffer: voxelbuffer_p;
+  voxelsize: integer;
+  vp: voxelitem_p;
+  xx, yy, zz: integer;
+  x1, y1, z1: integer;
+  s: string;
+  maxpal: integer;
+  cc: integer;
+  palfactor: double;
+  xxx, yyy, zzz: float;
+  xxx1, yyy1, zzz1: float;
+  c: GLuint;
+  old_skip_x0, old_skip_x1: boolean;
+  old_skip_y0, old_skip_y1: boolean;
+  old_skip_z0, old_skip_z1: boolean;
+  skip_x0, skip_x1: boolean;
+  skip_y0, skip_y1: boolean;
+  skip_z0, skip_z1: boolean;
+  skip: integer;
+  vmx: TVoxelMeshOptimizerDDVOX;
+begin
+  strm := TPakStream.Create(fn, pm_prefered, gamedirectories);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    result := GL_BAD_LIST;
+    Exit;
+  end;
+
+  if strm.Size < 768 + 12 then
+  begin
+    strm.Free;
+    result := GL_BAD_LIST;
+    Exit;
+  end;
+
+  strm.Seek(768, sFromEnd);
+  maxpal := 0;
+  for i := 0 to 255 do
+  begin
+    strm.Read(r, SizeOf(Byte));
+    if r > maxpal then
+      maxpal := r;
+    strm.Read(g, SizeOf(Byte));
+    if g > maxpal then
+      maxpal := g;
+    strm.Read(b, SizeOf(Byte));
+    if b > maxpal then
+      maxpal := b;
+    pal[i] := r shl 16 + g shl 8 + b;
+    if pal[i] = 0 then
+      pal[i] := $01;
+  end;
+  if (maxpal < 255) and (maxpal > 0) then
+  begin
+    palfactor := 255 / maxpal;
+    if palfactor > 4.0 then
+      palfactor := 4.0;
+    for i := 0 to 255 do
+    begin
+      r := pal[i] shr 16;
+      g := pal[i] shr 8;
+      b := pal[i];
+      cc := round(palfactor * r);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      r := cc;
+      cc := round(palfactor * g);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      g := cc;
+      cc := round(palfactor * b);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      b := cc;
+      pal[i] := r shl 16 + g shl 8 + b;
+    end;
+  end;
+
+  strm.Seek(0, sFromBeginning);
+  strm.Read(xsiz, SizeOf(Integer));
+  strm.Read(ysiz, SizeOf(Integer));
+  strm.Read(zsiz, SizeOf(Integer));
+
+  if (xsiz <= 0) or (xsiz > 256) or
+     (ysiz <= 0) or (ysiz > 256) or
+     (zsiz <= 0) or (zsiz > 256) then
+  begin
+    strm.Free;
+    result := GL_BAD_LIST;
+    Exit;
+  end;
+
+  voxelsize := xsiz;
+  if voxelsize < ysiz then
+    voxelsize := ysiz;
+  if voxelsize < zsiz then
+    voxelsize := zsiz;
+
+  voxdatasize := xsiz * ysiz * zsiz;
+  GetMem(voxdata, voxdatasize);
+  strm.Read(voxdata^, voxdatasize);
+  strm.Free;
+
+  x1 := (voxelsize - xsiz) div 2;
+  y1 := (voxelsize - ysiz) div 2;
+  z1 := (voxelsize - zsiz) div 2;
+
+  voxelbuffer := vx_membuffer;
+  gld_ClearVoxelBuffer(voxelbuffer, voxelsize);
+
+  i := 0;
+  for xx := x1 to x1 + xsiz - 1 do
+    for yy := y1 to y1 + ysiz - 1 do
+      for zz := z1 to z1 + zsiz - 1 do
+      begin
+        if voxdata[i] <> 255 then
+          voxelbuffer[xx, zz, voxelsize - yy - 1].color := pal[voxdata[i]];
+        inc(i);
+      end;
+  memfree(pointer(voxdata), voxdatasize);
+
+  gld_BuildVoxelbufferFlags(voxelbuffer, voxelsize);
+
+  vmx := TVoxelMeshOptimizerDDVOX.Create;
+
+  vmx.step := - 1 / MAP_COEFF * scale;
+  vmx.midx := vmx.step * voxelsize / 2;
+  vmx.midy := vmx.step * voxelsize + offset / MAP_COEFF; // Align down
+  vmx.midz := vmx.step * voxelsize / 2;
+
+  for xx := 0 to voxelsize - 1 do
+  begin
+    xxx := xx;
+    xxx1 := xx + 1;
+    for yy := 0 to voxelsize - 1 do
+    begin
+      yyy := yy;
+      yyy1 := yy + 1;
+      for zz := 0 to voxelsize - 1 do
+      begin
+        vp := @voxelbuffer[xx, yy, zz];
+        c := vp.color;
+
+        if c <> 0 then
+        begin
+          zzz := zz;
+          zzz1 := zz + 1;
+
+          skip_x0 := vp.flags and FLG_SKIPX0 <> 0;
+          skip_x1 := vp.flags and FLG_SKIPX1 <> 0;
+          skip_y0 := vp.flags and FLG_SKIPY0 <> 0;
+          skip_y1 := vp.flags and FLG_SKIPY1 <> 0;
+          skip_z0 := vp.flags and FLG_SKIPZ0 <> 0;
+          skip_z1 := vp.flags and FLG_SKIPZ1 <> 0;
+
+          if not skip_z0 then
+          begin
+            vmx.AddQuad(c,
+                        xxx, yyy, zzz,
+                        xxx, yyy1, zzz,
+                        xxx1, yyy1, zzz,
+                        xxx1, yyy, zzz);
+          end;
+
+          if not skip_y0 then
+          begin
+            vmx.AddQuad(c,
+                        xxx, yyy, zzz,
+                        xxx, yyy, zzz1,
+                        xxx1, yyy, zzz1,
+                        xxx1, yyy, zzz);
+          end;
+
+          if not skip_x0 then
+          begin
+            vmx.AddQuad(c,
+                        xxx, yyy, zzz,
+                        xxx, yyy, zzz1,
+                        xxx, yyy1, zzz1,
+                        xxx, yyy1, zzz);
+          end;
+
+          if not skip_z1 then
+          begin
+            vmx.AddQuad(c,
+                        xxx, yyy, zzz1,
+                        xxx, yyy1, zzz1,
+                        xxx1, yyy1, zzz1,
+                        xxx1, yyy, zzz1);
+          end;
+
+          if not skip_y1 then
+          begin
+            vmx.AddQuad(c,
+                        xxx, yyy1, zzz,
+                        xxx, yyy1, zzz1,
+                        xxx1, yyy1, zzz1,
+                        xxx1, yyy1, zzz);
+          end;
+
+          if not skip_x1 then
+          begin
+            vmx.AddQuad(c,
+                        xxx1, yyy, zzz,
+                        xxx1, yyy1, zzz,
+                        xxx1, yyy1, zzz1,
+                        xxx1, yyy , zzz1);
+          end;
+        end;
+      end;
+    end;
+  end;
+
+  // If vx_maxoptimizerpasscount = 0 then vmx.Optimize() will call vmx.FastOptimize()
+  vmx.Optimize;
+
+  result := glGenLists(1);
+
+  glNewList(result, GL_COMPILE);
+
+    vmx.RenderGL;
+
+  glEndList;
+
+  vmx.Free;
+end;
+
+
 constructor TVoxelModel.Create(const name: string; const offset, scale: float);
 var
   ext: string;
 begin
   printf('  Found external voxel %s'#13#10, [name]);
-  
+
   ext := strupper(fext(name));
 
   if ext = '.DDMESH' then
@@ -1466,11 +1733,17 @@ begin
     precalc := mallocz(fNumFrames * SizeOf(GLuint));
     precalc[0] := gld_LoadDDVOX(name, offset, scale);
   end
-  else if ext = '.KVX' then
+  else if (ext = '.KVX') or (ext = '') then
   begin
     fnumframes := 1;
     precalc := mallocz(fNumFrames * SizeOf(GLuint));
     precalc[0] := gld_LoadKVX(name, offset, scale);
+  end
+  else if ext = '.VOX' then
+  begin
+    fnumframes := 1;
+    precalc := mallocz(fNumFrames * SizeOf(GLuint));
+    precalc[0] := gld_LoadSlab6VOX(name, offset, scale);
   end
   else
     I_Error('TVoxelModel.Create(): Can not identify voxel type "%s"', [name]);

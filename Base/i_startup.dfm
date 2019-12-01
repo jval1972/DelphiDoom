@@ -1,11 +1,11 @@
 object StartUpConsoleForm: TStartUpConsoleForm
-  Left = 328
-  Top = 151
+  Left = 52
+  Top = 0
   Cursor = crHourGlass
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = '-'
-  ClientHeight = 350
+  ClientHeight = 311
   ClientWidth = 572
   Color = clBtnFace
   Font.Charset = GREEK_CHARSET
@@ -22,7 +22,7 @@ object StartUpConsoleForm: TStartUpConsoleForm
     Left = 0
     Top = 28
     Width = 572
-    Height = 288
+    Height = 249
     Cursor = crHourGlass
     Align = alClient
     Color = 4210752
@@ -67,7 +67,7 @@ object StartUpConsoleForm: TStartUpConsoleForm
   end
   object StartUpProgressBar: TProgressBar
     Left = 0
-    Top = 333
+    Top = 294
     Width = 572
     Height = 17
     Align = alBottom
@@ -76,7 +76,7 @@ object StartUpConsoleForm: TStartUpConsoleForm
   end
   object StartUpProgressBar2: TProgressBar
     Left = 0
-    Top = 316
+    Top = 277
     Width = 572
     Height = 17
     Align = alBottom

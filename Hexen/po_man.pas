@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -119,7 +119,14 @@ uses
   doomdata,
   i_system,
   m_bbox,
-  p_mobj_h, p_tick, p_local, p_setup, p_acs, p_map, p_inter, p_maputl,
+  p_mobj_h,
+  p_tick,
+  p_local,
+  p_setup,
+  p_acs,
+  p_map,
+  p_inter,
+  p_maputl,
   r_main,
   s_sndseq,
   w_wad,
@@ -959,6 +966,7 @@ var
   po: Ppolyobj_t;
   prevPts: Pvertex_t;
   blocked: boolean;
+  l: Pline_t;
 begin
   po := GetPolyobj(num);
   if po = nil then
@@ -976,13 +984,14 @@ begin
   begin
     if not segList^.miniseg then
     begin
-      if segList^.linedef.validcount <> validcount then
+      l := segList^.linedef;
+      if l.validcount <> validcount then
       begin
-        segList^.linedef.bbox[BOXTOP] := segList^.linedef.bbox[BOXTOP] + y;
-        segList^.linedef.bbox[BOXBOTTOM] := segList^.linedef.bbox[BOXBOTTOM] + y;
-        segList^.linedef.bbox[BOXLEFT] := segList^.linedef.bbox[BOXLEFT] + x;
-        segList^.linedef.bbox[BOXRIGHT] := segList^.linedef.bbox[BOXRIGHT] + x;
-        segList^.linedef.validcount := validcount;
+        l.bbox[BOXTOP] := l.bbox[BOXTOP] + y;
+        l.bbox[BOXBOTTOM] := l.bbox[BOXBOTTOM] + y;
+        l.bbox[BOXLEFT] := l.bbox[BOXLEFT] + x;
+        l.bbox[BOXRIGHT] := l.bbox[BOXRIGHT] + x;
+        l.validcount := validcount;
       end;
       veryTempSeg := po.segs;
       while veryTempSeg <> segList do
@@ -1027,13 +1036,14 @@ begin
     begin
       if not segList^.miniseg then
       begin
-        if segList^.linedef.validcount <> validcount then
+        l := segList^.linedef;
+        if l.validcount <> validcount then
         begin
-          segList^.linedef.bbox[BOXTOP] := segList^.linedef.bbox[BOXTOP] - y;
-          segList^.linedef.bbox[BOXBOTTOM] := segList^.linedef.bbox[BOXBOTTOM] - y;
-          segList^.linedef.bbox[BOXLEFT] := segList^.linedef.bbox[BOXLEFT] - x;
-          segList^.linedef.bbox[BOXRIGHT] := segList^.linedef.bbox[BOXRIGHT] - x;
-          segList^.linedef.validcount := validcount;
+          l.bbox[BOXTOP] := l.bbox[BOXTOP] - y;
+          l.bbox[BOXBOTTOM] := l.bbox[BOXBOTTOM] - y;
+          l.bbox[BOXLEFT] := l.bbox[BOXLEFT] - x;
+          l.bbox[BOXRIGHT] := l.bbox[BOXRIGHT] - x;
+          l.validcount := validcount;
         end;
         veryTempSeg := po.segs;
         while veryTempSeg <> segList do
@@ -1211,6 +1221,7 @@ var
   segList: PPseg_t;
   leftX, rightX: integer;
   topY, bottomY: integer;
+  v1: Pvertex_t;
 begin
   PolyBlockMap := Z_Malloc(bmapwidth * bmapheight * SizeOf(Ppolyblock_t), PU_LEVEL, nil);
   memset(PolyBlockMap, 0, bmapwidth * bmapheight * SizeOf(Ppolyblock_t));
@@ -1231,14 +1242,15 @@ begin
     begin
       if not segList^.miniseg then
       begin
-        if segList^.v1.x < leftX then
-          leftX := segList^.v1.x;
-        if segList^.v1.x > rightX then
-          rightX := segList^.v1.x;
-        if segList^.v1.y < bottomY then
-          bottomY := segList^.v1.y;
-        if segList^.v1.y > topY then
-          topY := segList^.v1.y;
+        v1 := segList^.v1;
+        if v1.x < leftX then
+          leftX := v1.x;
+        if v1.x > rightX then
+          rightX := v1.x;
+        if v1.y < bottomY then
+          bottomY := v1.y;
+        if v1.y > topY then
+          topY := v1.y;
       end;
       inc(segList);
       inc(j);
@@ -1408,6 +1420,8 @@ var
   deltaX, deltaY: integer;
   avg: vertex_t; // used to find a polyobj's center, and hence subsector
   i: integer;
+  l: Pline_t;
+  v1: Pvertex_t;
 begin
   po := nil;
   for i := 0 to po_NumPolyobjs - 1 do
@@ -1441,13 +1455,14 @@ begin
   begin
     if not tempSeg^.miniseg then
     begin
-      if tempSeg^.linedef.validcount <> validcount then
+      l := tempSeg^.linedef;
+      if l.validcount <> validcount then
       begin
-        tempSeg^.linedef.bbox[BOXTOP] := tempSeg^.linedef.bbox[BOXTOP] - deltaY;
-        tempSeg^.linedef.bbox[BOXBOTTOM] := tempSeg^.linedef.bbox[BOXBOTTOM] - deltaY;
-        tempSeg^.linedef.bbox[BOXLEFT] := tempSeg^.linedef.bbox[BOXLEFT] - deltaX;
-        tempSeg^.linedef.bbox[BOXRIGHT] := tempSeg^.linedef.bbox[BOXRIGHT] - deltaX;
-        tempSeg^.linedef.validcount := validcount;
+        l.bbox[BOXTOP] := l.bbox[BOXTOP] - deltaY;
+        l.bbox[BOXBOTTOM] := l.bbox[BOXBOTTOM] - deltaY;
+        l.bbox[BOXLEFT] := l.bbox[BOXLEFT] - deltaX;
+        l.bbox[BOXRIGHT] := l.bbox[BOXRIGHT] - deltaX;
+        l.validcount := validcount;
       end;
       veryTempSeg := po.segs;
       while veryTempSeg <> tempSeg do
@@ -1457,17 +1472,18 @@ begin
             break;
         inc(veryTempSeg);
       end;
+      v1 := tempSeg^.v1;
       if veryTempSeg = tempSeg then
       begin // the point hasn't been translated, yet
-        tempSeg^.v1.x := tempSeg^.v1.x - deltaX;
-        tempSeg^.v1.y := tempSeg^.v1.y - deltaY;
+        v1.x := v1.x - deltaX;
+        v1.y := v1.y - deltaY;
       end;
-      avg.x := avg.x + FixedInt(tempSeg^.v1.x);
-      avg.y := avg.y + FixedInt(tempSeg^.v1.y);
+      avg.x := avg.x + FixedInt(v1.x);
+      avg.y := avg.y + FixedInt(v1.y);
       // the original Pts are based off the startSpot Pt, and are
       // unique to each seg, not each linedef
-      tempPt.x := tempSeg^.v1.x - po.startSpot.x;
-      tempPt.y := tempSeg^.v1.y - po.startSpot.y;
+      tempPt.x := v1.x - po.startSpot.x;
+      tempPt.y := v1.y - po.startSpot.y;
     end;
     inc(tempSeg);
     inc(tempPt);

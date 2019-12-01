@@ -11640,7 +11640,7 @@ begin
       {$IFDEF PS_USESSUPPORT} or (BlockInfo.SubType = tUnitInit) or (BlockInfo.SubType = tUnitFinish){$ENDIF}) //nvds
          and (FParser.CurrTokenId <> CSTI_Period) then
       begin
-        MakeError('', ecPeriodExpected, '');
+        MakeError('', ecPeriodExpected, '');      
         Exit;
       end;
       if (BlockInfo.SubType = tProcBegin) and (FParser.CurrTokenId <> CSTI_Semicolon) then
@@ -12835,7 +12835,7 @@ begin
       if FParser.CurrTokenId <> CSTI_Period then
       begin
         MakeError('', ecPeriodExpected, '');
-        Cleanup;
+        Cleanup;                                     
         Exit;
       end;
       Break;

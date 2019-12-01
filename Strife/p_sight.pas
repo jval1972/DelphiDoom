@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -44,10 +44,9 @@ uses
 
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 
-function P_CheckCameraSight(const camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
+function P_CheckCameraSight(const camx, camy, camz: fixed_t; const mo: Pmobj_t): boolean;
 
 function P_CheckVisibility(const atx, aty, atz: fixed_t; const atradious: fixed_t): boolean;
-
 
 implementation
 
@@ -266,7 +265,6 @@ begin
 
     // crosses a two sided line
     back := seg.backsector;
-
     if back = nil then
     begin
       result := false;
@@ -428,7 +426,6 @@ begin
 
   if numsectors > 1 then
   begin
-
     pnum := s1 * numsectors + s2;
     bytenum := pnum div 8;
     bitnum := 1 shl (pnum and 7);
@@ -534,7 +531,7 @@ end;
 //
 // JVAL: To determine if camera chase view can see the player
 //
-function P_CheckCameraSight(const camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
+function P_CheckCameraSight(const camx, camy, camz: fixed_t; const mo: Pmobj_t): boolean;
 var
   los: los_t;
 begin

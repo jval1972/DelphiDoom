@@ -488,7 +488,7 @@ var
   light: integer;
   x: integer;
   stop: integer;
-  sec: Psector_t;
+//  sec: Psector_t;
 begin
   visslope := pl.slope;
   if visslope = nil then
@@ -504,7 +504,7 @@ begin
     end;
   end;
 
-  sec := @sectors[pl.slopeSID];
+//  sec := @sectors[pl.slopeSID];
 
   R_GetDSs(pl.picnum);
 

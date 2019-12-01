@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -2343,6 +2343,7 @@ type
     interactstate: integer;
     missileheight: integer;
     vspeed: integer;  // Initial vertical speed
+    pushfactor: integer; // How much can be pushed? 1..FRACUNIT
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

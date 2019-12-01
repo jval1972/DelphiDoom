@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1362,6 +1362,7 @@ begin
   end;
 
   // JVAL: 3d floors
+  ss := R_PointInSubsector(x, y);
   z := ss.sector.floorheight;
   if ss.sector.midsec >= 0 then
     if players[playernum].mo.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
@@ -1381,8 +1382,8 @@ begin
     bodyque[bodyqueslot mod BODYQUESIZE] := players[playernum].mo;
     inc(bodyqueslot);
   end;
+
   // spawn a teleport fog
-  ss := R_PointInSubsector(x, y);
   {$IFDEF FPC}
   an := _SHRW(ANG45 * (mthing.angle div 45), ANGLETOFINESHIFT);
   {$ELSE}

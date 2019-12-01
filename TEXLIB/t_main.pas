@@ -152,6 +152,7 @@ type
     procedure SetAlphaChannel(Value: byte);
     procedure SetAlphaChannelFromImage(tex: PTexture);
     procedure SetDefaultAlphaChannel;
+    procedure RemoveTransparency;
     function ExternalAlphaPresent: boolean;
     procedure SetExternalAlphaPresent(Value: boolean);
     procedure ConvertTo32bit;
@@ -1151,6 +1152,26 @@ begin
         pdest^ := pdest^ or $FF000000;
       inc(pdest);
     end;
+  end;
+end;
+
+procedure TTexture.RemoveTransparency;
+var
+  pdest: PLongWord;
+  pdeststop: PLongWord;
+begin
+  ConvertTo32bit;
+
+  pdest := PLongWord(integer(Fdata) + 4);
+  pdeststop := @PLongWordArray(pdest)[FWidth * FHeight];
+
+  while integer(pdest) < integer(pdeststop) do
+  begin
+    if pdest^ and $FFFFFF = 0 then
+      pdest^ := $FF010101
+    else
+      pdest^ := pdest^ or $FF000000;
+    inc(pdest);
   end;
 end;
 

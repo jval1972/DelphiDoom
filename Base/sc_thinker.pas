@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -37,8 +37,9 @@ type
   rtl_thinker_t = record
     name: string[255];
     script: string[255];
-    dn: Integer;
+    dn: integer;
     repeatcnt: integer;
+    interval: integer;
   end;
   Prtl_thinker_t = ^rtl_thinker_t;
 
@@ -64,7 +65,13 @@ var
 begin
   if th.repeatcnt < 0 then
   begin
-    I_Warning('SC_SubmitThinker(): Thinker %s has negative repeat count', [th.name]);
+    I_Warning('SC_SubmitThinker(): Thinker %s has negative repeat count=%d'#13#10, [th.name, th.repeatcnt]);
+    Exit;
+  end;
+
+  if th.interval < 1 then
+  begin
+    I_Warning('SC_SubmitThinker(): Thinker %s has invalid interval=%d'#13#10, [th.name, th.interval]);
     Exit;
   end;
 
@@ -82,14 +89,13 @@ begin
   AddRes('    Spawn:');
   if th.repeatcnt = 0 then
   begin
-    AddRes('        NULL A 1 A_RunScript(' + th.script + ')');
+    AddRes('        NULL A ' + itoa(th.interval) + ' A_RunScript(' + th.script + ')');
     AddRes('        Loop');
   end
   else
   begin
-    AddRes('        NULL A 1');
     for i := 0 to th.repeatcnt - 1 do
-      AddRes('        NULL A 1 A_RunScript(' + th.script + ')');
+      AddRes('        NULL A ' + itoa(th.interval) + ' A_RunScript(' + th.script + ')');
     AddRes('        Stop');
   end;
   AddRes('    }');

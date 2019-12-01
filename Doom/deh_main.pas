@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -55,13 +55,16 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 235;
+  DEHNUMACTIONS = 237;
 
 type
   deh_action_t = record
     action: actionf_t;
     name: string;
-    {$IFDEF DLL}decl: string;{$ENDIF}
+    {$IFDEF DLL}
+    decl: string;
+//    params: string; TODO 
+    {$ENDIF}
   end;
 
 type
@@ -541,6 +544,7 @@ begin
                   mobj_setflag := -1;
                   repeat
                     splitstring(token2, token3, token4, ['|', ',', '+']);
+                    token3 := strtrim(token3);
                     mobj_flag := mobj_flags.IndexOf('MF_' + token3);
                     if mobj_flag = -1 then
                       mobj_flag := mobj_flags.IndexOf(token3);
@@ -556,7 +560,7 @@ begin
                         mobj_setflag := mobj_setflag or mobj_flag;
                       end;
                     end;
-                    token2 := token4;
+                    token2 := strtrim(token4);
                   until token2 = '';
                   if mobj_setflag <> -1 then
                     mobjinfo[mobj_no].flags := mobj_setflag;
@@ -657,6 +661,7 @@ begin
           41: mobjinfo[mobj_no].interactstate := mobj_val;
           42: mobjinfo[mobj_no].missileheight := mobj_val;
           43: mobjinfo[mobj_no].vspeed := mobj_val;
+          44: mobjinfo[mobj_no].pushfactor := mobj_val;
         end;
       end;
 
@@ -1567,6 +1572,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[41]), mobjinfo[i].interactstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[42]), mobjinfo[i].missileheight]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[43]), mobjinfo[i].vspeed]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[44]), mobjinfo[i].pushfactor]);
 
     result.Add('');
   end;
@@ -1839,6 +1845,7 @@ begin
   mobj_tokens.Add('INTERACT FRAME');     // .interactstate (DelphiDoom) // 41
   mobj_tokens.Add('MISSILEHEIGHT');      // .missileheight (DelphiDoom) // 42
   mobj_tokens.Add('VSPEED');             // .vspeed                   // 43
+  mobj_tokens.Add('PUSHFACTOR');         // .pushfactor               // 44
 
 
   mobj_flags := TDTextList.Create;
@@ -2655,6 +2662,12 @@ begin
   deh_actions[234].action.acp1 := @A_SetWorldFloat;
   deh_actions[234].name := strupper('SetWorldFloat');
   {$IFDEF DLL}deh_actions[234].decl := 'A_SetWorldFloat(wvar: string, value: float)';{$ENDIF}
+  deh_actions[235].action.acp1 := @A_RandomGoto;
+  deh_actions[235].name := strupper('RandomGoto');
+  {$IFDEF DLL}deh_actions[235].decl := 'A_RandomGoto(state1: state_t; [state2: state_t],...)';{$ENDIF}
+  deh_actions[236].action.acp1 := @A_ResetHealth;
+  deh_actions[236].name := strupper('ResetHealth');
+  {$IFDEF DLL}deh_actions[236].decl := 'A_ResetHealth';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

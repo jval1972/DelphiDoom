@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -596,7 +596,7 @@ begin
     else
     begin
       t.Adjust32bitTransparency;
-      t.SetAlphaChannel(255);
+      t.SetAlphaChannel($FF);
     end;
   end;
 
@@ -652,7 +652,7 @@ begin
     else
     begin
       t.Adjust32bitTransparency;
-      t.SetAlphaChannel(255);
+      t.SetAlphaChannel($FF);
     end;
   end;
   twidth := gld_GetTexDimension(t.GetWidth);
@@ -826,7 +826,11 @@ begin
 
   t.ConvertTo32bit;
   t.SwapRGB;
-  if not t.ExternalAlphaPresent then
+  if gltexture.textype = GLDT_FLAT then
+  begin
+    t.RemoveTransparency;
+  end
+  else if not t.ExternalAlphaPresent then
   begin
     if gld_CheckTextureTransparency(gltexture) then
       t.SetDefaultAlphaChannel
@@ -836,7 +840,7 @@ begin
       // JVAL:
       //  Set non transparent texture, setting Alpha Value to a lower value
       //  makes the texture transparent
-      t.SetAlphaChannel(255);
+      t.SetAlphaChannel($FF);
     end;
   end;
   

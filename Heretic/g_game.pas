@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1781,6 +1781,7 @@ begin
   players[playernum].mo.flags2 := players[playernum].mo.flags2 and not MF2_PASSMOBJ;
 
   // JVAL: 3d floors
+  ss := R_PointInSubsector(x, y);
   z := ss.sector.floorheight;
   if ss.sector.midsec >= 0 then
     if players[playernum].mo.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
@@ -1801,7 +1802,6 @@ begin
   inc(bodyqueslot);
 
   // spawn a teleport fog
-  ss := R_PointInSubsector(x, y);
   {$IFDEF FPC}
   an := _SHRW(ANG45 * (mthing.angle div 45), ANGLETOFINESHIFT);
   {$ELSE}

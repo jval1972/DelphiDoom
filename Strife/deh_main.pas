@@ -60,7 +60,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 278;
+  DEHNUMACTIONS = 280;
 
 type
   deh_action_t = record
@@ -562,6 +562,7 @@ begin
                   mobj_setflag := -1;
                   repeat
                     splitstring(token2, token3, token4, ['|', ',', '+']);
+                    token3 := strtrim(token3);
                     mobj_flag := mobj_flags.IndexOf('MF_' + token3);
                     if mobj_flag = -1 then
                       mobj_flag := mobj_flags.IndexOf(token3);
@@ -577,7 +578,7 @@ begin
                         mobj_setflag := mobj_setflag or mobj_flag;
                       end;
                     end;
-                    token2 := token4;
+                    token2 := strtrim(token4);
                   until token2 = '';
                   if mobj_setflag <> -1 then
                     mobjinfo[mobj_no].flags := mobj_setflag;
@@ -688,6 +689,7 @@ begin
                   mobjinfo[mobj_no].name2[j] := #0;
               end;
           44: mobjinfo[mobj_no].vspeed := mobj_val;
+          45: mobjinfo[mobj_no].pushfactor := mobj_val;
         end;
       end;
 
@@ -1521,6 +1523,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[42]), mobjinfo[i].missileheight]);
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[43]), PascalText(mobjinfo[i].name2, MOBJINFONAMESIZE)]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[44]), mobjinfo[i].vspeed]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[45]), mobjinfo[i].pushfactor]);
 
     result.Add('');
   end;
@@ -2703,6 +2706,12 @@ begin
   deh_actions[277].action.acp1 := @A_SetWorldFloat;
   deh_actions[277].name := strupper('SetWorldFloat');
   {$IFDEF DLL}deh_actions[277].decl := 'A_SetWorldFloat(wvar: string; value: float)';{$ENDIF}
+  deh_actions[278].action.acp1 := @A_RandomGoto;
+  deh_actions[278].name := strupper('RandomGoto');
+  {$IFDEF DLL}deh_actions[278].decl := 'A_RandomGoto(state1: state_t; [state2: state_t],...)';{$ENDIF}
+  deh_actions[279].action.acp1 := @A_ResetHealth;
+  deh_actions[279].name := strupper('ResetHealth');
+  {$IFDEF DLL}deh_actions[279].decl := 'A_ResetHealth';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

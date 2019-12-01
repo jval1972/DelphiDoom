@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -267,6 +267,10 @@ procedure A_SetWorldInt(actor: Pmobj_t);
 procedure A_SetMapFloat(actor: Pmobj_t);
 
 procedure A_SetWorldFloat(actor: Pmobj_t);
+
+procedure A_RandomGoto(actor: Pmobj_t);
+
+procedure A_ResetHealth(actor: Pmobj_t);
 
 const
   FLOATBOBSIZE = 64;
@@ -596,18 +600,15 @@ end;
 procedure A_JumpIfCustomParam(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -619,18 +620,15 @@ end;
 procedure A_JumpIfCustomParamLess(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -642,18 +640,15 @@ end;
 procedure A_JumpIfCustomParamGreater(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -665,7 +660,6 @@ end;
 procedure A_JumpIfTargetCustomParam(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
   if actor.target = nil then
     exit;
@@ -675,11 +669,9 @@ begin
 
   if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -691,7 +683,6 @@ end;
 procedure A_JumpIfTargetCustomParamLess(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
   if actor.target = nil then
     exit;
@@ -701,11 +692,9 @@ begin
 
   if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -717,7 +706,6 @@ end;
 procedure A_JumpIfTargetCustomParamGreater(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
   if actor.target = nil then
     exit;
@@ -727,11 +715,9 @@ begin
 
   if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -759,21 +745,15 @@ end;
 procedure A_JumpIfMapStringLess(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if mapvars.StrVal[actor.state.params.StrVal[0]] < actor.state.params.StrVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -782,9 +762,6 @@ var
   offset: integer;
   cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -801,21 +778,15 @@ end;
 procedure A_JumpIfMapIntegerEqual(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if mapvars.IntVal[actor.state.params.StrVal[0]] = actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -824,9 +795,6 @@ var
   offset: integer;
   cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -843,147 +811,105 @@ end;
 procedure A_JumpIfMapIntegerGreater(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if mapvars.IntVal[actor.state.params.StrVal[0]] > actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfMapFloatEqual(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if mapvars.FloatVal[actor.state.params.StrVal[0]] = actor.state.params.FloatVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfMapFloatLess(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if mapvars.FloatVal[actor.state.params.StrVal[0]] < actor.state.params.FloatVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfMapFloatGreater(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if mapvars.FloatVal[actor.state.params.StrVal[0]] > actor.state.params.FloatVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfWorldStringEqual(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.StrVal[actor.state.params.StrVal[0]] = actor.state.params.StrVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfWorldStringLess(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.StrVal[actor.state.params.StrVal[0]] < actor.state.params.StrVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfWorldStringGreater(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.StrVal[actor.state.params.StrVal[0]] > actor.state.params.StrVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -992,9 +918,6 @@ var
   offset: integer;
   cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1011,105 +934,75 @@ end;
 procedure A_JumpIfWorldIntegerLess(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.IntVal[actor.state.params.StrVal[0]] < actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfWorldIntegerGreater(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.IntVal[actor.state.params.StrVal[0]] > actor.state.params.IntVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfWorldFloatEqual(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.FloatVal[actor.state.params.StrVal[0]] = actor.state.params.FloatVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfWorldFloatLess(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.FloatVal[actor.state.params.StrVal[0]] < actor.state.params.FloatVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
 procedure A_JumpIfWorldFloatGreater(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
   if Worldvars.FloatVal[actor.state.params.StrVal[0]] > actor.state.params.FloatVal[1] then
   begin
-    offset := actor.state.params.IntVal[2];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[2]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -1263,9 +1156,6 @@ procedure A_GoToIfMapStringEqual(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1288,9 +1178,6 @@ procedure A_GoToIfMapStringLess(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1313,9 +1200,6 @@ procedure A_GoToIfMapStringGreater(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1333,9 +1217,6 @@ procedure A_GoToIfMapIntegerEqual(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1353,9 +1234,6 @@ procedure A_GoToIfMapIntegerLess(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1373,9 +1251,6 @@ procedure A_GoToIfMapIntegerGreater(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1393,9 +1268,6 @@ procedure A_GoToIfMapFloatEqual(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1413,9 +1285,6 @@ procedure A_GoToIfMapFloatLess(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1433,9 +1302,6 @@ procedure A_GoToIfMapFloatGreater(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1458,9 +1324,6 @@ procedure A_GoToIfWorldStringEqual(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1483,9 +1346,6 @@ procedure A_GoToIfWorldStringLess(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1508,9 +1368,6 @@ procedure A_GoToIfWorldStringGreater(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1528,9 +1385,6 @@ procedure A_GoToIfWorldIntegerEqual(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1548,9 +1402,6 @@ procedure A_GoToIfWorldIntegerLess(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1568,9 +1419,6 @@ procedure A_GoToIfWorldIntegerGreater(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1588,9 +1436,6 @@ procedure A_GoToIfWorldFloatEqual(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1608,9 +1453,6 @@ procedure A_GoToIfWorldFloatLess(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1628,9 +1470,6 @@ procedure A_GoToIfWorldFloatGreater(actor: Pmobj_t);
 var
   newstate: integer;
 begin
-  if actor.target = nil then
-    exit;
-
   if not P_CheckStateParams(actor, 3) then
     exit;
 
@@ -1803,7 +1642,6 @@ begin
   end;
 
   S_StartSound(actor, sndidx);
-
 end;
 
 procedure A_PlayWeaponsound(actor: Pmobj_t);
@@ -1868,7 +1706,6 @@ procedure A_Jump(actor: Pmobj_t);
 var
   propability: integer;
   offset: integer;
-  cur: integer;
 begin
   if not P_CheckStateParams(actor, 2) then
     exit;
@@ -1877,11 +1714,9 @@ begin
 
   if N_Random < propability then
   begin
-    offset := actor.state.params.IntVal[1];
-
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -2531,7 +2366,6 @@ var
   dist: fixed_t;
   target: Pmobj_t;
   offset: integer;
-  cur: integer;
 begin
   if not P_CheckStateParams(actor, 2) then
     exit;
@@ -2552,9 +2386,9 @@ begin
   dist := actor.state.params.FixedVal[0];
   if P_AproxDistance(actor.x - target.x, actor.y - target.y) < dist then
   begin
-    offset := actor.state.params.IntVal[1];
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -2566,16 +2400,15 @@ end;
 procedure A_JumpIfHealthLower(actor: Pmobj_t);
 var
   offset: integer;
-  cur: integer;
 begin
   if not P_CheckStateParams(actor, 2) then
     exit;
 
   if actor.health < actor.state.params.IntVal[0] then
   begin
-    offset := actor.state.params.IntVal[1];
-    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
-    P_SetMobjState(actor, statenum_t(cur + offset));
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
@@ -3023,6 +2856,31 @@ begin
     exit;
 
   PS_SetWorldFloat(actor.state.params.StrVal[0], actor.state.params.FloatVal[1]);
+end;
+
+//
+// A_RandomGoto(state1, state2, ....)
+//
+procedure A_RandomGoto(actor: Pmobj_t);
+var
+  newstate: integer;
+  idx: integer;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  idx := N_Random mod actor.state.params.Count;
+
+  if not actor.state.params.IsComputed[idx] then
+    actor.state.params.IntVal[idx] := P_GetStateFromName(actor, actor.state.params.StrVal[idx]);
+  newstate := actor.state.params.IntVal[idx];
+
+  P_SetMobjState(actor, statenum_t(newstate));
+end;
+
+procedure A_ResetHealth(actor: Pmobj_t);
+begin
+  actor.health := actor.info.spawnhealth;
 end;
 
 end.

@@ -89,7 +89,7 @@ uses
   d_event in 'Base\d_event.pas',
   d_fpc in 'Base\d_fpc.pas',
   d_main in 'Hexen\d_main.pas',
-  d_net in 'Hexen\d_net.pas',
+  d_net in 'Base\d_net.pas',
   d_net_h in 'Base\d_net_h.pas',
   d_player in 'Hexen\d_player.pas',
   d_think in 'Base\d_think.pas',

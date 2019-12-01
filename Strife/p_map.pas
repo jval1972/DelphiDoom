@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -500,6 +500,7 @@ var
   blockdist: fixed_t;
   solid: boolean;
   damage: integer;
+  pushfactor: fixed_t;
 begin
   if (thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE)) = 0 then
   begin
@@ -621,8 +622,17 @@ begin
   // JVAL: Pushable things
   if (thing.flags2_ex and MF2_EX_PUSHABLE <> 0) and (tmthing.flags2_ex and MF2_EX_CANNOTPUSH = 0) then
   begin // Push thing
-    thing.momx := thing.momx + tmthing.momx div 4;
-    thing.momy := thing.momy + tmthing.momy div 4;
+    pushfactor := thing.info.pushfactor;
+    if pushfactor <= 0 then
+    begin
+      thing.momx := thing.momx + tmthing.momx div 4;
+      thing.momy := thing.momy + tmthing.momy div 4;
+    end
+    else
+    begin
+      thing.momx := thing.momx + FixedMul(tmthing.momx, pushfactor);
+      thing.momy := thing.momy + FixedMul(tmthing.momy, pushfactor);
+    end;
   end;
 
   // check for special pickup
@@ -797,7 +807,6 @@ var
   ld: Pline_t;
   p: Pplayer_t;
   oldfloorz: fixed_t; // JVAL: Slopes
-  oldsector: Psector_t; // JVAL: Slopes
   oldonfloorz: boolean;
   dropoffmargin: fixed_t;
 begin
@@ -882,8 +891,7 @@ begin
 
   // the move is ok,
   // so link the thing into its new position
-  oldsector := Psubsector_t(thing.subsector).sector;  // JVAL: Slopes
-  oldfloorz := P_FloorHeight({oldsector, }thing.x, thing.y); // JVAL: Slopes
+  oldfloorz := P_FloorHeight(thing.x, thing.y); // JVAL: Slopes
   oldonfloorz := oldfloorz >= thing.z; // JVAL: Slopes
   P_UnsetThingPosition(thing);
 

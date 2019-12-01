@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -580,8 +580,8 @@ begin
 
   NetUpdate; // send out any new accumulation
 
-  // normal update
   {$IFNDEF OPENGL}
+  // normal update
   if not wipe then
   begin
     D_FinishUpdate; // page flip or blit buffer
@@ -712,13 +712,29 @@ end;
 //
 // D_PageDrawer
 //
+var
+  fullhdpatch: integer = -2;
+
 procedure D_PageDrawer;
+{$IFNDEF OPENGL}
+var
+  pt: Ppatch_t;
+{$ENDIF}  
 begin
   V_PageDrawer(pagename);
   {$IFNDEF OPENGL}
   if demosequence = 0 then
     if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
-      V_DrawPatch(120, 1020, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
+    begin
+      if fullhdpatch = -2 then
+        fullhdpatch := W_CheckNumForName('FULLHD');
+      if fullhdpatch > 0 then
+      begin
+        pt := W_CacheLumpNum(fullhdpatch, PU_STATIC);
+        V_DrawPatch(120, 1020, SCN_FG, pt, false);
+        Z_ChangeTag(pt, PU_CACHE);
+      end;
+    end;
   {$ENDIF}
 end;
 
@@ -1415,13 +1431,11 @@ begin
             [VERSION div 100, 2, VERSION mod 100]);
       end;
   else
-    begin
       printf(
          '                         ' +
          'Public STRIFE - v%d.%.*d' +
          '                           '#13#10,
           [VERSION div 100, 2, VERSION mod 100]);
-    end;
   end;
 
   if devparm then

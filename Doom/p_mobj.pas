@@ -1159,7 +1159,10 @@ begin
      (mthing._type = DEN_PLAYER6) or
      (mthing._type = DEN_PLAYER7) or
      (mthing._type = DEN_PLAYER8) then
+  begin
+    result := nil;
     exit;
+  end;
 
   // check for players specially
   if mthing._type <= 4 then

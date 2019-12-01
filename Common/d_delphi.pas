@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -167,7 +167,7 @@ function mallocA(var Size: integer; const Align: integer; var original: pointer)
 
 function mallocz(const size: integer): Pointer;
 
-procedure realloc(var p: pointer; const oldsize, newsize: integer);
+procedure realloc(var p: pointer; const oldsize, newsize: integer); 
 
 procedure memfree(var p: pointer; const size: integer);
 
@@ -1699,7 +1699,7 @@ begin
     sFromCurrent:
       result := FPosition + Offset;
     sFromEnd:
-      result := FPosition - Offset;
+      result := FSize - Offset;
   else
     result := 0;
   end;
@@ -1771,7 +1771,7 @@ begin
     sFromCurrent:
       result := FPosition + Offset;
     sFromEnd:
-      result := FPosition - Offset;
+      result := FSize - Offset;
   else
     result := 0;
   end;
@@ -1945,7 +1945,7 @@ begin
     case Origin of
       sFromBeginning: fPosition := Offset;
       sFromCurrent: inc(fPosition, Offset);
-      sFromEnd: fPosition := fSize + Offset;
+      sFromEnd: fPosition := fSize - Offset;
     end;
     result := fPosition;
   end

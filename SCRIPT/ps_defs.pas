@@ -140,6 +140,7 @@ type
 
 type
   TbtString = {$IFDEF DELPHI2009UP}AnsiString{$ELSE}string{$ENDIF};
+  TPSPasTokenSet = set of TPSPasToken;
 
 type
   TRTab = record

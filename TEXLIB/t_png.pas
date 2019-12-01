@@ -5630,7 +5630,7 @@ begin
   else
     nearblack := $010100;
   if (png.header.ColorType = COLOR_PALETTE) and (png.Header.BitDepth = 8) and (png.Header.HasPalette) then
-  begin
+  begin    
     FBitmap^.SetBytesPerPixel(1);
     for i := 0 to 255 do
     begin

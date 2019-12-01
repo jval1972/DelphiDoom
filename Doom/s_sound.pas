@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -272,7 +272,7 @@ procedure S_Init(sfxVolume: integer; musicVolume: integer);
 var
   i: integer;
 begin
-  printf('S_Init: default sfx volume %d' + #13#10, [sfxVolume]);
+  printf('S_Init: default sfx volume %d'#13#10, [sfxVolume]);
 
   // Whatever these did with DMX, these are rather dummies now.
   I_SetChannels;

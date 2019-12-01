@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -322,7 +322,7 @@ begin
 end;
 
 //
-//      Find string height from hu_font chars
+// Find string height from hu_font chars
 //
 function M_StringHeight(const str: string): integer;
 var
@@ -343,7 +343,7 @@ type
   end;
 
 //
-//      Write a string using the hu_font
+// Write a string using the hu_font
 //
 function M_WriteText(x, y: integer; const str: string): menupos_t;
 var
@@ -1535,7 +1535,7 @@ begin
   // Yet another hack...
   if (gamemode = registered) and (choice > 2) then
   begin
-    I_Warning('M_Episode(): 4th episode requires UltimateDOOM' + #13#10);
+    I_Warning('M_Episode(): 4th episode requires UltimateDOOM'#13#10);
     choice := 0;
   end;
 

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -212,6 +212,10 @@ var
       flag := mobj_flags[i];
       if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
+      {$IFNDEF STRIFE}
+      if flag = 'CANPASS' then
+        flag := 'PASSMOBJ';
+      {$ENDIF}
       if sc.MatchFlag(flag) then
       begin
         mobj.flags := mobj.flags + flag + ' ';
@@ -236,6 +240,10 @@ var
         flag := Copy(flag, 5, length(flag) - 4)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
+      {$IFNDEF STRIFE}
+      if flag = 'CANPASS' then
+        flag := 'PASSMOBJ';
+      {$ENDIF}
       if sc.MatchFlag2(flag) then
       begin
         mobj.flags2 := mobj.flags2 + flag + ' ';
@@ -260,6 +268,10 @@ var
         flag := Copy(flag, 7, length(flag) - 6)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
+      {$IFNDEF STRIFE}
+      if flag = 'CANPASS' then
+        flag := 'PASSMOBJ';
+      {$ENDIF}
       if sc.MatchFlagEx(flag) then
       begin
         mobj.flags_ex := mobj.flags_ex + flag + ' ';
@@ -287,6 +299,10 @@ var
         flag := Copy(flag, 5, length(flag) - 4)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
+      {$IFNDEF STRIFE}
+      if flag = 'CANPASS' then
+        flag := 'PASSMOBJ';
+      {$ENDIF}
       if sc.MatchFlag2Ex(flag) then
       begin
         mobj.flags2_ex := mobj.flags2_ex + flag + ' ';
@@ -296,6 +312,31 @@ var
     end;
 
     result := false;
+  end;
+
+  function statecheckPos(const st: string; var sgoto: string): boolean;
+  var
+    sgoto1: string;
+    len1, len2: integer;
+  begin
+    sgoto1 := strtrim(sgoto);
+    Result := Pos(st, sgoto1) = 1;
+    if Result then
+    begin
+      len1 := Length(sgoto1);
+      len2 := Length(st);
+      if len1 = len2 then
+      begin
+        sgoto := sgoto1;
+        Exit;
+      end;
+      if sgoto1[len2 + 1] in [' ', '+', '-'] then
+      begin
+        sgoto := sgoto1;
+        Exit;
+      end;
+      Result := False;
+    end;
   end;
 
   function ParseState(const base: integer): boolean;
@@ -333,7 +374,7 @@ var
       p := Pos('//', gotostr);
       if p > 0 then
         gotostr := Copy(gotostr, 1, p - 1);
-      if Pos('SPAWN', gotostr) = 1 then
+      if statecheckPos('SPAWN', gotostr) then
       begin
         if length(gotostr) > 5 then
           offs := atoi(strremovespaces(Copy(gotostr, 6, Length(gotostr) - 5)))
@@ -342,7 +383,7 @@ var
         m_states[numstates - 1].nextstate := mobj.spawnstate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('SEE', gotostr) = 1 then
+      else if statecheckPos('SEE', gotostr) then
       begin
         if length(gotostr) > 3 then
           offs := atoi(strremovespaces(Copy(gotostr, 4, Length(gotostr) - 3)))
@@ -351,7 +392,7 @@ var
         m_states[numstates - 1].nextstate := mobj.seestate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('MELEE', gotostr) = 1 then
+      else if statecheckPos('MELEE', gotostr) then
       begin
         if length(gotostr) > 5 then
           offs := atoi(strremovespaces(Copy(gotostr, 6, Length(gotostr) - 5)))
@@ -360,7 +401,7 @@ var
         m_states[numstates - 1].nextstate := mobj.meleestate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('MISSILE', gotostr) = 1 then
+      else if statecheckPos('MISSILE', gotostr) then
       begin
         if length(gotostr) > 7 then
           offs := atoi(strremovespaces(Copy(gotostr, 8, Length(gotostr) - 7)))
@@ -369,7 +410,7 @@ var
         m_states[numstates - 1].nextstate := mobj.missilestate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('PAIN', gotostr) = 1 then
+      else if statecheckPos('PAIN', gotostr) then
       begin
         if length(gotostr) > 4 then
           offs := atoi(strremovespaces(Copy(gotostr, 5, Length(gotostr) - 4)))
@@ -378,7 +419,7 @@ var
         m_states[numstates - 1].nextstate := mobj.painstate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('DEATH', gotostr) = 1 then
+      else if statecheckPos('DEATH', gotostr) then
       begin
         if length(gotostr) > 5 then
           offs := atoi(strremovespaces(Copy(gotostr, 6, Length(gotostr) - 5)))
@@ -387,7 +428,7 @@ var
         m_states[numstates - 1].nextstate := mobj.deathstate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('XDEATH', gotostr) = 1 then
+      else if statecheckPos('XDEATH', gotostr) then
       begin
         if length(gotostr) > 6 then
           offs := atoi(strremovespaces(Copy(gotostr, 7, Length(gotostr) - 6)))
@@ -396,7 +437,7 @@ var
         m_states[numstates - 1].nextstate := mobj.xdeathstate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('RAISE', gotostr) = 1 then
+      else if statecheckPos('RAISE', gotostr) then
       begin
         if length(gotostr) > 5 then
           offs := atoi(strremovespaces(Copy(gotostr, 6, Length(gotostr) - 5)))
@@ -405,7 +446,7 @@ var
         m_states[numstates - 1].nextstate := mobj.raisestate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('HEAL', gotostr) = 1 then
+      else if statecheckPos('HEAL', gotostr) then
       begin
         if length(gotostr) > 4 then
           offs := atoi(strremovespaces(Copy(gotostr, 5, Length(gotostr) - 4)))
@@ -414,7 +455,7 @@ var
         m_states[numstates - 1].nextstate := mobj.healstate + offs;
         m_states[numstates - 1].has_goto := true;
       end
-      else if Pos('CRASH', gotostr) = 1 then
+      else if statecheckPos('CRASH', gotostr) then
       begin
         if length(gotostr) > 5 then
           offs := atoi(strremovespaces(Copy(gotostr, 6, Length(gotostr) - 5)))
@@ -424,7 +465,7 @@ var
         m_states[numstates - 1].has_goto := true;
       end
       {$IFDEF DOOM_OR_STRIFE}
-      else if Pos('INTERACT', gotostr) = 1 then
+      else if statecheckPos('INTERACT', gotostr) then
       begin
         if length(gotostr) > 8 then
           offs := atoi(strremovespaces(Copy(gotostr, 9, Length(gotostr) - 8)))
@@ -465,9 +506,9 @@ var
     begin
       if alias[Length(alias)] = ':' then
       begin
-        sc.GetString;
         SetLength(alias, Length(alias) - 1);
         alias := 'S_' + strupper(mobj.name + '_' + alias);
+        sc.GetString;
       end
       else
         alias := '';
@@ -603,9 +644,10 @@ var
       if mobj.speed < 2048 then // JVAL fix me
         mobj.speed := mobj.speed * FRACUNIT;
     AddRes('Speed = ' + itoa(mobj.speed));
-    AddRes('VSpeed = ' + itoa(round(mobj.vspeed * $10000)));
-    AddRes('Width = ' + itoa(mobj.radius * $10000));
-    AddRes('Height = ' + itoa(mobj.height * $10000));
+    AddRes('VSpeed = ' + itoa(round(mobj.vspeed * FRACUNIT)));
+    AddRes('Pushfactor = ' + itoa(round(mobj.pushfactor * FRACUNIT)));
+    AddRes('Width = ' + itoa(mobj.radius * FRACUNIT));
+    AddRes('Height = ' + itoa(mobj.height * FRACUNIT));
     AddRes('Mass = ' + itoa(mobj.mass));
     AddRes('Missile Damage = ' + itoa(mobj.damage));
     AddRes('Action Sound = ' + SC_SoundAlias(mobj.activesound));
@@ -698,7 +740,7 @@ var
           passcriptline := sc.GetStringEOLUnChanged;
           if passcriptline = '' then
             passcriptline := sc.GetStringEOLUnChanged;
-          while (strupper(firstword(passcriptline, [' ', ';', '.'])) <> 'ENDSCRIPT') and (not sc._Finished) do
+          while (strupper(firstword(passcriptline, [Chr(9), ' ', ';', '.'])) <> 'ENDSCRIPT') and (not sc._Finished) do
           begin
             if passcript = '' then
               passcript := passcriptline
@@ -760,40 +802,63 @@ begin
     begin
       sc.MustGetString;
       th.name := sc._String;
-      sc.MustGetInteger;
-      th.dn := sc._Integer;
-      sc.MustGetString;
-      if strupper(sc._String) <> 'SCRIPT' then
-      begin
-        I_Warning('SC_ActordefToDEH(): Unknown token "%s" found, "SCRIPT" expected'#13#10, [sc._String]);
-        sc.UnGet;
-        Continue;
-      end;
-      sc.MustGetString;
-      th.script := sc._String;
-
-      if not sc.GetString then
-      begin
-        th.repeatcnt := 0;
-        SC_SubmitThinker(@th);
-        Break;
-      end;
-
-      if strupper(sc._String) <> 'REPEAT' then
-      begin
-        th.repeatcnt := 0;
-        SC_SubmitThinker(@th);
-        sc.UnGet;
-        Continue;
-      end;
+      th.interval := 1;
+      th.dn := -1;
+      th.repeatcnt := 0;
+      th.script := '';
 
       sc.MustGetString;
-      if strupper(sc._String) = 'FOREVER' then
-        th.repeatcnt := 0
+      if not sc.NewLine then
+      begin
+        th.dn := atoi(sc._string);
+        sc.MustGetString;
+      end;
+
+      stmp := strupper(sc._String);
+      slist := TDStringList.Create;
+      slist.Add('SCRIPT');
+      slist.Add('REPEAT');
+      slist.Add('INTERVAL');
+      while slist.IndexOf(stmp) >= 0 do
+      begin
+        if stmp = 'SCRIPT' then
+        begin
+          sc.MustGetString;
+          th.script := sc._String;
+          slist.Delete(slist.IndexOf('SCRIPT'));
+        end
+        else if stmp = 'REPEAT' then
+        begin
+          sc.MustGetString;
+          if sc.MatchString('FOREVER') then
+            th.repeatcnt := 0
+          else
+            th.repeatcnt := atoi(sc._String);
+          if sc.GetString then
+            if not sc.MatchString('TIME' + decide(th.repeatcnt = 1, '', 'S')) then
+              sc.UnGet;
+          slist.Delete(slist.IndexOf('REPEAT'));
+        end
+        else if stmp = 'INTERVAL' then
+        begin
+          sc.MustGetInteger;
+          th.interval := sc._Integer;
+          slist.Delete(slist.IndexOf('INTERVAL'));
+        end;
+        if sc._Finished then
+          Break;
+        sc.GetString;
+        stmp := strupper(sc._String);
+      end;
+      slist.Free;
+
+      if th.script <> '' then
+        SC_SubmitThinker(@th)
       else
-        th.repeatcnt := atoi(sc._String);
+        I_Warning('SC_ActordefToDEH(): "THINKER" %s does not have script'#13#10, [th.name]);
 
-      SC_SubmitThinker(@th);
+      if sc._Finished then
+        Break
     end;
 
     if sc.MatchString('GLOBAL') then  // JVAL: Global script
@@ -953,6 +1018,8 @@ begin
           {$IFDEF DOOM_OR_STRIFE}
           mobj.missileheight := pinf.missileheight;
           {$ENDIF}
+          mobj.vspeed := pinf.vspeed / FRACUNIT;
+          mobj.pushfactor := pinf.pushfactor / FRACUNIT;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -1004,6 +1071,13 @@ begin
           sc.GetInteger;
           mobj.spawnhealth := sc._integer;
           sc.GetString;
+        end
+        // When "inherits" is after the first line of actor we do not copy properties
+        else if sc.MatchString('inherits') or sc.MatchString('inheritsfrom') then
+        begin
+          if not sc.GetString then
+            break;
+          mobj.inheritsfrom := sc._string;
         end
         else if sc.MatchString('monster') or sc.MatchString('+monster') then
         begin
@@ -1076,6 +1150,17 @@ begin
         begin
           sc.GetFloat;
           mobj.vspeed := sc._float;
+          sc.GetString;
+        end
+        else if sc.MatchString('pushfactor') then
+        begin
+          sc.GetFloat;
+          mobj.pushfactor := sc._float;
+          // JVAL In case that we encounter a fixed_t value
+          //      Normal values for pushfactor are 0..1 in ACTORDEF lumps
+          //      and 0..FRACUNIT in mobjinfo table
+          if mobj.pushfactor > 64 then
+            mobj.pushfactor := mobj.pushfactor / FRACUNIT;
           sc.GetString;
         end
         else if sc.MatchString('speed') then
@@ -1206,14 +1291,28 @@ begin
         end
         else
         begin
-          if mobj.name <> '' then
-            stmp := ' while parsing mobj "' + mobj.name + '"'
+          if sc.MatchString('ACTOR') or
+             sc.MatchString('COMPILED') or
+             sc.MatchString('PRECOMPILED') or
+             sc.MatchString('EXTERNAL') or
+             sc.MatchString('SCRIPT') or
+             sc.MatchString('THINKER') or
+             sc.MatchString('GLOBAL') then
+          begin
+            sc.UnGet;
+            break;
+          end
           else
-            stmp := '';
-          if mobj.doomednum > -1 then
-            stmp := stmp + ' (doomednum=' + itoa(mobj.doomednum) + ')';
-          I_Warning('SC_ActordefToDEH(): Unknown token "%s" found%s'#13#10, [sc._String, stmp]);
-          sc.GetString;
+          begin
+            if mobj.name <> '' then
+              stmp := ' while parsing mobj "' + mobj.name + '"'
+            else
+              stmp := '';
+            if mobj.doomednum > -1 then
+              stmp := stmp + ' (doomednum=' + itoa(mobj.doomednum) + ')';
+            I_Warning('SC_ActordefToDEH(): Unknown token "%s" found%s'#13#10, [sc._String, stmp]);
+            sc.GetString;
+          end;
         end;
       until foundstates or sc._Finished;
 
@@ -1307,13 +1406,22 @@ begin
 
   sc.Free;
   state_tokens.Free;
+end;
 
+var
+  sound_tx: string;
+
+procedure SC_RetrieveSndInfo(const in_text: string);
+begin
+  if sound_tx = '' then
+    sound_tx := in_text
+  else
+    sound_tx := sound_tx + #13#10 + in_text;
 end;
 
 procedure SC_ParseActordefLumps;
 var
   i: integer;
-  sound_tx: string;
   s: TDStringList;
   stmp: string;
   str1, str2: string;
@@ -1330,8 +1438,16 @@ begin
   for i := 0 to W_NumLumps - 1 do
   begin
     if char8tostring(W_GetNameForNum(i)) = SNDINFOLUMPNAME then
-      sound_tx := sound_tx + W_TextLumpNum(i);
+    begin
+      if sound_tx = '' then
+        sound_tx := W_TextLumpNum(i)
+      else
+        sound_tx := sound_tx + #13#10 + W_TextLumpNum(i);
+    end;
   end;
+
+  PAK_StringIterator(SNDINFOLUMPNAME, SC_RetrieveSndInfo);
+  PAK_StringIterator(SNDINFOLUMPNAME + '.txt', SC_RetrieveSndInfo);
 
   s := TDStringList.Create;
   try

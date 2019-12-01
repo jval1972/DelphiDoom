@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -64,7 +64,9 @@ function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
   xoffs, yoffs: fixed_t; flags: LongWord; const floor_or_ceiling: boolean;
   {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF} slopeSID: integer = -1): Pvisplane_t;
 
+{$IFNDEF OPENGL}
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
+{$ENDIF}
 
 {$IFNDEF OPENGL}
 var
@@ -355,10 +357,12 @@ function R_NewVisPlane: Pvisplane_t;
 begin
   if lastvisplane > maxvisplane then
   begin
+    {$IFNDEF OPENGL}
     visplanes[lastvisplane].top := Pvisindex_tArray(
       Z_Malloc((SCREENWIDTH + 2) * SizeOf(visindex_t), PU_LEVEL, nil));
     visplanes[lastvisplane].bottom := Pvisindex_tArray(
       Z_Malloc((SCREENWIDTH + 2) * SizeOf(visindex_t), PU_LEVEL, nil));
+    {$ENDIF}
     maxvisplane := lastvisplane;
   end;
 
@@ -430,7 +434,9 @@ begin
       result.slope := slope;  // JVAL: Slopes
       {$ENDIF}
 
+      {$IFNDEF OPENGL}
       memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
+      {$ENDIF}
 
       visplanehash[check] := lastvisplane;
       exit;
@@ -490,7 +496,9 @@ begin
   result.slope := slope;  // JVAL: Slopes
   {$ENDIF}
 
+  {$IFNDEF OPENGL}
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
+  {$ENDIF}
 
   check := hash;
   while check < hash + VISPLANEHASHOVER do
@@ -508,6 +516,7 @@ end;
 //
 // R_CheckPlane
 //
+{$IFNDEF OPENGL}
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 var
   intrl: integer;
@@ -588,6 +597,7 @@ begin
 
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
 end;
+{$ENDIF}
 
 //
 // R_MakeSpans

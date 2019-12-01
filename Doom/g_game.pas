@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1581,8 +1581,9 @@ begin
   end;
 
   players[playernum].mo.flags2_ex := players[playernum].mo.flags2_ex and not MF2_EX_PASSMOBJ;
-  
+
   // JVAL: 3d floors
+  ss := R_PointInSubsector(x, y);
   z := ss.sector.floorheight;
   if ss.sector.midsec >= 0 then
     if players[playernum].mo.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
@@ -1606,7 +1607,6 @@ begin
   inc(bodyqueslot);
 
   // spawn a teleport fog
-  ss := R_PointInSubsector(x, y);
   {$IFDEF FPC}
   an := _SHRW(ANG45 * (mthing.angle div 45), ANGLETOFINESHIFT);
   {$ELSE}
@@ -2838,7 +2838,7 @@ begin
         [demo_p[0] div 100, demo_p[0] mod 100])
     else if demo_p[0] <> VERSION then
     begin
-      I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%d' + #13#10,
+      I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%d'#13#10,
         [demo_p[0] div 100, demo_p[0] mod 100]);
       gameaction := ga_nothing;
       exit;

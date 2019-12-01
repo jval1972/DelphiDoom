@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1281,9 +1281,12 @@ begin
   end;
 
   if mthing._type <= 0 then
+  begin
     // Thing type 0 is actually "player -1 start".
     // For some reason, Vanilla Doom accepts/ignores this.
+    result := nil;
     exit;
+  end;
 
   // check for players specially
   // haleyjd 20120209: [STRIFE] 8 player starts

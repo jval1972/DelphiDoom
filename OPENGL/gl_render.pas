@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -47,6 +47,8 @@ var
   extra_alpha: float = 0.0;
 
 procedure gld_DrawBackground(const name: string);
+
+procedure gld_DrawBackgroundFrame;
 
 procedure gld_Finish;
 
@@ -743,6 +745,32 @@ begin
     glTexCoord2f(fU2, fV2);
     glVertex2f(width, height);
   glEnd;
+end;
+
+procedure gld_DrawBackgroundFrame;
+var
+  x1, x2, y1, y2: integer;
+begin
+  if (viewwindowx <= 0) and (viewwindowy <= 0) then
+    Exit;
+
+  x1 := viewwindowx - 1;
+  x2 := x1 + viewwidth + 2;
+  y1 := viewwindowy - 1;
+  y2 := y1 + viewheight + 2;
+
+  glDisable(GL_TEXTURE_2D);
+
+  glColor4f(1.0, 0.0, 0.0, 1.0);
+  glBegin(GL_LINES);
+    glVertex2i(x1, y1);
+    glVertex2i(x2, y1);
+    glVertex2i(x2, y2);
+    glVertex2i(x2, y1);
+    glVertex2i(x1, y1);
+  glEnd;
+
+  glEnable(GL_TEXTURE_2D);
 end;
 
 procedure gld_DrawLine(x0, y0, x1, y1: integer; BaseColor: integer);
@@ -1767,9 +1795,23 @@ begin
   if (last_screensync <> gl_screensync) or not didfirstscreensync then
   begin
     if gl_screensync then
-      syncret := gld_VSync(vsmSync)
+    begin
+      syncret := gld_VSync(vsmSync);
+      if not didfirstscreensync then
+      begin
+        gld_VSync(vsmNoSync);
+        gld_VSync(vsmSync);
+      end;
+    end
     else
+    begin
       syncret := gld_VSync(vsmNoSync);
+      if not didfirstscreensync then
+      begin
+        gld_VSync(vsmSync);
+        gld_VSync(vsmNoSync);
+      end;
+    end;
     last_screensync := gl_screensync;
     didfirstscreensync := syncret;
   end;
@@ -1865,7 +1907,7 @@ begin
   gld_Set2DMode;
 
  // gld_AmbientExecute;
-  
+
   R_DrawPlayer;
 
   if player.fixedcolormap = 32 then
@@ -4368,6 +4410,7 @@ begin
   glVertexPointer(3, GL_FLOAT, 0, gld_vertexes);
 
   // Floors and ceilings
+  glDisable(GL_BLEND);
   for i := gld_drawinfo.num_drawitems downto 0 do
   begin
     pglitem := @gld_drawinfo.drawitems[i];
@@ -4380,6 +4423,7 @@ begin
         gld_DrawFlat(@gld_drawinfo.flats[j + pglitem.firstitemindex]);
     end;
   end;
+  glEnable(GL_BLEND);
 
   gld_DrawWalls(wallrange, false);
 
@@ -4480,7 +4524,6 @@ begin
       end;
     end;
   end;
-
 
 {$IFDEF DEBUG}
   printf('rendered_visplanes := %d'#13#10'rendered_segs := %d'#13#10'rendered_vissprites := %d'#13#10#13#10,

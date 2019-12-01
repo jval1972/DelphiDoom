@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -324,12 +324,12 @@ procedure D_Display;
 procedure D_DisplayHU;
 {$ENDIF}
 var
-  nowtime: integer;
   y: integer;
   redrawsbar: boolean;
   redrawbkscn: boolean;
   palette: PByteArray;
   drawhu: boolean;
+  nowtime: integer;
 {$IFNDEF OPENGL}
   tics: integer;
   wipe: boolean;
@@ -661,13 +661,29 @@ end;
 //
 // D_PageDrawer
 //
+var
+  fullhdpatch: integer = -2;
+
 procedure D_PageDrawer;
+{$IFNDEF OPENGL}
+var
+  pt: Ppatch_t;
+{$ENDIF}
 begin
   V_PageDrawer(pagename);
   {$IFNDEF OPENGL}
   if demosequence = 0 then
     if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
-      V_DrawPatch(120, 1020, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
+    begin
+      if fullhdpatch = -2 then
+        fullhdpatch := W_CheckNumForName('FULLHD');
+      if fullhdpatch > 0 then
+      begin
+        pt := W_CacheLumpNum(fullhdpatch, PU_STATIC);
+        V_DrawPatch(120, 1020, SCN_FG, pt, false);
+        Z_ChangeTag(pt, PU_CACHE);
+      end;
+    end;
   {$ENDIF}
   if demosequence = 1 then
     V_DrawPatch(4, 160, SCN_FG, W_CacheLumpName('ADVISOR', PU_CACHE), true);

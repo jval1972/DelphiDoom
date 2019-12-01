@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -114,10 +114,16 @@ uses
 // i.e. the Thing Atrributes table
 // and the Frame Sequence table.
   doomdef,
-  d_event, d_items,
+  d_event,
+  d_items,
   m_rnd,
-  p_local, p_tick, p_mobj, p_enemy, p_map, p_inter,
-  r_main, 
+  p_local,
+  p_tick,
+  p_mobj,
+  p_enemy,
+  p_map,
+  p_inter,
+  r_main,
   s_sound,
 // State.
   doomstat,

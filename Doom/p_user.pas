@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -403,8 +403,6 @@ begin
     P_SetMobjState(player.mo, S_PLAY_RUN1);
 
 // JVAL Look UP and DOWN
-
-
   if zaxisshift then
   begin
     if G_PlayingEngineVersion < VERSION203 then // JVAL Smooth Look Up/Down
@@ -692,7 +690,7 @@ begin
   // fixme: do this in the cheat code
   if player.mo = nil then
     exit;
-    
+
   if player.cheats and CF_NOCLIP <> 0 then
     player.mo.flags := player.mo.flags or MF_NOCLIP
   else
