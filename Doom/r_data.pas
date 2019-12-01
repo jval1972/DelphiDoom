@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -401,7 +401,7 @@ begin
 
   for i := 0 to texture.patchcount - 1 do
   begin
-    pat := patch.patch;
+    pat := patch.patch;     
     realpatch := W_CacheLumpNum(pat, PU_STATIC);
     x1 := patch.originx;
     x2 := x1 + realpatch.width;

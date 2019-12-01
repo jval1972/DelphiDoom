@@ -24,7 +24,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -147,6 +147,7 @@ function memmove(const destination, source: pointer; count: integer): pointer;
 procedure memcpy(const dest0: pointer; const src0: pointer; count0: integer);
 
 function memset(const dest0: pointer; const val: integer; const count0: integer): pointer;
+function memseti(const dest0: pointer; const val: integer; const count0: integer): pointer;
 
 function malloc(const size: integer): Pointer;
 
@@ -897,6 +898,7 @@ type
       3: (dwords: array[0..1] of LongWord);
   end;
 {$ENDIF}
+
 function memset(const dest0: pointer; const val: integer; const count0: integer): pointer;
 {$IFNDEF FPC}
 var
@@ -1024,6 +1026,134 @@ begin
 {$ENDIF}
 end;
 
+function memseti(const dest0: pointer; const val: integer; const count0: integer): pointer;
+{$IFNDEF FPC}
+var
+  data: union_8b;
+  pdat: pointer;
+  dest: PByte;
+  count: integer;
+  i: integer;
+{$ENDIF}
+begin
+  {$IFNDEF FPC}
+  if mmxMachine = 0 then
+  begin
+  {$ENDIF}
+    FillChar(dest0^, count0, val);
+    result := dest0;
+    {$IFNDEF FPC}
+    exit;
+  end;
+
+  dest := PByte(dest0);
+  count := count0;
+
+  if integer(dest) and 7 <> 0 then
+  begin
+    for i := 0 to count - 1 do
+      PIntegerArray(dest)[i] := val;
+    exit;
+  end;
+
+  if count = 0 then
+  begin
+    result := dest0;
+    exit;
+  end;
+
+  count := count * 4;
+
+  data.dwords[0] := PInteger(@val)^;
+  data.dwords[1] := PInteger(@val)^;
+  pdat := @data;
+
+  if count >= 64 then
+  begin
+    asm
+      push esi
+      push edi
+
+      mov edi, dest
+      mov esi, pdat
+
+      mov ecx, count
+      // 64 bytes per iteration
+      shr ecx, 6
+      // Read in source data
+      movq mm1, [esi]
+      movq mm2, mm1
+      movq mm3, mm1
+      movq mm4, mm1
+      movq mm5, mm1
+      movq mm6, mm1
+      movq mm7, mm1
+      movq mm0, mm1
+@@loop1:
+      movntq [edi], mm1
+      movntq [edi + 8], mm2
+      movntq [edi + 16], mm3
+      movntq [edi + 24], mm4
+      movntq [edi + 32], mm5
+      movntq [edi + 40], mm6
+      movntq [edi + 48], mm7
+      movntq [edi + 56], mm0
+
+      add edi, 64
+      dec ecx
+      jnz @@loop1
+
+      pop edi
+      pop esi
+    end;
+
+    inc(dest, count and (not 63));
+    count := count and 63;
+  end;
+
+  if count >= 8 then
+  begin
+    asm
+      push esi
+      push edi
+
+      mov edi, dest
+      mov esi, pdat
+
+      mov ecx, count
+      // 8 bytes per iteration
+      shr ecx, 3
+      // Read in source data
+      movq mm1, [esi]
+@@loop2:
+      movntq  [edi], mm1
+
+      add edi, 8
+      dec ecx
+      jnz @@loop2
+
+      pop edi
+      pop esi
+    end;
+    inc(dest, count and (not 7));
+    count := count and 7;
+  end;
+
+  while count > 4 do
+  begin
+    PInteger(dest)^ := val;
+    inc(dest, 4);
+    dec(count, 4);
+  end;
+
+  asm
+    emms
+  end;
+
+  result := dest0;
+{$ENDIF}
+end;
+
 function malloc(const size: integer): Pointer;
 begin
   if size = 0 then
@@ -1039,7 +1169,7 @@ function mallocA(var Size: integer; const Align: integer; var original: pointer)
 begin
   Size := Size + Align;
   result := malloc(Size);
-  original := result; 
+  original := result;
   if result <> nil then
     result := pointer(integer(result) and (1 - Align) + Align);
 end;

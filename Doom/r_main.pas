@@ -27,7 +27,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -40,8 +40,10 @@ uses
   d_delphi,
   doomdef,
   d_player,
-  m_fixed, tables,
-  r_data, r_defs;
+  m_fixed,
+  tables,
+  r_data,
+  r_defs;
 
 const
 //
@@ -76,7 +78,7 @@ const
   INVERSECOLORMAP = 32;
 
   DISTMAP = 2;
-  
+
 var
   forcecolormaps: boolean;
   use32bitfuzzeffect: boolean;
@@ -101,8 +103,6 @@ function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 
 function R_PointToDist(const x: fixed_t; const y: fixed_t): fixed_t;
-
-function R_ScaleFromGlobalAngle(const visangle: angle_t): fixed_t;
 
 function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;
 
@@ -595,6 +595,16 @@ var
 begin
   dx := abs(x - viewx);
   dy := abs(y - viewy);
+  if dx = 0 then
+  begin
+    result := dy;
+    exit;
+  end;
+  if dy = 0 then
+  begin
+    result := dx;
+    exit;
+  end;
 
   if dy > dx then
   begin
@@ -630,44 +640,6 @@ begin
     t := round(LongWord($ffffffff) * f);
     tantoangle[i] := t;
   end;}
-end;
-
-//
-// R_ScaleFromGlobalAngle
-// Returns the texture mapping scale
-//  for the current line (horizontal span)
-//  at the given angle.
-// rw_distance must be calculated first.
-//
-function R_ScaleFromGlobalAngle(const visangle: angle_t): fixed_t;
-var
-  anglea: angle_t;
-  angleb: angle_t;
-  num: fixed_t;
-  den: integer;
-begin
-  anglea := ANG90 + (visangle - viewangle);
-  angleb := ANG90 + (visangle - rw_normalangle);
-
-  {$IFDEF FPC}
-  num := FixedMul(projectiony, finesine[_SHRW(angleb, ANGLETOFINESHIFT)]); // JVAL For correct aspect
-  den := FixedMul(rw_distance, finesine[_SHRW(anglea, ANGLETOFINESHIFT)]);
-  {$ELSE}
-  num := FixedMulEx(projectiony, finesine[angleb shr ANGLETOFINESHIFT]); // JVAL For correct aspect
-  den := FixedMulEx(rw_distance, finesine[anglea shr ANGLETOFINESHIFT]);
-  {$ENDIF}
-
-  if den > FixedInt(num) then
-  begin
-    result := FixedDiv(num, den);
-  // JVAL: Change it to 256 * FRACUNIT ??
-    if result > 64 * FRACUNIT then
-      result := 64 * FRACUNIT
-    else if result < 256 then
-      result := 256
-  end
-  else
-    result := 64 * FRACUNIT;
 end;
 
 //
@@ -1176,7 +1148,8 @@ begin
   centeryfrac := centery * FRACUNIT;
 
 // JVAL: Widescreen support
-  monitor_relative_aspect := R_GetRelativeAspect;
+  monitor_relative_aspect := R_GetRelativeAspect{$IFNDEF OPENGL} * R_Fake3DAspectCorrection(viewplayer){$ENDIF};
+//  printf('%2.4f'#13#10, [monitor_relative_aspect]);
   projection := Round(centerx / monitor_relative_aspect * FRACUNIT);
   projectiony := (((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT); // JVAL for correct aspect}
 
@@ -1184,10 +1157,7 @@ begin
   begin
     olddetail := setdetail;
 {$IFDEF OPENGL}
-{    if setdetail < DL_NORMAL then
-      videomode := vm8bit
-    else}
-      videomode := vm32bit;
+    videomode := vm32bit;
 {$ELSE}
     R_SetRenderingFunctions;
     R_SetPalette64;
@@ -1204,6 +1174,8 @@ begin
   pspriteyscale := Round((((SCREENHEIGHT * viewwidth) / SCREENWIDTH) * FRACUNIT) / 200);
   pspriteiscale := FixedDiv(FRACUNIT, pspritescale);
 
+  pspritescalep := Round((centerx / R_GetRelativeAspect * FRACUNIT) / 160);
+  pspriteiscalep := FixedDiv(FRACUNIT, pspritescalep);
 
   // thing clipping
   for i := 0 to viewwidth - 1 do
@@ -1309,7 +1281,7 @@ begin
 end;
 {$ENDIF}
 
-procedure R_CmdUse32boitfuzzeffect(const parm1: string = '');
+procedure R_CmdUse32bitfuzzeffect(const parm1: string = '');
 var
   newusefz: boolean;
 begin
@@ -1327,7 +1299,7 @@ begin
     R_SetRenderingFunctions;
 {$ENDIF}
   end;
-  R_CmdUse32boitfuzzeffect;
+  R_CmdUse32bitfuzzeffect;
 end;
 
 procedure R_CmdDiher8bitTransparency(const parm1: string = '');
@@ -1457,7 +1429,7 @@ begin
   C_AddCmd('extremeflatfiltering', @R_CmdExtremeflatfiltering);
   C_AddCmd('32bittexturepaletteeffects, use32bittexturepaletteeffects', @R_Cmd32bittexturepaletteeffects);
   C_AddCmd('useexternaltextures', @R_CmdUseExternalTextures);
-  C_AddCmd('use32bitfuzzeffect', @R_CmdUse32boitfuzzeffect);
+  C_AddCmd('use32bitfuzzeffect', @R_CmdUse32bitfuzzeffect);
   C_AddCmd('diher8bittransparency', @R_CmdDiher8bitTransparency);
   C_AddCmd('lightboostfactor', @R_CmdLightBoostFactor);
   C_AddCmd('screenwidth', @R_CmdScreenWidth);
@@ -1780,6 +1752,8 @@ begin
   R_ClearClipSegs;
   R_ClearDrawSegs;
   R_ClearPlanes;
+  R_Wait3DLookup;
+  R_Fake3DAdjustPlanes(player);
   R_ClearSprites;
 
   // check for new console commands.
@@ -1789,8 +1763,6 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
-
-  R_Wait3DLookup;
 
   R_RenderMultiThreadWalls8;
 
@@ -1821,6 +1793,8 @@ begin
   R_ClearClipSegs;
   R_ClearDrawSegs;
   R_ClearPlanes;
+  R_Wait3DLookup;
+  R_Fake3DAdjustPlanes(player);
   R_ClearSprites;
 
   // check for new console commands.
@@ -1830,8 +1804,6 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
-
-  R_Wait3DLookup;
 
   R_RenderMultiThreadWalls32;
 
@@ -1853,11 +1825,27 @@ begin
 
 end;
 
+var
+  oldlookdir: integer = MAXLOOKDIR + 1;
+
+procedure R_Fake3DPrepare(player: Pplayer_t);
+begin
+  if oldlookdir = player.lookdir then
+    Exit;
+
+  oldlookdir := player.lookdir;
+
+  viewplayer := player;
+  R_ExecuteSetViewSize;
+end;
+
 {$ENDIF}
 
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
+  R_Fake3DPrepare(player);
+
   if usemultithread then
   begin
     if (videomode = vm8bit) then
@@ -1880,6 +1868,9 @@ begin
   R_ClearDrawSegs;
 {$ENDIF}
   R_ClearPlanes;
+{$IFNDEF OPENGL}
+  R_Fake3DAdjustPlanes(player);
+{$ENDIF}
   R_ClearSprites;
 
 {$IFDEF OPENGL}
@@ -1931,3 +1922,4 @@ begin
 end;
 
 end.
+

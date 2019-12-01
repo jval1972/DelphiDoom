@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -139,15 +139,25 @@ implementation
 uses
   d_delphi,
   c_cmds,
-  d_player, d_think,
+  d_player,
+  d_think,
   g_game,
-  i_system, i_sound, i_music, i_mp3,
-  m_fixed, m_rnd, m_misc,
-  p_mobj, p_local, p_maputl, p_tick,
+  i_system,
+  i_sound,
+  i_music,
+  i_mp3,
+  m_fixed,
+  m_rnd,
+  m_misc,
+  p_mobj,
+  p_local,
+  p_maputl,
+  p_tick,
   info_h,
   sounds,
   z_zone,
-  w_wad, w_pak,
+  w_wad,
+  w_pak,
   doomdef,
   r_main,
   tables,

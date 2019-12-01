@@ -46,7 +46,8 @@ implementation
 uses
   WinSock,
   d_delphi,
-  d_net_h, d_net,
+  d_net_h,
+  d_net,
   i_system,
   g_game,
   m_argv,

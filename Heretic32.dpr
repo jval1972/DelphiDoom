@@ -172,7 +172,7 @@ uses
   m_defs in 'Heretic\m_defs.pas',
   m_fixed in 'Base\m_fixed.pas',
   m_menu in 'Heretic\m_menu.pas',
-  m_misc in 'Heretic\m_misc.pas',
+  m_misc in 'Base\m_misc.pas',
   m_rnd in 'Base\m_rnd.pas',
   m_stack in 'Base\m_stack.pas',
   m_vectors in 'Base\m_vectors.pas',
@@ -203,7 +203,7 @@ uses
   p_tick in 'Heretic\p_tick.pas',
   p_user in 'Heretic\p_user.pas',
   r_bsp in 'Heretic\r_bsp.pas',
-  r_cache in 'Heretic\r_cache.pas',
+  r_cache in 'Base\r_cache.pas',
   r_ccache in 'Heretic\r_ccache.pas',
   r_col_al in 'Heretic\r_col_al.pas',
   r_col_av in 'Heretic\r_col_av.pas',
@@ -239,9 +239,9 @@ uses
   sounds in 'Heretic\sounds.pas',
   tables in 'Base\tables.pas',
   v_data in 'Heretic\v_data.pas',
-  v_video in 'Heretic\v_video.pas',
+  v_video in 'Base\v_video.pas',
   w_pak in 'Base\w_pak.pas',
-  w_utils in 'Heretic\w_utils.pas',
+  w_utils in 'Base\w_utils.pas',
   w_wad in 'Base\w_wad.pas',
   z_zone in 'Base\z_zone.pas',
   z_files in 'ZLIB\z_files.pas',
@@ -261,7 +261,10 @@ uses
   r_batchcolumn in 'Base\r_batchcolumn.pas',
   r_batchsky in 'Base\r_batchsky.pas',
   r_ripple in 'Base\r_ripple.pas',
-  z_memmgr in 'Base\z_memmgr.pas';
+  z_memmgr in 'Base\z_memmgr.pas',
+  r_scale in 'Base\r_scale.pas',
+  r_segs2 in 'Base\r_segs2.pas',
+  r_trans8 in 'Base\r_trans8.pas';
 
 var
   Saved8087CW: Word;

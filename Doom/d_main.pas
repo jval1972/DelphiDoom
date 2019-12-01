@@ -30,7 +30,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -1691,6 +1691,17 @@ begin
     if SCREENWIDTH > MAXWIDTH then
       SCREENWIDTH := MAXWIDTH;
     SCREENHEIGHT := 600;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-cga');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 320;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 200;
     if SCREENHEIGHT > MAXHEIGHT then
       SCREENHEIGHT := MAXHEIGHT;
   end;

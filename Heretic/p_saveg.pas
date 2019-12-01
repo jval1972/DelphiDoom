@@ -21,9 +21,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Savegame I/O, archiving, persistence.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -34,31 +37,6 @@ interface
 
 uses
   d_delphi;
-
-{
-    p_saveg.h, p_saveg.pas
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  Savegame I/O, archiving, persistence.
-//
-//-----------------------------------------------------------------------------
 
 // Persistent storage/archiving.
 // These are the load / save game routines.
@@ -85,14 +63,28 @@ var
 implementation
 
 uses
-  doomdef, doomstat,
-  d_player, d_think,
+  doomdef,
+  doomstat,
+  d_player,
+  d_think,
   g_game,
   m_fixed,
-  info_h, info,
+  info_h,
+  info,
   i_system,
-  p_local, p_pspr_h, p_setup, p_mobj_h, p_mobj, p_tick, p_maputl, p_spec,
-  p_ceilng, p_doors, p_floor, p_plats, p_lights,
+  p_local,
+  p_pspr_h,
+  p_setup,
+  p_mobj_h,
+  p_mobj,
+  p_tick,
+  p_maputl,
+  p_spec,
+  p_ceilng,
+  p_doors,
+  p_floor,
+  p_plats,
+  p_lights,
   r_defs,
   sb_bar,
   z_zone;

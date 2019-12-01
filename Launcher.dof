@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=4
 Release=1
-Build=24
+Build=26
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Launcher
-FileVersion=1.4.1.24
+FileVersion=1.4.1.26
 InternalName=Launcher
 LegalCopyright=Copyright 2008 - 2013, Jim Valavanis
 LegalTrademarks=
@@ -145,17 +145,18 @@ Item5=HEXEN
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[HistoryLists\hlSearchPath]
+Count=1
+Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
-Count=6
-Item0=..\dcu\Launcher
-Item1=..\dcu\Hexen\GL
-Item2=..\dcu\Hexen\Soft
-Item3=..\dcu\Heretic\Soft
-Item4=..\dcu\Doom\GL
-Item5=..\dcu\Doom\Soft
+Count=5
+Item0=..\dcu\Hexen\GL
+Item1=..\dcu\Hexen\Soft
+Item2=..\dcu\Heretic\Soft
+Item3=..\dcu\Doom\GL
+Item4=..\dcu\Doom\Soft
 [HistoryLists\hlOutputDirectorry]
-Count=4
-Item0=..\bin\
-Item1=..\bin\Hexen
-Item2=..\bin\Heretic
-Item3=..\bin\Doom
+Count=3
+Item0=..\bin\Hexen
+Item1=..\bin\Heretic
+Item2=..\bin\Doom

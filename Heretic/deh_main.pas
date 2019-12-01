@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 191;
+  DEHNUMACTIONS = 193;
 
 type
   deh_action_t = record
@@ -110,7 +110,8 @@ uses
   g_game,
   hu_stuff,
   i_system,
-  info_h, info,
+  info_h,
+  info,
   m_argv,
   p_mobj,
   p_mobj_h,
@@ -1962,6 +1963,7 @@ begin
 
   mobj_flags2_ex := TDTextList.Create;
   mobj_flags2_ex.Add('MF2_EX_MEDIUMGRAVITY');
+  mobj_flags2_ex.Add('MF2_EX_FRIGHTENED');
 
 
   state_tokens := TDTextList.Create;
@@ -2358,6 +2360,10 @@ begin
   deh_actions[189].name := strupper('GoToIfHealthLower');
   deh_actions[190].action.acp1 := @A_ConsoleCommand;
   deh_actions[190].name := strupper('ConsoleCommand');
+  deh_actions[191].action.acp1 := @A_SetFrightened;
+  deh_actions[191].name := strupper('SetFrightened');
+  deh_actions[192].action.acp1 := @A_UnSetFrightened;
+  deh_actions[192].name := strupper('UnSetFrightened');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
@@ -2646,4 +2652,5 @@ end;
 
 
 end.
+
 

@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -107,7 +107,6 @@ var
   rpl: PIntegerArray;
   rpl_shift, rpl_factor: Integer;
 begin
-
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
   if ds_scale = ds512x512 then
@@ -182,6 +181,8 @@ begin
 
 
     count := (ds_x2 - ds_x1) div 3;
+    if count < 0 then
+      exit;
 
     for i := 0 to count do
     begin
@@ -219,6 +220,8 @@ begin
   else
   begin
     count := (ds_x2 - ds_x1) div 3;
+    if count < 0 then
+      exit;
 
     for i := 0 to count do
     begin
@@ -271,6 +274,8 @@ begin
 
   // We do not check for zero spans here?
   count := ds_x2 - ds_x1;
+  if count < 0 then
+    exit;
 
   {$UNDEF RIPPLE}
   {$I R_DrawSpanMedium.inc}
@@ -292,6 +297,8 @@ begin
 
   // We do not check for zero spans here?
   count := ds_x2 - ds_x1;
+  if count < 0 then
+    exit;
 
   rpl := ds_ripple;
   {$DEFINE RIPPLE}

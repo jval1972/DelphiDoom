@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,9 +19,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//    Ceiling aninmation (lowering, crushing, raising)
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -31,40 +34,11 @@ unit p_ceilng;
 interface
 
 uses
-  z_zone, 
+  z_zone,
   p_spec,
   r_defs,
   s_sound,
-// State.
-  
-// Data.
   sounds;
-
-{
-    p_ceiling.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// $Log:$
-//
-// DESCRIPTION:  Ceiling aninmation (lowering, crushing, raising)
-//
-//-----------------------------------------------------------------------------
 
 var
   activeceilings: array[0..MAXCEILINGS - 1] of Pceiling_t;
@@ -82,7 +56,6 @@ function P_ActivateInStasisCeiling(line: Pline_t): integer;
 implementation
 
 uses
-  
   i_system,
   m_fixed,
   p_mobj_h,

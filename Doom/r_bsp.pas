@@ -25,7 +25,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -148,17 +148,6 @@ begin
 
 
     // Replace floor and ceiling height with other sector's heights.
-{    if underwater then
-    begin
-      tempsec.floorheight := sec.floorheight;
-      tempsec.ceilingheight := ss.floorheight - 1;
-    end
-    else
-    begin
-      tempsec.floorheight := ss.floorheight;
-      tempsec.ceilingheight := ss.ceilingheight;
-    end;}
-
     if (underwater and notback1) or (viewz <= ss.floorheight) then
     begin                   // head-below-floor hack
       tempsec.floorpic := ss.floorpic;
@@ -249,7 +238,6 @@ begin
     end;
     sec := tempsec;               // Use other sector
   end;
-{.$ENDIF}
   result := sec;
 end;
 
@@ -1135,3 +1123,4 @@ end;
 
 
 end.
+

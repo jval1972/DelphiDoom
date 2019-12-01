@@ -172,7 +172,7 @@ uses
   m_defs in 'Doom\m_defs.pas',
   m_fixed in 'Base\m_fixed.pas',
   m_menu in 'Doom\m_menu.pas',
-  m_misc in 'Doom\m_misc.pas',
+  m_misc in 'Base\m_misc.pas',
   m_rnd in 'Base\m_rnd.pas',
   m_stack in 'Base\m_stack.pas',
   m_vectors in 'Base\m_vectors.pas',
@@ -204,7 +204,7 @@ uses
   p_tick in 'Doom\p_tick.pas',
   p_user in 'Doom\p_user.pas',
   r_bsp in 'Doom\r_bsp.pas',
-  r_cache in 'Doom\r_cache.pas',
+  r_cache in 'Base\r_cache.pas',
   r_ccache in 'Doom\r_ccache.pas',
   r_col_al in 'Doom\r_col_al.pas',
   r_col_av in 'Doom\r_col_av.pas',
@@ -241,13 +241,13 @@ uses
   st_stuff in 'Doom\st_stuff.pas',
   tables in 'Base\tables.pas',
   v_data in 'Doom\v_data.pas',
-  v_video in 'Doom\v_video.pas',
+  v_video in 'Base\v_video.pas',
   w_pak in 'Base\w_pak.pas',
-  w_utils in 'Doom\w_utils.pas',
+  w_utils in 'Base\w_utils.pas',
   w_wad in 'Base\w_wad.pas',
   wi_stuff in 'Doom\wi_stuff.pas',
   z_zone in 'Base\z_zone.pas',
-  r_trans8 in 'Doom\r_trans8.pas',
+  r_trans8 in 'Base\r_trans8.pas',
   i_exec in 'Base\i_exec.pas',
   i_tmp in 'Base\i_tmp.pas',
   i_startup in 'Base\i_startup.pas' {StartUpConsoleForm},
@@ -268,7 +268,9 @@ uses
   r_colormaps in 'Doom\r_colormaps.pas',
   r_diher in 'Doom\r_diher.pas',
   r_ripple in 'Base\r_ripple.pas',
-  z_memmgr in 'Base\z_memmgr.pas';
+  z_memmgr in 'Base\z_memmgr.pas',
+  r_scale in 'Base\r_scale.pas',
+  r_segs2 in 'Base\r_segs2.pas';
 
 var
   Saved8087CW: Word;

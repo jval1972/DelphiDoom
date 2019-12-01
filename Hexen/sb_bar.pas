@@ -1916,10 +1916,11 @@ begin
       end
       else if check_cheat(@cheat_mypos, Chr(ev.data1)) then
       begin
-        sprintf(buf, 'ang = %d, (x, y) = (%d, %d)', [
+        sprintf(buf, 'ang = %d, (x, y, z) = (%d, %d, %d)', [
           CPlayer.mo.angle div $B60B60,
           CPlayer.mo.x div FRACUNIT,
-          CPlayer.mo.y div FRACUNIT]);
+          CPlayer.mo.y div FRACUNIT,
+          CPlayer.mo.z div FRACUNIT]);
         CPlayer._message := buf;
       end;
     end;

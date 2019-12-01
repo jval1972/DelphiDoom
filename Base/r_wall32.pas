@@ -1439,8 +1439,12 @@ begin
   else
     newnumthreads := default_numwallrenderingthreads_32bit;
 
-  if newnumthreads = 0 then
+  if newnumthreads <= 0 then
+  begin
     newnumthreads := I_GetNumCPUs - 2;
+    if newnumthreads <= 0 then
+      newnumthreads := 1;
+  end;
 
   if newnumthreads <> numwallthreads32 then
   begin

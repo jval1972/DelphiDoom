@@ -167,10 +167,11 @@ begin
       if customcolormaps[i].nummaps < NUMCOLORMAPS then
       begin
         Z_Realloc(customcolormaps[i].colormap, NUMCOLORMAPS * 256, PU_STATIC, nil);
-        for j := 0 to NUMCOLORMAPS - customcolormaps[i].nummaps - 1 do
-          memmove(@customcolormaps[i].colormap[customcolormaps[i].nummaps * 256],
-                  @customcolormaps[i].colormap[((j + 1) + customcolormaps[i].nummaps) * 256],
+        for j := customcolormaps[i].nummaps to NUMCOLORMAPS - 1 do
+          memmove(@customcolormaps[i].colormap[j * 256],
+                  @customcolormaps[i].colormap[(customcolormaps[i].nummaps - 1) * 256],
                    256);
+        customcolormaps[i].nummaps := NUMCOLORMAPS;
       end;
 
       // JVAL: Create default colormap palette

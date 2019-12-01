@@ -33,6 +33,7 @@ unit r_fake3d;
 interface
 
 uses
+  d_delphi,
   d_player;
 
 var
@@ -48,29 +49,219 @@ procedure R_ShutDownFake3D;
 
 procedure R_InitFake3D;
 
+function R_Fake3DAspectCorrection(const p: Pplayer_t): Double;
+
+procedure R_Fake3DAdjustPlanes(const p: Pplayer_t);
+
+var
+  fake3dspanpresent: PBooleanArray = nil;
+
 implementation
 
 uses
-  d_delphi,
   doomdef,
+  tables,
+  m_fixed,
   i_system,
   i_threads,
   r_draw,
   r_hires,
-  v_data;
+  r_main,
+  r_plane,
+  v_data,
+  z_zone;
+
+type
+  f3dinfo_t = record
+    ylookup: PIntegerArray;  // Row translation
+    yPresent: PBooleanArray; // Must draw y spans?
+    left: PIntegerArray;     // Left limit
+    right: PIntegerArray;    // Right limit
+    fracstep: PIntegerArray; // Right limit
+    xclip: PIntegerArray;    // Precomputed floorclip/ceilingclip
+    aspect: double;          // Aspect correction
+    lefttop, righttop: integer;
+    leftbottom, rightbottom: Integer;
+    computed: boolean;
+  end;
+  Pf3dinfo_t = ^f3dinfo_t;
+  f3dinfobuffer_t = array[MINLOOKDIR..MAXLOOKDIR] of Pf3dinfo_t;
+
+var
+  f3dinfobuffer: f3dinfobuffer_t;
+
+const
+  LOOKDIR_TO_ANGLE = 0.5;
+
+procedure R_ComputeFake3DTable(const l: integer);
+var
+  f3d: Pf3dinfo_t;
+  ang: double;
+  i: integer;
+  buffer: array[0..MAXHEIGHT - 1] of double;
+  buffer2: array[0..MAXHEIGHT - 1] of double;
+  c, c1, c2: Double;
+  r: double;
+  leftstep: double;
+  rightstep: double;
+begin
+  if l = 0 then
+    exit;
+
+  if f3dinfobuffer[l] = nil then
+  begin
+    f3dinfobuffer[l] := Z_Malloc(SizeOf(f3dinfo_t), PU_STATIC, nil);
+    f3dinfobuffer[l].ylookup := Z_Malloc(SCREENHEIGHT * SizeOf(integer), PU_STATIC, nil);
+    f3dinfobuffer[l].yPresent := Z_Malloc(SCREENHEIGHT * SizeOf(boolean), PU_STATIC, nil);
+    f3dinfobuffer[l].left := Z_Malloc(SCREENHEIGHT * SizeOf(integer), PU_STATIC, nil);
+    f3dinfobuffer[l].right := Z_Malloc(SCREENHEIGHT * SizeOf(integer), PU_STATIC, nil);
+    f3dinfobuffer[l].fracstep := Z_Malloc(SCREENHEIGHT * SizeOf(integer), PU_STATIC, nil);
+    f3dinfobuffer[l].xclip := Z_Malloc(SCREENWIDTH * SizeOf(integer), PU_STATIC, nil);
+  end;
+
+  f3d := f3dinfobuffer[l];
+
+  if l < 0 then
+    ang := l * LOOKDIR_TO_ANGLE * D_PI / 270
+  else
+    ang := l * LOOKDIR_TO_ANGLE * D_PI / 180;
+
+  c := Cos(ang);
+  c1 := 2 * (c - 1);
+  c2 := 2 - c;
+  buffer[0] := 0;
+  for i := 1 to viewheight - 1 do
+    buffer[i] := buffer[i - 1] + i * c1 / viewheight;
+
+  for i := 0 to viewheight - 1 do
+    buffer2[i] := buffer[i] + i * c2;
+
+  r := Sqrt(3);
+  for i := 0 to viewheight - 1 do
+    f3d.ylookup[i] := Round(i + r * (buffer2[i] - i) );
+
+  if l < 0 then
+    for i := 0 to viewheight - 1 do
+      f3d.ylookup[i] := 2 * i - f3d.ylookup[i];
+
+  for i := 0 to viewheight - 1 do
+    if f3d.ylookup[i] < 0 then
+      f3d.ylookup[i] := 0
+    else if f3d.ylookup[i] >= viewheight then
+      f3d.ylookup[i] := viewheight - 1;
+
+  // JVAL
+  // Create yPresent table, determine if we must draw a span at y position
+  for i := 0 to viewheight - 1 do
+    f3d.yPresent[i] := false;
+  // Only spans present at ylookup needed 
+  for i := 0 to viewheight - 1 do
+    f3d.yPresent[f3d.ylookup[i]] := true;
+
+  f3d.aspect := c2;
+
+  if l >= 0 then
+  begin
+    f3d.lefttop := 0;
+    f3d.righttop := viewwidth - 1;
+    r := viewwidth / f3d.aspect;
+    f3d.leftbottom := Round(viewwidth - r);
+    f3d.rightbottom := viewwidth - f3d.leftbottom - 1;
+    leftstep := f3d.leftbottom - f3d.lefttop;
+    rightstep := f3d.rightbottom - f3d.righttop;
+    for i := 0 to viewheight - 1 do
+    begin
+      f3d.left[i] := Round(f3d.lefttop + leftstep * i / viewheight);
+      f3d.right[i] := Round(f3d.righttop + rightstep * i / viewheight);
+      f3d.fracstep[i] := Round((f3d.right[i] - f3d.left[i]) * FRACUNIT / viewwidth);
+    end;
+    // JVAL
+    // Adjust floorclip
+    for i := 0 to viewwidth - 1 do
+      f3d.xclip[i] := viewheight;
+    if f3d.leftbottom > 0 then
+    begin
+      r := viewheight / f3d.leftbottom;
+      for i := 0 to f3d.leftbottom - 1 do
+        f3d.xclip[i] := Round(r * i);
+      for i := f3d.rightbottom + 1 to viewwidth - 1 do
+        f3d.xclip[i] := f3d.xclip[viewwidth - i];
+    end;
+  end
+  else
+  begin
+    r := viewwidth / f3d.aspect;
+    f3d.lefttop := Round(viewwidth - r);
+    f3d.righttop := viewwidth - f3d.lefttop - 1;
+    f3d.leftbottom := 0;
+    f3d.rightbottom := viewwidth - 1;
+    leftstep := f3d.leftbottom - f3d.lefttop;
+    rightstep := f3d.rightbottom - f3d.righttop;
+    for i := 0 to viewheight - 1 do
+    begin
+      f3d.left[i] := Round(f3d.lefttop + leftstep * i / viewheight);
+      f3d.right[i] := Round(f3d.righttop + rightstep * i / viewheight);
+      f3d.fracstep[i] := Round((f3d.right[i] - f3d.left[i]) * FRACUNIT / viewwidth);
+    end;
+    // JVAL
+    // Adjust ceilingclip
+    for i := 0 to viewwidth - 1 do
+      f3d.xclip[i] := -1;
+    if f3d.lefttop > 0 then
+    begin
+      r := viewheight / f3d.lefttop;
+      for i := 0 to f3d.lefttop - 1 do
+        f3d.xclip[i] := Round(r * (f3d.lefttop - i - 1));
+      for i := f3d.righttop + 1 to viewwidth - 1 do
+        f3d.xclip[i] := f3d.xclip[viewwidth - i - 1];
+    end;
+  end;
+
+  f3d.computed := true;
+end;
+
+procedure R_Fake3DAdjustPlanes(const p: Pplayer_t);
+var
+  i: integer;
+  f3d: Pf3dinfo_t;
+  l: integer;
+begin
+  if not usefake3d or not zaxisshift then
+    Exit;
+
+  l := p.lookdir;
+  if l = 0 then
+    Exit;
+
+  if f3dinfobuffer[l] = nil then
+     R_ComputeFake3DTable(l)
+  else if not f3dinfobuffer[l].computed then
+     R_ComputeFake3DTable(l);
+
+  f3d := f3dinfobuffer[l];
+  if l > 0 then
+  begin
+    for i := 0 to f3d.leftbottom - 1 do
+      floorclip[i] := f3d.xclip[i];
+    for i := f3d.rightbottom + 1 to viewwidth - 1 do
+      floorclip[i] := f3d.xclip[i];
+  end
+  else
+  begin
+    for i := 0 to f3d.lefttop - 1 do
+      ceilingclip[i] := f3d.xclip[i];
+    for i := f3d.righttop + 1 to viewwidth - 1 do
+      ceilingclip[i] := f3d.xclip[i];
+  end;
+end;
 
 var
   fake3dlookdir: integer;
-  lookup3dtable: PIntegerArray = nil;
 
 var
   oldfake3dlookdir: integer = 0;
   oldviewwindowx: integer = -1;
   oldviewheight: integer = -1;
-
-const
-  MINLOOKDIRFACTOR = 1024;  // JVAL For MINLOOKDIR
-  MAXLOOKDIRFACTOR = 384;   // JVAL For MAXLOOKDIR
 
 //
 // JVAL
@@ -80,77 +271,19 @@ var
   setup3dworker: TDThread;
 
 function do_Set3DLookup(p: Pplayer_t): Integer; stdcall;
-var
-  i, j: integer;
-  stretch: float;
-  stretchstep: float;
-  stretchfactor: float;
-  spot: float;
-  spotfrac: float;
-  spotstep: float;
-  plt: PInteger;
 begin
-  if lookup3dtable = nil then
-    lookup3dtable := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(integer));
-
-  fake3dlookdir := p.lookdir;
-
   oldfake3dlookdir := fake3dlookdir;
   oldviewwindowx := viewwindowx;
   oldviewheight := viewheight;
 
-  stretchfactor := MINLOOKDIRFACTOR + (MINLOOKDIRFACTOR - MAXLOOKDIRFACTOR) /
-                                      (MINLOOKDIR - MAXLOOKDIR) *
-                                      (fake3dlookdir - MINLOOKDIR);
+  fake3dlookdir := p.lookdir;
+  R_ComputeFake3DTable(fake3dlookdir);
 
-  if fake3dlookdir > 0 then
-  begin
-  // JVAL
-  // How much do we stretch????
-    stretch := 0;
-  // Step for increasing stretch for every line
-    spotfrac := fake3dlookdir / stretchfactor * viewheight;
-    stretchstep :=  spotfrac / viewwidth;
-    plt := @lookup3dtable[0];
-    for j := 0 to viewheight - 1 do
-    begin
-    // JVAL
-    // Initial spot
-      spot := j * spotfrac / (viewwidth + stretch);
-      spotstep := 1 - (spot * 2) / viewwidth;
-      for i := 0 to viewwidth - 1 do
-      begin
-        plt^ := trunc(spot);
-        inc(plt);
-        spot := spot + spotstep;
-      end;
-      stretch := stretch + stretchstep;
-    end;
-  end
-  else if fake3dlookdir < 0 then // The same as above, just because I don't want to mess with abs() function etc...
-  begin
-  // JVAL
-  // Step for reducing stretch for every line,
-    spotfrac := -fake3dlookdir / stretchfactor * viewheight;
-    stretchstep := spotfrac / viewwidth;
-  // How much do we stretch????
-    stretch := spotfrac;
-    plt := @lookup3dtable[0];
-    for j := 0 to viewheight - 1 do
-    begin
-    // JVAL
-    // Initial spot
-      spot := j * spotfrac / (viewwidth + stretch);
-      spotstep := 1 - (spot * 2) / viewwidth;
-      for i := 0 to viewwidth - 1 do
-      begin
-        plt^ := trunc(spot);
-        inc(plt);
-        spot := spot + spotstep;
-      end;
-      stretch := stretch - stretchstep;
-    end;
-  end;
+  if fake3dlookdir <> 0 then
+    fake3dspanpresent := f3dinfobuffer[fake3dlookdir].yPresent
+  else
+    fake3dspanpresent := nil;
+
   result := 0;
 end;
 
@@ -161,7 +294,7 @@ begin
      (oldviewheight = viewheight) then
      exit;
 
-  if usemultithread then
+  if usemultithread or false then
     setup3dworker.Activate(p)
   else
     do_Set3DLookup(p);
@@ -177,78 +310,158 @@ end;
 //
 procedure R_Execute3DTransform8(const start, stop: integer; buffer: PByteArray);
 var
-  i, idx: integer;
-  plt: PInteger;
+  f3d: Pf3dinfo_t;
+  i: integer;
+  idx: Integer;
   dest: PByte;
-  dest2: PByte;
+  limit: PByte;
+  limit2: PByte;
+  src: PByte;
+  frac, fracstep: fixed_t;
+  range: integer;
+  fb: fourbytes;
 begin
-  idx := viewwindowx + (start + viewwindowy) * SCREENWIDTH;
-  plt := @lookup3dtable[start * viewwidth];
-  for i := start to stop do
+  f3d := f3dinfobuffer[fake3dlookdir];
+
+  range := stop - start + 1;
+  if fake3dlookdir >= 0 then
   begin
-    dest := @screens[SCN_FG][idx];
-    memcpy(buffer, dest, viewwidth);
-    dest2 := PByte(integer(dest) + viewwidth - 16);
-    while integer(dest) < integer(dest2) do
+    for i := 0 to viewheight - 1 do
     begin
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
+      idx := viewwindowx + (f3d.ylookup[i] + viewwindowy) * SCREENWIDTH + start;
+      src := @screens[SCN_FG][idx];
+      memcpy(buffer, src, range);
+      idx := viewwindowx + (i + viewwindowy) * SCREENWIDTH + start;
+      dest := @screens[SCN_FG][idx];
+      fracstep := f3d.fracstep[f3d.ylookup[i]];
+      frac := f3d.left[f3d.ylookup[i]] * FRACUNIT + start * (fracstep - FRACUNIT);
+      limit := @PByteArray(dest)[range];
+      limit2 := PByte(Integer(limit) - 16);
+
+      while integer(dest) < integer(limit2) do
+      begin
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+      end;
+
+      while integer(dest) < integer(limit) do
+      begin
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+      end;
     end;
-    dest2 := PByte(integer(dest2) + 16);
-    while integer(dest) < integer(dest2) do
+  end
+  else
+  begin
+    for i := viewheight - 1 downto 0 do
     begin
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
+      idx := viewwindowx + (f3d.ylookup[i] + viewwindowy) * SCREENWIDTH + start;
+      src := @screens[SCN_FG][idx];
+      memcpy(buffer, src, range);
+      idx := viewwindowx + (i + viewwindowy) * SCREENWIDTH + start;
+      dest := @screens[SCN_FG][idx];
+      fracstep := f3d.fracstep[f3d.ylookup[i]];
+      frac := f3d.left[f3d.ylookup[i]] * FRACUNIT + start * (fracstep - FRACUNIT);
+      limit := @PByteArray(dest)[range];
+      limit2 := PByte(Integer(limit) - 16);
+
+      while integer(dest) < integer(limit2) do
+      begin
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+
+        fb.byte1 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte2 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte3 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        fb.byte4 := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        PLongWord(dest)^ := PLongWord(@fb)^;
+        Inc(dest, 4);
+      end;
+
+      while integer(dest) < integer(limit) do
+      begin
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+      end;
     end;
-    idx := idx + SCREENWIDTH;
-  end;
+  end
 end;
 
 //
@@ -257,77 +470,168 @@ end;
 //
 procedure R_Execute3DTransform32(const start, stop: integer; buffer: PLongWordArray);
 var
-  i, idx: integer;
-  plt: PInteger;
+  f3d: Pf3dinfo_t;
+  i: integer;
+  idx: Integer;
   dest: PLongWord;
-  dest2: PLongWord;
+  limit: PLongWord;
+  limit2: PLongWord;
+  src: PLongWord;
+  frac, fracstep: fixed_t;
+  range: integer;
+  bsize: Integer;
 begin
-  idx := viewwindowx + (start + viewwindowy) * SCREENWIDTH;
-  plt := @lookup3dtable[start * viewwidth];
-  for i := start to stop do
+  f3d := f3dinfobuffer[fake3dlookdir];
+
+  range := stop - start + 1;
+  bsize := range * SizeOf(LongWord);
+  if fake3dlookdir >= 0 then
   begin
-    dest := @screen32[idx];
-    memcpy(buffer, dest, viewwidth * SizeOf(LongWord));
-    dest2 := PLongWord(integer(dest) + (viewwidth - 16) * SizeOf(LongWord));
-    while integer(dest) < integer(dest2) do
+    for i := 0 to viewheight - 1 do
     begin
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
+      idx := viewwindowx + (f3d.ylookup[i] + viewwindowy) * SCREENWIDTH + start;
+      src := @screen32[idx];
+      memcpy(buffer, src, bsize);
+      idx := viewwindowx + (i + viewwindowy) * SCREENWIDTH + start;
+      dest := @screen32[idx];
+      fracstep := f3d.fracstep[f3d.ylookup[i]];
+      frac := f3d.left[f3d.ylookup[i]] * FRACUNIT + start * (fracstep - FRACUNIT);
+      limit := @PLongWordArray(dest)[range];
+      limit2 := @PLongWordArray(dest)[range - 16];
+
+      while integer(dest) < integer(limit2) do
+      begin
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+      end;
+
+      while integer(dest) < integer(limit) do
+      begin
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+      end;
     end;
-    dest2 := PLongWord(integer(dest2) + 16 * SizeOf(LongWord));
-    while integer(dest) < integer(dest2) do
+  end
+  else
+  begin
+    for i := viewheight - 1 downto 0 do
     begin
-      dest^ := buffer[plt^];
-      inc(dest);
-      inc(plt);
+      idx := viewwindowx + (f3d.ylookup[i] + viewwindowy) * SCREENWIDTH + start;
+      src := @screen32[idx];
+      memcpy(buffer, src, bsize);
+      idx := viewwindowx + (i + viewwindowy) * SCREENWIDTH + start;
+      dest := @screen32[idx];
+      fracstep := f3d.fracstep[f3d.ylookup[i]];
+      frac := f3d.left[f3d.ylookup[i]] * FRACUNIT + start * (fracstep - FRACUNIT);
+      limit := @PLongWordArray(dest)[range];
+      limit2 := @PLongWordArray(dest)[range - 16];
+
+      while integer(dest) < integer(limit2) do
+      begin
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+      end;
+
+      while integer(dest) < integer(limit) do
+      begin
+        dest^ := buffer[frac div FRACUNIT];
+        frac := frac + fracstep;
+        Inc(dest);
+      end;
     end;
-    idx := idx + SCREENWIDTH;
   end;
 end;
 
@@ -365,7 +669,7 @@ var
 //
 // JVAL
 //  R_Execute3DTransform
-//  Transforms current view depending on lookup3dtable
+//  Transforms current view 
 //
 var
   buffer1: array[0..MAXWIDTH - 1] of LongWord;
@@ -392,16 +696,16 @@ begin
   if usemultithread then
   begin
     parms1.start := 0;
-    parms1.stop := viewheight div 2;
+    parms1.stop := viewwidth div 2;
     parms1.buffer := @buffer1;
 
     if videomode = vm32bit then
     begin
     // JVAL
-    // Create a thread to process the half screen
+    // Activate the thread to process the half screen
     // The other half is processed by application thread
       threadworker32.Activate(@parms1);
-      R_Execute3DTransform32(parms1.stop + 1, viewheight - 1, @buffer2);
+      R_Execute3DTransform32(parms1.stop + 1, viewwidth - 1, @buffer2);
       threadworker32.Wait;
     end
     else
@@ -409,27 +713,28 @@ begin
     // JVAL
     // As above
       threadworker8.Activate(@parms1);
-      R_Execute3DTransform8(parms1.stop + 1, viewheight - 1, PByteArray(@buffer2));
+      R_Execute3DTransform8(parms1.stop + 1, viewwidth - 1, PByteArray(@buffer2));
       threadworker8.Wait;
     end;
-
-    // Wait for extra thread to terminate.
-   // I_WaitForProcess(h1);
 
   end
   else
   begin
   // JVAL: The simple stuff
     if videomode = vm32bit then
-      R_Execute3DTransform32(0, viewheight - 1, @buffer1)
+      R_Execute3DTransform32(0, viewwidth - 1, @buffer1)
     else
-      R_Execute3DTransform8(0, viewheight - 1, PByteArray(@buffer1));
+      R_Execute3DTransform8(0, viewwidth - 1, PByteArray(@buffer1));
   end;
 
 end;
 
 procedure R_InitFake3D;
+var
+  i: integer;
 begin
+  for i := MINLOOKDIR to MAXLOOKDIR do
+    f3dinfobuffer[i] := nil;
   threadworker8 := TDThread.Create(@R_Thr_Execute3DTransform8);
   threadworker32 := TDThread.Create(@R_Thr_Execute3DTransform32);
   setup3dworker := TDThread.Create(@do_Set3DLookup);
@@ -440,8 +745,26 @@ begin
   threadworker8.Free;
   threadworker32.Free;
   setup3dworker.Free;
-  if lookup3dtable <> nil then
-    memfree(pointer(lookup3dtable), SCREENWIDTH * SCREENHEIGHT * SizeOf(integer));
+end;
+
+function R_Fake3DAspectCorrection(const p: Pplayer_t): Double;
+begin
+  if p = nil then
+  begin
+    result := 1.0;
+    exit;
+  end;
+
+  if zaxisshift and usefake3d and (p.lookdir <> 0) then
+  begin
+    if f3dinfobuffer[p.lookdir] = nil then
+       R_ComputeFake3DTable(p.lookdir)
+    else if not f3dinfobuffer[p.lookdir].computed then
+       R_ComputeFake3DTable(p.lookdir);
+    result := f3dinfobuffer[p.lookdir].aspect;
+  end
+  else
+    result := 1.0;
 end;
 
 end.

@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -60,6 +60,7 @@ uses
   r_batchcolumn,
   r_wall8,
   r_wall32,
+  r_scale,
 {$ENDIF}
   m_menu,
   r_aspect,
@@ -96,6 +97,7 @@ var
   optimizedthingsrendering: Boolean;
   force_numwallrenderingthreads_8bit: integer;
   force_numwallrenderingthreads_32bit: integer;
+  precisescalefromglobalangle: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -133,7 +135,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}144{$ELSE}147{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}145{$ELSE}148{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -426,6 +428,14 @@ const
      defaultbvalue: false;
      _type: tString),
 
+    (name: 'precisescalefromglobalangle';
+     location: @precisescalefromglobalangle;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '0.00';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
     (name: 'OpenGL';
      location: nil;
      setable: DFS_NEVER;
@@ -535,7 +545,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'gl_screensync';
@@ -640,7 +650,7 @@ const
      location: @pngtransparentcolor;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: $FF00FF;
+     defaultivalue: $0;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -648,7 +658,7 @@ const
      location: @pngtransparentcolor2;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: $FFFF;
+     defaultivalue: $0;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -657,7 +667,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 {$ENDIF}
      // Compatibility

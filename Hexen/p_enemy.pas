@@ -811,6 +811,12 @@ begin
   deltax := actor.target.x - actor.x;
   deltay := actor.target.y - actor.y;
 
+  if actor.flags2_ex and MF2_EX_FRIGHTENED <> 0 then
+  begin
+    deltax := -deltax;
+    deltay := -deltay;
+  end;
+
   if deltax > 10 * FRACUNIT then
     d[1] := DI_EAST
   else if deltax < -10 * FRACUNIT then

@@ -25,7 +25,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -36,8 +36,10 @@ interface
 
 uses
   d_delphi,
-  m_fixed, tables,
+  m_fixed,
+  tables,
   r_defs;
+
 {$IFNDEF OPENGL}
 procedure R_RenderMaskedSegRange(const ds: Pdrawseg_t; const x1, x2: integer);
 
@@ -57,47 +59,17 @@ var
 
   walllights: PBytePArray;
 
-implementation
-
-uses
-  i_system,
-  r_bsp,
-{$IFNDEF OPENGL}
-  doomdef,
-  doomdata,
-  doomtype,
-  r_column,
-  r_data,
-  r_hires,
-  r_main,
-  r_things,
-  r_plane,
-  r_draw,
-  r_sky,
-  r_ccache,
-  r_wall8,
-  r_wall32,
-{$ENDIF}
-  z_zone;
-
-{$IFNDEF OPENGL}
-var
-  maskedtexturecol: PSmallIntArray; // JVAL : declared in r_defs
-
-// True if any of the segs textures might be visible.
-  segtextured: boolean;
-
-// False if the back side is the same plane.
-  markfloor: boolean;
-  markceiling: boolean;
-
-  maskedtexture: boolean;
-  toptexture: integer;
-  bottomtexture: integer;
-  midtexture: integer;
 //
 // regular wall
 //
+{$IFNDEF OPENGL}
+const
+  HEIGHTBITS = 12;
+  HEIGHTUNIT = 1 shl HEIGHTBITS;
+  WORLDBIT = 16 - HEIGHTBITS;
+  WORLDUNIT = 1 shl WORLDBIT;
+
+var
   rw_x: integer;
   rw_stopx: integer;
   rw_centerangle: angle_t;
@@ -124,6 +96,49 @@ var
   bottomfrac: fixed_t;
   bottomstep: fixed_t;
 {$ENDIF}
+
+
+{$IFNDEF OPENGL}
+var
+  maskedtexturecol: PSmallIntArray; // JVAL : declared in r_defs
+
+// True if any of the segs textures might be visible.
+  segtextured: boolean;
+
+// False if the back side is the same plane.
+  markfloor: boolean;
+  markceiling: boolean;
+
+  maskedtexture: boolean;
+  toptexture: integer;
+  bottomtexture: integer;
+  midtexture: integer;
+{$ENDIF}
+
+implementation
+
+uses
+  i_system,
+  r_bsp,
+{$IFNDEF OPENGL}
+  doomdef,
+  doomdata,
+  doomtype,
+  r_column,
+  r_data,
+  r_hires,
+  r_main,
+  r_things,
+  r_plane,
+  r_draw,
+  r_sky,
+  r_ccache,
+  r_wall8,
+  r_wall32,
+  r_scale,
+  r_segs2,
+{$ENDIF}
+  z_zone;
 
 
 
@@ -237,15 +252,22 @@ begin
       begin
         if not forcecolormaps then
         begin
-          index := _SHR(spryscale, HLL_LIGHTSCALESHIFT + 3) * 320 div SCREENWIDTH;
+          if spryscale > 256 * FRACUNIT then
+            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 3) div SCREENWIDTH) * 320
+          else
+            index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 3) * 320) div SCREENWIDTH;
           if index >= HLL_MAXLIGHTSCALE then
-            index := HLL_MAXLIGHTSCALE - 1;
+            index := HLL_MAXLIGHTSCALE - 1
+          else if index < 0 then
+            index := 0;
           dc_lightlevel := scalelightlevels[dc_llindex, index];
         end;
         index := _SHR(spryscale, LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
 
         if index >=  MAXLIGHTSCALE then
-          index := MAXLIGHTSCALE - 1;
+          index := MAXLIGHTSCALE - 1
+        else if index < 0 then
+          index := 0;
 
         dc_colormap := walllights[index];
         if videomode = vm32bit then
@@ -276,37 +298,6 @@ begin
   end;
 end;
 
-//
-// R_RenderSegLoop
-// Draws zero, one, or two textures (and possibly a masked
-//  texture) for walls.
-// Can draw or mark the starting pixel of floor and ceiling
-//  textures.
-// CALLED: CORE LOOPING ROUTINE.
-//
-const
-  HEIGHTBITS = 12;
-  HEIGHTUNIT = 1 shl HEIGHTBITS;
-  WORLDBIT = 16 - HEIGHTBITS;
-  WORLDUNIT = 1 shl WORLDBIT;
-
-procedure R_RenderSegLoop8;
-{$UNDEF RENDERSEGOPTIMIZED}
-{$I R_RenderSegLoop8.inc}
-
-procedure R_RenderSegLoop8Optimized;
-{$DEFINE RENDERSEGOPTIMIZED}
-{$I R_RenderSegLoop8.inc}
-
-procedure R_RenderSegLoop32;
-{$UNDEF RENDERSEGOPTIMIZED}
-{$I R_RenderSegLoop32.inc}
-
-procedure R_RenderSegLoop32Optimized;
-{$DEFINE RENDERSEGOPTIMIZED}
-{$I R_RenderSegLoop32.inc}
-
-
 {$ENDIF}
 
 function R_NewDrawSeg: Pdrawseg_t;
@@ -336,6 +327,427 @@ end;
 //  between start and stop pixels (inclusive).
 //
 {$IFNDEF OPENGL}
+procedure R_StoreWallRange_DBL(const pds: Pdrawseg_t; const start: integer; const stop: integer);
+var
+  hyp: fixed_t;
+  sineval: fixed_t;
+  distangle,
+  offsetangle: angle_t;
+  vtop: fixed_t;
+  lightnum: integer;
+  rw_scale_dbl2: Double;
+  worldtop_dbl: Double;
+  worldbottom_dbl: Double;
+begin
+  offsetangle := abs(rw_normalangle - rw_angle1);
+  {$IFDEF FPC}
+  PInteger(@offsetangle)^ := abs(PInteger(@offsetangle)^);
+  {$ENDIF}
+
+  if offsetangle > ANG90 then
+    offsetangle := ANG90;
+
+  distangle := ANG90 - offsetangle;
+
+  hyp := R_PointToDist(curline.v1.x, curline.v1.y);
+  {$IFDEF FPC}
+  sineval := finesine[_SHRW(distangle, ANGLETOFINESHIFT)];
+  {$ELSE}
+  sineval := finesine[distangle shr ANGLETOFINESHIFT];
+  {$ENDIF}
+  rw_distance := FixedMulEx(hyp, sineval);
+
+  // calculate scale at both ends and step
+  rw_scale_dbl := R_ScaleFromGlobalAngle_DBL(viewangle + xtoviewangle[start]);
+  rw_scale := Round(rw_scale_dbl);
+
+  pds.scale1 := rw_scale;
+
+  if stop > start then
+  begin
+    rw_scale_dbl2 := R_ScaleFromGlobalAngle_DBL(viewangle + xtoviewangle[stop]);
+    rw_scalestep_dbl := (rw_scale_dbl2 - rw_scale_dbl) / (stop - start);
+    pds.scale2 := Round(rw_scale_dbl2);
+    rw_scalestep := Round(rw_scalestep_dbl);
+    pds.scalestep := rw_scalestep;
+  end
+  else
+  begin
+    pds.scale2 := pds.scale1;
+  end;
+
+  // calculate texture boundaries
+  //  and decide if floor / ceiling marks are needed
+  worldtop := frontsector.ceilingheight - viewz;
+  worldbottom := frontsector.floorheight - viewz;
+
+  midtexture := 0;
+  toptexture := 0;
+  bottomtexture := 0;
+  maskedtexture := false;
+  pds.maskedtexturecol := nil;
+
+  if backsector = nil then
+  begin
+    // single sided line
+    midtexture := texturetranslation[sidedef.midtexture];
+    // a single sided line is terminal, so it must mark ends
+    markfloor := true;
+    markceiling := true;
+    if linedef.flags and ML_DONTPEGBOTTOM <> 0 then
+    begin
+      vtop := frontsector.floorheight + textureheight[sidedef.midtexture];
+      // bottom of texture at bottom
+      rw_midtexturemid := vtop - viewz;
+    end
+    else
+    begin
+      // top of texture at top
+      rw_midtexturemid := worldtop;
+    end;
+    rw_midtexturemid := rw_midtexturemid + sidedef.rowoffset;
+
+    pds.silhouette := SIL_BOTH;
+    pds.sprtopclip := @screenheightarray;
+    pds.sprbottomclip := @negonearray;
+    pds.bsilheight := MAXINT;
+    pds.tsilheight := MININT;
+  end
+  else
+  begin
+    // two sided line
+    pds.sprtopclip := nil;
+    pds.sprbottomclip := nil;
+    pds.silhouette := 0;
+
+    if frontsector.floorheight > backsector.floorheight then
+    begin
+      pds.silhouette := SIL_BOTTOM;
+      pds.bsilheight := frontsector.floorheight;
+    end
+    else if backsector.floorheight > viewz then
+    begin
+      pds.silhouette := SIL_BOTTOM;
+      pds.bsilheight := MAXINT;
+    end;
+
+    if frontsector.ceilingheight < backsector.ceilingheight then
+    begin
+      pds.silhouette := pds.silhouette or SIL_TOP;
+      pds.tsilheight := frontsector.ceilingheight;
+    end
+    else if backsector.ceilingheight < viewz then
+    begin
+      pds.silhouette := pds.silhouette or SIL_TOP;
+      pds.tsilheight := MININT;
+    end;
+
+    if backsector.ceilingheight <= frontsector.floorheight then
+    begin
+      pds.sprbottomclip := @negonearray;
+      pds.bsilheight := MAXINT;
+      pds.silhouette := pds.silhouette or SIL_BOTTOM;
+    end;
+
+    if backsector.floorheight >= frontsector.ceilingheight then
+    begin
+      pds.sprtopclip := @screenheightarray;
+      pds.tsilheight := MININT;
+      pds.silhouette := pds.silhouette or SIL_TOP;
+    end;
+
+      // killough 1/17/98: this test is required if the fix
+      // for the automap bug (r_bsp.c) is used, or else some
+      // sprites will be displayed behind closed doors. That
+      // fix prevents lines behind closed doors with dropoffs
+      // from being displayed on the automap.
+      //
+      // killough 4/7/98: make doorclosed external variable
+
+    if doorclosed or (backsector.ceilingheight <= frontsector.floorheight) then
+    begin
+      pds.sprbottomclip := @negonearray;
+      pds.bsilheight := MAXINT;
+      pds.silhouette := pds.silhouette or SIL_BOTTOM;
+    end;
+
+    if doorclosed or (backsector.floorheight >= frontsector.ceilingheight) then
+    begin                   // killough 1/17/98, 2/8/98
+      pds.sprtopclip := @screenheightarray;
+      pds.tsilheight := MININT;
+      pds.silhouette := pds.silhouette or SIL_TOP;
+    end;
+
+    worldhigh := backsector.ceilingheight - viewz;
+    worldlow := backsector.floorheight - viewz;
+
+    // hack to allow height changes in outdoor areas
+    if (frontsector.ceilingpic = skyflatnum) and
+       (backsector.ceilingpic = skyflatnum) then
+    begin
+      worldtop := worldhigh;
+    end;
+
+    if (backsector.ceilingheight <= frontsector.floorheight) or
+       (backsector.floorheight >= frontsector.ceilingheight) then
+    begin
+      // closed door
+      markceiling := true;
+      markfloor := true;
+    end
+    else
+    begin
+      markfloor := (worldlow <> worldbottom) or
+                   (backsector.floorpic <> frontsector.floorpic) or
+                   (backsector.lightlevel <> frontsector.lightlevel) or
+                   // killough 3/7/98: Add checks for (x,y) offsets
+                   (backsector.floor_xoffs <> frontsector.floor_xoffs) or
+                   (backsector.floor_yoffs <> frontsector.floor_yoffs) or
+                   // killough 4/15/98: prevent 2s normals
+                   // from bleeding through deep water
+                   (frontsector.heightsec <> -1) or
+                   // killough 4/17/98: draw floors if different light levels
+                   (backsector.floorlightsec <> frontsector.floorlightsec) or
+                   (backsector.renderflags <> frontsector.renderflags);
+
+      markceiling := (worldhigh <> worldtop) or
+                     (backsector.ceilingpic <> frontsector.ceilingpic) or
+                     (backsector.lightlevel <> frontsector.lightlevel) or
+                     // killough 3/7/98: Add checks for (x,y) offsets
+                     (backsector.ceiling_xoffs <> frontsector.ceiling_xoffs) or
+                     (backsector.ceiling_yoffs <> frontsector.ceiling_yoffs) or
+                     // killough 4/15/98: prevent 2s normals
+                     // from bleeding through fake ceilings
+                     ((frontsector.heightsec <> -1) and (frontsector.ceilingpic <> skyflatnum)) or
+                     // killough 4/17/98: draw ceilings if different light levels
+                     (backsector.ceilinglightsec <> frontsector.ceilinglightsec) or
+                     (backsector.renderflags <> frontsector.renderflags);
+    end;
+
+    if worldhigh < worldtop then
+    begin
+      // top texture
+      toptexture := texturetranslation[sidedef.toptexture];
+      if linedef.flags and ML_DONTPEGTOP <> 0 then
+      begin
+        // top of texture at top
+        rw_toptexturemid := worldtop;
+      end
+      else
+      begin
+        vtop := backsector.ceilingheight + textureheight[sidedef.toptexture];
+
+        // bottom of texture
+        rw_toptexturemid := vtop - viewz;
+      end
+    end;
+
+    if worldlow > worldbottom then
+    begin
+      // bottom texture
+      bottomtexture := texturetranslation[sidedef.bottomtexture];
+
+      if linedef.flags and ML_DONTPEGBOTTOM <> 0 then
+      begin
+        // bottom of texture at bottom
+        // top of texture at top
+        rw_bottomtexturemid := worldtop;
+      end
+      else // top of texture at top
+        rw_bottomtexturemid := worldlow;
+    end;
+    rw_toptexturemid := rw_toptexturemid + sidedef.rowoffset;
+    rw_bottomtexturemid := rw_bottomtexturemid + sidedef.rowoffset;
+
+    // allocate space for masked texture tables
+    if sidedef.midtexture <> 0 then
+    begin
+      // masked midtexture
+      maskedtexture := true;
+      maskedtexturecol := PSmallIntArray(@openings[lastopening - rw_x]);
+      pds.maskedtexturecol := maskedtexturecol;
+      lastopening := lastopening + rw_stopx - rw_x;
+    end;
+  end;
+
+  // calculate rw_offset (only needed for textured lines)
+  segtextured := ((midtexture or toptexture or bottomtexture) <> 0) or maskedtexture;
+
+  if segtextured then
+  begin
+    offsetangle := rw_normalangle - rw_angle1;
+
+    if offsetangle > ANG180 then
+      offsetangle := LongWord($ffffffff) - offsetangle + 1;
+
+    if offsetangle > ANG90 then
+      offsetangle := ANG90;
+
+   {$IFDEF FPC}
+    sineval := finesine[_SHRW(offsetangle, ANGLETOFINESHIFT)];
+   {$ELSE}
+    sineval := finesine[offsetangle shr ANGLETOFINESHIFT];
+    {$ENDIF}
+
+    rw_offset := FixedMul(hyp, sineval);
+
+    if LongWord(rw_normalangle - rw_angle1) < ANG180 then
+      rw_offset := -rw_offset;
+
+    rw_offset := rw_offset + sidedef.textureoffset + curline.offset;
+    rw_centerangle := ANG90 + viewangle - rw_normalangle;
+
+    // calculate light table
+    //  use different light tables
+    //  for horizontal / vertical / diagonal
+    // OPTIMIZE: get rid of LIGHTSEGSHIFT globally
+    if fixedcolormap = nil then
+    begin
+      lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
+
+      if curline.v1.y = curline.v2.y then
+        dec(lightnum)
+      else if curline.v1.x = curline.v2.x then
+        inc(lightnum);
+
+      if lightnum < 0 then
+        lightnum := 0
+      else if lightnum >= LIGHTLEVELS then
+        lightnum := LIGHTLEVELS - 1;
+      walllights := @scalelight[lightnum];
+
+      dc_llindex := lightnum;
+    end;
+  end;
+
+  // if a floor / ceiling plane is on the wrong side
+  //  of the view plane, it is definitely invisible
+  //  and doesn't need to be marked.
+
+
+  // killough 3/7/98: add deep water check
+  if frontsector.heightsec = -1 then
+  begin
+    if frontsector.floorheight >= viewz then
+    begin
+      // above view plane
+      markfloor := false;
+    end;
+
+    if (frontsector.ceilingheight <= viewz) and
+       (frontsector.ceilingpic <> skyflatnum) then
+    begin
+      // below view plane
+      markceiling := false;
+    end;
+  end;
+
+  // calculate incremental stepping values for texture edges
+  worldtop_dbl := worldtop / WORLDUNIT;
+  worldbottom_dbl := worldbottom / WORLDUNIT;
+  worldtop := worldtop div WORLDUNIT;
+  worldbottom := worldbottom div WORLDUNIT;
+
+  topstep_dbl := - rw_scalestep_dbl / FRACUNIT * worldtop_dbl;
+
+  topfrac_dbl := (centeryfrac / WORLDUNIT) - worldtop_dbl / FRACUNIT * rw_scale_dbl;
+
+  bottomstep_dbl := - rw_scalestep_dbl / FRACUNIT * worldbottom_dbl;
+
+  bottomfrac_dbl := (centeryfrac / WORLDUNIT) - worldbottom_dbl / FRACUNIT * rw_scale_dbl;
+
+  topstep := round(topstep_dbl);
+  topfrac := round(topfrac_dbl);
+  bottomstep := round(bottomstep_dbl);
+  bottomfrac := round(bottomfrac_dbl);
+
+
+  if backsector <> nil then
+  begin
+    worldhigh_dbl := worldhigh / WORLDUNIT;
+    worldlow_dbl := worldlow / WORLDUNIT;
+    worldhigh := worldhigh div WORLDUNIT;
+    worldlow := worldlow div WORLDUNIT;
+
+    if worldhigh_dbl < worldtop_dbl then
+    begin
+      pixhigh := (centeryfrac div WORLDUNIT) - FixedMul(worldhigh, rw_scale);
+      pixhighstep := -FixedMul(rw_scalestep, worldhigh);
+      pixhigh_dbl := (centeryfrac / WORLDUNIT) - worldhigh_dbl / FRACUNIT * rw_scale_dbl;
+      pixhighstep_dbl := -rw_scalestep_dbl / FRACUNIT * worldhigh_dbl;
+    end;
+
+    if worldlow_dbl > worldbottom_dbl then
+    begin
+      pixlow := (centeryfrac div WORLDUNIT) - FixedMul(worldlow, rw_scale);
+      pixlowstep := -FixedMul(rw_scalestep, worldlow);
+      pixlow_dbl := (centeryfrac / WORLDUNIT) - worldlow_dbl / FRACUNIT * rw_scale_dbl;
+      pixlowstep_dbl := -rw_scalestep_dbl / FRACUNIT * worldlow_dbl;
+    end;
+  end;
+
+  // render it
+  if markceiling then
+  begin
+    if ceilingplane <> nil then
+      ceilingplane := R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1)
+    else
+      markceiling := false;
+  end;
+
+  if markfloor then
+  begin
+    if floorplane <> nil then
+      floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1)
+    else
+      markfloor := false;
+  end;
+
+  if videomode = vm32bit then
+  begin
+    if optimizedcolumnrendering then
+      R_RenderSegLoop32Optimized_dbl
+    else
+      R_RenderSegLoop32_dbl;
+  end
+  else
+  begin
+    if optimizedcolumnrendering then
+      R_RenderSegLoop8Optimized_dbl
+    else
+      R_RenderSegLoop8_dbl;
+  end;
+
+  // save sprite clipping info
+  if ((pds.silhouette and SIL_TOP <> 0) or maskedtexture) and
+     (pds.sprtopclip = nil) then
+  begin
+    memcpy(@openings[lastopening], @ceilingclip[start], SizeOf(ceilingclip[0]) * (rw_stopx - start));
+    pds.sprtopclip := PSmallIntArray(@openings[lastopening - start]);
+    lastopening := lastopening + rw_stopx - start;
+  end;
+
+  if ((pds.silhouette and SIL_BOTTOM <> 0) or maskedtexture) and
+     (pds.sprbottomclip = nil) then
+  begin
+    memcpy(@openings[lastopening], @floorclip[start], SizeOf(floorclip[0]) * (rw_stopx - start));
+    pds.sprbottomclip := PSmallIntArray(@openings[lastopening - start]);
+    lastopening := lastopening + rw_stopx - start;
+  end;
+
+  if maskedtexture and (pds.silhouette and SIL_TOP = 0) then
+  begin
+    pds.silhouette := pds.silhouette or SIL_TOP;
+    pds.tsilheight := MININT;
+  end;
+  if maskedtexture and (pds.silhouette and SIL_BOTTOM = 0) then
+  begin
+    pds.silhouette := pds.silhouette or SIL_BOTTOM;
+    pds.bsilheight := MAXINT;
+  end;
+  inc(ds_p);
+end;
+
 procedure R_StoreWallRange(const start: integer; const stop: integer);
 var
   hyp: fixed_t;
@@ -345,6 +757,7 @@ var
   vtop: fixed_t;
   lightnum: integer;
   pds: Pdrawseg_t;
+  overflow: Boolean;
 begin
   pds := R_NewDrawSeg;
   if pds = nil then
@@ -384,12 +797,23 @@ begin
   rw_stopx := stop + 1;
 
   // calculate scale at both ends and step
-  rw_scale := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start]);
+  rw_scale := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start], overflow);
+  if overflow then
+  begin
+    R_StoreWallRange_DBL(pds, start, stop);
+    exit;
+  end;
+
   pds.scale1 := rw_scale;
 
   if stop > start then
   begin
-    pds.scale2 := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop]);
+    pds.scale2 := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop], overflow);
+    if overflow then
+    begin
+      R_StoreWallRange_DBL(pds, start, stop);
+      exit;
+    end;
     rw_scalestep := (pds.scale2 - rw_scale) div (stop - start);
     pds.scalestep := rw_scalestep
   end
@@ -477,31 +901,6 @@ begin
       pds.tsilheight := MININT;
       pds.silhouette := pds.silhouette or SIL_TOP;
     end;
-
- {
-  if frontsector.floorheight > backsector.floorheight then
-  begin
-      pds.silhouette := SIL_BOTTOM;
-      pds.bsilheight := frontsector.floorheight;
-  end
-  else if backsector.floorheight > viewz then
-  begin
-        pds.silhouette := SIL_BOTTOM;
-        pds.bsilheight := MININT;
-  end;
-
-  if frontsector.ceilingheight < backsector.ceilingheight then
-  begin
-      pds.silhouette := pds.silhouette or SIL_TOP;
-      pds.tsilheight := frontsector.ceilingheight;
-  end
-  else
-    if backsector.ceilingheight < viewz then
-    begin
-        pds.silhouette := pds.silhouette or SIL_TOP;
-        pds.tsilheight := MININT;
-      end;
-  }
 
       // killough 1/17/98: this test is required if the fix
       // for the automap bug (r_bsp.c) is used, or else some
@@ -782,5 +1181,6 @@ begin
 end;
 {$ENDIF}
 
-
 end.
+
+

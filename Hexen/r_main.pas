@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,9 +21,15 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  System specific interface stuff.
+//  Rendering main loop and setup functions,
+//   utility functions (BSP, geometry, trigonometry).
+//  See tables.c, too.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -40,34 +46,6 @@ uses
   tables,
   r_data,
   r_defs;
-
-{
-    r_main.h, r_main.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  System specific interface stuff.
-//  Rendering main loop and setup functions,
-//   utility functions (BSP, geometry, trigonometry).
-//  See tables.c, too.
-//
-//-----------------------------------------------------------------------------
 
 const
 //
@@ -122,8 +100,6 @@ function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 
 function R_PointToDist(const x: fixed_t; const y: fixed_t): fixed_t;
-
-function R_ScaleFromGlobalAngle(const visangle: angle_t): fixed_t;
 
 function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;
 
@@ -315,11 +291,14 @@ uses
   r_cache,
   r_precalc,
   r_ripple,
+  r_trans8,
 {$ENDIF}
   r_lights,
   r_intrpl,
   r_camera,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
   gl_clipper,
@@ -601,6 +580,16 @@ var
 begin
   dx := abs(x - viewx);
   dy := abs(y - viewy);
+  if dx = 0 then
+  begin
+    result := dy;
+    exit;
+  end;
+  if dy = 0 then
+  begin
+    result := dx;
+    exit;
+  end;
 
   if dy > dx then
   begin
@@ -636,44 +625,6 @@ begin
     t := round(LongWord($ffffffff) * f);
     tantoangle[i] := t;
   end;}
-end;
-
-//
-// R_ScaleFromGlobalAngle
-// Returns the texture mapping scale
-//  for the current line (horizontal span)
-//  at the given angle.
-// rw_distance must be calculated first.
-//
-function R_ScaleFromGlobalAngle(const visangle: angle_t): fixed_t;
-var
-  anglea: angle_t;
-  angleb: angle_t;
-  num: fixed_t;
-  den: integer;
-begin
-  anglea := ANG90 + (visangle - viewangle);
-  angleb := ANG90 + (visangle - rw_normalangle);
-
-  {$IFDEF FPC}
-  num := FixedMul(projectiony, finesine[_SHRW(angleb, ANGLETOFINESHIFT)]); // JVAL For correct aspect
-  den := FixedMul(rw_distance, finesine[_SHRW(anglea, ANGLETOFINESHIFT)]);
-  {$ELSE}
-  num := FixedMul(projectiony, finesine[angleb shr ANGLETOFINESHIFT]); // JVAL For correct aspect
-  den := FixedMul(rw_distance, finesine[anglea shr ANGLETOFINESHIFT]);
-  {$ENDIF}
-
-  if den > FixedInt(num) then
-  begin
-    result := FixedDiv(num, den);
-
-    if result > 64 * FRACUNIT then
-      result := 64 * FRACUNIT
-    else if result < 256 then
-      result := 256
-  end
-  else
-    result := 64 * FRACUNIT;
 end;
 
 //
@@ -1217,7 +1168,7 @@ begin
   centeryfrac := centery * FRACUNIT;
 
 // jval: Widescreen support
-  monitor_relative_aspect := R_GetRelativeAspect;
+  monitor_relative_aspect := R_GetRelativeAspect{$IFNDEF OPENGL} * R_Fake3DAspectCorrection(viewplayer){$ENDIF};
   projection := Round(centerx / monitor_relative_aspect * FRACUNIT);
   projectiony := (((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT); // JVAL for correct aspect
 
@@ -1239,8 +1190,10 @@ begin
 // psprite scales
 // jval: Widescreen support
   pspritescale := Round((centerx / monitor_relative_aspect * FRACUNIT) / 160);
+  pspritescalep := Round((centerx / R_GetRelativeAspect * FRACUNIT) / 160);
   pspriteyscale := Round((((SCREENHEIGHT * viewwidth) / SCREENWIDTH) * FRACUNIT) / 200);
   pspriteiscale := FixedDiv(FRACUNIT, pspritescale);
+  pspriteiscalep := FixedDiv(FRACUNIT, pspritescalep);
 
   // thing clipping
   for i := 0 to viewwidth - 1 do
@@ -1325,6 +1278,7 @@ begin
   R_CmdZAxisShift;
 end;
 
+{$IFNDEF OPENGL}
 procedure R_CmdUseFake3D(const parm1: string = '');
 var
   newf: boolean;
@@ -1344,7 +1298,7 @@ begin
   end;
   R_CmdUseFake3D;
 end;
-
+{$ENDIF}
 procedure R_CmdUseClassicFuzzEffect(const parm1: string = '');
 var
   newusefz: boolean;
@@ -1443,6 +1397,8 @@ begin
   printf(#13#10 + 'R_InitTranslationsTables');
   R_InitTranslationTables;
 {$IFNDEF OPENGL}
+  printf(#13#10 + 'R_InitTransparency8Tables');
+  R_InitTransparency8Tables;
   printf(#13#10 + 'R_InitPrecalc');
   R_InitPrecalc;
   printf(#13#10 + 'R_InitWallsCache8');
@@ -1454,7 +1410,9 @@ begin
   framecount := 0;
 
   C_AddCmd('zaxisshift', @R_CmdZAxisShift);
+{$IFNDEF OPENGL}
   C_AddCmd('fake3d, usefake3d', @R_CmdUseFake3D);
+{$ENDIF}  
   C_AddCmd('lowestres, lowestresolution', @R_CmdLowestRes);
   C_AddCmd('lowres, lowresolution', @R_CmdLowRes);
   C_AddCmd('mediumres, mediumresolution', @R_CmdMediumRes);
@@ -1490,6 +1448,8 @@ begin
   printf(#13#10 + 'R_ShutDownOpenGL');
   R_ShutDownOpenGL;
 {$ELSE}
+  printf(#13#10 + 'R_FreeTransparency8Tables');
+  R_FreeTransparency8Tables;
   printf(#13#10 + 'R_ShutDownPrecalc');
   R_ShutDownPrecalc;
   printf(#13#10 + 'R_ShutDownWallsCache8');
@@ -1678,6 +1638,8 @@ begin
   R_ClearClipSegs;
   R_ClearDrawSegs;
   R_ClearPlanes;
+  R_Wait3DLookup;
+  R_Fake3DAdjustPlanes(player);
   R_ClearSprites;
 
   // check for new console commands.
@@ -1687,8 +1649,6 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
-
-  R_Wait3DLookup;
 
   R_RenderMultiThreadWalls8;
 
@@ -1720,6 +1680,8 @@ begin
   R_ClearClipSegs;
   R_ClearDrawSegs;
   R_ClearPlanes;
+  R_Wait3DLookup;
+  R_Fake3DAdjustPlanes(player);
   R_ClearSprites;
 
   // check for new console commands.
@@ -1729,8 +1691,6 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
-
-  R_Wait3DLookup;
 
   R_RenderMultiThreadWalls32;
 
@@ -1752,11 +1712,26 @@ begin
 
 end;
 
+var
+  oldlookdir: integer = MAXLOOKDIR + 1;
+
+procedure R_Fake3DPrepare(player: Pplayer_t);
+begin
+  if oldlookdir = player.lookdir then
+    Exit;
+
+  oldlookdir := player.lookdir;
+
+  viewplayer := player;
+  R_ExecuteSetViewSize;
+end;
+
 {$ENDIF}
 
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
+  R_Fake3DPrepare(player);
   if usemultithread then
   begin
     if (videomode = vm8bit) then
@@ -1774,9 +1749,14 @@ begin
   R_SetupFrame(player);
 
   // Clear buffers.
+{$IFNDEF OPENGL}
   R_ClearClipSegs;
   R_ClearDrawSegs;
+{$ENDIF}
   R_ClearPlanes;
+{$IFNDEF OPENGL}
+  R_Fake3DAdjustPlanes(player);
+{$ENDIF}
   R_ClearSprites;
 
 {$IFDEF OPENGL}
@@ -1826,3 +1806,4 @@ end;
 
 
 end.
+

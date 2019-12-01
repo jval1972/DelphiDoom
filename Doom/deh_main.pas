@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -55,7 +55,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 178;
+  DEHNUMACTIONS = 180;
 
 type
   deh_action_t = record
@@ -1920,7 +1920,8 @@ begin
   mobj_flags2_ex.Add('MF2_EX_INTERACTIVE');
   mobj_flags2_ex.Add('MF2_EX_DONTINFIGHTMONSTERS');
   mobj_flags2_ex.Add('MF2_EX_FLOORCLIP');
-  
+  mobj_flags2_ex.Add('MF2_EX_FRIGHTENED');
+
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite
   state_tokens.Add('SPRITE SUBNUMBER'); // .frame
@@ -2288,6 +2289,10 @@ begin
   deh_actions[176].name := strupper('SetFloorClip');
   deh_actions[177].action.acp1 := @A_UnSetFloorClip;
   deh_actions[177].name := strupper('UnSetFloorClip');
+  deh_actions[178].action.acp1 := @A_SetFrightened;
+  deh_actions[178].name := strupper('SetFrightened');
+  deh_actions[179].action.acp1 := @A_UnSetFrightened;
+  deh_actions[179].name := strupper('UnSetFrightened');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

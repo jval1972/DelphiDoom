@@ -49,7 +49,9 @@ interface
 uses
   m_fixed;
 
-const D_PI = 3.141592657;
+const
+  D_PI = 3.141592657;
+  ANGLE_T_TO_RAD = 2 * D_PI / $100000000;
 
 
 const

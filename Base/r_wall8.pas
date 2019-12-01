@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -530,7 +530,7 @@ end;
 
 var
   parms: array[0..MAXWALLTHREADS8 - 1] of wallthreadparms8_t;
-  
+
 procedure R_RenderMultiThreadWalls8;
 var
   i: integer;
@@ -553,8 +553,12 @@ begin
   else
     newnumthreads := default_numwallrenderingthreads_8bit;
 
-  if newnumthreads = 0 then
+  if newnumthreads <= 0 then
+  begin
     newnumthreads := I_GetNumCPUs - 2;
+    if newnumthreads <= 0 then
+      newnumthreads := 1;
+  end;
 
   if newnumthreads <> numwallthreads8 then
   begin
@@ -592,3 +596,4 @@ begin
 end;
 
 end.
+

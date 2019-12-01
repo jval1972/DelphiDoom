@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -164,7 +164,9 @@ uses
   r_defs,
   r_intrpl,
   r_data,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}
   r_lights,
   sounds,
   s_sound,
@@ -1322,6 +1324,7 @@ begin
   if (p <> 0) and (p <= myargc - 1) then
     zaxisshift := false;
 
+{$IFNDEF OPENGL}
   p := M_CheckParm('-fake3d');
   if (p <> 0) and (p <= myargc - 1) then
     usefake3d := true;
@@ -1329,6 +1332,7 @@ begin
   p := M_CheckParm('-nofake3d');
   if (p <> 0) and (p <= myargc - 1) then
     usefake3d := false;
+{$ENDIF}
 
   if M_Checkparm('-ultrares') <> 0 then
     detailLevel := DL_ULTRARES;
@@ -1451,6 +1455,17 @@ begin
     if SCREENWIDTH > MAXWIDTH then
       SCREENWIDTH := MAXWIDTH;
     SCREENHEIGHT := 600;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-cga');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 320;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 200;
     if SCREENHEIGHT > MAXHEIGHT then
       SCREENHEIGHT := MAXHEIGHT;
   end;
@@ -1909,3 +1924,4 @@ begin
 end;
 
 end.
+

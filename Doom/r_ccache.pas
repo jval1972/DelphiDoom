@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,9 +19,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  32 bit software rendering column cache
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -122,8 +125,6 @@ function R_GetUID(const tex, col, dmod: integer): LongWord;
 // In fact a value of DC_HIRESBITS equal to 5 is far beyond the eye can see.
 // ->  UID := tex + _SHL(col and 1023, 15) + _SHL(dc_mod, 25);
 begin
-//result := tex + _SHL(LongWord(col) and CACHECOLMASK, CACHECOLSHIFT) + _SHL(dc_mod, CACHECOLSHIFT + CACHECOLBITS);
-//result := tex + _SHL(col and CACHECOLMASK, CACHECOLSHIFT) + _SHL(dc_mod, CACHECOLSHIFT + CACHECOLBITS);
   result := tex + _SHL(col, CACHECOLSHIFT) + _SHL(dmod, CACHECOLSHIFT + CACHECOLBITS);
 end;
 
@@ -358,7 +359,7 @@ begin
           Dec(plw, columnsize);
         end;
 
-        // Simutate palette changes
+        // Simulate palette changes
         if dc_32bittexturepaletteeffects and (pal_color <> 0) then
         begin
           dc_palcolor := pal_color; // JVAL: needed for transparent textures.

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -70,6 +70,8 @@ procedure R_DrawPlayer;
 var
   pspritescale: fixed_t;
   pspriteiscale: fixed_t;
+  pspritescalep: fixed_t;
+  pspriteiscalep: fixed_t;
   pspriteyscale: fixed_t;
 
 var
@@ -348,8 +350,9 @@ end;
 // GAME FUNCTIONS
 //
 var
-  vissprites: array[0..MAXVISSPRITES - 1] of Pvissprite_t;
+  vissprites: visspritebuffer_p; 
   vissprite_p: integer;
+  visspritessize: Integer = 0;
 
 //
 // R_InitSprites
@@ -379,23 +382,20 @@ end;
 //
 // JVAL Now we allocate a new visprite dynamically
 //
-var
-  overflowsprite: vissprite_t;
-
 function R_NewVisSprite: Pvissprite_t;
 begin
-  if vissprite_p = MAXVISSPRITES then
-    result := @overflowsprite
-  else
+  if vissprite_p = visspritessize then
   begin
-    if vissprite_p > maxvissprite then
-    begin
-      maxvissprite := vissprite_p;
-      vissprites[vissprite_p] := Pvissprite_t(Z_Malloc(SizeOf(vissprite_t), PU_LEVEL, nil));
-    end;
-    result := vissprites[vissprite_p];
-    inc(vissprite_p);
+    realloc(pointer(vissprites), visspritessize * SizeOf(Pvissprite_t), (128 + visspritessize) * SizeOf(Pvissprite_t));
+    visspritessize := visspritessize + 128;
   end;
+  if vissprite_p > maxvissprite then
+  begin
+    maxvissprite := vissprite_p;
+    vissprites[vissprite_p] := Z_Malloc(SizeOf(vissprite_t), PU_LEVEL, nil);
+  end;
+  result := vissprites[vissprite_p];
+  inc(vissprite_p);
 end;
 
 {$IFNDEF OPENGL}
@@ -678,7 +678,7 @@ begin
 // jval: batch column drawing
   xiscale := vis.xiscale;
   dc_x := vis.x1;
-  if (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) or (xiscale > FRACUNIT div 2) then
+  if (xiscale > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
   begin
     while dc_x <= vis.x2 do
     begin
@@ -844,7 +844,7 @@ begin
   end;
 
   dc_x := x1;
-  if (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) or (fracstep > FRACUNIT div 2) then
+  if (fracstep > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) then
   begin
     while dc_x <= x2 do
     begin
@@ -1234,14 +1234,14 @@ begin
   tx := psp.sx - 160 * FRACUNIT;
 
   tx := tx - spriteoffset[lump];
-  x1 := FixedInt(centerxfrac + centerxshift + FixedMul(tx, pspritescale));
+  x1 := FixedInt(centerxfrac + centerxshift + FixedMul(tx, pspritescalep));
 
   // off the right side
   if x1 > viewwidth then
     exit;
 
   tx := tx + spritewidth[lump];
-  x2 := FixedInt(centerxfrac + centerxshift + FixedMul(tx, pspritescale)) - 1;
+  x2 := FixedInt(centerxfrac + centerxshift + FixedMul(tx, pspritescalep)) - 1;
 
   // off the left side
   if x2 < 0 then
@@ -1272,12 +1272,12 @@ begin
 {$IFNDEF OPENGL}
   if flip then
   begin
-    vis.xiscale := -pspriteiscale;
+    vis.xiscale := -pspriteiscalep;
     vis.startfrac := spritewidth[lump] - 1;
   end
   else
   begin
-    vis.xiscale := pspriteiscale;
+    vis.xiscale := pspriteiscalep;
     vis.startfrac := 0;
   end;
 
@@ -1365,67 +1365,41 @@ end;
 //
 // R_SortVisSprites
 //
-var
-  vsprsortedhead: vissprite_t;
-
 procedure R_SortVisSprites;
-var
-  i: integer;
-  count: integer;
-  ds: Pvissprite_t;
-  best: Pvissprite_t;
-  unsorted: vissprite_t;
-  bestscale: fixed_t;
-begin            
-  count := vissprite_p;
 
-  if count = 0 then
-    exit;
-
-  unsorted.next := @unsorted;
-  unsorted.prev := @unsorted;
-
-  vissprites[0].next := vissprites[1];
-  vissprites[0].prev := @unsorted;
-
-  for i := 1 to count - 1 do
+  procedure qsortvs(l, r: Integer);
+  var
+    i, j: Integer;
+    t: Pvissprite_t;
+    p: Pvissprite_t;
   begin
-    vissprites[i].next := vissprites[i + 1];
-    vissprites[i].prev := vissprites[i - 1];
+    repeat
+      i := l;
+      j := r;
+      p := vissprites[(l + r) shr 1];
+      repeat
+        while vissprites[i].scale < p.scale do
+          inc(i);
+        while vissprites[j].scale > p.scale do
+          dec(j);
+        if i <= j then
+        begin
+          t := vissprites[i];
+          vissprites[i] := vissprites[j];
+          vissprites[j] := t;
+          inc(i);
+          dec(j);
+        end;
+      until i > j;
+      if l < j then
+        qsortvs(l, j);
+      l := i;
+    until i >= r;
   end;
 
-  unsorted.prev := vissprites[vissprite_p - 1];
-  unsorted.next := vissprites[0];
-  vissprites[vissprite_p - 1].next := @unsorted;
-
-  // pull the vissprites out by scale
-  vsprsortedhead.next := @vsprsortedhead;
-  vsprsortedhead.prev := @vsprsortedhead;
-  for i := 0 to count - 1 do
-  begin
-    bestscale := MAXINT;
-    ds := unsorted.next;
-    best := nil; // JVAL - > avoid compiler warning
-    while ds <> @unsorted do
-    begin
-      if ds.scale < bestscale then
-      begin
-        bestscale := ds.scale;
-        best := ds;
-      end;
-      ds := ds.next;
-    end;
-
-    if best <> nil then // JVAL - > avoid compiler warning
-    begin
-      best.next.prev := best.prev;
-      best.prev.next := best.next;
-      best.next := @vsprsortedhead;
-      best.prev := vsprsortedhead.prev;
-      vsprsortedhead.prev.next := best;
-      vsprsortedhead.prev := best;
-    end;
-  end;
+begin
+  if vissprite_p > 0 then
+    qsortvs(0, vissprite_p - 1);
 end;
 
 //
@@ -1683,7 +1657,6 @@ end;
 //
 procedure R_DrawMasked;
 var
-  spr: Pvissprite_t;
   ds: Pdrawseg_t;
   i: integer;
 begin
@@ -1692,13 +1665,19 @@ begin
   if vissprite_p > 0 then
   begin
     // draw all vissprites back to front
-    spr := vsprsortedhead.next;
-    while spr <> @vsprsortedhead do
+    if uselightboost and (videomode = vm32bit) then
     begin
-      if uselightboost and (videomode = vm32bit) and (spr.mobjflags_ex and MF_EX_LIGHT <> 0) then
-        R_DrawSpriteLight(spr);
-      R_DrawSprite(spr);
-      spr := spr.next;
+      for i := 0 to vissprite_p - 1 do
+      begin
+        if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
+          R_DrawSpriteLight(vissprites[i]);
+        R_DrawSprite(vissprites[i]);
+      end;
+    end
+    else
+    begin
+      for i := 0 to vissprite_p - 1 do
+        R_DrawSprite(vissprites[i]);
     end;
   end;
 
@@ -1739,3 +1718,4 @@ begin
 end;
 
 end.
+

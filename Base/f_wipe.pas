@@ -25,7 +25,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -54,9 +54,11 @@ implementation
 uses
   d_delphi,
   doomdef,
-  m_rnd, m_fixed,
+  m_rnd,
+  m_fixed,
   i_video,
-  v_data, v_video,
+  v_data,
+  v_video,
   z_zone;
 
 //

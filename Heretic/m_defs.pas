@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -59,6 +59,7 @@ uses
   r_batchcolumn,
   r_wall8,
   r_wall32,
+  r_scale,
 {$ENDIF}
   m_menu,
   r_aspect,
@@ -68,7 +69,9 @@ uses
   r_lights,
   r_intrpl,
   r_plane,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}
   r_draw,
   s_sound,
   t_main,
@@ -90,6 +93,8 @@ var
   optimizedthingsrendering: Boolean;
   force_numwallrenderingthreads_8bit: integer;
   force_numwallrenderingthreads_32bit: integer;
+  precisescalefromglobalangle: boolean;
+  usefake3d: Boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -126,7 +131,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 146;
+  NUMDEFAULTS = 147;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -393,6 +398,14 @@ const
      defaultbvalue: false;
      _type: tString),
 
+    (name: 'precisescalefromglobalangle';
+     location: @precisescalefromglobalangle;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
     (name: 'OpenGL';
      location: nil;
      setable: DFS_NEVER;
@@ -502,7 +515,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'gl_screensync';
@@ -606,7 +619,7 @@ const
      location: @pngtransparentcolor;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: $FF00FF;
+     defaultivalue: $0;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -614,7 +627,7 @@ const
      location: @pngtransparentcolor2;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: $FFFF;
+     defaultivalue: $0;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -623,7 +636,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
      // Compatibility
@@ -1313,3 +1326,4 @@ const
 implementation
 
 end.
+

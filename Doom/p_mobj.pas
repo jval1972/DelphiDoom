@@ -673,7 +673,7 @@ begin
   mobj.y := y;
   mobj.radius := info.radius;
   mobj.height := info.height;
-  // JVAL: Set MF_JUSTAPPEARED flag
+// JVAL: Set MF_JUSTAPPEARED flag
   mobj.flags := info.flags or MF_JUSTAPPEARED;
   mobj.flags_ex := info.flags_ex;
   mobj.flags2_ex := info.flags2_ex;
@@ -963,7 +963,21 @@ begin
   end;
 
   // check for apropriate skill level
-  if (not netgame) and ((mthing.options and 16) <> 0) then
+  if (not netgame) and (mthing.options and 16 <> 0) then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  //jff 3/30/98 implement "not deathmatch" thing flag
+  if netgame and (deathmatch <> 0) and (mthing.options and 32 <> 0) then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  //jff 3/30/98 implement "not cooperative" thing flag
+  if netgame and (deathmatch = 0) and (mthing.options and 64 <> 0) then
   begin
     result := nil;
     exit;
@@ -996,7 +1010,7 @@ begin
       [mthing._type, mthing.x, mthing.y]);
 
   // don't spawn keycards and players in deathmatch
-  if (deathmatch <> 0) and ((mobjinfo[i].flags and MF_NOTDMATCH) <> 0) then
+  if (deathmatch <> 0) and (mobjinfo[i].flags and MF_NOTDMATCH <> 0) then
   begin
     result := nil;
     exit;
@@ -1004,7 +1018,7 @@ begin
 
   // don't spawn any monsters if -nomonsters
   if nomonsters and
-    ((i = Ord(MT_SKULL)) or ((mobjinfo[i].flags and MF_COUNTKILL) <> 0)) then
+    ((i = Ord(MT_SKULL)) or (mobjinfo[i].flags and MF_COUNTKILL <> 0)) then
   begin
     result := nil;
     exit;

@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -323,8 +323,6 @@ end;
 // JVAL: Skip interpolation if we have teleport
 var
   skipinterpolationticks: integer = -1;
-{xxxx: integer;
-lasttic1: Integer = -1;}
 
 function R_Interpolate: boolean;
 var
@@ -352,12 +350,10 @@ begin
   else
   begin
     result := true;
-//    xxxx := 0;
     for i := 0 to istruct.numitems - 1 do
     begin
       if pi.address = pi.lastaddress then
       begin
-//        Inc(xxxx);
         case pi._type of
           iinteger: PInteger(pi.address)^ := R_InterpolationCalcI(pi.iprev, pi.inext, ticfrac);
           ismallint: PSmallInt(pi.address)^ := R_InterpolationCalcSI(pi.siprev, pi.sinext, ticfrac);
@@ -367,15 +363,6 @@ begin
       end;
       inc(pi);
     end;
-  {  if lasttic1 <> interpolationstoretime div FRACUNIT then
-    begin
-      if xxxx <> istruct.numitems then
-      begin
-        printf('interpolationstoretime=%d, xxxx=%d, istruct.numitems=%d'#13#10, [interpolationstoretime div FRACUNIT, xxxx, istruct.numitems]);
-
-      end;
-      lasttic1 := interpolationstoretime div FRACUNIT;
-    end;}
   end;
 end;
 

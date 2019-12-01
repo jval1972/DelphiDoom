@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -61,7 +61,7 @@ const
   SIL_TOP = 2;
   SIL_BOTH = 3;
 
-  MAXDRAWSEGS = 2048; // JVAL Original was 256
+  MAXDRAWSEGS = 4096; // JVAL Original was 256
 
 var
   needsbackscreen: boolean = false;
@@ -417,10 +417,6 @@ type
 // I.e. a sprite object that is partly visible.
   Pvissprite_t = ^vissprite_t;
   vissprite_t = packed record
-    // Doubly linked list.
-    prev: Pvissprite_t;
-    next: Pvissprite_t;
-
     x1: integer;
     x2: integer;
 
@@ -464,8 +460,9 @@ type
 {$IFDEF OPENGL}
     flip: boolean;
 {$ENDIF}    
-//    _type: integer;
   end;
+  visspritebuffer_t = array[0..$FFFF] of Pvissprite_t;
+  visspritebuffer_p = ^visspritebuffer_t;
 
 //
 // Sprites are patches with a special naming convention
@@ -654,3 +651,5 @@ var
 implementation
 
 end.
+
+

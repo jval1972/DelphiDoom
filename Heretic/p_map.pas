@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,9 +21,13 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Movement, collision handling.
+//  Shooting and aiming.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -37,43 +41,17 @@ uses
   m_rnd,
   i_system,
   doomdef,
-  p_local, p_mobj_h,
+  p_local,
+  p_mobj_h,
   s_sound,
-  m_fixed, tables,
+  m_fixed,
+  tables,
   d_player,
   r_defs,
 // State.
   doomstat,
 // Data.
   sounds;
-
-{
-    p_map.c
-}
-
-// Emacs style mode select   -*- C++ -*- 
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// $Log:$
-//
-// DESCRIPTION:
-//  Movement, collision handling.
-//  Shooting and aiming.
-//
-//-----------------------------------------------------------------------------
 
 function P_TeleportMove(thing: Pmobj_t; x, y: fixed_t): boolean;
 
@@ -130,9 +108,19 @@ uses
   d_delphi,
   doomdata,
   g_game,
-  info_h, info,
-  p_setup, p_maputl, p_inter, p_mobj, p_spec, p_sight, p_switch, p_tick,
-  r_main, r_sky, r_intrpl,
+  info_h,
+  info,
+  p_setup,
+  p_maputl,
+  p_inter,
+  p_mobj,
+  p_spec,
+  p_sight,
+  p_switch,
+  p_tick,
+  r_main,
+  r_sky,
+  r_intrpl,
   z_zone;
 
 var

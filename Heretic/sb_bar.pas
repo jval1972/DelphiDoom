@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -70,7 +70,8 @@ implementation
 
 uses
   d_delphi,
-  doomdef, doomstat,
+  doomdef,
+  doomstat,
   am_map,
   c_cmds,
   d_player,
@@ -83,12 +84,27 @@ uses
 {$ELSE}
   i_video,
 {$ENDIF}
-  info, info_h,
-  m_rnd, m_fixed, m_cheat,
-  p_tick, p_pspr_h, p_local, p_mobj_h, p_setup, p_enemy, p_inter,
-  r_defs, r_data, r_draw, r_hires, r_main,
-  s_sound, sounds,
-  v_data, v_video,
+  info,
+  info_h,
+  m_rnd,
+  m_fixed,
+  m_cheat,
+  p_tick,
+  p_pspr_h,
+  p_local,
+  p_mobj_h,
+  p_setup,
+  p_enemy,
+  p_inter,
+  r_defs,
+  r_data,
+  r_draw,
+  r_hires,
+  r_main,
+  s_sound,
+  sounds,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 
@@ -202,6 +218,13 @@ begin
 
   for i := 0 to Ord(NUMWEAPONS) - 1 do
     CPlayer.weaponowned[i] := 1;
+
+  if gamemode = shareware then
+  begin
+    CPlayer.weaponowned[Ord(wp_skullrod)] := 0;
+    CPlayer.weaponowned[Ord(wp_phoenixrod)] := 0;
+    CPlayer.weaponowned[Ord(wp_mace)] := 0;
+  end;
 
   for i := 0 to Ord(NUMAMMO) - 1 do
     CPlayer.ammo[i] := CPlayer.maxammo[i];
@@ -1594,10 +1617,11 @@ begin
       end
       else if check_cheat(@cheat_mypos, Chr(ev.data1)) then
       begin
-        sprintf(buf, 'ang = %d, (x, y) = (%d, %d)', [
+        sprintf(buf, 'ang = %d, (x, y, z) = (%d, %d, %d)', [
           CPlayer.mo.angle div $B60B60,
           CPlayer.mo.x div FRACUNIT,
-          CPlayer.mo.y div FRACUNIT]);
+          CPlayer.mo.y div FRACUNIT,
+          CPlayer.mo.z div FRACUNIT]);
         CPlayer._message := buf;
       end;
     end;
@@ -1647,3 +1671,5 @@ begin
 end;
 
 end.
+
+

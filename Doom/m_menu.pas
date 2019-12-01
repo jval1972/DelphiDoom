@@ -19,9 +19,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION: 
+//   Menu widget stuff, episode selection and such. 
+//     
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -33,34 +36,9 @@ interface
 uses
   d_event;
 
-{
-    m_menu.h, m_menu.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-// 
-// $Id:$ 
-// 
-// Copyright (C) 1993-1996 by id Software, Inc. 
-// 
-// This source is available for distribution and/or modification 
-// only under the terms of the DOOM Source Code License as 
-// published by id Software. All rights reserved. 
-// 
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of 
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License 
-// for more details. 
-// 
-// DESCRIPTION: 
-//   Menu widget stuff, episode selection and such. 
-//     
-//----------------------------------------------------------------------------- 
-
-// 
-// MENUS 
-// 
+//
+// MENUS
+//
 
 { Called by main loop, }
 { saves config file and calls I_Quit when user exits. }
@@ -135,6 +113,7 @@ uses
   e_endoom,
   i_video,
   r_batchcolumn,
+  r_scale,
 {$ENDIF}
   p_setup,
   p_mobj_h,
@@ -314,7 +293,7 @@ end;
 //
 // Find string width from hu_font chars
 //
-function  M_StringWidth(const str: string): integer;
+function M_StringWidth(const str: string): integer;
 var
   i: integer;
   c: integer;
@@ -333,7 +312,7 @@ end;
 //
 //      Find string height from hu_font chars
 //
-function  M_StringHeight(const str: string): integer;
+function M_StringHeight(const str: string): integer;
 var
   i: integer;
   height: integer;
@@ -579,6 +558,7 @@ type
 {$IFNDEF OPENGL}
     od_optimizedcolumnrendering,
     od_optimizedthingsrendering,
+    od_precisescalefromglobalangle,
 {$ENDIF}
     od_widescreensupport,
     optdispadvanced_end
@@ -2967,6 +2947,15 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @optimizedthingsrendering;
   pmi.alphaKey := 't';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Precise R_ScaleFromGlobalAngle';
+  pmi.cmd := 'precisescalefromglobalangle';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @precisescalefromglobalangle;
+  pmi.alphaKey := 'p';
+
 {$ENDIF}
 
   inc(pmi);

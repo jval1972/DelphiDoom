@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -168,6 +168,7 @@ function W_LumpLength(const lump: integer): integer;
 procedure W_ReadLump(const lump: integer; dest: pointer);
 
 function W_CacheLumpNum(const lump: integer; const tag: integer): pointer;
+function W_CacheLumpNum2(const lump: integer; const tag: integer): pointer;
 function W_CacheLumpName(const name: string; const tag: integer; const flags: LongWord = $0): pointer;
 function W_TextLumpNum(const lump: integer): string;
 function W_TextLumpName(const name: string): string;
@@ -698,7 +699,7 @@ begin
   hash := djb2Hash(name8.s);
   if (lumphash[hash].name.x[0] = v1) and
      (lumphash[hash].name.x[1] = v2) then
-    if (flags = 0) or (lumpinfo[lumphash[hash].position].flags or flags <> 0) then
+    if (flags = 0) or (lumpinfo[lumphash[hash].position].flags and flags <> 0) then
     begin
       result := lumphash[hash].position;
       exit;
@@ -925,6 +926,24 @@ begin
   if lump < 0 then
     I_Error('W_CacheLumpNum(): lump = %d, < 0', [lump]);
 
+  if lumpcache[lump] = nil then
+  begin
+    // read the lump in
+    //printf ("cache miss on lump %i\n",lump);
+    Z_Malloc(W_LumpLength(lump), tag, @lumpcache[lump]);
+    W_ReadLump(lump, lumpcache[lump]);
+  end
+  else
+  begin
+    //printf ("cache hit on lump %i\n",lump);
+    Z_ChangeTag(lumpcache[lump], tag);
+  end;
+
+  result := lumpcache[lump];
+end;
+
+function W_CacheLumpNum2(const lump: integer; const tag: integer): pointer;
+begin
   if lumpcache[lump] = nil then
   begin
     // read the lump in

@@ -100,8 +100,8 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-svga -nofullscreen -iwad doom2.wad doom-hires.pk3 DD_RIPPLE_TEST.WAD
-HostApplication=
+RunParams=-fullhd -nofullscreen -iwad doomu.wad
+HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -111,11 +111,11 @@ ProjectLang=
 RootDir=
 [Version Info]
 IncludeVerInfo=1
-AutoIncBuild=1
+AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=560
+Build=574
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.560
+FileVersion=1.1.4.574
 InternalName=GLDoom
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=

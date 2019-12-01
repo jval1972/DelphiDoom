@@ -21,6 +21,10 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION: 
+//  Internally used data structures for virtually everything, 
+//   key definitions, lots of other stuff. 
+// 
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -35,28 +39,6 @@ interface
 uses
   d_delphi,
   m_fixed;
-
-// Emacs style mode select   -*- C++ -*-  
-//----------------------------------------------------------------------------- 
-// 
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc. 
-// 
-// This source is available for distribution and/or modification 
-// only under the terms of the DOOM Source Code License as 
-// published by id Software. All rights reserved. 
-// 
-// The source is distributed in the hope that it will be useful, 
-// but WITHOUT ANY WARRANTY; without even the implied warranty of 
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License 
-// for more details. 
-// 
-// DESCRIPTION: 
-//  Internally used data structures for virtually everything, 
-//   key definitions, lots of other stuff. 
-// 
-//-----------------------------------------------------------------------------
 
 //
 // Global parameters/defines.
@@ -85,8 +67,8 @@ type
 
 const
 // ?
-  MAXWIDTH = 2048;
-  MAXHEIGHT = 1536;
+  MAXWIDTH = 4096;
+  MAXHEIGHT = 3072;
 
 var
 // Rendering Engine Screen Dimentions

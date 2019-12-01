@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -414,10 +414,6 @@ type
 // I.e. a sprite object that is partly visible.
   Pvissprite_t = ^vissprite_t;
   vissprite_t = packed record
-    // Doubly linked list.
-    prev: Pvissprite_t;
-    next: Pvissprite_t;
-
     x1: integer;
     x2: integer;
 
@@ -461,6 +457,8 @@ type
     flip: boolean;
 {$ENDIF}
   end;
+  visspritebuffer_t = array[0..$FFFF] of Pvissprite_t;
+  visspritebuffer_p = ^visspritebuffer_t;
 
 //
 // Sprites are patches with a special naming convention
@@ -648,3 +646,5 @@ var
 implementation
 
 end.
+
+

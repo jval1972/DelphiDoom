@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -60,19 +60,19 @@ const
 type
   doomcom_t = record
     // Supposed to be DOOMCOM_ID?
-    id : integer;
+    id: integer;
 
     // DOOM executes an int to execute commands.
-    intnum : smallint;
+    intnum: smallint;
 
     // Communication between DOOM and the driver.
     // Is CMD_SEND or CMD_GET.
-    command : smallint;
+    command: smallint;
     // Is dest for send, set by get (-1 = no packet).
-    remotenode : smallint;
+    remotenode: smallint;
 
     // Number of bytes in doomdata to be sent
-    datalength : smallint;
+    datalength: smallint;
 
     // Info common to all nodes.
     // Console is allways node 0.

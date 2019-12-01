@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -497,7 +497,7 @@ var
   tdir: dirtype_t;
   olddir: dirtype_t;
   turnaround: dirtype_t;
-  idx: integer; 
+  idx: integer;
 begin
   if actor.target = nil then
     I_Error('P_NewChaseDir(): called with no target');
@@ -507,6 +507,12 @@ begin
 
   deltax := actor.target.x - actor.x;
   deltay := actor.target.y - actor.y;
+
+  if actor.flags2_ex and MF2_EX_FRIGHTENED <> 0 then
+  begin
+    deltax := -deltax;
+    deltay := -deltay;
+  end;
 
   if deltax > 10 * FRACUNIT then
     d[1] := DI_EAST
@@ -2253,3 +2259,5 @@ begin
 end;
 
 end.
+
+

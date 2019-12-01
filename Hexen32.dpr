@@ -64,8 +64,8 @@ uses
   FastCodeStrLenUnit in 'FASTCODE\FastCodeStrLenUnit.pas',
   FastcodeStrToInt32Unit in 'FASTCODE\FastcodeStrToInt32Unit.pas',
   FastcodeUpperCaseUnit in 'FASTCODE\FastcodeUpperCaseUnit.pas',
-  v_video in 'Hexen\v_video.pas',
-  w_utils in 'Hexen\w_utils.pas',
+  v_video in 'Base\v_video.pas',
+  w_utils in 'Base\w_utils.pas',
   doomdef in 'Hexen\doomdef.pas',
   xn_strings in 'Hexen\xn_strings.pas',
   a_action in 'Hexen\a_action.pas',
@@ -143,7 +143,7 @@ uses
   m_defs in 'Hexen\m_defs.pas',
   m_fixed in 'Base\m_fixed.pas',
   m_menu in 'Hexen\m_menu.pas',
-  m_misc in 'Hexen\m_misc.pas',
+  m_misc in 'Base\m_misc.pas',
   m_rnd in 'Base\m_rnd.pas',
   m_stack in 'Base\m_stack.pas',
   m_vectors in 'Base\m_vectors.pas',
@@ -197,7 +197,7 @@ uses
   p_user in 'Hexen\p_user.pas',
   po_man in 'Hexen\po_man.pas',
   r_bsp in 'Hexen\r_bsp.pas',
-  r_cache in 'Hexen\r_cache.pas',
+  r_cache in 'Base\r_cache.pas',
   r_camera in 'Hexen\r_camera.pas',
   r_ccache in 'Hexen\r_ccache.pas',
   r_col_al in 'Hexen\r_col_al.pas',
@@ -268,7 +268,10 @@ uses
   r_aspect in 'Base\r_aspect.pas',
   r_batchcolumn in 'Base\r_batchcolumn.pas',
   r_ripple in 'Base\r_ripple.pas',
-  z_memmgr in 'Base\z_memmgr.pas';
+  z_memmgr in 'Base\z_memmgr.pas',
+  r_scale in 'Base\r_scale.pas',
+  r_segs2 in 'Base\r_segs2.pas',
+  r_trans8 in 'Base\r_trans8.pas';
 
 var
   Saved8087CW: Word;

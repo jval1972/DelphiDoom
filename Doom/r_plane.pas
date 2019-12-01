@@ -27,7 +27,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -106,6 +106,7 @@ uses
   r_hires,
   r_draw,
   r_ccache,
+  r_fake3d,
 {$ENDIF}
   z_zone;
 
@@ -185,6 +186,11 @@ var
 begin
   if x2 - x1 < 0 then
     exit;
+
+  if usefake3d and zaxisshift then
+    if fake3dspanpresent <> nil then
+      if not fake3dspanpresent[y] then
+        Exit;
 
   if planeheight <> cachedheight[y] then
   begin
@@ -268,18 +274,34 @@ end;
 // At begining of frame.
 //
 procedure R_ClearPlanes;
+{$IFNDEF OPENGL}
+type
+  two_smallints_t = record
+    sm1, sm2: SmallInt;
+  end;
+{$ENDIF}
 var
 {$IFNDEF OPENGL}
-  i: integer;
+  vv: integer;
+  ff, cc: two_smallints_t;
 {$ENDIF}
   angle: angle_t;
 begin
 {$IFNDEF OPENGL}
   // opening / clipping determination
-  for i := 0 to viewwidth - 1 do
+  ff.sm1 := viewheight;
+  ff.sm2 := viewheight;
+  cc.sm1 := -1;
+  cc.sm2 := -1;
+  vv := PInteger(@ff)^;
+  memseti(@floorclip, vv, viewwidth div 2);
+  vv := PInteger(@cc)^;
+  memseti(@ceilingclip, vv, viewwidth div 2);
+
+  if Odd(viewwidth) then // JVAL: This shouldn't happen
   begin
-    floorclip[i] := viewheight;
-    ceilingclip[i] := -1;
+    floorclip[viewwidth - 1] := viewheight;
+    ceilingclip[viewwidth - 1] := -1;
   end;
 {$ENDIF}
 

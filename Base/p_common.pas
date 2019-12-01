@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -46,6 +46,10 @@ procedure A_GoToIfCloser(actor: Pmobj_t);
 procedure A_GoToIfHealthLower(actor: Pmobj_t);
 
 procedure A_ConsoleCommand(actor: Pmobj_t);
+
+procedure A_SetFrightened(actor: Pmobj_t);
+
+procedure A_UnSetFrightened(actor: Pmobj_t);
 
 implementation
 
@@ -229,4 +233,16 @@ begin
   C_AddCommand(cmd);
 end;
 
+procedure A_SetFrightened(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_FRIGHTENED;
+end;
+
+procedure A_UnSetFrightened(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_FRIGHTENED;
+end;
+
 end.
+
+

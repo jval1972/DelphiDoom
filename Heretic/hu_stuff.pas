@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,9 +21,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//    Head up display
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -36,30 +39,6 @@ uses
   doomdef,
   d_event,
   r_defs;
-
-{
-    hu_stuff.h, hu_stuff.c
-}
-
-// Emacs style mode select   -*- C++ -*-  
-//----------------------------------------------------------------------------- 
-// 
-// $Id:$ 
-// 
-// Copyright (C) 1993-1996 by id Software, Inc. 
-// 
-// This source is available for distribution and/or modification 
-// only under the terms of the DOOM Source Code License as 
-// published by id Software. All rights reserved. 
-// 
-// The source is distributed in the hope that it will be useful, 
-// but WITHOUT ANY WARRANTY; without even the implied warranty of 
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License 
-// for more details. 
-// 
-// DESCRIPTION:  Head up display 
-// 
-//-----------------------------------------------------------------------------
 
 const
 //
@@ -103,6 +82,7 @@ var
   hu_font: array[0..HU_FONTSIZE - 1] of Ppatch_t;
   hu_font2: array[0..HU_FONTSIZE - 2] of Ppatch_t;
   hu_font3: array[0..HU_CFONTSIZE - 1] of Ppatch_t; // Console font
+  hu_font4: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Menu secondary font
 
   chat_on: boolean;
 
@@ -392,6 +372,12 @@ begin
       hu_font3[60] := hu_font[8]
     else
       hu_font3[i - 1] := hu_font[HU_FONTSIZE - 1]
+  end;
+
+  for i := 1 to HU_FONTSIZE do
+  begin
+    buffer := 'STCFN' + IntToStrZfill(3, i + 32);
+    hu_font4[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
   end;
 
   for i := 0 to FPSSIZE - 1 do

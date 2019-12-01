@@ -21,9 +21,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//   Menu widget stuff, episode selection and such. 
+//     
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -36,16 +39,9 @@ uses
   d_event,
   m_fixed;
 
-//-----------------------------------------------------------------------------
 //
-// DESCRIPTION:
-//   Menu widget stuff, episode selection and such. 
-//     
-//----------------------------------------------------------------------------- 
-
-// 
-// MENUS 
-// 
+// MENUS
+//
 
 { Called by main loop, }
 { saves config file and calls I_Quit when user exits. }
@@ -130,6 +126,7 @@ uses
 {$ELSE}
   i_video,
   r_batchcolumn,
+  r_scale,
 {$ENDIF}
   r_data,
   i_mp3,
@@ -141,7 +138,9 @@ uses
   r_hires,
   r_lights,
   r_intrpl,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}  
   r_camera,
   r_draw,
   t_main,
@@ -538,6 +537,100 @@ begin
 end;
 
 //
+// Find string width from hu_font3 chars
+//
+function M_StringWidth3(const _string: string): integer;
+var
+  i: integer;
+  c: integer;
+begin
+  result := 0;
+  for i := 1 to Length(_string) do
+  begin
+    c := Ord(toupper(_string[i])) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_CFONTSIZE) then
+      result := result + 4
+    else
+      result := result + hu_font3[c].width;
+  end;
+end;
+
+//
+//      Find string height from hu_font3 chars
+//
+function M_StringHeight3(const _string: string): integer;
+var
+  i: integer;
+  height: integer;
+begin
+  height := hu_font3[0].height;
+
+  result := height;
+  for i := 1 to Length(_string) do
+    if _string[i] = #13 then
+      result := result + height;
+end;
+
+//
+//      Write a string using the hu_font3
+//
+procedure M_WriteText3(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
+var
+  w: integer;
+  ch: integer;
+  c: integer;
+  cx: integer;
+  cy: integer;
+  len: integer;
+begin
+  len := Length(_string);
+  if len = 0 then
+    exit;
+
+  ch := 1;
+  cx := x;
+  cy := y;
+
+  while true do
+  begin
+    if ch > len then
+      break;
+
+    c := Ord(_string[ch]);
+    inc(ch);
+
+    if c = 0 then
+      break;
+
+    if c = 10 then
+    begin
+      cx := x;
+      continue;
+    end;
+
+    if c = 13 then
+    begin
+      cy := cy + 12 * fraczoom div FRACUNIT;
+      continue;
+    end;
+
+    c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_CFONTSIZE) then
+    begin
+      cx := cx + 4 * fraczoom div FRACUNIT;
+      continue;
+    end;
+
+    w := hu_font3[c].width;
+    if (cx + w) > 320 then
+      break;
+    V_DrawPatchZoomed(cx, cy, SCN_TMP, hu_font3[c], false, fraczoom);
+    cx := cx + w * fraczoom div FRACUNIT;
+  end;
+end;
+
+
+//
 // M_ClearMenus
 //
 procedure M_ClearMenus;
@@ -708,7 +801,9 @@ type
     od_fullscreen,
     od_interpolate,
     od_zaxisshift,
+{$IFNDEF OPENGL}
     od_usefake3d,
+{$ENDIF}
     od_chasecamera,
     od_useclassicfuzzeffect,
     od_enableflatscrolling,
@@ -717,6 +812,7 @@ type
 {$IFNDEF OPENGL}
     od_optimizedcolumnrendering,
     od_optimizedthingsrendering,
+    od_precisescalefromglobalangle,
 {$ENDIF}
     od_widescreensupport,
     optdispadvanced_end
@@ -1129,8 +1225,8 @@ end;
 procedure M_DrawControls;
 begin
   M_WriteCenterText2('Controls', 48);
-  M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodearrows), 'Use arrows for moving');
-  M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodewasd), 'Use WASD keys for moving');
+  M_WriteText3(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodearrows), 'Use arrows for moving');
+  M_WriteText3(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodewasd), 'Use WASD keys for moving');
 end;
 
 procedure M_DrawSound;
@@ -1414,7 +1510,7 @@ begin
   {$ELSE}
   sprintf(stmp, 'Detail level: %s (%dx%dx%s)', [detailStrings[detailLevel], WINDOWWIDTH, WINDOWHEIGHT, colordepths[videomode = vm32bit]]);
   {$ENDIF}
-  M_WriteText(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), stmp);
+  M_WriteText3(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), stmp);
 end;
 
 procedure M_DrawDisplayAppearanceOptions;
@@ -1431,7 +1527,7 @@ procedure M_DrawOptionsDisplay32bit;
 begin
   M_DrawDisplayOptions;
 
-  M_WriteText(OptionsDisplay32bitDef.x, OptionsDisplay32bitDef.y + OptionsDisplay32bitDef.itemheight * Ord(od_flatfiltering),
+  M_WriteText3(OptionsDisplay32bitDef.x, OptionsDisplay32bitDef.y + OptionsDisplay32bitDef.itemheight * Ord(od_flatfiltering),
     'Flat filtering: ' + flatfilteringstrings[extremeflatfiltering]);
 end;
 
@@ -2338,7 +2434,7 @@ begin
       if _string[1] = '@' then // Draw text
       begin
         delete(_string, 1, 1);
-        M_WriteText(x, y, _string, 2 * FRACUNIT);
+        M_WriteText3(x, y, _string, 2 * FRACUNIT);
       end
       else if _string[1] = '%' then // Draw center big text
       begin
@@ -2354,9 +2450,9 @@ begin
       begin
         delete(_string, 1, 1);
         if currentMenu.menuitems[i].pBoolVal <> nil then
-          M_WriteText(x, y, _string + ': ' + yesnoStrings[currentMenu.menuitems[i].pBoolVal^])
+          M_WriteText3(x, y, _string + ': ' + yesnoStrings[currentMenu.menuitems[i].pBoolVal^])
         else
-          M_WriteText(x, y, _string);
+          M_WriteText3(x, y, _string);
       end
       else // Else name holds the patch name of the menu item
         V_DrawPatch(x, y, SCN_TMP,
@@ -3039,6 +3135,7 @@ begin
   pmi.pBoolVal := @zaxisshift;
   pmi.alphaKey := 'z';
 
+{$IFNDEF OPENGL}
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!True 3d emulation';
@@ -3046,7 +3143,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @usefake3d;
   pmi.alphaKey := 'e';
-
+{$ENDIF}
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Chase camera';
@@ -3103,6 +3200,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @optimizedthingsrendering;
   pmi.alphaKey := 't';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Precise R_ScaleFromGlobalAngle';
+  pmi.cmd := 'precisescalefromglobalangle';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @precisescalefromglobalangle;
+  pmi.alphaKey := 'p';
 
 {$ENDIF}
 
@@ -3673,5 +3778,6 @@ begin
 end;
 
 end.
+
 
 

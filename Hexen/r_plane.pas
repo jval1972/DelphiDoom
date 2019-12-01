@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,9 +21,15 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Refresh, visplane stuff (floor, ceilings).
+//  Here is a core component: drawing the floors and ceilings,
+//   while maintaining a per column clipping list only.
+//  Moreover, the sky areas have to be determined.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -34,37 +40,9 @@ interface
 
 uses
   m_fixed,
-  doomdef, 
+  doomdef,
   r_data,
   r_defs;
-
-{
-    r_plane.h, r_plane.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  Refresh, visplane stuff (floor, ceilings).
-//  Here is a core component: drawing the floors and ceilings,
-//   while maintaining a per column clipping list only.
-//  Moreover, the sky areas have to be determined.
-//
-//-----------------------------------------------------------------------------
 
 procedure R_InitPlanes;
 
@@ -139,6 +117,7 @@ uses
   r_hires,
   r_draw,
   r_ccache,
+  r_fake3d,
 {$ENDIF}
   z_zone,
   w_wad;
@@ -223,6 +202,11 @@ begin
   if x2 - x1 < 0 then
     exit;
 
+  if usefake3d and zaxisshift then
+    if fake3dspanpresent <> nil then
+      if not fake3dspanpresent[y] then
+        Exit;
+
   if planeheight <> cachedheight[y] then
   begin
     cachedheight[y] := planeheight;
@@ -302,18 +286,34 @@ end;
 // At begining of frame.
 //
 procedure R_ClearPlanes;
+{$IFNDEF OPENGL}
+type
+  two_smallints_t = record
+    sm1, sm2: SmallInt;
+  end;
+{$ENDIF}
 var
 {$IFNDEF OPENGL}
-  i: integer;
+  vv: integer;
+  ff, cc: two_smallints_t;
 {$ENDIF}
   angle: angle_t;
 begin
 {$IFNDEF OPENGL}
   // opening / clipping determination
-  for i := 0 to viewwidth - 1 do
+  ff.sm1 := viewheight;
+  ff.sm2 := viewheight;
+  cc.sm1 := -1;
+  cc.sm2 := -1;
+  vv := PInteger(@ff)^;
+  memseti(@floorclip, vv, viewwidth div 2);
+  vv := PInteger(@cc)^;
+  memseti(@ceilingclip, vv, viewwidth div 2);
+
+  if Odd(viewwidth) then
   begin
-    floorclip[i] := viewheight;
-    ceilingclip[i] := -1;
+    floorclip[viewwidth - 1] := viewheight;
+    ceilingclip[viewwidth - 1] := -1;
   end;
 {$ENDIF}
 
@@ -785,4 +785,6 @@ end;
 {$ENDIF}
 
 end.
+
+
 

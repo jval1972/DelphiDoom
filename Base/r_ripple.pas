@@ -24,7 +24,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -58,10 +58,10 @@ var
   tic: integer;
   factor: Double;
 begin
+  factor := 4.0 * FRACUNIT;
   for i := 0 to 127 do
     for tic := 0 to 31 do
     begin
-      factor := 4.0 * FRACUNIT;
       r_defripple[tic, i] := LongWord(round(factor * sin(2 * pi * (i / 128 + tic / 32))));
     end;
 end;

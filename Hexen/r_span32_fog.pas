@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -74,6 +74,8 @@ begin
 
   // We do not check for zero spans here?
   count := ds_x2 - ds_x1;
+  if count < 0 then
+    exit;
 
   lfactor := ds_lightlevel;
   if lfactor >= 0 then // Use hi detail lightlevel
@@ -111,6 +113,8 @@ begin
 
   // We do not check for zero spans here?
   count := ds_x2 - ds_x1;
+  if count < 0 then
+    exit;
 
   rpl := ds_ripple;
   lfactor := ds_lightlevel;
