@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -67,6 +67,7 @@ procedure Info_Init(const usethinkers: boolean);
 function Info_GetNewState: integer;
 function Info_GetNewMobjInfo: integer;
 function Info_GetSpriteNumForName(const name: string): integer;
+function Info_CheckSpriteNumForName(const name: string): integer;
 function Info_GetMobjNumForName(const name: string): integer;
 procedure Info_SetMobjName(const mobj_no: integer; const name: string);
 function Info_GetMobjName(const mobj_no: integer): string;
@@ -82,7 +83,12 @@ uses
   i_system,
   m_fixed,
   a_action,
-  p_enemy, p_pspr, p_mobj_h, p_inter, p_extra, p_user,
+  p_enemy,
+  p_pspr,
+  p_mobj_h,
+  p_inter,
+  p_extra,
+  p_user,
   sounds;
 
 const
@@ -40859,6 +40865,38 @@ begin
   sprnames[numsprites] := 0;
 end;
 
+function Info_CheckSpriteNumForName(const name: string): integer;
+var
+  spr_name: string;
+  i: integer;
+  check: integer;
+begin
+  result := atoi(name, -1);
+
+  if (result >= 0) and (result < numsprites) and (itoa(result) = name) then
+    exit;
+
+
+  if Length(name) <> 4 then
+    I_Error('Info_CheckSpriteNumForName(): Sprite name "%s" must have 4 characters', [name]);
+
+  spr_name := strupper(name);
+
+  check := Ord(spr_name[1]) +
+           Ord(spr_name[2]) shl 8 +
+           Ord(spr_name[3]) shl 16 +
+           Ord(spr_name[4]) shl 24;
+
+  for i := 0 to numsprites - 1 do
+    if sprnames[i] = check then
+    begin
+      result := i;
+      exit;
+    end;
+
+  result := -1;
+end;
+
 function Info_GetMobjNumForName(const name: string): integer;
 var
   mobj_name: string;
@@ -40943,8 +40981,16 @@ var
   i: integer;
 begin
   for i := 0 to numstates - 1 do
+  begin
     if states[i].params <> nil then
       FreeAndNil(states[i].params);
+{$IFDEF OPENGL}
+    if states[i].dlights <> nil then
+      FreeAndNil(states[i].dlights);
+    if states[i].models <> nil then
+      FreeAndNil(states[i].models);
+{$ENDIF}
+  end;
 
   memfree(pointer(states), numstates * SizeOf(state_t));
   memfree(pointer(mobjinfo), nummobjtypes * SizeOf(mobjinfo_t));

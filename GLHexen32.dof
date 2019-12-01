@@ -91,16 +91,16 @@ ImageBase=4194304
 ExeDescription=Doom to Delphi Total conversion
 [Directories]
 OutputDir=..\bin\Hexen
-UnitOutputDir=..\dcu\Hexen\Soft
+UnitOutputDir=..\dcu\Hexen\GL
 PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=
 Packages=Vcl50;Vclx50;VclSmp50;Vcldb50;vclado50;ibevnt50;Vclbde50;vcldbx50;Qrpt50;TeeUI50;TeeDB50;Tee50;Dss50;TeeQR50;VCLIB50;Vclmid50;vclie50;Inetdb50;Inet50;NMFast50;webmid50;dclocx50;dclaxserver50;MyWisdomNT;Custom;Components2002;BcBarMenus50;BcXPMenuDrawModule50;dcslib25;Delphi6;dfwD5_NT;D5DIB;DShow;GLScene5;GLSS_BASS5;GLSS_FMOD5;MyGamesNT;ProLibDB50;ProLib50;ractl5;radb5;rai5;rmCmpLib_d5;WinshoesPkgD5;RegComponents5;B304_r50;O406_R50;Components2003_Part2;DelphiX_for5;MNOgl;Components2003
-Conditionals=HEXEN;
+Conditionals=HEXEN;OPENGL
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1366 -screenheight 768 -fullscreen
+RunParams=-screenwidth 1366 -screenheight 768 -fullscreen -pakfile hires.zip
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -135,23 +135,23 @@ ProductName=Hexen 32 bit engine
 ProductVersion=1.0
 Comments=http://delphidoom.sitesled.com/
 [HistoryLists\hlConditionals]
-Count=7
-Item0=HEXEN;
-Item1=HEXEN
-Item2=HERETIC
-Item3=OPENGL;DOOM
-Item4=DOOM
-Item5=HEXEN;OPTIMIZE_FOR_SIZE
-Item6=HEXEN
+Count=6
+Item0=HEXEN;OPENGL
+Item1=HERETIC
+Item2=OPENGL;DOOM
+Item3=DOOM
+Item4=HEXEN;OPTIMIZE_FOR_SIZE
+Item5=HEXEN
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlUnitOutputDirectory]
-Count=4
-Item0=..\dcu\Hexen\soft
-Item1=..\dcu\Heretic\Soft
-Item2=..\dcu\Doom\GL
-Item3=..\dcu\Doom\Soft
+Count=5
+Item0=..\dcu\Hexen\GL
+Item1=..\dcu\Hexen\Soft
+Item2=..\dcu\Heretic\Soft
+Item3=..\dcu\Doom\GL
+Item4=..\dcu\Doom\Soft
 [HistoryLists\hlOutputDirectorry]
 Count=3
 Item0=..\bin\Hexen

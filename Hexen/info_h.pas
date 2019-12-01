@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -33,6 +33,9 @@ unit info_h;
 interface
 
 uses
+{$IFDEF OPENGL}
+  d_delphi,
+{$ENDIF}
   d_think,
   sc_params;
 
@@ -3214,6 +3217,10 @@ type
     misc1: integer;
     misc2: integer;
     params: TCustomParamList;
+{$IFDEF OPENGL}
+    dlights: TDNumberList;
+    models: TDNumberList;
+{$ENDIF}
     flags_ex: integer;
   end;
   Pstate_t = ^state_t;

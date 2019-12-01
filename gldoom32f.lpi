@@ -38,10 +38,11 @@
         <Filename Value="gldoom32f.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="gldoom32f"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="170"/>
-        <CursorPos X="30" Y="187"/>
+        <TopLine Value="190"/>
+        <CursorPos X="9" Y="200"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -390,10 +391,10 @@
       <Unit39>
         <Filename Value="Base\i_io.pas"/>
         <UnitName Value="i_io"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="176"/>
-        <CursorPos X="18" Y="187"/>
+        <TopLine Value="120"/>
+        <CursorPos X="29" Y="125"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -410,7 +411,7 @@
       <Unit41>
         <Filename Value="Doom\d_main.pas"/>
         <UnitName Value="d_main"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1920"/>
         <CursorPos X="65" Y="1941"/>
@@ -421,7 +422,7 @@
       <Unit42>
         <Filename Value="Doom\m_defs.pas"/>
         <UnitName Value="m_defs"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="28"/>
         <CursorPos X="7" Y="42"/>
@@ -432,7 +433,7 @@
       <Unit43>
         <Filename Value="Doom\i_system.pas"/>
         <UnitName Value="i_system"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
         <TopLine Value="410"/>
         <CursorPos X="37" Y="414"/>
@@ -443,12 +444,10 @@
       <Unit44>
         <Filename Value="TEXLIB\t_png.pas"/>
         <UnitName Value="t_png"/>
-        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="222"/>
         <CursorPos X="10" Y="240"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit44>
       <Unit45>
@@ -463,137 +462,112 @@
       <Unit46>
         <Filename Value="OPENGL\gl_shadows.pas"/>
         <UnitName Value="gl_shadows"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
-        <CursorPos X="32" Y="91"/>
+        <CursorPos X="39" Y="6"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit46>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
+    <JumpHistory Count="24" HistoryIndex="23">
       <Position1>
-        <Filename Value="Doom\d_main.pas"/>
-        <Caret Line="2003" Column="11" TopLine="1990"/>
-      </Position1>
-      <Position2>
         <Filename Value="Base\i_io.pas"/>
         <Caret Line="52" Column="25" TopLine="39"/>
-      </Position2>
-      <Position3>
+      </Position1>
+      <Position2>
         <Filename Value="Doom\d_main.pas"/>
         <Caret Line="139" Column="5" TopLine="124"/>
-      </Position3>
-      <Position4>
+      </Position2>
+      <Position3>
         <Filename Value="Doom\m_defs.pas"/>
         <Caret Line="1" Column="1" TopLine="1"/>
-      </Position4>
-      <Position5>
+      </Position3>
+      <Position4>
         <Filename Value="Doom\i_system.pas"/>
         <Caret Line="206" Column="9" TopLine="193"/>
+      </Position4>
+      <Position5>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="98" Column="20" TopLine="97"/>
       </Position5>
       <Position6>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="5160" Column="14" TopLine="5149"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
       </Position6>
       <Position7>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="1260" Column="35" TopLine="1249"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="196" Column="14" TopLine="172"/>
       </Position7>
       <Position8>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="1320" Column="95" TopLine="1309"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
       </Position8>
       <Position9>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="1815" Column="33" TopLine="1804"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="178"/>
       </Position9>
       <Position10>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="1846" Column="40" TopLine="1835"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position10>
       <Position11>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="1861" Column="31" TopLine="1850"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="69" Column="3" TopLine="51"/>
       </Position11>
       <Position12>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="2780" Column="33" TopLine="2766"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="201" Column="21" TopLine="190"/>
       </Position12>
       <Position13>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="3771" Column="1" TopLine="3760"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position13>
       <Position14>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="5171" Column="35" TopLine="5150"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="69" Column="26" TopLine="60"/>
       </Position14>
       <Position15>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="98" Column="20" TopLine="97"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
       </Position15>
       <Position16>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="190"/>
+        <Caret Line="201" Column="11" TopLine="188"/>
       </Position16>
       <Position17>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="196" Column="14" TopLine="172"/>
+        <Caret Line="193" Column="41" TopLine="188"/>
       </Position17>
       <Position18>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="190"/>
+        <Caret Line="209" Column="1" TopLine="188"/>
       </Position18>
       <Position19>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="5183" Column="35" TopLine="5172"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="197" Column="12" TopLine="188"/>
       </Position19>
       <Position20>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="963" Column="24" TopLine="952"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="209" Column="1" TopLine="188"/>
       </Position20>
       <Position21>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="5401" Column="14" TopLine="5390"/>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="197" Column="6" TopLine="188"/>
       </Position21>
       <Position22>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="178"/>
+        <Caret Line="209" Column="1" TopLine="188"/>
       </Position22>
       <Position23>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="4" Column="1" TopLine="1"/>
       </Position23>
       <Position24>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="69" Column="3" TopLine="51"/>
+        <Caret Line="3" Column="2" TopLine="1"/>
       </Position24>
-      <Position25>
-        <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="201" Column="21" TopLine="190"/>
-      </Position25>
-      <Position26>
-        <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position26>
-      <Position27>
-        <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="69" Column="26" TopLine="60"/>
-      </Position27>
-      <Position28>
-        <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="190"/>
-      </Position28>
-      <Position29>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="963" Column="14" TopLine="952"/>
-      </Position29>
-      <Position30>
-        <Filename Value="TEXLIB\t_png.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -612,11 +586,15 @@
       </SyntaxOptions>
     </Parsing>
     <CodeGeneration>
+      <SmartLinkUnit Value="True"/>
       <TargetProcessor Value="pentium4"/>
       <TargetCPU Value="i386"/>
       <TargetOS Value="win32"/>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="True"/>
+      </Debugging>
       <LinkSmart Value="True"/>
     </Linking>
     <Other>
@@ -628,6 +606,12 @@
     </Other>
   </CompilerOptions>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Source Value="gldoom32f.lpr"/>
+        <Line Value="200"/>
+      </Item1>
+    </BreakPoints>
     <Exceptions Count="3">
       <Item1>
         <Name Value="EAbort"/>

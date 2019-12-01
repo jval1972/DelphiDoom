@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -35,13 +35,14 @@ interface
 uses
   m_fixed,
   xn_defs, 
-  r_data, r_defs;
+  r_data,
+  r_defs;
 
 {
     r_plane.h, r_plane.c
 }
 
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -66,19 +67,27 @@ uses
 //-----------------------------------------------------------------------------
 
 procedure R_InitPlanes;
+
 procedure R_ClearPlanes;
 
+{$IFNDEF OPENGL}
 procedure R_MapPlane(const y: integer; const x1, x2: integer);
 
 procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: integer);
 
 procedure R_DrawPlanes;
 
+{$ELSE}
+procedure R_CalcPlaneOffsets(const pl: Pvisplane_t);
+
+{$ENDIF}
+
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
   special: integer): Pvisplane_t;
 
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 
+{$IFNDEF OPENGL}
 var
 //
 // Clip values are the solid pixel bounding the range.
@@ -87,6 +96,7 @@ var
 //
   floorclip: packed array[0..MAXWIDTH - 1] of smallint;
   ceilingclip: packed array[0..MAXWIDTH - 1] of smallint;
+{$ENDIF}
 
 var
   floorplane: Pvisplane_t;
@@ -101,11 +111,13 @@ const
   MAXOPENINGS = MAXWIDTH * 64;
 
 var
-  openings: packed array[0..MAXOPENINGS - 1] of smallint; 
+  openings: packed array[0..MAXOPENINGS - 1] of smallint;
   lastopening: integer;
 
+{$IFNDEF OPENGL}
   yslope: array[0..MAXHEIGHT - 1] of fixed_t;
   distscale: array[0..MAXWIDTH - 1] of fixed_t;
+{$ENDIF}
 
 implementation
 
@@ -116,8 +128,19 @@ uses
   tables,
   i_system,
   p_tick,
-  r_sky, r_draw, r_main, r_things, r_hires, r_span, r_span32, r_column, r_ccache,
-  z_zone, w_wad;
+  r_sky,
+  r_main,
+  r_things,
+{$IFNDEF OPENGL}
+  r_span,
+  r_span32,
+  r_column,
+  r_hires,
+  r_draw,
+  r_ccache,
+{$ENDIF}
+  z_zone,
+  w_wad;
 
 // Here comes the obnoxious "visplane".
 const
@@ -138,6 +161,7 @@ var
 // spanstart holds the start of a plane span
 // initialized to 0 at start
 //
+{$IFNDEF OPENGL}
   spanstart: array[0..MAXHEIGHT - 1] of integer;
 
 //
@@ -145,15 +169,17 @@ var
 //
   planezlight: PBytePArray;
   planeheight: fixed_t;
+{$ENDIF}  
 
   basexscale: fixed_t;
   baseyscale: fixed_t;
 
   cachedheight: array[0..MAXHEIGHT - 1] of fixed_t;
+{$IFNDEF OPENGL}
   cacheddistance: array[0..MAXHEIGHT -1] of fixed_t;
   cachedxstep: array[0..MAXHEIGHT - 1] of fixed_t;
   cachedystep: array[0..MAXHEIGHT - 1] of fixed_t;
-
+{$ENDIF}
 
 //
 // R_InitPlanes
@@ -166,7 +192,7 @@ end;
 
 var
   // JVAL: for scrolling textures
-  ds_xoffset: fixed_t;
+  ds_xoffset: fixed_t;    // JVAL SOS
   ds_yoffset: fixed_t;
 
 
@@ -183,6 +209,7 @@ var
 //
 // BASIC PRIMITIVE
 //
+{$IFNDEF OPENGL}
 procedure R_MapPlane(const y: integer; const x1, x2: integer);
 var
   angle: angle_t;
@@ -265,6 +292,7 @@ begin
   // high or low detail
   spanfunc;
 end;
+{$ENDIF}
 
 //
 // R_ClearPlanes
@@ -456,6 +484,7 @@ end;
 //
 // R_MakeSpans
 //
+{$IFNDEF OPENGL}
 procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: integer);
 begin
   while (t1 < t2) and (t1 <= b1) do
@@ -488,7 +517,83 @@ begin
     dec(b2);
   end;
 end;
+{$ENDIF}
 
+procedure R_CalcPlaneOffsets(const pl: Pvisplane_t);
+var
+  scrollOffset: integer;
+begin
+  if enableflatscrolling then
+  begin
+    // Handle scrolling flats
+    case pl.special of
+      201, 202, 203: // Scroll_North_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := 0;
+          ds_yoffset := ((scrollOffset * _SHL(1, pl.special - 201)) and 63) * FRACUNIT;
+        end;
+      204, 205, 206: // Scroll_East_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 204)) and 63) * FRACUNIT;
+          ds_yoffset := 0;
+        end;
+      207, 208, 209: // Scroll_South_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := 0;
+          ds_yoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 207)) and 63) * FRACUNIT;
+        end;
+      210, 211, 212: // Scroll_West_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := ((scrollOffset * _SHL(1, pl.special - 210)) and 63) * FRACUNIT;
+          ds_yoffset := 0;
+        end;
+      213, 214, 215: // Scroll_NorthWest_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := ((scrollOffset * _SHL(1, pl.special - 213)) and 63) * FRACUNIT;
+          ds_yoffset := ds_xoffset;
+        end;
+      216, 217, 218: // Scroll_NorthEast_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 216)) and 63) * FRACUNIT;
+          ds_yoffset := ((scrollOffset * _SHL(1, pl.special - 216)) and 63) * FRACUNIT;
+        end;
+      219, 220, 221: // Scroll_SouthEast_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 219)) and 63) * FRACUNIT;
+          ds_yoffset := ds_xoffset;
+        end;
+      222, 223, 224: // Scroll_SouthWest_xxx
+        begin
+          scrollOffset := (leveltime div 2) and 63;
+          ds_xoffset := ((scrollOffset * _SHL(1, pl.special - 222)) and 63) * FRACUNIT;
+          ds_yoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 222)) and 63) * FRACUNIT;
+        end;
+      else
+        begin
+          ds_xoffset := 0;
+          ds_yoffset := 0;
+        end;
+    end;
+  end
+  else
+  begin
+    ds_xoffset := 0;
+    ds_yoffset := 0;
+  end;
+{$IFDEF OPENGL}
+  pl.xoffs := ds_xoffset;
+  pl.yoffs := ds_yoffset;
+{$ENDIF}
+end;
+
+{$IFNDEF OPENGL}
 // Static buffer for double sky
 var
   tempsource: array[0..MAXTEXTUREHEIGHT] of LongWord;
@@ -506,8 +611,7 @@ var
   stop: integer;
   angle: integer;
   offset, offset2: LongWord;
-  skytexture: integer;
-  scrollOffset: integer;
+  skytex: integer;
   destb: PByte;
   destl: PLongWord;
 begin
@@ -546,7 +650,7 @@ begin
             dc_texturemod := 0;
             dc_mod := 0;
             dc_x := x;
-            R_GetDCs(Sky1Texture, angle);
+            R_GetDCs(SkyTexture, angle);
             if videomode = vm32bit then
             begin
               sksize := dc_columnsize;
@@ -597,12 +701,12 @@ begin
       if pl.special = 200 then
       begin
         offset := Sky2ColumnOffset * 64;
-        skytexture := Sky2Texture;
+        skytex := Sky2Texture;
       end
       else
       begin
         offset := Sky1ColumnOffset * 64;
-        skytexture := Sky1Texture;
+        skytex := SkyTexture;
       end;
 
       for x := pl.minx to pl.maxx do
@@ -616,7 +720,7 @@ begin
           dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
           dc_mod := dc_texturemod;
           dc_x := x;
-          R_GetDCs(skytexture, angle);
+          R_GetDCs(skytex, angle);
         // Sky is always drawn full bright,
         //  i.e. colormaps[0] is used.
         //  Because of this hack, sky is not affected
@@ -631,71 +735,8 @@ begin
 
     // regular flat
     R_GetDSs(pl.picnum);
-
-    if enableflatscrolling then
-    begin
-      // Handle scrolling flats
-      case pl.special of
-        201, 202, 203: // Scroll_North_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := 0;
-            ds_yoffset := ((scrollOffset * _SHL(1, pl.special - 201)) and 63) * FRACUNIT;
-          end;
-        204, 205, 206: // Scroll_East_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 204)) and 63) * FRACUNIT;
-            ds_yoffset := 0;
-          end;
-        207, 208, 209: // Scroll_South_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := 0;
-            ds_yoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 207)) and 63) * FRACUNIT;
-          end;
-        210, 211, 212: // Scroll_West_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := ((scrollOffset * _SHL(1, pl.special - 210)) and 63) * FRACUNIT;
-            ds_yoffset := 0;
-          end;
-        213, 214, 215: // Scroll_NorthWest_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := ((scrollOffset * _SHL(1, pl.special - 213)) and 63) * FRACUNIT;
-            ds_yoffset := ds_xoffset;
-          end;
-        216, 217, 218: // Scroll_NorthEast_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 216)) and 63) * FRACUNIT;
-            ds_yoffset := ((scrollOffset * _SHL(1, pl.special - 216)) and 63) * FRACUNIT;
-          end;
-        219, 220, 221: // Scroll_SouthEast_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 219)) and 63) * FRACUNIT;
-            ds_yoffset := ds_xoffset;
-          end;
-        222, 223, 224: // Scroll_SouthWest_xxx
-          begin
-            scrollOffset := (leveltime div 2) and 63;
-            ds_xoffset := ((scrollOffset * _SHL(1, pl.special - 222)) and 63) * FRACUNIT;
-            ds_yoffset := (((63 - scrollOffset) * _SHL(1, pl.special - 222)) and 63) * FRACUNIT;
-          end;
-        else
-          begin
-            ds_xoffset := 0;
-            ds_yoffset := 0;
-          end;
-      end;
-    end
-    else
-    begin
-      ds_xoffset := 0;
-      ds_yoffset := 0;
-    end;
+    // JVAL SOS
+    R_CalcPlaneOffsets(pl);
 
     planeheight := abs(pl.height - viewz);
     light := _SHR(pl.lightlevel, LIGHTSEGSHIFT) + extralight;
@@ -724,6 +765,7 @@ begin
 
   end;
 end;
+{$ENDIF}
 
 end.
 

@@ -137,9 +137,13 @@ uses
   e_endoom,
 {$ENDIF}
   c_con,
-  i_system, i_net, i_io,
-  d_main, d_event,
-  r_intrpl, r_main,
+  i_system,
+  i_net,
+  i_io,
+  d_main,
+  d_event,
+  r_intrpl,
+  r_main,
   p_mobj_h,
   g_game,
   doomstat;

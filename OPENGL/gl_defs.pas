@@ -31,7 +31,11 @@ unit gl_defs;
 interface
 
 uses
+  {$IFDEF HEXEN}
+  xn_defs,
+  {$ELSE}
   doomdef,
+  {$ENDIF}
   dglOpenGL,
   m_fixed,
   r_draw;

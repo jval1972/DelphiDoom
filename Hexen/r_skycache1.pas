@@ -40,7 +40,12 @@ implementation
 uses
   d_delphi,
   m_fixed,
-  r_hires, r_cache, r_ccache, r_column, r_data, r_sky,
+  r_hires,
+  r_cache,
+  r_ccache,
+  r_column,
+  r_data,
+  r_sky,
   v_video;
 
 //

@@ -237,25 +237,46 @@ implementation
 uses
   doomdata,
   c_cmds,
-  d_net, i_io,
-  m_bbox, m_menu, m_misc,
-  p_setup, p_sight, p_map,
-  r_draw, r_bsp, r_things, r_plane, r_sky, r_segs, r_hires,
+  d_net,
+  i_io,
+  m_bbox,
+  m_menu,
+  m_misc,
+  p_setup,
+  p_sight,
+  p_map,
+  r_draw,
+  r_bsp,
+  r_things,
+  r_plane,
+  r_sky,
+  r_segs,
+  r_hires,
 {$IFNDEF OPENGL}
-  r_cache, 
+  r_cache,
 {$ENDIF}
-  r_lights, r_fake3d,
-  r_intrpl, 
+  r_lights,
+  r_fake3d,
+  r_intrpl,
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
   gl_clipper,
   gl_tex,
 {$ELSE}
-  r_span, r_span32,
-  r_column, r_col_l, r_col_ms, r_col_sk, r_col_fz, r_col_av, r_col_al, r_col_tr,
+  r_span,
+  r_span32,
+  r_column,
+  r_col_l,
+  r_col_ms,
+  r_col_sk,
+  r_col_fz,
+  r_col_av,
+  r_col_al,
+  r_col_tr,
 {$ENDIF}
   sb_bar,
-  v_data, v_video,
+  v_data,
+  v_video,
   z_zone;
 
 const

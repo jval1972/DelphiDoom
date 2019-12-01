@@ -90,11 +90,20 @@ uses
   MMSystem,
   c_cmds,
   z_zone,
-  m_argv, m_misc,
-  i_system, i_main, DirectX,
+  m_argv,
+  m_misc,
+  i_system,
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
+  i_main,
+{$ENDIF}
+  DirectX,
   s_sound,
-  w_wad, w_pak,
-  xn_defs, doomstat;
+  w_wad,
+  w_pak,
+  xn_defs,
+  doomstat;
 
 // The number of internal mixing channels,
 //  the samples calculated for each mixing step,

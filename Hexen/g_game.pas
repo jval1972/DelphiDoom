@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -35,7 +35,9 @@ interface
 uses
   xn_defs,
   m_fixed,
-  d_event, d_player, d_ticcmd;
+  d_event,
+  d_player,
+  d_ticcmd;
 
 //-----------------------------------------------------------------------------
 //
@@ -249,25 +251,49 @@ uses
   d_delphi,
   c_cmds,
   z_zone,
-  doomstat, doomdata,
+  doomstat,
+  doomdata,
   am_map,
-  d_net, d_net_h, d_main,
+  d_net,
+  d_net_h,
+  d_main,
   f_finale,
-  info_h, info,
-  i_system, i_io,
-  m_argv, m_misc, m_menu, m_rnd,
+  info_h,
+  info,
+  i_system,
+  i_io,
+  m_argv,
+  m_misc,
+  m_menu,
+  m_rnd,
   g_demo,
   a_action,
-  p_setup, p_tick, p_local, p_mobj_h, p_mobj, p_inter, p_map, p_user, p_acs,
-  in_stuff, hu_stuff,
+  p_setup,
+  p_tick,
+  p_local,
+  p_mobj_h,
+  p_mobj,
+  p_inter,
+  p_map,
+  p_user,
+  p_acs,
+  in_stuff,
+  hu_stuff,
   sb_bar,
 // Needs access to LFB.
   v_video,
-  w_wad, s_sound,
+  w_wad,
+  s_sound,
 // Data.
-  xn_strings, sounds,
+  xn_strings,
+  sounds,
 // SKY handling - still the wrong place.
-  r_data, r_sky, r_defs, r_main, r_draw, r_intrpl,
+  r_data,
+  r_sky,
+  r_defs,
+  r_main,
+  r_draw,
+  r_intrpl,
   s_sndseq,
   sv_save,
   tables;
@@ -1694,11 +1720,11 @@ begin
   begin
     mapname := strupper(parm1);
 
-    if (mapname[1] = 'M') then
-      if (mapname[2] = 'A') then
-        if (mapname[3] = 'P') then
-          if length(mapname) = 5 then
-            map := atoi(mapname[4] + mapname[5]);
+    if length(mapname) = 5 then
+      if (mapname[1] = 'M') then
+        if (mapname[2] = 'A') then
+          if (mapname[3] = 'P') then
+            map := atoi(mapname[4] + mapname[5], -1);
   end;
 
   if W_CheckNumForName(P_GetMapName(map)) > -1 then

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -184,7 +184,8 @@ implementation
 uses
   am_map,
   r_draw,
-  v_data, v_video;
+  v_data,
+  v_video;
 
 procedure HUlib_init;
 begin
@@ -254,21 +255,21 @@ begin
     else if c = ' ' then
     begin
       x := x + 4;
-      if x >= 320 then
+      if x >= {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}320{$ENDIF} then
         break;
     end
     else if (Ord(c) >= l.sc) and (c <= '_') then
     begin
       w := l.font[Ord(c) - l.sc].width;
-      if x + w > 320 then
+      if x + w > {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}320{$ENDIF} then
         break;
-      V_DrawPatch(x, y, SCN_FG, l.font[Ord(c) - l.sc], true);
+      V_DrawPatch(x, y, SCN_FG, l.font[Ord(c) - l.sc], {$IFDEF OPENGL}false{$ELSE}true{$ENDIF});
       x := x + w;
     end;
   end;
 
   // draw the cursor if requested
-  if drawcursor and (x + l.font[Ord('_') - l.sc].width <= 320) then
+  if drawcursor and (x + l.font[Ord('_') - l.sc].width <= {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}320{$ENDIF}) then
     V_DrawPatch(x, l.y, SCN_FG, l.font[Ord('_') - l.sc], true);
 end;
 

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -41,10 +41,31 @@ uses
   g_game,
   hu_stuff,
   p_mobj_h,
-  i_video, i_system, i_mp3, i_music, i_sound,
+  p_setup,
+{$IFDEF OPENGL}
+  gl_main,
+  gl_defs,
+  gl_models,
+  gl_lightmaps,
+  gl_shadows,
+{$ELSE}
+  i_video,
+{$ENDIF}  
+  i_system,
+  i_mp3,
+  i_music,
+  i_sound,
   m_menu,
-  r_defs, r_main, r_hires, r_lights, r_intrpl, r_plane, r_fake3d, r_camera,
-  r_span, r_draw,
+  r_defs,
+  r_main,
+  r_hires,
+  r_lights,
+  r_intrpl,
+  r_plane,
+  r_fake3d,
+  r_camera,
+  r_data,
+  r_draw,
   s_sound,
   t_main,
   v_video;
@@ -55,6 +76,32 @@ const
   DFS_SINGLEPLAYER = 1;
   DFS_NETWORK = 2;
   DFS_ALWAYS = 3;
+
+var
+{$IFDEF OPENGL}
+// Stub variables
+  soft_SCREENWIDTH,
+  soft_SCREENHEIGHT: integer;
+{$ELSE}
+  tran_filter_pct: integer;
+  use_fog: boolean;
+  fog_density: integer;
+  gl_nearclip: integer;
+  gl_tex_filter_string: string;
+  gl_texture_filter_anisotropic: boolean;
+  gl_drawsky: boolean;
+  gl_stencilsky: boolean;
+  gl_screensync: boolean;
+  gl_linear_hud: boolean;
+  gl_add_all_lines: boolean;
+  gl_SCREENWIDTH,
+  gl_SCREENHEIGHT: integer;
+  gl_drawmodels: boolean;
+  gl_smoothmodelmovement: boolean;
+  gl_precachemodeltextures: boolean;
+  gl_uselightmaps: boolean;
+  gl_drawshadows: boolean;
+{$ENDIF}
 
 type
   ttype_t = (tString, tInteger, tBoolean, tGroup);
@@ -71,7 +118,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 111;
+  NUMDEFAULTS = 132;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -82,16 +129,32 @@ const
      defaultbvalue: false;
      _type: tGroup),
 
-    (name: 'screenwidth';
-     location: @WINDOWWIDTH;
+    (name: 'soft_screenwidth';
+     location: @{$IFDEF OPENGL}soft_SCREENWIDTH{$ELSE}WINDOWWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: 800;
      defaultbvalue: false;
      _type: tInteger),
 
-    (name: 'screenheight';
-     location: @WINDOWHEIGHT;
+    (name: 'soft_screenheight';
+     location: @{$IFDEF OPENGL}soft_SCREENHEIGHT{$ELSE}WINDOWHEIGHT{$ENDIF};
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 600;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'gl_screenwidth';
+     location: @{$IFDEF OPENGL}SCREENWIDTH{$ELSE}gl_SCREENWIDTH{$ENDIF};
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 800;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'gl_screenheight';
+     location: @{$IFDEF OPENGL}SCREENHEIGHT{$ELSE}gl_SCREENHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: 600;
@@ -274,6 +337,158 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+
+    (name: 'OpenGL';
+     location: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
+    (name: 'default_transparent_filter_percent';
+     location: @tran_filter_pct;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '66';
+     defaultivalue: 66;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'use_fog';
+     location: @use_fog;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'fog_density';
+     location: @fog_density;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '100';
+     defaultivalue: 100;
+     defaultbvalue: true;
+     _type: tInteger),
+
+    (name: 'gl_nearclip';
+     location: @gl_nearclip;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '5';
+     defaultivalue: 5;
+     defaultbvalue: true;
+     _type: tInteger),
+
+    (name: 'gl_tex_filter';
+     location: @gl_tex_filter_string;
+     setable: DFS_ALWAYS;
+     defaultsvalue: 'GL_LINEAR';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tString),
+
+    (name: 'gl_texture_filter_anisotropic';
+     location: @gl_texture_filter_anisotropic;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'gl_drawsky';
+     location: @gl_drawsky;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_stencilsky';
+     location: @gl_stencilsky;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_drawmodels';
+     location: @gl_drawmodels;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_smoothmodelmovement';
+     location: @gl_smoothmodelmovement;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_precachemodeltextures';
+     location: @gl_precachemodeltextures;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_uselightmaps';
+     location: @gl_uselightmaps;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_drawshadows';
+     location: @gl_drawshadows;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_screensync';
+     location: @gl_screensync;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_linear_hud';
+     location: @gl_linear_hud;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_add_all_lines';
+     location: @gl_add_all_lines;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'useglnodesifavailable';
+     location: @useglnodesifavailable;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'autoloadgwafiles';
+     location: @autoloadgwafiles;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
 
     (name: 'Automap';
      location: nil;

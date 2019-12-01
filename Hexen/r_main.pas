@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -36,14 +36,16 @@ uses
   d_delphi,
   xn_defs,
   d_player,
-  m_fixed, tables,
-  r_data, r_defs;
+  m_fixed,
+  tables,
+  r_data,
+  r_defs;
 
 {
     r_main.h, r_main.c
 }
 
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -247,27 +249,69 @@ function R_GetColormapLightLevel(const cmap: PByteArray): fixed_t;
 
 function R_GetColormap32(const cmap: PByteArray): PLongWordArray;
 
+{$IFNDEF OPENGL}
 procedure R_SetRenderingFunctions;
+{$ENDIF}
 
 procedure R_Ticker;
+
+{$IFDEF OPENGL}
+var
+  absviewpitch: integer;
+  viewpitch: integer;
+{$ENDIF}
 
 implementation
 
 uses
   doomdata,
   c_cmds,
-  d_net, i_io,
+  d_net,
+  i_io,
   g_game,
-  m_bbox, m_menu, m_misc, m_rnd,
+  m_bbox,
+  m_menu,
+  m_misc,
+  m_rnd,
   a_action,
-  p_setup, p_user,
-  r_draw, r_bsp, r_things, r_plane, r_sky, r_segs, r_hires, r_cache, r_lights,
-  r_intrpl, r_fake3d, r_camera,
-  r_span, r_span32, r_span32_fog,
-  r_column, r_col_l, r_col_ms, r_col_sk, r_col_fz, r_col_av, r_col_al, r_col_tr,
-  r_col_fog, r_col_ms_fog,
+  p_setup,
+  p_user,
+  r_draw,
+  r_bsp,
+  r_things,
+  r_plane,
+  r_sky,
+  r_segs,
+  r_hires,
+{$IFNDEF OPENGL}
+  r_cache,
+{$ENDIF}  
+  r_lights,
+  r_intrpl,
+  r_fake3d,
+  r_camera,
+{$IFDEF OPENGL}
+  gl_render, // JVAL OPENGL
+  gl_clipper,
+  gl_tex,
+{$ELSE}
+  r_span,
+  r_span32,
+  r_span32_fog,
+  r_column,
+  r_col_l,
+  r_col_ms,
+  r_col_sk,
+  r_col_fz,
+  r_col_av,
+  r_col_al,
+  r_col_tr,
+  r_col_fog,
+  r_col_ms_fog,
+{$ENDIF}
   sb_bar,
-  v_data, v_video,
+  v_data,
+  v_video,
   z_zone;
 
 const
@@ -777,6 +821,7 @@ begin
   end;
 end;
 
+{$IFNDEF OPENGL}
 procedure R_SetRenderingFunctions;
 begin
   case setdetail of
@@ -972,14 +1017,17 @@ begin
   end;
 
 end;
+{$ENDIF}
 
 //
 // R_ExecuteSetViewSize
 //
 procedure R_ExecuteSetViewSize;
 var
+{$IFNDEF OPENGL}
   cosadj: fixed_t;
   dy: fixed_t;
+{$ENDIF}
   i: integer;
   j: integer;
   level: integer;
@@ -998,9 +1046,17 @@ begin
   begin
     scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
     if setblocks = 10 then
+    {$IFDEF OPENGL}
+      viewheight := trunc(SB_Y * SCREENHEIGHT / 200)
+    {$ELSE}
       viewheight := V_PreserveY(SB_Y)
+    {$ENDIF}
     else
+    {$IFDEF OPENGL}
+      viewheight := (setblocks * trunc(SB_Y * SCREENHEIGHT / 2000)) and (not 7);
+    {$ELSE}
       viewheight := (setblocks * V_PreserveY(SB_Y) div 10) and (not 7);
+    {$ENDIF}
   end;
 
   viewwidth := scaledviewwidth;
@@ -1015,7 +1071,11 @@ begin
   if olddetail <> setdetail then
   begin
     olddetail := setdetail;
+{$IFDEF OPENGL}
+    videomode := vm32bit;
+{$ELSE}
     R_SetRenderingFunctions;
+{$ENDIF}
   end;
 
   R_InitBuffer(scaledviewwidth, viewheight);
@@ -1032,6 +1092,7 @@ begin
     screenheightarray[i] := viewheight;
 
   // planes
+{$IFNDEF OPENGL}
   dy := centeryfrac + FRACUNIT div 2;
   for i := 0 to viewheight - 1 do
   begin
@@ -1044,6 +1105,7 @@ begin
     cosadj := abs(finecosine[xtoviewangle[i] div ANGLETOFINEUNIT]);
     distscale[i] := FixedDiv(FRACUNIT, cosadj);
   end;
+{$ENDIF}
 
   // Calculate the light levels to use
   //  for each level / scale combination.
@@ -1142,21 +1204,47 @@ begin
   if newusefz <> useclassicfuzzeffect then
   begin
     useclassicfuzzeffect := newusefz;
+{$IFNDEF OPENGL}
     R_SetRenderingFunctions;
+{$ENDIF}
   end;
   R_CmdUseClassicFuzzEffect;
 end;
 
+procedure R_CmdScreenWidth;
+begin
+  {$IFDEF OPENGL}
+  printf('ScreenWidth = %d.'#13#10, [SCREENWIDTH]);
+  {$ELSE}
+  printf('ScreenWidth = %d.'#13#10, [WINDOWWIDTH]);
+  {$ENDIF}
+end;
+
+procedure R_CmdScreenHeight;
+begin
+  {$IFDEF OPENGL}
+  printf('ScreenHeight = %d.'#13#10, [SCREENHEIGHT]);
+  {$ELSE}
+  printf('ScreenHeight = %d.'#13#10, [WINDOWHEIGHT]);
+  {$ENDIF}
+end;
+
 procedure R_CmdClearCache;
 begin
+  {$IFDEF OPENGL}
+  gld_ClearTextureMemory;
+  {$ELSE}
   R_Clear32Cache;
+  {$ENDIF}
   Z_FreeTags(PU_CACHE, PU_CACHE);
   printf('Texture cache clear'#13#10);
 end;
 
 procedure R_CmdResetCache;
 begin
+  {$IFNDEF OPENGL}
   R_Reset32Cache;
+  {$ENDIF}
   Z_FreeTags(PU_CACHE, PU_CACHE);
   printf('Texture cache reset'#13#10);
 end;
@@ -1168,8 +1256,10 @@ end;
 //
 procedure R_Init;
 begin
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_Init32Cache');
   R_Init32Cache;
+{$ENDIF}
   printf(#13#10 + 'R_InitData');
   R_InitData;
   printf(#13#10 + 'R_InitInterpolations');
@@ -1207,6 +1297,8 @@ begin
   C_AddCmd('useexternaltextures', @R_CmdUseExternalTextures);
   C_AddCmd('useclassicfuzzeffect', @R_CmdUseClassicFuzzEffect);
   C_AddCmd('lightboostfactor', @R_CmdLightBoostFactor);
+  C_AddCmd('screenwidth', @R_CmdScreenWidth);
+  C_AddCmd('screenheight', @R_CmdScreenHeight);
   C_AddCmd('clearcache, cleartexturecache', @R_CmdClearCache);
   C_AddCmd('resetcache, resettexturecache', @R_CmdResetCache);
 end;
@@ -1215,12 +1307,18 @@ procedure R_ShutDown;
 begin
   printf(#13#10 + 'R_ShutDownLightBoost');
   R_ShutDownLightBoost;
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_ShutDownFake3D');
   R_ShutDownFake3D;
   printf(#13#10 + 'R_ShutDown32Cache');
   R_ShutDown32Cache;
+{$ENDIF}
   printf(#13#10 + 'R_ShutDownInterpolation');
   R_ResetInterpolationBuffer;
+{$IFDEF OPENGL}
+  printf(#13#10 + 'R_ShutDownOpenGL');
+  R_ShutDownOpenGL;
+{$ENDIF}  
   printf(#13#10);
 
 end;
@@ -1262,7 +1360,9 @@ var
   i: integer;
   intensity: integer;
   cy: fixed_t;
+{$IFNDEF OPENGL}
   dy: fixed_t;
+{$ENDIF}
 begin
   viewplayer := player;
   viewx := player.mo.x;
@@ -1284,6 +1384,11 @@ begin
 
   R_AdjustChaseCamera(viewplayer);
 
+  {$IFDEF OPENGL}
+  viewpitch := 0;
+  absviewpitch := 0;
+  {$ENDIF}
+
   skytopy := MAXLOOKDIR - player.lookdir;
 //******************************
 // JVAL Enabled z axis shift
@@ -1294,17 +1399,24 @@ begin
     begin
       centery := cy;
       centeryfrac := centery * FRACUNIT;
+      {$IFNDEF OPENGL}
       dy := -centeryfrac - FRACUNIT div 2;
       for i := 0 to viewheight - 1 do
       begin
         dy := dy + FRACUNIT;
         yslope[i] := FixedDiv(projectiony, abs(dy));
       end;
+      {$ENDIF}
 
     end;
 
+{$IFDEF OPENGL}
+    viewpitch := player.lookdir;
+    absviewpitch := abs(viewpitch);
+{$ELSE}
     if usefake3d then
       R_Set3DLookup(player);
+{$ENDIF}
   end
   else
     p_justspawned := false;
@@ -1372,7 +1484,9 @@ end;
 
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
+{$IFNDEF OPENGL}
   R_CalcHiResTables;
+{$ENDIF}
 
   R_SetupFrame(player);
 
@@ -1382,15 +1496,29 @@ begin
   R_ClearPlanes;
   R_ClearSprites;
 
+{$IFDEF OPENGL}
+  gld_StartDrawScene; // JVAL OPENGL
+{$ENDIF}
   // check for new console commands.
   NetUpdate;
 
+{$IFDEF OPENGL}
+  gld_ClipperAddViewRange;
+{$ENDIF}
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
 
   // Check for new console commands.
   NetUpdate;
 
+{$IFDEF OPENGL}
+  gld_DrawScene(player);
+
+  NetUpdate;
+
+  gld_EndDrawScene;
+
+{$ELSE}
   R_DrawPlanes;
 
   // Check for new console commands.
@@ -1401,6 +1529,7 @@ begin
   R_Execute3DTransform;
 
   R_DrawPlayer;
+{$ENDIF}
   
   // Check for new console commands.
   NetUpdate;

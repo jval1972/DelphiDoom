@@ -111,7 +111,12 @@ uses
   d_delphi,
   d_ticcmd, d_event, d_think,
   info,
-  i_video, i_system,
+  {$IFDEF OPENGL}
+  gl_main,
+  {$ELSE}
+  i_video,
+  {$ENDIF}
+  i_system,
 {$IFDEF DEBUG}
   i_io,
 {$ENDIF}

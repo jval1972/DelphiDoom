@@ -51,7 +51,7 @@ procedure gld_Finish;
 
 procedure gld_AddSprite(vspr: Pvissprite_t);
 
-procedure gld_AddWall(seg: Pseg_t);
+procedure gld_AddWall(seg: Pseg_t{$IFDEF HEXEN}; const ispolyobj: boolean; const ssec: Psector_t{$ENDIF});
 
 procedure gld_StartDrawScene;
 
@@ -88,7 +88,11 @@ uses
   i_system,
   tables,
   doomtype,
+  {$IFDEF HEXEN}
+  xn_defs,
+  {$ELSE}
   doomdef,
+  {$ENDIF}
   doomdata,
   info_h,
   g_game,
@@ -1038,7 +1042,7 @@ type
   GLFlat = record
     sectornum: integer;
     light: float; // the lightlevel of the flat
-    {$IFDEF DOOM}
+    {$IFNDEF HERETIC}
     hasoffset: boolean;
     uoffs, voffs: float; // the texture coordinates
     {$ENDIF}
@@ -2111,6 +2115,11 @@ begin
   flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
   flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
   {$ENDIF}
+  {$IFDEF HEXEN}
+  flat.hasoffset := false;
+  flat.uoffs := 0;
+  flat.voffs := 0;
+  {$ENDIF}
 
   // get height from plane
   flat.z := zheight / MAP_SCALE;
@@ -2125,7 +2134,7 @@ begin
   inc(gld_drawinfo.num_flats);
 end;
 
-procedure gld_AddWall(seg: Pseg_t);
+procedure gld_AddWall(seg: Pseg_t{$IFDEF HEXEN}; const ispolyobj: boolean; const ssec: Psector_t{$ENDIF});
 var
   wall: GLWall;
   temptex: PGLTexture;
@@ -2174,6 +2183,29 @@ begin
   wall.light := gld_CalcLightLevel(frontsector.lightlevel + rellight + (extralight shl 5));
   wall.alpha := 1.0; // JVAL: SOS Lower values for transparent walls!
   wall.gltexture := nil;
+
+  {$IFDEF HEXEN}
+  if ispolyobj then
+  begin
+    wall.glseg.x1 := -seg.v1.x / MAP_SCALE;
+    wall.glseg.z1 :=  seg.v1.y / MAP_SCALE;
+    wall.glseg.x2 := -seg.v2.x / MAP_SCALE;
+    wall.glseg.z2 :=  seg.v2.y / MAP_SCALE;
+    wall.ytop := ssec.ceilingheight / MAP_SCALE;
+    wall.ybottom := ssec.floorheight / MAP_SCALE;
+    temptex := gld_RegisterTexture(texturetranslation[seg.sidedef.midtexture], true);
+    if temptex <> nil then
+    begin
+      wall.gltexture := temptex;
+      CALC_TEX_VALUES_MIDDLE1S(
+        @wall, seg, false,
+        seg.length, (ssec.ceilingheight - ssec.floorheight) / FRACUNIT
+      );
+      ADDWALL(@wall);
+    end;
+    exit;
+  end;
+  {$ENDIF}
 
   if seg.backsector = nil then // onesided
   begin
@@ -2418,7 +2450,7 @@ end;
 
 procedure gld_PreprocessSegs;
 var
-  i: integer;
+  i: integer;                                   
 begin
   gl_segs := Z_Malloc(numsegs * SizeOf(TGLSeg), PU_LEVEL, nil);
   for i := 0 to numsegs - 1 do
@@ -2499,12 +2531,14 @@ begin
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix;
   glTranslatef(0.0, flat.z, 0.0);
-  {$IFDEF DOOM}
+  {$IFNDEF HERETIC}
   if flat.hasoffset then
   begin
     glMatrixMode(GL_TEXTURE);
     glPushMatrix;
-    glTranslatef(flat.uoffs, flat.voffs, 0.0);
+    glTranslatef(flat.uoffs {$IFDEF HEXEN}* 64 / flat.gltexture.width{$ENDIF},
+                 flat.voffs {$IFDEF HEXEN}* 64 / flat.gltexture.height{$ENDIF},
+                 0.0);
   end;
   {$ENDIF}
   // JVAL: Call the precalced list if available
@@ -2520,7 +2554,7 @@ begin
       glDrawArrays(currentloop.mode, currentloop.vertexindex, currentloop.vertexcount);
     end;
   end;
-  {$IFDEF DOOM}
+  {$IFNDEF HERETIC}
   if flat.hasoffset then
   begin
     glPopMatrix;
@@ -2579,6 +2613,11 @@ begin
     flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
     flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
     {$ENDIF}
+    {$IFDEF HEXEN}
+    flat.hasoffset := (plane.xoffs <> 0) or (plane.yoffs <> 0);
+    flat.uoffs := plane.xoffs / FLATUVSCALE;
+    flat.voffs := plane.yoffs / FLATUVSCALE;
+    {$ENDIF}
   end
   else // if it is a floor ...
   begin
@@ -2596,6 +2635,11 @@ begin
     flat.hasoffset := (sector.floor_xoffs <> 0) or (sector.floor_yoffs <> 0);
     flat.uoffs := sector.floor_xoffs / FLATUVSCALE;
     flat.voffs := sector.floor_yoffs / FLATUVSCALE;
+    {$ENDIF}
+    {$IFDEF HEXEN}
+    flat.hasoffset := (plane.xoffs <> 0) or (plane.yoffs <> 0);
+    flat.uoffs := plane.xoffs / FLATUVSCALE;
+    flat.voffs := plane.yoffs / FLATUVSCALE;
     {$ENDIF}
   end;
 
@@ -3250,6 +3294,10 @@ procedure gld_StartFog;
 var
   FogColor: array[0..3] of TGLfloat; // JVAL: set blue fog color if underwater
 {$ENDIF}
+{$IFDEF HEXEN}
+var
+  FogColor: array[0..3] of TGLfloat; // JVAL: set blue fog color if underwater
+{$ENDIF}
 begin
   if use_fog then
     if players[displayplayer].fixedcolormap = 0 then
@@ -3262,6 +3310,24 @@ begin
       else
         FogColor[2] := 0.0;
       FogColor[3] := 0.0;
+
+      glFogfv(GL_FOG_COLOR, @FogColor);
+{$ENDIF}
+{$IFDEF HEXEN}
+      if LevelUseFog then
+      begin
+        FogColor[0] := 1.0;
+        FogColor[1] := 1.0;
+        FogColor[2] := 1.0;
+        FogColor[3] := 0.0;
+      end
+      else
+      begin
+        FogColor[0] := 0.0;
+        FogColor[1] := 0.0;
+        FogColor[2] := 0.0;
+        FogColor[3] := 0.0;
+      end;
 
       glFogfv(GL_FOG_COLOR, @FogColor);
 {$ENDIF}

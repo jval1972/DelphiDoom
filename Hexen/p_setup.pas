@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -34,7 +34,8 @@ interface
 
 uses
   d_delphi,
-  xn_defs, doomdata,
+  xn_defs,
+  doomdata,
   m_fixed,
   p_mobj_h,
   r_defs;
@@ -166,22 +167,54 @@ function P_GetMapCluster(map: integer): integer;
 
 function P_GetMapFadeTable(map: integer): integer;
 
+var
+  useglnodesifavailable: boolean;
+
 implementation
 
 uses
   c_cmds,
   d_player,
   m_argv,
-  z_zone, m_bbox, g_game, i_system, w_wad,
-  info, info_h,
-  p_local, p_mobj, p_tick, p_spec, p_switch, p_inter, p_enemy, p_pspr, p_acs,
+  z_zone,
+  m_bbox,
+  g_game,
+  i_system,
+  w_wad,
+  info,
+  info_h,
+  p_local,
+  p_mobj,
+  p_tick,
+  p_spec,
+  p_switch,
+  p_inter,
+  p_enemy,
+  p_pspr,
+  p_acs,
   p_anim,
   po_man,
-  r_data, r_things, r_cache, r_intrpl,
-  s_sound, s_sndseq,
+  r_data,
+  r_things,
+{$IFNDEF OPENGL}
+  r_cache,
+{$ENDIF}
+  r_intrpl,
+{$IFDEF OPENGL}
+  r_main,
+  gl_data,    // JVAL OPENGL
+  gl_tex,     // JVAL OPENGL
+  gl_render,  // JVAL OPENGL
+{$ENDIF}
+  s_sound,
+  s_sndseq,
   sc_engine,
   doomstat;
 
+{$IFDEF OPENGL}
+var
+  glmapnum: integer;
+{$ENDIF}
 
 //
 // P_LoadVertexes
@@ -220,6 +253,65 @@ begin
   Z_Free(data);
 end;
 
+{$IFDEF OPENGL}
+var
+  firstglvert: integer;
+
+procedure P_GLLoadVertexes(lump, gllump: integer);
+var
+  data: pointer;
+  i: integer;
+  ml: Pmapvertex_t;
+  li: Pvertex_t;
+  numglverts: integer;
+begin
+  // Determine number of lumps:
+  //  total lump length / vertex record length.
+  if glnodesver = 1 then
+    numglverts := W_LumpLength(gllump) div SizeOf(GLVertex1_t)
+  else if glnodesver >= 2 then
+    numglverts := (W_LumpLength(gllump) - 4) div SizeOf(GLVertex2_t)
+  else
+    numglverts := 0;
+
+  firstglvert := W_LumpLength(lump) div SizeOf(mapvertex_t);
+  numvertexes := firstglvert + numglverts;
+
+  // Allocate zone memory for buffer.
+  vertexes := Z_Malloc(numvertexes * SizeOf(vertex_t), PU_LEVEL, nil);
+
+  // Load data into cache.
+  data := W_CacheLumpNum(lump, PU_STATIC);
+
+  ml := Pmapvertex_t(data);
+
+  // Copy and convert vertex coordinates,
+  // internal representation as fixed.
+  li := @vertexes[0];
+  for i := 0 to firstglvert - 1 do
+  begin
+    li.x := ml.x * FRACUNIT;
+    li.y := ml.y * FRACUNIT;
+    inc(ml);
+    inc(li);
+  end;
+
+  gld_GetGLVertexes(li, gllump, numglverts, glnodesver);
+
+  // Free buffer memory.
+  Z_Free(data);
+end;
+
+function GetDistance(dx, dy: integer): float;
+var
+  fx, fy: float;
+begin
+  fx := dx / FRACUNIT;
+  fy := dy / FRACUNIT;
+  result := sqrt(fx * fx + fy * fy);
+end;
+{$ENDIF}
+
 //
 // P_LoadSegs
 //
@@ -257,12 +349,121 @@ begin
       li.backsector := sides[ldef.sidenum[side xor 1]].sector
     else
       li.backsector := nil;
+{$IFDEF OPENGL}
+    li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);
+    li.iSegID := i;
+    li.miniseg := false;
+{$ENDIF}
     inc(ml);
     inc(li);
   end;
 
   Z_Free(data);
 end;
+
+{$IFDEF OPENGL}
+function CheckGLVertex(num: integer): integer;
+begin
+  if glnodesver < 3 then
+  begin
+    if num and (1 shl 15) <> 0 then
+    begin
+      result := num and (1 shl 15 - 1) + firstglvert;
+      exit;
+    end
+  end
+  else if glnodesver < 3 then
+  begin
+    if num and (1 shl 30) <> 0 then
+    begin
+      result := num and (1 shl 30 - 1) + firstglvert;
+      exit;
+    end
+{  end
+  else
+  begin
+    if num and (1 shl 31) <> 0 then
+    begin
+      result := num and LongWord(1 shl 31 - 1) + firstglvert;
+      exit;
+    end}
+  end;
+  result := num;
+end;
+
+function GetOffset(v1, v2: Pvertex_t): fixed_t;
+var
+  a, b: single;
+begin
+  a := (v1.x - v2.x) / FRACUNIT;
+  b := (v1.y - v2.y) / FRACUNIT;
+  result := round(sqrt(a * a + b * b) * FRACUNIT);
+end;
+
+//
+// P_LoadGLSegs
+//
+procedure P_LoadGLSegs(lump: integer);
+var
+  data: pointer;
+  i: integer;
+  ml: PGLSeg1_t;
+  li: Pseg_t;
+  ldef: Pline_t;
+  linedef: integer;
+  side: integer;
+begin
+  numsegs := W_LumpLength(lump) div SizeOf(GLSeg1_t);
+  segs := Z_Malloc(numsegs * SizeOf(seg_t), PU_LEVEL, nil);
+  ZeroMemory(segs, numsegs * SizeOf(seg_t));
+  data := W_CacheLumpNum(lump, PU_STATIC);
+
+  ml := PGLSeg1_t(data);
+  li := @segs[0];
+  for i := 0 to numsegs - 1 do
+  begin
+    li.v1 := @vertexes[CheckGLVertex(ml.start_vertex)];
+    li.v2 := @vertexes[CheckGLVertex(ml.end_vertex)];
+    li.iSegID := i;
+
+    if PWord(@ml.linedef)^ = word(1 shl 16 - 1) then
+    begin
+      li.miniseg := true;
+      li.angle := 0;
+      li.offset := 0;
+      li.length := 0;
+      li.linedef := nil;
+      li.sidedef := nil;
+      li.frontsector := nil;
+      li.backsector := nil;
+    end
+    else
+    begin
+      li.miniseg := false;
+      li.angle := R_PointToAngle2(li.v1.x, li.v1.y, li.v2.x, li.v2.y);
+      linedef := ml.linedef;
+      ldef := @lines[linedef];
+      if ml.side <> 0 then
+        li.offset := GetOffset(li.v1, ldef.v2)
+      else
+        li.offset := GetOffset(li.v1, ldef.v1);
+      li.linedef := ldef;
+      side := ml.side;
+      li.sidedef := @sides[ldef.sidenum[side]];
+      li.frontsector := li.sidedef.sector;
+      if ldef.flags and ML_TWOSIDED <> 0 then
+        li.backsector := sides[ldef.sidenum[side xor 1]].sector
+      else
+        li.backsector := nil;
+      li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);
+    end;
+    inc(ml);
+    inc(li);
+  end;
+
+  Z_Free(data);
+end;
+{$ENDIF}
 
 //
 // P_LoadSubsectors
@@ -321,6 +522,9 @@ begin
     ss.tag := ms.tag;
     ss.thinglist := nil;
     ss.seqType := SEQTYPE_STONE; // default seqType
+{$IFDEF OPENGL}
+    ss.iSectorID := i;
+{$ENDIF}
     inc(ms);
     inc(ss);
   end;
@@ -516,6 +720,10 @@ begin
     else
       ld.backsector := nil;
 
+    {$IFDEF OPENGL}
+    ld.renderflags := 0;
+    {$ENDIF}
+
     inc(mld);
     inc(ld);
   end;
@@ -599,7 +807,26 @@ begin
   for i := 0 to numsubsectors - 1 do
   begin
     seg := @segs[psd.firstline];
+    {$IFDEF OPENGL}
+    psd.sector := nil;
+    for j := 0 to psd.numlines - 1 do
+    begin
+      if seg.sidedef <> nil then
+      begin
+      {$IFDEF DEBUG}
+        printf('subsector %5d (%8d), line %2d (%8d), sector %4d (%8d) '#13#10,
+          [i, integer(psd), j, integer(seg.sidedef), integer(seg.sidedef.sector), (integer(seg.sidedef.sector) - integer(sectors)) div SizeOf(sector_t)]);
+      {$ENDIF}
+        psd.sector := seg.sidedef.sector;
+        break;
+      end;
+      inc(seg);
+    end;
+    if psd.sector = nil then
+      I_Error('P_GroupLines(): Subsector %d is not part of a sector', [i]);
+    {$ELSE}
     psd.sector := seg.sidedef.sector;
+    {$ENDIF}
     inc(psd);
   end;
 
@@ -793,6 +1020,9 @@ var
   lumpnum: integer;
   mobj: Pmobj_t;
   parm: integer;
+{$IFDEF OPENGL}
+  glmapname: string;
+{$ENDIF}
 begin
   totalkills := 0;
   totalitems := 0;
@@ -816,6 +1046,10 @@ begin
 
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
+{$IFDEF OPENGL}
+  gld_CleanMemory; // JVAL OPENGL
+{$ENDIF}
+
   R_SetupLevel;
 
   P_InitThinkers;
@@ -831,18 +1065,53 @@ begin
 
   lumpnum := W_GetNumForName(lumpname);
 
+{$IFDEF OPENGL}
+  if useglnodesifavailable and not G_NeedsCompatibilityMode then
+  begin
+    glmapnum := gld_GetGLMapLump(lumpnum);
+    glnodesver := gld_GetGLNodesVersion(glmapnum);
+  end
+  else    
+  begin
+    glmapnum := -1;
+    glnodesver := 0;
+  end;
+{$ENDIF}
+
   leveltime := 0;
 
   // note: most of this ordering is important
   P_LoadBlockMap(lumpnum + Ord(ML_BLOCKMAP));
+  // note: most of this ordering is important
+  {$IFDEF OPENGL}
+  P_GLLoadVertexes(lumpnum + Ord(ML_VERTEXES), glmapnum + Ord(ML_GL_VERTS));
+  {$ELSE}
   P_LoadVertexes(lumpnum + Ord(ML_VERTEXES));
+  {$ENDIF}
   P_LoadSectors(lumpnum + Ord(ML_SECTORS));
   P_LoadSideDefs(lumpnum + Ord(ML_SIDEDEFS));
 
   P_LoadLineDefs(lumpnum + Ord(ML_LINEDEFS));
-  P_LoadSubsectors(lumpnum + Ord(ML_SSECTORS));
-  P_LoadNodes(lumpnum + Ord(ML_NODES));
-  P_LoadSegs(lumpnum + Ord(ML_SEGS));
+
+  {$IFDEF OPENGL}
+  if glnodesver > 0 then
+  begin
+    glmapname := W_GetNameForNum(glmapnum);
+    printf(' GL nodes v%d found (%s)'#13#10, [glnodesver, glmapname]);
+    P_LoadSubsectors(glmapnum + Ord(ML_GL_SSECT));
+    P_LoadNodes(glmapnum + Ord(ML_GL_NODES));
+    P_LoadGLSegs(glmapnum + Ord(ML_GL_SEGS));
+  end
+  else
+  {$ENDIF}
+  begin
+  {$IFDEF OPENGL}
+    printf(' GL nodes not found, using standard nodes'#13#10);
+  {$ENDIF}
+    P_LoadSubsectors(lumpnum + Ord(ML_SSECTORS));
+    P_LoadNodes(lumpnum + Ord(ML_NODES));
+    P_LoadSegs(lumpnum + Ord(ML_SEGS));
+  end;
 
   rejectmatrix := W_CacheLumpNum(lumpnum + Ord(ML_REJECT), PU_LEVEL);
   P_GroupLines;
@@ -880,9 +1149,12 @@ begin
   // set up world state
   P_SpawnSpecials;
 
+
   R_ChangeColormap(W_GetNameForNum(P_GetMapFadeTable(gamemap)));
 
+  {$IFNDEF OPENGL}
   R_Clear32Cache;
+  {$ENDIF}
 
   // preload graphics
   // JVAL
@@ -893,6 +1165,10 @@ begin
     S_PrecacheSounds;
   end;
   
+{$IFDEF OPENGL}
+  gld_PreprocessLevel; // JVAL OPENGL
+{$ENDIF}
+
   R_SetInterpolateSkipTicks(2);
 
   // Check if the level is a lightning level

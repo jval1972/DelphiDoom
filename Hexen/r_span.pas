@@ -56,10 +56,7 @@ var
 
 // start of a 64*64 tile image
   ds_source: PByteArray;
-
-  enableflatscrolling: boolean;
-
-
+  
 type
   dsscale_t = (ds64x64, ds128x128, ds256x256, ds512x512, NUMDSSCALES);
 

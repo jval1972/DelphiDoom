@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -59,9 +59,12 @@ implementation
 
 uses
   d_delphi,
-  p_local, p_maputl, p_setup,
+  p_local,
+  p_maputl,
+  p_setup,
   po_man,
-  r_defs, r_main;
+  r_defs,
+  r_main;
 
 var
   sightcounts: array[0..2] of integer;
@@ -142,6 +145,13 @@ begin
         segList := polyLink.polyobj.segs;
         for i := 0 to polyLink.polyobj.numsegs - 1 do
         begin
+          {$IFDEF OPENGL}
+          if segList^.miniseg then
+          begin
+            inc(segList);
+            continue; // line isn't crossed
+          end;
+          {$ENDIF}
           ld := segList^.linedef;
           if ld.validcount = validcount then
           begin
@@ -205,7 +215,7 @@ begin
       inc(list);
       continue; // line isn't crossed
     end;
-    P_MakeDivline (ld, @dl);
+    P_MakeDivline(ld, @dl);
     s1 := P_PointOnDivlineSide (trace.x, trace.y, @dl);
     s2 := P_PointOnDivlineSide (trace.x + trace.dx, trace.y + trace.dy, @dl);
     if s1 = s2 then

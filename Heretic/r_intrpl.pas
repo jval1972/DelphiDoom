@@ -58,10 +58,15 @@ implementation
 
 uses
   d_delphi,
-  d_player, d_think,
+  d_player,
+  d_think,
   g_game,
   i_system,
-  p_setup, p_tick, p_mobj, p_mobj_h, p_pspr_h,
+  p_setup,
+  p_tick,
+  p_mobj,
+  p_mobj_h,
+  p_pspr_h,
   r_defs,
   tables;
 

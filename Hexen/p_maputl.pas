@@ -524,6 +524,9 @@ begin
         tempSeg := polyLink.polyobj.segs;
         for i := 0 to polyLink.polyobj.numsegs - 1 do
         begin
+          {$IFDEF OPENGL}
+          if not tempSeg^.miniseg then
+          {$ENDIF}
           if tempSeg^.linedef.validcount <> validcount then
           begin
             tempSeg^.linedef.validcount := validcount;

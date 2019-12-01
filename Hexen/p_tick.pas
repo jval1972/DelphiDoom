@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -66,6 +66,7 @@ procedure P_Ticker;
 var
   leveltime: integer;
   TimerGame: integer;
+  isgamesuspended: boolean = true;
 
 implementation
 
@@ -140,6 +141,7 @@ procedure P_Ticker;
 var
   i: integer;
 begin
+  isgamesuspended := true;
   // run the tic
   if paused then
     exit;
@@ -151,6 +153,8 @@ begin
 
   if (not demoplayback) and (not demorecording) and C_IsConsoleActive and (not netgame) and (leveltime <> 0) then
     exit;
+
+  isgamesuspended := false;
 
   for i := 0 to MAXPLAYERS - 1 do
     if playeringame[i] then

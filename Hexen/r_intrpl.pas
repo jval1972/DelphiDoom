@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -32,6 +32,9 @@ unit r_intrpl;
 
 interface
 
+uses
+  m_fixed;
+
 procedure R_InitInterpolations;
 
 procedure R_ResetInterpolationBuffer;
@@ -49,17 +52,23 @@ procedure R_SetInterpolateSkipTicks(const ticks: integer);
 var
   interpolate: boolean;
   didinterpolations: boolean;
+  ticfrac: fixed_t;
 
 implementation
 
 uses
   d_delphi,
-  d_player, d_think,
+  d_player,
+  d_think,
   g_game,
   i_system,
-  m_fixed,
-  p_setup, p_tick, p_mobj, p_mobj_h, p_pspr_h,
-  r_defs, r_sky,
+  p_setup,
+  p_tick,
+  p_mobj,
+  p_mobj_h,
+  p_pspr_h,
+  r_defs,
+  r_sky,
   tables;
 
 type
@@ -305,7 +314,6 @@ function R_Interpolate: boolean;
 var
   i: integer;
   pi: Piitem_t;
-  frac: fixed_t;
   fractime: fixed_t;
 begin
   if skipinterpolationticks >= 0 then
@@ -315,9 +323,9 @@ begin
   end;
 
   fractime := I_GetFracTime;
-  frac := fractime - interpolationstoretime;
+  ticfrac := fractime - interpolationstoretime;
   pi := @istruct.items[0];
-  if frac > FRACUNIT then
+  if ticfrac > FRACUNIT then
   begin
   // JVAL
   // frac > FRACUNIT should rarelly happen,
@@ -345,10 +353,10 @@ begin
       if pi.address = pi.lastaddress then
       begin
         case pi._type of
-          iinteger: PInteger(pi.address)^ := R_InterpolationCalcI(pi.iprev, pi.inext, frac);
-          ismallint: PSmallInt(pi.address)^ := R_InterpolationCalcSI(pi.siprev, pi.sinext, frac);
-          ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, frac);
-          iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, frac);
+          iinteger: PInteger(pi.address)^ := R_InterpolationCalcI(pi.iprev, pi.inext, ticfrac);
+          ismallint: PSmallInt(pi.address)^ := R_InterpolationCalcSI(pi.siprev, pi.sinext, ticfrac);
+          ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
+          iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
         end;
       end;
       inc(pi);

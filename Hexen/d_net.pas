@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -35,15 +35,16 @@ interface
 uses
   d_delphi,
   xn_defs,
-  d_player, d_ticcmd,
+  d_player,
+  d_ticcmd,
   d_net_h;
 
 //-----------------------------------------------------------------------------
 //
-// DESCRIPTION: 
+// DESCRIPTION:
 //  Networking stuff.
-// 
-//----------------------------------------------------------------------------- 
+//
+//-----------------------------------------------------------------------------
 
 //
 // Network play related stuff.
@@ -137,17 +138,25 @@ var
 
 var
   isinterpolateddisplay: boolean;
+{$IFDEF OPENGL}
+  firstinterpolation: boolean;
+{$ENDIF}
 
 implementation
 
 uses
   m_menu,
   c_con,
-  i_system, i_net, i_io,
-  d_main, d_event,
-  r_intrpl, r_main,
+  i_system,
+  i_net,
+  i_io,
+  d_main,
+  d_event,
+  r_intrpl,
+  r_main,
   p_mobj_h,
-  g_game, g_demo,
+  g_game,
+  g_demo,
   doomstat;
 
 const
@@ -835,6 +844,9 @@ begin
 
   didinterpolations := false;
   isinterpolateddisplay := true;
+{$IFDEF OPENGL}
+  firstinterpolation := true;
+{$ENDIF}
 
   // wait for new tics if needed
   repeat
@@ -867,6 +879,9 @@ begin
       begin
         didinterpolations := true;
         D_Display;
+{$IFDEF OPENGL}
+        firstinterpolation := false;
+{$ENDIF}
       end;
     end;
   until lowtic >= gametic div ticdup + counts;
@@ -912,7 +927,12 @@ begin
 
   // Update display, next frame, with current state.
   if (not didinterpolations) or (Ord(gamestate) <> wipegamestate) then
+  begin
+{$IFDEF OPENGL}
+    firstinterpolation := true;
+{$ENDIF}
     D_Display;
+  end;
 end;
 
 procedure D_RunSingleTick;
@@ -928,6 +948,9 @@ begin
   G_Ticker;
   inc(gametic);
   inc(maketic);
+  {$IFDEF OPENGL}
+  firstinterpolation := true;
+  {$ENDIF}
   D_Display;
 end;
 

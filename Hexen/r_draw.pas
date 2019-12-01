@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -90,15 +90,38 @@ var
   ylookupl: array[0..MAXHEIGHT - 1] of PLongWordArray;
   columnofs: array[0..MAXWIDTH - 1] of integer;
 
+type
+  crange_idx_e = (
+    CR_BRICK,   //0
+    CR_TAN,     //1
+    CR_GRAY,    //2
+    CR_GREEN,   //3
+    CR_BROWN,   //4
+    CR_GOLD,    //5
+    CR_RED,     //6
+    CR_BLUE,    //7
+    CR_ORANGE,  //8
+    CR_YELLOW,  //9
+    CR_BLUE2,   //10
+    CR_LIMIT    //11
+  );
+
+var
+  colorregions: array[0..Ord(CR_LIMIT) - 1] of PByteArray;
   
 implementation
 
 uses
   am_map,
+  i_system,
   m_argv,
   r_hires,
-  w_wad, z_zone,
+  w_wad,
+  z_zone,
   sb_bar,
+{$IFDEF OPENGL}
+  gl_render,
+{$ENDIF}
 // State.
   doomstat,
   v_data;
@@ -112,10 +135,13 @@ uses
 //
 procedure R_InitTranslationTables;
 var
-  i: integer;
+  i{$IFDEF OPENGL}, j{$ENDIF}: integer;
   transLump: PByteArray;
   trlmp: integer;
   idx: integer;
+{$IFDEF OPENGL}
+  lump: integer;
+{$ENDIF}
 begin
   tinttable := W_CacheLumpName('TINTTAB', PU_STATIC);
 
@@ -133,7 +159,28 @@ begin
     if Pos('TRANTBL', strupper(char8tostring(W_GetNameForNum(idx)))) = 0 then
       idx := trlmp;
   end;
-  
+
+{$IFDEF OPENGL}
+  // JVAL: Initialize ColorRegions
+  lump := W_CheckNumForName('CR_START');
+  for i := 0 to Ord(CR_LIMIT) - 1 do
+    colorregions[i] := Z_Malloc(256, PU_STATIC, nil);
+  if lump = -1 then
+  begin
+    I_Warning('Colormap extensions not found, using default translations'#13#10);
+    for i := 0 to Ord(CR_LIMIT) - 1 do
+      for j := 0 to 255 do
+        colorregions[i][j] := j;
+  end
+  else
+  begin
+    for i := 0 to Ord(CR_LIMIT) - 1 do
+    begin
+      inc(lump);
+      W_ReadLump(lump, colorregions[i]);
+    end;
+  end;
+{$ENDIF}
 end;
 
 //
@@ -163,15 +210,21 @@ begin
   end
   else
   begin
+  {$IFDEF OPENGL}
+    viewwindowy := (trunc(SB_Y * SCREENHEIGHT / 200) - height) div 2;
+  {$ELSE}
     viewwindowy := (V_PreserveY(SB_Y) - height) div 2;
+  {$ENDIF}
   end;
 
+{$IFNDEF OPENGL}
   // Preclaculate all row offsets.
   for i := 0 to height - 1 do
   begin
     ylookup[i] := PByteArray(integer(screens[SCN_FG]) + (i + viewwindowy) * SCREENWIDTH);
     ylookupl[i] := PLongWordArray(@screen32[(i + viewwindowy) * SCREENWIDTH]);
   end;
+{$ENDIF}
 end;
 
 procedure R_ScreenBlanc(const scn: integer; const black: byte = 0);
@@ -194,6 +247,7 @@ end;
 // Also draws a beveled edge.
 //
 procedure R_FillBackScreen;
+{$IFNDEF OPENGL}
 var
   src: PByteArray;
   dest: PByteArray;
@@ -204,12 +258,16 @@ var
   tviewwindowy: integer;
   tviewheight: integer;
   tscaledviewwidth: integer;
+{$ENDIF}
 begin
   needsbackscreen := false;
 
   if scaledviewwidth = SCREENWIDTH then
     exit;
 
+{$IFDEF OPENGL}
+  gld_DrawBackground('F_022');
+{$ELSE}
   src := W_CacheLumpName('F_022', PU_CACHE);
 
   dest := screens[SCN_TMP];
@@ -288,7 +346,7 @@ begin
   R_ScreenBlanc(SCN_BG);
   x := V_PreserveY(SB_Y) * SCREENWIDTH;
   R_VideoBlanc(SCN_BG, x, (SCREENHEIGHT - V_PreserveY(SB_Y)) * SCREENWIDTH);
-
+{$ENDIF}
 end;
 
 //
@@ -305,8 +363,10 @@ begin
   //  is not optiomal, e.g. byte by byte on
   //  a 32bit CPU, as GNU GCC/Linux libc did
   //  at one point.
+{$IFNDEF OPENGL}
   if videomode = vm32bit then
   begin
+{$ENDIF}
     src := PByte(integer(screens[SCN_BG]) + ofs);
     dest := @screen32[ofs];
     for i := 1 to count do
@@ -315,9 +375,11 @@ begin
       inc(dest);
       inc(src);
     end;
+{$IFNDEF OPENGL}
   end
   else
     memcpy(Pointer(integer(screens[SCN_FG]) + ofs), Pointer(integer(screens[SCN_BG]) + ofs), count);
+{$ENDIF}
 end;
 
 procedure R_VideoBlanc(const scn: integer; const ofs: integer; const count: integer; const black: byte = 0);
@@ -327,7 +389,7 @@ var
   i: integer;
   lblack: LongWord;
 begin
-  if (videomode = vm32bit) and (scn = SCN_FG) then
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scn = SCN_FG) then
   begin
     lblack := curpal[black];
     lstrart := @screen32[ofs];

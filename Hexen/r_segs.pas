@@ -34,7 +34,8 @@ interface
 
 uses
   d_delphi,
-  m_fixed, tables,
+  m_fixed,
+  tables,
   r_defs;
 
 {
@@ -63,9 +64,11 @@ uses
 //
 //-----------------------------------------------------------------------------
 
+{$IFNDEF OPENGL}
 procedure R_RenderMaskedSegRange(const ds: Pdrawseg_t; const x1, x2: integer);
 
 procedure R_StoreWallRange(const start: integer; const stop: integer);
+{$ENDIF}
 
 var
 // angle to line origin
@@ -84,12 +87,26 @@ var
 implementation
 
 uses
-  doomtype, xn_defs, doomstat, doomdata,
-  i_system, 
-  r_main, r_data, r_bsp, r_sky, r_things, r_draw, r_plane, r_hires, r_column,
+  i_system,
+  r_bsp,
+{$IFNDEF OPENGL}
+  doomtype,
+  xn_defs,
+  doomstat,
+  doomdata,
+  r_main,
+  r_data,
+  r_sky,
+  r_things,
+  r_draw,
+  r_plane,
+  r_hires,
+  r_column,
   r_ccache,
+{$ENDIF}
   z_zone;
 
+{$IFNDEF OPENGL}
 var
   maskedtexturecol: PSmallIntArray; // JVAL : declared in r_defs
 
@@ -133,9 +150,11 @@ var
 
   bottomfrac: fixed_t;
   bottomstep: fixed_t;
+{$ENDIF}
 
 
 
+{$IFNDEF OPENGL}
 // OPTIMIZE: closed two sided lines as single sided
 
 //
@@ -1245,6 +1264,6 @@ begin
   end;
   inc(ds_p);
 end;
-
+{$ENDIF}
 
 end.

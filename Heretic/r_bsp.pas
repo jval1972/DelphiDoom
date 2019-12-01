@@ -89,16 +89,23 @@ implementation
 uses
   d_delphi,
   doomdata,
-  m_fixed, tables,
-  doomdef, m_bbox, 
+  m_fixed,
+  tables,
+  doomdef,
+  m_bbox,
   p_setup,
-  r_segs, r_main, r_plane, r_things, r_draw, r_sky,
+  r_segs,
+  r_main,
+  r_plane,
+  r_things,
+  r_draw,
+  r_sky,
 // State.
   doomstat{$IFDEF OPENGL},
   doomtype,
   r_data,
-  gl_render, // JVAL OPENGL
-  gl_clipper, // JVAL OPENGL
+  gl_render,      // JVAL OPENGL
+  gl_clipper,     // JVAL OPENGL
   gl_defs,
   z_zone{$ENDIF}; // JVAL OPENGL
 
@@ -377,8 +384,8 @@ begin
   end;
   result := false;
 end;
-
 {$ENDIF}
+
 //
 // R_AddLine
 // Clips the given segment

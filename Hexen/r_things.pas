@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -74,16 +74,19 @@ const
 var
   maxvissprite: integer;
 
+{$IFNDEF OPENGL}
 procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 
-
 procedure R_SortVisSprites;
+{$ENDIF}
 
 procedure R_AddSprites(sec: Psector_t);
 procedure R_InitSprites(namelist: PIntegerArray);
 procedure R_ClearSprites;
+{$IFNDEF OPENGL}
 procedure R_DrawMasked;
+{$ENDIF}
 procedure R_DrawPlayer;
 
 var
@@ -115,9 +118,26 @@ uses
   g_game,
   info_h,
   i_system,
-  p_mobj_h, p_pspr, p_pspr_h, p_user,
-  r_data, r_draw, r_main, r_bsp, r_segs, r_column, r_hires, r_lights, r_camera,
-  z_zone, w_wad,
+{$IFDEF OPENGL}
+  gl_render, // JVAL OPENGL
+{$ENDIF}
+  p_mobj_h,
+  p_pspr,
+  p_pspr_h,
+  p_user,
+  r_data,
+  r_draw,
+  r_main,
+{$IFNDEF OPENGL}
+  r_segs,
+  r_column,
+  r_hires,
+  r_lights,
+  r_bsp,
+{$ENDIF}
+  r_camera,
+  z_zone,
+  w_wad,
   doomstat;
 
 const
@@ -407,7 +427,7 @@ end;
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
-
+{$IFNDEF OPENGL}
 procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 var
   topscreen: integer;
@@ -673,6 +693,7 @@ begin
     frac := frac + fracstep;
   end;
 end;
+{$ENDIF}
 
 //
 //
@@ -699,7 +720,11 @@ var
   index: integer;
   vis: Pvissprite_t;
   ang: angle_t;
+{$IFDEF OPENGL}
+  checksides: boolean;
+{$ELSE}
   iscale: fixed_t;
+{$ENDIF}
 begin
 
   if (thing.player = viewplayer) and not chasecamera then
@@ -718,9 +743,14 @@ begin
 
   tz := gxt - gyt;
 
+  {$IFDEF OPENGL}
+  checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and (thing.state.models = nil);
+
+  if checksides then
+  {$ENDIF}
   // thing is behind view plane?
-  if tz < MINZ then
-    exit;
+    if tz < MINZ then
+      exit;
 
   xscale := FixedDiv(projection, tz);
   if xscale <= 0 then
@@ -730,9 +760,12 @@ begin
   gyt := FixedMul(tr_y, viewcos);
   tx := -(gyt + gxt);
 
-  // too far off the side?
-  if abs(tx) > 4 * tz then
-    exit;
+  {$IFDEF OPENGL}
+  if checksides then
+  {$ENDIF}
+    // too far off the side?
+    if abs(tx) > 4 * tz then
+      exit;
 
   // decide which patch to use for sprite relative to player
 
@@ -766,15 +799,21 @@ begin
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
 
   // off the right side?
-  if x1 > viewwidth then
-    exit;
+  {$IFDEF OPENGL}
+  if checksides then
+  {$ENDIF}
+    if x1 > viewwidth then
+      exit;
 
   tx := tx + spritewidth[lump];
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
 
   // off the left side
-  if x2 < 0 then
-    exit;
+  {$IFDEF OPENGL}
+  if checksides then
+  {$ENDIF}
+    if x2 < 0 then
+      exit;
 
   // store information in a vissprite
   vis := R_NewVisSprite;
@@ -784,6 +823,7 @@ begin
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
+  {$IFNDEF OPENGL}
   vis.gx := thing.x;
   vis.gy := thing.y;
   vis.gz := thing.z;
@@ -813,9 +853,15 @@ begin
     vis.startfrac := 0;
     vis.xiscale := iscale;
   end;
+{$ENDIF}
+{$IFDEF OPENGL}
+  vis.flip := flip;
+{$ENDIF}
 
+{$IFNDEF OPENGL}
   if vis.x1 > x1 then
     vis.startfrac := vis.startfrac + vis.xiscale * (vis.x1 - x1);
+{$ENDIF}
   vis.patch := lump;
 
   if fixedcolormap <> nil then
@@ -840,6 +886,9 @@ begin
 
     vis.colormap := spritelights[index];
   end;
+{$IFDEF OPENGL}
+  gld_AddSprite(vis); // JVAL: OPENGL
+{$ENDIF}
 end;
 
 //
@@ -905,9 +954,14 @@ var
   sprdef: Pspritedef_t;
   sprframe: Pspriteframe_t;
   lump: integer;
+{$IFNDEF OPENGL}
   flip: boolean;
+{$ENDIF}
   vis: Pvissprite_t;
   avis: vissprite_t;
+{$IFDEF OPENGL}
+  lightlevel: integer; // JVAL OPENGL
+{$ENDIF}
 begin
   // decide which patch to use
 
@@ -916,7 +970,9 @@ begin
   sprframe := @sprdef.spriteframes[psp.state.frame and FF_FRAMEMASK];
 
   lump := sprframe.lump[0];
+{$IFNDEF OPENGL}
   flip := sprframe.flip[0];
+{$ENDIF}
 
   // calculate edges of the shape
   tx := psp.sx - 160 * FRACUNIT;
@@ -956,6 +1012,7 @@ begin
     vis.x2 := x2;
   vis.scale := pspriteyscale;
 
+{$IFNDEF OPENGL}
   if flip then
   begin
     vis.xiscale := -pspriteiscale;
@@ -969,25 +1026,39 @@ begin
 
   if vis.x1 > x1 then
     vis.startfrac := vis.startfrac + vis.xiscale * (vis.x1 - x1);
+{$ENDIF}
   vis.patch := lump;
 
   if fixedcolormap <> nil then
   begin
     // fixed color
     vis.colormap := fixedcolormap;
+{$IFDEF OPENGL}
+    lightlevel := 255;
+{$ENDIF}
   end
   else if psp.state.frame and FF_FULLBRIGHT <> 0 then
   begin
     // full bright
     vis.colormap := colormaps;
+{$IFDEF OPENGL}
+    lightlevel := 255;
+{$ENDIF}
   end
   else
   begin
     // local light
     vis.colormap := spritelights[MAXLIGHTSCALE - 1];
+{$IFDEF OPENGL}
+    lightlevel := Psubsector_t(vis.mo.subsector).sector.lightlevel + extralight shl LIGHTSEGSHIFT
+{$ENDIF}
   end;
 
+{$IFDEF OPENGL}
+  gld_DrawWeapon(lump, vis, lightlevel); // JVAL OPENGL
+{$ELSE}
   R_DrawVisSprite(vis, true);
+{$ENDIF}
 end;
 
 //
@@ -1026,6 +1097,7 @@ begin
   end;
 end;
 
+{$IFNDEF OPENGL}
 //
 // R_SortVisSprites
 //
@@ -1376,6 +1448,7 @@ begin
       R_RenderMaskedSegRange(ds, ds.x1, ds.x2);
   end;
 end;
+{$ENDIF}
 
 procedure R_DrawPlayer;
 var

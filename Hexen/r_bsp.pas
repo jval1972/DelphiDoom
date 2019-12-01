@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -68,12 +68,24 @@ uses
   d_delphi,
   doomdata,
   xn_defs,
-  m_fixed, tables,
-  m_bbox, 
+  m_fixed,
+  tables,
+  m_bbox,
   p_setup,
-  r_segs, r_main, r_plane, r_things, r_draw, r_sky,
+  r_segs,
+  r_main,
+  r_plane,
+  r_things,
+  r_draw,
+  r_sky,
 // State.
-  doomstat;
+  doomstat{$IFDEF OPENGL},
+  doomtype,
+  r_data,
+  gl_render,      // JVAL OPENGL
+  gl_clipper,     // JVAL OPENGL
+  gl_defs,
+  z_zone{$ENDIF}; // JVAL OPENGL
 
 //
 // R_ClearDrawSegs
@@ -124,6 +136,7 @@ var
 //  e.g. single sided LineDefs (middle texture)
 //  that entirely block the view.
 //
+{$IFNDEF OPENGL}
 procedure R_ClipSolidWallSegment(first, last: integer);
 var
   next: Pcliprange_t;
@@ -265,6 +278,7 @@ begin
   // There is a fragment after *next.
   R_StoreWallRange(start.last + 1, last);
 end;
+{$ENDIF}
 
 //
 // R_ClearClipSegs
@@ -279,6 +293,76 @@ begin
   newend.last := $7fffffff;
   inc(newend);
 end;
+
+{$IFDEF OPENGL}
+function R_CheckClip(seg: Pseg_t): boolean;
+var
+  frontsector, backsector: Psector_t;
+begin
+  backsector := seg.backsector;
+  frontsector := seg.frontsector;
+
+  // check for closed sectors!
+  if backsector.ceilingheight <= frontsector.floorheight then
+  begin
+    if seg.sidedef.toptexture = NO_TEXTURE then
+      result := false
+    else if (backsector.ceilingpic = skyflatnum) and (frontsector.ceilingpic = skyflatnum) then
+      result := false
+    else
+      result := true;
+    exit;
+  end;
+
+  if frontsector.ceilingheight <= backsector.floorheight then
+  begin
+    if seg.sidedef.bottomtexture = NO_TEXTURE then
+      result := false
+    // properly render skies (consider door "open" if both floors are sky):
+    else if (backsector.ceilingpic = skyflatnum) and (frontsector.ceilingpic = skyflatnum) then
+      result := false
+    else
+      result := true;
+    exit;
+  end;
+
+  if backsector.ceilingheight <= backsector.floorheight then
+  begin
+    // preserve a kind of transparent door/lift special effect:
+    if backsector.ceilingheight < frontsector.ceilingheight then
+    begin
+      if seg.sidedef.toptexture = NO_TEXTURE then
+      begin
+        result := false;
+        exit;
+      end;
+    end;
+    if backsector.floorheight > frontsector.floorheight then
+    begin
+      if seg.sidedef.bottomtexture = NO_TEXTURE then
+      begin
+        result := false;
+        exit;
+      end;
+    end;
+    if (backsector.ceilingpic = skyflatnum) and (frontsector.ceilingpic = skyflatnum) then
+    begin
+      result := false;
+      exit;
+    end;
+
+    if (backsector.floorpic = skyflatnum) and (frontsector.floorpic = skyflatnum) then
+    begin
+      result := false;
+      exit;
+    end;
+
+    result := true;
+    exit;
+  end;
+  result := false;
+end;
+{$ENDIF}
 
 //
 // R_AddLine
@@ -309,6 +393,24 @@ begin
   if span >= ANG180 then
     exit;
 
+{$IFDEF OPENGL}
+  if not gld_clipper_SafeCheckRange(angle2, angle1) then
+    exit;
+
+  if line.backsector = nil then
+    gld_clipper_SafeAddClipRange(angle2, angle1)
+  else
+  begin
+    if line.frontsector = line.backsector then
+      if texturetranslation[line.sidedef.midtexture] = NO_TEXTURE then
+        exit; //e6y: nothing to do here!
+    if R_CheckClip(line) then
+      gld_clipper_SafeAddClipRange(angle2, angle1);
+  end;
+
+  if absviewpitch < 10 then
+  begin
+{$ENDIF}
   // Global angle needed by segcalc.
   rw_angle1 := angle1;
   angle1 := angle1 - viewangle;
@@ -355,6 +457,11 @@ begin
   if x1 >= x2 then
     exit;
 
+{$IFDEF OPENGL}
+  end;
+
+  gld_AddWall(line, false, nil); // JVAL OPENGL
+{$ELSE}
   backsector := line.backsector;
 
   // Single sided line?
@@ -393,6 +500,7 @@ begin
     exit;
 
   R_ClipPassWallSegment(x1, x2 - 1);
+{$ENDIF}
 end;
 
 //
@@ -429,12 +537,14 @@ var
   y2: fixed_t;
   angle1: angle_t;
   angle2: angle_t;
+{$IFNDEF OPENGL}
   span: angle_t;
   tspan: angle_t;
   clipangle2: angle_t;
   start: Pcliprange_t;
   sx1: integer;
   sx2: integer;
+{$ENDIF}
 begin
   if side = 0 then
     bspcoord := bspcoordA
@@ -469,6 +579,12 @@ begin
   x2 := bspcoord[checkcoord[boxpos][2]];
   y2 := bspcoord[checkcoord[boxpos][3]];
 
+{$IFDEF OPENGL}
+  angle1 := R_PointToAngle(x1, y1);
+  angle2 := R_PointToAngle(x2, y2);
+  result := gld_clipper_SafeCheckRange(angle2, angle1);
+  exit;
+{$ELSE}
   // check clip list for an open space
   angle1 := R_PointToAngle(x1, y1) - viewangle;
   angle2 := R_PointToAngle(x2, y2) - viewangle;
@@ -547,6 +663,7 @@ begin
     result := false
   else
     result := true;
+{$ENDIF}    
 end;
 
 //
@@ -563,6 +680,12 @@ var
   sub: Psubsector_t;
   polyCount: integer;
   polySeg: PPseg_t;
+{$IFDEF OPENGL}
+  i: integer;
+  dummyfloorplane: visplane_t;
+  dummyceilingplane: visplane_t;
+  tmpline: Pline_t;
+{$ENDIF}
 begin
   inc(sscount);
   sub := @subsectors[num];
@@ -592,6 +715,69 @@ begin
   else
     ceilingplane := nil;
 
+{$IFDEF OPENGL}
+  if frontsector = sub.sector then
+  begin
+    // if the sector has bottomtextures, then the floorheight will be set to the
+    // highest surounding floorheight
+    if frontsector.no_bottomtextures or (floorplane = nil) then
+    begin
+      i := frontsector.linecount;
+
+      dummyfloorplane.height := MININT;
+      while i > 0 do
+      begin
+        dec(i);
+        tmpline := frontsector.lines[i];
+        if tmpline.backsector <> nil then
+          if tmpline.backsector <> frontsector then
+            if tmpline.backsector.floorheight > dummyfloorplane.height then
+            begin
+              dummyfloorplane.height := tmpline.backsector.floorheight;
+              dummyfloorplane.lightlevel := tmpline.backsector.lightlevel;
+            end;
+        if tmpline.frontsector <> nil then
+          if tmpline.frontsector <> frontsector then
+            if tmpline.frontsector.floorheight > dummyfloorplane.height then
+            begin
+              dummyfloorplane.height := tmpline.frontsector.floorheight;
+              dummyfloorplane.lightlevel := tmpline.frontsector.lightlevel;
+            end;
+      end;
+      if dummyfloorplane.height <> MININT then
+        floorplane := @dummyfloorplane;
+    end;
+    // the same for ceilings. they will be set to the lowest ceilingheight
+    if frontsector.no_toptextures or (ceilingplane = nil) then
+    begin
+      i := frontsector.linecount;
+
+      dummyceilingplane.height := MAXINT;
+      while i > 0 do
+      begin
+        dec(i);
+        tmpline := frontsector.lines[i];
+        if tmpline.backsector <> nil then
+          if tmpline.backsector <> frontsector then
+            if tmpline.backsector.ceilingheight < dummyceilingplane.height then
+            begin
+              dummyceilingplane.height := tmpline.backsector.ceilingheight;
+              dummyceilingplane.lightlevel := tmpline.backsector.lightlevel;
+            end;
+        if tmpline.frontsector <> nil then
+          if tmpline.frontsector <> frontsector then
+            if tmpline.frontsector.ceilingheight < dummyceilingplane.height then
+            begin
+              dummyceilingplane.height := tmpline.frontsector.ceilingheight;
+              dummyceilingplane.lightlevel := tmpline.frontsector.lightlevel;
+            end;
+      end;
+      if dummyceilingplane.height <> MAXINT then
+        ceilingplane := @dummyceilingplane;
+    end;
+  end;
+{$ENDIF}
+
   R_AddSprites(frontsector);
 
   if sub.poly <> nil then
@@ -600,18 +786,58 @@ begin
     polySeg := Ppolyobj_t(sub.poly).segs;
     while polyCount > 0 do
     begin
+      {$IFDEF OPENGL}
+      if not polySeg^.miniseg then
+        gld_AddWall(polySeg^, true, frontsector);
+      {$ELSE}
       R_AddLine(polySeg^);
+      {$ENDIF}
       inc(polySeg);
       dec(polyCount);
     end;
   end;
 
+{$IFDEF OPENGL}
+  if gl_add_all_lines then
+  begin
+    while count <> 0 do
+    begin
+      // JVAL 27/9/2009
+      // If we have a one-sided linedef then we draw it regardless the clipping
+      if not line.miniseg then
+      begin
+        if line.linedef.flags and ML_TWOSIDED = 0 then
+          gld_AddWall(line, false, nil)
+        else
+          R_AddLine(line);
+      end;
+      inc(line);
+      dec(count);
+    end;
+  end
+  else
+  begin
+    while count <> 0 do
+    begin
+      if not line.miniseg then
+        R_AddLine(line);
+      inc(line);
+      dec(count);
+    end;
+  end;
+  if floorplane <> nil then
+    R_CalcPlaneOffsets(floorplane);
+  if ceilingplane <> nil then
+    R_CalcPlaneOffsets(ceilingplane);
+  gld_AddPlane(num, floorplane, ceilingplane); // JVAL OPENGL
+{$ELSE}
   while count <> 0 do
   begin
     R_AddLine(line);
     inc(line);
     dec(count);
   end;
+{$ENDIF}  
 end;
 
 //

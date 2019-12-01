@@ -96,9 +96,11 @@ uses
   d_delphi,
   c_cmds,
   doomdef,
-  d_main, d_player,
+  d_main,
+  d_player,
   g_game,
-  m_argv, m_defs,
+  m_argv,
+  m_defs,
   i_system,
 {$IFDEF OPENGL}
   gl_main,

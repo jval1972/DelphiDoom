@@ -124,8 +124,10 @@ begin
       dy := dy * 31 div 32;
       inc(loops);
     until loops > 64;
+    {$IFNDEF OPENGL}
     if loops > 1 then
       R_PlayerViewBlanc(aprox_black);
+    {$ENDIF}
     viewx := cx;
     viewy := cy;
 

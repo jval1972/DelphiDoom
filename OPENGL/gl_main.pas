@@ -90,7 +90,11 @@ implementation
 
 uses
   Messages,
+  {$IFDEF HEXEN}
+  xn_defs,
+  {$ELSE}
   doomdef,
+  {$ENDIF}
   d_main,
   d_net,
   g_game,

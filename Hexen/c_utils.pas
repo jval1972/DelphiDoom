@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -40,7 +40,12 @@ uses
   d_delphi,
   c_cmds,
   xn_defs,
-  i_video, i_system;
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
+  i_video,
+{$ENDIF}
+  i_system;
 
 procedure C_CmdDir(const parm1, parm2: string);
 var
@@ -121,7 +126,11 @@ end;
 procedure C_CmdGoToWebPage(const parm: string);
 begin
   if fullscreen then
+  {$IFDEF OPENGL}
+    GL_ChangeFullScreen(false);
+  {$ELSE}
     I_ChangeFullScreen;
+  {$ENDIF}
   I_GoToWebPage(parm);
 end;
 

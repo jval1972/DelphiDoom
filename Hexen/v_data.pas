@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -67,11 +67,24 @@ type
   end;
 
 const
+{$IFDEF OPENGL}
+  GLDRAWWIDTH = 512;
+  GLDRAWHEIGHT = 320;
+  GLDRAWTEXWIDTH = 512;
+  GLDRAWTEXHEIGHT = 512;
+{$ENDIF}
+
   FIXED_DIMENTIONS: array[SCN_320x200..SCN_TMP] of screendimention_t = (
     (width: 320; height: 200; depth: 1),
+    {$IFDEF OPENGL}
+    (width: GLDRAWWIDTH; height: GLDRAWHEIGHT; depth: 1),
+    (width: GLDRAWWIDTH; height: GLDRAWHEIGHT; depth: 1),
+    (width: GLDRAWWIDTH; height: GLDRAWHEIGHT; depth: 1),
+    {$ELSE}
     (width:  -1; height:  -1; depth: 1),
     (width:  -1; height:  -1; depth: 1),
     (width:  -1; height:  -1; depth: 1),
+    {$ENDIF}
     (width: 320; height: 200; depth: 1),
     (width: 320; height: 200; depth: 1)
   );

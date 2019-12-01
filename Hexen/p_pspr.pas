@@ -195,7 +195,12 @@ uses
   d_delphi,
   a_action,
   g_game,
-  i_system, i_video,
+  i_system,
+  {$IFDEF OPENGL}
+  gl_main,
+  {$ELSE}
+  i_video,
+  {$ENDIF}
   p_user,
   r_hires,
   info,

@@ -147,7 +147,11 @@ const
 implementation
 
 uses
+  {$IFDEF HEXEN}
+  xn_defs,
+  {$ELSE}
   doomdef,
+  {$ENDIF}
   d_main,
   g_game,
   i_system,

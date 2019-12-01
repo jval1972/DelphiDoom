@@ -133,6 +133,8 @@ type
     dy: fixed_t;
   end;
   Pdivline_t = ^divline_t;
+  divline_tArray = array[0..$FFFF] of divline_t;
+  Pdivline_tArray = ^divline_tArray;
 
   thingORline_t = record
     case integer of

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -77,10 +77,17 @@ uses
   d_delphi,
   c_cmds,
   xn_defs,
-  d_main, d_player,
+  d_main,
+  d_player,
   g_game,
-  m_argv, m_defs,
-  i_system, i_video,
+  m_argv,
+  m_defs,
+  i_system,
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
+  i_video,
+{$ENDIF}
   z_zone;
 
 function M_WriteFile(const name: string; source: pointer; length: integer): boolean;
@@ -201,7 +208,7 @@ begin
   buffer[14] := SCREENHEIGHT and 255;
   buffer[15] := SCREENHEIGHT div 256;
   buffer[16] := 32;  // pixel size
-  buffer[17] := 32;  // Origin in upper left-hand corner.
+  buffer[17] := {$IFDEF OPENGL}0{$ELSE}32{$ENDIF};  // Origin in upper left-hand corner.
 
   src := @buffer[18];
 

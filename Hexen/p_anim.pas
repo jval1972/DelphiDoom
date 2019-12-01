@@ -167,7 +167,7 @@ begin
         end;
         inc(tempSec);
       end;
-      Sky1Texture := P_GetMapSky1Texture(gamemap);
+      SkyTexture := P_GetMapSky1Texture(gamemap);
     end;
     exit;
   end;
@@ -208,7 +208,7 @@ begin
   end;
   if foundSec then
   begin
-    Sky1Texture := P_GetMapSky2Texture(gamemap); // set alternate sky
+    SkyTexture := P_GetMapSky2Texture(gamemap); // set alternate sky
     S_StartSound(nil, Ord(SFX_THUNDER_CRASH));
   end;
   // Calculate the next lighting flash

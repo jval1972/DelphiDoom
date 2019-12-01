@@ -4,6 +4,8 @@ Fixed wav chunks reading bug.
 Added A_RemoveSelf  mobj function.
 Chase camera positioning improvements.
 FastMM memory manager upgrated to version 4.99.
+Zlib updated to version 1.2.5
+Added OpenGL renderer.
 
 --------------------------------------
 version 1.1.3.500 (Released 20/1/2012)

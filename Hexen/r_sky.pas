@@ -68,7 +68,7 @@ const
 var
   skyflatnum: integer;
   skytexturemid: integer;
-  Sky1Texture: integer;
+  SkyTexture: integer;
   Sky2Texture: integer;
   Sky1ColumnOffset: fixed_t;
   Sky2ColumnOffset: fixed_t;
@@ -104,7 +104,7 @@ end;
 
 procedure R_InitSky(map: integer);
 begin
-  Sky1Texture := P_GetMapSky1Texture(map);
+  SkyTexture := P_GetMapSky1Texture(map);
   Sky2Texture := P_GetMapSky2Texture(map);
   Sky1ScrollDelta := P_GetMapSky1ScrollDelta(map);
   Sky2ScrollDelta := P_GetMapSky2ScrollDelta(map);

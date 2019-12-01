@@ -42,7 +42,10 @@ uses
   hu_stuff,
   p_mobj_h,
   p_setup,
-  i_system, i_mp3, i_music, i_sound,
+  i_system,
+  i_mp3,
+  i_music,
+  i_sound,
 {$IFDEF OPENGL}
   gl_main,
   gl_defs,
@@ -54,7 +57,14 @@ uses
   e_endoom,
 {$ENDIF}
   m_menu,
-  r_defs, r_main, r_hires, r_lights, r_intrpl, r_plane, r_fake3d, r_draw,
+  r_defs,
+  r_main,
+  r_hires,
+  r_lights,
+  r_intrpl,
+  r_plane,
+  r_fake3d,
+  r_draw,
   s_sound,
   t_main,
   v_video;

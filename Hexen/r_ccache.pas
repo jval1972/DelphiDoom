@@ -238,7 +238,7 @@ begin
           twidth := (1 shl i) * ptex.width;
           theight := (1 shl i) * ptex.height;
         end;
-        if (rtex = Sky1Texture) or (rtex = Sky2Texture) then
+        if (rtex = SkyTexture) or (rtex = Sky2Texture) then
           theight := twidth;
         t.ScaleTo(twidth, theight); // JVAL Scale the texture if needed
         ptex.factorbits := i;
@@ -269,7 +269,7 @@ begin
         dc_texturemod := dc_mod;
         columnsize := 128;
       end;
-      if (rtex = Sky1Texture) or (rtex = Sky2Texture) then
+      if (rtex = SkyTexture) or (rtex = Sky2Texture) then
         columnsize := columnsize * 2;
 
       if dc32cache[hash][index] = nil then
@@ -394,7 +394,7 @@ begin
       exit;
     end;
 
-    if (rtex = Sky1Texture) or (rtex = Sky2Texture) then
+    if (rtex = SkyTexture) or (rtex = Sky2Texture) then
       dc32cache[hash][index].dc32[columnsize] := dc32cache[hash][index].dc32[columnsize - 1]
     else
       dc32cache[hash][index].dc32[columnsize] := dc32cache[hash][index].dc32[0];
@@ -747,7 +747,7 @@ procedure R_ReadDC32Cache(const rtex, rcol: integer);
 begin
   if not R_ReadDC32ExternalCache(rtex, rcol) then
   begin
-    if (rtex = Sky1Texture) or (rtex = Sky2Texture) then
+    if (rtex = SkyTexture) or (rtex = Sky2Texture) then
       R_ReadDC32InternalSkyCache(rtex, rcol)
     else
       R_ReadDC32InternalCache(rtex, rcol);

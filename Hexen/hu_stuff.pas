@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -126,11 +126,15 @@ uses
   d_player,
   g_game,
   hu_lib,
-  m_menu, m_fixed,
-  p_tick, p_setup,
+  m_menu,
+  m_fixed,
+  p_tick,
+  p_setup,
   r_draw,
-  s_sound, sounds,
-  v_data, v_video,
+  s_sound,
+  sounds,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 
@@ -197,12 +201,12 @@ const
 
 function HU_TITLEY: integer;
 begin
-  result := 150 - hu_font[0].height;
+  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 150 div 200{$ELSE}150{$ENDIF} - hu_font[0].height;
 end;
 
 function HU_LEVELTIMEY: integer;
 begin
-  result := 150 - 2 * hu_font[0].height - 1;
+  result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG) * 150 div 200{$ELSE}150{$ENDIF} - 2 * hu_font[0].height - 1;
 end;
 
 const
@@ -453,6 +457,21 @@ var
   x, y: integer;
   c: integer;
 begin
+{$IFDEF OPENGL}
+  x := V_GetScreenWidth(SCN_FG) - 9;
+  y := 1;
+  for i := length(m_fps) downto 1 do
+  begin
+    if m_fps[i] <> ' ' then
+    begin
+      c := Ord(toupper(m_fps[i])) - Ord(HU_FONTSTART);
+      V_DrawPatch(x, y, SCN_FG, hu_font[c], false);
+      x := x - 8;
+    end
+    else
+      x := x - 4;
+  end;
+{$ELSE}
   if amstate = am_only then
   begin
     x := 311;
@@ -474,6 +493,7 @@ begin
     else
       x := x - 4;
   end;
+{$ENDIF}  
 end;
 
 

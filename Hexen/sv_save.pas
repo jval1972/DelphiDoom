@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -782,6 +782,9 @@ begin
     sec.seqType := seqtype_t(GET_BYTE);
     sec.specialdata := nil;
     sec.soundtarget := nil;
+    {$IFDEF OPENGL}
+    sec.iSectorID := i;  
+    {$ENDIF}
     inc(sec);
   end;
   li := @lines[0];

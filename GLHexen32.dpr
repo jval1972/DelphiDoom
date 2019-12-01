@@ -30,6 +30,10 @@
 {$Error: Use you must use Delphi to compile this project. }
 {$ENDIF}
 
+{$IFNDEF OPENGL}
+{$Error: This project uses opengl renderer, please define "OPENGL"}
+{$ENDIF}
+
 {$IFNDEF HEXEN}
 {$Error: To compile this project you must define "HEXEN"}
 {$ENDIF}
@@ -37,7 +41,7 @@
 {$I Doom32.inc}
 {$D Hexen to Delphi Total Conversion}
 
-program Hexen32;
+program GLHexen32;
 
 {$R *.RES}
 
@@ -64,6 +68,15 @@ uses
   FastCodeStrLenUnit in 'FASTCODE\FastCodeStrLenUnit.pas',
   FastcodeStrToInt32Unit in 'FASTCODE\FastcodeStrToInt32Unit.pas',
   FastcodeUpperCaseUnit in 'FASTCODE\FastcodeUpperCaseUnit.pas',
+  gl_clipper in 'OPENGL\gl_clipper.pas',
+  gl_tex in 'OPENGL\gl_tex.pas',
+  gl_defs in 'OPENGL\gl_defs.pas',
+  gl_main in 'OPENGL\gl_main.pas',
+  gl_misc in 'OPENGL\gl_misc.pas',
+  gl_render in 'OPENGL\gl_render.pas',
+  gl_sky in 'OPENGL\gl_sky.pas',
+  gl_lights in 'OPENGL\gl_lights.pas',
+  gl_data in 'OPENGL\gl_data.pas',
   v_video in 'Hexen\v_video.pas',
   w_utils in 'Hexen\w_utils.pas',
   xn_defs in 'Hexen\xn_defs.pas',
@@ -88,21 +101,18 @@ uses
   doomstat in 'Hexen\doomstat.pas',
   doomtype in 'Hexen\doomtype.pas',
   f_finale in 'Hexen\f_finale.pas',
-  f_wipe in 'Hexen\f_wipe.pas',
   g_demo in 'Hexen\g_demo.pas',
   g_game in 'Hexen\g_game.pas',
   hu_lib in 'Hexen\hu_lib.pas',
   hu_stuff in 'Hexen\hu_stuff.pas',
   i_input in 'Hexen\i_input.pas',
   i_io in 'Base\i_io.pas',
-  i_main in 'Hexen\i_main.pas',
   i_midi in 'Hexen\i_midi.pas',
   i_mp3 in 'Hexen\i_mp3.pas',
   i_music in 'Hexen\i_music.pas',
   i_net in 'Hexen\i_net.pas',
   i_sound in 'Hexen\i_sound.pas',
   i_system in 'Hexen\i_system.pas',
-  i_video in 'Hexen\i_video.pas',
   in_stuff in 'Hexen\in_stuff.pas',
   info in 'Hexen\info.pas',
   info_h in 'Hexen\info_h.pas',
@@ -196,39 +206,19 @@ uses
   p_user in 'Hexen\p_user.pas',
   po_man in 'Hexen\po_man.pas',
   r_bsp in 'Hexen\r_bsp.pas',
-  r_cache in 'Hexen\r_cache.pas',
   r_camera in 'Hexen\r_camera.pas',
-  r_ccache in 'Hexen\r_ccache.pas',
-  r_col_al in 'Hexen\r_col_al.pas',
-  r_col_av in 'Hexen\r_col_av.pas',
-  r_col_fog in 'Hexen\r_col_fog.pas',
-  r_col_fz in 'Hexen\r_col_fz.pas',
-  r_col_l in 'Hexen\r_col_l.pas',
-  r_col_ms in 'Hexen\r_col_ms.pas',
-  r_col_ms_fog in 'Hexen\r_col_ms_fog.pas',
-  r_col_sk in 'Hexen\r_col_sk.pas',
-  r_col_tr in 'Hexen\r_col_tr.pas',
-  r_column in 'Hexen\r_column.pas',
   r_data in 'Hexen\r_data.pas',
   r_defs in 'Hexen\r_defs.pas',
   r_draw in 'Hexen\r_draw.pas',
   r_fake3d in 'Hexen\r_fake3d.pas',
-  r_grow in 'Hexen\r_grow.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Hexen\r_intrpl.pas',
   r_lights in 'Hexen\r_lights.pas',
   r_main in 'Hexen\r_main.pas',
   r_mmx in 'Hexen\r_mmx.pas',
   r_plane in 'Hexen\r_plane.pas',
-  r_scache in 'Hexen\r_scache.pas',
   r_segs in 'Hexen\r_segs.pas',
   r_sky in 'Hexen\r_sky.pas',
-  r_skycache1 in 'Hexen\r_skycache1.pas',
-  r_skycache2 in 'Hexen\r_skycache2.pas',
-  r_skycache in 'Hexen\r_skycache.pas',
-  r_span32 in 'Hexen\r_span32.pas',
-  r_span32_fog in 'Hexen\r_span32_fog.pas',
-  r_span in 'Hexen\r_span.pas',
   r_things in 'Hexen\r_things.pas',
   rtl_types in 'Hexen\rtl_types.pas',
   s_sndseq in 'Hexen\s_sndseq.pas',
@@ -253,8 +243,20 @@ uses
   w_pak in 'Base\w_pak.pas',
   w_wad in 'Base\w_wad.pas',
   i_startup in 'Base\i_startup.pas' {StartUpConsoleForm},
+  sc_states in 'Base\sc_states.pas',
+  gl_types in 'OPENGL\gl_types.pas',
+  gl_models in 'OPENGL\gl_models.pas',
+  gl_lightmaps in 'OPENGL\gl_lightmaps.pas',
+  gl_md2 in 'OPENGL\gl_md2.pas',
+  gl_bsp in 'OPENGL\gl_bsp.pas',
   t_material in 'TEXLIB\t_material.pas',
-  i_tmp in 'Base\i_tmp.pas';
+  gl_shadows in 'OPENGL\gl_shadows.pas',
+  dglOpenGL in 'OPENGL\dglOpenGL.pas',
+  gl_dlights in 'OPENGL\gl_dlights.pas',
+  sc_tokens in 'Base\sc_tokens.pas',
+  i_tmp in 'Base\i_tmp.pas',
+  i_exec in 'Base\i_exec.pas',
+  gl_frustum in 'OPENGL\gl_frustum.pas';
 
 var
   Saved8087CW: Word;
@@ -264,7 +266,7 @@ begin
   Saved8087CW := Default8087CW;
   Set8087CW($133f); { Disable all fpu exceptions }
 
-  DoomMain;
+  D_DoomMain;
 
   { Reset the FPU to the previous state }
   Set8087CW(Saved8087CW);

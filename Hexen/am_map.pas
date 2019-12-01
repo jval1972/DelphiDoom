@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -311,7 +311,11 @@ uses
   c_cmds,
   g_game,
   p_mobj_h, p_setup,
-  r_data, r_draw, r_hires,
+  r_data,
+{$IFNDEF OPENGL}
+  r_draw,
+  r_hires,
+{$ENDIF}
   sb_bar,
   v_data, v_video;
 
@@ -632,7 +636,7 @@ begin
 
   f_x := 0;
   f_y := 0;
-  f_w := SCREENWIDTH;
+  f_w := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF};
   f_h := V_PreserveY(SB_Y);
 
   AM_clearMarks;
@@ -989,8 +993,10 @@ begin
   end
   else
   begin
+  {$IFNDEF OPENGL}
     if videomode = vm32bit then
     begin
+  {$ENDIF}
       c := videopal[color];
       dest := @fb32[0];
       deststop := @fb32[f_w * f_h];
@@ -999,9 +1005,11 @@ begin
         dest^ := c;
         inc(dest);
       end;
+  {$IFNDEF OPENGL}
     end
     else
       memset(fb, color, f_w * f_h);
+  {$ENDIF}
   end;
 end;
 
@@ -1163,6 +1171,7 @@ var
   procedure PUTDOT(xx, yy, cc: integer);
   begin
   // JVAL Clip line if in overlay mode
+  {$IFNDEF OPENGL}
     if amstate = am_overlay then
     begin
       if yy <= viewwindowy then
@@ -1175,9 +1184,12 @@ var
         exit;
     end;
     if videomode = vm32bit then
+  {$ENDIF}
       fb32[yy * f_w + xx] := videopal[cc]
+  {$IFNDEF OPENGL}
     else
       fb[yy * f_w + xx] := cc;
+  {$ENDIF}
   end;
 
 begin
@@ -1188,7 +1200,7 @@ begin
      (fl.b.y < 0) or (fl.b.y >= f_h) then
   begin
     I_Error('AM_drawFline(): fuck!');
-    exit;
+      exit;
   end;
 
   dx := fl.b.x - fl.a.x;
@@ -1572,10 +1584,14 @@ end;
 
 procedure AM_drawCrosshair(color: integer);
 begin
+  {$IFNDEF OPENGL}
   if videomode = vm32bit then
+  {$ENDIF}
     fb32[(f_w * (f_h + 1)) div 2] := videopal[color] // single point for now
+  {$IFNDEF OPENGL}
   else
     fb[(f_w * (f_h + 1)) div 2] := color; // single point for now
+  {$ENDIF}
 end;
 
 procedure AM_Drawer;

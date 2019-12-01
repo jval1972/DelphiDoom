@@ -3126,8 +3126,8 @@ begin
   OptionsDisplayOpenGLDef.y := 40; // x,y of menu
   OptionsDisplayOpenGLDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayOpenGLDef.itemheight := LINEHEIGHT2;
-
 {$ENDIF}
+
 ////////////////////////////////////////////////////////////////////////////////
 //ReadMenu1
   pmi := @ReadMenu1[0];

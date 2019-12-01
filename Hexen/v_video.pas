@@ -1,10 +1,10 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHexen: A modified and improved Hexen port for Windows
+//  DelphiHeretic: A modified and improved Heretic port for Windows
 //  based on original Linux Doom as published by "id Software", on
-//  Hexen source as published by "Raven" software and DelphiDoom
+//  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2009 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,6 +20,11 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  Gamma correction LUT.
+//  Functions to draw patches (by post) directly to screen.
+//  Functions to blit a block to the screen.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -41,33 +46,6 @@ uses
   r_defs,
   v_data;
 
-{
-    v_video.h, v_video.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  Gamma correction LUT.
-//  Functions to draw patches (by post) directly to screen.
-//  Functions to blit a block to the screen.
-//
-//-----------------------------------------------------------------------------
-
 function V_GetScreenWidth(scrn: integer): integer;
 
 function V_GetScreenHeight(scrn: integer): integer;
@@ -81,6 +59,12 @@ procedure V_ReInit;
 procedure V_ShutDown;
 
 function V_ScreensSize(const scrn: integer = -1): integer;
+
+procedure V_CopyCustomScreen(
+  src: PByteArray;
+  width: integer;
+  height: integer;
+  destscrn: integer);
 
 procedure V_CopyRect(
   srcx: integer;
@@ -120,8 +104,13 @@ procedure V_CopyScreenTransparent(
   srcscrn: integer;
   destscrn: integer; srcoffs: integer = 0; destoffs: integer = 0; size: integer = -1);
 
+{$IFDEF OPENGL}
+procedure V_ShadeBackground(const ofs: integer = 0;
+  const count: integer = -1);
+{$ELSE}
 procedure V_ShadeScreen(const scn: integer; const ofs: integer = 0;
   const count: integer = -1);
+{$ENDIF}
 
 procedure V_RemoveTransparency(const scn: integer; const ofs: integer;
   const count: integer = -1);
@@ -297,9 +286,11 @@ begin
   if x <= 0 then
     result := 0
   else if x >= 320 then
-    result := SCREENWIDTH
+    result := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF}
+{$IFNDEF OPENGL}
   else if SCREENWIDTH = 320 then
     result := x
+{$ENDIF}
   else
     result := preserveX[x];
 end;
@@ -310,9 +301,11 @@ begin
   if y <= 0 then
     result := 0
   else if y >= 200 then
-    result := SCREENHEIGHT
+    result := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF}
+{$IFNDEF OPENGL}
   else if SCREENHEIGHT = 200 then
     result := y
+{$ENDIF}    
   else
     result := preserveY[y];
 end;
@@ -327,6 +320,95 @@ end;
 function V_PreserveH(const y: integer; const h: integer): integer;
 begin
   result := V_PreserveY(y + h) - V_PreserveY(y);
+end;
+
+procedure V_CopyCustomScreen8(
+  scrA: PByteArray;
+  width: integer;
+  height: integer;
+  destscrn: integer);
+var
+  src: PByteArray;
+  dest: PByte;
+  destw: integer;
+  desth: integer;
+  fracxstep: fixed_t;
+  fracystep: fixed_t;
+  fracx: fixed_t;
+  fracy: fixed_t;
+  col: integer;
+  row: integer;
+begin
+  destw := V_GetScreenWidth(destscrn);
+  desth := V_GetScreenHeight(destscrn);
+
+  fracy := 0;
+  fracxstep := FRACUNIT * width div destw;
+  fracystep := FRACUNIT * height div desth;
+
+  for row := 0 to desth - 1 do
+  begin
+    fracx := 0;
+    dest := PByte(integer(screens[destscrn]) + destw * row);
+    src := @scrA[(fracy div FRACUNIT) * width];
+    for col := 0 to destw - 1 do
+    begin
+      dest^ := src[LongWord(fracx) shr FRACBITS];
+      inc(dest);
+      fracx := fracx + fracxstep;
+    end;
+    fracy := fracy + fracystep;
+  end
+end;
+
+procedure V_CopyCustomScreen32(
+  scrA: PByteArray;
+  width: integer;
+  height: integer);
+var
+  src: PByteArray;
+  dest: PLongWord;
+  destw: integer;
+  desth: integer;
+  fracxstep: fixed_t;
+  fracystep: fixed_t;
+  fracx: fixed_t;
+  fracy: fixed_t;
+  col: integer;
+  row: integer;
+begin
+  destw := V_GetScreenWidth(SCN_FG);
+  desth := V_GetScreenHeight(SCN_FG);
+
+  fracy := 0;
+  fracxstep := FRACUNIT * width div destw;
+  fracystep := FRACUNIT * height div desth;
+
+  dest := @screen32[0];
+  for row := 0 to desth - 1 do
+  begin
+    fracx := 0;
+    src := @scrA[(fracy div FRACUNIT) * width];
+    for col := 0 to destw - 1 do
+    begin
+      dest^ := videopal[src[LongWord(fracx) shr FRACBITS]];
+      inc(dest);
+      fracx := fracx + fracxstep;
+    end;
+    fracy := fracy + fracystep;
+  end
+end;
+
+procedure V_CopyCustomScreen(
+  src: PByteArray;
+  width: integer;
+  height: integer;
+  destscrn: integer);
+begin
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
+    V_CopyCustomScreen32(src, width, height)
+  else
+    V_CopyCustomScreen8(src, width, height, destscrn)
 end;
 
 //
@@ -430,7 +512,7 @@ var
   dwidth: integer;
 begin
   swidth := V_GetScreenWidth(srcscrn);
-  dwidth := SCREENWIDTH;
+  dwidth := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF};
 
   if V_NeedsPreserve(SCN_FG, srcscrn, preserve) then
   begin
@@ -487,7 +569,7 @@ procedure V_CopyRect(
   destscrn: integer;
   preserve: boolean);
 begin
-  if (videomode = vm32bit) and (destscrn = SCN_FG) then
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
     V_CopyRect32(srcx, srcy, srcscrn, width, height, destx, desty, preserve)
   else
     V_CopyRect8(srcx, srcy, srcscrn, width, height, destx, desty, destscrn, preserve);
@@ -506,7 +588,7 @@ procedure V_CopyAddRect(
   addfactor: fixed_t);
 var
   src: PByteArray;
-  dest: PLongWordArray;
+  dest: PLongWord;
   destw: integer;
   desth: integer;
   fracxstep: fixed_t;
@@ -517,6 +599,10 @@ var
   row: integer;
   swidth: integer;
   dwidth: integer;
+{$IFDEF OPENGL}
+  pb: PByte;
+  bfactor: byte;
+{$ENDIF}
 begin
   if addfactor <= 0 then
   begin
@@ -527,10 +613,14 @@ begin
   if addfactor > FRACUNIT then
     exit;
 
-  if (videomode = vm32bit) and (destscrn = SCN_FG) then
+{$IFDEF OPENGL}
+  bfactor := 255 - (addfactor shr $16);
+{$ENDIF}
+
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
   begin
     swidth := V_GetScreenWidth(srcscrn);
-    dwidth := SCREENWIDTH;
+    dwidth := V_GetScreenWidth(SCN_FG);
 
     if V_NeedsPreserve(SCN_FG, srcscrn, preserve) then
     begin
@@ -567,7 +657,12 @@ begin
         src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
         for col := 0 to destw - 1 do
         begin
-          dest[col] := R_ColorAverage(videopal[src[LongWord(fracx) shr FRACBITS]], dest[col], addfactor);
+          dest^ := R_ColorAverage(videopal[src[LongWord(fracx) shr FRACBITS]], dest^, addfactor);
+          {$IFDEF OPENGL}
+          pb := PByte(integer(dest) + 3);
+          pb^ := bfactor;
+          {$ENDIF}
+          inc(dest);
           fracx := fracx + fracxstep;
         end;
         fracy := fracy + fracystep;
@@ -690,7 +785,7 @@ var
   psrcl: PLongWord;
 begin
   swidth := V_GetScreenWidth(srcscrn);
-  dwidth := SCREENWIDTH;
+  dwidth := V_GetScreenWidth(SCN_FG);
 
   if V_NeedsPreserve(SCN_FG, srcscrn, preserve) then
   begin
@@ -772,12 +867,38 @@ procedure V_CopyRectTransparent(
   destscrn: integer;
   preserve: boolean);
 begin
-  if (videomode = vm32bit) and (destscrn = SCN_FG) then
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
     V_CopyRectTransparent32(srcx, srcy, srcscrn, width, height, destx, desty, preserve)
   else
     V_CopyRectTransparent8(srcx, srcy, srcscrn, width, height, destx, desty, destscrn, preserve);
 end;
 
+{$IFDEF OPENGL}
+procedure V_ShadeBackground(const ofs: integer = 0;
+  const count: integer = -1);
+var
+  src: PByte;
+  cnt: integer;
+begin
+  if count = -1 then
+    cnt := V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG)
+  else
+    cnt := count;
+  src := PByte(@screen32[ofs]);
+  while cnt > 0 do
+  begin
+    src^ := src^ shr 1;
+    inc(src);
+    src^ := src^ shr 1;
+    inc(src);
+    src^ := src^ shr 1;
+    inc(src);
+    src^ := $80;
+    inc(src);
+    dec(cnt);
+  end;
+end;
+{$ELSE}
 procedure V_ShadeScreen(const scn: integer; const ofs: integer = 0;
   const count: integer = -1);
 var
@@ -824,6 +945,7 @@ begin
     end;
   end;
 end;
+{$ENDIF}
 
 procedure V_CopyScreenTransparent8(
   srcscrn: integer;
@@ -881,7 +1003,7 @@ procedure V_CopyScreenTransparent(
   srcscrn: integer;
   destscrn: integer; srcoffs: integer = 0; destoffs: integer = 0; size: integer = -1);
 begin
-  if (videomode = vm32bit) and (destscrn = SCN_FG) then
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
     V_CopyScreenTransparent32(srcscrn, srcoffs, destoffs, size)
   else
     V_CopyScreenTransparent8(srcscrn, destscrn, srcoffs, destoffs, size);
@@ -924,18 +1046,22 @@ end;
 procedure V_CopyRawDataToScreen(scrn: integer; const lumpname: string);
 var
   len: integer;
+  lump: integer;
   lmpdata: PByteArray;
 begin
-  len := W_LumpLength(W_GetNumForName(lumpname));
+  lump := W_GetNumForName(lumpname);
+  len := W_LumpLength(lump);
   if len <> 320 * 200 then
-    I_DevError('V_CopyRawDataToScreen(): Lump has invalid size: %d (does not have 320x200 size).'#13#10, [len]);
+    I_DevError('V_CopyRawDataToScreen(): Lump "%s" has invalid size: %d (does not have 320x200 size).'#13#10, [lumpname, len]);
 
-  lmpdata := W_CacheLumpName(lumpname, PU_STATIC);
+  lmpdata := W_CacheLumpNum(lump, PU_STATIC);
   memcpy(@screens[scrn][0], lmpdata, len);
   Z_ChangeTag(lmpdata, PU_CACHE);
 
+{$IFNDEF OPENGL}
   if (videomode = vm32bit) and (scrn = SCN_FG) then
     V_CopyRect32(0, 0, SCN_FG, 320, 200, 0, 0, true);
+{$ENDIF}    
 end;
 
 procedure V_DrawPatch8(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
@@ -1083,7 +1209,7 @@ var
   sheight: integer;
   vs: LongWord;
 begin
-  swidth := SCREENWIDTH;
+  swidth := V_GetScreenWidth(SCN_FG);
   x := x - patch.leftoffset;
   y := y - patch.topoffset;
 
@@ -1189,7 +1315,7 @@ end;
 //
 procedure V_DrawPatch(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
 begin
-  if (videomode = vm32bit) and (scrn = SCN_FG) then
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scrn = SCN_FG) then
     V_DrawPatch32(x, y, patch, preserve)
   else
     V_DrawPatch8(x, y, scrn, patch, preserve);
@@ -1357,8 +1483,13 @@ begin
     fracxstep := FRACUNIT * patch.width div pw;
     fracystep := FRACUNIT * patch.height div ph;
 
+    {$IFDEF OPENGL}
+    swidth := V_GetScreenWidth(SCN_FG);
+    sheight := V_GetScreenHeight(SCN_FG);
+    {$ELSE}
     swidth := SCREENWIDTH;
     sheight := SCREENHEIGHT;
+    {$ENDIF}
 
     desttop := @screen32[y * swidth + x];
 
@@ -1404,7 +1535,7 @@ end;
 
 procedure V_DrawPatchZoomed(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean; fraczoom: fixed_t);
 begin
-  if (videomode = vm32bit) and (scrn = SCN_FG) then
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scrn = SCN_FG) then
     V_DrawPatchZoomed32(x, y, patch, preserve, fraczoom)
   else
     V_DrawPatchZoomed8(x, y, scrn, patch, preserve, fraczoom);
@@ -1460,14 +1591,34 @@ begin
 end;
 
 procedure V_PageDrawer(const pagename: string);
+{$IFDEF OPENGL}
+var
+  len: integer;
+  lump: integer;
+  lmpdata: pointer;
+{$ENDIF}
 begin
-  if useexternaltextures and (videomode = vm32bit) then
+{$IFDEF OPENGL}
+  if T_DrawFullScreenPatch(pagename, screen32) then
+    exit;
+  lump := W_GetNumForName(pagename);
+  len := W_LumpLength(lump);
+  if len <> 320 * 200 then
+    I_DevError('V_PageDrawer(): Lump "%s" has invalid size: %d (does not have 320x200 size).'#13#10, [pagename, len]);
+
+  lmpdata := W_CacheLumpNum(lump, PU_STATIC);
+  memcpy(screens[SCN_TMP], lmpdata, len);
+  Z_ChangeTag(lmpdata, PU_CACHE);
+
+  V_CopyRect32(0, 0, SCN_TMP, 320, 200, 0, 0, true);
+
+{$ELSE}
+  if (videomode = vm32bit) and useexternaltextures then
     if T_DrawFullScreenPatch(pagename, screen32) then
       exit;
-
   V_CopyRawDataToScreen(SCN_TMP, pagename);
-
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+{$ENDIF}
 end;
 
 //
@@ -1512,7 +1663,7 @@ end;
 
 procedure V_DrawBlock(x, y: integer; scrn: integer; width, height: integer; src: PByteArray);
 begin
-  if (videomode = vm32bit) and (scrn = SCN_FG) then
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scrn = SCN_FG) then
     V_DrawBlock32(x, y, width, height, src)
   else
     V_DrawBlock8(x, y, scrn, width, height, src)
@@ -1523,7 +1674,11 @@ var
   dest: PLongWordArray;
   swidth: integer;
 begin
+{$IFDEF OPENGL}
+  swidth := V_GetScreenWidth(SCN_FG);
+{$ELSE}
   swidth := SCREENWIDTH;
+{$ENDIF}  
   dest := PLongWordArray(@screen32[y * swidth + x]);
 
   while height <> 0 do
@@ -1563,10 +1718,10 @@ var
 begin
   // initialize translation tables
   for i := 0 to 319 do
-    preserveX[i] := trunc(i * SCREENWIDTH / 320);
+    preserveX[i] := trunc(i * {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} / 320);
 
   for i := 0 to 199 do
-    preserveY[i] := trunc(i * SCREENHEIGHT / 200);
+    preserveY[i] := trunc(i * {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} / 200);
 end;
 
 //
@@ -1589,11 +1744,10 @@ begin
   begin
     dest^ := (LongWord(curgamma[src[0]]) shl 16) or
              (LongWord(curgamma[src[1]]) shl 8) or
-             (LongWord(curgamma[src[2]]));
+             (LongWord(curgamma[src[2]])) or $FF000000;
     inc(dest);
     src := PByteArray(integer(src) + 3);
   end;
-  videopal[0] := 0;
   recalctablesneeded := true;
   needsbackscreen := true; // force background redraw
 end;

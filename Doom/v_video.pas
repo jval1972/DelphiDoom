@@ -32,7 +32,6 @@ interface
 
 uses
   d_delphi,
-  
   doomdef,
   m_fixed,
 // Needed because we are refering to patches.

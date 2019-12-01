@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -114,31 +114,73 @@ function D_VersionBuilt: string;
 
 procedure D_ShutDown;
 
+var
+  autoloadgwafiles: boolean = true;
+
 implementation
 
 uses
   d_delphi,
   deh_main,
   doomstat,
-  d_ticcmd, d_player, d_net, d_net_h,
-  c_con, c_cmds,
-  f_finale, f_wipe,
-  m_argv, m_misc, m_menu, m_fixed,
+  d_ticcmd,
+  d_player,
+  d_net,
+  d_net_h,
+  c_con,
+  c_cmds,
+  f_finale,
+{$IFNDEF OPENGL}
+  f_wipe,
+{$ENDIF}
+  m_argv,
+  m_misc,
+  m_menu,
+  m_fixed,
   xn_strings,
-  info, info_rnd,
-  i_system, i_sound, i_video, i_io, i_startup,
-  g_game, g_demo,
+  info,
+  info_rnd,
+  i_system,
+  i_sound,
+  i_tmp,
+{$IFDEF OPENGL}
+  gl_main,
+  gl_data,
+{$ELSE}
+  i_video,
+{$ENDIF}
+  i_io,
+  i_startup,
+  g_game,
+  g_demo,
   sb_bar,
-  hu_stuff, in_stuff,
+  hu_stuff,
+  in_stuff,
   am_map,
-  p_setup, p_mobj_h, p_acs,
-  r_draw, r_main, r_hires, r_defs, r_intrpl, r_data, r_fake3d, r_lights, r_camera,
-  sounds, s_sound, s_sndseq,
+  p_setup,
+  p_mobj_h,
+  p_acs,
+  r_draw,
+  r_main,
+  r_hires,
+{$IFNDEF OPENGL}
+  r_defs,
+{$ENDIF}
+  r_intrpl,
+  r_data,
+  r_fake3d,
+  r_lights,
+  r_camera,
+  sounds,
+  s_sound,
+  s_sndseq,
   sc_decorate,
   sv_save,
   t_main,
-  v_data, v_video,
-  w_wad, w_pak,
+  v_data,
+  v_video,
+  w_wad,
+  w_pak,
   z_zone;
 
 const
@@ -248,20 +290,27 @@ var
   diskbusyend: integer = -1;
 
 procedure D_Display;
+{$IFDEF OPENGL}
+procedure D_DisplayHU;
+{$ENDIF}
 var
   nowtime: integer;
-  tics: integer;
-  wipestart: integer;
   y: integer;
-  done: boolean;
-  wipe: boolean;
   redrawsbar: boolean;
   redrawbkscn: boolean;
   palette: PByteArray;
-  oldvideomode: videomode_t;
   drawhu: boolean;
+{$IFNDEF OPENGL}
+  tics: integer;
+  wipe: boolean;
+  wipestart: integer;
+  done: boolean;
+  oldvideomode: videomode_t;
+{$ENDIF}
 begin
+{$IFNDEF OPENGL}
   HU_DoFPSStuff;
+{$ENDIF}
 
   if nodrawers then
     exit; // for comparative timing / profiling
@@ -281,6 +330,7 @@ begin
     borderdrawcount := 3;
   end;
 
+{$IFNDEF OPENGL}
   // save the current screen if about to wipe
 //  if (Ord(gamestate) <> wipegamestate) and (gamestate <> GS_INTERMISSION) and (wipegamestate <> Ord(GS_INTERMISSION)) then
   if (Ord(gamestate) <> wipegamestate) and ((gamestate = GS_DEMOSCREEN) or (wipegamestate = Ord(GS_DEMOSCREEN))) then
@@ -290,6 +340,7 @@ begin
   end
   else
     wipe := false;
+{$ENDIF}
 
   if (gamestate = GS_LEVEL) and (gametic <> 0) then
     HU_Erase;
@@ -337,12 +388,14 @@ begin
     if gametic <> 0 then
       drawhu := true;
 
+{$IFNDEF OPENGL}
   // see if the border needs to be initially drawn
     if needsbackscreen or (oldgamestate <> Ord(GS_LEVEL)) then
     begin
       viewactivestate := false; // view was not active
       R_FillBackScreen;         // draw the pattern into the back screen
     end;
+{$ENDIF}
 
   // see if the border needs to be updated to the screen
     if amstate <> am_only then
@@ -382,7 +435,7 @@ begin
     HU_Drawer;
 
   nowtime := I_GetTime;
-  
+
   if isdiskbusy then
   begin
     diskbusyend := nowtime + 4; // Display busy disk for a little...
@@ -430,6 +483,7 @@ begin
 
   NetUpdate; // send out any new accumulation
 
+  {$IFNDEF OPENGL}
   // normal update
   if not wipe then
   begin
@@ -459,7 +513,31 @@ begin
   until done;
   videomode := oldvideomode;
   wipedisplay := false;
+  {$ENDIF}
 end;
+{$IFDEF OPENGL}
+begin
+  HU_DoFPSStuff;
+  if firstinterpolation then
+    ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
+  if gamestate = GS_LEVEL then
+  begin
+    if (amstate <> am_only) and (gametic <> 0) then
+    begin
+      R_FillBackScreen;         // draw the pattern into the back screen
+      D_RenderPlayerView(@players[displayplayer]);
+    end;
+  end;
+  if firstinterpolation then
+  begin
+    if gamestate = GS_LEVEL then
+      if amstate = am_overlay then
+        AM_Drawer;
+    D_DisplayHU;
+  end;
+  D_FinishUpdate; // page flip or blit buffer
+end;
+{$ENDIF}
 
 //
 //  D_DoomLoop
@@ -621,6 +699,12 @@ var
 // D_AddFile
 //
 procedure D_AddFile(const filename: string);
+{$IFDEF OPENGL}
+var
+  ext: string;
+  len: integer;
+  gwafname: string;
+{$ENDIF}
 begin
   if filename <> '' then
   begin
@@ -632,6 +716,31 @@ begin
       // the parms after p are wadfile/lump names,
       // until end of parms or another - preceded parm
         modifiedgame := true; // homebrew levels
+    {$IFDEF OPENGL}
+    // JVAL: If exists automatically loads GWA file
+      if autoloadgwafiles then
+      begin
+        ext := strupper(fext(filename));
+        if ext = '.WAD' then
+        begin
+          gwafname := filename;
+          len := Length(gwafname);
+          gwafname[len - 2] := 'G';
+          gwafname[len - 1] := 'W';
+          gwafname[len] := 'A';
+          if fexists(gwafname) then
+            wadfiles.Add(gwafname)
+          else
+          begin
+            gwafname := M_SaveFileName(gwafname);
+            if fexists(gwafname) then
+              wadfiles.Add(gwafname)
+            else if gld_BuildNodes(filename, gwafname) then
+              wadfiles.Add(gwafname);
+          end;
+        end;
+      end;
+    {$ENDIF}
     except
       printf('D_AddFile(): Can not add %s'#13#10, [filename]);
     end;
@@ -990,6 +1099,9 @@ begin
   printf('I_InitializeIO: Initializing input/output streams.'#13#10);
   I_InitializeIO;
 
+  printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
+  I_InitTempFiles;
+
   SUC_Progress(3);
 
   D_AddSystemWAD; // Add system wad first
@@ -1252,14 +1364,18 @@ begin
   if (p <> 0) and (p <= myargc - 1) then
     usejoystick := true;
 
+  {$IFNDEF OPENGL}
   SCREENWIDTH := WINDOWWIDTH;
+  {$ENDIF}
   p := M_CheckParm('-screenwidth');
   if (p <> 0) and (p < myargc - 1) then
     SCREENWIDTH := atoi(myargv[p + 1]);
   if SCREENWIDTH > MAXWIDTH then
     SCREENWIDTH := MAXWIDTH;
 
+  {$IFNDEF OPENGL}
   SCREENHEIGHT := WINDOWHEIGHT;
+  {$ENDIF}
   p := M_CheckParm('-screenheight');
   if (p <> 0) and (p < myargc - 1) then
     SCREENHEIGHT := atoi(myargv[p + 1]);
@@ -1581,7 +1697,11 @@ begin
 
   SUC_Progress(89);
 
+{$IFDEF OPENGL}
+  GL_InitGraphics;
+{$ELSE}
   I_InitGraphics;
+{$ENDIF}
 
   SUC_Progress(95);
 

@@ -39,7 +39,8 @@ implementation
 
 uses
   r_column,
-  r_skycache1, r_skycache2;
+  r_skycache1,
+  r_skycache2;
 
 //
 // R_ReadDC32InternalCache

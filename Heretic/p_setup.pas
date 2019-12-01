@@ -194,8 +194,8 @@ uses
 {$IFDEF OPENGL}
   r_main,
   gl_data,    // JVAL OPENGL
-  gl_tex, // JVAL OPENGL
-  gl_render, // JVAL OPENGL
+  gl_tex,     // JVAL OPENGL
+  gl_render,  // JVAL OPENGL
 {$ENDIF}
   s_sound,
   doomstat;

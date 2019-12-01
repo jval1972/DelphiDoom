@@ -95,8 +95,12 @@ uses
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
 {$ENDIF}
-  p_mobj_h, p_pspr, p_pspr_h,
-  r_data, r_draw, r_main, 
+  p_mobj_h,
+  p_pspr,
+  p_pspr_h,
+  r_data,
+  r_draw,
+  r_main,
 {$IFNDEF OPENGL}
   r_segs,
   r_column,

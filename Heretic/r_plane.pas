@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -41,7 +41,8 @@ interface
 uses
   m_fixed,
   doomdef,
-  r_data, r_defs;
+  r_data,
+  r_defs;
 
 procedure R_InitPlanes;
 procedure R_ClearPlanes;
@@ -98,12 +99,18 @@ uses
   d_player,
   tables,
   i_system,
-  r_sky, r_draw, r_main, r_things, r_hires,
+  r_sky,
+  r_draw,
+  r_main,
+  r_things,
+  r_hires,
 {$IFNDEF OPENGL}
-  r_span, r_span32,
+  r_span,
+  r_span32,
   r_column,
 {$ENDIF}
-  z_zone, w_wad;
+  z_zone,
+  w_wad;
 
 // Here comes the obnoxious "visplane".
 const

@@ -109,7 +109,12 @@ procedure gld_ClearTextureMemory;
 implementation
 
 uses
+  {$IFDEF HEXEN}
+  xn_defs,
+  g_demo,
+  {$ELSE}
   doomdef,
+  {$ENDIF}
   d_think,
   g_game,
   gl_misc,
@@ -974,7 +979,7 @@ begin
     glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);
     glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_RESIDENT, @i);
 {    if i = GL_TRUE then    }
-      exit;  
+      exit;
   end;
 
   if gld_LoadHiresTexture(gltexture, textures[gltexture.index].name) then
@@ -986,7 +991,7 @@ begin
   else
     ZeroMemory(buffer, gltexture.buffer_size);
 
-  // JVAL: This fixes originx <> 0 or originy <> 0 for sky textures. 
+  // JVAL: This fixes originx <> 0 or originy <> 0 for sky textures.
   skyhack := false;
   if (gltexture.index = skytexture) and (textures[skytexture].patchcount = 1) then
     if (textures[skytexture].patches[0].originx <> 0) or (textures[skytexture].patches[0].originy <> 0) then

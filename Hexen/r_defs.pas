@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -144,6 +144,11 @@ type
 
     linecount: integer;
     lines: Pline_tPArray; // [linecount] size
+{$IFDEF OPENGL}
+    iSectorID: integer;
+    no_toptextures: boolean;
+    no_bottomtextures: boolean;
+{$ENDIF}
   end;
   Psector_t = ^sector_t;
   sector_tArray = packed array[0..$FFFF] of sector_t;
@@ -219,12 +224,21 @@ type
 
     // thinker_t for reversable actions
     specialdata: pointer;
+    {$IFDEF OPENGL}
+    renderflags: integer;
+    {$ENDIF}
   end;
   Pline_t = ^line_t;
+  PPline_t = ^Pline_t;
   line_tArray = packed array[0..$FFFF] of line_t;
   line_tPArray = packed array[0..$FFFF] of Pline_t;
 
+{$IFDEF OPENGL}
+const
+  LRF_ISOLATED = 1;
+{$ENDIF}
 
+type
 //
 // A SubSector.
 // References a Sector.
@@ -261,6 +275,11 @@ type
     // backsector is NULL for one sided lines
     frontsector: Psector_t;
     backsector: Psector_t;
+{$IFDEF OPENGL}
+    length: single;
+    iSegID: integer;
+    miniseg: boolean;
+{$ENDIF}
   end;
   Pseg_t = ^seg_t;
   PPseg_t = ^Pseg_t;
@@ -396,6 +415,7 @@ type
     x1: integer;
     x2: integer;
 
+    {$IFNDEF OPENGL}
     // for line side calculation
     gx: fixed_t;
     gy: fixed_t;
@@ -408,14 +428,19 @@ type
 
     // horizontal position of x1
     startfrac: fixed_t;
+    {$ENDIF}
 
     scale: fixed_t;
 
+    {$IFNDEF OPENGL}
     // negative if flipped
     xiscale: fixed_t;
+    {$ENDIF}
 
     texturemid: fixed_t;
+    {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
+    {$ENDIF}
     patch: integer;
 
     // for color translation and shadow draw,
@@ -427,6 +452,9 @@ type
     mobjflags_ex: integer;
     mobjflags2_ex: integer;
     mo: Pmobj_t;
+{$IFDEF OPENGL}
+    flip: boolean;
+{$ENDIF}    
 //    _type: integer;
   end;
 
@@ -494,6 +522,9 @@ type
     special: integer;
     minx: integer;
     maxx: integer;
+    {$IFDEF OPENGL}
+    xoffs, yoffs: integer;
+    {$ENDIF}
 
     // leave pads for [minx-1] and [maxx+1]
     top: Pvisindex_tArray;    // Now allocated dinamically!
@@ -562,7 +593,9 @@ type
 
     // All the patches[patchcount]
     //  are drawn back to front into the cached texture.
+    {$IFNDEF OPENGL}
     texture32: PTexture;  // JVAL: External texture reference
+    {$ENDIF}
     patchcount: smallint;
     patches: array[0..0] of texpatch_t;
   end;
@@ -576,7 +609,9 @@ type
     name: char8_t;
     width: smallint;  // Optional ??
     height: smallint;
+    {$IFNDEF OPENGL}
     flat32: PTexture; // External texture reference
+    {$ENDIF}
     terraintype: integer;
     translation: integer;
     lump: integer;

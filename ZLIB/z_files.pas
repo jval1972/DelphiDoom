@@ -130,7 +130,7 @@ function inflateInit_(var strm: TZStreamRec; version: PChar;
 function inflateEnd(var strm: TZStreamRec): Integer;
 
 const
-  ZLIB_VERSION = '1.2.3';
+  ZLIB_VERSION = '1.2.5';
 
 
 implementation
@@ -138,15 +138,15 @@ implementation
 uses
   i_system;
 
-{$L z123_deflate}
-{$L z123_inflate}
-{$L z123_inftrees}
-{$L z123_infback}
-{$L z123_inffast}
-{$L z123_trees}
-{$L z123_compress}
-{$L z123_adler32}
-{$L z123_crc32}
+{$L z125_deflate}
+{$L z125_inflate}
+{$L z125_inftrees}
+{$L z125_infback}
+{$L z125_inffast}
+{$L z125_trees}
+{$L z125_compress}
+{$L z125_adler32}
+{$L z125_crc32}
 
 const
   {** flush constants *******************************************************}

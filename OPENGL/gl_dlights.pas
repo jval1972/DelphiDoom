@@ -119,7 +119,11 @@ implementation
 
 uses
   d_main,
+  {$IFDEF HEXEN}
+  xn_defs,
+  {$ELSE}
   doomdef,
+  {$ENDIF}
   m_stack,
   m_rnd,
   gl_defs,

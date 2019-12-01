@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -44,15 +44,25 @@ implementation
 
 uses
   d_delphi,
-  i_video, i_system,
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
+  i_video,
+{$ENDIF}
+  i_system,
   am_map,
-  d_player, d_event,
+  d_player,
+  d_event,
   g_game,
-  m_menu, m_fixed,
+  m_menu,
+  m_fixed,
   p_setup,
   r_defs,
-  v_data, v_video,
-  s_sound, sounds, s_sndseq,
+  v_data,
+  v_video,
+  s_sound,
+  sounds,
+  s_sndseq,
   xn_defs,
   w_wad,
   z_zone;

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -68,13 +68,17 @@ uses
 // Retrieve column data for span blitting.
 function R_GetColumn(const tex: integer; col: integer): PByteArray;
 
+{$IFNDEF OPENGL}
 // Retrieve ds_sources
 procedure R_GetDSs(const flat: integer);
+{$ENDIF}
 
 function R_GetLumpForFlat(const flat: integer): integer;
 
+{$IFNDEF OPENGL}
 // Retrieve dc_sources
 procedure R_GetDCs(const tex: integer; const col: integer);
+{$ENDIF}
 
 // I/O, setting up the stuff.
 procedure R_InitData;
@@ -129,7 +133,11 @@ var
   fogmaplump: integer = -1;
   colormaplump: integer = -1;
 
-procedure R_ChangeColormap(lumpname: string);
+var
+  enableflatscrolling: boolean;
+
+
+procedure R_ChangeColormap(const lumpname: string);
 
 implementation
 
@@ -141,10 +149,27 @@ uses
   d_think,
   g_game,
   i_system,
-  p_local, p_setup, p_tick, p_mobj_h, p_mobj, p_terrain, p_anim,
-  r_sky, r_things, r_bsp, r_hires, r_column, r_span, r_ccache, r_scache,
-  r_col_fz, r_main,
-  v_data, v_video,
+  p_local,
+  p_setup,
+  p_tick,
+  p_mobj_h,
+  p_mobj,
+  p_terrain,
+  p_anim,
+  r_sky,
+  r_things,
+  r_bsp,
+  r_hires,
+{$IFNDEF OPENGL}
+  r_column,
+  r_span,
+  r_ccache,
+  r_scache,
+  r_col_fz,
+{$ENDIF}
+  r_main,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 
@@ -512,6 +537,7 @@ begin
   result := PByteArray(integer(texturecomposite[tex]) + ofs);
 end;
 
+{$IFNDEF OPENGL}
 procedure R_GetDSs(const flat: integer);
 var
   lump: integer;
@@ -525,12 +551,14 @@ begin
   else
     R_ReadDS32Cache(flat);
 end;
+{$ENDIF}
 
 function R_GetLumpForFlat(const flat: integer): integer;
 begin
   result := flats[flats[flat].translation].lump;
 end;
 
+{$IFNDEF OPENGL}
 procedure R_GetDCs(const tex: integer; const col: integer);
 begin
   if videomode = vm8bit then
@@ -538,7 +566,7 @@ begin
   else 
     R_ReadDC32Cache(tex, col);
 end;
-
+{$ENDIF}
 //
 // R_InitTextures
 // Initializes the texture list
@@ -657,7 +685,9 @@ begin
     texture.width := mtexture.width;
     texture.height := mtexture.height;
     texture.patchcount := mtexture.patchcount;
+    {$IFNDEF OPENGL}
     texture.texture32 := nil;
+    {$ENDIF}
 
     memcpy(@texture.name, @mtexture.name, SizeOf(texture.name));
     mpatch := @mtexture.patches[0];
@@ -721,7 +751,9 @@ begin
     flats[i].name := W_GetNameForNum(firstflat + i);
     flats[i].translation := i;
     flats[i].lump := W_GetNumForName(flats[i].name);
+    {$IFNDEF OPENGL}
     flats[i].flat32 := nil;
+    {$ENDIF}
     flats[i].terraintype := P_TerrainTypeForName(flats[i].name);
   end;
 end;
@@ -839,7 +871,7 @@ begin
   v_translation := colormaps;
 end;
 
-procedure R_ChangeColormap(lumpname: string);
+procedure R_ChangeColormap(const lumpname: string);
 var
   lump: integer;
   length: integer;
@@ -855,8 +887,10 @@ begin
     if colormaps[i] = 0 then
       colormaps[i] := aprox_black;
   v_translation := colormaps;
+  {$IFNDEF OPENGL}
   R_SetRenderingFunctions;
   R_CalcHiResTables;
+  {$ENDIF}
 end;
 
 //
@@ -872,7 +906,9 @@ begin
   R_InitFlats;
   R_InitSpriteLumps;
   R_InitColormaps;
+{$IFNDEF OPENGL}
   R_InitFuzzTable;
+{$ENDIF}
 end;
 
 //
@@ -901,7 +937,9 @@ begin
     flats[result].name := W_GetNameForNum(i);
     flats[result].translation := result;
     flats[result].lump := i;
+    {$IFNDEF OPENGL}
     flats[result].flat32 := nil;
+    {$ENDIF}
     flats[result].terraintype := P_TerrainTypeForName(flats[result].name);
   end
 end;
@@ -998,7 +1036,9 @@ begin
     if flatpresent[i] <> 0 then
     begin
       flat := W_CacheLumpNum(R_GetLumpForFlat(i), PU_STATIC);
+{$IFNDEF OPENGL}
       R_ReadDS32Cache(i);
+{$ENDIF}
       Z_ChangeTag(flat, PU_CACHE);
       flatmemory := flatmemory + 64 * 64;
     end;
@@ -1028,15 +1068,17 @@ begin
   //  while the sky texture is stored like
   //  a wall texture, with an episode dependend
   //  name.
-  texturepresent[Sky1Texture] := 1;
+  texturepresent[SkyTexture] := 1;
   texturepresent[Sky2Texture] := 1;
 
   texturememory := 0;
   allocmemory := AllocMemSize;
 
   printf(' Precaching textures'#13#10);
+{$IFNDEF OPENGL}
   dc_mod := 0;
   dc_texturemod := 0;
+{$ENDIF}
   for i := 0 to numtextures - 1 do
   begin
     if texturepresent[i] = 0 then
@@ -1050,7 +1092,9 @@ begin
       texturememory := texturememory + lumpinfo[lump].size;
       W_CacheLumpNum(lump, PU_CACHE);
     end;
+{$IFNDEF OPENGL}
     R_Precache32bittexture(i);
+{$ENDIF}
   end;
   allocmemory := AllocMemSize - allocmemory;
   printf('%6d KB memory usage for textures'#13#10, [(texturememory + allocmemory) div 1024]);

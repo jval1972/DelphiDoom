@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -55,8 +55,15 @@ uses
   d_fpc,
 {$ENDIF}
   d_delphi,
-  xn_defs, d_event, d_main,
-  i_main, i_system;
+  xn_defs,
+  d_event,
+  d_main,
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
+  i_main,
+{$ENDIF}
+  i_system;
 
 function TranslateKey(keycode: integer): integer;
 begin

@@ -140,12 +140,25 @@ uses
   d_think,
   g_game,
   i_system,
-  p_local, p_setup, p_tick, p_mobj_h, p_mobj, p_terrain,
-  r_sky, r_things, r_bsp, r_hires, 
+  p_local,
+  p_setup,
+  p_tick,
+  p_mobj_h,
+  p_mobj,
+  p_terrain,
+  r_sky,
+  r_things,
+  r_bsp,
+  r_hires,
 {$IFNDEF OPENGL}
-  r_column, r_span, r_ccache, r_scache, r_col_fz,
+  r_column,
+  r_span,
+  r_ccache,
+  r_scache,
+  r_col_fz,
 {$ENDIF}
-  v_data, v_video,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 
@@ -859,7 +872,7 @@ begin
   R_InitColormaps;
 {$IFNDEF OPENGL}
   R_InitFuzzTable;
-{$ENDIF}  
+{$ENDIF}
 end;
 
 //
@@ -986,7 +999,7 @@ begin
       flat := W_CacheLumpNum(R_GetLumpForFlat(i), PU_STATIC);
 {$IFNDEF OPENGL}
       R_ReadDS32Cache(i);
-{$ENDIF}      
+{$ENDIF}
       Z_ChangeTag(flat, PU_CACHE);
       flatmemory := flatmemory + 64 * 64;
     end;
@@ -1021,7 +1034,7 @@ begin
 {$IFNDEF OPENGL}
   dc_mod := 0;
   dc_texturemod := 0;
-{$ENDIF}  
+{$ENDIF}
   for i := 0 to numtextures - 1 do
   begin
     if texturepresent[i] = 0 then

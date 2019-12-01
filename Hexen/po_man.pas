@@ -802,6 +802,10 @@ begin
 
   for i := 0 to po.numsegs - 1 do
   begin
+    {$IFDEF OPENGL}
+    if not tempSeg^.miniseg then
+    begin
+    {$ENDIF}
     if tempSeg^.v1.x > rightX then
       rightX := tempSeg^.v1.x;
     if tempSeg^.v1.x < leftX then
@@ -810,6 +814,9 @@ begin
       topY := tempSeg^.v1.y;
     if tempSeg^.v1.y < bottomY then
       bottomY := tempSeg^.v1.y;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
     inc(tempSeg);
   end;
   po.bbox[BOXRIGHT] := MapBlockInt(rightX - bmaporgx);
@@ -971,6 +978,10 @@ begin
   count := po.numsegs;
   while count > 0 do
   begin
+    {$IFDEF OPENGL}
+    if not segList^.miniseg then
+    begin
+    {$ENDIF}
     if segList^.linedef.validcount <> validcount then
     begin
       segList^.linedef.bbox[BOXTOP] := segList^.linedef.bbox[BOXTOP] + y;
@@ -993,6 +1004,9 @@ begin
     end;
     prevPts^.x := prevPts^.x + x; // previous points are unique for each seg
     prevPts^.y := prevPts^.y + y;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
     inc(segList);
     inc(prevPts);
     dec(count);
@@ -1001,10 +1015,17 @@ begin
   count := po.numsegs;
   while count > 0 do
   begin
-    if PO_CheckMobjBlocking(segList^, po) then
+    {$IFDEF OPENGL}
+    if not segList^.miniseg then
+    begin
+    {$ENDIF}
+     if PO_CheckMobjBlocking(segList^, po) then
     begin
       blocked := true;
     end;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
     inc(segList);
     dec(count);
   end;
@@ -1016,7 +1037,11 @@ begin
     inc(validcount);
     while count > 0 do
     begin
-      if segList^.linedef.validcount <> validcount then
+      {$IFDEF OPENGL}
+      if not segList^.miniseg then
+      begin
+      {$ENDIF}
+       if segList^.linedef.validcount <> validcount then
       begin
         segList^.linedef.bbox[BOXTOP] := segList^.linedef.bbox[BOXTOP] - y;
         segList^.linedef.bbox[BOXBOTTOM] := segList^.linedef.bbox[BOXBOTTOM] - y;
@@ -1027,6 +1052,9 @@ begin
       veryTempSeg := po.segs;
       while veryTempSeg <> segList do
       begin
+        {$IFDEF OPENGL}
+        if not veryTempSeg^.miniseg then
+        {$ENDIF}
         if veryTempSeg^.v1 = segList^.v1 then
           break;
         inc(veryTempSeg);
@@ -1038,6 +1066,9 @@ begin
       end;
       prevPts^.x := prevPts^.x - x;
       prevPts^.y := prevPts^.y - y;
+      {$IFDEF OPENGL}
+      end;
+      {$ENDIF}
       inc(segList);
       inc(prevPts);
       dec(count);
@@ -1106,11 +1137,18 @@ begin
   count := po.numsegs;
   while count > 0 do
   begin
+    {$IFDEF OPENGL}
+    if not segList^.miniseg then
+    begin
+    {$ENDIF}
     prevPts.x := segList^.v1.x;
     prevPts.y := segList^.v1.y;
     segList^.v1.x := originalPts.x;
     segList^.v1.y := originalPts.y;
     RotatePt(an, @segList^.v1.x, @segList^.v1.y, po.startSpot.x, po.startSpot.y);
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
     inc(segList);
     inc(originalPts);
     inc(prevPts);
@@ -1124,6 +1162,10 @@ begin
   count := po.numsegs;
   while count > 0 do
   begin
+    {$IFDEF OPENGL}
+    if not segList^.miniseg then
+    begin
+    {$ENDIF}
     if PO_CheckMobjBlocking(segList^, po) then
       blocked := true;
 
@@ -1133,6 +1175,9 @@ begin
       segList^.linedef.validcount := validcount;
     end;
     segList^.angle := segList^.angle + angle;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
     inc(segList);
     dec(count);
   end;
@@ -1144,8 +1189,15 @@ begin
     count := po.numsegs;
     while count > 0 do
     begin
+    {$IFDEF OPENGL}
+    if not segList^.miniseg then
+    begin
+    {$ENDIF}
       segList^.v1.x := prevPts.x;
       segList^.v1.y := prevPts.y;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
       inc(segList);
       inc(prevPts);
       dec(count);
@@ -1155,12 +1207,19 @@ begin
     count := po.numsegs;
     while count > 0 do
     begin
+    {$IFDEF OPENGL}
+    if not segList^.miniseg then
+    begin
+    {$ENDIF}
       if segList^.linedef.validcount <> validcount then
       begin
         UpdateSegBBox(segList^);
         segList^.linedef.validcount := validcount;
       end;
       segList^.angle := segList^.angle - angle;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
       inc(segList);
       dec(count);
     end;
@@ -1187,7 +1246,6 @@ var
   leftX, rightX: integer;
   topY, bottomY: integer;
 begin
-
   PolyBlockMap := Z_Malloc(bmapwidth * bmapheight * SizeOf(Ppolyblock_t), PU_LEVEL, nil);
   memset(PolyBlockMap, 0, bmapwidth * bmapheight * SizeOf(Ppolyblock_t));
 
@@ -1205,6 +1263,10 @@ begin
     j := 0;
     while j < polyobjs[i].numsegs do
     begin
+    {$IFDEF OPENGL}
+    if not segList^.miniseg then
+    begin
+    {$ENDIF}
       if segList^.v1.x < leftX then
         leftX := segList^.v1.x;
       if segList^.v1.x > rightX then
@@ -1213,6 +1275,9 @@ begin
         bottomY := segList^.v1.y;
       if segList^.v1.y > topY then
         topY := segList^.v1.y;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
       inc(segList);
       inc(j);
     end;
@@ -1236,6 +1301,10 @@ begin
 
   for i := 0 to numsegs - 1 do
   begin
+    {$IFDEF OPENGL}
+    if segs[i].miniseg then
+      continue;
+    {$ENDIF}
     if (segs[i].v1.x = x) and (segs[i].v1.y = y) then
     begin
       if segList = nil then
@@ -1268,6 +1337,9 @@ var
 begin
   for i := 0 to numsegs - 1 do
   begin
+    {$IFDEF OPENGL}
+    if not segs[i].miniseg then
+    {$ENDIF}
     if (segs[i].linedef.special = PO_LINE_START) and
        (segs[i].linedef.arg1 = tag) then
     begin
@@ -1409,6 +1481,10 @@ begin
   inc(validcount);
   for i := 0 to po.numsegs - 1 do
   begin
+    {$IFDEF OPENGL}
+    if not tempSeg^.miniseg then
+    begin
+    {$ENDIF}
     if tempSeg^.linedef.validcount <> validcount then
     begin
       tempSeg^.linedef.bbox[BOXTOP] := tempSeg^.linedef.bbox[BOXTOP] - deltaY;
@@ -1420,8 +1496,11 @@ begin
     veryTempSeg := po.segs;
     while veryTempSeg <> tempSeg do
     begin
-      if veryTempSeg^.v1 = tempSeg^.v1 then
-        break;
+      {$IFDEF OPENGL}
+      if not veryTempSeg^.miniseg then
+      {$ENDIF}
+        if veryTempSeg^.v1 = tempSeg^.v1 then
+          break;
       inc(veryTempSeg);
     end;
     if veryTempSeg = tempSeg then
@@ -1435,6 +1514,9 @@ begin
     // unique to each seg, not each linedef
     tempPt.x := tempSeg^.v1.x - po.startSpot.x;
     tempPt.y := tempSeg^.v1.y - po.startSpot.y;
+    {$IFDEF OPENGL}
+    end;
+    {$ENDIF}
     inc(tempSeg);
     inc(tempPt);
   end;

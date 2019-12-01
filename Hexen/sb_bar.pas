@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -71,21 +71,46 @@ implementation
 
 uses
   d_delphi,
-  xn_defs, doomstat,
+  xn_defs,
+  doomstat,
   am_map,
   c_cmds,
   d_player,
-  g_game, g_demo,
+  g_game,
+  g_demo,
   hu_stuff,
   xn_strings,
+{$IFDEF OPENGL}
+  gl_main,
+  gl_render,
+{$ELSE}
   i_video,
-  info, info_h,
-  m_rnd, m_fixed, m_cheat,
-  p_tick, p_pspr_h, p_local, p_mobj_h, p_setup, p_enemy, p_inter, p_user,
+{$ENDIF}
+  info,
+  info_h,
+  m_rnd,
+  m_fixed,
+  m_cheat,
+  p_tick,
+  p_pspr_h,
+  p_local,
+  p_mobj_h,
+  p_setup,
+  p_enemy,
+  p_inter,
+  p_user,
   p_pspr,
-  r_defs, r_data, r_draw, r_hires, r_main,
-  s_sound, sounds,
-  v_data, v_video,
+  r_defs,
+  r_data,
+  r_draw,
+{$IFNDEF OPENGL}
+  r_hires,
+{$ENDIF}
+  r_main,
+  s_sound,
+  sounds,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 
@@ -1352,7 +1377,11 @@ begin
   if palette <> sb_palette then
   begin
     sb_palette := palette;
+    {$IFDEF OPENGL}
+    gld_SetPalette(palette);
+    {$ELSE}
     R_SetPalette(palette);
+    {$ENDIF}
     pal := V_ReadPalette(PU_STATIC);
     I_SetPalette(@pal[palette * 768]);
     V_SetPalette(@pal[palette * 768]);

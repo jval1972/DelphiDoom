@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -63,6 +63,11 @@ procedure R_CmdLightBoostFactor(const parm1: string = '');
 
 implementation
 
+{$IFDEF OPENGL}
+uses
+  gl_lights;
+{$ENDIF}
+
 //
 // R_InitLightBoost
 //
@@ -89,7 +94,7 @@ begin
           c := 0
         else
           c := 255 - c;
-        lightboost[i * LIGHTBOOSTSIZE + j] := $10000 + c * lightboostfactor;
+        lightboost[i * LIGHTBOOSTSIZE + j] := $10000 + c * {$IFDEF OPENGL}GL_LIGHTBOOSTFACTOR{$ELSE}lightboostfactor{$ENDIF};
         if j < lighboostlookup[i].topdelta then
           lighboostlookup[i].topdelta := j;
       end

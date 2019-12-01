@@ -1,5 +1,7 @@
 program gldoom32f;
 
+{$I doom32.inc}
+{$APPTYPE GUI}
 uses
   gl_clipper in 'OPENGL\gl_clipper.pas',
   gl_tex in 'OPENGL\gl_tex.pas',

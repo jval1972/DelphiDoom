@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -111,16 +111,42 @@ uses
   am_map,
   c_cmds,
   xn_strings,
-  d_main, d_player,
-  g_game, g_demo,
-  m_argv, m_misc, m_rnd,
-  i_system, i_io, i_video, i_mp3, i_sound,
-  p_mobj_h, p_setup,
-  r_main, r_hires, r_lights, r_intrpl, r_fake3d, r_camera, r_span, r_draw,
+  d_main,
+  d_player,
+  g_game,
+  g_demo,
+  m_argv,
+  m_misc,
+  m_rnd,
+  i_system,
+  i_io,
+{$IFDEF OPENGL}
+  gl_main,
+  gl_defs,
+  gl_models,
+  gl_lightmaps,
+  gl_shadows,
+  p_setup,
+{$ELSE}
+  i_video,
+{$ENDIF}
+  r_data,
+  i_mp3,
+  i_sound,
+  p_mobj_h,
+  r_main,
+  r_hires,
+  r_lights,
+  r_intrpl,
+  r_fake3d,
+  r_camera,
+  r_draw,
   t_main,
-  v_data, v_video,
+  v_data,
+  v_video,
   hu_stuff,
-  s_sound, sounds,
+  s_sound,
+  sounds,
   sb_bar,
   w_wad,
   sv_save,
@@ -630,7 +656,11 @@ var
 // DISPLAY MENU
 type
   optionsdisplay_e = (
+{$IFDEF OPENGL}
+    od_opengl,
+{$ELSE}
     od_detail,
+{$ENDIF}
     od_appearance,
     od_advanced,
     od_32bitsetup,
@@ -702,6 +732,33 @@ type
 var
   OptionsDisplay32bitMenu: array[0..Ord(optdisp32bit_end) - 1] of menuitem_t;
   OptionsDisplay32bitDef: menu_t;
+
+{$IFDEF OPENGL}
+// DISPLAY OPENGL RENDERING MENU
+type
+  optionsdisplayopengl_e = (
+    od_usefog,
+    od_gl_texture_filter_anisotropic,
+    od_gl_drawsky,
+    od_gl_stencilsky,
+    od_gl_drawmodels,
+    od_gl_smoothmodelmovement,
+    od_gl_precachemodeltextures,
+    od_gl_uselightmaps,
+    od_gl_drawshadows,
+    od_gl_linear_hud,
+    od_gl_add_all_lines,
+    od_gl_useglnodesifavailable,
+    od_gl_autoloadgwafiles,
+    od_gl_screensync,
+    optdispopengl_end
+  );
+
+var
+  OptionsDisplayOpenGLMenu: array[0..Ord(optdispopengl_end) - 1] of menuitem_t;
+  OptionsDisplayOpenGLDef: menu_t;
+{$ENDIF}
+
 
 type
 //
@@ -1131,6 +1188,13 @@ begin
   M_SetupNextMenu(@OptionsDisplay32bitDef);
 end;
 
+{$IFDEF OPENGL}
+procedure M_OptionsDisplayOpenGL(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayOpenGLDef);
+end;
+{$ENDIF}
+
 procedure M_SfxVol(choice: integer);
 begin
   case choice of
@@ -1335,7 +1399,11 @@ var
 begin
   M_DrawDisplayOptions;
 
+  {$IFDEF OPENGL}                                                           
+  sprintf(stmp, 'Detail level: %s (%dx%dx32)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT]);
+  {$ELSE}
   sprintf(stmp, 'Detail level: %s (%dx%dx%s)', [detailStrings[detailLevel], WINDOWWIDTH, WINDOWHEIGHT, colordepths[videomode = vm32bit]]);
+  {$ENDIF}
   M_WriteText(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), stmp);
 end;
 
@@ -1356,6 +1424,13 @@ begin
   M_WriteText(OptionsDisplay32bitDef.x, OptionsDisplay32bitDef.y + OptionsDisplay32bitDef.itemheight * Ord(od_flatfiltering),
     'Flat filtering: ' + flatfilteringstrings[extremeflatfiltering]);
 end;
+
+{$IFDEF OPENGL}
+procedure M_DrawOptionsDisplayOpenGL;
+begin
+  M_DrawDisplayOptions;
+end;
+{$ENDIF}
 
 procedure M_Options(choice: integer);
 begin
@@ -1887,7 +1962,11 @@ begin
         begin
           if m_altdown then
           begin
+          {$IFDEF OPENGL}
+            GL_ChangeFullScreen(not fullscreen);
+          {$ELSE}
             I_ChangeFullScreen;
+          {$ENDIF}
             result := true;
             exit;
           end;
@@ -2117,8 +2196,13 @@ function M_Thr_ShadeScreen(p: pointer): integer; stdcall;
 var
   half: integer;
 begin
+{$IFDEF OPENGL}
+  half := V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2;
+  V_ShadeBackground(half, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) - half);
+{$ELSE}
   half := SCREENWIDTH * SCREENHEIGHT div 2;
   V_ShadeScreen(SCN_FG, half, SCREENWIDTH * SCREENHEIGHT - half);
+{$ENDIF}
   result := 0;
 end;
 
@@ -2132,12 +2216,20 @@ begin
     begin
     // JVAL
       h1 := I_CreateProcess(@M_Thr_ShadeScreen, nil);
+      {$IFDEF OPENGL}
+      V_ShadeBackground(0, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2);
+      {$ELSE}
       V_ShadeScreen(SCN_FG, 0, SCREENWIDTH * SCREENHEIGHT div 2);
+      {$ENDIF}
       // Wait for extra thread to terminate.
       I_WaitForProcess(h1);
     end
     else
+      {$IFDEF OPENGL}
+      V_ShadeBackground;
+      {$ELSE}
       V_ShadeScreen(SCN_FG);
+      {$ENDIF}
   end;
 end;
 
@@ -2347,6 +2439,13 @@ begin
   M_CmdSetupNextMenu(@OptionsDisplay32bitDef);
 end;
 
+{$IFDEF OPENGL}
+procedure M_CmdOptionsDisplayOpenGL;
+begin
+  M_CmdSetupNextMenu(@OptionsDisplayOpenGLDef);
+end;
+{$ENDIF}
+
 procedure M_CmdMenuSoundDef;
 begin
   M_CmdSetupNextMenu(@SoundDef);
@@ -2423,7 +2522,11 @@ begin
   C_AddCmd('menu_options', @M_CmdMenuOptionsDef);
   C_AddCmd('menu_optionsgeneral, menu_generaloptions', @M_CmdMenuOptionsGeneralDef);
   C_AddCmd('menu_optionsdisplay, menu_displayoptions, menu_display', @M_CmdMenuOptionsDisplayDef);
+{$IFDEF OPENGL}
+  C_AddCmd('menu_optionsdisplayopengl, menu_optionsopengl, menu_opengl', @M_CmdOptionsDisplayOpenGL);
+{$ELSE}
   C_AddCmd('menu_optionsdisplaydetail, menu_displaydetailoptions', @M_CmdMenuOptionsDisplayDetailDef);
+{$ENDIF}
   C_AddCmd('menu_optionsdisplayappearence, menu_displayappearenceoptions, menu_displayappearence', @M_CmdMenuOptionsDisplayAppearanceDef);
   C_AddCmd('menu_optionsdisplayadvanced, menu_displayadvancedoptions, menu_displayadvanced', @M_CmdMenuOptionsDisplayAdvancedDef);
   C_AddCmd('menu_optionsdisplay32bit, menu_display32bitoptions, menu_display32bit', @M_CmdMenuOptionsDisplay32bitDef);
@@ -2761,11 +2864,19 @@ begin
 //OptionsDisplayMenu
   pmi := @OptionsDisplayMenu[0];
   pmi.status := 1;
+{$IFDEF OPENGL}
+  pmi.name := '@OpenGL';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayOpenGL;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'o';
+{$ELSE}
   pmi.name := '@Detail';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayDetail;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'd';
+{$ENDIF}
 
   inc(pmi);
   pmi.status := 1;
@@ -3030,6 +3141,133 @@ begin
   OptionsDisplay32bitDef.y := 40; // x,y of menu
   OptionsDisplay32bitDef.lastOn := 0; // last item user was on in menu
   OptionsDisplay32bitDef.itemheight := LINEHEIGHT2;
+
+{$IFDEF OPENGL}
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLMenu
+  pmi := @OptionsDisplayOpenGLMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Use fog';
+  pmi.cmd := 'use_fog';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @use_fog;
+  pmi.alphaKey := 'f';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Anisotropic texture filtering';
+  pmi.cmd := 'gl_texture_filter_anisotropic';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_texture_filter_anisotropic;
+  pmi.alphaKey := 'a';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Draw Sky';
+  pmi.cmd := 'gl_drawsky';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_drawsky;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Use stencil buffer for sky';
+  pmi.cmd := 'gl_stencilsky';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_stencilsky;
+  pmi.alphaKey := 'c';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Draw models instead of sprites';
+  pmi.cmd := 'gl_drawmodels';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_drawmodels;
+  pmi.alphaKey := 'm';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Smooth model movement';
+  pmi.cmd := 'gl_smoothmodelmovement';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_smoothmodelmovement;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Precache model textures';
+  pmi.cmd := 'gl_precachemodeltextures';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_precachemodeltextures;
+  pmi.alphaKey := 'p';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Use lightmaps';
+  pmi.cmd := 'gl_uselightmaps';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_uselightmaps;
+  pmi.alphaKey := 'l';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Draw shadows';
+  pmi.cmd := 'gl_drawshadows';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_drawshadows;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Linear HUD filtering';
+  pmi.cmd := 'gl_linear_hud';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_linear_hud;
+  pmi.alphaKey := 'h';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Draw all linedefs';
+  pmi.cmd := 'gl_add_all_lines';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_add_all_lines;
+  pmi.alphaKey := 'l';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Use GL_NODES if available';
+  pmi.cmd := 'useglnodesifavailable';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @useglnodesifavailable;
+  pmi.alphaKey := 'u';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Automatically load GWA files';
+  pmi.cmd := 'autoloadgwafiles';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @autoloadgwafiles;
+  pmi.alphaKey := 'g';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Limit framerate to screen syncronization';
+  pmi.cmd := 'gl_screensync';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_screensync;
+  pmi.alphaKey := 'y';
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLDef
+  OptionsDisplayOpenGLDef.numitems := Ord(optdispopengl_end); // # of menu items
+  OptionsDisplayOpenGLDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayOpenGLDef.menuitems := Pmenuitem_tArray(@OptionsDisplayOpenGLMenu);  // menu items
+  OptionsDisplayOpenGLDef.routine := @M_DrawOptionsDisplayOpenGL;  // draw routine
+  OptionsDisplayOpenGLDef.x := 30;
+  OptionsDisplayOpenGLDef.y := 40; // x,y of menu
+  OptionsDisplayOpenGLDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayOpenGLDef.itemheight := LINEHEIGHT2;
+{$ENDIF}
 
 ////////////////////////////////////////////////////////////////////////////////
 //ReadMenu1
