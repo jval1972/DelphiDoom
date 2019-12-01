@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=5
-Build=600
+Build=605
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Strife to Delphi Total Conversion
-FileVersion=1.1.5.600
+FileVersion=1.1.5.605
 InternalName=Strife
 LegalCopyright=Copyright 2005 - 2016, Jim Valavanis
 LegalTrademarks=
@@ -132,15 +132,26 @@ ProductVersion=1.0
 Comments=http://sourceforge.net/projects/delphidoom/
 [Excluded Packages]
 c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
+[HistoryLists\hlDebugSourcePath]
+Count=2
+Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
-Count=7
+Count=14
 Item0=OPENGL;STRIFE;
-Item1=HEXEN;OPENGL
-Item2=HERETIC
-Item3=OPENGL;DOOM
-Item4=DOOM
-Item5=HEXEN;OPTIMIZE_FOR_SIZE
-Item6=HEXEN
+Item1=STRIFE;OPTIMIZE_FOR_SPEED;
+Item2=DOOM;NO_INLINE_LOOPS;
+Item3=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
+Item4=
+Item5=
+Item6=
+Item7=
+Item8=
+Item9=
+Item10=
+Item11=
+Item12=
+Item13=
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
@@ -148,14 +159,11 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 Count=1
 Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
-Count=5
-Item0=..\dcu\Strife\GL
-Item1=..\dcu\Hexen\GL
-Item2=..\dcu\Hexen\Soft
-Item3=..\dcu\Heretic\Soft
-Item4=..\dcu\Strife\Soft
-[HistoryLists\hlOutputDirectorry]
 Count=3
+Item0=..\dcu\Strife\GL
+Item1=..\dcu\Strife\soft
+Item2=..\dcu\Doom\soft
+[HistoryLists\hlOutputDirectorry]
+Count=2
 Item0=..\bin\Strife
-Item1=..\bin\Hexen
-Item2=..\bin\Heretic
+Item1=..\bin\Doom

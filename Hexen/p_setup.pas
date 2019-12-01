@@ -247,6 +247,7 @@ begin
   begin
     li.x := ml.x * FRACUNIT;
     li.y := ml.y * FRACUNIT;
+    li.amvalidcount := 0;
     inc(ml);
     inc(li);
   end;
@@ -294,6 +295,7 @@ begin
   begin
     li.x := ml.x * FRACUNIT;
     li.y := ml.y * FRACUNIT;
+    li.amvalidcount := 0;
     inc(ml);
     inc(li);
   end;

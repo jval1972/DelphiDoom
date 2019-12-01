@@ -1,3 +1,9 @@
+Version 1.1.6 build 605 - (29/8/2016)
+-----------
+Fixes to the textured automap.
+
+Version 1.1.6 build 600 - (31/12/2015)
+-----------
 When setblocks = 10 viewwidth does not pad div 8.
 Unlimited buffer when recordifng demos.
 Fake3d fixes.

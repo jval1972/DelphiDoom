@@ -55,7 +55,7 @@ uses
   r_hires,
   r_draw,
   r_trans8,
-{$ELSE}  
+{$ELSE}
   v_data,
 {$ENDIF}
   r_data,
@@ -76,13 +76,13 @@ type
 
   drawtriangle_t = array[0..2] of drawpoint_t;
 
-  drawsegfunc_t = procedure(const xx, yy, cc: integer);
+  drawsegfunc_t = procedure(const xx, yy, cc: integer; const amcolormap: pointer);
 
 var
   drawsegfunc: drawsegfunc_t;
 
 {$IFNDEF OPENGL}
-procedure AM_DrawSeg8(xx, yy, cc: integer);
+procedure AM_DrawSeg8(xx, yy, cc: integer; const amcolormap: PByteArray);
 begin
 // JVAL Clip line if in overlay mode
   if amstate = am_overlay then
@@ -96,10 +96,10 @@ begin
     if xx >= viewwindowx + viewwidth then
       exit;
   end;
-  fb[yy * f_w + xx] := cc;
+  fb[yy * f_w + xx] := amcolormap[cc];
 end;
 
-procedure AM_DrawSeg8Transparent(xx, yy, cc: integer);
+procedure AM_DrawSeg8Transparent(xx, yy, cc: integer; const amcolormap: PByteArray);
 var
   b: PByte;
 begin
@@ -116,11 +116,11 @@ begin
       exit;
   end;
   b := @fb[yy * f_w + xx];
-  b^ := averagetrans8table[b^ shl 8 + cc];
+  b^ := averagetrans8table[b^ shl 8 + amcolormap[cc]];
 end;
 {$ENDIF}
 
-procedure AM_DrawSeg32(xx, yy, cc: integer);
+procedure AM_DrawSeg32(xx, yy, cc: integer; const amcolormap: {$IFNDEF OPENGL}PLongWordArray{$ELSE}PByteArray{$ENDIF});
 begin
 // JVAL Clip line if in overlay mode
 {$IFNDEF OPENGL}
@@ -135,11 +135,13 @@ begin
     if xx >= viewwindowx + viewwidth then
       exit;
   end;
+  fb32[yy * f_w + xx] := amcolormap[cc];
+{$ELSE}
+  fb32[yy * f_w + xx] := videopal[amcolormap[cc]];
 {$ENDIF}
-  fb32[yy * f_w + xx] := videopal [cc];
 end;
 
-procedure AM_DrawSeg32Transparent(xx, yy, cc: integer);
+procedure AM_DrawSeg32Transparent(xx, yy, cc: integer; const amcolormap: {$IFNDEF OPENGL}PLongWordArray{$ELSE}PByteArray{$ENDIF});
 {$IFNDEF OPENGL}
 var
   pl: PLongWord;
@@ -159,16 +161,16 @@ begin
       exit;
   end;
 {$ELSE}
-  fb32[yy * f_w + xx] := videopal[cc] and $80000000;
+  fb32[yy * f_w + xx] := videopal[amcolormap[cc]] and $80000000;
 {$ENDIF}
 {$IFNDEF OPENGL}
   pl := @fb32[yy * f_w + xx];
-  pl^ := R_ColorMean(pl^, videopal[cc]);
+  pl^ := R_ColorMean(pl^, amcolormap[cc]);
 {$ENDIF}
 end;
 
 type
-  seg_ap2 = array[0..1] of Pseg_t;
+  seg_ap3 = array[0..2] of Pseg_t;
 
 var
   pla: angle_t;
@@ -176,29 +178,29 @@ var
   amsin, amcos: fixed_t;
   f_mx: integer;
 
-procedure AM_DrawTexturedTriangle(const lst: seg_ap2; const lump: integer; const aminx, amaxx: integer);
+procedure AM_DecodeUV(var xx, yy: integer);
+var
+  tmpx: fixed_t;
+begin
+  if allowautomaprotate then
+  begin
+    tmpx := plx +
+      FixedMul(xx - plx, amcos) -
+      FixedMul(yy - ply, amsin);
+
+    yy := ply +
+      FixedMul(xx - plx, amsin) +
+      FixedMul(yy - ply, amcos);
+
+    xx := tmpx;
+  end;
+  yy := 63 - (yy div FRACUNIT) and 63;
+  xx := (xx div FRACUNIT) and 63;
+end;
+
+procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump: integer; const aminx, amaxx: integer; const amcolormap: pointer);
 var
   data: PByteArray;
-
-  procedure decodeUV(var xx, yy: integer);
-  var
-    tmpx: fixed_t;
-  begin
-    if allowautomaprotate then
-    begin
-      tmpx := plx +
-        FixedMul(xx - plx, amcos) -
-        FixedMul(yy - ply, amsin);
-
-      yy := ply +
-        FixedMul(xx - plx, amsin) +
-        FixedMul(yy - ply, amcos);
-
-      xx := tmpx;
-    end;
-    yy := 63 - (yy div FRACUNIT) and 63;
-    xx := (xx div FRACUNIT) and 63;
-  end;
 
   procedure fillLeftFlatTriangle(v1, v2, v3: drawpoint_t);
   var
@@ -240,20 +242,23 @@ var
     for i := idown to iup do
     begin
       jup := cury2 div FRACUNIT;
-      if jup >= f_mx then
-        jup := f_mx - 1;
-      jdown := cury1 div FRACUNIT;
-      if jdown < 0 then
-        jdown := 0;
-
-      yy := m_y - (jdown - f_y - f_mx) * scale_ftom;
-      for j := jdown to jup do
+      if jup >= 0 then
       begin
-        du := xx;
-        dv := yy;
-        decodeUV(du, dv);
-        drawsegfunc(i, j, data[du + dv * 64]);
-        yy := yy - scale_ftom;
+        if jup >= f_mx then
+          jup := f_mx - 1;
+        jdown := cury1 div FRACUNIT;
+        if jdown < 0 then
+          jdown := 0;
+
+        yy := m_y - (jdown - f_y - f_mx) * scale_ftom;
+        for j := jdown to jup do
+        begin
+          du := xx;
+          dv := yy;
+          AM_DecodeUV(du, dv);
+          drawsegfunc(i, j, data[du + dv * 64], amcolormap);
+          yy := yy - scale_ftom;
+        end;
       end;
       cury1 := cury1 + invslope1;
       cury2 := cury2 + invslope2;
@@ -288,7 +293,7 @@ var
 
     idown := v1.x + 1;
     if idown < aminx then
-      idown := aminx - 1;
+      idown := aminx;
 
     iup := v3.x;
     if iup >= amaxx then
@@ -305,20 +310,23 @@ var
       cury2 := cury2 - invslope2;
 
       jup := cury2 div FRACUNIT;
-      if jup >= f_mx then
-        jup := f_mx - 1;
-      jdown := cury1 div FRACUNIT;
-      if jdown < 0 then
-        jdown := 0;
-
-      yy := m_y - (jdown - f_y - f_mx) * scale_ftom;
-      for j := jdown to jup do
+      if jup >= 0 then
       begin
-        du := xx;
-        dv := yy;
-        decodeUV(du, dv);
-        drawsegfunc(i, j, data[du + dv * 64]);
-        yy := yy - scale_ftom;
+        if jup >= f_mx then
+          jup := f_mx - 1;
+        jdown := cury1 div FRACUNIT;
+        if jdown < 0 then
+          jdown := 0;
+
+        yy := m_y - (jdown - f_y - f_mx) * scale_ftom;
+        for j := jdown to jup do
+        begin
+          du := xx;
+          dv := yy;
+          AM_DecodeUV(du, dv);
+          drawsegfunc(i, j, data[du + dv * 64], amcolormap);
+          yy := yy - scale_ftom;
+        end;
       end;
       xx := xx - scale_ftom;
     end;
@@ -327,17 +335,18 @@ var
 var
   v1, v2, v3, v4: drawpoint_t;
   t: drawtriangle_t;
-  seg: Pseg_t;
+  v: Pvertex_t;
   i: integer;
 begin
-  seg := lst[0];
-  t[0].x:= seg.v1.x;
-  t[0].y := seg.v1.y;
-  seg := lst[1];
-  t[1].x := seg.v1.x;
-  t[1].y := seg.v1.y;
-  t[2].x := seg.v2.x;
-  t[2].y := seg.v2.y;
+  v := lst[0].v1;
+  t[0].x:= v.x;
+  t[0].y := v.y;
+  v := lst[1].v1;
+  t[1].x := v.x;
+  t[1].y := v.y;
+  v := lst[2].v1;
+  t[2].x := v.x;
+  t[2].y := v.y;
 
   for i := 0 to 2 do
   begin
@@ -440,20 +449,26 @@ type
   end;
   dssparams_p = ^dssparams_t;
 
+var
+  amvalidcount: integer = 0;
+
 function AM_dodrawSubSectors(const parms: dssparams_p): integer; stdcall;
 var
   i, j: integer;
   ssector: Psubsector_t;
   seg: Pseg_t;
-  lst: seg_ap2;
+  lst: seg_ap3;
   drawit: boolean;
+  wasdrawned: boolean;
   lump: integer;
+  cmap: integer;
+  amcolormap: pointer;
 begin
   for i := 0 to numsubsectors - 1 do
   begin
     ssector := @subsectors[i];
 
-    if ssector.numlines < 2 then
+    if ssector.numlines < 3 then
       continue;
 
     if am_cheating <> 0 then
@@ -474,25 +489,120 @@ begin
       end;
     end;
 
+
     if drawit then
     begin
+      cmap := (ssector.sector.lightlevel) div 8;
+      if cmap > 31 then
+        cmap := 31
+      else if cmap < 0 then
+        cmap := 0;
+      {$IFDEF OPENGL}
+      amcolormap := @colormaps[(31 - cmap) * 256];
+      {$ELSE}
+      if videomode = vm32bit then
+        amcolormap := @colormaps32[(31 - cmap) * 256]
+      else
+        amcolormap := @colormaps[(31 - cmap) * 256];
+      {$ENDIF}
+
       seg := @segs[ssector.firstline];
+      seg.v1.amvalidcount := amvalidcount;
+      seg.v2.amvalidcount := amvalidcount;
       lst[0] := seg;
+      Inc(seg);
+      seg.v1.amvalidcount := amvalidcount;
+      seg.v2.amvalidcount := amvalidcount;
+      lst[2] := seg;
       lump := R_GetLumpForFlat(ssector.sector.floorpic);
-      for j := 1 to ssector.numlines - 1 do
+      for j := 2 to ssector.numlines - 1 do
       begin
         Inc(seg);
-        lst[1] := seg;
-        AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx);
+        seg.v1.amvalidcount := amvalidcount;
+        seg.v2.amvalidcount := amvalidcount;
+        lst[1] := lst[2];
+        lst[2] := seg;
+
+        AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, amcolormap);
       end;
     end;
+
   end;
+
+  if am_cheating = 0 then
+    for i := 0 to numsubsectors - 1 do
+    begin
+      ssector := @subsectors[i];
+
+      if ssector.numlines < 3 then
+        continue;
+
+      wasdrawned := false;
+      seg := @segs[ssector.firstline];
+      for j := 0 to ssector.numlines - 1 do
+      begin
+        if not seg.miniseg then
+          if seg.linedef.flags and ML_MAPPED <> 0 then
+          begin
+            wasdrawned := True;
+            Break;
+          end;
+        inc(seg);
+      end;
+      if wasdrawned then
+        continue;
+
+      drawit := false;
+      seg := @segs[ssector.firstline];
+      for j := 0 to ssector.numlines - 1 do
+      begin
+        if seg.miniseg then
+          if seg.v1.amvalidcount = amvalidcount then
+            if seg.v2.amvalidcount = amvalidcount then
+            begin
+              drawit := True;
+              Break;
+            end;
+        inc(seg);
+      end;
+
+      if drawit then
+      begin
+        cmap := (ssector.sector.lightlevel) div 8;
+        if cmap > 31 then
+          cmap := 31
+        else if cmap < 0 then
+          cmap := 0;
+        {$IFDEF OPENGL}
+        amcolormap := @colormaps[(31 - cmap) * 256];
+        {$ELSE}
+        if videomode = vm32bit then
+          amcolormap := @colormaps32[(31 - cmap) * 256]
+        else
+          amcolormap := @colormaps[(31 - cmap) * 256];
+        {$ENDIF}
+
+        seg := @segs[ssector.firstline];
+        lst[0] := seg;
+        Inc(seg);
+        lst[2] := seg;
+        lump := R_GetLumpForFlat(ssector.sector.floorpic);
+        for j := 2 to ssector.numlines - 1 do
+        begin
+          Inc(seg);
+          lst[1] := lst[2];
+          lst[2] := seg;
+          AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, amcolormap);
+        end;
+      end;
+
+    end;
 
   result := 0;
 end;
 
 const
-  MAXDSSTHREADS = 8;
+  MAXDSSTHREADS = 14;
 
 var
   dssthreads: array[0..MAXDSSTHREADS - 2] of TDThread;
@@ -504,6 +614,7 @@ var
   i: integer;
   l, h: integer;
 begin
+  Inc(amvalidcount);
   pla := plr.mo.angle - ANG90;
   plx := plr.mo.x;
   ply := plr.mo.y;
@@ -514,7 +625,7 @@ begin
   if amstate = am_overlay then
     if screenblocks >= 10 then
       f_mx := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF};
-      
+
   if usemultithread then
   begin
     numdssthreads := I_GetNumCPUs;
@@ -550,13 +661,12 @@ begin
   end;
 end;
 
-
 procedure AM_InitTextured;
 var
   i: integer;
 begin
   for i := 0 to MAXDSSTHREADS - 2 do
-    dssthreads[i]:= TDThread.Create(@AM_dodrawSubSectors);
+    dssthreads[i] := TDThread.Create(@AM_dodrawSubSectors);
 end;
 
 procedure AM_ShutDownTextured;

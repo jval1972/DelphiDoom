@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=5
-Build=600
+Build=605
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Hexen to Delphi Total Conversion
-FileVersion=1.1.5.600
+FileVersion=1.1.5.605
 InternalName=Hexen
 LegalCopyright=Copyright 2005 - 2016, Jim Valavanis
 LegalTrademarks=
@@ -132,14 +132,27 @@ ProductVersion=1.0
 Comments=http://sourceforge.net/projects/delphidoom/
 [Excluded Packages]
 c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
+[HistoryLists\hlDebugSourcePath]
+Count=2
+Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
-Count=6
+Count=15
 Item0=HEXEN;OPENGL
-Item1=HERETIC
-Item2=OPENGL;DOOM
-Item3=DOOM
-Item4=HEXEN;OPTIMIZE_FOR_SIZE
-Item5=HEXEN
+Item1=OPENGL;STRIFE;
+Item2=STRIFE;OPTIMIZE_FOR_SPEED;
+Item3=DOOM;NO_INLINE_LOOPS;
+Item4=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
+Item5=
+Item6=
+Item7=
+Item8=
+Item9=
+Item10=
+Item11=
+Item12=
+Item13=
+Item14=
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
@@ -147,14 +160,13 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 Count=1
 Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
-Count=5
+Count=4
 Item0=..\dcu\Hexen\GL
-Item1=..\dcu\Hexen\Soft
-Item2=..\dcu\Heretic\Soft
-Item3=..\dcu\Doom\GL
-Item4=..\dcu\Doom\Soft
+Item1=..\dcu\Strife\GL
+Item2=..\dcu\Strife\soft
+Item3=..\dcu\Doom\soft
 [HistoryLists\hlOutputDirectorry]
 Count=3
 Item0=..\bin\Hexen
-Item1=..\bin\Heretic
+Item1=..\bin\Strife
 Item2=..\bin\Doom

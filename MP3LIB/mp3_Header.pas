@@ -150,7 +150,7 @@ const
 
 function THeader.Bitrate: Cardinal;
 begin
-  result := BITRATES[FVersion, FLayer-1, FBitrateIndex];
+  result := BITRATES[FVersion, FLayer - 1, FBitrateIndex];
 end;
 
 // calculates framesize in bytes excluding header size

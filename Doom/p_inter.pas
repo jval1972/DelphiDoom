@@ -82,8 +82,10 @@ uses
   m_fixed,
   d_items,
   g_game,
-  p_mobj, p_pspr,
-  r_defs, r_main,
+  p_mobj,
+  p_pspr,
+  r_defs,
+  r_main,
   tables;
 
 const

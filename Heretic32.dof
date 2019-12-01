@@ -97,25 +97,21 @@ PackageDCPOutputDir=
 SearchPath=C:\Program Files\Borland\Delphi7\Lib
 Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP
 Conditionals=HERETIC
-DebugSourceDirs=
+DebugSourceDirs=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
 UsePackages=0
 [Parameters]
-RunParams=-fullhd -nofullscreen -iwad heretic.wad
+RunParams=-cgaX2
 HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
 DebugCWD=
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=1
 MinorVer=1
-Release=4
-Build=581
+Release=5
+Build=605
 Debug=0
 PreRelease=0
 Special=0
@@ -126,22 +122,41 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Heretic to Delphi Total Conversion
-FileVersion=1.1.4.581
+FileVersion=1.1.5.605
 InternalName=Heretic
-LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
+LegalCopyright=Copyright 2005 - 2016, Jim Valavanis
 LegalTrademarks=
 OriginalFilename=Heretic32.exe
 ProductName=Heretic 32 bit engine
 ProductVersion=1.0
 Comments=http://sourceforge.net/projects/delphidoom/
+[Excluded Packages]
+c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
+[HistoryLists\hlDebugSourcePath]
+Count=4
+Item0=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
+Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
+Item2=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item3=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
-Count=6
+Count=17
 Item0=HERETIC
-Item1=HEXEN;OPENGL
-Item2=OPENGL;DOOM
-Item3=DOOM
-Item4=HEXEN;OPTIMIZE_FOR_SIZE
-Item5=HEXEN
+Item1=HEXEN;
+Item2=HEXEN;OPENGL
+Item3=OPENGL;STRIFE;
+Item4=STRIFE;OPTIMIZE_FOR_SPEED;
+Item5=DOOM;NO_INLINE_LOOPS;
+Item6=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
+Item7=
+Item8=
+Item9=
+Item10=
+Item11=
+Item12=
+Item13=
+Item14=
+Item15=
+Item16=
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
@@ -149,14 +164,18 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 Count=1
 Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
-Count=5
+Count=7
 Item0=..\dcu\Heretic\Soft
-Item1=..\dcu\Hexen\GL
+Item1=..\dcu\Launcher
 Item2=..\dcu\Hexen\Soft
-Item3=..\dcu\Doom\GL
-Item4=..\dcu\Doom\Soft
+Item3=..\dcu\Hexen\GL
+Item4=..\dcu\Strife\GL
+Item5=..\dcu\Strife\soft
+Item6=..\dcu\Doom\soft
 [HistoryLists\hlOutputDirectorry]
-Count=3
+Count=5
 Item0=..\bin\Heretic
-Item1=..\bin\Hexen
-Item2=..\bin\Doom
+Item1=..\bin\
+Item2=..\bin\Hexen
+Item3=..\bin\Strife
+Item4=..\bin\Doom

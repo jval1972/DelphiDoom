@@ -86,6 +86,7 @@ type
   vertex_t = packed record
     x: fixed_t;
     y: fixed_t;
+    amvalidcount: integer;
   end;
   Pvertex_t = ^vertex_t;
   vertex_tArray = packed array[0..$FFFF] of vertex_t;

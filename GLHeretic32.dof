@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=5
-Build=600
+Build=605
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Heretic to Delphi Total Conversion
-FileVersion=1.1.5.600
+FileVersion=1.1.5.605
 InternalName=GLHeretic
 LegalCopyright=Copyright 2005 - 2016, Jim Valavanis
 LegalTrademarks=
@@ -132,15 +132,32 @@ ProductVersion=1.0
 Comments=http://sourceforge.net/projects/delphidoom/
 [Excluded Packages]
 c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
+[HistoryLists\hlDebugSourcePath]
+Count=4
+Item0=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
+Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
+Item2=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item3=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
-Count=7
+Count=18
 Item0=OPENGL;HERETIC;
-Item1=HEXEN;OPENGL
-Item2=HERETIC
-Item3=OPENGL;DOOM
-Item4=DOOM
-Item5=HEXEN;OPTIMIZE_FOR_SIZE
-Item6=HEXEN
+Item1=HERETIC
+Item2=HEXEN;
+Item3=HEXEN;OPENGL
+Item4=OPENGL;STRIFE;
+Item5=STRIFE;OPTIMIZE_FOR_SPEED;
+Item6=DOOM;NO_INLINE_LOOPS;
+Item7=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
+Item8=
+Item9=
+Item10=
+Item11=
+Item12=
+Item13=
+Item14=
+Item15=
+Item16=
+Item17=
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
@@ -148,15 +165,19 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 Count=1
 Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
-Count=6
+Count=8
 Item0=..\dcu\Heretic\GL
-Item1=..\dcu\Hexen\GL
-Item2=..\dcu\Hexen\Soft
-Item3=..\dcu\Heretic\Soft
-Item4=..\dcu\Doom\GL
-Item5=..\dcu\Doom\Soft
+Item1=..\dcu\Heretic\Soft
+Item2=..\dcu\Launcher
+Item3=..\dcu\Hexen\Soft
+Item4=..\dcu\Hexen\GL
+Item5=..\dcu\Strife\GL
+Item6=..\dcu\Strife\soft
+Item7=..\dcu\Doom\soft
 [HistoryLists\hlOutputDirectorry]
-Count=3
+Count=5
 Item0=..\bin\Heretic
-Item1=..\bin\Hexen
-Item2=..\bin\Doom
+Item1=..\bin\
+Item2=..\bin\Hexen
+Item3=..\bin\Strife
+Item4=..\bin\Doom

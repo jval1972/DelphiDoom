@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-cgax2 -iwad doomu.wad
+RunParams=-cgax2 -iwad doomu.wad -nofullscreen
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=5
-Build=600
+Build=605
 Debug=0
 PreRelease=0
 Special=0
@@ -122,9 +122,9 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.5.600
+FileVersion=1.1.5.605
 InternalName=Doom
-LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
+LegalCopyright=Copyright 2005 - 2016, Jim Valavanis
 LegalTrademarks=
 OriginalFilename=Doom32.exe
 ProductName=Doom 32 bit engine
@@ -133,24 +133,33 @@ Comments=http://sourceforge.net/projects/delphidoom/
 [Excluded Packages]
 c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
-Count=2
+Count=4
 Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
-Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
+Item1=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
+Item2=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
+Item3=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
-Count=13
+Count=20
 Item0=DOOM;OPTIMIZE_FOR_SPEED;
-Item1=DOOM;NO_INLINE_LOOPS;
-Item2=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
-Item3=
-Item4=
-Item5=
-Item6=
-Item7=
-Item8=
-Item9=
+Item1=OPENGL;DOOM;
+Item2=OPENGL;HERETIC;
+Item3=HERETIC
+Item4=HEXEN;
+Item5=HEXEN;OPENGL
+Item6=OPENGL;STRIFE;
+Item7=STRIFE;OPTIMIZE_FOR_SPEED;
+Item8=DOOM;NO_INLINE_LOOPS;
+Item9=DOOM;OPTIMIZE_FOR_SPEED;NO_INLINE_LOOPS;
 Item10=
 Item11=
 Item12=
+Item13=
+Item14=
+Item15=
+Item16=
+Item17=
+Item18=
+Item19=
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
@@ -158,8 +167,20 @@ Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 Count=1
 Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
-Count=1
+Count=9
 Item0=..\dcu\Doom\soft
+Item1=..\dcu\Doom\GL
+Item2=..\dcu\Heretic\GL
+Item3=..\dcu\Heretic\Soft
+Item4=..\dcu\Launcher
+Item5=..\dcu\Hexen\Soft
+Item6=..\dcu\Hexen\GL
+Item7=..\dcu\Strife\GL
+Item8=..\dcu\Strife\soft
 [HistoryLists\hlOutputDirectorry]
-Count=1
+Count=5
 Item0=..\bin\Doom
+Item1=..\bin\Heretic
+Item2=..\bin\
+Item3=..\bin\Hexen
+Item4=..\bin\Strife

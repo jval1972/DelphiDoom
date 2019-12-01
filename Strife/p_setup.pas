@@ -223,6 +223,7 @@ begin
   begin
     li.x := ml.x * FRACUNIT;
     li.y := ml.y * FRACUNIT;
+    li.amvalidcount := 0;
     inc(ml);
     inc(li);
   end;
@@ -270,15 +271,15 @@ begin
   begin
     li.x := ml.x * FRACUNIT;
     li.y := ml.y * FRACUNIT;
+    li.amvalidcount := 0;
     inc(ml);
     inc(li);
   end;
 
   // Free buffer memory.
   Z_Free(data);
-  
-  gld_GetGLVertexes(li, gllump, numglverts, glnodesver);
 
+  gld_GetGLVertexes(li, gllump, numglverts, glnodesver);
 end;
 
 function GetDistance(dx, dy: integer): float;
