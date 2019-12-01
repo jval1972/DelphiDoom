@@ -1828,7 +1828,7 @@ begin
 
     // show text (optional for dialogs with voices)
     if dialogshowtext or (currentdialog.voice[0] = #0) then
-      y := M_WriteText(20, 28, dialogtext);
+      y := M_WriteText(20, 28, dialogtext).y;
 
     height := 20 * dialogmenu.numitems;
 

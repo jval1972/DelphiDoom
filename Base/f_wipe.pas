@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -84,7 +84,7 @@ begin
   for i := 0 to SCREENWIDTH - 1 do
     SHEIGHTS[i] := trunc(i * 320 / SCREENWIDTH);
   for i := 0 to 319 do
-    RANDOMS[i] := M_Random;
+    RANDOMS[i] := I_Random;
 
   // copy start screen to main screen
   MT_memcpy(screen32, wipe_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));

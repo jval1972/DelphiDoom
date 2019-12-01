@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -281,8 +281,8 @@ uses
   dstrings,
   d_englsh,
   sounds,
-// SKY handling - still the wrong place.
   r_data,
+// SKY handling - still the wrong place.
   r_sky,
   r_defs,
   r_main,
@@ -1081,6 +1081,17 @@ begin
 
   PS_NewMap;
   P_SetupLevel(gameepisode, gamemap, 0, gameskill);
+
+  // JVAL: Prevent erroneous demos
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      if players[i].mo = nil then
+      begin
+        gamestate := GS_DEMOSCREEN;
+        D_StartTitle;
+        exit;
+      end;
+
   displayplayer := consoleplayer;    // view the guy you are playing
   starttime := I_GetTime;
   gameaction := ga_nothing;
@@ -1428,7 +1439,8 @@ procedure G_PlayerFinishLevel(p: Pplayer_t);
 begin
   ZeroMemory(@p.powers, SizeOf(p.powers));
   ZeroMemory(@p.cards, SizeOf(p.cards));
-  p.mo.flags := p.mo.flags and (not MF_SHADOW); // cancel invisibility
+  if p.mo <> nil then
+    p.mo.flags := p.mo.flags and (not MF_SHADOW); // cancel invisibility
   p.lookdir := 0;       // JVAL cancel lookdir Up/Down
   p.lookdir16 := 0;     // JVAL Smooth Look Up/Down
   p.centering := false;
@@ -1621,7 +1633,10 @@ var
 begin
   selections := deathmatch_p; // JVAL - deathmatchstarts;
   if selections < 4 then
-    I_Error('G_DeathMatchSpawnPlayer(): Only %d deathmatch spots, 4 required', [selections]);
+  begin
+    I_Warning('G_DeathMatchSpawnPlayer(): Only %d deathmatch spots, 4 required', [selections]);
+    exit;
+  end;
 
   for j := 0 to 19 do
   begin
@@ -2581,7 +2596,7 @@ begin
 
   demo_p := demo_start;
 
-  if integer(demo_p) >= integer(demoend) - SizeOf(ticcmd_t) then
+  if integer(demo_p) >= integer(demoend) - 2 * SizeOf(ticcmd_t) then
     G_IncreaseDemoBuffer;
 
   G_ReadDemoTiccmd(cmd);  // make SURE it is exactly the same
@@ -2802,7 +2817,7 @@ begin
   else
   begin
     demoversion := demobuffer[0];
-    olddemo := (demoversion <= 110) and (demoversion >= 100);
+    olddemo := (demoversion <= 110) and (demoversion >= 109);
     if olddemo then
       I_Warning('G_DoPlayDemo(): Playing demo from partial compatible version = %d.%d'#13#10,
         [demo_p[0] div 100, demo_p[0] mod 100])

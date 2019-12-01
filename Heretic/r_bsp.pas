@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,7 +60,6 @@ var
   sidedef: Pside_t;
   linedef: Pline_t;
   drawsegs: array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
-
 
 implementation
 

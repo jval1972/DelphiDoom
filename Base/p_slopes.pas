@@ -164,6 +164,8 @@ begin
     refsec := line.backsector;
     if refsec = sec then
       refsec := line.frontsector;
+    if refsec = nil then
+      exit;
   end
   else
     exit;

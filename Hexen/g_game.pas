@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1650,7 +1650,27 @@ begin
     key_lookright := 198;
     key_lookleft := 200;
     key_lookforward := 13;
-  end;
+  end
+  else if mode = 2 then
+  begin
+    key_right := 174;
+    key_left := 172;
+    key_up := 101;
+    key_down := 100;
+    key_strafeleft := 115;
+    key_straferight := 102;
+    key_jump := 97;
+    key_fire := 157;
+    key_use := 32;
+    key_strafe := 184;
+    key_speed := 182;
+    key_lookup := 197;
+    key_lookdown := 202;
+    key_lookcenter := 199;
+    key_lookright := 198;
+    key_lookleft := 200;
+    key_lookforward := 13;
+  end
 end;
 
 //

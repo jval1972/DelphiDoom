@@ -105,12 +105,13 @@ begin
 end;
 
 type
+  PdbSpanCacheInfo_t = ^dbSpanCacheInfo_t;
   dbSpanCacheInfo_t = record
     destl: PLongWord;
     distance: LongWord;
     len: integer;
+    y: integer;
   end;
-  PdbSpanCacheInfo_t = ^dbSpanCacheInfo_t;
   dbSpanCacheInfo_tArray = array[0..$FFFF] of dbSpanCacheInfo_t;
   PdbSpanCacheInfo_tArray = ^dbSpanCacheInfo_tArray;
 
@@ -118,6 +119,8 @@ var
   dbspancacheinfo: PdbSpanCacheInfo_tArray = nil;
   dbspancacheinfo_size: integer = 0;
   dbspancacheinfo_realsize: integer = 0;
+  dbspan_y_min: integer;
+  dbspan_y_max: integer;
 
 procedure R_GrowDBSpanCacheInfo;
 var
@@ -137,23 +140,29 @@ procedure R_StoreSpanToDepthBufferMT;
 var
   info: PdbSpanCacheInfo_t;
 begin
+  if ds_y < dbspan_y_min then
+    dbspan_y_min := ds_y;
+  if ds_y > dbspan_y_max then
+    dbspan_y_max := ds_y;
+
   R_GrowDBSpanCacheInfo;
   info := @dbspancacheinfo[dbspancacheinfo_size - 1];
   info.destl := @((ylookupdb[curbuffer][ds_y]^)[columnofs[ds_x1]]);
   info.distance := db_distance;
   info.len := ds_x2 - ds_x1 + 1;
+  info.y := ds_y;
 end;
 
 function _thr_span_db_writer(const p: mt_range_p): integer; stdcall;
 var
-  info1, info2: PdbSpanCacheInfo_t;
+  i: integer;
+  info: PdbSpanCacheInfo_t;
 begin
-  info1 := @dbspancacheinfo[p.start];
-  info2 := @dbspancacheinfo[p.finish];
-  while integer(info1) <= integer(info2) do
+  for i := 0 to dbspancacheinfo_size - 1 do
   begin
-    memseti(info1.destl, info1.distance, info1.len);
-    inc(info1);
+    info := @dbspancacheinfo[i];
+    if (info.y >= p.start) and (info.y <= p.finish) then
+      memseti(info.destl, info.distance, info.len);
   end;
   result := 0;
 end;
@@ -164,31 +173,33 @@ var
   r1, r2, r3, r4: mt_range_t;
   r5, r6, r7, r8: mt_range_t;
   ts: integer;
+  size: integer;
 begin
-  if dbspancacheinfo_size < 16 then
+  size := dbspan_y_max - dbspan_y_min + 1;
+  if size < 0 then
+    exit;
+
+  if size < 16 then
   begin
-    if dbspancacheinfo_size > 0 then
-    begin
-      r1.start := 0;
-      r1.finish := dbspancacheinfo_size - 1;
-      _thr_span_db_writer(@r1);
-      dbspancacheinfo_size := 0;
-    end;
+    r1.start := 0;
+    r1.finish := size - 1;
+    _thr_span_db_writer(@r1);
+    dbspancacheinfo_size := 0;
     exit;
   end;
 
   // Quickly decide how many threads to use
   if I_GetNumCPUs <= 4 then
   begin
-    ts := dbspancacheinfo_size div 4;
-    r1.start := 0;
-    r1.finish := ts;
-    r2.start := r1.finish + 1;
-    r2.finish := 2 * ts;
-    r3.start := r2.finish + 1;
-    r3.finish := 3 * ts;
-    r4.start := r3.finish + 1;
-    r4.finish := dbspancacheinfo_size - 1;
+    ts := size div 4;
+    r1.start  := dbspan_y_min;
+    r1.finish := r1.start + ts;
+    r2.start  := r1.finish + 1;
+    r2.finish := r2.start + ts;
+    r3.start  := r2.finish + 1;
+    r3.finish := r3.start + ts;
+    r4.start  := r3.finish + 1;
+    r4.finish := dbspan_y_max;
     MT_Execute(
       @_thr_span_db_writer, @r1,
       @_thr_span_db_writer, @r2,
@@ -198,23 +209,23 @@ begin
   end
   else
   begin
-    ts := dbspancacheinfo_size div 8;
-    r1.start := 0;
-    r1.finish := ts;
-    r2.start := r1.finish + 1;
-    r2.finish := 2 * ts;
-    r3.start := r2.finish + 1;
-    r3.finish := 3 * ts;
-    r4.start := r3.finish + 1;
-    r4.finish := 4 * ts;
-    r5.start := r4.finish + 1;
-    r5.finish := 5 * ts;
-    r6.start := r5.finish + 1;
-    r6.finish := 6 * ts;
-    r7.start := r6.finish + 1;
-    r7.finish := 7 * ts;
-    r8.start := r7.finish + 1;
-    r8.finish := dbspancacheinfo_size - 1;
+    ts := size div 8;
+    r1.start  := dbspan_y_min;
+    r1.finish := r1.start + ts;
+    r2.start  := r1.finish + 1;
+    r2.finish := r2.start + ts;
+    r3.start  := r2.finish + 1;
+    r3.finish := r3.start + ts;
+    r4.start  := r3.finish + 1;
+    r4.finish := r4.start + ts;
+    r5.start  := r4.finish + 1;
+    r5.finish := r5.start + ts;
+    r6.start  := r5.finish + 1;
+    r6.finish := r6.start + ts;
+    r7.start  := r6.finish + 1;
+    r7.finish := r7.start + ts;
+    r8.start  := r7.finish + 1;
+    r8.finish := dbspan_y_max;
     MT_Execute(
       @_thr_span_db_writer, @r1,
       @_thr_span_db_writer, @r2,
@@ -285,7 +296,6 @@ begin
 
   dc_yh := old_yh;
   dc_yl := old_yl;
-
 end;
 
 procedure R_DrawBatchColumnWithDepthBufferCheck(const cfunc: Pprocedure); overload;
@@ -358,7 +368,6 @@ begin
   dc_yl := old_yl;
   dc_x := old_x;
   num_batch_columns := old_n;
-
 end;
 
 function R_DepthBufferAt(const x, y: integer): LongWord;
@@ -380,6 +389,8 @@ type
 function _cleardb_thread_worker(parms: Pdbclear_t): integer; stdcall;
 begin
   ZeroMemory(depthbuffer[parms.curbuffer], SCREENWIDTH * viewheight * SizeOf(LongWord));
+  dbspan_y_min := MAXHEIGHT + 1;
+  dbspan_y_max := -1;
   result := 0;
 end;
 
@@ -393,6 +404,8 @@ begin
     depthbuffer[i] := mallocA(dbsize, $10000, depthbuffertmp[i]); // JVAL: Memory padding may increase performance until 4%
     ZeroMemory(depthbuffer[i], SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   end;
+  dbspan_y_min := MAXHEIGHT + 1;
+  dbspan_y_max := -1;
   depthbufferthread := TDThread.Create(@_cleardb_thread_worker);
   depthbufferactive := false;
 end;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -83,6 +83,7 @@ uses
   r_data,
   r_bsp,
   r_segs,
+  r_segs2,
   r_column,
   r_batchcolumn,
   r_colorcolumn,
@@ -1864,17 +1865,20 @@ var
   flag: boolean;
   depth: LongWord;
   size: integer;
+  fds_p: integer;
+  fdrawsegs: Pdrawsegsbuffer_t;
 begin
   size := vis.vx2 - vis.vx1 + 1;
-  memsetsi(@clipbot[vis.x1], -2, size);
-  memsetsi(@cliptop[vis.x1], -2, size);
+  memsetsi(@clipbot[vis.vx1], -2, size);
+  memsetsi(@cliptop[vis.vx1], -2, size);
 
+  R_GetDrawsegsForRange(vis.vx1, vis.vx2, fdrawsegs, fds_p);
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
   //  is the clip seg.
-  for i := ds_p - 1 downto 0 do
+  for i := fds_p - 1 downto 0 do
   begin
-    ds := drawsegs[i];
+    ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
     if (ds.x1 > vis.vx2) or
        (ds.x2 < vis.vx1) or

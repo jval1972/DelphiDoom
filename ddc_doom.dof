@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=712
+Build=713
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=DelphiDoom Script DLL
-FileVersion=2.0.4.712
+FileVersion=2.0.4.713
 InternalName=
 LegalCopyright=Copyright 2016-2018, Jim Valavanis
 LegalTrademarks=

@@ -1,3 +1,16 @@
+Version 2.0.4 build 713 - (12/1/2018)
+-----------
+Menu beautifications.
+Option to switch to ESDF keyboard movement.
+Now correctly executes console commands on AUTOEXEC lump.
+Speed optimizations to the software renderer on maps with big number of drawsegs. (using multiple lists of drawsegs).
+Fixed small issues with the multithreaded dephbuffer calculation.
+
+Version 2.0.4 build 712 - (1/1/2018)
+-----------
+Corrections to the screen DPI detection.
+Doombuilder configuration files are distributed with the binaries.
+
 Version 2.0.4 build 711 - (31/12/2017)
 -----------
 Fixes to sky drawing (both software and OpenGL mode).

@@ -269,10 +269,10 @@ begin
   repeat
     if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) then
     begin
-      xmove := xmove div 2;
-      ymove := ymove div 2;
-      ptryx := mo.x + xmove;
-      ptryy := mo.y + ymove;
+      ptryx := mo.x + xmove div 2;
+      ptryy := mo.y + ymove div 2;
+      xmove := _SHR1(xmove);
+      ymove := _SHR1(ymove);
     end
     else
     begin

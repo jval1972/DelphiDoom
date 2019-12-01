@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -97,7 +97,12 @@ procedure M_ShutDownMenus;
 
 procedure M_InitMenus;
 
-function M_WriteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT): integer;
+type
+  menupos_t = record
+    x, y: integer;
+  end;
+
+function M_WriteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT): menupos_t;
 
 procedure M_WriteText2(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
 
@@ -229,6 +234,7 @@ uses
   s_sound,
   sounds,
   m_saves,
+  w_wad,
   z_zone;
 
 var
@@ -269,8 +275,9 @@ const
   CURSORYOFF = -5;
   ARROWXOFF = -24;
   ARROWYOFF = -8;
+  LINESELECTXOFF = -8;
   LINEHEIGHT = 22;
-  LINEHEIGHT2 = 12;
+  LINEHEIGHT2 = 11;
 
 
 var
@@ -290,6 +297,7 @@ var
   xx: integer;
   yy: integer;
   i: integer;
+  tmpdot: integer;
 begin
   xx := x;
   yy := y + 6;
@@ -302,7 +310,12 @@ begin
   end;
   V_DrawPatch(xx, yy, SCN_TMP, 'M_THERMR', false);
 
-  V_DrawPatch((x + 8) + thermDot * 8, y + 2, SCN_TMP, 'M_THERMO', false);
+  tmpdot := thermDot;
+  if tmpdot < 0 then
+    tmpdot := 0
+  else if tmpdot >= thermWidth then
+    tmpdot := thermWidth - 1;
+  V_DrawPatch((x + 8) + tmpdot * 8, y + 2, SCN_TMP, 'M_THERMO', false);
 end;
 
 procedure M_StartMessage(const _string: string; routine: PmessageRoutine; const input: boolean);
@@ -362,7 +375,7 @@ end;
 //
 //      Write a string using the hu_font
 //
-function M_WriteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT): integer;
+function M_WriteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT): menupos_t;
 var
   w: integer;
   ch: integer;
@@ -374,7 +387,8 @@ begin
   len := Length(_string);
   if len = 0 then
   begin
-    result := y;
+    result.x := x;
+    result.y := y;
     exit;
   end;
 
@@ -418,7 +432,78 @@ begin
     V_DrawPatchZoomed(cx, cy, SCN_TMP, hu_font[c], false, fraczoom);
     cx := cx + w * fraczoom div FRACUNIT;
   end;
-  result := cy + 12;
+
+  result.x := cx;
+  result.y := cy + 12;
+end;
+
+function M_WriteWhiteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT): menupos_t;
+var
+  w: integer;
+  ch: integer;
+  c: integer;
+  cx: integer;
+  cy: integer;
+  len: integer;
+  oldtranslation: PByteArray;
+begin
+  len := Length(_string);
+  if len = 0 then
+  begin
+    result.x := x;
+    result.y := y;
+    exit;
+  end;
+
+  ch := 1;
+  cx := x;
+  cy := y;
+
+  oldtranslation := v_translation;
+  v_translation := W_CacheLumpName('TRN_MENU', PU_STATIC);
+
+  while true do
+  begin
+    if ch > len then
+      break;
+
+    c := Ord(_string[ch]);
+    inc(ch);
+
+    if c = 0 then
+      break;
+
+    if c = 10 then
+    begin
+      cx := x;
+      continue;
+    end;
+
+    if c = 13 then
+    begin
+      cy := cy + 12 * fraczoom div FRACUNIT;
+      continue;
+    end;
+
+    c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_FONTSIZE) then
+    begin
+      cx := cx + 4 * fraczoom div FRACUNIT;
+      continue;
+    end;
+
+    w := hu_font[c].width;
+    if (cx + w) > 320 then
+      break;
+    V_DrawPatchZoomed(cx, cy, SCN_TMP, hu_font[c], false, fraczoom);
+    cx := cx + w * fraczoom div FRACUNIT;
+  end;
+
+  Z_ChangeTag(v_translation, PU_CACHE);
+  v_translation := oldtranslation;
+
+  result.x := cx;
+  result.y := cy;
 end;
 
 //
@@ -901,6 +986,7 @@ type
     ctrl_invertmouseturn,
     ctrl_usejoystic,
     ctrl_autorun,
+    ctrl_keyboardmovemode,
     ctrl_end
   );
 
@@ -1260,9 +1346,112 @@ begin
   M_WriteCenterText3('Compatibility', 48);
 end;
 
+const
+  mkeyboardmodes: array[0..2] of string = ('ARROWS', 'ESDF', 'CUSTOM');
+
+procedure M_SetKeyboardMoveMode(const mode: integer);
+begin
+  if mode = 0 then
+  begin
+    key_up := 173;
+    key_down := 175;
+    key_strafeleft := 44;
+    key_straferight := 46;
+  end
+  else if mode = 1 then
+  begin
+    key_up := 101;
+    key_down := 100;
+    key_strafeleft := 115;
+    key_straferight := 102;
+  end;
+end;
+
+function M_GetKeyboardMoveMode: integer;
+begin
+  if (key_up = 173) and
+     (key_down = 175) and
+     (key_strafeleft = 44) and
+     (key_straferight = 46) then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  if (key_up = 101) and
+     (key_down = 100) and
+     (key_strafeleft = 115) and
+     (key_straferight = 102) then
+  begin
+    result := 1;
+    exit;
+  end;
+
+  result := 2;
+end;
+
+procedure M_KeyboardMoveModeArrows(choice: integer);
+begin
+  M_SetKeyboardMoveMode(0);
+end;
+
+procedure M_KeyboardMoveModeESDF(choice: integer);
+begin
+  M_SetKeyboardMoveMode(1);
+end;
+
+procedure M_SwitchKeyboardMoveMode(choice: integer);
+var
+  old: integer;
+begin
+  old := M_GetKeyboardMoveMode;
+  case old of
+    0: M_KeyboardMoveModeESDF(choice);
+  else
+    M_KeyboardMoveModeArrows(choice);
+  end;
+end;
+
+procedure M_CmdKeyboardMoveMode(const parm1, parm2: string);
+var
+  wrongparms: boolean;
+  sparm1: string;
+begin
+  wrongparms := false;
+
+  if (parm1 = '') or (parm2 <> '') then
+    wrongparms := true;
+
+  sparm1 := strupper(parm1);
+
+  if (parm1 <> '0') and (parm1 <> '1') and
+     (sparm1 <> 'ARROWS') and (sparm1 <> 'ESDF') then
+    wrongparms := true;
+
+  if wrongparms then
+  begin
+    printf('Specify the keyboard move mode:'#13#10);
+    printf('  0: Arrows'#13#10);
+    printf('  1: ESDF'#13#10);
+    exit;
+  end;
+
+  if (parm1 = '0') or (sparm1 = 'ARROWS') then
+    M_SetKeyboardMoveMode(0)
+  else
+    M_SetKeyboardMoveMode(1);
+end;
+
+
 procedure M_DrawControls;
+var
+  ppos: menupos_t;
 begin
   M_WriteCenterText3('Controls', 48);
+
+  ppos := M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmovemode),
+      'Keyboard movement: ');
+  M_WriteWhiteText(ppos.x, ppos.y - 12, mkeyboardmodes[M_GetKeyboardMoveMode]);
 end;
 
 procedure M_DrawSound;
@@ -1457,13 +1646,13 @@ begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTION', false);
 
   sprintf(stmp, 'Messages: %s', [msgstatus[showMessages]]);
-  M_WriteText3(OptionsGeneralDef.x + 12, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * Ord(messages), stmp);
+  M_WriteText3(OptionsGeneralDef.x, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * Ord(messages), stmp);
 
   M_DrawThermo(
-    OptionsGeneralDef.x + 34, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(scrnsize) + 1), 9, m_screensize);
+    OptionsGeneralDef.x, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(scrnsize) + 1), 9, m_screensize);
 
   M_DrawThermo(
-    OptionsGeneralDef.x + 32, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(mousesens) + 1), 20, mouseSensitivity);
+    OptionsGeneralDef.x, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(mousesens) + 1), 20, mouseSensitivity);
 
 end;
 
@@ -1478,15 +1667,17 @@ var
 procedure M_DrawDisplayDetailOptions;
 var
   stmp: string;
+  ppos: menupos_t;
 begin
   M_DrawDisplayOptions;
 
+  ppos := M_WriteText(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), 'Detail level: ');
   {$IFDEF OPENGL}
-  sprintf(stmp, 'Detail level: %s (%dx%dx32)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT]);
+  sprintf(stmp, '%s (%dx%dx32)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT]);
   {$ELSE}
-  sprintf(stmp, 'Detail level: %s (%dx%dx%s)', [detailStrings[detailLevel], WINDOWWIDTH, WINDOWHEIGHT, colordepths[videomode = vm32bit]]);
+  sprintf(stmp, '%s (%dx%dx%s)', [detailStrings[detailLevel], WINDOWWIDTH, WINDOWHEIGHT, colordepths[videomode = vm32bit]]);
   {$ENDIF}
-  M_WriteText(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), stmp);
+  M_WriteWhiteText(ppos.x, ppos.y - 12, stmp);
 end;
 
 procedure M_DrawDisplayAppearanceOptions;
@@ -2266,6 +2457,7 @@ var
   len: integer;
   x, y: integer;
   mheight: integer;
+  ppos: menupos_t;
 begin
   // Horiz. & Vertically center string and print it.
   if messageToPrint <> 0 then
@@ -2342,7 +2534,10 @@ begin
       begin
         delete(_string, 1, 1);
         if currentMenu.menuitems[i].pBoolVal <> nil then
-          M_WriteText(x, y, _string + ': ' + yesnoStrings[currentMenu.menuitems[i].pBoolVal^])
+        begin
+          ppos := M_WriteText(x, y, _string + ': ');
+          M_WriteWhiteText(ppos.x, ppos.y - 12, yesnoStrings[currentMenu.menuitems[i].pBoolVal^]);
+        end
         else
           M_WriteText(x, y, _string);
       end
@@ -2354,8 +2549,7 @@ begin
   end;
 
   if currentMenu.itemheight <= LINEHEIGHT2 then
-    V_DrawPatch(x + ARROWXOFF, currentMenu.y + ARROWYOFF + itemOn * currentMenu.itemheight, SCN_TMP,
-      cursorname[whichCursor], false)
+    M_WriteWhiteText(x + LINESELECTXOFF, currentMenu.y + itemOn * currentMenu.itemheight, '-')
   else
     // DRAW SKULL
     V_DrawPatch(x + CURSORXOFF, currentMenu.y + CURSORYOFF + itemOn * currentMenu.itemheight, SCN_TMP,
@@ -2493,9 +2687,7 @@ begin
   messageLastMenuActive := menuactive;
   quickSaveSlot := -1;
 
-  // Here we could catch other version dependencies,
-  //  like five episodes extended version.
-
+  C_AddCmd('keyboardmovemode', @M_CmdKeyboardMoveMode);
   C_AddCmd('exit, quit', @M_CmdQuit);
   C_AddCmd('halt', @I_Quit);
   C_AddCmd('set', @Cmd_Set);
@@ -2757,7 +2949,7 @@ begin
 //OptionsGeneralMenu
   pmi := @OptionsGeneralMenu[0];
   pmi.status := 1;
-  pmi.name := '%End Game';
+  pmi.name := '/End Game';
   pmi.cmd := '';
   pmi.routine := @M_EndGame;
   pmi.pBoolVal := nil;
@@ -2773,7 +2965,7 @@ begin
 
   inc(pmi);
   pmi.status := 2;
-  pmi.name := '%Screen Size';
+  pmi.name := '/Screen Size';
   pmi.cmd := '';
   pmi.routine := @M_SizeDisplay;
   pmi.pBoolVal := nil;
@@ -2789,7 +2981,7 @@ begin
 
   inc(pmi);
   pmi.status := 2;
-  pmi.name := '%Mouse';
+  pmi.name := '/Mouse Sensitivity';
   pmi.cmd := '';
   pmi.routine := @M_ChangeSensitivity;
   pmi.pBoolVal := nil;
@@ -2870,8 +3062,8 @@ begin
   OptionsDisplayDef.prevMenu := @OptionsDef; // previous menu
   OptionsDisplayDef.menuitems := Pmenuitem_tArray(@OptionsDisplayMenu);  // menu items
   OptionsDisplayDef.routine := @M_DrawDisplayOptions;  // draw routine
-  OptionsDisplayDef.x := 48;
-  OptionsDisplayDef.y := 63; // x,y of menu
+  OptionsDisplayDef.x := 80;
+  OptionsDisplayDef.y := 56; // x,y of menu
   OptionsDisplayDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayDef.itemheight := LINEHEIGHT;
 
@@ -3575,6 +3767,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @autorunmode;
   pmi.alphaKey := 'a';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_SwitchKeyboardMoveMode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'k';
 
 ////////////////////////////////////////////////////////////////////////////////
 //ControlsDef

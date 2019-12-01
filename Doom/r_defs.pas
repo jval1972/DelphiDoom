@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -297,7 +297,7 @@ const
   // Line rendering flags
   LRF_ISOLATED = 1;
   LRF_TRANSPARENT = 2;
-  LRF_SLOPED = 4; // JVAL: Slopes
+  LRF_SLOPED = 4;   // JVAL: Slopes
 
 const
   // Sector rendering flags

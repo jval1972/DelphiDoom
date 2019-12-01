@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -125,12 +125,21 @@ function R_DistToSeg(const seg: Pseg_t): fixed_t;
 
 function R_CalcSegOffset(const seg: Pseg_t): fixed_t;
 
+// JVAL 20180110
+// Screen orientation for drawsegs and vissprites
+procedure R_SetUpDrawSegLists;
+
+procedure R_GetDrawsegsForVissprite(const fvis: Pvissprite_t; var fdrawsegs: Pdrawsegsbuffer_t; var fcnt: integer);
+
+procedure R_GetDrawsegsForRange(x1, x2: integer; var fdrawsegs: Pdrawsegsbuffer_t; var fcnt: integer);
+
 implementation
 
 uses
   d_delphi,
   doomdef,
   p_setup,
+  r_bsp,
   r_column,
   r_data,
   r_draw,
@@ -440,6 +449,126 @@ begin
   result := round((dx * dx1 + dy * dy1) * seg.inv_length);
   if result < 0 then
     result := -result;
+end;
+
+// JVAL 20180110
+// Split drawseg list to speed up vissprite drawing
+const
+  NUM_DRAWSEGS_SLICES = 4;
+
+type
+  ds_slice_t = record
+    start, finish: integer;
+  end;
+
+var
+// Left screen drawsegs
+  ldrawsegs: array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
+  lds_p: integer;
+// Right screen drawsegs
+  rdrawsegs: array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
+  rds_p: integer;
+// Further slices
+  sdrawsegs: array[0..NUM_DRAWSEGS_SLICES - 1] of array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
+  sds_p: array [0..NUM_DRAWSEGS_SLICES - 1] of integer;
+  ds_slices: array[0..NUM_DRAWSEGS_SLICES - 1] of ds_slice_t;
+  ds_range: integer;
+
+procedure R_SetDrawSegToLists(const pds: Pdrawseg_t);
+var
+  i: integer;
+begin
+// Right screen list
+  if pds.x2 >= centerx then
+  begin
+    rdrawsegs[rds_p] := pds;
+    inc(rds_p);
+  end;
+
+// Left screen list
+  if pds.x1 <= centerx then
+  begin
+    ldrawsegs[lds_p] := pds;
+    inc(lds_p);
+  end;
+
+// Small lists
+  for i := 0 to NUM_DRAWSEGS_SLICES - 1 do
+  begin
+    if pds.x1 <= ds_slices[i].finish then
+      if pds.x2 >= ds_slices[i].start then
+      begin
+      // Found a small list
+      // The pds drawseg is a part of small list
+        sdrawsegs[i][sds_p[i]] := pds;
+        inc(sds_p[i]);
+      end;
+  end;
+end;
+
+procedure R_SetUpDrawSegLists;
+var
+  i: integer;
+begin
+// Initialize the size of each drawseg list
+  lds_p := 0;
+  rds_p := 0;
+  for i := 0 to NUM_DRAWSEGS_SLICES - 1 do
+    sds_p[i] := 0;
+
+// Create the ds_slices ranges
+  ds_range := viewwidth div NUM_DRAWSEGS_SLICES;
+  ds_slices[0].start := 0;
+  for i := 1 to NUM_DRAWSEGS_SLICES - 1 do
+    ds_slices[i].start := ds_range * i;
+  for i := 0 to NUM_DRAWSEGS_SLICES - 2 do
+    ds_slices[i].finish := ds_slices[i + 1].start - 1;
+  ds_slices[NUM_DRAWSEGS_SLICES - 1].finish := viewwidth;
+
+// Generate the drawseg lists
+  for i := 0 to ds_p - 1 do
+    R_SetDrawSegToLists(drawsegs[i]);
+end;
+
+procedure R_GetDrawsegsForVissprite(const fvis: Pvissprite_t; var fdrawsegs: Pdrawsegsbuffer_t; var fcnt: integer);
+begin
+  R_GetDrawsegsForRange(fvis.x1, fvis.x2, fdrawsegs, fcnt);
+end;
+
+procedure R_GetDrawsegsForRange(x1, x2: integer; var fdrawsegs: Pdrawsegsbuffer_t; var fcnt: integer);
+var
+  i: integer;
+begin
+  if x2 - x1 <= ds_range then // Quickly decide the posibility of fiting in a small list
+    for i := 0 to NUM_DRAWSEGS_SLICES - 1 do
+    begin
+      // Check if we have a hit in a small list
+      if x1 >= ds_slices[i].start then
+        if x2 <= ds_slices[i].finish then
+        begin // Found a small list
+          fdrawsegs := @sdrawsegs[i];
+          fcnt := sds_p[i];
+          exit;
+        end;
+    end;
+
+// Check if we can fit to the left of right list
+  if x2 < centerx then
+  begin
+    fdrawsegs := @ldrawsegs;
+    fcnt := lds_p;
+    exit;
+  end;
+  if x1 > centerx then
+  begin
+    fdrawsegs := @rdrawsegs;
+    fcnt := rds_p;
+    exit;
+  end;
+
+// No fit, use the entire drawseg list :)
+  fdrawsegs := @drawsegs;
+  fcnt := ds_p;
 end;
 
 end.

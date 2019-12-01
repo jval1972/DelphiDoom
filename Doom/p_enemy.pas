@@ -1115,6 +1115,7 @@ begin
   S_StartSound(actor, Ord(sfx_shotgn));
   A_FaceTarget(actor);
   bangle := actor.angle;
+
   slope := P_AimLineAttack(actor, bangle, MISSILERANGE);
 
   angle := bangle + _SHLW(P_Random - P_Random, 20);
@@ -1277,7 +1278,6 @@ var
   dest: Pmobj_t;
   th: Pmobj_t;
 begin
-//  if gametic and 3 <> 0 then
   if ((gametic - demostarttic) and 3) <> 0 then // [crispy] fix revenant internal demo bug
     exit;
 

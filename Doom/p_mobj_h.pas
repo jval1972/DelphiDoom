@@ -577,7 +577,7 @@ type
     flags: integer;
     filler: integer;
     flags_ex: integer;  // JVAL extended flags (MF_EX_????)
-    flags2_ex: integer;  // JVAL extended flags (MF_EX_????)
+    flags2_ex: integer; // JVAL extended flags (MF_EX_????)
     renderstyle: mobjrenderstyle_t;
     alpha: fixed_t;
     bob: integer;

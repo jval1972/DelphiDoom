@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -250,6 +250,7 @@ procedure M_DrawThermo(x, y, thermWidth, thermDot: integer);
 var
   xx: integer;
   i: integer;
+  tmpdot: integer;
 begin
   xx := x;
   V_DrawPatch(xx, y, SCN_TMP, 'M_THERML', false);
@@ -261,7 +262,12 @@ begin
   end;
   V_DrawPatch(xx, y, SCN_TMP, 'M_THERMR', false);
 
-  V_DrawPatch((x + 8) + thermDot * 8, y, SCN_TMP,
+  tmpdot := thermDot;
+  if tmpdot < 0 then
+    tmpdot := 0
+  else if tmpdot >= thermWidth then
+    tmpdot := thermWidth - 1;
+  V_DrawPatch((x + 8) + tmpdot * 8, y, SCN_TMP,
     'M_THERMO', false);
 end;
 
@@ -331,10 +337,15 @@ begin
       result := result + height;
 end;
 
+type
+  menupos_t = record
+    x, y: integer;
+  end;
+
 //
 //      Write a string using the hu_font
 //
-procedure M_WriteText(x, y: integer; const str: string; const fraczoom: fixed_t = FRACUNIT);
+function M_WriteText(x, y: integer; const str: string): menupos_t;
 var
   w: integer;
   ch: integer;
@@ -345,7 +356,11 @@ var
 begin
   len := Length(str);
   if len = 0 then
+  begin
+    result.x := x;
+    result.y := y;
     exit;
+  end;
 
   ch := 1;
   cx := x;
@@ -370,23 +385,93 @@ begin
 
     if c = 13 then
     begin
-      cy := cy + 12 * fraczoom div FRACUNIT;
+      cy := cy + 12;
       continue;
     end;
 
     c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
     if (c < 0) or (c >= HU_FONTSIZE) then
     begin
-      cx := cx + 4 * fraczoom div FRACUNIT;
+      cx := cx + 4;
       continue;
     end;
 
     w := hu_font[c].width;
     if (cx + w) > 320 then
       break;
-    V_DrawPatchZoomed(cx, cy, SCN_TMP, hu_font[c], false, fraczoom);
-    cx := cx + w * fraczoom div FRACUNIT;
+    V_DrawPatch(cx, cy, SCN_TMP, hu_font[c], false);
+    cx := cx + w;
   end;
+
+  result.x := cx;
+  result.y := cy;
+end;
+
+function M_WriteWhiteText(x, y: integer; const str: string): menupos_t;
+var
+  w: integer;
+  ch: integer;
+  c: integer;
+  cx: integer;
+  cy: integer;
+  len: integer;
+  oldtranslation: PByteArray;
+begin
+  len := Length(str);
+  if len = 0 then
+  begin
+    result.x := x;
+    result.y := y;
+    exit;
+  end;
+
+  ch := 1;
+  cx := x;
+  cy := y;
+
+  oldtranslation := v_translation;
+  v_translation := W_CacheLumpName('TRN_MENU', PU_STATIC);
+  while true do
+  begin
+    if ch > len then
+      break;
+
+    c := Ord(str[ch]);
+    inc(ch);
+
+    if c = 0 then
+      break;
+
+    if c = 10 then
+    begin
+      cx := x;
+      continue;
+    end;
+
+    if c = 13 then
+    begin
+      cy := cy + 12;
+      continue;
+    end;
+
+    c := Ord(toupper(Chr(c))) - Ord(HU_FONTSTART);
+    if (c < 0) or (c >= HU_FONTSIZE) then
+    begin
+      cx := cx + 4;
+      continue;
+    end;
+
+    w := hu_font[c].width;
+    if (cx + w) > 320 then
+      break;
+    V_DrawPatch(cx, cy, SCN_TMP, hu_font[c], false);
+    cx := cx + w;
+  end;
+  Z_ChangeTag(v_translation, PU_CACHE);
+  v_translation := oldtranslation;
+
+  result.x := cx;
+  result.y := cy;
 end;
 
 //
@@ -720,8 +805,7 @@ type
     ctrl_invertmouseturn,
     ctrl_usejoystic,
     ctrl_autorun,
-    ctrl_keyboardmodearrows,
-    ctrl_keyboardmodewasd,
+    ctrl_keyboardmode,
     ctrl_end
   );
 
@@ -1057,31 +1141,228 @@ procedure M_DrawCompatibility;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
   V_DrawPatch(20, 48, SCN_TMP, 'MENU_COM', false);
-//  M_WriteText(20, 48, 'Compatibility', 2 * FRACUNIT);
+end;
+
+const
+  mkeyboardmodes: array[0..3] of string = ('ARROWS', 'WASD', 'ESDF', 'CUSTOM');
+
+procedure M_SetKeyboardMode(const mode: integer);
+begin
+  if mode = 0 then
+  begin
+    key_right := 174;
+    key_left := 172;
+    key_up := 173;
+    key_down := 175;
+    key_strafeleft := 44;
+    key_straferight := 46;
+    key_jump := 97;
+    key_fire := 157;
+    key_use := 32;
+    key_strafe := 184;
+    key_speed := 182;
+    key_lookup := 197;
+    key_lookdown := 202;
+    key_lookcenter := 199;
+    key_lookright := 198;
+    key_lookleft := 200;
+    key_lookforward := 13;
+  end
+  else if mode = 1 then
+  begin
+    key_right := 174;
+    key_left := 172;
+    key_up := 119;
+    key_down := 115;
+    key_strafeleft := 97;
+    key_straferight := 100;
+    key_jump := 106;
+    key_fire := 157;
+    key_use := 32;
+    key_strafe := 184;
+    key_speed := 182;
+    key_lookup := 197;
+    key_lookdown := 202;
+    key_lookcenter := 199;
+    key_lookright := 198;
+    key_lookleft := 200;
+    key_lookforward := 13;
+  end
+  else if mode = 2 then
+  begin
+    key_right := 174;
+    key_left := 172;
+    key_up := 101;
+    key_down := 100;
+    key_strafeleft := 115;
+    key_straferight := 102;
+    key_jump := 97;
+    key_fire := 157;
+    key_use := 32;
+    key_strafe := 184;
+    key_speed := 182;
+    key_lookup := 197;
+    key_lookdown := 202;
+    key_lookcenter := 199;
+    key_lookright := 198;
+    key_lookleft := 200;
+    key_lookforward := 13;
+  end;
+end;
+
+function M_GetKeyboardMode: integer;
+begin
+  if (key_right = 174) and
+     (key_left = 172) and
+     (key_up = 173) and
+     (key_down = 175) and
+     (key_strafeleft = 44) and
+     (key_straferight = 46) and
+     (key_jump = 97) and
+     (key_fire = 157) and
+     (key_use = 32) and
+     (key_strafe = 184) and
+     (key_speed = 182) and
+     (key_lookup = 197) and
+     (key_lookdown = 202) and
+     (key_lookcenter = 199) and
+     (key_lookright = 198) and
+     (key_lookleft = 200) and
+     (key_lookforward = 13) then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  if (key_right = 174) and
+     (key_left = 172) and
+     (key_up = 119) and
+     (key_down = 115) and
+     (key_strafeleft = 97) and
+     (key_straferight = 100) and
+     (key_jump = 106) and
+     (key_fire = 157) and
+     (key_use = 32) and
+     (key_strafe = 184) and
+     (key_speed = 182) and
+     (key_lookup = 197) and
+     (key_lookdown = 202) and
+     (key_lookcenter = 199) and
+     (key_lookright = 198) and
+     (key_lookleft = 200) and
+     (key_lookforward = 13) then
+  begin
+    result := 1;
+    exit;
+  end;
+
+  if (key_right = 174) and
+     (key_left = 172) and
+     (key_up = 101) and
+     (key_down = 100) and
+     (key_strafeleft = 115) and
+     (key_straferight = 102) and
+     (key_jump = 97) and
+     (key_fire = 157) and
+     (key_use = 32) and
+     (key_strafe = 184) and
+     (key_speed = 182) and
+     (key_lookup = 197) and
+     (key_lookdown = 202) and
+     (key_lookcenter = 199) and
+     (key_lookright = 198) and
+     (key_lookleft = 200) and
+     (key_lookforward = 13) then
+  begin
+    result := 2;
+    exit;
+  end;
+
+  result := 3;
+end;
+
+procedure M_KeyboardModeArrows(choice: integer);
+begin
+  M_SetKeyboardMode(0);
+end;
+
+procedure M_KeyboardModeWASD(choice: integer);
+begin
+  M_SetKeyboardMode(1);
+end;
+
+procedure M_KeyboardModeESDF(choice: integer);
+begin
+  M_SetKeyboardMode(2);
+end;
+
+procedure M_SwitchKeyboardMode(choice: integer);
+var
+  old: integer;
+begin
+  old := M_GetKeyboardMode;
+  case old of
+    0: M_KeyboardModeWASD(choice);
+    1: M_KeyboardModeESDF(choice);
+  else
+    M_KeyboardModeArrows(choice);
+  end;
+end;
+
+procedure M_CmdKeyboardMode(const parm1, parm2: string);
+var
+  wrongparms: boolean;
+  sparm1: string;
+begin
+  wrongparms := false;
+
+  if (parm1 = '') or (parm2 <> '') then
+    wrongparms := true;
+
+  sparm1 := strupper(parm1);
+
+  if (parm1 <> '0') and (parm1 <> '1') and (parm1 <> '2') and
+     (sparm1 <> 'ARROWS') and (sparm1 <> 'WASD') and (sparm1 <> 'ESDF') then
+    wrongparms := true;
+
+  if wrongparms then
+  begin
+    printf('Specify the keyboard mode:'#13#10);
+    printf('  0: Arrows'#13#10);
+    printf('  1: WASD'#13#10);
+    printf('  2: ESDF'#13#10);
+    exit;
+  end;
+
+  if (parm1 = '0') or (sparm1 = 'ARROWS') then
+    M_SetKeyboardMode(0)
+  else if (parm1 = '1') or (sparm1 = 'WASD') then
+    M_SetKeyboardMode(1)
+  else
+    M_SetKeyboardMode(2)
 end;
 
 procedure M_DrawControls;
+var
+  ppos: menupos_t;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
   V_DrawPatch(20, 48, SCN_TMP, 'MENU_CON', false);
-//  M_WriteText(20, 48, 'Controls', 2 * FRACUNIT);
 
-  M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodearrows), 'Use arrows for moving');
-  M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodewasd), 'Use WASD keys for moving');
+  ppos := M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmode), 'Keyboard movement: ');
+  M_WriteWhiteText(ppos.x, ppos.y, mkeyboardmodes[M_GetKeyboardMode]);
 end;
 
 procedure M_DrawSound;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
   V_DrawPatch(20, 48, SCN_TMP, 'MENU_SOU', false);
-//  M_WriteText(20, 48, 'Sound', 2 * FRACUNIT);
 end;
 
 procedure M_DrawSystem;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
   V_DrawPatch(20, 48, SCN_TMP, 'MENU_SYS', false);
-//  M_WriteText(20, 48, 'System', 2 * FRACUNIT);
 end;
 
 procedure M_OptionsSound(choice: integer);
@@ -1307,14 +1588,16 @@ var
 procedure M_DrawDisplayDetailOptions;
 var
   stmp: string;
+  ppos: menupos_t;
 begin
   M_DrawDisplayOptions;
+  ppos := M_WriteText(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), 'Detail level: ');
   {$IFDEF OPENGL}
-  sprintf(stmp, 'Detail level: %s (%dx%dx32)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT]);
+  sprintf(stmp, '%s (%dx%dx32)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT]);
   {$ELSE}
-  sprintf(stmp, 'Detail level: %s (%dx%dx%s)', [detailStrings[detailLevel], WINDOWWIDTH, WINDOWHEIGHT, colordepths[videomode = vm32bit]]);
+  sprintf(stmp, '%s (%dx%dx%s)', [detailStrings[detailLevel], WINDOWWIDTH, WINDOWHEIGHT, colordepths[videomode = vm32bit]]);
   {$ENDIF}
-  M_WriteText(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), stmp);
+  M_WriteWhiteText(ppos.x, ppos.y, stmp);
 end;
 
 procedure M_DrawDisplayAppearanceOptions;
@@ -1333,11 +1616,14 @@ begin
 end;
 
 procedure M_DrawOptionsDisplay32bit;
+var
+  ppos: menupos_t;
 begin
   M_DrawDisplayOptions;
 
-  M_WriteText(OptionsDisplay32bitDef.x, OptionsDisplay32bitDef.y + OptionsDisplay32bitDef.itemheight * Ord(od_flatfiltering),
-    'Flat filtering: ' + flatfilteringstrings[extremeflatfiltering]);
+  ppos := M_WriteText(OptionsDisplay32bitDef.x, OptionsDisplay32bitDef.y + OptionsDisplay32bitDef.itemheight * Ord(od_flatfiltering),
+    'Flat filtering: ');
+  M_WriteWhiteText(ppos.x, ppos.y, flatfilteringstrings[extremeflatfiltering]);
 end;
 
 {$IFDEF OPENGL}
@@ -1529,43 +1815,6 @@ begin
   if length(s) = 0 then
     I_Error('M_BoolCmd(): Unknown option');
   C_ExecuteCmd(s, yesnoStrings[not currentMenu.menuitems[choice].pBoolVal^]);
-end;
-
-procedure M_KeyboardModeArrows(choice: integer);
-begin
-  G_SetKeyboardMode(0);
-end;
-
-procedure M_KeyboardModeWASD(choice: integer);
-begin
-  G_SetKeyboardMode(1);
-end;
-
-procedure M_CmdKeyboardMode(const parm1, parm2: string);
-var
-  wrongparms: boolean;
-begin
-  wrongparms := false;
-
-  if (parm1 = '') or (parm2 <> '') then
-    wrongparms := true;
-
-  if (parm1 <> '0') and (parm1 <> '1') then
-    wrongparms := true;
-
-  if wrongparms then
-  begin
-    printf('Specify the keyboard mode:'#13#10);
-    printf('  0: Arrows'#13#10);
-    printf('  1: WASD'#13#10);
-    exit;
-  end;
-
-  if parm1 = '0' then
-    G_SetKeyboardMode(0)
-  else
-    G_SetKeyboardMode(1);
-
 end;
 
 procedure M_SizeDisplay(choice: integer);
@@ -2353,6 +2602,7 @@ var
   len: integer;
   x, y: integer;
   mheight: integer;
+  ppos: menupos_t;
 begin
   // Horiz. & Vertically center string and print it.
   if messageToPrint <> 0 then
@@ -2406,16 +2656,14 @@ begin
     str := currentMenu.menuitems[i].name;
     if str <> '' then
     begin
-      if str[1] = '@' then // Draw text
-      begin
-        delete(str, 1, 1);
-        M_WriteText(x, y, str, 2 * FRACUNIT)
-      end
-      else if str[1] = '!' then // Draw text with Yes/No
+      if str[1] = '!' then // Draw text with Yes/No
       begin
         delete(str, 1, 1);
         if currentMenu.menuitems[i].pBoolVal <> nil then
-          M_WriteText(x, y, str + ': ' + yesnoStrings[currentMenu.menuitems[i].pBoolVal^])
+        begin
+          ppos := M_WriteText(x, y, str + ': ');
+          M_WriteWhiteText(ppos.x, ppos.y, yesnoStrings[currentMenu.menuitems[i].pBoolVal^]);
+        end
         else
           M_WriteText(x, y, str);
       end
@@ -2426,12 +2674,12 @@ begin
     y := y + currentMenu.itemheight;
   end;
 
-  if currentMenu.itemheight <= LINEHEIGHT2 then
-    M_WriteText(x + ARROWXOFF, currentMenu.y + itemOn * LINEHEIGHT2, '>')
-  else
+  if currentMenu.itemheight > LINEHEIGHT2 then
     // DRAW SKULL
-    V_DrawPatch(x + SKULLXOFF, currentMenu.y + SKULLYOFF + itemOn * LINEHEIGHT, SCN_TMP,
-      skullName[whichSkull], false);
+    V_DrawPatch(x + SKULLXOFF, currentMenu.y + SKULLYOFF + itemOn * currentMenu.itemheight, SCN_TMP,
+      skullName[whichSkull], false)
+  else
+    M_WriteWhiteText(x + ARROWXOFF, currentMenu.y + itemOn * currentMenu.itemheight, '-');
 
   M_FinishUpdate(200);
 end;
@@ -2620,7 +2868,6 @@ begin
 //OptionsMenu
   pmi := @OptionsMenu[0];
   pmi.status := 1;
-//  pmi.name := '@General';
   pmi.name := 'MENU_GEN';
   pmi.cmd := '';
   pmi.routine := @M_OptionsGeneral;
@@ -2629,7 +2876,6 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-//  pmi.name := '@Display';
   pmi.name := 'MENU_DIS';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplay;
@@ -2638,7 +2884,6 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-//  pmi.name := '@Sound';
   pmi.name := 'MENU_SOU';
   pmi.cmd := '';
   pmi.routine := @M_OptionsSound;
@@ -2647,7 +2892,6 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-//  pmi.name := '@Compatibility';
   pmi.name := 'MENU_COM';
   pmi.cmd := '';
   pmi.routine := @M_OptionsCompatibility;
@@ -2656,7 +2900,6 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-//  pmi.name := '@Controls';
   pmi.name := 'MENU_CON';
   pmi.cmd := '';
   pmi.routine := @M_OptionsConrols;
@@ -2665,7 +2908,6 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-//  pmi.name := '@System';
   pmi.name := 'MENU_SYS';
   pmi.cmd := '';
   pmi.routine := @M_OptionsSystem;
@@ -2678,8 +2920,8 @@ begin
   OptionsDef.prevMenu := @MainDef; // previous menu
   OptionsDef.menuitems := Pmenuitem_tArray(@OptionsMenu);  // menu items
   OptionsDef.routine := @M_DrawOptions;  // draw routine
-  OptionsDef.x := 72;
-  OptionsDef.y := 48; // x,y of menu
+  OptionsDef.x := 97;
+  OptionsDef.y := 64; // x,y of menu
   OptionsDef.lastOn := 0; // last item user was on in menu
   OptionsDef.itemheight := LINEHEIGHT;
 
@@ -2749,14 +2991,12 @@ begin
   pmi := @OptionsDisplayMenu[0];
   pmi.status := 1;
 {$IFDEF OPENGL}
-//  pmi.name := '@OpenGL';
   pmi.name := 'MENU_OPE';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayOpenGL;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'o';
 {$ELSE}
-//  pmi.name := '@Detail';
   pmi.name := 'MENU_DET';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayDetail;
@@ -2803,7 +3043,7 @@ begin
   OptionsDisplayDef.menuitems := Pmenuitem_tArray(@OptionsDisplayMenu);  // menu items
   OptionsDisplayDef.routine := @M_DrawDisplayOptions;  // draw routine
   OptionsDisplayDef.x := 50;
-  OptionsDisplayDef.y := 40; // x,y of menu
+  OptionsDisplayDef.y := 64; // x,y of menu
   OptionsDisplayDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayDef.itemheight := LINEHEIGHT;
 
@@ -2966,7 +3206,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Interpolate';
+  pmi.name := '!Uncapped framerate';
   pmi.cmd := 'interpolate';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @interpolate;
@@ -3553,15 +3793,7 @@ begin
   pmi.status := 1;
   pmi.name := '';
   pmi.cmd := '';
-  pmi.routine := @M_KeyboardModeArrows;
-  pmi.pBoolVal := nil;
-  pmi.alphaKey := 'k';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '';
-  pmi.cmd := '';
-  pmi.routine := @M_KeyboardModeWASD;
+  pmi.routine := @M_SwitchKeyboardMode;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'k';
 

@@ -740,6 +740,7 @@ var
   i: integer;
   secline: Pline_t;
   initial: boolean;
+  sn: integer;
 begin
   secnum := -1;
   result := 0;
@@ -768,8 +769,13 @@ begin
 
       secline.flags := secline.flags and (not ML_BLOCKING);
       secline.special := 0;
-      sides[secline.sidenum[0]].midtexture := 0;
-      sides[secline.sidenum[1]].midtexture := 0;
+
+      sn := secline.sidenum[0];
+      if sn >= 0 then
+        sides[sn].midtexture := 0;
+      sn := secline.sidenum[1];
+      if sn >= 0 then
+        sides[sn].midtexture := 0;
     end;
   end;
 end;

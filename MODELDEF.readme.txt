@@ -3,8 +3,12 @@ DelphiDoom (OpenGL renderer) surrports the following model formats:
 - DDMODEL (DelphiDoom procedure model) 
 - DMX (DelphiDoom compiled procedure model)
 
+Examples:
+  MD2 Models  -> https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DOOM-MODELS.pk3/download
+  DDMODEL/DMX -> https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/v2_EXAMPLE_08_DD_MODEL.zip/download
+
 DDMODEL & DMX models can be created with the DD_MODEL tool (https://sourceforge.net/projects/delphidoom-procedural-modeler/) 
-They are supported from versions 2.0.3 build 706 and up.
+They are supported from version 2.0.3 build 706 and up.
 
 Model support for DelphiDoom is supported via MODELDEF lump, or MODEFDEF.txt files inside external pk3 or pak files.
 

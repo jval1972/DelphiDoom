@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -38,7 +38,7 @@ uses
 
 const
 // Flat cache
-  FLAT32CACHESIZE = 256;
+  FLAT32CACHESIZE = 2048;
   CACHEFLATMASK = FLAT32CACHESIZE - 1;
 
 procedure R_ReadDS32Cache(const flat: integer);
@@ -132,7 +132,7 @@ begin
   begin
     // JVAL
     // 32 bit span cache miss
-    // We render the flats buffer in a single thread
+    // We render the flats buffer in a single thread (why not multiple threads here?)
     // This is just a tiny performance loss because:
     //  1) the column drawing threads are still working parallel
     //  2) we will render in single thread only a portion of the total flats of the frame

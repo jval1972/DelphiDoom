@@ -829,14 +829,14 @@ end;
 function twoSided(sector: integer; line: integer): boolean;
 begin
   if G_PlayingEngineVersion > VERSION115 then
-    result := sectors[sector].lines[line].sidenum[1] <> 0
+    result := sectors[sector].lines[line].sidenum[1] <> -1
   else
     result := sectors[sector].lines[line].flags and ML_TWOSIDED <> 0;
 end;
 
 function twoSidedS(sector: Psector_t; line: integer): boolean;
 begin
-  result := sector.lines[line].sidenum[1] <> 0
+  result := sector.lines[line].sidenum[1] <> -1
 end;
 
 //

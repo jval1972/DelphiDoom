@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -30,6 +30,10 @@
 {$I Doom32.inc}
 
 unit m_rnd;
+
+{$IFDEF DEBUGRANDOM}
+{$DEFINE DEBUG}
+{$ENDIF}
 
 interface
 
@@ -102,7 +106,7 @@ begin
   rndindex := (rndindex + 1) and $ff;
   result := rndtable[rndindex];
   {$IFDEF DEBUG}
-  printf('M_Random(): %d (seed = %d), tic=%d'#13#10, [Result, rndindex, gametic]);
+  printf('M_Random(): %3d, tic=%10d, seed = %3d'#13#10, [Result, gametic, rndindex]);
   {$ENDIF}
 end;
 
@@ -111,7 +115,7 @@ begin
   prndindex := (prndindex + 1) and $ff;
   result := rndtable[prndindex];
   {$IFDEF DEBUG}
-  printf('P_Random(): %d (seed = %d), tic=%d'#13#10, [Result, prndindex, gametic]);
+  printf('P_Random(): %3d, tic=%10d, seed = %3d'#13#10, [Result, gametic, prndindex]);
   {$ENDIF}
 end;
 
@@ -120,7 +124,7 @@ begin
   nrndindex := (nrndindex + 1) and $ff;
   result := rndtable[nrndindex];
   {$IFDEF DEBUG}
-  printf('N_Random(): %d (seed = %d), tic=%d'#13#10, [Result, nrndindex, gametic]);
+  printf('N_Random(): %3d, tic=%10d, seed = %3d'#13#10, [Result, gametic, nrndindex]);
   {$ENDIF}
 end;
 
@@ -128,7 +132,7 @@ function I_Random: integer;
 begin
   result := Random(256);
   {$IFDEF DEBUG}
-  printf('I_Random(): %d, tic=%d'#13#10, [Result, gametic]);
+  printf('I_Random(): %3d, tic=%10d'#13#10, [Result, gametic]);
   {$ENDIF}
 end;
 
@@ -137,7 +141,7 @@ begin
   idx := (idx + 1) and $ff;
   result := rndtable[idx];
   {$IFDEF DEBUG}
-  printf('C_Random(): %d (seed = %d), tic=%d'#13#10, [Result, idx, gametic]);
+  printf('C_Random(): %3d, tic=%10d, seed = %3d'#13#10, [Result, gametic, idx]);
   {$ENDIF}
 end;
 
@@ -145,7 +149,7 @@ function P_RandomFromSeed(const seed: integer): integer;
 begin
   result := rndtable[seed and $ff];
   {$IFDEF DEBUG}
-  printf('P_RandomFromSeed(): %d (seed = %d), tic=%d'#13#10, [Result, seed, gametic]);
+  printf('P_RandomFromSeed(): %3d, tic=%10d, seed = %3d'#13#10, [Result, gametic, seed]);
   {$ENDIF}
 end;
 

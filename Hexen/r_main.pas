@@ -332,6 +332,7 @@ uses
   gl_clipper,
   gl_tex,
 {$ELSE}
+  r_segs2,
   r_wall8,
   r_wall32,
   r_flat8,
@@ -1875,6 +1876,8 @@ begin
 
   R_RenderMultiThreadWalls8;
 
+  R_SetUpDrawSegLists;
+
   R_DrawPlanes;
 
   R_RenderMultiThreadFlats8;
@@ -1922,6 +1925,8 @@ begin
   R_RenderBSPNode(numnodes - 1);
 
   R_RenderMultiThreadWalls32;
+
+  R_SetUpDrawSegLists;
 
   R_DrawPlanes;
 
@@ -2020,6 +2025,8 @@ begin
   gld_EndDrawScene;
 
 {$ELSE}
+  R_SetUpDrawSegLists;
+
   R_DrawPlanes;
 
   // Check for new console commands.

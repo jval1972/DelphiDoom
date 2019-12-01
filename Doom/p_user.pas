@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -414,7 +414,7 @@ begin
         look := look - 16;
 
       if player.angletargetticks > 0 then
-          player.centering := true
+        player.centering := true
       else if look <> 0 then
       begin
         if look = TOCENTER then
@@ -690,6 +690,9 @@ var
   sec: Psector_t; // JVAL: 3d Floors
 begin
   // fixme: do this in the cheat code
+  if player.mo = nil then
+    exit;
+    
   if player.cheats and CF_NOCLIP <> 0 then
     player.mo.flags := player.mo.flags or MF_NOCLIP
   else

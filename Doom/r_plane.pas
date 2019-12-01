@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -161,15 +161,9 @@ uses
 // spanstart holds the start of a plane span
 // initialized to 0 at start
 //
+{$IFNDEF OPENGL}
 var
-{$IFNDEF OPENGL}
   spanstart: array[0..MAXHEIGHT - 1] of integer;
-{$ENDIF}
-
-  basexscale: fixed_t;
-  baseyscale: fixed_t;
-
-{$IFNDEF OPENGL}
   cachedheight: array[0..MAXHEIGHT - 1] of fixed_t;
   cacheddistance: array[0..MAXHEIGHT -1] of fixed_t;
   cachedxstep: array[0..MAXHEIGHT - 1] of fixed_t;
@@ -192,8 +186,6 @@ end;
 // Uses global vars:
 //  planeheight
 //  ds_source
-//  basexscale
-//  baseyscale
 //  viewx
 //  viewy
 //
@@ -226,7 +218,7 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    slope := (planeheight / 65535.0 / abs(centery - y)) * relativeaspect;
+    slope := (planeheight / 65536.0 / abs(centery - y)) * relativeaspect;
     ds_xstep := round(dviewsin * slope);
     ds_ystep := round(dviewcos * slope);
     cachedxstep[y] := ds_xstep;
@@ -358,10 +350,6 @@ begin
   {$ELSE}
   angle := (viewangle - ANG90) shr ANGLETOFINESHIFT;
   {$ENDIF}
-
-  // scale will be unit scale at SCREENWIDTH/2 distance
-  basexscale := FixedDiv(finecosine[angle], centerxfrac);
-  baseyscale := -FixedDiv(finesine[angle], centerxfrac);
 end;
 
 //

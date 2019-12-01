@@ -262,6 +262,12 @@ begin
     // crosses a two sided line
     back := seg.backsector;
 
+    if back = nil then
+    begin
+      result := false;
+      exit;
+    end;
+
     // JVAL: 3d Floors
     if back.midsec >= 0 then
     begin

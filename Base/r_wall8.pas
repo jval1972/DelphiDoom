@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1033,155 +1033,6 @@ begin
 
 end;
 
-procedure R_DrawBatchColumn3(const walls: Pbatchwallrenderinfo8_t);
-var
-  w: Pwallrenderinfo8_t;
-  ypos: integer;
-  dest: PByte;
-  frac1, frac2, frac3: fixed_t;
-  fracstep1, fracstep2, fracstep3: fixed_t;
-  swidth: integer;
-
-  dc_source1: PByteArray;
-  dc_source2: PByteArray;
-  dc_source3: PByteArray;
-
-  dc_colormap1: PByteArray;
-  dc_colormap2: PByteArray;
-  dc_colormap3: PByteArray;
-
-  xx: integer;
-  i: integer;
-
-  min_yh, max_yl: integer;
-  max_yh, min_yl: integer;
-
-  buf: twobytes_t;
-begin
-  w := @walls.walls[0];
-  min_yh := w.dc_yh;
-  max_yl := w.dc_yl;
-  max_yh := w.dc_yh;
-  min_yl := w.dc_yl;
-
-  for i := 1 to 2 do
-  begin
-    inc(w);
-    if w.dc_yh < min_yh then
-      min_yh := w.dc_yh;
-    if w.dc_yl > max_yl then
-      max_yl := w.dc_yl;
-    if w.dc_yh > max_yh then
-      max_yh := w.dc_yh;
-    if w.dc_yl < min_yl then
-      min_yl := w.dc_yl;
-  end;
-
-  if max_yl < 0 then
-    max_yl := 0
-  else if max_yl >= SCREENHEIGHT then
-    max_yl := SCREENHEIGHT - 1;
-  if min_yl < 0 then
-    min_yl := 0
-  else if min_yl >= SCREENHEIGHT then
-    min_yl := SCREENHEIGHT - 1;
-  if min_yh < 0 then
-    min_yh := 0
-  else if min_yh >= SCREENHEIGHT then
-    min_yh := SCREENHEIGHT - 1;
-  if max_yh < 0 then
-    max_yh := 0
-  else if max_yh >= SCREENHEIGHT then
-    max_yh := SCREENHEIGHT - 1;
-
-  w := @walls.walls[0];
-  dest := @((ylookup[min_yl]^)[columnofs[w.dc_x]]);
-
-  xx := min_yl - centery;
-
-  fracstep1 := w.dc_iscale;
-  frac1 := w.dc_texturemid + xx * fracstep1;
-  dc_source1 := w.dc_source;
-  dc_colormap1 := w.dc_colormap;
-  inc(w);
-
-  fracstep2 := w.dc_iscale;
-  frac2 := w.dc_texturemid + xx * fracstep2;
-  dc_source2 := w.dc_source;
-  dc_colormap2 := w.dc_colormap;
-  inc(w);
-
-  fracstep3 := w.dc_iscale;
-  frac3 := w.dc_texturemid + xx * fracstep3;
-  dc_source3 := w.dc_source;
-  dc_colormap3 := w.dc_colormap;
-
-  swidth := SCREENWIDTH - 2;
-
-  ypos := min_yl;
-  while ypos < max_yl do
-  begin
-    w := @walls.walls[0];
-    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
-      dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
-    inc(frac1, fracstep1);
-    inc(dest);
-    inc(w);
-
-    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
-      dest^ := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
-    inc(frac2, fracstep2);
-    inc(dest);
-    inc(w);
-
-    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
-      dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
-    inc(frac3, fracstep3);
-
-    dest := PByte(integer(dest) + swidth);
-    inc(ypos);
-  end;
-
-  while ypos <= min_yh do
-  begin
-    buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
-    inc(frac1, fracstep1);
-
-    buf.byte2 := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
-    inc(frac2, fracstep2);
-    PWord(dest)^ := PWord(@buf)^;
-    inc(dest, 2);
-
-    dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
-    inc(frac3, fracstep3);
-
-    dest := PByte(integer(dest) + swidth);
-    inc(ypos);
-  end;
-
-  while ypos <= max_yh do
-  begin
-    w := @walls.walls[0];
-    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
-      dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
-    inc(frac1, fracstep1);
-    inc(dest);
-    inc(w);
-
-    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
-      dest^ := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
-    inc(frac2, fracstep2);
-    inc(dest);
-    inc(w);
-
-    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
-      dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
-    inc(frac3, fracstep3);
-    dest := PByte(integer(dest) + swidth);
-    inc(ypos);
-  end;
-end;
-
 procedure R_DrawBatchColumn4(const walls: Pbatchwallrenderinfo8_t);
 var
   w: Pwallrenderinfo8_t;
@@ -1353,6 +1204,186 @@ begin
 
 end;
 
+procedure R_DrawBatchColumn3(const walls: Pbatchwallrenderinfo8_t);
+var
+  w: Pwallrenderinfo8_t;
+  ypos: integer;
+  dest: PByte;
+  frac1, frac2, frac3: fixed_t;
+  fracstep1, fracstep2, fracstep3: fixed_t;
+  swidth: integer;
+
+  dc_source1: PByteArray;
+  dc_source2: PByteArray;
+  dc_source3: PByteArray;
+
+  dc_colormap1: PByteArray;
+  dc_colormap2: PByteArray;
+  dc_colormap3: PByteArray;
+
+  xx: integer;
+  i: integer;
+
+  min_yh, max_yl: integer;
+  max_yh, min_yl: integer;
+
+  buf: twobytes_t;
+begin
+  w := @walls.walls[0];
+  min_yh := w.dc_yh;
+  max_yl := w.dc_yl;
+  max_yh := w.dc_yh;
+  min_yl := w.dc_yl;
+
+  for i := 1 to 2 do
+  begin
+    inc(w);
+    if w.dc_yh < min_yh then
+      min_yh := w.dc_yh;
+    if w.dc_yl > max_yl then
+      max_yl := w.dc_yl;
+    if w.dc_yh > max_yh then
+      max_yh := w.dc_yh;
+    if w.dc_yl < min_yl then
+      min_yl := w.dc_yl;
+  end;
+
+  if max_yl < 0 then
+    max_yl := 0
+  else if max_yl >= SCREENHEIGHT then
+    max_yl := SCREENHEIGHT - 1;
+  if min_yl < 0 then
+    min_yl := 0
+  else if min_yl >= SCREENHEIGHT then
+    min_yl := SCREENHEIGHT - 1;
+  if min_yh < 0 then
+    min_yh := 0
+  else if min_yh >= SCREENHEIGHT then
+    min_yh := SCREENHEIGHT - 1;
+  if max_yh < 0 then
+    max_yh := 0
+  else if max_yh >= SCREENHEIGHT then
+    max_yh := SCREENHEIGHT - 1;
+
+  w := @walls.walls[0];
+  dest := @((ylookup[min_yl]^)[columnofs[w.dc_x]]);
+
+  xx := min_yl - centery;
+
+  fracstep1 := w.dc_iscale;
+  frac1 := w.dc_texturemid + xx * fracstep1;
+  dc_source1 := w.dc_source;
+  dc_colormap1 := w.dc_colormap;
+  inc(w);
+
+  fracstep2 := w.dc_iscale;
+  frac2 := w.dc_texturemid + xx * fracstep2;
+  dc_source2 := w.dc_source;
+  dc_colormap2 := w.dc_colormap;
+  inc(w);
+
+  fracstep3 := w.dc_iscale;
+  frac3 := w.dc_texturemid + xx * fracstep3;
+  dc_source3 := w.dc_source;
+  dc_colormap3 := w.dc_colormap;
+
+  swidth := SCREENWIDTH - 2;
+
+  ypos := min_yl;
+  while ypos < max_yl do
+  begin
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
+    inc(frac1, fracstep1);
+    inc(dest);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      dest^ := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
+    inc(frac2, fracstep2);
+    inc(dest);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+    inc(ypos);
+  end;
+
+  while ypos < min_yh do
+  begin
+    buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
+    inc(frac1, fracstep1);
+
+    buf.byte2 := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
+    inc(frac2, fracstep2);
+    PWord(dest)^ := PWord(@buf)^;
+    inc(dest, 2);
+
+    dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+
+    buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
+    inc(frac1, fracstep1);
+
+    buf.byte2 := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
+    inc(frac2, fracstep2);
+    PWord(dest)^ := PWord(@buf)^;
+    inc(dest, 2);
+
+    dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+
+    inc(ypos, 2);
+  end;
+
+  while ypos <= min_yh do
+  begin
+    buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
+    inc(frac1, fracstep1);
+
+    buf.byte2 := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
+    inc(frac2, fracstep2);
+    PWord(dest)^ := PWord(@buf)^;
+    inc(dest, 2);
+
+    dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
+    inc(frac3, fracstep3);
+
+    dest := PByte(integer(dest) + swidth);
+    inc(ypos);
+  end;
+
+  while ypos <= max_yh do
+  begin
+    w := @walls.walls[0];
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
+    inc(frac1, fracstep1);
+    inc(dest);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      dest^ := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
+    inc(frac2, fracstep2);
+    inc(dest);
+    inc(w);
+
+    if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+      dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
+    inc(frac3, fracstep3);
+    dest := PByte(integer(dest) + swidth);
+    inc(ypos);
+  end;
+end;
+
 procedure R_DrawBatchColumn2(const walls: Pbatchwallrenderinfo8_t);
 var
   w: Pwallrenderinfo8_t;
@@ -1443,6 +1474,29 @@ begin
     inc(ypos);
   end;
 
+  while ypos < min_yh do
+  begin
+    buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
+    inc(frac1, fracstep1);
+
+    buf.byte2 := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
+    inc(frac2, fracstep2);
+
+    PWord(dest)^ := PWord(@buf)^;
+    inc(dest, SCREENWIDTH);
+
+    buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
+    inc(frac1, fracstep1);
+
+    buf.byte2 := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
+    inc(frac2, fracstep2);
+
+    PWord(dest)^ := PWord(@buf)^;
+    inc(dest, SCREENWIDTH);
+
+    inc(ypos, 2);
+  end;
+
   while ypos <= min_yh do
   begin
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
@@ -1454,8 +1508,8 @@ begin
     PWord(dest)^ := PWord(@buf)^;
     inc(dest, SCREENWIDTH);
     inc(ypos);
-
   end;
+
 
   while ypos <= max_yh do
   begin

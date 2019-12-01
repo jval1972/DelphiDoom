@@ -43,6 +43,7 @@ uses
 // DOOM version
 const
   VERSION099 = 99;
+  VERSION110 = 110;
   VERSION111 = 111;
   VERSION112 = 112;
   VERSION113 = 113;

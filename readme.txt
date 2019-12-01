@@ -41,9 +41,11 @@ Features:
  -Custom actor definition (ACTORDEF lumps)
  -and more... 
 
+Editing examples can be downloaded at https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/
+
 --------------------------------------------
 Requirements
-Windows operating system with DirectX support.
+Windows operating system with DirectX support (sofrware renderer) and video card with OpenGL (hardware accelerated renderer).
 A modern PC with 1.5 GHz processor. 
 DelphiDoom will take advantage of a Multiprocessor system (Up to 256 logical CPUs).
 

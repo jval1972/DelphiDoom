@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -53,7 +53,7 @@ procedure R_ClearPlanes;
 {$IFNDEF OPENGL}
 type
   mapplanefunc_t = procedure(const y: integer; const x1, x2: integer);
-                                        
+
 procedure R_MapPlane(const y: integer; const x1, x2: integer);
 
 procedure R_MakeSpans(x, t1, b1, t2, b2: integer; const func: mapplanefunc_t);
@@ -162,15 +162,9 @@ uses
 // spanstart holds the start of a plane span
 // initialized to 0 at start
 //
+{$IFNDEF OPENGL}
 var
-{$IFNDEF OPENGL}
   spanstart: array[0..MAXHEIGHT - 1] of integer;
-{$ENDIF}
-
-  basexscale: fixed_t;
-  baseyscale: fixed_t;
-
-{$IFNDEF OPENGL}
   cachedheight: array[0..MAXHEIGHT - 1] of fixed_t;
   cacheddistance: array[0..MAXHEIGHT -1] of fixed_t;
   cachedxstep: array[0..MAXHEIGHT - 1] of fixed_t;
@@ -193,8 +187,6 @@ end;
 // Uses global vars:
 //  planeheight
 //  ds_source
-//  basexscale
-//  baseyscale
 //  viewx
 //  viewy
 //
@@ -227,7 +219,7 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    slope := (planeheight / 65535.0 / abs(centery - y)) * relativeaspect;
+    slope := (planeheight / 65536.0 / abs(centery - y)) * relativeaspect;
     ds_xstep := round(dviewsin * slope);
     ds_ystep := round(dviewcos * slope);
     cachedxstep[y] := ds_xstep;
@@ -317,13 +309,11 @@ type
   two_smallints_t = record
     sm1, sm2: SmallInt;
   end;
-{$ENDIF}
 var
-{$IFNDEF OPENGL}
   vv: integer;
   ff, cc: two_smallints_t;
-{$ENDIF}
   angle: angle_t;
+{$ENDIF}
 begin
 {$IFNDEF OPENGL}
   // opening / clipping determination
@@ -351,7 +341,6 @@ begin
 
   // texture calculation
   ZeroMemory(@cachedheight, SizeOf(cachedheight));
-{$ENDIF}  // JVAL: 3d Floors
 
   // left to right mapping
   {$IFDEF FPC}
@@ -359,10 +348,7 @@ begin
   {$ELSE}
   angle := (viewangle - ANG90) shr ANGLETOFINESHIFT;
   {$ENDIF}
-
-  // scale will be unit scale at SCREENWIDTH/2 distance
-  basexscale := FixedDiv(finecosine[angle], centerxfrac);
-  baseyscale := -FixedDiv(finesine[angle], centerxfrac);
+{$ENDIF}  // JVAL: 3d Floors
 end;
 
 //
@@ -594,7 +580,6 @@ begin
   result := pl;
 
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
-
 end;
 
 //

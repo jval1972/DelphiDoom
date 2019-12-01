@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -656,7 +656,7 @@ begin
   {$IFNDEF OPENGL}
   if demosequence = 0 then
     if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
-      V_DrawPatch(120, 1060, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
+      V_DrawPatch(120, 1020, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
   {$ENDIF}
   if demosequence = 1 then
     V_DrawPatch(4, 160, SCN_FG, W_CacheLumpName('ADVISOR', PU_CACHE), true);
@@ -1788,7 +1788,7 @@ begin
 
   SUC_Progress(59);
 
-  printf('D_IdentifyGameDirectories: Identify game directories.'#13#10, [mb_used]);
+  printf('D_IdentifyGameDirectories: Identify game directories.'#13#10);
   D_IdentifyGameDirectories;
 
   SUC_Progress(60);
@@ -2032,12 +2032,12 @@ begin
   printf('W_ShutDown: Shut down WAD file system.'#13#10);
   W_ShutDown;
 {$IFNDEF OPENGL}
-  printf('E_ShutDown: Shut down ENDOOM screen.'#13#10, [mb_used]);
+  printf('E_ShutDown: Shut down ENDOOM screen.'#13#10);
   E_ShutDown;
 {$ENDIF}
-  printf('Z_ShutDown: Shut down zone memory allocation daemon.'#13#10, [mb_used]);
+  printf('Z_ShutDown: Shut down zone memory allocation daemon.'#13#10);
   Z_ShutDown;
-  printf('V_ShutDown: Shut down screens.'#13#10, [mb_used]);
+  printf('V_ShutDown: Shut down screens.'#13#10);
   V_ShutDown;
   printf('MT_ShutDown: Shut down multithreading utilities.'#13#10);
   MT_ShutDown;

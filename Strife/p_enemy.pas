@@ -3569,6 +3569,7 @@ var
   i: integer;
   sec: Psector_t;
   secline: Pline_t;
+  sn: integer;
 begin
   actor.flags := actor.flags and not (MF_SOLID or MF_SPECIAL);
   sec := Psubsector_t(actor.subsector).sector;
@@ -3584,8 +3585,12 @@ begin
 
     secline.flags := secline.flags and not ML_BLOCKING;
     secline.special := 0;
-    sides[secline.sidenum[0]].midtexture := 0;
-    sides[secline.sidenum[1]].midtexture := 0;
+    sn := secline.sidenum[0];
+    if sn >= 0 then
+      sides[sn].midtexture := 0;
+    sn := secline.sidenum[1];
+    if sn >= 0 then
+      sides[sn].midtexture := 0;
   end;
 end;
 

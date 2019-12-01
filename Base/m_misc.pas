@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -712,10 +712,13 @@ begin
               // JVAL: 20151116 hack to easy set key values inside config file
               if length(stmp) = 3 then
                 if (stmp[1] in ['''', '"']) and (stmp[3] in ['''', '"']) then
-                  if stmp[2] in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'] then
-                    PInteger(pd.location)^ := atoi(stmp[2])
-                  else
-                    PInteger(pd.location)^ := Ord(stmp[2]);
+                  if stmp[1] = stmp[3] then // JVAL 20180101 Same container quotes
+                  begin
+                    if stmp[2] in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'] then
+                      PInteger(pd.location)^ := atoi(stmp[2])
+                    else
+                      PInteger(pd.location)^ := Ord(stmp[2]);
+                  end;
               if length(stmp) = 1 then
                 if not (stmp[1] in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']) then
                   PInteger(pd.location)^ := Ord(stmp[1]);

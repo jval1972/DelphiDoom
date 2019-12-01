@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -621,16 +621,17 @@ begin
   if (showMessages <> 0) or message_dontfuckwithme then
   begin
     // display message if necessary
-    if ((plr._message <> '') and (not message_nottobefuckedwith)) or
-       ((plr._message <> '') and message_dontfuckwithme) then
-    begin
-      HUlib_addMessageToSText2(@w_message, '', plr._message);
-      plr._message := '';
-      message_on := true;
-      message_counter := HU_MSGTIMEOUT;
-      message_nottobefuckedwith := message_dontfuckwithme;
-      message_dontfuckwithme := false;
-    end;
+    if plr <> nil then
+      if ((plr._message <> '') and (not message_nottobefuckedwith)) or
+         ((plr._message <> '') and message_dontfuckwithme) then
+      begin
+        HUlib_addMessageToSText2(@w_message, '', plr._message);
+        plr._message := '';
+        message_on := true;
+        message_counter := HU_MSGTIMEOUT;
+        message_nottobefuckedwith := message_dontfuckwithme;
+        message_dontfuckwithme := false;
+      end;
   end; // else message_on = false;
 
   // check for incoming chat characters

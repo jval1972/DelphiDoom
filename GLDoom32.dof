@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-geom 1024x768 -nofullscreen
+RunParams=-fullhd -nofullscreen -iwad doom2.wad sunlust.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=712
+Build=713
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=2.0.4.712
+FileVersion=2.0.4.713
 InternalName=GLDoom
 LegalCopyright=Copyright 2005 - 2018, Jim Valavanis
 LegalTrademarks=

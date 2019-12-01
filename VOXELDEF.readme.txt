@@ -1,0 +1,367 @@
+// DelphiDoom Voxel definition file example
+// Download link: 
+//  -http://www.teamhellspawn.com/voxels.htm ((Doom Voxel Project site)
+//  -https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/CHEX_QUEST_VOXELS_001.zip/download (some chex quest voxels)
+// Place the file into DelphiDoom's "Bin\Doom" directory and drag the file to Doom32.exe (software rendering) or GLDoom32.exe (opengl rendering)
+//
+// The DelphiDoom Voxel Editor (DD_VOXEL tool) can be downloaded at https://sourceforge.net/projects/delphidoom/files/DDVoxels/
+
+
+voxeldef "tallred1.kvx"
+{
+	Scale = 0.9
+	replaces sprite treda
+}
+
+voxeldef "tallred2.kvx"
+{
+	Scale = 0.9
+	replaces sprite tredb 
+}
+
+voxeldef "tallred3.kvx"
+{
+	Scale = 0.9
+	replaces sprite tredc
+}
+
+voxeldef "tallred4.kvx"
+{
+	Scale = 0.9
+	replaces sprite tredd 
+}
+
+voxeldef "tallblu1.kvx"
+{
+	Scale = 0.9
+	replaces sprite tblua
+}
+
+voxeldef "tallblu2.kvx"
+{
+	Scale = 0.9
+	replaces sprite tblub
+}
+
+voxeldef "tallblu3.kvx"
+{
+	Scale = 0.9
+	replaces sprite tbluc
+}
+
+voxeldef "tallblu4.kvx"
+{
+	Scale = 0.9
+	replaces sprite tblud
+}
+
+voxeldef "tallgrn1.kvx"
+{
+	Scale = 0.9
+	replaces sprite tgrna
+}
+
+voxeldef "tallgrn2.kvx"
+{
+	Scale = 0.9
+	replaces sprite tgrnb
+}
+
+voxeldef "tallgrn3.kvx"
+{
+	Scale = 0.9
+	replaces sprite tgrnc
+}
+
+voxeldef "tallgrn4.kvx"
+{
+	Scale = 0.9
+	replaces sprite tgrnd
+}
+
+voxeldef "AMMOA.kvx" {
+	droppedspin 25 
+	replaces sprite "AMMOA"
+}
+
+voxeldef "ARM1A.kvx" {
+	droppedspin = 25
+	AngleOffset = 270
+	replaces sprite "ARM1A"
+}
+
+voxeldef "ARM1B.kvx" {
+	droppedspin = 25
+	AngleOffset = 270
+	replaces sprite "ARM1B"
+}
+
+voxeldef "ARM2A.kvx" {
+	droppedspin = 25
+	AngleOffset = 270
+	replaces sprite "ARM2A"
+}
+
+voxeldef "ARM2B.kvx" {
+	droppedspin = 25
+	AngleOffset = 270
+	replaces sprite "ARM2B"
+}
+
+voxeldef "BFUGA.kvx" {
+	replaces sprite "BFUGA"
+}
+voxeldef "BKEYA.kvx" {
+	droppedspin 25 
+	placedspin 25 
+	replaces sprite "BKEYA"
+}
+
+voxeldef "BKEYB.kvx" {
+	droppedspin 25 
+	placedspin 25 
+	replaces sprite "BKEYB"
+}
+
+voxeldef "BON1A.kvx" {
+	droppedspin = 25
+	replaces sprite "BON1A"
+}
+
+voxeldef "BON1B.kvx" {
+	droppedspin = 25
+	replaces sprite "BON1B"
+}
+
+voxeldef "BON1C.kvx" {
+	droppedspin = 25
+	replaces sprite "BON1C"
+}
+
+voxeldef "BON1D.kvx" {
+	droppedspin = 25
+	replaces sprite "BON1D"
+}
+
+voxeldef "BPAKA.kvx" {
+	droppedspin = 25
+	placedspin = 25
+	replaces sprite "BPAKA"
+}
+
+voxeldef "BROKA.kvx" {
+	droppedspin = 25
+	replaces sprite "BROKA"
+}
+
+voxeldef "CANDA.kvx" {
+	replaces sprite "CANDA"
+}
+
+voxeldef "CELLA.kvx" {
+	droppedspin = 25
+	replaces sprite "CELLA"
+}
+
+voxeldef "CELPA.kvx" {
+	droppedspin = 25
+	replaces sprite "CELPA"
+}
+
+voxeldef "CLIPA.kvx" {
+	droppedspin = 25
+	replaces sprite "CLIPA"
+}
+
+voxeldef "COL1A.kvx" {
+	replaces sprite "COL1A"
+}
+
+voxeldef "COL2A.kvx" {
+	replaces sprite "COL2A"
+}
+
+voxeldef "COL3A.kvx" {
+	replaces sprite "COL3A"
+}
+
+voxeldef "COL4A.kvx" {
+	replaces sprite "COL4A"
+}
+
+voxeldef "COLUA.kvx" {
+	replaces sprite "COLUA"
+}
+
+voxeldef "CSAWA.kvx" {
+	replaces sprite "CSAWA"
+}
+
+voxeldef "ELECA.kvx" {
+	replaces sprite "ELECA"
+}
+
+voxeldef "HDB6A.kvx" {
+	AngleOffset = 270
+	replaces sprite "HDB6A"
+}
+
+voxeldef "LAUNA.kvx" {
+	droppedspin = 25
+	replaces sprite "LAUNA"
+}
+
+voxeldef "MEDIA.kvx" {
+	droppedspin = 25
+	replaces sprite "MEDIA"
+}
+
+voxeldef "MGUNA.kvx" {
+	replaces sprite "MGUNA"
+}
+
+voxeldef "MISLA.kvx" {
+	AngleOffset = 270
+	replaces sprite "MISLA"
+}
+
+voxeldef "PLASA.kvx" {
+	droppedspin = 25
+	replaces sprite "PLASA"
+}
+
+voxeldef "PMAPA.kvx" {
+	droppedspin = 25
+	placedspin = 25
+	replaces sprite "PMAPA"
+}
+
+voxeldef "PMAPB.kvx" {
+	droppedspin = 25
+	placedspin = 25
+	replaces sprite "PMAPB"
+}
+
+voxeldef "PMAPC.kvx" {
+	droppedspin = 25
+	placedspin = 25
+	replaces sprite "PMAPC"
+}
+
+voxeldef "PMAPD.kvx" {
+	droppedspin = 25
+	placedspin = 25
+	replaces sprite "PMAPD"
+}
+
+voxeldef "POL4A.kvx" {
+	AngleOffset = 270
+	replaces sprite "POL4A"
+}
+
+voxeldef "PSTRA.kvx" {
+	droppedspin = 25
+	replaces sprite "PSTRA"
+}
+
+voxeldef "PVISA.kvx" {
+	droppedspin = 25
+	replaces sprite "PVISA"
+}
+
+voxeldef "PVISB.kvx" {
+	droppedspin = 25
+	replaces sprite "PVISB"
+}
+
+voxeldef "RKEYA.kvx" {
+	droppedspin 25 
+	placedspin 25 
+	replaces sprite "RKEYA"
+}
+
+voxeldef "RKEYB.kvx" {
+	droppedspin 25 
+	placedspin 25 
+	replaces sprite "RKEYB"
+}
+
+voxeldef "ROCKA.kvx" {
+	replaces sprite "ROCKA"
+}
+
+voxeldef "SBOXA.kvx" {
+	droppedspin = 25
+	replaces sprite "SBOXA"
+}
+
+voxeldef "SGN2A.kvx" {
+	droppedspin = 25
+	replaces sprite "SGN2A"
+}
+
+voxeldef "SHELA.kvx" {
+	droppedspin = 25
+	replaces sprite "SHELA"
+}
+
+voxeldef "SHOTA.kvx" {
+	droppedspin = 25
+	replaces sprite "SHOTA"
+}
+
+voxeldef "STIMA.kvx" {
+	droppedspin = 25
+	replaces sprite "STIMA"
+}
+
+voxeldef "SUITA.kvx" {
+	droppedspin = 25
+	placedspin = 25
+	replaces sprite "SUITA"
+}
+
+voxeldef "TLMPA.kvx" {
+	replaces sprite "TLMPA"
+}
+
+voxeldef "TLMPB.kvx" {
+	replaces sprite "TLMPB"
+}
+
+voxeldef "TLMPC.kvx" {
+	replaces sprite "TLMPC"
+}
+
+voxeldef "TLMPD.kvx" {
+	replaces sprite "TLMPD"
+}
+
+voxeldef "TLP2A.kvx" {
+	replaces sprite "TLP2A"
+}
+
+voxeldef "TLP2B.kvx" {
+	replaces sprite "TLP2B"
+}
+
+voxeldef "TLP2C.kvx" {
+	replaces sprite "TLP2C"
+}
+
+voxeldef "TLP2D.kvx" {
+	replaces sprite "TLP2D"
+}
+
+voxeldef "YKEYA.kvx" {
+	droppedspin 25 
+	placedspin 25 
+	replaces sprite "YKEYA"
+}
+
+voxeldef "YKEYB.kvx" {
+	droppedspin 25 
+	placedspin 25 
+	replaces sprite "YKEYB"
+}
+

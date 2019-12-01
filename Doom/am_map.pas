@@ -1531,6 +1531,7 @@ begin
 
       if (fx >= f_x) and (fx <= f_w - w) and (fy >= f_y) and (fy <= f_h - h) then
         V_DrawPatch(fx, fy, SCN_FG, marknums[i], false);
+//        V_DrawPatch((fx * 320) div SCREENWIDTH, (fy * 200) div SCREENHEIGHT, SCN_FG, marknums[i], true);
     end;
   end;
 end;

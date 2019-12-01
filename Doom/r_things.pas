@@ -120,6 +120,7 @@ uses
   p_setup,
 {$IFNDEF OPENGL}
   r_segs,
+  r_segs2,
   r_column,
   r_batchcolumn,
   r_trans8,
@@ -532,10 +533,8 @@ begin
 
   if dc_yl <= dc_yh then
   begin
-    // Drawn by either R_DrawColumn
-    //  or (SHADOW) R_DrawFuzzColumn
-    //  or R_DrawColumnAverage
-    //  or R_DrawTranslatedColumn
+    // Drawn by either averagecolfunc
+    //  or maskedcolfunc2
     if depthbufferactive then                   // JVAL: 3d Floors
       R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
     else
@@ -1535,48 +1534,9 @@ begin
     qsortvs(0, vissprite_p - 1);
 end;
 
-// JVAL: 3d Floors
-procedure R_SortDrawSegs;
-
-  procedure qsortds(l, r: Integer);
-  var
-    i, j: Integer;
-    t: Pdrawseg_t;
-    scale: fixed_t;
-  begin
-    repeat
-      i := l;
-      j := r;
-      scale := drawsegs[(l + r) shr 1].scale1;
-      repeat
-        while drawsegs[i].scale1 < scale do
-          inc(i);
-        while drawsegs[j].scale1 > scale do
-          dec(j);
-        if i <= j then
-        begin
-          t := drawsegs[i];
-          drawsegs[i] := drawsegs[j];
-          drawsegs[j] := t;
-          inc(i);
-          dec(j);
-        end;
-      until i > j;
-      if l < j then
-        qsortds(l, j);
-      l := i;
-    until i >= r;
-  end;
-
-begin
-  if ds_p > 0 then
-    qsortds(0, ds_p - 1);
-end;
-
 //
 // R_DrawSprite
 //
-
 procedure R_DrawSprite(spr: Pvissprite_t);
 var
   ds: Pdrawseg_t;
@@ -1590,6 +1550,8 @@ var
   size: integer;
   h, mh: fixed_t;
   plheightsec: integer;
+  fds_p: integer;
+  fdrawsegs: Pdrawsegsbuffer_t;
 begin
   // JVAL voxel support
   if spr.voxelflag <> 0 then
@@ -1602,12 +1564,13 @@ begin
   memsetsi(@clipbot[spr.x1], - 2, size);
   memsetsi(@cliptop[spr.x1], - 2, size);
 
+  R_GetDrawsegsForVissprite(spr, fdrawsegs, fds_p);
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
   //  is the clip seg.
-  for i := ds_p - 1 downto 0 do
+  for i := fds_p - 1 downto 0 do
   begin
-    ds := drawsegs[i];
+    ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
     if (ds.x1 > spr.x2) or
        (ds.x2 < spr.x1) or
@@ -1782,6 +1745,8 @@ var
   i: integer;
   x1, x2: integer;
   size: integer;
+  fds_p: integer;
+  fdrawsegs: Pdrawsegsbuffer_t;
 begin
   x := (spr.x2 - spr.x1) div 2;
   x1 := spr.x1 - x;
@@ -1796,12 +1761,13 @@ begin
   memsetsi(@clipbot[x1], - 2, size);
   memsetsi(@cliptop[x1], - 2, size);
 
+  R_GetDrawsegsForRange(x1, x2, fdrawsegs, fds_p);
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
   //  is the clip seg.
-  for i := ds_p - 1 downto 0 do
+  for i := fds_p - 1 downto 0 do
   begin
-    ds := drawsegs[i];
+    ds := fdrawsegs[i];
     // determine if the drawseg obscures the sprite
     if (ds.x1 > x2) or
        (ds.x2 < x1) or
@@ -1943,7 +1909,6 @@ begin
   end;
 
   R_StopDepthBuffer;  // JVAL: 3d Floors
-
 end;
 {$ENDIF}
 

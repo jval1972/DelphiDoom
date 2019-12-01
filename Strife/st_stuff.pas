@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -578,6 +578,7 @@ var
   spot: integer;
   map: integer;
   ateit: boolean; // JVAL Cheats ate the event
+  ignoreateit: boolean;
   inv: Pinventory_t;
 
   function check_cheat(cht: Pcheatseq_t; key: char): boolean;
@@ -593,6 +594,7 @@ var
 begin
   result := false;
   ateit := false;
+  ignoreateit := false;
   st_keystate := false;
   // Filter automap on/off.
   if (ev._type = ev_keyup) and
@@ -674,6 +676,15 @@ begin
       result := false;
       exit;
     end;
+
+    // JVAL: Prevent cheat code ate movement
+    ignoreateit :=
+      (ev.data1 = key_up) or
+      (ev.data1 = key_down) or
+      (ev.data1 = key_strafeleft) or
+      (ev.data1 = key_straferight) or
+      (ev.data1 = key_left) or
+      (ev.data1 = key_right);
 
     // keydown events
     if ev.data1 = key_invquery then // inventory query
@@ -982,7 +993,8 @@ begin
       end;
     end;
   end;
-  result := result or ateit;
+  if not ignoreateit then
+    result := result or ateit;
 end;
 
 procedure ST_Ticker;

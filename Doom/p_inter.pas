@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -518,7 +518,7 @@ begin
           exit;
 
         // JVAL 20171210 Fix the https://doomwiki.org/wiki/Picked_up_a_medikit_that_you_REALLY_need! bug
-        if (VERSION >= 204) and (player.mo <> nil) then
+        if (G_PlayingEngineVersion >= VERSION204) and (player.mo <> nil) then
         begin
           if oldhealth < player.mo.info.spawnhealth div 4 then
             player._message := GOTMEDINEED

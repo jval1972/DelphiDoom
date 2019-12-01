@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1470,11 +1470,12 @@ begin
       exit;
     end;
 
+    dropoffmargin := 24 * FRACUNIT;
+
     // JVAL: Version 204
-    if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
-      dropoffmargin := 144 * FRACUNIT
-    else
-      dropoffmargin := 24 * FRACUNIT;
+    if G_PlayingEngineVersion >= VERSION204 then
+      if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
+        dropoffmargin := 144 * FRACUNIT;
 
     if (thing.flags and (MF_DROPOFF or MF_FLOAT) = 0) and
        (tmfloorz - tmdropoffz > dropoffmargin) and

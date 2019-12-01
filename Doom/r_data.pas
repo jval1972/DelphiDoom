@@ -358,8 +358,8 @@ begin
         end;
       end;
 
-    memfree(pointer(source), theight);         // free temporary column
-    memfree(pointer(marks), marksize);          // free transparency marks
+    memfree(pointer(source), theight);  // free temporary column
+    memfree(pointer(marks), marksize);  // free transparency marks
   end;
 
 

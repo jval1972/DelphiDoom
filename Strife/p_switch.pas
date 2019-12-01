@@ -344,6 +344,7 @@ var
   sdnum: integer;
   breakglass: boolean; // villsa [STRIFE]
   sl: Pswitchlist_t;   // villsa [STRIFE]
+  sn: integer;
 begin
   sdnum := line.sidenum[0];
   texTop := sides[sdnum].toptexture;
@@ -410,8 +411,11 @@ begin
         // villsa [STRIFE] affect second side of line
         // BUG: will crash if 1S line is marked with TWOSIDED flag!
         if line.flags and ML_TWOSIDED <> 0 then
-          if line.sidenum[1] > 0 then // JVAL: extra check
-            sides[line.sidenum[1]].midtexture := switchlist[i xor 1];
+        begin
+          sn := line.sidenum[1];
+          if sn >= 0 then // JVAL: extra check
+            sides[sn].midtexture := switchlist[i xor 1];
+        end;
 
         if useAgain then
           P_StartButton(line, middle, switchlist[i], BUTTONTIME);

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -261,10 +261,12 @@ begin
   repeat
     if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) then
     begin
-      xmove := xmove div 2;
-      ymove := ymove div 2;
-      ptryx := mo.x + xmove;
-      ptryy := mo.y + ymove;
+    // JVAL 20180107
+    // Please do not change, the div and the _SHR1, problem with demo compatibility..
+      ptryx := mo.x + xmove div 2;
+      ptryy := mo.y + ymove div 2;
+      xmove := _SHR1(xmove);
+      ymove := _SHR1(ymove);
     end
     else
     begin
@@ -1565,6 +1567,7 @@ var
   y: fixed_t;
   z: fixed_t;
   slope: fixed_t;
+  ver: integer;
 begin
   // see which target is to be aimed at
   an := source.angle;
@@ -1580,10 +1583,33 @@ begin
       an := an - $8000000;
       slope := P_AimLineAttack(source, an, 16 * 64 * FRACUNIT);
 
-      if zaxisshift and (linetarget = nil) then
+      ver := G_PlayingEngineVersion;
+      if ver > VERSION110 then
       begin
-        an := source.angle;
-        slope := (Pplayer_t(source.player).lookdir * FRACUNIT) div 173;
+        if ver < VERSION204 then
+        begin
+          if zaxisshift and (linetarget = nil) then
+          begin
+            an := source.angle;
+            slope := (Pplayer_t(source.player).lookdir * FRACUNIT) div 173;
+          end;
+        end
+        else
+        begin
+          if linetarget = nil then
+          begin
+            an := source.angle;
+            slope := (Pplayer_t(source.player).lookdir * FRACUNIT) div 173;
+          end;
+        end;
+      end
+      else
+      begin
+        if linetarget = nil then
+        begin
+          an := source.angle;
+          slope := 0;
+        end;
       end;
 
     end;

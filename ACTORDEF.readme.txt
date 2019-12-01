@@ -1,6 +1,7 @@
 Custom actor support for DelphiDoom is supported via ACTORDEF lump.
 This is a text file, quite similar, with zDoom's DECORATE lumps (at the time of writting these lines ~year 2008). 
 You can take a look inside at DelphiDoom monsters pak (DDMONSTERS.WAD) which contains more than 50 new defined actors in ACTORDEF lumps.
+Lastest version of DDMONSTERS.WAD can be downloaded at https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/DD_MONSTERS_20130522.rar/download
 
 To define the enemy flag FLOATBOB you can write:
 +FLOATBOB or
@@ -30,17 +31,125 @@ CUSTOMSOUND1
 CUSTOMSOUND2
 CUSTOMSOUND3
 
+There are also some DelphiDoom specific flags: 
+FLAGS_EX:  
+  MF_EX_TRANSPARENT // Sprite is transparent
+  
+  MF_EX_WHITELIGHT // Sprite emits white light
+  
+  MF_EX_REDLIGHT // Sprite emits red light
+  
+  MF_EX_GREENLIGHT // Sprite emits green light
+  
+  MF_EX_BLUELIGHT // Sprite emits blue light
+  
+  MF_EX_YELLOWLIGHT // Sprite emits yellow light
+  
+  MF_EX_FLOATBOB // Float BOB
+  
+  MF_EX_NORADIUSDMG // No Radius Damage
+  
+  MF_EX_FIRERESIST // Half the damage
+  
+  MF_EX_RANDOMSEESOUND // Random see sound
+  
+  MF_EX_RANDOMPAINSOUND // Random pain sound
+  
+  MF_EX_RANDOMATTACKSOUND // Random attack sound
+  
+  MF_EX_RANDOMDEATHSOUND // Random death sound
+  
+  MF_EX_RANDOMACTIVESOUND // Random active sound
+  
+  MF_EX_RANDOMCUSTOMSOUND1 // Random customsound1
+  
+  MF_EX_RANDOMCUSTOMSOUND2 // Random customsound2
+  
+  MF_EX_RANDOMCUSTOMSOUND3 // Random customsound3
+  
+  MF_EX_CUSTOMEXPLODE // Custom Explosion (see A_Explode)
+  
+  MF_EX_BOSS // The think is boss
+  
+  MF_EX_FLOORHUGGER // Missile stays on floor
+  
+  MF_EX_CEILINGHUGGER // Missile stays on ceiling
+  
+  MF_EX_SEEKERMISSILE // Missile is a seeker
+  
+  MF_EX_SPAWNFLOAT // Mobj spawn on random float z
+  
+  MF_EX_DONTHURTSPECIES // Don't hurt one's own kind with explosions
+  
+  MF_EX_LOWGRAVITY // Low gravity
+  
+  MF_EX_INVULNERABLE // Invulnerable
+  
+  MF_EX_RANDOMMELEESOUND // Random meleesound
+  
+  MF_EX_DONOTREMOVE // Don't remove missile
+  
+  MF_EX_GHOST // Thing is a ghost
+  
+  MF_EX_THRUGHOST // Pass thru ghosts
+  
+  MF_EX_LOOKALLAROUND // Monster can look all around, has eyes in the back
 
-There are also some DelphiDoom specific flags to define color lights:
-(MF_EX_)WHITELIGHT
-(MF_EX_)REDLIGHT
-(MF_EX_)GREENLIGHT
-(MF_EX_)BLUELIGHT
-(MF_EX_)YELLOWLIGHT
-And many more (MF_EX_*, MF2_EX_*)
+FLAGS2_EX:
+  
+  MF2_EX_MEDIUMGRAVITY // Medium gravity
+  
+  MF2_EX_NOHITFLOOR // No P_HitFloor call
+  
+  MF2_EX_GREENBLOOD // Green Blood
+  
+  MF2_EX_BLUEBLOOD // Blue Blood
+  
+  MF2_EX_NOTELEPORT // No teleport flag
+  
+  MF2_EX_PUSHABLE // Pushable things
+  
+  MF2_EX_CANNOTPUSH // Mobj can not push
+  
+  MF2_EX_DONTDRAW // don't generate a vissprite
+  
+  MF2_EX_INTERACTIVE // Interactive mobj - can be set to interact state
+  
+  MF2_EX_DONTINFIGHTMONSTERS // Don't return fire if attacker has same inheritance
+  
+  MF2_EX_FLOORCLIP // Floorclip
+  
+  MF2_EX_FRIGHTENED // Monster walks away
+  
+  MF2_EX_NODAMAGE // No damage
+  
+  MF2_EX_ONMOBJ // mobj is resting on top of another mobj
+  
+  MF2_EX_PASSMOBJ // Enable z block checking.  If on, this flag will allow the mobj to pass over/under other mobjs.
+  
+  MF2_EX_DONTRUNSCRIPTS // Dissable scripts
+  
+  MF2_EX_PRECISESPAWNANGLE // Use precise spawnangle
+  
+  MF2_EX_CUSTOMDROPITEM // Use custom drop item
+  
+  MF2_EX_CANTLEAVEFLOORPIC // Can not go to sector with different floor picture
+
+  // From zDoom wiki:
+  // Actors with this flag set will often (about 92% chance) decide to jump down
+  // tall ledges to pursue their target, if said target is hostile
+  MF2_EX_JUMPDOWN 
+
+  MF2_EX_FULLVOLACTIVE // Active Sound at full volume
+  MF2_EX_FULLVOLDEATH // Death Sound at full volume
+  MF2_EX_FULLVOLSEE // See Sound at full volume
+  MF2_EX_FULLVOLPAIN // Pain Sound at full volume
+  MF2_EX_FULLVOLATTACK // Attack Sound at full volume
+  
+  MF2_EX_DONOTRENDERSHADOW // Do not render shadow
 
 Current ACTORDEF functions that DelphiDoom supports:
-(DelphiHeretic, DelphiHexen & DelphiStrife will use additional/other standard function).
+(DelphiHeretic, DelphiHexen & DelphiStrife will use additional/other standard functions).
 ----------------------------------------------------
 // Standard functions:
 A_LIGHT0

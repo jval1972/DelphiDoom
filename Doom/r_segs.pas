@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -164,7 +164,7 @@ var
   lightnum: integer;
   texnum: integer;
   i: integer;
-  use32: boolean;
+  use32bittexture: boolean;
   mc2height: integer;
   texturecolumn: integer;
   tempsec: sector_t;
@@ -180,8 +180,8 @@ begin
   texnum := texturetranslation[curline.sidedef.midtexture];
 
   R_GetDCs(texnum, 0); // JVAL Also precache external texture if not loaded
-  use32 := (videomode = vm32bit) and (integer(textures[texnum].texture32) > $1);
-  if use32 then
+  use32bittexture := (videomode = vm32bit) and (integer(textures[texnum].texture32) > $1);
+  if use32bittexture then
   begin
     mc2height := textures[texnum].height;
     if curline.linedef.renderflags and LRF_TRANSPARENT <> 0 then
@@ -289,7 +289,7 @@ begin
       dc_iscale := LongWord($ffffffff) div LongWord(spryscale);
 
       texturecolumn := maskedtexturecol[dc_x] shr DC_HIRESBITS;
-      if use32 then
+      if use32bittexture then
       begin
         dc_mod := 0;
         dc_texturemod := maskedtexturecol[dc_x] and (DC_HIRESFACTOR - 1);
@@ -911,7 +911,7 @@ begin
     R_StoreSlopeRange(start, stop); // JVAL: Slopes
     Exit;
   end;
-  
+
   pds := R_NewDrawSeg;
   if pds = nil then
     exit;

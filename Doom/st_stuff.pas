@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1101,6 +1101,8 @@ begin
       if ((G_PlayingEngineVersion <= VERSION203) and (plyr.health - st_oldhealth > ST_MUCHPAIN)) or
          ((G_PlayingEngineVersion > VERSION203) and (st_oldhealth - plyr.health > ST_MUCHPAIN)) then
       begin
+        if G_PlayingEngineVersion > VERSION203 then // JVAL: actually, I must check > VERSION204 :)
+          priority := 8;
         st_facecount := ST_TURNCOUNT;
         st_faceindex := ST_calcPainOffset + ST_OUCHOFFSET;
       end
@@ -1216,30 +1218,16 @@ procedure ST_updateWidgets;
 var
   i: integer;
 begin
+  if plyr = nil then
+    exit;
+    
   // must redirect the pointer if the ready weapon has changed.
-  //  if (w_ready.data != plyr->readyweapon)
-  //  {
   if weaponinfo[Ord(plyr.readyweapon)].ammo = am_noammo then
     w_ready.num := @largeammo
   else
     w_ready.num := @plyr.ammo[Ord(weaponinfo[Ord(plyr.readyweapon)].ammo)];
 
-    //{
-    // static int tic=0;
-    // static int dir=-1;
-    // if (!(tic&15))
-    //   plyr->ammo[weaponinfo[plyr->readyweapon].ammo]+=dir;
-    // if (plyr->ammo[weaponinfo[plyr->readyweapon].ammo] == -100)
-    //   dir = 1;
-    // tic++;
-    // }
-
   w_ready.data := Ord(plyr.readyweapon);
-
-    // if (*w_ready.on)
-    //  STlib_updateNum(&w_ready, true);
-    // refresh weapon change
-    //  }
 
   // update keycard multiple widgets
   for i := 0 to 2 do
@@ -1285,7 +1273,8 @@ begin
   inc(st_clock);
   st_randomnumber := M_Random;
   ST_updateWidgets;
-  st_oldhealth := plyr.health;
+  if plyr <> nil then
+    st_oldhealth := plyr.health;
 end;
 
 procedure ST_doPaletteStuff;

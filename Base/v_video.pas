@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -297,8 +297,8 @@ uses
 var
   preserveX: array[0..319] of integer;
   preserveY: array[0..199] of integer;
-  widthintmultiplyer: Integer = 0;
-  heightintmultiplyer: Integer = 0;
+  widthintmultiplier: Integer = 0;
+  heightintmultiplier: Integer = 0;
 
 function V_NeedsPreserve(const destscrn, srcscrn: integer): boolean; overload;
 begin
@@ -591,7 +591,7 @@ begin
     fracy := srcy * FRACUNIT;
 
     if pv then
-      case widthintmultiplyer of
+      case widthintmultiplier of
         2: // Width: 640
           begin
             destw := destw div 2;
@@ -2325,14 +2325,14 @@ begin
     preserveY[i] := trunc(i * {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} / 200);
 
   if {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} mod 320 = 0 then
-    widthintmultiplyer := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} div 320
+    widthintmultiplier := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} div 320
   else
-    widthintmultiplyer := 0;
+    widthintmultiplier := 0;
 
   if {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} mod 200 = 0 then
-    heightintmultiplyer := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} div 200
+    heightintmultiplier := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} div 200
   else
-    heightintmultiplyer := 0;
+    heightintmultiplier := 0;
 
 end;
 

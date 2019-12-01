@@ -468,6 +468,7 @@ var
   i: integer;
 begin
   l := TDStringList.Create;
+  l.Text := commands;
   for i := 0 to l.Count - 1 do
   begin
     cmd := strtrim(l.Strings[i]);

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1025,11 +1025,12 @@ begin
       exit;
     end;
 
+    dropoffmargin := 24 * FRACUNIT;
+
     // JVAL: Version 204
-    if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
-      dropoffmargin := 144 * FRACUNIT
-    else
-      dropoffmargin := 24 * FRACUNIT;
+    if G_PlayingEngineVersion >= VERSION204 then
+      if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
+        dropoffmargin := 144 * FRACUNIT;
 
     if ((thing.flags and (MF_DROPOFF or MF_FLOAT)) = 0) and
        (tmfloorz - tmdropoffz > dropoffmargin) then
@@ -1039,13 +1040,14 @@ begin
     end;
 
     // JVAL: Version 204
-    if (thing.flags2_ex and MF2_EX_CANTLEAVEFLOORPIC <> 0) and
-       ((tmfloorpic <> Psubsector_t(thing.subsector).sector.floorpic) or
-         (tmfloorz - thing.z <> 0)) then
-    begin // must stay within a sector of a certain floor type
-      result := false;
-      exit;
-    end;
+    if G_PlayingEngineVersion >= VERSION204 then
+      if (thing.flags2_ex and MF2_EX_CANTLEAVEFLOORPIC <> 0) and
+         ((tmfloorpic <> Psubsector_t(thing.subsector).sector.floorpic) or
+           (tmfloorz - thing.z <> 0)) then
+      begin // must stay within a sector of a certain floor type
+        result := false;
+        exit;
+      end;
 
   end;
 
@@ -1449,6 +1451,12 @@ begin
       exit;
     end;
 
+    if li.backsector = nil then
+    begin
+      result := false; // stop
+      exit;
+    end;
+
     // Crosses a two sided line.
     // A two sided line will restrict
     // the possible target ranges.
@@ -1655,6 +1663,12 @@ begin
       P_ShootSpecialLine(shootthing, li);
 
     if li.flags and ML_TWOSIDED = 0 then
+    begin
+      result := hitline(false);
+      exit;
+    end;
+
+    if li.backsector = nil then
     begin
       result := hitline(false);
       exit;

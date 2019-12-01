@@ -10,7 +10,8 @@ or
 you can edit the default.cmd file and add the following line:
 -pakfile mytextures.zip
 
-Flats can be any size, if they have dimentions greater than 64x64 there will be automatically converted to 128x128, 256x256 or 512x512 for high resolution rendering. Flats greater than 512x512 are not supported and will be automatically scaled to 512x512. Texture scaling also supported with a limit of 1024x1024.
+Flats can be any size, if they have dimentions greater than 64x64 there will be automatically converted to 128x128, 256x256 or 512x512 for high resolution rendering. In software rendering flats with dimentions greater than 512x512 are not supported and will be automatically scaled to 512x512. Texture scaling also supported with a limit of 1024x1024. 
+Note that if you use the OpenGL renderer big textures are scaled to the maximum supported size of your videocard.
 32 bit color lighting can be configured with console commands:
 -type [SET useransparentsprites (true/false)] to enable/disable transparency.
 -type [SET uselightboost (true/false)] to enable/disable dynamic lighting arround standard light sources.
@@ -21,6 +22,5 @@ Notes (for obsolete hardware)
 - Sprite transparency and dynamic lighting (colored lights) is predefined in mobjinfo constants.
 - Sprite transparency and dynamic lighting can reduce performance. You may need to turn them off if you are running in big screen resolution and/or using a slow computer.
 - Usage of external 32 bit walls and flats of the same resolution as original game data does not affect performance, just loading time.
-- Usage of hi-resolution flats and walls require a lot of memory. Make sure you use a machine with at least 256 MB RAM.
-
-Using hi-resolution 32 bit color external textures with opengl renderer version (gldoom32.exe) may also slow down performance.
+- Usage of hi-resolution flats and walls require a lot of memory. Make sure you use a PC with at least 256 MB RAM.
+- Using hi-resolution 32 bit color external textures with opengl renderer version (gldoom32.exe) may also slow down performance.
