@@ -103,7 +103,7 @@ begin
       Exit;
     result := result.next;
   end;
-  result := nil; // jval: unneeded 
+  result := nil; // JVAL: unneeded 
 end;
 
 function P_GetMobjCustomParamValue(const actor1: pointer; const name: string): integer;

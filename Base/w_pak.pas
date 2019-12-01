@@ -557,7 +557,7 @@ begin
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end;
     end;
-    // jval: 20170904 Remove blanc entries
+    // JVAL: 20170904 Remove blanc entries
     for i := pk3lumps.Count - 1 downto 0 do
       if pk3lumps.Strings[i] = '' then
         pk3lumps.Delete(i);

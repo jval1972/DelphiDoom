@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -746,7 +746,7 @@ begin
     else
     begin
       S_StartSound(mobj, Ord(sfx_wsplsh));
-//      if mobj.flags2_ex and MF2_EX_ // jval SOS
+//      if mobj.flags2_ex and MF2_EX_ // JVAL SOS
       mobj.flags := mobj.flags or MF_FEETCLIPPED;
       mobj.floorclip := FOOTCLIPSIZE;
     end;

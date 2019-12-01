@@ -1322,7 +1322,7 @@ var
 begin
   if target.flags and MF_SHOOTABLE = 0 then
   begin
-  // 29/9/2009 jval: Display a warning message for debugging
+  // 29/9/2009 JVAL: Display a warning message for debugging
     I_DevWarning('P_DamageMobj(): Trying to damage unshootable mobj "%s"'#13#10, [target.info.name]);
     exit; // shouldn't happen...
   end;

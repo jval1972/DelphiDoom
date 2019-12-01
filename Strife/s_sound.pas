@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1138,7 +1138,7 @@ begin
       S_sfx[i].lumpnum := I_GetSfxLumpNum(@S_sfx[i]);
       if S_sfx[i].lumpnum >= 0 then
       begin
-        // jval
+        // JVAL
         // avoid, cause serious mess-up with sounds
         // W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
         sndmem := sndmem + W_LumpLength(S_sfx[i].lumpnum);

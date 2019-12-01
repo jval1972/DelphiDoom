@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -527,7 +527,7 @@ end;
 // Set sounds associated with door though why
 // on earth is this function placed here?
 //
-// jval: changed to P_SoundNumForDoor
+// JVAL: changed to P_SoundNumForDoor
 ///
 procedure P_SoundNumForDoor(door: Pvldoor_t);
 var
@@ -1002,7 +1002,7 @@ begin
     // midair, or unable to be opened at all. Multiple thinkers will fight
     // over how to move the door. They should have added a default return if
     // they weren't going to handle this unconditionally...
-    // jval: Added special 221 from svstrife
+    // JVAL: Added special 221 from svstrife
     case line.special of
        1, // ONLY FOR "RAISE" DOORS, NOT "OPEN"s
       26,
@@ -1017,7 +1017,7 @@ begin
      170,       // villsa
      190,       // villsa
      213,       // villsa
-     221,       // kaiser // jval: added from svstrife 1.4
+     221,       // kaiser // JVAL: added from svstrife 1.4
      232:       // villsa
 
         begin
@@ -1284,7 +1284,7 @@ var
 //
 // villsa [STRIFE] resurrected
 //
-// jval: Allow missing from IWAD, calls R_CheckTextureNumForName instead of R_TextureNumForName
+// JVAL: Allow missing from IWAD, calls R_CheckTextureNumForName instead of R_TextureNumForName
 procedure P_InitSlidingDoorFrames;
 var
   i: integer;
@@ -1498,7 +1498,7 @@ begin
     if sec.ceilingdata <> nil then
       continue;
 
-    // jval: Check sector linecount
+    // JVAL: Check sector linecount
     if sec.linecount < 4 then
       continue;
 

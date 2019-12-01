@@ -95,7 +95,7 @@ begin
     exit;
   end;
 
-  // 19/9/2009 jval: NO TELEPORT FLAG
+  // 19/9/2009 JVAL: NO TELEPORT FLAG
   if thing.flags2_ex and MF2_EX_NOTELEPORT <> 0 then
   begin
     result := 0;

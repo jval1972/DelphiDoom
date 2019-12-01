@@ -165,7 +165,7 @@ const
 
 //jff 3/21/98 Set if line absorbs use by player
 //allow multiple push/switch triggers to be used on one push
-//jval: Changed from 512 to 8192 // STRIFE
+//JVAL: Changed from 512 to 8192 // STRIFE
   ML_PASSUSE = 8192;
 //JVAL: Script Events
   ML_TRIGGERSCRIPTS = 16384;

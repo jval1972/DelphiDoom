@@ -709,7 +709,7 @@ begin
             begin
               stmp := s.Values[n];
               PInteger(pd.location)^ := atoi(stmp);
-              // jval: 20151116 hack to easy set key values inside config file
+              // JVAL: 20151116 hack to easy set key values inside config file
               if length(stmp) = 3 then
                 if (stmp[1] in ['''', '"']) and (stmp[3] in ['''', '"']) then
                   if stmp[2] in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'] then

@@ -2298,8 +2298,6 @@ end;
 // Threaded shades the half screen
 //
 procedure M_MenuShader;
-//var
-//  h1: integer;
 begin
   if (not wipedisplay) and shademenubackground then
   begin
@@ -2623,7 +2621,7 @@ begin
   pmi := @OptionsMenu[0];
   pmi.status := 1;
 //  pmi.name := '@General';
-    pmi.name := 'MENU_GEN';
+  pmi.name := 'MENU_GEN';
   pmi.cmd := '';
   pmi.routine := @M_OptionsGeneral;
   pmi.pBoolVal := nil;

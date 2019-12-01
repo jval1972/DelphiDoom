@@ -608,7 +608,7 @@ begin
 end;
 
 var
-  rtllist: TDStringList = nil; // jval: Runtime wads
+  rtllist: TDStringList = nil; // JVAL: Runtime wads
 
 type
   rtlinfo_t = class

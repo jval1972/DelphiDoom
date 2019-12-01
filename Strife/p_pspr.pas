@@ -836,7 +836,7 @@ begin
     P_DamageMobj(player.mo, player.mo, nil, damage)
   else
   // haleyjd 20140817: [SVE] fix sigil damage thrust to be directional
-  // jval: Only if not compatibility mode.
+  // JVAL: Only if not compatibility mode.
   begin
     P_DamageMobj(player.mo, nil, player.mo, damage);
     if player.mo.info.mass > 0 then
@@ -914,7 +914,7 @@ begin
       end;
 
     // mega blast
-    // jval: Doomworld forum thread: https://www.doomworld.com/vb/source-ports/84524-chocolate-strife-a-firesigil/
+    // JVAL: Doomworld forum thread: https://www.doomworld.com/vb/source-ports/84524-chocolate-strife-a-firesigil/
     4:
       begin
         mo := P_SpawnPlayerMissile(player.mo, Ord(MT_SIGIL_E_SHOT));

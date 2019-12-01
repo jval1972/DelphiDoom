@@ -584,7 +584,7 @@ begin
     repeat
       nowtime := I_GetTime;
       tics := nowtime - wipestart;
-    until tics >= 1; // // haleyjd 08/23/2010: [STRIFE] Changed from == 0 to < 3 // jval: changed to 1
+    until tics >= 1; // // haleyjd 08/23/2010: [STRIFE] Changed from == 0 to < 3 // JVAL: changed to 1
     wipestart := nowtime;
     done := fade_Ticker(tics);
     M_Drawer;         // Menu is drawn even on top of wipes
@@ -1888,7 +1888,7 @@ begin
 
   printf('SC_Init: Initializing script engine.'#13#10);
   SC_Init;
-  // jval: PascalScript
+  // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
   printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
@@ -2204,7 +2204,7 @@ begin
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
 
-  // jval: PascalScript
+  // JVAL: PascalScript
   {$IFNDEF FPC}
   SUC_Progress(97);
   {$ENDIF}
@@ -2276,7 +2276,7 @@ begin
   T_ShutDown;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
-  // jval: PascalScript
+  // JVAL: PascalScript
   printf('PS_ShutDown: Shut down pascal script compiler.'#13#10);
   PS_ShutDown;
   printf('DEH_ShutDown: Shut down dehacked subsystem.'#13#10);

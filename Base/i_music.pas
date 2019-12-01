@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -307,8 +307,10 @@ begin
       2:
         begin
           event.data[0] := channel or $e0;
-          event.data[1] := _SHL(score[spos], 7) and $7f;
-          event.data[2] := _SHR(score[spos], 7);
+          // JVAL 20171030
+          // fix pitch (https://www.doomworld.com/forum/topic/92113-delphidoom-20/?do=findComment&comment=1700485)
+          event.data[1] := (score[spos] and 1) shr 6;
+          event.data[2] := (score[spos] div 2) and 127;
           inc(spos);
         end;
       3:

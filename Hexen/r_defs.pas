@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -230,7 +230,7 @@ type
 
     // Visual appearance: SideDefs.
     //  sidenum[1] will be -1 if one sided
-    sidenum: packed array[0..1] of integer;  // jval glbsp was smallint
+    sidenum: packed array[0..1] of integer;  // JVAL glbsp was smallint
 
     // Neat. Another bounding box, for the extent
     //  of the LineDef.
@@ -374,7 +374,7 @@ type
     bbox: packed array[0..1, 0..3] of fixed_t;
 
     // If NF_SUBSECTOR its a subsector.
-    children: packed array[0..1] of LongWord; // jval glbsp
+    children: packed array[0..1] of LongWord; // JVAL glbsp
   end;
   Pnode_t = ^node_t;
   node_tArray = packed array[0..$FFFF] of node_t;

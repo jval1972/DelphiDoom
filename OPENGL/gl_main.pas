@@ -484,7 +484,6 @@ begin
   result := DefWindowProc(hWnd, Msg, WParam, LParam);
 end;
 
-
 // Called by D_DoomMain,
 // determines the hardware configuration
 // and sets up the video mode
@@ -545,6 +544,7 @@ begin
              WS_CLIPCHILDREN or // Doesn't draw within child windows
              WS_CLIPSIBLINGS;   // Doesn't draw within sibling windows
   dwExStyle := WS_EX_APPWINDOW;         // Top level window
+
   ShowCursor(False);                    // Turn of the cursor (gets in the way)
 
   // Attempt to create the actual window
@@ -600,13 +600,13 @@ begin
     cAccumBlueBits  := 0;                    // Number of blue bits in a-buffer
     cAccumAlphaBits := 0;                    // Number of alpha bits in a-buffer
     cDepthBits      := 16;                   // Specifies the depth of the depth buffer
-    cStencilBits    := 16;                    // Turn off stencil buffer
+    cStencilBits    := 16;                   // Turn off stencil buffer
     cAuxBuffers     := 0;                    // Not supported
     iLayerType      := PFD_MAIN_PLANE;       // Ignored
     bReserved       := 0;                    // Number of overlay and underlay planes
     dwLayerMask     := 0;                    // Ignored
     dwVisibleMask   := 0;                    // Transparent color of underlay plane
-    dwDamageMask    := 0;                     // Ignored
+    dwDamageMask    := 0;                    // Ignored
   end;
 
   // Attempts to find the pixel format supported by a device context that is the best match to a given pixel format specification.

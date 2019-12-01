@@ -181,7 +181,7 @@ const
     SLIDE_DEMOEND1    =  25;
     SLIDE_DEMOEND2    =  26; // Next state = -1
 
-    // jval: Teaser demo textdrawer
+    // JVAL: Teaser demo textdrawer
     SLIDE_TEXT        =  50;
 
 procedure F_StartCast; forward;

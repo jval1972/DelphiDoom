@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -716,7 +716,7 @@ begin
   begin
     if actor.z > actor.floorz then
       P_HitFloor(actor);
-    actor.z := actor.floorz;  // jval: CHOCO removes this
+    actor.z := actor.floorz;  // JVAL: CHOCO removes this
   end;
 
   result := true;
@@ -2471,7 +2471,7 @@ end;
 // villsa [STRIFE] 
 // * Play random peasant sounds; otherwise play painsound directly
 //
-// jval: adjusted for MF_EX_RANDOMPAINSOUND flag
+// JVAL: adjusted for MF_EX_RANDOMPAINSOUND flag
 //
 procedure A_Pain(actor: Pmobj_t);
 var
@@ -3396,7 +3396,7 @@ begin
   actor.flags := actor.flags and not MF_SPECIAL;
 
   // set color and flags
-  mobj.flags := mobj.flags or ((actor.miscdata shl MF_TRANSSHIFT) or MF_NODIALOG);  // jval SOS maybe change flags to LongWord
+  mobj.flags := mobj.flags or ((actor.miscdata shl MF_TRANSSHIFT) or MF_NODIALOG);  // JVAL SOS maybe change flags to LongWord
   mobj.target := nil;
 
   // double Rebel's health in deathmatch mode
@@ -3496,7 +3496,7 @@ end;
 // villsa [STRIFE] new codepointer
 // 09/06/10: Plays an object's active sound periodically.
 //
-// jval: Changed to A_ActiveSoundSTRF
+// JVAL: Changed to A_ActiveSoundSTRF
 procedure A_ActiveSoundSTRF(actor: Pmobj_t);
 begin
   if actor.info.activesound <> 0 then

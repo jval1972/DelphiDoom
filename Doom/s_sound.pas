@@ -996,7 +996,7 @@ begin
       S_sfx[i].lumpnum := I_GetSfxLumpNum(@S_sfx[i]);
       if S_sfx[i].lumpnum >= 0 then
       begin
-        // jval
+        // JVAL
         // avoid, cause serious mess-up with sounds
         // W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
         W_CacheLumpNum(S_sfx[i].lumpnum, PU_SOUND);

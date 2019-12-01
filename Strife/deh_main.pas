@@ -1839,7 +1839,7 @@ begin
   state_tokens.Add('CODEP FRAME');      // .action
   state_tokens.Add('UNKNOWN 1');        // .misc1
   state_tokens.Add('UNKNOWN 2');        // .misc2
-  state_tokens.Add('FLAGS_EX');         // jval: unused since in strife we do not have flags_ex field in state_t
+  state_tokens.Add('FLAGS_EX');         // JVAL: unused since in strife we do not have flags_ex field in state_t
 
   deh_actions[0].action.acp1 := nil;
   deh_actions[0].name := 'NULL';
@@ -2659,7 +2659,7 @@ begin
   result := '';
 end;
 
-// jval: stub
+// JVAL: stub
 function DEH_GetString(const s: string): string;
 begin
   result := s;

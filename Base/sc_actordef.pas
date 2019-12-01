@@ -750,7 +750,7 @@ begin
   sc := TActordefScriptEngine.Create(in_text);
   while sc.GetString do
   begin
-    // jval: THINKER KEYWORD
+    // JVAL: THINKER KEYWORD
     if sc.MatchString('THINKER') then
     begin
       sc.MustGetString;
@@ -817,7 +817,7 @@ begin
         I_Warning('SC_ActordefToDEH(): Unknown token "%s" found, "SCRIPT" expected'#13#10, [sc._String]);
     end;
 
-    // jval: PascalScript extraction :)
+    // JVAL: PascalScript extraction :)
     if sc.MatchString('SCRIPT') then
     begin
       DoParseInlineScript(pst_normal);

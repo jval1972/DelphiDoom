@@ -356,7 +356,7 @@ begin
     begin
       { For some reason the script could not be loaded. This is usually the case when a
         library that has been used at compile time isn't registered at runtime. }
-      // jval: This could happen if script was compiled with previous version of pscomp
+      // JVAL: This could happen if script was compiled with previous version of pscomp
       I_Warning('TPSExecManager.Add(): Internal error! Can not load script assembly.'#13#10);
       I_Warning(TIFErrorToString(DE.ExceptionCode, DE.ExceptionString) + #13#10);
     end;
@@ -374,7 +374,7 @@ begin
     begin
       { For some reason the script could not be loaded. This is usually the case when a
         library that has been used at compile time isn't registered at runtime. }
-      // jval: This could happen if script was compiled with previous version of pscomp
+      // JVAL: This could happen if script was compiled with previous version of pscomp
       I_Warning('TPSExecManager.Add(): Internal error! Can not load script assembly.'#13#10);
       I_Warning(TIFErrorToString(DE.ExceptionCode, DE.ExceptionString) + #13#10);
     end;

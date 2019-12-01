@@ -1554,7 +1554,7 @@ begin
       nodenum := node.children[0]
   end;
 
-  result := @subsectors[nodenum and (not NF_SUBSECTOR_V5)]; // jval: glbsp
+  result := @subsectors[nodenum and (not NF_SUBSECTOR_V5)]; // JVAL: glbsp
 end;
 
 var

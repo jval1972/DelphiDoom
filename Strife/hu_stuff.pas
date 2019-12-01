@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -503,7 +503,7 @@ begin
 {$ENDIF}  
 end;
 
-// 19/9/2009 jval: For drawing demo progress
+// 19/9/2009 JVAL: For drawing demo progress
 procedure HU_DrawDemoProgress;
 var
   dp: Ppatch_t;

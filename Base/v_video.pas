@@ -670,6 +670,62 @@ begin
                 inc(dest, 2);
                 PInt64(dest)^ := PInt64(@ldest64)^;
                 inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+        8: // Width: 2560
+          begin
+            destw := destw div 8;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := @screen32[dwidth * row + destx];
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                ldest64.longword1 := videopal[src[col]];
+                ldest64.longword2 := ldest64.longword1;
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+       12: // Width: 3840
+          begin
+            destw := destw div 12;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := @screen32[dwidth * row + destx];
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                ldest64.longword1 := videopal[src[col]];
+                ldest64.longword2 := ldest64.longword1;
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
                 inc(col);
               end;
               fracy := fracy + fracystep;
@@ -694,6 +750,45 @@ begin
   end;
 end;
 
+type
+  th_copyrect_t = record
+    srcx: integer;
+    srcy: integer;
+    srcscrn: integer;
+    width: integer;
+    height: integer;
+    destx: integer;
+    desty: integer;
+    destscrn: integer;
+    preserve: boolean;
+  end;
+  th_copyrect_p = ^th_copyrect_t;
+
+procedure V_CopyRect_th(p: th_copyrect_p); stdcall;
+begin
+  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (th_copyrect_p(p).destscrn = SCN_FG) then
+    V_CopyRect32(
+      th_copyrect_p(p).srcx,
+      th_copyrect_p(p).srcy,
+      th_copyrect_p(p).srcscrn,
+      th_copyrect_p(p).width,
+      th_copyrect_p(p).height,
+      th_copyrect_p(p).destx,
+      th_copyrect_p(p).desty,
+      th_copyrect_p(p).preserve)
+  else
+    V_CopyRect8(
+      th_copyrect_p(p).srcx,
+      th_copyrect_p(p).srcy,
+      th_copyrect_p(p).srcscrn,
+      th_copyrect_p(p).width,
+      th_copyrect_p(p).height,
+      th_copyrect_p(p).destx,
+      th_copyrect_p(p).desty,
+      th_copyrect_p(p).destscrn,
+      th_copyrect_p(p).preserve);
+end;
+
 procedure V_CopyRect(
   srcx: integer;
   srcy: integer;
@@ -705,10 +800,34 @@ procedure V_CopyRect(
   destscrn: integer;
   preserve: boolean);
 begin
-  if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
-    V_CopyRect32(srcx, srcy, srcscrn, width, height, destx, desty, preserve)
-  else
-    V_CopyRect8(srcx, srcy, srcscrn, width, height, destx, desty, destscrn, preserve);
+{  if usemultithread then
+  begin
+
+  end
+  else}
+  begin
+    if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (destscrn = SCN_FG) then
+      V_CopyRect32(
+        srcx,
+        srcy,
+        srcscrn,
+        width,
+        height,
+        destx,
+        desty,
+        preserve)
+    else
+      V_CopyRect8(
+        srcx,
+        srcy,
+        srcscrn,
+        width,
+        height,
+        destx,
+        desty,
+        destscrn,
+        preserve);
+  end;
 end;
 
 procedure V_CopyAddRect(
@@ -1168,7 +1287,6 @@ var
   dest: PLongWord;
   cnt: integer;
 begin
-
   src := PByte(integer(screens[srcscrn]) +  srcoffs);
   dest := @screen32[destoffs];
 

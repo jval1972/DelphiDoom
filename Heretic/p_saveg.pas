@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -570,7 +570,7 @@ begin
             mobj.prevangle := mobj.angle;
             mobj.nextangle := mobj.angle;
             mobj.intrplcnt := 0;
-            mobj.key := 0; // jval: Will be set after
+            mobj.key := 0; // JVAL: Will be set after
             mobj.customparams := nil;
 
             mobj.dropitem := 0;
@@ -638,7 +638,7 @@ begin
             mobj.prevangle := mobj.angle;
             mobj.nextangle := mobj.angle;
             mobj.intrplcnt := 0;
-            mobj.key := 0; // jval: Will be set after
+            mobj.key := 0; // JVAL: Will be set after
             mobj.customparams := nil;
 
             mobj.dropitem := 0;

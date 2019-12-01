@@ -64,7 +64,7 @@ uses
 var
   mt_initialized: boolean = false;
 
-// jval: General purpose threads
+// JVAL: General purpose threads
 const
   MAXGPTHREADS = 256;
 
@@ -72,7 +72,7 @@ var
   numgpthreads: integer;
   gp_threads: array[0..MAXGPTHREADS - 1] of TDThread;
 
-// jval: Execute code threads
+// JVAL: Execute code threads
 const
   NUMEXECTHREADS = 4;
 

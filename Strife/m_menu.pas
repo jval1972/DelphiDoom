@@ -3702,7 +3702,7 @@ end;
 // at least a 20 pixel margin on the right side. The string passed in must be
 // writable.
 //
-// jval: rewritten
+// JVAL: rewritten
 function M_DialogDimMsg(x, y: integer; str: string; useyfont: boolean): string;
 var
   maxwidth: integer;

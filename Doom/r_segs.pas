@@ -861,7 +861,7 @@ begin
     end;
   end;
 
-  // jval: Changed to fix accuracy for masked textures
+  // JVAL: Changed to fix accuracy for masked textures
   // This fixes some glitches in 2s lines with midtexture (eg BOOMEDIT.WAD)
   if maskedtexture then
   begin

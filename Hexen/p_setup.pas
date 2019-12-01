@@ -424,7 +424,7 @@ var
   linedef: integer;
   side: integer;
 begin
-  // jval glbsp V5
+  // JVAL glbsp V5
   if glnodesver = 3 then
     numsegs := (W_LumpLength(lump) - 4) div SizeOf(GLSeg3_t)
   else if glnodesver > 3 then
@@ -662,7 +662,7 @@ begin
     no.dy := mn.dy * FRACUNIT;
     for j := 0 to 1 do
     begin
-      // jval: glbsp
+      // JVAL: glbsp
       if mn.children[j] and NF_SUBSECTOR <> 0 then
       begin
         mn.children[j] := mn.children[j] and not NF_SUBSECTOR;

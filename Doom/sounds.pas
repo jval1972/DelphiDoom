@@ -1620,7 +1620,7 @@ begin
   sfx.volume := -1;
   sfx.data := nil;
   sfx.usefulness := 0;
-  sfx.lumpnum := -1; // jval: was = 0;
+  sfx.lumpnum := -1; // JVAL: was = 0;
   sfx.randomsoundlist := nil;
   inc(numsfx);
 

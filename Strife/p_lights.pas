@@ -123,7 +123,7 @@ begin
   flick.maxlight := sector.lightlevel;
   flick.minlight := sector.lightlevel - 32; // [STRIFE] changed from min surrounding+16
   if flick.minlight < 0 then
-    flick.minlight := 0; // jval
+    flick.minlight := 0; // JVAL
 
   flick.count := 2; // [STRIFE]: Initial count 4 -> 2
 end;

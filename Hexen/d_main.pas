@@ -1690,7 +1690,7 @@ begin
 
   printf('SC_Init: Initializing script engine.'#13#10);
   SC_Init;
-  // jval: PascalScript
+  // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
   printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
@@ -1926,7 +1926,7 @@ begin
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
 
-  // jval: PascalScript
+  // JVAL: PascalScript
   SUC_Progress(97);
   printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
   PS_CompileAllScripts;
@@ -1995,7 +1995,7 @@ begin
   T_ShutDown;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
-  // jval: PascalScript
+  // JVAL: PascalScript
   printf('PS_ShutDown: Shut down pascal script compiler.'#13#10);
   PS_ShutDown;
   printf('DEH_ShutDown: Shut down dehacked subsystem.'#13#10);

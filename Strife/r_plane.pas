@@ -308,7 +308,7 @@ begin
 end;
 {$ENDIF}
 
-// jval: Visplane hash
+// JVAL: Visplane hash
 const
   VISPLANEHASHSIZE = MAXVISPLANES;
   VISPLANEHASHOVER = 10;
@@ -463,7 +463,7 @@ begin
       exit;
     end;
     Dec(p);
-    // jval: should not happen
+    // JVAL: should not happen
     if p >= lastvisplane then
       break;
     result := @visplanes[p];

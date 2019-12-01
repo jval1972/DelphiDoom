@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -753,7 +753,6 @@ procedure I_DetectCPU;
 var
   info: TSystemInfo;
 begin
-
   try
   // detect MMX and 3DNow! capable CPU (adapted from AMD's "3DNow! Porting Guide")
     asm
@@ -794,7 +793,12 @@ begin
   if usemultithread then
     printf(' Multithreding mode ON'#13#10)
   else
-    printf(' Multithreding mode OFF'#13#10)
+  begin
+    if numcpus > 1 then
+      printf(' Multithreding mode OFF (will not use all cores)'#13#10)
+    else
+      printf(' Multithreding mode OFF'#13#10);
+  end;
 end;
 
 function I_GetNumCPUs: integer;

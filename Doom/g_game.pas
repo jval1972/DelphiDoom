@@ -94,7 +94,7 @@ function G_IsOldDemoPlaying: boolean;
 
 procedure G_Quit;
 
-// 19/9/2009 jval: For drawing demo progress
+// 19/9/2009 JVAL: For drawing demo progress
 function G_DemoProgress: fixed_t;
 
 var
@@ -2892,7 +2892,7 @@ begin
   compatibility_done := false;
 end;
 
-// 19/9/2009 jval: For drawing demo progress
+// 19/9/2009 JVAL: For drawing demo progress
 function G_DemoProgress: fixed_t;
 begin
   result := round((integer(demo_p) - integer(demotickstart)) / (integer(demoend) - integer(demotickstart)) * FRACUNIT);

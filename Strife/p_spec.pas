@@ -1476,7 +1476,7 @@ end;
 // jff 02/05/98 routine added to test for unlockability of
 //  generalized locked doors
 //
-// jval: Only AnyKey or AllKeys in Strife :(
+// JVAL: Only AnyKey or AllKeys in Strife :(
 function P_CanUnlockGenDoor(line: Pline_t; player: Pplayer_t): boolean;
 begin
 
@@ -2558,7 +2558,7 @@ begin
       begin
         // villsa [STRIFE] plat up wait down stay
         if EV_DoPlat(line, upWaitDownStay, 0) <> 0 then
-          P_ChangeSwitchTexture(line, true); // In P_CrossSpecialLine? Copypasta error? // jval: SOS
+          P_ChangeSwitchTexture(line, true); // In P_CrossSpecialLine? Copypasta error? // JVAL: SOS
       end;
 
     185:

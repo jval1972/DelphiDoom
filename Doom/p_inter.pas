@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -896,7 +896,7 @@ var
 begin
   if target.flags and MF_SHOOTABLE = 0 then
   begin
-  // 19/9/2009 jval: Display a warning message for debugging 
+  // 19/9/2009 JVAL: Display a warning message for debugging 
     I_DevWarning('P_DamageMobj(): Trying to damage unshootable mobj "%s"'#13#10, [target.info.name]);
 //    target.tics := -1;
     exit; // shouldn't happen...

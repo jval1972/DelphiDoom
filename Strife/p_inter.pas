@@ -321,7 +321,7 @@ begin
 
     // give, and cap to maxhealth
     player.health := player.health + num;
-    if player.health > maxhealth then // jval: Changed '>=' with '>'
+    if player.health > maxhealth then // JVAL: Changed '>=' with '>'
       player.health := maxhealth;
 
     // Set mo->health for consistency.
@@ -358,7 +358,7 @@ begin
     end;
 
     // Set health. BUG: Oddly, mo->health is NOT set here...
-    // jval: player.mo health will be restored in G_RiftPlayer
+    // JVAL: player.mo health will be restored in G_RiftPlayer
     player.health := healing;
   end;
 
@@ -1214,7 +1214,7 @@ var
 begin
   if target.flags and MF_SHOOTABLE = 0 then
   begin
-  // 19/9/2009 jval: Display a warning message for debugging
+  // 19/9/2009 JVAL: Display a warning message for debugging
     I_DevWarning('P_DamageMobj(): Trying to damage unshootable mobj "%s"'#13#10, [target.info.name]);
 //    target.tics := -1;
     exit; // shouldn't happen...

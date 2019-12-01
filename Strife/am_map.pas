@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -77,7 +77,7 @@ const
   MISSILECOLORS = 227;      // villsa [STRIFE]
   SHOOTABLECOLORS = 235;    // villsa [STRIFE]
 
-// jval: We keep grid in DelphiStrife
+// JVAL: We keep grid in DelphiStrife
   GRIDCOLORS = GRAYS + (GRAYSRANGE div 2);
   GRIDRANGE = 0;
   XHAIRCOLORS = GRAYS;
@@ -593,7 +593,7 @@ begin
       marknums[i] := W_CacheLumpName(namebuf, PU_STATIC);
     end;
   end
-  else  // jval: support for the old demo version
+  else  // JVAL: support for the old demo version
   begin
     for i := 0 to AM_NUMMARKPOINTS - 1 do
     begin
