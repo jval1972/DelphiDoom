@@ -81,6 +81,8 @@ function IntFixedMul(const a, b: fixed_t): fixed_t;
 
 function FixedDiv(const a, b: fixed_t): fixed_t;
 
+//function FixedDivEx(const a, b: fixed_t): fixed_t;
+
 function FixedDiv2(const a, b: fixed_t): fixed_t;
 
 function FixedInt(const x: integer): integer;
@@ -137,6 +139,34 @@ begin
   end
   else
     result := FixedDiv2(a, b);
+end;
+
+function FixedDivEx(const a, b: fixed_t): fixed_t;
+var
+  ret: Double;
+  ad: Double;
+  bd: Double;
+begin
+  if b = 0 then
+  begin
+    if a < 0 then
+      result := MININT
+    else
+      result := MAXINT;
+  end
+  else
+  begin
+    ad := a / FRACUNIT;
+    bd := b / FRACUNIT;
+    ret := (ad / bd) * FRACUNIT;
+    ret := round(ret);
+    if ret < MININT then
+      result := MININT
+    else if ret > MAXINT then
+      Result := MAXINT
+    else
+      result := Round(ret);
+  end;
 end;
 
 function FixedDiv2(const a, b: fixed_t): fixed_t; assembler;

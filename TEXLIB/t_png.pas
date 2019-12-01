@@ -1257,7 +1257,7 @@ begin
         if Output = nil then
           GetMem(Output, OutputSize) else ReallocMem(Output, OutputSize);
         {Copies the new data}
-        memcpy(Ptr(Longint(Output) + OutputSize - total_out),
+        memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Output) + OutputSize - total_out),
           @Buffer, total_out);
       end {if (InflateRet = Z_STREAM_END) or (InflateRet = 0)}
       {Now tests for errors}
@@ -1317,7 +1317,7 @@ begin
           GetMem(Output, OutputSize) else ReallocMem(Output, OutputSize);
 
         {Copies the new data}
-        memcpy(Ptr(Longint(Output) + OutputSize - total_out),
+        memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Output) + OutputSize - total_out),
           @Buffer, total_out);
       end {if (InflateRet = Z_STREAM_END) or (InflateRet = 0)}
       {Now tests for errors}
@@ -1810,9 +1810,9 @@ begin
     if Keyword <> '' then
       memcpy(Data, @fKeyword[1], Length(Keyword));
     {Compression method 0 (inflate/deflate)}
-    PByte(Ptr(Longint(Data) + Length(Keyword) + 1))^ := 0;
+    PByte({$IFDEF FPC}integer{$ELSE}Ptr{$ENDIF}(Longint(Data) + Length(Keyword) + 1))^ := 0;
     if OutputSize > 0 then
-      memcpy(Ptr(Longint(Data) + Length(Keyword) + 2), Output, OutputSize);
+      memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Data) + Length(Keyword) + 2), Output, OutputSize);
 
     {Let ancestor calculate crc and save}
     result := SaveData(Stream);
@@ -1843,7 +1843,7 @@ begin
   {Get text}
   fKeyword := PChar(Data);
   SetLength(fText, Size - Length(fKeyword) - 1);
-  memcpy(@fText[1], Ptr(Longint(Data) + Length(fKeyword) + 1),
+  memcpy(@fText[1], {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Data) + Length(fKeyword) + 1),
     Length(fText));
 end;
 
@@ -1858,7 +1858,7 @@ begin
   if Keyword <> '' then
     memcpy(Data, @fKeyword[1], Length(Keyword));
   if Text <> '' then
-    memcpy(Ptr(Longint(Data) + Length(Keyword) + 1), @fText[1],
+    memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Data) + Length(Keyword) + 1), @fText[1],
       Length(Text));
   {Let ancestor calculate crc and save}
   result := inherited SaveToStream(Stream);
@@ -2773,11 +2773,11 @@ begin
     {Get current row index}
     CurrentRow := RowStart[CurrentPass];
     {Get a pointer to the current row image data}
-    Data := Ptr(Longint(Header.ImageData) + Header.BytesPerRow *
+    Data := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageData) + Header.BytesPerRow *
       (ImageHeight - 1 - CurrentRow));
-    Trans := Ptr(Longint(Header.ImageAlpha) + ImageWidth * CurrentRow);
+    Trans := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageAlpha) + ImageWidth * CurrentRow);
     {$IFDEF Store16bits}
-    Extra := Ptr(Longint(Header.ExtraImageData) + Header.BytesPerRow *
+    Extra := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ExtraImageData) + Header.BytesPerRow *
       (ImageHeight - 1 - CurrentRow));
     {$ENDIF}
 
@@ -3766,9 +3766,9 @@ begin
     {Get current row index}
     CurrentRow := RowStart[CurrentPass];
     {Get a pointer to the current row image data}
-    Data := Ptr(Longint(Header.ImageData) + Header.BytesPerRow *
+    Data := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageData) + Header.BytesPerRow *
       (ImageHeight - 1 - CurrentRow));
-    Trans := Ptr(Longint(Header.ImageAlpha) + ImageWidth * CurrentRow);
+    Trans := {$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(Header.ImageAlpha) + ImageWidth * CurrentRow);
 
     {Process all the image rows}
     if Row_Bytes > 0 then
@@ -5157,7 +5157,7 @@ begin
 
     {Copies the image data}
     for Line := 0 to Min(CY - 1, Height - 1) do
-      memcpy(Ptr(Longint(NewImageData) + (Longint(CY) - 1) *
+      memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(NewImageData) + (Longint(CY) - 1) *
       NewBytesPerRow - (Line * NewBytesPerRow)), Scanline[Line],
       Min(NewBytesPerRow, Header.BytesPerRow));
 
@@ -5168,7 +5168,7 @@ begin
       GetMem(NewImageAlpha, CX * CY);
       FillChar(NewImageAlpha^, CX * CY, 255);
       for Line := 0 to Min(CY - 1, Height - 1) do
-        memcpy(Ptr(Longint(NewImageAlpha) + (Line * CX)),
+        memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(NewImageAlpha) + (Line * CX)),
         AlphaScanline[Line], Min(CX, Width));
       FreeMem(Header.ImageAlpha);
       Header.ImageAlpha := NewImageAlpha;
@@ -5180,7 +5180,7 @@ begin
       GetMem(NewImageExtra, CX * CY);
       ZeroMemory(@NewImageExtra, CX * CY);
       for Line := 0 to Min(CY - 1, Height - 1) do
-        memcpy(Ptr(Longint(NewImageExtra) + (Line * CX)),
+        memcpy({$IFDEF FPC}pointer{$ELSE}Ptr{$ENDIF}(Longint(NewImageExtra) + (Line * CX)),
         ExtraScanline[Line], Min(CX, Width));
       FreeMem(Header.ExtraImageData);
       Header.ExtraImageData := NewImageExtra;

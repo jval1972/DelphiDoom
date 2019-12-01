@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -319,6 +319,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.spawnstate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('SEE', gotostr) = 1 then
       begin
@@ -327,6 +328,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.seestate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('MELEE', gotostr) = 1 then
       begin
@@ -335,6 +337,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.meleestate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('MISSILE', gotostr) = 1 then
       begin
@@ -343,6 +346,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.missilestate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('PAIN', gotostr) = 1 then
       begin
@@ -351,6 +355,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.painstate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('DEATH', gotostr) = 1 then
       begin
@@ -359,6 +364,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.deathstate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('XDEATH', gotostr) = 1 then
       begin
@@ -367,6 +373,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.xdeathstate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('RAISE', gotostr) = 1 then
       begin
@@ -375,6 +382,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.raisestate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('HEAL', gotostr) = 1 then
       begin
@@ -383,6 +391,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.healstate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else if Pos('CRASH', gotostr) = 1 then
       begin
@@ -391,6 +400,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.crashstate + offs;
+        m_states[numstates - 1].has_goto := True;
       end
       else
       begin
@@ -409,7 +419,8 @@ var
 
     if sc.BracketLevel = 0 then
     begin
-      m_states[numstates - 1].nextstate := numstates - 1; // finished without stop keyword
+      if not m_states[numstates - 1].has_goto then
+        m_states[numstates - 1].nextstate := numstates - 1; // finished without stop keyword
       result := false;
       sc.UnGet;
       exit;

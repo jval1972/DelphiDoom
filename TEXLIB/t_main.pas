@@ -1234,6 +1234,7 @@ begin
     dispose(result, Destroy);
     result := nil;
   end;
+  result.FExternalAlphaPresent := FExternalAlphaPresent;
 end;
 
 var

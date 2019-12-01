@@ -1,5 +1,22 @@
 New Changes
 -----------
+Added interact state for mobjs.
+Added A_SpawnSmokeUp, A_SpawnSmokeDown and A_SpawnSmokeHorz mobj functions
+Added MF2_EX_INTERACTIVE mobj flag.
+Added A_SetInteractive and A_UnSetInteractive mobj functions
+Fixed wav chunks reading bug.
+Added MF2_EX_DONTINFIGHTMONSTERS mobj flag, suppress monster infight for mobjs of the same inheritance.
+Added A_SetMonsterInfight and A_UnSetMonsterInfight mobj functions.
+Added A_RemoveSelf mobj function.
+Added A_NoiseAlert mobj function.
+Added A_ConsoleCommand mobj function.
+Chase camera positioning improvements.
+FastMM memory manager upgrated to version 4.99.
+Corrected stencil sky rendering in OpenGL mode.
+
+--------------------------------------
+version 1.1.3.500 (Released 20/1/2012)
+---------------
 Displays Disk Buzy icon for 4 ticks instead of 4 frames.
 WAD lumps hash indexing for better performance. (using djb2 hash function)
 Fixed ENDOOM bug witch causing menu to respond during ending game while playing a demo. 

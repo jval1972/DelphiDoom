@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -62,7 +62,9 @@ uses
 {$ELSE}
   i_main,
 {$ENDIF}
+{$IFNDEF FPC}
   i_startup,
+{$ENDIF}
   m_argv;
 
 var
@@ -83,28 +85,18 @@ var
 
 procedure I_IOprintf(const s: string);
 var
-  len: integer;
-  s1: string;
   i: integer;
   l: TDStringList;
+  len: integer;
 begin
-  SetLength(s1, Length(s));
-  len := 0;
-  for i := 1 to Length(s) do
-    if not (s[i] in [#8, #10]) then
-    begin
-      inc(len);
-      s1[len] := s[i];
-    end;
+  len := Length(s);
   if len = 0 then
     exit;
 
-  SetLength(s1, len);
-
   l := TDStringList.Create;
-  l.Text := s1;
+  l.Text := s;
 
-  if (length(s1) = 1) and (s1[1] = #13) then
+  if (len = 1) and (s[1] = #13) then
   begin
     stdoutbuffer.Add('');
     io_lastNL := true;
@@ -112,7 +104,7 @@ begin
   else
   begin
     if io_lastNL or (stdoutbuffer.Count = 0) then
-      stdoutbuffer.Text := stdoutbuffer.Text + s1
+      stdoutbuffer.AddStrings(l)
     else
     begin
       stdoutbuffer.Strings[stdoutbuffer.Count - 1] :=
@@ -120,7 +112,7 @@ begin
       for i := 1 to l.Count - 1 do
         stdoutbuffer.Add(l.Strings[i]);
     end;
-    io_lastNL := s1[length(s1)] = #13;
+    io_lastNL := s[len] = #13;
   end;
 
   l.Free;
@@ -182,7 +174,9 @@ begin
   stderr.Free;
   debugfile.Free;
   stdout.Free;
+  {$IFNDEF FPC}
   SUC_Close;
+  {$ENDIF}
 end;
 
 procedure I_IOSetWindowHandle(const handle: integer);

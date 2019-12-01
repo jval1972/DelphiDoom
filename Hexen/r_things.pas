@@ -834,7 +834,9 @@ begin
     index := _SHR(xscale, LIGHTSCALESHIFT);
 
     if index >= MAXLIGHTSCALE then
-      index := MAXLIGHTSCALE - 1;
+      index := MAXLIGHTSCALE - 1
+    else if index < 0 then
+      index := 0;
 
     vis.colormap := spritelights[index];
   end;

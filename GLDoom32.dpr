@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,6 +45,26 @@ program GLDoom32;
 uses
   FastMM4 in 'FASTMM4\FastMM4.pas',
   FastMM4Messages in 'FASTMM4\FastMM4Messages.pas',
+  Fastcode in 'FASTCODE\FastCode.pas',
+  FastMove in 'FASTCODE\FastMove.pas',
+  AnsiStringReplaceJOHIA32Unit12 in 'FASTCODE\AnsiStringReplaceJOHIA32Unit12.pas',
+  AnsiStringReplaceJOHPASUnit12 in 'FASTCODE\AnsiStringReplaceJOHPASUnit12.pas',
+  FastcodeAnsiStringReplaceUnit in 'FASTCODE\FastcodeAnsiStringReplaceUnit.pas',
+  FastcodeCompareMemUnit in 'FASTCODE\FastcodeCompareMemUnit.pas',
+  FastcodeCompareStrUnit in 'FASTCODE\FastcodeCompareStrUnit.pas',
+  FastcodeCompareTextUnit in 'FASTCODE\FastcodeCompareTextUnit.pas',
+  FastcodeCPUID in 'FASTCODE\FastcodeCPUID.pas',
+  FastcodeFillCharUnit in 'FASTCODE\FastcodeFillCharUnit.pas',
+  FastcodeLowerCaseUnit in 'FASTCODE\FastcodeLowerCaseUnit.pas',
+  FastcodePatch in 'FASTCODE\FastcodePatch.pas',
+  FastcodePosExUnit in 'FASTCODE\FastcodePosExUnit.pas',
+  FastcodePosUnit in 'FASTCODE\FastcodePosUnit.pas',
+  FastcodeStrCompUnit in 'FASTCODE\FastcodeStrCompUnit.pas',
+  FastcodeStrCopyUnit in 'FASTCODE\FastcodeStrCopyUnit.pas',
+  FastcodeStrICompUnit in 'FASTCODE\FastcodeStrICompUnit.pas',
+  FastCodeStrLenUnit in 'FASTCODE\FastCodeStrLenUnit.pas',
+  FastcodeStrToInt32Unit in 'FASTCODE\FastcodeStrToInt32Unit.pas',
+  FastcodeUpperCaseUnit in 'FASTCODE\FastcodeUpperCaseUnit.pas',
   gl_clipper in 'OPENGL\gl_clipper.pas',
   gl_tex in 'OPENGL\gl_tex.pas',
   gl_defs in 'OPENGL\gl_defs.pas',

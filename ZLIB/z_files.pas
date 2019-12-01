@@ -138,7 +138,6 @@ implementation
 uses
   i_system;
 
-
 {$L z123_deflate}
 {$L z123_inflate}
 {$L z123_inftrees}

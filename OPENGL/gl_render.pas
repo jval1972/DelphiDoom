@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -2445,6 +2445,11 @@ begin
   if flat.sectornum < 0 then
     exit;
 
+{  if flat.ceiling then
+    glCullFace(GL_BACK)
+  else
+    glCullFace(GL_FRONT);   }
+
   glsec := @sectorloops[flat.sectornum];
   if glsec.list = 0 then
   begin
@@ -3277,6 +3282,8 @@ var
   wall: PGLWall;
   seg: PGLSeg;
 begin
+//  glCullFace(GL_BACK);
+
   if zaxisshift then
   begin
     wallrange := GLDWF_BOT;
@@ -3329,6 +3336,7 @@ begin
     end;
   end;      
 
+//  glCullFace(GL_BACK);
   // Walls
   for i := gld_drawinfo.num_drawitems downto 0 do
   begin
@@ -3418,6 +3426,9 @@ begin
 
   glDisable(GL_FOG);
 
+  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+  glDisableClientState(GL_VERTEX_ARRAY);
+
   if zaxisshift then
   begin
     if gl_drawsky and dodrawsky then
@@ -3450,6 +3461,7 @@ begin
 
         glEnable(GL_TEXTURE_2D);
 
+        glDisable(GL_DEPTH_TEST);
         if pitch <= -35.0 then
           gld_DrawSky(true, false)
         else if pitch >= 35.0 then
@@ -3470,8 +3482,6 @@ begin
         [rendered_visplanes, rendered_segs, rendered_vissprites]);
 {$ENDIF}
 
-  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-  glDisableClientState(GL_VERTEX_ARRAY);
 end;
 
 procedure gld_PreprocessLevel;

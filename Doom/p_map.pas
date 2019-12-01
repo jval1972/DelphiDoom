@@ -1351,6 +1351,59 @@ begin
   result := (not G_NeedsCompatibilityMode) and ((intr.d.line.flags and ML_PASSUSE) <> 0);
 end;
 
+// JVAL: mobjs interaction
+function PTR_UseThingTraverse(intr: Pintercept_t): boolean;
+var
+  mobj: Pmobj_t;
+begin
+  if intr.isaline then
+    if intr.d.line.flags and ML_TWOSIDED <> 0 then
+    begin
+      P_LineOpening(intr.d.line);
+      if openrange <= 0 then
+      begin
+        // can't use through a wall
+        Result := false;
+        Exit;
+      end;
+      // not a special line, but keep checking
+      result := true;
+      Exit;
+    end
+    else
+    begin
+      result := True;
+      exit;
+    end;
+
+  mobj := intr.d.thing;
+  if mobj.health <= 0 then
+  begin
+    Result := true;
+    exit;
+  end;
+  if (mobj.flags2_ex and MF2_EX_INTERACTIVE) = 0 then
+  begin
+    Result := true;
+    exit;
+  end;
+  if mobj.info.interactstate <= 0 then
+  begin
+    Result := true;
+    exit;
+  end;
+  // Height.
+  if (usething.z >= mobj.z + mobj.height) or
+     (usething.z + usething.height <= mobj.z) then
+  begin
+    Result := true;
+    exit;
+  end;
+  mobj.target := usething;
+  P_SetMobjState(mobj, statenum_t(mobj.info.interactstate));
+  result := false;
+end;
+
 //
 // P_UseLines
 // Looks for special lines in front of the player to activate.
@@ -1373,9 +1426,14 @@ begin
 
   x1 := player.mo.x;
   y1 := player.mo.y;
+
+  // JVAL: mobjs interaction!
+  x2 := x1 + USETHINGRANGEINT * finecosine[angle];
+  y2 := y1 + USETHINGRANGEINT * finesine[angle];
+  P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES or PT_ADDTHINGS, PTR_UseThingTraverse);
+
   x2 := x1 + USERANGEINT * finecosine[angle];
   y2 := y1 + USERANGEINT * finesine[angle];
-
   P_PathTraverse(x1, y1, x2, y2, PT_ADDLINES, PTR_UseTraverse);
 end;
 

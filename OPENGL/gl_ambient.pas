@@ -1,0 +1,95 @@
+unit gl_ambient;
+
+interface
+
+procedure gld_AmbientInit;
+
+procedure gld_AmbientDone;
+
+procedure gld_AmbientExecute;
+
+implementation
+
+uses
+  d_delphi,
+  dglOpenGL,
+  doomdef,
+  gl_tex,
+  t_main;
+
+const
+  AMBIENTPRECISION = 8;
+
+var
+  xstep, ystep: float;
+  ambient_tex: PTexture;
+  tex: GLUint;
+
+procedure gld_AmbientExecute;
+var
+  x, y: integer;
+  i, j: integer;
+  f: float;
+  l: LongWord;
+  b, b2: byte;
+  pw: PLongWord;
+begin
+  pw := ambient_tex.GetImage;
+  for i := 0 to AMBIENTPRECISION - 1 do
+  begin
+    x := round(i * xstep);
+    if x < 0 then
+      x := 0
+    else if x >= SCREENWIDTH then
+      x := SCREENWIDTH - 1;
+    for j := 0 to AMBIENTPRECISION - 1 do
+    begin
+      y := Round (j * ystep);
+      if y < 0 then
+        y := 0
+      else if y >= SCREENHEIGHT then
+        x := SCREENHEIGHT - 1;
+      glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, @f);
+      l := Round(256 * (1 - f) * 255);
+      if l > 255 then
+        l := 255;
+      b := 64;
+      b2 := l div 2;
+      pw^ := b2 + b2 shl 8 + b2 shl 16 + b shl 24;
+      Inc(pw);
+    end;
+  end;
+
+  glAlphaFunc(GL_LESS, 0.99);
+
+  glBindTexture(GL_TEXTURE_2D, tex);
+  glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, AMBIENTPRECISION, AMBIENTPRECISION, GL_RGBA, GL_UNSIGNED_BYTE, ambient_tex.GetImage);
+
+  glBegin(GL_TRIANGLE_STRIP);
+    glTexCoord2f(0.0, 0.0); glVertex2f(0.0, SCREENHEIGHT);
+    glTexCoord2f(0.0, 1.0); glVertex2f(SCREENWIDTH, SCREENHEIGHT);
+    glTexCoord2f(1.0, 0.0); glVertex2f(0.0, 0.0);
+    glTexCoord2f(1.0, 1.0); glVertex2f(SCREENWIDTH, 0);
+  glEnd;
+
+  glAlphaFunc(GL_GEQUAL, 0.5);
+
+end;
+
+procedure gld_AmbientInit;
+begin
+  xstep := SCREENWIDTH / (AMBIENTPRECISION - 1);
+  ystep := SCREENHEIGHT / (AMBIENTPRECISION - 1);
+  ambient_tex := new(PTexture, Create);
+  ambient_tex.ScaleTo(AMBIENTPRECISION, AMBIENTPRECISION);
+  ambient_tex.ConvertTo32bit;
+  tex := gld_LoadExternalTexture(ambient_tex, True, GL_CLAMP);
+end;
+
+procedure gld_AmbientDone;
+begin
+  glDeleteTextures(1, @tex);
+  Dispose(ambient_tex, destroy);
+end;
+
+end.

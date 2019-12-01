@@ -55,7 +55,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 141;
+  DEHNUMACTIONS = 151;
 
 type
   deh_action_t = record
@@ -108,7 +108,7 @@ uses
   i_system,
   info_h, info,
   m_argv,
-  p_mobj_h, p_enemy, p_extra, p_pspr, p_inter,
+  p_mobj, p_mobj_h, p_enemy, p_extra, p_pspr, p_inter,
   sounds,
   sc_params,
   v_data,
@@ -388,6 +388,7 @@ var
 
   len1, len2: integer;
   foundtext: boolean;
+  foundaction: Boolean;
 
   deh_initialstates: integer;
 begin
@@ -469,7 +470,7 @@ begin
 
         mobj_val := atoi(token2, -1);
 
-        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 40] then
+        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 40, 41] then
         begin
           stmp := firstword(token2);
           if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
@@ -636,6 +637,7 @@ begin
                 end;
               end;
           40: mobjinfo[mobj_no].crashstate := mobj_val;
+          41: mobjinfo[mobj_no].interactstate := mobj_val;
         end;
       end;
 
@@ -751,14 +753,21 @@ begin
               else
               begin
                 splitstring(token2, token3, token4, [' ', '(']);
+                foundaction := false;
                 for j := 0 to DEHNUMACTIONS - 1 do
                   if (token3 = deh_actions[j].name) or (token3 = 'A_' + deh_actions[j].name) then
                   begin
                     states[state_no].action.acp1 := deh_actions[j].action.acp1;
+                    foundaction := True;
                     break;
                   end;
-                if token4 <> '' then
-                  states[state_no].params := TCustomParamList.CreateFromText(token4);
+                if foundaction then
+                begin
+                  if token4 <> '' then
+                    states[state_no].params := TCustomParamList.CreateFromText(token4);
+                end
+                else
+                  I_Warning('DEH_Parse(): Unknown action function = %s in state %d'#13#10, [token3, state_no]);
               end;
             end;
            5: states[state_no].misc1 := state_val;
@@ -1512,6 +1521,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[37]), mobjinfo[i].missiletype]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[38]), mobjinfo[i].healstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[40]), mobjinfo[i].crashstate]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[41]), mobjinfo[i].interactstate]);
 
     result.Add('');
   end;
@@ -1784,6 +1794,7 @@ begin
   mobj_tokens.Add('HEAL FRAME');         // .healstate                // 38
   mobj_tokens.Add('FLAGS2_EX');          // .flags2_ex (DelphiDoom)   // 39
   mobj_tokens.Add('CRASH FRAME');        // .crashstate (DelphiDoom)  // 40
+  mobj_tokens.Add('INTERACT FRAME');     // .interactstate (DelphiDoom) // 41
 
 
   mobj_flags := TDTextList.Create;
@@ -1864,6 +1875,8 @@ begin
   mobj_flags2_ex.Add('MF2_EX_PUSHABLE');
   mobj_flags2_ex.Add('MF2_EX_CANNOTPUSH');
   mobj_flags2_ex.Add('MF2_EX_DONTDRAW');
+  mobj_flags2_ex.Add('MF2_EX_INTERACTIVE');
+  mobj_flags2_ex.Add('MF2_EX_DONTINFIGHTMONSTERS');
 
   
   state_tokens := TDTextList.Create;
@@ -2159,7 +2172,26 @@ begin
   deh_actions[139].name := strupper('Turn5');
   deh_actions[140].action.acp1 := @A_Turn10;
   deh_actions[140].name := strupper('Turn10');
-
+  deh_actions[141].action.acp1 := @A_SpawnSmokeUp;
+  deh_actions[141].name := strupper('SpawnSmokeUp');
+  deh_actions[142].action.acp1 := @A_SpawnSmokeDown;
+  deh_actions[142].name := strupper('SpawnSmokeDown');
+  deh_actions[143].action.acp1 := @A_SpawnSmokeHorz;
+  deh_actions[143].name := strupper('SpawnSmokeHorz');
+  deh_actions[144].action.acp1 := @A_SetInteractive;
+  deh_actions[144].name := strupper('SetInteractive');
+  deh_actions[145].action.acp1 := @A_UnSetInteractive;
+  deh_actions[145].name := strupper('UnSetInteractive');
+  deh_actions[146].action.acp1 := @A_SetMonsterInfight;
+  deh_actions[146].name := strupper('SetMonsterInfight');
+  deh_actions[147].action.acp1 := @A_UnSetMonsterInfight;
+  deh_actions[147].name := strupper('UnSetMonsterInfight');
+  deh_actions[148].action.acp1 := @P_RemoveMobj;
+  deh_actions[148].name := strupper('RemoveSelf');
+  deh_actions[149].action.acp1 := @A_NoiseAlert;
+  deh_actions[149].name := strupper('NoiseAlert');
+  deh_actions[150].action.acp1 := @A_ConsoleCommand;
+  deh_actions[150].name := strupper('ConsoleCommand');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

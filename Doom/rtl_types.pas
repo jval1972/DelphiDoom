@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -41,6 +41,7 @@ type
     misc2: integer;
     flags_ex: integer;
     bright: boolean;
+    has_goto: boolean;
   end;
   Prtl_state_t = ^rtl_state_t;
 
@@ -86,6 +87,7 @@ type
     alpha: integer;
     healstate: integer;
     crashstate: integer;
+    interactstate: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

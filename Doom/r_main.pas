@@ -1326,6 +1326,7 @@ var
   dx, dy: fixed_t;
   loops: integer;
   sec: Psector_t;
+  sec2: Psector_t;
   ceilz, floorz: fixed_t;
 begin
 
@@ -1358,10 +1359,21 @@ begin
       dy := dy * 31 div 32;
       inc(loops);
     until loops > 64;
+    {$IFNDEF OPENGL}
     if loops > 1 then
       R_PlayerViewBlanc(aprox_black);
+    {$ENDIF}
     viewx := cx;
     viewy := cy;
+
+    sec2 := R_PointInSubsector(viewx, viewy).sector;
+    floorz := sec2.floorheight;
+    if cz < floorz then
+      cz := floorz + 1 * FRACUNIT;
+    ceilz := sec2.ceilingheight + P_SectorJumpOverhead(sec2);
+    if cz > ceilz then
+      cz := ceilz - 1 * FRACUNIT;
+    
     viewz := cz;
   end;
 

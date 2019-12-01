@@ -186,15 +186,12 @@ end;
 
 procedure gld_DrawSky(const up, down: boolean);
 begin
-  glDisable(GL_DEPTH_TEST);
-  glDepthMask(FALSE);
+  gld_ResetLastTexture;
   gld_BindTexture(gld_RegisterTexture(skytexture, false));
   if up then
     glCallList(fSkyListUpper);
   if down then
     glCallList(fSkyListLower);
-  glDepthMask(TRUE);
-  glEnable(GL_DEPTH_TEST);
 end;
 
 procedure gld_SkyDone;

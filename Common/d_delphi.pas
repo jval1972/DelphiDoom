@@ -132,7 +132,7 @@ function atof(const s: string; const default: single): single; overload;
 //
 function memmove(const destination, source: pointer; count: integer): pointer;
 
-function memcpy(const dest0: pointer; const src0: pointer; count0: integer): pointer;
+procedure memcpy(const dest0: pointer; const src0: pointer; count0: integer);
 
 function memset(const dest0: pointer; const val: integer; const count0: integer): pointer;
 
@@ -683,6 +683,7 @@ begin
   end;
 end;
 
+{$IFNDEF FPC}
 procedure memcpy_MMX8(const dst: pointer; const src: pointer; const len: integer); assembler;
 asm
   push esi
@@ -798,6 +799,7 @@ asm
   pop edi
   pop esi
 end;
+{$ENDIF}
 
 function memmove(const destination, source: pointer; count: integer): pointer;
 begin
@@ -805,7 +807,13 @@ begin
   result := destination;
 end;
 
-function memcpy(const dest0: pointer; const src0: pointer; count0: integer): pointer;
+procedure memcpy(const dest0: pointer; const src0: pointer; count0: integer);
+begin
+  Move(src0^, dest0^, count0);
+end;
+
+{$IFNDEF FPC}
+function memcpy_MMX(const dest0: pointer; const src0: pointer; count0: integer): pointer;
 var
   dest: PByte;
   src: PByte;
@@ -876,18 +884,23 @@ type
       2: (words: array[0..3] of word);
       3: (dwords: array[0..1] of LongWord);
   end;
-  
+{$ENDIF}
 function memset(const dest0: pointer; const val: integer; const count0: integer): pointer;
+{$IFNDEF FPC}
 var
   data: union_8b;
   pdat: pointer;
   dest: PByte;
   count: integer;
+{$ENDIF}
 begin
+  {$IFNDEF FPC}
   if mmxMachine = 0 then
   begin
+  {$ENDIF}
     FillChar(dest0^, count0, val);
     result := dest0;
+    {$IFNDEF FPC}
     exit;
   end;
 
@@ -996,6 +1009,7 @@ begin
   end;
 
   result := dest0;
+{$ENDIF}
 end;
 
 function malloc(const size: integer): Pointer;
@@ -2309,15 +2323,20 @@ begin
 end;
 
 procedure ZeroMemory(const dest0: pointer; const count0: integer);
+{$IFNDEF FPC}
 var
   data: union_8b;
   pdat: pointer;
   dest: PByte;
   count: integer;
+{$ENDIF}
 begin
+  {$IFNDEF FPC}
   if mmxMachine = 0 then
   begin
+  {$ENDIF}
     FillChar(dest0^, count0, 0);
+  {$IFNDEF FPC}
     exit;
   end;
 
@@ -2423,7 +2442,7 @@ begin
   asm
     emms
   end;
-
+{$ENDIF}
 end;
 
 function fopen(var f: file; const FileName: string; const mode: integer): boolean;
@@ -2485,14 +2504,19 @@ end;
 function strtrim(const S: string): string;
 var
   I, L: Integer;
+  len: integer;
 begin
-  L := Length(S);
+  len := Length(S);
+  L := len;
   I := 1;
   while (I <= L) and (S[I] <= ' ') do Inc(I);
   if I > L then result := '' else
   begin
     while S[L] <= ' ' do Dec(L);
-    result := Copy(S, I, L - I + 1);
+    if (I = 1) and (L = len) then
+      result := S
+    else
+      result := Copy(S, I, L - I + 1);
   end;
 end;
 

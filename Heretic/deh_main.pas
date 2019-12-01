@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 186;
+  DEHNUMACTIONS = 187;
 
 type
   deh_action_t = record
@@ -111,7 +111,7 @@ uses
   i_system,
   info_h, info,
   m_argv,
-  p_mobj_h, p_enemy, p_extra, p_pspr, p_pspr_h, p_inter,
+  p_mobj, p_mobj_h, p_enemy, p_extra, p_pspr, p_pspr_h, p_inter,
   sounds,
   sc_params,
   v_data,
@@ -391,6 +391,7 @@ var
 
   len1, len2: integer;
   foundtext: boolean;
+  foundaction: boolean;
 
   deh_initialstates: integer;
 begin
@@ -778,14 +779,21 @@ begin
               else
               begin
                 splitstring(token2, token3, token4, [' ', '(']);
+                foundaction := false;
                 for j := 0 to DEHNUMACTIONS - 1 do
                   if (token3 = deh_actions[j].name) or (token3 = 'A_' + deh_actions[j].name) then
                   begin
                     states[state_no].action.acp1 := deh_actions[j].action.acp1;
+                    foundaction := True;
                     break;
                   end;
-                if token4 <> '' then
-                  states[state_no].params := TCustomParamList.CreateFromText(token4);
+                if foundaction then
+                begin
+                  if token4 <> '' then
+                    states[state_no].params := TCustomParamList.CreateFromText(token4);
+                end
+                else
+                  I_Warning('DEH_Parse(): Unknown action function = %s in state %d'#13#10, [token3, state_no]);
               end;
             end;
            5: states[state_no].misc1 := state_val;
@@ -2182,7 +2190,6 @@ begin
   deh_actions[124].name := strupper('WizAtk3');
   deh_actions[125].action.acp1 := nil;
   deh_actions[125].name := 'NULL';
-
   deh_actions[126].action.acp1 := @A_CustomSound1;
   deh_actions[126].name := strupper('CustomSound1');
   deh_actions[127].action.acp1 := @A_CustomSound2;
@@ -2303,6 +2310,8 @@ begin
   deh_actions[184].name := strupper('SpawnItemEx');
   deh_actions[185].action.acp1 := @A_RandomMissile;
   deh_actions[185].name := strupper('RandomMissile');
+  deh_actions[186].action.acp1 := @P_RemoveMobj;
+  deh_actions[186].name := strupper('RemoveSelf');
 
 
   deh_strings.numstrings := 0;

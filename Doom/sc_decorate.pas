@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -48,7 +48,9 @@ uses
   deh_main,
   m_fixed,
   i_system,
+  {$IFNDEF FPC}
   i_startup,
+  {$ENDIF}
   info,
   info_h,
   rtl_types,
@@ -291,6 +293,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.spawnstate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('SEE', gotostr) = 1 then
       begin
@@ -299,6 +302,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.seestate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('MELEE', gotostr) = 1 then
       begin
@@ -307,6 +311,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.meleestate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('MISSILE', gotostr) = 1 then
       begin
@@ -315,6 +320,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.missilestate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('PAIN', gotostr) = 1 then
       begin
@@ -323,6 +329,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.painstate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('DEATH', gotostr) = 1 then
       begin
@@ -331,6 +338,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.deathstate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('XDEATH', gotostr) = 1 then
       begin
@@ -339,6 +347,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.xdeathstate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('RAISE', gotostr) = 1 then
       begin
@@ -347,6 +356,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.raisestate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('HEAL', gotostr) = 1 then
       begin
@@ -355,6 +365,7 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.healstate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else if Pos('CRASH', gotostr) = 1 then
       begin
@@ -363,6 +374,16 @@ var
         else
           offs := 0;
         m_states[numstates - 1].nextstate := mobj.crashstate + offs;
+        m_states[numstates - 1].has_goto := true;
+      end
+      else if Pos('INTERACT', gotostr) = 1 then
+      begin
+        if length(gotostr) > 7 then
+          offs := atoi(strremovespaces(Copy(gotostr, 9, Length(gotostr) - 8)))
+        else
+          offs := 0;
+        m_states[numstates - 1].nextstate := mobj.interactstate + offs;
+        m_states[numstates - 1].has_goto := true;
       end
       else
       begin
@@ -381,7 +402,8 @@ var
 
     if sc.BracketLevel = 0 then
     begin
-      m_states[numstates - 1].nextstate := numstates - 1; // finished without stop keyword
+      if not m_states[numstates - 1].has_goto then
+        m_states[numstates - 1].nextstate := numstates - 1; // finished without stop keyword
       result := false;
       sc.UnGet;
       exit;
@@ -503,6 +525,7 @@ var
     AddMobjStateRes(mobj.xdeathstate, 'Exploding');
     AddMobjStateRes(mobj.healstate, 'Heal');
     AddMobjStateRes(mobj.crashstate, 'Crash');
+    AddMobjStateRes(mobj.interactstate, 'Interact');
     AddRes('Death Sound = ' + SC_SoundAlias(mobj.deathsound));
     if ismissile then
       if mobj.speed < 2048 then // JVAL fix me
@@ -598,6 +621,7 @@ begin
   state_tokens.Add('raise:');
   state_tokens.Add('heal:');
   state_tokens.Add('crash:');
+  state_tokens.Add('interact:');
 
   if devparm then
   begin
@@ -632,6 +656,7 @@ begin
       mobj.raisestate := -1;
       mobj.healstate := -1;
       mobj.crashstate := -1;
+      mobj.interactstate := -1;
       mobj.flags := '';
       mobj.flags_ex := '';
       mobj.flags2_ex := '';
@@ -707,6 +732,7 @@ begin
           mobj.raisestate := ORIGINALSTATEMARKER + pinf.raisestate;
           mobj.healstate := ORIGINALSTATEMARKER + pinf.healstate;
           mobj.crashstate := ORIGINALSTATEMARKER + pinf.crashstate;
+          mobj.interactstate := ORIGINALSTATEMARKER + pinf.interactstate;
 
           mobj.renderstyle := itoa(Ord(pinf.renderstyle));
           mobj.alpha := pinf.alpha;
@@ -954,6 +980,11 @@ begin
           mobj.crashstate := numstates;
           repeat until not ParseState(mobj.crashstate);
         end
+        else if sc.MatchString('interact:') then
+        begin
+          mobj.interactstate := numstates;
+          repeat until not ParseState(mobj.interactstate);
+        end
         else if sc.MatchString('melee:') then
         begin
           mobj.meleestate := numstates;
@@ -1047,7 +1078,9 @@ begin
     s.Free;
   end;
 
+  {$IFNDEF FPC}
   SUC_Disable;
+  {$ENDIF}
 
 // Retrive decorate lumps
   lumplist := TDNumberList.Create;
@@ -1055,21 +1088,28 @@ begin
     if char8tostring(W_GetNameForNum(i)) = DECORATELUMPNAME then
       lumplist.Add(i);
 
+  {$IFNDEF FPC}
   SUC_SecondaryProgressInit(lumplist.Count);
-  
+  {$ENDIF}
+
   for i := 0 to lumplist.Count - 1 do
   begin
+    {$IFNDEF FPC}
     SUC_SecondaryProgress(i);
+    {$ENDIF}
     SC_ParseDecorateLump(W_TextLumpNum(lumplist[i]));
   end;
 
+  {$IFNDEF FPC}
   SUC_SecondaryProgressDone;
-
+  {$ENDIF}
   PAK_StringIterator(DECORATELUMPNAME, SC_ParseDecorateLump);
   PAK_StringIterator(DECORATELUMPNAME + '.txt', SC_ParseDecorateLump);
   lumplist.Free;
 
+  {$IFNDEF FPC}
   SUC_Enable;
+  {$ENDIF}
 end;
 
 procedure SC_Init;

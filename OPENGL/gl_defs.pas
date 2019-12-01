@@ -79,7 +79,7 @@ var
   gl_tex_filter: integer;
   gl_mipmap_filter: integer;
   gl_drawsky: boolean = true;
-  gl_stencilsky: boolean = false;
+  gl_stencilsky: boolean = true;
   gl_screensync: boolean = true;
   gl_texture_filter_anisotropic: boolean = false;
   gl_use_paletted_texture: integer = 0;

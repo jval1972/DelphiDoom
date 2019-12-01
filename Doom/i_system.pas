@@ -201,7 +201,9 @@ uses
   i_io,
   i_net,
   i_tmp,
+{$IFNDEF FPC}
   i_startup,
+{$ENDIF}
 {$IFDEF OPENGL}
   gl_main,
 {$ELSE}
@@ -416,7 +418,7 @@ begin
     G_CheckDemoStatus;
 
   soutproc := outproc;
-  I_IOSetWindowHandle(SUC_GetHandle);
+  I_IOSetWindowHandle({$IFDEF FPC}0{$ELSE}SUC_GetHandle{$ENDIF});
   outproc := I_IOErrorMessageBox;
   printf(error, Args);
   outproc := soutproc;

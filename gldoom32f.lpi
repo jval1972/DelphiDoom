@@ -1,0 +1,643 @@
+<?xml version="1.0"?>
+<CONFIG>
+  <ProjectOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <General>
+      <Flags>
+        <MainUnitHasCreateFormStatements Value="False"/>
+        <MainUnitHasTitleStatement Value="False"/>
+      </Flags>
+      <MainUnit Value="0"/>
+      <ResourceType Value="res"/>
+      <UseXPManifest Value="True"/>
+      <Icon Value="0"/>
+      <ActiveWindowIndexAtStart Value="0"/>
+    </General>
+    <i18n>
+      <EnableI18N LFM="False"/>
+    </i18n>
+    <VersionInfo>
+      <StringTable ProductVersion=""/>
+    </VersionInfo>
+    <BuildModes Count="1" Active="Default">
+      <Item1 Name="Default" Default="True"/>
+    </BuildModes>
+    <PublishOptions>
+      <Version Value="2"/>
+      <IncludeFileFilter Value="*.(pas|pp|inc|lfm|lpr|lrs|lpi|lpk|sh|xml)"/>
+      <ExcludeFileFilter Value="*.(bak|ppu|o|so);*~;backup"/>
+    </PublishOptions>
+    <RunParams>
+      <local>
+        <FormatVersion Value="1"/>
+      </local>
+    </RunParams>
+    <Units Count="47">
+      <Unit0>
+        <Filename Value="gldoom32f.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="gldoom32f"/>
+        <EditorIndex Value="0"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="170"/>
+        <CursorPos X="30" Y="187"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="FASTMM4\FastMM4.pas"/>
+        <UnitName Value="FastMM4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="663"/>
+        <CursorPos X="16" Y="878"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="FASTCODE\FastcodeCPUID.pas"/>
+        <UnitName Value="FastcodeCPUID"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="11" Y="184"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="Common\d_delphi.pas"/>
+        <UnitName Value="d_delphi"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="2424"/>
+        <CursorPos X="9" Y="2445"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="Doom\dstrings.pas"/>
+        <UnitName Value="dstrings"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="10"/>
+        <CursorPos X="13" Y="27"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="Doom32.inc"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="20"/>
+        <CursorPos X="1" Y="42"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit5>
+      <Unit6>
+        <Filename Value="Doom\deh_main.pas"/>
+        <UnitName Value="deh_main"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit6>
+      <Unit7>
+        <Filename Value="Base\i_startup.pas"/>
+        <UnitName Value="i_startup"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="37"/>
+        <CursorPos X="13" Y="54"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit7>
+      <Unit8>
+        <Filename Value="Doom\sc_decorate.pas"/>
+        <UnitName Value="sc_decorate"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="26" Y="18"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit8>
+      <Unit9>
+        <Filename Value="JPEGLIB\jpg_idctfst.pas"/>
+        <UnitName Value="jpg_IDctFst"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="52"/>
+        <CursorPos X="8" Y="67"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit9>
+      <Unit10>
+        <Filename Value="JPEGLIB\jpg_dct.pas"/>
+        <UnitName Value="jpg_dct"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="67"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit10>
+      <Unit11>
+        <Filename Value="JPEGLIB\jpg_utils.pas"/>
+        <UnitName Value="jpg_utils"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="JPEGLIB\jpg_comapi.pas"/>
+        <UnitName Value="jpg_COMapi"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="JPEGLIB\jpg_dapimin.pas"/>
+        <UnitName Value="jpg_dAPImin"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="JPEGLIB\jpg_dapistd.pas"/>
+        <UnitName Value="jpg_dAPIstd"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="JPEGLIB\jpg_dcoefct.pas"/>
+        <UnitName Value="jpg_DCoefCt"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="JPEGLIB\jpg_dcolor.pas"/>
+        <UnitName Value="jpg_dColor"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="JPEGLIB\jpg_ddctmgr.pas"/>
+        <UnitName Value="jpg_dDctMgr"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="35"/>
+        <CursorPos X="12" Y="55"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="JPEGLIB\jpg_deferr.pas"/>
+        <UnitName Value="jpg_defErr"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="JPEGLIB\jpg_dhuff.pas"/>
+        <UnitName Value="jpg_dHuff"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="JPEGLIB\jpg_dinput.pas"/>
+        <UnitName Value="jpg_dInput"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit20>
+      <Unit21>
+        <Filename Value="JPEGLIB\jpg_dmainct.pas"/>
+        <UnitName Value="jpg_dMainCt"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit21>
+      <Unit22>
+        <Filename Value="JPEGLIB\jpg_dmarker.pas"/>
+        <UnitName Value="jpg_dMarker"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="JPEGLIB\jpg_dmaster.pas"/>
+        <UnitName Value="jpg_dMaster"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit23>
+      <Unit24>
+        <Filename Value="JPEGLIB\jpg_dmerge.pas"/>
+        <UnitName Value="jpg_dMerge"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit24>
+      <Unit25>
+        <Filename Value="JPEGLIB\jpg_dphuff.pas"/>
+        <UnitName Value="jpg_dpHuff"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit25>
+      <Unit26>
+        <Filename Value="JPEGLIB\jpg_dpostct.pas"/>
+        <UnitName Value="jpg_dPostCt"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit26>
+      <Unit27>
+        <Filename Value="JPEGLIB\jpg_dsample.pas"/>
+        <UnitName Value="jpg_dSample"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit27>
+      <Unit28>
+        <Filename Value="JPEGLIB\jpg_error.pas"/>
+        <UnitName Value="jpg_error"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit28>
+      <Unit29>
+        <Filename Value="JPEGLIB\jpg_idctint.pas"/>
+        <UnitName Value="jpg_IDctint"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="559"/>
+        <CursorPos X="23" Y="570"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit29>
+      <Unit30>
+        <Filename Value="JPEGLIB\jpg_idctflt.pas"/>
+        <UnitName Value="jpg_IDctFlt"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit30>
+      <Unit31>
+        <Filename Value="JPEGLIB\jpg_IDctRed.pas"/>
+        <UnitName Value="jpg_IDctRed"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="JPEGLIB\jpg_lib.pas"/>
+        <UnitName Value="jpg_Lib"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="JPEGLIB\jpg_memmgr.pas"/>
+        <UnitName Value="jpg_MemMgr"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit33>
+      <Unit34>
+        <Filename Value="JPEGLIB\jpg_memnobs.pas"/>
+        <UnitName Value="jpg_memnobs"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit34>
+      <Unit35>
+        <Filename Value="JPEGLIB\jpg_morecfg.pas"/>
+        <UnitName Value="jpg_moreCfg"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit35>
+      <Unit36>
+        <Filename Value="JPEGLIB\jpg_quant1.pas"/>
+        <UnitName Value="jpg_Quant1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit36>
+      <Unit37>
+        <Filename Value="JPEGLIB\jpg_quant2.pas"/>
+        <UnitName Value="jpg_Quant2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit37>
+      <Unit38>
+        <Filename Value="Common\DirectX.pas"/>
+        <UnitName Value="DirectX"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="38" Y="8"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit38>
+      <Unit39>
+        <Filename Value="Base\i_io.pas"/>
+        <UnitName Value="i_io"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="176"/>
+        <CursorPos X="18" Y="187"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit39>
+      <Unit40>
+        <Filename Value="Doom\st_lib.pas"/>
+        <UnitName Value="st_lib"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit40>
+      <Unit41>
+        <Filename Value="Doom\d_main.pas"/>
+        <UnitName Value="d_main"/>
+        <EditorIndex Value="4"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1920"/>
+        <CursorPos X="65" Y="1941"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="Doom\m_defs.pas"/>
+        <UnitName Value="m_defs"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="28"/>
+        <CursorPos X="7" Y="42"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="Doom\i_system.pas"/>
+        <UnitName Value="i_system"/>
+        <EditorIndex Value="6"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="410"/>
+        <CursorPos X="37" Y="414"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <UnitName Value="t_png"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="222"/>
+        <CursorPos X="10" Y="240"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit44>
+      <Unit45>
+        <Filename Value="ZLIB\z_files.pas"/>
+        <UnitName Value="z_files"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="136"/>
+        <CursorPos X="20" Y="142"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit45>
+      <Unit46>
+        <Filename Value="OPENGL\gl_shadows.pas"/>
+        <UnitName Value="gl_shadows"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="32" Y="91"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit46>
+    </Units>
+    <JumpHistory Count="30" HistoryIndex="29">
+      <Position1>
+        <Filename Value="Doom\d_main.pas"/>
+        <Caret Line="2003" Column="11" TopLine="1990"/>
+      </Position1>
+      <Position2>
+        <Filename Value="Base\i_io.pas"/>
+        <Caret Line="52" Column="25" TopLine="39"/>
+      </Position2>
+      <Position3>
+        <Filename Value="Doom\d_main.pas"/>
+        <Caret Line="139" Column="5" TopLine="124"/>
+      </Position3>
+      <Position4>
+        <Filename Value="Doom\m_defs.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position4>
+      <Position5>
+        <Filename Value="Doom\i_system.pas"/>
+        <Caret Line="206" Column="9" TopLine="193"/>
+      </Position5>
+      <Position6>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="5160" Column="14" TopLine="5149"/>
+      </Position6>
+      <Position7>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="1260" Column="35" TopLine="1249"/>
+      </Position7>
+      <Position8>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="1320" Column="95" TopLine="1309"/>
+      </Position8>
+      <Position9>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="1815" Column="33" TopLine="1804"/>
+      </Position9>
+      <Position10>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="1846" Column="40" TopLine="1835"/>
+      </Position10>
+      <Position11>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="1861" Column="31" TopLine="1850"/>
+      </Position11>
+      <Position12>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="2780" Column="33" TopLine="2766"/>
+      </Position12>
+      <Position13>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="3771" Column="1" TopLine="3760"/>
+      </Position13>
+      <Position14>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="5171" Column="35" TopLine="5150"/>
+      </Position14>
+      <Position15>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="98" Column="20" TopLine="97"/>
+      </Position15>
+      <Position16>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
+      </Position16>
+      <Position17>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="196" Column="14" TopLine="172"/>
+      </Position17>
+      <Position18>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
+      </Position18>
+      <Position19>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="5183" Column="35" TopLine="5172"/>
+      </Position19>
+      <Position20>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="963" Column="24" TopLine="952"/>
+      </Position20>
+      <Position21>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="5401" Column="14" TopLine="5390"/>
+      </Position21>
+      <Position22>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="178"/>
+      </Position22>
+      <Position23>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position23>
+      <Position24>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="69" Column="3" TopLine="51"/>
+      </Position24>
+      <Position25>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="201" Column="21" TopLine="190"/>
+      </Position25>
+      <Position26>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position26>
+      <Position27>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="69" Column="26" TopLine="60"/>
+      </Position27>
+      <Position28>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
+      </Position28>
+      <Position29>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="963" Column="14" TopLine="952"/>
+      </Position29>
+      <Position30>
+        <Filename Value="TEXLIB\t_png.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position30>
+    </JumpHistory>
+  </ProjectOptions>
+  <CompilerOptions>
+    <Version Value="9"/>
+    <PathDelim Value="\"/>
+    <Target>
+      <Filename Value="..\bin\doom\gldoom32f"/>
+    </Target>
+    <SearchPaths>
+      <IncludeFiles Value="$(ProjOutDir)"/>
+      <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
+    </SearchPaths>
+    <Parsing>
+      <SyntaxOptions>
+        <SyntaxMode Value="Delphi"/>
+      </SyntaxOptions>
+    </Parsing>
+    <CodeGeneration>
+      <TargetProcessor Value="pentium4"/>
+      <TargetCPU Value="i386"/>
+      <TargetOS Value="win32"/>
+    </CodeGeneration>
+    <Linking>
+      <LinkSmart Value="True"/>
+    </Linking>
+    <Other>
+      <CompilerMessages>
+        <UseMsgFile Value="True"/>
+      </CompilerMessages>
+      <CustomOptions Value="-dOPENGL -dDOOM"/>
+      <CompilerPath Value="$(CompPath) "/>
+    </Other>
+  </CompilerOptions>
+  <Debugging>
+    <Exceptions Count="3">
+      <Item1>
+        <Name Value="EAbort"/>
+      </Item1>
+      <Item2>
+        <Name Value="ECodetoolError"/>
+      </Item2>
+      <Item3>
+        <Name Value="EFOpenError"/>
+      </Item3>
+    </Exceptions>
+  </Debugging>
+</CONFIG>

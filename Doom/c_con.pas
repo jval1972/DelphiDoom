@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -40,6 +40,8 @@ uses
 procedure C_Init;
 
 procedure C_ShutDown;
+
+procedure C_AddCommand(const cmd: string);
 
 procedure C_AddLine(const line: string; len: integer = -1);
 
@@ -300,10 +302,14 @@ end;
 //
 // C_Init
 //
+var
+  pendingcommands: TDStringList;
+
 procedure C_Init;
 var
   i: integer;
 begin
+  pendingcommands := TDStringList.Create;
   ConsoleHead := 0;
   ConsoleState := CST_UP;
   for i := 0 to MAX_CONSOLE_LINES - 1 do
@@ -349,6 +355,12 @@ procedure C_ShutDown;
 begin
   if execs <> nil then
     execs.Free;
+  pendingcommands.Free;
+end;
+
+procedure C_AddCommand(const cmd: string);
+begin
+  pendingcommands.Add(cmd);
 end;
 
 var
@@ -458,6 +470,10 @@ begin
     firsttime := false;
   end;
 
+  for c := 0 to pendingcommands.Count - 1 do
+    C_ExecuteCmd(pendingcommands.Strings[c]);
+  pendingcommands.Clear;
+  
   if (ev._type <> ev_keyup) and (ev._type <> ev_keydown) then
   begin
     result := false;

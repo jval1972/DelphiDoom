@@ -515,6 +515,7 @@ type
     alpha: integer;
     healstate: smallint;
     crashstate: smallint;
+    interactstate: smallint;
   end;
 {$ELSE}
 const
@@ -562,6 +563,7 @@ type
     alpha: integer;
     healstate: integer;
     crashstate: integer;
+    interactstate: integer;
   end;
 {$ENDIF}
 

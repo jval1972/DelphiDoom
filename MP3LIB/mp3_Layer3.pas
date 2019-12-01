@@ -105,6 +105,7 @@ type
     procedure Antialias(ch: Cardinal; gr: Cardinal);
     procedure Hybrid(ch: Cardinal; gr: Cardinal);
     procedure DoDownmix;
+    procedure CreateBitReserve;
 
   public
     constructor Create(Stream: TBitStream; Header: THeader; FilterA, FilterB: TSynthesisFilter;
@@ -121,7 +122,7 @@ type
 implementation
 
 uses
-  d_delphi,
+  d_delphi, i_system,
   mp3_Huffman, Math, mp3_InvMDT, mp3_L3Tables;
 
 { TLayerIII_Decoder }
@@ -226,8 +227,23 @@ begin
   FNonZero[0] := 576;
   FNonZero[1] := 576;
 
-  FBR := TBitReserve.Create;
+  CreateBitReserve;
   GetMem(FSI, Sizeof(TIIISideInfo));
+end;
+
+procedure TLayerIII_Decoder.CreateBitReserve;
+var
+  cnt: integer;
+begin
+  cnt := 0;
+  repeat
+    try
+      FBR := TBitReserve.Create;
+    except
+      I_Sleep(100);
+      Inc(cnt);
+    end;
+  until (cnt = 0) or (cnt > 32);
 end;
 
 procedure TLayerIII_Decoder.Decode;
@@ -1168,7 +1184,7 @@ begin
   FillChar(FPrevBlock, Sizeof(FPrevBlock), 0);
 
   FreeAndNil(FBR);
-  FBR := TBitReserve.Create;
+  CreateBitReserve;
 end;
 
 procedure TLayerIII_Decoder.Stereo(gr: Cardinal);

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1252,6 +1252,7 @@ var
   dx, dy: fixed_t;
   loops: integer;
   sec: Psector_t;
+  sec2: Psector_t;
   ceilz, floorz: fixed_t;
 begin
 
@@ -1284,10 +1285,21 @@ begin
       dy := dy * 31 div 32;
       inc(loops);
     until loops > 64;
+    {$IFNDEF OPENGL}
     if loops > 1 then
       R_PlayerViewBlanc(aprox_black);
+    {$ENDIF}
     viewx := cx;
     viewy := cy;
+
+    sec2 := R_PointInSubsector(viewx, viewy).sector;
+    floorz := sec2.floorheight;
+    if cz < floorz then
+      cz := floorz + 1 * FRACUNIT;
+    ceilz := sec2.ceilingheight + P_SectorJumpOverhead(sec2, viewplayer);
+    if cz > ceilz then
+      cz := ceilz - 1 * FRACUNIT;
+
     viewz := cz;
   end;
 

@@ -1026,11 +1026,14 @@ begin
   begin
     // if not intent on another player,
     // chase after this one
-    target.target := source;
-    target.threshold := BASETHRESHOLD;
-    if (target.state = @states[target.info.spawnstate]) and
-       (target.info.seestate <> Ord(S_NULL)) then
-      P_SetMobjState(target, statenum_t(target.info.seestate));
+    if target.flags2_ex and MF2_EX_DONTINFIGHTMONSTERS = 0 then
+    begin
+      target.target := source;
+      target.threshold := BASETHRESHOLD;
+      if (target.state = @states[target.info.spawnstate]) and
+         (target.info.seestate <> Ord(S_NULL)) then
+        P_SetMobjState(target, statenum_t(target.info.seestate));
+    end;
   end;
 end;
 

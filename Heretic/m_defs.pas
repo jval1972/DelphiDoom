@@ -395,7 +395,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
-     defaultbvalue: false;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'gl_drawmodels';

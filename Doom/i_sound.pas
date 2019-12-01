@@ -212,7 +212,8 @@ var
   dwtype: LongWord;
   dwlen: integer;
   donefmt, donedata: boolean;
-  PLData: PLongWordArray;
+  PLData, PLData2: PLongWordArray;
+  plwhat: integer;
   sparm: Psoundparam_t;
 begin
   sfx := @S_sfx[sfxid];
@@ -281,7 +282,7 @@ begin
         break;
       end;
 
-      while strm.Position < strm.Size - 4 do
+      while strm.Position < strm.Size - 8 do
       begin
         strm.Read(dwtype, SizeOf(LongWord));
         strm.Read(dwlen, SizeOf(LongWord));
@@ -323,7 +324,7 @@ begin
           sparm.offset := 0;
         end
         else
-          strm.Seek(-SizeOf(LongWord), sFromCurrent);
+          strm.Seek(-6, sFromCurrent);
         if donefmt and donedata then
         begin
           sparm.wavestatus := ws_externalwave;
@@ -372,6 +373,7 @@ begin
 
     sfx.data := W_CacheLumpNum(sfx.lumpnum, PU_STATIC);
     PLData := sfx.data;
+    PLData2 := PLongWordArray(Integer(PLData) + 2);
     if PLData[0] = CS_RIFF then // WAVE Sound inside WAD as lump
     begin
 
@@ -391,12 +393,21 @@ begin
           break;
         end;
 
-        while i < (W_LumpLength(sfx.lumpnum) div 4) - 1 do
+        while i < (W_LumpLength(sfx.lumpnum) div 4) - 2 do
         begin
           dwtype := PLData[i];
-          inc(i);
-          dwlen := PLData[i];
-          inc(i);
+          if (dwtype <> CS_fmt) and (dwtype <> CS_data) then
+          begin
+            dwtype := PLData2[i];
+            dwlen := PLData2[i + 1];
+            plwhat := 2;
+          end
+          else
+          begin
+            dwlen := PLData[i + 1];
+            plwhat := 1;
+          end;
+          i := i + 2;
           if (dwtype = CS_fmt) and not donefmt then
           begin
             if dwlen < SizeOf(TWAVEFORMAT) then
@@ -428,6 +439,8 @@ begin
             donedata := true;
             sparm.length := dwlen;
             sparm.offSet := i * 4;
+            if plwhat = 2 then
+              sparm.offset := sparm.offset + 2; 
           end
           else
             dec(i);

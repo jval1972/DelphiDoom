@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=3
-Build=500
+Build=509
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Heretic to Delphi Total Conversion
-FileVersion=1.1.3.500
+FileVersion=1.1.3.509
 InternalName=Heretic
 LegalCopyright=Copyright 2005 - 2012, Jim Valavanis
 LegalTrademarks=

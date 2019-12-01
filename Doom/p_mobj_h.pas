@@ -279,6 +279,10 @@ const
   MF2_EX_CANNOTPUSH = $40;
   // don't generate a vissprite
   MF2_EX_DONTDRAW = $80;
+  // Interactive mobj - can be set to interactstate
+  MF2_EX_INTERACTIVE = $100;
+  // Don't return fire if attacker has same inheritance
+  MF2_EX_DONTINFIGHTMONSTERS = $200;
 
 
 

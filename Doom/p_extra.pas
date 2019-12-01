@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -169,6 +169,20 @@ procedure A_Turn5(actor: Pmobj_t);
 
 procedure A_Turn10(actor: Pmobj_t);
 
+procedure A_SpawnSmokeUp(actor: Pmobj_t);
+procedure A_SpawnSmokeDown(actor: Pmobj_t);
+procedure A_SpawnSmokeHorz(actor: Pmobj_t);
+
+procedure A_SetInteractive(actor: Pmobj_t);
+procedure A_UnSetInteractive(actor: Pmobj_t);
+
+procedure A_SetMonsterInfight(actor: Pmobj_t);
+procedure A_UnSetMonsterInfight(actor: Pmobj_t);
+
+procedure A_NoiseAlert(actor: Pmobj_t);
+
+procedure A_ConsoleCommand(actor: Pmobj_t);  
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -197,10 +211,10 @@ implementation
 uses
   d_delphi,
   i_system,
+  c_con,
   info_h, info,
   m_rnd, m_vectors,
   p_enemy, p_mobj, p_inter, p_map, p_maputl, p_local, p_pspr, p_sounds,
-  
   sounds,
   s_sound,
   tables;
@@ -1733,6 +1747,86 @@ var
 begin
   ang := 10 * ANG1;
   actor.angle := actor.angle + ang;
+end;
+
+procedure A_SpawnSmokeUp(actor: Pmobj_t);
+var
+  mo: Pmobj_t;
+begin
+  mo := P_SpawnMobj(actor.x, actor.y, ONFLOORZ, Ord(MT_LAVASMOKE));
+  mo.momz := FRACUNIT + (P_Random * 128);
+end;
+
+procedure A_SpawnSmokeDown(actor: Pmobj_t);
+var
+  mo: Pmobj_t;
+begin
+  mo := P_SpawnMobj(actor.x, actor.y, ONCEILINGZ, Ord(MT_LAVASMOKE));
+  mo.momz := -2 * FRACUNIT + (P_Random * 128);
+end;
+
+procedure A_SpawnSmokeHorz(actor: Pmobj_t);
+var
+  mo: Pmobj_t;
+  an: angle_t;
+  speed: fixed_t;
+  height: integer;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  height := actor.state.params.IntVal[0];
+
+  mo := P_SpawnMobj(actor.x, actor.y, actor.z + height * FRACUNIT, Ord(MT_LAVASMOKE));
+  an := actor.angle shr ANGLETOFINESHIFT;
+  speed := (5 - (N_Random mod 3)) * FRACUNIT;
+  mo.momx := FixedMul(speed, finecosine[an]);
+  mo.momy := FixedMul(speed, finesine[an]);
+end;
+
+procedure A_SetInteractive(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_INTERACTIVE;
+end;
+
+procedure A_UnSetInteractive(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_INTERACTIVE;
+end;
+
+procedure A_SetMonsterInfight(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_DONTINFIGHTMONSTERS;
+end;
+
+procedure A_UnSetMonsterInfight(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_DONTINFIGHTMONSTERS;
+end;
+
+procedure A_NoiseAlert(actor: Pmobj_t);      // xmen
+begin
+  if actor.target = nil then
+    exit;
+  if actor.target.player = nil then
+    exit;
+
+  P_NoiseAlert(actor.target, actor);
+end;
+
+procedure A_ConsoleCommand(actor: Pmobj_t);   // xmen
+var
+  cmd: string;
+  i: integer;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  cmd := actor.state.params.StrVal[0];
+  for i := 1 to actor.state.params.Count - 1 do
+    cmd := cmd + ' ' + actor.state.params.StrVal[i];
+
+  C_AddCommand(cmd);
 end;
 
 end.
