@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -158,6 +158,13 @@ uses
   info_common,
   doomstat;
 
+// From Chocolate-Doom
+// Use a heuristic approach to detect infinite state cycles: Count the number
+// of times the loop in P_SetMobjState() executes and exit with an error once
+// an arbitrary very large limit is reached.
+const
+  MOBJ_CYCLE_LIMIT = 1000000;
+
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -165,7 +172,9 @@ uses
 function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
 var
   st: Pstate_t;
+  cycle_counter: integer;
 begin
+  cycle_counter := 0;
   repeat
     if state = S_NULL then
     begin
@@ -192,6 +201,10 @@ begin
       st.action.acp1(mobj);
 
     state := st.nextstate;
+
+    inc(cycle_counter);
+    if cycle_counter > MOBJ_CYCLE_LIMIT then
+      I_Error('P_SetMobjState(): Infinite state cycle detected!');
   until mobj.tics <> 0;
 
   result := true;

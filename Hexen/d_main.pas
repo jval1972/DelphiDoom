@@ -143,6 +143,7 @@ uses
   mt_utils,
   xn_strings,
   info,
+  info_common,
   info_rnd,
   i_system,
   i_sound,
@@ -610,9 +611,11 @@ begin
     // frame syncronous IO operations
     I_StartFrame;
 
+{$IFNDEF DEBUG}
     iscritical := not usemultithread and not devparm and criticalcpupriority;
     if iscritical then
       I_SetCriticalCPUPriority;
+{$ENDIF}
 
     // process one or more tics
     if singletics then
@@ -620,8 +623,10 @@ begin
     else
       D_RunMultipleTicks; // will run at least one tick
 
+{$IFNDEF DEBUG}
     if iscritical then
       I_SetNormalCPUPriority;
+{$ENDIF}
 
     S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
 
@@ -771,6 +776,8 @@ begin
         modifiedgame := true; // homebrew levels
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
+    // GL_xxxx lumps has lower priority from GWA files, that's for we
+    // first add the *.GWA file.
       if autoloadgwafiles then
       begin
         ext := strupper(fext(filename));
@@ -844,6 +851,7 @@ begin
   PAK_AddFile(s1);
   D_PaksAutoload(s2);
 end;
+
 
 //
 // IdentifyVersion
@@ -1720,6 +1728,9 @@ begin
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
+
+  printf('Info_CheckStates: Check states tables'#13#10);
+  Info_CheckStates;
 
   SUC_Progress(50);
 

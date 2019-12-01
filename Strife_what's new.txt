@@ -1,3 +1,12 @@
+Version 2.0.4 build 714 - (22/1/2018)
+-----------
+Interpolate sector flag can be controled within PascalScript.
+Fixed accuracy of status bar drawing in 8 bit display mode.
+Hires lookup tables are calculated using multiple threads if possible.
+New icon, that resembles an ancient temple of Delphi archaeological site.
+If infinite state cycles detected will exit with I_Error.
+Small fixes to the fake3d effect.
+
 Version 2.0.4 build 713 - (12/1/2018)
 -----------
 Menu beautifications.

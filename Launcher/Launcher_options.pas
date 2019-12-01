@@ -48,7 +48,8 @@ implementation
 
 uses
   FileCtrl,
-  Launcher_defs, Launcher_gameproperties;
+  Launcher_defs,
+  Launcher_gameproperties;
 
 function OptionsFormDlg: boolean;
 var

@@ -116,6 +116,8 @@ type
     RetrieveNetworkComputersButton: TButton;
     NoSingleDemoCheckBox: TCheckBox;
     OpenGLCheckBox: TCheckBox;
+    PopupMenu1: TPopupMenu;
+    ItemProperties1: TMenuItem;
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RunDelphiDoomClick(Sender: TObject);
@@ -146,6 +148,8 @@ type
     procedure ListView1Change(Sender: TObject; Item: TListItem;
       Change: TItemChange);
     procedure RetrieveNetworkComputersButtonClick(Sender: TObject);
+    procedure ItemProperties1Click(Sender: TObject);
+    procedure PopupMenu1Popup(Sender: TObject);
   private
     privatedemos: TStringList;
     basedir: string;
@@ -1497,6 +1501,42 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
+end;
+
+procedure TForm1.ItemProperties1Click(Sender: TObject);
+var
+  idx: integer;
+begin
+  if ListView1.Selected <> nil then
+  begin
+    idx := ListView1.Selected.Index;
+    if (idx >= 0) and (idx < Ord(NUMGAMETYPES)) then
+    begin
+      if GamePropertiesDialog(@gameinfo[idx]) then
+      begin
+        ListView1.Items[idx].Caption := gameinfo[idx].description;
+        ListView1.Items[idx].ImageIndex := Ord(gameinfo[idx].gameengine);
+      end;
+      exit;
+    end;
+  end;
+  MessageBeep(0);
+end;
+
+procedure TForm1.PopupMenu1Popup(Sender: TObject);
+var
+  idx: integer;
+begin
+  if ListView1.Selected <> nil then
+  begin
+    idx := ListView1.Selected.Index;
+    if (idx >= 0) and (idx < Ord(NUMGAMETYPES)) then
+    begin
+      ItemProperties1.Enabled := true;
+      exit;
+    end;
+  end;
+  ItemProperties1.Enabled := false;
 end;
 
 end.

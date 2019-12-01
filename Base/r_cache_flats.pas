@@ -229,7 +229,7 @@ begin
             c := plw^;
             b2 := (c shr 16) shr DIHERSHIFT;
             g2 := ((c shr 8) and $FF) shr DIHERSHIFT;
-            r2 := (c and $FF) shr DIHERSHIFT;
+            r2 := (c and $FF) shr DIHERSHIFT;              
             plw^ := dihertable[b2, g2, r2];
             inc(plw);
           end;

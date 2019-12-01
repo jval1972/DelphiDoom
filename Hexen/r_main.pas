@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -315,8 +315,8 @@ uses
   r_segs,
   r_hires,
   r_camera,
-{$IFNDEF OPENGL}
   r_precalc,
+{$IFNDEF OPENGL}
   r_cache_main,
   r_fake3d,
   r_ripple,
@@ -1594,8 +1594,10 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitTransparency8Tables');
   R_InitTransparency8Tables;
+{$ENDIF}
   printf(#13#10 + 'R_InitPrecalc');
   R_InitPrecalc;
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitWallsCache8');
   R_InitWallsCache8;
   printf(#13#10 + 'R_InitWallsCache32');
@@ -1652,11 +1654,14 @@ begin
 {$IFDEF OPENGL}
   printf(#13#10 + 'R_ShutDownOpenGL');
   R_ShutDownOpenGL;
-{$ELSE}
+{$ENDIF}
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_FreeTransparency8Tables');
   R_FreeTransparency8Tables;
+{$ENDIF}
   printf(#13#10 + 'R_ShutDownPrecalc');
   R_ShutDownPrecalc;
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_ShutDownWallsCache8');
   R_ShutDownWallsCache8;
   printf(#13#10 + 'R_ShutDownWallsCache32');
@@ -1752,7 +1757,7 @@ begin
   skytopy := MAXLOOKDIR - player.lookdir;
 //******************************
 // JVAL Enabled z axis shift
-  if zaxisshift and ((player.lookdir <> 0) or p_justspawned) and (viewangleoffset = 0) then
+  if zaxisshift and ((player.lookdir16 <> 0) or p_justspawned) and (viewangleoffset = 0) then
   begin
     sblocks := screenblocks;
     if sblocks > 11 then
@@ -1854,8 +1859,23 @@ end;
 //
 
 {$IFNDEF OPENGL}
+var
+  oldlookdir16: integer = MAXINT;
+
+procedure R_Fake3DPrepare(player: Pplayer_t);
+begin
+  if oldlookdir16 = player.lookdir16 then
+    Exit;
+
+  oldlookdir16 := player.lookdir16;
+
+  viewplayer := player;
+  R_ExecuteSetViewSize;
+end;
+
 procedure R_RenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
+  R_Fake3DPrepare(player);
   R_SetupFrame(player);
 
   // Clear buffers.
@@ -1904,8 +1924,8 @@ end;
 
 procedure R_RenderPlayerView32_MultiThread(player: Pplayer_t);
 begin
-  R_CalcHiResTables;
-
+  R_Fake3DPrepare(player);
+  R_CalcHiResTables_Multithread;
   R_SetupFrame(player);
 
   // Clear buffers.
@@ -1951,28 +1971,11 @@ begin
   NetUpdate;
 
 end;
-
-var
-  oldlookdir: integer = MAXLOOKDIR + 1;
-
-procedure R_Fake3DPrepare(player: Pplayer_t);
-begin
-  if oldlookdir = player.lookdir then
-    Exit;
-
-  oldlookdir := player.lookdir;
-
-  viewplayer := player;
-  R_ExecuteSetViewSize;
-end;
-
 {$ENDIF}
 
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
-  R_Fake3DPrepare(player);
-
   if usemultithread then
   begin
     if (videomode = vm8bit) then
@@ -1984,7 +1987,8 @@ begin
 {$ENDIF}
 
 {$IFNDEF OPENGL}
-  R_CalcHiResTables;
+  R_Fake3DPrepare(player);
+  R_CalcHiResTables_SingleThread;
 {$ENDIF}
 
   R_SetupFrame(player);

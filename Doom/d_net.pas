@@ -134,6 +134,8 @@ var
   isinterpolateddisplay: boolean;
   firstinterpolation: boolean;
 
+  S_ERR_DIF_NET: string = 'Different DOOM versions cannot play a net game!';
+
 implementation
 
 uses
@@ -148,6 +150,7 @@ uses
   i_io,
   d_main,
   d_event,
+  dstrings,
   r_intrpl,
   r_main,
   p_mobj_h,
@@ -617,7 +620,7 @@ begin
       if netbuffer.checksum and NCMD_SETUP <> 0 then
       begin
         if netbuffer.player <> VERSION then
-          I_Error('D_ArbitrateNetStart(): Different DOOM versions cannot play a net game!');
+          I_Error('D_ArbitrateNetStart(): ' + S_ERR_DIF_NET);
         startskill := skill_t(netbuffer.retransmitfrom and 15);
         deathmatch := _SHR((netbuffer.retransmitfrom and $C0), 6);
         nomonsters := (netbuffer.retransmitfrom and $20) > 0;

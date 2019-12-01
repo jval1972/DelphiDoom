@@ -315,7 +315,8 @@ uses
   mdl_script_proclist in 'OPENGL\mdl_script_proclist.pas',
   p_gravity in 'Base\p_gravity.pas',
   t_patch in 'TEXLIB\t_patch.pas',
-  gl_ambient in 'OPENGL\gl_ambient.pas';
+  gl_ambient in 'OPENGL\gl_ambient.pas',
+  r_precalc in 'Base\r_precalc.pas';
 
 var
   Saved8087CW: Word;

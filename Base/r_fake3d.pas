@@ -81,6 +81,10 @@ uses
   v_data,
   z_zone;
 
+const
+  MIN_3DINFOBUFFERSIZE = 16 * MINLOOKDIR;
+  MAX_3DINFOBUFFERSIZE = 16 * MAXLOOKDIR;
+
 type
   f3dinfo_t = record
     ylookup: PIntegerArray;  // Row translation
@@ -96,13 +100,14 @@ type
     computed: boolean;
   end;
   Pf3dinfo_t = ^f3dinfo_t;
-  f3dinfobuffer_t = array[MINLOOKDIR..MAXLOOKDIR] of Pf3dinfo_t;
+  f3dinfobuffer_t = array[MIN_3DINFOBUFFERSIZE..MAX_3DINFOBUFFERSIZE] of Pf3dinfo_t;
 
 var
   f3dinfobuffer: f3dinfobuffer_t;
+  FAKE3D_ANGLE_COSINES: array[MIN_3DINFOBUFFERSIZE..MAX_3DINFOBUFFERSIZE] of double;
 
 const
-  LOOKDIR_TO_ANGLE = 0.5;
+  LOOKDIR_TO_ANGLE = 0.5 / 16;
 
 //
 // R_ComputeFake3DTables
@@ -110,7 +115,6 @@ const
 procedure R_ComputeFake3DTables(const l: integer);
 var
   f3d: Pf3dinfo_t;
-  ang: double;
   i, j: integer;
   buffer: array[0..MAXHEIGHT - 1] of double;
   buffer2: array[0..MAXHEIGHT - 1] of double;
@@ -145,12 +149,8 @@ begin
 
   f3d := f3dinfobuffer[l];
 
-  if l < 0 then
-    ang := l * LOOKDIR_TO_ANGLE * D_PI / 270
-  else
-    ang := l * LOOKDIR_TO_ANGLE * D_PI / 180;
+  c := FAKE3D_ANGLE_COSINES[l];
 
-  c := Cos(ang);
   c1 := 2 * (c - 1);
   c2 := 2 - c;
   invc2 := 1 / c2;
@@ -222,7 +222,7 @@ begin
     r := FRACUNIT / viewwidth;
     for i := 0 to viewheightdiff do
     begin
-      correction := l / MAXLOOKDIR * Sin(i / (viewheight + viewheightrest)) * viewheight / 10;
+      correction := l / MAX_3DINFOBUFFERSIZE * Sin(i / (viewheight + viewheightrest)) * viewheight / 10;
       f3d.left[i] := Round(f3d.lefttop + leftstep * i / viewheightdiff - correction);
       if f3d.left[i] < 0 then
         f3d.left[i] := 0;
@@ -327,7 +327,7 @@ begin
     Exit;
   end;
 
-  l := p.lookdir;
+  l := p.lookdir16;
   if l = 0 then
   begin
     fake3dtopclip := -1;
@@ -387,30 +387,34 @@ procedure R_Set3DLookup(p: Pplayer_t);
 var
   i: integer;
 begin
-  if (oldfake3dlookdir = p.lookdir) and
+  if (oldfake3dlookdir = p.lookdir16) and
      (oldviewwidth = viewwidth) and
      (oldviewheight = viewheight) then
      exit;
 
   if (oldviewwidth <> viewwidth) or
      (oldviewheight <> viewheight) then
-    for i := MINLOOKDIR to MAXLOOKDIR do
+    for i := MIN_3DINFOBUFFERSIZE to MAX_3DINFOBUFFERSIZE do
       if f3dinfobuffer[i] <> nil then
         f3dinfobuffer[i].computed := false;
 
-  oldfake3dlookdir := p.lookdir;
+  oldfake3dlookdir := p.lookdir16;
   oldviewwidth := viewwidth;
   oldviewheight := viewheight;
   fake3dlookdir := oldfake3dlookdir;
 
-  if fake3dlookdir <> 0 then
-    fake3dspanpresent := f3dinfobuffer[fake3dlookdir].yPresent
-  else
-    fake3dspanpresent := nil;
+  fake3dspanpresent := nil;
+//  if fake3dlookdir <> 0 then
+    if f3dinfobuffer[fake3dlookdir] <> nil then
+      if f3dinfobuffer[fake3dlookdir].computed then
+      begin
+        fake3dspanpresent := f3dinfobuffer[fake3dlookdir].yPresent;
+        exit;
+      end;
 
-  if f3dinfobuffer[fake3dlookdir] <> nil then
+{  if f3dinfobuffer[fake3dlookdir] <> nil then
     if f3dinfobuffer[fake3dlookdir].computed then
-      exit;
+      exit;}
 
   if usemultithread then
     setup3dworker.Activate(p)
@@ -661,11 +665,87 @@ begin
 
 end;
 
+procedure R_GetPointsInCircle(const l: integer; const x, y: extended; const r: extended; var v1, v2: extended);
+var
+  a: extended;
+begin
+  a := sqrt(r * r - (l - x) * (l - x));
+  v1 := y - a;
+  v2 := y + a;
+end;
+
+//
+// R_CalculateCircleFromPoints
+//
+// JVAL
+// Calculate circle from 3 (no collinear) points
+// The center of circle is (x, y). The radius is (r)
+// Returns false if the points are collinear.
+//
+function R_CalculateCircleFromPoints(const a1, a2, b1, b2, c1, c2: extended; var x, y: extended; var r: extended): boolean;
+const
+  L_EPSILON = 0.0000000001;
+var
+  d: extended;
+  u, v: extended;
+begin
+  d := (a1 - b1) * (b2 - c2) - (b1 - c1) * (a2 - b2);
+  if (d > -L_EPSILON) and (d < L_EPSILON) then
+  begin
+    result := false;
+    exit;
+  end;
+  u := (a1 * a1 - b1 * b1 + a2 * a2 - b2 * b2) / 2;
+  v := (b1 * b1 - c1 * c1 + b2 * b2 - c2 * c2) / 2;
+  x := (u * (b2 - c2) - v * (a2 - b2)) / d;
+  y := (v * (a1 - b1) - u * (b1 - c1)) / d;
+  r := sqrt((x - a1) * (x - a1) + (y - a2) * (y - a2));
+  result := true;
+end;
+
+procedure R_CalculateAnglesTable;
+const
+  T_EPSILON = 0.001;
+var
+  a1, a2, b1, b2, c1, c2: extended;
+  x, y: extended;
+  r: extended;
+  v1, v2: extended;
+  l: integer;
+  test1, test2: extended;
+begin
+  a1 := MIN_3DINFOBUFFERSIZE;
+  a2 := a1 * LOOKDIR_TO_ANGLE * pi / 270;
+  test1 := a2 - T_EPSILON;
+  b1 := 0.0;
+  b2 := 0.0;
+  c1 := MAX_3DINFOBUFFERSIZE;
+  c2 := c1 * LOOKDIR_TO_ANGLE * pi / 180;
+  test2 := c2 + T_EPSILON;
+  if R_CalculateCircleFromPoints(a1, a2, b1, b2, c1, c2, x, y, r) then
+  begin
+    for l := MIN_3DINFOBUFFERSIZE to MAX_3DINFOBUFFERSIZE do
+    begin
+      R_GetPointsInCircle(l, x, y, r, v1, v2);
+      if IsExtendedInRange(v1, test1, test2) then
+        FAKE3D_ANGLE_COSINES[l] := cos(v1)
+      else
+        FAKE3D_ANGLE_COSINES[l] := cos(v2);
+    end;
+  end
+  else // JVAL: Unreachable code
+  begin
+    for l := MIN_3DINFOBUFFERSIZE to MAX_3DINFOBUFFERSIZE do
+      FAKE3D_ANGLE_COSINES[l] := 1.0;
+  end;
+end;
+
 procedure R_InitFake3D;
 var
   i: integer;
 begin
-  for i := MINLOOKDIR to MAXLOOKDIR do
+  R_CalculateAnglesTable;
+  for i := MIN_3DINFOBUFFERSIZE to MAX_3DINFOBUFFERSIZE do
     f3dinfobuffer[i] := nil;
   threadworker8 := TDThread.Create(@R_Thr_Execute3DTransform8);
   threadworker32 := TDThread.Create(@R_Thr_Execute3DTransform32);
@@ -687,13 +767,14 @@ begin
     exit;
   end;
 
-  if zaxisshift and usefake3d and (p.lookdir <> 0) then
+  if zaxisshift and usefake3d and (p.lookdir16 <> 0) then
   begin
-    if f3dinfobuffer[p.lookdir] = nil then
-       R_ComputeFake3DTables(p.lookdir)
-    else if not f3dinfobuffer[p.lookdir].computed then
-       R_ComputeFake3DTables(p.lookdir);
-    result := f3dinfobuffer[p.lookdir].aspect;
+    result := 2.0 - FAKE3D_ANGLE_COSINES[p.lookdir16]
+{    if f3dinfobuffer[p.lookdir16] = nil then
+       R_ComputeFake3DTables(p.lookdir16)
+    else if not f3dinfobuffer[p.lookdir16].computed then
+       R_ComputeFake3DTables(p.lookdir16);
+    result := f3dinfobuffer[p.lookdir16].aspect;}
   end
   else
     result := 1.0;

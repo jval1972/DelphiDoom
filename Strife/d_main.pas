@@ -163,6 +163,7 @@ uses
   m_menu,
   mt_utils,
   info,
+  info_common,
   info_rnd,
   m_saves,
   i_system,
@@ -1920,6 +1921,9 @@ begin
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
+
+  printf('Info_CheckStates: Check states tables'#13#10);
+  Info_CheckStates;
 
   {$IFNDEF FPC}
   SUC_Progress(50);

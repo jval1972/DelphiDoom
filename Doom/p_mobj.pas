@@ -141,6 +141,13 @@ uses
   info_rnd,
   info_common;
 
+// From Chocolate-Doom
+// Use a heuristic approach to detect infinite state cycles: Count the number
+// of times the loop in P_SetMobjState() executes and exit with an error once
+// an arbitrary very large limit is reached.
+const
+  MOBJ_CYCLE_LIMIT = 1000000;
+
 //
 // P_SetMobjState
 // Returns true if the mobj is still present.
@@ -148,7 +155,9 @@ uses
 function P_SetMobjState(mobj: Pmobj_t; state: statenum_t): boolean;
 var
   st: Pstate_t;
+  cycle_counter: integer;
 begin
+  cycle_counter := 0;
   repeat
     if state = S_NULL then
     begin
@@ -180,6 +189,10 @@ begin
       st.action.acp1(mobj);
 
     state := st.nextstate;
+
+    inc(cycle_counter);
+    if cycle_counter > MOBJ_CYCLE_LIMIT then
+      I_Error('P_SetMobjState(): Infinite state cycle detected!');
   until mobj.tics <> 0;
 
   result := true;
@@ -1352,6 +1365,7 @@ end;
 function P_CheckMissileSpawn(th: Pmobj_t): boolean;
 begin
   th.tics := th.tics - (P_Random and 3);
+
   if th.tics < 1 then
     th.tics := 1;
 

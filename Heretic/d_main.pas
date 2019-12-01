@@ -140,6 +140,7 @@ uses
   mt_utils,
   h_strings,
   info,
+  info_common,
   info_rnd,
   i_system,
   i_sound,
@@ -495,7 +496,7 @@ begin
     C_Drawer;   // Console is drawn even on top of menus
 
     // Draw disk busy patch
-    R_DrawDiskBusy; // Draw disk busy is draw on top of console
+    R_DrawDiskBusy; // Draw disk busy on top of console
   end
   else if (diskbusyend <= nowtime) and (diskbusyend <> -1) then
   begin
@@ -508,6 +509,7 @@ begin
 
     // JVAL: Overlay Drawer before menus
     OVR_Drawer;
+
     M_Drawer;
     C_Drawer;
     diskbusyend := -1;
@@ -604,9 +606,11 @@ begin
     // frame syncronous IO operations
     I_StartFrame;
 
+{$IFNDEF DEBUG}
     iscritical := not usemultithread and not devparm and criticalcpupriority;
     if iscritical then
       I_SetCriticalCPUPriority;
+{$ENDIF}
 
     // process one or more tics
     if singletics then
@@ -614,8 +618,10 @@ begin
     else
       D_RunMultipleTicks; // will run at least one tick
 
+{$IFNDEF DEBUG}
     if iscritical then
       I_SetNormalCPUPriority;
+{$ENDIF}
 
     S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
 
@@ -765,6 +771,8 @@ begin
       PAK_AddFile(fname);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
+    // GL_xxxx lumps has lower priority from GWA files, that's for we
+    // first add the *.GWA file.
       if autoloadgwafiles then
       begin
         ext := strupper(fext(fname));
@@ -839,6 +847,7 @@ begin
   PAK_AddFile(s1);
   D_PaksAutoload(s2);
 end;
+
 
 //
 // IdentifyVersion
@@ -1716,6 +1725,9 @@ begin
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
+
+  printf('Info_CheckStates: Check states tables'#13#10);
+  Info_CheckStates;
 
   SUC_Progress(50);
 

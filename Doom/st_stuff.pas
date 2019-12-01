@@ -1277,7 +1277,7 @@ begin
     st_oldhealth := plyr.health;
 end;
 
-procedure ST_doPaletteStuff;
+procedure ST_DoPaletteStuff;
 var
   palette: integer;
   pal: PByteArray;
@@ -1424,13 +1424,13 @@ begin
   ST_FinishRefreshSmall;
 end;
 
-procedure ST_doRefresh;
+procedure ST_DoRefresh;
 begin
   st_firsttime := false;
   ST_Refresh(true);
 end;
 
-procedure ST_diffDraw;
+procedure ST_DiffDraw;
 begin
   // update all widgets
   ST_DrawWidgets(true);
@@ -1444,14 +1444,14 @@ begin
   {$IFDEF OPENGL}
   if not st_statusbaron then
   begin
-    ST_doPaletteStuff;
+    ST_DoPaletteStuff;
     exit;
   end;
   {$ENDIF}
   st_firsttime := st_firsttime or refresh;
 
   // Do red-/gold-shifts from damage/items
-  ST_doPaletteStuff;
+  ST_DoPaletteStuff;
   if dopt <> stdo_small then
   begin
     if firstinterpolation or (menuactive and shademenubackground) then
@@ -1459,10 +1459,10 @@ begin
       ST_Refresh(st_firsttime);
       // If just after ST_Start(), refresh all
       if st_firsttime then
-        ST_doRefresh
+        ST_DoRefresh
       // Otherwise, update as little as possible
       else
-        ST_diffDraw;
+        ST_DiffDraw;
     end;
   end
   else

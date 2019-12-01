@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -96,7 +96,8 @@ function R_InverseLight(const c: LongWord): LongWord;
 function R_FuzzLight(const c: LongWord): LongWord;
 
 {$IFNDEF OPENGL}
-procedure R_CalcHiResTables;
+procedure R_CalcHiResTables_SingleThread;
+procedure R_CalcHiResTables_MultiThread;
 {$ENDIF}
 
 const
@@ -130,6 +131,8 @@ uses
   gl_main,
   gl_tex,
 {$ELSE}
+  mt_utils,
+  i_system,
   i_video,
   v_video,
 {$ENDIF}
@@ -659,7 +662,7 @@ begin
 end;
 
 {$IFNDEF OPENGL}
-procedure R_CalcHiResTables;
+procedure R_CalcHiResTables_SingleThread;
 var
   i, j, k: integer;
   vpli, vplj: PLongWord;
@@ -854,6 +857,284 @@ begin
 
   recalctablesneeded := false;
 end;
+
+function R_CalcHiResTables_thr1x8(foo: pointer): integer; stdcall;
+var
+  i, j: integer;
+  vpli: PLongWord;
+  hrtp: PLongWord;
+  vplc: LongWord;
+begin
+  R_Reset32Cache;
+
+  for i := 0 to NUMCOLORMAPS * 256 - 1 do
+    colormaps32[i] := curpal[colormaps[i]];
+
+  hrtp := @hirestable[0, 0, 0];
+
+  vpli := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
+  for i := 0 to 255 do
+  begin
+    vplc := vpli^;
+    {$UNDEF LASTLOOP}
+    for j := 0 to 3 do
+    begin
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+      {$I R_CalcHiResTables_Loop1.inc}
+    end;
+    inc(vpli);
+  end;
+  result := 0;
+end;
+
+function R_CalcHiResTables_thr2x8(foo: pointer): integer; stdcall;
+var
+  i, j, k: integer;
+  vpli, vplj: PLongWord;
+  hrtp: PLongWord;
+
+  c1, c2: LongWord;
+  r1, g1, b1,
+  r2, g2, b2: byte;
+  r, g, b: LongWord;
+  rA, gA, bA: fixed_t;
+  factor1, factor2: fixed_t;
+  cf2: array[0..255] of integer;
+begin
+  k := PInteger(foo)^;
+  hrtp := @hirestable[k, 0, 0];
+  vpli := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
+  factor2 := k shl (FRACBITS - DC_HIRESBITS);
+  factor1 := (FRACUNIT - 1) - factor2;
+  for i := 0 to 255 do
+    cf2[i] := i * factor2;
+  for i := 0 to 255 do
+  begin
+    c1 := vpli^;
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    rA := r1 * factor1;
+    gA := g1 * factor1;
+    bA := b1 * factor1;
+
+    vplj := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
+    {$UNDEF LASTLOOP}
+    for j := 0 to 3 do
+    begin
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+      {$I R_CalcHiResTables_Loop2.inc}
+    end;
+    inc(vpli);
+  end;
+  result := 0;
+end;
+
+function R_CalcHiResTables_thr1x4(foo: pointer): integer; stdcall;
+var
+  a: integer;
+begin
+  R_CalcHiResTables_thr1x8(nil);
+  a := 1;
+  R_CalcHiResTables_thr2x8(@a);
+  result := 0;
+end;
+
+function R_CalcHiResTables_thr2x4(foo: pointer): integer; stdcall;
+var
+  a: integer;
+begin
+  a := 2;
+  R_CalcHiResTables_thr2x8(@a);
+  a := 3;
+  R_CalcHiResTables_thr2x8(@a);
+  result := 0;
+end;
+
+function R_CalcHiResTables_thr3x4(foo: pointer): integer; stdcall;
+var
+  a: integer;
+begin
+  a := 4;
+  R_CalcHiResTables_thr2x8(@a);
+  a := 5;
+  R_CalcHiResTables_thr2x8(@a);
+  result := 0;
+end;
+
+function R_CalcHiResTables_thr4x4(foo: pointer): integer; stdcall;
+var
+  a: integer;
+begin
+  a := 6;
+  R_CalcHiResTables_thr2x8(@a);
+  a := 7;
+  R_CalcHiResTables_thr2x8(@a);
+  result := 0;
+end;
+
+procedure R_CalcHiResTables_MultiThread;
+var
+  k: integer;
+  A: array[1..DC_HIRESFACTOR - 1] of integer;
+begin
+  if not recalctablesneeded then
+    exit;
+
+  if videomode = vm8bit then
+    exit;
+
+  if I_GetNumCPUs >= 8 then
+  begin
+    for k := 1 to DC_HIRESFACTOR - 1 do
+      A[k] := k;
+    MT_Execute(
+      @R_CalcHiResTables_thr1x8, nil,
+      @R_CalcHiResTables_thr2x8, @A[1],
+      @R_CalcHiResTables_thr2x8, @A[2],
+      @R_CalcHiResTables_thr2x8, @A[3],
+      @R_CalcHiResTables_thr2x8, @A[4],
+      @R_CalcHiResTables_thr2x8, @A[5],
+      @R_CalcHiResTables_thr2x8, @A[6],
+      @R_CalcHiResTables_thr2x8, @A[7]
+    );
+  end
+  else
+    MT_Execute(
+      @R_CalcHiResTables_thr1x4, nil,
+      @R_CalcHiResTables_thr2x4, nil,
+      @R_CalcHiResTables_thr3x4, nil,
+      @R_CalcHiResTables_thr4x4, nil
+    );
+
+  recalctablesneeded := false;
+end;
+
+
 {$ENDIF}
 
 procedure R_InitHiRes;

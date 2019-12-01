@@ -136,16 +136,6 @@ uses
   w_wad,
   doomstat;
 
-type
-  maskdraw_t = record
-    x1: integer;
-    x2: integer;
-    column: integer;
-    topclip: integer;
-    bottomclip: integer;
-  end;
-  Pmaskdraw_t = ^maskdraw_t;
-
 //
 // Sprite rotation 0 is facing the viewer,
 //  rotation 1 is one angle turn CLOCKWISE around the axis.

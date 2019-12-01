@@ -2375,6 +2375,15 @@ begin
       if episode > 1 then
         episode := 1;
     end;
+
+    // JVAL: Hacx Support
+    if customgame = cg_hacx then
+    begin
+      if map > 20 then
+        map := 20;
+      if episode > 1 then
+        episode := 1;
+    end;
   end;
 
   R_ResetInterpolationBuffer;
@@ -2390,7 +2399,11 @@ begin
   if fastparm or ((skill = sk_nightmare) and (gameskill <> sk_nightmare)) then
   begin
     for i := Ord(S_SARG_RUN1) to Ord(S_SARG_PAIN2) do
+    begin
       states[i].tics := _SHR(states[i].tics, 1);
+      if states[i].tics < 1 then
+        states[i].tics := 1;
+    end;
     mobjinfo[Ord(MT_BRUISERSHOT)].speed := 20 * FRACUNIT;
     mobjinfo[Ord(MT_HEADSHOT)].speed := 20 * FRACUNIT;
     mobjinfo[Ord(MT_TROOPSHOT)].speed := 20 * FRACUNIT;

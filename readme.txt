@@ -29,17 +29,29 @@ General
 -------
 This is the recreation of the games Doom, Heretic, Hexen and Strife to the Delphi programming language. 
 Features: 
- -Multithreading 32 bit color software renderer
- -OpenGL support with md2 models and dynamic lightmaps 
- -External hi-res textures 
- -MD2 models
- -Voxels
- -mp3 & midi music 
- -3d middle Floors
- -Slopes
- -Advanced script engine (PascalScript) to customize levels and actors
- -Custom actor definition (ACTORDEF lumps)
- -and more... 
+ - Advanced 32 bit color software renderer
+ - OpenGL support with md2 models and dynamic lightmaps
+ - External hi-res textures
+ - Voxels
+ - mp3 & midi music
+ - 3d middle Floors (currently one per sector)
+ - Slopes
+ - Advanced script engine (PascalScript) to customize levels and actors
+ - Custom actor definition (ACTORDEF lumps)
+ - Console to set environment variables and executing commands
+ - Automap rotation and overlay
+ - Textured automap
+ - Support for up to 256 logical CPUs in software rendering mode
+ - WAV files inside wad
+ - Almost all BOOM features
+ - Limit removing engine
+ - Support v5 GL-Nodes
+ - Support for HI_START/HI_END namespace
+ - Long filename aliases inside WADs
+ - Uncapped framerate
+ - Chase camera
+ - Widescreen support
+ - and more... 
 
 Editing examples can be downloaded at https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/
 

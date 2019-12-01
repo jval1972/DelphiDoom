@@ -45,12 +45,10 @@ uses
   m_fixed,
   r_defs;
 
-//const
-// JVAL Note about visprites
-// Now visprites allocated dinamycally using Zone memory
-// (Original MAXVISSPRITES was 128)
-
 var
+// JVAL Note about visprites
+// Now visprites allocated dynamycally using Zone memory
+// (Original MAXVISSPRITES was 128)
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
@@ -141,16 +139,6 @@ uses
   z_zone,
   w_wad,
   doomstat;
-
-type
-  maskdraw_t = record
-    x1: integer;
-    x2: integer;
-    column: integer;
-    topclip: integer;
-    bottomclip: integer;
-  end;
-  Pmaskdraw_t = ^maskdraw_t;
 
 //
 // Sprite rotation 0 is facing the viewer,

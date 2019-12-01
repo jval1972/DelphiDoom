@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -930,7 +930,10 @@ begin
   {$IFNDEF OPENGL}
   R_SetRenderingFunctions;
   R_SetPalette64;
-  R_CalcHiResTables;
+  if usemultithread then
+    R_CalcHiResTables_MultiThread
+  else
+    R_CalcHiResTables_SingleThread;
   {$ENDIF}
 end;
 
@@ -1026,9 +1029,11 @@ begin
   begin
     i := W_CheckNumForName(name);
     if i = -1 then  // JVAL: VERSION 204
+    begin
       i := W_CheckNumForName('-NO-FLAT');
-    if i = -1 then
-      I_Error('R_FlatNumForName(): %s not found!', [name]);
+      if i = -1 then
+        I_Error('R_FlatNumForName(): %s not found!', [name]);
+    end;
 
     s := strupper(name);
     result := M_HashIndex(s);

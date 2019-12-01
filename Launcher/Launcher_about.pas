@@ -63,8 +63,13 @@ begin
 end;
 
 procedure TAboutForm.FormCreate(Sender: TObject);
+var
+  vb: string;
 begin
-  Label1.Caption := 'DelphiDoom Launcher version ' + I_VersionBuilt;
+  vb := I_VersionBuilt;
+  if vb = '' then
+    vb := '1.8';
+  Label1.Caption := 'DelphiDoom Launcher version ' + vb;
 end;
 
 end.

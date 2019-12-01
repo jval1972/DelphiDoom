@@ -139,6 +139,7 @@ uses
   m_menu,
   mt_utils,
   info,
+  info_common,
   info_rnd,
   i_system,
   i_sound,
@@ -517,7 +518,7 @@ begin
     C_Drawer;   // Console is drawn even on top of menus
 
     // Draw disk busy patch
-    R_DrawDiskBusy; // Draw disk busy is draw on top of console
+    R_DrawDiskBusy; // Draw disk busy on top of console
   end
   else if (diskbusyend <= nowtime) and (diskbusyend <> -1) then
   begin
@@ -1955,6 +1956,10 @@ begin
     if not DEH_ParseLumpName('CHEX.DEH') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump for CHEX QUEST not found, using defaults.'#13#10);
 
+  if customgame = cg_hacx then
+    if not DEH_ParseLumpName('HACX.DEH') then
+      I_Warning('DEH_ParseLumpName(): GAMEDEF lump for HACX not found, using defaults.'#13#10);
+
   {$IFNDEF FPC}
   SUC_Progress(41);
   {$ENDIF}
@@ -1978,6 +1983,9 @@ begin
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
+
+  printf('Info_CheckStates: Check states tables'#13#10);
+  Info_CheckStates;
 
   {$IFNDEF FPC}
   SUC_Progress(50);

@@ -279,6 +279,7 @@ implementation
 
 uses
   r_hires,
+  r_precalc,
   {$IFNDEF OPENGL}
   r_mmx,
   r_trans8,
@@ -482,6 +483,8 @@ var
   row: integer;
   swidth: integer;
   dwidth: integer;
+  l: LongWord;
+  b: byte;
 begin
   swidth := V_GetScreenWidth(srcscrn);
   dwidth := V_GetScreenWidth(destscrn);
@@ -498,8 +501,118 @@ begin
       desty := V_PreserveY(desty);
 
       fracy := srcy * FRACUNIT;
-      fracxstep := FRACUNIT * width div destw;
       fracystep := FRACUNIT * height div desth;
+
+      case widthintmultiplier of
+        2: // Width: 640
+          begin
+            destw := destw div 2;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := PByte(integer(screens[destscrn]) + dwidth * row + destx);
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                b := src[col];
+                PWord(dest)^ := precal8_toword[b];
+                inc(dest, 2);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+        4: // Width: 1280
+          begin
+            destw := destw div 4;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := PByte(integer(screens[destscrn]) + dwidth * row + destx);
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                b := src[col];
+                PLongWord(dest)^ := precal8_tolong[b];
+                inc(dest, 4);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+        6: // Width: 1920
+          begin
+            destw := destw div 6;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := PByte(integer(screens[destscrn]) + dwidth * row + destx);
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                b := src[col];
+                PLongWord(dest)^ := precal8_tolong[b];
+                inc(dest, 4);
+                PWord(dest)^ := precal8_toword[b];
+                inc(dest, 2);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+        8: // Width: 2560
+          begin
+            destw := destw div 8;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := PByte(integer(screens[destscrn]) + dwidth * row + destx);
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                b := src[col];
+                l := precal8_tolong[b];
+                PLongWord(dest)^ := l;
+                inc(dest, 4);
+                PLongWord(dest)^ := l;
+                inc(dest, 4);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+       12: // Width: 3840
+          begin
+            destw := destw div 12;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := PByte(integer(screens[destscrn]) + dwidth * row + destx);
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                b := src[col];
+                l := precal8_tolong[b];
+                PLongWord(dest)^ := l;
+                inc(dest, 4);
+                PLongWord(dest)^ := l;
+                inc(dest, 4);
+                PLongWord(dest)^ := l;
+                inc(dest, 4);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+
+      end;
+
+      fracxstep := FRACUNIT * width div destw;
 
       for row := desty to desty + desth - 1 do
       begin

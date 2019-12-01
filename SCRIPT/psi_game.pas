@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -369,6 +369,9 @@ procedure PS_SetSectorRippleFloor(const sec: Integer; const rpl: Boolean);
 
 function PS_GetSectorRippleCeiling(const sec: Integer): Boolean;
 procedure PS_SetSectorRippleCeiling(const sec: Integer; const rpl: Boolean);
+
+function PS_GetSectorInterpolate(const sec: Integer): Boolean;
+procedure PS_SetSectorInterpolate(const sec: Integer; const intpl: Boolean);
 
 // JVAL: sector gravity (VERSION 204)
 function PS_GetSectorGravity(const sec: Integer): Integer;
@@ -3672,6 +3675,25 @@ begin
   end;
 end;
 
+function PS_GetSectorInterpolate(const sec: Integer): Boolean;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].renderflags and SRF_NO_INTERPOLATE = 0
+  else
+    Result := False;
+end;
+
+procedure PS_SetSectorInterpolate(const sec: Integer; const intpl: Boolean);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+  begin
+    if intpl then
+      sectors[sec].renderflags := sectors[sec].renderflags and not SRF_NO_INTERPOLATE
+    else
+      sectors[sec].renderflags := sectors[sec].renderflags or SRF_NO_INTERPOLATE
+  end;
+end;
+
 function PS_GetSectorGravity(const sec: Integer): Integer;
 begin
   if (sec >= 0) and (sec < numsectors) then
@@ -3938,6 +3960,16 @@ end;
 procedure TRTLSectorRippleCeiling_R(Self: TRTLSector; var T: Boolean);
 begin
   T := PS_GetSectorRippleCeiling(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorInterpolate_W(Self: TRTLSector; const T: Boolean);
+begin
+  PS_SetSectorInterpolate(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorInterpolate_R(Self: TRTLSector; var T: Boolean);
+begin
+  T := PS_GetSectorInterpolate(Integer(Self) - 1);
 end;
 
 // JVAL: sector gravity (VERSION 204)
@@ -5255,6 +5287,7 @@ begin
   csector.RegisterProperty('ID', 'Integer', iptR);
   csector.RegisterProperty('RippleFloor', 'boolean', iptRW);
   csector.RegisterProperty('RippleCeiling', 'boolean', iptRW);
+  csector.RegisterProperty('Interpolate', 'boolean', iptRW);
   csector.RegisterProperty('Gravity', 'fixed_t', iptRW);
   csector.RegisterMethod('procedure PlaySound(const snd: string);');
   csector.RegisterMethod('procedure MoveZ(const dz: fixed_t);');
@@ -5465,6 +5498,7 @@ begin
   rsector.RegisterPropertyHelper(@TRTLSectorID_R, nil, 'ID');
   rsector.RegisterPropertyHelper(@TRTLSectorRippleFloor_R, @TRTLSectorRippleFloor_W, 'RippleFloor');
   rsector.RegisterPropertyHelper(@TRTLSectorRippleCeiling_R, @TRTLSectorRippleCeiling_W, 'RippleCeiling');
+  rsector.RegisterPropertyHelper(@TRTLSectorInterpolate_R, @TRTLSectorInterpolate_W, 'Interpolate');
   rsector.RegisterPropertyHelper(@TRTLSectorGravity_R, @TRTLSectorGravity_W, 'Gravity');
   rsector.RegisterMethod(@TRTLSector.PlaySound, 'PlaySound');
   rsector.RegisterMethod(@TRTLSector.MoveZ, 'MoveZ');

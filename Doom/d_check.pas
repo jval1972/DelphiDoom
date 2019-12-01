@@ -119,6 +119,12 @@ begin
     customgame := cg_chex2;
     exit;
   end;
+  if sname = 'HACX.WAD' then
+  begin
+    gameversion := exe_hacx;
+    customgame := cg_hacx;
+    exit;
+  end;
   // JVAL: Hacx Support
   if sname = 'HACX.WAD' then
   begin

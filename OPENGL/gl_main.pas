@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -197,24 +197,24 @@ procedure glEnable2D;
 var
   vPort: array[0..3] of GLInt;
 begin
-   glGetIntegerv(GL_VIEWPORT, @vPort);
+  glGetIntegerv(GL_VIEWPORT, @vPort);
 
-   glMatrixMode(GL_PROJECTION);
-   glPushMatrix();
-   glLoadIdentity();
+  glMatrixMode(GL_PROJECTION);
+  glPushMatrix();
+  glLoadIdentity();
 
-   glOrtho(0, vPort[2], 0, vPort[3], -1, 1);
-   glMatrixMode(GL_MODELVIEW);
-   glPushMatrix();
-   glLoadIdentity();
+  glOrtho(0, vPort[2], 0, vPort[3], -1, 1);
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+  glLoadIdentity();
 end;
 
 procedure glDisable2D;
 begin
-   glMatrixMode(GL_PROJECTION);
-   glPopMatrix();
-   glMatrixMode(GL_MODELVIEW);
-   glPopMatrix();
+  glMatrixMode(GL_PROJECTION);
+  glPopMatrix();
+  glMatrixMode(GL_MODELVIEW);
+  glPopMatrix();
 end;
 
 var
@@ -492,12 +492,12 @@ end;
 procedure GL_InitGraphics;
 var
   WindowClass: TWndClass;
-  dwStyle : DWORD;              // Window styles
-  dwExStyle : DWORD;            // Extended window styles
-  dmScreenSettings : DEVMODE;   // Screen settings (fullscreen, etc...)
-  PixelFormat : GLuint;         // Settings for the OpenGL rendering
-  h_Instance : HINST;           // Current instance
-  pfd : TPIXELFORMATDESCRIPTOR;  // Settings for the OpenGL window
+  dwStyle: DWORD;              // Window styles
+  dwExStyle: DWORD;            // Extended window styles
+  dmScreenSettings: DEVMODE;   // Screen settings (fullscreen, etc...)
+  PixelFormat: GLuint;         // Settings for the OpenGL rendering
+  h_Instance: HINST;           // Current instance
+  pfd: TPIXELFORMATDESCRIPTOR;  // Settings for the OpenGL window
 begin
   printf('GL_InitGraphics: Initializing OpenGL.' + #13#10);
 
@@ -686,7 +686,7 @@ end;
 
 procedure GL_ChangeFullScreen(const full: boolean);
 var
-  dmScreenSettings : DEVMODE;   // Screen settings (fullscreen, etc...)
+  dmScreenSettings: DEVMODE;   // Screen settings (fullscreen, etc...)
 begin
   I_RestoreWindowPos;
   fullscreen := full;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -39,6 +39,8 @@ procedure Info_InitDnLookUp;
 
 procedure Info_ShutDownDnLookUp;
 
+procedure Info_CheckStates;
+
 var
   dnLookUp: PLongWordArray = nil; // JVAL: Doom Editor Number LookUp
 
@@ -48,7 +50,9 @@ const
 implementation
 
 uses
-  info;
+  i_system,
+  info,
+  info_h;
 
 procedure Info_InitDnLookUp;
 begin
@@ -89,6 +93,30 @@ begin
     end;
   end;
   result := -1;
+end;
+
+procedure Info_CheckStates;
+var
+  i: integer;
+  loops: integer;
+  st: Pstate_t;
+begin
+  for i := 0 to numstates - 1 do
+  begin
+    loops := 0;
+    st := @states[i];
+    repeat
+      if st.nextstate = S_NULL then
+        break;
+      st := @states[Ord(st.nextstate)];
+      inc(loops);
+      if loops > $FFFF then
+      begin
+        I_Warning('Info_CheckStates(): State %d has possible infinite loop.'#13#10, [i]);
+        break;
+      end;
+    until st.tics <> 0;
+  end;
 end;
 
 end.

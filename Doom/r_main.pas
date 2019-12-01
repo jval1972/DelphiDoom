@@ -321,8 +321,8 @@ uses
   r_segs,
   r_hires,
   r_camera,
-{$IFNDEF OPENGL}
   r_precalc,
+{$IFNDEF OPENGL}
   r_cache_main,
   r_fake3d,
   r_ripple,
@@ -1586,8 +1586,10 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitTransparency8Tables');
   R_InitTransparency8Tables;
+{$ENDIF}
   printf(#13#10 + 'R_InitPrecalc');
   R_InitPrecalc;
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitWallsCache8');
   R_InitWallsCache8;
   printf(#13#10 + 'R_InitWallsCache32');
@@ -1643,8 +1645,10 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_FreeTransparency8Tables');
   R_FreeTransparency8Tables;
+{$ENDIF}
   printf(#13#10 + 'R_ShutDownPrecalc');
   R_ShutDownPrecalc;
+{$IFNDEF OPENGL}
   printf(#13#10 + 'R_ShutDownWallsCache8');
   R_ShutDownWallsCache8;
   printf(#13#10 + 'R_ShutDownWallsCache32');
@@ -1740,7 +1744,7 @@ begin
   {$ENDIF}
 //******************************
 // JVAL Enabled z axis shift
-  if zaxisshift and ((player.lookdir <> 0) or p_justspawned) and (viewangleoffset = 0) then
+  if zaxisshift and ((player.lookdir16 <> 0) or p_justspawned) and (viewangleoffset = 0) then
   begin
     sblocks := screenblocks;
     if sblocks > 11 then
@@ -1884,8 +1888,23 @@ end;
 //
 
 {$IFNDEF OPENGL}
+var
+  oldlookdir16: integer = MAXINT;
+
+procedure R_Fake3DPrepare(player: Pplayer_t);
+begin
+  if oldlookdir16 = player.lookdir16 then
+    Exit;
+
+  oldlookdir16 := player.lookdir16;
+
+  viewplayer := player;
+  R_ExecuteSetViewSize;
+end;
+
 procedure R_RenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
+  R_Fake3DPrepare(player);
   R_SetupFrame(player);
 
   // Clear buffers.
@@ -1934,8 +1953,9 @@ end;
 
 procedure R_RenderPlayerView32_MultiThread(player: Pplayer_t);
 begin
+  R_Fake3DPrepare(player);
   R_SetupFrame(player);
-  R_CalcHiResTables;
+  R_CalcHiResTables_MultiThread;
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -1980,28 +2000,11 @@ begin
   NetUpdate;
 
 end;
-
-var
-  oldlookdir: integer = MAXLOOKDIR + 1;
-
-procedure R_Fake3DPrepare(player: Pplayer_t);
-begin
-  if oldlookdir = player.lookdir then
-    Exit;
-
-  oldlookdir := player.lookdir;
-
-  viewplayer := player;
-  R_ExecuteSetViewSize;
-end;
-
 {$ENDIF}
 
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
-  R_Fake3DPrepare(player);
-
   if usemultithread then
   begin
     if (videomode = vm8bit) then
@@ -2012,10 +2015,13 @@ begin
   end;
 {$ENDIF}
 
+{$IFNDEF OPENGL}
+  R_Fake3DPrepare(player);
+{$ENDIF}
   R_SetupFrame(player);
 
 {$IFNDEF OPENGL}
-  R_CalcHiResTables;
+  R_CalcHiResTables_SingleThread;
 {$ENDIF}
 
   // Clear buffers.

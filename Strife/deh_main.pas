@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -932,8 +932,6 @@ begin
       end;
 
       state_val := atoi(token2, -1);
-{      if (state_val >= 0) and (state_val < DEHNUMACTIONS) then
-        states[state_no].action.acp1 := deh_actions[state_val].action.acp1;}
       if (state_val >= 0) and (state_val < numstates) then
         states[state_no].action.acp1 := states[state_val].action.acp1;
     end
@@ -1831,6 +1829,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_DONTRUNSCRIPTS');
   mobj_flags2_ex.Add('MF2_EX_PRECISESPAWNANGLE');
   mobj_flags2_ex.Add('MF2_EX_CUSTOMDROPITEM');
+  // JVAL: VERSION204
   mobj_flags2_ex.Add('MF2_EX_CANTLEAVEFLOORPIC');
   mobj_flags2_ex.Add('MF2_EX_JUMPDOWN');
   mobj_flags2_ex.Add('MF2_EX_FULLVOLACTIVE');

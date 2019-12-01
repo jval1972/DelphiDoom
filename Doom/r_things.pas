@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -40,12 +40,10 @@ uses
   m_fixed,
   r_defs;
 
-//const
-// JVAL Note about visprites
-// Now visprites allocated dinamycally using Zone memory
-// (Original MAXVISSPRITES was 128)
-
 var
+  // JVAL Note about visprites
+  // Now visprites allocated dynamically using Zone memory
+  // (Original MAXVISSPRITES was 128)
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
@@ -136,16 +134,6 @@ uses
   z_zone,
   w_wad,
   doomstat;
-
-type
-  maskdraw_t = record
-    x1: integer;
-    x2: integer;
-    column: integer;
-    topclip: integer;
-    bottomclip: integer;
-  end;
-  Pmaskdraw_t = ^maskdraw_t;
 
 //
 // Sprite rotation 0 is facing the viewer,

@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-geom 1920x1080 -nofullscreen -iwad doom2.wad sunder.wad
+RunParams=-nofullscreen -fullhd -iwad doomu.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=713
+Build=714
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=2.0.4.713
+FileVersion=2.0.4.714
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2018, Jim Valavanis
 LegalTrademarks=

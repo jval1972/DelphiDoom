@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -40,24 +40,18 @@ uses
 
 var
 // Game Mode - identify IWAD as shareware, retail etc.
-  gamemode: GameMode_t;
-
-// Language.
-  language: Language_t;
-
+  gamemode: GameMode_t = indetermined;
   customgame: CustomGame_t = cg_none;
 
+// Language.
+  language: Language_t = english;
+
 // Set if homebrew PWAD stuff has been added.
-  modifiedgame : boolean;
+  modifiedgame: boolean = false;
   externalpakspresent: boolean = false;
   externaldehspresent: boolean = false;
 
 implementation
-
-initialization
-  gamemode := indetermined;
-  language := english;
-  modifiedgame := false;
 
 end.
 

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -100,6 +100,7 @@ implementation
 uses
   c_cmds,
   doomdef,
+  d_net,
   d_main,
   d_items,
   d_englsh,
@@ -874,7 +875,7 @@ begin
       begin
         for j := 1 to Ord(NUMMUSIC) - 1 do // First music is dummy
         begin
-          stmp := strupper(S_music[j].name);
+          stmp := DEH_StringValue(S_music[j].name);
           if stmp = token1 then
           begin
             foundtext := true;
@@ -897,7 +898,7 @@ begin
       end;
 
       if not foundtext then
-        I_Warning('DEH_Parse(): Can not find setable text "%s"'#13#10, [settext]);
+        I_Warning('DEH_Parse(): Can not find setable text "%s" - should be changed to "%s"'#13#10, [settext, token2]);
 
     end
 
@@ -942,8 +943,6 @@ begin
       end;
 
       state_val := atoi(token2, -1);
-{      if (state_val >= 0) and (state_val < DEHNUMACTIONS) then
-        states[state_no].action.acp1 := deh_actions[state_val].action.acp1;}
       if (state_val >= 0) and (state_val < numstates) then
         states[state_no].action.acp1 := states[state_val].action.acp1;
     end
@@ -2500,6 +2499,8 @@ begin
     DEH_AddString(@deh_strings, @endmsg[i], 'ENDMSG' + itoa(i));
     DEH_AddString(@deh_strings, @endmsg[i], 'ENDMSG' + IntToStrZFill(2, i));
   end;
+
+  DEH_AddString(@deh_strings, @S_ERR_DIF_NET, 'S_ERR_DIF_NET');
 
   for i := 10 to NUM_QUITMESSAGES do
   begin

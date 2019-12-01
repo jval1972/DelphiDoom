@@ -309,12 +309,11 @@ type
     sm1, sm2: SmallInt;
   end;
 {$ENDIF}
-var
 {$IFNDEF OPENGL}
+var
   vv: integer;
   ff, cc: two_smallints_t;
 {$ENDIF}
-  angle: angle_t;
 begin
 {$IFNDEF OPENGL}
   // opening / clipping determination
@@ -343,13 +342,6 @@ begin
   // texture calculation
   ZeroMemory(@cachedheight, SizeOf(cachedheight));
 {$ENDIF}  // JVAL: 3d Floors
-
-  // left to right mapping
-  {$IFDEF FPC}
-  angle := _SHRW(viewangle - ANG90, ANGLETOFINESHIFT);
-  {$ELSE}
-  angle := (viewangle - ANG90) shr ANGLETOFINESHIFT;
-  {$ENDIF}
 end;
 
 //

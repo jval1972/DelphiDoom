@@ -405,7 +405,7 @@ procedure M_LoadDefaults(const defaultfile: string);
 procedure M_SaveDefaults(const defaultfile: string);
 
 const
-  LAUNCHERVERSION = 'DelphiDoom Launcher version 1.7';
+  LAUNCHERVERSION = 'DelphiDoom Launcher version 1.8';
 
 implementation
 
