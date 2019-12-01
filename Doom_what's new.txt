@@ -18,7 +18,12 @@ R_SortVisSprites now uses quicksort for better performance.
 Added precisescalefromglobalangle console variable, when true uses more precise calculations in software rendering.
 Added MF2_EX_FRIGHTENED mobj flag.
 Added A_SetFrightened and A_UnSetFrightened mobj functions.
-New fake3d algorythm, better 3d emulation and faster.
+New fake3d algorythm, better 3d emulation and faster in software rendering mode.
+Support for voxels in OpenGL rendering mode.
+Added gl_renderwireframe console variable.
+Added vx_maxoptimizerpasscount console variable, indicates how many passes at max the voxel mesh optimizer makes. Default is 0 (=use FastOptimize method for acceptable results and good performance)
+Support for voxels in software rendering mode.
+Added r_drawvoxels and gl_drawvoxels console variables.
 
 Version 1.1.4 build 550 - (18/3/2013)
 -----------------------------------

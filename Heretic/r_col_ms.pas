@@ -148,7 +148,7 @@ var
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, r, g, b: LongWord;
+  c: LongWord;
   lfactor: integer;
   and_mask: integer;
   bf_r: PIntegerArray;

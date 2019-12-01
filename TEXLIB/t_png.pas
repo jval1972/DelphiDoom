@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -1370,7 +1370,7 @@ begin
   begin
     result := Item[Position]; {Returns pointer}
     {Remove item and move memory}
-    Dec(fCount);
+    dec(fCount);
     if Position < Integer(FCount) then
       System.Move(fMemory^[Position + 1], fMemory^[Position],
       (Integer(fCount) - Position) * SizeOf(Pointer));
@@ -5394,11 +5394,11 @@ begin
   for i := 0 to 2 do
   begin
     if ca[i] = 0 then
-      Inc(x00)
+      inc(x00)
     else if ca[i] = $FF then
-      Inc(xFF)
+      inc(xFF)
   end;
-  Result := ((x00 + xFF) = 3) and (xFF > 1);
+  result := ((x00 + xFF) = 3) and (xFF > 1);
 end;
 
 function TPNGTextureManager.LoadImage(stream: TStream): boolean;

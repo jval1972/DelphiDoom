@@ -361,6 +361,7 @@ var
 procedure G_DoInitNew;
 begin
   SV_InitBaseSlot;
+  SV_ClearRebornSlot;
   G_InitNew(TempSkill, TempEpisode, TempMap);
   gameaction := ga_nothing;
 end;
@@ -1814,7 +1815,7 @@ begin
       ga_loadlevel:
         G_DoLoadLevel;
       ga_initnew:
-        G_DoInitNew;
+        G_DoInitNew;            
       ga_newgame:
         G_DoNewGame;
       ga_loadgame:

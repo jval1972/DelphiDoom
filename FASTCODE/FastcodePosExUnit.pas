@@ -122,7 +122,7 @@ asm {299 Bytes}
   cmp     ax, [edx+edi]
   jne     @@MainLoop       {No Match on First 2 Characters}
 @@SetResult:               {Full Match}
-  lea     eax, [edx+edi]   {Calculate and Return Result}
+  lea     eax, [edx+edi]   {Calculate and Return result}
   mov     ebx, [esp]
   mov     edi, [esp+4]
   mov     esi, [esp+8]
@@ -234,7 +234,7 @@ asm {180 Bytes}
   cmp     ax, [edx+edi]
   jne     @@MainLoop       {No Match on First 2 Characters}
 @@SetResult:               {Full Match}
-  lea     eax, [edx+edi]   {Calculate and Return Result}
+  lea     eax, [edx+edi]   {Calculate and Return result}
   pop     edx
   pop     ebp
   pop     esi
@@ -429,14 +429,14 @@ begin;
   p:=pointer(S);
 
   if (p=nil) or (pSub=nil) or (Offset<1) then begin;
-    Result:=0;
+    result:=0;
     goto Exit;
     end;
 
   lenSub:=pinteger(pSub-4)^-1;
   len:=pinteger(p-4)^;
   if (len<lenSub+Offset) or (lenSub<0) then begin;
-    Result:=0;
+    result:=0;
     goto Exit;
     end;
 
@@ -466,7 +466,7 @@ AfterTestT:
   if p<pStop then goto Loop4;
   p:=p-4;
   if p<pStop then goto Loop0;
-  Result:=0;
+  result:=0;
   goto Exit;
 
 Test3: p:=p-2;
@@ -479,7 +479,7 @@ TestT: len:=lenSub;
     until len>=0;
   p:=p+2;
   if p<=pStop then goto Ret;
-  Result:=0;
+  result:=0;
   goto Exit;
 
 Test4: p:=p-2;
@@ -492,7 +492,7 @@ Test0: len:=lenSub;
     until len>=0;
   inc(p);
 Ret:
-  Result:=p-pStart;
+  result:=p-pStart;
 Exit:
 end;
 

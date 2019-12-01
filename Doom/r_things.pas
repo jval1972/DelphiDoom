@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -86,6 +86,21 @@ var
   sprites: Pspritedef_tArray;
   numspritespresent: integer;
 
+procedure R_ShutDownSprites;
+
+const
+  MINZ = FRACUNIT * 4;
+  BASEYCENTER = 100;
+
+function R_NewVisSprite: Pvissprite_t;
+
+var
+  spritelights: PBytePArray;
+
+var
+  clipbot: packed array[0..MAXWIDTH - 1] of smallint;
+  cliptop: packed array[0..MAXWIDTH - 1] of smallint;
+
 implementation
 
 uses
@@ -111,20 +126,17 @@ uses
   r_hires,
   r_lights,
   r_bsp,
+  r_voxels, // JVAL voxel support
+  r_fake3d,
 {$ENDIF}
   z_zone,
   w_wad,
   doomstat;
 
-const
-  MINZ = FRACUNIT * 4;
-  BASEYCENTER = 100;
-
 type
   maskdraw_t = record
     x1: integer;
     x2: integer;
-
     column: integer;
     topclip: integer;
     bottomclip: integer;
@@ -138,8 +150,6 @@ type
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-var
-  spritelights: PBytePArray;
 
 //
 // INITIALIZATION FUNCTIONS
@@ -393,6 +403,11 @@ begin
   end;
   result := vissprites[vissprite_p];
   inc(vissprite_p);
+end;
+
+procedure R_ShutDownSprites;
+begin
+  realloc(pointer(vissprites), visspritessize * SizeOf(Pvissprite_t), 0);
 end;
 
 {$IFNDEF OPENGL}
@@ -834,13 +849,14 @@ begin
       if dc_yl <= mceilingclip[dc_x] then
         dc_yl := mceilingclip[dc_x] + 1;
 
+        if frac < 256 * FRACUNIT then
       if dc_yl <= dc_yh then
         lightcolfunc;
 
       dc_texturemid := basetexturemid;
 
       frac := frac + fracstep;
-      Inc(dc_x);
+      inc(dc_x);
     end;
   end
   else
@@ -883,6 +899,7 @@ begin
         if dc_yl <= mceilingclip[dc_x] then
           dc_yl := mceilingclip[dc_x] + 1;
 
+        if frac < 256 * FRACUNIT then
         if dc_yl <= dc_yh then
         begin
           dc_x := save_dc_x;
@@ -897,7 +914,7 @@ begin
       end;
 
       frac := frac + fracstep;
-      Inc(dc_x);
+      inc(dc_x);
     end;
   end;
 
@@ -937,7 +954,9 @@ var
   heightsec: integer;
   plheightsec: integer;
   gzt: integer;
+  voxelflag: integer;
 {$ENDIF}
+  soffset, swidth: fixed_t;
 begin
   if (thing.player = viewplayer) and not chasecamera then
     exit;
@@ -955,13 +974,21 @@ begin
 
   tz := gxt - gyt;
 
+{$IFNDEF OPENGL}
+  // JVAL voxel support
+  voxelflag := 0;
+  if r_drawvoxels then
+    if thing.state.voxels <> nil then
+      voxelflag := 1;
+{$ENDIF}
+
   // thing is behind view plane?
   {$IFDEF OPENGL}
-  checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and (thing.state.models = nil);
+  checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and (thing.state.models = nil) and (thing.state.voxels = nil);
 
   if checksides then
   {$ENDIF}
-    if tz < MINZ then
+    if tz < MINZ {$IFNDEF OPENGL} - 128 * FRACUNIT * voxelflag {$ENDIF} then
       exit;
 
   xscale := FixedDiv(projection, tz);
@@ -975,6 +1002,8 @@ begin
   // too far off the side?
   {$IFDEF OPENGL}
   if checksides then
+  {$ELSE}
+//  if voxelflag = 0 then
   {$ENDIF}
     if abs(tx) > 4 * tz then
       exit;
@@ -1008,29 +1037,47 @@ begin
     flip := sprframe.flip[0];
   end;
 
-  // calculate edges of the shape
-  tx := tx - spriteoffset[lump];
+  {$IFNDEF OPENGL}
+{  if voxelflag = 1 then
+    soffset := thing.state.voxelradius + FRACUNIT
+  else}
+  {$ENDIF}
+  soffset := spriteoffset[lump];
+  tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
 
   // off the right side?
   {$IFDEF OPENGL}
   if checksides then
+  {$ELSE}
+  if voxelflag = 0 then
   {$ENDIF}
     if x1 > viewwidth then
       exit;
 
-  tx := tx + spritewidth[lump];
+  {$IFNDEF OPENGL}
+{  if voxelflag = 1 then
+    swidth := 2 * soffset // thing.state.voxelradius
+  else}
+  {$ENDIF}
+    swidth := spritewidth[lump];
+    tx := tx + swidth;
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
 
   // off the left side
   {$IFDEF OPENGL}
   if checksides then
+  {$ELSE}
+  if voxelflag = 0 then
   {$ENDIF}
     if x2 < 0 then
       exit;
 
   {$IFNDEF OPENGL}
-  gzt := thing.z + spritetopoffset[lump];
+{  if voxelflag = 1 then
+    gzt := thing.z
+  else          }
+    gzt := thing.z + spritetopoffset[lump];
   heightsec := Psubsector_t(thing.subsector).sector.heightsec;
 
   if heightsec <> -1 then   // only clip things which are in special sectors
@@ -1074,6 +1121,7 @@ begin
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   {$IFNDEF OPENGL}
   vis.heightsec := heightsec;
+  vis.voxelflag := voxelflag;  // JVAL voxel support
   vis.gx := thing.x;
   vis.gy := thing.y;
   vis.gz := thing.z;
@@ -1081,7 +1129,10 @@ begin
   // foot clipping
   vis.footclip := thing.floorclip;
   vis.texturemid := vis.gzt - viewz - vis.footclip * FRACUNIT;
-  vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
+{  if voxelflag = 1 then
+    vis.texturemid2 := thing.z - viewz
+  else      }
+    vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
   if x1 <= 0 then
     vis.x1 := 0
   else
@@ -1094,7 +1145,7 @@ begin
 
   if flip then
   begin
-    vis.startfrac := spritewidth[lump] - 1;
+    vis.startfrac := swidth - 1;
     vis.xiscale := -iscale;
   end
   else
@@ -1387,10 +1438,6 @@ end;
 // R_DrawSprite
 //
 
-var
-  clipbot: packed array[0..MAXWIDTH - 1] of smallint;
-  cliptop: packed array[0..MAXWIDTH - 1] of smallint;
-
 procedure R_DrawSprite(spr: Pvissprite_t);
 var
   ds: Pdrawseg_t;
@@ -1401,15 +1448,16 @@ var
   lowscale: fixed_t;
   silhouette: integer;
   i: integer;
-{$IFNDEF OPENGL}
   h, mh: fixed_t;
   plheightsec: integer;
-{$ENDIF}
 begin
-{  if spr.x2 > viewwidth div 2 then
-    spr.x2 := viewwidth div 2;
-  if spr.x1 > viewwidth div 2 then
-    Exit;}      
+  // JVAL voxel support
+  if spr.voxelflag <> 0 then
+  begin
+    R_DrawVoxel(spr);
+    exit;
+  end;
+
   for x := spr.x1 to spr.x2 do
   begin
     clipbot[x] := -2;
@@ -1498,7 +1546,6 @@ begin
   end;
 
 
-  {$IFNDEF OPENGL}
   // killough 3/27/98:
   // Clip the sprite against deep water and/or fake ceilings.
   // killough 4/9/98: optimize by adding mh
@@ -1560,7 +1607,6 @@ begin
   end;
 
   // killough 3/27/98: end special clipping for deep water / fake ceilings
-  {$ENDIF}
 
   // all clipping has been performed, so draw the sprite
 
@@ -1568,16 +1614,25 @@ begin
   for x := spr.x1 to spr.x2 do
   begin
     if clipbot[x] = -2 then
+      clipbot[x] := fake3dbottomclip // viewheight;
+    else if clipbot[x] > fake3dbottomclip then
+      clipbot[x] := fake3dbottomclip;
+
+    if cliptop[x] = -2 then
+      cliptop[x] := fake3dtopclip // -1;
+    else if cliptop[x] < fake3dtopclip then
+      cliptop[x] := fake3dtopclip;
+{    if clipbot[x] = -2 then
       clipbot[x] := viewheight;
 
     if cliptop[x] = -2 then
-      cliptop[x] := -1;
+      cliptop[x] := -1;}
   end;
 
   mfloorclip := @clipbot;
   mceilingclip := @cliptop;
 
-  R_DrawVisSprite(spr);
+  R_DrawVisSprite(spr)
 end;
 
 procedure R_DrawSpriteLight(spr: Pvissprite_t);
@@ -1694,10 +1749,14 @@ begin
   for x := x1 to x2 do
   begin
     if clipbot[x] = -2 then
-      clipbot[x] := viewheight;
+      clipbot[x] := fake3dbottomclip
+    else if clipbot[x] > fake3dbottomclip then
+      clipbot[x] := fake3dbottomclip;
 
     if cliptop[x] = -2 then
-      cliptop[x] := -1;
+      cliptop[x] := fake3dtopclip 
+    else if cliptop[x] < fake3dtopclip then
+      cliptop[x] := fake3dtopclip;
   end;
 
   mfloorclip := @clipbot;
@@ -1773,4 +1832,5 @@ begin
 end;
 
 end.
+
 

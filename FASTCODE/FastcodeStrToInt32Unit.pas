@@ -92,7 +92,7 @@ asm
   push  esi
   mov   edx, eax            {String Pointer}
   xor   ebx, ebx            {Clear Sign Flag (top bit) and Valid Flag}
-  xor   eax, eax            {Clear Result}
+  xor   eax, eax            {Clear result}
   mov   edi, '0'
   mov   esi, 9
 @@Trim:                     {Strip Leading Spaces}
@@ -109,63 +109,63 @@ asm
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@TestValid         {Not '0'..'9'}
-  mov   eax, ecx            {Result := Digit}
+  mov   eax, ecx            {result := Digit}
 
   movzx ecx, [edx]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
   movzx ecx, [edx+1]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
   movzx ecx, [edx+2]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
   movzx ecx, [edx+3]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
   movzx ecx, [edx+4]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
   movzx ecx, [edx+5]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
   movzx ecx, [edx+6]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
   movzx ecx, [edx+7]
   sub   ecx, edi
   cmp   ecx, esi
   ja    @@CheckDone         {Not '0'..'9'}
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
 
 @@NumLoop:
   movzx ecx, [edx+8]
@@ -176,7 +176,7 @@ asm
   ja    @@Error
   inc   edx
   lea   eax, [eax*4+eax]
-  lea   eax, [eax*2+ecx]    {Result = Result * 10 + Digit}
+  lea   eax, [eax*2+ecx]    {result = result * 10 + Digit}
   jmp   @@NumLoop
 
 @@TestValid:
@@ -186,7 +186,7 @@ asm
   add   ecx, edi            {Last Character = Null Terminator?}
   jnz   @@Error             {No, Error}
   sar   ebx, 31             {Set Each Bit to Top Bit (Sign Flag)}
-  xor   eax, ebx            {Negate Result if Necessary}
+  xor   eax, ebx            {Negate result if Necessary}
   sub   eax, ebx
   pop   esi
   pop   edi
@@ -199,7 +199,7 @@ asm
   jb    @@CheckDone         {No Overflow}
   jne   @@Error             {Overflow}
   test  ebx, ebx            {Sign Flag Set?}
-  js    @@CheckDone         {Yes, Result is Valid (-MaxInt-1)}
+  js    @@CheckDone         {Yes, result is Valid (-MaxInt-1)}
 @@Error:
   pop   esi
   pop   edi
@@ -255,7 +255,7 @@ asm
   cmp   cl, 15
   ja    @@Error             {Not Hex Character}
 @@Hex1:
-  mov   eax, ecx            {Result = Digit}
+  mov   eax, ecx            {result = Digit}
 
   movzx ecx, [edx]
   inc   edx
@@ -270,7 +270,7 @@ asm
   ja    @@Error             {Not Hex Character}
 @@Hex2:
   shl   eax, 4
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
 
   movzx ecx, [edx]
   inc   edx
@@ -285,7 +285,7 @@ asm
   ja    @@Error             {Not Hex Character}
 @@Hex3:
   shl   eax, 4
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
 
   movzx ecx, [edx]
   inc   edx
@@ -300,7 +300,7 @@ asm
   ja    @@Error             {Not Hex Character}
 @@Hex4:
   shl   eax, 4
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
 
   movzx ecx, [edx]
   inc   edx
@@ -315,7 +315,7 @@ asm
   ja    @@Error             {Not Hex Character}
 @@Hex5:
   shl   eax, 4
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
 
   movzx ecx, [edx]
   inc   edx
@@ -330,7 +330,7 @@ asm
   ja    @@Error             {Not Hex Character}
 @@Hex6:
   shl   eax, 4
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
 
   movzx ecx, [edx]
   inc   edx
@@ -345,7 +345,7 @@ asm
   ja    @@Error             {Not Hex Character}
 @@Hex7:
   shl   eax, 4
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
 
   movzx ecx, [edx]
   inc   edx
@@ -360,7 +360,7 @@ asm
   ja    @@Error             {Not Hex Character}
 @@Hex8:
   shl   eax, 4
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
 
 @@HexLoop:
   movzx ecx, [edx]
@@ -381,7 +381,7 @@ asm
   shl   eax, 4              //Using this instead of the above 3 lines wrongly
   jc    @@Error             //  passes validation with S='$200000000000000'
 *)
-  add   eax, ecx            {Result = Result * 16 + Digit}
+  add   eax, ecx            {result = result * 16 + Digit}
   inc   edx
   jmp   @@HexLoop
 end;

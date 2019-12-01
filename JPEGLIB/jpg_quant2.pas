@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -312,10 +312,10 @@ begin
                            [GETJSAMPLE(ptr^.g) shr C1_SHIFT]
          [GETJSAMPLE(ptr^.b) shr C2_SHIFT]);
       { increment, check for overflow and undo increment if so. }
-      Inc(histp^);
+      inc(histp^);
       if (histp^ <= 0) then
-  Dec(histp^);
-      Inc(ptr);
+  dec(histp^);
+      inc(ptr);
     end;
   end;
 end;
@@ -363,7 +363,7 @@ begin
       which := boxp;
       maxc := boxp^.colorcount;
     end;
-    Inc(boxp);
+    inc(boxp);
   end;
   find_biggest_color_pop := which;
 end;
@@ -389,7 +389,7 @@ begin
       which := boxp;
       maxv := boxp^.volume;
     end;
-    Inc(boxp);
+    inc(boxp);
   end;
   find_biggest_volume := which;
 end;
@@ -432,7 +432,7 @@ begin
       boxp.c0min := c0min;
       goto have_c0min;
     end;
-          Inc(histp);
+          inc(histp);
         end;
       end;
  have_c0min:
@@ -449,7 +449,7 @@ begin
       boxp.c0max := c0;
       goto have_c0max;
     end;
-          Inc(histp);
+          inc(histp);
         end;
       end;
  have_c0max:
@@ -466,7 +466,7 @@ begin
       boxp.c1min := c1;
       goto have_c1min;
     end;
-          Inc(histp);
+          inc(histp);
         end;
       end;
  have_c1min:
@@ -483,7 +483,7 @@ begin
             boxp.c1max := c1;
             goto have_c1max;
           end;
-          Inc(histp);
+          inc(histp);
         end;
       end;
  have_c1max:
@@ -500,7 +500,7 @@ begin
             boxp.c2min := c2min;
             goto have_c2min;
           end;
-          Inc(histp, HIST_C2_ELEMS);
+          inc(histp, HIST_C2_ELEMS);
         end;
       end;
  have_c2min:
@@ -517,7 +517,7 @@ begin
             boxp.c2max := c2max;
             goto have_c2max;
           end;
-          Inc(histp, HIST_C2_ELEMS);
+          inc(histp, HIST_C2_ELEMS);
         end;
       end;
  have_c2max:
@@ -544,8 +544,8 @@ begin
       for c2 := c2min to c2max do
       begin
         if (histp^ <> 0) then
-          Inc(ccount);
-        Inc(histp);
+          inc(ccount);
+        inc(histp);
       end;
     end;
   boxp.colorcount := ccount;
@@ -633,7 +633,7 @@ begin
     { Update stats for boxes }
     update_box(cinfo, b1^);
     update_box(cinfo, b2^);
-    Inc(numboxes);
+    inc(numboxes);
   end;
   median_cut := numboxes;
 end;
@@ -674,13 +674,13 @@ begin
       for c2 := c2min to c2max do
       begin
   count := histp^;
-        Inc(histp);
+        inc(histp);
   if (count <> 0) then
         begin
-    Inc(total, count);
-    Inc(c0total, ((c0 shl C0_SHIFT) + ((1 shl C0_SHIFT) shr 1)) * count);
-    Inc(c1total, ((c1 shl C1_SHIFT) + ((1 shl C1_SHIFT) shr 1)) * count);
-    Inc(c2total, ((c2 shl C2_SHIFT) + ((1 shl C2_SHIFT) shr 1)) * count);
+    inc(total, count);
+    inc(c0total, ((c0 shl C0_SHIFT) + ((1 shl C0_SHIFT) shr 1)) * count);
+    inc(c1total, ((c1 shl C1_SHIFT) + ((1 shl C1_SHIFT) shr 1)) * count);
+    inc(c2total, ((c2 shl C2_SHIFT) + ((1 shl C2_SHIFT) shr 1)) * count);
   end;
       end;
     end;
@@ -882,17 +882,17 @@ begin
     if (x < minc1) then
     begin
       tdist := (x - minc1) * C1_SCALE;
-      Inc(min_dist, tdist*tdist);
+      inc(min_dist, tdist*tdist);
       tdist := (x - maxc1) * C1_SCALE;
-      Inc(max_dist, tdist*tdist);
+      inc(max_dist, tdist*tdist);
     end
     else
       if (x > maxc1) then
       begin
         tdist := (x - maxc1) * C1_SCALE;
-        Inc(min_dist, tdist*tdist);
+        inc(min_dist, tdist*tdist);
         tdist := (x - minc1) * C1_SCALE;
-        Inc(max_dist, tdist*tdist);
+        inc(max_dist, tdist*tdist);
       end
       else
       begin
@@ -900,12 +900,12 @@ begin
         if (x <= centerc1) then
         begin
     tdist := (x - maxc1) * C1_SCALE;
-    Inc(max_dist, tdist*tdist);
+    inc(max_dist, tdist*tdist);
         end
         else
         begin
     tdist := (x - minc1) * C1_SCALE;
-    Inc(max_dist, tdist*tdist);
+    inc(max_dist, tdist*tdist);
         end
       end;
 
@@ -913,17 +913,17 @@ begin
     if (x < minc2) then
     begin
       tdist := (x - minc2) * C2_SCALE;
-      Inc(min_dist, tdist*tdist);
+      inc(min_dist, tdist*tdist);
       tdist := (x - maxc2) * C2_SCALE;
-      Inc(max_dist, tdist*tdist);
+      inc(max_dist, tdist*tdist);
     end
     else
       if (x > maxc2) then
       begin
         tdist := (x - maxc2) * C2_SCALE;
-        Inc(min_dist, tdist*tdist);
+        inc(min_dist, tdist*tdist);
         tdist := (x - minc2) * C2_SCALE;
-        Inc(max_dist, tdist*tdist);
+        inc(max_dist, tdist*tdist);
       end
       else
       begin
@@ -931,12 +931,12 @@ begin
         if (x <= centerc2) then
         begin
     tdist := (x - maxc2) * C2_SCALE;
-    Inc(max_dist, tdist*tdist);
+    inc(max_dist, tdist*tdist);
         end
         else
         begin
     tdist := (x - minc2) * C2_SCALE;
-    Inc(max_dist, tdist*tdist);
+    inc(max_dist, tdist*tdist);
         end;
       end;
 
@@ -955,7 +955,7 @@ begin
     if (mindist[i] <= minmaxdist) then
     begin
       colorlist[ncolors] := JSAMPLE(i);
-      Inc(ncolors);
+      inc(ncolors);
     end;
   end;
   find_nearby_colors := ncolors;
@@ -1008,9 +1008,9 @@ begin
     inc0 := (minc0 - GETJSAMPLE(cinfo^.colormap^[0]^[icolor])) * C0_SCALE;
     dist0 := inc0*inc0;
     inc1 := (minc1 - GETJSAMPLE(cinfo^.colormap^[1]^[icolor])) * C1_SCALE;
-    Inc(dist0, inc1*inc1);
+    inc(dist0, inc1*inc1);
     inc2 := (minc2 - GETJSAMPLE(cinfo^.colormap^[2]^[icolor])) * C2_SCALE;
-    Inc(dist0, inc2*inc2);
+    inc(dist0, inc2*inc2);
     { Form the initial difference increments }
     inc0 := inc0 * (2 * STEP_C0) + STEP_C0 * STEP_C0;
     inc1 := inc1 * (2 * STEP_C1) + STEP_C1 * STEP_C1;
@@ -1034,16 +1034,16 @@ begin
       bptr^ := dist2;
       cptr^ := JSAMPLE (icolor);
     end;
-    Inc(dist2, xx2);
-    Inc(xx2, 2 * STEP_C2 * STEP_C2);
-    Inc(bptr);
-    Inc(cptr);
+    inc(dist2, xx2);
+    inc(xx2, 2 * STEP_C2 * STEP_C2);
+    inc(bptr);
+    inc(cptr);
   end;
-  Inc(dist1, xx1);
-  Inc(xx1, 2 * STEP_C1 * STEP_C1);
+  inc(dist1, xx1);
+  inc(xx1, 2 * STEP_C1 * STEP_C1);
       end;
-      Inc(dist0, xx0);
-      Inc(xx0, 2 * STEP_C0 * STEP_C0);
+      inc(dist0, xx0);
+      inc(xx0, 2 * STEP_C0 * STEP_C0);
     end;
   end;
 end;
@@ -1105,8 +1105,8 @@ begin
       for ic2 := 0 to pred(BOX_C2_ELEMS) do
       begin
   cachep^ := histcell (GETJSAMPLE(cptr^) + 1);
-        Inc(cachep);
-        Inc(cptr);
+        inc(cachep);
+        inc(cptr);
       end;
     end;
 end;
@@ -1145,7 +1145,7 @@ begin
       c0 := GETJSAMPLE(inptr^.r) shr C0_SHIFT;
       c1 := GETJSAMPLE(inptr^.g) shr C1_SHIFT;
       c2 := GETJSAMPLE(inptr^.b) shr C2_SHIFT;
-      Inc(inptr);
+      inc(inptr);
       cachep := @(histogram^[c0]^[c1][c2]);
       { If we have not seen this color before, find nearest colormap entry }
       { and update the cache }
@@ -1153,7 +1153,7 @@ begin
   fill_inverse_cmap(cinfo, c0,c1,c2);
       { Now emit the colormap index for this cell }
       outptr^ := JSAMPLE (cachep^ - 1);
-      Inc(outptr);
+      inc(outptr);
     end;
   end;
 end;
@@ -1205,10 +1205,10 @@ begin
     if (cquantize^.on_odd_row) then
     begin
       { work right to left in this row }
-      Inc(inptr, (width-1));     { so point to rightmost pixel }
-      Inc(outptr, width-1);
+      inc(inptr, (width-1));     { so point to rightmost pixel }
+      inc(outptr, width-1);
       dir := -1;
-      Inc(errorptr, (width+1)); { => entry after last column }
+      inc(errorptr, (width+1)); { => entry after last column }
       cquantize^.on_odd_row := FALSE; { flip for next time }
     end
     else
@@ -1233,7 +1233,7 @@ begin
     for col := pred(width) downto 0 do
     begin
       prev_errorptr := errorptr;
-      Inc(errorptr, dir);  { advance errorptr to current column }
+      inc(errorptr, dir);  { advance errorptr to current column }
 
       { curN holds the error propagated from the previous pixel on the
         current line.  Add the error propagated from the previous line
@@ -1257,9 +1257,9 @@ begin
         The maximum error is +- MAXJSAMPLE (or less with error limiting);
         this sets the required size of the range_limit array. }
 
-      Inc(cur.r, GETJSAMPLE(inptr^.r));
-      Inc(cur.g, GETJSAMPLE(inptr^.g));
-      Inc(cur.b, GETJSAMPLE(inptr^.b));
+      inc(cur.r, GETJSAMPLE(inptr^.r));
+      inc(cur.g, GETJSAMPLE(inptr^.g));
+      inc(cur.b, GETJSAMPLE(inptr^.b));
 
       cur.r := GETJSAMPLE(range_limit^[cur.r]);
       cur.g := GETJSAMPLE(range_limit^[cur.g]);
@@ -1279,9 +1279,9 @@ begin
       outptr^ := JSAMPLE (pixcode);
 
       { Compute representation error for this pixel }
-      Dec(cur.r, GETJSAMPLE(colormap0^[pixcode]));
-      Dec(cur.g, GETJSAMPLE(colormap1^[pixcode]));
-      Dec(cur.b, GETJSAMPLE(colormap2^[pixcode]));
+      dec(cur.r, GETJSAMPLE(colormap0^[pixcode]));
+      dec(cur.g, GETJSAMPLE(colormap1^[pixcode]));
+      dec(cur.b, GETJSAMPLE(colormap2^[pixcode]));
 
       { Compute error fractions to be propagated to adjacent pixels.
         Add these into the running sums, and simultaneously shift the
@@ -1289,35 +1289,35 @@ begin
 
       bnexterr := cur.r;  { Process component 0 }
       delta := cur.r * 2;
-      Inc(cur.r, delta);    { form error * 3 }
+      inc(cur.r, delta);    { form error * 3 }
       prev_errorptr^.r := FSERROR (bpreverr.r + cur.r);
-      Inc(cur.r, delta);    { form error * 5 }
+      inc(cur.r, delta);    { form error * 5 }
       bpreverr.r := belowerr.r + cur.r;
       belowerr.r := bnexterr;
-      Inc(cur.r, delta);    { form error * 7 }
+      inc(cur.r, delta);    { form error * 7 }
       bnexterr := cur.g;  { Process component 1 }
       delta := cur.g * 2;
-      Inc(cur.g, delta);    { form error * 3 }
+      inc(cur.g, delta);    { form error * 3 }
       prev_errorptr^.g := FSERROR (bpreverr.g + cur.g);
-      Inc(cur.g, delta);    { form error * 5 }
+      inc(cur.g, delta);    { form error * 5 }
       bpreverr.g := belowerr.g + cur.g;
       belowerr.g := bnexterr;
-      Inc(cur.g, delta);    { form error * 7 }
+      inc(cur.g, delta);    { form error * 7 }
       bnexterr := cur.b;  { Process component 2 }
       delta := cur.b * 2;
-      Inc(cur.b, delta);    { form error * 3 }
+      inc(cur.b, delta);    { form error * 3 }
       prev_errorptr^.b := FSERROR (bpreverr.b + cur.b);
-      Inc(cur.b, delta);    { form error * 5 }
+      inc(cur.b, delta);    { form error * 5 }
       bpreverr.b := belowerr.b + cur.b;
       belowerr.b := bnexterr;
-      Inc(cur.b, delta);    { form error * 7 }
+      inc(cur.b, delta);    { form error * 7 }
 
       { At this point curN contains the 7/16 error value to be propagated
         to the next pixel on the current line, and all the errors for the
         next line have been shifted over.  We are therefore ready to move on.}
 
-      Inc(inptr, dir);    { Advance pixel pointers to next column }
-      Inc(outptr, dir);
+      inc(inptr, dir);    { Advance pixel pointers to next column }
+      inc(outptr, dir);
     end;
     { Post-loop cleanup: we must unload the final error values into the
       final fserrors[] entry.  Note we need not unload belowerrN because
@@ -1358,7 +1358,7 @@ begin
   cquantize := my_cquantize_ptr (cinfo^.cquantize);
   table := error_limit_ptr (cinfo^.mem^.alloc_small
     (j_common_ptr (cinfo), JPOOL_IMAGE, (MAXJSAMPLE*2+1) * SizeOf(int)));
-  { not needed: Inc(table, MAXJSAMPLE);
+  { not needed: inc(table, MAXJSAMPLE);
                 so can index -MAXJSAMPLE .. +MAXJSAMPLE }
   cquantize^.error_limiter := table;
   { Map errors 1:1 up to +- MAXJSAMPLE/16 }
@@ -1367,7 +1367,7 @@ begin
   begin
     table^[inp] := out;
     table^[-inp] := -out;
-    Inc(out);
+    inc(out);
   end;
   { Map errors 1:2 up to +- 3*MAXJSAMPLE/16 }
   inp := STEPSIZE;       { Nomssi: avoid problems with Delphi2 optimizer }
@@ -1375,9 +1375,9 @@ begin
   begin
     table^[inp] := out;
     table^[-inp] := -out;
-    Inc(inp);
+    inc(inp);
     if Odd(inp) then
-      Inc(out);
+      inc(out);
   end;
   { Clamp the rest to final out value (which is (MAXJSAMPLE+1)/8) }
   inp := STEPSIZE*3;     { Nomssi: avoid problems with Delphi 2 optimizer }
@@ -1385,7 +1385,7 @@ begin
   begin
     table^[inp] := out;
     table^[-inp] := -out;
-    Inc(inp);
+    inc(inp);
   end;
 end;
 

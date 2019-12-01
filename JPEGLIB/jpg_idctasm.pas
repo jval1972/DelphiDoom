@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -283,9 +283,9 @@ asm
   mov  DWORD PTR [ecx+ wrkDCTSIZE*6], eax
   mov  DWORD PTR [ecx+ wrkDCTSIZE*7], eax
 
-      {Inc(JCOEF_PTR(inptr));    { advance pointers to next column }
-      {Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-      Inc(int_ptr(wsptr));
+      {inc(JCOEF_PTR(inptr));    { advance pointers to next column }
+      {inc(ISLOW_MULT_TYPE_PTR(quantptr));
+      inc(int_ptr(wsptr));
       continue;}
   dec  ctr
   je  @loop519
@@ -412,23 +412,23 @@ asm
   imul eax, FIX_1_175875602                   { eax = z5 }
 
     {z4 := (z4) * INT32(- FIX_0_390180644); { sqrt(2) * (c5-c3) }
-    {Inc(z4, z5);}
+    {inc(z4, z5);}
   imul   ebx, (-FIX_0_390180644)
   add    ebx, eax
   mov    z4, ebx
 
     {z3 := (z3) * INT32(- FIX_1_961570560); { sqrt(2) * (-c3-c5) }
-    {Inc(z3, z5);}
+    {inc(z3, z5);}
   imul edx, (-FIX_1_961570560)
   add  eax, edx                        { z3 = eax }
 
-    {Inc(tmp0, z1 + z3);}
+    {inc(tmp0, z1 + z3);}
   mov   ebx, z1
   add  ebx, eax
   add  tmp0, ebx
 
     {tmp2 := (tmp2) * INT32(FIX_3_072711026); { sqrt(2) * ( c1+c3+c5-c7) }
-    {Inc(tmp2, z2 + z3);}
+    {inc(tmp2, z2 + z3);}
   mov   ebx, tmp2
   imul  ebx, FIX_3_072711026
   mov  edx, z2                        { z2 = edx }
@@ -436,13 +436,13 @@ asm
   add   eax, ebx
   mov  tmp2, eax
 
-    {Inc(tmp1, z2 + z4);}
+    {inc(tmp1, z2 + z4);}
   mov   eax, z4                        { z4 = eax }
   add   edx, eax
   add   tmp1, edx
 
     {tmp3 := (tmp3) * INT32(FIX_1_501321110); { sqrt(2) * ( c1+c3-c5-c7) }
-    {Inc(tmp3, z1 + z4);}
+    {inc(tmp3, z1 + z4);}
   mov  edx, tmp3
   imul  edx, FIX_1_501321110
 
@@ -502,9 +502,9 @@ asm
   sar  eax, CONST_BITS-PASS1_BITS
   mov  DWORD PTR [ecx+wrkDCTSIZE*4], eax
 
-    {Inc(JCOEF_PTR(inptr));    { advance pointers to next column }
-    {Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-    Inc(int_ptr(wsptr));}
+    {inc(JCOEF_PTR(inptr));    { advance pointers to next column }
+    {inc(ISLOW_MULT_TYPE_PTR(quantptr));
+    inc(int_ptr(wsptr));}
   dec  ctr
   je  @loop519
 
@@ -533,7 +533,7 @@ asm
   mov  ebx, output_buf
   mov  edi, DWORD PTR [ebx+eax*4]           { 4 = SizeOf(pointer) }
 
-    {Inc(JSAMPLE_PTR(outptr), output_col);}
+    {inc(JSAMPLE_PTR(outptr), output_col);}
   add  edi, output_col
 
     { Rows of zeroes can be exploited in the same way as we did with columns.
@@ -582,7 +582,7 @@ asm
   stosw
   stosw
 
-      {Inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
+      {inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
       {continue;}
   add esi, wrkDCTSIZE
   inc  ctr
@@ -681,16 +681,16 @@ asm
   imul eax, (-FIX_0_390180644)                { z4 = eax }
 
     {z5 := (z3 + z4) * INT32(FIX_1_175875602); { sqrt(2) * c3 }
-    {Inc(z3, z5);}
+    {inc(z3, z5);}
   imul ebx, FIX_1_175875602
   mov  ecx, z3
   add  ecx, ebx                                { ecx = z3 }
 
-    {Inc(z4, z5);}
+    {inc(z4, z5);}
   add ebx, eax                                 { z4 = ebx }
 
     {tmp0 := (tmp0) * INT32(FIX_0_298631336); { sqrt(2) * (-c1+c3+c5-c7) }
-    {Inc(tmp0, z1 + z3);}
+    {inc(tmp0, z1 + z3);}
   mov   eax, DWORD PTR [esi+4*7]
   imul  eax, FIX_0_298631336
   add   eax, edx
@@ -698,7 +698,7 @@ asm
   mov  tmp0, eax
 
     {tmp1 := (tmp1) * INT32(FIX_2_053119869); { sqrt(2) * ( c1+c3-c5+c7) }
-    {Inc(tmp1, z2 + z4);}
+    {inc(tmp1, z2 + z4);}
   mov  eax, DWORD PTR [esi+4*5]
   imul eax, FIX_2_053119869
   add  eax, z2
@@ -706,14 +706,14 @@ asm
   mov  tmp1, eax
 
     {tmp2 := (tmp2) * INT32(FIX_3_072711026); { sqrt(2) * ( c1+c3+c5-c7) }
-    {Inc(tmp2, z2 + z3);}
+    {inc(tmp2, z2 + z3);}
   mov  eax, DWORD PTR [esi+4*3]
   imul  eax, FIX_3_072711026
   add   eax, z2
   add   ecx, eax                      { ecx = tmp2 }
 
     {tmp3 := (tmp3) * INT32(FIX_1_501321110); { sqrt(2) * ( c1+c3-c5-c7) }
-    {Inc(tmp3, z1 + z4);}
+    {inc(tmp3, z1 + z4);}
   mov  eax, DWORD PTR [esi+4*1]
   imul  eax, FIX_1_501321110
   add   eax, edx
@@ -798,7 +798,7 @@ asm
   mov  al, BYTE PTR [ebx+eax]
   mov   [edi+4], al
 
-    {Inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
+    {inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
   add  esi, wrkDCTSIZE
   add  edi, DCTSIZE
 

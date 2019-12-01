@@ -1,0 +1,329 @@
+object Form1: TForm1
+  Left = 853
+  Height = 505
+  Top = 17
+  Width = 1000
+  Caption = 'MD2 MODELDEF GENERATOR'
+  ClientHeight = 505
+  ClientWidth = 1000
+  OnCreate = FormCreate
+  Position = poScreenCenter
+  LCLVersion = '0.9.30'
+  object Panel1: TPanel
+    Left = 0
+    Height = 505
+    Top = 0
+    Width = 258
+    Align = alLeft
+    Caption = ' '
+    ClientHeight = 505
+    ClientWidth = 258
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 135
+      Height = 21
+      Top = 14
+      Width = 80
+      TabOrder = 0
+      Text = 'Edit1'
+    end
+    object Edit2: TEdit
+      Left = 136
+      Height = 21
+      Top = 45
+      Width = 80
+      TabOrder = 1
+      Text = 'Edit2'
+    end
+    object Edit3: TEdit
+      Left = 136
+      Height = 21
+      Top = 73
+      Width = 80
+      TabOrder = 2
+      Text = 'Edit3'
+    end
+    object Edit4: TEdit
+      Left = 135
+      Height = 21
+      Top = 102
+      Width = 49
+      TabOrder = 3
+      Text = 'Edit4'
+    end
+    object Label1: TLabel
+      Left = 33
+      Height = 14
+      Top = 21
+      Width = 43
+      Caption = 'MD2 file:'
+      FocusControl = Edit1
+      ParentColor = False
+    end
+    object Label2: TLabel
+      Left = 32
+      Height = 14
+      Top = 52
+      Width = 43
+      Caption = 'Texture:'
+      FocusControl = Edit2
+      ParentColor = False
+    end
+    object Label3: TLabel
+      Left = 33
+      Height = 14
+      Top = 80
+      Width = 65
+      Caption = 'State prefix: '
+      ParentColor = False
+    end
+    object Label4: TLabel
+      Left = 40
+      Height = 14
+      Top = 109
+      Width = 76
+      Caption = 'Spawn frames: '
+      ParentColor = False
+    end
+    object Edit5: TEdit
+      Left = 197
+      Height = 21
+      Top = 103
+      Width = 43
+      TabOrder = 4
+      Text = 'Edit5'
+    end
+    object Edit6: TEdit
+      Left = 135
+      Height = 21
+      Top = 130
+      Width = 49
+      TabOrder = 5
+      Text = 'Edit4'
+    end
+    object Label5: TLabel
+      Left = 40
+      Height = 14
+      Top = 138
+      Width = 62
+      Caption = 'See frames: '
+      ParentColor = False
+    end
+    object Edit7: TEdit
+      Left = 197
+      Height = 21
+      Top = 131
+      Width = 43
+      TabOrder = 6
+      Text = 'Edit5'
+    end
+    object Edit8: TEdit
+      Left = 133
+      Height = 21
+      Top = 160
+      Width = 49
+      TabOrder = 7
+      Text = 'Edit4'
+    end
+    object Label6: TLabel
+      Left = 40
+      Height = 14
+      Top = 168
+      Width = 72
+      Caption = 'Melee frames: '
+      ParentColor = False
+    end
+    object Edit9: TEdit
+      Left = 195
+      Height = 21
+      Top = 161
+      Width = 43
+      TabOrder = 8
+      Text = 'Edit5'
+    end
+    object Edit10: TEdit
+      Left = 133
+      Height = 21
+      Top = 192
+      Width = 49
+      TabOrder = 9
+      Text = 'Edit4'
+    end
+    object Label7: TLabel
+      Left = 40
+      Height = 14
+      Top = 200
+      Width = 74
+      Caption = 'Missile frames: '
+      ParentColor = False
+      OnClick = Label7Click
+    end
+    object Edit11: TEdit
+      Left = 195
+      Height = 21
+      Top = 193
+      Width = 43
+      TabOrder = 10
+      Text = 'Edit5'
+    end
+    object Edit12: TEdit
+      Left = 133
+      Height = 21
+      Top = 224
+      Width = 49
+      TabOrder = 11
+      Text = 'Edit4'
+    end
+    object Label8: TLabel
+      Left = 40
+      Height = 14
+      Top = 232
+      Width = 64
+      Caption = 'Pain frames: '
+      ParentColor = False
+    end
+    object Edit13: TEdit
+      Left = 195
+      Height = 21
+      Top = 225
+      Width = 43
+      TabOrder = 12
+      Text = 'Edit5'
+    end
+    object Edit14: TEdit
+      Left = 133
+      Height = 21
+      Top = 256
+      Width = 49
+      TabOrder = 13
+      Text = 'Edit4'
+    end
+    object Label9: TLabel
+      Left = 40
+      Height = 14
+      Top = 264
+      Width = 83
+      Caption = 'Interact frames: '
+      ParentColor = False
+    end
+    object Edit15: TEdit
+      Left = 195
+      Height = 21
+      Top = 257
+      Width = 43
+      TabOrder = 14
+      Text = 'Edit5'
+    end
+    object Edit16: TEdit
+      Left = 133
+      Height = 21
+      Top = 288
+      Width = 49
+      TabOrder = 15
+      Text = 'Edit4'
+    end
+    object Label10: TLabel
+      Left = 40
+      Height = 14
+      Top = 296
+      Width = 73
+      Caption = 'Death frames: '
+      ParentColor = False
+    end
+    object Edit17: TEdit
+      Left = 195
+      Height = 21
+      Top = 289
+      Width = 43
+      TabOrder = 16
+      Text = 'Edit5'
+    end
+    object Edit18: TEdit
+      Left = 133
+      Height = 21
+      Top = 320
+      Width = 49
+      TabOrder = 17
+      Text = 'Edit4'
+    end
+    object Label11: TLabel
+      Left = 40
+      Height = 14
+      Top = 328
+      Width = 79
+      Caption = 'xDeath frames: '
+      ParentColor = False
+    end
+    object Edit19: TEdit
+      Left = 195
+      Height = 21
+      Top = 321
+      Width = 43
+      TabOrder = 18
+      Text = 'Edit5'
+    end
+    object Edit20: TEdit
+      Left = 133
+      Height = 21
+      Top = 352
+      Width = 49
+      TabOrder = 19
+      Text = 'Edit4'
+    end
+    object Label12: TLabel
+      Left = 40
+      Height = 14
+      Top = 360
+      Width = 70
+      Caption = 'Raise frames: '
+      ParentColor = False
+      OnClick = Label12Click
+    end
+    object Edit21: TEdit
+      Left = 195
+      Height = 21
+      Top = 353
+      Width = 43
+      TabOrder = 20
+      Text = 'Edit5'
+    end
+    object Button1: TButton
+      Left = 72
+      Height = 25
+      Top = 384
+      Width = 168
+      Caption = 'Generate MODELDEF >>'
+      OnClick = Button1Click
+      TabOrder = 21
+    end
+    object Button2: TButton
+      Left = 72
+      Height = 25
+      Top = 418
+      Width = 75
+      Caption = 'Clear'
+      OnClick = Button2Click
+      TabOrder = 22
+    end
+  end
+  object Panel2: TPanel
+    Left = 258
+    Height = 505
+    Top = 0
+    Width = 742
+    Align = alClient
+    Caption = ' '
+    ClientHeight = 505
+    ClientWidth = 742
+    TabOrder = 1
+    object Memo1: TMemo
+      Left = 1
+      Height = 503
+      Top = 1
+      Width = 740
+      Align = alClient
+      ScrollBars = ssBoth
+      TabOrder = 0
+    end
+  end
+end

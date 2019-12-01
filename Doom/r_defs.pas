@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -39,7 +39,7 @@ uses
 // Screenwidth.
 {$IFNDEF OPENGL}
   t_main,
-{$ENDIF}  
+{$ENDIF}
 // Some more or less basic data types
 // we depend on.
   m_fixed,
@@ -439,8 +439,9 @@ type
     {$ENDIF}
     texturemid: fixed_t;
     {$IFNDEF OPENGL}
-    texturemid2: fixed_t; // JVAL For light boost
-    heightsec: integer; // killough 3/27/98: height sector for underwater/fake ceiling support
+    texturemid2: fixed_t;     // JVAL For light boost
+    heightsec: integer;       // killough 3/27/98: height sector for underwater/fake ceiling support
+    voxelflag: integer;       // JVAL voxel support (1 for sprites, 0 for skipped spites (only light), 1.... for voxels
     {$ENDIF}
     patch: integer;
 
@@ -646,5 +647,6 @@ var
 implementation
 
 end.
+
 
 

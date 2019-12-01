@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -306,7 +306,7 @@ begin
   { Round up the requested size to a multiple of SizeOf(ALIGN_TYPE) }
   odd_bytes := sizeofobject mod SizeOf(ALIGN_TYPE);
   if (odd_bytes > 0) then
-    Inc(sizeofobject, SizeOf(ALIGN_TYPE) - odd_bytes);
+    inc(sizeofobject, SizeOf(ALIGN_TYPE) - odd_bytes);
 
   { See if space is available in any existing pool }
   if (pool_id < 0) or (pool_id >= JPOOL_NUMPOOLS) then
@@ -343,7 +343,7 @@ begin
       if (slop < MIN_SLOP) then   { give up when it gets real small }
   out_of_memory(cinfo, 2);  { jpeg_get_small failed }
     end;
-    Inc(mem^.total_space_allocated, min_request + slop);
+    inc(mem^.total_space_allocated, min_request + slop);
     { Success, initialize the new pool header and add to end of list }
     hdr_ptr^.hdr.next := nil;
     hdr_ptr^.hdr.bytes_used := 0;
@@ -356,10 +356,10 @@ begin
 
   { OK, allocate the object from the current pool }
   data_ptr := byteptr (hdr_ptr);
-  Inc(small_pool_ptr(data_ptr));  { point to first data byte in pool }
-  Inc(data_ptr, hdr_ptr^.hdr.bytes_used); { point to place for object }
-  Inc(hdr_ptr^.hdr.bytes_used, sizeofobject);
-  Dec(hdr_ptr^.hdr.bytes_left, sizeofobject);
+  inc(small_pool_ptr(data_ptr));  { point to first data byte in pool }
+  inc(data_ptr, hdr_ptr^.hdr.bytes_used); { point to place for object }
+  inc(hdr_ptr^.hdr.bytes_used, sizeofobject);
+  dec(hdr_ptr^.hdr.bytes_left, sizeofobject);
 
   alloc_small := pointer(data_ptr);
 end;
@@ -397,7 +397,7 @@ begin
   { Round up the requested size to a multiple of SizeOf(ALIGN_TYPE) }
   odd_bytes := sizeofobject mod SizeOf(ALIGN_TYPE);
   if (odd_bytes > 0) then
-    Inc(sizeofobject, SizeOf(ALIGN_TYPE) - odd_bytes);
+    inc(sizeofobject, SizeOf(ALIGN_TYPE) - odd_bytes);
 
   { Always make a new pool }
   if (pool_id < 0) or (pool_id >= JPOOL_NUMPOOLS) then
@@ -407,7 +407,7 @@ begin
               SizeOf(large_pool_hdr)));
   if (hdr_ptr = nil) then
     out_of_memory(cinfo, 4);  { jpeg_get_large failed }
-  Inc(mem^.total_space_allocated, sizeofobject + SizeOf(large_pool_hdr));
+  inc(mem^.total_space_allocated, sizeofobject + SizeOf(large_pool_hdr));
 
   { Success, initialize the new pool header and add to list }
   hdr_ptr^.hdr.next := mem^.large_list[pool_id];
@@ -420,7 +420,7 @@ begin
 
   {alloc_large := pointerFAR (hdr_ptr + 1); - point to first data byte in pool }
   dest_ptr := hdr_ptr;
-  Inc(large_pool_ptr(dest_ptr));
+  inc(large_pool_ptr(dest_ptr));
   alloc_large := dest_ptr;
 end;
 
@@ -478,8 +478,8 @@ begin
     for i := pred(rowsperchunk) downto 0 do
     begin
       the_result^[currow] := workspace;
-      Inc(currow);
-      Inc(JSAMPLE_PTR(workspace), samplesperrow);
+      inc(currow);
+      inc(JSAMPLE_PTR(workspace), samplesperrow);
     end;
   end;
 
@@ -531,8 +531,8 @@ begin
     for i := rowsperchunk downto 1 do
     begin
       the_result^[currow] := workspace;
-      Inc(currow);
-      Inc(JBLOCK_PTR(workspace), blocksperrow);
+      inc(currow);
+      inc(JBLOCK_PTR(workspace), blocksperrow);
     end;
   end;
 
@@ -660,9 +660,9 @@ begin
   begin
     if (sptr^.mem_buffer = nil) then
     begin { if not realized yet }
-      Inc(space_per_minheight, long(sptr^.maxaccess) *
+      inc(space_per_minheight, long(sptr^.maxaccess) *
            long(sptr^.samplesperrow) * SizeOf(JSAMPLE));
-      Inc(maximum_space, long(sptr^.rows_in_array) *
+      inc(maximum_space, long(sptr^.rows_in_array) *
            long(sptr^.samplesperrow) * SizeOf(JSAMPLE));
     end;
     sptr := sptr^.next;
@@ -672,9 +672,9 @@ begin
   begin
     if (bptr^.mem_buffer = nil) then
     begin { if not realized yet }
-      Inc(space_per_minheight, long(bptr^.maxaccess) *
+      inc(space_per_minheight, long(bptr^.maxaccess) *
            long(bptr^.blocksperrow) * SizeOf(JBLOCK));
-      Inc(maximum_space, long(bptr^.rows_in_array) *
+      inc(maximum_space, long(bptr^.rows_in_array) *
            long(bptr^.blocksperrow) * SizeOf(JBLOCK));
     end;
     bptr := bptr^.next;
@@ -815,8 +815,8 @@ begin
                                         @ptr^.b_s_info,
           pointer {FAR} (ptr^.mem_buffer^[i]),
           file_offset, byte_count);
-    Inc(file_offset, byte_count);
-    Inc(i, ptr^.rowsperchunk);
+    inc(file_offset, byte_count);
+    inc(i, ptr^.rowsperchunk);
   end;
 end;
 
@@ -863,8 +863,8 @@ begin
                                         @ptr^.b_s_info,
           {FAR} pointer(ptr^.mem_buffer^[i]),
           file_offset, byte_count);
-    Inc(file_offset, byte_count);
-    Inc(i, ptr^.rowsperchunk);
+    inc(file_offset, byte_count);
+    inc(i, ptr^.rowsperchunk);
   end;
 end;
 
@@ -947,12 +947,12 @@ begin
     if (ptr^.pre_zero) then
     begin
       bytesperrow := size_t(ptr^.samplesperrow) * SizeOf(JSAMPLE);
-      Dec(undef_row, ptr^.cur_start_row); { make indexes relative to buffer }
-      Dec(end_row, ptr^.cur_start_row);
+      dec(undef_row, ptr^.cur_start_row); { make indexes relative to buffer }
+      dec(end_row, ptr^.cur_start_row);
       while (undef_row < end_row) do
       begin
         jzero_far({FAR} pointer(ptr^.mem_buffer^[undef_row]), bytesperrow);
-        Inc(undef_row);
+        inc(undef_row);
       end;
     end
     else
@@ -1051,12 +1051,12 @@ begin
     if (ptr^.pre_zero) then
     begin
       bytesperrow := size_t (ptr^.blocksperrow) * SizeOf(JBLOCK);
-      Dec(undef_row, ptr^.cur_start_row); { make indexes relative to buffer }
-      Dec(end_row, ptr^.cur_start_row);
+      dec(undef_row, ptr^.cur_start_row); { make indexes relative to buffer }
+      dec(end_row, ptr^.cur_start_row);
       while (undef_row < end_row) do
       begin
         jzero_far({FAR}pointer(ptr^.mem_buffer^[undef_row]), bytesperrow);
-        Inc(undef_row);
+        inc(undef_row);
       end;
     end
     else
@@ -1137,7 +1137,7 @@ begin
       lhdr_ptr^.hdr.bytes_left +
       SizeOf(large_pool_hdr);
     jpeg_free_large(cinfo, {FAR} pointer(lhdr_ptr), space_freed);
-    Dec(mem^.total_space_allocated, space_freed);
+    dec(mem^.total_space_allocated, space_freed);
     lhdr_ptr := next_lhdr_ptr;
   end;
 
@@ -1152,7 +1152,7 @@ begin
       shdr_ptr^.hdr.bytes_left +
       SizeOf(small_pool_hdr);
     jpeg_free_small(cinfo, pointer(shdr_ptr), space_freed);
-    Dec(mem^.total_space_allocated, space_freed);
+    dec(mem^.total_space_allocated, space_freed);
     shdr_ptr := next_shdr_ptr;
   end;
 end;

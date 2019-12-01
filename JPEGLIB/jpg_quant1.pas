@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -251,12 +251,12 @@ begin
   { Compute floor(nc'th root of max_colors). }
   iroot := 1;
   repeat
-    Inc(iroot);
+    inc(iroot);
     temp := iroot;    { set temp = iroot ** nc }
     for i := 1 to pred(nc) do
       temp := temp * iroot;
   until (temp > long(max_colors)); { repeat till iroot exceeds root }
-  Dec(iroot);                   { now iroot = floor(root) }
+  dec(iroot);                   { now iroot = floor(root) }
 
   { Must have at least 2 color values per component }
   if (iroot < 2) then
@@ -289,7 +289,7 @@ begin
       temp := temp * (Ncolors[j]+1);   { done in long arith to avoid oflo }
       if (temp > long(max_colors)) then
   break;                  { won't fit, done with this pass }
-      Inc(Ncolors[j]);    { OK, apply the increment }
+      inc(Ncolors[j]);    { OK, apply the increment }
       total_colors := int(temp);
       changed := TRUE;
     end;
@@ -381,7 +381,7 @@ begin
   for k := 0 to pred(blksize) do
           colormap^[i]^[ptr+k] := JSAMPLE(val);
 
-        Inc(ptr, blkdist);
+        inc(ptr, blkdist);
       end;
     end;
     blkdist := blksize;    { blksize of this color is blkdist of next }
@@ -437,7 +437,7 @@ begin
 
     { adjust colorindex pointers to provide padding at negative indexes. }
     if (pad <> 0) then
-      Inc(JSAMPLE_PTR(cquantize^.colorindex^[i]), MAXJSAMPLE);
+      inc(JSAMPLE_PTR(cquantize^.colorindex^[i]), MAXJSAMPLE);
 
     { in loop, val = index of current output value, }
     { and k = largest j that maps to current val }
@@ -448,7 +448,7 @@ begin
     begin
       while (j > k) do          { advance val if past boundary }
       begin
-        Inc(val);
+        inc(val);
   k := largest_input_value(cinfo, i, val, nci-1);
       end;
       { premultiply so that no multiplication needed in main processing }
@@ -459,7 +459,7 @@ begin
     begin
       help_indexptr := indexptr;
       { adjust the help pointer to avoid negative offsets }
-      Dec(JSAMPLE_PTR(help_indexptr), MAXJSAMPLE);
+      dec(JSAMPLE_PTR(help_indexptr), MAXJSAMPLE);
 
       for j := 1 to MAXJSAMPLE do
       begin
@@ -575,11 +575,11 @@ begin
       pixcode := 0;
       for ci := 0 to pred(nc) do
       begin
-  Inc(pixcode, GETJSAMPLE(colorindex^[ci]^[GETJSAMPLE(ptrin^)]) );
-        Inc(ptrin);
+  inc(pixcode, GETJSAMPLE(colorindex^[ci]^[GETJSAMPLE(ptrin^)]) );
+        inc(ptrin);
       end;
       ptrout^ := JSAMPLE (pixcode);
-      Inc(ptrout);
+      inc(ptrout);
     end;
   end;
 end;
@@ -615,13 +615,13 @@ begin
     for col := pred(width) downto 0 do
     begin
       pixcode  := GETJSAMPLE((colorindex0)^[GETJSAMPLE(ptrin^)]);
-      Inc(ptrin);
-      Inc( pixcode, GETJSAMPLE((colorindex1)^[GETJSAMPLE(ptrin^)]) );
-      Inc(ptrin);
-      Inc( pixcode, GETJSAMPLE((colorindex2)^[GETJSAMPLE(ptrin^)]) );
-      Inc(ptrin);
+      inc(ptrin);
+      inc( pixcode, GETJSAMPLE((colorindex1)^[GETJSAMPLE(ptrin^)]) );
+      inc(ptrin);
+      inc( pixcode, GETJSAMPLE((colorindex2)^[GETJSAMPLE(ptrin^)]) );
+      inc(ptrin);
       ptrout^ := JSAMPLE (pixcode);
-      Inc(ptrout);
+      inc(ptrout);
     end;
   end;
 end;
@@ -670,7 +670,7 @@ begin
       output_ptr := JSAMPLE_PTR(output_buf^[row]);
       colorindex_ci := cquantize^.colorindex^[ci];
       { Nomssi }
-      Dec(JSAMPLE_PTR(colorindex_ci), pad_offset);
+      dec(JSAMPLE_PTR(colorindex_ci), pad_offset);
 
       dither := @(cquantize^.odither[ci]^[row_index]);
       col_index := 0;
@@ -684,11 +684,11 @@ begin
     inputs.  The maximum dither is +- MAXJSAMPLE; this sets the
     required amount of padding. }
 
-  Inc(output_ptr^,
+  inc(output_ptr^,
             colorindex_ci^[GETJSAMPLE(input_ptr^)+ pad_offset +
                                          dither^[col_index]]);
-        Inc(output_ptr);
-  Inc(input_ptr, nc);
+        inc(output_ptr);
+  inc(input_ptr, nc);
   col_index := (col_index + 1) and ODITHER_MASK;
       end;
     end;
@@ -734,9 +734,9 @@ begin
   else
     pad_offset := 0;
 
-  Dec(JSAMPLE_PTR(colorindex0), pad_offset);
-  Dec(JSAMPLE_PTR(colorindex1), pad_offset);
-  Dec(JSAMPLE_PTR(colorindex2), pad_offset);
+  dec(JSAMPLE_PTR(colorindex0), pad_offset);
+  dec(JSAMPLE_PTR(colorindex1), pad_offset);
+  dec(JSAMPLE_PTR(colorindex2), pad_offset);
 
   for row := 0 to pred(num_rows) do
   begin
@@ -753,15 +753,15 @@ begin
     begin
       pixcode := GETJSAMPLE(colorindex0^[GETJSAMPLE(input_ptr^) + pad_offset
                                          + dither0^[col_index]]);
-      Inc(input_ptr);
-      Inc(pixcode, GETJSAMPLE(colorindex1^[GETJSAMPLE(input_ptr^) + pad_offset
+      inc(input_ptr);
+      inc(pixcode, GETJSAMPLE(colorindex1^[GETJSAMPLE(input_ptr^) + pad_offset
                                            + dither1^[col_index]]));
-      Inc(input_ptr);
-      Inc(pixcode, GETJSAMPLE(colorindex2^[GETJSAMPLE(input_ptr^) + pad_offset
+      inc(input_ptr);
+      inc(pixcode, GETJSAMPLE(colorindex2^[GETJSAMPLE(input_ptr^) + pad_offset
                                            + dither2^[col_index]]));
-      Inc(input_ptr);
+      inc(input_ptr);
       output_ptr^ := JSAMPLE (pixcode);
-      Inc(output_ptr);
+      inc(output_ptr);
       col_index := (col_index + 1) and ODITHER_MASK;
     end;
     row_index := (row_index + 1) and ODITHER_MASK;
@@ -817,11 +817,11 @@ begin
       if (cquantize^.on_odd_row) then
       begin
   { work right to left in this row }
-  Inc(input_ptr, (width-1) * nc); { so point to rightmost pixel }
-  Inc(output_ptr, width-1);
+  inc(input_ptr, (width-1) * nc); { so point to rightmost pixel }
+  inc(output_ptr, width-1);
   dir := -1;
   dirnc := -nc;
-  Inc(errorptr, (width+1)); { => entry after last column }
+  inc(errorptr, (width+1)); { => entry after last column }
       end
       else
       begin
@@ -843,7 +843,7 @@ begin
       for col := pred(width) downto 0 do
       begin
         prev_errorptr := errorptr;
-  Inc(errorptr, dir);  { advance errorptr to current column }
+  inc(errorptr, dir);  { advance errorptr to current column }
 
   { cur holds the error propagated from the previous pixel on the
     current line.  Add the error propagated from the previous line
@@ -859,33 +859,33 @@ begin
     The maximum error is +- MAXJSAMPLE; this sets the required size
     of the range_limit array. }
 
-  Inc( cur, GETJSAMPLE(input_ptr^));
+  inc( cur, GETJSAMPLE(input_ptr^));
   cur := GETJSAMPLE(range_limit^[cur]);
   { Select output value, accumulate into output code for this pixel }
   pixcode := GETJSAMPLE(colorindex_ci^[cur]);
-  Inc(output_ptr^, JSAMPLE (pixcode));
+  inc(output_ptr^, JSAMPLE (pixcode));
   { Compute actual representation error at this pixel }
   { Note: we can do this even though we don't have the final }
   { pixel code, because the colormap is orthogonal. }
-  Dec(cur, GETJSAMPLE(colormap_ci^[pixcode]));
+  dec(cur, GETJSAMPLE(colormap_ci^[pixcode]));
   { Compute error fractions to be propagated to adjacent pixels.
     Add these into the running sums, and simultaneously shift the
     next-line error sums left by 1 column. }
 
   bnexterr := cur;
   delta := cur * 2;
-  Inc(cur, delta);        { form error * 3 }
+  inc(cur, delta);        { form error * 3 }
   prev_errorptr^ := FSERROR (bpreverr + cur);
-  Inc(cur, delta);        { form error * 5 }
+  inc(cur, delta);        { form error * 5 }
   bpreverr := belowerr + cur;
   belowerr := bnexterr;
-  Inc(cur, delta);        { form error * 7 }
+  inc(cur, delta);        { form error * 7 }
   { At this point cur contains the 7/16 error value to be propagated
     to the next pixel on the current line, and all the errors for the
     next line have been shifted over. We are therefore ready to move on. }
 
-  Inc(input_ptr, dirnc);  { advance input ptr to next column }
-  Inc(output_ptr, dir);   { advance output ptr to next column }
+  inc(input_ptr, dirnc);  { advance input ptr to next column }
+  inc(output_ptr, dir);   { advance output ptr to next column }
 
       end;
       { Post-loop cleanup: we must unload the final error value into the

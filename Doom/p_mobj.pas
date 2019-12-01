@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -666,7 +666,7 @@ begin
   info := @mobjinfo[_type];
 
   mobj.key := mobjkeycnt;
-  Inc(mobjkeycnt);
+  inc(mobjkeycnt);
   mobj._type := _type;
   mobj.info := info;
   mobj.x := x;
@@ -1185,9 +1185,9 @@ begin
   if source.info.missileheight = 0 then
     th := P_SpawnMobj(source.x, source.y, source.z + 4 * 8 * FRACUNIT, _type)
   else if source.info.missileheight < FRACUNIT div 2 then
-    th := P_SpawnMobj(source.x, source.y, source.z + th.info.missileheight * FRACUNIT, _type)
+    th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight * FRACUNIT, _type)
   else
-    th := P_SpawnMobj(source.x, source.y, source.z + th.info.missileheight, _type);
+    th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight, _type);
 
   A_SeeSound(th, th);
 
@@ -1617,7 +1617,7 @@ begin
     actor.customparams.name := strupper(name);
     actor.customparams.value := value;
     actor.customparams.next := check;
-    Result := actor.customparams;
+    result := actor.customparams;
   end
   else
   begin
@@ -1632,7 +1632,7 @@ var
 begin
   check := strupper(name);
   result := actor.customparams;
-  while Result <> nil do
+  while result <> nil do
   begin
     if result.name = check then
       Exit;

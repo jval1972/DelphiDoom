@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -36,9 +36,7 @@ unit info_h;
 interface
 
 uses
-{$IFDEF OPENGL}
   d_delphi,
-{$ENDIF}
   d_think,
   sc_params;
 
@@ -404,6 +402,10 @@ type
 {$IFDEF OPENGL}
     dlights: TDNumberList;
     models: TDNumberList;
+{$ENDIF}
+    voxels: TDNumberList;
+{$IFNDEF OPENGL}
+    voxelradius: integer;
 {$ENDIF}
     flags_ex: integer;
   end;

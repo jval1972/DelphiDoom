@@ -66,7 +66,7 @@
 {$ENDIF}
 {$ENDIF}
 {$ENDIF}
-     // Lookup pixel from flat texture tile,
+    // Lookup pixel from flat texture tile,
     //  re-index using light/colormap.
     dest^ := ds_colormap[ds_source[spot]];
     inc(dest);

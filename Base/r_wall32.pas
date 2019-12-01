@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -137,7 +137,7 @@ begin
 
   for i := 1 to MAXBATCHWALLS - 1 do
   begin
-    Inc(w);
+    inc(w);
     if w.dc_yh < min_yh then
       min_yh := w.dc_yh;
     if w.dc_yl > max_yl then
@@ -189,7 +189,7 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
-  Inc(w);
+  inc(w);
 
   fracstep2 := w.dc_iscale;
   frac2 := w.dc_texturemid + xx * fracstep2;
@@ -207,7 +207,7 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
-  Inc(w);
+  inc(w);
 
   fracstep3 := w.dc_iscale;
   frac3 := w.dc_texturemid + xx * fracstep3;
@@ -225,7 +225,7 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
-  Inc(w);
+  inc(w);
 
   fracstep4 := w.dc_iscale;
   frac4 := w.dc_texturemid + xx * fracstep4;
@@ -243,7 +243,7 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4);
-  Inc(w);
+  inc(w);
 
   fracstep5 := w.dc_iscale;
   frac5 := w.dc_texturemid + xx * fracstep5;
@@ -261,7 +261,7 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5);
-  Inc(w);
+  inc(w);
 
   fracstep6 := w.dc_iscale;
   frac6 := w.dc_texturemid + xx * fracstep6;
@@ -279,7 +279,7 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6);
-  Inc(w);
+  inc(w);
 
   fracstep7 := w.dc_iscale;
   frac7 := w.dc_texturemid + xx * fracstep7;
@@ -297,7 +297,7 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7);
-  Inc(w);
+  inc(w);
 
   fracstep8 := w.dc_iscale;
   frac8 := w.dc_texturemid + xx * fracstep8;
@@ -1260,7 +1260,7 @@ begin
   R_GrowWallsCache32;
   idx^ := wallcachesize;
   wallcache[wallcachesize].numwalls := 0;
-  Inc(wallcachesize);
+  inc(wallcachesize);
 end;
 
 procedure R_FlashWallColumns32(const idx: PInteger);
@@ -1297,7 +1297,7 @@ begin
       dc_texturemid := w.dc_texturemid;
       dc_lightlevel := w.dc_lightlevel;
       wallcolfunc;
-      Inc(w);
+      inc(w);
     end;
     walls.numwalls := 0;
   end;
@@ -1318,7 +1318,7 @@ begin
   w.dc_iscale := dc_iscale;
   w.dc_texturemid := dc_texturemid;
   w.dc_lightlevel := dc_lightlevel;
-  Inc(walls.numwalls);
+  inc(walls.numwalls);
   if walls.numwalls = MAXBATCHWALLS then
   begin
     if usemultithread then
@@ -1474,11 +1474,11 @@ procedure R_WaitWallsCache32;
   var
     i: integer;
   begin
-    Result := true;
+    result := true;
     for i := 0 to numwallthreads32 - 1 do
     begin
-      Result := Result and wallthreads32[i].CheckJobDone;
-{      if not wallthreads32[i].CheckJobDone then Inc(A[i]);}
+      result := result and wallthreads32[i].CheckJobDone;
+{      if not wallthreads32[i].CheckJobDone then inc(A[i]);}
     end;
   end;
 

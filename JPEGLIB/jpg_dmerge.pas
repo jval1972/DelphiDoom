@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -183,7 +183,7 @@ begin
     { Cb=>G value is scaled-up -0.34414 * x }
     { We also add in ONE_HALF so that need not do it in inner loop }
     upsample^.Cb_g_tab^[i] := (- FIX_0_34414) * x + ONE_HALF;
-    Inc(x);
+    inc(x);
   end;
 end;
 
@@ -242,7 +242,7 @@ begin
     if (num_rows > upsample^.rows_to_go) then
       num_rows := upsample^.rows_to_go;
     { And not more than what the client can accept: }
-    Dec(out_rows_avail, {var} out_row_ctr);
+    dec(out_rows_avail, {var} out_row_ctr);
     if (num_rows > out_rows_avail) then
       num_rows := out_rows_avail;
     { Create output pointer array for upsampler. }
@@ -262,11 +262,11 @@ begin
   end;
 
   { Adjust counts }
-  Inc(out_row_ctr, num_rows);
-  Dec(upsample^.rows_to_go, num_rows);
+  inc(out_row_ctr, num_rows);
+  dec(upsample^.rows_to_go, num_rows);
   { When the buffer is emptied, declare this input row group consumed }
   if (not upsample^.spare_full) then
-    Inc(in_row_group_ctr);
+    inc(in_row_group_ctr);
 end;
 
 
@@ -288,8 +288,8 @@ begin
   upsample^.upmethod (cinfo, input_buf, in_row_group_ctr,
        JSAMPARRAY(@ output_buf^[out_row_ctr]));
   { Adjust counts }
-  Inc(out_row_ctr);
-  Inc(in_row_group_ctr);
+  inc(out_row_ctr);
+  inc(in_row_group_ctr);
 end;
 
 
@@ -340,9 +340,9 @@ begin
   begin
     { Do the chroma part of the calculation }
     cb := GETJSAMPLE(inptr1^);
-    Inc(inptr1);
+    inc(inptr1);
     cr := GETJSAMPLE(inptr2^);
-    Inc(inptr2);
+    inc(inptr2);
     cred := Crrtab^[cr];
     {cgreen := int( RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS) );}
     shift_temp := Cbgtab^[cb] + Crgtab^[cr];
@@ -355,17 +355,17 @@ begin
     cblue := Cbbtab^[cb];
     { Fetch 2 Y values and emit 2 pixels }
     y  := GETJSAMPLE(inptr0^);
-    Inc(inptr0);
+    inc(inptr0);
     outptr^[RGB_RED] :=   range_limit^[y + cred];
     outptr^[RGB_GREEN] := range_limit^[y + cgreen];
     outptr^[RGB_BLUE] :=  range_limit^[y + cblue];
-    Inc(JSAMPLE_PTR(outptr), RGB_PIXELSIZE);
+    inc(JSAMPLE_PTR(outptr), RGB_PIXELSIZE);
     y  := GETJSAMPLE(inptr0^);
-    Inc(inptr0);
+    inc(inptr0);
     outptr^[RGB_RED] :=   range_limit^[y + cred];
     outptr^[RGB_GREEN] := range_limit^[y + cgreen];
     outptr^[RGB_BLUE] :=  range_limit^[y + cblue];
-    Inc(JSAMPLE_PTR(outptr), RGB_PIXELSIZE);
+    inc(JSAMPLE_PTR(outptr), RGB_PIXELSIZE);
   end;
   { If image width is odd, do the last output column separately }
   if Odd(cinfo^.output_width) then
@@ -431,9 +431,9 @@ begin
   begin
     { Do the chroma part of the calculation }
     cb := GETJSAMPLE(inptr1^);
-    Inc(inptr1);
+    inc(inptr1);
     cr := GETJSAMPLE(inptr2^);
-    Inc(inptr2);
+    inc(inptr2);
     cred := Crrtab^[cr];
     {cgreen := int( RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS) );}
     shift_temp := Cbgtab^[cb] + Crgtab^[cr];
@@ -446,29 +446,29 @@ begin
     cblue := Cbbtab^[cb];
     { Fetch 4 Y values and emit 4 pixels }
     y  := GETJSAMPLE(inptr00^);
-    Inc(inptr00);
+    inc(inptr00);
     outptr0^[RGB_RED] :=   range_limit^[y + cred];
     outptr0^[RGB_GREEN] := range_limit^[y + cgreen];
     outptr0^[RGB_BLUE] :=  range_limit^[y + cblue];
-    Inc(JSAMPLE_PTR(outptr0), RGB_PIXELSIZE);
+    inc(JSAMPLE_PTR(outptr0), RGB_PIXELSIZE);
     y  := GETJSAMPLE(inptr00^);
-    Inc(inptr00);
+    inc(inptr00);
     outptr0^[RGB_RED] :=   range_limit^[y + cred];
     outptr0^[RGB_GREEN] := range_limit^[y + cgreen];
     outptr0^[RGB_BLUE] :=  range_limit^[y + cblue];
-    Inc(JSAMPLE_PTR(outptr0), RGB_PIXELSIZE);
+    inc(JSAMPLE_PTR(outptr0), RGB_PIXELSIZE);
     y  := GETJSAMPLE(inptr01^);
-    Inc(inptr01);
+    inc(inptr01);
     outptr1^[RGB_RED] :=   range_limit^[y + cred];
     outptr1^[RGB_GREEN] := range_limit^[y + cgreen];
     outptr1^[RGB_BLUE] :=  range_limit^[y + cblue];
-    Inc(JSAMPLE_PTR(outptr1), RGB_PIXELSIZE);
+    inc(JSAMPLE_PTR(outptr1), RGB_PIXELSIZE);
     y  := GETJSAMPLE(inptr01^);
-    Inc(inptr01);
+    inc(inptr01);
     outptr1^[RGB_RED] :=   range_limit^[y + cred];
     outptr1^[RGB_GREEN] := range_limit^[y + cgreen];
     outptr1^[RGB_BLUE] :=  range_limit^[y + cblue];
-    Inc(JSAMPLE_PTR(outptr1), RGB_PIXELSIZE);
+    inc(JSAMPLE_PTR(outptr1), RGB_PIXELSIZE);
   end;
   { If image width is odd, do the last output column separately }
   if Odd(cinfo^.output_width) then

@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -284,10 +284,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -302,10 +302,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
 
   { Read a byte into variable cinfo^.data_precision.
@@ -324,10 +324,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   cinfo^.data_precision := GETJOCTET(next_input_byte^);
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
 { Read two bytes interpreted as an unsigned 16-bit integer.
   cinfo^.image_height should be declared unsigned int or perhaps INT32. }
@@ -346,10 +346,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   cinfo^.image_height := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -364,10 +364,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( cinfo^.image_height, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( cinfo^.image_height, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
 { Read two bytes interpreted as an unsigned 16-bit integer.
   cinfo^.image_width should be declared unsigned int or perhaps INT32. }
@@ -386,10 +386,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   cinfo^.image_width := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -404,10 +404,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( cinfo^.image_width, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( cinfo^.image_width, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
   { Read a byte into variable cinfo^.num_components.
     If must suspend, return FALSE. }
@@ -425,12 +425,12 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   cinfo^.num_components := GETJOCTET(next_input_byte^);
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
-  Dec(length, 8);
+  dec(length, 8);
 
   {$IFDEF DEBUG}
   TRACEMS4(j_common_ptr(cinfo), 1, JTRC_SOF, cinfo^.unread_marker,
@@ -477,10 +477,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     compptr^.component_id := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     { Read a byte into variable c. If must suspend, return FALSE. }
     { make a byte available.
@@ -497,10 +497,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     c := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     compptr^.h_samp_factor := (c shr 4) and 15;
     compptr^.v_samp_factor := (c      ) and 15;
@@ -521,10 +521,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     compptr^.quant_tbl_no := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     {$IFDEF DEBUG}
     TRACEMS4(j_common_ptr(cinfo), 1, JTRC_SOF_COMPONENT,
@@ -532,7 +532,7 @@ begin
        compptr^.v_samp_factor, compptr^.quant_tbl_no);
     {$ENDIF}
 
-    Inc(compptr);
+    inc(compptr);
   end;
 
   cinfo^.marker^.saw_SOF := TRUE;
@@ -586,10 +586,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -604,10 +604,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
 
   { Read a byte into variable n (Number of components).
@@ -626,10 +626,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   n := GETJOCTET(next_input_byte^);  { Number of components }
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
   {$IFDEF DEBUG}
   TRACEMS1(j_common_ptr(cinfo), 1, JTRC_SOS, n);
@@ -659,10 +659,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     cc := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     { Read a byte into variable c. If must suspend, return FALSE. }
     { make a byte available.
@@ -679,17 +679,17 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     c := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     compptr := jpeg_component_info_ptr(cinfo^.comp_info);
     for ci := 0 to Pred(cinfo^.num_components) do
     begin
       if (cc = compptr^.component_id) then
   goto id_found;
-      Inc(compptr);
+      inc(compptr);
     end;
 
     ERREXIT1(j_common_ptr(cinfo), JERR_BAD_COMPONENT_ID, cc);
@@ -722,10 +722,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   c := GETJOCTET(next_input_byte^);
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
   cinfo^.Ss := c;
 
@@ -744,10 +744,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   c := GETJOCTET(next_input_byte^);
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
   cinfo^.Se := c;
 
@@ -766,10 +766,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   c := GETJOCTET(next_input_byte^);
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
   cinfo^.Ah := (c shr 4) and 15;
   cinfo^.Al := (c     ) and 15;
@@ -783,7 +783,7 @@ begin
   cinfo^.marker^.next_restart_num := 0;
 
   { Count another SOS marker }
-  Inc( cinfo^.input_scan_number );
+  inc( cinfo^.input_scan_number );
 
   { Unload the local copies --- do this only at a restart boundary }
   datasrc^.next_input_byte := next_input_byte;
@@ -824,10 +824,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := uint(GETJOCTET(next_input_byte^)) shl 8;
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -842,12 +842,12 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET(next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET(next_input_byte^));
+  inc( next_input_byte );
 
-  Dec(length, 2);
+  dec(length, 2);
 
   {$IFDEF DEBUG}
   TRACEMS2(j_common_ptr(cinfo), 1, JTRC_MISC_MARKER,
@@ -900,10 +900,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -918,12 +918,12 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
-  Dec(length,  2);
+  dec(length,  2);
 
   while (length > 0) do
   begin
@@ -942,10 +942,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     index := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     { Read a byte into variable val. If must suspend, return FALSE. }
     { make a byte available.
@@ -962,12 +962,12 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     val := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
-    Dec( length, 2);
+    dec( length, 2);
 
     {$IFDEF DEBUG}
     TRACEMS2(j_common_ptr(cinfo), 1, JTRC_DAC, index, val);
@@ -1044,10 +1044,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -1062,12 +1062,12 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
-  Dec(length,  2);
+  dec(length,  2);
 
   while (length > 16) do
   begin
@@ -1086,10 +1086,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     index := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     {$IFDEF DEBUG}
     TRACEMS1(j_common_ptr(cinfo), 1, JTRC_DHT, index);
@@ -1114,15 +1114,15 @@ begin
         next_input_byte := datasrc^.next_input_byte;
         bytes_in_buffer := datasrc^.bytes_in_buffer;
       end;
-      Dec( bytes_in_buffer );
+      dec( bytes_in_buffer );
 
       bits[i] := GETJOCTET(next_input_byte^);
-      Inc(next_input_byte);
+      inc(next_input_byte);
 
-      Inc( count, bits[i] );
+      inc( count, bits[i] );
     end;
 
-    Dec( length, (1 + 16) );
+    dec( length, (1 + 16) );
 
     {$IFDEF DEBUG}
     TRACEMS8(j_common_ptr(cinfo), 2, JTRC_HUFFBITS,
@@ -1156,17 +1156,17 @@ begin
         next_input_byte := datasrc^.next_input_byte;
         bytes_in_buffer := datasrc^.bytes_in_buffer;
       end;
-      Dec( bytes_in_buffer );
+      dec( bytes_in_buffer );
 
       huffval[i] := GETJOCTET(next_input_byte^);
-      Inc(next_input_byte);
+      inc(next_input_byte);
     end;
 
-    Dec( length, count );
+    dec( length, count );
 
     if (index and $10)<>0 then
     begin  { AC table definition }
-      Dec( index, $10 );
+      dec( index, $10 );
       htblptr := @cinfo^.ac_huff_tbl_ptrs[index];
     end
     else
@@ -1229,10 +1229,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -1247,12 +1247,12 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
-  Dec( length, 2 );
+  dec( length, 2 );
 
   while (length > 0) do
   begin
@@ -1271,10 +1271,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     n := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
     prec := n shr 4;
     n := n and $0F;
@@ -1311,10 +1311,10 @@ begin
           next_input_byte := datasrc^.next_input_byte;
           bytes_in_buffer := datasrc^.bytes_in_buffer;
         end;
-        Dec( bytes_in_buffer );
+        dec( bytes_in_buffer );
 
         tmp := (uint( GETJOCTET(next_input_byte^)) shl 8);
-        Inc( next_input_byte );
+        inc( next_input_byte );
         { make a byte available.
           Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
           but we must reload the local copies after a successful fill. }
@@ -1329,10 +1329,10 @@ begin
             next_input_byte := datasrc^.next_input_byte;
             bytes_in_buffer := datasrc^.bytes_in_buffer;
           end;
-          Dec( bytes_in_buffer );
+          dec( bytes_in_buffer );
 
-        Inc( tmp, GETJOCTET( next_input_byte^));
-        Inc( next_input_byte );
+        inc( tmp, GETJOCTET( next_input_byte^));
+        inc( next_input_byte );
 
       end
       else
@@ -1352,10 +1352,10 @@ begin
           next_input_byte := datasrc^.next_input_byte;
           bytes_in_buffer := datasrc^.bytes_in_buffer;
         end;
-        Dec( bytes_in_buffer );
+        dec( bytes_in_buffer );
 
         tmp := GETJOCTET(next_input_byte^);
-        Inc(next_input_byte);
+        inc(next_input_byte);
       end;
 
       { We convert the zigzag-order table to natural array order. }
@@ -1374,13 +1374,13 @@ begin
      quant_ptr^.quantval[i+4], quant_ptr^.quantval[i+5],
      quant_ptr^.quantval[i+6], quant_ptr^.quantval[i+7]);
         {$ENDIF}
-        Inc(i, 8);
+        inc(i, 8);
       end;
     end;
 
-    Dec( length, DCTSIZE2+1 );
+    dec( length, DCTSIZE2+1 );
     if (prec <> 0) then
-      Dec( length, DCTSIZE2 );
+      dec( length, DCTSIZE2 );
   end;
 
   if (length <> 0) then
@@ -1426,10 +1426,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -1444,10 +1444,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
   if (length <> 4) then
     ERREXIT(j_common_ptr(cinfo), JERR_BAD_LENGTH);
@@ -1469,10 +1469,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   tmp := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
     but we must reload the local copies after a successful fill. }
@@ -1487,10 +1487,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-  Inc( tmp, GETJOCTET( next_input_byte^));
-  Inc( next_input_byte );
+  inc( tmp, GETJOCTET( next_input_byte^));
+  inc( next_input_byte );
 
   {$IFDEF DEBUG}
   TRACEMS1(j_common_ptr(cinfo), 1, JTRC_DRI, tmp);
@@ -1567,7 +1567,7 @@ begin
     if (GETJOCTET(data[12]) or GETJOCTET(data[13])) <> 0 then
       TRACEMS2(j_common_ptr(cinfo), 1, JTRC_JFIF_THUMBNAIL,
          GETJOCTET(data[12]), GETJOCTET(data[13]));
-    Dec(totallen, APP0_DATA_LEN);
+    dec(totallen, APP0_DATA_LEN);
     if (totallen <>
   ( INT32(GETJOCTET(data[12])) * INT32(GETJOCTET(data[13])) * INT32(3) )) then
       TRACEMS1(j_common_ptr(cinfo), 1, JTRC_JFIF_BADTHUMBNAILSIZE, int(totallen));
@@ -1686,10 +1686,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-  Inc( next_input_byte );
+  inc( next_input_byte );
 
   { make a byte available.
     Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
@@ -1705,12 +1705,12 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
-  Inc( length, GETJOCTET(next_input_byte^));
-  Inc( next_input_byte );
+  inc( length, GETJOCTET(next_input_byte^));
+  inc( next_input_byte );
 
-  Dec(length, 2);
+  dec(length, 2);
 
   { get the interesting part of the marker data }
   if (length >= APPN_DATA_LEN) then
@@ -1737,13 +1737,13 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     b[i] := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
   end;
 
-  Dec(length, numtoread);
+  dec(length, numtoread);
 
   { process it }
   case (cinfo^.unread_marker) of
@@ -1816,10 +1816,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     length := (uint( GETJOCTET(next_input_byte^)) shl 8);
-    Inc( next_input_byte );
+    inc( next_input_byte );
 
     { make a byte available.
       Note we do *not* do INPUT_SYNC before calling fill_input_buffer,
@@ -1835,12 +1835,12 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
-    Inc( length, GETJOCTET(next_input_byte^));
-    Inc( next_input_byte );
+    inc( length, GETJOCTET(next_input_byte^));
+    inc( next_input_byte );
 
-    Dec(length, 2);
+    dec(length, 2);
     if (length >= 0) then
     begin    { watch out for bogus length word }
       { figure out how much we want to save }
@@ -1861,7 +1861,7 @@ begin
       cur_marker^.data_length := limit;
       { data area is just beyond the jpeg_marker_struct }
       cur_marker^.data := JOCTET_FIELD_PTR(cur_marker);
-      Inc(jpeg_saved_marker_ptr(cur_marker^.data));
+      inc(jpeg_saved_marker_ptr(cur_marker^.data));
       data := cur_marker^.data;
 
       marker^.cur_marker := cur_marker;
@@ -1883,7 +1883,7 @@ begin
     bytes_read := marker^.bytes_read;
     data_length := cur_marker^.data_length;
     data := cur_marker^.data;
-    Inc(data, bytes_read);
+    inc(data, bytes_read);
   end;
 
   while (bytes_read < data_length) do
@@ -1909,10 +1909,10 @@ begin
     while (bytes_read < data_length) and (bytes_in_buffer > 0) do
     begin
       JOCTETPTR(data)^ := next_input_byte^;
-      Inc(JOCTETPTR(data));
-      Inc(next_input_byte);
-      Dec(bytes_in_buffer);
-      Inc(bytes_read);
+      inc(JOCTETPTR(data));
+      inc(next_input_byte);
+      dec(bytes_in_buffer);
+      inc(bytes_read);
     end;
   end;
 
@@ -2002,10 +2002,10 @@ begin
       next_input_byte := datasrc^.next_input_byte;
       bytes_in_buffer := datasrc^.bytes_in_buffer;
     end;
-    Dec( bytes_in_buffer );
+    dec( bytes_in_buffer );
 
     c := GETJOCTET(next_input_byte^);
-    Inc(next_input_byte);
+    inc(next_input_byte);
 
    { Skip any non-FF bytes.
      This may look a bit inefficient, but it will not occur in a valid file.
@@ -2014,7 +2014,7 @@ begin
 
     while (c <> $FF) do
     begin
-      Inc(cinfo^.marker^.discarded_bytes);
+      inc(cinfo^.marker^.discarded_bytes);
       { Unload the local copies --- do this only at a restart boundary }
       datasrc^.next_input_byte := next_input_byte;
       datasrc^.bytes_in_buffer := bytes_in_buffer;
@@ -2034,10 +2034,10 @@ begin
         next_input_byte := datasrc^.next_input_byte;
         bytes_in_buffer := datasrc^.bytes_in_buffer;
       end;
-      Dec( bytes_in_buffer );
+      dec( bytes_in_buffer );
 
       c := GETJOCTET(next_input_byte^);
-      Inc(next_input_byte);
+      inc(next_input_byte);
 
     end;
     { This loop swallows any duplicate FF bytes.  Extra FFs are legal as
@@ -2061,17 +2061,17 @@ begin
         next_input_byte := datasrc^.next_input_byte;
         bytes_in_buffer := datasrc^.bytes_in_buffer;
       end;
-      Dec( bytes_in_buffer );
+      dec( bytes_in_buffer );
 
       c := GETJOCTET(next_input_byte^);
-      Inc(next_input_byte);
+      inc(next_input_byte);
     Until (c <> $FF);
     if (c <> 0) then
       break;      { found a valid marker, exit loop }
     { Reach here if we found a stuffed-zero data sequence (FF/00).
       Discard it and loop back to try again. }
 
-    Inc(cinfo^.marker^.discarded_bytes, 2);
+    inc(cinfo^.marker^.discarded_bytes, 2);
     { Unload the local copies --- do this only at a restart boundary }
     datasrc^.next_input_byte := next_input_byte;
     datasrc^.bytes_in_buffer := bytes_in_buffer;
@@ -2127,10 +2127,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   c := GETJOCTET(next_input_byte^);
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
   { Read a byte into variable c2. If must suspend, return FALSE. }
   { make a byte available.
@@ -2147,10 +2147,10 @@ begin
     next_input_byte := datasrc^.next_input_byte;
     bytes_in_buffer := datasrc^.bytes_in_buffer;
   end;
-  Dec( bytes_in_buffer );
+  dec( bytes_in_buffer );
 
   c2 := GETJOCTET(next_input_byte^);
-  Inc(next_input_byte);
+  inc(next_input_byte);
 
   if (c <> $FF) or (c2 <> int(M_SOI)) then
     ERREXIT2(j_common_ptr(cinfo), JERR_NO_SOI, c, c2);

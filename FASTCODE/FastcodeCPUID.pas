@@ -248,7 +248,7 @@ begin
   CPU.Vendor := High(TVendor);
   while (VendorStr <> VendorIDString[CPU.Vendor]) and
     (CPU.Vendor > Low(TVendor)) do
-    Dec(CPU.Vendor);
+    dec(CPU.Vendor);
 end;
 
 procedure GetCPUFeatures;

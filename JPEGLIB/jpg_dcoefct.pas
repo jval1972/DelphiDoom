@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -241,7 +241,7 @@ begin
         { Don't bother to IDCT an uninteresting component. }
         if (not compptr^.component_needed) then
         begin
-          Inc(blkn, compptr^.MCU_blocks);
+          inc(blkn, compptr^.MCU_blocks);
           continue;
         end;
         inverse_DCT := cinfo^.idct^.inverse_DCT[compptr^.component_index];
@@ -264,11 +264,11 @@ begin
               inverse_DCT (cinfo, compptr,
                JCOEFPTR(coef^.MCU_buffer[blkn+xindex]),
                output_ptr, output_col);
-              Inc(output_col, compptr^.DCT_scaled_size);
+              inc(output_col, compptr^.DCT_scaled_size);
             end;
           end;
-          Inc(blkn, compptr^.MCU_width);
-          Inc(JSAMPROW_PTR(output_ptr), compptr^.DCT_scaled_size);
+          inc(blkn, compptr^.MCU_width);
+          inc(JSAMPROW_PTR(output_ptr), compptr^.DCT_scaled_size);
         end;
       end;
     end;
@@ -276,9 +276,9 @@ begin
     coef^.MCU_ctr := 0;
   end;
   { Completed the iMCU row, advance counters for next one }
-  Inc(cinfo^.output_iMCU_row);
+  inc(cinfo^.output_iMCU_row);
 
-  Inc(cinfo^.input_iMCU_row);
+  inc(cinfo^.input_iMCU_row);
   if (cinfo^.input_iMCU_row < cinfo^.total_iMCU_rows) then
   begin
     start_iMCU_row(cinfo);
@@ -350,8 +350,8 @@ begin
           for xindex := 0 to pred(compptr^.MCU_width) do
           begin
             coef^.MCU_buffer[blkn] := buffer_ptr;
-            Inc(blkn);
-            Inc(JBLOCK_PTR(buffer_ptr));
+            inc(blkn);
+            inc(JBLOCK_PTR(buffer_ptr));
           end;
         end;
       end;
@@ -369,7 +369,7 @@ begin
     coef^.MCU_ctr := 0;
   end;
   { Completed the iMCU row, advance counters for next one }
-  Inc(cinfo^.input_iMCU_row);
+  inc(cinfo^.input_iMCU_row);
   if (cinfo^.input_iMCU_row < cinfo^.total_iMCU_rows) then
   begin
     start_iMCU_row(cinfo);
@@ -451,15 +451,15 @@ begin
       begin
         inverse_DCT (cinfo, compptr, JCOEFPTR (buffer_ptr),
             output_ptr, output_col);
-        Inc(JBLOCK_PTR(buffer_ptr));
-        Inc(output_col, compptr^.DCT_scaled_size);
+        inc(JBLOCK_PTR(buffer_ptr));
+        inc(output_col, compptr^.DCT_scaled_size);
       end;
-      Inc(JSAMPROW_PTR(output_ptr), compptr^.DCT_scaled_size);
+      inc(JSAMPROW_PTR(output_ptr), compptr^.DCT_scaled_size);
     end;
-    Inc(compptr);
+    inc(compptr);
   end;
 
-  Inc(cinfo^.output_iMCU_row);
+  inc(cinfo^.output_iMCU_row);
   if (cinfo^.output_iMCU_row < cinfo^.total_iMCU_rows) then
   begin
     decompress_data := JPEG_ROW_COMPLETED;
@@ -556,8 +556,8 @@ begin
       if (coef_bits^[coefi] <> 0) then
   smoothing_useful := TRUE;
     end;
-    Inc(coef_bits_latch {SAVED_COEFS});
-    Inc(compptr);
+    inc(coef_bits_latch {SAVED_COEFS});
+    inc(compptr);
   end;
 
   smoothing_ok := smoothing_useful;
@@ -644,12 +644,12 @@ begin
     { Align the virtual buffer for this component. }
     if (cinfo^.output_iMCU_row > 0) then
     begin
-      Inc(access_rows, compptr^.v_samp_factor); { prior iMCU row too }
+      inc(access_rows, compptr^.v_samp_factor); { prior iMCU row too }
       buffer := cinfo^.mem^.access_virt_barray
         (j_common_ptr (cinfo), coef^.whole_image[ci],
         (cinfo^.output_iMCU_row - 1) * compptr^.v_samp_factor,
          JDIMENSION (access_rows), FALSE);
-      Inc(JBLOCKROW_PTR(buffer), compptr^.v_samp_factor); { point to current iMCU row }
+      inc(JBLOCKROW_PTR(buffer), compptr^.v_samp_factor); { point to current iMCU row }
       first_row := FALSE;
     end
     else
@@ -661,7 +661,7 @@ begin
     end;
     { Fetch component-dependent info }
     coef_bits := coef^.coef_bits_latch;
-    Inc(coef_bits,  ci);                        { ci * SAVED_COEFS}
+    inc(coef_bits,  ci);                        { ci * SAVED_COEFS}
     quanttbl := compptr^.quant_table;
     Q00 := quanttbl^.quantval[0];
     Q01 := quanttbl^.quantval[Q01_POS];
@@ -822,17 +822,17 @@ begin
         DC5 := DC6;
         DC7 := DC8;
         DC8 := DC9;
-        Inc(JBLOCK_PTR(buffer_ptr));
-        Inc(JBLOCK_PTR(prev_block_row));
-        Inc(JBLOCK_PTR(next_block_row));
-        Inc(output_col, compptr^.DCT_scaled_size);
+        inc(JBLOCK_PTR(buffer_ptr));
+        inc(JBLOCK_PTR(prev_block_row));
+        inc(JBLOCK_PTR(next_block_row));
+        inc(output_col, compptr^.DCT_scaled_size);
       end;
-      Inc(JSAMPROW_PTR(output_ptr), compptr^.DCT_scaled_size);
+      inc(JSAMPROW_PTR(output_ptr), compptr^.DCT_scaled_size);
     end;
-    Inc(compptr);
+    inc(compptr);
   end;
 
-  Inc(cinfo^.output_iMCU_row);
+  inc(cinfo^.output_iMCU_row);
   if (cinfo^.output_iMCU_row < cinfo^.total_iMCU_rows) then
   begin
     decompress_smooth_data := JPEG_ROW_COMPLETED;
@@ -894,7 +894,7 @@ begin
    JDIMENSION (jround_up( long(compptr^.height_in_blocks),
         long(compptr^.v_samp_factor) )),
    JDIMENSION (access_rows));
-      Inc(compptr);
+      inc(compptr);
     end;
     coef^.pub.consume_data := consume_data;
     coef^.pub.decompress_data := decompress_data;
@@ -913,7 +913,7 @@ begin
     for i := 0 to pred(D_MAX_BLOCKS_IN_MCU) do
     begin
       coef^.MCU_buffer[i] := JBLOCKROW(buffer);
-      Inc(buffer);
+      inc(buffer);
     end;
     coef^.pub.consume_data := dummy_consume_data;
     coef^.pub.decompress_data := decompress_onepass;

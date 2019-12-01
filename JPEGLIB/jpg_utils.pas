@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ function jround_up (a: long; b: long): long;
 { Compute a rounded up to next multiple of b, ie, ceil(a/b)*b }
 { Assumes a >= 0, b > 0 }
 begin
-  Inc(a, b - long(1));
+  inc(a, b - long(1));
   jround_up := a - (a mod b);
 end;
 
@@ -189,23 +189,23 @@ begin
 {$ifdef FMEMCOPY}
   count := size_t(num_cols * SizeOf(JSAMPLE));
 {$endif}
-  Inc(JSAMPROW_PTR(input_array), source_row);
-  Inc(JSAMPROW_PTR(output_array), dest_row);
+  inc(JSAMPROW_PTR(input_array), source_row);
+  inc(JSAMPROW_PTR(output_array), dest_row);
 
   for row := pred(num_rows) downto 0 do
   begin
     inptr := JSAMPLE_PTR(input_array^[0]);
-    Inc(JSAMPROW_PTR(input_array));
+    inc(JSAMPROW_PTR(input_array));
     outptr := JSAMPLE_PTR(output_array^[0]);
-    Inc(JSAMPROW_PTR(output_array));
+    inc(JSAMPROW_PTR(output_array));
 {$ifdef FMEMCOPY}
     FMEMCOPY(outptr, inptr, count);
 {$else}
     for count := pred(num_cols) downto 0 do
     begin
       outptr^ := inptr^;        { needn't bother with GETJSAMPLE() here }
-      Inc(inptr);
-      Inc(outptr);
+      inc(inptr);
+      inc(outptr);
     end;
 {$endif}
   end;
@@ -230,8 +230,8 @@ begin
   for count := long(num_blocks) * DCTSIZE2 -1 downto 0 do
   begin
     outptr^ := inptr^;
-    Inc(outptr);
-    Inc(inptr);
+    inc(outptr);
+    inc(inptr);
   end;
 {$endif}
 end;
@@ -253,7 +253,7 @@ begin
   for count := bytestozero-1 downto 0 do
   begin
     ptr^ := 0;
-    Inc(ptr);
+    inc(ptr);
   end;
 {$endif}
 end;

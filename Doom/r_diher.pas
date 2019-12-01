@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -93,7 +93,7 @@ begin
     if d > 12.544908 then
       d := d * d / 12.544908;
     non_uniform_table[b] := d;
-    Inc(b);
+    inc(b);
   end;
   non_uniform_table[255] := 256.0;
 
@@ -114,7 +114,7 @@ end;
 
 function R_DiherFactorToDouble(const f: Byte): Double;
 begin
-  Result := non_uniform_table[f];
+  result := non_uniform_table[f];
 end;
 
 function R_DiherFactorToByte(const f: Double): Byte;

@@ -119,18 +119,18 @@
 			<Linker Name="ExeDescription"></Linker>
 		</Linker>
 		<Directories>
-			<Directories Name="OutputDir">..\bin</Directories>
+			<Directories Name="OutputDir">..\bin\Doom</Directories>
 			<Directories Name="UnitOutputDir">..\dcu\Doom\Soft</Directories>
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
 			<Directories Name="SearchPath"></Directories>
 			<Directories Name="Packages">vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP</Directories>
 			<Directories Name="Conditionals">DOOM</Directories>
-			<Directories Name="DebugSourceDirs"></Directories>
+			<Directories Name="DebugSourceDirs">G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\</Directories>
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">-fullscreen </Parameters>
+			<Parameters Name="RunParams">-svga -nofullscreen -iwad doom2.wad voxeltest.pk3 voxel_map.wad</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
@@ -145,7 +145,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">1</VersionInfo>
 			<VersionInfo Name="Release">4</VersionInfo>
-			<VersionInfo Name="Build">560</VersionInfo>
+			<VersionInfo Name="Build">580</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -157,7 +157,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">Jim Valavanis</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">Doom to Delphi Total Conversion</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.1.4.560</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.1.4.580</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">Doom</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">Copyright 2005 - 2013, Jim Valavanis</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
@@ -165,12 +165,12 @@
 			<VersionInfoKeys Name="ProductName">Doom 32 bit engine</VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">1.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments">http://sourceforge.net/projects/delphidoom/</VersionInfoKeys>
-		</VersionInfoKeys>  <Language>
-      <Language Name="ActiveLang"></Language>
-      <Language Name="ProjectLang">$00000000</Language>
-      <Language Name="RootDir"></Language>
-    </Language>
-    <Excluded_Packages>
+		</VersionInfoKeys>
+		<Language>
+			<Language Name="ActiveLang"></Language>
+			<Language Name="ProjectLang">$00000000</Language>
+			<Language Name="RootDir"></Language>
+		</Language>  <Excluded_Packages>
       <Excluded_Packages Name="c:\program files (x86)\borland\bds\4.0\Bin\dclib100.bpl">Borland InterBase Express Components</Excluded_Packages>
       <Excluded_Packages Name="c:\program files (x86)\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl">Intraweb 8.0 Design Package for Borland Development Studio 2006</Excluded_Packages>
       <Excluded_Packages Name="c:\program files (x86)\borland\bds\4.0\Bin\dclIndyCore100.bpl">Indy 10 Core Design Time</Excluded_Packages>

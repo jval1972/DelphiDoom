@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ program Doom32;
 uses
   FastMM4 in 'FASTMM4\FastMM4.pas',
   FastMM4Messages in 'FASTMM4\FastMM4Messages.pas',
-  Fastcode in 'FASTCODE\FastCode.pas',
+  FastCode in 'FASTCODE\FastCode.pas',
   FastMove in 'FASTCODE\FastMove.pas',
   AnsiStringReplaceJOHIA32Unit12 in 'FASTCODE\AnsiStringReplaceJOHIA32Unit12.pas',
   AnsiStringReplaceJOHPASUnit12 in 'FASTCODE\AnsiStringReplaceJOHPASUnit12.pas',
@@ -67,34 +67,34 @@ uses
   FastcodeStrToInt32Unit in 'FASTCODE\FastcodeStrToInt32Unit.pas',
   FastcodeUpperCaseUnit in 'FASTCODE\FastcodeUpperCaseUnit.pas',
   jpg_utils in 'JPEGLIB\jpg_utils.pas',
-  jpg_COMapi in 'JPEGLIB\jpg_comapi.pas',
-  jpg_dAPImin in 'JPEGLIB\jpg_dapimin.pas',
-  jpg_dAPIstd in 'JPEGLIB\jpg_dapistd.pas',
-  jpg_DCoefCt in 'JPEGLIB\jpg_dcoefct.pas',
-  jpg_dColor in 'JPEGLIB\jpg_dcolor.pas',
+  jpg_comapi in 'JPEGLIB\jpg_comapi.pas',
+  jpg_dapimin in 'JPEGLIB\jpg_dapimin.pas',
+  jpg_dapistd in 'JPEGLIB\jpg_dapistd.pas',
+  jpg_dcoefct in 'JPEGLIB\jpg_dcoefct.pas',
+  jpg_dcolor in 'JPEGLIB\jpg_dcolor.pas',
   jpg_dct in 'JPEGLIB\jpg_dct.pas',
-  jpg_dDctMgr in 'JPEGLIB\jpg_ddctmgr.pas',
-  jpg_defErr in 'JPEGLIB\jpg_deferr.pas',
-  jpg_dHuff in 'JPEGLIB\jpg_dhuff.pas',
-  jpg_dInput in 'JPEGLIB\jpg_dinput.pas',
-  jpg_dMainCt in 'JPEGLIB\jpg_dmainct.pas',
-  jpg_dMarker in 'JPEGLIB\jpg_dmarker.pas',
-  jpg_dMaster in 'JPEGLIB\jpg_dmaster.pas',
-  jpg_dMerge in 'JPEGLIB\jpg_dmerge.pas',
-  jpg_dpHuff in 'JPEGLIB\jpg_dphuff.pas',
-  jpg_dPostCt in 'JPEGLIB\jpg_dpostct.pas',
-  jpg_dSample in 'JPEGLIB\jpg_dsample.pas',
+  jpg_ddctmgr in 'JPEGLIB\jpg_ddctmgr.pas',
+  jpg_deferr in 'JPEGLIB\jpg_deferr.pas',
+  jpg_dhuff in 'JPEGLIB\jpg_dhuff.pas',
+  jpg_dinput in 'JPEGLIB\jpg_dinput.pas',
+  jpg_dmainct in 'JPEGLIB\jpg_dmainct.pas',
+  jpg_dmarker in 'JPEGLIB\jpg_dmarker.pas',
+  jpg_dmaster in 'JPEGLIB\jpg_dmaster.pas',
+  jpg_dmerge in 'JPEGLIB\jpg_dmerge.pas',
+  jpg_dphuff in 'JPEGLIB\jpg_dphuff.pas',
+  jpg_dpostct in 'JPEGLIB\jpg_dpostct.pas',
+  jpg_dsample in 'JPEGLIB\jpg_dsample.pas',
   jpg_error in 'JPEGLIB\jpg_error.pas',
-  jpg_IDctAsm in 'JPEGLIB\jpg_idctasm.pas',
-  jpg_IDctFlt in 'JPEGLIB\jpg_idctflt.pas',
-  jpg_IDctFst in 'JPEGLIB\jpg_idctfst.pas',
+  jpg_idctasm in 'JPEGLIB\jpg_idctasm.pas',
+  jpg_idctflt in 'JPEGLIB\jpg_idctflt.pas',
+  jpg_idctfst in 'JPEGLIB\jpg_idctfst.pas',
   jpg_IDctRed in 'JPEGLIB\jpg_IDctRed.pas',
-  jpg_Lib in 'JPEGLIB\jpg_lib.pas',
-  jpg_MemMgr in 'JPEGLIB\jpg_memmgr.pas',
+  jpg_lib in 'JPEGLIB\jpg_lib.pas',
+  jpg_memmgr in 'JPEGLIB\jpg_memmgr.pas',
   jpg_memnobs in 'JPEGLIB\jpg_memnobs.pas',
-  jpg_moreCfg in 'JPEGLIB\jpg_morecfg.pas',
-  jpg_Quant1 in 'JPEGLIB\jpg_quant1.pas',
-  jpg_Quant2 in 'JPEGLIB\jpg_quant2.pas',
+  jpg_morecfg in 'JPEGLIB\jpg_morecfg.pas',
+  jpg_quant1 in 'JPEGLIB\jpg_quant1.pas',
+  jpg_quant2 in 'JPEGLIB\jpg_quant2.pas',
   mp3_SynthFilter in 'MP3LIB\mp3_SynthFilter.pas',
   mp3_Args in 'MP3LIB\mp3_Args.pas',
   mp3_BitReserve in 'MP3LIB\mp3_BitReserve.pas',
@@ -270,7 +270,14 @@ uses
   r_ripple in 'Base\r_ripple.pas',
   z_memmgr in 'Base\z_memmgr.pas',
   r_scale in 'Base\r_scale.pas',
-  r_segs2 in 'Base\r_segs2.pas';
+  r_segs2 in 'Base\r_segs2.pas',
+  r_voxels in 'Base\r_voxels.pas',
+  r_softgl in 'Base\r_softgl.pas',
+  vx_base in 'Base\vx_base.pas',
+  info_fnd in 'Base\info_fnd.pas',
+  r_palette in 'Base\r_palette.pas',
+  r_colorcolumn in 'Base\r_colorcolumn.pas',
+  r_utils in 'Base\r_utils.pas';
 
 var
   Saved8087CW: Word;
@@ -290,3 +297,4 @@ begin
   Set8087CW(Saved8087CW);
 
 end.
+

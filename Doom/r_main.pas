@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -305,6 +305,7 @@ uses
   r_cache,
   r_fake3d,
   r_ripple,
+  r_voxels,
 {$ENDIF}
   r_lights,
   r_intrpl,
@@ -578,7 +579,7 @@ var
 begin
   xx := x - viewx;
   yy := y - viewy;
-  Result := Round(arctan2(yy, xx) * (ANG180 / D_PI));
+  result := Round(arctan2(yy, xx) * (ANG180 / D_PI));
 end;
 
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
@@ -1410,6 +1411,8 @@ begin
   R_InitWallsCache8;
   printf(#13#10 + 'R_InitWallsCache32');
   R_InitWallsCache32;
+  printf(#13#10 + 'R_InitVoxels'#13#10);
+  R_InitVoxels;
 {$ENDIF}
 
   framecount := 0;
@@ -1462,8 +1465,14 @@ begin
 {$ENDIF}
   printf(#13#10 + 'R_ShutDownCustomColormaps');
   R_ShutDownCustomColormaps;
+  printf(#13#10 + 'R_ShutDownSprites');
+  R_ShutDownSprites;
   printf(#13#10 + 'R_FreeMemory');
   R_FreeMemory;
+{$IFNDEF OPENGL}
+  printf(#13#10 + 'R_VoxelsDone');
+  R_VoxelsDone;
+{$ENDIF}
 {$IFDEF OPENGL}
   printf(#13#10 + 'R_ShutDownOpenGL');
   R_ShutDownOpenGL;

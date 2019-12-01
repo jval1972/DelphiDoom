@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -240,11 +240,11 @@ begin
     xbuf := JSAMPARRAY (
       cinfo^.mem^.alloc_small (j_common_ptr(cinfo), JPOOL_IMAGE,
          2 * (rgroup * (M + 4)) * SizeOf(JSAMPROW)) );
-    Inc(JSAMPROW_PTR(xbuf), rgroup); { want one row group at negative offsets }
+    inc(JSAMPROW_PTR(xbuf), rgroup); { want one row group at negative offsets }
     main^.xbuffer[0]^[ci] := xbuf;
-    Inc(JSAMPROW_PTR(xbuf), rgroup * (M + 4));
+    inc(JSAMPROW_PTR(xbuf), rgroup * (M + 4));
     main^.xbuffer[1]^[ci] := xbuf;
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 
@@ -293,14 +293,14 @@ begin
       to happen in xbuffer[0]. }
 
     help_xbuf0 := xbuf0;
-    Dec(JSAMPROW_PTR(help_xbuf0), rgroup);
+    dec(JSAMPROW_PTR(help_xbuf0), rgroup);
 
     for i := 0 to pred(rgroup) do
     begin
       {xbuf0^[i - rgroup] := xbuf0^[0];}
       help_xbuf0^[i] := xbuf0^[0];
     end;
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 
@@ -331,9 +331,9 @@ begin
     xbuf1 := main^.xbuffer[1]^[ci];
 
     help_xbuf0 := xbuf0;
-    Dec(JSAMPROW_PTR(help_xbuf0), rgroup);
+    dec(JSAMPROW_PTR(help_xbuf0), rgroup);
     help_xbuf1 := xbuf1;
-    Dec(JSAMPROW_PTR(help_xbuf1), rgroup);
+    dec(JSAMPROW_PTR(help_xbuf1), rgroup);
 
     for i := 0 to pred(rgroup) do
     begin
@@ -346,7 +346,7 @@ begin
       xbuf0^[rgroup*(M+2) + i] := xbuf0^[i];
       xbuf1^[rgroup*(M+2) + i] := xbuf1^[i];
     end;
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 
@@ -388,7 +388,7 @@ begin
     begin
       xbuf^[rows_left + i] := xbuf^[rows_left-1];
     end;
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 
@@ -498,7 +498,7 @@ begin
         main^.xbuffer[main^.whichptr])=0) then
       exit;      { suspension forced, can do nothing more }
     main^.buffer_full := TRUE;  { OK, we have an iMCU row to work with }
-    Inc(main^.iMCU_row_ctr);  { count rows received }
+    inc(main^.iMCU_row_ctr);  { count rows received }
   end;
 
   { Postprocessor typically will not swallow all the input data it is handed
@@ -632,7 +632,7 @@ begin
       (j_common_ptr(cinfo), JPOOL_IMAGE,
        compptr^.width_in_blocks * compptr^.DCT_scaled_size,
        JDIMENSION (rgroup * ngroups));
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 

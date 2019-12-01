@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -2649,11 +2649,11 @@ begin
   begin
     if @deh_actions[i].action.acp1 = @action.acp1 then
     begin
-      Result := deh_actions[i].name;
+      result := deh_actions[i].name;
       Exit;
     end;
   end;
-  Result := '';
+  result := '';
 end;
 
 end.

@@ -337,22 +337,8 @@ begin
   begin
   // JVAL
   // frac > FRACUNIT should rarelly happen,
-  // we don't calc, we just use the Xnext values for interpolation frame
     I_DevWarning('R_Interpolate(): ticfrac > FRACUNIT (%d)'#13#10, [ticfrac]);
     result := false;
-{    for i := 0 to istruct.numitems - 1 do
-    begin
-      if pi.address = pi.lastaddress then
-      begin
-        case pi._type of
-          iinteger: PInteger(pi.address)^ := pi.inext;
-          ismallint: PSmallInt(pi.address)^ := pi.sinext;
-          ibyte: PByte(pi.address)^ := pi.bnext;
-          iangle: Pangle_t(pi.address)^ := pi.anext;
-        end;
-      end;
-      inc(pi);
-    end;}
   end
   else
   begin

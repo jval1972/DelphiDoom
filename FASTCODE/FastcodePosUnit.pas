@@ -116,7 +116,7 @@ asm {Slightly Cut-Down version of PosEx_JOH_6}
   cmp     ax, [edx+edi]
   jne     @@MainLoop       {No Match on First 2 Characters}
 @@SetResult:               {Full Match}
-  lea     eax, [edx+edi]   {Calculate and Return Result}
+  lea     eax, [edx+edi]   {Calculate and Return result}
   pop     edx
   pop     ebp
   pop     esi
@@ -200,7 +200,7 @@ asm
   push      edx              {Save Start Position}
   call      @CharPos         {Search for 1st Character}
   pop       edx              {Restore Start Position}
-  test      eax, eax         {Result = 0?}
+  test      eax, eax         {result = 0?}
   jz        @StrExit         {Exit if 1st Character Not Found}
   mov       ecx, [esi-4]     {Length SubStr}
   add       edx, eax         {Update Start Position for Next Loop}
@@ -212,7 +212,7 @@ asm
   jne       @StrLoop         {Different - Return to First Character Search}
   sub       ecx, 2
   jg        @StrCheck        {Check each Remaining Character}
-  mov       eax, edx         {All Characters Matched - Calculate Result}
+  mov       eax, edx         {All Characters Matched - Calculate result}
   sub       eax, ebp
 @StrExit:
   pop       ebp              {Restore Registers}
@@ -268,13 +268,13 @@ asm
   JMP       DWORD PTR [@@JumpTable2-ECX*4]
 
 @@NullString:
-  XOR       EAX, EAX         {Result = 0}
+  XOR       EAX, EAX         {result = 0}
   RET
 
 @@FoundStart:
   BSF       EAX, EAX         {Get Set Bit}
   POP       EBX
-  ADD       EAX, 1           {Set Result}
+  ADD       EAX, 1           {Set result}
   RET
 
 @@Found:
@@ -282,7 +282,7 @@ asm
   BSF       EAX, EAX         {Get Set Bit}
   ADD       EDX, ECX
   POP       EBX
-  LEA       EAX, [EAX+EDX+1] {Set Result}
+  LEA       EAX, [EAX+EDX+1] {Set result}
   RET
 
 @@Medium:
@@ -377,7 +377,7 @@ end;
 
 function Pos_JOH_PAS_6(const SubStr : AnsiString; const Str : AnsiString) : Integer; {$IFDEF Inline} inline; {$ENDIF}
 begin
-  Result := StrUtils.PosEx(SubStr, Str, 1);
+  result := StrUtils.PosEx(SubStr, Str, 1);
 end;
 
 function PosStub(const substr: AnsiString; const s: AnsiString): Integer;

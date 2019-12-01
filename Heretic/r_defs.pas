@@ -407,6 +407,7 @@ type
     texturemid: fixed_t;
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
+    voxelflag: integer;   // JVAL voxel support 
     {$ENDIF}
     patch: integer;
 

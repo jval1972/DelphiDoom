@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -317,7 +317,7 @@ begin
       fmtbl^[i] := {FLOAT_MULT_TYPE} (
          {double} qtbl^.quantval[i] *
          aanscalefactor[row] * aanscalefactor[col] );
-      Inc(i);
+      inc(i);
     end;
   end;
       end;
@@ -326,7 +326,7 @@ begin
       ERREXIT(j_common_ptr(cinfo), JERR_NOT_COMPILED);
       break;
     end;
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 
@@ -356,7 +356,7 @@ begin
     ZeroMemory(compptr^.dct_table, SizeOf(multiplier_table));
     { Mark multiplier table not yet set up for any method }
     idct^.cur_method[ci] := -1;
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 

@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -193,7 +193,7 @@ begin
                 JSAMPARRAY(@ output_buf^[out_row_ctr]),
                 int(num_rows));
 
-  Inc(out_row_ctr, num_rows);
+  inc(out_row_ctr, num_rows);
 end;
 
 
@@ -236,13 +236,13 @@ begin
                       JSAMPARRAY(@ post^.buffer^[old_next_row]),
       JSAMPARRAY(nil),
                         int(num_rows));
-    Inc(out_row_ctr, num_rows);
+    inc(out_row_ctr, num_rows);
   end;
 
   { Advance if we filled the strip. }
   if (post^.next_row >= post^.strip_height) then
   begin
-    Inc(post^.starting_row, post^.strip_height);
+    inc(post^.starting_row, post^.strip_height);
     post^.next_row := 0;
   end;
 end;
@@ -283,13 +283,13 @@ begin
                 JSAMPARRAY(@ post^.buffer^[post^.next_row]),
                 JSAMPARRAY(@ output_buf^[out_row_ctr]),
     int(num_rows));
-  Inc(out_row_ctr, num_rows);
+  inc(out_row_ctr, num_rows);
 
   { Advance if we filled the strip. }
-  Inc(post^.next_row, num_rows);
+  inc(post^.next_row, num_rows);
   if (post^.next_row >= post^.strip_height) then
   begin
-    Inc(post^.starting_row, post^.strip_height);
+    inc(post^.starting_row, post^.strip_height);
     post^.next_row := 0;
   end;
 end;

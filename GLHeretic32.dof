@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=574
+Build=580
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Heretic to Delphi Total Conversion
-FileVersion=1.1.4.574
+FileVersion=1.1.4.580
 InternalName=GLHeretic
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=

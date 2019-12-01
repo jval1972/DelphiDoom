@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -951,7 +951,7 @@ begin
     ceilingplane := nil;
 
 {$IFDEF OPENGL}
-  if frontsector = sub.sector then
+  if (frontsector = sub.sector) and (frontsector.renderflags = 0) then
   begin
     // if the sector has bottomtextures, then the floorheight will be set to the
     // highest surounding floorheight
@@ -960,6 +960,7 @@ begin
       i := frontsector.linecount;
 
       //e6y: this gives a huge speedup on levels with sectors which have many lines
+      dummyfloorplane.renderflags := 0;
       if frontsector.floor_validcount = validcount then
       begin
         dummyfloorplane.height := frontsector.highestfloor_height;
@@ -1003,6 +1004,7 @@ begin
       i := frontsector.linecount;
 
       //e6y: this gives a huge speedup on levels with sectors which have many lines
+      dummyceilingplane.renderflags := 0;
       if frontsector.ceil_validcount = validcount then
       begin
         dummyceilingplane.height := frontsector.lowestceil_height;

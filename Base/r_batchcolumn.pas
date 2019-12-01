@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -113,8 +113,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
 
@@ -122,8 +122,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
 
@@ -131,8 +131,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
 
@@ -148,8 +148,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
 
@@ -210,8 +210,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -222,8 +222,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -234,8 +234,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -246,8 +246,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -258,8 +258,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -270,8 +270,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -282,8 +282,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -294,8 +294,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -306,8 +306,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -318,8 +318,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -330,8 +330,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -342,8 +342,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -354,8 +354,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -366,8 +366,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -378,8 +378,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -390,8 +390,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -407,8 +407,8 @@ begin
         while cnt > 0 do
         begin
           PLongWord(dest)^ := ldest;
-          Inc(dest, 4);
-          Dec(cnt);
+          inc(dest, 4);
+          dec(cnt);
         end;
         inc(dest, swidth);
         inc(frac, fracstep);
@@ -426,15 +426,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -445,15 +445,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -464,15 +464,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -483,15 +483,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -502,15 +502,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -521,15 +521,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -540,15 +540,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -559,15 +559,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -578,15 +578,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -597,15 +597,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -616,15 +616,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -635,15 +635,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -654,15 +654,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -673,15 +673,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -692,15 +692,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -711,15 +711,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -735,15 +735,15 @@ begin
       while cnt > 0 do
       begin
         PLongWord(dest)^ := ldest;
-        Inc(dest, 4);
-        Dec(cnt);
+        inc(dest, 4);
+        dec(cnt);
       end;
       cnt := rest_batch_columns;
       while cnt > 0 do
       begin
         dest^ := bdest;
-        Inc(dest);
-        Dec(cnt);
+        inc(dest);
+        dec(cnt);
       end;
       inc(dest, swidth);
       inc(frac, fracstep);
@@ -763,8 +763,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -774,8 +774,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -785,8 +785,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -796,8 +796,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -807,8 +807,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -818,8 +818,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -829,8 +829,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -840,8 +840,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -851,8 +851,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -862,8 +862,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -873,8 +873,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -884,8 +884,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -895,8 +895,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -906,8 +906,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -917,8 +917,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -928,8 +928,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -944,8 +944,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -1001,13 +1001,13 @@ begin
       while cnt > 0 do
       begin
         destl^ := ldest;
-        Inc(destl);
-        Dec(cnt);
+        inc(destl);
+        dec(cnt);
       end;
 
       destl := PLongWord(integer(destl) + swidth);
       inc(frac, fracstep);
-      Dec(count);
+      dec(count);
     end;
   end
   else
@@ -1025,13 +1025,13 @@ begin
       while cnt > 0 do
       begin
         destl^ := ldest;
-        Inc(destl);
-        Dec(cnt);
+        inc(destl);
+        dec(cnt);
       end;
 
       destl := PLongWord(integer(destl) + swidth);
       inc(frac, fracstep);
-      Dec(count);
+      dec(count);
     end;
   end;
 end;
@@ -1080,7 +1080,7 @@ begin
       inc(fuzzpos);
       if fuzzpos = FUZZTABLE then
         fuzzpos := 0;
-      Dec(cnt);
+      dec(cnt);
     end;
     dest := @dest[swidth];
   end;
@@ -1130,7 +1130,7 @@ begin
       inc(fuzzpos);
       if fuzzpos = FUZZTABLE then
         fuzzpos := 0;
-      Dec(cnt);
+      dec(cnt);
     end;
     destl := @destl[swidth];
   end;
@@ -1181,7 +1181,7 @@ begin
 
       destl[0] := r + g shl 8 + b shl 16;
       destl := @destl[1];
-      Dec(cnt);
+      dec(cnt);
     end;
 
     destl := @destl[swidth];
@@ -1228,8 +1228,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := bdest;
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
 
     inc(dest, swidth);
@@ -1275,8 +1275,8 @@ begin
     while cnt > 0 do
     begin
       destl^ := ldest;
-      Inc(destl);
-      Dec(cnt);
+      inc(destl);
+      dec(cnt);
     end;
 
     destl := PLongWord(integer(destl) + swidth);
@@ -1332,8 +1332,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := averagetrans8table[dest^ + u];
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
 
     inc(dest, swidth);
@@ -1390,8 +1390,8 @@ begin
       g := (g1 + g2) shr 1;
       b := (b1 + b2) shr 1;
       destl^ := r + g shl 8 + b shl 16;
-      Inc(destl);
-      Dec(cnt);
+      inc(destl);
+      dec(cnt);
     end;
 
     destl := PLongWord(integer(destl) + swidth);
@@ -1445,8 +1445,8 @@ begin
     while cnt > 0 do
     begin
       dest^ := curtrans8table[dest^ + u];
-      Inc(dest);
-      Dec(cnt);
+      inc(dest);
+      dec(cnt);
     end;
 
 
@@ -1517,8 +1517,8 @@ begin
       b := ((fb2) + (b1 * factor1)) and $FF0000;
 
       destl^ := r + g shl 8 + b;
-      Inc(destl);
-      Dec(cnt);
+      inc(destl);
+      dec(cnt);
     end;
 
     destl := PLongWord(integer(destl) + swidth);
@@ -1552,4 +1552,6 @@ procedure R_DrawYellowLightColumnHi_Batch;
 {$UNDEF YELLOW}
 
 end.
+
+
 

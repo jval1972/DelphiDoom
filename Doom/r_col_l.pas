@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -45,7 +45,8 @@ uses
   m_fixed,
   r_draw, r_main, r_column, r_hires,
   v_video;
-  
+       var
+  sspot: integer;
 procedure R_DrawWhiteLightColumnHi;
 {$DEFINE WHITE}
 {$I R_DrawLightColumnHi.inc}

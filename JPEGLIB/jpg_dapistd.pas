@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -168,11 +168,11 @@ begin
   if (cinfo^.progress <> nil) and
      ((retcode = JPEG_ROW_COMPLETED) or (retcode = JPEG_REACHED_SOS)) then
         begin
-          Inc(cinfo^.progress^.pass_counter);
+          inc(cinfo^.progress^.pass_counter);
     if (cinfo^.progress^.pass_counter >= cinfo^.progress^.pass_limit) then
           begin
       { jdmaster underestimated number of scans; ratchet up one scan }
-      Inc(cinfo^.progress^.pass_limit, long(cinfo^.total_iMCU_rows));
+      inc(cinfo^.progress^.pass_limit, long(cinfo^.total_iMCU_rows));
     end;
   end;
       end;
@@ -289,7 +289,7 @@ begin
   { Process some data }
   row_ctr := 0;
   cinfo^.main^.process_data (cinfo, scanlines, {var}row_ctr, max_lines);
-  Inc(cinfo^.output_scanline, row_ctr);
+  inc(cinfo^.output_scanline, row_ctr);
   jpeg_read_scanlines := row_ctr;
 end;
 
@@ -334,7 +334,7 @@ begin
   end;
 
   { OK, we processed one iMCU row. }
-  Inc(cinfo^.output_scanline, lines_per_iMCU_row);
+  inc(cinfo^.output_scanline, lines_per_iMCU_row);
   jpeg_read_raw_data := lines_per_iMCU_row;
 end;
 

@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -2227,7 +2227,7 @@ begin
              (LongWord(curgamma[src[1]]) shl 8) or
              (LongWord(curgamma[src[2]])) or $FF000000;
     inc(dest);
-    Inc(i);
+    inc(i);
   end;
 
   cvideopal[0] := cvideopal[0] and $FFFFFF;

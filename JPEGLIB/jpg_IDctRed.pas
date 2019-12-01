@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -218,9 +218,9 @@ begin
     { Don't bother to process column 4, because second pass won't use it }
     if (ctr = DCTSIZE-4) then
     begin
-      Inc(JCOEF_PTR(inptr));
-      Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-      Inc(int_ptr(wsptr));
+      inc(JCOEF_PTR(inptr));
+      inc(ISLOW_MULT_TYPE_PTR(quantptr));
+      inc(int_ptr(wsptr));
 
       continue;
     end;
@@ -236,9 +236,9 @@ begin
       wsptr^[DCTSIZE*2] := dcval;
       wsptr^[DCTSIZE*3] := dcval;
 
-      Inc(JCOEF_PTR(inptr));
-      Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-      Inc(int_ptr(wsptr));
+      inc(JCOEF_PTR(inptr));
+      inc(ISLOW_MULT_TYPE_PTR(quantptr));
+      inc(int_ptr(wsptr));
 
       continue;
     end;
@@ -281,9 +281,9 @@ begin
     wsptr^[DCTSIZE*1] := int(DESCALE(tmp12 + tmp0, CONST_BITS-PASS1_BITS+1));
     wsptr^[DCTSIZE*2] := int(DESCALE(tmp12 - tmp0, CONST_BITS-PASS1_BITS+1));
 
-    Inc(JCOEF_PTR(inptr));
-    Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-    Inc(int_ptr(wsptr));
+    inc(JCOEF_PTR(inptr));
+    inc(ISLOW_MULT_TYPE_PTR(quantptr));
+    inc(int_ptr(wsptr));
   end;
 
   { Pass 2: process 4 rows from work array, store into output array. }
@@ -307,7 +307,7 @@ begin
       outptr^[2] := dcval_;
       outptr^[3] := dcval_;
 
-      Inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
+      inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
       continue;
     end;
 {$endif}
@@ -354,7 +354,7 @@ begin
              CONST_BITS+PASS1_BITS+3+1))
           and RANGE_MASK];
 
-    Inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
+    inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
   end;
 end;
 
@@ -401,9 +401,9 @@ begin
     { Don't bother to process columns 2,4,6 }
     if (ctr = DCTSIZE-2) or (ctr = DCTSIZE-4) or (ctr = DCTSIZE-6) then
     begin
-      Inc(JCOEF_PTR(inptr));
-      Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-      Inc(int_ptr(wsptr));
+      inc(JCOEF_PTR(inptr));
+      inc(ISLOW_MULT_TYPE_PTR(quantptr));
+      inc(int_ptr(wsptr));
 
       continue;
     end;
@@ -417,9 +417,9 @@ begin
       wsptr^[DCTSIZE*0] := dcval;
       wsptr^[DCTSIZE*1] := dcval;
 
-      Inc(JCOEF_PTR(inptr));
-      Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-      Inc(int_ptr(wsptr));
+      inc(JCOEF_PTR(inptr));
+      inc(ISLOW_MULT_TYPE_PTR(quantptr));
+      inc(int_ptr(wsptr));
 
       continue;
     end;
@@ -435,20 +435,20 @@ begin
     z1 := (ISLOW_MULT_TYPE(inptr^[DCTSIZE*7]) * quantptr^[DCTSIZE*7]);
     tmp0 := MULTIPLY(z1, - FIX_0_720959822); { sqrt(2) * (c7-c5+c3-c1) }
     z1 := (ISLOW_MULT_TYPE(inptr^[DCTSIZE*5]) * quantptr^[DCTSIZE*5]);
-    Inc(tmp0, MULTIPLY(z1, FIX_0_850430095)); { sqrt(2) * (-c1+c3+c5+c7) }
+    inc(tmp0, MULTIPLY(z1, FIX_0_850430095)); { sqrt(2) * (-c1+c3+c5+c7) }
     z1 := (ISLOW_MULT_TYPE(inptr^[DCTSIZE*3]) * quantptr^[DCTSIZE*3]);
-    Inc(tmp0, MULTIPLY(z1, - FIX_1_272758580)); { sqrt(2) * (-c1+c3-c5-c7) }
+    inc(tmp0, MULTIPLY(z1, - FIX_1_272758580)); { sqrt(2) * (-c1+c3-c5-c7) }
     z1 := (ISLOW_MULT_TYPE(inptr^[DCTSIZE*1]) * quantptr^[DCTSIZE*1]);
-    Inc(tmp0, MULTIPLY(z1, FIX_3_624509785)); { sqrt(2) * (c1+c3+c5+c7) }
+    inc(tmp0, MULTIPLY(z1, FIX_3_624509785)); { sqrt(2) * (c1+c3+c5+c7) }
 
     { Final output stage }
 
     wsptr^[DCTSIZE*0] := int (DESCALE(tmp10 + tmp0, CONST_BITS-PASS1_BITS+2));
     wsptr^[DCTSIZE*1] := int (DESCALE(tmp10 - tmp0, CONST_BITS-PASS1_BITS+2));
 
-    Inc(JCOEF_PTR(inptr));
-    Inc(ISLOW_MULT_TYPE_PTR(quantptr));
-    Inc(int_ptr(wsptr));
+    inc(JCOEF_PTR(inptr));
+    inc(ISLOW_MULT_TYPE_PTR(quantptr));
+    inc(int_ptr(wsptr));
   end;
 
   { Pass 2: process 2 rows from work array, store into output array. }
@@ -469,7 +469,7 @@ begin
       outptr^[0] := dcval_;
       outptr^[1] := dcval_;
 
-      Inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
+      inc(int_ptr(wsptr), DCTSIZE);  { advance pointer to next row }
       continue;
     end;
 {$endif}
@@ -494,7 +494,7 @@ begin
             CONST_BITS+PASS1_BITS+3+2))
           and RANGE_MASK];
 
-    Inc(int_ptr(wsptr), DCTSIZE);    { advance pointer to next row }
+    inc(int_ptr(wsptr), DCTSIZE);    { advance pointer to next row }
   end;
 end;
 

@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -136,6 +136,7 @@ uses
   r_ccache,
   r_scache,
   r_col_fz,
+  r_voxels,
 {$ENDIF}
   v_data,
   v_video,
@@ -564,6 +565,7 @@ var
   numtextures1: integer;
   numtextures2: integer;
   directory: PIntegerArray;
+  pname: string;
 begin
   // Load the patch names from pnames.lmp.
   ZeroMemory(@name, SizeOf(char8_t));
@@ -591,7 +593,15 @@ begin
       name[j] := #0;
       inc(j);
     end;
-    patchlookup[i] := W_CheckNumForName(strtrim(char8tostring(name)), TYPE_PATCH or TYPE_SPRITE);
+    pname := strtrim(char8tostring(name));
+    patchlookup[i] := W_CheckNumForName(pname, TYPE_PATCH or TYPE_SPRITE);
+    if patchlookup[i] = -1 then
+    begin
+      I_DevWarning('R_InitTextures(): Can not find patch "%s" inside patch or sprite markers, retrying...'#13#10, [pname]);
+      patchlookup[i] := W_CheckNumForName(pname);
+    end;
+    if patchlookup[i] = -1 then
+      I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
   end;
   Z_Free(names);
 
@@ -891,6 +901,7 @@ begin
   memfree(pointer(spriteoffset), numspritelumps * SizeOf(fixed_t));
   memfree(pointer(spritetopoffset), numspritelumps * SizeOf(fixed_t));
   memfree(pointer(spritepresent), numspritelumps * SizeOf(boolean));
+  
 
 end;
 

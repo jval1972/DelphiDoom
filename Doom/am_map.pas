@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -1276,14 +1276,16 @@ end;
 procedure AM_rotate(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
 var
   tmpx: fixed_t;
+  ang: fixed_t;
 begin
+  ang := a shr ANGLETOFINESHIFT;
   tmpx := xpos +
-    FixedMul(x^ - xpos, finecosine[a shr ANGLETOFINESHIFT]) -
-    FixedMul(y^ - ypos, finesine[a shr ANGLETOFINESHIFT]);
+    FixedMul(x^ - xpos, finecosine[ang]) -
+    FixedMul(y^ - ypos, finesine[ang]);
 
   y^ := ypos +
-    FixedMul(x^ - xpos, finesine[a shr ANGLETOFINESHIFT]) +
-    FixedMul(y^ - ypos, finecosine[a shr ANGLETOFINESHIFT]);
+    FixedMul(x^ - xpos, finesine[ang]) +
+    FixedMul(y^ - ypos, finecosine[ang]);
 
   x^ := tmpx;
 end;

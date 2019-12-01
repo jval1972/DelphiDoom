@@ -51,6 +51,7 @@ uses
   gl_main,
   gl_defs,
   gl_models,
+  gl_voxels,
   gl_lightmaps,
   gl_shadows,
 {$ELSE}
@@ -69,6 +70,7 @@ uses
   r_lights,
   r_intrpl,
   r_plane,
+  vx_base,
 {$IFNDEF OPENGL}
   r_fake3d,
 {$ENDIF}
@@ -110,10 +112,12 @@ var
   gl_SCREENWIDTH,
   gl_SCREENHEIGHT: integer;
   gl_drawmodels: boolean;
+  gl_drawvoxels: boolean;
   gl_smoothmodelmovement: boolean;
   gl_precachemodeltextures: boolean;
   gl_uselightmaps: boolean;
   gl_drawshadows: boolean;
+  gl_renderwireframe: boolean;
 {$ENDIF}
 
 type
@@ -131,7 +135,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 147;
+  NUMDEFAULTS = 151;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -462,6 +466,14 @@ const
      defaultbvalue: false;
      _type: tBoolean),
 
+    (name: 'gl_renderwireframe';
+     location: @gl_renderwireframe;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
     (name: 'gl_drawsky';
      location: @gl_drawsky;
      setable: DFS_ALWAYS;
@@ -480,6 +492,14 @@ const
 
     (name: 'gl_drawmodels';
      location: @gl_drawmodels;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'gl_drawvoxels';
+     location: @gl_drawvoxels;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
@@ -557,6 +577,22 @@ const
      defaultivalue: 0;
      defaultbvalue: true;
      _type: tBoolean),
+
+    (name: 'Voxels';
+     location: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
+    (name: 'vx_maxoptimizerpasscount';
+     location: @vx_maxoptimizerpasscount;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tInteger),
 
     (name: 'Automap';
      location: nil;

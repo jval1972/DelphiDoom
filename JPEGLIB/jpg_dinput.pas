@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ begin
       cinfo^.max_h_samp_factor := compptr^.h_samp_factor;
     if cinfo^.max_v_samp_factor < compptr^.v_samp_factor then
       cinfo^.max_v_samp_factor := compptr^.v_samp_factor;
-    Inc(compptr);
+    inc(compptr);
   end;
 
   { We initialize DCT_scaled_size and min_DCT_scaled_size to DCTSIZE.
@@ -153,7 +153,7 @@ begin
     compptr^.component_needed := TRUE;
     { Mark no quantization table yet saved for component }
     compptr^.quant_table := nil;
-    Inc(compptr);
+    inc(compptr);
   end;
 
   { Compute number of fully interleaved MCU rows. }
@@ -247,9 +247,9 @@ begin
   ERREXIT(j_common_ptr(cinfo), JERR_BAD_MCU_SIZE);
       while (mcublks > 0) do
       begin
-        Dec(mcublks);
+        dec(mcublks);
   cinfo^.MCU_membership[cinfo^.blocks_in_MCU] := ci;
-        Inc(cinfo^.blocks_in_MCU);
+        inc(cinfo^.blocks_in_MCU);
       end;
     end;
 

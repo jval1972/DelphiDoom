@@ -249,7 +249,7 @@ var
   Src, Dst: PByte;
   I, J, K: Integer;
 begin
-  Result := Dest;
+  result := Dest;
   Src := Pointer(Source);
   Dst := Pointer(Dest);
   if LongWord(Integer(Src) - Integer(Dst)) >= 4 then
@@ -257,8 +257,8 @@ begin
       repeat
         Dst^ := Src^;
         if Dst^ = 0 then Exit;
-        Inc(Dst);
-        Inc(Src);
+        inc(Dst);
+        inc(Src);
       until (Integer(Src) and 3) = 0;
       repeat
         I := PInteger(Src)^;
@@ -269,15 +269,15 @@ begin
         if (I and $80808080) <> 0 then
           Break;
         PInteger(Dst)^ := K;
-        Inc(Dst, 4);
-        Inc(Src, 4);
+        inc(Dst, 4);
+        inc(Src, 4);
       until False;
    end;
   repeat
     Dst^ := Src^;
     if Dst^ = 0 then Exit;
-    Inc(Dst);
-    Inc(Src);
+    inc(Dst);
+    inc(Src);
   until False;
 end;
 
@@ -287,7 +287,7 @@ var
   ch: char;
 begin
   d:=integer(Source);
-  Result:=Dest;
+  result:=Dest;
   dec(d,integer(Dest));
   repeat
     ch:=Dest[d+00]; Dest[00]:=ch; if ch=#0 then break;

@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
@@ -138,7 +138,7 @@ begin
 end;
 
 var
-  fu8_64a, fu8_64b: TDThread;
+  fu8_64a, fu8_64b, fu8_64c: TDThread;
 
 var
   allocscreensize: integer;
@@ -147,6 +147,7 @@ procedure I_ShutDownGraphics;
 begin
   fu8_64a.Free;
   fu8_64b.Free;
+  fu8_64c.Free;
 
   I_ClearInterface(IInterface(g_pDDScreen));
   I_ClearInterface(IInterface(g_pDDSPrimary));
@@ -249,35 +250,22 @@ begin
   end;
 end;
 
+type
+  finishupdate8param_t = record
+    start, finish: integer;
+  end;
+  Pfinishupdate8param_t = ^finishupdate8param_t;
+
 function I_FinishUpdate8_64a(p: pointer): integer; stdcall;
 var
   dest: PInt64;
   src: PWord;
   srcstop: PByte;
 begin
-  src := @(screens[SCN_FG][0]);
-  srcstop := @(screens[SCN_FG][(SCREENWIDTH * SCREENHEIGHT div 2) and not 3]);
+  src := @(screens[SCN_FG][Pfinishupdate8param_t(p).start]);
+  srcstop := @(screens[SCN_FG][Pfinishupdate8param_t(p).finish]);
 
-  dest := @screen[0];
-  while integer(src) < integer(srcstop) do
-  begin
-    dest^ := curpal64[src^];
-    inc(dest);
-    inc(src);
-  end;
-  result := 0;
-end;
-
-function I_FinishUpdate8_64b(p: pointer): integer; stdcall;
-var
-  dest: PInt64;
-  src: PWord;
-  srcstop: PByte;
-begin
-  src := @(screens[SCN_FG][(SCREENWIDTH * SCREENHEIGHT div 2) and not 3]);
-  srcstop := @(screens[SCN_FG][SCREENWIDTH * SCREENHEIGHT - 1]);
-
-  dest := @screen[(SCREENWIDTH * SCREENHEIGHT div 2) and not 3];
+  dest := @screen[Pfinishupdate8param_t(p).start];
   while integer(src) < integer(srcstop) do
   begin
     dest^ := curpal64[src^];
@@ -322,6 +310,7 @@ var
   h1: integer;
   parms1, parms2: finishupdateparms_t;
   stretch: boolean;
+  p1, p2, p3, p4: finishupdate8param_t;
 begin
   if (hMainWnd = 0) or (screens[SCN_FG] = nil) or (screen32 = nil) then
     exit;
@@ -343,9 +332,57 @@ begin
     begin
       if usemultithread then
       begin
-        fu8_64a.Activate(nil);
-        I_FinishUpdate8_64b(nil);
-        fu8_64a.Wait;
+        if I_GetNumCPUs <= 2 then
+        begin
+          p1.start := 0;
+          p1.finish := (SCREENWIDTH * SCREENHEIGHT div 2) and not 3;
+          p2.start := p1.finish + 1;
+          p2.finish := SCREENWIDTH * SCREENHEIGHT - 1;
+          fu8_64a.Activate(@p1);
+          I_FinishUpdate8_64a(@p2);
+          fu8_64a.Wait;
+        end
+        else if I_GetNumCPUs <= 4 then
+        begin
+          p1.start := 0;
+          p1.finish := (SCREENWIDTH * SCREENHEIGHT div 3) and not 3;
+          p2.start := p1.finish + 1;
+          p2.finish := (2 * SCREENWIDTH * SCREENHEIGHT div 3) and not 3;
+          p3.start := p2.finish + 1;
+          p3.finish := SCREENWIDTH * SCREENHEIGHT - 1;
+          fu8_64a.Activate(@p1);
+          fu8_64b.Activate(@p2);
+          I_FinishUpdate8_64a(@p3);
+          while not fu8_64a.CheckJobDone do
+          begin
+            fu8_64b.CheckJobDone;
+            I_Sleep(0);
+          end;
+          fu8_64b.Wait;
+        end
+        else
+        begin
+          p1.start := 0;
+          p1.finish := (SCREENWIDTH * SCREENHEIGHT div 4) and not 3;
+          p2.start := p1.finish + 1;
+          p2.finish := (2 * SCREENWIDTH * SCREENHEIGHT div 4) and not 3;
+          p3.start := p2.finish + 1;
+          p3.finish := (3 * SCREENWIDTH * SCREENHEIGHT div 4) and not 3;
+          p4.start := p3.finish + 1;
+          p4.finish := SCREENWIDTH * SCREENHEIGHT - 1;
+          fu8_64a.Activate(@p1);
+          fu8_64b.Activate(@p2);
+          fu8_64c.Activate(@p3);
+          I_FinishUpdate8_64a(@p4);
+          while not fu8_64a.CheckJobDone do
+          begin
+            fu8_64b.CheckJobDone;
+            fu8_64c.CheckJobDone;
+            I_Sleep(0);
+          end;
+          fu8_64b.Wait;
+          fu8_64c.Wait;
+        end
       end
       else
         I_FinishUpdate8_64
@@ -509,7 +546,8 @@ begin
   printf('I_InitGraphics: Initializing directdraw.' + #13#10);
 
   fu8_64a := TDThread.Create(I_FinishUpdate8_64a);
-  fu8_64b := TDThread.Create(I_FinishUpdate8_64b);
+  fu8_64b := TDThread.Create(I_FinishUpdate8_64a);
+  fu8_64c := TDThread.Create(I_FinishUpdate8_64a);
 ///////////////////////////////////////////////////////////////////////////
 // Create the main DirectDraw object
 ///////////////////////////////////////////////////////////////////////////

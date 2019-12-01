@@ -40990,6 +40990,8 @@ begin
     if states[i].models <> nil then
       FreeAndNil(states[i].models);
 {$ENDIF}
+    if states[i].voxels <> nil then
+      FreeAndNil(states[i].voxels);
   end;
 
   memfree(pointer(states), numstates * SizeOf(state_t));

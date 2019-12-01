@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -1358,7 +1358,7 @@ begin
       if openrange <= 0 then
       begin
         // can't use through a wall
-        Result := false;
+        result := false;
         Exit;
       end;
       // not a special line, but keep checking
@@ -1374,24 +1374,24 @@ begin
   mobj := intr.d.thing;
   if mobj.health <= 0 then
   begin
-    Result := true;
+    result := true;
     exit;
   end;
   if (mobj.flags2_ex and MF2_EX_INTERACTIVE) = 0 then
   begin
-    Result := true;
+    result := true;
     exit;
   end;
   if mobj.info.interactstate <= 0 then
   begin
-    Result := true;
+    result := true;
     exit;
   end;
   // Height.
   if (usething.z >= mobj.z + mobj.height) or
      (usething.z + usething.height <= mobj.z) then
   begin
-    Result := true;
+    result := true;
     exit;
   end;
   mobj.target := usething;

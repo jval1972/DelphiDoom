@@ -215,14 +215,14 @@ begin;
    dist:=str1-str2;
    p:=str2;
    repeat;
-     Result:=shortint(p[dist]);
-     if (Result=0) or (chr(Result)<>p[0]) then goto make;
-     Result:=shortint(p[dist+1]);
+     result:=shortint(p[dist]);
+     if (result=0) or (chr(result)<>p[0]) then goto make;
+     result:=shortint(p[dist+1]);
      inc(p,2);
-     until (Result=0) or (chr(Result)<>p[-1]);
+     until (result=0) or (chr(result)<>p[-1]);
    dec(p);
 make:
-   Result:=byte(Result)-byte(p[0]);
+   result:=byte(result)-byte(p[0]);
 end;
 
 function StrComp_Sha_Pas_5(const str1, str2: pchar): integer;
@@ -235,22 +235,22 @@ begin;
    dist:=str1-str2;
    p:=str2;
    repeat;
-     Result:=shortint(p[dist]);
-     if (Result=0) or (chr(Result)<>p[0]) then goto make;
-     Result:=shortint(p[dist+1]);
-     if (Result=0) or (chr(Result)<>p[1]) then goto make1;
-     Result:=shortint(p[dist+2]);
-     if (Result=0) or (chr(Result)<>p[2]) then goto make2;
-     Result:=shortint(p[dist+3]);
+     result:=shortint(p[dist]);
+     if (result=0) or (chr(result)<>p[0]) then goto make;
+     result:=shortint(p[dist+1]);
+     if (result=0) or (chr(result)<>p[1]) then goto make1;
+     result:=shortint(p[dist+2]);
+     if (result=0) or (chr(result)<>p[2]) then goto make2;
+     result:=shortint(p[dist+3]);
      inc(p,4);
-     until (Result=0) or (chr(Result)<>p[-1]);
+     until (result=0) or (chr(result)<>p[-1]);
    dec(p,3);
 make2:
    inc(p);
 make1:
    inc(p);
 make:
-   Result:=byte(Result)-byte(p[0]);
+   result:=byte(result)-byte(p[0]);
 end;
 
 procedure StrCompStub;

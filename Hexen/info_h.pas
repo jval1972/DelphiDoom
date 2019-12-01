@@ -33,9 +33,7 @@ unit info_h;
 interface
 
 uses
-{$IFDEF OPENGL}
   d_delphi,
-{$ENDIF}
   d_think,
   sc_params;
 
@@ -3220,6 +3218,10 @@ type
 {$IFDEF OPENGL}
     dlights: TDNumberList;
     models: TDNumberList;
+{$ENDIF}
+    voxels: TDNumberList;
+{$IFNDEF OPENGL}
+    voxelradius: integer;
 {$ENDIF}
     flags_ex: integer;
   end;

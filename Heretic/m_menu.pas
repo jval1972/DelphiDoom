@@ -113,6 +113,7 @@ uses
   gl_main,
   gl_defs,
   gl_models,
+  gl_voxels,
   gl_lightmaps,
   gl_shadows,
   p_setup,
@@ -782,9 +783,11 @@ type
     od_gl_texture_filter_anisotropic,
     od_gl_drawsky,
     od_gl_stencilsky,
+    od_gl_renderwireframe,
     od_gl_drawmodels,
     od_gl_smoothmodelmovement,
     od_gl_precachemodeltextures,
+    od_gl_drawvoxels,
     od_gl_uselightmaps,
     od_gl_drawshadows,
     od_gl_linear_hud,
@@ -3179,6 +3182,14 @@ begin
 
   inc(pmi);
   pmi.status := 1;
+  pmi.name := '!Render wireframe';
+  pmi.cmd := 'gl_renderwireframe';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_renderwireframe;
+  pmi.alphaKey := 'w';
+
+  inc(pmi);
+  pmi.status := 1;
   pmi.name := '!Draw models instead of sprites';
   pmi.cmd := 'gl_drawmodels';
   pmi.routine := @M_BoolCmd;
@@ -3200,6 +3211,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_precachemodeltextures;
   pmi.alphaKey := 'p';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Draw voxels instead of sprites';
+  pmi.cmd := 'gl_drawvoxels';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_drawvoxels;
+  pmi.alphaKey := 'v';
 
   inc(pmi);
   pmi.status := 1;
@@ -3264,7 +3283,7 @@ begin
   OptionsDisplayOpenGLDef.menuitems := Pmenuitem_tArray(@OptionsDisplayOpenGLMenu);  // menu items
   OptionsDisplayOpenGLDef.routine := @M_DrawOptionsDisplayOpenGL;  // draw routine
   OptionsDisplayOpenGLDef.x := 30;
-  OptionsDisplayOpenGLDef.y := 40; // x,y of menu
+  OptionsDisplayOpenGLDef.y := 38; // x,y of menu
   OptionsDisplayOpenGLDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayOpenGLDef.itemheight := LINEHEIGHT2;
 {$ENDIF}

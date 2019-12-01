@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -89,8 +89,8 @@ begin
     result := atof(forcedaspectstr);
 
   if result < 1.0 then
-    Result := 0.0;
-  forcedaspectstr := ftoa(Result);
+    result := 0.0;
+  forcedaspectstr := ftoa(result);
 end;
 
 procedure R_CmdForcedAspect(const parm: string);
@@ -130,7 +130,7 @@ begin
       widths.Add(dm.dmPelsWidth);
       heights.Add(dm.dmPelsHeight);
     end;
-    Inc(i);
+    inc(i);
   end;
   for i := 1 to widths.Count - 1 do
     if (widths.Numbers[i] >= maxwidth) and (heights.Numbers[i] >= maxheight) then
@@ -161,16 +161,16 @@ begin
   begin
     asp := R_ForcedAspect;
     if asp < 1.0 then
-      Result := relative_aspect
+      result := relative_aspect
     else
-      Result := asp / (4 / 3);
-    if Result < 1.0 then
-      Result := 1.0
-    else if Result > 2.0 then
-      Result := 2.0;
+      result := asp / (4 / 3);
+    if result < 1.0 then
+      result := 1.0
+    else if result > 2.0 then
+      result := 2.0;
   end
   else
-    Result := 1.0;
+    result := 1.0;
 end;
 
 end.

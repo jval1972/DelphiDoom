@@ -127,14 +127,14 @@ begin
         I := Integer(@Dest);
         C := Count - 4;
         L := PInteger(Integer(@Dest) + C);
-        Inc(S, C);
+        inc(S, C);
         repeat
           L^ := PInteger(S)^;
           if Count <= 8 then
             Break;
-          Dec(Count, 4);
-          Dec(S, 4);
-          Dec(L);
+          dec(Count, 4);
+          dec(S, 4);
+          dec(L);
         until False;
         PInteger(I)^ := Temp;
       end
@@ -148,9 +148,9 @@ begin
           L^ := PInteger(S)^;
           if Count <= 8 then
             Break;
-          Dec(Count, 4);
-          Inc(S, 4);
-          Inc(L);
+          dec(Count, 4);
+          inc(S, 4);
+          inc(L);
         until False;
         PInteger(I)^ := Temp;
       end;
@@ -1526,11 +1526,11 @@ begin
       begin {Patch System.Move.  Adjust Jump Destinations in Copied Procedure}
         Move(Pointer(@Move)^, NewMove, SizeOf(NewMove));
         Offset := Integer(@Move) - Integer(@System.Move);
-        Inc(NewMove.Jump1Dest, Offset);
-        Inc(NewMove.Jump2Dest, Offset);
-        Inc(NewMove.Jump3Dest, Offset);
-        Inc(NewMove.Jump4Dest, Offset);
-        Inc(NewMove.Jump5Dest, Offset);
+        inc(NewMove.Jump1Dest, Offset);
+        inc(NewMove.Jump2Dest, Offset);
+        inc(NewMove.Jump3Dest, Offset);
+        inc(NewMove.Jump4Dest, Offset);
+        inc(NewMove.Jump5Dest, Offset);
         Src  := @NewMove;
         Dest := @System.Move;
         for I := 0 to SizeOf(NewMove) - 1 do

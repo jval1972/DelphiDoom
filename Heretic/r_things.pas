@@ -91,6 +91,21 @@ var
   sprites: Pspritedef_tArray;
   numspritespresent: integer;
 
+procedure R_ShutDownSprites;
+
+const
+  MINZ = FRACUNIT * 4;
+  BASEYCENTER = 100;
+
+function R_NewVisSprite: Pvissprite_t;
+
+var
+  spritelights: PBytePArray;
+
+var
+  clipbot: packed array[0..MAXWIDTH - 1] of smallint;
+  cliptop: packed array[0..MAXWIDTH - 1] of smallint;
+
 implementation
 
 uses
@@ -100,7 +115,7 @@ uses
   i_system,
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
-{$ENDIF}  
+{$ENDIF}
   p_mobj_h,
   p_pspr,
   p_pspr_h,
@@ -112,16 +127,14 @@ uses
 {$IFNDEF OPENGL}
   r_column,
   r_batchcolumn,
+  r_voxels, // JVAL voxel support
+  r_fake3d,
 {$ENDIF}
   r_hires,
   r_lights,
   z_zone,
   w_wad,
   doomstat;
-
-const
-  MINZ = FRACUNIT * 4;
-  BASEYCENTER = 100;
 
 type
   maskdraw_t = record
@@ -141,8 +154,6 @@ type
 //  which increases counter clockwise (protractor).
 // There was a lot of stuff grabbed wrong, so I changed it...
 //
-var
-  spritelights: PBytePArray;
 
 //
 // INITIALIZATION FUNCTIONS
@@ -396,6 +407,11 @@ begin
   end;
   result := vissprites[vissprite_p];
   inc(vissprite_p);
+end;
+
+procedure R_ShutDownSprites;
+begin
+  realloc(pointer(vissprites), visspritessize * SizeOf(Pvissprite_t), 0);
 end;
 
 {$IFNDEF OPENGL}
@@ -967,9 +983,9 @@ var
   checksides: boolean;
 {$ELSE}
   iscale: fixed_t;
+  voxelflag: integer;
 {$ENDIF}
 begin
-
   if (thing.player = viewplayer) and not chasecamera then
     exit;
 
@@ -986,13 +1002,21 @@ begin
 
   tz := gxt - gyt;
 
+{$IFNDEF OPENGL}
+  // JVAL voxel support
+  voxelflag := 0;
+  if r_drawvoxels then
+    if thing.state.voxels <> nil then
+      voxelflag := 1;
+{$ENDIF}
+
   // thing is behind view plane?
   {$IFDEF OPENGL}
-  checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and (thing.state.models = nil);
+  checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and (thing.state.models = nil) and (thing.state.voxels = nil);
 
   if checksides then
   {$ENDIF}
-    if tz < MINZ then
+    if tz < MINZ {$IFNDEF OPENGL} - 128 * FRACUNIT * voxelflag {$ENDIF} then
       exit;
 
   xscale := FixedDiv(projection, tz);
@@ -1037,23 +1061,31 @@ begin
     flip := sprframe.flip[0];
   end;
 
-  // calculate edges of the shape
   tx := tx - spriteoffset[lump];
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
 
   // off the right side?
   {$IFDEF OPENGL}
   if checksides then
+  {$ELSE}
+  if voxelflag = 0 then
   {$ENDIF}
     if x1 > viewwidth then
       exit;
 
-  tx := tx + spritewidth[lump];
+  {$IFNDEF OPENGL}
+{  if voxelflag <> 0 then
+    tx := tx + 256 * FRACUNIT
+  else}
+  {$ENDIF}
+    tx := tx + spritewidth[lump];
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
 
   // off the left side
   {$IFDEF OPENGL}
   if checksides then
+  {$ELSE}
+  if voxelflag = 0 then
   {$ENDIF}
     if x2 < 0 then
       exit;
@@ -1068,6 +1100,7 @@ begin
   vis._type := thing._type;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   {$IFNDEF OPENGL}
+  vis.voxelflag := voxelflag;  // JVAL voxel support
   vis.gx := thing.x;
   vis.gy := thing.y;
   vis.gz := thing.z;
@@ -1405,10 +1438,6 @@ end;
 //
 // R_DrawSprite
 //
-var
-  clipbot: packed array[0..MAXWIDTH - 1] of smallint;
-  cliptop: packed array[0..MAXWIDTH - 1] of smallint;
-
 procedure R_DrawSprite(spr: Pvissprite_t);
 var
   ds: Pdrawseg_t;
@@ -1420,6 +1449,13 @@ var
   silhouette: integer;
   i: integer;
 begin
+  // JVAL voxel support
+  if spr.voxelflag <> 0 then
+  begin
+    R_DrawVoxel(spr);
+    exit;
+  end;
+
   for x := spr.x1 to spr.x2 do
   begin
     clipbot[x] := -2;
@@ -1513,10 +1549,19 @@ begin
   for x := spr.x1 to spr.x2 do
   begin
     if clipbot[x] = -2 then
+      clipbot[x] := fake3dbottomclip // viewheight;
+    else if clipbot[x] > fake3dbottomclip then
+      clipbot[x] := fake3dbottomclip;
+
+    if cliptop[x] = -2 then
+      cliptop[x] := fake3dtopclip // -1;
+    else if cliptop[x] < fake3dtopclip then
+      cliptop[x] := fake3dtopclip;
+{    if clipbot[x] = -2 then
       clipbot[x] := viewheight;
 
     if cliptop[x] = -2 then
-      cliptop[x] := -1;
+      cliptop[x] := -1;}
   end;
 
   mfloorclip := @clipbot;
@@ -1639,10 +1684,19 @@ begin
   for x := x1 to x2 do
   begin
     if clipbot[x] = -2 then
+      clipbot[x] := fake3dbottomclip // viewheight;
+    else if clipbot[x] > fake3dbottomclip then
+      clipbot[x] := fake3dbottomclip;
+
+    if cliptop[x] = -2 then
+      cliptop[x] := fake3dtopclip // -1;
+    else if cliptop[x] < fake3dtopclip then
+      cliptop[x] := fake3dtopclip;
+{    if clipbot[x] = -2 then
       clipbot[x] := viewheight;
 
     if cliptop[x] = -2 then
-      cliptop[x] := -1;
+      cliptop[x] := -1;}
   end;
 
   mfloorclip := @clipbot;

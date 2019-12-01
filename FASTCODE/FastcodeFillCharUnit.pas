@@ -783,8 +783,8 @@ begin
       if I > 128 then
         begin {Alligned Fill 16 Chars per Loop}
           K := (Integer(P) and 3) - 20;
-          Inc(P, I - 16);
-          Inc(I, K);
+          inc(P, I - 16);
+          inc(I, K);
           PintegerArray(P)[0] := J;
           PintegerArray(P)[1] := J;
           PintegerArray(P)[2] := J;
@@ -794,23 +794,23 @@ begin
             PintegerArray(Integer(P)-I)[1] := J;
             PintegerArray(Integer(P)-I)[2] := J;
             PintegerArray(Integer(P)-I)[3] := J;
-            Dec(I, 16);
+            dec(I, 16);
           until I <= 0;
         end
       else
         begin {Fill 4 Chars per Loop}
-          Inc(P, I);
+          inc(P, I);
           PInteger(Integer(P)-4)^ := J;
           repeat
             PInteger(Integer(P)-I)^ := J;
-            Dec(I, 4);
+            dec(I, 4);
           until I <= 4;
         end;
     end
   else
     if I > 0 then
       repeat
-        Dec(I);
+        dec(I);
         PByteArray(P)[I] := Ord(Value);
       until I = 0;
 end;
@@ -844,7 +844,7 @@ begin
                   PIntegerArray(P)[3] := J;
 
                   repeat
-                    Dec(I,4);
+                    dec(I,4);
                     PIntegerArray(P)[I]   := J;
                     PIntegerArray(P)[I+1] := J;
                     PIntegerArray(P)[I+2] := J;
@@ -855,10 +855,10 @@ begin
                 begin
                   I := Count;
                   K := (Integer(P) and 3) - 4;
-                  Dec(I, 16);
-                  Dec(PByte(P), K);
-                  Inc(I, K);
-                  Inc(PByte(P), I);
+                  dec(I, 16);
+                  dec(PByte(P), K);
+                  inc(I, K);
+                  inc(PByte(P), I);
                   PintegerArray(P)[0] := J;
                   PintegerArray(P)[1] := J;
                   PintegerArray(P)[2] := J;
@@ -868,14 +868,14 @@ begin
                     PintegerArray(Integer(P)-I)[1] := J;
                     PintegerArray(Integer(P)-I)[2] := J;
                     PintegerArray(Integer(P)-I)[3] := J;
-                    Dec(I, 16);
+                    dec(I, 16);
                   until I <= 0;
                 end
              end
           else
             begin
               repeat
-                Dec(I,2);
+                dec(I,2);
                 PIntegerArray(P)[I] := J;
                 PIntegerArray(P)[I+1] := J;
               until I < 2;

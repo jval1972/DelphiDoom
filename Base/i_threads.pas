@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -74,7 +74,7 @@ uses
 
 function ThreadWorker(p: Pointer): integer; stdcall;
 begin
-  Result := 0;
+  result := 0;
   while true do
   begin
     while (Pthreadinfo_t(p).thread.fstatus = THR_IDLE) and (not Pthreadinfo_t(p).thread.fterminated) do
@@ -143,12 +143,12 @@ begin
     result := true;
   end
   else
-    Result := false;
+    result := false;
 end;
 
 function TDThread.IsIdle: Boolean;
 begin
-  Result := fstatus = THR_IDLE;
+  result := fstatus = THR_IDLE;
 end;
 
 end.

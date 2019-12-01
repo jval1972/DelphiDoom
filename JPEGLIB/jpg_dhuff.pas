@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -227,14 +227,14 @@ uses
 
 
 {$define GET_BITS(nbits)}
-  Dec(bits_left, (nbits));
+  dec(bits_left, (nbits));
   ( (int(get_buffer shr bits_left)) and ( pred(1 shl (nbits)) ) )
 
 {$define PEEK_BITS(nbits)}
   int(get_buffer shr (bits_left -  (nbits))) and pred(1 shl (nbits))
 
 {$define DROP_BITS(nbits)}
-  Dec(bits_left, nbits);
+  dec(bits_left, nbits);
 
 
 
@@ -285,7 +285,7 @@ begin
   if (nb <> 0) then
   begin
     {DROP_BITS(nb);}
-    Dec(bits_left, nb);
+    dec(bits_left, nb);
 
     s := htbl^.look_sym[look];
   end
@@ -467,8 +467,8 @@ begin
     while (i > 0) do
     begin
       huffsize[p] := byte(l);
-      Inc(p);
-      Dec(i);
+      inc(p);
+      dec(i);
     end;
   end;
   huffsize[p] := 0;
@@ -485,8 +485,8 @@ begin
     while (( int (huffsize[p]) ) = si) do
     begin
       huffcode[p] := code;
-      Inc(p);
-      Inc(code);
+      inc(p);
+      inc(code);
     end;
     { code is now 1 more than the last code used for codelength si; but
       it must still fit in si bits, since no code is allowed to be all ones. }
@@ -495,7 +495,7 @@ begin
       ERREXIT(j_common_ptr(cinfo), JERR_BAD_HUFF_TABLE);
 
     code := code shl 1;
-    Inc(si);
+    inc(si);
   end;
 
   { Figure F.15: generate decoding tables for bit-sequential decoding }
@@ -509,7 +509,7 @@ begin
         minus the minimum code of length l }
 
       dtbl^.valoffset[l] := INT32(p) - INT32(huffcode[p]);
-      Inc(p, htbl^.bits[l]);
+      inc(p, htbl^.bits[l]);
       dtbl^.maxcode[l] := huffcode[p-1]; { maximum code of length l }
     end
     else
@@ -539,9 +539,9 @@ begin
       begin
         dtbl^.look_nbits[lookbits] := l;
         dtbl^.look_sym[lookbits] := htbl^.huffval[p];
-        Inc(lookbits);
+        inc(lookbits);
       end;
-      Inc(p);
+      inc(p);
     end;
   end;
 
@@ -623,9 +623,9 @@ begin
         next_input_byte := cinfo^.src^.next_input_byte;
         bytes_in_buffer := cinfo^.src^.bytes_in_buffer;
       end;
-      Dec(bytes_in_buffer);
+      dec(bytes_in_buffer);
       c := GETJOCTET(next_input_byte^);
-      Inc(next_input_byte);
+      inc(next_input_byte);
 
 
       { If it's $FF, check and discard stuffed zero byte }
@@ -647,9 +647,9 @@ begin
             next_input_byte := state.cinfo^.src^.next_input_byte;
             bytes_in_buffer := state.cinfo^.src^.bytes_in_buffer;
           end;
-          Dec(bytes_in_buffer);
+          dec(bytes_in_buffer);
           c := GETJOCTET(next_input_byte^);
-          Inc(next_input_byte);
+          inc(next_input_byte);
         Until (c <> $FF);
 
         if (c = 0) then
@@ -675,7 +675,7 @@ begin
 
       { OK, load c into get_buffer }
       get_buffer := (get_buffer shl 8) or c;
-      Inc(bits_left, 8);
+      inc(bits_left, 8);
     end { end while }
   end
   else
@@ -744,7 +744,7 @@ begin
   end;
 
   {code := GET_BITS(l);}
-  Dec(bits_left, l);
+  dec(bits_left, l);
   code := (int(get_buffer shr bits_left)) and ( pred(1 shl l) );
 
   { Collect the rest of the Huffman code one bit at a time. }
@@ -766,10 +766,10 @@ begin
     end;
 
     {code := code or GET_BITS(1);}
-    Dec(bits_left);
+    dec(bits_left);
     code := code or ( (int(get_buffer shr bits_left)) and pred(1 shl 1) );
 
-    Inc(l);
+    inc(l);
   end;
 
   { Unload the local registers }
@@ -833,7 +833,7 @@ begin
 
   { Throw away any unused bits remaining in bit buffer; }
   { include any full bytes in next_marker's count of discarded bytes }
-  Inc(cinfo^.marker^.discarded_bytes, entropy^.bitstate.bits_left div 8);
+  inc(cinfo^.marker^.discarded_bytes, entropy^.bitstate.bits_left div 8);
   entropy^.bitstate.bits_left := 0;
 
   { Advance past the RSTn marker }
@@ -961,7 +961,7 @@ begin
       if (nb <> 0) then
       begin
         {DROP_BITS(nb);}
-        Dec(bits_left, nb);
+        dec(bits_left, nb);
 
         s := dctbl^.look_sym[look];
       end
@@ -994,7 +994,7 @@ begin
         end;
 
         {r := GET_BITS(s);}
-        Dec(bits_left, s);
+        dec(bits_left, s);
         r := ( int(get_buffer shr bits_left)) and ( pred(1 shl s) );
 
         {s := HUFF_EXTEND(r, s);}
@@ -1008,7 +1008,7 @@ begin
       begin
   { Convert DC difference to actual value, update last_dc_val }
         ci := cinfo^.MCU_membership[blkn];
-        Inc(s, state.last_dc_val[ci]);
+        inc(s, state.last_dc_val[ci]);
         state.last_dc_val[ci] := s;
         { Output the DC coefficient (assumes jpeg_natural_order[0] := 0) }
         block^[0] := JCOEF (s);
@@ -1046,7 +1046,7 @@ begin
           if (nb <> 0) then
           begin
             {DROP_BITS(nb);}
-            Dec(bits_left, nb);
+            dec(bits_left, nb);
 
             s := actbl^.look_sym[look];
           end
@@ -1069,7 +1069,7 @@ begin
 
           if (s <> 0) then
           begin
-            Inc(k, r);
+            inc(k, r);
             {CHECK_BIT_BUFFER(br_state, s, return FALSE);}
             if (bits_left < s) then
             begin
@@ -1083,7 +1083,7 @@ begin
             end;
 
             {r := GET_BITS(s);}
-            Dec(bits_left, s);
+            dec(bits_left, s);
             r := (int(get_buffer shr bits_left)) and ( pred(1 shl s) );
 
             {s := HUFF_EXTEND(r, s);}
@@ -1101,9 +1101,9 @@ begin
           begin
             if (r <> 15) then
               break;
-            Inc(k, 15);
+            inc(k, 15);
           end;
-          Inc(k);
+          inc(k);
         end;
       end
       else
@@ -1138,7 +1138,7 @@ begin
           if (nb <> 0) then
           begin
             {DROP_BITS(nb);}
-            Dec(bits_left, nb);
+            dec(bits_left, nb);
 
             s := actbl^.look_sym[look];
           end
@@ -1161,7 +1161,7 @@ begin
 
           if (s <> 0) then
           begin
-            Inc(k, r);
+            inc(k, r);
             {CHECK_BIT_BUFFER(br_state, s, return FALSE);}
             if (bits_left < s) then
             begin
@@ -1175,15 +1175,15 @@ begin
             end;
 
       {DROP_BITS(s);}
-            Dec(bits_left, s);
+            dec(bits_left, s);
           end
           else
           begin
             if (r <> 15) then
               break;
-            Inc(k, 15);
+            inc(k, 15);
           end;
-          Inc(k);
+          inc(k);
         end;
 
       end;
@@ -1202,7 +1202,7 @@ begin
   end;
 
   { Account for restart interval (no-op if not using restarts) }
-  Dec(entropy^.restarts_to_go);
+  dec(entropy^.restarts_to_go);
 
   decode_mcu := TRUE;
 end;

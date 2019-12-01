@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -119,13 +119,13 @@ begin
   begin
     while (num_bytes > long(src^.pub.bytes_in_buffer)) do
     begin
-      Dec(num_bytes, long(src^.pub.bytes_in_buffer));
+      dec(num_bytes, long(src^.pub.bytes_in_buffer));
       fill_input_buffer(cinfo);
       { note we assume that fill_input_buffer will never return FALSE,
         so suspension need not be handled. }
     end;
-    Inc( src^.pub.next_input_byte, size_t(num_bytes) );
-    Dec( src^.pub.bytes_in_buffer, size_t(num_bytes) );
+    inc( src^.pub.next_input_byte, size_t(num_bytes) );
+    dec( src^.pub.bytes_in_buffer, size_t(num_bytes) );
   end;
 end;
 
@@ -317,7 +317,7 @@ begin
         r := 0;
         a := 0;
       end;
-      Inc(i);
+      inc(i);
     end;
     if dest^.outfile.Write(output_ext_color_map, cmap_entries * 4) <> cmap_entries * 4 then
       ERREXIT(j_common_ptr(cinfo), JERR_FILE_WRITE);
@@ -337,12 +337,12 @@ begin
   if dest^.inmemory then
   begin
     row := dest^.cur_output_row;
-    Inc(dest^.cur_output_row);
+    inc(dest^.cur_output_row);
   end
   else
   begin
     row := 0;
-    Dec(dest^.row_offset, dest^.row_width);
+    dec(dest^.row_offset, dest^.row_width);
   end;
   image_ptr := cinfo^.mem^.access_virt_sarray ( j_common_ptr(cinfo),
      dest^.image_buffer, row, JDIMENSION (1), TRUE);
@@ -350,16 +350,16 @@ begin
   if not dest^.grayscale then
   begin
     BGR := BGRptr(image_ptr^[0]);
-    Inc(BGR, cinfo^.output_width);
+    inc(BGR, cinfo^.output_width);
     for col := pred(cinfo^.output_width) downto 0 do
     begin
-      Dec(BGR);
+      dec(BGR);
       BGR^.b := inptr^;
-      Inc(inptr);
+      inc(inptr);
       BGR^.g := inptr^;
-      Inc(inptr);
+      inc(inptr);
       BGR^.r := inptr^;
-      Inc(inptr);
+      inc(inptr);
     end;
     outptr := JSAMPLE_PTR(BGR);
   end
@@ -369,18 +369,18 @@ begin
     inc(outptr, cinfo^.output_width);
     for col := pred(cinfo^.output_width) downto 0 do
     begin
-      Dec(outptr);
+      dec(outptr);
       outptr^ := inptr^;
-      Inc(inptr);
+      inc(inptr);
     end;
   end;
   {zero out the pad bytes}
   pad := dest^.pad_bytes;
   while (pad > 0) do
   begin
-    Dec(pad);
+    dec(pad);
     outptr^ := 0;
-    Inc(outptr);
+    inc(outptr);
   end;
   if not dest^.inmemory then
   begin
@@ -428,7 +428,7 @@ begin
   dest^.data_width := cinfo^.output_width * cinfo^.output_components;
   dest^.row_width := dest^.data_width;
   while ((dest^.row_width and 3) <> 0) do
-    Inc(dest^.row_width);
+    inc(dest^.row_width);
   dest^.pad_bytes := int(dest^.row_width-dest^.data_width);
   if (cinfo^.out_color_space = JCS_GRAYSCALE) then
     dest^.grayscale := True
@@ -491,7 +491,7 @@ begin
     if (err^.num_warnings = 0) or (err^.trace_level >= 3) then
       err^.output_message(cinfo);
     {Always count warnings in num_warnings}
-    Inc( err^.num_warnings );
+    inc( err^.num_warnings );
   end else
     {It's a trace message. Show it if trace_level >= msg_level}
     if (err^.trace_level >= msg_level) then

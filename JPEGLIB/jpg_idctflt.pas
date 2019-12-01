@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -177,9 +177,9 @@ begin
       wsptr^[DCTSIZE*6] := dcval;
       wsptr^[DCTSIZE*7] := dcval;
 
-      Inc(JCOEF_PTR(inptr));    { advance pointers to next column }
-      Inc(FLOAT_MULT_TYPE_PTR(quantptr));
-      Inc(FAST_FLOAT_PTR(wsptr));
+      inc(JCOEF_PTR(inptr));    { advance pointers to next column }
+      inc(FLOAT_MULT_TYPE_PTR(quantptr));
+      inc(FAST_FLOAT_PTR(wsptr));
       continue;
     end;
 
@@ -233,9 +233,9 @@ begin
     wsptr^[DCTSIZE*4] := tmp3 + tmp4;
     wsptr^[DCTSIZE*3] := tmp3 - tmp4;
 
-    Inc(JCOEF_PTR(inptr));    { advance pointers to next column }
-    Inc(FLOAT_MULT_TYPE_PTR(quantptr));
-    Inc(FAST_FLOAT_PTR(wsptr));
+    inc(JCOEF_PTR(inptr));    { advance pointers to next column }
+    inc(FLOAT_MULT_TYPE_PTR(quantptr));
+    inc(FAST_FLOAT_PTR(wsptr));
   end;
 
   { Pass 2: process rows from work array, store into output array. }
@@ -300,7 +300,7 @@ begin
     outptr^[3] := range_limit^[ int(DESCALE( INT32(Round((tmp3 - tmp4))), 3))
           and RANGE_MASK];
 
-    Inc(FAST_FLOAT_PTR(wsptr), DCTSIZE);  { advance pointer to next row }
+    inc(FAST_FLOAT_PTR(wsptr), DCTSIZE);  { advance pointer to next row }
   end;
 end;
 

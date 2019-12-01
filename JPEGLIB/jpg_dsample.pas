@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -150,7 +150,7 @@ begin
            [in_row_group_ctr * upsample^.rowgroup_height[ci]]),
   upsample^.color_buf[ci]);
 
-      Inc(compptr);
+      inc(compptr);
     end;
     upsample^.next_row_out := 0;
   end;
@@ -165,7 +165,7 @@ begin
   if (num_rows > upsample^.rows_to_go) then
     num_rows := upsample^.rows_to_go;
   { And not more than what the client can accept: }
-  Dec(out_rows_avail, out_row_ctr);
+  dec(out_rows_avail, out_row_ctr);
   if (num_rows > out_rows_avail) then
     num_rows := out_rows_avail;
 
@@ -176,12 +176,12 @@ begin
          int (num_rows));
 
   { Adjust counts }
-  Inc(out_row_ctr, num_rows);
-  Dec(upsample^.rows_to_go, num_rows);
-  Inc(upsample^.next_row_out, num_rows);
+  inc(out_row_ctr, num_rows);
+  dec(upsample^.rows_to_go, num_rows);
+  inc(upsample^.next_row_out, num_rows);
   { When the buffer is emptied, declare this input row group consumed }
   if (upsample^.next_row_out >= cinfo^.max_v_samp_factor) then
-    Inc(in_row_group_ctr);
+    inc(in_row_group_ctr);
 end;
 
 
@@ -254,12 +254,12 @@ begin
     while (outcount > 0) do     { Nomssi }
     begin
       invalue := inptr^;  { don't need GETJSAMPLE() here }
-      Inc(inptr);
+      inc(inptr);
       for h := pred(h_expand) downto 0 do
       begin
         outptr^ := invalue;
         inc(outptr);       { <-- fix: this was left out in PasJpeg 1.0 }
-        Dec(outcount);        { thanks to Jannie Gerber for the report }
+        dec(outcount);        { thanks to Jannie Gerber for the report }
       end;
     end;
 
@@ -269,8 +269,8 @@ begin
       jcopy_sample_rows(output_data, outrow, output_data, outrow + 1,
       v_expand - 1, cinfo^.output_width);
     end;
-    Inc(inrow);
-    Inc(outrow, v_expand);
+    inc(inrow);
+    inc(outrow, v_expand);
   end;
 end;
 
@@ -300,12 +300,12 @@ begin
     while (outcount > 0) do
     begin
       invalue := inptr^;  { don't need GETJSAMPLE() here }
-      Inc(inptr);
+      inc(inptr);
       outptr^ := invalue;
-      Inc(outptr);
+      inc(outptr);
       outptr^ := invalue;
-      Inc(outptr);
-      Dec(outcount, 2);         { Nomssi: to avoid pointer arithmetic }
+      inc(outptr);
+      dec(outcount, 2);         { Nomssi: to avoid pointer arithmetic }
     end;
   end;
 end;
@@ -338,17 +338,17 @@ begin
     while (outcount > 0) do
     begin
       invalue := inptr^;  { don't need GETJSAMPLE() here }
-      Inc(inptr);
+      inc(inptr);
       outptr^ := invalue;
-      Inc(outptr);
+      inc(outptr);
       outptr^ := invalue;
-      Inc(outptr);
-      Dec(outcount, 2);
+      inc(outptr);
+      dec(outcount, 2);
     end;
     jcopy_sample_rows(output_data, outrow, output_data, outrow+1,
           1, cinfo^.output_width);
-    Inc(inrow);
-    Inc(outrow, 2);
+    inc(inrow);
+    inc(outrow, 2);
   end;
 end;
 
@@ -385,30 +385,30 @@ begin
     { Special case for first column }
     pre_inptr := inptr;
     invalue := GETJSAMPLE(inptr^);
-    Inc(inptr);
+    inc(inptr);
     outptr^ := JSAMPLE (invalue);
-    Inc(outptr);
+    inc(outptr);
     outptr^ := JSAMPLE ((invalue * 3 + GETJSAMPLE(inptr^) + 2) shr 2);
-    Inc(outptr);
+    inc(outptr);
 
     for colctr := pred(compptr^.downsampled_width - 2) downto 0 do
     begin
       { General case: 3/4 * nearer pixel + 1/4 * further pixel }
       invalue := GETJSAMPLE(inptr^) * 3;
-      Inc(inptr);
+      inc(inptr);
       outptr^ := JSAMPLE ((invalue + GETJSAMPLE(pre_inptr^) + 1) shr 2);
-      Inc(pre_inptr);
-      Inc(outptr);
+      inc(pre_inptr);
+      inc(outptr);
       outptr^ := JSAMPLE ((invalue + GETJSAMPLE(inptr^) + 2) shr 2);
-      Inc(outptr);
+      inc(outptr);
     end;
 
     { Special case for last column }
     invalue := GETJSAMPLE(inptr^);
     outptr^ := JSAMPLE ((invalue * 3 + GETJSAMPLE(pre_inptr^) + 1) shr 2);
-    Inc(outptr);
+    inc(outptr);
     outptr^ := JSAMPLE (invalue);
-    {Inc(outptr);                        - value never used }
+    {inc(outptr);                        - value never used }
   end;
 end;
 
@@ -449,27 +449,27 @@ begin
       begin
         {inptr1 := JSAMPLE_PTR(input_data^[inrow-1]);}
         prev_input_data := input_data;       { work around }
-        Dec(JSAMPROW_PTR(prev_input_data));  { negative offsets }
+        dec(JSAMPROW_PTR(prev_input_data));  { negative offsets }
         inptr1 := JSAMPLE_PTR(prev_input_data^[inrow]);
       end
       else                    { next nearest is row below }
         inptr1 := JSAMPLE_PTR(input_data^[inrow + 1]);
 
       outptr := JSAMPLE_PTR(output_data^[outrow]);
-      Inc(outrow);
+      inc(outrow);
 
       { Special case for first column }
       thiscolsum := GETJSAMPLE(inptr0^) * 3 + GETJSAMPLE(inptr1^);
-      Inc(inptr0);
-      Inc(inptr1);
+      inc(inptr0);
+      inc(inptr1);
       nextcolsum := GETJSAMPLE(inptr0^) * 3 + GETJSAMPLE(inptr1^);
-      Inc(inptr0);
-      Inc(inptr1);
+      inc(inptr0);
+      inc(inptr1);
 
       outptr^ := JSAMPLE ((thiscolsum * 4 + 8) shr 4);
-      Inc(outptr);
+      inc(outptr);
       outptr^ := JSAMPLE ((thiscolsum * 3 + nextcolsum + 7) shr 4);
-      Inc(outptr);
+      inc(outptr);
       lastcolsum := thiscolsum; thiscolsum := nextcolsum;
 
       for colctr := pred(compptr^.downsampled_width - 2) downto 0 do
@@ -477,23 +477,23 @@ begin
         { General case: 3/4 * nearer pixel + 1/4 * further pixel in each }
         { dimension, thus 9/16, 3/16, 3/16, 1/16 overall }
         nextcolsum := GETJSAMPLE(inptr0^) * 3 + GETJSAMPLE(inptr1^);
-        Inc(inptr0);
-        Inc(inptr1);
+        inc(inptr0);
+        inc(inptr1);
         outptr^ := JSAMPLE ((thiscolsum * 3 + lastcolsum + 8) shr 4);
-        Inc(outptr);
+        inc(outptr);
         outptr^ := JSAMPLE ((thiscolsum * 3 + nextcolsum + 7) shr 4);
-        Inc(outptr);
+        inc(outptr);
         lastcolsum := thiscolsum;
         thiscolsum := nextcolsum;
       end;
 
       { Special case for last column }
       outptr^ := JSAMPLE ((thiscolsum * 3 + lastcolsum + 8) shr 4);
-      Inc(outptr);
+      inc(outptr);
       outptr^ := JSAMPLE ((thiscolsum * 4 + 7) shr 4);
-      {Inc(outptr);                     - value never used }
+      {inc(outptr);                     - value never used }
     end;
-    Inc(inrow);
+    inc(inrow);
   end;
 end;
 
@@ -595,7 +595,7 @@ begin
         JPOOL_IMAGE, JDIMENSION (jround_up( long (cinfo^.output_width),
         long (cinfo^.max_h_samp_factor))), JDIMENSION (cinfo^.max_v_samp_factor));
     end;
-    Inc(compptr);
+    inc(compptr);
   end;
 end;
 

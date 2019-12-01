@@ -247,6 +247,9 @@ var
   nodrawers: boolean = false; // for comparative timing purposes
   noblit: boolean = false;    // for comparative timing purposes
   norender: boolean = false;  // for comparative timing purposes
+{$IFNDEF OPENGL}
+  blancbeforerender: Boolean = false;
+{$ENDIF}
   autoscreenshot: boolean = false;
   shotnumber: integer = 0;
   lastshotnumber: integer = -1;
@@ -274,6 +277,11 @@ begin
     R_PlayerViewBlanc(aprox_black);
     exit;
   end;
+
+{$IFNDEF OPENGL}
+  if blancbeforerender then
+    R_PlayerViewBlanc(aprox_black);
+{$ENDIF}
 
   if player <> nil then
     R_RenderPlayerView(player)
@@ -1483,6 +1491,9 @@ begin
   nodrawers := M_CheckParm('-nodraw') <> 0;
   noblit := M_CheckParm('-noblit') <> 0;
   norender := M_CheckParm('-norender') <> 0;
+{$IFNDEF OPENGL}
+  blancbeforerender := M_CheckParm('-blancbeforerender') <> 0;
+{$ENDIF}
 
   if M_CheckParm('-usetransparentsprites') <> 0 then
     usetransparentsprites := true;

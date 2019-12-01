@@ -145,6 +145,7 @@ uses
   r_ccache,
   r_scache,
   r_col_fz,
+  r_voxels,
 {$ENDIF}
   r_main,
   v_data,
@@ -574,6 +575,7 @@ var
   numtextures2: integer;
   directory: PIntegerArray;
   t2lump: integer;
+  pname: string;
 begin
   // Load the patch names from pnames.lmp.
   ZeroMemory(@name, SizeOf(char8_t));
@@ -602,7 +604,15 @@ begin
       name[j] := #0;
       inc(j);
     end;
-    patchlookup[i] := W_CheckNumForName(strtrim(char8tostring(name)), TYPE_PATCH or TYPE_SPRITE);
+    pname := strtrim(char8tostring(name));
+    patchlookup[i] := W_CheckNumForName(pname, TYPE_PATCH or TYPE_SPRITE);
+    if patchlookup[i] = -1 then
+    begin
+      I_DevWarning('R_InitTextures(): Can not find patch "%s" inside patch or sprite markers, retrying...'#13#10, [pname]);
+      patchlookup[i] := W_CheckNumForName(pname);
+    end;
+    if patchlookup[i] = -1 then
+      I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
   end;
   Z_Free(names);
 
@@ -1123,6 +1133,11 @@ begin
   maxvisplane := -1;
   max_ds_p := -1;
   maxvissprite := -1;
+{$IFDEF DOOM}
+  h, mh: fixed_t;
+  plheightsec: integer;
+  y: integer;
+{$ENDIF}
 end;
 
 

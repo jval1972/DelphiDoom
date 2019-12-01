@@ -292,6 +292,7 @@ uses
   r_precalc,
   r_ripple,
   r_trans8,
+  r_voxels, 
 {$ENDIF}
   r_lights,
   r_intrpl,
@@ -1405,6 +1406,8 @@ begin
   R_InitWallsCache8;
   printf(#13#10 + 'R_InitWallsCache32');
   R_InitWallsCache32;
+  printf(#13#10 + 'R_InitVoxels'#13#10);
+  R_InitVoxels;
 {$ENDIF}
 
   framecount := 0;
@@ -1444,6 +1447,8 @@ begin
 {$ENDIF}
   printf(#13#10 + 'R_ShutDownInterpolation');
   R_ResetInterpolationBuffer;
+  printf(#13#10 + 'R_ShutDownSprites');
+  R_ShutDownSprites;
 {$IFDEF OPENGL}
   printf(#13#10 + 'R_ShutDownOpenGL');
   R_ShutDownOpenGL;
@@ -1456,6 +1461,8 @@ begin
   R_ShutDownWallsCache8;
   printf(#13#10 + 'R_ShutDownWallsCache32');
   R_ShutDownWallsCache32;
+  printf(#13#10 + 'R_VoxelsDone');
+  R_VoxelsDone;
 {$ENDIF}
   printf(#13#10);
 
@@ -1567,10 +1574,10 @@ begin
   viewsin := finesine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
   viewcos := finecosine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
 {$IFNDEF OPENGL}
-  dviewsin := Sin(viewangle/$FFFFFFFF * 2 * pi);
-  dviewcos := Cos(viewangle/$FFFFFFFF * 2 * pi);
+  dviewsin := Sin(viewangle / $FFFFFFFF * 2 * pi);
+  dviewcos := Cos(viewangle / $FFFFFFFF * 2 * pi);
 // jval: Widescreen support
-  relativeaspect := 320/200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
+  relativeaspect := 320 / 200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
 {$ENDIF}
   sscount := 0;
 

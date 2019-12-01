@@ -620,10 +620,10 @@ begin;
     c:=c-2;
     end;
   if integer(c)>=1 then if pchar(q1)^<>pchar(q2)^ then goto Ret0;
-  Result:=true;
+  result:=true;
   exit;
 Ret0:
-  Result:=false;
+  result:=false;
 end;
 
 procedure CompareMemStub;

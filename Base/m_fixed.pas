@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -32,6 +32,9 @@
 unit m_fixed;
 
 interface
+
+uses
+  d_delphi;
 
 //
 // Fixed point, 32bit as 16.16.
@@ -61,16 +64,21 @@ function IntFixedMul(const a, b: fixed_t): fixed_t;
 
 function FixedDiv(const a, b: fixed_t): fixed_t;
 
+function FixedDiv_fast(const a, b: fixed_t): fixed_t;
+
 function FixedDivEx(const a, b: fixed_t): fixed_t;
 
 function FixedDiv2(const a, b: fixed_t): fixed_t;
 
 function FixedInt(const x: integer): integer;
 
+function FloatToFixed(const f: float): fixed_t;
+
+function FixedInt_FixedMul(const a, b: fixed_t): fixed_t; 
+
 implementation
 
 uses
-  d_delphi,
   doomtype;
 
 function FixedMul(const a, b: fixed_t): fixed_t; assembler;
@@ -127,6 +135,23 @@ begin
     result := FixedDiv2(a, b);
 end;
 
+function FixedDiv_fast(const a, b: fixed_t): fixed_t; assembler;
+asm
+  mov ebx, b
+  cmp ebx, 0
+  jne @@loop1
+  mov eax, MININT
+  jmp @@exit
+@@loop1:
+  mov ebx, b
+  mov eax, a
+  mov edx, eax
+  sal eax, 16
+  sar edx, 16
+  idiv ebx
+@@exit:
+end; 
+
 function FixedDivEx(const a, b: fixed_t): fixed_t;
 var
   ret: Double;
@@ -149,7 +174,7 @@ begin
     if ret < MININT then
       result := MININT
     else if ret > MAXINT then
-      Result := MAXINT
+      result := MAXINT
     else
       result := Round(ret);
   end;
@@ -166,6 +191,18 @@ end;
 
 function FixedInt(const x: integer): integer; assembler;
 asm
+  sar eax, FRACBITS
+end;
+
+function FloatToFixed(const f: float): fixed_t;
+begin
+  result := Round(f * FRACUNIT);
+end;
+
+function FixedInt_FixedMul(const a, b: fixed_t): fixed_t; assembler;
+asm
+  imul b
+  shrd eax, edx, 16
   sar eax, FRACBITS
 end;
 

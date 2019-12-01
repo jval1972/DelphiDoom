@@ -150,9 +150,9 @@ begin;
     Ch2 := Upper[PStr[Offset]];
     if (Ch1 = #0) or (Ch1 <> Ch2) then
       Break;
-    Inc(PStr);
+    inc(PStr);
   until False;
-  Result := Integer(Ch1) - Integer(Ch2);
+  result := Integer(Ch1) - Integer(Ch2);
 end;
 
 function StrICompStub(const Str1, Str2: PChar): Integer;

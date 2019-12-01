@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -142,8 +142,8 @@ begin
   items[numitems].tag := tag;
   items[numitems].index := numitems;
   items[numitems].user := user;
-  Result := item2ptr(numitems);
-  Inc(numitems);
+  result := item2ptr(numitems);
+  inc(numitems);
   if user <> nil then
     PPointer(user)^ := result;
 end;

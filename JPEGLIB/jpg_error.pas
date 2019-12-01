@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -355,7 +355,7 @@ begin
     if (err^.num_warnings = 0) or (err^.trace_level >= 3) then
       err^.output_message(cinfo);
     { Always count warnings in num_warnings. }
-    Inc( err^.num_warnings );
+    inc( err^.num_warnings );
   end
   else
   begin

@@ -6266,7 +6266,7 @@ type
     dwBytesLoaded: DWORD;    // Total bytes loaded
     dwVerticesLoaded: DWORD; // Number of vertices loaded
     dwFacesLoaded: DWORD;    // Number of faces loaded
-    dwLoadResult: HResult;   // Result of the load operation
+    dwLoadResult: HResult;   // result of the load operation
     dwFlags: DWORD;
   end;
 
@@ -15492,17 +15492,17 @@ const
 
 function GET_WHQL_YEAR(dwWHQLLevel: DWORD): DWORD;
 begin
-  Result := dwWHQLLevel div $10000;
+  result := dwWHQLLevel div $10000;
 end;
 
 function GET_WHQL_MONTH(dwWHQLLevel: DWORD): DWORD;
 begin
-  Result := (dwWHQLLevel div $100) and $FF;
+  result := (dwWHQLLevel div $100) and $FF;
 end;
 
 function GET_WHQL_DAY(dwWHQLLevel: DWORD): DWORD;
 begin
-  Result := dwWHQLLevel and $FF;
+  result := dwWHQLLevel and $FF;
 end;
 
 function DirectDrawEnumerateA; external DDrawLib;
@@ -15521,124 +15521,124 @@ function DirectDrawCreateClipper; external DDrawLib;
 
 function D3DVALP(val: TD3DValue; prec: Integer): TD3DValue;
 begin
-  Result := val;
+  result := val;
 end;
 
 function D3DVAL(val: TD3DValue): TD3DValue;
 begin
-  Result := val;
+  result := val;
 end;
 
 function D3DDivide(a, b: TD3DValue): TD3DValue;
 begin
-  Result := a / b;
+  result := a / b;
 end;
 
 function D3DMultiply(a, b: TD3DValue): TD3DValue;
 begin
-  Result := a * b;
+  result := a * b;
 end;
 
 function CI_GETALPHA(ci: Integer): Byte;
 begin
-  Result := ci shr 24;
+  result := ci shr 24;
 end;
 
 function CI_GETINDEX(ci: Integer): Word;
 begin
-  Result := ci shr 8;
+  result := ci shr 8;
 end;
 
 function CI_GETFRACTION(ci: Integer): Byte;
 begin
-  Result := ci;
+  result := ci;
 end;
 
 function CI_ROUNDINDEX(ci: Integer): Integer;
 begin
-  Result := CI_GETINDEX(ci)+$80;
+  result := CI_GETINDEX(ci)+$80;
 end;
 
 function CI_MASKALPHA(ci: Integer): Integer;
 begin
-  Result := ci and $FFFFFF;
+  result := ci and $FFFFFF;
 end;
 
 function CI_MAKE(a: Byte; i: Word; f: Byte): Integer;
 begin
-  Result := (a shl 24) or (i shl 8) or f;
+  result := (a shl 24) or (i shl 8) or f;
 end;
 
 function RGBA_GETALPHA(rgb: TD3DColor): Byte;
 begin
-  Result := rgb shr 24;
+  result := rgb shr 24;
 end;
 
 function RGBA_GETRED(rgb: TD3DColor): Byte;
 begin
-  Result := rgb shr 16;
+  result := rgb shr 16;
 end;
 
 function RGBA_GETGREEN(rgb: TD3DColor): Byte;
 begin
-  Result := rgb shr 8;
+  result := rgb shr 8;
 end;
 
 function RGBA_GETBLUE(rgb: TD3DColor): Byte;
 begin
-  Result := rgb;
+  result := rgb;
 end;
 
 function RGBA_MAKE(r, g, b, a: Byte): TD3DColor;
 begin
-  Result := (a shl 24) or (r shl 16) or (g shl 8) or b;
+  result := (a shl 24) or (r shl 16) or (g shl 8) or b;
 end;
 
 function D3DRGB(r, g, b: TD3DValue): TD3DColor;
 begin
-  Result := $FF000000 or (Trunc(r*255) shl 16) or (Trunc(g*255) shl 8) or
+  result := $FF000000 or (Trunc(r*255) shl 16) or (Trunc(g*255) shl 8) or
        (Trunc(b*255));
 end;
 
 function D3DRGBA(r, g, b, a: TD3DValue): TD3DColor;
 begin
-  Result := (Trunc(a*255) shl 24) or (Trunc(r*255) shl 16) or (Trunc(g*255) shl 8) or
+  result := (Trunc(a*255) shl 24) or (Trunc(r*255) shl 16) or (Trunc(g*255) shl 8) or
     (Trunc(b*255));
 end;
 
 function RGB_GETRED(rgb: TD3DColor): Byte;
 begin
-  Result := rgb shr 16;
+  result := rgb shr 16;
 end;
 
 function RGB_GETGREEN(rgb: TD3DColor): Byte;
 begin
-  Result := rgb shr 8;
+  result := rgb shr 8;
 end;
 
 function RGB_GETBLUE(rgb: TD3DColor): Byte;
 begin
-  Result := rgb;
+  result := rgb;
 end;
 
 function RGBA_SETALPHA(rgba: TD3DColor; x: Byte): TD3DColor;
 begin
-  Result := (x shl 24) or (rgba and $00FFFFFF);
+  result := (x shl 24) or (rgba and $00FFFFFF);
 end;
 
 function RGB_MAKE(r, g, b: Byte): TD3DColor;
 begin
-  Result := (r shl 16) or (g shl 8) or b;
+  result := (r shl 16) or (g shl 8) or b;
 end;
 
 function RGBA_TORGB(rgba: TD3DColor): TD3DColor;
 begin
-  Result := rgba and $00FFFFFF;
+  result := rgba and $00FFFFFF;
 end;
 
 function RGB_TORGBA(rgb: TD3DColor): TD3DColor;
 begin
-  Result := rgb or $FF000000;
+  result := rgb or $FF000000;
 end;
 
 function VectorAdd(v1, v2: TD3DVector) : TD3DVector;
@@ -15774,12 +15774,12 @@ end;
 
 function D3DSTATE_OVERRIDE(typ: DWORD): DWORD;
 begin
-  Result := typ + D3DSTATE_OVERRIDE_BIAS;
+  result := typ + D3DSTATE_OVERRIDE_BIAS;
 end;
 
 function D3DRENDERSTATE_STIPPLEPATTERN(y: DWORD): TD3DRenderStateType;
 begin
-  Result := TD3DRenderStateType(Ord(D3DRENDERSTATE_STIPPLEPATTERN00)+y);
+  result := TD3DRenderStateType(Ord(D3DRENDERSTATE_STIPPLEPATTERN00)+y);
 end;
 
 function D3DTRIFLAG_STARTFLAT(len: DWORD) : DWORD;
@@ -15790,22 +15790,22 @@ end;
 
 function D3DFVF_TEXCOORDSIZE3(CoordIndex: DWORD): DWORD;
 begin
-  Result := D3DFVF_TEXTUREFORMAT3 shl (CoordIndex*2 + 16);
+  result := D3DFVF_TEXTUREFORMAT3 shl (CoordIndex*2 + 16);
 end;
 
 function D3DFVF_TEXCOORDSIZE2(CoordIndex: DWORD): DWORD;
 begin
-  Result := D3DFVF_TEXTUREFORMAT2;
+  result := D3DFVF_TEXTUREFORMAT2;
 end;
 
 function D3DFVF_TEXCOORDSIZE4(CoordIndex: DWORD): DWORD;
 begin
-  Result := D3DFVF_TEXTUREFORMAT4 shl (CoordIndex*2 + 16);
+  result := D3DFVF_TEXTUREFORMAT4 shl (CoordIndex*2 + 16);
 end;
 
 function D3DFVF_TEXCOORDSIZE1(CoordIndex: DWORD): DWORD;
 begin
-  Result := D3DFVF_TEXTUREFORMAT1 shl (CoordIndex*2 + 16);
+  result := D3DFVF_TEXTUREFORMAT1 shl (CoordIndex*2 + 16);
 end;
 
 { Direct3DRM }
@@ -15884,42 +15884,42 @@ function DirectXFileCreate; external D3DXofLib;
 
 function GET_DIDEVICE_TYPE(dwDevType: DWORD): DWORD;
 begin
-  Result := LOBYTE(dwDevType);
+  result := LOBYTE(dwDevType);
 end;
 
 function GET_DIDEVICE_SUBTYPE(dwDevType: DWORD): DWORD;
 begin
-  Result := HIBYTE(dwDevType);
+  result := HIBYTE(dwDevType);
 end;
 
 function DIEFT_GETTYPE(n: DWORD): DWORD;
 begin
-  Result := LOBYTE(n);
+  result := LOBYTE(n);
 end;
 
 function DIDFT_MAKEINSTANCE(n: WORD): DWORD;
 begin
-  Result := n shl 8;
+  result := n shl 8;
 end;
 
 function DIDFT_GETTYPE(n: DWORD): DWORD;
 begin
-  Result := LOBYTE(n);
+  result := LOBYTE(n);
 end;
 
 function DIDFT_GETINSTANCE(n: DWORD): WORD;
 begin
-  Result := n shr 8;
+  result := n shr 8;
 end;
 
 function DIDFT_ENUMCOLLECTION(n: WORD): DWORD;
 begin
-  Result := n shl 8;
+  result := n shl 8;
 end;
 
 function DIMAKEUSAGEDWORD(UsagePage, Usage: Word): DWORD;
 begin
-  Result := MAKELONG(Usage, UsagePage);
+  result := MAKELONG(Usage, UsagePage);
 end;
 
 function DirectInputCreate; external DInputLib name 'DirectInputCreateA';
@@ -15961,17 +15961,17 @@ function DirectXSetupGetVersion; external DSetupLib;
 
 function DSSPEAKER_COMBINED(c, g: Byte): DWORD;
 begin
-  Result := c or (g shl 16);
+  result := c or (g shl 16);
 end;
 
 function DSSPEAKER_CONFIG(a: DWORD): Byte;
 begin
-  Result := a;
+  result := a;
 end;
 
 function DSSPEAKER_GEOMETRY(a: DWORD): Byte;
 begin
-  Result := a shr 16;
+  result := a shr 16;
 end;
 
 function DirectSoundCreate; external DSoundLib;
@@ -15986,30 +15986,30 @@ function DirectSoundCaptureEnumerate; external DSoundLib name 'DirectSoundCaptur
 
 function MAKEFOURCC(ch0, ch1, ch2, ch3: Char) : DWORD;
 begin
-  Result := Ord(ch0) + (Ord(ch1) shl 8) + (Ord(ch2) shl 16) + (Ord(ch3) shl 24);
+  result := Ord(ch0) + (Ord(ch1) shl 8) + (Ord(ch2) shl 16) + (Ord(ch3) shl 24);
 end;
 
 function MAKE_DMHRESULTSUCCESS(code: Cardinal) : HResult;
 begin
-  Result := MakeResult(0, FACILITY_DIRECTMUSIC, (DMUS_ERRBASE + (code)));
+  result := MakeResult(0, FACILITY_DIRECTMUSIC, (DMUS_ERRBASE + (code)));
 end;
 
 function MAKE_DMHRESULTERROR(code: Cardinal) : HResult;
 begin
-  Result := MakeResult(1, FACILITY_DIRECTMUSIC, (DMUS_ERRBASE + (code)));
+  result := MakeResult(1, FACILITY_DIRECTMUSIC, (DMUS_ERRBASE + (code)));
 end;
 
 // The number of bytes to allocate for an event with 'cb' data bytes.
 //
 function QWORD_ALIGN(x: LONGLONG): LONGLONG;
 begin
-  Result := x + 7;
-  PDWORD(@Result)^ := PDWORD(@Result)^ and (not 7);
+  result := x + 7;
+  PDWORD(@result)^ := PDWORD(@result)^ and (not 7);
 end;
 
 function DMUS_EVENT_SIZE(cb: LONGLONG): LONGLONG;
 begin
-  Result := QWORD_ALIGN(SizeOf(DMUS_EVENTHEADER) + cb);
+  result := QWORD_ALIGN(SizeOf(DMUS_EVENTHEADER) + cb);
 end;
 
 end.

@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -52,6 +52,7 @@ uses
   gl_main,
   gl_defs,
   gl_models,
+  gl_voxels,
   gl_lightmaps,
   gl_shadows,
 {$ELSE}
@@ -61,6 +62,7 @@ uses
   r_wall8,
   r_wall32,
   r_scale,
+  r_voxels,
 {$ENDIF}
   m_menu,
   r_aspect,
@@ -69,6 +71,7 @@ uses
   r_hires,
   r_lights,
   r_intrpl,
+  vx_base,
 {$IFNDEF OPENGL}
   r_fake3d,
 {$ENDIF}
@@ -94,10 +97,11 @@ var
   soft_SCREENWIDTH,
   soft_SCREENHEIGHT: integer;
   usefake3d: integer;
-  optimizedthingsrendering: Boolean;
+  optimizedthingsrendering: boolean;
   force_numwallrenderingthreads_8bit: integer;
   force_numwallrenderingthreads_32bit: integer;
   precisescalefromglobalangle: boolean;
+  r_drawvoxels: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -114,10 +118,12 @@ var
   gl_SCREENWIDTH,
   gl_SCREENHEIGHT: integer;
   gl_drawmodels: boolean;
+  gl_drawvoxels: boolean;
   gl_smoothmodelmovement: boolean;
   gl_precachemodeltextures: boolean;
   gl_uselightmaps: boolean;
   gl_drawshadows: Boolean;
+  gl_renderwireframe: boolean;
 {$ENDIF}
 
 type
@@ -135,7 +141,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}145{$ELSE}148{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}150{$ELSE}153{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -492,6 +498,14 @@ const
      defaultbvalue: false;
      _type: tBoolean),
 
+    (name: 'gl_renderwireframe';
+     location: @gl_renderwireframe;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
     (name: 'gl_drawsky';
      location: @gl_drawsky;
      setable: DFS_ALWAYS;
@@ -587,6 +601,38 @@ const
      defaultivalue: 0;
      defaultbvalue: true;
      _type: tBoolean),
+
+    (name: 'Voxels';
+     location: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
+    (name: 'gl_drawvoxels';
+     location: @gl_drawvoxels;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'r_drawvoxels';
+     location: @r_drawvoxels;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'vx_maxoptimizerpasscount';
+     location: @vx_maxoptimizerpasscount;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tInteger),
 
     (name: 'Automap';
      location: nil;

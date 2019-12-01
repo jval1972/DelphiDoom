@@ -172,7 +172,7 @@ asm
   test     edx, edx
   jz       @@AlignedLoop
 @@SetResult:
-  bsf      edx, edx          {#0 Found - Set Result}
+  bsf      edx, edx          {#0 Found - Set result}
   add      eax, edx
   sub      eax, ecx
   ret
@@ -220,8 +220,8 @@ end;
 
 function StrLen_LBG_PAS_1(const Str:PChar): Cardinal;
 begin
-  Result:=0;
-  while Str[Result]<>#0 do Inc(Result)
+  result:=0;
+  while Str[result]<>#0 do inc(result)
 end;
 
 function StrLen_JOH_PAS_3(const Str: PChar): Cardinal;
@@ -231,39 +231,39 @@ var
 begin
   if Str^ = #0 then
     begin
-      Result := 0; Exit;
+      result := 0; Exit;
     end;
   if Str[1] = #0 then
     begin
-      Result := 1; Exit;
+      result := 1; Exit;
     end;
   if Str[2] = #0 then
     begin
-      Result := 2; Exit;
+      result := 2; Exit;
     end;
   if Str[3] = #0 then
     begin
-      Result := 3; Exit;
+      result := 3; Exit;
     end;
  P := Pointer(Str);
  PStr := P;
  P := Pointer(Integer(P) and -4);
  repeat
-   Inc(P, 4);
+   inc(P, 4);
    I := PInteger(P)^;
    J := I - $01010101;
    I := not(I);
    I := I and J;
  until (I and $80808080) <> 0;
- Result := P - PStr;
+ result := P - PStr;
  if I and $80 = 0 then
    if I and $8000 <> 0 then
-     Inc(Result)
+     inc(result)
    else
      if I and $800000 <> 0 then
-       Inc(Result, 2)
+       inc(result, 2)
      else
-       Inc(Result, 3)
+       inc(result, 3)
 end;
 
 function StrLenStub(const Str: PChar): Cardinal;

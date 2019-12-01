@@ -88,6 +88,7 @@ var
   gl_shared_texture_palette: boolean = false;
   gl_linear_hud: boolean = true;
   gl_add_all_lines: boolean = false;
+  gl_renderwireframe: Boolean = false;
 
 type
   lp3DFXFUNC = procedure(i1, i2, i3, i4, i5: integer; const p: pointer);
@@ -161,7 +162,7 @@ var
   camera: gld_camera_t;
 
 const
-  MAP_COEFF = 128.0;
+  MAP_COEFF = 128.0; // If this is changed, must be changed and to r_softgl
   MAP_SCALE = MAP_COEFF * FRACUNIT;
   FLATUVSCALE = FRACUNIT * 64.0;
 

@@ -109,6 +109,8 @@ uses
   gl_types,
   gl_dlights,
   gl_models,
+  gl_voxels,
+  vx_base,
   gl_data,
   gl_frustum,
   gl_lightmaps,
@@ -599,6 +601,7 @@ begin
   gld_InitDynamicLights;
   gld_InitDynamicShadows;
   gld_InitModels;
+  gld_InitVoxels;
   gld_InitLightmap;
 end;
 
@@ -1088,6 +1091,7 @@ type
     alpha: float;
     dlights: TDNumberList;
     models: TDNumberList;
+    voxels: TDNumberList;
     mo: Pmobj_t;
     aproxdist: fixed_t;
   end;
@@ -1778,6 +1782,16 @@ begin
   numdlitems := 0;
 
   fr_CalculateFrustum;
+
+  if gl_renderwireframe then
+  begin
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClearDepth(1.0);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  end
+  else
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 end;
 
 procedure gld_EndDrawScene;
@@ -1821,6 +1835,9 @@ begin
     glEnd;
     glEnable(GL_ALPHA_TEST);
   end;
+
+  if gl_renderwireframe then
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
   {$IFDEF DOOM}
   if customcolormap <> nil then
@@ -2136,6 +2153,7 @@ begin
   flat.uoffs := 0;
   flat.voffs := 0;
   {$ENDIF}
+  flat.ripple := ripple;
 
   // get height from plane
   flat.z := zheight / MAP_SCALE;
@@ -3021,7 +3039,155 @@ begin
     glAlphaFunc(GL_GEQUAL, 0.5);
   end;
   glColor3f(1.0, 1.0, 1.0);
-  
+
+end;
+
+procedure gld_DrawVoxel(sprite: PGLSprite; const idx: integer);
+var
+  info: Pvoxelstate_t;
+  voxelinf: Pvoxelmanageritem_t;
+  restoreblend: Boolean;
+  anglediff, spinang: angle_t;
+begin
+  info := @voxelstates[idx];
+
+  restoreblend := false;
+
+  if sprite.flags and GLS_SHADOW <> 0 then
+  begin
+    glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
+    glAlphaFunc(GL_GEQUAL, 0.1);
+    glColor4f(0.2, 0.2, 0.2, 0.33);
+    restoreblend := true;
+  end
+  else
+  begin
+    if sprite.flags and GLS_TRANSPARENT <> 0 then
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      restoreblend := true;
+    end
+{    else if info.transparency < 0.9999 then
+    begin
+      gld_StaticLightAlpha(sprite.light, info.transparency);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      restoreblend := true;
+    end}
+    else
+      gld_StaticLight(sprite.light);
+  end;
+
+  last_gltexture := nil;
+//  glBindTexture(GL_TEXTURE_2D, 0);
+
+  voxelinf := @voxelmanager.items[info.voxelidx];
+  if voxelinf.voxel = nil then
+  begin
+    voxelinf.voxel := TVoxelModel.Create(voxelinf.name, voxelinf.offset, voxelinf.scale);
+    if voxelinf.voxel = nil then
+    begin
+      I_Warning('gld_DrawVoxel(): Can not load voxel %s'#13#10, [voxelinf.name]);
+      exit;
+    end;
+  end;
+  {$IFDEF DEBUG}
+  printf('**drawing voxel %d'#13#10, [idx]);
+  {$ENDIF}
+
+
+  anglediff := voxelinf.angleoffset * ANG1;
+  {$IFDEF HEXEN}
+  if sprite.mo.flags2 and MF2_DROPPED <> 0 then
+  {$ELSE}
+  if sprite.mo.flags and MF_DROPPED <> 0 then
+  {$ENDIF}
+      spinang := voxelinf.droppedspin
+    else
+      spinang := voxelinf.placedspin;
+  if spinang <> 0 then
+  begin
+    if not isgamesuspended then
+      spinang := Round(((leveltime + ticfrac / FRACUNIT) / TICRATE * spinang) * (ANGLE_MAX / 360))
+    else
+      spinang := Round((leveltime / TICRATE * spinang) * (ANGLE_MAX / 360));
+  end;
+  anglediff := spinang - anglediff;
+
+  voxelinf.voxel.Draw(info.frame, anglediff);
+
+  if restoreblend then
+    glAlphaFunc(GL_GEQUAL, 0.01);
+end;
+
+procedure gld_DrawVoxels(sprite: PGLSprite);
+var
+  i: integer;
+begin
+  if gl_uselightmaps then
+  begin
+    glActiveTextureARB(GL_TEXTURE1_ARB);
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix;
+    glTranslatef(sprite.x * MAP_COEFF / (LIGHTMAPSIZEX * LIGHTMAPUNIT),
+                 sprite.y * MAP_COEFF / (LIGHTMAPSIZEY * LIGHTMAPUNIT),
+                 sprite.z * MAP_COEFF / (LIGHTMAPSIZEZ * LIGHTMAPUNIT));
+    glActiveTextureARB(GL_TEXTURE0_ARB);
+  end;
+
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix;
+  glTranslatef(sprite.x, sprite.y, sprite.z);
+  glRotatef(sprite.mo.angle / (ANGLE_MAX / 360.0) - 90.0, 0.0, 1.0, 0.0);
+
+  // JVAL
+  // Draw light effects (only if not invulnerability)
+  if uselightboost then
+    if not lightdeflumppresent then
+      if players[displayplayer].fixedcolormap <> 32 then
+      // JVAL: Use old color effects only if LIGHTDEF lump not found
+        if sprite.flags and GLS_LIGHT <> 0 then
+        begin
+          if sprite.flags and GLS_WHITELIGHT <> 0 then
+            gld_SetUplight(1.0, 1.0, 1.0)
+          else if sprite.flags and GLS_REDLIGHT <> 0 then
+            gld_SetUplight(1.0, 0.0, 0.0)
+          else if sprite.flags and GLS_GREENLIGHT <> 0 then
+            gld_SetUplight(0.0, 1.0, 0.0)
+          else if sprite.flags and GLS_BLUELIGHT <> 0 then
+            gld_SetUplight(0.0, 0.0, 1.0)
+          else if sprite.flags and GLS_YELLOWLIGHT <> 0 then
+            gld_SetUplight(1.0, 1.0, 0.0);
+          glBegin(GL_TRIANGLE_STRIP);
+            glTexCoord2f(0.0, 0.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(1.0, 0.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(0.0, 1.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y2, 0.01);
+            glTexCoord2f(1.0, 1.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y2, 0.01);
+          glEnd;
+          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+          glAlphaFunc(GL_GEQUAL, 0.5);
+        end;
+
+  for i := 0 to sprite.voxels.Count - 1 do
+    gld_DrawVoxel(sprite, sprite.voxels.Numbers[i]);
+
+  glPopMatrix;
+
+  if gl_uselightmaps then
+  begin
+    glActiveTextureARB(GL_TEXTURE1_ARB);
+    glMatrixMode(GL_TEXTURE);
+    glPopMatrix;
+    glMatrixMode(GL_MODELVIEW);
+    glActiveTextureARB(GL_TEXTURE0_ARB);
+  end;
+
+  if sprite.flags and (GLS_SHADOW or GLS_TRANSPARENT) <> 0 then
+  begin
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glAlphaFunc(GL_GEQUAL, 0.5);
+  end;
+  glColor3f(1.0, 1.0, 1.0);
 end;
 
 procedure gld_DrawSprite(sprite: PGLSprite);
@@ -3029,6 +3195,12 @@ begin
   if gl_drawmodels and (sprite.models <> nil) then
   begin
     gld_DrawModels(sprite);
+    exit;
+  end;
+
+  if gl_drawvoxels and (sprite.voxels <> nil) then
+  begin
+    gld_DrawVoxels(sprite);
     exit;
   end;
 
@@ -3326,6 +3498,7 @@ begin
 
   sprite.dlights := vspr.mo.state.dlights;
   sprite.models := vspr.mo.state.models;
+  sprite.voxels := vspr.mo.state.voxels;
   sprite.mo := vspr.mo;
   sprite.aproxdist := P_AproxDistance(sprite.mo.x - viewx, sprite.mo.y - viewy);
 
@@ -3695,6 +3868,7 @@ begin
     gld_DynamicLightsDone;
     gld_DynamicShadowsDone;
     gld_ModelsDone;
+    gld_VoxelsDone;
     gld_LightmapDone;
     gld_ClipperDone;
   end;

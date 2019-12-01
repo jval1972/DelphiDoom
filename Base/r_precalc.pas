@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -53,6 +53,7 @@ var
   // Invert colormap precalc
   precal32_ic: array[0..767] of longword;
   precal8_tolong: array[0..255] of longword;
+  precal8_toword: array[0..255] of longword;
   precal_light: array[0..255] of byte;
 {$IFDEF HEXEN}
   precalc_fog_r: array[0..255] of PIntegerArray;
@@ -72,7 +73,8 @@ var
   i, j: integer;
   p: PIntegerArray;
   l: LongWord;
-  buf: fourbytes;
+  buf2: twobytes;
+  buf4: fourbytes;
 begin
   for i := 0 to 255 do
   begin
@@ -88,11 +90,17 @@ begin
     precal32_b[i] := p;
     for j := 0 to 255 do
       p[j] := (i * j * 256) and $FF0000;
-    buf.byte1 := i;
-    buf.byte2 := i;
-    buf.byte3 := i;
-    buf.byte4 := i;
-    precal8_tolong[i] := PLongWord(@buf)^;
+
+    buf4.byte1 := i;
+    buf4.byte2 := i;
+    buf4.byte3 := i;
+    buf4.byte4 := i;
+    precal8_tolong[i] := PLongWord(@buf4)^;
+
+    buf2.byte1 := i;
+    buf2.byte2 := i;
+    precal8_toword[i] := PWord(@buf2)^;
+
     {$IFDEF HEXEN}
     p := malloc(256 * SizeOf(Integer));
     precalc_fog_r[i] := p;

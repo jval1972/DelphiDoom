@@ -138,8 +138,8 @@ asm
 @@CheckPosResult:              {Check Match is within String Data}
   cmp    edx, ecx
   jge    @@NotFound
-  inc    edx                   {OK - Adjust Result}
-@@SetPosResult:                {Set Result Position}
+  inc    edx                   {OK - Adjust result}
+@@SetPosResult:                {Set result Position}
   mov    eax, edx
   inc    eax
   pop    ecx                   {@Str}
@@ -253,8 +253,8 @@ asm
 @@CheckPosResult:              {Check Match is within String Data}
   cmp    edx, ecx
   jg     @@NotFound
-  inc    edx                   {OK - Adjust Result}
-@@SetPosResult:                {Set Result Position}
+  inc    edx                   {OK - Adjust result}
+@@SetPosResult:                {Set result Position}
   mov    eax, edx
   pop    ecx                   {@Str}
   pop    esi
@@ -381,8 +381,8 @@ asm
 @@CheckResult:             {Check Match is within String Data}
   cmp     edx, ecx
   jge     @@NotFound
-  add     edx, 1           {OK - Adjust Result}
-@@SetResult:               {Set Result Position}
+  add     edx, 1           {OK - Adjust result}
+@@SetResult:               {Set result Position}
   pop     ecx              {@Str}
   pop     esi
   pop     ebx
@@ -412,9 +412,9 @@ begin
   if (OldLen = 0) or (SrcLen < OldLen) then
     begin
       if SrcLen = 0 then
-        Result := '' {Needed for Non-Nil Zero Length Strings}
+        result := '' {Needed for Non-Nil Zero Length Strings}
       else
-        Result := S
+        result := S
     end
   else
     begin
@@ -431,14 +431,14 @@ begin
           if (OldLen = 1) and (NewLen = 1) then
             begin {Single Character Replacement}
               Remainder := SrcLen;
-              SetLength(Result, Remainder);
-              P := Pointer(Result);
+              SetLength(result, Remainder);
+              P := Pointer(result);
               Move(Pointer(S)^, P^, Remainder);
               if rfIgnoreCase in Flags then
                 begin
                   Ch := AnsiUpcase[OldPattern[1]];
                   repeat
-                    Dec(Remainder);
+                    dec(Remainder);
                     if AnsiUpcase[P[Remainder]] = Ch then
                       P[Remainder] := NewPattern[1];
                   until Remainder = 0;
@@ -446,7 +446,7 @@ begin
               else
                 begin
                   repeat
-                    Dec(Remainder);
+                    dec(Remainder);
                     if P[Remainder] = OldPattern[1] then
                       P[Remainder] := NewPattern[1];
                   until Remainder = 0;
@@ -461,7 +461,7 @@ begin
               Matches   := 1;
               Buffer[0] := Found;
               repeat
-                Inc(Found, OldLen);
+                inc(Found, OldLen);
                 Found := PosExFunction(OldPattern, S, Found);
                 if Found > 0 then
                   begin
@@ -477,12 +477,12 @@ begin
                           ReallocMem(Buffer, BufSize * SizeOf(Integer));
                       end;
                     Buffer[Matches] := Found;
-                    Inc(Matches);
+                    inc(Matches);
                   end
               until Found = 0;
-              SetLength(Result, SrcLen + (Matches * (NewLen - OldLen)));
+              SetLength(result, SrcLen + (Matches * (NewLen - OldLen)));
               PSrc := Pointer(S);
-              PRes := Pointer(Result);
+              PRes := Pointer(result);
               Start := 1;
               Match := 0;
               repeat
@@ -492,12 +492,12 @@ begin
                 if Count > 0 then
                   begin
                     Move(PSrc^, PRes^, Count);
-                    Inc(PRes, Count);
+                    inc(PRes, Count);
                   end;
-                Inc(PSrc, Count + OldLen);
+                inc(PSrc, Count + OldLen);
                 Move(Pointer(NewPattern)^, PRes^, NewLen);
-                Inc(PRes, NewLen);
-                Inc(Match);
+                inc(PRes, NewLen);
+                inc(Match);
               until Match = Matches;
               Remainder := SrcLen - Start;
               if Remainder >= 0 then
@@ -506,35 +506,35 @@ begin
                 FreeMem(Buffer); {Free Dynamic Buffer if Created}
             end
           else {No Matches Found}
-            Result := S
+            result := S
         end {ReplaceAll}
       else
         begin {Replace First Occurance Only}
           Found := PosExFunction(OldPattern, S, 1);
           if Found <> 0 then
             begin {Match Found}
-              SetLength(Result, SrcLen - OldLen + NewLen);
-              Dec(Found);
+              SetLength(result, SrcLen - OldLen + NewLen);
+              dec(Found);
               PSrc := Pointer(S);
-              PRes := Pointer(Result);
+              PRes := Pointer(result);
               if NewLen = OldLen then
                 begin
                   Move(PSrc^, PRes^, SrcLen);
-                  Inc(PRes, Found);
+                  inc(PRes, Found);
                   Move(Pointer(NewPattern)^, PRes^, NewLen);
                 end
               else
                 begin
                   Move(PSrc^, PRes^, Found);
-                  Inc(PRes, Found);
-                  Inc(PSrc, Found + OldLen);
+                  inc(PRes, Found);
+                  inc(PSrc, Found + OldLen);
                   Move(Pointer(NewPattern)^, PRes^, NewLen);
-                  Inc(PRes, NewLen);
+                  inc(PRes, NewLen);
                   Move(PSrc^, PRes^, SrcLen - Found - OldLen);
                 end;
             end
           else {No Matches Found}
-            Result := S
+            result := S
         end;
     end;
 end;

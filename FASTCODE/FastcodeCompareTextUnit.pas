@@ -79,13 +79,13 @@ asm
   jz      @FirstNil          {S1 = NIL}
   test    edx, edx
   jnz     @@Compare          {S1 <> NIL and S2 <> NIL}
-  mov     eax, [eax-4]       {S2 = NIL, Result = Length(S1)}
+  mov     eax, [eax-4]       {S2 = NIL, result = Length(S1)}
   ret
 @@Same:
   xor     eax, eax
   ret
 @FirstNil:
-  sub     eax, [edx-4]       {S1 = NIL, Result = -Length(S2)}
+  sub     eax, [edx-4]       {S1 = NIL, result = -Length(S2)}
   ret
 @@Compare:
   push    ebx
@@ -93,8 +93,8 @@ asm
   push    edi
   push    esi
   mov     ebx, [eax-4]       {Length(S1)}
-  sub     ebx, [edx-4]       {Default Result if All Compared Characters Match}
-  push    ebx                {Save Default Result}
+  sub     ebx, [edx-4]       {Default result if All Compared Characters Match}
+  push    ebx                {Save Default result}
   sbb     ebp, ebp
   and     ebp, ebx
   sub     ebp, [eax-4]       {-Min(Length(S1),Length(S2))}
@@ -130,10 +130,10 @@ asm
 @@Next:
   add     ebp, 4
   jl      @@MainLoop         {Loop until all required Characters Compared}
-  pop     eax                {Default Result}
+  pop     eax                {Default result}
   jmp     @@Done
 @@CheckDiff:
-  pop     eax                {Default Result}
+  pop     eax                {Default result}
 @@DiffLoop:
   cmp     bl, cl
   jne     @@SetResult
@@ -143,7 +143,7 @@ asm
   shr     ebx, 8
   jmp     @@DiffLoop
 @@SetResult:
-  movzx   eax, bl            {Set Result from Character Difference}
+  movzx   eax, bl            {Set result from Character Difference}
   and     ecx, $ff
   sub     eax, ecx
 @@Done:
@@ -163,13 +163,13 @@ asm
   jz      @FirstNil          {S1 = NIL}
   test    edx, edx
   jnz     @@Compare          {S1 <> NIL and S2 <> NIL}
-  mov     eax, [eax-4]       {S2 = NIL, Result = Length(S1)}
+  mov     eax, [eax-4]       {S2 = NIL, result = Length(S1)}
   ret
 @@Same:
   xor     eax, eax
   ret
 @FirstNil:
-  sub     eax, [edx-4]       {S1 = NIL, Result = -Length(S2)}
+  sub     eax, [edx-4]       {S1 = NIL, result = -Length(S2)}
   ret
 @@Compare:
   push    ebx
@@ -177,8 +177,8 @@ asm
   push    edi
   push    esi
   mov     ebx, [eax-4]       {Length(S1)}
-  sub     ebx, [edx-4]       {Default Result if All Compared Characters Match}
-  push    ebx                {Save Default Result}
+  sub     ebx, [edx-4]       {Default result if All Compared Characters Match}
+  push    ebx                {Save Default result}
   sbb     ebp, ebp
   and     ebp, ebx
   add     ebp, [edx-4]       {Compare Length = Min(Length(S1),Length(S2))}
@@ -215,10 +215,10 @@ asm
 @@Next:
   add     ebp, 4
   jl      @@MainLoop         {Loop until all required Characters Compared}
-  pop     eax                {Default Result}
+  pop     eax                {Default result}
   jmp     @@Done
 @@CheckDiff:
-  pop     eax                {Default Result}
+  pop     eax                {Default result}
 @@DiffLoop:
   cmp     cl, bl
   jne     @@SetResult
@@ -228,7 +228,7 @@ asm
   shr     ebx, 8
   jmp     @@DiffLoop
 @@SetResult:
-  movzx   eax, bl            {Set Result from Character Difference}
+  movzx   eax, bl            {Set result from Character Difference}
   and     ecx, $ff
   sub     eax, ecx
 @@Done:
@@ -479,7 +479,7 @@ begin;
   if c1>0 then q:=c2;                      //q = min length
   save:=c1;                    //save result for equal data
   if q<=0 then begin;
-    Result:=c1;
+    result:=c1;
     exit;
     end;
   q:=q+integer(p);
@@ -505,7 +505,7 @@ begin;
       end;
     until cardinal(p)>=cardinal(q);
 past:
-  Result:=save;
+  result:=save;
   exit;
 
   repeat; //find mismatched characters
@@ -519,7 +519,7 @@ find:
     if cardinal(c1)<=ord('z')-ord('a') then c1:=c1-(ord('a')-ord('A'));
     if cardinal(c2)<=ord('z')-ord('a') then c2:=c2-(ord('a')-ord('A'));
     until c1<>c2;
-  Result:=c1-c2;
+  result:=c1-c2;
 end;
 
 procedure CompareTextStub;

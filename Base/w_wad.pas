@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -51,14 +51,16 @@ type
   end;
 
 const
-  NUMINDICATORS = 36;
+  NUMINDICATORS = 37;
   IND_FLOOR = 1;
   IND_SPRITE = 2;
   IND_PATCH = 3;
-  IND_MAX = 4;
+  IND_VOXEL = 4;
+  IND_MAX = 5;
   TYPE_FLOOR = 1 shl IND_FLOOR;
   TYPE_SPRITE = 1 shl IND_SPRITE;
   TYPE_PATCH = 1 shl IND_PATCH;
+  TYPE_VOXEL = 1 shl IND_VOXEL;
 
   lumpindicators: array[0..NUMINDICATORS - 1] of lumpindicator_t = (
     (_START: 'F_START';  _END: 'F_END';    _type: IND_FLOOR),
@@ -96,7 +98,8 @@ const
     (_START: 'P8_START'; _END: 'P8_END';   _type: IND_PATCH),
     (_START: 'P9_START'; _END: 'P9_END';   _type: IND_PATCH),
     (_START: 'P0_START'; _END: 'P0_END';   _type: IND_PATCH),
-    (_START: 'PP_START'; _END: 'PP_END';   _type: IND_PATCH)
+    (_START: 'PP_START'; _END: 'PP_END';   _type: IND_PATCH),
+    (_START: 'VX_START'; _END: 'VX_END';   _type: IND_VOXEL)
   );
 
 type
@@ -488,14 +491,14 @@ var
     begin
       if char8tostring(lumpinfo[i].name) = char8tostring(lumpindicators[x]._START) then
       begin
-        Dec(ind_A[lumpindicators[x]._type]);
+        dec(ind_A[lumpindicators[x]._type]);
         if ind_A[lumpindicators[x]._type] < 0 then
-          I_Warning('W_InitLumpHash(): Lump indicators misplaced, lump #%d'#13#10, [i]);
+          I_Warning('W_InitLumpHash(): Lump indicators misplaced, lump #%d (%s)'#13#10, [i, char8tostring(lumpindicators[x]._START)]);
         Break;
       end;
       if char8tostring(lumpinfo[i].name) = char8tostring(lumpindicators[x]._END) then
       begin
-        Inc(ind_A[lumpindicators[x]._type]);
+        inc(ind_A[lumpindicators[x]._type]);
         Break;
       end;
     end;

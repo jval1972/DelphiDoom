@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -269,6 +269,7 @@ var
   count: integer;
   i: integer;
   spot: integer;
+  fb: fourbytes;
 begin
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
@@ -292,6 +293,7 @@ var
   i: integer;
   spot: integer;
   rpl: PIntegerArray;
+  fb: fourbytes;
 begin
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 

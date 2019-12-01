@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -241,7 +241,7 @@ begin
       ssize := ssize * 2;
     end;
     compptr^.DCT_scaled_size := ssize;
-    Inc(compptr);
+    inc(compptr);
   end;
 
   { Recompute downsampled dimensions of components;
@@ -259,7 +259,7 @@ begin
       jdiv_round_up(long (cinfo^.image_height) *
         long (compptr^.v_samp_factor * compptr^.DCT_scaled_size),
         long (cinfo^.max_v_samp_factor * DCTSIZE)) );
-    Inc(compptr);
+    inc(compptr);
   end;
 
 {$else} { !IDCT_SCALING_SUPPORTED }
@@ -556,7 +556,7 @@ begin
     else
       cinfo^.progress^.total_passes := 2;
     { Count the input pass as done }
-    Inc(master^.pass_number);
+    inc(master^.pass_number);
   end;
 {$endif} { D_MULTISCAN_FILES_SUPPORTED }
 end;
@@ -639,9 +639,9 @@ begin
     if (cinfo^.buffered_image) and (not cinfo^.inputctl^.eoi_reached) then
     begin
       if cinfo^.enable_2pass_quant then
-        Inc(cinfo^.progress^.total_passes, 2)
+        inc(cinfo^.progress^.total_passes, 2)
       else
-        Inc(cinfo^.progress^.total_passes, 1);
+        inc(cinfo^.progress^.total_passes, 1);
     end;
   end;
 end;
@@ -658,7 +658,7 @@ begin
 
   if (cinfo^.quantize_colors) then
     cinfo^.cquantize^.finish_pass (cinfo);
-  Inc(master^.pass_number);
+  inc(master^.pass_number);
 end;
 
 

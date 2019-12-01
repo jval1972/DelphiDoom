@@ -20,8 +20,7 @@
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
-//    Dynamic lights for OpenGL rendering (why not in software mode??)
-//    LIGHTDEF lump parsing, light animation
+//    External md2 model support
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -177,6 +176,7 @@ begin
     end;
     inc(i);
   end;
+  
   realloc(pointer(modelmanager.items), modelmanager.size * SizeOf(modelmanageritem_t), (1 + modelmanager.size) * SizeOf(modelmanageritem_t));
   result := modelmanager.size;
   modelinf := @modelmanager.items[result];
@@ -427,7 +427,7 @@ begin
 end;
 
 //
-// SC_ParceDynamicLights
+// SC_ParseModelDefinitions
 // JVAL: Parse all MODELDEF lumps
 //
 procedure SC_ParseModelDefinitions;

@@ -503,7 +503,7 @@ begin
         if LStr1Char1 <> LStr2Char1 then
         begin
           {Mismatch on first character}
-          Result := LStr1Char1 - LStr2Char1;
+          result := LStr1Char1 - LStr2Char1;
         end
         else
         begin
@@ -517,8 +517,8 @@ begin
             LCompInd := - LLength1;
           if LCompInd < 0 then
           begin
-            Dec(LStr1, LCompInd);
-            Dec(LStr2, LCompInd);
+            dec(LStr1, LCompInd);
+            dec(LStr2, LCompInd);
             repeat
               LChars1 := PInteger(@PByteArray(LStr1)[LCompInd])^;
               LChars2 := PInteger(@PByteArray(LStr2)[LCompInd])^;
@@ -526,7 +526,7 @@ begin
               begin
                 if SmallInt(LChars1) <> SmallInt(LChars2) then
                 begin
-                  Result := (Byte(LChars1) shl 8) + Byte(LChars1 shr 8)
+                  result := (Byte(LChars1) shl 8) + Byte(LChars1 shr 8)
                     - (Byte(LChars2) shl 8) - Byte(LChars2 shr 8);
                   exit;
                 end
@@ -536,35 +536,35 @@ begin
                   if LCompInd > -3 then
                     break;
                   {Actual micmatch}
-                  Result := (LChars1 shr 24) + ((LChars1 shr 8) and $ff00)
+                  result := (LChars1 shr 24) + ((LChars1 shr 8) and $ff00)
                     - (LChars2 shr 24) - ((LChars2 shr 8) and $ff00);
                   exit;
                 end;
               end;
-              Inc(LCompInd, 4);
+              inc(LCompInd, 4);
             until LCompInd >= 0;
           end;
           {All characters match up to the max length - return the difference
            in length}
-          Result := LLengthDif;
+          result := LLengthDif;
         end;
       end
       else
       begin
         {S2 = nil, return the length of S1}
-        Result := PInteger(LStr1 - 4)^;
+        result := PInteger(LStr1 - 4)^;
       end;
     end
     else
     begin
       {S1 = nil, return the negative length of S2}
-      Result := LStr1 - PInteger(LStr2 - 4)^;
+      result := LStr1 - PInteger(LStr2 - 4)^;
     end;
   end
   else
   begin
     {Same string}
-    Result := 0;
+    result := 0;
   end;
 end;
 

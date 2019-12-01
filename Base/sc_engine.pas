@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -60,11 +60,13 @@ type
     StringBuffer: array [0..MAX_STRING_SIZE] of char;
     ScriptSize: integer;
     AlreadyGot: boolean;
+    ignonelist: TDStringList;
   protected
     function fToken: string;
   public
     constructor Create(const tx: string); virtual;
     destructor Destroy; override;
+    procedure AddIgnoreToken(const s: string);
     procedure Clear;
     procedure SetText(const tx: string); virtual;
     procedure ScriptError(const err: string); overload;
@@ -111,6 +113,7 @@ const
 constructor TScriptEngine.Create(const tx: string);
 begin
   Inherited Create;
+  ignonelist := TDStringList.Create;
   fBracketLevel := 0;
   fParenthesisLevel := 0;
   fNewLine := false;
@@ -121,7 +124,13 @@ end;
 destructor TScriptEngine.Destroy;
 begin
   Clear;
+  ignonelist.Free;
   Inherited;
+end;
+
+procedure TScriptEngine.AddIgnoreToken(const s: string);
+begin
+  ignonelist.Add(strupper(s));
 end;
 
 function TScriptEngine.fToken: string;
@@ -149,7 +158,6 @@ var
   p: Pointer;
   size: integer;
 begin
-
   size := Length(tx);
   p := malloc(size);
   Move(tx[1], p^, size);
@@ -436,7 +444,10 @@ begin
     end;
   end;
   txt^ := Chr(0);
-  result := true;
+  if ignonelist.IndexOf(strupper(StringVal(sc_String))) < 0 then
+    result := true
+  else
+    Result := GetString;
 end;
 
 function TScriptEngine.GetStringEOL: string;

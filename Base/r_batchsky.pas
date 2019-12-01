@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ begin
   sk.dc_yh := dc_yh;
   sk.dc_yl := dc_yl;
   sk.dc_x := dc_x;
-  Inc(skies8.numskies);
+  inc(skies8.numskies);
   if skies8.numskies = MAXBATCHWALLS then
     R_FlashSkyColumns8;
 end;
@@ -119,7 +119,7 @@ begin
 
   for i := 1 to MAXBATCHWALLS - 1 do
   begin
-    Inc(sk);
+    inc(sk);
     if sk.dc_yh < min_yh then
       min_yh := sk.dc_yh;
     if sk.dc_yl > max_yl then
@@ -153,25 +153,25 @@ begin
   fracstep := dc_iscale;
   frac := dc_texturemid + (min_yl - centery) * fracstep;
   dc_source1 := sk.dc_source;
-  Inc(sk);
+  inc(sk);
 
   dc_source2 := sk.dc_source;
-  Inc(sk);
+  inc(sk);
 
   dc_source3 := sk.dc_source;
-  Inc(sk);
+  inc(sk);
 
   dc_source4 := sk.dc_source;
-  Inc(sk);
+  inc(sk);
 
   dc_source5 := sk.dc_source;
-  Inc(sk);
+  inc(sk);
 
   dc_source6 := sk.dc_source;
-  Inc(sk);
+  inc(sk);
 
   dc_source7 := sk.dc_source;
-  Inc(sk);
+  inc(sk);
 
   dc_source8 := sk.dc_source;
 
@@ -223,7 +223,7 @@ begin
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       dest^ := dc_source8[spot];
 
-    Inc(frac, fracstep);
+    inc(frac, fracstep);
     dest := PByte(integer(dest) + swidth);
     inc(ypos);
   end;
@@ -246,7 +246,7 @@ begin
     buf.byte4 := dc_source8[spot];
     PLongWord(dest)^ := PLongWord(@buf)^;
 
-    Inc(frac, fracstep);
+    inc(frac, fracstep);
     dest := PByte(integer(dest) + swidth2);
     inc(ypos);
 
@@ -335,7 +335,7 @@ begin
       dc_yl := sk.dc_yl;
       dc_x := sk.dc_x;
       skycolfunc;
-      Inc(sk);
+      inc(sk);
     end;
     dc_source := old_dc_source;
     dc_yh := old_dc_yh;
@@ -375,7 +375,7 @@ begin
   sk.dc_yh := dc_yh;
   sk.dc_yl := dc_yl;
   sk.dc_x := dc_x;
-  Inc(skies32.numskies);
+  inc(skies32.numskies);
   if skies32.numskies = MAXBATCHWALLS then
     R_FlashSkyColumns32;
 end;
@@ -414,7 +414,7 @@ begin
 
   for i := 1 to MAXBATCHWALLS - 1 do
   begin
-    Inc(sk);
+    inc(sk);
     if sk.dc_yh < min_yh then
       min_yh := sk.dc_yh;
     if sk.dc_yl > max_yl then
@@ -453,25 +453,25 @@ begin
   and_mask := 128 * (1 shl dc_texturefactorbits) - 1;
 
   dc_source1 := sk.dc_source32;
-  Inc(sk);
+  inc(sk);
 
   dc_source2 := sk.dc_source32;
-  Inc(sk);
+  inc(sk);
 
   dc_source3 := sk.dc_source32;
-  Inc(sk);
+  inc(sk);
 
   dc_source4 := sk.dc_source32;
-  Inc(sk);
+  inc(sk);
 
   dc_source5 := sk.dc_source32;
-  Inc(sk);
+  inc(sk);
 
   dc_source6 := sk.dc_source32;
-  Inc(sk);
+  inc(sk);
 
   dc_source7 := sk.dc_source32;
-  Inc(sk);
+  inc(sk);
 
   dc_source8 := sk.dc_source32;
 
@@ -647,7 +647,7 @@ begin
       dc_yl := sk.dc_yl;
       dc_x := sk.dc_x;
       skycolfunc;
-      Inc(sk);
+      inc(sk);
     end;
     dc_source32 := old_dc_source32;
     dc_yh := old_dc_yh;

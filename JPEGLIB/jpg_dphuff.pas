@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -287,7 +287,7 @@ begin
 
   { Throw away any unused bits remaining in bit buffer; }
   { include any full bytes in next_marker's count of discarded bytes }
-  Inc(cinfo^.marker^.discarded_bytes, entropy^.bitstate.bits_left div 8);
+  inc(cinfo^.marker^.discarded_bytes, entropy^.bitstate.bits_left div 8);
   entropy^.bitstate.bits_left := 0;
 
   { Advance past the RSTn marker }
@@ -425,7 +425,7 @@ begin
       if (nb <> 0) then
       begin
         {DROP_BITS(nb);}
-        Dec(bits_left, nb);
+        dec(bits_left, nb);
 
         s := tbl^.look_sym[look];
       end
@@ -458,7 +458,7 @@ begin
         end;
 
         {r := GET_BITS(s);}
-        Dec(bits_left, s);
+        dec(bits_left, s);
         r := (int(get_buffer shr bits_left)) and ( pred(1 shl s) );
 
         {s := HUFF_EXTEND(r, s);}
@@ -469,7 +469,7 @@ begin
       end;
 
       { Convert DC difference to actual value, update last_dc_val }
-      Inc(s, state.last_dc_val[ci]);
+      inc(s, state.last_dc_val[ci]);
       state.last_dc_val[ci] := s;
       { Scale and output the DC coefficient (assumes jpeg_natural_order[0]=0) }
       block^[0] := JCOEF (s shl Al);
@@ -487,7 +487,7 @@ begin
   end;
 
   { Account for restart interval (no-op if not using restarts) }
-  Dec(entropy^.restarts_to_go);
+  dec(entropy^.restarts_to_go);
 
   decode_mcu_DC_first := TRUE;
 end;
@@ -545,7 +545,7 @@ begin
     { There is always only one block per MCU }
 
     if (EOBRUN > 0) then       { if it's a band of zeroes... }
-      Dec(EOBRUN)              { ...process it now (we do nothing) }
+      dec(EOBRUN)              { ...process it now (we do nothing) }
     else
     begin
       {BITREAD_LOAD_STATE(cinfo,entropy^.bitstate);}
@@ -585,7 +585,7 @@ begin
         if (nb <> 0) then
         begin
           {DROP_BITS(nb);}
-          Dec(bits_left, nb);
+          dec(bits_left, nb);
 
           s := tbl^.look_sym[look];
         end
@@ -607,7 +607,7 @@ begin
         s := s and 15;
         if (s <> 0) then
         begin
-          Inc(k, r);
+          inc(k, r);
           {CHECK_BIT_BUFFER(br_state, s, return FALSE);}
           if (bits_left < s) then
           begin
@@ -621,7 +621,7 @@ begin
           end;
 
           {r := GET_BITS(s);}
-          Dec(bits_left, s);
+          dec(bits_left, s);
           r := (int(get_buffer shr bits_left)) and ( pred(1 shl s) );
 
           {s := HUFF_EXTEND(r, s);}
@@ -637,7 +637,7 @@ begin
         begin
           if (r = 15) then
           begin    { ZRL }
-            Inc(k, 15);  { skip 15 zeroes in band }
+            inc(k, 15);  { skip 15 zeroes in band }
           end
           else
           begin    { EOBr, run length is 2^r + appended bits }
@@ -657,16 +657,16 @@ begin
               end;
 
               {r := GET_BITS(r);}
-              Dec(bits_left, r);
+              dec(bits_left, r);
               r := (int(get_buffer shr bits_left)) and ( pred(1 shl r) );
 
-              Inc(EOBRUN, r);
+              inc(EOBRUN, r);
             end;
-      Dec(EOBRUN);          { this band is processed at this moment }
+      dec(EOBRUN);          { this band is processed at this moment }
       break;                { force end-of-band }
     end;
         end;
-        Inc(k);
+        inc(k);
       end;
 
       {BITREAD_SAVE_STATE(cinfo,entropy^.bitstate);}
@@ -681,7 +681,7 @@ begin
   end;
 
   { Account for restart interval (no-op if not using restarts) }
-  Dec(entropy^.restarts_to_go);
+  dec(entropy^.restarts_to_go);
 
   decode_mcu_AC_first := TRUE;
 end;
@@ -750,7 +750,7 @@ begin
     end;
 
     {if (GET_BITS(1)) then}
-    Dec(bits_left);
+    dec(bits_left);
     if (int(get_buffer shr bits_left)) and ( pred(1 shl 1) ) <> 0 then
       block^[0] := block^[0] or p1;
     { Note: since we use OR, repeating the assignment later is safe }
@@ -764,7 +764,7 @@ begin
   entropy^.bitstate.bits_left := bits_left;
 
   { Account for restart interval (no-op if not using restarts) }
-  Dec(entropy^.restarts_to_go);
+  dec(entropy^.restarts_to_go);
 
   decode_mcu_DC_refine := TRUE;
 end;
@@ -871,7 +871,7 @@ begin
         if (nb <> 0) then
         begin
           {DROP_BITS(nb);}
-          Dec(bits_left, nb);
+          dec(bits_left, nb);
 
           s := tbl^.look_sym[look];
         end
@@ -902,7 +902,7 @@ begin
           end;
 
           {if (GET_BITS(1)) then}
-          Dec(bits_left);
+          dec(bits_left);
           if (int(get_buffer shr bits_left)) and ( pred(1 shl 1) )<>0 then
             s := p1    { newly nonzero coef is positive }
           else
@@ -925,10 +925,10 @@ begin
               end;
 
         {r := GET_BITS(r);}
-              Dec(bits_left, r);
+              dec(bits_left, r);
               r := (int(get_buffer shr bits_left)) and ( pred(1 shl r) );
 
-              Inc(EOBRUN, r);
+              inc(EOBRUN, r);
             end;
             break;    { rest of block is handled by EOB logic }
           end;
@@ -952,25 +952,25 @@ begin
             end;
 
       {if (GET_BITS(1)) then}
-            Dec(bits_left);
+            dec(bits_left);
             if (int(get_buffer shr bits_left)) and ( pred(1 shl 1) )<>0 then
             begin
               if ((thiscoef^ and p1) = 0) then
               begin { do nothing if already set it }
                 if (thiscoef^ >= 0) then
-                  Inc(thiscoef^, p1)
+                  inc(thiscoef^, p1)
                 else
-                  Inc(thiscoef^, m1);
+                  inc(thiscoef^, m1);
               end;
             end;
           end
           else
           begin
-            Dec(r);
+            dec(r);
             if (r < 0) then
               break;    { reached target zero coefficient }
           end;
-          Inc(k);
+          inc(k);
         until (k > Se);
         if (s <> 0) then
         begin
@@ -979,9 +979,9 @@ begin
           block^[pos] := JCOEF (s);
           { Remember its position in case we have to suspend }
           newnz_pos[num_newnz] := pos;
-          Inc(num_newnz);
+          inc(num_newnz);
         end;
-        Inc(k);
+        inc(k);
       end;
     end;
 
@@ -1007,22 +1007,22 @@ begin
           end;
 
     {if (GET_BITS(1)) then}
-          Dec(bits_left);
+          dec(bits_left);
           if (int(get_buffer shr bits_left)) and ( pred(1 shl 1) )<>0 then
           begin
             if ((thiscoef^ and p1) = 0) then
             begin { do nothing if already changed it }
               if (thiscoef^ >= 0) then
-                Inc(thiscoef^, p1)
+                inc(thiscoef^, p1)
               else
-                Inc(thiscoef^, m1);
+                inc(thiscoef^, m1);
             end;
           end;
         end;
-        Inc(k);
+        inc(k);
       end;
       { Count one block completed in EOB run }
-      Dec(EOBRUN);
+      dec(EOBRUN);
     end;
 
     { Completed MCU, so update state }
@@ -1036,7 +1036,7 @@ begin
   end;
 
   { Account for restart interval (no-op if not using restarts) }
-  Dec(entropy^.restarts_to_go);
+  dec(entropy^.restarts_to_go);
 
   decode_mcu_AC_refine := TRUE;
   exit;
@@ -1045,7 +1045,7 @@ undoit:
   { Re-zero any output coefficients that we made newly nonzero }
   while (num_newnz > 0) do
   begin
-    Dec(num_newnz);
+    dec(num_newnz);
     block^[newnz_pos[num_newnz]] := 0;
   end;
 
@@ -1083,7 +1083,7 @@ begin
     for i := 0 to pred(DCTSIZE2) do
     begin
       coef_bit_ptr^ := -1;
-      Inc(coef_bit_ptr);
+      inc(coef_bit_ptr);
     end;
 end;
 

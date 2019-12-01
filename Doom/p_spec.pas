@@ -16,10 +16,10 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION:  none
+// DESCRIPTION:
 //  Implements special effects:
 //  Texture animation, height or lighting changes
 //   according to adjacent sectors, respective

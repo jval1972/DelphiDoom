@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-fullhd -nofullscreen -iwad doomu.wad
+RunParams=-screenwidth 1024 -screenheight 600 -nofullscreen -iwad doom2.wad -pakfile voxeltest_kvx.pk3 voxel_map.wad
 HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=574
+Build=580
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.574
+FileVersion=1.1.4.580
 InternalName=GLDoom
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=

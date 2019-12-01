@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
@@ -46,56 +46,56 @@ type
 
   PShortInt = ^ShortInt;
 
-  TWordArray = packed array[0..$FFFF] of word;
+  TWordArray = packed array[0..$7FFF] of word;
   PWordArray = ^TWordArray;
 
-  TIntegerArray = packed array[0..$FFFF] of integer;
+  TIntegerArray = packed array[0..$7FFF] of integer;
   PIntegerArray = ^TIntegerArray;
 
-  TLongWordArray = packed array[0..$FFFF] of LongWord;
+  TLongWordArray = packed array[0..$7FFF] of LongWord;
   PLongWordArray = ^TLongWordArray;
 
-  TSmallintArray = packed array[0..$FFFF] of Smallint;
+  TSmallintArray = packed array[0..$7FFF] of Smallint;
   PSmallintArray = ^TSmallintArray;
 
-  TByteArray = packed array[0..$FFFF] of Byte;
+  TByteArray = packed array[0..$7FFF] of Byte;
   PByteArray = ^TByteArray;
 
-  TBooleanArray = packed array[0..$FFFF] of boolean;
+  TBooleanArray = packed array[0..$7FFF] of boolean;
   PBooleanArray = ^TBooleanArray;
 
   PProcedure = procedure;
   PIntFunction = function: integer;
 
-  TStringArray = array[0..$FFFF] of string;
+  TStringArray = array[0..$7FFF] of string;
   PStringArray = ^TStringArray;
 
-  TPointerArray = packed array[0..$FFFF] of pointer;
+  TPointerArray = packed array[0..$7FFF] of pointer;
   PPointerArray = ^TPointerArray;
 
   PSmallInt = ^SmallInt;
-  TSmallIntPArray = packed array[0..$FFFF] of PSmallIntArray;
+  TSmallIntPArray = packed array[0..$7FFF] of PSmallIntArray;
   PSmallIntPArray = ^TSmallIntPArray;
 
   PWord = ^Word;
-  TWordPArray = packed array[0..$FFFF] of PWordArray;
+  TWordPArray = packed array[0..$7FFF] of PWordArray;
   PWordPArray = ^TWordPArray;
 
-  TLongWordPArray = packed array[0..$FFFF] of PLongWordArray;
+  TLongWordPArray = packed array[0..$7FFF] of PLongWordArray;
   PLongWordPArray = ^TLongWordPArray;
 
-  TIntegerPArray = packed array[0..$FFFF] of PIntegerArray;
+  TIntegerPArray = packed array[0..$7FFF] of PIntegerArray;
   PIntegerPArray = ^TIntegerPArray;
 
   PByte = ^Byte;
-  TBytePArray = packed array[0..$FFFF] of PByteArray;
+  TBytePArray = packed array[0..$7FFF] of PByteArray;
   PBytePArray = ^TBytePArray;
 
   float = single;
 
 type
   charset_t = set of char;
-  
+
   twobytes = packed record
     byte1, byte2: byte;
   end;
@@ -517,6 +517,14 @@ var
   mmxMachine: byte = 0;
   AMD3DNowMachine: byte = 0;
 
+type
+  union_8b = record
+    case integer of
+      1: (bytes: array[0..7] of byte);
+      2: (words: array[0..3] of word);
+      3: (dwords: array[0..1] of LongWord);
+  end;
+
 implementation
 
 uses
@@ -889,14 +897,6 @@ begin
   end;
   result := dest0;
 end;
-
-type
-  union_8b = record
-    case integer of
-      1: (bytes: array[0..7] of byte);
-      2: (words: array[0..3] of word);
-      3: (dwords: array[0..1] of LongWord);
-  end;
 {$ENDIF}
 
 function memset(const dest0: pointer; const val: integer; const count0: integer): pointer;
@@ -1053,6 +1053,7 @@ begin
   begin
     for i := 0 to count - 1 do
       PIntegerArray(dest)[i] := val;
+    result := dest;
     exit;
   end;
 
@@ -1554,7 +1555,7 @@ begin
   begin
     case Origin of
       sFromBeginning: fPosition := Offset;
-      sFromCurrent: Inc(fPosition, Offset);
+      sFromCurrent: inc(fPosition, Offset);
       sFromEnd: fPosition := fSize + Offset;
     end;
     result := fPosition;
@@ -1854,7 +1855,7 @@ var
 begin
   iCount := GetCount;
   Size := 0;
-  for I := 0 to iCount - 1 do Inc(Size, Length(Get(I)) + 2);
+  for I := 0 to iCount - 1 do inc(Size, Length(Get(I)) + 2);
   SetString(result, nil, Size);
   P := Pointer(result);
   for I := 0 to iCount - 1 do
@@ -1864,12 +1865,12 @@ begin
     if L <> 0 then
     begin
       System.Move(Pointer(S)^, P^, L);
-      Inc(P, L);
+      inc(P, L);
     end;
     P^ := #13;
-    Inc(P);
+    inc(P);
     P^ := #10;
-    Inc(P);
+    inc(P);
   end;
 end;
 
@@ -2055,11 +2056,11 @@ begin
     while P^ <> #0 do
     begin
       Start := P;
-      while not (P^ in [#0, #10, #13]) do Inc(P);
+      while not (P^ in [#0, #10, #13]) do inc(P);
       SetString(S, Start, P - Start);
       Add(S);
-      if P^ = #13 then Inc(P);
-      if P^ = #10 then Inc(P);
+      if P^ = #13 then inc(P);
+      if P^ = #10 then inc(P);
     end;
 end;
 
@@ -2074,11 +2075,11 @@ begin
     while (P^ <> #0) and (integer(P) <> integer(@A[Size])) do
     begin
       Start := P;
-      while (not (P^ in [#0, #10, #13])) and (integer(P) <> integer(@A[Size])) do Inc(P);
+      while (not (P^ in [#0, #10, #13])) and (integer(P) <> integer(@A[Size])) do inc(P);
       SetString(S, Start, P - Start);
       Add(S);
-      if P^ = #13 then Inc(P);
-      if P^ = #10 then Inc(P);
+      if P^ = #13 then inc(P);
+      if P^ = #10 then inc(P);
     end;
 end;
 
@@ -2129,7 +2130,7 @@ begin
   if (Index >= 0) and (Index < FCount) then
   begin
     Finalize(FList[Index]);
-    Dec(FCount);
+    dec(FCount);
     if Index < FCount then
       System.Move(FList[Index + 1], FList[Index],
         (FCount - Index) * SizeOf(TStringItem));
@@ -2212,7 +2213,7 @@ begin
     FObject := nil;
     FString := S;
   end;
-  Inc(FCount);
+  inc(FCount);
 end;
 
 procedure TDStringList.Put(Index: Integer; const S: string);
@@ -2337,11 +2338,11 @@ begin
   while L <> 0 do
   begin
     Ch := Source^;
-    if (Ch >= 'a') and (Ch <= 'z') then Dec(Ch, 32);
+    if (Ch >= 'a') and (Ch <= 'z') then dec(Ch, 32);
     Dest^ := Ch;
-    Inc(Source);
-    Inc(Dest);
-    Dec(L);
+    inc(Source);
+    inc(Dest);
+    dec(L);
   end;
 end;
 
@@ -2358,11 +2359,11 @@ begin
   while L <> 0 do
   begin
     Ch := Source^;
-    if (Ch >= 'A') and (Ch <= 'Z') then Inc(Ch, 32);
+    if (Ch >= 'A') and (Ch <= 'Z') then inc(Ch, 32);
     Dest^ := Ch;
-    Inc(Source);
-    Inc(Dest);
-    Dec(L);
+    inc(Source);
+    inc(Dest);
+    dec(L);
   end;
 end;
 
@@ -2651,10 +2652,10 @@ begin
   len := Length(S);
   L := len;
   I := 1;
-  while (I <= L) and (S[I] <= ' ') do Inc(I);
+  while (I <= L) and (S[I] <= ' ') do inc(I);
   if I > L then result := '' else
   begin
-    while S[L] <= ' ' do Dec(L);
+    while S[L] <= ' ' do dec(L);
     if (I = 1) and (L = len) then
       result := S
     else
@@ -2828,13 +2829,6 @@ asm
 end;
 
 function fabs(const f: float): float;
-{var
-  tmp: integer;
-begin
-  tmp := PInteger(@f)^;
-  tmp := tmp and $7FFFFFFF;
-  result := Pfloat(@tmp)^;
-end;}
 begin
   if f >= 0 then
     result := f

@@ -46,11 +46,11 @@ function FastcodeGetAddress(AStub: Pointer): Pointer;
 begin
   if PBYTE(AStub)^ = $E8 then
   begin
-    Inc(Integer(AStub));
-    Result := Pointer(Integer(AStub) + SizeOf(Pointer) + PInteger(AStub)^);
+    inc(Integer(AStub));
+    result := Pointer(Integer(AStub) + SizeOf(Pointer) + PInteger(AStub)^);
   end
   else
-    Result := nil;
+    result := nil;
 end;
 
 procedure FastcodeAddressPatch(const ASource, ADestination: Pointer);

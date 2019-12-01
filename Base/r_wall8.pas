@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -131,7 +131,7 @@ begin
 
   for i := 1 to MAXBATCHWALLS - 1 do
   begin
-    Inc(w);
+    inc(w);
     if w.dc_yh < min_yh then
       min_yh := w.dc_yh;
     if w.dc_yl > max_yl then
@@ -168,43 +168,43 @@ begin
   frac1 := w.dc_texturemid + xx * fracstep1;
   dc_source1 := w.dc_source;
   dc_colormap1 := w.dc_colormap;
-  Inc(w);
+  inc(w);
 
   fracstep2 := w.dc_iscale;
   frac2 := w.dc_texturemid + xx * fracstep2;
   dc_source2 := w.dc_source;
   dc_colormap2 := w.dc_colormap;
-  Inc(w);
+  inc(w);
 
   fracstep3 := w.dc_iscale;
   frac3 := w.dc_texturemid + xx * fracstep3;
   dc_source3 := w.dc_source;
   dc_colormap3 := w.dc_colormap;
-  Inc(w);
+  inc(w);
 
   fracstep4 := w.dc_iscale;
   frac4 := w.dc_texturemid + xx * fracstep4;
   dc_source4 := w.dc_source;
   dc_colormap4 := w.dc_colormap;
-  Inc(w);
+  inc(w);
 
   fracstep5 := w.dc_iscale;
   frac5 := w.dc_texturemid + xx * fracstep5;
   dc_source5 := w.dc_source;
   dc_colormap5 := w.dc_colormap;
-  Inc(w);
+  inc(w);
 
   fracstep6 := w.dc_iscale;
   frac6 := w.dc_texturemid + xx * fracstep6;
   dc_source6 := w.dc_source;
   dc_colormap6 := w.dc_colormap;
-  Inc(w);
+  inc(w);
 
   fracstep7 := w.dc_iscale;
   frac7 := w.dc_texturemid + xx * fracstep7;
   dc_source7 := w.dc_source;
   dc_colormap7 := w.dc_colormap;
-  Inc(w);
+  inc(w);
 
   fracstep8 := w.dc_iscale;
   frac8 := w.dc_texturemid + xx * fracstep8;
@@ -376,7 +376,7 @@ begin
   R_GrowWallsCache8;
   idx^ := wallcachesize;
   wallcache[wallcachesize].numwalls := 0;
-  Inc(wallcachesize);
+  inc(wallcachesize);
 end;
 
 procedure R_FlashWallColumns8(const idx: PInteger);
@@ -412,7 +412,7 @@ begin
       dc_texturemid := w.dc_texturemid;
       dc_colormap := w.dc_colormap;
       wallcolfunc;
-      Inc(w);
+      inc(w);
     end;
     walls.numwalls := 0;
   end;
@@ -432,7 +432,7 @@ begin
   w.dc_x := dc_x;
   w.dc_iscale := dc_iscale;
   w.dc_texturemid := dc_texturemid;
-  Inc(walls.numwalls);
+  inc(walls.numwalls);
   if walls.numwalls = MAXBATCHWALLS then
   begin
     if usemultithread then
@@ -585,9 +585,9 @@ procedure R_WaitWallsCache8;
   var
     i: integer;
   begin
-    Result := true;
+    result := true;
     for i := 0 to numwallthreads8 - 1 do
-      Result := Result and wallthreads8[i].CheckJobDone;
+      result := result and wallthreads8[i].CheckJobDone;
   end;
 
 begin

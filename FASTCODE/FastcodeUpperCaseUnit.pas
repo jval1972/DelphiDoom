@@ -83,15 +83,15 @@ asm
   push    esi
   test    eax, eax               {Test for S = NIL}
   mov     esi, eax               {@S}
-  mov     edi, edx               {@Result}
-  mov     eax, edx               {@Result}
+  mov     edi, edx               {@result}
+  mov     eax, edx               {@result}
   jz      @@Null                 {S = NIL}
   mov     edx, [esi-4]           {Length(S)}
   test    edx, edx
   je      @@Null                 {Length(S) = 0}
   mov     ebx, edx
-  call    system.@LStrSetLength  {Create Result String}
-  mov     edi, [edi]             {@Result}
+  call    system.@LStrSetLength  {Create result String}
+  mov     edi, [edi]             {@result}
   cmp     ebx, 32
   jg      @@Large
 @@Small:
@@ -197,15 +197,15 @@ asm
   push    esi
   test    eax, eax               {Test for S = NIL}
   mov     esi, eax               {@S}
-  mov     edi, edx               {@Result}
-  mov     eax, edx               {@Result}
+  mov     edi, edx               {@result}
+  mov     eax, edx               {@result}
   jz      @@Null                 {S = NIL}
   mov     edx, [esi-4]           {Length(S)}
   test    edx, edx
   je      @@Null                 {Length(S) = 0}
   mov     ebx, edx
-  call    system.@LStrSetLength  {Create Result String}
-  mov     edi, [edi]             {@Result}
+  call    system.@LStrSetLength  {Create result String}
+  mov     edi, [edi]             {@result}
   cmp     ebx, 32
   jg      @@Large
 @@Small:
@@ -333,15 +333,15 @@ asm
   push    esi
   test    eax, eax               {Test for S = NIL}
   mov     esi, eax               {@S}
-  mov     edi, edx               {@Result}
-  mov     eax, edx               {@Result}
+  mov     edi, edx               {@result}
+  mov     eax, edx               {@result}
   jz      @@Null                 {S = NIL}
   mov     edx, [esi-4]           {Length(S)}
   test    edx, edx
   je      @@Null                 {Length(S) = 0}
   mov     ebx, edx
-  call    system.@LStrSetLength  {Create Result String}
-  mov     edi, [edi]             {@Result}
+  call    system.@LStrSetLength  {Create result String}
+  mov     edi, [edi]             {@result}
   cmp     ebx, 32
   jg      @@Large
 @@Small:
@@ -465,15 +465,15 @@ asm {Size = 134 Bytes}
   push    esi
   test    eax, eax               {Test for S = NIL}
   mov     esi, eax               {@S}
-  mov     edi, edx               {@Result}
-  mov     eax, edx               {@Result}
+  mov     edi, edx               {@result}
+  mov     eax, edx               {@result}
   jz      @@Null                 {S = NIL}
   mov     edx, [esi-4]           {Length(S)}
   test    edx, edx
   je      @@Null                 {Length(S) = 0}
   mov     ebx, edx
-  call    system.@LStrSetLength  {Create Result String}
-  mov     edi, [edi]             {@Result}
+  call    system.@LStrSetLength  {Create result String}
+  mov     edi, [edi]             {@result}
   mov     eax, [esi+ebx-4]       {Convert the Last 4 Characters of String}
   mov     ecx, eax               {4 Original Bytes}
   or      eax, $80808080         {Set High Bit of each Byte}
@@ -537,26 +537,26 @@ var
 
 begin
  Max := Length(S);
- SetLength(Result, Max);
+ SetLength(result, Max);
  if Max > 0 then
   begin
-   pResult := PChar(Result);
+   pResult := PChar(result);
    CharNo := 0;
    repeat
     pResult[CharNo] := LookUpTable[Ord(S[CharNo+1])];
-    Inc(CharNo);
+    inc(CharNo);
     if CharNo >= Max then
      Break;
     pResult[CharNo] := LookUpTable[Ord(S[CharNo+1])];
-    Inc(CharNo);
+    inc(CharNo);
     if CharNo >= Max then
      Break;
     pResult[CharNo] := LookUpTable[Ord(S[CharNo+1])];
-    Inc(CharNo);
+    inc(CharNo);
     if CharNo >= Max then
      Break;
     pResult[CharNo] := LookUpTable[Ord(S[CharNo+1])];
-    Inc(CharNo);
+    inc(CharNo);
    until(CharNo >= Max);
   end;
 end;

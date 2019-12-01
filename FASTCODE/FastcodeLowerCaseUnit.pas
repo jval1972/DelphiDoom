@@ -102,12 +102,12 @@ asm
   push    esi
   mov     edi, ecx              {Addr(S)}
   mov     esi, edx              {Length}
-  mov     ebx, eax              {Addr(Result)}
-  call    system.@LStrSetLength {Create Result String}
+  mov     ebx, eax              {Addr(result)}
+  call    system.@LStrSetLength {Create result String}
   mov     ecx, esi              {Length}
   mov     eax, edi              {Addr(S)}
   sub     ecx, 16
-  mov     edx, [ebx]            {Result}
+  mov     edx, [ebx]            {result}
   jl      @@Small
   movq    mm4, B25
   movq    mm5, B65
@@ -159,15 +159,15 @@ asm {Size = 134 Bytes}
   push    esi
   test    eax, eax               {Test for S = NIL}
   mov     esi, eax               {@S}
-  mov     edi, edx               {@Result}
-  mov     eax, edx               {@Result}
+  mov     edi, edx               {@result}
+  mov     eax, edx               {@result}
   jz      @@Null                 {S = NIL}
   mov     edx, [esi-4]           {Length(S)}
   test    edx, edx
   je      @@Null                 {Length(S) = 0}
   mov     ebx, edx
-  call    system.@LStrSetLength  {Create Result String}
-  mov     edi, [edi]             {@Result}
+  call    system.@LStrSetLength  {Create result String}
+  mov     edi, [edi]             {@result}
   mov     eax, [esi+ebx-4]       {Convert the Last 4 Characters of String}
   mov     ecx, eax               {4 Original Bytes}
   or      eax, $80808080         {Set High Bit of each Byte}
@@ -217,7 +217,7 @@ label
   loop, last;
 begin
   if s='' then begin;
-    Result:=''; exit;
+    result:=''; exit;
     end;
 
   p:=pointer(s);
@@ -225,10 +225,10 @@ begin
   //If need pure Pascal change the next line to term:=Length(s);
   term:=pinteger(@p[-4])^;
 
-  SetLength(Result,term);
+  SetLength(result,term);
 
   if term<>0 then begin;
-    dist:=integer(Result);
+    dist:=integer(result);
     term:=integer(p+term);
     dist:=dist-integer(p)-4;
 

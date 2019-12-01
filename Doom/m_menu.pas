@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION: 
@@ -107,6 +107,7 @@ uses
   gl_main,
   gl_defs,
   gl_models,
+  gl_voxels,
   gl_lightmaps,
   gl_shadows,
 {$ELSE}
@@ -593,9 +594,11 @@ type
     od_gl_texture_filter_anisotropic,
     od_gl_drawsky,
     od_gl_stencilsky,
+    od_gl_renderwireframe,
     od_gl_drawmodels,
     od_gl_smoothmodelmovement,
     od_gl_precachemodeltextures,
+    od_gl_drawvoxels,
     od_gl_uselightmaps,
     od_gl_drawshadows,
     od_gl_linear_hud,
@@ -2249,7 +2252,6 @@ begin
     if usemultithread then
     begin
     // JVAL
-//      h1 := I_CreateProcess(@M_Thr_ShadeScreen, nil, false);
       threadmenushader.Activate(nil);
       {$IFDEF OPENGL}
       V_ShadeBackground(0, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2);
@@ -2257,8 +2259,6 @@ begin
       V_ShadeScreen(SCN_FG, 0, SCREENWIDTH * SCREENHEIGHT div 2);
       {$ENDIF}
       threadmenushader.Wait;
-      // Wait for extra thread to terminate.
-//      I_WaitForProcess(h1, 1000);
     end
     else
       {$IFDEF OPENGL}
@@ -3083,6 +3083,14 @@ begin
 
   inc(pmi);
   pmi.status := 1;
+  pmi.name := '!Render wireframe';
+  pmi.cmd := 'gl_renderwireframe';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_renderwireframe;
+  pmi.alphaKey := 'w';
+
+  inc(pmi);
+  pmi.status := 1;
   pmi.name := '!Draw models instead of sprites';
   pmi.cmd := 'gl_drawmodels';
   pmi.routine := @M_BoolCmd;
@@ -3104,6 +3112,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_precachemodeltextures;
   pmi.alphaKey := 'p';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Draw voxels instead of sprites';
+  pmi.cmd := 'gl_drawvoxels';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_drawvoxels;
+  pmi.alphaKey := 'v';
 
   inc(pmi);
   pmi.status := 1;
@@ -3168,7 +3184,7 @@ begin
   OptionsDisplayOpenGLDef.menuitems := Pmenuitem_tArray(@OptionsDisplayOpenGLMenu);  // menu items
   OptionsDisplayOpenGLDef.routine := @M_DrawOptionsDisplayOpenGL;  // draw routine
   OptionsDisplayOpenGLDef.x := 30;
-  OptionsDisplayOpenGLDef.y := 40; // x,y of menu
+  OptionsDisplayOpenGLDef.y := 38; // x,y of menu
   OptionsDisplayOpenGLDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayOpenGLDef.itemheight := LINEHEIGHT2;
 
@@ -3323,7 +3339,7 @@ begin
   pmi.pBoolVal := @allowplayerjumps;
   pmi.alphaKey := 'j';
 
-  Inc(pmi);
+  inc(pmi);
   pmi.status := 1;
   pmi.name := '!Allow player breath';
   pmi.cmd := 'allowplayerbreath';

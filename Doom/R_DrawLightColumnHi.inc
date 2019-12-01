@@ -28,6 +28,7 @@ begin
   begin
     //  Average with the next column and next pixel
     spot := (LongWord(frac) shr FRACBITS) and 255;
+    sspot := spot;
     lfactor := dc_source32[spot];
     c := destl^;
     {$I R_ColorBoost.inc}

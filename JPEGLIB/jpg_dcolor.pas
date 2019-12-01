@@ -16,7 +16,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ begin
     { Cb=>G value is scaled-up -0.34414 * x }
     { We also add in ONE_HALF so that need not do it in inner loop }
     cconvert^.Cb_g_tab^[i] := (- FIX_0_34414 ) * x + ONE_HALF;
-    Inc(x);
+    inc(x);
   end;
 end;
 
@@ -212,13 +212,13 @@ begin
 
   while (num_rows > 0) do
   begin
-    Dec(num_rows);
+    dec(num_rows);
     inptr0 := input_buf^[0]^[input_row];
     inptr1 := input_buf^[1]^[input_row];
     inptr2 := input_buf^[2]^[input_row];
-    Inc(input_row);
+    inc(input_row);
     outptr := output_buf^[0];
-    Inc(JSAMPROW_PTR(output_buf));
+    inc(JSAMPROW_PTR(output_buf));
     for col := 0 to pred(num_cols) do
     begin
       y  := GETJSAMPLE(inptr0^[col]);
@@ -234,7 +234,7 @@ begin
         outptr^[RGB_GREEN] := range_limit^[y + int(shift_temp shr SCALEBITS)];
 
       outptr^[RGB_BLUE] :=  range_limit^[y + Cbbtab^[cb]];
-      Inc(JSAMPLE_PTR(outptr), RGB_PIXELSIZE);
+      inc(JSAMPLE_PTR(outptr), RGB_PIXELSIZE);
     end;
   end;
 end;
@@ -265,7 +265,7 @@ begin
 
   while (num_rows > 0) do
   begin
-    Dec(num_rows);
+    dec(num_rows);
     for ci := 0 to pred(num_components) do
     begin
       inptr := JSAMPLE_PTR(input_buf^[ci]^[input_row]);
@@ -274,12 +274,12 @@ begin
       for count := pred(num_cols) downto 0 do
       begin
   outptr^ := inptr^;  { needn't bother with GETJSAMPLE() here }
-        Inc(inptr);
-  Inc(outptr, num_components);
+        inc(inptr);
+  inc(outptr, num_components);
       end;
     end;
-    Inc(input_row);
-    Inc(JSAMPROW_PTR(output_buf));
+    inc(input_row);
+    inc(JSAMPROW_PTR(output_buf));
   end;
 end;
 
@@ -318,19 +318,19 @@ begin
   while (num_rows > 0) do
   begin
     inptr := JSAMPLE_PTR(input_buf^[0]^[input_row]);
-    Inc(input_row);
+    inc(input_row);
     outptr := JSAMPLE_PTR(@output_buf^[0]);
-    Inc(JSAMPROW_PTR(output_buf));
+    inc(JSAMPROW_PTR(output_buf));
     for col := 0 to pred(num_cols) do
     begin
       { We can dispense with GETJSAMPLE() here }
       JSAMPROW(outptr)^[RGB_RED] := inptr^;
       JSAMPROW(outptr)^[RGB_GREEN] := inptr^;
       JSAMPROW(outptr)^[RGB_BLUE] := inptr^;
-      Inc(inptr);
-      Inc(outptr, RGB_PIXELSIZE);
+      inc(inptr);
+      inc(outptr, RGB_PIXELSIZE);
     end;
-    Dec(num_rows);
+    dec(num_rows);
   end;
 end;
 
@@ -373,14 +373,14 @@ begin
 
   while (num_rows > 0) do
   begin
-    Dec(num_rows);
+    dec(num_rows);
     inptr0 := input_buf^[0]^[input_row];
     inptr1 := input_buf^[1]^[input_row];
     inptr2 := input_buf^[2]^[input_row];
     inptr3 := input_buf^[3]^[input_row];
-    Inc(input_row);
+    inc(input_row);
     outptr := output_buf^[0];
-    Inc(JSAMPROW_PTR(output_buf));
+    inc(JSAMPROW_PTR(output_buf));
     for col := 0 to pred(num_cols) do
     begin
       y  := GETJSAMPLE(inptr0^[col]);
@@ -399,7 +399,7 @@ begin
       outptr^[2] := range_limit^[MAXJSAMPLE - (y + Cbbtab^[cb])];  { blue }
       { K passes through unchanged }
       outptr^[3] := inptr3^[col];  { don't need GETJSAMPLE here }
-      Inc(JSAMPLE_PTR(outptr), 4);
+      inc(JSAMPLE_PTR(outptr), 4);
     end;
   end;
 end;
