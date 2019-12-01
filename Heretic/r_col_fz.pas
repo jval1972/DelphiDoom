@@ -39,15 +39,6 @@ procedure R_DrawFuzzColumn;
 procedure R_DrawFuzzColumn32;
 procedure R_DrawFuzzColumnHi;
 
-implementation
-
-uses
-  d_delphi,
-  doomdef,
-  m_fixed,
-  r_data, r_draw, r_main, r_column, r_hires,
-  v_video;
-
 //
 // Spectre/Invisibility.
 //
@@ -71,6 +62,16 @@ var
 
 var
   fuzzpos: integer = 0;
+
+
+implementation
+
+uses
+  d_delphi,
+  doomdef,
+  m_fixed,
+  r_data, r_draw, r_main, r_column, r_hires,
+  v_video;
 
 //
 // Framebuffer postprocessing.

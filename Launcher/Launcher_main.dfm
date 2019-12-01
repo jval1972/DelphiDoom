@@ -1887,7 +1887,7 @@ object Form1: TForm1
         Top = 0
         Width = 432
         Height = 320
-        ActivePage = TabSheet4
+        ActivePage = TabSheet1
         Align = alClient
         TabOrder = 0
         object TabSheet8: TTabSheet
@@ -2365,8 +2365,6 @@ object Form1: TForm1
             Height = 17
             AllowGrayed = True
             Caption = 'Use OpenGL if available'
-            Checked = True
-            State = cbChecked
             TabOrder = 12
           end
         end

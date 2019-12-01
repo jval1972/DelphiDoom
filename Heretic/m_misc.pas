@@ -89,6 +89,7 @@ procedure Cmd_TypeOf(const name: string);
 var
   yesnoStrings: array[boolean] of string = ('NO', 'YES');
   truefalseStrings: array[boolean] of string = ('FALSE', 'TRUE');
+  confignotfound: Boolean = true;
 
 implementation
 
@@ -653,6 +654,7 @@ begin
       if Pos(verstr, s[0]) > 0 then
       begin
         s.Delete(0);
+        confignotfound := False;
 
         for i := 0 to s.Count - 1 do
         begin
@@ -682,6 +684,8 @@ begin
   finally
     s.Free;
   end;
+  if confignotfound then
+    G_SetKeyboardMode(1);
 end;
 
 end.

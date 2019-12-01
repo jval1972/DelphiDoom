@@ -270,6 +270,8 @@ uses
   f_finale,
   info_h,
   info,
+  info_rnd,
+  m_rnd,
   i_system,
   i_io,
 {$IFNDEF OPENGL}
@@ -279,7 +281,6 @@ uses
   m_argv,
   m_misc,
   m_menu,
-  m_rnd,
   p_setup,
   p_saveg,
   p_tick,
@@ -2177,6 +2178,9 @@ begin
   demo_p[0] := intval(spawnrandommonsters);
   demo_p := @demo_p[1];
 
+  demo_p[0] := rnd_monster_seed;
+  demo_p := @demo_p[1];
+
   demo_p[0] := consoleplayer;
   demo_p := @demo_p[1];
 
@@ -2366,6 +2370,11 @@ begin
   begin
     spawnrandommonsters := demo_p[0] <> 0;
     demo_p := @demo_p[1];
+    if demoversion >= VERSION120 then
+    begin
+      rnd_monster_seed := demo_p[0];
+      demo_p := @demo_p[1];
+    end;
   end
   else
   begin

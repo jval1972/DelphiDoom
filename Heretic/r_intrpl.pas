@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -119,7 +119,7 @@ end;
 function R_InterpolationCalcI(const prev, next: fixed_t; const frac: fixed_t): fixed_t;
 begin
   if next = prev then
-    result := next
+    result := prev
   else
     result := prev + round((next - prev) / FRACUNIT * frac);
 end;
@@ -127,7 +127,7 @@ end;
 function R_InterpolationCalcSI(const prev, next: smallint; const frac: fixed_t): smallint;
 begin
   if next = prev then
-    result := next
+    result := prev
   else
     result := prev + round((next - prev) / FRACUNIT * frac);
 end;
@@ -135,7 +135,7 @@ end;
 function R_InterpolationCalcB(const prev, next: byte; const frac: fixed_t): byte;
 begin
   if next = prev then
-    result := next
+    result := prev
   else if (next = 0) or (prev = 0) then // Hack for player.lookdir2
     result := next
   else if ((next > 247) and (prev < 8)) or ((next < 8) and (prev > 247)) then // Hack for player.lookdir2
@@ -145,20 +145,27 @@ begin
 end;
 
 function R_InterpolationCalcA(const prev, next: angle_t; const frac: fixed_t): angle_t;
+var
+  prev_e, next_e, mid_e: Extended;
 begin
   if prev = next then
-    result := next
+    result := prev
   else
   begin
     if ((prev < ANG90) and (next > ANG270)) or
        ((next < ANG90) and (prev > ANG270)) then
     begin
-      if frac < FRACUNIT div 4 then
-        result := prev
-      else if frac > FRACUNIT * 3 div 4 then
-        result := next
+      prev_e := prev / ANGLE_MAX;
+      next_e := next / ANGLE_MAX;
+      if prev > next then
+        next_e := next_e + 1.0
       else
-        result := 0;
+        prev_e := prev_e + 1.0;
+
+      mid_e := prev_e + (next_e - prev_e) / FRACUNIT * frac;
+      if mid_e > 1.0 then
+        mid_e := mid_e - 1.0;
+      result := Round(mid_e * ANGLE_MAX);
     end
     else if prev > next then
     begin
@@ -180,6 +187,7 @@ begin
   begin
     newrealsize := istruct.realsize + IGROWSTEP;
     realloc(pointer(istruct.items), istruct.realsize * SizeOf(iitem_t), newrealsize * SizeOf(iitem_t));
+    ZeroMemory(@istruct.items[istruct.realsize], IGROWSTEP * SizeOf(iitem_t));
     istruct.realsize := newrealsize;
   end;
   pi := @istruct.items[istruct.numitems];

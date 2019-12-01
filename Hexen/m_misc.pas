@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -70,6 +70,7 @@ procedure Cmd_TypeOf(const name: string);
 var
   yesnoStrings: array[boolean] of string = ('NO', 'YES');
   truefalseStrings: array[boolean] of string = ('FALSE', 'TRUE');
+  confignotfound: Boolean = true;
 
 implementation
 
@@ -634,6 +635,7 @@ begin
       if Pos(verstr, s[0]) > 0 then
       begin
         s.Delete(0);
+        confignotfound := False;
 
         for i := 0 to s.Count - 1 do
         begin
@@ -663,6 +665,8 @@ begin
   finally
     s.Free;
   end;
+  if confignotfound then
+    G_SetKeyboardMode(1);
 end;
 
 end.

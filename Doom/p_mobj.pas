@@ -116,14 +116,22 @@ function P_GetMobjCustomParamValue(const actor: Pmobj_t; const name: string): in
 
 function P_GetThingFloorType(thing: Pmobj_t): integer;
 
+procedure MObj_Init;
 var
   iquehead: integer; // Initialized at p_setup
   iquetail: integer; // Initialized at p_setup
+
+function P_FindMobjFromKey(const key: integer): Pmobj_t;
+
+var
+  mobjkeycnt: Integer = 0;
 
 implementation
 
 uses
   d_delphi,
+  c_cmds,
+  sc_engine,
   doomstat,
   d_player,
   d_think,
@@ -679,6 +687,8 @@ begin
   ZeroMemory(mobj, SizeOf(mobj_t));
   info := @mobjinfo[_type];
 
+  mobj.key := mobjkeycnt;
+  Inc(mobjkeycnt);
   mobj._type := _type;
   mobj.info := info;
   mobj.x := x;
@@ -1643,6 +1653,81 @@ begin
     result := parm.value
   else
     result := 0;
+end;
+
+procedure CmdSpwanMobj(const parm1, parm2: string);
+var
+  sc: TScriptEngine;
+  x, y, z: fixed_t;
+  mobjno, dn: integer;
+  parm, tmp: string;
+  mo: Pmobj_t;
+begin
+  parm := strtrim(parm1 + ' ' + parm2);
+  if parm = '' then
+  begin
+    printf('Usage:'#13#10' spawnmobj [x y z doomdnum/doomname]'#13#10);
+    exit;
+  end;
+
+  sc := TScriptEngine.Create(parm);
+  sc.MustGetInteger;
+  x := sc._Integer * FRACUNIT;
+  sc.MustGetInteger;
+  y := sc._Integer * FRACUNIT;
+  sc.MustGetString;
+  tmp := strupper(sc._String);
+  if (tmp = 'ONFLOORZ') or (tmp = 'FLOORZ') then
+    z := ONFLOORZ
+  else if (tmp = 'ONFLOATZ') or (tmp = 'FLOATZ') then
+    z := ONFLOATZ
+  else if (tmp = 'ONCEILINGZ') or (tmp = 'CEILINGZ') then
+    z := ONCEILINGZ
+  else
+    z := atoi(tmp, ONFLOORZ) * FRACUNIT;
+
+  tmp := '';
+  while sc.GetString do
+    tmp := tmp + sc._String + ' ';
+  tmp := strupper(strtrim(tmp));
+
+  dn := atoi(tmp, 0);
+  if dn >= 1 then
+    mobjno := Info_GetMobjNumForDoomNum(dn)
+  else
+    mobjno := Info_GetMobjNumForName(tmp);
+  if (mobjno > 0) and (mobjno < nummobjtypes) then
+  begin
+    mo := P_SpawnMobj(x, y, z, mobjno);
+    printf('spawnmobj: mobj %s spawned, key=%d'#13#10, [tmp, mo.key]);
+  end
+  else
+    printf('Unknown mobj %s'#13#10, [tmp]);
+  sc.Free;
+end;
+
+procedure MObj_Init;
+begin
+  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpwanMobj);
+end;
+
+function P_FindMobjFromKey(const key: integer): Pmobj_t;
+var
+  currentthinker: Pthinker_t;
+begin
+  currentthinker := thinkercap.next;
+  while Pointer(currentthinker) <> Pointer(@thinkercap) do
+  begin
+    if (@currentthinker._function.acp1 = @P_MobjThinker) and
+       (Pmobj_t(currentthinker).key = key) then
+    begin
+      result := Pmobj_t(currentthinker);
+      exit;
+    end;
+    currentthinker := currentthinker.next;
+  end;
+
+  result := nil;
 end;
 
 end.

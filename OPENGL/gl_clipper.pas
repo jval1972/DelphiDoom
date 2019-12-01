@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -78,6 +78,7 @@ implementation
 
 uses
   d_delphi,
+  r_aspect,
   r_main;
 
 type
@@ -296,7 +297,6 @@ end;
 
 function gld_FrustumAngle: angle_t;
 var
- // floatangle: double;
   tilt: single;
 begin
   tilt := abs(viewplayer.lookdir / 2);
@@ -306,12 +306,11 @@ begin
   begin
     result := ANGLE_MAX;
     exit;
-  end;      
+  end;
 
   // ok, this is a gross hack that barely works...
   // but at least it doesn't overestimate too much...
-//  floatangle := ;
-  result := round(ANG1 * (2.0 + (45.0 + (tilt / 1.9))));
+  result := round(ANG1 * (2.0 + (45.0 * monitor_relative_aspect + (tilt / 1.9))));
   if result >= ANG180 then
     result := ANGLE_MAX;
 end;

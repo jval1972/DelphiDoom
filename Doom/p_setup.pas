@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -163,6 +163,8 @@ uses
   p_adjust,
   r_data,
   r_things,
+  info_rnd,
+  m_rnd,
 {$IFNDEF OPENGL}
   r_cache,
 {$ENDIF}
@@ -1451,6 +1453,9 @@ begin
   totalitems := 0;
   totalsecret := 0;
 
+  if not preparingdemoplayback then
+    rnd_monster_seed := I_Random;
+
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
   for i := 0 to MAXPLAYERS - 1 do
@@ -1489,6 +1494,8 @@ begin
 
   printf(#13#10'-------------'#13#10);
   printf('Loading %s'#13#10, [lumpname]);
+  if spawnrandommonsters then
+    printf(' Random monsters seed=%d'#13#10, [rnd_monster_seed]);
 
   lumpnum := W_GetNumForName(lumpname);
 

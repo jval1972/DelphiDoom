@@ -208,7 +208,6 @@ uses
   r_data in 'Doom\r_data.pas',
   r_defs in 'Doom\r_defs.pas',
   r_draw in 'Doom\r_draw.pas',
-  r_fake3d in 'Base\r_fake3d.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Doom\r_intrpl.pas',
   r_lights in 'Doom\r_lights.pas',
@@ -256,7 +255,8 @@ uses
   p_adjust in 'Base\p_adjust.pas',
   w_autoload in 'Base\w_autoload.pas',
   p_common in 'Base\p_common.pas',
-  d_check in 'Doom\d_check.pas';
+  d_check in 'Doom\d_check.pas',
+  r_aspect in 'Base\r_aspect.pas';
 
 var
   Saved8087CW: Word;

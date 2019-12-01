@@ -19,10 +19,10 @@ begin
 
   destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
 
+  swidth := SCREENWIDTH32PITCH;
+
   fracstep := dc_iscale;
   frac := dc_texturemid + (dc_yl - centery) * fracstep;
-
-  swidth := SCREENWIDTH32PITCH;
 
   for i := 0 to count do
   begin
@@ -32,7 +32,6 @@ begin
     c := destl^;
     {$I R_ColorBoost.inc}
     destl^ := r + g shl 8 + b shl 16;
-
     destl := PLongWord(integer(destl) + swidth);
     inc(frac, fracstep);
   end;

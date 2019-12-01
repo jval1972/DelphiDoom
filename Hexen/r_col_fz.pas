@@ -40,18 +40,6 @@ procedure R_DrawFuzzColumn32;
 procedure R_DrawNewFuzzColumn;
 procedure R_DrawNewFuzzColumnHi;
 
-implementation
-
-uses
-  d_delphi,
-  xn_defs,
-  m_fixed,
-  r_data, r_draw, r_main, r_column, r_hires,
-  v_video;
-
-//
-// Spectre/Invisibility.
-//
 const
   FUZZTABLE = 50;
   FUZZOFF = 1;
@@ -73,6 +61,18 @@ var
 var
   fuzzpos: integer = 0;
 
+implementation
+
+uses
+  d_delphi,
+  xn_defs,
+  m_fixed,
+  r_data, r_draw, r_main, r_column, r_hires,
+  v_video;
+
+//
+// Spectre/Invisibility.
+//
 //
 // Framebuffer postprocessing.
 // Creates a fuzzy image by copying pixels

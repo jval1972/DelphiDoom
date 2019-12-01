@@ -75,6 +75,7 @@ uses
   DirectX,
   i_system,
   i_main,
+  i_threads,
   r_hires,
   v_data,
   v_video;
@@ -141,10 +142,15 @@ begin
 end;
 
 var
+  fu8_64a, fu8_64b: TDThread;
+
+var
   allocscreensize: integer;
 
 procedure I_ShutDownGraphics;
 begin
+  fu8_64a.Free;
+  fu8_64b.Free;
   I_ClearInterface(IInterface(g_pDDScreen));
   I_ClearInterface(IInterface(g_pDDSPrimary));
   I_ClearInterface(IInterface(g_pDD));
@@ -272,6 +278,45 @@ begin
   end;
 end;
 
+
+function I_FinishUpdate8_64a(p: pointer): integer; stdcall;
+var
+  dest: PInt64;
+  src: PWord;
+  srcstop: PByte;
+begin
+  src := @(screens[SCN_FG][0]);
+  srcstop := @(screens[SCN_FG][(SCREENWIDTH * SCREENHEIGHT div 2) and not 3]);
+
+  dest := @screen[0];
+  while integer(src) < integer(srcstop) do
+  begin
+    dest^ := curpal64[src^];
+    inc(dest);
+    inc(src);
+  end;
+  result := 0;
+end;
+
+function I_FinishUpdate8_64b(p: pointer): integer; stdcall;
+var
+  dest: PInt64;
+  src: PWord;
+  srcstop: PByte;
+begin
+  src := @(screens[SCN_FG][(SCREENWIDTH * SCREENHEIGHT div 2) and not 3]);
+  srcstop := @(screens[SCN_FG][SCREENWIDTH * SCREENHEIGHT - 1]);
+
+  dest := @screen[(SCREENWIDTH * SCREENHEIGHT div 2) and not 3];
+  while integer(src) < integer(srcstop) do
+  begin
+    dest^ := curpal64[src^];
+    inc(dest);
+    inc(src);
+  end;
+  result := 0;
+end;
+
 procedure I_FinishUpdate;
 var
   srcrect: TRect;
@@ -297,7 +342,16 @@ begin
   else
   begin
     if bpp = 32 then
-      I_FinishUpdate8_64
+    begin
+      if usemultithread then
+      begin
+        fu8_64a.Activate(nil);
+        I_FinishUpdate8_64b(nil);
+        fu8_64a.Wait;
+      end
+      else
+        I_FinishUpdate8_64
+    end
     else
     begin
       parms1.start := 0;
@@ -308,7 +362,7 @@ begin
         parms2.stop := SCREENWIDTH * SCREENHEIGHT - 1;
         h1 := I_CreateProcess(@I_Thr_FinishUpdate8, @parms2);
         I_FinishUpdate8(@parms1);
-        I_WaitForProcess(h1);
+        I_WaitForProcess(h1, 1000);
       end
       else
       begin
@@ -432,6 +486,9 @@ begin
   UpdateWindow(hMainWnd);
 
   printf('I_InitGraphics: Initialize directdraw.' + #13#10);
+
+  fu8_64a := TDThread.Create(I_FinishUpdate8_64a);
+  fu8_64b := TDThread.Create(I_FinishUpdate8_64b);
 
 ///////////////////////////////////////////////////////////////////////////
 // Create the main DirectDraw object

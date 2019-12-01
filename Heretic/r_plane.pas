@@ -105,9 +105,11 @@ uses
   r_things,
   r_hires,
 {$IFNDEF OPENGL}
+  r_batchsky,
   r_span,
   r_span32,
   r_column,
+  r_ccache,
 {$ENDIF}
   z_zone,
   w_wad;
@@ -506,25 +508,73 @@ begin
         dc_iscale := FRACUNIT * 200 div viewheight;
 
       dc_texturemid := skytexturemid;
-      for x := pl.minx to pl.maxx do
+      if optimizedcolumnrendering then
       begin
-        dc_yl := pl.top[x];
-        dc_yh := pl.bottom[x];
-
-        if dc_yl < dc_yh then
+        if videomode = vm32bit then
         begin
-          angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-          dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-          dc_mod := dc_texturemod;
-          dc_x := x;
-          R_GetDCs(skytexture, angle);
-        // Sky is allways drawn full bright,
-        //  i.e. colormaps[0] is used.
-        //  Because of this hack, sky is not affected
-        //  by INVUL inverse mapping.
-        // JVAL
-        //  call skycolfunc(), not colfunc(), does not use colormaps!
-          skycolfunc;
+          for x := pl.minx to pl.maxx do
+          begin
+            dc_yl := pl.top[x];
+            dc_yh := pl.bottom[x];
+
+            if dc_yl < dc_yh then
+            begin
+              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              dc_mod := dc_texturemod;
+              dc_x := x;
+              R_ReadDC32Cache(skytexture, angle);
+            // JVAL
+            //  Store columns to buffer
+              R_StoreSkyColumn32;
+            end;
+          end;
+          R_FlashSkyColumns32;
+        end
+        else
+        begin
+          for x := pl.minx to pl.maxx do
+          begin
+            dc_yl := pl.top[x];
+            dc_yh := pl.bottom[x];
+
+            if dc_yl < dc_yh then
+            begin
+              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              dc_mod := dc_texturemod;
+              dc_x := x;
+              dc_source := R_GetColumn(skytexture, angle);
+            // JVAL
+            //  Store columns to buffer
+              R_StoreSkyColumn8;
+            end;
+          end;
+          R_FlashSkyColumns8;
+        end;
+      end
+      else
+      begin
+        for x := pl.minx to pl.maxx do
+        begin
+          dc_yl := pl.top[x];
+          dc_yh := pl.bottom[x];
+
+          if dc_yl < dc_yh then
+          begin
+            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            dc_mod := dc_texturemod;
+            dc_x := x;
+            R_GetDCs(skytexture, angle);
+            // Sky is allways drawn full bright,
+            //  i.e. colormaps[0] is used.
+            //  Because of this hack, sky is not affected
+            //  by INVUL inverse mapping.
+            // JVAL
+            //  call skycolfunc(), not colfunc(), does not use colormaps!
+            skycolfunc;
+          end;
         end;
       end;
       continue;

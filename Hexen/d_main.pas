@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -116,6 +116,10 @@ procedure D_ShutDown;
 
 var
   autoloadgwafiles: boolean = true;
+
+var
+  wads_autoload: string = '';
+  paks_autoload: string = '';
 
 implementation
 
@@ -772,6 +776,32 @@ begin
     I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [xnsyswad]);
 end;
 
+procedure D_WadsAutoLoad(fnames: string);
+var
+  s1, s2: string;
+begin
+  fnames := strtrim(fnames);
+  if fnames = '' then
+    exit;
+
+  splitstring(fnames, s1, s2, [',', ' ']);
+  D_AddFile(s1);
+  D_WadsAutoLoad(s2);
+end;
+
+procedure D_PaksAutoload(fnames: string);
+var
+  s1, s2: string;
+begin
+  fnames := strtrim(fnames);
+  if fnames = '' then
+    exit;
+
+  splitstring(fnames, s1, s2, [',', ' ']);
+  PAK_AddFile(s1);
+  D_PaksAutoload(s2);
+end;
+
 //
 // IdentifyVersion
 // Checks availability of IWAD files by name,
@@ -1267,6 +1297,9 @@ begin
 
   printf('M_LoadDefaults: Load system defaults.'#13#10);
   M_LoadDefaults;              // load before initing other systems
+
+  D_WadsAutoLoad(wads_autoload);
+  D_PaksAutoload(paks_autoload);
 
   SUC_Progress(20);
 

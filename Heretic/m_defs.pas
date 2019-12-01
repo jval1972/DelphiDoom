@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -56,8 +56,10 @@ uses
 {$ELSE}
   i_video,
   e_endoom,
+  r_batchcolumn,
 {$ENDIF}
   m_menu,
+  r_aspect,
   r_defs,
   r_main,
   r_hires,
@@ -68,6 +70,7 @@ uses
   r_draw,
   s_sound,
   t_main,
+  t_png,
   v_video;
 
 const
@@ -82,6 +85,7 @@ var
   displayendscreen: boolean;
   soft_SCREENWIDTH,
   soft_SCREENHEIGHT: integer;
+  optimizedthingsrendering: Boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -118,7 +122,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 133;
+  NUMDEFAULTS = 144;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -174,7 +178,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'fixstallhack';
@@ -238,7 +242,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'shademenubackground';
@@ -286,7 +290,15 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'allowhidetails';
+     location: @allowhidetails;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'uselightboost';
@@ -344,6 +356,38 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tBoolean),
+
+    (name: 'optimizedcolumnrendering';
+     location: @optimizedcolumnrendering ;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'optimizedthingsrendering';
+     location: @optimizedthingsrendering;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'widescreensupport';
+     location: @widescreensupport;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'forcedaspect';
+     location: @forcedaspectstr;
+     setable: DFS_NEVER;
+     defaultsvalue: '0.00';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString),
 
     (name: 'OpenGL';
      location: nil;
@@ -552,6 +596,30 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'pngtransparentcolor';
+     location: @pngtransparentcolor;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: $FF00FF;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'pngtransparentcolor2';
+     location: @pngtransparentcolor2;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: $FFFF;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'assumecommontranspantcolors';
+     location: @assumecommontranspantcolors;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
      _type: tBoolean),
 
      // Compatibility
@@ -1195,8 +1263,31 @@ const
      defaultsvalue: '';
      defaultivalue: 8;
      defaultbvalue: false;
-     _type: tInteger)
+     _type: tInteger),
 
+    (name: 'Autoload';
+     location: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
+    (name: 'wads_autoload';
+     location: @wads_autoload;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString),
+
+    (name: 'paks_autoload';
+     location: @paks_autoload;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString)
   );
 
 implementation

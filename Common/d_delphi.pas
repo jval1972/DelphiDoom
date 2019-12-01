@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -100,6 +100,10 @@ type
     byte1, byte2: byte;
   end;
 
+  fourbytes = packed record
+    byte1, byte2, byte3, byte4: byte;
+  end;
+
   twointegers = packed record
     int1, int2: integer;
   end;
@@ -121,7 +125,7 @@ procedure printf(const Fmt: string; const Args: array of const); overload;
 
 function itoa(i: integer): string;
 
-function ftoa(f: integer): string;
+function ftoa(f: single): string;
 
 function atoi(const s: string): integer; overload;
 
@@ -571,7 +575,7 @@ begin
   sprintf(result, '%d', [i]);
 end;
 
-function ftoa(f: integer): string;
+function ftoa(f: single): string;
 begin
   result := FloatToStr(f);
 end;

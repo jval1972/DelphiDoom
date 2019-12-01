@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -93,6 +93,8 @@ function Info_GetMobjName(const mobj_no: integer): string;
 procedure Info_ShutDown;
 
 function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
+
+function Info_GetMobjNumForDoomNum(const dn: integer): integer;
 
 implementation
 
@@ -16985,6 +16987,21 @@ begin
   if result = -1 then
     result :=  (integer(imo) - integer(@mobjinfo[0])) div SizeOf(mobjinfo_t);
 
+end;
+
+function Info_GetMobjNumForDoomNum(const dn: integer): integer;
+var
+  i: integer;
+begin
+  for i := 0 to nummobjtypes - 1 do
+  begin
+    if mobjinfo[i].doomednum = dn then
+    begin
+      result := i;
+      Exit;
+    end;
+  end;
+  result := -1;
 end;
 
 end.

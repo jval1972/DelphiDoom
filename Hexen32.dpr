@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and on DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -259,7 +259,13 @@ uses
   w_autoload in 'Base\w_autoload.pas',
   sc_states in 'Base\sc_states.pas',
   sc_tokens in 'Base\sc_tokens.pas',
-  p_common in 'Base\p_common.pas';
+  p_common in 'Base\p_common.pas',
+  r_precalc in 'Base\r_precalc.pas',
+  r_wall32 in 'Base\r_wall32.pas',
+  r_wall8 in 'Base\r_wall8.pas',
+  i_threads in 'Base\i_threads.pas',
+  r_aspect in 'Base\r_aspect.pas',
+  r_batchcolumn in 'Base\r_batchcolumn.pas';
 
 var
   Saved8087CW: Word;

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -137,12 +137,12 @@ end;
 
 procedure C_CmdHomepage;
 begin
-  C_CmdGoToWebPage('http://delphidoom.sitesled.com/');
+  C_CmdGoToWebPage('http://sourceforge.net/projects/delphidoom/');
 end;
 
 procedure C_CmdHelp;
 begin
-  C_CmdGoToWebPage('http://delphidoom.sitesled.com/documentation.html');
+  C_CmdGoToWebPage('http://sourceforge.net/projects/delphidoom/');
 end;
 
 procedure C_CmdForums;
@@ -153,7 +153,7 @@ end;
 procedure C_CmdGetLatestVersion;
 begin
   C_ExecuteCmd('ver');
-  C_CmdGoToWebPage('http://delphidoom.sitesled.com/downloads.html');
+  C_CmdGoToWebPage('http://sourceforge.net/projects/delphidoom/files/');
 end;
 
 procedure C_RegisterUtilityCommands;

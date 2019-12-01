@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -111,6 +111,10 @@ procedure D_ShutDown;
 var
   autoloadgwafiles: boolean = true;
 
+var
+  wads_autoload: string = '';
+  paks_autoload: string = '';
+
 implementation
 
 uses
@@ -154,13 +158,16 @@ uses
   st_stuff,
   am_map,
   p_setup,
+  p_mobj,
   p_mobj_h,
   r_draw,
   r_main,
   r_hires,
   r_intrpl,
   r_data,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}
   r_lights,
   sounds,
   s_sound,
@@ -255,6 +262,9 @@ var
   nodrawers: boolean = false; // for comparative timing purposes
   noblit: boolean = false;    // for comparative timing purposes
   norender: boolean = false;  // for comparative timing purposes
+{$IFNDEF OPENGL}
+  blancbeforerender: Boolean = false;
+{$ENDIF}
   autoscreenshot: boolean = false;
   shotnumber: integer = 0;
   lastshotnumber: integer = -1;
@@ -282,6 +292,11 @@ begin
     R_PlayerViewBlanc(aprox_black);
     exit;
   end;
+
+{$IFNDEF OPENGL}
+  if blancbeforerender then
+    R_PlayerViewBlanc(aprox_black);
+{$ENDIF}
 
   if player <> nil then
     R_RenderPlayerView(player)
@@ -807,6 +822,33 @@ begin
     I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [ddsyswad]);
 end;
 
+procedure D_WadsAutoLoad(fnames: string);
+var
+  s1, s2: string;
+begin
+  fnames := strtrim(fnames);
+  if fnames = '' then
+    exit;
+
+  splitstring(fnames, s1, s2, [',', ' ']);
+  D_AddFile(s1);
+  D_WadsAutoLoad(s2);
+end;
+
+procedure D_PaksAutoload(fnames: string);
+var
+  s1, s2: string;
+begin
+  fnames := strtrim(fnames);
+  if fnames = '' then
+    exit;
+
+  splitstring(fnames, s1, s2, [',', ' ']);
+  PAK_AddFile(s1);
+  D_PaksAutoload(s2);
+end;
+
+
 //
 // IdentifyVersion
 // Checks availability of IWAD files by name,
@@ -1187,17 +1229,17 @@ var
 begin
   case gamemission of
     doom2: gamedirectorystring := 'DOOM2,DOOM1,DOOM';
-    pack_tnt: gamedirectorystring := 'TNT,DOOM2,DOOM1,DOOM';
-    pack_plutonia: gamedirectorystring := 'PLUTONIA,DOOM2,DOOM1,DOOM';
+    pack_tnt: gamedirectorystring := 'DOOM2-TNT,TNT,DOOM2,DOOM1,DOOM';
+    pack_plutonia: gamedirectorystring := 'DOOM2-PLUT,PLUTONIA,DOOM2,DOOM1,DOOM';
   else
-    gamedirectorystring := 'DOOM1,DOOM';
+    gamedirectorystring := 'TEXTURES,DOOM1,DOOM';
   end;
   for i := wadfiles.Count - 1 downto 0 do
   begin
     wad := strupper(fname(wadfiles[i]));
     if Pos('.', wad) > 0 then
       wad := Copy(wad, 1, Pos('.', wad) - 1);
-    if Pos(wad + ',', gamedirectorystring + ',') = 0 then
+    if Pos(',' + wad + ',', ',' + gamedirectorystring + ',') = 0 then
       gamedirectorystring := wad + ',' + gamedirectorystring;
   end;
 
@@ -1433,7 +1475,7 @@ begin
   {$IFNDEF FPC}
   SUC_Progress(15);
   {$ENDIF}
-  
+
   D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
 
   {$IFNDEF FPC}
@@ -1491,6 +1533,9 @@ begin
   printf('M_LoadDefaults: Load system defaults.'#13#10);
   M_LoadDefaults;              // load before initing other systems
 
+  D_WadsAutoLoad(wads_autoload);
+  D_PaksAutoload(paks_autoload);
+
   {$IFNDEF FPC}
   SUC_Progress(20);
   {$ENDIF}
@@ -1513,6 +1558,7 @@ begin
   if (p <> 0) and (p <= myargc - 1) then
     zaxisshift := false;
 
+{$IFNDEF OPENGL}
   p := M_CheckParm('-fake3d');
   if (p <> 0) and (p <= myargc - 1) then
     usefake3d := true;
@@ -1520,7 +1566,7 @@ begin
   p := M_CheckParm('-nofake3d');
   if (p <> 0) and (p <= myargc - 1) then
     usefake3d := false;
-
+{$ENDIF}
   if M_Checkparm('-ultrares') <> 0 then
     detailLevel := DL_ULTRARES;
 
@@ -1627,6 +1673,9 @@ begin
   nodrawers := M_CheckParm('-nodraw') <> 0;
   noblit := M_CheckParm('-noblit') <> 0;
   norender := M_CheckParm('-norender') <> 0;
+{$IFNDEF OPENGL}
+  blancbeforerender := M_CheckParm('-blancbeforerender') <> 0;
+{$ENDIF}
 
   if M_CheckParm('-usetransparentsprites') <> 0 then
     usetransparentsprites := true;
@@ -1788,6 +1837,9 @@ begin
 
   printf('AM_Init: initializing automap.'#13#10);
   AM_Init;
+
+  printf('MObj_Init: initializing mobj commands.'#13#10);
+  MObj_Init;
 
   {$IFNDEF FPC}
   SUC_Progress(57);

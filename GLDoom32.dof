@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1600 -screenheight 900 -fullscreen -iwad doom1.wad
+RunParams=-screenwidth 1920 -screenheight 1080 -nofullscreen
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=1
 Release=4
-Build=537
+Build=550
 Debug=0
 PreRelease=0
 Special=0
@@ -126,14 +126,14 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.537
+FileVersion=1.1.4.550
 InternalName=GLDoom
-LegalCopyright=Copyright 2005 - 2012, Jim Valavanis
+LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=
 OriginalFilename=GLDoom32.exe
 ProductName=Doom 32 bit OpenGL engine
 ProductVersion=1.0
-Comments=http://delphidoom.sitesled.com/
+Comments=http://sourceforge.net/projects/delphidoom/
 [HistoryLists\hlConditionals]
 Count=7
 Item0=OPENGL;DOOM;

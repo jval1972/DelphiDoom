@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -238,6 +238,11 @@ uses
   t_main,
   d_delphi,
   z_files;
+
+const
+  pngtransparentcolor: integer = $FF00FF;
+  pngtransparentcolor2: integer = $FFFF;
+  assumecommontranspantcolors: boolean = True;
 
 const
   PNGLibraryVersion = '1.564';
@@ -5364,10 +5369,36 @@ end;
 function TPNGTextureManager.LoadHeader(stream: TStream): boolean;
 begin
   png.LoadFromStream(stream);
-  FBitmap.SetTransparentColor(RGBSwap(png.TransparentColor));
-  FBitmap.SetTransparentColor2($FFFF);
+  FBitmap.SetTransparentColor(0);
+  FBitmap.SetTransparentColor2(RGBSwap(pngtransparentcolor));
+  FBitmap.SetTransparentColor3(RGBSwap(pngtransparentcolor2));
   FBitmap.ScaleTo(png.Width, png.Height);
   result := CheckPNGError;
+end;
+
+function T_IsCommonTransparentColor(c: LongWord): Boolean;
+var
+  ca: array[0..2] of byte;
+  x00, xFF: integer;
+  i: integer;
+begin
+  for i := 0 to 2 do
+  begin
+    ca[i] := c;
+    c := c shr 8;
+  end;
+
+  x00 := 0;
+  xFF := 0;
+
+  for i := 0 to 2 do
+  begin
+    if ca[i] = 0 then
+      Inc(x00)
+    else if ca[i] = $FF then
+      Inc(xFF)
+  end;
+  Result := ((x00 + xFF) = 3) and (xFF > 1);
 end;
 
 function TPNGTextureManager.LoadImage(stream: TStream): boolean;
@@ -5376,19 +5407,21 @@ var
   buffer: LongWord;
   trcolor: LongWord;
   trcolor2: LongWord;
+  trcolor3: LongWord;
   row: pointer;
   i: integer;
   pal: TPalette;
 begin
   trcolor := FBitmap.GetTransparentColor;
   trcolor2 := FBitmap.GetTransparentColor2;
+  trcolor3 := FBitmap.GetTransparentColor3;
   if (png.header.ColorType = COLOR_PALETTE) and (png.Header.BitDepth = 8) and (png.Header.HasPalette) then
   begin
     FBitmap^.SetBytesPerPixel(1);
     for i := 0 to 255 do
     begin
       buffer := RGBSwap(png.PaletteTable[i]);
-      if (buffer = trcolor) or (buffer = trcolor2) then
+      if (buffer = trcolor) or (buffer = trcolor2) or (buffer = trcolor3) or (assumecommontranspantcolors and T_IsCommonTransparentColor(buffer)) then
         pal[i] := 0
       else
         pal[i] := buffer;
@@ -5408,11 +5441,13 @@ begin
       for y := 0 to png.Height - 1 do
       begin
         buffer := RGBSwap(png.Pixels[x, y]);
-        if (buffer = trcolor) or (buffer = trcolor2) then
+        if (buffer = trcolor) or (buffer = trcolor2) or (buffer = trcolor3) or (assumecommontranspantcolors and T_IsCommonTransparentColor(buffer)) then
           buffer := 0;
         FBitmap^.PutPixels(x, y, 1, @buffer, 32);
       end;
     FBitmap.SetTransparentColor(0);
+    FBitmap.SetTransparentColor2(0);
+    FBitmap.SetTransparentColor3(0);
   end;
   result := CheckPNGError;
 end;

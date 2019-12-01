@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -42,6 +42,9 @@ procedure Info_InitRandom;
 procedure Info_ShutDownRandom;
 
 function Info_IsMonster(_type: integer): boolean;
+
+var
+  rnd_monster_seed: integer = 0;
 
 implementation
 
@@ -113,11 +116,15 @@ function Info_SelectRandomMonster(_type: integer): integer;
 var
   idx: integer;
   check: integer;
+  i: integer;
 begin
   check := mobjinfo[_type].spawnhealth;
   idx := 0;
   while (idx < NUMMONSTERSCATEGORIES) and (check >= rnd_monsters[idx].check) do
     inc(idx);
+
+  for i := 0 to rnd_monster_seed - 1 do
+    N_Random;
 
   result := rnd_monsters[idx].list[N_Random mod rnd_monsters[idx].list.Count];
 end;

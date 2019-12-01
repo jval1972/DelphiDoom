@@ -140,6 +140,8 @@ procedure I_DetectOS;
 
 procedure I_DetectCPU;
 
+function I_GetNumCPUs: integer;
+
 procedure I_ClearInterface(var Dest: IInterface);
 
 type
@@ -147,7 +149,7 @@ type
 
 function I_CreateProcess(p: process_t; parm: pointer): integer;
 
-procedure I_WaitForProcess(pid: integer);
+procedure I_WaitForProcess(pid: integer; msecs: integer);
 
 procedure I_GoToWebPage(const cmd: string);
 
@@ -721,7 +723,13 @@ begin
 
 end;
 
+var
+  numcpus: Integer = 0;
+
+
 procedure I_DetectCPU;
+var
+  info: TSystemInfo;
 begin
 
   try
@@ -751,8 +759,27 @@ begin
     printf(' MMX extentions detected'#13#10);
   if AMD3DNowMachine <> 0 then
     printf(' AMD 3D Now! extentions detected'#13#10);
+
+  GetSystemInfo(info);
+  numcpus := info.dwNumberOfProcessors;
+
+  if numcpus > 1 then
+    printf(' Multi-core system detected (%d CPUs)'#13#10, [numcpus]);
+
+  if confignotfound then
+    usemultithread := numcpus > 1;
+
+  if usemultithread then
+    printf(' Multithreding mode ON'#13#10)
+  else
+    printf(' Multithreding mode OFF'#13#10)
+
 end;
 
+function I_GetNumCPUs: integer;
+begin
+  result := numcpus;
+end;
 
 procedure I_ClearInterface(var Dest: IInterface);
 var
@@ -775,9 +802,9 @@ begin
   result := CreateThread(nil, $1000, @p, parm, 0, id);
 end;
 
-procedure I_WaitForProcess(pid: integer);
+procedure I_WaitForProcess(pid: integer; msecs: integer);
 begin
-  WaitForSingleObject(pid, INFINITE);
+  WaitForSingleObject(pid, msecs);
 end;
 
 type

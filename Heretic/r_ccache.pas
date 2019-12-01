@@ -37,8 +37,11 @@ uses
   w_wad;
 
 const
+  MAXBATCHWALLS = 8;
+
+const
 // Columns cache
-  COL32CACHESIZE = $4000;
+  COL32CACHESIZE = $2000;
   CACHECOLSHIFT = 15;
   CACHETEXTMASK = 1 shl CACHECOLSHIFT - 1;
   CACHECOLBITS = 10;
@@ -51,7 +54,7 @@ procedure R_Precache32bittexture(const rtex: integer);
 const
   MAXTEXTUREHEIGHT = 1024;
   MAXTEXTUREWIDTH = 1 shl CACHECOLBITS;
-  MAXEQUALHASH = 2; // Allow 2 same hash values to increase performance.
+  MAXEQUALHASH = MAXBATCHWALLS * 2; // Allow same hash values to increase performance.
 
 type
   dc32_t = array[0..MAXTEXTUREHEIGHT] of LongWord;
@@ -61,6 +64,7 @@ type
     dc32: Pdc32_t;
     columnsize: integer;
     UID: LongWord;
+    tic: integer;
   end;
   Pdc32cacheitem_t = ^dc32cacheitem_t;
 
@@ -79,7 +83,16 @@ implementation
 
 uses
   m_fixed,
-  r_cache, r_defs, r_hires, r_column, r_sky, r_data, r_mmx,
+  i_system,
+  g_game,
+  r_wall32,
+  r_cache,
+  r_defs,
+  r_hires,
+  r_column,
+  r_sky,
+  r_data,
+  r_mmx,
   t_main,
   v_video,
   z_zone;
@@ -200,6 +213,15 @@ begin
   ptex := textures[rtex];
   if cachemiss then
   begin
+    if usemultithread then
+      if dc32cache[hash][index] <> nil then
+        if dc32cache[hash][index].tic = gametic then
+        begin
+          R_RenderMultiThreadWalls32;
+          R_WaitWallsCache32;
+          R_ClearWallsCache32;
+        end;
+
     inc(c_cmiss); // Cache miss
     t := ptex.texture32;
 
@@ -391,6 +413,7 @@ begin
   end;
   dc_mod := dc_texturemod;
   dc_texturefactorbits := ptex.factorbits;
+  dc32cache[hash][index].tic := gametic;
   dc_source32 := PLongWordArray(dc32cache[hash][index].dc32);
   result := true;
 end;
@@ -440,7 +463,17 @@ begin
   if cachemiss then
   begin
     if dc32cache[hash][index] = nil then
-      dc32cache[hash][index] := mallocz(SizeOf(dc32cacheitem_t));
+      dc32cache[hash][index] := mallocz(SizeOf(dc32cacheitem_t))
+    else
+    begin
+      if usemultithread then
+        if dc32cache[hash][index].tic = gametic then
+        begin
+          R_RenderMultiThreadWalls32;
+          R_WaitWallsCache32;
+          R_ClearWallsCache32;
+        end;
+    end;
 
     inc(c_cmiss); // Cache miss
     {$IFDEF FPC}
@@ -730,6 +763,7 @@ begin
     dc32cache[hash][index].UID := UID;
   end;
   dc_texturefactorbits := 0;
+  dc32cache[hash][index].tic := gametic;
   dc_source32 := PLongWordArray(dc32cache[hash][index].dc32);
 end;
 

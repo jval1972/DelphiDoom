@@ -104,6 +104,7 @@ type
     FPalColor: LongWord;
     FTransparentColor: LongWord;
     FTransparentColor2: LongWord;
+    FTransparentColor3: LongWord;
     FNeedsSwapRGB: boolean;
     FExternalAlphaPresent: boolean;
     procedure putPixels1(Source, Dest: Pointer; Count: integer);
@@ -152,6 +153,8 @@ type
     procedure SetTransparentColor(const value: LongWord);
     function GetTransparentColor2: LongWord;
     procedure SetTransparentColor2(const value: LongWord);
+    function GetTransparentColor3: LongWord;
+    procedure SetTransparentColor3(const value: LongWord);
     function Clone: PTexture;
     procedure Mirror;
   end;
@@ -286,6 +289,7 @@ begin
   Empty;
   FTransparentColor := 0;
   FTransparentColor2 := 0;
+  FTransparentColor3 := 0;
   FNeedsSwapRGB := true;
   FExternalAlphaPresent := false;
 end;
@@ -1074,7 +1078,7 @@ begin
   pdeststop := @PLongWordArray(pdest)[FWidth * FHeight];
   // JVAL: If transparent colors are both the same then
   //       speed-up with a single check.
-  if FTransparentColor = FTransparentColor2 then
+  if (FTransparentColor = FTransparentColor2) and (FTransparentColor = FTransparentColor3) then
   begin
     while integer(pdest) < integer(pdeststop) do
     begin
@@ -1092,6 +1096,8 @@ begin
       if pdest^ = FTransparentColor then
         pdest^ := 0
       else if pdest^ = FTransparentColor2 then
+        pdest^ := 0
+      else if pdest^ = FTransparentColor3 then
         pdest^ := 0
       else
         pdest^ := pdest^ or $FF000000;
@@ -1167,14 +1173,14 @@ var
   pdest: PLongWord;
   pdeststop: PLongWord;
 begin
-  if (FTransparentColor = 0) and (FTransparentColor2 = 0) then
+  if (FTransparentColor = 0) and (FTransparentColor2 = 0) and (FTransparentColor3 = 0) then
     exit;
 
   ConvertTo32bit;
 
   pdest := PLongWord(integer(Fdata) + 4);
   pdeststop := @PLongWordArray(pdest)[FWidth * FHeight];
-  if FTransparentColor = FTransparentColor2 then
+  if (FTransparentColor = FTransparentColor2) and (FTransparentColor = FTransparentColor3) then
   begin
     while integer(pdest) < integer(pdeststop) do
     begin
@@ -1190,6 +1196,8 @@ begin
       if pdest^ = FTransparentColor then
         pdest^ := 0
       else if pdest^ = FTransparentColor2 then
+        pdest^ := 0
+      else if pdest^ = FTransparentColor3 then
         pdest^ := 0;
       inc(pdest);
     end;
@@ -1214,6 +1222,16 @@ end;
 procedure TTexture.SetTransparentColor2(const value: LongWord);
 begin
   FTransparentColor2 := value;
+end;
+
+function TTexture.GetTransparentColor3: LongWord;
+begin
+  result := FTransparentColor3;
+end;
+
+procedure TTexture.SetTransparentColor3(const value: LongWord);
+begin
+  FTransparentColor3 := value;
 end;
 
 function TTexture.Clone: PTexture;

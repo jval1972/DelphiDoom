@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -57,6 +57,9 @@ var
   dc_iscale: fixed_t;
   dc_texturemid: fixed_t;
   dc_x: integer;
+  dc_xl: integer;
+  dc_xh: integer;
+  dc_y: integer;
   dc_yl: integer;
   dc_yh: integer;
   dc_mod: integer; // JVAL for hi resolution
@@ -341,6 +344,8 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   fraclimit: fixed_t;
+  fraclimit2: fixed_t;
+  destlimit: integer;
   spot: integer;
   swidth: integer;
 
@@ -393,7 +398,7 @@ begin
       {$I R_DrawColumnHi.inc}
     end;
   end
-  else
+  else if fracstep > FRACUNIT div 6 then
   begin
     lspot := MININT;
     ldest := 0;
@@ -411,6 +416,33 @@ begin
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
       {$I R_DrawColumnHi.inc}
+    end;
+  end
+  else
+  begin
+    lspot := MININT;
+    ldest := 0;
+    fraclimit := frac + count * fracstep;
+    if lfactor >= 0 then
+    begin
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      while frac <= fraclimit do
+      begin
+      {$I R_DrawColumnHi_SmallStepLoop.inc}
+      end;
+    end
+    else               
+    begin
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      while frac <= fraclimit do
+      begin
+      {$I R_DrawColumnHi_SmallStepLoop.inc}
+      end;
     end;
   end;
 end;

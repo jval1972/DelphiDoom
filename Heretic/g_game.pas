@@ -261,26 +261,50 @@ uses
   d_delphi,
   c_cmds,
   z_zone,
-  doomstat, doomdata,
+  doomstat,
+  doomdata,
   am_map,
-  d_net, d_net_h, d_main,
+  d_net,
+  d_net_h,
+  d_main,
   f_finale,
-  info_h, info,
-  i_system, i_io,
+  info_rnd,
+  info_h,
+  info,
+  i_system,
+  i_io,
 {$IFNDEF OPENGL}
   e_endoom,
 {$ENDIF}
-  m_argv, m_misc, m_menu, m_rnd,
-  p_setup, p_saveg, p_tick, p_local, p_mobj_h, p_mobj, p_inter, p_map,
-  in_stuff, hu_stuff,
+  m_argv,
+  m_misc,
+  m_menu,
+  m_rnd,
+  p_setup,
+  p_saveg,
+  p_tick,
+  p_local,
+  p_mobj_h,
+  p_mobj,
+  p_inter,
+  p_map,
+  in_stuff,
+  hu_stuff,
   sb_bar,
 // Needs access to LFB.
   v_video,
-  w_wad, s_sound,
+  w_wad,
+  s_sound,
 // Data.
-  h_strings, sounds,
+  h_strings,
+  sounds,
 // SKY handling - still the wrong place.
-  r_data, r_sky, r_defs, r_main, r_draw, r_intrpl,
+  r_data,
+  r_sky,
+  r_defs,
+  r_main,
+  r_draw,
+  r_intrpl,
   tables;
 
 const
@@ -2181,6 +2205,9 @@ begin
   demo_p[0] := intval(spawnrandommonsters);
   demo_p := @demo_p[1];
 
+  demo_p[0] := rnd_monster_seed;
+  demo_p := @demo_p[1];
+
   demo_p[0] := consoleplayer;
   demo_p := @demo_p[1];
 
@@ -2350,6 +2377,11 @@ begin
   oldspawnrandommonsters := spawnrandommonsters;
   spawnrandommonsters := demo_p[0] <> 0;
   demo_p := @demo_p[1];
+  if demoversion >= VERSION113 then
+  begin
+    rnd_monster_seed := demo_p[0];
+    demo_p := @demo_p[1];
+  end;
 
   consoleplayer := demo_p[0];
   demo_p := @demo_p[1];

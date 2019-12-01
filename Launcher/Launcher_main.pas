@@ -741,7 +741,7 @@ end;
 
 procedure TForm1.HomePageButtonClick(Sender: TObject);
 begin
-  I_GoToWebPage('http://delphidoom.sitesled.com/index.html');
+  I_GoToWebPage('http://sourceforge.net/projects/delphidoom/');
 end;
 
 procedure TForm1.AutodetectDetailButtonClick(Sender: TObject);
@@ -756,7 +756,7 @@ begin
   finally
     Screen.Cursor := crDefault;
   end;
-  
+
   if cpuspeed < 80 then
   begin
     ScreenResolutionComboBox.Text := '320x200';

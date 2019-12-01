@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -838,13 +838,20 @@ begin
       if pe.ShortName = Name then
       begin // Found In Pak
         pref_list.index := hashcheck.index;
-        pref_list.priority := prefdirs.Count;
+        pref_list.priority := MAXINT - 1;
         for j := 0 to prefdirs.Count - 1 do
-          if Pos(prefdirs[j], pe.Name) > 0 then
+        begin
+          if prefdirs[j] + Name = pe.Name then
           begin
             pref_list.priority := j;
             break;
+          end
+          else if Pos(prefdirs[j], pe.Name) > 0 then
+          begin
+            pref_list.priority := prefdirs.Count + j;
+            break;
           end;
+        end;
         pref_list.next := malloc(SizeOf(pref_rec));
         pref_list := pref_list.next;
         pref_list.index := -1;

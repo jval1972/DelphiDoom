@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -94,6 +94,8 @@ function R_PointOnSegSide(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
 
 function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
 
+function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
+
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 
 function R_PointToDist(const x: fixed_t; const y: fixed_t): fixed_t;
@@ -126,6 +128,19 @@ procedure R_SetViewAngleOffset(const angle: angle_t);
 function R_FullStOn: boolean;
 
 var
+  basebatchcolfunc: PProcedure;
+  batchcolfunc: PProcedure;
+  batchfuzzcolfunc: PProcedure;
+  batchlightcolfunc: PProcedure;
+  batchwhitelightcolfunc: PProcedure;
+  batchredlightcolfunc: PProcedure;
+  batchgreenlightcolfunc: PProcedure;
+  batchbluelightcolfunc: PProcedure;
+  batchyellowlightcolfunc: PProcedure;
+  batchtranscolfunc: PProcedure;
+  batchtaveragecolfunc: PProcedure;
+  batchtalphacolfunc: PProcedure;
+
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
   skycolfunc: PProcedure;
@@ -233,9 +248,13 @@ var
   absviewpitch: integer;
 {$ENDIF}
 
+var
+  monitor_relative_aspect: Double = 1.0;
+
 implementation
 
 uses
+  Math,
   doomdata,
   c_cmds,
   d_net,
@@ -247,8 +266,10 @@ uses
   p_map,
   {$IFNDEF OPENGL}
   i_video,
+  i_system,
   {$ENDIF}
   r_draw,
+  r_aspect,
   r_bsp,
   r_things,
   r_plane,
@@ -258,19 +279,22 @@ uses
 {$IFNDEF OPENGL}
   r_precalc,
   r_cache,
+  r_fake3d,
 {$ENDIF}
   r_lights,
   r_intrpl,
-  r_fake3d,
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
   gl_clipper,
   gl_tex,
 {$ELSE}
   r_trans8,
+  r_wall8,
+  r_wall32,
   r_span,
   r_span32,
   r_column,
+  r_batchcolumn,
   r_col_l,
   r_col_ms,
   r_col_sk,
@@ -283,10 +307,6 @@ uses
   v_data,
   st_stuff,
   z_zone;
-
-const
-// Fineangles in the SCREENWIDTH wide window.
-  FIELDOFVIEW = 2048;
 
 var
 // just for profiling purposes
@@ -527,6 +547,15 @@ begin
   result := 0;
 end;
 
+function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
+var
+  xx, yy: fixed_t;
+begin
+  xx := x - viewx;
+  yy := y - viewy;
+  Result := Round(arctan2(yy, xx) * (ANG180 / D_PI));
+end;
+
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 begin
   result := R_PointToAngle(x2 - x1 + viewx, y2 - y1 + viewy);
@@ -658,14 +687,20 @@ var
   t: integer;
   focallength: fixed_t;
   an: angle_t;
+  fov: fixed_t;
 begin
   // Use tangent table to generate viewangletox:
   //  viewangletox will give the next greatest x
   //  after the view angle.
   //
   // Calc focallength
-  //  so FIELDOFVIEW angles covers SCREENWIDTH.
-  focallength := FixedDiv(centerxfrac, finetangent[FINEANGLES div 4 + FIELDOFVIEW div 2]);
+
+// JVAL: Widescreen support
+  if monitor_relative_aspect = 1.0 then
+    fov := ANG90 shr ANGLETOFINESHIFT
+  else
+    fov := round(arctan(monitor_relative_aspect) * FINEANGLES / D_PI);
+  focallength := FixedDiv(centerxfrac, finetangent[FINEANGLES div 4 + fov div 2]);
 
   for i := 0 to FINEANGLES div 2 - 1 do
   begin
@@ -778,8 +813,16 @@ var
 procedure R_SetViewSize;
 begin
   if not allowlowdetails then
-    if detailLevel < DL_NORMAL then
-      detailLevel := DL_NORMAL;
+    if detailLevel < DL_MEDIUM then
+      detailLevel := DL_MEDIUM;
+  if not allowhidetails then
+    if detailLevel > DL_NORMAL then
+    begin
+      if allowlowdetails then
+        detailLevel := DL_LOWEST
+      else
+        detailLevel := DL_MEDIUM;
+    end;
 
   if (setblocks <> screenblocks) or (setdetail <> detailLevel) then
   begin
@@ -803,6 +846,18 @@ begin
   case setdetail of
     DL_LOWEST:
       begin
+        basebatchcolfunc := R_DrawColumnLow_Batch;
+        batchcolfunc := R_DrawColumnLow_Batch;
+        batchfuzzcolfunc := R_DrawFuzzColumn_Batch;
+        batchlightcolfunc := nil;
+        batchwhitelightcolfunc := nil;
+        batchredlightcolfunc := nil;
+        batchgreenlightcolfunc := nil;
+        batchbluelightcolfunc := nil;
+        batchyellowlightcolfunc := nil;
+        batchtranscolfunc := R_DrawTranslatedColumn_Batch;
+
+
         colfunc := R_DrawColumnLowest;
         wallcolfunc := R_DrawColumnLowest;
         transcolfunc := R_DrawTranslatedColumn;
@@ -810,11 +865,15 @@ begin
         begin
           averagecolfunc := R_DrawColumnAlphaMediumDiher;
           alphacolfunc := R_DrawColumnAlphaMediumDiher;
+          batchtaveragecolfunc := nil;
+          batchtalphacolfunc := nil;
         end
         else
         begin
           averagecolfunc := R_DrawColumnAverageLowest;
           alphacolfunc := R_DrawColumnAlphaLowest;
+          batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
+          batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
         maskedcolfunc := R_DrawColumnLowest;
         maskedcolfunc2 := R_DrawColumnLowest;
@@ -831,6 +890,17 @@ begin
       end;
     DL_LOW:
       begin
+        basebatchcolfunc := R_DrawColumnLow_Batch;
+        batchcolfunc := R_DrawColumnLow_Batch;
+        batchfuzzcolfunc := R_DrawFuzzColumn_Batch;
+        batchlightcolfunc := nil;
+        batchwhitelightcolfunc := nil;
+        batchredlightcolfunc := nil;
+        batchgreenlightcolfunc := nil;
+        batchbluelightcolfunc := nil;
+        batchyellowlightcolfunc := nil;
+        batchtranscolfunc := R_DrawTranslatedColumn_Batch;
+
         colfunc := R_DrawColumnLow;
         wallcolfunc := R_DrawColumnLow;
         transcolfunc := R_DrawTranslatedColumn;
@@ -838,11 +908,15 @@ begin
         begin
           averagecolfunc := R_DrawColumnAlphaMediumDiher;
           alphacolfunc := R_DrawColumnAlphaMediumDiher;
+          batchtaveragecolfunc := nil;
+          batchtalphacolfunc := nil;
         end
         else
         begin
           averagecolfunc := R_DrawColumnAverageLow;
           alphacolfunc := R_DrawColumnAlphaLow;
+          batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
+          batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
         maskedcolfunc := R_DrawColumnLow;
         maskedcolfunc2 := R_DrawColumnLow;
@@ -859,6 +933,17 @@ begin
       end;
     DL_MEDIUM:
       begin
+        basebatchcolfunc := R_DrawColumnMedium_Batch;
+        batchcolfunc := R_DrawColumnMedium_Batch;
+        batchfuzzcolfunc := R_DrawFuzzColumn_Batch;
+        batchlightcolfunc := nil;
+        batchwhitelightcolfunc := nil;
+        batchredlightcolfunc := nil;
+        batchgreenlightcolfunc := nil;
+        batchbluelightcolfunc := nil;
+        batchyellowlightcolfunc := nil;
+        batchtranscolfunc := R_DrawTranslatedColumn_Batch;
+
         colfunc := R_DrawColumnMedium;
         wallcolfunc := R_DrawColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
@@ -866,11 +951,15 @@ begin
         begin
           averagecolfunc := R_DrawColumnAlphaMediumDiher;
           alphacolfunc := R_DrawColumnAlphaMediumDiher;
+          batchtaveragecolfunc := nil;
+          batchtalphacolfunc := nil;
         end
         else
         begin
           averagecolfunc := R_DrawColumnAverageMedium;
           alphacolfunc := R_DrawColumnAlphaMedium;
+          batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
+          batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
         maskedcolfunc := R_DrawColumnMedium;
         maskedcolfunc2 := R_DrawColumnMedium;
@@ -887,6 +976,22 @@ begin
       end;
     DL_NORMAL:
       begin
+        basebatchcolfunc := R_DrawColumnHi_Batch;
+        batchcolfunc := R_DrawColumnHi_Batch;
+        if use32bitfuzzeffect then
+          batchfuzzcolfunc := R_DrawFuzzColumn32_Batch
+        else
+          batchfuzzcolfunc := R_DrawFuzzColumnHi_Batch;
+        batchlightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchwhitelightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchredlightcolfunc := R_DrawRedLightColumnHi_Batch;
+        batchgreenlightcolfunc := R_DrawGreenLightColumnHi_Batch;
+        batchbluelightcolfunc := R_DrawBlueLightColumnHi_Batch;
+        batchyellowlightcolfunc := R_DrawYellowLightColumnHi_Batch;
+        batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
+        batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
+        batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+
         colfunc := R_DrawColumnHi;
         wallcolfunc := R_DrawColumnHi;
         transcolfunc := R_DrawTranslatedColumnHi;
@@ -910,6 +1015,22 @@ begin
       end;
     DL_HIRES:
       begin
+        basebatchcolfunc := R_DrawColumnHi_Batch;
+        batchcolfunc := R_DrawColumnHi_Batch;
+        if use32bitfuzzeffect then
+          batchfuzzcolfunc := R_DrawFuzzColumn32_Batch
+        else
+          batchfuzzcolfunc := R_DrawFuzzColumnHi_Batch;
+        batchlightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchwhitelightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchredlightcolfunc := R_DrawRedLightColumnHi_Batch;
+        batchgreenlightcolfunc := R_DrawGreenLightColumnHi_Batch;
+        batchbluelightcolfunc := R_DrawBlueLightColumnHi_Batch;
+        batchyellowlightcolfunc := R_DrawYellowLightColumnHi_Batch;
+        batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
+        batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
+        batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+
         colfunc := R_DrawColumnHi;
         wallcolfunc := R_DrawColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
@@ -933,6 +1054,22 @@ begin
       end;
     DL_ULTRARES:
       begin
+        basebatchcolfunc := R_DrawColumnHi_Batch;
+        batchcolfunc := R_DrawColumnHi_Batch;
+        if use32bitfuzzeffect then
+          batchfuzzcolfunc := R_DrawFuzzColumn32_Batch
+        else
+          batchfuzzcolfunc := R_DrawFuzzColumnHi_Batch;
+        batchlightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchwhitelightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchredlightcolfunc := R_DrawRedLightColumnHi_Batch;
+        batchgreenlightcolfunc := R_DrawGreenLightColumnHi_Batch;
+        batchbluelightcolfunc := R_DrawBlueLightColumnHi_Batch;
+        batchyellowlightcolfunc := R_DrawYellowLightColumnHi_Batch;
+        batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
+        batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
+        batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+
         colfunc := R_DrawColumnUltra;
         wallcolfunc := R_DrawColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
@@ -1000,13 +1137,15 @@ begin
   end;
 
   viewwidth := scaledviewwidth;
-
   centery := viewheight div 2;
   centerx := viewwidth div 2;
   centerxfrac := centerx * FRACUNIT;
   centeryfrac := centery * FRACUNIT;
-  projection := centerxfrac;
-  projectiony := ((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT; // JVAL for correct aspect
+
+// JVAL: Widescreen support
+  monitor_relative_aspect := R_GetRelativeAspect;
+  projection := Round(centerx / monitor_relative_aspect * FRACUNIT);
+  projectiony := (((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT); // JVAL for correct aspect}
 
   if olddetail <> setdetail then
   begin
@@ -1026,10 +1165,12 @@ begin
 
   R_InitTextureMapping;
 
-  // psprite scales
-  pspritescale := FRACUNIT * viewwidth div 320;
-  pspriteiscale := FRACUNIT * 320 div viewwidth;
-  pspriteyscale := (((SCREENHEIGHT * viewwidth) div SCREENWIDTH) * FRACUNIT) div 200;
+// psprite scales
+// JVAL: Widescreen support
+  pspritescale := Round((centerx / monitor_relative_aspect * FRACUNIT) / 160);
+  pspriteyscale := Round((((SCREENHEIGHT * viewwidth) / SCREENWIDTH) * FRACUNIT) / 200);
+  pspriteiscale := FixedDiv(FRACUNIT, pspritescale);
+
 
   // thing clipping
   for i := 0 to viewwidth - 1 do
@@ -1112,6 +1253,7 @@ begin
   R_CmdZAxisShift;
 end;
 
+{$IFNDEF OPENGL}
 procedure R_CmdUseFake3D(const parm1: string = '');
 var
   newf: boolean;
@@ -1131,6 +1273,7 @@ begin
   end;
   R_CmdUseFake3D;
 end;
+{$ENDIF}
 
 procedure R_CmdUse32boitfuzzeffect(const parm1: string = '');
 var
@@ -1222,7 +1365,11 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_Init32Cache');
   R_Init32Cache;
+  printf(#13#10 + 'R_InitFake3D');
+  R_InitFake3D;
 {$ENDIF}
+  printf(#13#10 + 'R_InitAspect');
+  R_InitAspect;
   printf(#13#10 + 'R_InitData');
   R_InitData;
   printf(#13#10 + 'R_InitInterpolations');
@@ -1245,14 +1392,20 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitTransparency8Tables');
   R_InitTransparency8Tables;
-  printf(#13#10 + 'R_InitPrecalc32');
-  R_InitPrecalc32;
+  printf(#13#10 + 'R_InitPrecalc');
+  R_InitPrecalc;
+  printf(#13#10 + 'R_InitWallsCache8');
+  R_InitWallsCache8;
+  printf(#13#10 + 'R_InitWallsCache32');
+  R_InitWallsCache32;
 {$ENDIF}
 
   framecount := 0;
 
   C_AddCmd('zaxisshift', @R_CmdZAxisShift);
+{$IFNDEF OPENGL}
   C_AddCmd('fake3d, usefake3d', @R_CmdUseFake3D);
+{$ENDIF}  
   C_AddCmd('lowestres, lowestresolution', @R_CmdLowestRes);
   C_AddCmd('lowres, lowresolution', @R_CmdLowRes);
   C_AddCmd('mediumres, mediumresolution', @R_CmdMediumRes);
@@ -1288,8 +1441,12 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_FreeTransparency8Tables');
   R_FreeTransparency8Tables;
-  printf(#13#10 + 'R_ShutDownPrecalc32');
-  R_ShutDownPrecalc32;
+  printf(#13#10 + 'R_ShutDownPrecalc');
+  R_ShutDownPrecalc;
+  printf(#13#10 + 'R_ShutDownWallsCache8');
+  R_ShutDownWallsCache8;
+  printf(#13#10 + 'R_ShutDownWallsCache32');
+  R_ShutDownWallsCache32;
 {$ENDIF}
   printf(#13#10 + 'R_FreeMemory');
   R_FreeMemory;
@@ -1459,8 +1616,9 @@ begin
 {$IFNDEF OPENGL}
   dviewsin := Sin(viewangle/$FFFFFFFF * 2 * pi);
   dviewcos := Cos(viewangle/$FFFFFFFF * 2 * pi);
-  relativeaspect := 320/200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH;
-{$ENDIF}  
+// JVAL: Widescreen support
+  relativeaspect := 320 / 200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
+{$ENDIF}
   fixedcolormapnum := player.fixedcolormap;
   if fixedcolormapnum <> 0 then
   begin
@@ -1513,8 +1671,104 @@ end;
 // R_RenderView
 //
 
+{$IFNDEF OPENGL}
+procedure R_RenderPlayerView8_MultiThread(player: Pplayer_t);
+begin
+  R_SetupFrame(player);
+
+  // Clear buffers.
+  R_ClearClipSegs;
+  R_ClearDrawSegs;
+  R_ClearPlanes;
+  R_ClearSprites;
+
+  // check for new console commands.
+  NetUpdate;
+
+  R_ClearWallsCache8;
+
+  // The head node is the last node output.
+  R_RenderBSPNode(numnodes - 1);
+
+  R_Wait3DLookup;
+
+  R_RenderMultiThreadWalls8;
+
+  R_DrawPlanes;
+
+  R_WaitWallsCache8;
+
+  R_DrawMasked;
+
+  // Check for new console commands.
+  NetUpdate;
+
+  R_Execute3DTransform;
+
+  R_DrawPlayer;
+
+  // Check for new console commands.
+  NetUpdate;
+
+end;
+
+procedure R_RenderPlayerView32_MultiThread(player: Pplayer_t);
+begin
+  R_CalcHiResTables;
+
+  R_SetupFrame(player);
+
+  // Clear buffers.
+  R_ClearClipSegs;
+  R_ClearDrawSegs;
+  R_ClearPlanes;
+  R_ClearSprites;
+
+  // check for new console commands.
+  NetUpdate;
+
+  R_ClearWallsCache32;
+
+  // The head node is the last node output.
+  R_RenderBSPNode(numnodes - 1);
+
+  R_Wait3DLookup;
+
+  R_RenderMultiThreadWalls32;
+
+  R_DrawPlanes;
+
+  R_WaitWallsCache32;
+
+  R_DrawMasked;
+
+  // Check for new console commands.
+  NetUpdate;
+
+  R_Execute3DTransform;
+
+  R_DrawPlayer;
+
+  // Check for new console commands.
+  NetUpdate;
+
+end;
+
+{$ENDIF}
+
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
+{$IFNDEF OPENGL}
+  if usemultithread then
+  begin
+    if (videomode = vm8bit) then
+      R_RenderPlayerView8_MultiThread(player)
+    else
+      R_RenderPlayerView32_MultiThread(player);
+    Exit;
+  end;
+{$ENDIF}
+
 {$IFNDEF OPENGL}
   R_CalcHiResTables;
 {$ENDIF}

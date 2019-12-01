@@ -69,7 +69,8 @@ const
   VERSION110 = 110;
   VERSION111 = 111;
   VERSION112 = 112;
-  VERSION = VERSION112;
+  VERSION113 = 113;
+  VERSION = VERSION113;
 
 type
 // Game mode handling - identify IWAD version

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -691,7 +691,7 @@ var
   currentthinker: Pthinker_t;
   next: Pthinker_t;
   mobj: Pmobj_t;
-  parm: Pmobjcustomparam_t;
+  parm: mobjcustomparam_t;
 begin
   // remove all the current thinkers
   currentthinker := thinkercap.next;
@@ -730,6 +730,9 @@ begin
           else if not P_UnArchiveOldPmobj(mobj) then
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
 
+          if mobj.key >= mobjkeycnt then
+            mobjkeycnt := mobj.key + 1;
+
           mobj.state := @states[integer(mobj.state)];
           mobj.prevstate := @states[integer(mobj.prevstate)];
           mobj.target := nil;
@@ -740,8 +743,7 @@ begin
           begin
             mobj.customparams := nil;
             repeat
-              parm := Z_Malloc(SizeOf(mobjcustomparam_t), PU_STATIC, nil);
-              memcpy(parm, save_p, SizeOf(mobjcustomparam_t));
+              memcpy(@parm, save_p, SizeOf(mobjcustomparam_t));
               incp(pointer(save_p), SizeOf(mobjcustomparam_t));
               P_SetMobjCustomParam(mobj, parm.name, parm.value);
             until parm.next = nil;

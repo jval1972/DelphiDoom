@@ -36,17 +36,19 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
+        <CommandLineParams Value="-nofullscreen"/>
       </local>
     </RunParams>
-    <Units Count="47">
+    <Units Count="49">
       <Unit0>
         <Filename Value="gldoom32f.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="gldoom32f"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="190"/>
-        <CursorPos X="22" Y="178"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -72,10 +74,12 @@
       <Unit3>
         <Filename Value="Common\d_delphi.pas"/>
         <UnitName Value="d_delphi"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="2424"/>
-        <CursorPos X="9" Y="2445"/>
+        <TopLine Value="2737"/>
+        <CursorPos X="27" Y="2750"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
@@ -395,7 +399,7 @@
       <Unit39>
         <Filename Value="Base\i_io.pas"/>
         <UnitName Value="i_io"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
         <TopLine Value="120"/>
         <CursorPos X="29" Y="125"/>
@@ -415,8 +419,7 @@
       <Unit41>
         <Filename Value="Doom\d_main.pas"/>
         <UnitName Value="d_main"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1225"/>
         <CursorPos X="16" Y="1227"/>
@@ -427,7 +430,7 @@
       <Unit42>
         <Filename Value="Doom\m_defs.pas"/>
         <UnitName Value="m_defs"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="28"/>
         <CursorPos X="7" Y="42"/>
@@ -438,7 +441,7 @@
       <Unit43>
         <Filename Value="Doom\i_system.pas"/>
         <UnitName Value="i_system"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="410"/>
         <CursorPos X="37" Y="414"/>
@@ -467,7 +470,7 @@
       <Unit46>
         <Filename Value="OPENGL\gl_shadows.pas"/>
         <UnitName Value="gl_shadows"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="39" Y="6"/>
@@ -475,43 +478,65 @@
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit46>
+      <Unit47>
+        <Filename Value="Doom\doomtype.pas"/>
+        <UnitName Value="doomtype"/>
+        <EditorIndex Value="5"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="17" Y="8"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit47>
+      <Unit48>
+        <Filename Value="Doom\d_textur.pas"/>
+        <UnitName Value="d_textur"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="1"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit48>
     </Units>
-    <JumpHistory Count="25" HistoryIndex="24">
+    <JumpHistory Count="30" HistoryIndex="28">
       <Position1>
-        <Filename Value="Base\i_io.pas"/>
-        <Caret Line="52" Column="25" TopLine="39"/>
-      </Position1>
-      <Position2>
-        <Filename Value="Doom\d_main.pas"/>
-        <Caret Line="139" Column="5" TopLine="124"/>
-      </Position2>
-      <Position3>
-        <Filename Value="Doom\m_defs.pas"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
-      </Position3>
-      <Position4>
         <Filename Value="Doom\i_system.pas"/>
         <Caret Line="206" Column="9" TopLine="193"/>
+      </Position1>
+      <Position2>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="98" Column="20" TopLine="97"/>
+      </Position2>
+      <Position3>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
+      </Position3>
+      <Position4>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="196" Column="14" TopLine="172"/>
       </Position4>
       <Position5>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="98" Column="20" TopLine="97"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
       </Position5>
       <Position6>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="190"/>
+        <Caret Line="211" Column="1" TopLine="178"/>
       </Position6>
       <Position7>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="196" Column="14" TopLine="172"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
       </Position7>
       <Position8>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="190"/>
+        <Caret Line="69" Column="3" TopLine="51"/>
       </Position8>
       <Position9>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="178"/>
+        <Caret Line="201" Column="21" TopLine="190"/>
       </Position9>
       <Position10>
         <Filename Value="gldoom32f.lpr"/>
@@ -519,68 +544,88 @@
       </Position10>
       <Position11>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="69" Column="3" TopLine="51"/>
+        <Caret Line="69" Column="26" TopLine="60"/>
       </Position11>
       <Position12>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="201" Column="21" TopLine="190"/>
+        <Caret Line="211" Column="1" TopLine="190"/>
       </Position12>
       <Position13>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="1" Column="1" TopLine="1"/>
+        <Caret Line="201" Column="11" TopLine="188"/>
       </Position13>
       <Position14>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="69" Column="26" TopLine="60"/>
+        <Caret Line="193" Column="41" TopLine="188"/>
       </Position14>
       <Position15>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="211" Column="1" TopLine="190"/>
+        <Caret Line="209" Column="1" TopLine="188"/>
       </Position15>
       <Position16>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="201" Column="11" TopLine="188"/>
+        <Caret Line="197" Column="12" TopLine="188"/>
       </Position16>
       <Position17>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="193" Column="41" TopLine="188"/>
+        <Caret Line="209" Column="1" TopLine="188"/>
       </Position17>
       <Position18>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="209" Column="1" TopLine="188"/>
+        <Caret Line="197" Column="6" TopLine="188"/>
       </Position18>
       <Position19>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="197" Column="12" TopLine="188"/>
+        <Caret Line="209" Column="1" TopLine="188"/>
       </Position19>
       <Position20>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="209" Column="1" TopLine="188"/>
+        <Caret Line="4" Column="1" TopLine="1"/>
       </Position20>
       <Position21>
         <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="197" Column="6" TopLine="188"/>
+        <Caret Line="3" Column="2" TopLine="1"/>
       </Position21>
       <Position22>
-        <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="209" Column="1" TopLine="188"/>
-      </Position22>
-      <Position23>
-        <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="4" Column="1" TopLine="1"/>
-      </Position23>
-      <Position24>
-        <Filename Value="gldoom32f.lpr"/>
-        <Caret Line="3" Column="2" TopLine="1"/>
-      </Position24>
-      <Position25>
         <Filename Value="Doom\d_main.pas"/>
         <Caret Line="1941" Column="65" TopLine="1920"/>
+      </Position22>
+      <Position23>
+        <Filename Value="Doom\doomtype.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position23>
+      <Position24>
+        <Filename Value="Common\d_delphi.pas"/>
+        <Caret Line="2445" Column="9" TopLine="2424"/>
+      </Position24>
+      <Position25>
+        <Filename Value="Common\d_delphi.pas"/>
+        <Caret Line="2750" Column="27" TopLine="2737"/>
       </Position25>
+      <Position26>
+        <Filename Value="Doom\doomtype.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position26>
+      <Position27>
+        <Filename Value="Doom\d_textur.pas"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position27>
+      <Position28>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="196" Column="34" TopLine="170"/>
+      </Position28>
+      <Position29>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="1" Column="1" TopLine="1"/>
+      </Position29>
+      <Position30>
+        <Filename Value="gldoom32f.lpr"/>
+        <Caret Line="147" Column="1" TopLine="133"/>
+      </Position30>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
-    <Version Value="9"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
       <Filename Value="..\bin\doom\gldoom32f"/>
@@ -605,6 +650,7 @@
     </CodeGeneration>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="False"/>
         <UseLineInfoUnit Value="False"/>
         <StripSymbols Value="True"/>
       </Debugging>
@@ -626,8 +672,11 @@
   <Debugging>
     <BreakPoints Count="1">
       <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsGlobal"/>
+        <WatchKind Value="wpkWrite"/>
         <Source Value="gldoom32f.lpr"/>
-        <Line Value="200"/>
+        <Line Value="204"/>
       </Item1>
     </BreakPoints>
     <Exceptions Count="3">

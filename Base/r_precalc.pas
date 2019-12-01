@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -39,15 +39,17 @@ uses
   d_delphi,
   m_fixed;
 
-procedure R_InitPrecalc32;
+procedure R_InitPrecalc;
 
-procedure R_ShutDownPrecalc32;
+procedure R_ShutDownPrecalc;
 
 procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
 
 var
   // Invert colormap precalc
   precal32_ic: array[0..767] of longword;
+  precal8_tolong: array[0..255] of longword;
+  precal_light: array[0..255] of byte;
 
 implementation
 
@@ -56,11 +58,12 @@ var
   precal32_g: array[0..255] of PIntegerArray;
   precal32_b: array[0..255] of PIntegerArray;
 
-procedure R_InitPrecalc32;
+procedure R_InitPrecalc;
 var
   i, j: integer;
   p: PIntegerArray;
   l: LongWord;
+  buf: fourbytes;
 begin
   for i := 0 to 255 do
   begin
@@ -76,6 +79,11 @@ begin
     precal32_b[i] := p;
     for j := 0 to 255 do
       p[j] := (i * j * 256) and $FF0000;
+    buf.byte1 := i;
+    buf.byte2 := i;
+    buf.byte3 := i;
+    buf.byte4 := i;
+    precal8_tolong[i] := PLongWord(@buf)^;
   end;
 
   for i := 0 to 767 do
@@ -83,9 +91,10 @@ begin
     l := 255 - i div 3;
     precal32_ic[i] := l + l shl 8 + l shl 16;
   end;
+
 end;
 
-procedure R_ShutDownPrecalc32;
+procedure R_ShutDownPrecalc;
 var
   i: integer;
 begin

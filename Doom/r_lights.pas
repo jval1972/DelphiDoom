@@ -100,6 +100,9 @@ begin
         lightboost[i * LIGHTBOOSTSIZE + j] := $10000;
     end;
   end;
+//  for i := 0 to $10000 do
+
+
 end;
 
 procedure R_ShutDownLightBoost;

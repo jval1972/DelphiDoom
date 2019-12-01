@@ -262,7 +262,7 @@ end;
 var
   overlay_created: boolean = false;
   sub_y2: integer;
-  did_fullhu: boolean = false;
+  did_fullhutics: integer = 10;
   last_y1: integer = GLDRAWTEXHEIGHT;
 {$ENDIF}
 
@@ -304,9 +304,9 @@ begin
     begin
       if (gamestate = GS_LEVEL) and (amstate = am_inactive) and not menuactive then
       begin
-        if did_fullhu then
+        if did_fullhutics > 0 then
         begin
-          did_fullhu := false;
+          Dec(did_fullhutics);
           glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, GLDRAWWIDTH, GLDRAWHEIGHT, GL_BGRA, GL_UNSIGNED_BYTE, screen32);
         end
         else
@@ -334,7 +334,7 @@ begin
       end
       else
       begin
-        did_fullhu := true;
+        did_fullhutics := TICRATE;
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, GLDRAWWIDTH, GLDRAWHEIGHT, GL_BGRA, GL_UNSIGNED_BYTE, screen32);
       end;
     end

@@ -121,6 +121,7 @@ uses
   p_pspr,
   p_tick,
   r_main,
+  r_aspect,
   r_bsp,
   r_draw,
   r_data,
@@ -1736,7 +1737,7 @@ begin
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity;
 
-  infinitePerspective(64.0, 320.0 / 200.0, gl_nearclip / 100.0);
+  infinitePerspective(64.0, 320.0 / 200.0 * monitor_relative_aspect, gl_nearclip / 100.0);
 
 
   if zaxisshift then

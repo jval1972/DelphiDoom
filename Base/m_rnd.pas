@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,6 +19,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+// Random number LUT.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -30,31 +33,6 @@ unit m_rnd;
 
 interface
 
-{
-    m_random.h, m_random.c
-}
-
-// Emacs style mode select   -*- C++ -*-  
-//----------------------------------------------------------------------------- 
-// 
-// $Id:$
-// 
-// Copyright (C) 1993-1996 by id Software, Inc. 
-// 
-// This source is available for distribution and/or modification 
-// only under the terms of the DOOM Source Code License as 
-// published by id Software. All rights reserved. 
-// 
-// The source is distributed in the hope that it will be useful, 
-// but WITHOUT ANY WARRANTY; without even the implied warranty of 
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-// Random number LUT.
-//
-//-----------------------------------------------------------------------------
-
 // Returns a number from 0 to 255,
 // from a lookup table.
 function M_Random: integer;
@@ -64,6 +42,8 @@ function P_Random: integer;
 
 // JVAL: As P_Random, but used only if no compatibility mode.
 function N_Random: integer;
+
+function I_Random: integer;
 
 // JVAL: Using custom seed
 function C_Random(var idx: integer): integer;
@@ -131,6 +111,11 @@ begin
   result := rndtable[nrndindex];
 end;
 
+function I_Random: integer;
+begin
+  result := Random(256);
+end;
+
 function C_Random(var idx: integer): integer;
 begin
   idx := (idx + 1) and $ff;
@@ -167,6 +152,7 @@ end;
 initialization
 
   stack := TIntegerStack.Create;
+  Randomize;
 
 finalization
   stack.Free;

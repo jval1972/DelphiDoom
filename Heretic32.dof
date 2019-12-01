@@ -100,8 +100,8 @@ Conditionals=HERETIC
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1920 -screenheight 1080 -fullscreen -iwad heretic_beta.wad
-HostApplication=
+RunParams=-screenwidth 1920 -screenheight 1080 -nofullscreen
+HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
 DebugCWD=
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=537
+Build=550
 Debug=0
 PreRelease=0
 Special=0
@@ -126,14 +126,14 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Heretic to Delphi Total Conversion
-FileVersion=1.1.4.537
+FileVersion=1.1.4.550
 InternalName=Heretic
-LegalCopyright=Copyright 2005 - 2012, Jim Valavanis
+LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=
 OriginalFilename=Heretic32.exe
 ProductName=Heretic 32 bit engine
 ProductVersion=1.0
-Comments=http://delphidoom.sitesled.com/
+Comments=http://sourceforge.net/projects/delphidoom/
 [HistoryLists\hlConditionals]
 Count=6
 Item0=HERETIC

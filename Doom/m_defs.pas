@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -57,17 +57,22 @@ uses
 {$ELSE}
   i_video,
   e_endoom,
+  r_batchcolumn,
 {$ENDIF}
   m_menu,
+  r_aspect,
   r_defs,
   r_main,
   r_hires,
   r_lights,
   r_intrpl,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}
   r_draw,
   s_sound,
   t_main,
+  t_png,
   v_video;
 
 
@@ -83,6 +88,8 @@ var
   displayendscreen: boolean;
   soft_SCREENWIDTH,
   soft_SCREENHEIGHT: integer;
+  usefake3d: integer;
+  optimizedthingsrendering: Boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -120,7 +127,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 134;
+  NUMDEFAULTS = 145;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -177,8 +184,8 @@ const
      location: @interpolate;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 1;
-     defaultbvalue: true;
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'fixstallhack';
@@ -201,8 +208,8 @@ const
      location: @zaxisshift;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 1;
-     defaultbvalue: true;
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'usefake3d';
@@ -242,7 +249,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'shademenubackground';
@@ -298,6 +305,30 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'allowhidetails';
+     location: @allowhidetails;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'optimizedcolumnrendering';
+     location: @optimizedcolumnrendering;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'optimizedthingsrendering';
+     location: @optimizedthingsrendering;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
      defaultbvalue: true;
      _type: tBoolean),
 
@@ -346,7 +377,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: true;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'diher8bittransparency';
@@ -372,6 +403,22 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tBoolean),
+
+    (name: 'widescreensupport';
+     location: @widescreensupport;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'forcedaspect';
+     location: @forcedaspectstr;
+     setable: DFS_NEVER;
+     defaultsvalue: '0.00';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString),
 
     (name: 'OpenGL';
      location: nil;
@@ -582,6 +629,30 @@ const
      defaultbvalue: false;
      _type: tBoolean),
 
+    (name: 'pngtransparentcolor';
+     location: @pngtransparentcolor;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: $FF00FF;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'pngtransparentcolor2';
+     location: @pngtransparentcolor2;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: $FFFF;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'assumecommontranspantcolors';
+     location: @assumecommontranspantcolors;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
      // Compatibility
     (name: 'Compatibility';
      location: nil;
@@ -662,7 +733,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: false;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'Keyboard';
@@ -1209,8 +1280,31 @@ const
      defaultsvalue: '';
      defaultivalue: 32;
      defaultbvalue: false;
-     _type: tInteger)
+     _type: tInteger),
 
+    (name: 'Autoload';
+     location: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
+    (name: 'wads_autoload';
+     location: @wads_autoload;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString),
+
+    (name: 'paks_autoload';
+     location: @paks_autoload;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString)
   );
 
 implementation

@@ -396,6 +396,9 @@ type
     // JVAL: User defined parameters (eg custom Inventory)
     customparams: Pmobjcustomparam_t;
 
+    // JVAL: Unique key
+    key: integer;
+
     floorclip: fixed_t;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;

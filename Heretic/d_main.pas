@@ -112,6 +112,10 @@ procedure D_ShutDown;
 var
   autoloadgwafiles: boolean = true;
 
+var
+  wads_autoload: string = '';
+  paks_autoload: string = '';
+  
 implementation
 
 uses
@@ -761,6 +765,33 @@ begin
     I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [ddsyswad]);
 end;
 
+
+procedure D_WadsAutoLoad(fnames: string);
+var
+  s1, s2: string;
+begin
+  fnames := strtrim(fnames);
+  if fnames = '' then
+    exit;
+
+  splitstring(fnames, s1, s2, [',', ' ']);
+  D_AddFile(s1);
+  D_WadsAutoLoad(s2);
+end;
+
+procedure D_PaksAutoload(fnames: string);
+var
+  s1, s2: string;
+begin
+  fnames := strtrim(fnames);
+  if fnames = '' then
+    exit;
+
+  splitstring(fnames, s1, s2, [',', ' ']);
+  PAK_AddFile(s1);
+  D_PaksAutoload(s2);
+end;
+
 //
 // IdentifyVersion
 // Checks availability of IWAD files by name,
@@ -1265,6 +1296,9 @@ begin
 
   printf('M_LoadDefaults: Load system defaults.'#13#10);
   M_LoadDefaults;              // load before initing other systems
+
+  D_WadsAutoLoad(wads_autoload);
+  D_PaksAutoload(paks_autoload);
 
   SUC_Progress(20);
 

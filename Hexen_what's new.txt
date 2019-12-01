@@ -20,6 +20,14 @@ Great speed optimizations in 8 bit color software mode (fps incresed 10-15%).
 Added A_ConsoleCommand mobj function.
 Turbo scale limited to 200%
 Added modelmapping console command to determine which models are present. (OpenGL version only)
+Fixed ascpect ratio when using widscreen monitors.
+Added allowhidetails console variable.
+Added widescreen,widescreensupport console variables.
+Added forcedaspect console variable to set custom aspect ratio.
+Added pngtransparentcolor and pngtransparentcolor2 console variables.
+Added optimizedthingsrendering console variable, when true (default) uses optimized method while rendering sprites
+Multithreading column rendering.
+Added assumecommontranspantcolors console variable, when true assumes x0FFFF, x0FF00FF and x0FFFF00 as transparency indicators in png images.
 
 --------------------------------------
 version 1.1.3.500 (Released 20/1/2012)

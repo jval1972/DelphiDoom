@@ -802,14 +802,14 @@ begin
   y2 := bspcoord[pcoord[3]];
 
 {$IFDEF OPENGL}
-  angle1 := R_PointToAngle(x1, y1);
+  angle1 := R_PointToAngleEx(x1, y1);
   angle2 := R_PointToAngle(x2, y2);
   result := gld_clipper_SafeCheckRange(angle2, angle1);
   exit;
 {$ELSE}
   // check clip list for an open space
-  angle1 := R_PointToAngle(x1, y1) - viewangle;
-  angle2 := R_PointToAngle(x2, y2) - viewangle;
+  angle1 := R_PointToAngleEx(x1, y1) - viewangle;
+  angle2 := R_PointToAngleEx(x2, y2) - viewangle;
 
   span := angle1 - angle2;
 

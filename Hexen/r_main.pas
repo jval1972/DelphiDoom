@@ -153,6 +153,18 @@ function R_FullStOn: boolean;
 function R_StOff: boolean;
 
 var
+  basebatchcolfunc: PProcedure;
+  batchcolfunc: PProcedure;
+  batchlightcolfunc: PProcedure;
+  batchwhitelightcolfunc: PProcedure;
+  batchredlightcolfunc: PProcedure;
+  batchgreenlightcolfunc: PProcedure;
+  batchbluelightcolfunc: PProcedure;
+  batchyellowlightcolfunc: PProcedure;
+  batchtranscolfunc: PProcedure;
+  batchtaveragecolfunc: PProcedure;
+  batchtalphacolfunc: PProcedure;
+
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
   skycolfunc: PProcedure;
@@ -188,7 +200,7 @@ var
   // for precise plane drawing in hi-res
   dviewsin, dviewcos: Double;
   relativeaspect: Double;
-{$ENDIF}  
+{$ENDIF}
 
   projection: fixed_t;
   projectiony: fixed_t; // JVAL For correct aspect
@@ -268,6 +280,9 @@ var
   viewpitch: integer;
 {$ENDIF}
 
+var
+  monitor_relative_aspect: double;
+
 implementation
 
 uses
@@ -286,6 +301,7 @@ uses
   {$IFNDEF OPENGL}
   i_video,
   {$ENDIF}
+  r_aspect,
   r_draw,
   r_bsp,
   r_things,
@@ -295,7 +311,8 @@ uses
   r_hires,
 {$IFNDEF OPENGL}
   r_cache,
-{$ENDIF}  
+  r_precalc,
+{$ENDIF}
   r_lights,
   r_intrpl,
   r_camera,
@@ -305,10 +322,14 @@ uses
   gl_clipper,
   gl_tex,
 {$ELSE}
+  i_system,
+  r_wall8,
+  r_wall32,
   r_span,
   r_span32,
   r_span32_fog,
   r_column,
+  r_batchcolumn,
   r_col_l,
   r_col_ms,
   r_col_sk,
@@ -323,10 +344,6 @@ uses
   v_data,
   v_video,
   z_zone;
-
-const
-// Fineangles in the SCREENWIDTH wide window.
-  FIELDOFVIEW = 2048;
 
 var
 // just for profiling purposes
@@ -698,14 +715,20 @@ var
   t: integer;
   focallength: fixed_t;
   an: angle_t;
+  fov: fixed_t;
 begin
   // Use tangent table to generate viewangletox:
   //  viewangletox will give the next greatest x
   //  after the view angle.
   //
   // Calc focallength
-  //  so FIELDOFVIEW angles covers SCREENWIDTH.
-  focallength := FixedDiv(centerxfrac, finetangent[FINEANGLES div 4 + FIELDOFVIEW div 2]);
+
+// jval: Widescreen support
+  if monitor_relative_aspect = 1.0 then
+    fov := ANG90 shr ANGLETOFINESHIFT
+  else
+    fov := round(arctan(monitor_relative_aspect) * FINEANGLES / D_PI);
+  focallength := FixedDiv(centerxfrac, finetangent[FINEANGLES div 4 + fov div 2]);
 
   for i := 0 to FINEANGLES div 2 - 1 do
   begin
@@ -818,8 +841,16 @@ var
 procedure R_SetViewSize;
 begin
   if not allowlowdetails then
-    if detailLevel < DL_NORMAL then
-      detailLevel := DL_NORMAL;
+    if detailLevel < DL_MEDIUM then
+      detailLevel := DL_MEDIUM;
+  if not allowhidetails then
+    if detailLevel > DL_NORMAL then
+    begin
+      if allowlowdetails then
+        detailLevel := DL_LOWEST
+      else
+        detailLevel := DL_MEDIUM;
+    end;
 
   if (setblocks <> screenblocks) or (setdetail <> detailLevel) then
   begin
@@ -843,6 +874,20 @@ begin
   case setdetail of
     DL_LOWEST:
       begin
+        basebatchcolfunc := R_DrawColumnLow_Batch;
+        batchcolfunc := R_DrawColumnLow_Batch;
+        batchlightcolfunc := nil;
+        batchwhitelightcolfunc := nil;
+        batchredlightcolfunc := nil;
+        batchgreenlightcolfunc := nil;
+        batchbluelightcolfunc := nil;
+        batchyellowlightcolfunc := nil;
+        batchtranscolfunc := R_DrawTranslatedColumn_Batch;
+        batchtaveragecolfunc := nil;
+        batchtalphacolfunc := nil;
+        batchtaveragecolfunc := nil;
+        batchtalphacolfunc := nil;
+
         colfunc := R_DrawColumnLowest;
         wallcolfunc := R_DrawColumnLowest;
         transcolfunc := R_DrawTranslatedColumn;
@@ -866,6 +911,20 @@ begin
       end;
     DL_LOW:
       begin
+        basebatchcolfunc := R_DrawColumnLow_Batch;
+        batchcolfunc := R_DrawColumnLow_Batch;
+        batchlightcolfunc := nil;
+        batchwhitelightcolfunc := nil;
+        batchredlightcolfunc := nil;
+        batchgreenlightcolfunc := nil;
+        batchbluelightcolfunc := nil;
+        batchyellowlightcolfunc := nil;
+        batchtranscolfunc := R_DrawTranslatedColumn_Batch;
+        batchtaveragecolfunc := nil;
+        batchtalphacolfunc := nil;
+        batchtaveragecolfunc := nil;
+        batchtalphacolfunc := nil;
+
         colfunc := R_DrawColumnLow;
         wallcolfunc := R_DrawColumnLow;
         transcolfunc := R_DrawTranslatedColumn;
@@ -889,6 +948,18 @@ begin
       end;
     DL_MEDIUM:
       begin
+        basebatchcolfunc := R_DrawColumnMedium_Batch;
+        batchcolfunc := R_DrawColumnMedium_Batch;
+        batchlightcolfunc := nil;
+        batchwhitelightcolfunc := nil;
+        batchredlightcolfunc := nil;
+        batchgreenlightcolfunc := nil;
+        batchbluelightcolfunc := nil;
+        batchyellowlightcolfunc := nil;
+        batchtranscolfunc := R_DrawTranslatedColumn_Batch;
+        batchtaveragecolfunc := nil;
+        batchtalphacolfunc := nil;
+
         colfunc := R_DrawColumnMedium;
         wallcolfunc := R_DrawColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
@@ -912,13 +983,27 @@ begin
       end;
     DL_NORMAL:
       begin
+        batchlightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchwhitelightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchredlightcolfunc := R_DrawRedLightColumnHi_Batch;
+        batchgreenlightcolfunc := R_DrawGreenLightColumnHi_Batch;
+        batchbluelightcolfunc := R_DrawBlueLightColumnHi_Batch;
+        batchyellowlightcolfunc := R_DrawYellowLightColumnHi_Batch;
+        batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
+        batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
+        batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+
         if LevelUseFog then
         begin
+          basebatchcolfunc := nil;
+          batchcolfunc := nil;
           colfunc := R_DrawColumnHi_Fog;
           wallcolfunc := R_DrawColumnHi_Fog;
         end
         else
         begin
+          basebatchcolfunc := R_DrawColumnHi_Batch;
+          batchcolfunc := R_DrawColumnHi_Batch;
           colfunc := R_DrawColumnHi;
           wallcolfunc := R_DrawColumnHi;
         end;
@@ -952,13 +1037,27 @@ begin
       end;
     DL_HIRES:
       begin
+        batchlightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchwhitelightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchredlightcolfunc := R_DrawRedLightColumnHi_Batch;
+        batchgreenlightcolfunc := R_DrawGreenLightColumnHi_Batch;
+        batchbluelightcolfunc := R_DrawBlueLightColumnHi_Batch;
+        batchyellowlightcolfunc := R_DrawYellowLightColumnHi_Batch;
+        batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
+        batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
+        batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+
         if LevelUseFog then
         begin
+          basebatchcolfunc := nil;
+          batchcolfunc := nil;
           colfunc := R_DrawColumnHi_Fog;
           wallcolfunc := R_DrawColumnUltra_Fog;
         end
         else
         begin
+          basebatchcolfunc := R_DrawColumnHi_Batch;
+          batchcolfunc := R_DrawColumnHi_Batch;
           colfunc := R_DrawColumnHi;
           wallcolfunc := R_DrawColumnUltra;
         end;
@@ -992,13 +1091,27 @@ begin
       end;
     DL_ULTRARES:
       begin
+        batchlightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchwhitelightcolfunc := R_DrawWhiteLightColumnHi_Batch;
+        batchredlightcolfunc := R_DrawRedLightColumnHi_Batch;
+        batchgreenlightcolfunc := R_DrawGreenLightColumnHi_Batch;
+        batchbluelightcolfunc := R_DrawBlueLightColumnHi_Batch;
+        batchyellowlightcolfunc := R_DrawYellowLightColumnHi_Batch;
+        batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
+        batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
+        batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+
         if LevelUseFog then
         begin
+          basebatchcolfunc := nil;
+          batchcolfunc := nil;
           colfunc := R_DrawColumnUltra_Fog;
           wallcolfunc := R_DrawColumnUltra_Fog;
         end
         else
         begin
+          basebatchcolfunc := R_DrawColumnHi_Batch;
+          batchcolfunc := R_DrawColumnHi_Batch;
           colfunc := R_DrawColumnUltra;
           wallcolfunc := R_DrawColumnUltra;
         end;
@@ -1081,8 +1194,11 @@ begin
   centerx := viewwidth div 2;
   centerxfrac := centerx * FRACUNIT;
   centeryfrac := centery * FRACUNIT;
-  projection := centerxfrac;
-  projectiony := ((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT; // JVAL for correct aspect
+
+// jval: Widescreen support
+  monitor_relative_aspect := R_GetRelativeAspect;
+  projection := Round(centerx / monitor_relative_aspect * FRACUNIT);
+  projectiony := (((SCREENHEIGHT * centerx * 320) div 200) div SCREENWIDTH * FRACUNIT); // JVAL for correct aspect
 
   if olddetail <> setdetail then
   begin
@@ -1099,10 +1215,11 @@ begin
 
   R_InitTextureMapping;
 
-  // psprite scales
-  pspritescale := FRACUNIT * viewwidth div 320;
-  pspriteiscale := FRACUNIT * 320 div viewwidth;
-  pspriteyscale := (((SCREENHEIGHT * viewwidth) div SCREENWIDTH) * FRACUNIT) div 200;
+// psprite scales
+// jval: Widescreen support
+  pspritescale := Round((centerx / monitor_relative_aspect * FRACUNIT) / 160);
+  pspriteyscale := Round((((SCREENHEIGHT * viewwidth) / SCREENWIDTH) * FRACUNIT) / 200);
+  pspriteiscale := FixedDiv(FRACUNIT, pspritescale);
 
   // thing clipping
   for i := 0 to viewwidth - 1 do
@@ -1276,7 +1393,11 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_Init32Cache');
   R_Init32Cache;
+  printf(#13#10 + 'R_InitFake3D');
+  R_InitFake3D;
 {$ENDIF}
+  printf(#13#10 + 'R_InitAspect');
+  R_InitAspect;
   printf(#13#10 + 'R_InitData');
   R_InitData;
   printf(#13#10 + 'R_InitInterpolations');
@@ -1296,6 +1417,14 @@ begin
   R_InitSkyMap;
   printf(#13#10 + 'R_InitTranslationsTables');
   R_InitTranslationTables;
+{$IFNDEF OPENGL}
+  printf(#13#10 + 'R_InitPrecalc');
+  R_InitPrecalc;
+  printf(#13#10 + 'R_InitWallsCache8');
+  R_InitWallsCache8;
+  printf(#13#10 + 'R_InitWallsCache32');
+  R_InitWallsCache32;
+{$ENDIF}
 
   framecount := 0;
 
@@ -1335,7 +1464,14 @@ begin
 {$IFDEF OPENGL}
   printf(#13#10 + 'R_ShutDownOpenGL');
   R_ShutDownOpenGL;
-{$ENDIF}  
+{$ELSE}
+  printf(#13#10 + 'R_ShutDownPrecalc');
+  R_ShutDownPrecalc;
+  printf(#13#10 + 'R_ShutDownWallsCache8');
+  R_ShutDownWallsCache8;
+  printf(#13#10 + 'R_ShutDownWallsCache32');
+  R_ShutDownWallsCache32;
+{$ENDIF}
   printf(#13#10);
 
 end;
@@ -1444,7 +1580,8 @@ begin
 {$IFNDEF OPENGL}
   dviewsin := Sin(viewangle/$FFFFFFFF * 2 * pi);
   dviewcos := Cos(viewangle/$FFFFFFFF * 2 * pi);
-  relativeaspect := 320/200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH;
+// jval: Widescreen support
+  relativeaspect := 320/200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
 {$ENDIF}
   sscount := 0;
 
@@ -1503,8 +1640,104 @@ end;
 // R_RenderView
 //
 
+{$IFNDEF OPENGL}
+procedure R_RenderPlayerView8_MultiThread(player: Pplayer_t);
+begin
+  R_SetupFrame(player);
+
+  // Clear buffers.
+  R_ClearClipSegs;
+  R_ClearDrawSegs;
+  R_ClearPlanes;
+  R_ClearSprites;
+
+  // check for new console commands.
+  NetUpdate;
+
+  R_ClearWallsCache8;
+
+  // The head node is the last node output.
+  R_RenderBSPNode(numnodes - 1);
+
+  R_Wait3DLookup;
+
+  R_RenderMultiThreadWalls8;
+
+  R_DrawPlanes;
+
+  R_WaitWallsCache8;
+
+  R_DrawMasked;
+
+  // Check for new console commands.
+  NetUpdate;
+
+  R_Execute3DTransform;
+
+  R_DrawPlayer;
+
+  // Check for new console commands.
+  NetUpdate;
+
+end;
+
+procedure R_RenderPlayerView32_MultiThread(player: Pplayer_t);
+begin
+  R_CalcHiResTables;
+
+  R_SetupFrame(player);
+
+  // Clear buffers.
+  R_ClearClipSegs;
+  R_ClearDrawSegs;
+  R_ClearPlanes;
+  R_ClearSprites;
+
+  // check for new console commands.
+  NetUpdate;
+
+  R_ClearWallsCache32;
+
+  // The head node is the last node output.
+  R_RenderBSPNode(numnodes - 1);
+
+  R_Wait3DLookup;
+
+  R_RenderMultiThreadWalls32;
+
+  R_DrawPlanes;
+
+  R_WaitWallsCache32;
+
+  R_DrawMasked;
+
+  // Check for new console commands.
+  NetUpdate;
+
+  R_Execute3DTransform;
+
+  R_DrawPlayer;
+
+  // Check for new console commands.
+  NetUpdate;
+
+end;
+
+{$ENDIF}
+
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
+{$IFNDEF OPENGL}
+  if usemultithread then
+  begin
+    if (videomode = vm8bit) then
+      R_RenderPlayerView8_MultiThread(player)
+    else
+      R_RenderPlayerView32_MultiThread(player);
+    Exit;
+  end;
+{$ENDIF}
+
 {$IFNDEF OPENGL}
   R_CalcHiResTables;
 {$ENDIF}
@@ -1551,7 +1784,7 @@ begin
 
   R_DrawPlayer;
 {$ENDIF}
-  
+
   // Check for new console commands.
   NetUpdate;
 

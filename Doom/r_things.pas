@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -104,6 +104,7 @@ uses
 {$IFNDEF OPENGL}
   r_segs,
   r_column,
+  r_batchcolumn,
   r_trans8,
   r_hires,
   r_lights,
@@ -481,6 +482,7 @@ begin
   dc_texturemid := basetexturemid;
 end;
 
+// For Walls only
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 var
   topscreen: integer;
@@ -516,6 +518,86 @@ begin
   dc_texturemid := basetexturemid;
 end;
 
+// JVAL: batch column drawing
+procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1);
+var
+  topscreen: integer;
+  bottomscreen: integer;
+  basetexturemid: fixed_t;
+  fc_x, cc_x: integer;
+begin
+  basetexturemid := dc_texturemid;
+
+  fc_x := mfloorclip[dc_x];
+  cc_x := mceilingclip[dc_x];
+
+  if baseclip <> -1 then
+  begin
+    while column.topdelta <> $ff do
+    begin
+      // calculate unclipped screen coordinates
+      // for post
+      topscreen := sprtopscreen + spryscale * column.topdelta;
+      bottomscreen := topscreen + spryscale * column.length;
+
+      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt(bottomscreen - 1);
+
+      if dc_yh >= fc_x then
+        dc_yh := fc_x - 1;
+      if dc_yl <= cc_x then
+        dc_yl := cc_x + 1;
+
+      if dc_yh >= baseclip then
+        dc_yh := baseclip;
+
+      if dc_yl <= dc_yh then
+      begin
+        dc_source := PByteArray(integer(column) + 3);
+        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        // Drawn by either R_DrawColumn
+        //  or (SHADOW) R_DrawFuzzColumn
+        //  or R_DrawColumnAverage
+        //  or R_DrawTranslatedColumn
+        batchcolfunc;
+      end;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+    end;
+  end
+  else
+  begin
+    while column.topdelta <> $ff do
+    begin
+      // calculate unclipped screen coordinates
+      // for post
+      topscreen := sprtopscreen + spryscale * column.topdelta;
+      bottomscreen := topscreen + spryscale * column.length;
+
+      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt(bottomscreen - 1);
+
+      if dc_yh >= fc_x then
+        dc_yh := fc_x - 1;
+      if dc_yl <= cc_x then
+        dc_yl := cc_x + 1;
+
+      if dc_yl <= dc_yh then
+      begin
+        dc_source := PByteArray(integer(column) + 3);
+        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        // Drawn by either R_DrawColumn
+        //  or (SHADOW) R_DrawFuzzColumn
+        //  or R_DrawColumnAverage
+        //  or R_DrawTranslatedColumn
+        batchcolfunc;
+      end;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+    end;
+  end;
+
+  dc_texturemid := basetexturemid;
+end;
+
 // R_DrawVisSprite
 //  mfloorclip and mceilingclip should also be set.
 //
@@ -523,11 +605,16 @@ procedure R_DrawVisSprite(vis: Pvissprite_t; const playerweapon: boolean = false
 var
   column: Pcolumn_t;
   texturecolumn: integer;
+  checkcolumn: integer;
   frac: fixed_t;
   patch: Ppatch_t;
-  i: integer;
   xiscale: integer;
   baseclip: fixed_t;
+  last_dc_x: integer;
+  last_texturecolumn: integer;
+  last_fc_x: smallint;
+  last_cc_x: smallint;
+  save_dc_x: integer;
 begin
   patch := W_CacheLumpNum(vis.patch + firstspritelump, PU_STATIC);
 
@@ -546,23 +633,32 @@ begin
   begin
     // NULL colormap = shadow draw
     colfunc := fuzzcolfunc;
+    batchcolfunc := batchfuzzcolfunc;
   end
   else if vis.mobjflags and MF_TRANSLATION <> 0 then
   begin
     colfunc := transcolfunc;
+    batchcolfunc := batchtranscolfunc;
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
   else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
-    colfunc := averagecolfunc
+  begin
+    colfunc := averagecolfunc;
+    batchcolfunc := batchtaveragecolfunc;
+  end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
     curtrans8table := R_GetTransparency8table(dc_alpha);
     colfunc := alphacolfunc;
+    batchcolfunc := batchtalphacolfunc;
   end
   else
+  begin
     colfunc := maskedcolfunc;
+    batchcolfunc := basebatchcolfunc;
+  end;
 
   dc_iscale := FixedDiv(FRACUNIT, vis.scale);
   dc_texturemid := vis.texturemid;
@@ -575,59 +671,80 @@ begin
   else
     baseclip := -1;
 
+// JVAL: batch column drawing
   xiscale := vis.xiscale;
   dc_x := vis.x1;
-  for i := vis.x1 to vis.x2 do
+  if (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) or (xiscale > FRACUNIT div 2) then
   begin
-    texturecolumn := LongWord(frac) shr FRACBITS;
+    while dc_x <= vis.x2 do
+    begin
+      texturecolumn := LongWord(frac) shr FRACBITS;
 
-    column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-    R_DrawMaskedColumn(column, baseclip);
-    frac := frac + xiscale;
-    inc(dc_x);
+      column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
+      R_DrawMaskedColumn(column, baseclip);
+      frac := frac + xiscale;
+      inc(dc_x);
+    end;
+  end
+  else
+  begin
+    last_dc_x := dc_x;
+    last_texturecolumn := LongWord(frac) shr FRACBITS;
+    last_fc_x := mfloorclip[last_dc_x];
+    last_cc_x := mceilingclip[last_dc_x];
+    while dc_x <= vis.x2 do
+    begin
+      checkcolumn := LongWord(frac) shr FRACBITS;
+      if (last_fc_x <> mfloorclip[dc_x]) or
+         (last_cc_x <> mceilingclip[dc_x]) or
+         (last_texturecolumn <> checkcolumn) then
+      begin
+        num_batch_columns := dc_x - last_dc_x;
+        texturecolumn := last_texturecolumn;
+        last_texturecolumn := checkcolumn;
+        last_fc_x := mfloorclip[dc_x];
+        last_cc_x := mceilingclip[dc_x];
+        save_dc_x := last_dc_x;
+        last_dc_x := dc_x;
+        column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
+        dc_x := save_dc_x;
+        if num_batch_columns > 1 then
+        begin
+          R_DrawMaskedColumn_Batch(column, baseclip);
+        end
+        else
+          R_DrawMaskedColumn(column, baseclip);
+        dc_x := last_dc_x;
+      end;
+      frac := frac + xiscale;
+      inc(dc_x);
+    end;
+    num_batch_columns := dc_x - last_dc_x;
+    if num_batch_columns > 0 then
+    begin
+      column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
+      dc_x := last_dc_x;
+      if num_batch_columns > 1 then
+      begin
+        R_DrawMaskedColumn_Batch(column, baseclip);
+      end
+      else
+        R_DrawMaskedColumn(column, baseclip);
+    end;
   end;
 
   Z_ChangeTag(patch, PU_CACHE);
 
 end;
 
-//
-// R_DrawLightColumn
-// Used for sprites that emits light
-//
 
 var
   ltopdelta: integer;
   llength: integer;
 
-procedure R_DrawLightColumn;
-var
-  topscreen: integer;
-  bottomscreen: integer;
-  basetexturemid: fixed_t;
-begin
-  basetexturemid := dc_texturemid;
-
-  topscreen := sprtopscreen + spryscale * ltopdelta;
-  bottomscreen := topscreen + spryscale * llength;
-
-  dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-  dc_yh := FixedInt(bottomscreen - 1);
-  dc_texturemid := (centery - dc_yl) * dc_iscale;
-
-  if dc_yh >= mfloorclip[dc_x] then
-    dc_yh := mfloorclip[dc_x] - 1;
-  if dc_yl <= mceilingclip[dc_x] then
-    dc_yl := mceilingclip[dc_x] + 1;
-
-  if dc_yl <= dc_yh then
-    lightcolfunc;
-
-  dc_texturemid := basetexturemid;
-end;
-
 //
 // R_DrawVisSpriteLight
+// Used for sprites that emits light
 //
 
 procedure R_DrawVisSpriteLight(vis: Pvissprite_t; x1: integer; x2: integer);
@@ -636,7 +753,14 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   patch: Ppatch_t;
-  i: integer;
+  topscreen: integer;
+  bottomscreen: integer;
+  basetexturemid: fixed_t;
+  last_dc_x: integer;
+  save_dc_x: integer;
+  last_texturecolumn: integer;
+  last_floorclip, last_ceilingclip: SmallInt;
+  checkcolumn: integer;
 begin
   patch := W_CacheLumpNum(vis.patch + firstspritelump, PU_STATIC);
 
@@ -647,27 +771,134 @@ begin
   sprtopscreen := centeryfrac - FixedMul(vis.texturemid2, vis.scale);
 
   if fixedcolormapnum = INVERSECOLORMAP then // JVAL: if in invulnerability mode use white color
-    lightcolfunc := whitelightcolfunc
-  else if vis.mobjflags_ex and MF_EX_REDLIGHT <> 0 then
-    lightcolfunc := redlightcolfunc
-  else if vis.mobjflags_ex and MF_EX_GREENLIGHT <> 0 then
-    lightcolfunc := greenlightcolfunc
-  else if vis.mobjflags_ex and MF_EX_BLUELIGHT <> 0 then
-    lightcolfunc := bluelightcolfunc
-  else if vis.mobjflags_ex and MF_EX_YELLOWLIGHT <> 0 then
-    lightcolfunc := yellowlightcolfunc
-  else
-    lightcolfunc := whitelightcolfunc;
-
-  for i := x1 to x2 do
   begin
-    dc_x := i;
-    texturecolumn := LongWord(frac) shr FRACBITS;
-    ltopdelta := lighboostlookup[texturecolumn].topdelta;
-    llength := lighboostlookup[texturecolumn].length;
-    dc_source32 := @lightboost[texturecolumn * LIGHTBOOSTSIZE + ltopdelta];
-    R_DrawLightColumn;
-    frac := frac + fracstep;
+    lightcolfunc := whitelightcolfunc;
+    batchlightcolfunc := batchwhitelightcolfunc;
+  end
+  else if vis.mobjflags_ex and MF_EX_LIGHT <> 0 then
+  begin
+    if vis.mobjflags_ex and MF_EX_REDLIGHT <> 0 then
+    begin
+      lightcolfunc := redlightcolfunc;
+      batchlightcolfunc := batchredlightcolfunc;
+    end
+    else if vis.mobjflags_ex and MF_EX_GREENLIGHT <> 0 then
+    begin
+      lightcolfunc := greenlightcolfunc;
+      batchlightcolfunc := batchgreenlightcolfunc;
+    end
+    else if vis.mobjflags_ex and MF_EX_BLUELIGHT <> 0 then
+    begin
+      lightcolfunc := bluelightcolfunc;
+      batchlightcolfunc := batchbluelightcolfunc;
+    end
+    else if vis.mobjflags_ex and MF_EX_YELLOWLIGHT <> 0 then
+    begin
+      lightcolfunc := yellowlightcolfunc;
+      batchlightcolfunc := batchyellowlightcolfunc;
+    end
+    else
+    begin
+      lightcolfunc := whitelightcolfunc;
+      batchlightcolfunc := batchwhitelightcolfunc;
+    end;
+  end
+  else
+  begin
+    lightcolfunc := whitelightcolfunc;
+    batchlightcolfunc := batchwhitelightcolfunc;
+  end;
+
+
+  dc_x := x1;
+  if (not optimizedthingsrendering) or (not Assigned(batchlightcolfunc)) or (fracstep > FRACUNIT div 2) then
+  begin
+    while dc_x <= x2 do
+    begin
+      texturecolumn := LongWord(frac) shr FRACBITS;
+      ltopdelta := lighboostlookup[texturecolumn].topdelta;
+      llength := lighboostlookup[texturecolumn].length;
+      dc_source32 := @lightboost[texturecolumn * LIGHTBOOSTSIZE + ltopdelta];
+
+      basetexturemid := dc_texturemid;
+
+      topscreen := sprtopscreen + spryscale * ltopdelta;
+      bottomscreen := topscreen + spryscale * llength;
+
+      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt(bottomscreen - 1);
+      dc_texturemid := (centery - dc_yl) * dc_iscale;
+
+      if dc_yh >= mfloorclip[dc_x] then
+        dc_yh := mfloorclip[dc_x] - 1;
+      if dc_yl <= mceilingclip[dc_x] then
+        dc_yl := mceilingclip[dc_x] + 1;
+
+      if dc_yl <= dc_yh then
+        lightcolfunc;
+
+      dc_texturemid := basetexturemid;
+
+      frac := frac + fracstep;
+      Inc(dc_x);
+    end;
+  end
+  else
+  begin
+    last_dc_x := dc_x;
+    last_texturecolumn := LongWord(frac) shr FRACBITS;
+    last_floorclip := mfloorclip[dc_x];
+    last_ceilingclip := mceilingclip[dc_x];
+    while dc_x <= x2 do
+    begin
+      checkcolumn := LongWord(frac) shr FRACBITS;
+      if (last_floorclip <> mfloorclip[dc_x]) or
+         (last_ceilingclip <> mceilingclip[dc_x]) or
+         (last_texturecolumn <> checkcolumn) or
+         (dc_x = x2) then
+      begin
+        num_batch_columns := dc_x - last_dc_x;
+        texturecolumn := last_texturecolumn;
+        last_texturecolumn := checkcolumn;
+        last_floorclip := mfloorclip[dc_x];
+        last_ceilingclip := mceilingclip[dc_x];
+        save_dc_x := last_dc_x;
+        last_dc_x := dc_x;
+
+        ltopdelta := lighboostlookup[texturecolumn].topdelta;
+        llength := lighboostlookup[texturecolumn].length;
+        dc_source32 := @lightboost[texturecolumn * LIGHTBOOSTSIZE + ltopdelta];
+
+        basetexturemid := dc_texturemid;
+
+        topscreen := sprtopscreen + spryscale * ltopdelta;
+        bottomscreen := topscreen + spryscale * llength;
+
+        dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
+        dc_yh := FixedInt(bottomscreen - 1);
+        dc_texturemid := (centery - dc_yl) * dc_iscale;
+
+        if dc_yh >= mfloorclip[dc_x] then
+          dc_yh := mfloorclip[dc_x] - 1;
+        if dc_yl <= mceilingclip[dc_x] then
+          dc_yl := mceilingclip[dc_x] + 1;
+
+        if dc_yl <= dc_yh then
+        begin
+          dc_x := save_dc_x;
+          if num_batch_columns > 1 then
+            batchlightcolfunc
+          else
+            lightcolfunc;
+          dc_x := last_dc_x;
+        end;
+
+        dc_texturemid := basetexturemid;
+      end;
+
+      frac := frac + fracstep;
+      Inc(dc_x);
+    end;
   end;
 
   Z_ChangeTag(patch, PU_CACHE);

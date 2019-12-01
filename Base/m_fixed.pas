@@ -71,6 +71,8 @@ type
 
 function FixedMul(const a, b: fixed_t): fixed_t;
 
+function FixedMulEx(const a, b: fixed_t): fixed_t;
+
 function FixedMul88(const a, b: fixed_t): fixed_t;
 
 function FixedMul8(const a, b: fixed_t): fixed_t;
@@ -81,7 +83,7 @@ function IntFixedMul(const a, b: fixed_t): fixed_t;
 
 function FixedDiv(const a, b: fixed_t): fixed_t;
 
-//function FixedDivEx(const a, b: fixed_t): fixed_t;
+function FixedDivEx(const a, b: fixed_t): fixed_t;
 
 function FixedDiv2(const a, b: fixed_t): fixed_t;
 
@@ -98,6 +100,12 @@ asm
   imul b
   shrd eax, edx, 16
 end;
+
+function FixedMulEx(const a, b: fixed_t): fixed_t;
+begin
+  result := Round(a / FRACUNIT * b);
+end;
+
 
 function FixedMul88(const a, b: fixed_t): fixed_t; assembler;
 asm

@@ -52,7 +52,8 @@ const
   VERSION117 = 117;
   VERSION118 = 118;
   VERSION119 = 119;
-  VERSION = VERSION119;
+  VERSION120 = 120;
+  VERSION = VERSION120;
 
 var
   oldsharewareversion: boolean = false;

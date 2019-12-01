@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -40,9 +40,13 @@ var
 
 procedure R_Set3DLookup(p: Pplayer_t);
 
+procedure R_Wait3DLookup;
+
 procedure R_Execute3DTransform;
 
 procedure R_ShutDownFake3D;
+
+procedure R_InitFake3D;
 
 implementation
 
@@ -54,6 +58,7 @@ uses
   doomdef,
   {$ENDIF}
   i_system,
+  i_threads,
   r_draw,
   r_hires,
   v_data;
@@ -75,7 +80,10 @@ const
 // JVAL
 // Setup lookup table
 //
-procedure R_Set3DLookup(p: Pplayer_t);
+var
+  setup3dworker: TDThread;
+
+function do_Set3DLookup(p: Pplayer_t): Integer; stdcall;
 var
   i, j: integer;
   stretch: float;
@@ -86,11 +94,6 @@ var
   spotstep: float;
   plt: PInteger;
 begin
-  if (oldfake3dlookdir = p.lookdir) and
-     (oldviewwindowx = viewwindowx) and
-     (oldviewheight = viewheight) then
-     exit;
-
   if lookup3dtable = nil then
     lookup3dtable := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(integer));
 
@@ -152,8 +155,26 @@ begin
       stretch := stretch - stretchstep;
     end;
   end;
+  result := 0;
 end;
 
+procedure R_Set3DLookup(p: Pplayer_t);
+begin
+  if (oldfake3dlookdir = p.lookdir) and
+     (oldviewwindowx = viewwindowx) and
+     (oldviewheight = viewheight) then
+     exit;
+
+  if usemultithread then
+    setup3dworker.Activate(p)
+  else
+    do_Set3DLookup(p);
+end;
+
+procedure R_Wait3DLookup;
+begin
+  setup3dworker.Wait;
+end;
 //
 // JVAL
 // Execute 3D Transform in 8 bit mode
@@ -341,6 +362,10 @@ begin
   result := 0;
 end;
 
+
+var
+  threadworker8, threadworker32: TDThread;
+
 //
 // JVAL
 //  R_Execute3DTransform
@@ -352,7 +377,7 @@ var
 
 procedure R_Execute3DTransform;
 var
-  h1: integer;
+//  h1: integer;
   parms1: exec3dtransparms_t;
 begin
   // If we don't use fake 3d return
@@ -378,20 +403,24 @@ begin
     begin
     // JVAL
     // Create a thread to process the half screen
-      h1 := I_CreateProcess(@R_Thr_Execute3DTransform32, @parms1);
+    //  h1 := I_CreateProcess(@R_Thr_Execute3DTransform32, @parms1);
     // The other half is processed by application thread
+      threadworker32.Activate(@parms1);
       R_Execute3DTransform32(parms1.stop + 1, viewheight - 1, @buffer2);
+      threadworker32.Wait;
     end
     else
     begin
     // JVAL
     // As above
-      h1 := I_CreateProcess(@R_Thr_Execute3DTransform8, @parms1);
+    //  h1 := I_CreateProcess(@R_Thr_Execute3DTransform8, @parms1);
+      threadworker8.Activate(@parms1);
       R_Execute3DTransform8(parms1.stop + 1, viewheight - 1, PByteArray(@buffer2));
+      threadworker8.Wait;
     end;
 
     // Wait for extra thread to terminate.
-    I_WaitForProcess(h1);
+   // I_WaitForProcess(h1);
 
   end
   else
@@ -405,8 +434,18 @@ begin
 
 end;
 
+procedure R_InitFake3D;
+begin
+  threadworker8 := TDThread.Create(@R_Thr_Execute3DTransform8);
+  threadworker32 := TDThread.Create(@R_Thr_Execute3DTransform32);
+  setup3dworker := TDThread.Create(@do_Set3DLookup);
+end;
+
 procedure R_ShutDownFake3D;
 begin
+  threadworker8.Free;
+  threadworker32.Free;
+  setup3dworker.Free;
   if lookup3dtable <> nil then
     memfree(pointer(lookup3dtable), SCREENWIDTH * SCREENHEIGHT * SizeOf(integer));
 end;

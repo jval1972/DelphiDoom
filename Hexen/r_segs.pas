@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,6 +20,10 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  Refresh module, drawing LineSegs from BSP.
+//  All the clipping: columns, horizontal spans, sky columns.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -38,31 +42,6 @@ uses
   tables,
   r_defs;
 
-{
-    r_segs.h, r_segs.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  Refresh module, drawing LineSegs from BSP.
-//  All the clipping: columns, horizontal spans, sky columns.
-//
-//-----------------------------------------------------------------------------
 
 {$IFNDEF OPENGL}
 procedure R_RenderMaskedSegRange(const ds: Pdrawseg_t; const x1, x2: integer);
@@ -103,6 +82,8 @@ uses
   r_hires,
   r_column,
   r_ccache,
+  r_wall8,
+  r_wall32,
 {$ENDIF}
   z_zone;
 
@@ -311,209 +292,6 @@ const
   WORLDBIT = 16 - HEIGHTBITS;
   WORLDUNIT = 1 shl WORLDBIT;
 
-procedure R_RenderSegLoop;
-var
-  angle: angle_t;
-  index: integer;
-  yl: integer;
-  yh: integer;
-  mid: integer;
-  texturecolumn: fixed_t;
-  texturecolumnhi: smallint;
-  top: integer;
-  bottom: integer;
-  pceilingclip: PSmallInt;
-  pfloorclip: PSmallInt;
-  rwx, rwstopx: integer;
-begin
-  texturecolumn := 0; // shut up compiler warning
-  texturecolumnhi := 0;
-  rwx := rw_x;
-  rwstopx := rw_stopx;
-  pceilingclip := @ceilingclip[rwx];
-  pfloorclip := @floorclip[rwx];
-  while rwx < rwstopx do
-  begin
-    // mark floor / ceiling areas
-    yl := (topfrac + (HEIGHTUNIT - 1)) div HEIGHTUNIT;
-
-    // no space above wall?
-    if yl <= pceilingclip^ then
-      yl := pceilingclip^ + 1;
-
-    if markceiling then
-    begin
-      top := pceilingclip^ + 1;
-      bottom := yl - 1;
-
-      if bottom >= pfloorclip^ then
-        bottom := pfloorclip^ - 1;
-
-      if top <= bottom then
-      begin
-        ceilingplane.top[rwx] := top;
-        ceilingplane.bottom[rwx] := bottom;
-      end;
-    end;
-
-    yh := bottomfrac div HEIGHTUNIT;
-
-    if yh >= pfloorclip^ then
-      yh := pfloorclip^ - 1;
-
-    if markfloor then
-    begin
-      top := yh + 1;
-      bottom := pfloorclip^ - 1;
-      if top <= pceilingclip^ then
-        top := pceilingclip^ + 1;
-      if top <= bottom then
-      begin
-        floorplane.top[rwx] := top;
-        floorplane.bottom[rwx] := bottom;
-      end;
-    end;
-
-    // texturecolumn and lighting are independent of wall tiers
-    if segtextured then
-    begin
-      // calculate texture offset
-      {$IFDEF FPC}
-      angle := _SHRW(rw_centerangle + xtoviewangle[rwx], ANGLETOFINESHIFT);
-      {$ELSE}
-      angle := (rw_centerangle + xtoviewangle[rwx]) shr ANGLETOFINESHIFT;
-      {$ENDIF}
-      texturecolumn := rw_offset - FixedMul(finetangent[angle], rw_distance);
-      if detailLevel >= DL_NORMAL then
-      begin
-        dc_texturemod := (LongWord(texturecolumn) and (FRACUNIT - 1)) shr (FRACBITS - DC_HIRESBITS); // JVAL for hi resolution
-        if detailLevel = DL_ULTRARES then
-          dc_mod := dc_texturemod
-        else if detailLevel = DL_HIRES then
-          dc_mod := dc_texturemod and (not $1)
-        else
-          dc_mod := 0;
-      end;
-
-      texturecolumnhi := texturecolumn shr (FRACBITS - DC_HIRESBITS);
-      texturecolumn := texturecolumn shr FRACBITS;
-      // calculate lighting
-      index := _SHR(rw_scale * 320 div SCREENWIDTH, LIGHTSCALESHIFT);
-
-      if index >=  MAXLIGHTSCALE then
-        index := MAXLIGHTSCALE - 1;
-
-      dc_colormap := walllights[index];
-      if videomode = vm32bit then
-      begin
-        dc_colormap32 := R_GetColormap32(dc_colormap);
-        if (not forcecolormaps) and (fixedcolormap = nil) then
-        begin
-          index := _SHR(rw_scale * 320, HLL_LIGHTSCALESHIFT + 3) div SCREENWIDTH;
-          if index >= HLL_MAXLIGHTSCALE then
-            index := HLL_MAXLIGHTSCALE - 1;
-          dc_lightlevel := scalelightlevels[dc_llindex, index];
-        end
-        else if fixedcolormapnum = INVERSECOLORMAP then
-          dc_lightlevel := -1
-        else
-          dc_lightlevel := R_GetColormapLightLevel(dc_colormap);
-      end;
-
-      dc_x := rwx;
-      dc_iscale := LongWord($ffffffff) div LongWord(rw_scale);
-    end;
-
-    // draw the wall tiers
-    if midtexture <> 0 then
-    begin
-      // single sided line
-      dc_yl := yl;
-      dc_yh := yh;
-      dc_texturemid := rw_midtexturemid;
-      R_GetDCs(midtexture, texturecolumn);
-      wallcolfunc;
-      pceilingclip^ := viewheight;
-      pfloorclip^ := -1;
-    end
-    else
-    begin
-      // two sided line
-      if toptexture <> 0 then
-      begin
-        // top wall
-        mid := pixhigh div HEIGHTUNIT;
-        pixhigh := pixhigh + pixhighstep;
-
-        if mid >= pfloorclip^ then
-          mid := pfloorclip^ - 1;
-
-        if mid >= yl then
-        begin
-          dc_yl := yl;
-          dc_yh := mid;
-          dc_texturemid := rw_toptexturemid;
-          R_GetDCs(toptexture, texturecolumn);
-          wallcolfunc;
-          pceilingclip^ := mid;
-        end
-        else
-          pceilingclip^ := yl - 1;
-      end
-      else
-      begin
-        // no top wall
-        if markceiling then
-          pceilingclip^ := yl - 1;
-      end;
-
-      if bottomtexture <> 0 then
-      begin
-        // bottom wall
-        mid := (pixlow + HEIGHTUNIT - 1) div HEIGHTUNIT;
-        pixlow := pixlow + pixlowstep;
-
-        // no space above wall?
-        if mid <= pceilingclip^ then
-          mid := pceilingclip^ + 1;
-
-        if mid <= yh then
-        begin
-          dc_yl := mid;
-          dc_yh := yh;
-          dc_texturemid := rw_bottomtexturemid;
-          R_GetDCs(bottomtexture, texturecolumn);
-          wallcolfunc;
-          pfloorclip^ := mid;
-        end
-        else
-          pfloorclip^ := yh + 1;
-      end
-      else
-      begin
-        // no bottom wall
-        if markfloor then
-          pfloorclip^ := yh + 1;
-      end;
-
-      if maskedtexture then
-      begin
-        // save texturecol
-        // for backdrawing of masked mid texture
-        maskedtexturecol[rwx] := texturecolumnhi;
-      end;
-    end;
-
-    rw_scale := rw_scale + rw_scalestep;
-    topfrac := topfrac + topstep;
-    bottomfrac := bottomfrac + bottomstep;
-    inc(rwx);
-    inc(pceilingclip);
-    inc(pfloorclip);
-  end;
-
-end;
-
 procedure R_RenderSegLoop8;
 var
   angle: angle_t;
@@ -557,6 +335,7 @@ begin
         ceilingplane.top[rwx] := top;
         ceilingplane.bottom[rwx] := bottom;
       end;
+      pceilingclip^ := bottom;
     end;
 
     yh := bottomfrac div HEIGHTUNIT;
@@ -575,6 +354,7 @@ begin
         floorplane.top[rwx] := top;
         floorplane.bottom[rwx] := bottom;
       end;
+      pfloorclip^ := top;
     end;
 
     // texturecolumn and lighting are independent of wall tiers
@@ -691,6 +471,189 @@ begin
 
 end;
 
+procedure R_RenderSegLoop8Optimized;
+var
+  angle: angle_t;
+  index: integer;
+  yl: integer;
+  yh: integer;
+  mid: integer;
+  texturecolumn: fixed_t;
+  texturecolumnhi: smallint;
+  top: integer;
+  bottom: integer;
+  pceilingclip: PSmallInt;
+  pfloorclip: PSmallInt;
+  rwx, rwstopx: integer;
+begin
+  texturecolumn := 0; // shut up compiler warning
+  texturecolumnhi := 0;
+  rwx := rw_x;
+  rwstopx := rw_stopx;
+  pceilingclip := @ceilingclip[rwx];
+  pfloorclip := @floorclip[rwx];
+  while rwx < rwstopx do
+  begin
+    // mark floor / ceiling areas
+    yl := (topfrac + (HEIGHTUNIT - 1)) div HEIGHTUNIT;
+
+    // no space above wall?
+    if yl <= pceilingclip^ then
+      yl := pceilingclip^ + 1;
+
+    if markceiling then
+    begin
+      top := pceilingclip^ + 1;
+      bottom := yl - 1;
+
+      if bottom >= pfloorclip^ then
+        bottom := pfloorclip^ - 1;
+
+      if top <= bottom then
+      begin
+        ceilingplane.top[rwx] := top;
+        ceilingplane.bottom[rwx] := bottom;
+      end;
+      pceilingclip^ := bottom;
+    end;
+
+    yh := bottomfrac div HEIGHTUNIT;
+
+    if yh >= pfloorclip^ then
+      yh := pfloorclip^ - 1;
+
+    if markfloor then
+    begin
+      top := yh + 1;
+      bottom := pfloorclip^ - 1;
+      if top <= pceilingclip^ then
+        top := pceilingclip^ + 1;
+      if top <= bottom then
+      begin
+        floorplane.top[rwx] := top;
+        floorplane.bottom[rwx] := bottom;
+      end;
+      pfloorclip^ := top;
+    end;
+
+    // texturecolumn and lighting are independent of wall tiers
+    if segtextured then
+    begin
+      // calculate texture offset
+      {$IFDEF FPC}
+      angle := _SHRW(rw_centerangle + xtoviewangle[rwx], ANGLETOFINESHIFT);
+      {$ELSE}
+      angle := (rw_centerangle + xtoviewangle[rwx]) shr ANGLETOFINESHIFT;
+      {$ENDIF}
+      texturecolumn := rw_offset - FixedMul(finetangent[angle], rw_distance);
+
+      texturecolumnhi := texturecolumn shr (FRACBITS - DC_HIRESBITS);
+      texturecolumn := texturecolumn shr FRACBITS;
+      // calculate lighting
+      index := _SHR(rw_scale * 320 div SCREENWIDTH, LIGHTSCALESHIFT);
+
+      if index >=  MAXLIGHTSCALE then
+        index := MAXLIGHTSCALE - 1;
+
+      dc_colormap := walllights[index];
+      dc_x := rwx;
+      dc_iscale := LongWord($ffffffff) div LongWord(rw_scale);
+    end;
+
+    // draw the wall tiers
+    if midtexture <> 0 then
+    begin
+      // single sided line
+      dc_yl := yl;
+      dc_yh := yh;
+      dc_texturemid := rw_midtexturemid;
+      dc_source := R_GetColumn(midtexture, texturecolumn);
+      R_StoreWallColumn8(@midwalls8);
+      pceilingclip^ := viewheight;
+      pfloorclip^ := -1;
+    end
+    else
+    begin
+      // two sided line
+      if toptexture <> 0 then
+      begin
+        // top wall
+        mid := pixhigh div HEIGHTUNIT;
+        pixhigh := pixhigh + pixhighstep;
+
+        if mid >= pfloorclip^ then
+          mid := pfloorclip^ - 1;
+
+        if mid >= yl then
+        begin
+          dc_yl := yl;
+          dc_yh := mid;
+          dc_texturemid := rw_toptexturemid;
+          dc_source := R_GetColumn(toptexture, texturecolumn);
+          R_StoreWallColumn8(@upperwalls8);
+          pceilingclip^ := mid;
+        end
+        else
+          pceilingclip^ := yl - 1;
+      end
+      else
+      begin
+        // no top wall
+        if markceiling then
+          pceilingclip^ := yl - 1;
+      end;
+
+      if bottomtexture <> 0 then
+      begin
+        // bottom wall
+        mid := (pixlow + HEIGHTUNIT - 1) div HEIGHTUNIT;
+        pixlow := pixlow + pixlowstep;
+
+        // no space above wall?
+        if mid <= pceilingclip^ then
+          mid := pceilingclip^ + 1;
+
+        if mid <= yh then
+        begin
+          dc_yl := mid;
+          dc_yh := yh;
+          dc_texturemid := rw_bottomtexturemid;
+          dc_source := R_GetColumn(bottomtexture, texturecolumn);
+          R_StoreWallColumn8(@lowerwalls8);
+          pfloorclip^ := mid;
+        end
+        else
+          pfloorclip^ := yh + 1;
+      end
+      else
+      begin
+        // no bottom wall
+        if markfloor then
+          pfloorclip^ := yh + 1;
+      end;
+
+      if maskedtexture then
+      begin
+        // save texturecol
+        // for backdrawing of masked mid texture
+        maskedtexturecol[rwx] := texturecolumnhi;
+      end;
+    end;
+
+    rw_scale := rw_scale + rw_scalestep;
+    topfrac := topfrac + topstep;
+    bottomfrac := bottomfrac + bottomstep;
+    inc(rwx);
+    inc(pceilingclip);
+    inc(pfloorclip);
+  end;
+
+  R_FlashWallColumns8(@midwalls8);
+  R_FlashWallColumns8(@lowerwalls8);
+  R_FlashWallColumns8(@upperwalls8);
+
+end;
+
 procedure R_RenderSegLoop32;
 var
   angle: angle_t;
@@ -734,6 +697,7 @@ begin
         ceilingplane.top[rwx] := top;
         ceilingplane.bottom[rwx] := bottom;
       end;
+      pceilingclip^ := bottom;
     end;
 
     yh := bottomfrac div HEIGHTUNIT;
@@ -752,6 +716,7 @@ begin
         floorplane.top[rwx] := top;
         floorplane.bottom[rwx] := bottom;
       end;
+      pfloorclip^ := top;
     end;
 
     // texturecolumn and lighting are independent of wall tiers
@@ -891,6 +856,211 @@ begin
 
 end;
 
+procedure R_RenderSegLoop32Optimized;
+var
+  angle: angle_t;
+  index: integer;
+  yl: integer;
+  yh: integer;
+  mid: integer;
+  texturecolumn: fixed_t;
+  texturecolumnhi: smallint;
+  top: integer;
+  bottom: integer;
+  pceilingclip: PSmallInt;
+  pfloorclip: PSmallInt;
+  rwx, rwstopx: integer;
+begin
+  texturecolumn := 0; // shut up compiler warning
+  texturecolumnhi := 0;
+  rwx := rw_x;
+  rwstopx := rw_stopx;
+  pceilingclip := @ceilingclip[rwx];
+  pfloorclip := @floorclip[rwx];
+  while rwx < rwstopx do
+  begin
+    // mark floor / ceiling areas
+    yl := (topfrac + (HEIGHTUNIT - 1)) div HEIGHTUNIT;
+
+    // no space above wall?
+    if yl <= pceilingclip^ then
+      yl := pceilingclip^ + 1;
+
+    if markceiling then
+    begin
+      top := pceilingclip^ + 1;
+      bottom := yl - 1;
+
+      if bottom >= pfloorclip^ then
+        bottom := pfloorclip^ - 1;
+
+      if top <= bottom then
+      begin
+        ceilingplane.top[rwx] := top;
+        ceilingplane.bottom[rwx] := bottom;
+      end;
+      pceilingclip^ := bottom;
+    end;
+
+    yh := bottomfrac div HEIGHTUNIT;
+
+    if yh >= pfloorclip^ then
+      yh := pfloorclip^ - 1;
+
+    if markfloor then
+    begin
+      top := yh + 1;
+      bottom := pfloorclip^ - 1;
+      if top <= pceilingclip^ then
+        top := pceilingclip^ + 1;
+      if top <= bottom then
+      begin
+        floorplane.top[rwx] := top;
+        floorplane.bottom[rwx] := bottom;
+      end;
+      pfloorclip^ := top;
+    end;
+
+    // texturecolumn and lighting are independent of wall tiers
+    if segtextured then
+    begin
+      // calculate texture offset
+      {$IFDEF FPC}
+      angle := _SHRW(rw_centerangle + xtoviewangle[rwx], ANGLETOFINESHIFT);
+      {$ELSE}
+      angle := (rw_centerangle + xtoviewangle[rwx]) shr ANGLETOFINESHIFT;
+      {$ENDIF}
+      texturecolumn := rw_offset - FixedMul(finetangent[angle], rw_distance);
+
+      dc_texturemod := (LongWord(texturecolumn) and (FRACUNIT - 1)) shr (FRACBITS - DC_HIRESBITS); // JVAL for hi resolution
+      if detailLevel = DL_ULTRARES then
+        dc_mod := dc_texturemod
+      else if detailLevel = DL_HIRES then
+        dc_mod := dc_texturemod and (not $1)
+      else
+        dc_mod := 0;
+
+      texturecolumnhi := texturecolumn shr (FRACBITS - DC_HIRESBITS);
+      texturecolumn := texturecolumn shr FRACBITS;
+      // calculate lighting
+      index := _SHR(rw_scale * 320 div SCREENWIDTH, LIGHTSCALESHIFT);
+
+      if index >=  MAXLIGHTSCALE then
+        index := MAXLIGHTSCALE - 1;
+
+      dc_colormap := walllights[index];
+
+      dc_colormap32 := R_GetColormap32(dc_colormap);
+      if (not forcecolormaps) and (fixedcolormap = nil) then
+      begin
+        index := _SHR(rw_scale * 320, HLL_LIGHTSCALESHIFT + 3) div SCREENWIDTH;
+        if index >= HLL_MAXLIGHTSCALE then
+          index := HLL_MAXLIGHTSCALE - 1;
+        dc_lightlevel := scalelightlevels[dc_llindex, index];
+      end
+      else if fixedcolormapnum = INVERSECOLORMAP then
+        dc_lightlevel := -1
+      else
+        dc_lightlevel := R_GetColormapLightLevel(dc_colormap);
+
+      dc_x := rwx;
+      dc_iscale := LongWord($ffffffff) div LongWord(rw_scale);
+    end;
+
+    // draw the wall tiers
+    if midtexture <> 0 then
+    begin
+      // single sided line
+      dc_yl := yl;
+      dc_yh := yh;
+      dc_texturemid := rw_midtexturemid;
+
+      R_ReadDC32Cache(midtexture, texturecolumn);
+      R_StoreWallColumn32(@midwalls32);
+      pceilingclip^ := viewheight;
+      pfloorclip^ := -1;
+    end
+    else
+    begin
+      // two sided line
+      if toptexture <> 0 then
+      begin
+        // top wall
+        mid := pixhigh div HEIGHTUNIT;
+        pixhigh := pixhigh + pixhighstep;
+
+        if mid >= pfloorclip^ then
+          mid := pfloorclip^ - 1;
+
+        if mid >= yl then
+        begin
+          dc_yl := yl;
+          dc_yh := mid;
+          dc_texturemid := rw_toptexturemid;
+          R_ReadDC32Cache(toptexture, texturecolumn);
+          R_StoreWallColumn32(@upperwalls32);
+          pceilingclip^ := mid;
+        end
+        else
+          pceilingclip^ := yl - 1;
+      end
+      else
+      begin
+        // no top wall
+        if markceiling then
+          pceilingclip^ := yl - 1;
+      end;
+
+      if bottomtexture <> 0 then
+      begin
+        // bottom wall
+        mid := (pixlow + HEIGHTUNIT - 1) div HEIGHTUNIT;
+        pixlow := pixlow + pixlowstep;
+
+        // no space above wall?
+        if mid <= pceilingclip^ then
+          mid := pceilingclip^ + 1;
+
+        if mid <= yh then
+        begin
+          dc_yl := mid;
+          dc_yh := yh;
+          dc_texturemid := rw_bottomtexturemid;
+          R_ReadDC32Cache(bottomtexture, texturecolumn);
+          R_StoreWallColumn32(@lowerwalls32);
+          pfloorclip^ := mid;
+        end
+        else
+          pfloorclip^ := yh + 1;
+      end
+      else
+      begin
+        // no bottom wall
+        if markfloor then
+          pfloorclip^ := yh + 1;
+      end;
+
+      if maskedtexture then
+      begin
+        // save texturecol
+        // for backdrawing of masked mid texture
+        maskedtexturecol[rwx] := texturecolumnhi;
+      end;
+    end;
+
+    rw_scale := rw_scale + rw_scalestep;
+    topfrac := topfrac + topstep;
+    bottomfrac := bottomfrac + bottomstep;
+    inc(rwx);
+    inc(pceilingclip);
+    inc(pfloorclip);
+  end;
+
+  R_FlashWallColumns32(@midwalls32);
+  R_FlashWallColumns32(@lowerwalls32);
+  R_FlashWallColumns32(@upperwalls32);
+
+end;
 
 
 //
@@ -1231,9 +1401,19 @@ begin
     floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
 
   if videomode = vm32bit then
-    R_RenderSegLoop32
+  begin
+    if optimizedcolumnrendering then
+      R_RenderSegLoop32Optimized
+    else
+      R_RenderSegLoop32;
+  end
   else
-    R_RenderSegLoop8;
+  begin
+    if optimizedcolumnrendering then
+      R_RenderSegLoop8Optimized
+    else
+      R_RenderSegLoop8;
+  end;
 
   // save sprite clipping info
   if ((pds.silhouette and SIL_TOP <> 0) or maskedtexture) and

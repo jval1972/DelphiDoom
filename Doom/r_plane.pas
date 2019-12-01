@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -98,11 +98,13 @@ uses
   r_sky,
   r_main,
 {$IFNDEF OPENGL}
+  r_batchsky,
   r_span,
   r_span32,
   r_column,
   r_hires,
   r_draw,
+  r_ccache,
 {$ENDIF}
   z_zone;
 
@@ -188,9 +190,9 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    slope := (planeheight / 65535.0 / abs(centery - y));
-    ds_xstep := round(dviewsin * slope * relativeaspect);
-    ds_ystep := round(dviewcos * slope * relativeaspect);
+    slope := (planeheight / 65535.0 / abs(centery - y)) * relativeaspect;
+    ds_xstep := round(dviewsin * slope);
+    ds_ystep := round(dviewcos * slope);
     cachedxstep[y] := ds_xstep;
     cachedystep[y] := ds_ystep;
   end
@@ -210,23 +212,8 @@ begin
   angle := (viewangle + xtoviewangle[x1]) shr ANGLETOFINESHIFT;
   {$ENDIF}
 
-{  ds_xfrac := viewx + FixedMul(finecosine[angle], length) + xoffs;
-  ds_yfrac := -viewy - FixedMul(finesine[angle], length) + yoffs;
-  printf('ds_xstep=%d, ds_ystep=%d, ds_xfrac=%d, ds_yfrac=%d'#13#10, [ds_xstep, ds_ystep, ds_xfrac, ds_yfrac]);}
-//---------------------------------------------------------------
-  //distance := FixedMul (planeheight, yslope[y]);
-
   ds_xfrac := viewx + FixedMul(finecosine[angle], length) + xoffs;
   ds_yfrac := -viewy - FixedMul(finesine[angle], length) + yoffs;
-{  ds_xfrac :=  viewx + xoffs + Round(viewcos * realy) + (x1 - centerx) * ds_xstep;
-  ds_yfrac := -viewy + yoffs - Round(viewsin * realy) + (x1 - centerx) * ds_ystep;}
-//  printf('ds_xstep=%d, ds_ystep=%d, ds_xfrac=%d, ds_yfrac=%d'#13#10#13#10, [ds_xstep, ds_ystep, ds_xfrac, ds_yfrac]);
-
-(*  if (drawvars.filterfloor == RDRAW_FILTER_LINEAR) {
-    dsvars->xfrac -= (FRACUNIT>>1);
-    dsvars->yfrac -= (FRACUNIT>>1);
-  }
-*)
 
 
   if fixedcolormap <> nil then
@@ -533,25 +520,73 @@ begin
         dc_iscale := FRACUNIT * 200 div viewheight;
 
       dc_texturemid := skytexturemid;
-      for x := pl.minx to pl.maxx do
+      if optimizedcolumnrendering then
       begin
-        dc_yl := pl.top[x];
-        dc_yh := pl.bottom[x];
-
-        if dc_yl < dc_yh then
+        if videomode = vm32bit then
         begin
-          angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-          dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-          dc_mod := dc_texturemod;
-          dc_x := x;
-          R_GetDCs(skytexture, angle);
-        // Sky is allways drawn full bright,
-        //  i.e. colormaps[0] is used.
-        //  Because of this hack, sky is not affected
-        //  by INVUL inverse mapping.
-        // JVAL
-        //  call skycolfunc(), not colfunc(), does not use colormaps!
-          skycolfunc;
+          for x := pl.minx to pl.maxx do
+          begin
+            dc_yl := pl.top[x];
+            dc_yh := pl.bottom[x];
+
+            if dc_yl < dc_yh then
+            begin
+              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              dc_mod := dc_texturemod;
+              dc_x := x;
+              R_ReadDC32Cache(skytexture, angle);
+            // JVAL
+            //  Store columns to buffer
+              R_StoreSkyColumn32;
+            end;
+          end;
+          R_FlashSkyColumns32;
+        end
+        else
+        begin
+          for x := pl.minx to pl.maxx do
+          begin
+            dc_yl := pl.top[x];
+            dc_yh := pl.bottom[x];
+
+            if dc_yl < dc_yh then
+            begin
+              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              dc_mod := dc_texturemod;
+              dc_x := x;
+              dc_source := R_GetColumn(skytexture, angle);
+            // JVAL
+            //  Store columns to buffer
+              R_StoreSkyColumn8;
+            end;
+          end;
+          R_FlashSkyColumns8;
+        end;
+      end
+      else
+      begin
+        for x := pl.minx to pl.maxx do
+        begin
+          dc_yl := pl.top[x];
+          dc_yh := pl.bottom[x];
+
+          if dc_yl < dc_yh then
+          begin
+            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            dc_mod := dc_texturemod;
+            dc_x := x;
+            R_GetDCs(skytexture, angle);
+            // Sky is allways drawn full bright,
+            //  i.e. colormaps[0] is used.
+            //  Because of this hack, sky is not affected
+            //  by INVUL inverse mapping.
+            // JVAL
+            //  call skycolfunc(), not colfunc(), does not use colormaps!
+            skycolfunc;
+          end;
         end;
       end;
       continue;

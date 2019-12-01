@@ -541,7 +541,7 @@ procedure R_GetDCs(const tex: integer; const col: integer);
 begin
   if videomode = vm8bit then
     dc_source := R_GetColumn(tex, col)
-  else 
+  else
     R_ReadDC32Cache(tex, col);
 end;
 {$ENDIF}

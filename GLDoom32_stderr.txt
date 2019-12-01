@@ -1,0 +1,2 @@
+I_Warning: D_AddSystemWAD(): System WAD .\Doom32.swd not found.
+I_Error: W_InitMultipleFiles(): no files found

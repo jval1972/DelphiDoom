@@ -188,9 +188,11 @@ uses
   p_pspr,
   r_data,
   r_things,
+  info_rnd,
+  m_rnd,
 {$IFNDEF OPENGL}
   r_cache,
-{$ENDIF}  
+{$ENDIF}
   r_intrpl,
 {$IFDEF OPENGL}
   r_main,
@@ -1011,6 +1013,9 @@ begin
   totalitems := 0;
   totalsecret := 0;
 
+  if (not preparingdemoplayback) then
+    rnd_monster_seed := I_Random;
+
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
   for i := 0 to MAXPLAYERS - 1 do
@@ -1045,6 +1050,8 @@ begin
 
   printf(#13#10'-------------'#13#10);
   printf('Loading %s (%s)'#13#10, [lumpname, P_GetMapTitle(episode, map)]);
+  if spawnrandommonsters then
+    printf(' Random monsters seed=%d'#13#10, [rnd_monster_seed]);
 
   lumpnum := W_GetNumForName(lumpname);
 

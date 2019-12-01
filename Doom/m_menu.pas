@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -131,6 +131,7 @@ uses
 {$ELSE}
   e_endoom,
   i_video,
+  r_batchcolumn,
 {$ENDIF}
   p_setup,
   p_mobj_h,
@@ -138,11 +139,14 @@ uses
   p_enemy,
   p_user,
   p_adjust,
+  r_aspect,
   r_main,
   r_hires,
   r_lights,
   r_intrpl,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}
   r_draw,
   t_main,
   z_zone,
@@ -525,6 +529,7 @@ type
   optionsdisplaydetail_e = (
     od_detaillevel,
     od_allowlowdetails,
+    od_allowhidetails,
     optdispdetail_end
   );
 
@@ -558,14 +563,21 @@ type
     od_usetransparentsprites,
 {$IFNDEF OPENGL}
     od_diher8bittransparency,
-{$ENDIF}    
+{$ENDIF}
     od_interpolate,
     od_zaxisshift,
+{$IFNDEF OPENGL}
     od_usefake3d,
+{$ENDIF}
     od_chasecamera,
     od_fixstallhack,
     od_hidedoublicatedbarrels,
     od_autoadjustmissingtextures,
+{$IFNDEF OPENGL}
+    od_optimizedcolumnrendering,
+    od_optimizedthingsrendering,
+{$ENDIF}
+    od_widescreensupport,
     optdispadvanced_end
   );
 
@@ -2066,7 +2078,7 @@ begin
       V_ShadeScreen(SCN_FG, 0, SCREENWIDTH * SCREENHEIGHT div 2);
       {$ENDIF}
       // Wait for extra thread to terminate.
-      I_WaitForProcess(h1);
+      I_WaitForProcess(h1, 1000);
     end
     else
       {$IFDEF OPENGL}
@@ -2745,6 +2757,14 @@ begin
   pmi.pBoolVal := @allowlowdetails;
   pmi.alphaKey := 'l';
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Allow high details';
+  pmi.cmd := 'allowhidetails';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @allowhidetails;
+  pmi.alphaKey := 'h';
+
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayDetailDef
   OptionsDisplayDetailDef.numitems := Ord(optdispdetail_end); // # of menu items
@@ -2870,7 +2890,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @zaxisshift;
   pmi.alphaKey := 'z';
-
+{$IFNDEF OPENGL}
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!True 3d emulation';
@@ -2878,7 +2898,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @usefake3d;
   pmi.alphaKey := 'f';
-
+{$ENDIF}
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Chase camera';
@@ -2910,6 +2930,32 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @autoadjustmissingtextures;
   pmi.alphaKey := 'a';
+
+{$IFNDEF OPENGL}
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Optimized column rendering';
+  pmi.cmd := 'optimizedcolumnrendering';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @optimizedcolumnrendering;
+  pmi.alphaKey := 'c';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Optimized things rendering';
+  pmi.cmd := 'optimizedthingsrendering';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @optimizedthingsrendering;
+  pmi.alphaKey := 't';
+{$ENDIF}
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Widescreen support';
+  pmi.cmd := 'widescreensupport';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @widescreensupport;
+  pmi.alphaKey := 'w';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAdvancedDef
