@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -966,12 +966,14 @@ procedure R_DrawColumnHi_Batch;
 var
   count: integer;
   destl: PLongWord;
+  deststop: PLongWord;
+  deststopX4: PLongWord;
   ldest: LongWord;
   c: LongWord;
   frac: fixed_t;
   fracstep: fixed_t;
   spot: integer;
-  cnt: integer;
+  lastspot: integer;
   swidth: integer;
   lfactor: integer;
   r1, g1, b1: byte;
@@ -979,6 +981,8 @@ var
   bf_g: PIntegerArray;
   bf_b: PIntegerArray;
   pal: PLongWordArray;
+  pitch: integer;
+  buf: twolongwords_t;
 begin
   count := dc_yh - dc_yl;
 
@@ -993,55 +997,138 @@ begin
     pal := @curpal;
 
   destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
-
-  swidth := SCREENWIDTH32PITCH - num_batch_columns * SizeOf(LongWord);
+  pitch := num_batch_columns * SizeOf(LongWord);
+  deststop := PLongWord(integer(destl) + pitch);
+  swidth := SCREENWIDTH32PITCH - pitch;
   fracstep := dc_iscale;
   frac := dc_texturemid + (dc_yl - centery) * fracstep;
   lfactor := dc_lightlevel;
-  if lfactor >= 0 then
+
+  if num_batch_columns > 4 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
-    while count >= 0 do
+    lastspot := 128;
+    ldest := 0; // JVAL: avoid compiler warning
+    deststopX4 := PLongWord(integer(deststop) - 4 * SizeOf(pointer));
+    if lfactor >= 0 then
     begin
-      spot := (LongWord(frac) shr FRACBITS) and 127;
-      c := pal[dc_source[spot]];
-      ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
-
-      cnt := num_batch_columns;
-      while cnt > 0 do
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      while count >= 0 do
       begin
-        destl^ := ldest;
-        inc(destl);
-        dec(cnt);
-      end;
+        spot := (LongWord(frac) shr FRACBITS) and 127;
+        if lastspot <> spot then
+        begin
+          c := pal[dc_source[spot]];
+          ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
+          buf.longword1 := ldest;
+          buf.longword2 := ldest;
+          lastspot := spot;
+        end;
 
-      destl := PLongWord(integer(destl) + swidth);
-      inc(frac, fracstep);
-      dec(count);
+        while integer(destl) <= integer(deststopX4) do
+        begin
+          PInt64(destl)^ := PInt64(@buf)^;
+          inc(destl, 2);
+          PInt64(destl)^ := PInt64(@buf)^;
+          inc(destl, 2);
+        end;
+
+        while integer(destl) < integer(deststop) do
+        begin
+          destl^ := ldest;
+          inc(destl);
+        end;
+
+        destl := PLongWord(integer(destl) + swidth);
+        deststop := PLongWord(integer(destl) + pitch);
+        deststopX4 := PLongWord(integer(deststop) - 4 * SizeOf(pointer));
+        inc(frac, fracstep);
+        dec(count);
+      end;
+    end
+    else
+    begin
+      while count >= 0 do
+      begin
+        spot := (LongWord(frac) shr FRACBITS) and 127;
+        if lastspot <> spot then
+        begin
+          c := pal[dc_source[spot]];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          ldest := precal32_ic[r1 + g1 + b1];
+          buf.longword1 := ldest;
+          buf.longword2 := ldest;
+          lastspot := spot;
+        end;
+
+        while integer(destl) < integer(deststopX4) do
+        begin
+          PInt64(destl)^ := PInt64(@buf)^;
+          inc(destl, 2);
+          PInt64(destl)^ := PInt64(@buf)^;
+          inc(destl, 2);
+        end;
+
+        while integer(destl) < integer(deststop) do
+        begin
+          destl^ := ldest;
+          inc(destl);
+        end;
+
+        destl := PLongWord(integer(destl) + swidth);
+        deststop := PLongWord(integer(destl) + pitch);
+        deststopX4 := PLongWord(integer(deststop) - 4 * SizeOf(pointer));
+        inc(frac, fracstep);
+        dec(count);
+      end;
     end;
   end
   else
   begin
-    while count >= 0 do
+    if lfactor >= 0 then
     begin
-      spot := (LongWord(frac) shr FRACBITS) and 127;
-      c := pal[dc_source[spot]];
-      r1 := c;
-      g1 := c shr 8;
-      b1 := c shr 16;
-      ldest := precal32_ic[r1 + g1 + b1];
-
-      cnt := num_batch_columns;
-      while cnt > 0 do
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      while count >= 0 do
       begin
-        destl^ := ldest;
-        inc(destl);
-        dec(cnt);
-      end;
+        spot := (LongWord(frac) shr FRACBITS) and 127;
+        c := pal[dc_source[spot]];
+        ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
-      destl := PLongWord(integer(destl) + swidth);
-      inc(frac, fracstep);
-      dec(count);
+        while integer(destl) < integer(deststop) do
+        begin
+          destl^ := ldest;
+          inc(destl);
+        end;
+
+        destl := PLongWord(integer(destl) + swidth);
+        deststop := PLongWord(integer(destl) + pitch);
+        inc(frac, fracstep);
+        dec(count);
+      end;
+    end
+    else
+    begin
+      while count >= 0 do
+      begin
+        spot := (LongWord(frac) shr FRACBITS) and 127;
+        c := pal[dc_source[spot]];
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+        ldest := precal32_ic[r1 + g1 + b1];
+
+        while integer(destl) < integer(deststop) do
+        begin
+          destl^ := ldest;
+          inc(destl);
+        end;
+
+        destl := PLongWord(integer(destl) + swidth);
+        deststop := PLongWord(integer(destl) + pitch);
+        inc(frac, fracstep);
+        dec(count);
+      end;
     end;
   end;
 end;
