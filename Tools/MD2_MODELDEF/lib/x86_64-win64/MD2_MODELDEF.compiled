@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<CONFIG>
-  <Compiler Value="c:\lazarus\fpc\2.4.2\bin\x86_64-win64\fpc.exe" Date="1048487544"/>
-  <Params Value=" -MObjFPC -Scghi -O1 -gl -WG -vewnhi -l -FiG:\Comics4U\dev\xmen1\DEV\MD2_MODELDEF\lib\x86_64-win64 -Fuc:\lazarus\lcl\units\x86_64-win64 -Fuc:\lazarus\lcl\units\x86_64-win64\win32 -Fuc:\lazarus\packager\units\x86_64-win64 -FuG:\Comics4U\dev\xmen1\DEV\MD2_MODELDEF\ -Fu. -FUG:\Comics4U\dev\xmen1\DEV\MD2_MODELDEF\lib\x86_64-win64\ -oMD2_MODELDEF.exe -dLCL -dLCLwin32 MD2_MODELDEF.lpr"/>
-</CONFIG>

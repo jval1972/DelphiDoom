@@ -1,3 +1,13 @@
+Version 2.0.4 build 717 - (20/9/2018)
+-----------
+CODEPTR keyword in BEX files will recornize ACTORDEF actions with custom parameters.
+Fixed bug in A_SubtractCustomParam and A_SubtractTargetCustomParam ACTORDEF functions.
+ACTORDEF functions can now access mobj custom params using the appropriate keywords:
+  -CustomParam
+  -TargetCustomParam
+R_SortVisSprites now uses radix sort algorithm when we have more than 1024 vissprites for better performance.
+Use multiple cpu cores for HUD drawing.
+
 Version 2.0.4 build 716 - (21/2/2018)
 -----------
 Added PROJECTILE keyword in ACTORDEF content. It sets the MF_NOGRAVITY MF_DROPOFF and MF_MISSILE flags on.
