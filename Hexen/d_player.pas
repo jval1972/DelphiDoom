@@ -327,7 +327,7 @@ type
   player_t141 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;
-    cmd: ticcmd_t;
+    cmd: ticcmd_t202;
 
     _class: pclass_t;
     // Determine POV,

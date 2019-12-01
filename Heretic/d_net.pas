@@ -136,6 +136,7 @@ uses
   e_endoom,
 {$ENDIF}
   c_con,
+  i_startup,
   i_system,
   i_net,
   i_io,
@@ -604,7 +605,7 @@ begin
   if doomcom.consoleplayer <> 0 then
   begin
   // listen for setup info from key player
-    printf('listening for network start info...'#13#10);
+    SUC_StartingNetwork('listening for network start info...');
     while true do
     begin
       D_CheckAbort;
@@ -624,6 +625,7 @@ begin
         allowplayerjumps := netbuffer.flags and 1 <> 0;
         spawnrandommonsters := netbuffer.flags and 2 <> 0;
 
+        SUC_FinishedNetwork;
         exit;
       end;
     end // while
@@ -632,7 +634,7 @@ begin
   begin
     ZeroMemory(@gotinfo, SizeOf(gotinfo));
   // key player, send the setup info
-    printf('sending network start info...'#13#10);
+    SUC_StartingNetwork('sending network start info...');
     repeat
       D_CheckAbort;
       for i := 0 to doomcom.numnodes - 1 do
@@ -675,6 +677,7 @@ begin
 
     until i >= doomcom.numnodes;
   end;
+  SUC_FinishedNetwork;
 end;
 
 //

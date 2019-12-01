@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ uses
   d_delphi,
   dglOpenGL,
   r_defs,
+  t_main,
   gl_defs,
   w_wad,
   z_zone;
@@ -98,7 +99,9 @@ procedure gld_Precache;
 
 procedure gld_ResetLastTexture;
 
-function gld_LoadExternalTexture(const texname: string; const transparent: boolean; const texmode: GLUint): GLUint;
+function gld_LoadExternalTexture(const texname: string; const transparent: boolean; const texmode: GLUint): GLUint; overload;
+
+function gld_LoadExternalTexture(const t: PTexture; const transparent: boolean; const texmode: GLUint): GLUint; overload;
 
 function gld_LoadExternalTextureAlpha(const texname: string; const alpha: byte; const texmode: GLUint): GLUint; overload;
 
@@ -127,7 +130,6 @@ uses
   r_sky,
   r_things,
   r_hires,
-  t_main,
   v_data;
 
 procedure gld_InitPalettedTextures;
@@ -142,7 +144,7 @@ begin
     pal[i] := _SHL(playpal[i * 3], 16) or _SHL(playpal[i * 3 + 1], 8) or playpal[i * 3 + 2];
     gld_palmap[i] := i;
   end;
-  Z_ChangeTag(playpal, PU_CACHE);
+//  Z_ChangeTag(playpal, PU_CACHE);
   transparent_pal_index := -1;
   for i := 0 to 255 do
   begin
@@ -596,6 +598,7 @@ begin
       t.SetAlphaChannel(255);
     end;
   end;
+
   twidth := gld_GetTexDimension(t.GetWidth);
   theight := gld_GetTexDimension(t.GetHeight);
   t.ScaleTo(twidth, theight);
@@ -620,12 +623,66 @@ begin
     glTexImage2D(GL_TEXTURE_2D, 0, gl_tex_format,
                  twidth, theight,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, t.GetImage);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texmode);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texmode);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_tex_filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_tex_filter);
   end;
   dispose(t, destroy);
+end;
+
+function gld_LoadExternalTexture(const t: PTexture; const transparent: boolean; const texmode: GLUint): GLUint; overload;
+var
+  twidth: integer;
+  theight: integer;
+begin
+  if t = nil then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  t.ConvertTo32bit;
+  t.SwapRGB;
+  if not t.ExternalAlphaPresent then
+  begin
+    if transparent then
+      t.SetDefaultAlphaChannel
+    else
+    begin
+      t.Adjust32bitTransparency;
+      t.SetAlphaChannel(255);
+    end;
+  end;
+  twidth := gld_GetTexDimension(t.GetWidth);
+  theight := gld_GetTexDimension(t.GetHeight);
+  t.ScaleTo(twidth, theight);
+
+  glGenTextures(1, @result);
+  glBindTexture(GL_TEXTURE_2D, result);
+
+  if use_mipmapping then
+  begin
+    gluBuild2DMipmaps(GL_TEXTURE_2D, gl_tex_format,
+                      twidth, theight,
+                      GL_RGBA, GL_UNSIGNED_BYTE, t.GetImage);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texmode);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texmode);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_tex_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_mipmap_filter);
+    if gl_texture_filter_anisotropic then
+      glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 2.0);
+  end
+  else
+  begin
+    glTexImage2D(GL_TEXTURE_2D, 0, gl_tex_format,
+                 twidth, theight,
+                 0, GL_RGBA, GL_UNSIGNED_BYTE, t.GetImage);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texmode);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texmode);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_tex_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_tex_filter);
+  end;
 end;
 
 function gld_LoadExternalTextureAlpha(const texname: string; const alpha: byte; const texmode: GLUint): GLUint;
@@ -669,8 +726,8 @@ begin
     glTexImage2D(GL_TEXTURE_2D, 0, gl_tex_format,
                  twidth, theight,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, t.GetImage);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texmode);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texmode);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_tex_filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_tex_filter);
   end;
@@ -727,8 +784,8 @@ begin
     glTexImage2D(GL_TEXTURE_2D, 0, gl_tex_format,
                  twidth, theight,
                  0, GL_RGBA, GL_UNSIGNED_BYTE, t.GetImage);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texmode);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, texmode);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_tex_filter);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_tex_filter);
   end;

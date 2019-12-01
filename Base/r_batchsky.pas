@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -44,7 +44,7 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
-  r_ccache,
+  r_cache_walls,
   r_column,
   r_draw,
   r_precalc,
@@ -254,8 +254,8 @@ begin
     buf.byte4 := dc_source8[spot];
     PLongWord(dest)^ := PLongWord(@buf)^;
 
-    inc(frac, fracstep);
     dest := PByte(integer(dest) + swidth2);
+    inc(frac, fracstep);
     inc(ypos);
 
   end;
@@ -308,9 +308,8 @@ begin
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       dest^ := dc_source8[spot];
 
-    inc(frac, fracstep);
-
     dest := PByte(integer(dest) + swidth);
+    inc(frac, fracstep);
     inc(ypos);
   end;
 
@@ -538,9 +537,8 @@ begin
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       destl^ := dc_source8[spot];
 
-    inc(frac, fracstep);
-
     inc(destl, swidth);
+    inc(frac, fracstep);
     inc(ypos);
   end;
 
@@ -576,9 +574,8 @@ begin
 
     destl^ := dc_source8[spot];
 
-    inc(frac, fracstep);
-
     inc(destl, swidth);
+    inc(frac, fracstep);
     inc(ypos);
 
   end;
@@ -631,9 +628,8 @@ begin
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       destl^ := dc_source8[spot];
 
-    inc(frac, fracstep);
-
     inc(destl, swidth);
+    inc(frac, fracstep);
     inc(ypos);
   end;
 

@@ -360,6 +360,13 @@ begin
     // Set health. BUG: Oddly, mo->health is NOT set here...
     // JVAL: player.mo health will be restored in G_RiftPlayer
     player.health := healing;
+    // JVAL: 20171217
+    if G_PlayingEngineVersion >= VERSION204 then
+    begin
+      mo := player.mo;
+      if mo <> nil then
+        mo.health := player.health;
+    end;
   end;
 
   result := true;

@@ -127,6 +127,7 @@ var
   frac: fixed_t;
   left, right: integer;
   err: integer;
+  correction: Double;
 begin
   if l = 0 then
     exit;
@@ -221,10 +222,11 @@ begin
     r := FRACUNIT / viewwidth;
     for i := 0 to viewheightdiff do
     begin
-      f3d.left[i] := Round(f3d.lefttop + leftstep * i / viewheightdiff - l / MAXLOOKDIR * Sin(i / (viewheight + viewheightrest)) * viewheight / 10);
+      correction := l / MAXLOOKDIR * Sin(i / (viewheight + viewheightrest)) * viewheight / 10;
+      f3d.left[i] := Round(f3d.lefttop + leftstep * i / viewheightdiff - correction);
       if f3d.left[i] < 0 then
         f3d.left[i] := 0;
-      f3d.right[i] := Round(f3d.righttop + rightstep * i / viewheightdiff + l / MAXLOOKDIR * Sin(i / (viewheight + viewheightrest)) * viewheight / 10);
+      f3d.right[i] := Round(f3d.righttop + rightstep * i / viewheightdiff + correction);
       if f3d.right[i] >= viewwidth then
         f3d.right[i] := viewwidth - 1;
       f3d.fracstep[i] := Round((f3d.right[i] - f3d.left[i]) * r);
@@ -595,7 +597,7 @@ var
 //
 // JVAL
 //  R_Execute3DTransform
-//  Transforms current view 
+//  Transforms current view
 //
 var
   buffer1: array[0..MAXWIDTH - 1] of LongWord;

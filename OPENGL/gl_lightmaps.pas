@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,11 +45,10 @@ const
   LIGHTMAPSIZEY = 64;
   LIGHTMAPSIZEZ = 256;
   LIGHTMAPUNIT = 16;
-  LIGHTMAPBUFFERSIZE = LIGHTMAPSIZEX * LIGHTMAPSIZEY * LIGHTMAPSIZEZ * 3;
+  LIGHTMAPBUFFERSIZE = LIGHTMAPSIZEX * LIGHTMAPSIZEY * LIGHTMAPSIZEZ * 4;
 
 type
-// Please note that the actual size is LIGHTMAPBUFFERSIZE + 1
-  lightmapbuffer_t = array[0..LIGHTMAPBUFFERSIZE] of byte;
+  lightmapbuffer_t = array[0..LIGHTMAPBUFFERSIZE - 1] of byte;
   lightmapbuffer_p = ^lightmapbuffer_t;
 
 var
@@ -74,16 +73,19 @@ implementation
 
 uses
   m_fixed,
+  r_defs,
+  r_main,
   p_tick,
   p_3dfloors,
   gl_defs,
   gl_dlights;
 
-// Lightmap regions to update 
+// Lightmap regions to update
 type
   lightmapmark_t = record
-    x1, y1, z1: integer;
-    x2, y2, z2: integer;
+    x1, x2: integer;
+    y1, y2: integer;
+    z1, z2: integer;
     dx, dy, dz: integer;
   end;
   lightmapmark_p = ^lightmapmark_t;
@@ -94,12 +96,18 @@ type
   lightmaprtlitem_t = record
     r, g, b: float;
     inter: integer;
-    shadow: boolean;
+    shadow: integer;
   end;
   lightmaprtlitem_p = ^lightmaprtlitem_t;
   // JVAL:  Actual size is intetionally LIGHTMAPSIZEX * LIGHTMAPSIZEY * LIGHTMAPSIZEZ + 1
   lightmaprtlitem_tArray = array[0..LIGHTMAPSIZEX * LIGHTMAPSIZEY * LIGHTMAPSIZEZ] of lightmaprtlitem_t;
   lightmaprtlitem_pArray = ^lightmaprtlitem_tArray;
+
+const
+  MAXSHADOWSHIFT = 8; // JVAL: 8 Shadows max at the same point
+
+var
+  SHADOWFACTOR: array[0..MAXSHADOWSHIFT - 1] of float;
 
 var
   lightmapmarks: lightmapmark_pArray;
@@ -110,24 +118,43 @@ var
   rtllightmap: lightmaprtlitem_pArray;
 
 procedure gld_InitLightmap;
+var
+  i: integer;
+  rtlp: lightmaprtlitem_p;
 begin
+  SHADOWFACTOR[0] := 128.0;
+  for i := 1 to MAXSHADOWSHIFT - 1 do
+    SHADOWFACTOR[i] := 128.0 * (MAXSHADOWSHIFT - i) / MAXSHADOWSHIFT;
+
   glGenTextures(1, @lightmap_tex_num);
 
   // JVAL: Setup lightmap mark regions
   maxmarks := 32;  // JVAL: initial value, we will grow it if needed
-  lightmapmarks := malloc(maxmarks * SizeOf(lightmapmark_t));
+  lightmapmarks := mallocz(maxmarks * SizeOf(lightmapmark_t));
   // JVAL: Initially we mark the entire LIGHTMAP
   lightmapmarks[0].x1 := 0;
-  lightmapmarks[0].y1 := 0;
-  lightmapmarks[0].z1 := 0;
   lightmapmarks[0].x2 := LIGHTMAPSIZEX - 1;
+  lightmapmarks[0].y1 := 0;
   lightmapmarks[0].y2 := LIGHTMAPSIZEY - 1;
+  lightmapmarks[0].z1 := 0;
   lightmapmarks[0].z2 := LIGHTMAPSIZEZ - 1;
   lightmapmarks[0].dx := LIGHTMAPSIZEX;
   lightmapmarks[0].dy := LIGHTMAPSIZEY;
   lightmapmarks[0].dz := LIGHTMAPSIZEZ;
   nummarks := 1;
-  rtllightmap := mallocz(SizeOf(lightmaprtlitem_tArray));
+
+  rtllightmap := malloc(SizeOf(lightmaprtlitem_tArray));
+  rtlp := @rtllightmap[0];
+  for i := 0 to LIGHTMAPSIZEX * LIGHTMAPSIZEY * LIGHTMAPSIZEZ do
+  begin
+    rtlp.r := 0.0;
+    rtlp.g := 0.0;
+    rtlp.b := 0.0;
+    rtlp.shadow := 0;
+    rtlp.inter := 0;
+    inc(rtlp);
+  end;
+
   lightmapbuffer := malloc(LIGHTMAPBUFFERSIZE);
   maxmarkbytes := LIGHTMAPBUFFERSIZE;
   lightmapdefined := false;
@@ -190,30 +217,67 @@ var
 const
   MINLIGHTMAPRADIOUS = 1.7321 * LIGHTMAPUNIT / MAP_COEFF;
 
-procedure gld_CalculateLightmap;
+function _float_to_byte(const f: float): byte;
+begin
+  if f <= 0.0 then
+    Result := 0
+  else if f >= 255.0 then
+    Result := 255
+  else
+    Result := Round(f);
+end;
+
+procedure gld_ClearLightmapMarkSTD(const markp: lightmapmark_p);
+var
+  ix, iy, iz: integer;
+  x_offs, xy_offs: integer;
+  rtlp: lightmaprtlitem_p;
+begin
+  for ix := markp.x1 to markp.x2 do
+  begin
+    x_offs := ix * (LIGHTMAPSIZEX * LIGHTMAPSIZEY);
+    for iy := markp.y1 to markp.y2 do
+    begin
+      xy_offs := x_offs + iy * LIGHTMAPSIZEX;
+      rtlp := @rtllightmap[xy_offs + markp.z1];
+      for iz := markp.z1 to markp.z2 do
+      begin
+        rtlp.r := 0.0;
+        rtlp.g := 0.0;
+        rtlp.b := 0.0;
+        rtlp.shadow := 0;
+        rtlp.inter := 0;
+        inc(rtlp);
+      end;
+    end;
+  end;
+end;
+
+procedure gld_CalculateLightmapSTD;
 var
   i: integer;
   ix, iy, iz: integer;
   lx, ly, lz: integer;
   ix1, ix2, iy1, iy2, iz1, iz2: integer;
   fx1, fx2, fy1, fy2, fz1, fz2: float;
-  i_xy: integer;
   pdls: Pdlsortitem_t;
   pdlsx, pdlsy, pdlsz: float;
   pdlsy1, pdlsy2: float;
   l: PGLDRenderLight;
-  squaredist, squarecheck: float;
+  squaredist, squarecheck, squarecheck2: float;
   point: PByte;
   lastitem: dlsortitem_t;
   markp: lightmapmark_p;
   numbytes: integer;
   checkradious: float;
   rtlp: lightmaprtlitem_p;
-  lo_ix, lo_ixy: float;
-  xy_offs: integer;
+  lo_iz, lo_iyz: float;
+  z_offs, yz_offs: integer;
   rgb_max: float;
   ffloorz, fceilingz: float;
   xx, yy, zz: fixed_t;  // Map Coordinates
+  sfactor: float;
+  sec: Psector_t;
 begin
   if lightmapdefined and (lmvalidcount = leveltime) then
     exit;
@@ -245,7 +309,7 @@ begin
   memset(lightmapbuffer, 128, maxmarkbytes);
   if not lightmapdefined then
   begin
-    glTexImage3D(GL_TEXTURE_3D, 0, 3, LIGHTMAPSIZEX, LIGHTMAPSIZEY, LIGHTMAPSIZEZ, 0, GL_RGB, GL_UNSIGNED_BYTE, lightmapbuffer);
+    glTexImage3D(GL_TEXTURE_3D, 0, 3, LIGHTMAPSIZEX, LIGHTMAPSIZEY, LIGHTMAPSIZEZ, 0, GL_RGBA, GL_UNSIGNED_BYTE, lightmapbuffer);
     lightmapdefined := true;  // JVAL: Don't bother reseting this on a new map
   end
   else
@@ -254,24 +318,9 @@ begin
     while integer(markp) > integer(lightmapmarks) do
     begin
       dec(markp);
-      glTexSubImage3D(GL_TEXTURE_3D, 0, markp.x1, markp.y1, markp.z1, markp.dx, markp.dy, markp.dz, GL_RGB, GL_UNSIGNED_BYTE, lightmapbuffer);
-      for iy := markp.y1 to markp.y2 do
-      begin
-        i_xy := iy * LIGHTMAPSIZEX + markp.x1;
-        for iz := markp.z1 to markp.z2 do
-        begin
-          rtlp := @rtllightmap[iz * (LIGHTMAPSIZEX * LIGHTMAPSIZEY) + i_xy];
-          for ix := markp.x1 to markp.x2 do
-          begin
-            rtlp.r := 0.0;
-            rtlp.g := 0.0;
-            rtlp.b := 0.0;
-            rtlp.shadow := false;
-            rtlp.inter := 0;
-            inc(rtlp);
-          end;
-        end;
-      end;
+      // JVAL 20171205 We must clear the mark BEFORE calling glTexSubImage3D :)
+      gld_ClearLightmapMarkSTD(markp);
+      glTexSubImage3D(GL_TEXTURE_3D, 0, markp.x1, markp.y1, markp.z1, markp.dx, markp.dy, markp.dz, GL_RGBA, GL_UNSIGNED_BYTE, lightmapbuffer);
     end;
   end;
 
@@ -313,6 +362,7 @@ begin
         if checkradious <  MINLIGHTMAPRADIOUS then
           checkradious := MINLIGHTMAPRADIOUS;
         squarecheck := checkradious * checkradious;
+        squarecheck2 := squarecheck / 1.141421356;
 
         ix1 := opengl2lightmapx(pdlsx - checkradious);
         if ix1 < 0 then
@@ -332,16 +382,31 @@ begin
         xx := -Round(pdlsx * MAP_SCALE);
         yy := Round(pdlsz * MAP_SCALE);
         zz := Round(pdlsy * MAP_SCALE);
-        ffloorz := (P_3dFloorHeight(xx, yy, zz) - 4 * FRACUNIT) / MAP_SCALE;
-        fceilingz := (P_3dCeilingHeight(xx, yy, zz) + 4 * FRACUNIT) / MAP_SCALE;
-        if pdlsy1 < ffloorz then
-          pdlsy1 := ffloorz
-        else if pdlsy1 > fceilingz then
-          pdlsy1 := fceilingz;
-        if pdlsy2 < ffloorz then
-          pdlsy2 := ffloorz
-        else if pdlsy2 > fceilingz then
-          pdlsy2 := fceilingz;
+        sec := R_PointInSubsector(xx, yy).sector;
+        if l.shadow then
+        begin
+          pdlsy1 := (P_3dFloorHeight(sec, xx, yy, zz) - 4 * FRACUNIT) / MAP_SCALE;
+          pdlsy2 := pdlsy2 - checkradious / 2;
+          ffloorz := (P_3dFloorHeight(sec, xx, yy, zz) - 4 * FRACUNIT) / MAP_SCALE;
+          fceilingz := (P_3dCeilingHeight(sec, xx, yy, zz) + 4 * FRACUNIT) / MAP_SCALE;
+          if pdlsy2 < ffloorz then
+            pdlsy2 := ffloorz
+          else if pdlsy2 > fceilingz then
+            pdlsy2 := fceilingz;
+        end
+        else
+        begin
+          ffloorz := (P_3dFloorHeight(sec, xx, yy, zz) - 4 * FRACUNIT) / MAP_SCALE;
+          fceilingz := (P_3dCeilingHeight(sec, xx, yy, zz) + 4 * FRACUNIT) / MAP_SCALE;
+          if pdlsy1 < ffloorz then
+            pdlsy1 := ffloorz
+          else if pdlsy1 > fceilingz then
+            pdlsy1 := fceilingz;
+          if pdlsy2 < ffloorz then
+            pdlsy2 := ffloorz
+          else if pdlsy2 > fceilingz then
+            pdlsy2 := fceilingz;
+        end;
 
         iy1 := opengl2lightmapy(pdlsy1);
         if iy1 < 0 then
@@ -371,34 +436,49 @@ begin
         lx := ix2 - ix1 + 1;
         ly := iy2 - iy1 + 1;
         lz := iz2 - iz1 + 1;
-        numbytes := lx * ly * lz * 3;
+        numbytes := lx * ly * lz * 4;
         if numbytes > maxmarkbytes then
           maxmarkbytes := numbytes;
 
-        for ix := ix1 to ix2 do
+        for iz := iz1 to iz2 do
         begin
-          lo_ix := sqr(pdlsx - lightmap2openglx(ix));
-          for iy := iy1 to iy2 do
+          lo_iz := sqr(pdlsz - lightmap2openglz(iz));
+          if lo_iz <= squarecheck then
           begin
-            lo_ixy := lo_ix + sqr(pdlsy - lightmap2opengly(iy));
-            if lo_ixy <= squarecheck then
+            for iy := iy1 to iy2 do
             begin
-              xy_offs := iy * LIGHTMAPSIZEX + ix;
-              for iz := iz1 to iz2 do
+              lo_iyz := lo_iz + sqr(pdlsy - lightmap2opengly(iy));
+              if lo_iyz <= squarecheck then
               begin
-                rtlp := @rtllightmap[iz * (LIGHTMAPSIZEX * LIGHTMAPSIZEY) + xy_offs];
-                squaredist := lo_ixy + sqr(pdlsz - lightmap2openglz(iz));
-                if squaredist <= squarecheck then
+                rtlp := @rtllightmap[ix1 * (LIGHTMAPSIZEX * LIGHTMAPSIZEY) + iy * LIGHTMAPSIZEX + iz];
+                for ix := ix1 to ix2 do
                 begin
-                  if l.shadow then
-                    rtlp.shadow := true
-                  else
+                  squaredist := lo_iyz + sqr(pdlsx - lightmap2openglx(ix));
+                  if squaredist <= squarecheck2 then
                   begin
-                    rtlp.r := rtlp.r + l.r;
-                    rtlp.g := rtlp.g + l.g;
-                    rtlp.b := rtlp.b + l.b;
+                    if l.shadow then
+                      inc(rtlp.shadow, 2)
+                    else
+                    begin
+                      rtlp.r := rtlp.r + l.r;
+                      rtlp.g := rtlp.g + l.g;
+                      rtlp.b := rtlp.b + l.b;
+                      inc(rtlp.inter);
+                    end;
+                  end
+                  else if squaredist <= squarecheck then
+                  begin
+                    if l.shadow then
+                      inc(rtlp.shadow)
+                    else
+                    begin
+                      rtlp.r := rtlp.r + l.r / 2;
+                      rtlp.g := rtlp.g + l.g / 2;
+                      rtlp.b := rtlp.b + l.b / 2;
+                      inc(rtlp.inter);
+                    end;
                   end;
-                  inc(rtlp.inter);
+                  inc(rtlp, LIGHTMAPSIZEX * LIGHTMAPSIZEY);
                 end;
               end;
             end;
@@ -413,10 +493,10 @@ begin
         end;
         markp := @lightmapmarks[nummarks];
         markp.x1 := ix1;
-        markp.y1 := iy1;
-        markp.z1 := iz1;
         markp.x2 := ix2;
+        markp.y1 := iy1;
         markp.y2 := iy2;
+        markp.z1 := iz1;
         markp.z2 := iz2;
         markp.dx := lx;
         markp.dy := ly;
@@ -434,81 +514,53 @@ begin
   begin
     dec(markp);
     point := @lightmapbuffer[0];
-    for iy := markp.y1 to markp.y2 do
+    for iz := markp.z1 to markp.z2 do
     begin
-      i_xy := iy * LIGHTMAPSIZEX + markp.x1;
-      for iz := markp.z1 to markp.z2 do
+      for iy := markp.y1 to markp.y2 do
       begin
-        rtlp := @rtllightmap[iz * (LIGHTMAPSIZEX * LIGHTMAPSIZEY) + i_xy];
+        rtlp := @rtllightmap[markp.x1 * (LIGHTMAPSIZEX * LIGHTMAPSIZEY) + iy * LIGHTMAPSIZEX + iz];
         for ix := markp.x1 to markp.x2 do
         begin
-          if rtlp.inter = 1 then
+          if (rtlp.inter = 0) and (rtlp.shadow = 0) then
           begin
-            if rtlp.shadow then
-            begin
-              point^ := 80 + trunc(rtlp.r * 64);
-              inc(point);
-              point^ := 80 + trunc(rtlp.g * 64);
-              inc(point);
-              point^ := 80 + trunc(rtlp.b * 64);
-              inc(point);
-            end
-            else
-            begin
-              point^ := 128 + trunc(rtlp.r * 127);
-              inc(point);
-              point^ := 128 + trunc(rtlp.g * 127);
-              inc(point);
-              point^ := 128 + trunc(rtlp.b * 127);
-              inc(point);
-            end;
-          end
-          else if rtlp.inter > 1 then
-          begin
-            rgb_max := rtlp.r;
-            if rtlp.g > rgb_max then
-              rgb_max := rtlp.g;
-            if rtlp.b > rgb_max then
-              rgb_max := rtlp.b;
-            if rgb_max > 1.0 then
-            begin
-              rtlp.r := rtlp.r / rgb_max;
-              rtlp.g := rtlp.g / rgb_max;
-              rtlp.b := rtlp.b / rgb_max;
-            end;
-            if rtlp.shadow then
-            begin
-              point^ := 80 + trunc(rtlp.r * 64);
-              inc(point);
-              point^ := 80 + trunc(rtlp.g * 64);
-              inc(point);
-              point^ := 80 + trunc(rtlp.b * 64);
-              inc(point);
-            end
-            else
-            begin
-              point^ := 128 + trunc(rtlp.r * 127);
-              inc(point);
-              point^ := 128 + trunc(rtlp.g * 127);
-              inc(point);
-              point^ := 128 + trunc(rtlp.b * 127);
-              inc(point);
-            end;
+            PLongWord(point)^ := $80808080;
+            inc(point, 4);
           end
           else
           begin
-            PWord(point)^ := $8080;
-            inc(point, 2);
-            point^ := 128;
-            inc(point);
+            if rtlp.shadow = 0 then
+            begin
+              point^ := _float_to_byte(128.0 + rtlp.r * 127);
+              inc(point);
+              point^ := _float_to_byte(128.0 + rtlp.g * 127);
+              inc(point);
+              point^ := _float_to_byte(128.0 + rtlp.b * 127);
+              inc(point);
+              point^ := $80;
+              inc(point);
+            end
+            else
+            begin
+              if rtlp.shadow >= MAXSHADOWSHIFT then
+                sfactor := SHADOWFACTOR[MAXSHADOWSHIFT - 1]
+              else
+                sfactor := SHADOWFACTOR[rtlp.shadow];
+              point^ := _float_to_byte(sfactor + rtlp.r * 127);
+              inc(point);
+              point^ := _float_to_byte(sfactor + rtlp.g * 127);
+              inc(point);
+              point^ := _float_to_byte(sfactor + rtlp.b * 127);
+              inc(point);
+              point^ := $80;
+              inc(point);
+            end;
           end;
-          inc(rtlp);
+          inc(rtlp, LIGHTMAPSIZEX * LIGHTMAPSIZEY);
         end;
       end;
     end;
-    glTexSubImage3D(GL_TEXTURE_3D, 0, markp.x1, markp.y1, markp.z1, markp.dx, markp.dy, markp.dz, GL_RGB, GL_UNSIGNED_BYTE, lightmapbuffer);
+    glTexSubImage3D(GL_TEXTURE_3D, 0, markp.x1, markp.y1, markp.z1, markp.dx, markp.dy, markp.dz, GL_RGBA, GL_UNSIGNED_BYTE, lightmapbuffer);
   end;
-
 end;
 
 //
@@ -541,14 +593,14 @@ begin
 
   glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_COMBINE_ARB);
   glTexEnvi(GL_TEXTURE_ENV, GL_RGB_SCALE_ARB, 2);
-  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
 
-  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP);
 
-  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, gl_tex_filter);
-  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, gl_tex_filter);
+  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); //GL_NEAREST); //gl_tex_filter);
+  glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); //GL_NEAREST); //gl_tex_filter);
 
   glEnable(GL_TEXTURE_GEN_S);
   glEnable(GL_TEXTURE_GEN_T);
@@ -578,8 +630,13 @@ begin
   glTexGenfv(GL_R, GL_OBJECT_PLANE, @TexGenRPlane);
 
   if not lightmapdefined then
+  begin
     glBindTexture(GL_TEXTURE_3D, lightmap_tex_num);
-  gld_CalculateLightmap;
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_BASE_LEVEL, 0);
+    glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAX_LEVEL, 0);
+  end;
+
+  gld_CalculateLightmapSTD;
   gld_PlaceLightmapTexture;
 
   glActiveTextureARB(GL_TEXTURE0_ARB);
@@ -617,5 +674,4 @@ begin
 end;
 
 end.
-
 

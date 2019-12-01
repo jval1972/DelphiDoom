@@ -267,6 +267,9 @@ function V_FindAproxColorIndex(const pal: PLongWordArray; const c: LongWord;
 var
   v_translation: PByteArray;
 
+var
+  default_palette: PLongWordArray = nil;
+
 implementation
 
 uses
@@ -2406,6 +2409,21 @@ end;
 {$ENDIF}
 {$ENDIF}
 
+procedure V_InitDefaultPalette;
+var
+  playpal: PByteArray;
+  i: integer;
+begin
+  if default_palette <> nil then
+    exit;
+
+  default_palette := Z_Malloc(256 * SizeOf(LongWord), PU_STATIC, nil);
+
+  playpal := V_ReadPalette(PU_STATIC);
+  for i := 0 to 255 do
+    default_palette[i] := _SHL(playpal[i * 3], 16) or _SHL(playpal[i * 3 + 1], 8) or playpal[i * 3 + 2];
+end;
+
 var
   vsize: integer = 0;
 
@@ -2420,6 +2438,7 @@ begin
   pal := V_ReadPalette(PU_STATIC);
   V_SetPalette(pal);
   Z_ChangeTag(pal, PU_CACHE);
+  V_InitDefaultPalette;
 {$IFDEF OPENGL}
   if SCREENWIDTH < 1024 then
   begin

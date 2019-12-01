@@ -397,6 +397,7 @@ var
 
  // Name graphics of each level (centered)
   lnames: Ppatch_tPArray;
+  lnamessize: integer = 0;
 
   wibackground: string;
 //
@@ -427,7 +428,7 @@ begin
   y := WI_TITLEY;
 
   // draw <LevelName>
-  if wbs.last < NUMCMAPS then // JVAL: 20170826 Avoid crash when missing levelname patches
+  if wbs.last < lnamessize then // JVAL: 20170826 Avoid crash when missing levelname patches
   begin
     V_DrawPatch((320 - lnames[wbs.last].width) div 2, y, SCN_TMP, lnames[wbs.last], false);
     y := y + (5 * lnames[wbs.last].height) div 4;
@@ -449,7 +450,7 @@ begin
   V_DrawPatch((320 - entering.width) div 2, y, SCN_TMP, entering, false);
 
   // draw level
-  if wbs.next < NUMCMAPS then // JVAL: 20170826 Avoid crash when missing levelname patches
+  if wbs.next < lnamessize then // JVAL: 20170826 Avoid crash when missing levelname patches
   begin
     y := y + (5 * lnames[wbs.next].height) div 4;
     if y + lnames[wbs.next].height > 200 then
@@ -1481,6 +1482,7 @@ begin
   if gamemode = commercial then
   begin
     NUMCMAPS := 32;
+    lnamessize := NUMCMAPS; // JVAL: VERSION 204
     lnames :=
       Ppatch_tPArray(
         Z_Malloc(SizeOf(Ppatch_t) * NUMCMAPS, PU_STATIC, nil));
@@ -1492,6 +1494,7 @@ begin
   end
   else
   begin
+    lnamessize := NUMMAPS; // JVAL: VERSION 204
     lnames :=
       Ppatch_tPArray(
         Z_Malloc(SizeOf(Ppatch_t) * NUMMAPS, PU_STATIC, nil));
@@ -1758,6 +1761,5 @@ initialization
   anims[1] := @epsd1animinfo;
   anims[2] := @epsd2animinfo;
   anims[3] := nil;
-
 
 end.

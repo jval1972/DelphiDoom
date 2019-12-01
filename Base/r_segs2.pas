@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ unit r_segs2;
 interface
 
 uses
+  m_fixed,
   r_defs;
 
 procedure R_RenderSegLoop8;
@@ -118,11 +119,18 @@ var
   bottomfrac_dbl: double;
   bottomstep_dbl: double;
 
+procedure R_PrecalcSegs;
+
+function R_DistToSeg(const seg: Pseg_t): fixed_t;
+
+function R_CalcSegOffset(const seg: Pseg_t): fixed_t;
+
 implementation
 
 uses
   d_delphi,
   doomdef,
+  p_setup,
   r_column,
   r_data,
   r_draw,
@@ -130,16 +138,15 @@ uses
   r_plane,
   r_main,
   r_hires,
-  r_ccache,
+  r_cache_walls,
   r_wall8,
   r_wall32,
   r_3dfloors,
   r_range,
-  tables,
 {$IFDEF DEBUG}
   r_debug,
 {$ENDIF}
-  m_fixed;
+  tables;
 
 //
 // R_RenderSegLoop
@@ -373,6 +380,67 @@ procedure R_RenderSegLoop32Optimized_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
 {$I R_RenderSegLoop32.inc}
+
+procedure R_PrecalcSegs;
+var
+  i: integer;
+  dx, dy: double;
+  li: Pseg_t;
+begin
+  for i := 0 to numsegs - 1 do
+  begin
+    li := @segs[i];
+    dx := li.v2.x - li.v1.x;
+    dy := li.v2.y - li.v1.y;
+    li.inv_length := 1 / sqrt(dx * dx + dy * dy);
+  end;
+end;
+
+//
+// R_DistToSeg by entryway
+//
+// https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
+function R_DistToSeg(const seg: Pseg_t): fixed_t;
+var
+  dx, dy, dx1, dy1: double;
+begin
+  if seg.v1.y = seg.v2.y then
+  begin
+    result := viewy - seg.v1.y;
+    if result < 0 then
+      result := -result;
+    exit;
+  end;
+
+  if seg.v1.x = seg.v2.x then
+  begin
+    result := viewx - seg.v1.x;
+    if result < 0 then
+      result := -result;
+    exit;
+  end;
+
+  dx := seg.v2.x - seg.v1.x;
+  dy := seg.v2.y - seg.v1.y;
+  dx1 := viewx - seg.v1.x;
+  dy1 := viewy - seg.v1.y;
+  result := round((dy * dx1 - dx * dy1) * seg.inv_length);
+  if result < 0 then
+    result := -result;
+end;
+
+function R_CalcSegOffset(const seg: Pseg_t): fixed_t;
+var
+  dx, dy, dx1, dy1: double;
+begin
+  dx := seg.v2.x - seg.v1.x;
+  dy := seg.v2.y - seg.v1.y;
+  dx1 := viewx - seg.v1.x;
+  dy1 := viewy - seg.v1.y;
+  result := round((dx * dx1 + dy * dy1) * seg.inv_length);
+  if result < 0 then
+    result := -result;
+end;
 
 end.
 

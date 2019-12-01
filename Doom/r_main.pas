@@ -95,9 +95,7 @@ function R_PointOnSegSide(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
 
 function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
 
-{$IFDEF OPENGL}
 function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
-{$ENDIF}
 
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 
@@ -285,9 +283,7 @@ var
 implementation
 
 uses
-{$IFDEF OPENGL}
   Math,
-{$ENDIF}
   doomdata,
   c_cmds,
   d_net,
@@ -315,7 +311,7 @@ uses
   r_camera,
 {$IFNDEF OPENGL}
   r_precalc,
-  r_cache,
+  r_cache_main,
   r_fake3d,
   r_ripple,
   r_trans8,
@@ -589,7 +585,6 @@ begin
   result := 0;
 end;
 
-{$IFDEF OPENGL}
 function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
 var
   xx, yy: fixed_t;
@@ -598,7 +593,6 @@ begin
   yy := y - viewy;
   result := Round(arctan2(yy, xx) * (ANG180 / D_PI));
 end;
-{$ENDIF}
 
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 begin
@@ -692,6 +686,7 @@ begin              {
   end;              }
 
   finecosine := Pfixed_tArray(@finesine[FINEANGLES div 4]);
+  fixedcosine := Pfixed_tArray(@fixedsine[FIXEDANGLES div 4]);
 end;
 
 //
@@ -1001,7 +996,7 @@ begin
         skycolfunc := R_DrawSkyColumn;
         videomode := vm8bit;
       end;
-    DL_NORMAL:
+    DL_NORMAL:  // JVAL: 32 bit color - Default
       begin
         basebatchcolfunc := R_DrawColumnHi_Batch;
         batchcolfunc := R_DrawColumnHi_Batch;
@@ -1569,6 +1564,7 @@ var
   sblocks: integer;
   sec: Psector_t;
   cm: integer;
+  vangle: angle_t;
 begin
   viewplayer := player;
   viewx := player.mo.x;
@@ -1627,8 +1623,9 @@ begin
     p_justspawned := false;
 //******************************
 
-  viewsin := finesine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
-  viewcos := finecosine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
+  vangle := viewangle div FRACUNIT;
+  viewsin := fixedsine[vangle];
+  viewcos := fixedcosine[vangle];
 {$IFNDEF OPENGL}
   dviewsin := Sin(viewangle / $FFFFFFFF * 2 * pi);
   dviewcos := Cos(viewangle / $FFFFFFFF * 2 * pi);

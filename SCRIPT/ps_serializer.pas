@@ -217,7 +217,6 @@ var
   Offset: Cardinal;
 begin
   Result := True;
-  //See uPSRuntime line 1630 for algo idea
   case aType.BaseType of
     btU8:
       LoadStream.Read(TbtU8(Src^), SizeOf(TbtU8)); //Byte, Boolean

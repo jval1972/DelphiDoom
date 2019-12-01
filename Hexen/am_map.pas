@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1344,14 +1344,17 @@ end;
 procedure AM_rotate(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
 var
   tmpx: fixed_t;
+  ang: angle_t;
 begin
+  ang := a shr FRACBITS;
+
   tmpx := xpos +
-    FixedMul(x^ - xpos, finecosine[a shr ANGLETOFINESHIFT]) -
-    FixedMul(y^ - ypos, finesine[a shr ANGLETOFINESHIFT]);
+    FixedMul(x^ - xpos, fixedcosine[ang]) -
+    FixedMul(y^ - ypos, fixedsine[ang]);
 
   y^ := ypos +
-    FixedMul(x^ - xpos, finesine[a shr ANGLETOFINESHIFT]) +
-    FixedMul(y^ - ypos, finecosine[a shr ANGLETOFINESHIFT]);
+    FixedMul(x^ - xpos, fixedsine[ang]) +
+    FixedMul(y^ - ypos, fixedcosine[ang]);
 
   x^ := tmpx;
 end;

@@ -370,6 +370,10 @@ procedure PS_SetSectorRippleFloor(const sec: Integer; const rpl: Boolean);
 function PS_GetSectorRippleCeiling(const sec: Integer): Boolean;
 procedure PS_SetSectorRippleCeiling(const sec: Integer; const rpl: Boolean);
 
+// JVAL: sector gravity (VERSION 204)
+function PS_GetSectorGravity(const sec: Integer): Integer;
+procedure PS_SetSectorGravity(const sec: Integer; const grav: Integer);
+
 function PS_GetSectorMidSector(const sec: Integer): Integer;
 
 function PS_GetSectorSlopeSector(const sec: Integer): Integer;
@@ -554,8 +558,10 @@ function PS_GetMobjInfoMissileHeight(const typ: integer): integer;
 
 // ------------------------------ GAME -----------------------------------------
 
-{$IFDEF HEXEN}
 function PS_GameMap: integer;
+
+{$IFDEF DOOM_OR_HERETIC}
+function PS_GameEpisode: integer;
 {$ENDIF}
 
 function PS_Game: string;
@@ -685,6 +691,7 @@ uses
   m_rnd,
   p_common,
   p_inter,
+  p_local,
   p_map,
   p_maputl,
   p_mobj,
@@ -3665,6 +3672,20 @@ begin
   end;
 end;
 
+function PS_GetSectorGravity(const sec: Integer): Integer;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].gravity
+  else
+    Result := GRAVITY;
+end;
+
+procedure PS_SetSectorGravity(const sec: Integer; const grav: Integer);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].gravity := grav;
+end;
+
 function PS_GetSectorMidSector(const sec: Integer): Integer;
 begin
   if (sec >= 0) and (sec < numsectors) then
@@ -3897,6 +3918,37 @@ end;
 procedure TRTLSectorFloorHeight_R(Self: TRTLSector; var T: fixed_t);
 begin
   T := PS_GetSectorFloorHeight(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorRippleFloor_W(Self: TRTLSector; const T: Boolean);
+begin
+  PS_SetSectorRippleFloor(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorRippleFloor_R(Self: TRTLSector; var T: Boolean);
+begin
+  T := PS_GetSectorRippleFloor(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorRippleCeiling_W(Self: TRTLSector; const T: Boolean);
+begin
+  PS_SetSectorRippleCeiling(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorRippleCeiling_R(Self: TRTLSector; var T: Boolean);
+begin
+  T := PS_GetSectorRippleCeiling(Integer(Self) - 1);
+end;
+
+// JVAL: sector gravity (VERSION 204)
+procedure TRTLSectorGravity_W(Self: TRTLSector; const T: fixed_t);
+begin
+  PS_SetSectorGravity(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorGravity_R(Self: TRTLSector; var T: fixed_t);
+begin
+  T := PS_GetSectorGravity(Integer(Self) - 1);
 end;
 
 procedure TRTLSectorID_R(Self: TRTLSector; var T: Integer);
@@ -5015,10 +5067,15 @@ end;
 
 // ------------------------------ GAME -----------------------------------------
 
-{$IFDEF HEXEN}
 function PS_GameMap: integer;
 begin
   Result := gamemap;
+end;
+
+{$IFDEF DOOM_OR_HERETIC}
+function PS_GameEpisode: integer;
+begin
+  Result := gameepisode;
 end;
 {$ENDIF}
 
@@ -5196,6 +5253,9 @@ begin
   csector.RegisterProperty('MidSector', '!TSector', iptR);
   csector.RegisterProperty('SlopeSector', '!TSector', iptR);
   csector.RegisterProperty('ID', 'Integer', iptR);
+  csector.RegisterProperty('RippleFloor', 'boolean', iptRW);
+  csector.RegisterProperty('RippleCeiling', 'boolean', iptRW);
+  csector.RegisterProperty('Gravity', 'fixed_t', iptRW);
   csector.RegisterMethod('procedure PlaySound(const snd: string);');
   csector.RegisterMethod('procedure MoveZ(const dz: fixed_t);');
 
@@ -5403,6 +5463,9 @@ begin
   rsector.RegisterPropertyHelper(@TRTLSectorMidSector_R, nil, 'MidSector');
   rsector.RegisterPropertyHelper(@TRTLSectorSlopeSector_R, nil, 'SlopeSector');
   rsector.RegisterPropertyHelper(@TRTLSectorID_R, nil, 'ID');
+  rsector.RegisterPropertyHelper(@TRTLSectorRippleFloor_R, @TRTLSectorRippleFloor_W, 'RippleFloor');
+  rsector.RegisterPropertyHelper(@TRTLSectorRippleCeiling_R, @TRTLSectorRippleCeiling_W, 'RippleCeiling');
+  rsector.RegisterPropertyHelper(@TRTLSectorGravity_R, @TRTLSectorGravity_W, 'Gravity');
   rsector.RegisterMethod(@TRTLSector.PlaySound, 'PlaySound');
   rsector.RegisterMethod(@TRTLSector.MoveZ, 'MoveZ');
 

@@ -152,7 +152,7 @@ uses
   r_span32,
   r_column,
   r_hires,
-  r_ccache,
+  r_cache_walls,
   r_fake3d,
   r_depthbuffer,
   r_3dfloors, // JVAL: 3d Floors
@@ -206,9 +206,7 @@ end;
 {$IFNDEF OPENGL}
 procedure R_MapPlane(const y: integer; const x1, x2: integer);
 var
-  angle: angle_t;
   distance: fixed_t;
-  length: fixed_t;
   index: LongWord;
   ncolornum: integer;
   slope: double;
@@ -217,6 +215,9 @@ begin
     exit;
 
   if y >= viewheight then
+    exit;
+
+  if y = centery then
     exit;
 
   if usefake3d and zaxisshift then
@@ -242,15 +243,8 @@ begin
     ds_ystep := cachedystep[y];
   end;
 
-  length := FixedMul(distance, distscale[x1]);
-  {$IFDEF FPC}
-  angle := _SHRW(viewangle + xtoviewangle[x1], ANGLETOFINESHIFT);
-  {$ELSE}
-  angle := (viewangle + xtoviewangle[x1]) shr ANGLETOFINESHIFT;
-  {$ENDIF}
-
-  ds_xfrac := viewx + FixedMul(finecosine[angle], length) + xoffs;
-  ds_yfrac := -viewy - FixedMul(finesine[angle], length) + yoffs;
+  ds_xfrac :=  viewx + xoffs + FixedMul(viewcos, distance) + (x1 - centerx) * ds_xstep;
+  ds_yfrac := -viewy + yoffs - FixedMul(viewsin, distance) + (x1 - centerx) * ds_ystep;
 
   if fixedcolormap <> nil then
   begin

@@ -114,6 +114,7 @@ uses
   z_zone,
   m_rnd,
   doomdef,
+  p_gravity,
   p_local,
   p_map,
   p_maputl,
@@ -219,6 +220,9 @@ var
   player: Pplayer_t;
   xmove: fixed_t;
   ymove: fixed_t;
+  wasonfloorz: boolean;
+  wasonslope: boolean;
+  oldsector: Psector_t;
 begin
   if (mo.momx = 0) and (mo.momy = 0) then
   begin
@@ -234,6 +238,10 @@ begin
     end;
     exit;
   end;
+
+  wasonfloorz := mo.z <= mo.floorz;
+  oldsector := Psubsector_t(mo.subsector).sector;
+  wasonslope := oldsector.renderflags and SRF_SLOPED <> 0;
 
   player := mo.player;
 
@@ -253,10 +261,10 @@ begin
   repeat
     if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) then
     begin
-      ptryx := mo.x + xmove div 2;
-      ptryy := mo.y + ymove div 2;
-      xmove := _SHR1(xmove);
-      ymove := _SHR1(ymove);
+      xmove := xmove div 2;
+      ymove := ymove div 2;
+      ptryx := mo.x + xmove;
+      ptryy := mo.y + ymove;
     end
     else
     begin
@@ -319,7 +327,18 @@ begin
   if (player <> nil) and (player.laddertics > 0) then
   else
     if mo.z > mo.floorz then
-      exit; // no friction when airborne
+    begin
+      if G_PlayingEngineVersion <= VERSION203 then
+        exit; // no friction when airborne
+      if wasonfloorz and wasonslope and (oldsector = Psubsector_t(mo.subsector).sector) then
+      begin
+        if oldsector.flags and SF_SLIPSLOPEDESCENT <> 0 then
+          exit; // Slip sector while descenting slope
+        mo.z := mo.floorz;
+      end
+      else
+        exit;
+    end;
 
   if mo.flags and MF_CORPSE <> 0 then
   begin
@@ -370,27 +389,26 @@ var
   momomz: fixed_t;
   correct_lost_soul_bounce: Boolean; // JVAL: From Chocolate DOOM
   ladderticks: integer;
+  player: Pplayer_t;
 begin
   ladderticks := 0;
-  if mo.player <> nil then
+  player := Pplayer_t(mo.player);
+  if player <> nil then
   begin
-    if Pplayer_t(mo.player).laddertics > 0 then
+    if player.laddertics > 0 then
     begin
-      Dec(Pplayer_t(mo.player).laddertics);
-      ladderticks := Pplayer_t(mo.player).laddertics;
+      Dec(player.laddertics);
+      ladderticks := player.laddertics;
     end;
-    if Pplayer_t(mo.player).slopetics > 0 then
-      Dec(Pplayer_t(mo.player).slopetics);
-  end;
+    if player.slopetics > 0 then
+      Dec(player.slopetics);
 
-  // check for smooth step up
-  if mo.player <> nil then
-  begin
+    // check for smooth step up
     if (mo.z < mo.floorz) and (ladderticks = 0) then
     begin
-      Pplayer_t(mo.player).viewheight := Pplayer_t(mo.player).viewheight - (mo.floorz - mo.z);
-      Pplayer_t(mo.player).deltaviewheight :=
-        _SHR((PVIEWHEIGHT - Pplayer_t(mo.player).viewheight), 3);
+      player.viewheight := player.viewheight - (mo.floorz - mo.z);
+      player.deltaviewheight :=
+        _SHR((PVIEWHEIGHT - player.viewheight), 3);
     end;
   end;
 
@@ -463,13 +481,13 @@ begin
     momomz := mo.momz;
     if mo.momz < 0 then
     begin
-      if (mo.player <> nil) and (mo.momz < -GRAVITY * 8) then
+      if (player <> nil) and (mo.momz < -P_GetMobjGravity(mo) * 8) then
       begin
         // Squat down.
         // Decrease viewheight for a moment
         // after hitting the ground (hard),
         // and utter appropriate sound.
-        Pplayer_t(mo.player).deltaviewheight := _SHR(mo.momz, 3);
+        player.deltaviewheight := _SHR(mo.momz, 3);
         S_StartSound(mo, Ord(sfx_oof));
       end;
       mo.momz := 0;
@@ -502,12 +520,12 @@ begin
   end
   else if mo.flags and MF_NOGRAVITY = 0 then
   begin
-    grav := GRAVITY;
+    grav := P_GetMobjGravity(mo);
     // JVAL
     // Low gravity cheat
-    if mo.player <> nil then
-      if Pplayer_t(mo.player).cheats and CF_LOWGRAVITY <> 0 then
-        grav := GRAVITY div 2;
+    if player <> nil then
+      if player.cheats and CF_LOWGRAVITY <> 0 then
+        grav := grav div 2;
 
     if mo.momz = 0 then
       mo.momz := - grav * 2
@@ -840,7 +858,7 @@ begin
     end;
   end
   else
-      msec := nil;
+    msec := nil;
 
   if z = ONFLOORZ then
     mobj.z := mobj.floorz

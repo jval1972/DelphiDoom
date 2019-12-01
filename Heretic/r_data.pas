@@ -137,12 +137,13 @@ uses
 {$IFNDEF OPENGL}
   r_column,
   r_span,
-  r_ccache,
-  r_scache,
+  r_cache_walls,
+  r_cache_flats,
   r_col_fz,
   r_voxels,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
+  r_patch,
 {$ENDIF}
   v_data,
   v_video,
@@ -502,14 +503,14 @@ begin
 
   if lump > 0 then
   begin
-    result := PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs);
+    result := {$IFNDEF OPENGL}R_GetFixedColumn({$ENDIF}PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs){$IFNDEF OPENGL}, tex, col){$ENDIF};
     exit;
   end;
 
   if texturecomposite[tex] = nil then
     R_GenerateComposite(tex);
 
-  result := PByteArray(integer(texturecomposite[tex]) + ofs);
+  result := {$IFNDEF OPENGL}R_GetFixedColumn({$ENDIF}PByteArray(integer(texturecomposite[tex]) + ofs){$IFNDEF OPENGL}, tex, col){$ENDIF};
 end;
 
 {$IFNDEF OPENGL}
@@ -575,6 +576,9 @@ var
   directory: PIntegerArray;
   pname: string;
 begin
+  {$IFNDEF OPENGL}
+  R_InitFixedColumn;
+  {$ENDIF}
   // Load the patch names from pnames.lmp.
   ZeroMemory(@name, SizeOf(char8_t));
   names := W_CacheLumpName('PNAMES', PU_STATIC);
@@ -745,9 +749,18 @@ end;
 procedure R_InitFlats;
 var
   i: integer;
+  lump: integer;
+  flat: Pflat_t;
 begin
-  firstflat := W_GetNumForName('F_START') + 1;
+  firstflat := W_GetFirstNumForName('F_START') + 1;
+  lump := W_CheckFirstNumForName('FF_START') + 1;
+  if lump > 0 then
+    if lump < firstflat then
+      firstflat := lump;
   lastflat := W_GetNumForName('F_END') - 1;
+  lump := W_CheckNumForName('FF_END');
+  if lump > lastflat then
+    lastflat := lump;
   numflats := lastflat - firstflat + 1;
 
   // Create translation table for global animation.
@@ -755,14 +768,15 @@ begin
 
   for i := 0 to numflats - 1 do
   begin
-    flats[i] := Pflat_t(Z_Malloc(SizeOf(flat_t), PU_STATIC, nil));
-    flats[i].name := W_GetNameForNum(firstflat + i);
-    flats[i].translation := i;
-    flats[i].lump := W_GetNumForName(flats[i].name);
+    flat := Pflat_t(Z_Malloc(SizeOf(flat_t), PU_STATIC, nil));
+    flat.name := W_GetNameForNum(firstflat + i);
+    flat.translation := i;
+    flat.lump := W_GetNumForName(flat.name);
     {$IFNDEF OPENGL}
-    flats[i].flat32 := nil;
+    flat.flat32 := nil;
     {$ENDIF}
-    flats[i].terraintype := P_TerrainTypeForName(flats[i].name);;
+    flat.terraintype := P_TerrainTypeForName(flat.name);
+    flats[i] := flat;
   end;
 end;
 
@@ -914,6 +928,8 @@ begin
   else
   begin
     i := W_CheckNumForName(name);
+    if i = -1 then  // JVAL: VERSION 204
+      i := W_CheckNumForName('-NO-FLAT');
     if i = -1 then
       I_Error('R_FlatNumForName(): %s not found', [name]);
 
@@ -1269,6 +1285,7 @@ procedure R_SetupLevel;
 begin
   maxvisplane := -1;
   {$IFNDEF OPENGL}
+  R_InitFixedColumn;
   maxvisplane3d := -1;  // JVAL: 3d Floors
   maxvisslope := -1;  // JVAL: Slopes
   {$ENDIF}

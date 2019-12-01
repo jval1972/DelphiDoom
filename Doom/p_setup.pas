@@ -174,7 +174,8 @@ uses
   m_rnd,
   r_colormaps,
 {$IFNDEF OPENGL}
-  r_cache,
+  r_cache_main,
+  r_segs2,
 {$ENDIF}
   r_intrpl,
   info_h,
@@ -606,7 +607,7 @@ begin
     ss.bottommap := -1;
     ss.renderflags := 0;
     ss.flags := 0;
-
+    ss.gravity := GRAVITY;  // JVAL: sector gravity (VERSION 204)
 {$IFDEF OPENGL}
     ss.floorlightlevel := ss.lightlevel;
     ss.ceilinglightlevel := ss.lightlevel;
@@ -1793,6 +1794,10 @@ begin
   P_3dFloorSetupSegs; // JVAL: 3d Floors
 
   P_RemoveSlimeTrails;    // killough 10/98: remove slime trails from wad
+
+{$IFNDEF OPENGL}
+  R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
+{$ENDIF}
 
   P_SlopesSetup;// JVAL: Slopes
 

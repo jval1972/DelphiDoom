@@ -127,6 +127,7 @@ uses
   z_zone,
   m_rnd,
   doomdef,
+  p_gravity,
   p_local,
   p_map,
   p_maputl,
@@ -218,7 +219,7 @@ begin
 
   mo.flags := mo.flags and (not MF_MISSILE);
 
-  A_DeathSound(mo, mo);
+  A_DeathSound(mo);
 end;
 
 //
@@ -242,7 +243,14 @@ var
   player: Pplayer_t;
   xmove: fixed_t;
   ymove: fixed_t;
+  wasonfloorz: boolean;
+  wasonslope: boolean;
+  oldsector: Psector_t;
 begin
+  wasonfloorz := mo.z <= mo.floorz;
+  oldsector := Psubsector_t(mo.subsector).sector;
+  wasonslope := oldsector.renderflags and SRF_SLOPED <> 0;
+
   player := mo.player;
 
   if mo.momx > MAXMOVE then
@@ -261,10 +269,10 @@ begin
   repeat
     if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) then
     begin
-      ptryx := mo.x + xmove div 2;
-      ptryy := mo.y + ymove div 2;
-      xmove := _SHR1(xmove);
-      ymove := _SHR1(ymove);
+      xmove := xmove div 2;
+      ymove := ymove div 2;
+      ptryx := mo.x + xmove;
+      ptryy := mo.y + ymove;
     end
     else
     begin
@@ -368,6 +376,11 @@ begin
   // haleyjd 20110224: [STRIFE] players experience friction even in the air,
   // although less than when on the ground. With this fix, the 1.2-and-up
   // IWAD demo is now in sync!
+  if G_PlayingEngineVersion > VERSION203 then
+    if wasonfloorz and wasonslope and (oldsector = Psubsector_t(mo.subsector).sector) then
+      if oldsector.flags and SF_SLIPSLOPEDESCENT = 0 then
+        mo.z := mo.floorz;
+
   if mo.z > mo.floorz then
   begin
     if player <> nil then
@@ -433,23 +446,25 @@ var
   grav: integer;
   momomz: fixed_t;
   laddertics: integer;
+  player: Pplayer_t;
 begin
   laddertics := 0;
-  if mo.player <> nil then
-    if Pplayer_t(mo.player).laddertics > 0 then
+  player := Pplayer_t(mo.player);
+  if player <> nil then
+    if player.laddertics > 0 then
     begin
-      Dec(Pplayer_t(mo.player).laddertics);
-      laddertics := Pplayer_t(mo.player).laddertics;
+      Dec(player.laddertics);
+      laddertics := player.laddertics;
       if laddertics = 0 then
         mo.momz := 0;
     end;
 
   // check for smooth step up
-  if (mo.player <> nil) and (mo.z < mo.floorz) and (laddertics = 0) then
+  if (player <> nil) and (mo.z < mo.floorz) and (laddertics = 0) then
   begin
-    Pplayer_t(mo.player).viewheight := Pplayer_t(mo.player).viewheight - (mo.floorz - mo.z);
-    Pplayer_t(mo.player).deltaviewheight :=
-      _SHR((PVIEWHEIGHT - Pplayer_t(mo.player).viewheight), 3);
+    player.viewheight := player.viewheight - (mo.floorz - mo.z);
+    player.deltaviewheight :=
+      _SHR3(PVIEWHEIGHT - player.viewheight);
   end;
 
   // adjust height
@@ -509,13 +524,13 @@ begin
     momomz := mo.momz;
     if mo.momz < 0 then
     begin
-      if (mo.player <> nil) and (mo.momz < -GRAVITY * 8) then
+      if (player <> nil) and (mo.momz < -P_GetMobjGravity(mo) * 8) then
       begin
         // Squat down.
         // Decrease viewheight for a moment
         // after hitting the ground (hard),
         // and utter appropriate sound.
-        Pplayer_t(mo.player).deltaviewheight := _SHR(mo.momz, 3);
+        player.deltaviewheight := _SHR3(mo.momz);
 
         // villsa [STRIFE] fall damage
         // haleyjd 09/18/10: Repaired calculation
@@ -554,12 +569,12 @@ begin
   end
   else if mo.flags and MF_NOGRAVITY = 0 then
   begin
-    grav := GRAVITY;
+    grav := P_GetMobjGravity(mo);
     // JVAL
     // Low gravity cheat
-    if mo.player <> nil then
-      if Pplayer_t(mo.player).cheats and CF_LOWGRAVITY <> 0 then
-        grav := GRAVITY div 2;
+    if player <> nil then
+      if player.cheats and CF_LOWGRAVITY <> 0 then
+        grav := grav div 2;
 
     if mo.momz = 0 then
       mo.momz := - grav * 2
@@ -1517,7 +1532,7 @@ begin
   else
     th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight, _type);
 
-  A_SeeSound(th, th);
+  A_SeeSound(th);
 
   th.target := source;  // where it came from
   an := R_PointToAngle2(source.x, source.y, dest.x, dest.y);
@@ -1584,7 +1599,7 @@ begin
 
   th := P_SpawnMobj(x, y, z, _type);
 
-  A_SeeSound(th, th);
+  A_SeeSound(th);
 
   th.target := source;  // record missile's originator
 
@@ -1655,7 +1670,7 @@ begin
 
   mo := P_SpawnMobj(source.x, source.y, z, _type);
 
-  A_SeeSound(mo, mo);
+  A_SeeSound(mo);
 
   if owner <> nil then
     mo.target := owner
@@ -1693,7 +1708,7 @@ var
 begin
   result := P_SpawnMobj(source.x, source.y, source.z + (32 * FRACUNIT), _type);
 
-  A_SeeSound(result, result);
+  A_SeeSound(result);
 
   result.target := source;    // where it came from
   result.angle := source.angle; // haleyjd 09/06/10: fix0red
@@ -1788,7 +1803,7 @@ begin
 
   th := P_SpawnMobj(x, y, z, _type);
 
-  A_SeeSound(th, th);
+  A_SeeSound(th);
 
   th.target := source;
   th.angle := an;
@@ -2145,3 +2160,4 @@ begin
 end;
 
 end.
+

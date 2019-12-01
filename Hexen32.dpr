@@ -197,8 +197,9 @@ uses
   p_user in 'Hexen\p_user.pas',
   po_man in 'Hexen\po_man.pas',
   r_bsp in 'Hexen\r_bsp.pas',
-  r_cache in 'Base\r_cache.pas',
-  r_ccache in 'Base\r_ccache.pas',
+  r_cache_main in 'Base\r_cache_main.pas',
+  r_cache_walls in 'Base\r_cache_walls.pas',
+  r_cache_flats in 'Base\r_cache_flats.pas',
   r_col_al in 'Hexen\r_col_al.pas',
   r_col_av in 'Hexen\r_col_av.pas',
   r_col_fog in 'Hexen\r_col_fog.pas',
@@ -220,12 +221,11 @@ uses
   r_main in 'Hexen\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Hexen\r_plane.pas',
-  r_scache in 'Base\r_scache.pas',
   r_segs in 'Hexen\r_segs.pas',
   r_sky in 'Hexen\r_sky.pas',
-  r_skycache1 in 'Hexen\r_skycache1.pas',
-  r_skycache2 in 'Hexen\r_skycache2.pas',
-  r_skycache in 'Hexen\r_skycache.pas',
+  r_cache_sky1 in 'Hexen\r_cache_sky1.pas',
+  r_cache_sky2 in 'Hexen\r_cache_sky2.pas',
+  r_cache_sky in 'Hexen\r_cache_sky.pas',
   r_span in 'Base\r_span.pas',
   r_span32 in 'Base\r_span32.pas',
   r_span32_fog in 'Hexen\r_span32_fog.pas',
@@ -326,7 +326,10 @@ uses
   t_pcx4 in 'TEXLIB\t_pcx4.pas',
   ps_dll in 'SCRIPT\ps_dll.pas',
   ps_keywords in 'SCRIPT\ps_keywords.pas',
-  ps_defs in 'SCRIPT\ps_defs.pas';
+  ps_defs in 'SCRIPT\ps_defs.pas',
+  p_gravity in 'Base\p_gravity.pas',
+  t_patch in 'TEXLIB\t_patch.pas',
+  r_patch in 'Base\r_patch.pas';
 
 var
   Saved8087CW: Word;

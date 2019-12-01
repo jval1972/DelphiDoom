@@ -384,7 +384,7 @@ procedure TForm1.About;
 begin
   IDEMessage(
     Format(
-      '%s'#13#10'Version ' + IDEVERSION +
+      '%s'#13#10'Version ' + I_VersionBuilt +
       #13#10#13#10'A tool for creating SCRIPTS for the DelphiDoom engine.'#13#10'© 2016 - 2017, jvalavanis@gmail.com',
       [rsTitle]));
 end;

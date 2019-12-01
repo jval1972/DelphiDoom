@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -85,6 +85,7 @@ uses
   doomdef,
   d_player,
   d_think,
+  d_ticcmd,
   g_game,
   m_fixed,
   m_misc,
@@ -93,6 +94,7 @@ uses
   i_system,
   i_tmp,
   p_3dfloors,
+  p_local,
   p_pspr_h,
   p_setup,
   p_mobj_h,
@@ -158,6 +160,7 @@ procedure P_UnArchivePlayers(userload: boolean);
 var
   i: integer;
   j: integer;
+  p203: Pplayer_t203;
 begin
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -166,11 +169,135 @@ begin
 
     PADSAVEP;
 
-    if savegameversion >= VERSION then
+    if savegameversion >= VERSION204 then
     begin
       if userload then
         memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
+    end
+    else if savegameversion = VERSION203 then
+    begin
+      if userload then
+      begin
+        p203 := Pplayer_t203(save_p);
+
+        players[i].mo := p203.mo;
+        players[i].playerstate := p203.playerstate;
+        players[i].cmd202.forwardmove := p203.cmd202.forwardmove;
+        players[i].cmd202.sidemove := p203.cmd202.sidemove;
+        players[i].cmd202.angleturn := p203.cmd202.angleturn;
+        players[i].cmd202.consistancy := p203.cmd202.consistancy;
+        players[i].cmd202.chatchar := p203.cmd202.chatchar;
+        players[i].cmd202.buttons := p203.cmd202.buttons;
+        players[i].cmd202.buttons2 := p203.cmd202.buttons2;
+        players[i].cmd202.inventory := p203.cmd202.inventory;
+        players[i].cmd202.commands := p203.cmd202.commands;
+        players[i].cmd202.lookupdown := p203.cmd202.lookupdown;
+        players[i].cmd202.lookleftright := p203.cmd202.lookleftright;
+        players[i].cmd202.jump := p203.cmd202.jump;
+        players[i].viewz := p203.viewz;
+        players[i].viewheight := p203.viewheight;
+        players[i].deltaviewheight := p203.deltaviewheight;
+        players[i].bob := p203.bob;
+        players[i].lookdir := p203.lookdir;
+        players[i].centering := p203.centering;
+        players[i].lookdir2 := p203.lookdir2;
+        players[i].oldlook2 := p203.oldlook2;
+        players[i].forwarding := p203.forwarding;
+        players[i].oldjump := p203.oldjump;
+        players[i].health := p203.health;
+        players[i].armorpoints := p203.armorpoints;
+        players[i].armortype := p203.armortype;
+        for j := 0 to Ord(NUMPOWERS) - 1 do
+          players[i].powers[j] := p203.powers[j];
+        players[i].sigiltype := p203.sigiltype;
+        players[i].nukagecount := p203.nukagecount;
+        players[i].questflags := p203.questflags;
+        players[i].centerview := p203.centerview;
+        players[i].inventory := p203.inventory;
+        players[i].st_update := p203.st_update;
+        players[i].numinventory := p203.numinventory;
+        players[i].inventorycursor := p203.inventorycursor;
+        players[i].accuracy := p203.accuracy;
+        players[i].stamina := p203.stamina;
+        for j := 0 to Ord(NUMCARDS) - 1 do
+          players[i].cards[j] := p203.cards[j];
+        players[i].backpack := p203.backpack;
+        for j := 0 to MAXPLAYERS - 1 do
+          players[i].frags[j] := p203.frags[j];
+        players[i].readyweapon := p203.readyweapon;
+        players[i].pendingweapon := p203.pendingweapon;
+        for j := 0 to Ord(NUMWEAPONS) - 1 do
+          players[i].weaponowned[j] := p203.weaponowned[j];
+        for j := 0 to Ord(NUMAMMO) - 1 do
+        begin
+          players[i].ammo[j] := p203.ammo[j];
+          players[i].maxammo[j] := p203.maxammo[j];
+        end;
+        players[i].attackdown := p203.attackdown;
+        players[i].usedown := p203.usedown;
+        players[i].inventorydown := p203.inventorydown;
+        players[i].cheats := p203.cheats;
+        players[i].refire := p203.refire;
+        players[i].killcount := p203.killcount;
+        players[i]._message := p203._message;
+        players[i].damagecount := p203.damagecount;
+        players[i].bonuscount := p203.bonuscount;
+        players[i].attacker := p203.attacker;
+        players[i].extralight := p203.extralight;
+        players[i].fixedcolormap := p203.fixedcolormap;
+        players[i].colormap := p203.colormap;
+        for j := 0 to Ord(NUMPSPRITES) - 1 do
+          players[i].psprites[j] := p203.psprites[j];
+        players[i].attackerx := p203.attackerx;
+        players[i].attackery := p203.attackery;
+        players[i].lastbreath := p203.lastbreath;
+        players[i].hardbreathtics := p203.hardbreathtics;
+        players[i].angletargetx := p203.angletargetx;
+        players[i].angletargety := p203.angletargety;
+        players[i].angletargetticks := p203.angletargetticks;
+        players[i].allegiance := p203.allegiance;
+        for j := 0 to 39 do
+          players[i].mapstate[j] := p203.mapstate[j];
+        players[i].laddertics := p203.laddertics;
+        players[i].viewbob := p203.viewbob;
+        players[i].slopetics := p203.slopetics;
+        players[i].oldviewz := p203.oldviewz;
+        players[i].teleporttics := p203.teleporttics;
+        players[i].quaketics := p203.quaketics;
+        players[i].lookdir16 := p203.lookdir16;
+        players[i].cmd.forwardmove := p203.cmd.forwardmove;
+        players[i].cmd.sidemove := p203.cmd.sidemove;
+        players[i].cmd.angleturn := p203.cmd.angleturn;
+        players[i].cmd.consistancy := p203.cmd.consistancy;
+        players[i].cmd.chatchar := p203.cmd.chatchar;
+        players[i].cmd.buttons := p203.cmd.buttons;
+        players[i].cmd.buttons2 := p203.cmd.buttons2;
+        players[i].cmd.inventory := p203.cmd.inventory;
+        players[i].cmd.commands := p203.cmd.commands;
+        players[i].cmd.lookupdown := p203.cmd.lookupdown;
+        players[i].cmd.lookleftright := p203.cmd.lookleftright;
+        players[i].cmd.jump := p203.cmd.jump;
+        players[i].cmd.lookupdown16 := p203.cmd.lookupdown16;
+      end;
+      incp(pointer(save_p), SizeOf(player_t203));
+    end
+    else if savegameversion = VERSION122 then
+    begin
+      if userload then
+      begin
+        memcpy(@players[i], save_p, SizeOf(player_t122));
+        players[i].laddertics := 0;
+        players[i].viewbob := players[i].bob;
+        players[i].slopetics := 0; // JVAL: Slopes
+        players[i].oldviewz := players[i].viewz;
+        players[i].teleporttics := 0;
+        players[i].quaketics := 0;
+        players[i].lookdir16 := players[i].lookdir * 16;
+        Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
+        players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
+      end;
+      incp(pointer(save_p), SizeOf(player_t122));
     end
     else if savegameversion <= VERSION121 then
     begin
@@ -183,6 +310,9 @@ begin
         players[i].oldviewz := players[i].viewz;
         players[i].teleporttics := 0;
         players[i].quaketics := 0;
+        players[i].lookdir16 := players[i].lookdir * 16;
+        Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
+        players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
     end
@@ -252,6 +382,9 @@ begin
     PInteger(put)^ := sec.midsec;
     put := @put[2];
     PInteger(put)^ := sec.midline;
+    put := @put[2];
+    // JVAL: sector gravity (VERSION 204)
+    PInteger(put)^ := sec.gravity;
     put := @put[2];
 
     PInteger(put)^ := sec.num_saffectees;
@@ -388,6 +521,19 @@ begin
       get := @get[2];
       sec.midline := PInteger(get)^;
       get := @get[2];
+    end;
+
+    // JVAL: sector gravity (VERSION 204)
+    if savegameversion >= VERSION204 then
+    begin
+      sec.gravity := PInteger(get)^;
+      get := @get[2];
+    end
+    else
+      sec.gravity := GRAVITY;
+
+    if savegameversion >= VERSION122 then
+    begin
       sec.num_saffectees := PInteger(get)^;
       get := @get[2];
       sec.saffectees := Z_Realloc(sec.saffectees, sec.num_saffectees * SizeOf(integer), PU_LEVEL, nil);
@@ -397,6 +543,7 @@ begin
         get := @get[2];
       end;
     end;
+
     sec.touching_thinglist := nil;
     sec.iSectorID := i;
     inc(i);
@@ -669,6 +816,7 @@ type
     tc_scroll,
     tc_friction,    // phares 3/18/98:  new friction effect thinker
     tc_pusher,      // phares 3/22/98:  new push/pull effect thinker
+    tc_fireflicker, // JVAL 20171211
     tc_endspecials
   );
 
@@ -700,6 +848,7 @@ var
   scroll: Pscroll_t;
   friction: Pfriction_t;
   pusher: Ppusher_t;
+  flicker: Pfireflicker_t;
   i: integer;
 begin
   // save off the current thinkers
@@ -872,6 +1021,18 @@ begin
       continue;
     end;
 
+    if @th._function.acp1 = @T_FireFlicker then
+    begin
+      save_p[0] := Ord(tc_fireflicker);
+      save_p := @save_p[1];
+      PADSAVEP;
+      flicker := Pfireflicker_t(save_p);
+      memcpy(flicker, th, SizeOf(fireflicker_t));
+      flicker.sector := Psector_t(flicker.sector.iSectorID);
+      incp(pointer(save_p), SizeOf(fireflicker_t));
+      continue;
+    end;
+
   end;
 
   // add a terminating marker
@@ -896,6 +1057,7 @@ var
   scroll: Pscroll_t;
   friction: Pfriction_t;
   pusher: Ppusher_t;
+  flicker: Pfireflicker_t;
 begin
   // read in saved thinkers
   while true do
@@ -1050,6 +1212,20 @@ begin
           @pusher.thinker._function.acp1 := @T_Pusher;
           pusher.source := P_GetPushThing(pusher.affectee);
           P_AddThinker(@pusher.thinker);
+        end;
+
+      Ord(tc_fireflicker):
+        begin
+          if savegameversion <= VERSION203 then // JVAL: old version's tc_endspecials value
+            exit;
+
+          PADSAVEP;
+          flicker := Z_Malloc(SizeOf(fireflicker_t), PU_LEVEL, nil);
+          memcpy(flicker, save_p, SizeOf(fireflicker_t));
+          incp(pointer(save_p), SizeOf(fireflicker_t));
+          @flicker.thinker._function.acp1 := @T_FireFlicker;
+          flicker.sector := @sectors[integer(flicker.sector)];
+          P_AddThinker(@flicker.thinker);
         end;
 
       else

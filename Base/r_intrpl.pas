@@ -386,7 +386,44 @@ begin
   {$ENDIF}
 end;
 
-procedure R_RestoreInterpolationData;
+function R_RestoreInterpolationData_thr1(const p: pointer): integer; stdcall;
+var
+  i: integer;
+  pi: Piitem_t;
+  r: mt_range_p;
+begin
+  r := mt_range_p(p);
+  pi := @istruct.items[r.start];
+  for i := r.start to r.finish do
+  begin
+    case pi._type of
+      iinteger: PInteger(pi.address)^ := pi.inext;
+      ismallint: PSmallInt(pi.address)^ := pi.sinext;
+      ibyte: PByte(pi.address)^ := pi.bnext;
+      iangle: Pangle_t(pi.address)^ := pi.anext;
+    end;
+    inc(pi);
+  end;
+  result := 0;
+end;
+
+function R_RestoreInterpolationData_thr2(const p: pointer): integer; stdcall;
+var
+  i: integer;
+  mo: Pmobj_t;
+begin
+  for i := 0 to numismobjs - 1 do
+  begin
+    mo := imobjs[i];
+    mo.x := mo.nextx;
+    mo.y := mo.nexty;
+    mo.z := mo.nextz;
+    mo.angle := mo.nextangle;
+  end;
+  result := 0;
+end;
+
+procedure R_RestoreInterpolationData_Single_Thread;
 var
   i: integer;
   pi: Piitem_t;
@@ -414,12 +451,77 @@ begin
   end;
 end;
 
+procedure R_RestoreInterpolationData;
+var
+  r1, r2, r3: mt_range_t;
+begin
+  if usemultithread and (I_GetNumCPUs >=4) and (istruct.numitems + numismobjs >= 4096) then
+  begin
+    r1.start := 0;
+    r1.finish := istruct.numitems div 3;
+    r2.start := r1.finish + 1;
+    r2.finish := r1.finish * 2;
+    r3.start := r2.finish + 1;
+    r3.finish := istruct.numitems - 1;
+    MT_Execute(
+      @R_RestoreInterpolationData_thr1, @r1,
+      @R_RestoreInterpolationData_thr1, @r2,
+      @R_RestoreInterpolationData_thr1, @r3,
+      @R_RestoreInterpolationData_thr2, nil
+    );
+  end
+  else
+    R_RestoreInterpolationData_Single_Thread;
+end;
+
+function R_DoInterpolate_thr1(const p: pointer): integer; stdcall;
+var
+  pi, pi2: Piitem_t;
+begin
+  pi := @istruct.items[mt_range_p(p).start];
+  pi2 := @istruct.items[mt_range_p(p).finish];
+  while integer(pi) <= integer(pi2) do
+  begin
+    if pi.address = pi.lastaddress then
+    begin
+      case pi._type of
+        iinteger: R_InterpolationCalcI(pi, ticfrac);
+        ismallint: R_InterpolationCalcSI(pi, ticfrac);
+        ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
+        iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
+      end;
+    end;
+    inc(pi);
+  end;
+  result := 0;
+end;
+
+function R_DoInterpolate_thr2(const p: pointer): integer; stdcall;
+var
+  i: integer;
+  mo: Pmobj_t;
+begin
+  for i := 0 to numismobjs - 1 do
+  begin
+    mo := imobjs[i];
+    if mo.intrplcnt > 1 then
+    begin
+      mo.x := R_InterpolationCalcIF(mo.prevx, mo.nextx, ticfrac);
+      mo.y := R_InterpolationCalcIF(mo.prevy, mo.nexty, ticfrac);
+      mo.z := R_InterpolationCalcIF(mo.prevz, mo.nextz, ticfrac);
+      mo.angle := R_InterpolationCalcA(mo.prevangle, mo.nextangle, ticfrac);
+    end;
+  end;
+  result := 0;
+end;
+
 function R_Interpolate: boolean;
 var
   i: integer;
   pi: Piitem_t;
   fractime: fixed_t;
   mo: Pmobj_t;
+  r1, r2, r3: mt_range_t;
 begin
   if skipinterpolationticks >= 0 then
   begin
@@ -430,7 +532,6 @@ begin
   fractime := I_GetFracTime;
   ticfrac := fractime - interpolationstoretime;
   ticfrac := round(ticfrac / interpolationcount);
-  pi := @istruct.items[0];
   {$IFDEF DEBUG}
   I_DevWarning('R_Interpolate(): fractime = %5.3f, gametic = %d'#13#10, [fractime / FRACUNIT, gametic]);
   {$ENDIF}
@@ -447,28 +548,47 @@ begin
   else
   begin
     result := true;
-    for i := 0 to istruct.numitems - 1 do
+    if usemultithread and (I_GetNumCPUs >=4) and (istruct.numitems + numismobjs >= 4096) then
     begin
-      if pi.address = pi.lastaddress then
+      r1.start := 0;
+      r1.finish := istruct.numitems div 3;
+      r2.start := r1.finish + 1;
+      r2.finish := r1.finish * 2;
+      r3.start := r2.finish + 1;
+      r3.finish := istruct.numitems - 1;
+      MT_Execute(
+        @R_DoInterpolate_thr1, @r1,
+        @R_DoInterpolate_thr1, @r2,
+        @R_DoInterpolate_thr1, @r3,
+        @R_DoInterpolate_thr2, nil
+      );
+    end
+    else
+    begin
+      pi := @istruct.items[0];
+      for i := 0 to istruct.numitems - 1 do
       begin
-        case pi._type of
-          iinteger: R_InterpolationCalcI(pi, ticfrac);
-          ismallint: R_InterpolationCalcSI(pi, ticfrac);
-          ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
-          iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
+        if pi.address = pi.lastaddress then
+        begin
+          case pi._type of
+            iinteger: R_InterpolationCalcI(pi, ticfrac);
+            ismallint: R_InterpolationCalcSI(pi, ticfrac);
+            ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
+            iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
+          end;
         end;
+        inc(pi);
       end;
-      inc(pi);
-    end;
-    for i := 0 to numismobjs - 1 do
-    begin
-      mo := imobjs[i];
-      if mo.intrplcnt > 1 then
+      for i := 0 to numismobjs - 1 do
       begin
-        mo.x := R_InterpolationCalcIF(mo.prevx, mo.nextx, ticfrac);
-        mo.y := R_InterpolationCalcIF(mo.prevy, mo.nexty, ticfrac);
-        mo.z := R_InterpolationCalcIF(mo.prevz, mo.nextz, ticfrac);
-        mo.angle := R_InterpolationCalcA(mo.prevangle, mo.nextangle, ticfrac);
+        mo := imobjs[i];
+        if mo.intrplcnt > 1 then
+        begin
+          mo.x := R_InterpolationCalcIF(mo.prevx, mo.nextx, ticfrac);
+          mo.y := R_InterpolationCalcIF(mo.prevy, mo.nexty, ticfrac);
+          mo.z := R_InterpolationCalcIF(mo.prevz, mo.nextz, ticfrac);
+          mo.angle := R_InterpolationCalcA(mo.prevangle, mo.nextangle, ticfrac);
+        end;
       end;
     end;
 

@@ -205,8 +205,9 @@ uses
   p_tick in 'Strife\p_tick.pas',
   p_user in 'Strife\p_user.pas',
   r_bsp in 'Strife\r_bsp.pas',
-  r_cache in 'Base\r_cache.pas',
-  r_ccache in 'Base\r_ccache.pas',
+  r_cache_main in 'Base\r_cache_main.pas',
+  r_cache_walls in 'Base\r_cache_walls.pas',
+  r_cache_flats in 'Base\r_cache_flats.pas',
   r_col_al in 'Strife\r_col_al.pas',
   r_col_av in 'Strife\r_col_av.pas',
   r_col_fz in 'Strife\r_col_fz.pas',
@@ -226,7 +227,6 @@ uses
   r_main in 'Strife\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Strife\r_plane.pas',
-  r_scache in 'Base\r_scache.pas',
   r_segs in 'Strife\r_segs.pas',
   r_sky in 'Strife\r_sky.pas',
   r_span in 'Base\r_span.pas',
@@ -328,7 +328,10 @@ uses
   t_pcx4 in 'TEXLIB\t_pcx4.pas',
   ps_dll in 'SCRIPT\ps_dll.pas',
   ps_keywords in 'SCRIPT\ps_keywords.pas',
-  ps_defs in 'SCRIPT\ps_defs.pas';
+  ps_defs in 'SCRIPT\ps_defs.pas',
+  p_gravity in 'Base\p_gravity.pas',
+  t_patch in 'TEXLIB\t_patch.pas',
+  r_patch in 'Base\r_patch.pas';
 
 var
   Saved8087CW: Word;

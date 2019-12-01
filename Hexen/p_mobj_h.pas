@@ -349,6 +349,18 @@ const
   MF2_EX_PRECISESPAWNANGLE = $20;
   // Use custom dropitem
   MF2_EX_CUSTOMDROPITEM = $40;
+  // From zDoom wiki:
+  // Actors with this flag set will often (about 92% chance) decide to jump down
+  // tall ledges to pursue their target, if said target is hostile
+  MF2_EX_JUMPDOWN = $80;
+  // Sound at full volume
+  MF2_EX_FULLVOLACTIVE = $100;
+  MF2_EX_FULLVOLDEATH = $200;
+  MF2_EX_FULLVOLSEE = $400;
+  MF2_EX_FULLVOLPAIN = $800;
+  MF2_EX_FULLVOLATTACK = $1000;
+  // Do not render shadow
+  MF2_EX_DONOTRENDERSHADOW = $2000;
 
 type
 // Map Object definition.

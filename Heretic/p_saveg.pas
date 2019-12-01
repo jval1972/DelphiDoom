@@ -147,11 +147,12 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer(pp: Pplayer_t): boolean;
+function P_UnArchiveOldPlayer115(pp: Pplayer_t): boolean;
 var
   p1: player_t115;
   p: Pplayer_t115;
 begin
+  p := @p1;
   if savegameversion <= VERSION110 then
   begin
     memcpy(pointer(p), save_p, SizeOf(player_t110));
@@ -176,6 +177,12 @@ begin
     p.oldviewz := p.viewz;
     p.teleporttics := 0;
     p.quaketics := 0;
+    result := true;
+  end
+  else if savegameversion <= VERSION115 then
+  begin
+    memcpy(pointer(p), save_p, SizeOf(player_t115));
+    incp(pointer(save_p), SizeOf(player_t115));
     result := true;
   end
   else
@@ -208,7 +215,7 @@ begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
     end
-    else if not P_UnArchiveOldPlayer(@players[i]) then
+    else if not P_UnArchiveOldPlayer115(@players[i]) then
       I_Error('P_UnArchivePlayers(): Unsupported saved game version: %d', [savegameversion]);
 
     // will be set when unarc thinker
@@ -263,6 +270,9 @@ begin
     PInteger(put)^ := sec.midsec;
     put := @put[2];
     PInteger(put)^ := sec.midline;
+    put := @put[2];
+    // JVAL: sector gravity (VERSION 204)
+    PInteger(put)^ := sec.gravity;
     put := @put[2];
 
     PInteger(put)^ := sec.num_saffectees;
@@ -376,6 +386,15 @@ begin
       sec.midsec := -1;
       sec.midline := -1;
     end;
+
+    // JVAL: sector gravity (VERSION 204)
+    if savegameversion >= VERSION204 then
+    begin
+      sec.gravity := PInteger(get)^;
+      get := @get[2];
+    end
+    else
+      sec.gravity := GRAVITY;
 
     if savegameversion >= VERSION115 then
     begin
@@ -697,6 +716,7 @@ type
     tc_flash,
     tc_strobe,
     tc_glow,
+    tc_fireflicker, // JVAL 20171211 correct T_FireFlicker savegame bug
     tc_endspecials
   );
 
@@ -724,6 +744,7 @@ var
   flash: Plightflash_t;
   strobe: Pstrobe_t;
   glow: Pglow_t;
+  flicker: Pfireflicker_t;
   i: integer;
 begin
   // save off the current thinkers
@@ -835,9 +856,22 @@ begin
       glow := Pglow_t(save_p);
       memcpy(glow, th, SizeOf(glow_t));
       incp(pointer(save_p), SizeOf(glow_t));
-      glow.sector := Psector_t(pDiff(glow.sector, @sectors[0], SizeOf(sector_t)));
+      glow.sector := Psector_t(glow.sector.iSectorID);
       continue;
     end;
+
+    if @th._function.acp1 = @T_FireFlicker then
+    begin
+      save_p[0] := Ord(tc_fireflicker);
+      save_p := @save_p[1];
+      PADSAVEP;
+      flicker := Pfireflicker_t(save_p);
+      memcpy(flicker, th, SizeOf(fireflicker_t));
+      incp(pointer(save_p), SizeOf(fireflicker_t));
+      flicker.sector := Psector_t(flicker.sector.iSectorID);
+      continue;
+    end;
+
   end;
 
   // add a terminating marker
@@ -858,6 +892,7 @@ var
   flash: Plightflash_t;
   strobe: Pstrobe_t;
   glow: Pglow_t;
+  flicker: Pfireflicker_t;
 begin
   // read in saved thinkers
   while true do
@@ -955,6 +990,20 @@ begin
           glow.sector := @sectors[integer(glow.sector)];
           @glow.thinker._function.acp1 := @T_Glow;
           P_AddThinker(@glow.thinker);
+        end;
+
+      Ord(tc_fireflicker):
+        begin
+          if savegameversion <= VERSION203 then // JVAL: tc_fireflicker = old value of tc_endspecials
+            exit;
+
+          PADSAVEP;
+          flicker := Z_Malloc(SizeOf(fireflicker_t), PU_LEVEL, nil);
+          memcpy(flicker, save_p, SizeOf(fireflicker_t));
+          incp(pointer(save_p), SizeOf(fireflicker_t));
+          @flicker.thinker._function.acp1 := @T_FireFlicker;
+          flicker.sector := @sectors[integer(flicker.sector)];
+          P_AddThinker(@flicker.thinker);
         end;
 
       else

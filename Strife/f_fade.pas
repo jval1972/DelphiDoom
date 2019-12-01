@@ -1,5 +1,4 @@
 //------------------------------------------------------------------------------
-//------------------------------------------------------------------------------
 //
 //  DelphiStrife: A modified and improved Strife source port for Windows.
 //
@@ -8,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -52,6 +51,8 @@ uses
   doomdef,
   r_hires,
   m_fixed,
+  mt_utils,
+  i_system,
   i_video,
   v_data,
   v_video;
@@ -66,13 +67,23 @@ var
 procedure fade_initFade;
 begin
   // copy start screen to main screen
-  memcpy(screen32, fade_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
+  MT_memcpy(screen32, fade_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   fade := FRACUNIT;
+end;
+
+function fade_doFade_thr(p: mt_range_p): integer; stdcall;
+var
+  i: integer;
+begin
+  for i := p.start to p.finish do
+    screen32[i] := R_ColorAverage(fade_scr_end[i], fade_scr_start[i], fade);
+  result := 0;
 end;
 
 function fade_doFade(ticks: integer): integer;
 var
   i: integer;
+  r1, r2, r3, r4: mt_range_t;
 begin
   result := 1;
 
@@ -83,8 +94,26 @@ begin
   if fade < 0 then
     fade := 0;
 
-  for i := 0 to SCREENWIDTH * SCREENHEIGHT - 1 do
-    screen32[i] := R_ColorAverage(fade_scr_end[i], fade_scr_start[i], fade);
+  if usemultithread then
+  begin
+    r1.start := 0;
+    r1.finish := SCREENWIDTH * SCREENHEIGHT div 4 - 1;
+    r2.start := r1.finish + 1;
+    r2.finish := SCREENWIDTH * SCREENHEIGHT div 2 - 1;
+    r3.start := r2.finish + 1;
+    r3.finish := 3 * (SCREENWIDTH * SCREENHEIGHT div 4) - 1;
+    r4.start := r3.finish + 1;
+    r4.finish := SCREENWIDTH * SCREENHEIGHT - 1;
+    MT_Execute(
+      @fade_doFade_thr, @r1,
+      @fade_doFade_thr, @r2,
+      @fade_doFade_thr, @r3,
+      @fade_doFade_thr, @r4
+    );
+  end
+  else
+    for i := 0 to SCREENWIDTH * SCREENHEIGHT - 1 do
+      screen32[i] := R_ColorAverage(fade_scr_end[i], fade_scr_start[i], fade);
 
   if fade > 0 then
     result := 0;

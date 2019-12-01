@@ -106,6 +106,7 @@ uses
   m_stack,
   info,
   sc_states,
+  gl_ambient,
   gl_main,
   gl_misc,
   gl_tex,
@@ -514,9 +515,14 @@ begin
   glGetIntegerv(GL_MAX_3D_TEXTURE_SIZE, @gld_max_texturesize3d);
   printf('GL_MAX_3D_TEXTURE_SIZE=%d'#13#10, [gld_max_texturesize3d]);
 
+  if canuselightmaps then
+    canuselightmaps := (gld_max_texturesize3d >= LIGHTMAPSIZEX) and
+                       (gld_max_texturesize3d >= LIGHTMAPSIZEY) and
+                       (gld_max_texturesize3d >= LIGHTMAPSIZEZ);
+                       
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
   glEnable(GL_TEXTURE_2D);
   glDepthFunc(GL_LEQUAL);
@@ -623,6 +629,7 @@ begin
   gld_InitModels;
   gld_InitVoxels;
   gld_InitLightmap;
+  gld_InitAmbient;
 end;
 
 
@@ -927,11 +934,6 @@ begin
   end;
 end;
 
-procedure gld_ReadScreen(scr: PByteArray);
-begin
-  glReadPixels(0, 0, SCREENWIDTH, SCREENHEIGHT, GL_RGB, GL_UNSIGNED_BYTE, scr);
-end;
-
 procedure gld_Enable2D;
 var
   vPort: array[0..3] of GLInt;
@@ -1074,6 +1076,7 @@ type
     skyyaw: float;
     gltexture: PGLTexture;
     flag: byte;
+    blend: boolean;
   end;
   PGLWall = ^GLWall;
   GLWallArray = array[0..$FFFF] of GLWall;
@@ -1780,11 +1783,7 @@ begin
   yaw := 270.0 - (viewangle shr ANGLETOFINESHIFT) * 360.0 / FINEANGLES;
   inv_yaw := -90.0 + (viewangle shr ANGLETOFINESHIFT) * 360.0 / FINEANGLES;
 
-{$IFDEF DEBUG}
-  glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT);
-{$ELSE}
-  glClear(GL_DEPTH_BUFFER_BIT);
-{$ENDIF}
+  glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT or GL_STENCIL_BUFFER_BIT);
 
   glShadeModel(GL_SMOOTH);
 
@@ -1850,6 +1849,8 @@ begin
   glViewport(0, 0, SCREENWIDTH, SCREENHEIGHT);
   gld_Set2DMode;
 
+ // gld_AmbientExecute;
+  
   R_DrawPlayer;
 
   if player.fixedcolormap = 32 then
@@ -2126,12 +2127,13 @@ begin
     gld_drawinfo.max_walls := gld_drawinfo.max_walls + 128;
     gld_drawinfo.walls := Z_Realloc(gld_drawinfo.walls, gld_drawinfo.max_walls * SizeOf(GLWall), PU_LEVEL, nil);
   end;
+  wall.blend := not ((wall.flag in [GLDWF_SKY, GLDWF_TOP, GLDWF_M1S, GLDWF_BOT]) or (wall.alpha > 0.999));
   gld_AddDrawItem(GLDIT_WALL, gld_drawinfo.num_walls);
   gld_drawinfo.walls[gld_drawinfo.num_walls] := wall^;
   inc(gld_drawinfo.num_walls);
 end;
 
-procedure gld_DrawWall(wall: PGLWall);
+procedure gld_DrawWall(wall: PGLWall; const fblend: boolean);
 var
   seg: PGLSeg;
   floorheight: float;
@@ -2191,24 +2193,36 @@ var
       vm := wall.vt + (wall.ytop - wall.ymid) / theight;
 
       glBegin(GL_TRIANGLE_STRIP);
-        glTexCoord2f(A[0].u, A[0].v); glVertex3f(A[0].x, A[0].y, A[0].z);
-        glTexCoord2f(A[1].u, vm);     glVertex3f(A[1].x, wall.ymid, A[1].z);
-        glTexCoord2f(A[2].u, A[2].v); glVertex3f(A[2].x, A[2].y, A[2].z);
-        glTexCoord2f(A[3].u, vm);     glVertex3f(A[3].x, wall.ymid, A[3].z);
+        glTexCoord2f(A[0].u, A[0].v);
+        glVertex3f(A[0].x, A[0].y, A[0].z);
+        glTexCoord2f(A[1].u, vm);
+        glVertex3f(A[1].x, wall.ymid, A[1].z);
+        glTexCoord2f(A[2].u, A[2].v);
+        glVertex3f(A[2].x, A[2].y, A[2].z);
+        glTexCoord2f(A[3].u, vm);
+        glVertex3f(A[3].x, wall.ymid, A[3].z);
       glEnd;
 
       gld_StaticLightAlpha(wall.light2, wall.alpha);
 
       glBegin(GL_TRIANGLE_STRIP);
-        glTexCoord2f(A[0].u, vm);     glVertex3f(A[0].x, wall.ymid, A[0].z);
-        glTexCoord2f(A[1].u, A[1].v); glVertex3f(A[1].x, A[1].y, A[1].z);
-        glTexCoord2f(A[2].u, vm);     glVertex3f(A[2].x, wall.ymid, A[2].z);
-        glTexCoord2f(A[3].u, A[3].v); glVertex3f(A[3].x, A[3].y, A[3].z);
+        glTexCoord2f(A[0].u, vm);
+        glVertex3f(A[0].x, wall.ymid, A[0].z);
+        glTexCoord2f(A[1].u, A[1].v);
+        glVertex3f(A[1].x, A[1].y, A[1].z);
+        glTexCoord2f(A[2].u, vm);
+        glVertex3f(A[2].x, wall.ymid, A[2].z);
+        glTexCoord2f(A[3].u, A[3].v);
+        glVertex3f(A[3].x, A[3].y, A[3].z);
 
-        glTexCoord2f(wall.ul, vm); glVertex3f(seg.x1, wall.ymid, seg.z1);
-        glTexCoord2f(wall.ul, wall.vb); glVertex3f(seg.x1, wall.ybottom, seg.z1);
-        glTexCoord2f(wall.ur, vm); glVertex3f(seg.x2, wall.ymid, seg.z2);
-        glTexCoord2f(wall.ur, wall.vb); glVertex3f(seg.x2, wall.ybottom, seg.z2);
+        glTexCoord2f(wall.ul, vm);
+        glVertex3f(seg.x1, wall.ymid, seg.z1);
+        glTexCoord2f(wall.ul, wall.vb);
+        glVertex3f(seg.x1, wall.ybottom, seg.z1);
+        glTexCoord2f(wall.ur, vm);
+        glVertex3f(seg.x2, wall.ymid, seg.z2);
+        glTexCoord2f(wall.ur, wall.vb);
+        glVertex3f(seg.x2, wall.ybottom, seg.z2);
       glEnd;
     end
     else
@@ -2228,6 +2242,9 @@ begin
     exit;
 
   if wall.gltexture.index = 0 then
+    exit;
+
+  if wall.blend <> fblend then
     exit;
 
   gld_BindTexture(wall.gltexture);
@@ -2258,7 +2275,9 @@ begin
     gld_StaticLightAlpha(wall.light, wall.alpha);
     seg := wall.glseg;
 
-    if (wall.flag in [GLDWF_TOP, GLDWF_M1S, GLDWF_BOT]) or (wall.alpha > 0.999) then
+    if wall.blend then
+      glDepthMask(false)
+    else
       glDisable(GL_BLEND);
 
     frontslope := seg.frontsector.renderflags and SRF_SLOPED <> 0;
@@ -2366,10 +2385,14 @@ begin
       if not wall.doublelight or (wall.ymid < wall.ybottom) or (wall.ymid > wall.ytop) then
       begin
         glBegin(GL_TRIANGLE_STRIP);
-          glTexCoord2f(wall.ul, wall.vt); glVertex3f(seg.x1, wall.ytop, seg.z1);
-          glTexCoord2f(wall.ul, wall.vb); glVertex3f(seg.x1, wall.ybottom, seg.z1);
-          glTexCoord2f(wall.ur, wall.vt); glVertex3f(seg.x2, wall.ytop, seg.z2);
-          glTexCoord2f(wall.ur, wall.vb); glVertex3f(seg.x2, wall.ybottom, seg.z2);
+          glTexCoord2f(wall.ul, wall.vt);
+          glVertex3f(seg.x1, wall.ytop, seg.z1);
+          glTexCoord2f(wall.ul, wall.vb);
+          glVertex3f(seg.x1, wall.ybottom, seg.z1);
+          glTexCoord2f(wall.ur, wall.vt);
+          glVertex3f(seg.x2, wall.ytop, seg.z2);
+          glTexCoord2f(wall.ur, wall.vb);
+          glVertex3f(seg.x2, wall.ybottom, seg.z2);
         glEnd;
       end
       else
@@ -2378,25 +2401,35 @@ begin
         vm := wall.vt + (wall.ytop - wall.ymid) / theight;
 
         glBegin(GL_TRIANGLE_STRIP);
-          glTexCoord2f(wall.ul, wall.vt); glVertex3f(seg.x1, wall.ytop, seg.z1);
-          glTexCoord2f(wall.ul, vm); glVertex3f(seg.x1, wall.ymid, seg.z1);
-          glTexCoord2f(wall.ur, wall.vt); glVertex3f(seg.x2, wall.ytop, seg.z2);
-          glTexCoord2f(wall.ur, vm); glVertex3f(seg.x2, wall.ymid, seg.z2);
+          glTexCoord2f(wall.ul, wall.vt);
+          glVertex3f(seg.x1, wall.ytop, seg.z1);
+          glTexCoord2f(wall.ul, vm);
+          glVertex3f(seg.x1, wall.ymid, seg.z1);
+          glTexCoord2f(wall.ur, wall.vt);
+          glVertex3f(seg.x2, wall.ytop, seg.z2);
+          glTexCoord2f(wall.ur, vm);
+          glVertex3f(seg.x2, wall.ymid, seg.z2);
         glEnd;
 
         gld_StaticLightAlpha(wall.light2, wall.alpha);
 
         glBegin(GL_TRIANGLE_STRIP);
-          glTexCoord2f(wall.ul, vm); glVertex3f(seg.x1, wall.ymid, seg.z1);
-          glTexCoord2f(wall.ul, wall.vb); glVertex3f(seg.x1, wall.ybottom, seg.z1);
-          glTexCoord2f(wall.ur, vm); glVertex3f(seg.x2, wall.ymid, seg.z2);
-          glTexCoord2f(wall.ur, wall.vb); glVertex3f(seg.x2, wall.ybottom, seg.z2);
+          glTexCoord2f(wall.ul, vm);
+          glVertex3f(seg.x1, wall.ymid, seg.z1);
+          glTexCoord2f(wall.ul, wall.vb);
+          glVertex3f(seg.x1, wall.ybottom, seg.z1);
+          glTexCoord2f(wall.ur, vm);
+          glVertex3f(seg.x2, wall.ymid, seg.z2);
+          glTexCoord2f(wall.ur, wall.vb);
+          glVertex3f(seg.x2, wall.ybottom, seg.z2);
         glEnd;
       end;
     end;
 
-    if (wall.flag in [GLDWF_TOP, GLDWF_M1S, GLDWF_BOT]) or (wall.alpha > 0.999) then
-      glEnable(GL_BLEND);
+    if wall.blend then
+      glDepthMask(true)
+    else
+      glEnable(GL_BLEND)
   end;
 end;
 
@@ -3575,10 +3608,14 @@ begin
           else if sprite.flags and GLS_YELLOWLIGHT <> 0 then
             gld_SetUplight(1.0, 1.0, 0.0);
           glBegin(GL_TRIANGLE_STRIP);
-            glTexCoord2f(0.0, 0.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y1, 0.01);
-            glTexCoord2f(1.0, 0.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y1, 0.01);
-            glTexCoord2f(0.0, 1.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y2, 0.01);
-            glTexCoord2f(1.0, 1.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y2, 0.01);
+            glTexCoord2f(0.0, 0.0);
+            glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(1.0, 0.0);
+            glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(0.0, 1.0);
+            glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y2, 0.01);
+            glTexCoord2f(1.0, 1.0);
+            glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y2, 0.01);
           glEnd;
           glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
           glAlphaFunc(GL_GEQUAL, 0.5);
@@ -3724,10 +3761,14 @@ begin
           else if sprite.flags and GLS_YELLOWLIGHT <> 0 then
             gld_SetUplight(1.0, 1.0, 0.0);
           glBegin(GL_TRIANGLE_STRIP);
-            glTexCoord2f(0.0, 0.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y1, 0.01);
-            glTexCoord2f(1.0, 0.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y1, 0.01);
-            glTexCoord2f(0.0, 1.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y2, 0.01);
-            glTexCoord2f(1.0, 1.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y2, 0.01);
+            glTexCoord2f(0.0, 0.0);
+            glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(1.0, 0.0);
+            glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(0.0, 1.0);
+            glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y2, 0.01);
+            glTexCoord2f(1.0, 1.0);
+            glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y2, 0.01);
           glEnd;
           glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
           glAlphaFunc(GL_GEQUAL, 0.5);
@@ -3804,10 +3845,14 @@ begin
           else if sprite.flags and GLS_YELLOWLIGHT <> 0 then
             gld_SetUplight(1.0, 1.0, 0.0);
           glBegin(GL_TRIANGLE_STRIP);
-            glTexCoord2f(0.0, 0.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y1, 0.01);
-            glTexCoord2f(1.0, 0.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y1, 0.01);
-            glTexCoord2f(0.0, 1.0); glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y2, 0.01);
-            glTexCoord2f(1.0, 1.0); glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y2, 0.01);
+            glTexCoord2f(0.0, 0.0);
+            glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(1.0, 0.0);
+            glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y1, 0.01);
+            glTexCoord2f(0.0, 1.0);
+            glVertex3f(2.0 * sprite.x1, 2.0 * sprite.y2, 0.01);
+            glTexCoord2f(1.0, 1.0);
+            glVertex3f(2.0 * sprite.x2, 2.0 * sprite.y2, 0.01);
           glEnd;
           glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
           glAlphaFunc(GL_GEQUAL, 0.5);
@@ -3832,10 +3877,14 @@ begin
       gld_StaticLight(sprite.light);
   end;
   glBegin(GL_TRIANGLE_STRIP);
-    glTexCoord2f(sprite.ul, sprite.vt); glVertex3f(sprite.x1, sprite.y1, 0.0);
-    glTexCoord2f(sprite.ur, sprite.vt); glVertex3f(sprite.x2, sprite.y1, 0.0);
-    glTexCoord2f(sprite.ul, sprite.vb); glVertex3f(sprite.x1, sprite.y2, 0.0);
-    glTexCoord2f(sprite.ur, sprite.vb); glVertex3f(sprite.x2, sprite.y2, 0.0);
+    glTexCoord2f(sprite.ul, sprite.vt);
+    glVertex3f(sprite.x1, sprite.y1, 0.0);
+    glTexCoord2f(sprite.ur, sprite.vt);
+    glVertex3f(sprite.x2, sprite.y1, 0.0);
+    glTexCoord2f(sprite.ul, sprite.vb);
+    glVertex3f(sprite.x1, sprite.y2, 0.0);
+    glTexCoord2f(sprite.ur, sprite.vb);
+    glVertex3f(sprite.x2, sprite.y2, 0.0);
   glEnd;
 
   glPopMatrix;
@@ -3999,7 +4048,7 @@ begin
     if (pdls.l <> lastitem.l) or
        (pdls.x <> lastitem.x) or
        (pdls.y <> lastitem.y) or
-       (pdls.z <> lastitem.z) then 
+       (pdls.z <> lastitem.z) then
     begin
       gld_DrawDLight(pdls);
       lastitem := pdls^;
@@ -4134,7 +4183,8 @@ begin
 
   if gl_drawshadows and (sprite.dlights = nil) then
     if sprite.aproxdist < SHADOWSDRAWRANGE then
-      gld_MarkDShadow(@sprite);
+      if pSpr.flags2_ex and MF2_EX_DONOTRENDERSHADOW = 0 then // JVAL: VERSION 204
+        gld_MarkDShadow(@sprite);
 end;
 
 (*****************
@@ -4205,17 +4255,65 @@ begin
   glDisable(GL_FOG);
 end;
 
-procedure gld_DrawScene(player: Pplayer_t);
+procedure gld_DrawWalls(const wallrange: integer; const fblend: boolean);
 var
   i, j, k, count: integer;
+  pglitem: PGLDrawItem;
+begin
+  for i := gld_drawinfo.num_drawitems downto 0 do
+  begin
+    pglitem := @gld_drawinfo.drawitems[i];
+    if pglitem.itemtype = GLDIT_WALL then
+    begin
+      count := 0;
+      for k := GLDWF_TOP to wallrange do
+      begin
+        if count >= pglitem.itemcount then
+          continue;
+        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
+        begin
+          gld_PauseLightmap;
+          if gl_shared_texture_palette then
+            glDisable(GL_SHARED_TEXTURE_PALETTE_EXT);
+          glEnable(GL_TEXTURE_GEN_S);
+          glEnable(GL_TEXTURE_GEN_T);
+          glEnable(GL_TEXTURE_GEN_Q);
+          glDisable(GL_FOG);
+          glColor4fv(@gl_whitecolor);
+        end;
+        for j := pglitem.itemcount - 1 downto 0 do
+          if gld_drawinfo.walls[j + pglitem.firstitemindex].flag = k then
+          begin
+            {$IFDEF DEBUG}
+            inc(rendered_segs);
+            {$ENDIF}
+            inc(count);
+            gld_DrawWall(@gld_drawinfo.walls[j + pglitem.firstitemindex], fblend);
+          end;
+        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
+        begin
+          gld_ResumeLightmap;
+          gld_StartFog;
+          glDisable(GL_TEXTURE_GEN_Q);
+          glDisable(GL_TEXTURE_GEN_T);
+          glDisable(GL_TEXTURE_GEN_S);
+          if gl_shared_texture_palette then
+            glEnable(GL_SHARED_TEXTURE_PALETTE_EXT);
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure gld_DrawScene(player: Pplayer_t);
+var
+  i, j, k: integer;
   max_scale: fixed_t;
   wallrange: integer;
   pglitem: PGLDrawItem;
   wall: PGLWall;
   seg: PGLSeg;
 begin
-//  glCullFace(GL_BACK);
-
   if zaxisshift then
   begin
     wallrange := GLDWF_BOT;
@@ -4266,54 +4364,12 @@ begin
       for j := pglitem.itemcount - 1 downto 0 do
         gld_DrawFlat(@gld_drawinfo.flats[j + pglitem.firstitemindex]);
     end;
-  end;      
+  end;
+
+  gld_DrawWalls(wallrange, false);
 
 //  glCullFace(GL_BACK);
   // Walls
-  for i := gld_drawinfo.num_drawitems downto 0 do
-  begin
-    pglitem := @gld_drawinfo.drawitems[i];
-    if pglitem.itemtype = GLDIT_WALL then
-    begin
-      count := 0;
-      for k := GLDWF_TOP to wallrange do
-      begin
-        if count >= pglitem.itemcount then
-          continue;
-        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
-        begin
-          gld_PauseLightmap;
-          if gl_shared_texture_palette then
-            glDisable(GL_SHARED_TEXTURE_PALETTE_EXT);
-          glEnable(GL_TEXTURE_GEN_S);
-          glEnable(GL_TEXTURE_GEN_T);
-          glEnable(GL_TEXTURE_GEN_Q);
-          glDisable(GL_FOG);
-          glColor4fv(@gl_whitecolor);
-        end;
-        for j := pglitem.itemcount - 1 downto 0 do
-          if gld_drawinfo.walls[j + pglitem.firstitemindex].flag = k then
-          begin
-            {$IFDEF DEBUG}
-            inc(rendered_segs);
-            {$ENDIF}
-            inc(count);
-            gld_DrawWall(@gld_drawinfo.walls[j + pglitem.firstitemindex]);
-          end;
-        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
-        begin
-          gld_ResumeLightmap;
-          gld_StartFog;
-          glDisable(GL_TEXTURE_GEN_Q);
-          glDisable(GL_TEXTURE_GEN_T);
-          glDisable(GL_TEXTURE_GEN_S);
-          if gl_shared_texture_palette then
-            glEnable(GL_SHARED_TEXTURE_PALETTE_EXT);
-        end;
-      end;
-    end;
-  end;
-
   // Sprites
   if gld_drawinfo.num_sprites > 1000 then
   begin
@@ -4350,7 +4406,9 @@ begin
       until max_scale = MAXINT;
     end;
   end;
-  
+
+  gld_DrawWalls(wallrange, true);
+
   if gl_uselightmaps then
     gld_DeActivateLightmap;
 
@@ -4458,6 +4516,7 @@ begin
     gld_VoxelsDone;
     gld_LightmapDone;
     gld_ClipperDone;
+    gld_AmbientDone;
   end;
 end;
 

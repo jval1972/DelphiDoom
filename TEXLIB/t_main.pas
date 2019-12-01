@@ -215,6 +215,7 @@ uses
   t_png,
 {$ENDIF}
   t_material,
+  t_patch,
   t_draw,
   r_hires,
   w_pak;
@@ -630,7 +631,7 @@ begin
     SetHeight(AHeight);
     exit;
   end
-  else if (AWidth = FWidth) and (AHeight = FHEIGHT) then
+  else if (AWidth = FWidth) and (AHeight = FHeight) then
     exit;
 
   xi := (FWidth shl 16) div aWidth;
@@ -1374,6 +1375,7 @@ var
   tm_png: TPNGTextureManager;
 {$ENDIF}
   tm_mat: TMaterialTextureManager;
+  tm_patch: TPatchTextureManager;
 
 procedure T_Init;
 begin
@@ -1388,6 +1390,7 @@ begin
   tm_targa.Create;
   tm_bitmap.Create;
   tm_mat.Create;
+  tm_patch.Create;
 
   T_InitDrawTextures;
 end;
@@ -1404,6 +1407,7 @@ begin
   tm_targa.Destroy;
   tm_bitmap.Destroy;
   tm_mat.Destroy;
+  tm_patch.Destroy;
 
   T_ShutDownDrawTextures;
 end;

@@ -127,6 +127,9 @@ begin
   baseproclist.Add('procedure OutputDebugStringFmt(const Fmt: string; const args: array of const);', @PS_OutputDebugStringFmt);
   baseproclist.Add('procedure BreakPoint(const msg: string);', @PS_BreakPoint);
   baseproclist.Add('procedure ConsoleCommand(Data: string)', @PS_ConsoleCommand);
+  baseproclist.Add('function GetConsoleStr(const cvar: string): string;', @PS_GetConsoleStr);
+  baseproclist.Add('function GetConsoleInt(const cvar: string): integer;', @PS_GetConsoleInt);
+  baseproclist.Add('function GetConsoleBool(const cvar: string): boolean;', @PS_GetConsoleBool);
   baseproclist.Add('procedure Write(Data: string)', @PS_Write);
   baseproclist.Add('procedure WriteFmt(const Fmt: string; const args: array of const);', @PS_WriteFmt);
   baseproclist.Add('procedure Writeln(Data: string)', @PS_Writeln);
@@ -343,6 +346,8 @@ begin
   baseproclist.Add('procedure SetSectorRippleFloor(const sec: Integer; const rpl: Boolean);', @PS_SetSectorRippleFloor);
   baseproclist.Add('function GetSectorRippleCeiling(const sec: Integer): Boolean;', @PS_GetSectorRippleCeiling);
   baseproclist.Add('procedure SetSectorRippleCeiling(const sec: Integer; const rpl: Boolean);', @PS_SetSectorRippleCeiling);
+  baseproclist.Add('function GetSectorGravity(const sec: Integer): fixed_t;', @PS_GetSectorGravity);  // JVAL: sector gravity (VERSION 204)
+  baseproclist.Add('procedure SetSectorGravity(const sec: Integer; const grav: fixed_t);', @PS_SetSectorGravity); // JVAL: sector gravity (VERSION 204)
   baseproclist.Add('function GetSectorMidSector(const sec: Integer): Integer;', @PS_GetSectorMidSector);
   baseproclist.Add('function GetSectorSlopeSector(const sec: Integer): Integer;', @PS_GetSectorSlopeSector);
   baseproclist.Add('function SkyPicture: string;', @PS_SkyPicture);
@@ -462,6 +467,10 @@ begin
   baseproclist.Add('function _GAME: string;', @PS_Game);
   baseproclist.Add('procedure GlobalEarthQuake(const tics: integer);', @PS_GlobalEarthQuake);
   baseproclist.Add('function GameSkill: integer;', @PS_GameSkill);
+  baseproclist.Add('function GameMap: integer;', @PS_GameMap);
+  {$IFDEF DOOM_OR_HERETIC}
+  baseproclist.Add('function GameEpisode: integer;', @PS_GameEpisode);
+  {$ENDIF}
 // ------------------------------- MAP -----------------------------------------
   baseproclist.Add('function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;', @R_PointToAngle);
   baseproclist.Add('function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;', @R_PointToAngle2);

@@ -165,8 +165,8 @@ procedure W_RuntimeLoad(fname: string);
 function W_NumLumps: integer;
 
 function W_CheckNumForName(const name: string; const flags: LongWord = $0): integer;
-
 function W_CheckNumForName2(const name: string; first: integer; last: integer): integer;
+function W_CheckFirstNumForName(const name: string): integer;
 
 function W_GetNumForName(const name: string; const flags: LongWord = $0): integer;
 function W_GetFirstNumForName(const name: string): integer;

@@ -1568,13 +1568,21 @@ begin
 
   for i := 0 to numlines - 1 do
     case lines[i].special of
-      // JVAL: ripple effect to tagged sectors floor/Ceiling
+      // JVAL: Slip while descenting a sloped sector
+      251:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].flags := sectors[s].flags or SF_SLIPSLOPEDESCENT;
+        end;
+      // JVAL: Ladder
       254:
         begin
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
-            sectors[s].flags := sectors[s].flags or SRF_LADDER;
+            sectors[s].flags := sectors[s].flags or SF_LADDER;
         end;
+      // JVAL: ripple effect to tagged sectors floor/Ceiling
       255:
         begin
           s := -1;

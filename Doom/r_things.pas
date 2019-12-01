@@ -1048,7 +1048,7 @@ begin
   if sprframe.rotate <> 0 then
   begin
     // choose a different rotation based on player view
-    ang := R_PointToAngle(thing.x, thing.y);
+    ang := R_PointToAngleEx(thing.x, thing.y);
     rot := (ang - thing.angle + LongWord(ANG45 div 2) * 9) shr 29;
     lump := sprframe.lump[rot];
     flip := sprframe.flip[rot];

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,8 +60,6 @@ procedure P_ThrustMobj(mo: Pmobj_t; angle: angle_t; const move: fixed_t);
 function P_FaceMobj(source: Pmobj_t; target: Pmobj_t; delta: Pangle_t): integer;
 
 function P_SeekerMissile(actor: Pmobj_t; thresh, turnMax: angle_t): boolean;
-
-procedure P_XYMovement(mo: Pmobj_t);
 
 procedure P_FloorBounceMissile(mo: Pmobj_t);
 
@@ -161,6 +159,7 @@ uses
   z_zone,
   m_rnd,
   doomdef,
+  p_gravity,
   p_local,
   p_map,
   p_maputl,
@@ -431,6 +430,9 @@ var
   speed: fixed_t;
   skip: boolean;
   rnd: longword;
+  wasonfloorz: boolean;
+  wasonslope: boolean;
+  oldsector: Psector_t;
 
   function SkyExplode: boolean;
   begin
@@ -491,6 +493,10 @@ begin
     end;
   end;
 
+  wasonfloorz := mo.z <= mo.floorz;
+  oldsector := Psubsector_t(mo.subsector).sector;
+  wasonslope := oldsector.renderflags and SRF_SLOPED <> 0;
+
   player := mo.player;
   if mo.momx > MAXMOVE then
     mo.momx := MAXMOVE
@@ -508,10 +514,10 @@ begin
   repeat
     if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) then
     begin
-      ptryx := mo.x + xmove div 2;
-      ptryy := mo.y + ymove div 2;
-      xmove := _SHR1(xmove);
-      ymove := _SHR1(ymove);
+      xmove := xmove div 2;
+      ymove := ymove div 2;
+      ptryx := mo.x + xmove;
+      ptryy := mo.y + ymove;
     end
     else
     begin
@@ -691,8 +697,20 @@ begin
   if (mo.z > mo.floorz) and (mo.flags2 and MF2_FLY = 0) and (mo.flags2 and MF2_ONMOBJ = 0) then
   begin // No friction when falling
     if mo._type <> Ord(MT_BLASTEFFECT) then
-      exit;
+    begin
+      if G_PlayingEngineVersion <= VERSION203 then
+        exit;
+      if wasonfloorz and wasonslope and (oldsector = Psubsector_t(mo.subsector).sector) then
+      begin
+        if oldsector.flags and SF_SLIPSLOPEDESCENT <> 0 then
+          exit; // Slip sector while descenting slope
+        mo.z := mo.floorz;
+      end
+      else
+        exit;
+    end;
   end;
+
   if mo.flags and MF_CORPSE <> 0 then
   begin // Don't stop sliding if halfway off a step with some momentum
     if (mo.momx > FRACUNIT div 4) or (mo.momx < -FRACUNIT div 4) or
@@ -955,7 +973,7 @@ begin
     mo.z := mo.floorz;
     if mo.momz < 0 then
     begin
-      if (mo.flags2 and MF2_ICEDAMAGE <> 0) and (mo.momz < -GRAVITY * 8) then
+      if (mo.flags2 and MF2_ICEDAMAGE <> 0) and (mo.momz < -P_GetMobjGravity(mo) * 8) then
       begin
         mo.tics := 1;
         mo.momx := 0;
@@ -966,7 +984,7 @@ begin
       if pl <> nil then
       begin
         pl.jumpTics := 7;// delay any jumping for a short time
-        if (mo.momz < -GRAVITY * 8) and (mo.flags2 and MF2_FLY = 0) then
+        if (mo.momz < -P_GetMobjGravity(mo) * 8) and (mo.flags2 and MF2_FLY = 0) then
         begin // squat down
           pl.deltaviewheight := _SHR3(mo.momz);
           if mo.momz < -23 * FRACUNIT then
@@ -974,7 +992,7 @@ begin
             P_FallingDamage(mo.player);
             P_NoiseAlert(mo, mo);
           end
-          else if (mo.momz < -GRAVITY * 12) and (pl.morphTics = 0) then
+          else if (mo.momz < -P_GetMobjGravity(mo) * 12) and (pl.morphTics = 0) then
           begin
             S_StartSound(mo, Ord(SFX_PLAYER_LAND));
 
@@ -1037,23 +1055,23 @@ begin
   else if (mo.flags2 and MF2_LOGRAV <> 0) or (mo.flags_ex and MF_EX_LOWGRAVITY <> 0) then
   begin
     if mo.momz = 0 then
-      mo.momz := -(GRAVITY div 4)
+      mo.momz := -(P_GetMobjGravity(mo) div 4)
     else
-      mo.momz := mo.momz - GRAVITY div 8;
+      mo.momz := mo.momz - P_GetMobjGravity(mo) div 8;
   end
   else if mo.flags2_ex and MF2_EX_MEDIUMGRAVITY <> 0 then
   begin
     if mo.momz = 0 then
-      mo.momz := -(GRAVITY div 2)
+      mo.momz := -(P_GetMobjGravity(mo) div 2)
     else
-      mo.momz := mo.momz - GRAVITY div 4;
+      mo.momz := mo.momz - P_GetMobjGravity(mo) div 4;
   end
   else if mo.flags and MF_NOGRAVITY = 0 then
   begin
     if mo.momz = 0 then
-      mo.momz := -GRAVITY * 2
+      mo.momz := -P_GetMobjGravity(mo) * 2
     else
-      mo.momz := mo.momz - GRAVITY;
+      mo.momz := mo.momz - P_GetMobjGravity(mo);
   end;
 
   if mo.z + mo.height > mo.ceilingz then
@@ -1226,7 +1244,7 @@ begin
     P_FallingDamage(mo.player);
     P_NoiseAlert(mo, mo);
   end
-  else if (mo.momz < -GRAVITY * 12) and
+  else if (mo.momz < -P_GetMobjGravity(mo) * 12) and
           (pl.morphTics = 0) then
   begin
     S_StartSound(mo, Ord(SFX_PLAYER_LAND));
@@ -1313,7 +1331,7 @@ begin
         pl := mobj.player;
         if pl <> nil then
         begin
-          if (mobj.momz < -GRAVITY * 8) and (mobj.flags2 and MF2_FLY = 0) then
+          if (mobj.momz < -P_GetMobjGravity(mobj) * 8) and (mobj.flags2 and MF2_FLY = 0) then
           begin
             P_PlayerLandedOnThing(mobj, onmo);
           end;

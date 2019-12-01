@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,11 +60,13 @@ procedure P_SpawnGlowingLight(sector: Psector_t);
 
 procedure T_LightFlash(flash: Plightflash_t);
 
+procedure T_FireFlicker(flick: Pfireflicker_t);
+
 implementation
 
 uses
-  
-  p_tick, p_setup;
+  p_tick,
+  p_setup;
 
 //
 // FIRELIGHT FLICKER

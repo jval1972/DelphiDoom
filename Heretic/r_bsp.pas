@@ -389,8 +389,8 @@ begin
   curline := line;
 
   // OPTIMIZE: quickly reject orthogonal back sides.
-  angle1 := R_PointToAngle(line.v1.x, line.v1.y);
-  angle2 := R_PointToAngle(line.v2.x, line.v2.y);
+  angle1 := R_PointToAngleEx(line.v1.x, line.v1.y);
+  angle2 := R_PointToAngleEx(line.v2.x, line.v2.y);
 
   // Clip to view edges.
   // OPTIMIZE: make constant out of 2*clipangle (FIELDOFVIEW).
@@ -605,8 +605,8 @@ begin
   exit;
 {$ELSE}
   // check clip list for an open space
-  angle1 := R_PointToAngle(x1, y1) - viewangle;
-  angle2 := R_PointToAngle(x2, y2) - viewangle;
+  angle1 := R_PointToAngleEx(x1, y1) - viewangle;
+  angle2 := R_PointToAngleEx(x2, y2) - viewangle;
 
   span := angle1 - angle2;
 

@@ -81,6 +81,7 @@ var
   tmfloorz: fixed_t;
   tmceilingz: fixed_t;
   tmdropoffz: fixed_t;
+  tmfloorpic: fixed_t;
 
 var
   spechit: Pline_tPArray = nil;  // JVAL Now spechit is dynamic
@@ -120,6 +121,7 @@ uses
   g_game,
   info_h,
   info,
+  p_gravity,
   p_setup,
   p_maputl,
   p_inter,
@@ -224,6 +226,7 @@ begin
 
   //**tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector);
   tmceilingz := P_CeilingHeight(newsubsec.sector, x, y) + P_SectorJumpOverhead(newsubsec.sector);  // JVAL: Slopes
+  tmfloorpic := newsubsec.sector.floorpic;
 
   inc(validcount);
   numspechit := 0;
@@ -499,23 +502,23 @@ begin
   else if (mo.flags_ex and MF_EX_LOWGRAVITY <> 0) then
   begin
     if mo.momz = 0 then
-      mo.momz := -(GRAVITY div 8) * 2
+      mo.momz := -(P_GetMobjGravity(mo) div 8) * 2
     else
-      mo.momz := mo.momz - GRAVITY div 8;
+      mo.momz := mo.momz - P_GetMobjGravity(mo) div 8;
   end
   else if mo.flags and MF_NOGRAVITY = 0 then
   begin
     if mo.momz = 0 then
-      mo.momz := -GRAVITY * 2
+      mo.momz := -P_GetMobjGravity(mo) * 2
     else
-      mo.momz := mo.momz - GRAVITY;
+      mo.momz := mo.momz - P_GetMobjGravity(mo);
   end
   else if mo.flags2_ex and MF2_EX_MEDIUMGRAVITY <> 0 then
   begin
     if mo.momz = 0 then
-      mo.momz := -(GRAVITY div 8) * 4
+      mo.momz := -(P_GetMobjGravity(mo) div 8) * 4
     else
-      mo.momz := mo.momz - GRAVITY div 4;
+      mo.momz := mo.momz - P_GetMobjGravity(mo) div 4;
   end;
 
   if mo.z + mo.height > mo.ceilingz then
@@ -978,6 +981,7 @@ var
   oldfloorz: fixed_t; // JVAL: Slopes
   oldsector: Psector_t; // JVAL: Slopes
   oldonfloorz: boolean;
+  dropoffmargin: fixed_t;
 begin
   floatok := false;
   if not P_CheckPosition(thing, x, y) then
@@ -1013,6 +1017,7 @@ begin
           exit;
         end;
 
+
     if (thing.flags and MF_TELEPORT = 0) and
        (tmfloorz - thing.z > 24 * FRACUNIT) then
     begin
@@ -1020,12 +1025,28 @@ begin
       exit;
     end;
 
+    // JVAL: Version 204
+    if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
+      dropoffmargin := 144 * FRACUNIT
+    else
+      dropoffmargin := 24 * FRACUNIT;
+
     if ((thing.flags and (MF_DROPOFF or MF_FLOAT)) = 0) and
-       (tmfloorz - tmdropoffz > 24 * FRACUNIT) then
+       (tmfloorz - tmdropoffz > dropoffmargin) then
     begin
       result := false;  // don't stand over a dropoff
       exit;
     end;
+
+    // JVAL: Version 204
+    if (thing.flags2_ex and MF2_EX_CANTLEAVEFLOORPIC <> 0) and
+       ((tmfloorpic <> Psubsector_t(thing.subsector).sector.floorpic) or
+         (tmfloorz - thing.z <> 0)) then
+    begin // must stay within a sector of a certain floor type
+      result := false;
+      exit;
+    end;
+
   end;
 
   // the move is ok,

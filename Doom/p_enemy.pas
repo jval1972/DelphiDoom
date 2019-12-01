@@ -464,7 +464,7 @@ begin
 
     actor.movedir := Ord(DI_NODIR);
     result := false;
-    while numspechit <> 0 do
+    while numspechit > 0 do
     begin
       dec(numspechit);
       ld := spechit[numspechit];
@@ -1550,7 +1550,12 @@ begin
 
   A_FaceTarget(actor);
 
-  fog := P_SpawnMobj(actor.target.x, actor.target.x, actor.target.z, Ord(MT_FIRE));
+  // JVAL: Correct the Arch-Vile fire spawned at the wrong location bug
+  //       https://doomwiki.org/wiki/Arch-Vile_fire_spawned_at_the_wrong_location
+  if G_PlayingEngineVersion <= VERSION203 then
+    fog := P_SpawnMobj(actor.target.x, actor.target.x, actor.target.z, Ord(MT_FIRE))
+  else
+    fog := P_SpawnMobj(actor.target.x, actor.target.y, actor.target.z, Ord(MT_FIRE));
 
   actor.tracer := fog;
   fog.target := actor;
@@ -1830,7 +1835,10 @@ begin
   end;
 
   // Check for bosses.
-  if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.flags_ex and MF_EX_BOSS <> 0) then
+  if (actor._type = Ord(MT_SPIDER)) or
+     (actor._type = Ord(MT_CYBORG)) or
+     (actor.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.info.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
     // full volume
     S_StartSound(nil, sound)
   else
@@ -1844,7 +1852,7 @@ end;
 
 procedure A_Pain(actor: Pmobj_t);
 begin
-  A_PainSound(actor, actor);
+  A_PainSound(actor);
 end;
 
 //

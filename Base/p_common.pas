@@ -280,7 +280,11 @@ const
   );
 
 const
-  SRF_LADDER = 1;
+// Sector Flags
+// Ladder
+  SF_LADDER = 1;
+// Slip while descenting if sloped
+  SF_SLIPSLOPEDESCENT = 2;
 
 implementation
 
@@ -1689,27 +1693,42 @@ end;
 
 procedure A_RandomPainSound(actor: Pmobj_t);
 begin
-  P_RandomSound(actor, actor.info.painsound);
+  if actor.flags2_ex and MF2_EX_FULLVOLPAIN <> 0 then
+    P_RandomSound(nil, actor.info.painsound)
+  else
+    P_RandomSound(actor, actor.info.painsound);
 end;
 
 procedure A_RandomSeeSound(actor: Pmobj_t);
 begin
-  P_RandomSound(actor, actor.info.seesound);
+  if actor.flags2_ex and MF2_EX_FULLVOLSEE <> 0 then
+    P_RandomSound(nil, actor.info.seesound)
+  else
+    P_RandomSound(actor, actor.info.seesound);
 end;
 
 procedure A_RandomAttackSound(actor: Pmobj_t);
 begin
-  P_RandomSound(actor, actor.info.attacksound);
+  if actor.flags2_ex and MF2_EX_FULLVOLATTACK <> 0 then
+    P_RandomSound(nil, actor.info.attacksound)
+  else
+    P_RandomSound(actor, actor.info.attacksound);
 end;
 
 procedure A_RandomDeathSound(actor: Pmobj_t);
 begin
-  P_RandomSound(actor, actor.info.deathsound);
+  if actor.flags2_ex and MF2_EX_FULLVOLDEATH <> 0 then
+    P_RandomSound(nil, actor.info.deathsound)
+  else
+    P_RandomSound(actor, actor.info.deathsound);
 end;
 
 procedure A_RandomActiveSound(actor: Pmobj_t);
 begin
-  P_RandomSound(actor, actor.info.activesound);
+  if actor.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0 then
+    P_RandomSound(nil, actor.info.activesound)
+  else
+    P_RandomSound(actor, actor.info.activesound);
 end;
 
 procedure A_RandomCustomSound1(actor: Pmobj_t);
@@ -2836,7 +2855,7 @@ begin
   end;
   if mobj_no = -1 then
   begin
-    I_Warning('A_TargetDropItem(): Unknown item %s'#13#10, [actor.state.params.StrVal[0]]);
+    I_Warning('A_SetDropItem(): Unknown item %s'#13#10, [actor.state.params.StrVal[0]]);
     exit;
   end;
 

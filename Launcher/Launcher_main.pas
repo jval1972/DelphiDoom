@@ -1330,7 +1330,7 @@ begin
       QuickConfigureEasyStart(idx);
   end
   else
-    MessageBeep(0);
+    MessageBox(Handle, 'Please select game/WAD', PChar(Application.Title), MB_OK or MB_ICONEXCLAMATION);
 end;
 
 procedure TForm1.UpdateFromListView;

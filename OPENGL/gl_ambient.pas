@@ -1,8 +1,36 @@
+//------------------------------------------------------------------------------
+//
+//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 2004-2017 by Jim Valavanis
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+//
+//------------------------------------------------------------------------------
+//  E-Mail: jimmyvalavanis@yahoo.gr
+//  Site  : http://sourceforge.net/projects/delphidoom/
+//------------------------------------------------------------------------------
+
+{$I Doom32.inc}
+
 unit gl_ambient;
 
 interface
 
-procedure gld_AmbientInit;
+procedure gld_InitAmbient;
 
 procedure gld_AmbientDone;
 
@@ -50,10 +78,10 @@ begin
       else if y >= SCREENHEIGHT then
         x := SCREENHEIGHT - 1;
       glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, @f);
-      l := Round(256 * (1 - f) * 255);
+      l := Round((f * f * f) * 255);
       if l > 255 then
         l := 255;
-      b := 64;
+      b := 192;
       b2 := l div 2;
       pw^ := b2 + b2 shl 8 + b2 shl 16 + b shl 24;
       Inc(pw);
@@ -65,18 +93,20 @@ begin
   glBindTexture(GL_TEXTURE_2D, tex);
   glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, AMBIENTPRECISION, AMBIENTPRECISION, GL_RGBA, GL_UNSIGNED_BYTE, ambient_tex.GetImage);
 
+  glDisable(GL_ALPHA_TEST);
   glBegin(GL_TRIANGLE_STRIP);
     glTexCoord2f(0.0, 0.0); glVertex2f(0.0, SCREENHEIGHT);
     glTexCoord2f(0.0, 1.0); glVertex2f(SCREENWIDTH, SCREENHEIGHT);
     glTexCoord2f(1.0, 0.0); glVertex2f(0.0, 0.0);
     glTexCoord2f(1.0, 1.0); glVertex2f(SCREENWIDTH, 0);
   glEnd;
+  glEnable(GL_ALPHA_TEST);
 
   glAlphaFunc(GL_GEQUAL, 0.5);
 
 end;
 
-procedure gld_AmbientInit;
+procedure gld_InitAmbient;
 begin
   xstep := SCREENWIDTH / (AMBIENTPRECISION - 1);
   ystep := SCREENHEIGHT / (AMBIENTPRECISION - 1);

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -564,7 +564,7 @@ begin
 
     actor.movedir := Ord(DI_NODIR);
     result := false;
-    while numspechit <> 0 do
+    while numspechit > 0 do
     begin
       dec(numspechit);
       ld := spechit[numspechit];
@@ -1073,7 +1073,7 @@ begin
 
   // make active sound
   if P_Random < 3 then
-    A_ActiveSound(actor, actor);
+    A_ActiveSound(actor);
 end;
 
 procedure A_Chase(actor: Pmobj_t);
@@ -1100,7 +1100,7 @@ end;
 
 procedure A_Pain(actor: Pmobj_t);
 begin
-  A_PainSound(actor, actor);
+  A_PainSound(actor);
 end;
 
 //----------------------------------------------------------------------------
@@ -1200,7 +1200,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
   if P_CheckMeleeRange(actor) then
     P_DamageMobj(actor.target, actor, actor, 5 + (P_Random and 7));
 end;
@@ -1225,7 +1225,7 @@ begin
 
   dest := actor.target;
   actor.flags := actor.flags or MF_SKULLFLY;
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
   A_FaceTarget(actor);
   an := actor.angle  shr ANGLETOFINESHIFT;
   actor.momx := FixedMul(12 * FRACUNIT, finecosine[an]);
@@ -1250,7 +1250,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
   if P_CheckMeleeRange(actor) then
   begin
     P_DamageMobj(actor.target, actor, actor, 5 + (P_Random and 7));
@@ -1461,7 +1461,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   if P_CheckMeleeRange(actor) then
   begin
@@ -1569,7 +1569,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   if P_CheckMeleeRange(actor) then
   begin
@@ -1703,7 +1703,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   if P_CheckMeleeRange(actor) then
   begin
@@ -2027,7 +2027,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   if P_CheckMeleeRange(actor) then
     P_DamageMobj(actor.target, actor, actor, HITDICE(3))
@@ -2208,7 +2208,7 @@ begin
     exit;
   end;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   A_FaceTarget(actor);
   P_SpawnMissile(actor, actor.target, missiletype);
@@ -2243,7 +2243,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   if P_CheckMeleeRange(actor) then
   begin
@@ -2293,7 +2293,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   if P_CheckMeleeRange(actor) then
   begin

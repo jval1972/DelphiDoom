@@ -53,7 +53,45 @@ procedure MT_Execute(
   const func2: threadfunc_t; const parms2: pointer;
   const func3: threadfunc_t = nil; const parms3: pointer = nil;
   const func4: threadfunc_t = nil; const parms4: pointer = nil
-  );
+  ); overload;
+
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t = nil; const parms6: pointer = nil;
+  const func7: threadfunc_t = nil; const parms7: pointer = nil;
+  const func8: threadfunc_t = nil; const parms8: pointer = nil
+  ); overload;
+
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer;
+  const func9: threadfunc_t; const parms9: pointer;
+  const func10: threadfunc_t = nil; const parms10: pointer = nil;
+  const func11: threadfunc_t = nil; const parms11: pointer = nil;
+  const func12: threadfunc_t = nil; const parms12: pointer = nil;
+  const func13: threadfunc_t = nil; const parms13: pointer = nil;
+  const func14: threadfunc_t = nil; const parms14: pointer = nil;
+  const func15: threadfunc_t = nil; const parms15: pointer = nil;
+  const func16: threadfunc_t = nil; const parms16: pointer = nil;
+  const func17: threadfunc_t = nil; const parms17: pointer = nil
+  ); overload;
+
+type
+  mt_range_t = record
+    start, finish: integer;
+  end;
+
+  mt_range_p = ^mt_range_t;
 
 implementation
 
@@ -74,7 +112,7 @@ var
 
 // JVAL: Execute code threads
 const
-  NUMEXECTHREADS = 4;
+  NUMEXECTHREADS = 16;
 
 var
   exec_threads: array[0..NUMEXECTHREADS - 1] of TDThread;
@@ -102,6 +140,7 @@ var
   sz: integer;
   dst: pointer;
   i: integer;
+  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -109,11 +148,17 @@ begin
     exit;
   end;
 
-  sz := (count0 div numgpthreads) and not 7;
+  threadsuse := count0 div 1024;
+  if threadsuse < 2 then
+    threadsuse := 2
+  else if threadsuse > numgpthreads then
+    threadsuse := numgpthreads;
+
+  sz := (count0 div threadsuse) and not 7;
   dst := dest0;
-  for i := 0 to numgpthreads - 1 do
+  for i := 0 to threadsuse - 1 do
   begin
-    if i = numgpthreads - 1 then
+    if i = threadsuse - 1 then
       ZeroMemory(dst, count0 - i * sz)
     else
     begin
@@ -123,7 +168,7 @@ begin
       dst := pointer(integer(dst) + sz);
     end;
   end;
-  for i := 0 to numgpthreads - 2 do
+  for i := 0 to threadsuse - 2 do
     gp_threads[i].Wait;
 end;
 
@@ -158,6 +203,7 @@ var
   sz: integer;
   dst: pointer;
   i: integer;
+  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -165,11 +211,17 @@ begin
     exit;
   end;
 
-  sz := (count0 div numgpthreads) and not 7;
+  threadsuse := count0 div 1024;
+  if threadsuse < 2 then
+    threadsuse := 2
+  else if threadsuse > numgpthreads then
+    threadsuse := numgpthreads;
+
+  sz := (count0 div threadsuse) and not 7;
   dst := dest0;
-  for i := 0 to numgpthreads - 1 do
+  for i := 0 to threadsuse - 1 do
   begin
-    if i = numgpthreads - 1 then
+    if i = threadsuse - 1 then
       memset(dst, val, count0 - i * sz)
     else
     begin
@@ -180,7 +232,7 @@ begin
       dst := pointer(integer(dst) + sz);
     end;
   end;
-  for i := 0 to numgpthreads - 2 do
+  for i := 0 to threadsuse - 2 do
     gp_threads[i].Wait;
 end;
 
@@ -190,6 +242,7 @@ var
   sz, sz4: integer;
   dst: pointer;
   i: integer;
+  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -197,12 +250,18 @@ begin
     exit;
   end;
 
-  sz := (count0 div numgpthreads) and not 7;
+  threadsuse := count0 div 1024;
+  if threadsuse < 2 then
+    threadsuse := 2
+  else if threadsuse > numgpthreads then
+    threadsuse := numgpthreads;
+
+  sz := (count0 div threadsuse) and not 7;
   sz4 := sz * 4;
   dst := dest0;
-  for i := 0 to numgpthreads - 1 do
+  for i := 0 to threadsuse - 1 do
   begin
-    if i = numgpthreads - 1 then
+    if i = threadsuse - 1 then
       memseti(dst, val, count0 - i * sz)
     else
     begin
@@ -213,7 +272,7 @@ begin
       dst := pointer(integer(dst) + sz4);
     end;
   end;
-  for i := 0 to numgpthreads - 2 do
+  for i := 0 to threadsuse - 2 do
     gp_threads[i].Wait;
 end;
 
@@ -238,6 +297,7 @@ var
   sz: integer;
   dst, src: pointer;
   i: integer;
+  threadsuse: integer;
 begin
   if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
   begin
@@ -245,12 +305,18 @@ begin
     exit;
   end;
 
-  sz := (count0 div numgpthreads) and not 7;
+  threadsuse := count0 div 1024;
+  if threadsuse < 2 then
+    threadsuse := 2
+  else if threadsuse > numgpthreads then
+    threadsuse := numgpthreads;
+
+  sz := (count0 div threadsuse) and not 7;
   dst := dest0;
   src := src0;
-  for i := 0 to numgpthreads - 1 do
+  for i := 0 to threadsuse - 1 do
   begin
-    if i = numgpthreads - 1 then
+    if i = threadsuse - 1 then
       memcpy(dst, src, count0 - i * sz)
     else
     begin
@@ -262,7 +328,7 @@ begin
       src := pointer(integer(src) + sz);
     end;
   end;
-  for i := 0 to numgpthreads - 2 do
+  for i := 0 to threadsuse - 2 do
     gp_threads[i].Wait;
 end;
 
@@ -293,6 +359,9 @@ begin
   mt_initialized := false;
 end;
 
+var
+  mt_execute_fetched: boolean = False;
+
 procedure MT_Execute(
   const func1: threadfunc_t; const parms1: pointer;
   const func2: threadfunc_t; const parms2: pointer;
@@ -303,6 +372,11 @@ var
   nt: integer;
   i: integer;
 begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
   nt := 0;
   if @func2 <> nil then
   begin
@@ -325,6 +399,190 @@ begin
     func1(parms1);
   for i := 0 to nt - 1 do
     exec_threads[i].Wait;
+  mt_execute_fetched := False;
 end;
+
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t = nil; const parms6: pointer = nil;
+  const func7: threadfunc_t = nil; const parms7: pointer = nil;
+  const func8: threadfunc_t = nil; const parms8: pointer = nil
+  );
+var
+  nt: integer;
+  i: integer;
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  nt := 0;
+  if @func2 <> nil then
+  begin
+    exec_threads[nt].Activate(func2, parms2);
+    inc(nt);
+  end;
+  if @func3 <> nil then
+  begin
+    exec_threads[nt].Activate(func3, parms3);
+    inc(nt);
+  end;
+  if @func4 <> nil then
+  begin
+    exec_threads[nt].Activate(func4, parms4);
+    inc(nt);
+  end;
+  if @func5 <> nil then
+  begin
+    exec_threads[nt].Activate(func5, parms5);
+    inc(nt);
+  end;
+  if @func6 <> nil then
+  begin
+    exec_threads[nt].Activate(func6, parms6);
+    inc(nt);
+  end;
+  if @func7 <> nil then
+  begin
+    exec_threads[nt].Activate(func7, parms7);
+    inc(nt);
+  end;
+  if @func8 <> nil then
+  begin
+    exec_threads[nt].Activate(func8, parms8);
+    inc(nt);
+  end;
+  if @func1 = nil then
+    I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
+  else
+    func1(parms1);
+  for i := 0 to nt - 1 do
+    exec_threads[i].Wait;
+  mt_execute_fetched := False;
+end;
+
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer;
+  const func9: threadfunc_t; const parms9: pointer;
+  const func10: threadfunc_t = nil; const parms10: pointer = nil;
+  const func11: threadfunc_t = nil; const parms11: pointer = nil;
+  const func12: threadfunc_t = nil; const parms12: pointer = nil;
+  const func13: threadfunc_t = nil; const parms13: pointer = nil;
+  const func14: threadfunc_t = nil; const parms14: pointer = nil;
+  const func15: threadfunc_t = nil; const parms15: pointer = nil;
+  const func16: threadfunc_t = nil; const parms16: pointer = nil;
+  const func17: threadfunc_t = nil; const parms17: pointer = nil
+  );
+var
+  nt: integer;
+  i: integer;
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  nt := 0;
+  if @func2 <> nil then
+  begin
+    exec_threads[nt].Activate(func2, parms2);
+    inc(nt);
+  end;
+  if @func3 <> nil then
+  begin
+    exec_threads[nt].Activate(func3, parms3);
+    inc(nt);
+  end;
+  if @func4 <> nil then
+  begin
+    exec_threads[nt].Activate(func4, parms4);
+    inc(nt);
+  end;
+  if @func5 <> nil then
+  begin
+    exec_threads[nt].Activate(func5, parms5);
+    inc(nt);
+  end;
+  if @func6 <> nil then
+  begin
+    exec_threads[nt].Activate(func6, parms6);
+    inc(nt);
+  end;
+  if @func7 <> nil then
+  begin
+    exec_threads[nt].Activate(func7, parms7);
+    inc(nt);
+  end;
+  if @func8 <> nil then
+  begin
+    exec_threads[nt].Activate(func8, parms8);
+    inc(nt);
+  end;
+  if @func9 <> nil then
+  begin
+    exec_threads[nt].Activate(func9, parms9);
+    inc(nt);
+  end;
+  if @func10 <> nil then
+  begin
+    exec_threads[nt].Activate(func10, parms10);
+    inc(nt);
+  end;
+  if @func11 <> nil then
+  begin
+    exec_threads[nt].Activate(func11, parms11);
+    inc(nt);
+  end;
+  if @func12 <> nil then
+  begin
+    exec_threads[nt].Activate(func12, parms12);
+    inc(nt);
+  end;
+  if @func13 <> nil then
+  begin
+    exec_threads[nt].Activate(func13, parms13);
+    inc(nt);
+  end;
+  if @func14 <> nil then
+  begin
+    exec_threads[nt].Activate(func14, parms14);
+    inc(nt);
+  end;
+  if @func15 <> nil then
+  begin
+    exec_threads[nt].Activate(func15, parms15);
+    inc(nt);
+  end;
+  if @func16 <> nil then
+  begin
+    exec_threads[nt].Activate(func16, parms16);
+    inc(nt);
+  end;
+  if @func17 <> nil then
+  begin
+    exec_threads[nt].Activate(func17, parms17);
+    inc(nt);
+  end;
+  if @func1 = nil then
+    I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
+  else
+    func1(parms1);
+  for i := 0 to nt - 1 do
+    exec_threads[i].Wait;
+  mt_execute_fetched := False;
+end;
+
 
 end.

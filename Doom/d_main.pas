@@ -291,6 +291,10 @@ begin
 end;
 
 procedure D_RenderPlayerView(player: Pplayer_t);
+{$IFNDEF OPENGL}
+var
+  stime: extended;
+{$ENDIF}
 begin
   if norender then
   begin
@@ -301,7 +305,8 @@ begin
 {$IFNDEF OPENGL}
   if hom then
   begin
-    if round(I_GetSysTime) = Trunc(I_GetSysTime) then
+    stime := I_GetSysTime;
+    if round(stime) = Trunc(stime) then
       R_PlayerViewBlanc(aprox_black)
     else
       R_PlayerViewBlanc(aprox_red);
@@ -754,7 +759,7 @@ begin
       begin
         G_DeferedPlayDemo('3');
       end;
-        // THE DEFINITIVE DOOM Special Edition demo
+    // THE DEFINITIVE DOOM Special Edition demo
     6:
       begin
         G_DeferedPlayDemo('4');

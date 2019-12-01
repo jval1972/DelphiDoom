@@ -202,6 +202,7 @@ implementation
 uses
   i_system,
   t_pcx,
+  t_patch,
   w_wad;
 
 {$IFNDEF FPC}
@@ -543,6 +544,7 @@ begin
       else if inHIRES then
       begin
         Seek(F, wadlump.filepos);
+        ZeroMemory(@b4, SizeOf(b4));
         BlockRead(F, b4, 128, N);
         if (b4[0] = 0) and (b4[1] = 0) and (b4[2] = 2) and (b4[3] = 0) then // TGA
           AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.TGA', Fn)
@@ -553,7 +555,10 @@ begin
         else if (b4[6] = $4A) and (b4[7] = $46) and (b4[8] = $49) and (b4[9] = $46) then // JPEG
           AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.JPG', Fn)
         else if (N >= 128) and T_IsValidPCXHeader(@b4) then // PCX detection
-          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PCX', Fn);
+          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PCX', Fn)
+        else if (N >= 4) and T_IsValidPatchImage(f, wadlump.filepos, wadlump.size) then
+          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PATCH', Fn);
+
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end;
     end;

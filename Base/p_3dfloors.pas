@@ -337,60 +337,9 @@ end;
 
 procedure P_3dFloorSetupSegs;
 var
-  i, j: integer;
-  e, f: integer;
-  neighbors: PBooleanArray;
-  b: boolean;
-  s1, s2: Psector_t;
+  i: integer;
   s, sec: integer;
 begin
-  for i := 0 to numsectors - 1 do
-  begin
-    sectors[i].numssector := 0;
-    for j := 0 to numsubsectors - 1 do
-      if subsectors[j].sector = @sectors[i] then
-        Inc(sectors[i].numssector);
-  end;
-
-  neighbors := mallocz(numsectors * SizeOf(boolean));
-  for  j := numsubsectors - 1 downto 0 do
-    if subsectors[j].sector.numssector > 2 then
-    begin
-      for i := j - 1 downto 0 do
-        if (j <> i) and (subsectors[j].sector = subsectors[i].sector) then
-          for e := subsectors[j].firstline + subsectors[j].numlines - 1 downto subsectors[j].firstline do
-            for f := subsectors[i].firstline + subsectors[i].numlines - 1 downto subsectors[i].firstline do
-              if not segs[e].miniseg then
-                if segs[e].linedef = segs[f].linedef then
-                  neighbors[segs[e].linedef.frontsector.iSectorID] := true;
-    end;
-
-  for i := numsectors - 1 downto 0 do
-  begin
-    b := True;
-    if neighbors[i] then
-    begin
-      s1 := @sectors[i];
-      for j := s1.linecount - 1 downto 0 do
-      begin
-        s2 := getNextSector(s1.lines[j], s1);
-        if s2 <> nil then
-          b := b and (not neighbors[s2.iSectorID] or (s2.numssector > s1.numssector));
-      end;
-      neighbors[i] := not b;
-    end;
-  end;
-
-  for i := numsegs - 1 downto 1 do
-  begin
-    if segs[i].miniseg then
-      segs[i].diffloor := false
-    else if not segs[i - 1].miniseg then
-      segs[i].diffloor := not (neighbors[segs[i].frontsector.iSectorID] and (segs[i - 1].frontsector = segs[i].frontsector));
-  end;
-
-  memfree(pointer(neighbors), numsectors * SizeOf(boolean));
-
   for i := 0 to numlines - 1 do
   begin
     case lines[i].special of

@@ -1,6 +1,6 @@
 object StartUpConsoleForm: TStartUpConsoleForm
-  Left = 778
-  Top = 339
+  Left = 328
+  Top = 151
   Cursor = crHourGlass
   BorderIcons = []
   BorderStyle = bsSingle
@@ -83,5 +83,33 @@ object StartUpConsoleForm: TStartUpConsoleForm
     Smooth = True
     TabOrder = 3
     Visible = False
+  end
+  object NetPanel: TPanel
+    Left = 175
+    Top = 112
+    Width = 222
+    Height = 65
+    Cursor = crArrow
+    Caption = ' '
+    TabOrder = 4
+    Visible = False
+    object NetMsgLabel: TLabel
+      Left = 8
+      Top = 8
+      Width = 181
+      Height = 16
+      Cursor = crArrow
+      Caption = 'listening for network start info...'
+    end
+    object AbortNetButton: TButton
+      Left = 72
+      Top = 32
+      Width = 75
+      Height = 25
+      Cursor = crHandPoint
+      Caption = 'Abort'
+      TabOrder = 0
+      OnClick = AbortNetButtonClick
+    end
   end
 end

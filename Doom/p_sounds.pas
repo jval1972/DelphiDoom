@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -90,7 +90,10 @@ end;
 
 procedure A_PainSound(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+  if (actor._type = Ord(MT_SPIDER)) or
+     (actor._type = Ord(MT_CYBORG)) or
+     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.info.flags2_ex and MF2_EX_FULLVOLPAIN <> 0) then
     A_PainSound(actor, nil)
   else
     A_PainSound(actor, actor);
@@ -109,7 +112,10 @@ end;
 
 procedure A_AttackSound(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+  if (actor._type = Ord(MT_SPIDER)) or
+     (actor._type = Ord(MT_CYBORG)) or
+     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.info.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
     A_AttackSound(actor, nil)
   else
     A_AttackSound(actor, actor);
@@ -128,7 +134,10 @@ end;
 
 procedure A_MeleeSound(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+  if (actor._type = Ord(MT_SPIDER)) or
+     (actor._type = Ord(MT_CYBORG)) or
+     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.info.flags2_ex and MF2_EX_FULLVOLATTACK <> 0) then
     A_MeleeSound(actor, nil)
   else
     A_MeleeSound(actor, actor);
@@ -147,7 +156,10 @@ end;
 
 procedure A_DeathSound(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+  if (actor._type = Ord(MT_SPIDER)) or
+     (actor._type = Ord(MT_CYBORG)) or
+     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.info.flags2_ex and MF2_EX_FULLVOLDEATH <> 0) then
     A_DeathSound(actor, nil)
   else
     A_DeathSound(actor, actor);
@@ -166,10 +178,14 @@ end;
 
 procedure A_ActiveSound(actor: Pmobj_t);
 begin
-  if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
+  if (actor._type = Ord(MT_SPIDER)) or
+     (actor._type = Ord(MT_CYBORG)) or
+     (actor.info.flags_ex and MF_EX_BOSS <> 0) or
+     (actor.info.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
     A_ActiveSound(actor, nil)
   else
     A_ActiveSound(actor, actor);
 end;
 
 end.
+

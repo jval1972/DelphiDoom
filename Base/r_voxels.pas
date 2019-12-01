@@ -358,13 +358,26 @@ begin
   end;
 end;
 
-procedure R_OptimizeVoxelBuffer(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
+type
+  mt_struct1_t = record
+    voxelbuffer: voxelbuffer_p;
+    voxelsize: integer;
+    start, finish: integer;
+  end;
+
+  mt_struct1_p = ^mt_struct1_t;
+
+function _mt_prepare_optimize_voxel_buffer(r: mt_struct1_p): integer; stdcall;
 var
   xx, yy, zz: integer;
+  voxelsize: integer;
+  voxelbuffer: voxelbuffer_p;
 begin
+  voxelsize := r.voxelsize;
+  voxelbuffer := r.voxelbuffer;
   for xx := 1 to voxelsize - 2 do
     for yy := 1 to voxelsize - 2 do
-      for zz := 1 to voxelsize - 2 do
+      for zz := r.start to r.finish do
       begin
         if voxelbuffer[xx, yy, zz].color <> 0 then
           if (voxelbuffer[xx - 1, yy, zz].color <> 0) and
@@ -375,6 +388,54 @@ begin
              (voxelbuffer[xx, yy, zz + 1].color <> 0) then
           voxelbuffer[xx, yy, zz].skip := true;
       end;
+  Result := 0;
+end;
+
+procedure R_OptimizeVoxelBuffer(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
+var
+  xx, yy, zz: integer;
+  r1, r2, r3, r4: mt_struct1_t;
+begin
+  if not usemultithread or (voxelsize < 32) then
+  begin
+    for xx := 1 to voxelsize - 2 do
+      for yy := 1 to voxelsize - 2 do
+        for zz := 1 to voxelsize - 2 do
+        begin
+          if voxelbuffer[xx, yy, zz].color <> 0 then
+            if (voxelbuffer[xx - 1, yy, zz].color <> 0) and
+               (voxelbuffer[xx + 1, yy, zz].color <> 0) and
+               (voxelbuffer[xx, yy - 1, zz].color <> 0) and
+               (voxelbuffer[xx, yy + 1, zz].color <> 0) and
+               (voxelbuffer[xx, yy, zz - 1].color <> 0) and
+               (voxelbuffer[xx, yy, zz + 1].color <> 0) then
+            voxelbuffer[xx, yy, zz].skip := true;
+        end;
+  end
+  else
+  begin
+    r1.voxelbuffer := voxelbuffer;
+    r1.voxelsize := voxelsize;
+    r1.start := 1;
+    r1.finish := voxelsize div 4;
+    r2.voxelbuffer := voxelbuffer;
+    r2.voxelsize := voxelsize;
+    r2.start := r1.finish + 1;
+    r2.finish := voxelsize div 2;
+    r3.voxelbuffer := voxelbuffer;
+    r3.voxelsize := voxelsize;
+    r3.start := r2.finish + 1;
+    r3.finish := voxelsize div 2 + voxelsize div 4;
+    r4.voxelbuffer := voxelbuffer;
+    r4.voxelsize := voxelsize;
+    r4.start := r3.finish + 1;
+    r4.finish := voxelsize - 2;
+    MT_Execute(
+      @_mt_prepare_optimize_voxel_buffer, @r1,
+      @_mt_prepare_optimize_voxel_buffer, @r2,
+      @_mt_prepare_optimize_voxel_buffer, @r3,
+      @_mt_prepare_optimize_voxel_buffer, @r4);
+  end;
 
   for xx := 1 to voxelsize - 2 do
     for yy := 1 to voxelsize - 2 do
@@ -384,12 +445,39 @@ begin
 
 end;
 
+function _mt_prepare_voxel_columns(r: mt_struct1_p): integer; stdcall;
+var
+  xx, yy, zz: integer;
+  skip: boolean;
+  voxelsize: integer;
+  voxelbuffer: voxelbuffer_p;
+begin
+  voxelsize := r.voxelsize;
+  voxelbuffer := r.voxelbuffer;
+  for xx := r.start to r.finish - 1 do
+    for zz := 0 to voxelsize - 1 do
+    begin
+      skip := true;
+      for yy := 0 to voxelsize - 1 do
+        if voxelbuffer[xx, yy, zz].color <> 0 then
+        begin
+          skip := False;
+          break;
+        end;
+      voxelbuffer[xx, -1, zz].skip := skip;
+    end;
+  Result := 0;
+end;
+
 procedure R_PrepareVoxelColumns(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
 var
   xx, yy, zz: integer;
   skip: boolean;
+  r1, r2, r3, r4: mt_struct1_t;
 begin
-  for xx := 0 to voxelsize - 1 do
+  if not usemultithread or (voxelsize < 32) then
+  begin
+    for xx := 0 to voxelsize - 1 do
       for zz := 0 to voxelsize - 1 do
       begin
         skip := true;
@@ -401,6 +489,31 @@ begin
           end;
         voxelbuffer[xx, -1, zz].skip := skip;
       end;
+  end
+  else
+  begin
+    r1.voxelbuffer := voxelbuffer;
+    r1.voxelsize := voxelsize;
+    r1.start := 0;
+    r1.finish := voxelsize div 4;
+    r2.voxelbuffer := voxelbuffer;
+    r2.voxelsize := voxelsize;
+    r2.start := r1.finish + 1;
+    r2.finish := voxelsize div 2;
+    r3.voxelbuffer := voxelbuffer;
+    r3.voxelsize := voxelsize;
+    r3.start := r2.finish + 1;
+    r3.finish := voxelsize div 2 + voxelsize div 4;
+    r4.voxelbuffer := voxelbuffer;
+    r4.voxelsize := voxelsize;
+    r4.start := r3.finish + 1;
+    r4.finish := voxelsize - 1;
+    MT_Execute(
+      @_mt_prepare_voxel_columns, @r1,
+      @_mt_prepare_voxel_columns, @r2,
+      @_mt_prepare_voxel_columns, @r3,
+      @_mt_prepare_voxel_columns, @r4);
+  end;
 end;
 
 type
@@ -1362,7 +1475,7 @@ begin
     end;
     angleadd := spinang - angleadd;
 
-    rot := (R_PointToAngle(thing.x, thing.y) - thing.angle + angleadd + LongWord(ANG45 div 2) * 9) shr 29;
+    rot := (R_PointToAngleEx(thing.x, thing.y) - thing.angle + angleadd + LongWord(ANG45 div 2) * 9) shr 29;
 
     tr_x := thing.x - viewx;
     tr_y := thing.y - viewy;

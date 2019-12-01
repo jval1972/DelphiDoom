@@ -43,8 +43,6 @@ type
 
 function PS_LevelTime: integer;
 
-procedure PS_ConsoleCommand(const parm: string);
-
 procedure PS_Write(const parm: string);
 
 procedure PS_WriteFmt(const Fmt: string; const args: array of const);
@@ -99,6 +97,16 @@ function PS_MergeExtendedArrays(const A1, A2: TDynamicExtendedArray): TDynamicEx
 
 function PS_IsPrime(const N: Int64): Boolean;
 
+// --------------------------- CONSOLE -----------------------------------------
+
+procedure PS_ConsoleCommand(const parm: string);
+
+function PS_GetConsoleStr(const cvar: string): string;
+
+function PS_GetConsoleInt(const cvar: string): integer;
+
+function PS_GetConsoleBool(const cvar: string): boolean;
+
 implementation
 
 uses
@@ -107,17 +115,13 @@ uses
   c_con,
   i_io,
   i_system,
+  m_defs,
   p_tick,
   tables;
 
 function PS_LevelTime: integer;
 begin
   Result := leveltime;
-end;
-
-procedure PS_ConsoleCommand(const parm: string);
-begin
-  C_AddCommand(parm);
 end;
 
 procedure PS_Write(const parm: string);
@@ -349,6 +353,120 @@ begin
     end;
   end;
 end;
+
+procedure PS_ConsoleCommand(const parm: string);
+begin
+  C_AddCommand(parm);
+end;
+
+function PS_GetConsoleStr(const cvar: string): string;
+var
+  i: integer;
+  pd: Pdefault_t;
+  cname: string;
+begin
+  cname := strlower(cvar);
+
+  pd := @defaults[0];
+  for i := 0 to NUMDEFAULTS - 1 do
+  begin
+    if pd.name = cname then
+      case pd._type of
+        tString:
+          begin
+            Result := PString(pd.location)^;
+            Exit;
+          end;
+        tInteger:
+          begin
+            Result := itoa(PInteger(pd.location)^);
+            Exit;
+          end;
+        tBoolean:
+          begin
+            if PBoolean(pd.location)^ then
+              Result := 'true'
+            else
+              Result := 'false';
+            Exit;
+          end;
+    end;
+    inc(pd);
+  end;
+  Result := '';
+end;
+
+function PS_GetConsoleInt(const cvar: string): integer;
+var
+  i: integer;
+  pd: Pdefault_t;
+  cname: string;
+begin
+  cname := strlower(cvar);
+
+  pd := @defaults[0];
+  for i := 0 to NUMDEFAULTS - 1 do
+  begin
+    if pd.name = cname then
+      case pd._type of
+        tString:
+          begin
+            Result := atoi(PString(pd.location)^, 0);
+            Exit;
+          end;
+        tInteger:
+          begin
+            Result := PInteger(pd.location)^;
+            Exit;
+          end;
+        tBoolean:
+          begin
+            if PBoolean(pd.location)^ then
+              Result := 1
+            else
+              Result := 0;
+            Exit;
+          end;
+    end;
+    inc(pd);
+  end;
+  Result := 0;
+end;
+
+function PS_GetConsoleBool(const cvar: string): boolean;
+var
+  i: integer;
+  pd: Pdefault_t;
+  cname: string;
+begin
+  cname := strlower(cvar);
+
+  pd := @defaults[0];
+  for i := 0 to NUMDEFAULTS - 1 do
+  begin
+    if pd.name = cname then
+      case pd._type of
+        tString:
+          begin
+            Result := PString(pd.location)^ <> '';
+            Exit;
+          end;
+        tInteger:
+          begin
+            Result := PInteger(pd.location)^ <> 0;
+            Exit;
+          end;
+        tBoolean:
+          begin
+            Result := PBoolean(pd.location)^;
+            Exit;
+          end;
+    end;
+    inc(pd);
+  end;
+  Result := False;
+end;
+
 
 end.
 

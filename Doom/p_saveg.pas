@@ -83,7 +83,8 @@ uses
   info,
   i_tmp,
   i_system,
-  p_3dfloors,  // JVAL: 3d floors
+  p_3dfloors, // JVAL: 3d floors
+  p_local,    // JVAL: sector gravity (VERSION 204)
   p_pspr_h,
   p_setup,
   p_mobj_h,
@@ -145,7 +146,7 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer(pp: Pplayer_t): boolean;
+function P_UnArchiveOldPlayer122(pp: Pplayer_t): boolean;
 var
   p1: player_t122;
   p: Pplayer_t122;
@@ -238,7 +239,7 @@ begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
     end
-    else if not P_UnArchiveOldPlayer(@players[i]) then
+    else if not P_UnArchiveOldPlayer122(@players[i]) then
       I_Error('P_UnArchivePlayers(): Unsupported saved game version: %d', [savegameversion]);
 
     // will be set when unarc thinker
@@ -301,6 +302,9 @@ begin
     PInteger(put)^ := sec.midsec;
     put := @put[2];
     PInteger(put)^ := sec.midline;
+    put := @put[2];
+    // JVAL: sector gravity (VERSION 204)
+    PInteger(put)^ := sec.gravity;
     put := @put[2];
 
     PInteger(put)^ := sec.num_saffectees;
@@ -452,6 +456,14 @@ begin
       sec.midsec := -1;
       sec.midline := -1;
     end;
+    // JVAL: sector gravity (VERSION 204)
+    if savegameversion >= VERSION204 then
+    begin
+      sec.gravity := PInteger(get)^;
+      get := @get[2];
+    end
+    else
+      sec.gravity := GRAVITY;
 
     if savegameversion >= VERSION122 then
     begin
@@ -1042,6 +1054,7 @@ type
     tc_scroll,
     tc_friction,    // phares 3/18/98:  new friction effect thinker
     tc_pusher,      // phares 3/22/98:  new push/pull effect thinker
+    tc_fireflicker, // JVAL correct T_FireFlicker savegame bug
     tc_endspecials
   );
 
@@ -1072,6 +1085,7 @@ var
   scroll: Pscroll_t;
   friction: Pfriction_t;
   pusher: Ppusher_t;
+  flicker: Pfireflicker_t;
   i: integer;
 begin
   // save off the current thinkers
@@ -1224,8 +1238,19 @@ begin
       continue;
     end;
 
-  end;
+    if @th._function.acp1 = @T_FireFlicker then
+    begin
+      save_p[0] := Ord(tc_fireflicker);
+      save_p := @save_p[1];
+      PADSAVEP;
+      flicker := Pfireflicker_t(save_p);
+      memcpy(flicker, th, SizeOf(fireflicker_t));
+      incp(pointer(save_p), SizeOf(fireflicker_t));
+      flicker.sector := Psector_t(flicker.sector.iSectorID);
+      continue;
+    end;
 
+  end;
   // add a terminating marker
   save_p[0] := Ord(tc_endspecials);
   save_p := @save_p[1];
@@ -1250,6 +1275,7 @@ var
   scroll: Pscroll_t;
   friction: Pfriction_t;
   pusher: Ppusher_t;
+  flicker: Pfireflicker_t;
 begin
   // read in saved thinkers
   while true do
@@ -1445,7 +1471,7 @@ begin
 
       Ord(tc_pusher):
         begin
-          if savegameversion <= VERSION116 then // JVAL: tc_friction = old value of tc_endspecials
+          if savegameversion <= VERSION116 then // JVAL: tc_pusher = old value of tc_endspecials
             I_Error('P_UnarchiveSpecials(): Unknown tclass %d in savegame', [tclass]);
 
           PADSAVEP;
@@ -1457,7 +1483,19 @@ begin
           P_AddThinker(@pusher.thinker);
         end;
 
+      Ord(tc_fireflicker):
+        begin
+          if savegameversion <= VERSION203 then // JVAL: tc_fireflicker = old value of tc_endspecials
+            exit;
 
+          PADSAVEP;
+          flicker := Z_Malloc(SizeOf(fireflicker_t), PU_LEVEL, nil);
+          memcpy(flicker, save_p, SizeOf(fireflicker_t));
+          incp(pointer(save_p), SizeOf(fireflicker_t));
+          @flicker.thinker._function.acp1 := @T_FireFlicker;
+          flicker.sector := @sectors[integer(flicker.sector)];
+          P_AddThinker(@flicker.thinker);
+        end;
 
       else
         I_Error('P_UnarchiveSpecials(): Unknown tclass %d in savegame', [tclass]);

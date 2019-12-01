@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -34975,7 +34975,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_FW_AXE
     name: '';
@@ -35031,7 +35032,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_AXEPUFF_GLOW
     name: '';
@@ -35059,7 +35061,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_AXEBLOOD
     name: '';
@@ -35087,7 +35090,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH    
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_FW_HAMMER
     name: '';
@@ -35115,7 +35119,7 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0
   ),
   (    // MT_HAMMER_MISSILE
     name: '';
@@ -35171,7 +35175,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_FSWORD_MISSILE
     name: '';
@@ -35199,7 +35204,7 @@ const // Hexen Original mobjinfo
     damage: 8;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS
   ),
   (    // MT_FSWORD_FLAME
     name: '';
@@ -35227,7 +35232,7 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0
   ),
   (    // MT_CW_SERPSTAFF
     name: '';
@@ -35311,7 +35316,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_CW_FLAME
     name: '';
@@ -35395,7 +35401,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_FLAMEPUFF2
     name: '';
@@ -35423,7 +35430,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_CIRCLEFLAME
     name: '';
@@ -35563,7 +35571,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_HOLY_MISSILE
     name: '';
@@ -35619,7 +35628,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_MWANDPUFF
     name: '';
@@ -35647,7 +35657,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST    
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_MWANDSMOKE
     name: '';
@@ -35675,7 +35686,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST    
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_MWAND_MISSILE
     name: '';
@@ -35703,7 +35715,7 @@ const // Hexen Original mobjinfo
     damage: 2;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_RIP or MF2_IMPACT or MF2_PCROSS or MF2_NODMGTHRUST or MF2_CANNOTPUSH    
+    flags2: MF2_NOTELEPORT or MF2_RIP or MF2_IMPACT or MF2_PCROSS or MF2_NODMGTHRUST or MF2_CANNOTPUSH
   ),
   (    // MT_MW_LIGHTNING
     name: '';
@@ -35731,7 +35743,7 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0
   ),
   (    // MT_LIGHTNING_CEILING
     name: '';
@@ -36151,7 +36163,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_MW_CONE
     name: '';
@@ -37663,7 +37676,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SHADOW or MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_BISHOPBLUR
     name: '';
@@ -38783,7 +38797,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
   ),
   (    // MT_ICEGUY_FX2
     name: '';

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -408,6 +408,7 @@ var
   backceilingheight: fixed_t;
   x, y: fixed_t;  // JVAL: Slopes
   moside: integer;
+  picfloor3d: integer;
 begin
   if linedef.sidenum[1] = -1 then
   begin
@@ -450,11 +451,13 @@ begin
   begin
     openbottom := frontfloorheight;
     lowfloor := backfloorheight;
+    tmfloorpic := front.floorpic;
   end
   else
   begin
     openbottom := backfloorheight;
     lowfloor := frontfloorheight;
+    tmfloorpic := back.floorpic;
   end;
 
   // JVAL: 3d Floors
@@ -464,6 +467,7 @@ begin
     highestfloor := openbottom;
     lowestfloor := lowfloor;
     thingtop := tmthing.z + tmthing.height;
+    picfloor3d := tmfloorpic;
     if front.midsec >= 0 then
     begin
       mid := @sectors[front.midsec];
@@ -473,7 +477,10 @@ begin
       if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
         lowestceiling := mid.floorheight;
       if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
-        highestfloor := mid.ceilingheight
+      begin
+        highestfloor := mid.ceilingheight;
+        picfloor3d := mid.ceilingpic;
+      end
       else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
         lowestfloor := mid.ceilingheight;
     end;
@@ -486,12 +493,18 @@ begin
       if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
         lowestceiling := mid.floorheight;
       if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
-        highestfloor := mid.ceilingheight
+      begin
+        highestfloor := mid.ceilingheight;
+        picfloor3d := mid.ceilingpic;
+      end
       else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
         lowestfloor := mid.ceilingheight;
     end;
     if highestfloor > openbottom then
+    begin
       openbottom := highestfloor;
+      tmfloorpic := picfloor3d;
+    end;
     if lowestceiling < opentop then
       opentop := lowestceiling;
     if lowestfloor > lowfloor then

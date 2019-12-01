@@ -570,10 +570,6 @@ end;
 //
 procedure R_StoreSlopeRange(const start: integer; const stop: integer);
 var
-  hyp: fixed_t;
-  sineval: fixed_t;
-  distangle,
-  offsetangle: angle_t;
   lightnum: integer;
   lightnum2: integer; // JVAL: 3d Floors
   pds: Pdrawseg_t;
@@ -606,19 +602,8 @@ begin
 
   // calculate rw_distance for scale calculation
   rw_normalangle := curline.angle + ANG90;
-  offsetangle := abs(rw_normalangle - rw_angle1);
-  {$IFDEF FPC}
-  PInteger(@offsetangle)^ := abs(PInteger(@offsetangle)^);
-  {$ENDIF}
 
-  if offsetangle > ANG90 then
-    offsetangle := ANG90;
-
-  distangle := ANG90 - offsetangle;
-
-  hyp := R_PointToDist(curline.v1.x, curline.v1.y);
-  sineval := finesine[distangle shr ANGLETOFINESHIFT];
-  rw_distance := FixedMulEx(hyp, sineval);
+  rw_distance := R_DistToSeg(curline);
 
   rw_x := start;
   pds.x1 := rw_x;
@@ -651,21 +636,7 @@ begin
     R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop], overflow);
   pds.use_double := overflow;
 
-  offsetangle := rw_normalangle - rw_angle1;
-
-  if offsetangle > ANG180 then
-    offsetangle := LongWord($ffffffff) - offsetangle + 1;
-
-  if offsetangle > ANG90 then
-    offsetangle := ANG90;
-
- {$IFDEF FPC}
-  sineval := finesine[_SHRW(offsetangle, ANGLETOFINESHIFT)];
- {$ELSE}
-  sineval := finesine[offsetangle shr ANGLETOFINESHIFT];
-  {$ENDIF}
-
-  rw_offset := FixedMul(hyp, sineval);
+  rw_offset := R_CalcSegOffset(curline);
 
   if LongWord(rw_normalangle - rw_angle1) < ANG180 then
     rw_offset := -rw_offset;
@@ -1123,16 +1094,16 @@ begin
         if videomode = vm32bit then
         begin
           if optimizedcolumnrendering then
-            R_RenderSegLoop32Optimized_dbl
+            R_RenderSegLoop32Optimized
           else
-            R_RenderSegLoop32_dbl;
+            R_RenderSegLoop32;
         end
         else
         begin
           if optimizedcolumnrendering then
-            R_RenderSegLoop8Optimized_dbl
+            R_RenderSegLoop8Optimized
           else
-            R_RenderSegLoop8_dbl;
+            R_RenderSegLoop8;
         end;
       end;
     end;

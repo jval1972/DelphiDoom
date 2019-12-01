@@ -433,6 +433,7 @@ begin
       result := 3
     else
       result := 2;
+    printf('gld_GetGLNodesVersion(): GL v%d nodes found.'#13#10, [result]);
     Z_ChangeTag(data, PU_CACHE);
     exit;
   end;
@@ -441,6 +442,7 @@ begin
   begin
     Z_ChangeTag(data, PU_CACHE);
     result := 4;
+    printf('gld_GetGLNodesVersion(): GL v%d nodes found.'#13#10, [result]);
     exit;
   end;
 
@@ -448,6 +450,7 @@ begin
   begin
     Z_ChangeTag(data, PU_CACHE);
     result := 5;
+    printf('gld_GetGLNodesVersion(): GL v%d nodes found.'#13#10, [result]);
     exit;
   end;
 
@@ -4427,6 +4430,8 @@ begin
     glnodesver := 5
   else
     glnodesver := 0;
+
+  printf('TGWAFile.Create(): GL v%d nodes found.'#13#10, [glnodesver]);
 
   for i := 0 to h.numlumps - 1 do
   begin

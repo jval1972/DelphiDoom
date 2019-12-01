@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -744,7 +744,7 @@ begin
     end;
     actor.movedir := Ord(DI_NODIR);
     good := false;
-    while numspechit <> 0 do
+    while numspechit > 0 do
     begin
       dec(numspechit);
       ld := spechit[numspechit];
@@ -1212,7 +1212,7 @@ begin
   // check for melee attack
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
-    A_AttackSound(actor, actor);
+    A_AttackSound(actor);
     P_SetMobjState(actor, statenum_t(actor.info.meleestate));
     exit;
   end;
@@ -1256,7 +1256,7 @@ begin
   begin
     if (actor._type = Ord(MT_BISHOP)) and (P_Random < 128) then
     begin
-      A_SeeSound(actor, actor);
+      A_SeeSound(actor);
     end
     else if actor._type = Ord(MT_PIG) then
     begin
@@ -1295,7 +1295,7 @@ end;
 
 procedure A_Pain(actor: Pmobj_t);
 begin
-  A_PainSound(actor, actor);
+  A_PainSound(actor);
 end;
 
 //----------------------------------------------------------------------------
@@ -1697,7 +1697,7 @@ begin
   // Melee attack
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
-    A_AttackSound(actor, actor);
+    A_AttackSound(actor);
     P_SetMobjState(actor, statenum_t(actor.info.meleestate));
     exit;
   end;
@@ -1715,7 +1715,7 @@ begin
 
   // Active sound
   if P_Random < 6 then
-    A_ActiveSound(actor, actor);
+    A_ActiveSound(actor);
 
 end;
 
@@ -1920,7 +1920,7 @@ begin
   begin
     if Pplayer_t(actor.player).morphTics <> 0 then
     begin
-      A_DeathSound(actor, actor);
+      A_DeathSound(actor);
     end
     else
     begin
@@ -1974,7 +1974,7 @@ begin
   end
   else
   begin
-    A_DeathSound(actor, actor);
+    A_DeathSound(actor);
   end;
 end;
 
@@ -2415,7 +2415,7 @@ begin
 //
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
-    A_AttackSound(actor, actor);
+    A_AttackSound(actor);
     P_SetMobjState (actor, statenum_t(actor.info.meleestate));
     exit;
   end;
@@ -2447,7 +2447,7 @@ begin
 // make active sound
 //
   if P_Random < 3 then
-    A_ActiveSound(actor, actor);
+    A_ActiveSound(actor);
 end;
 
 //----------------------------------------------------------------------------
@@ -2604,7 +2604,7 @@ begin
 //
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
-    A_AttackSound(actor, actor);
+    A_AttackSound(actor);
     P_SetMobjState(actor, S_SERPENT_ATK1);
     exit;
   end;
@@ -2903,7 +2903,7 @@ begin
   if actor.target = nil then
     exit;
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   if P_CheckMeleeRange(actor) then
     P_DamageMobj(actor.target, actor, actor, HITDICE(4))
@@ -3276,7 +3276,7 @@ begin
   if P_Random < 240 then
     S_StartSound(actor, Ord(SFX_DRAGON_WINGFLAP))
   else
-    A_ActiveSound(actor, actor)
+    A_ActiveSound(actor)
 end;
 
 //----------------------------------------------------------------------------
@@ -3917,7 +3917,7 @@ begin
 
   // make active sound
   if P_Random < 3 then
-    A_ActiveSound(actor, actor);
+    A_ActiveSound(actor);
 end;
 
 procedure A_FiredSplotch(actor: Pmobj_t);
@@ -4024,7 +4024,7 @@ begin
                     actor, actor.target,
                     Ord(MT_ICEGUY_FX));
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 end;
 
 //----------------------------------------------------------------------------
@@ -4676,7 +4676,7 @@ end;
 procedure A_SorcererBishopEntry(actor: Pmobj_t);
 begin
   P_SpawnMobj(actor.x, actor.y, actor.z, Ord(MT_SORCFX3_EXPLOSION));
-  A_SeeSound(actor, actor);
+  A_SeeSound(actor);
 end;
 
 

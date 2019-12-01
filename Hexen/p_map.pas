@@ -147,7 +147,7 @@ var
 
   attackrange: fixed_t;
 
-// JVAL: 3d Floors move from implementation section to interface  
+// JVAL: 3d Floors move from implementation section to interface
 var
   tmthing: Pmobj_t;
   tmx: fixed_t; // JVAL: Slopes - move from implementation section to interface
@@ -161,6 +161,7 @@ uses
   g_game,
   info_h,
   info,
+  p_gravity,
   p_setup,
   p_maputl,
   p_inter,
@@ -1188,23 +1189,23 @@ begin
   else if (mo.flags2 and MF2_LOGRAV <> 0) or (mo.flags_ex and MF_EX_LOWGRAVITY <> 0) then
   begin
     if mo.momz = 0 then
-      mo.momz := -(GRAVITY div 8) * 2
+      mo.momz := -(P_GetMobjGravity(mo) div 8) * 2
     else
-      mo.momz := mo.momz - GRAVITY div 8;
+      mo.momz := mo.momz - P_GetMobjGravity(mo) div 8;
   end
   else if mo.flags and MF_NOGRAVITY = 0 then
   begin
     if mo.momz = 0 then
-      mo.momz := -GRAVITY * 2
+      mo.momz := -P_GetMobjGravity(mo) * 2
     else
-      mo.momz := mo.momz - GRAVITY;
+      mo.momz := mo.momz - P_GetMobjGravity(mo);
   end
   else if mo.flags2_ex and MF2_EX_MEDIUMGRAVITY <> 0 then
   begin
     if mo.momz = 0 then
-      mo.momz := -(GRAVITY div 8) * 4
+      mo.momz := -(P_GetMobjGravity(mo) div 8) * 4
     else
-      mo.momz := mo.momz - GRAVITY div 4;
+      mo.momz := mo.momz - P_GetMobjGravity(mo) div 4;
   end;
 
   if mo.z + mo.height > mo.ceilingz then
@@ -1362,6 +1363,7 @@ var
   oldfloorz: fixed_t; // JVAL: Slopes
   oldsector: Psector_t; // JVAL: Slopes
   oldonfloorz: boolean;
+  dropoffmargin: fixed_t; // JVAL: Version 204
 
   procedure pushline;
   var
@@ -1468,13 +1470,20 @@ begin
       exit;
     end;
 
+    // JVAL: Version 204
+    if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
+      dropoffmargin := 144 * FRACUNIT
+    else
+      dropoffmargin := 24 * FRACUNIT;
+
     if (thing.flags and (MF_DROPOFF or MF_FLOAT) = 0) and
-       (tmfloorz - tmdropoffz > 24 * FRACUNIT) and
+       (tmfloorz - tmdropoffz > dropoffmargin) and
        (thing.flags2 and MF2_BLASTED = 0) then
     begin // Can't move over a dropoff unless it's been blasted
       result := false;
       exit;
     end;
+
     if (thing.flags2 and MF2_CANTLEAVEFLOORPIC <> 0) and
        ((tmfloorpic <> Psubsector_t(thing.subsector).sector.floorpic) or
          (tmfloorz - thing.z <> 0)) then

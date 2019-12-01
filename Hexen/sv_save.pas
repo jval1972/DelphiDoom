@@ -82,6 +82,7 @@ uses
   g_game,
   a_action,
   p_3dfloors,
+  p_local,
   p_mobj_h,
   p_floor,
   p_setup,
@@ -851,6 +852,7 @@ begin
     StreamOutLongWord(sec.flags);
     StreamOutLong(sec.midsec);
     StreamOutLong(sec.midline);
+    StreamOutLong(sec.gravity);
     StreamOutLong(sec.num_saffectees);
     for j := 0 to sec.num_saffectees - 1 do
       StreamOutLong(sec.saffectees[j]);
@@ -929,6 +931,10 @@ begin
       sec.midsec := -1;
       sec.midline := -1;
     end;
+    if LOADVERSION >= VERSION204 then
+      sec.gravity := GET_LONGWORD
+    else
+      sec.gravity := GRAVITY;
     if LOADVERSION >= VERSION142 then
     begin
       sec.num_saffectees := GET_LONG;
@@ -1913,6 +1919,8 @@ begin
     LOADVERSION := VERSION142
   else if vstring = HXS_VERSION_TEXT_203 then
     LOADVERSION := VERSION203
+  else if vstring = HXS_VERSION_TEXT_204 then
+    LOADVERSION := VERSION204
   else
   begin // Bad version
     I_Warning('SV_LoadGame(): Game is from unsupported version'#13#10);

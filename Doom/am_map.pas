@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1287,14 +1287,14 @@ var
   tmpx: fixed_t;
   ang: fixed_t;
 begin
-  ang := a shr ANGLETOFINESHIFT;
+  ang := a shr FRACBITS;
   tmpx := xpos +
-    FixedMul(x^ - xpos, finecosine[ang]) -
-    FixedMul(y^ - ypos, finesine[ang]);
+    FixedMul(x^ - xpos, fixedcosine[ang]) -
+    FixedMul(y^ - ypos, fixedsine[ang]);
 
   y^ := ypos +
-    FixedMul(x^ - xpos, finesine[ang]) +
-    FixedMul(y^ - ypos, finecosine[ang]);
+    FixedMul(x^ - xpos, fixedsine[ang]) +
+    FixedMul(y^ - ypos, fixedcosine[ang]);
 
   x^ := tmpx;
 end;

@@ -69,7 +69,7 @@ begin
   end;
 
   sec := Psubsector_t(mo.subsector).sector;
-  if sec.flags and SRF_LADDER <> 0 then
+  if sec.flags and SF_LADDER <> 0 then
   begin
     topz := sec.floorheight;
     for i := 0 to sec.linecount - 1 do

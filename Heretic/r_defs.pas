@@ -66,8 +66,6 @@ const
   SIL_BOTH = 3;
 
   MAXDRAWSEGS = $10000;
-{var
-  maxdrawsegs: integer = 0; // JVAL: Now allocated dynamically}
 
 var
   needsbackscreen: boolean = false;
@@ -167,6 +165,8 @@ type
     // JVAL: sector affectees
     num_saffectees: integer;
     saffectees: PIntegerArray;
+    // JVAL: sector gravity (VERSION 204)
+    gravity: fixed_t;
 {$IFDEF OPENGL}
     no_toptextures: boolean;
     no_bottomtextures: boolean;
@@ -312,6 +312,8 @@ type
 {$IFDEF OPENGL}
     length: single;
     iSegID: integer;
+{$ELSE}
+    inv_length: double;      
 {$ENDIF}
     miniseg: boolean;
     diffloor: boolean;

@@ -12519,6 +12519,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);       // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags_ex: MF_EX_TRANSPARENT or MF_EX_WHITELIGHT; // flags_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     raisestate: Ord(S_NULL);          // raisestate
     customsound1: 0;                  // customsound1
     customsound2: 0;                  // customsound2
@@ -12553,6 +12554,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);       // activesound
     flags: MF_NOBLOCKMAP;             // flags
     flags_ex: MF_EX_TRANSPARENT or MF_EX_REDLIGHT; // flags_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     raisestate: Ord(S_NULL);          // raisestate
     customsound1: 0;                  // customsound1
     customsound2: 0;                  // customsound2
@@ -15920,7 +15922,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags_ex: MF_EX_LOWGRAVITY;   // flags_ex
-    flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
    ),
    (    // MT_SPLASHBASE
     name: 'Splash 2';             // name
@@ -15947,7 +15949,7 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
-    flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
    ),
    (    // MT_LAVASPLASH
     name: 'Lava Splash';          // name
@@ -16001,7 +16003,7 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
     renderstyle: mrs_translucent;
     alpha: 40000;
    ),
@@ -16031,7 +16033,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags_ex: MF_EX_LOWGRAVITY;   // flags_ex
-    flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
    ),
    (    // MT_SLUDGESPLASH
     name: 'Sludge Splash';        // name
@@ -16058,7 +16060,7 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
-    flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
    ),
 
    (    // MT_NUKAGECHUNK
@@ -16087,7 +16089,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags_ex: MF_EX_LOWGRAVITY;   // flags_ex
-    flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
    ),
    (    // MT_NUKAGESPLASH
     name: 'Nukage Splash';        // name
@@ -16114,7 +16116,7 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
-    flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
    ),
 
    (    // MT_GREENBLOOD
@@ -16143,6 +16145,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);       // activesound
     flags: MF_NOBLOCKMAP;             // flags
     flags_ex: MF_EX_TRANSPARENT or MF_EX_GREENLIGHT; // flags_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     raisestate: Ord(S_NULL);          // raisestate
     customsound1: 0;                  // customsound1
     customsound2: 0;                  // customsound2
@@ -16178,6 +16181,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);       // activesound
     flags: MF_NOBLOCKMAP;             // flags
     flags_ex: MF_EX_TRANSPARENT or MF_EX_BLUELIGHT; // flags_ex
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     raisestate: Ord(S_NULL);          // raisestate
     customsound1: 0;                  // customsound1
     customsound2: 0;                  // customsound2

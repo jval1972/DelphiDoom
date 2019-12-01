@@ -2452,7 +2452,7 @@ var
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 DestroyHeapVariant(VarP);
                 Result := False;
                 Exit;;
@@ -2468,7 +2468,7 @@ var
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 DestroyHeapVariant(VarP);
                 Result := False;
                 Exit;;
@@ -2532,7 +2532,7 @@ var
             begin
               if not DoRead(NameLen, 4) then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 DestroyHeapVariant(VarP);
                 Result := False;
                 Exit;
@@ -2552,7 +2552,7 @@ var
             begin
               if not DoRead(NameLen, 4) then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 DestroyHeapVariant(VarP);
                 Result := False;
                 Exit;
@@ -2571,7 +2571,7 @@ var
             begin
               if not DoRead(NameLen, 4) then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 DestroyHeapVariant(VarP);
                 Result := False;
                 Exit;
@@ -2659,7 +2659,7 @@ var
     begin
       if not DoRead(currf, SizeOf(currf)) then
       begin
-        cmd_err(erUnexpectedEof);
+        CMD_Err(erUnexpectedEof);
         LoadTypes := False;
         Exit;
       end;
@@ -2705,7 +2705,7 @@ var
             if (not DoRead(d, 4)) or (d > 255) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2713,7 +2713,7 @@ var
             if not DoRead(TPSTypeRec_Class(Curr).FCN[1], d) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2726,7 +2726,7 @@ var
             if (not DoRead(d, 4)) or (d > 255) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2734,7 +2734,7 @@ var
             if not DoRead(TPSTypeRec_ProcPtr(Curr).FParamInfo[1], d) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2748,7 +2748,7 @@ var
             if not DoRead(TPSTypeRec_Interface(Curr).FGUID, SizeOf(TGuid)) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2762,14 +2762,14 @@ var
             if not DoRead(d, 4) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
             if (d > 256) then
             begin
               curr.Free;
-              cmd_err(erTypeMismatch);
+              CMD_Err(erTypeMismatch);
               LoadTypes := False;
               Exit;
             end;
@@ -2786,14 +2786,14 @@ var
             if not DoRead(d, 4) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
             if (d >= FTypes.Count) then
             begin
               curr.Free;
-              cmd_err(erTypeMismatch);
+              CMD_Err(erTypeMismatch);
               LoadTypes := False;
               Exit;
             end;
@@ -2801,14 +2801,14 @@ var
             if not DoRead(d, 4) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
             if d > (MaxInt div 4) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2816,7 +2816,7 @@ var
             if not DoRead(d, 4) then //<-additional StartOffset
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2831,14 +2831,14 @@ var
             if not DoRead(d, 4) then
             begin // Read type
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
             if (d >= FTypes.Count) then
             begin
               curr.Free;
-              cmd_err(erTypeMismatch);
+              CMD_Err(erTypeMismatch);
               LoadTypes := False;
               Exit;
             end;
@@ -2852,7 +2852,7 @@ var
             if not DoRead(d, 4) or (d = 0) then
             begin
               curr.Free;
-              cmd_err(erUnexpectedEof);
+              CMD_Err(erUnexpectedEof);
               LoadTypes := False;
               Exit;
             end;
@@ -2861,14 +2861,14 @@ var
               if not DoRead(l2, 4) then
               begin
                 curr.Free;
-                cmd_err(erUnexpectedEof);
+                CMD_Err(erUnexpectedEof);
                 LoadTypes := False;
                 Exit;
               end;
               if Cardinal(l2) >= FTypes.Count then
               begin
                 curr.Free;
-                cmd_err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 LoadTypes := False;
                 Exit;
               end;
@@ -2878,7 +2878,7 @@ var
             if not resolve(TPSTypeRec_Record(curr)) then
             begin
               curr.Free;
-              cmd_err(erInvalidType);
+              CMD_Err(erInvalidType);
               LoadTypes := False;
               Exit;
             end;
@@ -2896,20 +2896,20 @@ var
       begin
         if not DoRead(d, 4) then
         begin
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadTypes := False;
           Exit;
         end;
         if d > PSAddrNegativeStackStart then
         begin
-          cmd_err(erInvalidType);
+          CMD_Err(erInvalidType);
           LoadTypes := False;
           Exit;
         end;
         SetLength(Curr.FExportName, d);
         if not DoRead(Curr.fExportName[1], d) then
         begin
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadTypes := False;
           Exit;
         end;
@@ -2940,7 +2940,7 @@ var
     begin
       if not DoRead(Rec, SizeOf(Rec)) then
       begin
-        cmd_err(erUnexpectedEof);
+        CMD_Err(erUnexpectedEof);
         LoadProcs := False;
         Exit;
       end;
@@ -2950,7 +2950,7 @@ var
         if not DoRead(b, 1) then
         begin
           Curr.Free;
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadProcs := False;
           Exit;
         end;
@@ -2958,7 +2958,7 @@ var
         if not DoRead(n[1], b) then
         begin
           Curr.Free;
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadProcs := False;
           Exit;
         end;
@@ -2968,7 +2968,7 @@ var
           if (not DoRead(L2, 4)) or (L2 > Length(s) - Pos) then
           begin
             Curr.Free;
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadProcs := False;
             Exit;
           end;
@@ -2993,21 +2993,21 @@ var
         if not DoRead(L2, 4) then
         begin
           Curr.Free;
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadProcs := False;
           Exit;
         end;
         if not DoRead(L3, 4) then
         begin
           Curr.Free;
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadProcs := False;
           Exit;
         end;
         if (L2 < 0) or (L2 >= Length(s)) or (L2 + L3 > Length(s)) or (L3 = 0) then
         begin
           Curr.Free;
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadProcs := False;
           Exit;
         end;
@@ -3020,14 +3020,14 @@ var
           if not DoRead(L3, 4) then
           begin
             Curr.Free;
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadProcs := False;
             Exit;
           end;
           if L3 > PSAddrNegativeStackStart then
           begin
             Curr.Free;
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadProcs := False;
             Exit;
           end;
@@ -3035,21 +3035,21 @@ var
           if not DoRead(TPSInternalProcRec(Curr).FExportName[1], L3) then
           begin
             Curr.Free;
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadProcs := False;
             Exit;
           end;
           if not DoRead(L3, 4) then
           begin
             Curr.Free;
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadProcs := False;
             Exit;
           end;
           if L3 > PSAddrNegativeStackStart then
           begin
             Curr.Free;
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadProcs := False;
             Exit;
           end;
@@ -3057,7 +3057,7 @@ var
           if not DoRead(TPSInternalProcRec(Curr).FExportDecl[1], L3) then
           begin
             Curr.Free;
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadProcs := False;
             Exit;
           end;
@@ -3091,20 +3091,20 @@ var
     begin
       if not DoRead(Rec, SizeOf(Rec)) then
       begin
-        cmd_err(erUnexpectedEof);
+        CMD_Err(erUnexpectedEof);
         LoadVars := False;
         Exit;
       end;
       if Rec.TypeNo >= HDR.TypeCount then
       begin
-        cmd_err(erInvalidType);
+        CMD_Err(erInvalidType);
         LoadVars := False;
         Exit;
       end;
       Curr := FGlobalVars.PushType(FTypes.Data^[Rec.TypeNo]);
       if Curr = nil then
       begin
-        cmd_err(erInvalidType);
+        CMD_Err(erInvalidType);
         LoadVars := False;
         Exit;
       end;
@@ -3112,7 +3112,7 @@ var
       begin
         if not DoRead(n, 4) then
         begin
-          cmd_err(erUnexpectedEof);
+          CMD_Err(erUnexpectedEof);
           LoadVars := False;
           Exit;
         end;
@@ -3122,7 +3122,7 @@ var
           if not DoRead(e^.FName[1], n) then
           begin
             dispose(e);
-            cmd_err(erUnexpectedEof);
+            CMD_Err(erUnexpectedEof);
             LoadVars := False;
             Exit;
           end;
@@ -3131,7 +3131,7 @@ var
           FExportedVars.Add(E);
         except
           dispose(e);
-          cmd_err(erInvalidType);
+          CMD_Err(erInvalidType);
           LoadVars := False;
           Exit;
         end;
@@ -5123,7 +5123,7 @@ begin
             if (TObject(Src^) = nil) or not TObject(Src^).GetInterface(TPSTypeRec_Interface(desttype).Guid, IUnknown(Dest^)) then
             begin
               Result := False;
-              Cmd_Err(erInterfaceNotSupported);
+              CMD_Err(erInterfaceNotSupported);
               Exit;
             end;
           {$ENDIF}
@@ -6062,7 +6062,7 @@ begin
             end;
             if Cmd >= Cardinal(TPSTypeRec_Set(var2Type).aBitSize) then
             begin
-              cmd_Err(erOutofRecordRange);
+              CMD_Err(erOutofRecordRange);
               Result := False;
               Exit;
             end;
@@ -7763,7 +7763,7 @@ begin
           Dest.P := PPSVariantPointer(Tmp).DataDest;
           if Dest.P = nil then
           begin
-            Cmd_Err(erNullPointerException);
+            CMD_Err(erNullPointerException);
             Result := False;
             Exit;
           end;
@@ -7957,7 +7957,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 FTempVars.Pop;
                 Result := False;
                 Exit;
@@ -7987,7 +7987,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 FTempVars.Pop;
                 Result := False;
                 Exit;
@@ -8012,7 +8012,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 FTempVars.Pop;
                 Result := False;
                 Exit;
@@ -8073,7 +8073,7 @@ begin
           Dest.P := PPSVariantPointer(Tmp).DataDest;
           if Dest.P = nil then
           begin
-            Cmd_Err(erNullPointerException);
+            CMD_Err(erNullPointerException);
             Result := False;
             Exit;
           end;
@@ -8141,7 +8141,7 @@ begin
           Dest.P := Pointer(Dest.p^);
           if Dest.P = nil then
           begin
-            Cmd_Err(erNullPointerException);
+            CMD_Err(erNullPointerException);
             Result := False;
             Exit;
           end;
@@ -8177,7 +8177,7 @@ begin
           Dest.P := PPSVariantPointer(Tmp).DataDest;
           if Dest.P = nil then
           begin
-            Cmd_Err(erNullPointerException);
+            CMD_Err(erNullPointerException);
             Result := False;
             Exit;
           end;
@@ -8309,7 +8309,7 @@ begin
           Dest.P := Pointer(Dest.p^);
           if Dest.P = nil then
           begin
-            Cmd_Err(erNullPointerException);
+            CMD_Err(erNullPointerException);
             Result := False;
             Exit;
           end;
@@ -9301,7 +9301,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9388,7 +9388,7 @@ begin
               FStack.Pop;
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9405,7 +9405,7 @@ begin
               FStack.Pop;
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9420,7 +9420,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9435,7 +9435,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9477,7 +9477,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9587,7 +9587,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9673,7 +9673,7 @@ begin
             begin
               if FCurrentPosition + 3 >= FDataLength then
               begin
-                Cmd_Err(erOutOfRange);
+                CMD_Err(erOutOfRange);
                 Break;
               end;
               {$IFDEF FPC_REQUIRES_PROPER_ALIGNMENT}
@@ -9748,13 +9748,13 @@ begin
                   begin
                     if (FExceptionStack.Count = 0) then
                     begin
-                      cmd_err(erOutOfRange);
+                      CMD_Err(erOutOfRange);
                       Break;
                     end;
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(erOutOfRange);
+                      CMD_Err(erOutOfRange);
                       Break;
                     end;
                     pp.ExceptOffset := InvalidVal;
@@ -9783,7 +9783,7 @@ begin
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(erOutOfRange);
+                      CMD_Err(erOutOfRange);
                       Break;
                     end;
                     if pp.FinallyOffset <> InvalidVal then
@@ -9822,7 +9822,7 @@ begin
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(erOutOfRange);
+                      CMD_Err(erOutOfRange);
                       Break;
                     end;
                     if (ExEx <> ENoError) and (pp.ExceptOffset <> InvalidVal) and (pp.ExceptOffset <> InvalidVal - 1) then
@@ -9867,7 +9867,7 @@ begin
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(erOutOfRange);
+                      CMD_Err(erOutOfRange);
                       Break;
                     end;
                     p := pp.EndOfBlock;

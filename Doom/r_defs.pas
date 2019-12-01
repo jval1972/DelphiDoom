@@ -181,7 +181,6 @@ type
     // JVAL: 3d floors
     midsec: integer;
     midline: integer;
-    numssector: integer;
     // JVAL: Slopes
     fa, fb, fd, fic, ca, cb, cd, cic: float;
     slopesec: Psector_t;
@@ -189,6 +188,8 @@ type
     // JVAL: sector affectees
     num_saffectees: integer;
     saffectees: PIntegerArray;
+    // JVAL: sector gravity (VERSION 204)
+    gravity: fixed_t;
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
@@ -351,9 +352,10 @@ type
 {$IFDEF OPENGL}
     length: single;
     iSegID: integer;
+{$ELSE}
+    inv_length: double;      
 {$ENDIF}
     miniseg: boolean;
-    diffloor: boolean;
   end;
   Pseg_t = ^seg_t;
   seg_tArray = packed array[0..$FFFF] of seg_t;

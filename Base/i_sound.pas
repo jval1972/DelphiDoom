@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -177,6 +177,12 @@ function I_GetSfxLumpNum(sfxinfo: Psfxinfo_t): integer;
 var
   namebuf: string;
 begin
+{$IFNDEF HEXEN}
+  // JVAL: 20171216 - Fix links
+  if sfxinfo.link <> nil then
+    sfxinfo := sfxinfo.link;
+{$ENDIF}    
+    
   result := -1;
 
   sprintf(namebuf, 'ds%s', [sfxinfo.name]);

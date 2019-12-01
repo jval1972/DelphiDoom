@@ -1929,6 +1929,15 @@ begin
   mobj_flags2_ex.Add('MF2_EX_DONTRUNSCRIPTS');
   mobj_flags2_ex.Add('MF2_EX_PRECISESPAWNANGLE');
   mobj_flags2_ex.Add('MF2_EX_CUSTOMDROPITEM');
+  // JVAL: Version 204
+  mobj_flags2_ex.Add('MF2_EX_CANTLEAVEFLOORPIC');
+  mobj_flags2_ex.Add('MF2_EX_JUMPDOWN');
+  mobj_flags2_ex.Add('MF2_EX_FULLVOLACTIVE');
+  mobj_flags2_ex.Add('MF2_EX_FULLVOLDEATH');
+  mobj_flags2_ex.Add('MF2_EX_FULLVOLSEE');
+  mobj_flags2_ex.Add('MF2_EX_FULLVOLPAIN');
+  mobj_flags2_ex.Add('MF2_EX_FULLVOLATTACK');
+  mobj_flags2_ex.Add('MF2_EX_DONOTRENDERSHADOW');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite

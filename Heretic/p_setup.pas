@@ -176,7 +176,8 @@ uses
   info_rnd,
   m_rnd,
 {$IFNDEF OPENGL}
-  r_cache,
+  r_cache_main,
+  r_segs2,
 {$ENDIF}
   r_intrpl,
 {$IFDEF OPENGL}
@@ -596,7 +597,8 @@ begin
     ss.midline := -1;
     ss.renderflags := 0;
     ss.flags := 0;
-    ss.iSectorID := i;
+    ss.gravity := GRAVITY;  // JVAL: sector gravity (VERSION 204)
+    ss.iSectorID := i; // JVAL: 3d Floors
     inc(ms);
     inc(ss);
   end;
@@ -1085,7 +1087,7 @@ var
   v_id: integer;
   dx2, dy2, dxy, s: int64;
   x0, y0, x1, y1: integer;
-begin                        exit;
+begin                        
   hit := mallocz(numvertexes);  // Hitlist for vertices
   for i := 0 to numsegs - 1 do  // Go through each seg
   begin
@@ -1274,14 +1276,18 @@ begin
   P_GroupLines;
 
   P_3dFloorSetupSegs; // JVAL: 3d Floors
+
   P_RemoveSlimeTrails;
 
+{$IFNDEF OPENGL}
+  R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
+{$ENDIF}
   P_SlopesSetup;// JVAL: Slopes
+
+  P_SetupSectorAffectees;
 
   if autoadjustmissingtextures then
     P_AdjustMissingTextures;
-
-  P_SetupSectorAffectees;
 
   bodyqueslot := 0;
   deathmatch_p := 0;

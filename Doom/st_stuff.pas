@@ -1098,7 +1098,8 @@ begin
       // being attacked
       priority := 7;
 
-      if plyr.health - st_oldhealth > ST_MUCHPAIN then
+      if ((G_PlayingEngineVersion <= VERSION203) and (plyr.health - st_oldhealth > ST_MUCHPAIN)) or
+         ((G_PlayingEngineVersion > VERSION203) and (st_oldhealth - plyr.health > ST_MUCHPAIN)) then
       begin
         st_facecount := ST_TURNCOUNT;
         st_faceindex := ST_calcPainOffset + ST_OUCHOFFSET;

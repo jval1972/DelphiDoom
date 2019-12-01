@@ -201,7 +201,7 @@ var
 
 function G_NeedsCompatibilityMode: boolean;
 
-function G_PlayingEngineVersion: byte;
+function G_PlayingEngineVersion: integer;
 
 var
   compatibilitymode: boolean = false;
@@ -1960,6 +1960,8 @@ begin
         savegameversion := VERSION121
       else if vsaved = 'version 122' then
         savegameversion := VERSION122
+      else if vsaved = 'version 203' then
+        savegameversion := VERSION203
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
@@ -2986,7 +2988,7 @@ begin
   result := compatibilitymode or (demoplayback and olddemo);
 end;
 
-function G_PlayingEngineVersion: byte;
+function G_PlayingEngineVersion: integer;
 begin
   if demoplayback then
     result := demoversion

@@ -30,7 +30,7 @@ General
 This is the translation of the Linux C source code of the game Doom to the Delphi programming language. 
 Many features have been added to take advantage of modern hardware: 
  -External hi-res textures 
- -32 bit color software renderer (multithreading up to 16 logical CPUs)
+ -32 bit color software renderer (multithreading up to 256 logical CPUs)
  -Voxels
  -OpenGL support with md2 models and dynamic lightmaps 
  -mp3 & midi music 
@@ -46,7 +46,7 @@ This Application is a WIN32 port of the famous Doom game created by ID Software.
 --------------------------------------------
 Requirements
 Windows operating system with DirectX support.
-A modern PC with 1.5 GHz processor.
+A modern PC with 1.5 GHz processor. 
 DelphiDoom will take advantage of a Multiprocessor system (Up to 256 logical CPUs).
 
 Acknowledgements/Thanks

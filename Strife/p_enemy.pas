@@ -682,7 +682,7 @@ begin
 
     actor.movedir := Ord(DI_NODIR);
     result := false;
-    while numspechit <> 0 do
+    while numspechit > 0 do
     begin
       dec(numspechit);
       ld := spechit[numspechit];
@@ -1348,7 +1348,7 @@ begin
   // check for melee attack
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
-    A_AttackSound(actor, actor);
+    A_AttackSound(actor);
     P_SetMobjState(actor, statenum_t(actor.info.meleestate));
     exit;
   end;
@@ -1420,7 +1420,7 @@ begin
        (actor.info.activesound <= Ord(sfx_agrac4)) then
       S_StartSound(actor, Ord(sfx_agrac1) + P_Random mod 4)
     else
-      A_ActiveSound(actor, actor);
+      A_ActiveSound(actor);
   end;
 end;
 
@@ -2458,7 +2458,7 @@ begin
   if actor.flags and MF_NOBLOOD <> 0 then
     if actor.info.deathsound <> 0 then
     begin
-      A_DeathSound(actor, actor);
+      A_DeathSound(actor);
       exit;
     end;
 
@@ -2482,11 +2482,14 @@ begin
   if (sound >= Ord(sfx_pespna)) and (sound <= Ord(sfx_pespnd)) then
   begin
     sound := Ord(sfx_pespna) + (P_Random mod 4);
-    S_StartSound(actor, sound);
+    if actor.info.flags2_ex and MF2_EX_FULLVOLPAIN <> 0 then
+     S_StartSound(nil, sound)
+    else
+     S_StartSound(actor, sound);
     exit;
   end;
 
-  A_PainSound(actor, actor);
+  A_PainSound(actor);
 end;
 
 //
@@ -3501,7 +3504,12 @@ procedure A_ActiveSoundSTRF(actor: Pmobj_t);
 begin
   if actor.info.activesound <> 0 then
     if leveltime and 7 = 0 then // haleyjd: added parens
-      S_StartSound(actor, actor.info.activesound);
+    begin
+      if (actor.info.flags2_ex and MF2_EX_FULLVOLACTIVE <> 0) then
+        S_StartSound(actor, actor.info.activesound)
+      else
+        S_StartSound(actor, actor.info.activesound);
+    end;
 end;
 
 //

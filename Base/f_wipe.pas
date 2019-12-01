@@ -78,7 +78,14 @@ procedure wipe_initMelt;
 var
   i, r: integer;
   py, py1: Pfixed_t;
+  SHEIGHTS: array[0..MAXWIDTH - 1] of integer;
+  RANDOMS: array[0..319] of byte;
 begin
+  for i := 0 to SCREENWIDTH - 1 do
+    SHEIGHTS[i] := trunc(i * 320 / SCREENWIDTH);
+  for i := 0 to 319 do
+    RANDOMS[i] := M_Random;
+
   // copy start screen to main screen
   MT_memcpy(screen32, wipe_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   // setup initial column positions
@@ -86,11 +93,12 @@ begin
   yy := Z_Malloc(SCREENWIDTH * SizeOf(fixed_t), PU_STATIC, nil);
   py := @yy[0];
   py1 := py;
-  py^ := -(M_Random mod 16);
+
+  py^ := -(RANDOMS[0] mod 16);
   for i := 1 to SCREENWIDTH - 1 do
   begin
     inc(py);
-    r := (M_Random mod 3) - 1;
+    r := (RANDOMS[SHEIGHTS[i]] mod 3) - 1;
     py^ := py1^ + r;
     if py^ > 0 then
       py^ := 0
@@ -107,7 +115,10 @@ begin
     py^ := py^ * vy;
     inc(py);
   end;
-
+  
+  for i := 1 to SCREENWIDTH - 1 do
+    if SHEIGHTS[i - 1] = SHEIGHTS[i] then
+      yy[i] := yy[i - 1];
 end;
 
 function wipe_doMelt(ticks: integer): integer;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -66,13 +66,8 @@ begin
   anglea := ANG90 + (visangle - viewangle);
   angleb := ANG90 + (visangle - rw_normalangle);
 
-  {$IFDEF FPC}
-  num := FixedMul(projectiony, finesine[_SHRW(angleb, ANGLETOFINESHIFT)]); // JVAL For correct aspect
-  den := FixedMul(rw_distance, finesine[_SHRW(anglea, ANGLETOFINESHIFT)]);
-  {$ELSE}
-  num := FixedMulEx(projectiony, finesine[angleb shr ANGLETOFINESHIFT]); // JVAL For correct aspect
-  den := FixedMulEx(rw_distance, finesine[anglea shr ANGLETOFINESHIFT]);
-  {$ENDIF}
+  num := FixedMul(projectiony, fixedsine[angleb shr FRACBITS]); // JVAL For correct aspect
+  den := FixedMul(rw_distance, fixedsine[anglea shr FRACBITS]);
 
 // JVAL: SOS -> Using  result := FixedDivEx(num, den); Exit; eliminates rendering
 //        precision erros but crash the game as rw_scale & rw_scalestep are 16:16
@@ -111,13 +106,8 @@ begin
   anglea := ANG90 + (visangle - viewangle);
   angleb := ANG90 + (visangle - rw_normalangle);
 
-  {$IFDEF FPC}
-  num := FixedMul(projectiony, finesine[_SHRW(angleb, ANGLETOFINESHIFT)]); // JVAL For correct aspect
-  den := FixedMul(rw_distance, finesine[_SHRW(anglea, ANGLETOFINESHIFT)]);
-  {$ELSE}
-  num := FixedMulEx(projectiony, finesine[angleb shr ANGLETOFINESHIFT]); // JVAL For correct aspect
-  den := FixedMulEx(rw_distance, finesine[anglea shr ANGLETOFINESHIFT]);
-  {$ENDIF}
+  num := FixedMul(projectiony, fixedsine[angleb shr FRACBITS]); // JVAL For correct aspect
+  den := FixedMul(rw_distance, fixedsine[anglea shr FRACBITS]);
 
 // JVAL: SOS -> Using  result := FixedDivEx(num, den); Exit; eliminates rendering
 //        precision erros but crash the game as rw_scale & rw_scalestep are 16:16
@@ -177,5 +167,4 @@ begin
 end;
 
 end.
-
 

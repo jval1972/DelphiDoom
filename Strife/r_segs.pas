@@ -126,6 +126,7 @@ implementation
 
 uses
   i_system,
+  g_game,
   r_bsp,
 {$IFNDEF OPENGL}
   doomdef,
@@ -142,12 +143,13 @@ uses
   r_plane,
   r_draw,
   r_sky,
-  r_ccache,
+  r_cache_walls,
   r_wall8,
   r_wall32,
   r_scale,
   r_segs2,
   r_col_fz,
+  r_patch,
 {$ENDIF}
 {$IFDEF DEBUG}
   r_debug,
@@ -173,6 +175,7 @@ var
   texturecolumn: integer;
   tempsec: sector_t;
 begin
+  R_DisableFixedColumn;
   // Calculate light table.
   // Use different light tables
   //   for horizontal / vertical / diagonal. Diagonal?
@@ -319,14 +322,21 @@ begin
     end;
     spryscale := spryscale + rw_scalestep;
   end;
+  R_EnableFixedColumn;
 end;
 {$ENDIF}
+
+var
+  rndsmap: integer = -1;
 
 function R_NewDrawSeg: Pdrawseg_t;
 begin
   // don't overflow and crash
   if ds_p = MAXDRAWSEGS then
   begin
+    if rndsmap <> gamemap then
+      I_Warning('R_NewDrawSeg(): ds_p = MAXDRAWSEGS'#13#10);
+    rndsmap := gamemap;
     result := nil;
     exit;
   end;
@@ -353,10 +363,6 @@ end;
 {$IFNDEF OPENGL}
 procedure R_StoreWallRange_DBL(const pds: Pdrawseg_t; const start: integer; const stop: integer);
 var
-  hyp: fixed_t;
-  sineval: fixed_t;
-  distangle,
-  offsetangle: angle_t;
   vtop: fixed_t;
   lightnum: integer;
   lightnum2: integer;
@@ -364,24 +370,6 @@ var
   worldtop_dbl: Double;
   worldbottom_dbl: Double;
 begin
-  offsetangle := abs(rw_normalangle - rw_angle1);
-  {$IFDEF FPC}
-  PInteger(@offsetangle)^ := abs(PInteger(@offsetangle)^);
-  {$ENDIF}
-
-  if offsetangle > ANG90 then
-    offsetangle := ANG90;
-
-  distangle := ANG90 - offsetangle;
-
-  hyp := R_PointToDist(curline.v1.x, curline.v1.y);
-  {$IFDEF FPC}
-  sineval := finesine[_SHRW(distangle, ANGLETOFINESHIFT)];
-  {$ELSE}
-  sineval := finesine[distangle shr ANGLETOFINESHIFT];
-  {$ENDIF}
-  rw_distance := FixedMulEx(hyp, sineval);
-
   // calculate scale at both ends and step
   rw_scale_dbl := R_ScaleFromGlobalAngle_DBL(viewangle + xtoviewangle[start]);
   rw_scale := Round(rw_scale_dbl);
@@ -611,21 +599,7 @@ begin
 
   if segtextured then
   begin
-    offsetangle := rw_normalangle - rw_angle1;
-
-    if offsetangle > ANG180 then
-      offsetangle := LongWord($ffffffff) - offsetangle + 1;
-
-    if offsetangle > ANG90 then
-      offsetangle := ANG90;
-
-   {$IFDEF FPC}
-    sineval := finesine[_SHRW(offsetangle, ANGLETOFINESHIFT)];
-   {$ELSE}
-    sineval := finesine[offsetangle shr ANGLETOFINESHIFT];
-    {$ENDIF}
-
-    rw_offset := FixedMul(hyp, sineval);
+    rw_offset := R_CalcSegOffset(curline);
 
     if LongWord(rw_normalangle - rw_angle1) < ANG180 then
       rw_offset := -rw_offset;
@@ -939,10 +913,6 @@ end;
 //
 procedure R_StoreWallRange(const start: integer; const stop: integer);
 var
-  hyp: fixed_t;
-  sineval: fixed_t;
-  distangle,
-  offsetangle: angle_t;
   vtop: fixed_t;
   lightnum: integer;
   lightnum2: integer; // JVAL: 3d Floors
@@ -969,23 +939,8 @@ begin
 
   // calculate rw_distance for scale calculation
   rw_normalangle := curline.angle + ANG90;
-  offsetangle := abs(rw_normalangle - rw_angle1);
-  {$IFDEF FPC}
-  PInteger(@offsetangle)^ := abs(PInteger(@offsetangle)^);
-  {$ENDIF}
 
-  if offsetangle > ANG90 then
-    offsetangle := ANG90;
-
-  distangle := ANG90 - offsetangle;
-
-  hyp := R_PointToDist(curline.v1.x, curline.v1.y);
-  {$IFDEF FPC}
-  sineval := finesine[_SHRW(distangle, ANGLETOFINESHIFT)];
-  {$ELSE}
-  sineval := finesine[distangle shr ANGLETOFINESHIFT];
-  {$ENDIF}
-  rw_distance := FixedMul(hyp, sineval);
+  rw_distance := R_DistToSeg(curline);
 
   rw_x := start;
   pds.x1 := rw_x;
@@ -1225,21 +1180,7 @@ begin
 
   if segtextured then
   begin
-    offsetangle := rw_normalangle - rw_angle1;
-
-    if offsetangle > ANG180 then
-      offsetangle := LongWord($ffffffff) - offsetangle + 1;
-
-    if offsetangle > ANG90 then
-      offsetangle := ANG90;
-
-   {$IFDEF FPC}
-    sineval := finesine[_SHRW(offsetangle, ANGLETOFINESHIFT)];
-   {$ELSE}
-    sineval := finesine[offsetangle shr ANGLETOFINESHIFT];
-    {$ENDIF}
-
-    rw_offset := FixedMul(hyp, sineval);
+    rw_offset := R_CalcSegOffset(curline);
 
     if LongWord(rw_normalangle - rw_angle1) < ANG180 then
       rw_offset := -rw_offset;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -82,9 +82,9 @@ var
 begin
   if chasecamera then
   begin
-    c_an := (viewangle + ANG180) shr ANGLETOFINESHIFT;
-    dx := chasecamera_viewxy * finecosine[c_an];
-    dy := chasecamera_viewxy * finesine[c_an];
+    c_an := (viewangle + ANG180) shr FRACBITS;
+    dx := chasecamera_viewxy * fixedcosine[c_an];
+    dy := chasecamera_viewxy * fixedsine[c_an];
 
     loops := 0;
     repeat
@@ -147,12 +147,12 @@ begin
   if mo = nil then
     exit;
 
-  an := mo.angle div ANGLETOFINEUNIT;
+  an := mo.angle div FRACUNIT;
 
   distf := Sqr(player.teleporttics / FRACUNIT) / (TELEPORTZOOM / FRACUNIT);
   dist := Round(distf * FRACUNIT);
-  viewx := viewx - FixedMul(dist, finecosine[an]);
-  viewy := viewy - FixedMul(dist, finesine[an]);
+  viewx := viewx - FixedMul(dist, fixedcosine[an]);
+  viewy := viewy - FixedMul(dist, fixedsine[an]);
 end;
 
 end.

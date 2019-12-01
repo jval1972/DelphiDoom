@@ -311,7 +311,10 @@ uses
   mdl_script in 'OPENGL\mdl_script.pas',
   mdl_script_functions in 'OPENGL\mdl_script_functions.pas',
   mdl_script_model in 'OPENGL\mdl_script_model.pas',
-  mdl_script_proclist in 'OPENGL\mdl_script_proclist.pas';
+  mdl_script_proclist in 'OPENGL\mdl_script_proclist.pas',
+  p_gravity in 'Base\p_gravity.pas',
+  t_patch in 'TEXLIB\t_patch.pas',
+  gl_ambient in 'OPENGL\gl_ambient.pas';
 
 var
   Saved8087CW: Word;

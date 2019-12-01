@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -257,7 +257,7 @@ begin
 
   slope := P_AimLineAttack(actor, bangle, range);
 
-  A_AttackSound(actor, actor);
+  A_AttackSound(actor);
 
   spread_xy := spread_xy div 256;
   for i := 0 to numbullets - 1 do

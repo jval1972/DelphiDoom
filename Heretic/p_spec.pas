@@ -1702,7 +1702,14 @@ begin
         begin
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
-            sectors[s].flags := sectors[s].flags or SRF_LADDER;
+            sectors[s].flags := sectors[s].flags or SF_LADDER;
+        end;
+      // JVAL: Slip while descenting a sloped sector
+      283:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].flags := sectors[s].flags or SF_SLIPSLOPEDESCENT;
         end;
     end;
 end;

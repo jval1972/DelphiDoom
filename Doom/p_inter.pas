@@ -371,6 +371,7 @@ var
   oldshells: integer;
   pickedshells: integer;
   pmsg: string;
+  oldhealth: integer;
 begin
   delta := special.z - toucher.z;
 
@@ -512,13 +513,25 @@ begin
 
     Ord(SPR_MEDI):
       begin
+        oldhealth := player.health;
         if not P_GiveBody(player, p_medikithealth) then
           exit;
 
-        if player.health < p_medikithealth then
-          player._message := GOTMEDINEED
+        // JVAL 20171210 Fix the https://doomwiki.org/wiki/Picked_up_a_medikit_that_you_REALLY_need! bug
+        if (VERSION >= 204) and (player.mo <> nil) then
+        begin
+          if oldhealth < player.mo.info.spawnhealth div 4 then
+            player._message := GOTMEDINEED
+          else
+            player._message := GOTMEDIKIT;
+        end
         else
-          player._message := GOTMEDIKIT;
+        begin
+          if player.health < p_medikithealth then
+            player._message := GOTMEDINEED
+          else
+            player._message := GOTMEDIKIT;
+        end;
       end;
 
   // power ups

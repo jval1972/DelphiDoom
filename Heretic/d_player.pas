@@ -325,7 +325,7 @@ type
   player_t110 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;
-    cmd: ticcmd_t;
+    cmd: ticcmd_t202;
 
     // Determine POV,
     //  including viewpoint bobbing during movement.
@@ -434,7 +434,7 @@ type
   player_t114 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;
-    cmd: ticcmd_t;
+    cmd: ticcmd_t202;
 
     // Determine POV,
     //  including viewpoint bobbing during movement.

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  LineOfSight/Visibility checks, uses REJECT Lookup Table.
+//  StartUp Form
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -44,7 +44,11 @@ type
     GameLabel: TLabel;
     StartUpProgressBar: TProgressBar;
     StartUpProgressBar2: TProgressBar;
+    NetPanel: TPanel;
+    NetMsgLabel: TLabel;
+    AbortNetButton: TButton;
     procedure FormCreate(Sender: TObject);
+    procedure AbortNetButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -73,6 +77,10 @@ procedure SUC_SecondaryProgressDone;
 
 procedure SUC_SecondaryProgress(const p: integer);
 
+procedure SUC_StartingNetwork(const msg: string);
+
+procedure SUC_FinishedNetwork;
+
 implementation
 
 {$R *.dfm}
@@ -80,7 +88,8 @@ implementation
 uses
   d_delphi,
   d_main,
-  i_io;
+  i_io,
+  i_system;
   
 var
   StartUpConsoleForm: TStartUpConsoleForm;
@@ -194,6 +203,12 @@ begin
                SWP_NOACTIVATE or SWP_NOMOVE or SWP_NOSIZE);  *)
 end;
 
+procedure TStartUpConsoleForm.AbortNetButtonClick(Sender: TObject);
+begin
+  NetPanel.Visible := False;
+  I_Error('D_CheckAbort(): Network game synchronization aborted.');
+end;
+
 procedure SUC_Enable;
 begin
   suc_enabled := true;
@@ -240,6 +255,18 @@ begin
     StartUpConsoleForm.StartUpProgressBar2.Position := newpos;
     StartUpConsoleForm.StartUpProgressBar2.Repaint;
   end;
+end;
+
+procedure SUC_StartingNetwork(const msg: string);
+begin
+  printf(msg + #13#10);
+  StartUpConsoleForm.NetMsgLabel.Caption := msg;
+  StartUpConsoleForm.NetPanel.Visible := True;
+end;
+
+procedure SUC_FinishedNetwork;
+begin
+  StartUpConsoleForm.NetPanel.Visible := False;
 end;
 
 end.

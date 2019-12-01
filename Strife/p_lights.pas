@@ -65,6 +65,8 @@ procedure P_SpawnGlowingLight(sector: Psector_t);
 
 procedure T_LightFlash(flash: Plightflash_t);
 
+procedure T_FireFlicker(flick: Pfireflicker_t);
+
 implementation
 
 uses

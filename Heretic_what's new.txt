@@ -1,6 +1,30 @@
+Version 2.0.4 build 708 - (21/12/2017)
+-----------
+Mobjs do not slip while descenting a slopped floor.
+Added line special 283, mobjs on tagged sectors will slip if descenting a slope.
+Added "Gravity" sector field (controlled by PascalScript).
+Added GetSectorGravity & SetSectorGravity PascalScript functions
+Added RippleFloor, RippleCeiling and Gravity properties for PascalScript !TSector class.
+Added MF2_EX_CANTLEAVEFLOORPIC mobj flag.
+Added MF2_EX_JUMPDOWN mobj flag. 
+Added MF2_EX_FULLVOLACTIVE MF2_EX_FULLVOLDEATH MF2_EX_FULLVOLSEE MF2_EX_FULLVOLPAIN MF2_EX_FULLVOLATTACK mobj flags
+Added GameMap() & GameEpisode() PascalScript functions.
+Added GetConsoleStr(), GetConsoleInt() and GetConsoleBool() PascalScript functions.
+Corrected glitches when rendering the dynamic lightmap (OpenGL renderer).
+Corrected glitches when rendering transparent middle textures (OpenGL renderer).
+Corrected T_FireFlicker savegame bug (https://doomwiki.org/wiki/Sector_type_17_is_disabled_after_loading_a_saved_game)
+High resolution patches inside HI_START/HI_END namespace (OpenGL renderer).
+Presice rw_distance and rw_offset calculation (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433)
+Visplanes with the same texture now match up far better than before (https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1342176)
+R_PointToAngle function in rendering replaced with a floating point equivelant to eliminate glitches in huge maps.
+Precalculated finesine and finecosine tables replaced with larger and more accurate equivelants (rendering only - not logic).
+Added MF2_EX_DONOTRENDERSHADOW mobj flags, when set the mobj do not cast shadow (OpenGL renderer).
+Speed optimizations for the software renderer.
+Fixed tutti frutti bug for short textures.
+
 Version 2.0.3 build 707 - (12/12/2017)
 -----------
-Fixed hud drawing bug in 1920 and 2560 screen widths.
+Fixed full screen title drawing problem when the width resolution was 1920 or 2560.
 
 Version 2.0.3 build 706 - (18/11/2017)
 -----------
