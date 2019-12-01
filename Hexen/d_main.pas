@@ -166,9 +166,9 @@ uses
 {$IFNDEF OPENGL}
   r_defs,
 {$ENDIF}
+  r_fake3d,
   r_intrpl,
   r_data,
-  r_fake3d,
   r_lights,
   r_camera,
   sounds,
@@ -615,6 +615,11 @@ end;
 procedure D_PageDrawer;
 begin
   V_PageDrawer(pagename);
+  {$IFNDEF OPENGL}
+  if demosequence = 0 then
+    if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
+      V_DrawPatch(120, 1060, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
+  {$ENDIF}      
   if demosequence = 1 then
     V_DrawPatch(4, 160, SCN_FG, W_CacheLumpName('ADVISOR', PU_CACHE), true);
 end;
@@ -1157,8 +1162,8 @@ begin
       scale := atoi(myargv[p + 1]);
       if scale < 10 then
         scale := 10
-      else if scale > 400 then
-        scale := 400;
+      else if scale > 200 then
+        scale := 200;
     end
     else
       scale := 200;

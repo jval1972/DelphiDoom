@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -239,7 +239,7 @@ uses
   i_exec in 'Base\i_exec.pas',
   i_tmp in 'Base\i_tmp.pas',
   gl_frustum in 'OPENGL\gl_frustum.pas',
-  r_fake3d in 'Heretic\r_fake3d.pas',
+  r_fake3d in 'Base\r_fake3d.pas',
   i_startup in 'Base\i_startup.pas' {StartUpConsoleForm},
   sc_states in 'Base\sc_states.pas',
   gl_types in 'OPENGL\gl_types.pas',

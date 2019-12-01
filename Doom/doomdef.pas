@@ -79,12 +79,22 @@ type
     none
   );
 
+  GameVersion_t = (
+    exe_doom_1_9,   // Doom 1.9: used for shareware, registered and commercial
+    exe_hacx,       // Hacx executable (Doom 1.9 with patch applied)
+    exe_ultimate,   // Ultimate Doom (retail)
+    exe_final,      // Final Doom
+    exe_final2,     // Final Doom (alternate exe)
+    exe_chex        // Chex Quest executable (based on Final Doom)
+  );
+
   // JVAL: Chex Support
   CustomGame_t = (
     cg_none,
     cg_chex,
     cg_chex2,
-    cg_hacx
+    cg_hacx,
+    cg_freedoom
   );
 
 // Identify language to use, software localization.

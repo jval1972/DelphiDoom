@@ -49,7 +49,7 @@ procedure R_Precache32bittexture(const rtex: integer);
 const
   MAXTEXTUREHEIGHT = 1024;
   MAXTEXTUREWIDTH = 1 shl CACHECOLBITS;
-  MAXEQUALHASH = 2; // Allow 2 same hash values to increase performance.
+  MAXEQUALHASH = 4; // Allow 4 same hash values to increase performance.
 
 type
   dc32_t = array[0..MAXTEXTUREHEIGHT] of LongWord;

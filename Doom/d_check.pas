@@ -46,23 +46,53 @@ uses
   doomstat;
 
 procedure D_CheckCustomWad(const filename: string);
+var
+  sname: string;
 begin
+  sname := strupper(fname(filename));
   // JVAL: Chex Support
-  if strupper(fname(filename)) = 'CHEX.WAD' then
+  if sname = 'CHEX.WAD' then
     if customgame <> cg_chex2 then
     begin
+      gameversion := exe_chex;
       customgame := cg_chex;
       Exit;
     end;
-  if strupper(fname(filename)) = 'CHEX2.WAD' then
+  if sname = 'CHEX2.WAD' then
   begin
+    gameversion := exe_chex;
     customgame := cg_chex2;
     exit;
   end;
   // JVAL: Hacx Support
-  if strupper(fname(filename)) = 'HACX.WAD' then
+  if sname = 'HACX.WAD' then
   begin
+    gameversion := exe_hacx;
     customgame := cg_hacx;
+    exit;
+  end;
+  // JVAL: FreeDoom Support
+  if (sname = 'FREEDOOM.WAD') or (sname = 'FREEDOOM2.WAD') then
+  begin
+    customgame := cg_freedoom;
+    exit;
+  end;
+  // JVAL: FINAL DOOM
+  if (sname = 'TNT.WAD') or (sname = 'PLUTONIA.WAD') then
+  begin
+    gameversion := exe_final2;
+    exit;
+  end;
+  // JVAL: DOOM2
+  if sname = 'DOOM2.WAD' then
+  begin
+    gameversion := exe_doom_1_9;
+    exit;
+  end;
+  // JVAL: UNTIMATE DOOM
+  if (sname = 'DOOM.WAD') or (sname = 'DOOM1.WAD') or (sname = 'DOOMU.WAD') then
+  begin
+    gameversion := exe_ultimate;
     exit;
   end;
 end;

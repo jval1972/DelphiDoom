@@ -254,7 +254,7 @@ begin
   end;
 
   // Interpolate Lines
-  li := @lines[0];
+  li := @lines[0];                  
   for i := 0 to numlines - 1 do
   begin
     for j := 0 to 1 do

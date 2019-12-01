@@ -69,6 +69,8 @@ var
 // Language.
   language: Language_t;
 
+  customgame: CustomGame_t = cg_none;
+
 // Set if homebrew PWAD stuff has been added.
   modifiedgame : boolean;
   externalpakspresent: boolean = false;

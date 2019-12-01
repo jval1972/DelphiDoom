@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,6 +19,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  System specific interface stuff.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -33,31 +36,6 @@ interface
 uses
   d_delphi,
   d_ticcmd;
-
-{
-    i_system.h, i_system.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  System specific interface stuff.
-//
-//-----------------------------------------------------------------------------
 
 procedure I_Init;
 
@@ -748,6 +726,8 @@ begin
 end;
 
 procedure I_DetectCPU;
+var
+  info: TSystemInfo;
 begin
 
   try
@@ -777,6 +757,12 @@ begin
     printf(' MMX extentions detected'#13#10);
   if AMD3DNowMachine <> 0 then
     printf(' AMD 3D Now! extentions detected'#13#10);
+
+  GetSystemInfo(info);
+
+  if info.dwNumberOfProcessors > 1 then
+    printf(' Multi-core system detected (%d CPUs)'#13#10, [info.dwNumberOfProcessors]);
+
 end;
 
 

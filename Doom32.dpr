@@ -217,7 +217,7 @@ uses
   r_data in 'Doom\r_data.pas',
   r_defs in 'Doom\r_defs.pas',
   r_draw in 'Doom\r_draw.pas',
-  r_fake3d in 'Doom\r_fake3d.pas',
+  r_fake3d in 'Base\r_fake3d.pas',
   r_grow in 'Doom\r_grow.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Doom\r_intrpl.pas',
@@ -257,7 +257,8 @@ uses
   sc_tokens in 'Base\sc_tokens.pas',
   sc_states in 'Base\sc_states.pas',
   p_common in 'Base\p_common.pas',
-  d_check in 'Doom\d_check.pas';
+  d_check in 'Doom\d_check.pas',
+  r_precalc in 'Base\r_precalc.pas';
 
 var
   Saved8087CW: Word;

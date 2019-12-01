@@ -178,6 +178,7 @@ var
   length: fixed_t;
   index: LongWord;
   ncolornum: integer;
+  slope: double;
 begin
   if x2 - x1 < 0 then
     exit;
@@ -187,10 +188,11 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    cachedxstep[y] := FixedMul(distance, basexscale);
-    ds_xstep := cachedxstep[y];
-    cachedystep[y] := FixedMul(distance, baseyscale);
-    ds_ystep := cachedystep[y];
+    slope := (planeheight / 65535.0 / abs(centery - y));
+    ds_xstep := round(dviewsin * slope * relativeaspect);
+    ds_ystep := round(dviewcos * slope * relativeaspect);
+    cachedxstep[y] := ds_xstep;
+    cachedystep[y] := ds_ystep;
   end
   else
   begin
@@ -199,6 +201,8 @@ begin
     ds_ystep := cachedystep[y];
   end;
 
+
+
   length := FixedMul(distance, distscale[x1]);
   {$IFDEF FPC}
   angle := _SHRW(viewangle + xtoviewangle[x1], ANGLETOFINESHIFT);
@@ -206,8 +210,24 @@ begin
   angle := (viewangle + xtoviewangle[x1]) shr ANGLETOFINESHIFT;
   {$ENDIF}
 
+{  ds_xfrac := viewx + FixedMul(finecosine[angle], length) + xoffs;
+  ds_yfrac := -viewy - FixedMul(finesine[angle], length) + yoffs;
+  printf('ds_xstep=%d, ds_ystep=%d, ds_xfrac=%d, ds_yfrac=%d'#13#10, [ds_xstep, ds_ystep, ds_xfrac, ds_yfrac]);}
+//---------------------------------------------------------------
+  //distance := FixedMul (planeheight, yslope[y]);
+
   ds_xfrac := viewx + FixedMul(finecosine[angle], length) + xoffs;
   ds_yfrac := -viewy - FixedMul(finesine[angle], length) + yoffs;
+{  ds_xfrac :=  viewx + xoffs + Round(viewcos * realy) + (x1 - centerx) * ds_xstep;
+  ds_yfrac := -viewy + yoffs - Round(viewsin * realy) + (x1 - centerx) * ds_ystep;}
+//  printf('ds_xstep=%d, ds_ystep=%d, ds_xfrac=%d, ds_yfrac=%d'#13#10#13#10, [ds_xstep, ds_ystep, ds_xfrac, ds_yfrac]);
+
+(*  if (drawvars.filterfloor == RDRAW_FILTER_LINEAR) {
+    dsvars->xfrac -= (FRACUNIT>>1);
+    dsvars->yfrac -= (FRACUNIT>>1);
+  }
+*)
+
 
   if fixedcolormap <> nil then
   begin
@@ -444,26 +464,33 @@ end;
 //
 {$IFNDEF OPENGL}
 procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: integer);
+var
+  x1: integer;
 begin
+  x1 := x - 1;
+  if t1 < 0 then
+    t1 := 0;
   while (t1 < t2) and (t1 <= b1) do
   begin
   // JVAL 9/7/05
-    if (t1 >= 0) and (t1 < Length(spanstart)) then
-      R_MapPlane(t1, spanstart[t1], x - 1);
+    if t1 < Length(spanstart) then
+      R_MapPlane(t1, spanstart[t1], x1);
     inc(t1);
   end;
   while (b1 > b2) and (b1 >= t1) do
   begin
   // JVAL 9/7/05
     if (b1 >= 0) and (b1 < Length(spanstart)) then
-      R_MapPlane(b1, spanstart[b1], x - 1);
+      R_MapPlane(b1, spanstart[b1], x1);
     dec(b1);
   end;
 
+  if t2 < 0 then
+    t2 := 0;
   while (t2 < t1) and (t2 <= b2) do
   begin
   // JVAL 9/7/05
-    if (t2 >= 0) and (t2 < Length(spanstart)) then
+    if t2 < Length(spanstart) then
       spanstart[t2] := x;
     inc(t2);
   end;

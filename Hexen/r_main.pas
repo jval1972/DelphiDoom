@@ -184,6 +184,11 @@ var
 
   viewcos: fixed_t;
   viewsin: fixed_t;
+{$IFNDEF OPENGL}
+  // for precise plane drawing in hi-res
+  dviewsin, dviewcos: Double;
+  relativeaspect: Double;
+{$ENDIF}  
 
   projection: fixed_t;
   projectiony: fixed_t; // JVAL For correct aspect
@@ -293,8 +298,8 @@ uses
 {$ENDIF}  
   r_lights,
   r_intrpl,
-  r_fake3d,
   r_camera,
+  r_fake3d,
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
   gl_clipper,
@@ -1436,7 +1441,11 @@ begin
 
   viewsin := finesine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
   viewcos := finecosine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
-
+{$IFNDEF OPENGL}
+  dviewsin := Sin(viewangle/$FFFFFFFF * 2 * pi);
+  dviewcos := Cos(viewangle/$FFFFFFFF * 2 * pi);
+  relativeaspect := 320/200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH;
+{$ENDIF}
   sscount := 0;
 
   fixedcolormapnum := player.fixedcolormap;

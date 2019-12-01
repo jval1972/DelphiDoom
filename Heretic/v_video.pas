@@ -1052,7 +1052,11 @@ begin
   lump := W_GetNumForName(lumpname);
   len := W_LumpLength(lump);
   if len <> 320 * 200 then
-    I_DevError('V_CopyRawDataToScreen(): Lump "%s" has invalid size: %d (does not have 320x200 size).'#13#10, [lumpname, len]);
+  begin
+    V_DrawPatch(0, 0, SCN_TMP, lumpname, false);
+    V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, scrn, true);
+    exit;
+  end;
 
   lmpdata := W_CacheLumpNum(lump, PU_STATIC);
   memcpy(@screens[scrn][0], lmpdata, len);
@@ -1061,7 +1065,7 @@ begin
 {$IFNDEF OPENGL}
   if (videomode = vm32bit) and (scrn = SCN_FG) then
     V_CopyRect32(0, 0, SCN_FG, 320, 200, 0, 0, true);
-{$ENDIF}    
+{$ENDIF}
 end;
 
 procedure V_DrawPatch8(x, y: integer; scrn: integer; patch: Ppatch_t; preserve: boolean);
@@ -1591,10 +1595,10 @@ begin
 end;
 
 procedure V_PageDrawer(const pagename: string);
-{$IFDEF OPENGL}
 var
   len: integer;
   lump: integer;
+{$IFDEF OPENGL}
   lmpdata: pointer;
 {$ENDIF}
 begin
@@ -1604,7 +1608,11 @@ begin
   lump := W_GetNumForName(pagename);
   len := W_LumpLength(lump);
   if len <> 320 * 200 then
-    I_DevError('V_PageDrawer(): Lump "%s" has invalid size: %d (does not have 320x200 size).'#13#10, [pagename, len]);
+  begin
+    V_DrawPatch(0, 0, SCN_TMP, pagename, false);
+    V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+    exit;
+  end;
 
   lmpdata := W_CacheLumpNum(lump, PU_STATIC);
   memcpy(screens[SCN_TMP], lmpdata, len);
@@ -1616,6 +1624,14 @@ begin
   if (videomode = vm32bit) and useexternaltextures then
     if T_DrawFullScreenPatch(pagename, screen32) then
       exit;
+  lump := W_GetNumForName(pagename);
+  len := W_LumpLength(lump);
+  if len <> 320 * 200 then
+  begin
+    V_DrawPatch(0, 0, SCN_TMP, pagename, false);
+    V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+    exit;
+  end;
   V_CopyRawDataToScreen(SCN_TMP, pagename);
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
 {$ENDIF}

@@ -64,7 +64,8 @@ uses
 {$ELSE}
   i_video,
 {$ENDIF}
-  v_data, v_video,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 

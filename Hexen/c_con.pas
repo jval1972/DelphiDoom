@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -59,6 +59,8 @@ function C_ConsoleHeight: integer;
 
 procedure C_AddDivideLine;
 
+procedure C_AddCommand(const cmd: string);
+
 var
   ConsoleColormap: integer;
 
@@ -74,16 +76,22 @@ implementation
 uses
   d_delphi,
   xn_defs,
-  c_cmds, c_utils,
+  c_cmds,
+  c_utils,
   d_main,
-  g_game, g_demo,
+  g_game,
+  g_demo,
   hu_stuff,
-  m_argv, m_fixed,
-  i_io, i_system,
+  m_argv,
+  m_fixed,
+  i_io,
+  i_system,
   r_defs,
   r_main,
-  v_data, v_video,
-  w_utils, w_wad,
+  v_data,
+  v_video,
+  w_utils,
+  w_wad,
   z_zone;
 
 const
@@ -299,10 +307,14 @@ end;
 //
 // C_Init
 //
+var
+  pendingcommands: TDStringList;
+
 procedure C_Init;
 var
   i: integer;
 begin
+  pendingcommands := TDStringList.Create;
   ConsoleHead := 0;
   ConsoleState := CST_UP;
   for i := 0 to MAX_CONSOLE_LINES - 1 do
@@ -348,6 +360,12 @@ procedure C_ShutDown;
 begin
   if execs <> nil then
     execs.Free;
+  pendingcommands.Free;
+end;
+
+procedure C_AddCommand(const cmd: string);
+begin
+  pendingcommands.Add(cmd);
 end;
 
 var
@@ -456,6 +474,10 @@ begin
     C_RunAutoExec;
     firsttime := false;
   end;
+
+  for c := 0 to pendingcommands.Count - 1 do
+    C_ExecuteCmd(pendingcommands.Strings[c]);
+  pendingcommands.Clear;
 
   if (ev._type <> ev_keyup) and (ev._type <> ev_keydown) then
   begin

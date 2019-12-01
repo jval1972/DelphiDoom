@@ -210,7 +210,6 @@ uses
   r_data in 'Hexen\r_data.pas',
   r_defs in 'Hexen\r_defs.pas',
   r_draw in 'Hexen\r_draw.pas',
-  r_fake3d in 'Hexen\r_fake3d.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Hexen\r_intrpl.pas',
   r_lights in 'Hexen\r_lights.pas',
@@ -259,7 +258,8 @@ uses
   gl_frustum in 'OPENGL\gl_frustum.pas',
   p_adjust in 'Base\p_adjust.pas',
   w_autoload in 'Base\w_autoload.pas',
-  p_common in 'Base\p_common.pas';
+  p_common in 'Base\p_common.pas',
+  r_fake3d in 'Base\r_fake3d.pas';
 
 var
   Saved8087CW: Word;

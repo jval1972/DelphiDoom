@@ -182,6 +182,7 @@ var
   length: fixed_t;
   index: LongWord;
   ncolornum: integer;
+  slope: double;
 begin
   if x2 - x1 < 0 then
     exit;
@@ -191,10 +192,11 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    cachedxstep[y] := FixedMul(distance, basexscale);
-    ds_xstep := cachedxstep[y];
-    cachedystep[y] := FixedMul(distance, baseyscale);
-    ds_ystep := cachedystep[y];
+    slope := (planeheight / 65535.0 / abs(centery - y));
+    ds_xstep := round(dviewsin * slope * relativeaspect);
+    ds_ystep := round(dviewcos * slope * relativeaspect);
+    cachedxstep[y] := ds_xstep;
+    cachedystep[y] := ds_ystep;
   end
   else
   begin
@@ -442,10 +444,7 @@ end;
 //
 {$IFNDEF OPENGL}
 procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: integer);
-var
-  x1: integer;
 begin
-  x1 := x - 1;
   while (t1 < t2) and (t1 <= b1) do
   begin
   // JVAL 9/7/05

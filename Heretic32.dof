@@ -100,7 +100,7 @@ Conditionals=HERETIC
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 400 -screenheight 300 -nofullscreen
+RunParams=-screenwidth 1920 -screenheight 1080 -fullscreen -iwad heretic_beta.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=532
+Build=537
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Heretic to Delphi Total Conversion
-FileVersion=1.1.4.532
+FileVersion=1.1.4.537
 InternalName=Heretic
 LegalCopyright=Copyright 2005 - 2012, Jim Valavanis
 LegalTrademarks=

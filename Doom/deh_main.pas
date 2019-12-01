@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -92,6 +92,8 @@ var
 
   deh_actions: array[0..DEHNUMACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
+
+function deh_actionname(action: actionf_t): string;
 
 implementation
 
@@ -2632,6 +2634,20 @@ begin
   realloc(pointer(deh_strings._array), deh_strings.realnumstrings * SizeOf(deh_string_t), 0);
 end;
 
+function deh_actionname(action: actionf_t): string;
+var
+  i: integer;
+begin
+  for i := 0 to DEHNUMACTIONS - 1 do
+  begin
+    if @deh_actions[i].action.acp1 = @action.acp1 then
+    begin
+      Result := deh_actions[i].name;
+      Exit;
+    end;
+  end;
+  Result := '';
+end;
 
 end.
 

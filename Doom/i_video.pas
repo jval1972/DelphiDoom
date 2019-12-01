@@ -170,14 +170,16 @@ var
   i, j: integer;
 begin
   for i := 0 to 255 do
+  begin
+    idx.byte1 := i;
+    pitem.longword1 := curpal[i];
     for j := 0 to 255 do
     begin
-      idx.byte1 := i;
       idx.byte2 := j;
-      pitem.longword1 := curpal[i];
       pitem.longword2 := curpal[j];
       curpal64[PWord(@idx)^] := PInt64(@pitem)^;
     end;
+  end;
 end;
 
 //

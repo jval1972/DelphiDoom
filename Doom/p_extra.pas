@@ -181,8 +181,6 @@ procedure A_UnSetMonsterInfight(actor: Pmobj_t);
 
 procedure A_NoiseAlert(actor: Pmobj_t);
 
-procedure A_ConsoleCommand(actor: Pmobj_t);  
-
 procedure A_SetCustomParam(actor: Pmobj_t);
 
 procedure A_AddCustomParam(actor: Pmobj_t);
@@ -260,7 +258,6 @@ uses
   d_delphi,
   d_player,
   i_system,
-  c_con,
   info_h,
   info,
   r_defs,
@@ -1845,21 +1842,6 @@ begin
     exit;
 
   P_NoiseAlert(actor.target, actor);
-end;
-
-procedure A_ConsoleCommand(actor: Pmobj_t);
-var
-  cmd: string;
-  i: integer;
-begin
-  if not P_CheckStateParams(actor) then
-    exit;
-
-  cmd := actor.state.params.StrVal[0];
-  for i := 1 to actor.state.params.Count - 1 do
-    cmd := cmd + ' ' + actor.state.params.StrVal[i];
-
-  C_AddCommand(cmd);
 end;
 
 procedure A_SetCustomParam(actor: Pmobj_t);

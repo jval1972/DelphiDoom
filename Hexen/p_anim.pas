@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -62,10 +62,14 @@ implementation
 uses
   g_game,
   i_system,
-  m_fixed, m_rnd,
-  p_setup, p_tick,
-  r_data, r_sky,
-  s_sound, sounds,
+  m_fixed,
+  m_rnd,
+  p_setup,
+  p_tick,
+  r_data,
+  r_sky,
+  s_sound,
+  sounds,
   sc_engine,
   xn_defs,
   w_wad,

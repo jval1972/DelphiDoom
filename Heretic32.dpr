@@ -214,7 +214,7 @@ uses
   r_data in 'Heretic\r_data.pas',
   r_defs in 'Heretic\r_defs.pas',
   r_draw in 'Heretic\r_draw.pas',
-  r_fake3d in 'Heretic\r_fake3d.pas',
+  r_fake3d in 'Base\r_fake3d.pas',
   r_grow in 'Heretic\r_grow.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Heretic\r_intrpl.pas',
@@ -250,7 +250,8 @@ uses
   w_autoload in 'Base\w_autoload.pas',
   sc_states in 'Base\sc_states.pas',
   sc_tokens in 'Base\sc_tokens.pas',
-  p_common in 'Base\p_common.pas';
+  p_common in 'Base\p_common.pas',
+  r_precalc in 'Base\r_precalc.pas';
 
 var
   Saved8087CW: Word;

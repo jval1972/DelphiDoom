@@ -632,6 +632,11 @@ end;
 procedure D_PageDrawer;
 begin
   V_PageDrawer(pagename);
+  {$IFNDEF OPENGL}
+  if demosequence = 0 then
+    if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
+      V_DrawPatch(120, 1020, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
+  {$ENDIF}      
 end;
 
 //
@@ -1347,12 +1352,13 @@ begin
       scale := atoi(myargv[p + 1], 200);
       if scale < 10 then
         scale := 10
-      else if scale > 400 then
-        scale := 400;
+      else if scale > 200 then // 22/3/2012 (was 400)
+        scale := 200;          // 22/3/2012 (was 400)
     end
     else
       scale := 200;
     printf(' turbo scale: %d'#13#10, [scale]);
+    // 22/3/2012
     forwardmove[0] := forwardmove[0] * scale div 100;
     forwardmove[1] := forwardmove[1] * scale div 100;
     sidemove[0] := sidemove[0] * scale div 100;
@@ -1694,21 +1700,25 @@ begin
     if fexists('CHEX.WAD') then
       D_AddFile('CHEX.WAD')
     else if fexists('HACX.WAD') then
-      D_AddFile('HACX.WAD');
-  end;
+      D_AddFile('HACX.WAD')
+    else if fexists('FREEDOOM.WAD') then
+      D_AddFile('FREEDOOM.WAD')
+    else if fexists('FREEDOOM2.WAD') then
+      D_AddFile('FREEDOOM2.WAD');
 
-  if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
-  begin
-  // JVAL
-  //  If none wadfile has found as far,
-  //  we search the current directory
-  //  and we use the first WAD we find
-    filename := findfile('*.wad');
-    if filename <> '' then
-      I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
-    D_AddFile(filename);
-    if W_InitMultipleFiles(wadfiles) = 0 then
-      I_Error('W_InitMultipleFiles(): no files found');
+    if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
+    begin
+    // JVAL
+    //  If none wadfile has found as far,
+    //  we search the current directory
+    //  and we use the first WAD we find
+      filename := findfile('*.wad');
+      if filename <> '' then
+        I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
+      D_AddFile(filename);
+      if W_InitMultipleFiles(wadfiles) = 0 then
+        I_Error('W_InitMultipleFiles(): no files found');
+    end;
   end;
 
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);

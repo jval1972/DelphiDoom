@@ -459,7 +459,7 @@ begin
       csize := csize + texture.height;
     end;
     texturecompositesize[texnum] := csize;
-
+ 
   end
   else
   begin

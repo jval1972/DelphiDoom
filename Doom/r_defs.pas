@@ -19,6 +19,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//      Refresh/rendering module, shared data struct definitions.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -45,33 +48,7 @@ uses
   d_think,
 // SECTORS do store MObjs anyway.
   p_mobj_h,
-  
   w_wad;
-
-{
-    r_defs.h
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//      Refresh/rendering module, shared data struct definitions.
-//
-//-----------------------------------------------------------------------------
 
 // Silhouette, needed for clipping Segs (mainly)
 // and sprites representing things.
@@ -108,10 +85,6 @@ type
   Pvertex_t = ^vertex_t;
   vertex_tArray = packed array[0..$FFFF] of vertex_t;
   Pvertex_tArray = ^vertex_tArray;
-
-{// Forward of LineDefs, for Sectors.
-  line_t = record;}
-
 
 // Each sector has a degenmobj_t in its center
 //  for sound origin purposes.
@@ -208,13 +181,13 @@ type
   Psector_tArray = ^sector_tArray;
 
   msecnode_t = record
-    m_sector: Psector_t; // a sector containing this object
-    m_thing: Pmobj_t;  // this object
-    m_tprev: Pmsecnode_t;  // prev msecnode_t for this thing
-    m_tnext: Pmsecnode_t;  // next msecnode_t for this thing
-    m_sprev: Pmsecnode_t;  // prev msecnode_t for this sector
-    m_snext: Pmsecnode_t;  // next msecnode_t for this sector
-    visited: boolean; // killough 4/4/98, 4/7/98: used in search algorithms
+    m_sector: Psector_t;  // a sector containing this object
+    m_thing: Pmobj_t;     // this object
+    m_tprev: Pmsecnode_t; // prev msecnode_t for this thing
+    m_tnext: Pmsecnode_t; // next msecnode_t for this thing
+    m_sprev: Pmsecnode_t; // prev msecnode_t for this sector
+    m_snext: Pmsecnode_t; // next msecnode_t for this sector
+    visited: boolean;     // killough 4/4/98, 4/7/98: used in search algorithms
   end;
 //
 // The SideDef.

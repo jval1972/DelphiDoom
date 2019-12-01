@@ -254,13 +254,16 @@ begin
   li := @lines[0];
   for i := 0 to numlines - 1 do
   begin
-    for j := 0 to 1 do
+    if li.special <> 0 then
     begin
-      if li.sidenum[j] > -1 then
+      for j := 0 to 1 do
       begin
-        si := @sides[li.sidenum[j]];
-        R_AddInterpolationItem(@si.textureoffset, iinteger);
-        R_AddInterpolationItem(@si.rowoffset, iinteger);
+        if li.sidenum[j] > -1 then
+        begin
+          si := @sides[li.sidenum[j]];
+          R_AddInterpolationItem(@si.textureoffset, iinteger);
+          R_AddInterpolationItem(@si.rowoffset, iinteger);
+        end;
       end;
     end;
     inc(li);

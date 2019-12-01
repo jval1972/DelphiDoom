@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2007 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -44,7 +44,11 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
-  r_draw, r_main, r_column, r_hires,
+  r_draw,
+  r_main,
+  r_column,
+  r_hires,
+  r_precalc,
   v_video;
 
 procedure R_DrawMaskedColumnNormal;
@@ -58,8 +62,11 @@ var
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c: LongWord;
   lfactor: integer;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -75,13 +82,14 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-  {$UNDEF INVERSECOLORMAPS}
-  {$I R_DrawMaskedColumnNormal.inc}
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$UNDEF INVERSECOLORMAPS}
+    {$I R_DrawMaskedColumnNormal.inc}
   end
   else
   begin
-  {$DEFINE INVERSECOLORMAPS}
-  {$I R_DrawMaskedColumnNormal.inc}
+    {$DEFINE INVERSECOLORMAPS}
+    {$I R_DrawMaskedColumnNormal.inc}
   end;
 end;
 
@@ -100,6 +108,9 @@ var
   r1, g1, b1: byte;
   c, c1, r, g, b: LongWord;
   lfactor: integer;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -115,13 +126,14 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-  {$UNDEF INVERSECOLORMAPS}
-  {$I R_DrawMaskedColumnHi.inc}
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$UNDEF INVERSECOLORMAPS}
+    {$I R_DrawMaskedColumnHi.inc}
   end
   else
   begin
-  {$DEFINE INVERSECOLORMAPS}
-  {$I R_DrawMaskedColumnHi.inc}
+    {$DEFINE INVERSECOLORMAPS}
+    {$I R_DrawMaskedColumnHi.inc}
   end;
 end;
 
@@ -136,9 +148,12 @@ var
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c, r, g, b: LongWord;
   lfactor: integer;
   and_mask: integer;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -158,17 +173,18 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-  {$UNDEF INVERSECOLORMAPS}
-  {$DEFINE MASKEDCOLUMN}
-  {$UNDEF SMALLSTEPOPTIMIZER}
-  {$I R_DrawColumnHi.inc}
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$UNDEF INVERSECOLORMAPS}
+    {$DEFINE MASKEDCOLUMN}
+    {$UNDEF SMALLSTEPOPTIMIZER}
+    {$I R_DrawColumnHi.inc}
   end
   else
   begin
-  {$DEFINE INVERSECOLORMAPS}
-  {$DEFINE MASKEDCOLUMN}
-  {$UNDEF SMALLSTEPOPTIMIZER}
-  {$I R_DrawColumnHi.inc}
+    {$DEFINE INVERSECOLORMAPS}
+    {$DEFINE MASKEDCOLUMN}
+    {$UNDEF SMALLSTEPOPTIMIZER}
+    {$I R_DrawColumnHi.inc}
   end;
 end;
 
@@ -191,6 +207,9 @@ var
   factor2: fixed_t;
   lfactor: integer;
   and_mask: integer;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -205,20 +224,21 @@ begin
   fracstep := fracstep * (1 shl dc_texturefactorbits);
   frac := frac * (1 shl dc_texturefactorbits);
   and_mask := 128 * (1 shl dc_texturefactorbits) - 1;
-  
+
   swidth := SCREENWIDTH32PITCH;
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-  {$UNDEF INVERSECOLORMAPS}
-  {$DEFINE MASKEDCOLUMN}
-  {$I R_DrawColumnUltra.inc}
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$UNDEF INVERSECOLORMAPS}
+    {$DEFINE MASKEDCOLUMN}
+    {$I R_DrawColumnUltra.inc}
   end
   else
   begin
-  {$DEFINE INVERSECOLORMAPS}
-  {$DEFINE MASKEDCOLUMN}
-  {$I R_DrawColumnUltra.inc}
+    {$DEFINE INVERSECOLORMAPS}
+    {$DEFINE MASKEDCOLUMN}
+    {$I R_DrawColumnUltra.inc}
   end;
 end;
 

@@ -36,7 +36,9 @@
 {$IFDEF TRANSPARENTFLAT}
       destl^ := R_ColorMidAverage(c, destl^);
 {$ELSE}
-      {$I R_ColorLight.inc}
+      destl^ := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
+
+//      {$I R_ColorLight.inc}
 {$ENDIF}
 {$ENDIF}
       inc(destl);

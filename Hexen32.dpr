@@ -212,7 +212,7 @@ uses
   r_data in 'Hexen\r_data.pas',
   r_defs in 'Hexen\r_defs.pas',
   r_draw in 'Hexen\r_draw.pas',
-  r_fake3d in 'Hexen\r_fake3d.pas',
+  r_fake3d in 'Base\r_fake3d.pas',
   r_grow in 'Hexen\r_grow.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Hexen\r_intrpl.pas',

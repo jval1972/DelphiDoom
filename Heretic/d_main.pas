@@ -604,6 +604,11 @@ end;
 procedure D_PageDrawer;
 begin
   V_PageDrawer(pagename);
+  {$IFNDEF OPENGL}
+  if demosequence = 0 then
+    if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
+      V_DrawPatch(120, 1060, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
+  {$ENDIF}
   if demosequence = 1 then
     V_DrawPatch(4, 160, SCN_FG, W_CacheLumpName('ADVISOR', PU_CACHE), true);
 end;
@@ -1152,8 +1157,8 @@ begin
       scale := atoi(myargv[p + 1]);
       if scale < 10 then
         scale := 10
-      else if scale > 400 then
-        scale := 400;
+      else if scale > 200 then
+        scale := 200;
     end
     else
       scale := 200;
@@ -1550,11 +1555,21 @@ begin
     end
   end;
 
+  if W_CheckNumForName('e1m4') = -1 then
+  begin
+    gamemode := shareware;
+    customgame := cg_beta;
+  end;
+
   case gamemode of
     extendedwad: SUC_SetGameMode('Heretic: Extented Version');
     registered: SUC_SetGameMode('Registered Heretic');
-    shareware: SUC_SetGameMode('Shareware Heretic');
+    shareware: if customgame = cg_beta then SUC_SetGameMode('HERETIC - WIDE AREA BETA') else SUC_SetGameMode('Shareware Heretic');
   end;
+
+  if customgame = cg_beta then
+    if not DEH_ParseLumpName('BETA.DEH') then
+      I_Warning('DEH_ParseLumpName(): BETA.DEH lump not found.'#13#10);
 
   SUC_Progress(59);
 

@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 291;
+  DEHNUMACTIONS = 292;
 
 type
   deh_action_t = record
@@ -2473,6 +2473,8 @@ begin
   deh_actions[289].name := strupper('GoToIfCloser');
   deh_actions[290].action.acp1 := @A_GoToIfHealthLower;
   deh_actions[290].name := strupper('GoToIfHealthLower');
+  deh_actions[291].action.acp1 := @A_ConsoleCommand;
+  deh_actions[291].name := strupper('ConsoleCommand');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

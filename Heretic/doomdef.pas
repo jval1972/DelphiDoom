@@ -89,6 +89,12 @@ type
     unknown
   );
 
+  // JVAL: Support for the beta version
+  CustomGame_t = (
+    cg_none,
+    cg_beta
+  );
+
 const
 // ?
   MAXWIDTH = 2048;

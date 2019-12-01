@@ -5,7 +5,7 @@
 {$IFDEF INVERSECOLORMAPS}
     {$I R_InverseLight.inc}
 {$ELSE}
-    {$I R_ColorLight.inc}
+    destl^ := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 {$ENDIF}
 
     destl := PLongWord(integer(destl) + swidth);

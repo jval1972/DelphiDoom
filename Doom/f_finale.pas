@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,6 +18,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+// 
+// DESCRIPTION:
+//  Game completion, final screen animation.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -33,31 +36,6 @@ interface
 uses
   d_event,
   info_h;
-
-{
-    f_finale.h, f_finale.c
-}
-
-// Emacs style mode select   -*- C++ -*-  
-//----------------------------------------------------------------------------- 
-// 
-// $Id:$ 
-// 
-// Copyright (C) 1993-1996 by id Software, Inc. 
-// 
-// This source is available for distribution and/or modification 
-// only under the terms of the DOOM Source Code License as 
-// published by id Software. All rights reserved. 
-// 
-// The source is distributed in the hope that it will be useful, 
-// but WITHOUT ANY WARRANTY; without even the implied warranty of 
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License 
-// for more details. 
-// 
-// DESCRIPTION: 
-// Game completion, final screen animation. 
-//
-//----------------------------------------------------------------------------- 
 
 function F_Responder(ev: Pevent_t): boolean;
 
@@ -105,20 +83,26 @@ implementation
 uses
   d_delphi,
   am_map,
-  d_player, d_main,
+  d_player,
+  d_main,
   g_game,
   info,
   p_pspr,
-  r_data, r_defs, r_things,
+  r_data,
+  r_defs,
+  r_things,
 // Functions.
-  
   z_zone,
-  v_data, v_video,
+  v_data,
+  v_video,
   w_wad,
   s_sound,
 // Data.
-  dstrings, d_englsh, sounds,
-  doomdef, doomstat,
+  dstrings,
+  d_englsh,
+  sounds,
+  doomdef,
+  doomstat,
   hu_stuff;
 
 var

@@ -152,6 +152,7 @@ uses
   {$ELSE}
   doomdef,
   {$ENDIF}
+  c_cmds,
   d_main,
   g_game,
   i_system,
@@ -446,6 +447,24 @@ begin
   PAK_StringIterator(MODELDEFLUMPNAME + '.txt', SC_ParseModelDefinition);
 end;
 
+procedure Cmd_ModelMapping;
+var
+  i: integer;
+  mapped: boolean;
+begin
+  for i := 0 to nummobjtypes - 1 do
+  begin
+    mapped := false;
+    if mobjinfo[i].spawnstate > 0 then
+      if states[mobjinfo[i].spawnstate].models <> nil then
+        if states[mobjinfo[i].spawnstate].models.Count > 0 then
+          mapped := True;
+    if mapped then
+      printf('%s -> model mapped'#13#10, [mobjinfo[i].name])
+    else
+      printf('%s -> model unmapped'#13#10, [mobjinfo[i].name]);
+  end;
+end;
 
 procedure gld_InitModels;
 begin
@@ -457,6 +476,7 @@ begin
   modelstates := nil;
   printf('SC_ParseModelDefinitions: Parsing MODELDEF lumps.'#13#10);
   SC_ParseModelDefinitions;
+  C_AddCmd('modelmapping', @Cmd_ModelMapping);
 end;
 
 procedure gld_CleanModelTextures;

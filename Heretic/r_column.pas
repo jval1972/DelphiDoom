@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2007 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -81,7 +81,10 @@ implementation
 uses
   doomdef,
   doomtype,
-  r_data, r_draw, r_hires,
+  r_data,
+  r_draw,
+  r_hires,
+  r_precalc,
   v_video;
 
 //
@@ -349,7 +352,10 @@ var
   lspot: integer;
   ldest: LongWord;
   and_mask: integer;
-begin 
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
+begin
   count := dc_yh - dc_yl;
 
   if count < 0 then
@@ -375,17 +381,18 @@ begin
   begin
     if lfactor >= 0 then
     begin
-    {$UNDEF INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$UNDEF SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end
     else
     begin
-    {$DEFINE INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$UNDEF SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end;
   end
   else
@@ -394,17 +401,18 @@ begin
     ldest := 0;
     if lfactor >= 0 then
     begin
-    {$UNDEF INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$DEFINE SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end
     else
     begin
-    {$DEFINE INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$DEFINE SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end;
   end;
 end;
@@ -428,7 +436,10 @@ var
   factor2: fixed_t;
   lfactor: integer;
   and_mask: integer;
-begin               
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
+begin
 
   count := dc_yh - dc_yl;
 
@@ -453,15 +464,16 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-  {$UNDEF INVERSECOLORMAPS}
-  {$UNDEF MASKEDCOLUMN}
-  {$I R_DrawColumnUltra.inc}
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$UNDEF INVERSECOLORMAPS}
+    {$UNDEF MASKEDCOLUMN}
+    {$I R_DrawColumnUltra.inc}
   end
   else
   begin
-  {$DEFINE INVERSECOLORMAPS}
-  {$UNDEF MASKEDCOLUMN}
-  {$I R_DrawColumnUltra.inc}
+    {$DEFINE INVERSECOLORMAPS}
+    {$UNDEF MASKEDCOLUMN}
+    {$I R_DrawColumnUltra.inc}
   end;
 end;
 

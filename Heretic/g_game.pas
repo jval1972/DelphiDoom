@@ -1515,6 +1515,14 @@ begin
   end;
 
   case gamemap of
+    3:
+      begin
+        if customgame = cg_beta then
+        begin
+          gameaction := ga_victory;
+          exit;
+        end;
+      end;
     8:
       begin
         gameaction := ga_victory;

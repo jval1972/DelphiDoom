@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,6 +19,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Teleportation.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -34,34 +37,6 @@ uses
   p_mobj_h,
   r_defs;
 
-{
-    p_telept.c
-}
-
-// Emacs style mode select   -*- C++ -*- 
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// $Log:$
-//
-// DESCRIPTION:
-//  Teleportation.
-//
-//-----------------------------------------------------------------------------
-
-
 //
 // TELEPORTATION
 //
@@ -75,11 +50,13 @@ implementation
 
 uses
   d_delphi,
-  
+  doomdef,
+  doomstat,
   d_think,
   d_player,
   info_h,
   m_fixed,
+  g_game,
   p_setup,
   p_tick,
   p_mobj,
@@ -171,7 +148,15 @@ begin
           exit;
         end;
 
-        thing.z := thing.floorz;  //fixme: not needed?
+        // fraggle: this was changed in final doom,
+        // problem between normal doom2 1.9 and final doom
+        //
+        // Note that although chex.exe is based on Final Doom,
+        // it does not have this quirk.
+
+        if (gameversion < exe_final) or (gameversion = exe_chex) or (G_PlayingEngineVersion in [VERSION111..VERSION118]) then
+          thing.z := thing.floorz;  //fixme: not needed?
+          
         p := Pplayer_t(thing.player);
         if p <> nil then
         begin
@@ -481,3 +466,4 @@ begin
 end;
 
 end.
+

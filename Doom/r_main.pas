@@ -157,7 +157,11 @@ var
 
   viewcos: fixed_t;
   viewsin: fixed_t;
-
+{$IFNDEF OPENGL}
+  // for precise plane drawing in hi-res
+  dviewsin, dviewcos: Double;
+  relativeaspect: Double;
+{$ENDIF}
   projection: fixed_t;
   projectiony: fixed_t; // JVAL For correct aspect
 
@@ -252,6 +256,7 @@ uses
   r_segs,
   r_hires,
 {$IFNDEF OPENGL}
+  r_precalc,
   r_cache,
 {$ENDIF}
   r_lights,
@@ -1240,6 +1245,8 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitTransparency8Tables');
   R_InitTransparency8Tables;
+  printf(#13#10 + 'R_InitPrecalc32');
+  R_InitPrecalc32;
 {$ENDIF}
 
   framecount := 0;
@@ -1281,13 +1288,15 @@ begin
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_FreeTransparency8Tables');
   R_FreeTransparency8Tables;
+  printf(#13#10 + 'R_ShutDownPrecalc32');
+  R_ShutDownPrecalc32;
 {$ENDIF}
   printf(#13#10 + 'R_FreeMemory');
   R_FreeMemory;
 {$IFDEF OPENGL}
   printf(#13#10 + 'R_ShutDownOpenGL');
   R_ShutDownOpenGL;
-{$ENDIF}  
+{$ENDIF}
   printf(#13#10);
 end;
 
@@ -1447,7 +1456,11 @@ begin
 
   viewsin := finesine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
   viewcos := finecosine[{$IFDEF FPC}_SHRW(viewangle, ANGLETOFINESHIFT){$ELSE}viewangle shr ANGLETOFINESHIFT{$ENDIF}];
-
+{$IFNDEF OPENGL}
+  dviewsin := Sin(viewangle/$FFFFFFFF * 2 * pi);
+  dviewcos := Cos(viewangle/$FFFFFFFF * 2 * pi);
+  relativeaspect := 320/200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH;
+{$ENDIF}  
   fixedcolormapnum := player.fixedcolormap;
   if fixedcolormapnum <> 0 then
   begin

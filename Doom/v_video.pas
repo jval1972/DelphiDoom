@@ -290,6 +290,8 @@ uses
 var
   preserveX: array[0..319] of integer;
   preserveY: array[0..199] of integer;
+  widthintmultiplyer: Integer = 0;
+  heightintmultiplyer: Integer = 0;
 
 function V_NeedsPreserve(const destscrn, srcscrn: integer): boolean; overload;
 begin
@@ -532,11 +534,15 @@ var
   row: integer;
   swidth: integer;
   dwidth: integer;
+  ldest: longword;
+  ldest64: twolongwords;
+  pv: boolean;
 begin
   swidth := V_GetScreenWidth(srcscrn);
   dwidth := V_GetScreenWidth(SCN_FG);
 
-  if V_NeedsPreserve(SCN_FG, srcscrn, preserve) then
+  pv := V_NeedsPreserve(SCN_FG, srcscrn, preserve);
+  if pv then
   begin
     destw := V_PreserveW(destx, width);
     desth := V_PreserveH(desty, height);
@@ -549,7 +555,7 @@ begin
 
   if (destw <> 0) and (desth <> 0) then
   begin
-    if V_NeedsPreserve(SCN_FG, srcscrn, preserve) then
+    if pv then
     begin
       destx := V_PreserveX(destx);
       desty := V_PreserveY(desty);
@@ -563,6 +569,102 @@ begin
     end;
 
     fracy := srcy * FRACUNIT;
+
+    if pv then
+      case widthintmultiplyer of
+        2: // Width: 640
+          begin
+            destw := destw div 2;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := @screen32[dwidth * row + destx];
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                ldest := videopal[src[col]];
+                dest^ := ldest;
+                inc(dest);
+                dest^ := ldest;
+                inc(dest);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+  // JVAL: Typically unused because we use stallhack to prevent 1280 width
+       4: // Width: 1280
+          begin
+            destw := destw div 4;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := @screen32[dwidth * row + destx];
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                ldest64.longword1 := videopal[src[col]];
+                ldest64.longword2 := ldest64.longword1;
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+        5: // Width: 1600
+          begin
+            destw := destw div 5;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := @screen32[dwidth * row + destx];
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                ldest64.longword1 := videopal[src[col]];
+                ldest64.longword2 := ldest64.longword1;
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                dest^ := ldest64.longword1;
+                inc(dest);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+        6: // Width: 1920
+          begin
+            destw := destw div 6;
+            for row := desty to desty + desth - 1 do
+            begin
+              dest := @screen32[dwidth * row + destx];
+              src := PByteArray(integer(screens[srcscrn]) + swidth * (fracy div FRACUNIT) + srcx);
+              col := 0;
+              while col < destw do
+              begin
+                ldest64.longword1 := videopal[src[col]];
+                ldest64.longword2 := ldest64.longword1;
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
+                inc(col);
+              end;
+              fracy := fracy + fracystep;
+            end;
+            Exit;
+          end;
+      end;
 
     for row := desty to desty + desth - 1 do
     begin
@@ -1974,6 +2076,17 @@ begin
 
   for i := 0 to 199 do
     preserveY[i] := trunc(i * {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} / 200);
+
+  if {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} mod 320 = 0 then
+    widthintmultiplyer := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF} div 320
+  else
+    widthintmultiplyer := 0;
+
+  if {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} mod 200 = 0 then
+    heightintmultiplyer := {$IFDEF OPENGL}V_GetScreenHeight(SCN_FG){$ELSE}SCREENHEIGHT{$ENDIF} div 200
+  else
+    heightintmultiplyer := 0;
+
 end;
 
 //
