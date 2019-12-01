@@ -957,6 +957,7 @@ var
 {$ELSE}
   iscale: fixed_t;
   voxelflag: integer;
+  vx1, vx2: integer;
 {$ENDIF}
 begin
   if (thing.player = viewplayer) and not chasecamera then
@@ -1034,7 +1035,10 @@ begin
     flip := sprframe.flip[0];
   end;
 
-    tx := tx - spriteoffset[lump];
+  {$IFNDEF OPENGL}
+  vx1 := FixedInt(centerxfrac + FixedMul(tx - thing.state.voxelradius, xscale));
+  {$ENDIF}
+  tx := tx - spriteoffset[lump];
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
 
   // off the right side?
@@ -1046,13 +1050,11 @@ begin
     if x1 > viewwidth then
       exit;
 
-  {$IFNDEF OPENGL}
-{  if voxelflag <> 0 then
-    tx := tx + 256 * FRACUNIT
-  else}
-  {$ENDIF}
-    tx := tx + spritewidth[lump];
+  tx := tx + spritewidth[lump];
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
+  {$IFNDEF OPENGL}
+  vx2 := FixedInt(centerxfrac + FixedMul(tx - spritewidth[lump] + 2 * thing.state.voxelradius, xscale));
+  {$ENDIF}
 
   // off the left side
   {$IFDEF OPENGL}
@@ -1089,6 +1091,16 @@ begin
     vis.x2 := viewwidth - 1
   else
     vis.x2 := x2;
+
+  if vx1 <= 0 then
+    vis.vx1 := 0
+  else
+    vis.vx1:= vx1;
+  if vx2 >= viewwidth then
+    vis.vx2 := viewwidth - 1
+  else
+    vis.vx2 := vx2;
+
   iscale := FixedDiv(FRACUNIT, xscale);
 
   if flip then

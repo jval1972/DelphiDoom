@@ -88,6 +88,7 @@ begin
                Ord(spr[2]) shl 8 +
                Ord(spr[3]) shl 16 +
                Ord(spr[4]) shl 24;
+
     sp_idx := -1;
     for i := 0 to numsprites - 1 do
       if sprnames[i] = spr_idx then

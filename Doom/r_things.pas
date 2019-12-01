@@ -955,6 +955,7 @@ var
   plheightsec: integer;
   gzt: integer;
   voxelflag: integer;
+  vx1, vx2: integer;
 {$ENDIF}
   soffset, swidth: fixed_t;
 begin
@@ -1037,14 +1038,12 @@ begin
     flip := sprframe.flip[0];
   end;
 
-  {$IFNDEF OPENGL}
-{  if voxelflag = 1 then
-    soffset := thing.state.voxelradius + FRACUNIT
-  else}
-  {$ENDIF}
   soffset := spriteoffset[lump];
   tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
+  {$IFNDEF OPENGL}
+  vx1 := FixedInt(centerxfrac + FixedMul(tx + soffset - thing.state.voxelradius, xscale));
+  {$ENDIF}
 
   // off the right side?
   {$IFDEF OPENGL}
@@ -1055,14 +1054,12 @@ begin
     if x1 > viewwidth then
       exit;
 
-  {$IFNDEF OPENGL}
-{  if voxelflag = 1 then
-    swidth := 2 * soffset // thing.state.voxelradius
-  else}
-  {$ENDIF}
-    swidth := spritewidth[lump];
-    tx := tx + swidth;
+  swidth := spritewidth[lump];
+  tx := tx + swidth;
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
+  {$IFNDEF OPENGL}
+  vx2 := FixedInt(centerxfrac + FixedMul(tx - swidth + 2 * thing.state.voxelradius, xscale));
+  {$ENDIF}
 
   // off the left side
   {$IFDEF OPENGL}
@@ -1129,10 +1126,7 @@ begin
   // foot clipping
   vis.footclip := thing.floorclip;
   vis.texturemid := vis.gzt - viewz - vis.footclip * FRACUNIT;
-{  if voxelflag = 1 then
-    vis.texturemid2 := thing.z - viewz
-  else      }
-    vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
+  vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
   if x1 <= 0 then
     vis.x1 := 0
   else
@@ -1141,6 +1135,14 @@ begin
     vis.x2 := viewwidth - 1
   else
     vis.x2 := x2;
+  if vx1 <= 0 then
+    vis.vx1 := 0
+  else
+    vis.vx1:= vx1;
+  if vx2 >= viewwidth then
+    vis.vx2 := viewwidth - 1
+  else
+    vis.vx2 := vx2;
   iscale := FixedDiv(FRACUNIT, xscale);
 
   if flip then

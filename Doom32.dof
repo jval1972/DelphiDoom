@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1024 -screenheight 600 -nofullscreen -iwad doom2.wad -pakfile voxeltest_kvx.pk3 voxel_map.wad
+RunParams=-vga -nofullscreen -iwad doom2.wad -pakfile voxeltest.pk3 voxel_map.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=580
+Build=581
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.580
+FileVersion=1.1.4.581
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=

@@ -263,7 +263,8 @@ uses
   z_memmgr in 'Base\z_memmgr.pas',
   gl_voxels in 'OPENGL\gl_voxels.pas',
   vx_base in 'Base\vx_base.pas',
-  info_fnd in 'Base\info_fnd.pas';
+  info_fnd in 'Base\info_fnd.pas',
+  m_crc32 in 'Base\m_crc32.pas';
 
 var
   Saved8087CW: Word;

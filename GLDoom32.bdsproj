@@ -130,7 +130,7 @@
 			<Directories Name="UsePackages">False</Directories>
 		</Directories>
 		<Parameters>
-			<Parameters Name="RunParams">-svga -nofullscreen -iwad doom2.wad voxeltest.pk3 voxel_map.wad</Parameters>
+			<Parameters Name="RunParams">-fullhd -nofullscreen -iwad doom2.wad voxeltest.pk3 voxel_map.wad</Parameters>
 			<Parameters Name="HostApplication"></Parameters>
 			<Parameters Name="Launcher"></Parameters>
 			<Parameters Name="UseLauncher">False</Parameters>
@@ -150,7 +150,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">1</VersionInfo>
 			<VersionInfo Name="Release">4</VersionInfo>
-			<VersionInfo Name="Build">580</VersionInfo>
+			<VersionInfo Name="Build">581</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName">Jim Valavanis</VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription">Doom to Delphi Total Conversion</VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.1.4.580</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.1.4.581</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName">GLDoom</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright">Copyright 2005 - 2013, Jim Valavanis</VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>

@@ -43,12 +43,64 @@ implementation
 uses
   d_delphi,
   doomdef,
-  doomstat;
+  doomstat,
+  m_crc32,
+  w_wad;
+
+type
+  waddetect_t = record
+    crc32: string[8];
+    numlumps: integer;
+    size: integer;
+    version: GameVersion_t;
+    customgame: CustomGame_t;
+  end;
+
+const
+  NUMWADDETECTITEMS = 11;
+  wdtbl: array[0..NUMWADDETECTITEMS - 1] of waddetect_t = (
+    (crc32: '723e60f9'; numlumps: 2194; size: 11159840; version: exe_doom_1_9; customgame: cg_none),  // registered
+    (crc32: 'bf0eaac0'; numlumps: 2306; size: 12408292; version: exe_ultimate; customgame: cg_none),  // Ultimate
+    (crc32: 'ff1ba733'; numlumps: 2318; size: 12538385; version: exe_ultimate; customgame: cg_none),  // Ultimate X-box
+    (crc32: '5efa677e'; numlumps: 2312; size: 12487824; version: exe_ultimate; customgame: cg_none),  // Ultimate BFG
+    (crc32: '162b696a'; numlumps: 1264; size:  4196020; version: exe_ultimate; customgame: cg_none),  // shareware 1.9
+    (crc32: 'ec8725db'; numlumps: 2919; size: 14604584; version: exe_doom_1_9; customgame: cg_none),  // Doom2 1.9
+    (crc32: '903dcc27'; numlumps: 3101; size: 18195736; version: exe_final2;   customgame: cg_none),  // TNT
+    (crc32: 'd4bb05c0'; numlumps: 3106; size: 18654796; version: exe_final2;   customgame: cg_none),  // TNT
+    (crc32: '7f572c1f'; numlumps: 3101; size: 18222568; version: exe_final2;   customgame: cg_none),  // TNT
+    (crc32: '48d1453c'; numlumps: 2984; size: 17420824; version: exe_final2;   customgame: cg_none),  // PLUTONIA
+    (crc32: '15cd1448'; numlumps: 2988; size: 18240172; version: exe_final2;   customgame: cg_none)   // PLUTONIA
+  );
+
 
 procedure D_CheckCustomWad(const filename: string);
 var
   sname: string;
+  crc32: string[8];
+  wi: wadinfo_t;
+  numlmps: integer;
+  f: TFile;
+  size: integer;
+  i: integer;
 begin
+  if not fexists(filename) then
+    exit;
+  f := TFile.Create(filename, fOpenReadOnly);
+  size := f.Size;
+  if f.Read(wi, SizeOf(wadinfo_t)) <> SizeOf(wadinfo_t) then
+    numlmps := 0
+  else
+    numlmps := wi.numlumps;
+  f.Free;
+  crc32 := GetCRC32(filename);
+  for i := 0 to NUMWADDETECTITEMS - 1 do
+    if (wdtbl[i].crc32 = crc32) and (wdtbl[i].size = size) and (wdtbl[i].numlumps = numlmps) then
+    begin
+      gameversion := wdtbl[i].version;
+      customgame := wdtbl[i].customgame;
+      exit;
+    end;
+    
   sname := strupper(fname(filename));
   // JVAL: Chex Support
   if sname = 'CHEX.WAD' then

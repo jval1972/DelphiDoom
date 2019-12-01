@@ -194,7 +194,7 @@ begin
   printf('%6d KB total memory in use.'#13#10, [(memoryusage + imgsize) div 1024]);
   printf('%6d KB program image size.'#13#10, [imgsize div 1024]);
   {$IFNDEF FPC}
-  printf('%6d KB program memory allocation.'#13#10, [AllocMemSize div 1024]);
+  printf('%6d KB program memory allocation.'#13#10, [GetAllocMemSize div 1024]);
   {$ENDIF}
   printf('%6d KB total memory dynamically allocated.'#13#10, [memoryusage div 1024]);
   printf(#13#10);

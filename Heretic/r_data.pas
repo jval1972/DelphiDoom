@@ -977,7 +977,7 @@ begin
   end;
 
   flatmemory := 0;
-  allocmemory := AllocMemSize;
+  allocmemory := GetAllocMemSize;
 
   printf(' Precaching flats'#13#10);
   for i := 0 to numflats - 1 do
@@ -992,7 +992,7 @@ begin
       flatmemory := flatmemory + 64 * 64;
     end;
   end;
-  allocmemory := AllocMemSize - allocmemory;
+  allocmemory := GetAllocMemSize - allocmemory;
   printf('%6d KB memory usage for flats'#13#10, [(flatmemory + allocmemory) div 1024]);
 
   // Precache textures.
@@ -1016,7 +1016,7 @@ begin
   texturepresent[skytexture] := 1;
 
   texturememory := 0;
-  allocmemory := AllocMemSize;
+  allocmemory := GetAllocMemSize;
 
   printf(' Precaching textures'#13#10);
 {$IFNDEF OPENGL}
@@ -1040,7 +1040,7 @@ begin
     R_Precache32bittexture(i);
 {$ENDIF}
   end;
-  allocmemory := AllocMemSize - allocmemory;
+  allocmemory := GetAllocMemSize - allocmemory;
   printf('%6d KB memory usage for textures'#13#10, [(texturememory + allocmemory) div 1024]);
 
   // Precache sprites.
@@ -1055,7 +1055,7 @@ begin
   end;
 
   spritememory := 0;
-  allocmemory := AllocMemSize;
+  allocmemory := GetAllocMemSize;
 
   printf(' Precaching sprites'#13#10);
   for i := 0 to numspritespresent - 1 do
@@ -1074,7 +1074,7 @@ begin
       end;
     end;
   end;
-  allocmemory := AllocMemSize - allocmemory;
+  allocmemory := GetAllocMemSize - allocmemory;
   printf('%6d KB memory usage for sprites'#13#10, [(spritememory + allocmemory) div 1024]);
 
   memfree(pointer(flatpresent), numflats);

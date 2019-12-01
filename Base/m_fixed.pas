@@ -64,6 +64,8 @@ function IntFixedMul(const a, b: fixed_t): fixed_t;
 
 function FixedDiv(const a, b: fixed_t): fixed_t;
 
+function FixedDiv_Positive(const a, b: fixed_t): fixed_t;
+
 function FixedDiv_fast(const a, b: fixed_t): fixed_t;
 
 function FixedDivEx(const a, b: fixed_t): fixed_t;
@@ -125,6 +127,19 @@ end;
 function FixedDiv(const a, b: fixed_t): fixed_t;
 begin
   if _SHR14(abs(a)) >= abs(b) then
+  begin
+    if a xor b < 0 then
+      result := MININT
+    else
+      result := MAXINT;
+  end
+  else
+    result := FixedDiv2(a, b);
+end;
+
+function FixedDiv_Positive(const a, b: fixed_t): fixed_t;
+begin
+  if (a shr 14) >= b then
   begin
     if a xor b < 0 then
       result := MININT

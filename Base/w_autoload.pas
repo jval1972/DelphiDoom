@@ -62,7 +62,7 @@ procedure W_AutoLoadPakFiles;
 var
   i: integer;
 begin
-// Retrive modeldef lumps
+// Retrive "AUTOLOAD" lumps
   for i := 0 to W_NumLumps - 1 do
     if char8tostring(W_GetNameForNum(i)) = AUTOLOADLUMPNAME then
       W_ParseAutoLoad(W_TextLumpNum(i));

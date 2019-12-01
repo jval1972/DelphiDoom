@@ -162,7 +162,7 @@ type
 //
 // JVAL
 // R_VoxelColumnFromBuffer()
-// Create a vertical culumn from a voxelbuffer
+// Create a vertical column from a voxelbuffer
 //
 function R_VoxelColumnFromBuffer(const buf: voxelbuffer2D_p; const size: integer; const mip: integer): voxelcolumn_p;
 var
@@ -373,7 +373,7 @@ begin
       parms.dest := pointer(integer(voxelbuffer) + sz);
       parms.size := sz;
       zm_tr1.Activate(@parms);
-      ZeroMemory(voxelbuffer, sz);
+      ZeroMemory(voxelbuffer, SizeOf(voxelbuffer) - sz);
       zm_tr1.Wait;
     end
     else
@@ -382,7 +382,7 @@ begin
       parms.dest := pointer(integer(voxelbuffer));
       parms.size := sz;
       parms2.dest := pointer(integer(voxelbuffer) + sz);
-      parms.size := sz;
+      parms2.size := sz;
       zm_tr1.Activate(@parms);
       zm_tr2.Activate(@parms2);
       ZeroMemory(pointer(integer(voxelbuffer) + 2 * sz), SizeOf(voxelbuffer) - 2 * sz);
@@ -432,7 +432,7 @@ begin
 
 end;
 
-procedure R_CreateVoxelPrepareColumns(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
+procedure R_PrepareVoxelColumns(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
 var
   xx, yy, zz: integer;
   skip: boolean;
@@ -599,7 +599,7 @@ var
   rgb: array[0..9] of rgb_t;
   c: LongWord;
   blacks: integer;
-  dist, maxdist: fixed_t;
+  dist, maxdist: extended;
   skip: boolean;
 begin
   result := Z_Malloc(SizeOf(voxelcolumns_t), PU_STATIC, nil);
@@ -621,7 +621,7 @@ begin
           col.iy := zz - mid;
           col.x := (xx - mid) * scale;
           col.y := (zz - mid) * scale;
-          dist := Round(Sqrt(Sqr(col.x / FRACUNIT) + Sqr(col.y / FRACUNIT)));
+          dist := Sqr(col.x / FRACUNIT) + Sqr(col.y / FRACUNIT);
           if dist > maxdist then
             maxdist := dist;
           col.angle := Round(arctan2(col.y, col.x) * (ANG180 / D_PI));
@@ -631,7 +631,7 @@ begin
       end;
   result.mips[0].numcolumns := buf.Count;
   result.mips[0].mipscale := 1;
-  result.range := maxdist * FRACUNIT;
+  result.range := Round(Sqrt(maxdist) + 1) * FRACUNIT;
   if buf.Count > 0 then
   begin
     result.mips[0].columns := Z_Malloc(result.mips[0].numcolumns * SizeOf(voxelcolumn_p), PU_STATIC, nil);
@@ -885,7 +885,7 @@ begin
   sc.Free;
 
   R_OptimizeVoxelBuffer(voxelbuffer, voxelsize);
-  R_CreateVoxelPrepareColumns(voxelbuffer, voxelsize);
+  R_PrepareVoxelColumns(voxelbuffer, voxelsize);
   result := R_VoxelColumnsFromBuffer(voxelbuffer, voxelsize, offset, scale);
 end;
 
@@ -954,6 +954,7 @@ begin
   voxelbuffer := @vx_membuffer[0];
   R_ClearVoxelBuffer(voxelbuffer, voxelsize);
 
+  // Skip OpenGL data
   strm.Seek(16 + numquads * (4 * 3 * SizeOf(Integer) + SizeOf(LongWord)), sFromBeginning);
 
   strm.Read(fnumvoxels, SizeOf(integer));
@@ -973,7 +974,7 @@ begin
   memfree(pointer(buf), fnumvoxels * SizeOf(ddmeshitem_t));
 
   // We don't call R_OptimizeVoxelBuffer(), mesh is already optimized
-  R_CreateVoxelPrepareColumns(voxelbuffer, voxelsize);
+  R_PrepareVoxelColumns(voxelbuffer, voxelsize);
   result := R_VoxelColumnsFromBuffer(voxelbuffer, voxelsize, offset, scale);
 end;
 
@@ -1172,7 +1173,7 @@ begin
 
 
   R_OptimizeVoxelBuffer(voxelbuffer, voxelsize);
-  R_CreateVoxelPrepareColumns(voxelbuffer, voxelsize);
+  R_PrepareVoxelColumns(voxelbuffer, voxelsize);
   result := R_VoxelColumnsFromBuffer(voxelbuffer, voxelsize, offset, scale);
 
   for i := 0 to xsiz - 1 do
@@ -1337,7 +1338,7 @@ begin
     voxelinf.voxel := TVoxelModel.Create(voxelinf.name, voxelinf.offset, voxelinf.scale, voxelinf.flags);
     if voxelinf.voxel = nil then
     begin
-      I_Warning('R_DrawThingVoxels(): Can not load voxel %s'#13#10, [voxelinf.name]);
+      I_Warning('R_DrawThingVoxel(): Can not load voxel %s'#13#10, [voxelinf.name]);
       exit;
     end;
   end;
@@ -1404,6 +1405,7 @@ begin
     {$ENDIF}
 
     mscale := mip.mipscale;
+    // Obtain sorted back to front column list
     mipcols := mip.columnssortorder[rot];
 
     floorz := thing.floorz;
@@ -1416,6 +1418,7 @@ begin
     mipscale := mscale * voxelinf.voxel.fscale;
     mipscale2 := mipscale div 2;
 
+    // For each voxel column
     for i := 0 to mip.numcolumns - 1 do
     begin
       col := mipcols[i];
@@ -1427,6 +1430,7 @@ begin
       t_x := thing.x;
       t_y := thing.y;
 
+      // Precalc some variables
       c_x_asin := FixedMul(c_x, asin);
       c_x_acos := FixedMul(c_x, acos);
       c_y_asin := FixedMul(c_y, asin);
@@ -1435,6 +1439,7 @@ begin
       a_x[0] := c_x_acos - c_y_asin + t_x;
       a_y[0] := c_x_asin + c_y_acos + t_y;
 
+      // Too far away? Draw a single pixel!
       if col.maxlistsize * vscale < FRACUNIT then
       begin
         while col <> nil do
@@ -1478,57 +1483,55 @@ begin
       tz := FixedMul(a_x[0], viewcos) + FixedMul(a_y[0], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv(projection, tz);
+      scale := FixedDiv2(projection, tz);
       tx := FixedMul(a_x[0], viewsin) - FixedMul(a_y[0], viewcos);
       left := FixedInt_FixedMul(tx, scale);
       right := left;
-      scaley0 := FixedDiv(projectiony, tz);
+      scaley0 := FixedDiv2(projectiony, tz);
 
       tz := FixedMul(a_x[1], viewcos) + FixedMul(a_y[1], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv(projection, tz);
+      scale := FixedDiv2(projection, tz);
       tx := FixedMul(a_x[1], viewsin) - FixedMul(a_y[1], viewcos);
       Xup := FixedInt_FixedMul(tx, scale);
       if left > Xup then
         left := Xup
       else if right < Xup then
         right := Xup;
-      scaley1 := FixedDiv(projectiony, tz);
+      scaley1 := FixedDiv2(projectiony, tz);
 
       tz := FixedMul(a_x[2], viewcos) + FixedMul(a_y[2], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv(projection, tz);
+      scale := FixedDiv2(projection, tz);
       tx := FixedMul(a_x[2], viewsin) - FixedMul(a_y[2], viewcos);
       Xup := FixedInt_FixedMul(tx, scale);
       if left > Xup then
         left := Xup
       else if right < Xup then
         right := Xup;
-      scaley2 := FixedDiv(projectiony, tz);
+      scaley2 := FixedDiv2(projectiony, tz);
 
       tz := FixedMul(a_x[3], viewcos) + FixedMul(a_y[3], viewsin);
       if (tz < MINZ) then
         Continue;
-      scale := FixedDiv(projection, tz);
+      scale := FixedDiv2(projection, tz);
       tx := FixedMul(a_x[3], viewsin) - FixedMul(a_y[3], viewcos);
       Xup := FixedInt_FixedMul(tx, scale);
       if left > Xup then
         left := Xup
       else if right < Xup then
         right := Xup;
-      scaley3 := FixedDiv(projectiony, tz);
+      scaley3 := FixedDiv2(projectiony, tz);
 
       left := left + centerx;
       right := right + centerx;
       if left < 0 then
         left := 0
       else if left >= viewwidth then
-//        Continue;
         left := viewwidth - 1;
       if right >= viewwidth then
-//        Continue
         right := viewwidth - 1
       else if right < 0 then
         right := 0;
@@ -1536,13 +1539,13 @@ begin
       if vx_simpleclip then
       begin
         num_batch_columns := right - left;
-        if num_batch_columns > 100 then
-          dec(num_batch_columns);
         dc_x := left;
       end;
 
+      // Proccess all fractions of the column
       while col <> nil do
       begin
+      // Any optimization inside here will give good fps boost
         topz := t_z + col.fixedoffset;
         bottomz := topz - col.fixedlength;
         if topz > ceilz then
@@ -1592,7 +1595,7 @@ begin
           top := 0
         else if top >= viewheight then
         begin
-          col := nil; //col := col.next;
+          col := nil; // All columns ahead are below viewheight, set col = nil to advance
           Continue;
         end;
 
@@ -1660,9 +1663,6 @@ begin
 
             batchcolfunc;
 
-        if num_batch_columns > 100 then
-          dec(num_batch_columns);
-
             last_top := cur_top;
             last_bot := cur_bot;
             dc_x := last_dc_x;
@@ -1712,9 +1712,8 @@ var
   y: integer;
 {$ENDIF}
   flag: boolean;
-//  rot: LongWord;
 begin
-  for x := vis.x1 to vis.x2 do
+  for x := vis.vx1 to vis.vx2 do
   begin
     clipbot[x] := -2;
     cliptop[x] := -2;
@@ -1727,20 +1726,20 @@ begin
   begin
     ds := drawsegs[i];
     // determine if the drawseg obscures the sprite
-    if (ds.x1 > vis.x2) or
-       (ds.x2 < vis.x1) or
+    if (ds.x1 > vis.vx2) or
+       (ds.x2 < vis.vx1) or
        ((ds.silhouette = 0) and (ds.maskedtexturecol = nil)) then
     begin
       // does not cover sprite
       continue;
     end;
 
-    if ds.x1 < vis.x1 then
-      r1 := vis.x1
+    if ds.x1 < vis.vx1 then
+      r1 := vis.vx1
     else
       r1 := ds.x1;
-    if ds.x2 > vis.x2 then
-      r2 := vis.x2
+    if ds.x2 > vis.vx2 then
+      r2 := vis.vx2
     else
       r2 := ds.x2;
 
@@ -1823,13 +1822,13 @@ begin
         begin
           if (mh <= 0) or ((plheightsec <> -1) and (viewz > sectors[plheightsec].floorheight)) then
           begin
-            for x := vis.x1 to vis.x2 do
+            for x := vis.vx1 to vis.vx2 do
               if (clipbot[x] = -2) or (h < clipbot[x]) then
                 clipbot[x] := h;
           end
           else
           begin
-            for x := vis.x1 to vis.x2 do
+            for x := vis.vx1 to vis.vx2 do
               if (cliptop[x] = -2) or (h > cliptop[x]) then
                 cliptop[x] := h;
           end;
@@ -1848,13 +1847,13 @@ begin
         begin
           if (plheightsec <> -1) and (viewz >= sectors[plheightsec].ceilingheight) then
           begin
-            for x := vis.x1 to vis.x2 do
+            for x := vis.vx1 to vis.vx2 do
               if (clipbot[x] = -2) or (h < clipbot[x]) then
                 clipbot[x] := h;
           end
           else
           begin
-            for x := vis.x1 to vis.x2 do
+            for x := vis.vx1 to vis.vx2 do
               if (cliptop[x] = -2) or (h > cliptop[x]) then
                 cliptop[x] := h;
           end;
@@ -1869,7 +1868,7 @@ begin
   // all clipping has been performed, so draw the sprite
 
   // check for unclipped columns
-  for x := vis.x1 to vis.x2 do
+  for x := vis.vx1 to vis.vx2 do
   begin
     if clipbot[x] = -2 then
       clipbot[x] := fake3dbottomclip
@@ -1877,7 +1876,7 @@ begin
       clipbot[x] := fake3dbottomclip;
 
     if cliptop[x] = -2 then
-      cliptop[x] := fake3dtopclip // -1;
+      cliptop[x] := fake3dtopclip
     else if cliptop[x] < fake3dtopclip then
       cliptop[x] := fake3dtopclip;
   end;
@@ -1903,26 +1902,22 @@ begin
   if dc_colormap = nil then
   begin
     // NULL colormap = shadow draw
-    colfunc := fuzzcolfunc;
     batchcolfunc := {$IFDEF HEXEN}batchtaveragecolfunc{$ELSE}batchfuzzcolfunc{$ENDIF};
   end
   else if vis.mobjflags and MF_TRANSLATION <> 0 then
   begin
-    colfunc := transcolfunc;
     batchcolfunc := batchtranscolfunc;
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
   else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
   begin
-    colfunc := averagecolfunc;
     batchcolfunc := batchtaveragecolfunc;
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
     curtrans8table := R_GetTransparency8table(dc_alpha);
-    colfunc := alphacolfunc;
     batchcolfunc := batchtalphacolfunc;
   end
   else
@@ -1950,9 +1945,9 @@ begin
   end;
 
   vx_simpleclip := true;
-  vx_ceilingclip := mceilingclip[vis.x1];
-  vx_floorclip := mfloorclip[vis.x1];
-  for x := vis.x1 to vis.x2 do
+  vx_ceilingclip := mceilingclip[vis.vx1];
+  vx_floorclip := mfloorclip[vis.vx1];
+  for x := vis.vx1 to vis.vx2 do
   begin
     if mceilingclip[x] <> vx_ceilingclip then
     begin

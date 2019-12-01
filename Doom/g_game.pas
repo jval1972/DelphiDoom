@@ -33,7 +33,9 @@ interface
 uses
   doomdef,
   m_fixed,
-  d_event, d_player, d_ticcmd;
+  d_event,
+  d_player,
+  d_ticcmd;
 
 // 
 // GAME

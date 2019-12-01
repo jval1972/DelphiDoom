@@ -1,3 +1,9 @@
+New Changes
+-----------
+Small fixes to voxel support.
+
+Version 1.1.5 build 580 - (22/5/2013)
+-----------------------------------
 Added -fullhd, -svga and -vga command line parameter.
 Added force_numwallrenderingthreads_8bit and force_numwallrenderingthreads_32bit console variables, set the number of threads to create for wall rendering.
 Status bar does not appear transparent when you open the menu (OpenGL)
@@ -22,8 +28,7 @@ New fake3d algorythm, better 3d emulation and faster in software rendering mode.
 Support for voxels in OpenGL rendering mode.
 Added gl_renderwireframe console variable.
 Added vx_maxoptimizerpasscount console variable, indicates how many passes at max the voxel mesh optimizer makes. Default is 0 (=use FastOptimize method for acceptable results and good performance)
-Support for voxels in software rendering mode.
-Added r_drawvoxels and gl_drawvoxels console variables.
+Support for voxels in software rendering mode, still needs work.
 
 Version 1.1.4 build 550 - (18/3/2013)
 -----------------------------------

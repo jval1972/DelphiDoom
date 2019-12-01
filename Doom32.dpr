@@ -277,7 +277,8 @@ uses
   info_fnd in 'Base\info_fnd.pas',
   r_palette in 'Base\r_palette.pas',
   r_colorcolumn in 'Base\r_colorcolumn.pas',
-  r_utils in 'Base\r_utils.pas';
+  r_utils in 'Base\r_utils.pas',
+  m_crc32 in 'Base\m_crc32.pas';
 
 var
   Saved8087CW: Word;

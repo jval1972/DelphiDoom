@@ -100,7 +100,7 @@ Conditionals=HEXEN;OPENGL
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-svga -nofullscreen HX_RIPPLE_TEST.WAD
+RunParams=-fullhd -nofullscreen -iwad doom2.wad -pakfile voxeltest_kvx.pk3 voxel_map.wad
 HostApplication=
 Launcher=
 UseLauncher=0

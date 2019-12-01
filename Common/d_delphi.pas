@@ -525,6 +525,8 @@ type
       3: (dwords: array[0..1] of LongWord);
   end;
 
+function GetAllocMemSize: integer;
+
 implementation
 
 uses
@@ -2893,6 +2895,27 @@ end;
 function IsFloatInRange(const test, f1, f2: float): boolean;
 begin
   result := (test >= f1) and (test <= f2);
+end;
+
+function GetAllocMemSize: integer;
+{$IF CompilerVersion >= 18}
+var
+  I: Integer;
+  MemMgrState: TMemoryManagerState;
+{$IFEND}
+begin
+{$IF CompilerVersion < 18}
+  Result := AllocMemSize;
+{$ELSE}
+  GetMemoryManagerState(MemMgrState);
+  Result := MemMgrState.TotalAllocatedMediumBlockSize +
+    MemMgrState.TotalAllocatedLargeBlockSize;
+  for I := 0 to High(MemMgrState.SmallBlockTypeStates) do
+  begin
+    inc(result, MemMgrState.SmallBlockTypeStates[I].InternalBlockSize);
+    inc(result, MemMgrState.SmallBlockTypeStates[I].UseableBlockSize);
+  end;
+{$IFEND}
 end;
 
 end.

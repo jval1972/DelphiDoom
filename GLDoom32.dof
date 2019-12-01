@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1024 -screenheight 600 -nofullscreen -iwad doom2.wad -pakfile voxeltest_kvx.pk3 voxel_map.wad
+RunParams=-fullhd -nofullscreen -iwad doom2.wad -pakfile voxeltest_kvx.pk3 nuts.wad
 HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
