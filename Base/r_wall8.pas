@@ -522,7 +522,7 @@ begin
   wallcache[upperwalls8].numwalls := 0;
   wallcachesize := 3;
 
-  numwallthreads8 := I_GetNumCPUs - 1;
+  numwallthreads8 := I_GetNumCPUs - 2;
   if numwallthreads8 < 1 then
     numwallthreads8 := 1
   else if numwallthreads8 > MAXWALLTHREADS8 then

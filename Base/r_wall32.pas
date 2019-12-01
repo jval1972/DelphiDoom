@@ -1332,7 +1332,7 @@ begin
   wallcache[upperwalls32].numwalls := 0;
   wallcachesize := 3;
 
-  numwallthreads32 := I_GetNumCPUs - 1;
+  numwallthreads32 := I_GetNumCPUs - 2;
   if numwallthreads32 < 1 then
     numwallthreads32 := 1
   else if numwallthreads32 > MAXWALLTHREADS32 then
