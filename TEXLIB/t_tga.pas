@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -80,22 +80,22 @@ type
   TTGATextureManager = object(TTextureManager)
     hdr: TTGAHeader;
     id: pointer;
-    function LoadPalette(stream: TStream): boolean;
-    function Load32bittga(stream: TStream): boolean;
-    function load24bittga(stream: TStream): boolean;
-    function load16bittga(stream: TStream): boolean;
-    function load8bitgraytga(stream: TStream): boolean;
-    function Load8bitpaltga(stream: TStream): boolean;
+    function LoadPalette(stream: TDStream): boolean;
+    function Load32bittga(stream: TDStream): boolean;
+    function load24bittga(stream: TDStream): boolean;
+    function load16bittga(stream: TDStream): boolean;
+    function load8bitgraytga(stream: TDStream): boolean;
+    function Load8bitpaltga(stream: TDStream): boolean;
   public
     constructor Create;
-    function LoadHeader(stream: TStream): boolean; virtual;
-    function LoadImage(stream: TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    function LoadImage(stream: TDStream): boolean; virtual;
     destructor Destroy; virtual;
   end;
 
 implementation
 
-function TTGATextureManager.LoadPalette(stream: TStream): boolean;
+function TTGATextureManager.LoadPalette(stream: TDStream): boolean;
 var
   palet: pointer;
 begin
@@ -124,7 +124,7 @@ begin
   LoadPalette := true;
 end;
 
-function TTGATextureManager.Load8bitpaltga(stream: TStream): boolean;
+function TTGATextureManager.Load8bitpaltga(stream: TDStream): boolean;
 var
   pixel, rle: byte;
   ix, x, y: integer;
@@ -194,12 +194,12 @@ begin
   memfree(buffer, hdr.width);
 end;
 
-function TTGATextureManager.load8bitgraytga(stream: TStream): boolean;
+function TTGATextureManager.load8bitgraytga(stream: TDStream): boolean;
 begin
   load8bitgraytga := false;
 end;
 
-function TTGATextureManager.load16bittga(stream: TStream): boolean;
+function TTGATextureManager.load16bittga(stream: TDStream): boolean;
 var
   rle: byte;
   pixel: word;
@@ -265,7 +265,7 @@ begin
   memfree(buffer, hdr.width * 2);
 end;
 
-function TTGATextureManager.load24bittga(stream: TStream):boolean;
+function TTGATextureManager.load24bittga(stream: TDStream):boolean;
 var
   rle: byte;
   pixel: integer;
@@ -331,7 +331,7 @@ begin
   memfree(buffer, hdr.width * 3);
 end;
 
-function TTGATextureManager.Load32bittga(stream: TStream):boolean;
+function TTGATextureManager.Load32bittga(stream: TDStream):boolean;
 var
   rle: byte;
   pixel: integer;
@@ -404,7 +404,7 @@ begin
   FFrameCount := 10;
 end;
 
-function TTGATextureManager.LoadHeader(stream: TStream):boolean;
+function TTGATextureManager.LoadHeader(stream: TDStream):boolean;
 begin
   if id <> nil then
     memfree(id, hdr.idlen);
@@ -433,7 +433,7 @@ begin
   LoadHeader := true;
 end;
 
-function TTGATextureManager.LoadImage(stream: TStream):boolean;
+function TTGATextureManager.LoadImage(stream: TDStream):boolean;
 begin
   LoadImage := true;
   case hdr.pixsize of

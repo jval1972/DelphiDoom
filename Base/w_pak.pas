@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -163,7 +163,7 @@ type
 function PAK_GetDirectoryListFromString(const aprefdirs: string): TDStringList;
 
 type
-  TPakStream = class(TStream)
+  TPakStream = class(TDStream)
   private
     entry: TPakFile;
     manager: TPakManager;
@@ -1228,7 +1228,7 @@ end;
 function TPakStream.Read(var Buffer; Count: integer): integer;
 begin
   result := manager.PBlockRead(entry, Buffer, Count);
-  if IOResult <> 0 then
+  if system.IOResult <> 0 then
     inc(FIOResult);
 end;
 

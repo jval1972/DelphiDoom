@@ -387,7 +387,7 @@ var
 // main bar left
   sbar: Ppatch_t;
 
-// main bar right (for old shareware 0.99 version
+// main bar right (for old shareware 0.99 version)
   sbar2: Ppatch_t;
 
 // medikit
@@ -1045,7 +1045,7 @@ var
   lastattackdown: integer;
   priority: integer;
 
-procedure ST_updateFaceWidget;
+procedure ST_UpdateFaceWidget;
 var
   i: integer;
   to_right: boolean;
@@ -1214,7 +1214,7 @@ begin
   dec(st_facecount);
 end;
 
-procedure ST_updateWidgets;
+procedure ST_UpdateWidgets;
 var
   i: integer;
 begin
@@ -1242,7 +1242,7 @@ begin
   end;
 
   // refresh everything if this is him coming back to life
-  ST_updateFaceWidget;
+  ST_UpdateFaceWidget;
 
   // used by the w_armsbg widget
   st_notdeathmatch := deathmatch = 0;
@@ -1272,7 +1272,7 @@ procedure ST_Ticker;
 begin
   inc(st_clock);
   st_randomnumber := M_Random;
-  ST_updateWidgets;
+  ST_UpdateWidgets;
   if plyr <> nil then
     st_oldhealth := plyr.health;
 end;
@@ -1387,7 +1387,8 @@ begin
   ST_RefreshBackground;
   // and refresh all widgets
   ST_DrawWidgets(refresh);
-  ST_FinishRefresh;
+  if refresh then
+    ST_FinishRefresh;
 end;
 
 procedure ST_RefreshBackgroundSmall;
@@ -1574,7 +1575,7 @@ begin
   faces[facenum] := W_CacheLumpName('STFDEAD0', PU_STATIC);
 end;
 
-procedure ST_loadData;
+procedure ST_LoadData;
 begin
   lu_palette := W_GetNumForName(PLAYPAL);
   ST_LoadGraphics;
@@ -1932,7 +1933,7 @@ begin
   st_stopped := true;
 ////////////////////////////////////////////////////////////////////////////////
 
-  ST_loadData;
+  ST_LoadData;
   C_AddCmd('god, iddqd', @ST_CmdGod);
   C_AddCmd('massacre', @ST_CmdMassacre);
   C_AddCmd('givefullammo, rambo, idfa', @ST_CmdIDFA);

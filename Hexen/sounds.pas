@@ -93,7 +93,7 @@ type
     // music handle once registered
     handle: integer;
     // is an mp3?
-    mp3stream: TStream;
+    mp3stream: TDStream;
   end;
   Pmusicinfo_t = ^musicinfo_t;
 
@@ -2082,7 +2082,7 @@ end;
 procedure S_FreeMP3Streams;
 var
   i, j: integer;
-  s: TStream;
+  s: TDStream;
 begin
   for i := 0 to Ord(NUMMUSIC) - 1 do
     if S_music[i].mp3stream <> nil then

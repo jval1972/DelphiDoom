@@ -453,7 +453,7 @@ type
 var
   amvalidcount: integer = 0;
 
-function AM_dodrawSubSectors(const parms: dssparams_p): integer; stdcall;
+function AM_dodrawSubSectors(parms: dssparams_p): integer; stdcall;
 var
   i, j: integer;
   ssector: Psubsector_t;

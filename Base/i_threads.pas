@@ -73,20 +73,23 @@ uses
   i_system;
 
 function ThreadWorker(p: Pointer): integer; stdcall;
+var
+  th: TDThread;
 begin
   result := 0;
+  th := Pthreadinfo_t(p).thread;
   while true do
   begin
-    while (Pthreadinfo_t(p).thread.fstatus = THR_IDLE) and (not Pthreadinfo_t(p).thread.fterminated) do
+    while (th.fstatus = THR_IDLE) and (not th.fterminated) do
     begin
       I_Sleep(0);
     end;
-    if Pthreadinfo_t(p).thread.fterminated then
+    if th.fterminated then
       exit;
-    Pthreadinfo_t(p).thread.ffunc(Pthreadinfo_t(p).thread.fparms);
-    if Pthreadinfo_t(p).thread.fterminated then
+    th.ffunc(th.fparms);
+    if th.fterminated then
       exit;
-    Pthreadinfo_t(p).thread.fstatus := THR_IDLE;
+    th.fstatus := THR_IDLE;
   end;
 end;
 

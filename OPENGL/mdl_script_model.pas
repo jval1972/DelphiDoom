@@ -92,11 +92,11 @@ type
     procedure Clear;
     function LoadFromScript(const aScript: string): boolean;
     function AppendFromScript(const aScript: string): boolean;
-    function LoadFromStream(const aStream: TStream): boolean;
-    function AppendFromStream(const aStream: TStream): boolean;
+    function LoadFromStream(const aStream: TDStream): boolean;
+    function AppendFromStream(const aStream: TDStream): boolean;
     function LoadFromFile(const aFileName: string): boolean;
     function AppendFromFile(const aFileName: string): boolean;
-    procedure SaveToStream(const aStream: TStream);
+    procedure SaveToStream(const aStream: TDStream);
     procedure SaveToFile(const aFileName: string);
     procedure RenderFrame(const frm: integer);
     procedure RenderTextureMask(const frm: integer; const W, H: integer);
@@ -200,13 +200,13 @@ begin
   IdentifyFrames;
 end;
 
-function TDDModelLoader.LoadFromStream(const aStream: TStream): boolean;
+function TDDModelLoader.LoadFromStream(const aStream: TDStream): boolean;
 begin
   Clear;
   Result := AppendFromStream(aStream);
 end;
 
-function TDDModelLoader.AppendFromStream(const aStream: TStream): boolean;
+function TDDModelLoader.AppendFromStream(const aStream: TDStream): boolean;
 var
   header: integer;
   sz: integer;
@@ -255,7 +255,7 @@ begin
   end;
 end;
 
-procedure TDDModelLoader.SaveToStream(const aStream: TStream);
+procedure TDDModelLoader.SaveToStream(const aStream: TDStream);
 var
   header: integer;
   sz: integer;

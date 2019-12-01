@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -42,8 +42,8 @@ type
     tex1: PTexture;
   public
     constructor Create;
-    function LoadHeader(stream: TStream): boolean; virtual;
-    function LoadImage(stream: TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    function LoadImage(stream: TDStream): boolean; virtual;
     destructor Destroy; virtual;
   end;
 
@@ -55,7 +55,7 @@ begin
   SetFileExt('.MATERIAL');
 end;
 
-function TMaterialTextureManager.LoadHeader(stream: TStream): boolean;
+function TMaterialTextureManager.LoadHeader(stream: TDStream): boolean;
 var
   s: TDStringList;
   texname, alphaname: string;
@@ -90,7 +90,7 @@ begin
   FBitmap^.SetHeight(tex1.GetHeight);
 end;
 
-function TMaterialTextureManager.LoadImage(stream: TStream): boolean;
+function TMaterialTextureManager.LoadImage(stream: TDStream): boolean;
 begin
   memcpy(FBitmap.GetImage, tex1.GetImage, tex1.GetWidth * tex1.GetHeight * 4);
   FBitmap.SetExternalAlphaPresent(tex1.ExternalAlphaPresent);

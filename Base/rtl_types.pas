@@ -30,6 +30,9 @@ unit rtl_types;
 
 interface
 
+uses
+  d_delphi;
+
 type
   rtl_state_t = record
     sprite: string;
@@ -98,6 +101,7 @@ type
     interactstate: integer;
     missileheight: integer;
     {$ENDIF}
+    vspeed: float;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

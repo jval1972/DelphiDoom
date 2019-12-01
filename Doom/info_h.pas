@@ -472,56 +472,6 @@ type
     mrs_normal, mrs_translucent, mrs_add, NUMMOBJRENDERSTYLES
   );
 
-{$IFDEF OPTIMIZE_FOR_SIZE}
-const
-  MOBJINFONAMESIZE = 18;
-
-type
-  mobjinfo_t = packed record
-    name: array[0..MOBJINFONAMESIZE - 1] of char;
-    inheritsfrom: smallint;
-    doomednum: smallint;
-    spawnstate: smallint;
-    spawnhealth: smallint;
-    seestate: smallint;
-    seesound: smallint;
-    reactiontime: integer;
-    attacksound: smallint;
-    painstate: smallint;
-    painchance: integer;
-    painsound: smallint;
-    meleestate: smallint;
-    missilestate: smallint;
-    deathstate: smallint;
-    xdeathstate: smallint;
-    deathsound: smallint;
-    speed: integer;
-    radius: integer;
-    height: integer;
-    mass: integer;
-    damage: integer;
-    activesound: smallint;
-    flags: integer;
-    flags_ex: integer;
-    flags2_ex: integer;
-    raisestate: smallint;
-    customsound1: smallint;
-    customsound2: smallint;
-    customsound3: smallint;
-    meleesound: smallint;
-    dropitem: smallint;
-    missiletype: smallint;
-    explosiondamage: smallint;
-    explosionradius: smallint;
-    meleedamage: smallint;
-    renderstyle: mobjrenderstyle_t;
-    alpha: integer;
-    healstate: smallint;
-    crashstate: smallint;
-    interactstate: smallint;
-    missileheight: smallint;
-  end;
-{$ELSE}
 const
   MOBJINFONAMESIZE = 20;
 
@@ -569,8 +519,8 @@ type
     crashstate: integer;
     interactstate: integer;
     missileheight: integer;
+    vspeed: integer;  // Initial vertical speed
   end;
-{$ENDIF}
 
   Pmobjinfo_t = ^mobjinfo_t;
 

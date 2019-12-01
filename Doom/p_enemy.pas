@@ -858,7 +858,7 @@ begin
 
     if actor.flags and MF_AMBUSH <> 0 then
     begin
-      if P_CheckSight(actor, actor.target) then
+      if P_CheckSight(actor, targ) then
         seeyou := true;
     end
     else
@@ -867,7 +867,7 @@ begin
 
   if not seeyou then
   begin
-    if not P_LookForPlayers(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then 
+    if not P_LookForPlayers(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
       exit;
   end;
 

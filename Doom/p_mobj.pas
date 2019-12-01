@@ -189,7 +189,11 @@ begin
     // Modified handling.
     // Call action functions when the state is set
     if Assigned(st.action.acp1) then
+    begin
+      if st.params <> nil then
+        st.params.Actor := mobj;
       st.action.acp1(mobj);
+    end;
 
     state := st.nextstate;
 
@@ -919,6 +923,8 @@ begin
     else
       mobj.floorclip := 0;
   end;
+
+  mobj.momz := mobj.info.vspeed;
 
   mobj.thinker._function.acp1 := @P_MobjThinker;
 

@@ -84,7 +84,7 @@ type
     property IsPlaying: Boolean read GetIsPlaying;
     property DoRepeat: Boolean read GetDoRepeat write SetDoRepeat;
 
-    procedure LoadStream(AStream: TStream); virtual; abstract;
+    procedure LoadStream(AStream: TDStream); virtual; abstract;
     procedure SetOutput(Output: TOBuffer); virtual; abstract;
     procedure Play; virtual; abstract;
     procedure Pause; virtual; abstract;

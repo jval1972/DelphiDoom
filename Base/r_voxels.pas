@@ -559,7 +559,7 @@ procedure R_QSortDistanceTable(const A: distancetable_p; const len: Integer);
   end;
 
 begin
-  if len > 0 then
+  if len > 1 then
     qsorttbl(0, len - 1);
 end;
 
@@ -1111,7 +1111,7 @@ type
 
 function R_LoadKVX(const fn: string; const offset, scale: fixed_t): voxelcolumns_p;
 var
-  strm: TStream;
+  strm: TDStream;
   pal: array[0..255] of LongWord;
   i: integer;
   x1, y1, z1: integer;
@@ -1153,7 +1153,7 @@ begin
     len := W_LumpLength(lump);
     buf := malloc(len);
     W_ReadLump(lump, buf);
-    strm := TMemoryStream.Create;
+    strm := TDMemoryStream.Create;
     strm.Write(buf^, len);
     strm.Seek(0, sFromBeginning);
     memfree(pointer(buf), len);

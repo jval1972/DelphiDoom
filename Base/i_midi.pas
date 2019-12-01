@@ -66,9 +66,9 @@ uses
 
 // This message is sent to the controlling window, if the volume changes in
 // another way than explicitly set by the owner of the CMIDI object.
-// WPARAM	the pointer to the MIDI object
-// LPARAM	lo-word: the number of the channel that changed volume
-//			hi-word: the new volume in percent
+// WPARAM: the pointer to the MIDI object
+// LPARAM: lo-word: the number of the channel that changed volume
+//         hi-word: the new volume in percent
 const
   WM_MIDI_VOLUMECHANGED = WM_USER + 23;
   MIDI_CTRLCHANGE: Byte = $B0; // + ctrlr + value
@@ -575,10 +575,10 @@ begin
   else
   begin
     // Better be a meta event.
-    //  BYTE	byEvent
-    //  BYTE	byEventType
-    //  VDWORD	dwEventLength
-    //  BYTE	pLongEventData[dwEventLength]
+    //  BYTE  byEvent
+    //  BYTE  byEventType
+    //  VDWORD  dwEventLength
+    //  BYTE  pLongEventData[dwEventLength]
     AssertMidiError(pteTemp^.byShortData[0] = MIDI_META, 'TMidi.AddEventToStreamBuffer(): Invalid event', []);
 
     // The only meta-event we care about is change tempo
@@ -614,7 +614,7 @@ begin
     pmeEvent^.dwDeltaTime := tkDelta;
     pmeEvent^.dwStreamID := 0;
     // Note: this is backwards from above because we're converting a single
-    //		 data value from hi-lo to lo-hi format...
+    //       data value from hi-lo to lo-hi format...
 
     pmeEvent^.dwEvent := (PByte(DWORD(pteTemp^.pLongData) + 2)^)
       or (DWORD(PBYTE(DWORD(pteTemp^.pLongData) + 1)^) shl 8)
@@ -1058,9 +1058,9 @@ begin
     // event type back on the output track, however.)
     //
     // Parse the general format of:
-    //  BYTE 	bEvent (MIDI_SYSEX or MIDI_SYSEXEND)
-    //  VDWORD 	cbParms
-    //  BYTE   	abParms[cbParms]
+    //  BYTE  bEvent (MIDI_SYSEX or MIDI_SYSEXEND)
+    //  VDWORD  cbParms
+    //  BYTE  abParms[cbParms]
     pteTemp^.byShortData[0] := byByte;
     if not GetTrackVDWord(ptsTrack, @pteTemp^.dwEventLength) then
     begin
@@ -1094,10 +1094,10 @@ begin
   else if byByte = MIDI_META then
   begin
     // It's a meta event. Parse the general form:
-    //  BYTE	bEvent	(MIDI_META)
-    //  BYTE	bClass
-    //  VDWORD	cbParms
-    //  BYTE	abParms[cbParms]
+    //  BYTE  bEvent  (MIDI_META)
+    //  BYTE  bClass
+    //  VDWORD  cbParms
+    //  BYTE  abParms[cbParms]
     pteTemp^.byShortData[0] := byByte;
 
     if not GetTrackByte(ptsTrack, @pteTemp^.byShortData[1]) then

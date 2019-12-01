@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -101,7 +101,7 @@ type
     // music handle once registered
     handle: integer;
     // is an mp3?
-    mp3stream: TStream;
+    mp3stream: TDStream;
   end;
   Pmusicinfo_t = ^musicinfo_t;
 
@@ -2750,7 +2750,7 @@ end;
 procedure S_FreeMP3Streams;
 var
   i, j: integer;
-  s: TStream;
+  s: TDStream;
 begin
   for i := 0 to Ord(NUMMUSIC) - 1 do
     if S_music[i].mp3stream <> nil then

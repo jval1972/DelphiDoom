@@ -114,7 +114,7 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    procedure LoadStream(AStream: TStream); override;
+    procedure LoadStream(AStream: TDStream); override;
     procedure SetOutput(Output: TOBuffer); override;
     procedure Play; override;
     procedure Stop; override;
@@ -345,7 +345,7 @@ begin
   result := FArgs.MPEGHeader.Version;
 end;
 
-procedure TMPEGPlayer.LoadStream(AStream: TStream);
+procedure TMPEGPlayer.LoadStream(AStream: TDStream);
 begin
   if FCRC <> nil then
     FreeAndNil(FCRC);

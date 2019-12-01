@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -103,9 +103,9 @@ type
     pal: array[0..255] of integer;
   public
     constructor Create;
-    function LoadHeader(stream: TStream): boolean; virtual;
-    procedure LoadRLE8(stream: TStream);
-    function LoadImage(stream: TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    procedure LoadRLE8(stream: TDStream);
+    function LoadImage(stream: TDStream): boolean; virtual;
   end;
 
 implementation
@@ -120,7 +120,7 @@ begin
   SetFileExt('.BMP');
 end;
 
-function TBMPTextureManager.LoadHeader(stream: TStream): boolean;
+function TBMPTextureManager.LoadHeader(stream: TDStream): boolean;
 begin
   stream.seek(0, sFromBeginning);
   stream.read(bfh, SizeOf(TBitMapFileHeader));
@@ -144,7 +144,7 @@ begin
   LoadHeader := true;
 end;
 
-procedure TBMPTextureManager.LoadRLE8(Stream: TStream);
+procedure TBMPTextureManager.LoadRLE8(Stream: TDStream);
 var
   x, y: integer;
   n: word;
@@ -195,7 +195,7 @@ begin
   end;
 end;
 
-function TBMPTextureManager.LoadImage(stream: TStream): boolean;
+function TBMPTextureManager.LoadImage(stream: TDStream): boolean;
 var
   y: integer;
   buffer: pointer;

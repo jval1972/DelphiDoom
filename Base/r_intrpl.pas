@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -386,7 +386,7 @@ begin
   {$ENDIF}
 end;
 
-function R_RestoreInterpolationData_thr1(const p: pointer): integer; stdcall;
+function R_RestoreInterpolationData_thr1(p: pointer): integer; stdcall;
 var
   i: integer;
   pi: Piitem_t;
@@ -407,7 +407,7 @@ begin
   result := 0;
 end;
 
-function R_RestoreInterpolationData_thr2(const p: pointer): integer; stdcall;
+function R_RestoreInterpolationData_thr2(p: pointer): integer; stdcall;
 var
   i: integer;
   mo: Pmobj_t;
@@ -474,7 +474,7 @@ begin
     R_RestoreInterpolationData_Single_Thread;
 end;
 
-function R_DoInterpolate_thr1(const p: pointer): integer; stdcall;
+function R_DoInterpolate_thr1(p: pointer): integer; stdcall;
 var
   pi, pi2: Piitem_t;
 begin
@@ -496,7 +496,7 @@ begin
   result := 0;
 end;
 
-function R_DoInterpolate_thr2(const p: pointer): integer; stdcall;
+function R_DoInterpolate_thr2(p: pointer): integer; stdcall;
 var
   i: integer;
   mo: Pmobj_t;

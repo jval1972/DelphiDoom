@@ -153,7 +153,7 @@ begin
   info.y := ds_y;
 end;
 
-function _thr_span_db_writer(const p: mt_range_p): integer; stdcall;
+function _thr_span_db_writer(p: mt_range_p): integer; stdcall;
 var
   i: integer;
   info: PdbSpanCacheInfo_t;

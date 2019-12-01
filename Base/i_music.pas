@@ -67,7 +67,7 @@ const
 type
   mp3header_t = packed record
     ID: LongWord; // MP3MAGIC "MP3" 0x1A
-    Stream: TStream;
+    Stream: TDStream;
     foo: array[0..1] of LongWord;
   end;
   Pmp3header_t = ^mp3header_t;

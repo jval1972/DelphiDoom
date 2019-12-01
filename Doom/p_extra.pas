@@ -426,10 +426,12 @@ begin
   count := actor.state.params.IntVal[1];
   if count <= 0 then count := 1;
 
-  mult_h := actor.state.params.IntVal[2];
+  // JVAL 20180222 -> IntVal Changed to FixedVal
+  mult_h := actor.state.params.FixedVal[2];
   if mult_h <= 0 then mult_h := FRACUNIT;
 
-  mult_v := actor.state.params.IntVal[3];
+  // JVAL 20180222 -> IntVal Changed to FixedVal
+  mult_v := actor.state.params.FixedVal[3];
   if mult_v <= 0 then mult_v := FRACUNIT;
 
   for i := 0 to count - 1 do

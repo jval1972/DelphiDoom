@@ -404,11 +404,13 @@ begin
   if count <= 0 then
     count := 1;
 
-  mult_h := actor.state.params.IntVal[2];
+  // JVAL 20180222 -> IntVal Changed to FixedVal
+  mult_h := actor.state.params.FixedVal[2];
   if mult_h <= 0 then
     mult_h := FRACUNIT;
 
-  mult_v := actor.state.params.IntVal[3];
+  // JVAL 20180222 -> IntVal Changed to FixedVal
+  mult_v := actor.state.params.FixedVal[3];
   if mult_v <= 0 then
     mult_v := FRACUNIT;
 
@@ -452,9 +454,10 @@ begin
   if not P_CheckStateParams(actor) then
     exit;
 
-  height := actor.state.params.IntVal[0];
+  // JVAL 20180222 -> IntVal Changed to FixedVal
+  height := actor.state.params.FixedVal[0];
 
-  mo := P_SpawnMobj(actor.x, actor.y, actor.z + height * FRACUNIT, Ord(MT_LAVASMOKE));
+  mo := P_SpawnMobj(actor.x, actor.y, actor.z + height, Ord(MT_LAVASMOKE));
   an := actor.angle shr ANGLETOFINESHIFT;
   speed := (5 - (N_Random mod 3)) * FRACUNIT;
   mo.momx := FixedMul(speed, finecosine[an]);

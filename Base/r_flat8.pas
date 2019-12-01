@@ -189,7 +189,7 @@ begin
   if flatcachesize8 < numthreads then
   begin
     R[0].start := 0;
-    R[0].finish := flatcachesize8;
+    R[0].finish := flatcachesize8 - 1;
     _flat_thread_worker8(@R[0]);
     flatcachesize8 := 0;
     exit;

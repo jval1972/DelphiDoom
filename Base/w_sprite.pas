@@ -111,7 +111,7 @@ type
 
 function W_TextureAsPatch(const tex: PTexture; const tag: integer; const user: pointer): pointer;
 var
-  m, fs: TMemoryStream;
+  m, fs: TDMemoryStream;
   patch: patchheader_t;
   column: column_t;
   columnofs: TDNumberList;
@@ -149,8 +149,8 @@ var
 begin
   tex.SetDefaultAlphaChannel;
 
-  m := TMemoryStream.Create;
-  fs := TMemoryStream.Create;
+  m := TDMemoryStream.Create;
+  fs := TDMemoryStream.Create;
   columnofs := TDNumberList.Create;
   columndata := TDByteList.Create;
   try
@@ -206,7 +206,7 @@ function W_CacheSpriteNum(const lump: integer; const tag: integer): pointer;
 var
   ext: string;
   tm: PTextureManager;
-  strm: TAttachableStream;
+  strm: TAttachableMemoryStream;
   buf: array[0..3] of byte;
   tex: PTexture;
   data: pointer;
@@ -226,7 +226,7 @@ begin
 
   spritecache.Items[lump] := Pointer($1);
 
-  strm := TAttachableStream.Create;
+  strm := TAttachableMemoryStream.Create;
   strm.Attach(result, W_LumpLength(lump));
 
   ZeroMemory(@buf, SizeOf(buf));

@@ -513,6 +513,8 @@ function PS_GetMobjInfoDeathSound(const typ: integer): string;
 
 function PS_GetMobjInfoSpeed(const typ: integer): integer;
 
+function PS_GetMobjInfoVSpeed(const typ: integer): integer;
+
 function PS_GetMobjInfoRadius(const typ: integer): integer;
 
 function PS_GetMobjInfoHeight(const typ: integer): integer;
@@ -4636,6 +4638,16 @@ begin
   Result := mobjinfo[typ].speed;
 end;
 
+function PS_GetMobjInfoVSpeed(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].vspeed;
+end;
+
 function PS_GetMobjInfoRadius(const typ: integer): integer;
 begin
   if (typ < 0) or (typ >= nummobjtypes) then
@@ -4983,6 +4995,11 @@ end;
 procedure TRTLMobjInfoItemSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoSpeed(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemVSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoVSpeed(Integer(Self) - 1);
 end;
 
 procedure TRTLMobjInfoItemRadius_R(Self: TRTLMobjInfoItem; var T: integer);
@@ -5527,6 +5544,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemXdeathState_R, nil, 'XdeathState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemDeathSound_R, nil, 'DeathSound');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpeed_R, nil, 'Speed');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemVSpeed_R, nil, 'VSpeed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemRadius_R, nil, 'Radius');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHeight_R, nil, 'Height');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMass_R, nil, 'Mass');

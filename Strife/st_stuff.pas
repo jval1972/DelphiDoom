@@ -116,6 +116,7 @@ uses
 {$ELSE}
   r_hires,
   i_video,
+  i_system,
 {$ENDIF}
   g_game,
   st_lib,
@@ -1391,7 +1392,12 @@ var
   frags: integer;
   haskeyinrange: boolean;
 begin
-  V_DrawPatchTransparent(0, 56, SCN_FG, invpbak2, true);
+{$IFNDEF OPENGL}
+  if usemultithread then
+    V_DrawPatchTransparentMT(0, 56, SCN_FG, invpbak2, true)
+  else
+{$ENDIF}
+    V_DrawPatchTransparent(0, 56, SCN_FG, invpbak2, true);
   V_DrawPatch(0, 56, {$IFDEF OPENGL}SCN_ST{$ELSE}SCN_FG{$ENDIF}, invpop2, {$IFDEF OPENGL}false{$ELSE}true{$ENDIF});
 
   if deathmatch <> 0 then
@@ -1544,7 +1550,12 @@ begin
   // villsa [STRIFE] added 20100926
   if st_showobjective then
   begin
-    V_DrawPatchTransparent(0, 56, SCN_FG, invpbak2, true);
+    {$IFNDEF OPENGL}
+    if usemultithread then
+      V_DrawPatchTransparentMT(0, 56, SCN_FG, invpbak2, true)
+    else
+    {$ENDIF}
+      V_DrawPatchTransparent(0, 56, SCN_FG, invpbak2, true);
     V_DrawPatch(0, 56, {$IFDEF OPENGL}SCN_ST{$ELSE}SCN_FG{$ENDIF}, invpop2, {$IFDEF OPENGL}false{$ELSE}true{$ENDIF});
     mission_objective := M_DialogDimMsg(24, 74, mission_objective, true);
     HUlib_drawYellowText(24, 74, mission_objective, {$IFDEF OPENGL}SCN_ST{$ELSE}SCN_FG{$ENDIF});

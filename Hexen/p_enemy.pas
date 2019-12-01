@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1131,11 +1131,11 @@ begin
     actor.target := targ;
     if  actor.flags and MF_AMBUSH <> 0 then
     begin
-      if P_CheckSight(actor, actor.target) then
+      if P_CheckSight(actor, targ) then
         seeyou := true;
     end
     else
-     seeyou := true;
+      seeyou := true;
   end;
 
   if not seeyou then

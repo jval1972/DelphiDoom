@@ -1846,7 +1846,8 @@ begin
   parms[numwallthreads8 - 1].stop := wallcachesize - 1;
 
   for i := 0 to numwallthreads8 - 1 do
-    wallthreads8[i].Activate(@parms[i]);
+    if parms[i].start <= parms[i].stop then
+      wallthreads8[i].Activate(@parms[i]);
 end;
 
 procedure R_WaitWallsCache8;

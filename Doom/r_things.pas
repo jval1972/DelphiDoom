@@ -49,15 +49,14 @@ var
 {$IFNDEF OPENGL}
 procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
-
-procedure R_SortVisSprites;
 {$ENDIF}
 
 procedure R_AddSprites(sec: Psector_t);
 procedure R_InitSprites(namelist: PIntegerArray);
 procedure R_ClearSprites;
 {$IFNDEF OPENGL}
-procedure R_DrawMasked;
+procedure R_DrawMasked_SingleThread;
+procedure R_DrawMasked_MultiThread;
 {$ENDIF}
 procedure R_DrawPlayer;
 
@@ -99,6 +98,11 @@ var
   clipbot: packed array[0..MAXWIDTH - 1] of smallint;
   cliptop: packed array[0..MAXWIDTH - 1] of smallint;
 
+var
+  vissprites: visspritebuffer_p;
+  vissprite_p: integer;
+  visspritessize: Integer = 0;
+
 implementation
 
 uses
@@ -129,6 +133,7 @@ uses
   r_fake3d,
   r_3dfloors, // JVAL: 3d Floors
   r_depthbuffer, // JVAL: 3d Floors
+  r_things_sortvissprites,
 {$ENDIF}
   r_camera,
   z_zone,
@@ -392,11 +397,6 @@ end;
 //
 // GAME FUNCTIONS
 //
-var
-  vissprites: visspritebuffer_p;
-  vissprite_p: integer;
-  visspritessize: Integer = 0;
-
 //
 // R_InitSprites
 // Called at program start.
@@ -409,6 +409,9 @@ begin
     negonearray[i] := -1;
 
   R_InitSpriteDefs(namelist);
+{$IFNDEF OPENGL}
+  R_InitSpriteSort;
+{$ENDIF}
 end;
 
 //
@@ -445,6 +448,9 @@ end;
 procedure R_ShutDownSprites;
 begin
   realloc(pointer(vissprites), visspritessize * SizeOf(Pvissprite_t), 0);
+{$IFNDEF OPENGL}
+  R_ShutDownSpriteSort;
+{$ENDIF}
 end;
 
 {$IFNDEF OPENGL}
@@ -674,7 +680,6 @@ var
   last_cc_x: smallint;
   save_dc_x: integer;
 begin
-//  patch := W_CacheLumpNum2(vis.patch + firstspritelump, PU_STATIC);
   patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
   dc_colormap := vis.colormap;
@@ -769,9 +774,7 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-        begin
-          R_DrawMaskedColumn_Batch(column, baseclip);
-        end
+          R_DrawMaskedColumn_Batch(column, baseclip)
         else
           R_DrawMaskedColumn(column, baseclip);
         dc_x := last_dc_x;
@@ -785,9 +788,7 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-      begin
-        R_DrawMaskedColumn_Batch(column, baseclip);
-      end
+        R_DrawMaskedColumn_Batch(column, baseclip)
       else
         R_DrawMaskedColumn(column, baseclip);
     end;
@@ -1554,53 +1555,6 @@ end;
 
 {$IFNDEF OPENGL}
 //
-// R_SortVisSprites
-//
-procedure R_SortVisSprites;
-
-  function getvissortscale(const vis: Pvissprite_t): integer;
-  begin
-    result := vis.scale;
-    if vis.mobjflags and MF_DROPPED <> 0 then
-      inc(result);
-  end;
-
-  procedure qsortvs(l, r: Integer);
-  var
-    i, j: Integer;
-    t: Pvissprite_t;
-    scale: fixed_t;
-  begin
-    repeat
-      i := l;
-      j := r;
-      scale := getvissortscale(vissprites[(l + r) shr 1]);
-      repeat
-        while getvissortscale(vissprites[i]) < scale do
-          inc(i);
-        while getvissortscale(vissprites[j]) > scale do
-          dec(j);
-        if i <= j then
-        begin
-          t := vissprites[i];
-          vissprites[i] := vissprites[j];
-          vissprites[j] := t;
-          inc(i);
-          dec(j);
-        end;
-      until i > j;
-      if l < j then
-        qsortvs(l, j);
-      l := i;
-    until i >= r;
-  end;
-
-begin
-  if vissprite_p > 0 then
-    qsortvs(0, vissprite_p - 1);
-end;
-
-//
 // R_DrawSprite
 //
 procedure R_DrawSprite(spr: Pvissprite_t);
@@ -1673,7 +1627,7 @@ begin
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors
         R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
       if ds.maskedtexturecol <> nil then
-        R_RenderMaskedSegRange(ds, r1, r2);
+        R_RenderMaskedSegRange(ds, r1, r2);    
       // seg is behind sprite
       continue;
     end;
@@ -1937,13 +1891,11 @@ end;
 //
 // R_DrawMasked
 //
-procedure R_DrawMasked;
+procedure R_DoDrawMasked;
 var
   pds: Pdrawseg_t;
   i: integer;
 begin
-  R_SortVisSprites;
-
   if vissprite_p > 0 then
   begin
     // draw all vissprites back to front
@@ -1976,6 +1928,19 @@ begin
 
   R_StopDepthBuffer;  // JVAL: 3d Floors
 end;
+
+procedure R_DrawMasked_SingleThread;
+begin
+  R_SortVisSprites;
+  R_DoDrawMasked;
+end;
+
+procedure R_DrawMasked_MultiThread;
+begin
+  R_WaitSortVisSpritesMT;
+  R_DoDrawMasked;
+end;
+
 {$ENDIF}
 
 procedure R_DrawPlayer;

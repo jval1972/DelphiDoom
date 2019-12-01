@@ -450,16 +450,16 @@ function R_FlatScaleFromSize(const size: integer): dsscale_t;
 var
   i: integer;
 begin
-  result := ds64x64;
   // JVAL
   // Determine hi-resolution flats inside wad
   // The lump size of a hi resolution flat must fit dsscalesize
-  for i := 1 to Ord(NUMDSSCALES) - 1 do
+  for i := 0 to Ord(NUMDSSCALES) - 1 do
     if size = dsscalesize[i] then
     begin
       result := dsscale_t(i);
       exit;
     end;
+  result := ds64x64;
 end;
 
 procedure R_InitDS32Cache;

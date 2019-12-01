@@ -338,7 +338,8 @@ uses
   r_flat8 in 'Base\r_flat8.pas',
   r_flat32 in 'Base\r_flat32.pas',
   p_bridge in 'Base\p_bridge.pas',
-  w_sprite in 'Base\w_sprite.pas';
+  w_sprite in 'Base\w_sprite.pas',
+  r_things_sortvissprites in 'Base\r_things_sortvissprites.pas';
 
 exports
   dd_compile_heretic,

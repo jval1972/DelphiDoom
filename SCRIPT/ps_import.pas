@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -447,6 +447,7 @@ begin
   baseproclist.Add('function GetMobjInfoAlpha(const typ: integer): integer;', @PS_GetMobjInfoAlpha);
   baseproclist.Add('function GetMobjInfoHealState(const typ: integer): integer;', @PS_GetMobjInfoHealState);
   baseproclist.Add('function GetMobjInfoCrashState(const typ: integer): integer;', @PS_GetMobjInfoCrashState);
+  baseproclist.Add('function GetMobjInfoVSpeed(const typ: integer): integer;', @PS_GetMobjInfoVSpeed);
   {$IFDEF DOOM_OR_STRIFE}
   baseproclist.Add('function GetMobjInfoInteractState(const typ: integer): integer;', @PS_GetMobjInfoInteractState);
   baseproclist.Add('function GetMobjInfoMissileHeight(const typ: integer): integer;', @PS_GetMobjInfoMissileHeight);

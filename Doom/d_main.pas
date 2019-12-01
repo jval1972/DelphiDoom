@@ -317,7 +317,7 @@ begin
 {$ENDIF}
 
   if player <> nil then
-    R_RenderPlayerView(player)
+    R_RenderPlayerView(player);
 end;
 
 var
@@ -543,6 +543,7 @@ begin
     {$ENDIF}
     // JVAL: Overlay Drawer before menus
     OVR_Drawer;
+
     M_Drawer;
     C_Drawer;
   end;

@@ -1117,7 +1117,7 @@ begin
 
       if actor.flags and MF_AMBUSH <> 0 then
       begin
-        if P_CheckSight(actor, actor.target) then
+        if P_CheckSight(actor, targ) then
           seeyou := true;
       end
       else

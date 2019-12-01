@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -538,11 +538,9 @@ begin
 
   parm := P_GetMobjCustomParam(actor, actor.state.params.StrVal[0]);
   if parm <> nil then
-  begin
-    P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], parm.value + actor.state.params.IntVal[1]);
-    if parm.value < 0 then
-      parm.value := 0;
-  end;
+    P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], parm.value - actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], - actor.state.params.IntVal[1])
 end;
 
 procedure A_SetTargetCustomParam(actor: Pmobj_t);
@@ -585,11 +583,9 @@ begin
 
   parm := P_GetMobjCustomParam(actor.target, actor.state.params.StrVal[0]);
   if parm <> nil then
-  begin
-    P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], parm.value + actor.state.params.IntVal[1]);
-    if parm.value < 0 then
-      parm.value := 0;
-  end;
+    P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], parm.value - actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], - actor.state.params.IntVal[1])
 end;
 
 //
@@ -2200,12 +2196,13 @@ begin
     exit;
   end;
 
-  xofs := actor.state.params.IntVal[1];
-  yofs := actor.state.params.IntVal[2];
-  zofs := actor.state.params.IntVal[3];
-  momx := actor.state.params.IntVal[4];
-  momy := actor.state.params.IntVal[5];
-  momz := actor.state.params.IntVal[6];
+  // JVAL 20180222 -> IntVal changed to FixedVal
+  xofs := actor.state.params.FixedVal[1];
+  yofs := actor.state.params.FixedVal[2];
+  zofs := actor.state.params.FixedVal[3];
+  momx := actor.state.params.FixedVal[4];
+  momy := actor.state.params.FixedVal[5];
+  momz := actor.state.params.FixedVal[6];
   ang1 := actor.state.params.IntVal[7];
   flags := actor.state.params.IntVal[8];
 

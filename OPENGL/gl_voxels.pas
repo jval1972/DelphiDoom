@@ -1139,7 +1139,7 @@ type
 
 function gld_LoadKVX(const fn: string; const offset, scale: float): GLuint;
 var
-  strm: TStream;
+  strm: TDStream;
   pal: array[0..255] of LongWord;
   i: integer;
   r, g, b: byte;
@@ -1190,7 +1190,7 @@ begin
     len := W_LumpLength(lump);
     buf := malloc(len);
     W_ReadLump(lump, buf);
-    strm := TMemoryStream.Create;
+    strm := TDMemoryStream.Create;
     strm.Write(buf^, len);
     strm.Seek(0, sFromBeginning);
     memfree(pointer(buf), len);

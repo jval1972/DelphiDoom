@@ -334,7 +334,8 @@ uses
   r_flat32 in 'Base\r_flat32.pas',
   r_cache_sky1_dbl in 'Hexen\r_cache_sky1_dbl.pas',
   p_bridge in 'Base\p_bridge.pas',
-  w_sprite in 'Base\w_sprite.pas';
+  w_sprite in 'Base\w_sprite.pas',
+  r_things_sortvissprites in 'Base\r_things_sortvissprites.pas';
 
 var
   Saved8087CW: Word;

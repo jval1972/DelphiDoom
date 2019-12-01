@@ -45,8 +45,8 @@ type
     patchsize: integer;
   public
     constructor Create;
-    function LoadHeader(stream: TStream): boolean; virtual;
-    function LoadImage(stream: TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    function LoadImage(stream: TDStream): boolean; virtual;
     destructor Destroy; virtual;
   end;
 
@@ -66,7 +66,7 @@ begin
   patchsize := 0;
 end;
 
-function TPatchTextureManager.LoadHeader(stream: TStream): boolean;
+function TPatchTextureManager.LoadHeader(stream: TDStream): boolean;
 var
   w, h: integer;
 begin
@@ -92,7 +92,7 @@ begin
   end;
 end;
 
-function TPatchTextureManager.LoadImage(stream: TStream): boolean;
+function TPatchTextureManager.LoadImage(stream: TDStream): boolean;
 var
   count: integer;
   col: integer;

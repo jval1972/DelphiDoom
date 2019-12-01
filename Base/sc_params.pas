@@ -44,6 +44,8 @@ const
   GLBF_WORLD_STRING = 4;
   GLBF_WORLD_INTEGER = 5;
   GLBF_WORLD_FLOAT = 6;
+  GLBF_MOBJ_CUSTOMPARM = 7;
+  GLBF_MOBJ_TARGETCUSTOMPARM = 8;
 
 type
   customparam_t = record
@@ -51,7 +53,7 @@ type
     i_param: integer;
     f_param: single;
     fx_param: fixed_t;
-    i_rand1, i_rand2: integer;
+    i_parm1, i_parm2: integer;
     globalidx: integer;
     israndom: boolean;
     computed: boolean;
@@ -64,6 +66,7 @@ type
   private
     fList: Pcustomparam_tArray;
     fNumItems: integer;
+    fActor: pointer;
   protected
     function GetIsComputed(index: integer): boolean; virtual;
     function GetInteger(index: integer): integer; virtual;
@@ -72,6 +75,7 @@ type
     procedure PutFloat(index: Integer; const value: single); virtual;
     function GetFixed(index: integer): fixed_t; virtual;
     function GetString(index: integer): string; virtual;
+    function GetDeclaration(index: integer): string; virtual;
   public
     constructor Create; virtual;
     constructor CreateFromText(const tx: string); virtual;
@@ -83,6 +87,8 @@ type
     property FloatVal[index: Integer]: single read GetFloat write PutFloat;
     property FixedVal[index: Integer]: fixed_t read GetFixed;
     property StrVal[index: Integer]: string read GetString;
+    property Declaration[index: Integer]: string read GetDeclaration;
+    property Actor: pointer read fActor write fActor;
   end;
 
 implementation
@@ -91,12 +97,15 @@ uses
   d_delphi,
   m_rnd,
   psi_globals,
+  p_mobj_h,
+  p_params,
   sc_engine;
 
 constructor TCustomParamList.Create;
 begin
   fList := nil;
   fNumItems := 0;
+  fActor := nil;
 end;
 
 constructor TCustomParamList.CreateFromText(const tx: string);
@@ -106,13 +115,20 @@ var
   token1: string;
   token: string;
   utoken: string;
+  inquote: boolean;
 begin
   Create;
 
   token1 := tx;
+  inquote := False;
   for i := 1 to length(token1) do
+  begin
     if token1[i] in ['{', ',', '}', '(', ')'] then
-      token1[i] := ' ';
+      if not inquote then
+        token1[i] := ' ';
+    if (token1[i] = '"') or (token1[i] = '''') then
+      inquote := not inquote;
+  end;
 
   sc := TScriptEngine.Create(token1);
   try
@@ -130,7 +146,14 @@ begin
             break;
         end;
       end
-      else if (utoken = 'MAPSTR') or (utoken = 'WORLDSTR') or (utoken = 'MAPINT') or (utoken = 'WORLDINT') or (utoken = 'MAPFLOAT') or (utoken = 'WORLDFLOAT') then
+      else if (utoken = 'MAPSTR') or
+              (utoken = 'WORLDSTR') or
+              (utoken = 'MAPINT') or
+              (utoken = 'WORLDINT') or
+              (utoken = 'MAPFLOAT') or
+              (utoken = 'WORLDFLOAT') or
+              (utoken = 'CUSTOMPARAM') or
+              (utoken = 'TARGETCUSTOMPARAM') then
       begin
         if sc.GetString then
           token := token + ' ' + sc._String;
@@ -166,21 +189,21 @@ begin
     fList[fNumItems].computed := false;
     if token = '' then
     begin
-      fList[fNumItems].i_rand1 := 0;
-      fList[fNumItems].i_rand2 := 255;
+      fList[fNumItems].i_parm1 := 0;
+      fList[fNumItems].i_parm2 := 255;
     end
     else
     begin
       splitstring(token, token1, token2);
       if token2 = '' then
       begin
-        fList[fNumItems].i_rand1 := 0;
-        fList[fNumItems].i_rand2 := atoi(token1, 255);
+        fList[fNumItems].i_parm1 := 0;
+        fList[fNumItems].i_parm2 := atoi(token1, 255);
       end
       else
       begin
-        fList[fNumItems].i_rand1 := atoi(token1, 0);
-        fList[fNumItems].i_rand2 := atoi(token2, 255);
+        fList[fNumItems].i_parm1 := atoi(token1, 0);
+        fList[fNumItems].i_parm2 := atoi(token2, 255);
       end;
     end;
   end
@@ -217,6 +240,16 @@ begin
       fList[fNumItems].globalidx := GLBF_WORLD_FLOAT;
       fList[fNumItems].s_param := token;
     end
+    else if token = 'CUSTOMPARAM' then
+    begin
+      fList[fNumItems].globalidx := GLBF_MOBJ_CUSTOMPARM;
+      fList[fNumItems].s_param := token;
+    end
+    else if token = 'TARGETCUSTOMPARAM' then
+    begin
+      fList[fNumItems].globalidx := GLBF_MOBJ_TARGETCUSTOMPARM;
+      fList[fNumItems].s_param := token;
+    end
     else
     begin
       fList[fNumItems].globalidx := 0;
@@ -248,11 +281,13 @@ begin
 end;
 
 function TCustomParamList.GetInteger(index: integer): integer;
+var
+  parm: Pmobjcustomparam_t;
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
     if fList[index].israndom then
-      result := fList[index].i_rand1 + (N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1)) div 256
+      result := fList[index].i_parm1 + (N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1)) div 256
     else
     begin
       case fList[index].globalidx of
@@ -268,6 +303,27 @@ begin
           result := PS_GetWorldInt(fList[index].s_param);
         GLBF_WORLD_FLOAT:
           result := round(PS_GetWorldFloat(fList[index].s_param));
+        GLBF_MOBJ_CUSTOMPARM:
+          begin
+            result := 0;
+            if fActor <> nil then
+            begin
+              parm := P_GetMobjCustomParam(fActor, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value;
+            end;
+          end;
+        GLBF_MOBJ_TARGETCUSTOMPARM:
+          begin
+            result := 0;
+            if fActor <> nil then
+              if Pmobj_t(fActor).target <> nil then
+              begin
+                parm := P_GetMobjCustomParam(Pmobj_t(fActor).target, fList[index].s_param);
+                if parm <> nil then
+                  result := parm.value;
+              end;
+          end;
       else
         result := fList[index].i_param;
       end;
@@ -294,11 +350,13 @@ begin
 end;
 
 function TCustomParamList.GetFloat(index: integer): single;
+var
+  parm: Pmobjcustomparam_t;
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
     if fList[index].israndom then
-      result := (fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1) * 256) / FRACUNIT
+      result := (fList[index].i_parm1 * FRACUNIT + N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1) * 256) / FRACUNIT
     else
     begin
       case fList[index].globalidx of
@@ -314,6 +372,27 @@ begin
           result := PS_GetWorldInt(fList[index].s_param);
         GLBF_WORLD_FLOAT:
           result := PS_GetWorldFloat(fList[index].s_param);
+        GLBF_MOBJ_CUSTOMPARM:
+          begin
+            result := 0.0;
+            if fActor <> nil then
+            begin
+              parm := P_GetMobjCustomParam(fActor, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value;
+            end;
+          end;
+        GLBF_MOBJ_TARGETCUSTOMPARM:
+          begin
+            result := 0.0;
+            if fActor <> nil then
+              if Pmobj_t(fActor).target <> nil then
+              begin
+                parm := P_GetMobjCustomParam(Pmobj_t(fActor).target, fList[index].s_param);
+                if parm <> nil then
+                  result := parm.value;
+              end;
+          end;
       else
         result := fList[index].f_param;
       end;
@@ -341,11 +420,13 @@ begin
 end;
 
 function TCustomParamList.GetFixed(index: integer): fixed_t;
+var
+  parm: Pmobjcustomparam_t;
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
     if fList[index].israndom then
-      result := fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1) * 256
+      result := fList[index].i_parm1 * FRACUNIT + N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1) * 256
     else
     begin
       case fList[index].globalidx of
@@ -361,6 +442,27 @@ begin
           result := PS_GetWorldInt(fList[index].s_param) * FRACUNIT;
         GLBF_WORLD_FLOAT:
           result := round(PS_GetWorldFloat(fList[index].s_param) * FRACUNIT);
+        GLBF_MOBJ_CUSTOMPARM:
+          begin
+            result := 0;
+            if fActor <> nil then
+            begin
+              parm := P_GetMobjCustomParam(fActor, fList[index].s_param);
+              if parm <> nil then
+                result := parm.value * FRACUNIT;
+            end;
+          end;
+        GLBF_MOBJ_TARGETCUSTOMPARM:
+          begin
+            result := 0;
+            if fActor <> nil then
+              if Pmobj_t(fActor).target <> nil then
+              begin
+                parm := P_GetMobjCustomParam(Pmobj_t(fActor).target, fList[index].s_param);
+                if parm <> nil then
+                  result := parm.value * FRACUNIT;
+              end;
+          end;
       else
         result := fList[index].fx_param;
       end;
@@ -371,9 +473,83 @@ begin
 end;
 
 function TCustomParamList.GetString(index: integer): string;
+var
+  parm: Pmobjcustomparam_t;
 begin
   if (index >= 0) and (index < fNumItems) then
-    result := fList[index].s_param
+  begin
+    case fList[index].globalidx of
+      GLBF_MAP_STRING:
+        result := PS_GetMapStr(fList[index].s_param);
+      GLBF_MAP_INTEGER:
+        result := itoa(PS_GetMapInt(fList[index].s_param));
+        GLBF_MAP_FLOAT:
+          result := ftoa(PS_GetMapFloat(fList[index].s_param));
+        GLBF_WORLD_STRING:
+          result := PS_GetWorldStr(fList[index].s_param);
+        GLBF_WORLD_INTEGER:
+          result := itoa(PS_GetWorldInt(fList[index].s_param));
+        GLBF_WORLD_FLOAT:
+          result := ftoa(PS_GetWorldFloat(fList[index].s_param));
+        GLBF_MOBJ_CUSTOMPARM:
+          begin
+            result := '';
+            if fActor <> nil then
+            begin
+              parm := P_GetMobjCustomParam(fActor, fList[index].s_param);
+              if parm <> nil then
+                result := itoa(parm.value);
+            end;
+          end;
+        GLBF_MOBJ_TARGETCUSTOMPARM:
+          begin
+            result := '';
+            if fActor <> nil then
+              if Pmobj_t(fActor).target <> nil then
+              begin
+                parm := P_GetMobjCustomParam(Pmobj_t(fActor).target, fList[index].s_param);
+                if parm <> nil then
+                  result := itoa(parm.value);
+              end;
+          end;
+      else
+        result := fList[index].s_param
+    end;
+  end
+  else
+    result := '';
+end;
+
+function TCustomParamList.GetDeclaration(index: integer): string;
+begin
+  if (index >= 0) and (index < fNumItems) then
+  begin
+    if fList[index].IsRandom then
+      result := 'Random(' + itoa(fList[index].i_parm1) + ', ' + itoa(fList[index].i_parm2) + ')'
+    else
+    begin
+      case fList[index].globalidx of
+        GLBF_MAP_STRING:
+          result := 'MapStr("' + fList[index].s_param + '")';
+        GLBF_MAP_INTEGER:
+          result := 'MapInt("' + fList[index].s_param + '")';
+        GLBF_MAP_FLOAT:
+          result := 'MapFloat("' + fList[index].s_param + '")';
+        GLBF_WORLD_STRING:
+          result := 'WorldStr("' + fList[index].s_param + '")';
+        GLBF_WORLD_INTEGER:
+          result := 'WorldInt("' + fList[index].s_param + '")';
+        GLBF_WORLD_FLOAT:
+          result := 'WorldFloat("' + fList[index].s_param + '")';
+        GLBF_MOBJ_CUSTOMPARM:
+          result := 'CustomParam("' + fList[index].s_param + '")';
+        GLBF_MOBJ_TARGETCUSTOMPARM:
+          result := 'TargetCustomParam("' + fList[index].s_param + '")';
+      else
+        result := '"' + fList[index].s_param + '"';
+      end;
+    end;
+  end
   else
     result := '';
 end;

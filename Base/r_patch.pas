@@ -77,8 +77,6 @@ function R_GetFixedColumnHash(const tex, col: integer): LongWord;
 var
   l: LongWord;
 begin
-  result := tex;
-  exit;
   l := LongWord(tex + 1) + LongWord(col);
   result := ((l * (l + 1)) div 2) and FIXEDCOLUMNMASK;
 end;

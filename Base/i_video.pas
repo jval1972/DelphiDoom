@@ -63,12 +63,13 @@ procedure I_SetPalette64;
 
 var
   fixstallhack: boolean = true;
-  
+
 implementation
 
 uses
   doomdef,
   DirectX,
+  mt_utils,
   i_system,
   i_main,
   i_threads,
@@ -847,7 +848,7 @@ begin
     end;
   end
   else
-    memcpy(dest, screen32, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
+    MT_memcpy(dest, screen32, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
 end;
 
 end.

@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -2342,6 +2342,7 @@ type
     crashstate: integer;
     interactstate: integer;
     missileheight: integer;
+    vspeed: integer;  // Initial vertical speed
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

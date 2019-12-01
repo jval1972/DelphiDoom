@@ -160,7 +160,7 @@ procedure C_QuickSortCmds;
   end;
 
 begin
-  if numcmds > 0 then
+  if numcmds > 1 then
     qsort(0, numcmds - 1);
   cmdssorted := true;
 end;

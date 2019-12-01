@@ -43,7 +43,7 @@ procedure I_ResumeMP3;
 
 procedure I_ShutDownMP3;
 
-procedure I_PlayMP3(strm: TStream);
+procedure I_PlayMP3(strm: TDStream);
 
 var
   usemp3: boolean;
@@ -92,7 +92,7 @@ begin
   S_FreeMP3Streams;
 end;
 
-procedure I_PlayMP3(strm: TStream);
+procedure I_PlayMP3(strm: TDStream);
 begin
   I_StopMP3;
   I_InitMp3;

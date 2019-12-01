@@ -211,7 +211,7 @@ begin
   if flatcachesize32 < numthreads then
   begin
     R[0].start := 0;
-    R[0].finish := flatcachesize32;
+    R[0].finish := flatcachesize32 - 1;
     _flat_thread_worker32(@R[0]);
     flatcachesize32 := 0;
     exit;

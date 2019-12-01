@@ -68,7 +68,7 @@ type
   // Class to extract bitstrings from files:
   TBitStream = class
   private
-    FStream: TStream;
+    FStream: TDStream;
 
     FBuffer: array[0..BUFFERINTSIZE - 1] of Cardinal;
     FFrameSize: Cardinal;     // number of valid bytes in buffer
@@ -87,7 +87,7 @@ type
     property CurrentFrame: Integer read FCurrentFrameNumber;
     property LastFrame: Integer read FLastFrameNumber;
 
-    constructor Create(AStream: TStream);
+    constructor Create(AStream: TDStream);
     destructor Destroy; override;
 
     function Restart: Boolean;
@@ -128,7 +128,7 @@ end;
 
 { TBitStream }
 
-constructor TBitStream.Create(AStream: TStream);
+constructor TBitStream.Create(AStream: TDStream);
 begin
   FStream := AStream;
 

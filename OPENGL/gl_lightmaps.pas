@@ -219,9 +219,9 @@ const
 
 function _float_to_byte(const f: float): byte;
 begin
-  if f <= 0.0 then
+  if f <= 0.5 then
     Result := 0
-  else if f >= 255.0 then
+  else if f >= 254.5 then
     Result := 255
   else
     Result := Round(f);

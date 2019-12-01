@@ -324,6 +324,9 @@ uses
   r_bsp,
   r_earthquake,
   r_things,
+  {$IFNDEF OPENGL}
+  r_things_sortvissprites,
+  {$ENDIF}
   r_plane,
   r_sky,
   r_segs,
@@ -1919,6 +1922,8 @@ begin
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
 
+  R_SortVisSpritesMT;
+
   R_RenderMultiThreadWalls8;
 
   R_SetUpDrawSegLists;
@@ -1933,7 +1938,7 @@ begin
 
   R_RenderMultiThreadFFloors8;
 
-  R_DrawMasked;
+  R_DrawMasked_MultiThread;
 
   // Check for new console commands.
   NetUpdate;
@@ -1969,6 +1974,8 @@ begin
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
 
+  R_SortVisSpritesMT;
+
   R_RenderMultiThreadWalls32;
 
   R_SetUpDrawSegLists;
@@ -1983,7 +1990,7 @@ begin
 
   R_RenderMultiThreadFFloors32;
 
-  R_DrawMasked;
+  R_DrawMasked_MultiThread;
 
   // Check for new console commands.
   NetUpdate;
@@ -2064,7 +2071,7 @@ begin
 
   R_DrawFFloors;  // JVAL: 3d Floors
 
-  R_DrawMasked;
+  R_DrawMasked_SingleThread;
 
   R_Execute3DTransform;
 

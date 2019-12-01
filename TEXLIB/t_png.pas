@@ -558,8 +558,8 @@ type
     destructor Destroy; override;
     procedure LoadFromFile(const Filename: String);
     procedure SaveToFile(const Filename: String);
-    procedure LoadFromStream(Stream: TStream);
-    procedure SaveToStream(Stream: TStream);
+    procedure LoadFromStream(Stream: TDStream);
+    procedure SaveToStream(Stream: TDStream);
     {Access to the png pixels}
     property Pixels[const X, Y: Integer]: LongWord read GetPixels write SetPixels;
     {Palette property}
@@ -613,11 +613,11 @@ type
     {Returns chunk class/name}
     property Name: String read GetChunkName;
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; virtual;
     {Saves the chunk to a stream}
-    function SaveData(Stream: TStream): Boolean;
-    function SaveToStream(Stream: TStream): Boolean; virtual;
+    function SaveData(Stream: TDStream): Boolean;
+    function SaveToStream(Stream: TDStream): Boolean; virtual;
   end;
 
   {Chunk classes}
@@ -677,10 +677,10 @@ type
     property InterlaceMethod: Byte read IHDRData.InterlaceMethod
       write IHDRData.InterlaceMethod;
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Saves the chunk to a stream}
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
     {Destructor/constructor}
     constructor Create(Owner: TPngObject); override;
     destructor Destroy; override;
@@ -701,10 +701,10 @@ type
     property PPUnitY: Cardinal read fPPUnitY write fPPUnitY;
     property UnitType: TUnitType read fUnit write fUnit;
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Saves the chunk to a stream}
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
     {Assigns from another TChunk}
     procedure Assign(Source: TChunk); override;
   end;
@@ -719,7 +719,7 @@ type
     {Returns/sets gamma value}
     property Gamma: Cardinal read GetValue write SetValue;
     {Loading the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Being created}
     constructor Create(Owner: TPngObject); override;
@@ -733,7 +733,7 @@ type
     ZLIB: TZStreamRec;
     {Additional info}
     Data: Pointer;
-    fStream: TStream;
+    fStream: TDStream;
   end;
 
   {Palette chunk}
@@ -750,10 +750,10 @@ type
     {Returns the number of items in the palette}
     property Count: Integer read fCount;
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Saves the chunk to a stream}
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
     {Assigns from another TChunk}
     procedure Assign(Source: TChunk); override;
   end;
@@ -774,9 +774,9 @@ type
     property TransparentColor: ColorRef read GetTransparentColor write
       SetTransparentColor;
     {Loads/saves the chunk from/to a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
     {Assigns from another TChunk}
     procedure Assign(Source: TChunk); override;
   end;
@@ -812,18 +812,18 @@ type
     procedure PreparePalette;
   protected
     {Decode interlaced image}
-    procedure DecodeInterlacedAdam7(Stream: TStream;
+    procedure DecodeInterlacedAdam7(Stream: TDStream;
       var ZLIBStream: TZStreamRec2; const Size: Integer; var crcfile: Cardinal);
     {Decode non interlaced imaged}
-    procedure DecodeNonInterlaced(Stream: TStream;
+    procedure DecodeNonInterlaced(Stream: TDStream;
       var ZLIBStream: TZStreamRec2; const Size: Integer;
       var crcfile: Cardinal);
   protected
     {Encode non interlaced images}
-    procedure EncodeNonInterlaced(Stream: TStream;
+    procedure EncodeNonInterlaced(Stream: TDStream;
       var ZLIBStream: TZStreamRec2);
     {Encode interlaced images}
-    procedure EncodeInterlacedAdam7(Stream: TStream;
+    procedure EncodeInterlacedAdam7(Stream: TDStream;
       var ZLIBStream: TZStreamRec2);
   protected
     {Memory copy methods to decode}
@@ -893,10 +893,10 @@ type
       Src, Dest, Trans: PChar);
   public
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Saves the chunk to a stream}
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
   end;
 
   {Image last modification chunk}
@@ -914,10 +914,10 @@ type
     property Minute: Byte read fMinute write fMinute;
     property Second: Byte read fSecond write fSecond;
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Saves the chunk to a stream}
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
     {Assigns from another TChunk}
     procedure Assign(Source: TChunk); override;
   end;
@@ -931,10 +931,10 @@ type
     property Keyword: String read fKeyword write fKeyword;
     property Text: String read fText write fText;
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Saves the chunk to a stream}
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
     {Assigns from another TChunk}
     procedure Assign(Source: TChunk); override;
   end;
@@ -942,10 +942,10 @@ type
   {zTXT chunk}
   TChunkzTXt = class(TChunktEXt)
     {Loads the chunk from a stream}
-    function LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+    function LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
       Size: Integer): Boolean; override;
     {Saves the chunk to a stream}
-    function SaveToStream(Stream: TStream): Boolean; override;
+    function SaveToStream(Stream: TDStream): Boolean; override;
   end;
 
 {Here we test if it's c++ builder or delphi version 3 or less}
@@ -979,8 +979,8 @@ type
   TPNGTextureManager = object(TPNGBaseTextureManager)
   public
     constructor Create;
-    function LoadHeader(stream: TStream): boolean; virtual;
-    function LoadImage(stream: TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    function LoadImage(stream: TDStream): boolean; virtual;
   end;
 
   TPNGSpriteTextureManager = object(TPNGBaseTextureManager)
@@ -988,8 +988,8 @@ type
     ftransparentcolor: Cardinal;
   public
     constructor Create;
-    function LoadHeader(stream: TStream): boolean; virtual;
-    function LoadImage(stream: TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    function LoadImage(stream: TDStream): boolean; virtual;
   end;
 
 const
@@ -1200,7 +1200,7 @@ const
   ZLIBAllocate = High(Word);
 
 {Initializes ZLIB for decompression}
-function ZLIBInitInflate(Stream: TStream): TZStreamRec2;
+function ZLIBInitInflate(Stream: TDStream): TZStreamRec2;
 begin
   {Fill record}
   Fillchar(Result, SizeOf(TZStreamRec2), #0);
@@ -1217,7 +1217,7 @@ begin
 end;
 
 {Initializes ZLIB for compression}
-function ZLIBInitDeflate(Stream: TStream;
+function ZLIBInitDeflate(Stream: TDStream;
   Level: TCompressionlevel; Size: Cardinal): TZStreamRec2;
 begin
   {Fill record}
@@ -1679,7 +1679,7 @@ begin
 end;
 
 {Saves the data to the stream}
-function TChunk.SaveData(Stream: TStream): Boolean;
+function TChunk.SaveData(Stream: TDStream): Boolean;
 var
   ChunkSize, ChunkCRC: Cardinal;
 begin
@@ -1701,14 +1701,14 @@ begin
 end;
 
 {Saves the chunk to the stream}
-function TChunk.SaveToStream(Stream: TStream): Boolean;
+function TChunk.SaveToStream(Stream: TDStream): Boolean;
 begin
   Result := SaveData(Stream)
 end;
 
 
 {Loads the chunk from a stream}
-function TChunk.LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+function TChunk.LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
   Size: Integer): Boolean;
 var
   CheckCRC: Cardinal;
@@ -1742,7 +1742,7 @@ end;
 {TChunktIME implementation}
 
 {Chunk being loaded from a stream}
-function TChunktIME.LoadFromStream(Stream: TStream;
+function TChunktIME.LoadFromStream(Stream: TDStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
 begin
   {Let ancestor load the data}
@@ -1771,7 +1771,7 @@ begin
 end;
 
 {Saving the chunk to a stream}
-function TChunktIME.SaveToStream(Stream: TStream): Boolean;
+function TChunktIME.SaveToStream(Stream: TDStream): Boolean;
 begin
   {Update data}
   ResizeData(7);  {Make sure the size is 7}
@@ -1789,7 +1789,7 @@ end;
 {TChunkztXt implementation}
 
 {Loading the chunk from a stream}
-function TChunkzTXt.LoadFromStream(Stream: TStream;
+function TChunkzTXt.LoadFromStream(Stream: TDStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
 var
   ErrorOutput: String;
@@ -1824,7 +1824,7 @@ begin
 end;
 
 {Saving the chunk to a stream}
-function TChunkztXt.SaveToStream(Stream: TStream): Boolean;
+function TChunkztXt.SaveToStream(Stream: TDStream): Boolean;
 var
   Output: Pointer;
   OutputSize: Integer;
@@ -1871,7 +1871,7 @@ begin
 end;
 
 {Loading the chunk from a stream}
-function TChunktEXt.LoadFromStream(Stream: TStream;
+function TChunktEXt.LoadFromStream(Stream: TDStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
 begin
   {Load data from stream and validate}
@@ -1886,7 +1886,7 @@ begin
 end;
 
 {Saving the chunk to a stream}
-function TChunktEXt.SaveToStream(Stream: TStream): Boolean;
+function TChunktEXt.SaveToStream(Stream: TDStream): Boolean;
 begin
   {Size is length from keyword, plus a null character to divide}
   {plus the length of the text}
@@ -1996,7 +1996,7 @@ begin
 end;
 
 {Chunk being loaded from a stream}
-function TChunkIHDR.LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+function TChunkIHDR.LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
   Size: Integer): Boolean;
 begin
   {Let TChunk load it}
@@ -2051,7 +2051,7 @@ begin
 end;
 
 {Saving the IHDR chunk to a stream}
-function TChunkIHDR.SaveToStream(Stream: TStream): Boolean;
+function TChunkIHDR.SaveToStream(Stream: TDStream): Boolean;
 begin
   {Ignore 2 bits images}
   if BitDepth = 2 then BitDepth := 4;
@@ -2302,7 +2302,7 @@ begin
 end;
 
 {Saving the chunk to a stream}
-function TChunktRNS.SaveToStream(Stream: TStream): Boolean;
+function TChunktRNS.SaveToStream(Stream: TDStream): Boolean;
 begin
   {Copy palette into data buffer}
   if DataSize <= 256 then
@@ -2320,7 +2320,7 @@ begin
 end;
 
 {Loads the chunk from a stream}
-function TChunktRNS.LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+function TChunktRNS.LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
   Size: Integer): Boolean;
 var
   i, Differ255: Integer;
@@ -2767,7 +2767,7 @@ begin
 end;
 
 {Decodes an interlaced image}
-procedure TChunkIDAT.DecodeInterlacedAdam7(Stream: TStream;
+procedure TChunkIDAT.DecodeInterlacedAdam7(Stream: TDStream;
   var ZLIBStream: TZStreamRec2; const Size: Integer; var crcfile: Cardinal);
 var
   CurrentPass: Byte;
@@ -3045,7 +3045,7 @@ begin
 end;
 
 {Decode non interlaced image}
-procedure TChunkIDAT.DecodeNonInterlaced(Stream: TStream;
+procedure TChunkIDAT.DecodeNonInterlaced(Stream: TDStream;
   var ZLIBStream: TZStreamRec2; const Size: Integer; var crcfile: Cardinal);
 var
   j: Cardinal;
@@ -3185,7 +3185,7 @@ begin
 end;
 
 {Reads the image data from the stream}
-function TChunkIDAT.LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+function TChunkIDAT.LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
   Size: Integer): Boolean;
 var
   ZLIBStream: TZStreamRec2;
@@ -3252,7 +3252,7 @@ const
   BUFFER = 5;
 
 {Saves the IDAT chunk to a stream}
-function TChunkIDAT.SaveToStream(Stream: TStream): Boolean;
+function TChunkIDAT.SaveToStream(Stream: TDStream): Boolean;
 var
   ZLIBStream : TZStreamRec2;
 begin
@@ -3307,7 +3307,7 @@ begin
 end;
 
 {Writes the IDAT using the settings}
-procedure WriteIDAT(Stream: TStream; Data: Pointer; const Length: Cardinal);
+procedure WriteIDAT(Stream: TDStream; Data: Pointer; const Length: Cardinal);
 var
   ChunkLen, CRC: Cardinal;
 begin
@@ -3500,7 +3500,7 @@ begin
 end;
 
 {Encode non interlaced images}
-procedure TChunkIDAT.EncodeNonInterlaced(Stream: TStream;
+procedure TChunkIDAT.EncodeNonInterlaced(Stream: TDStream;
   var ZLIBStream: TZStreamRec2);
 var
   {Current line}
@@ -3765,7 +3765,7 @@ begin
 end;
 
 {Encode interlaced images}
-procedure TChunkIDAT.EncodeInterlacedAdam7(Stream: TStream;
+procedure TChunkIDAT.EncodeInterlacedAdam7(Stream: TDStream;
   var ZLIBStream: TZStreamRec2);
 var
   CurrentPass, Filter: Byte;
@@ -3979,7 +3979,7 @@ begin
 end;
 
 {Loads the palette chunk from a stream}
-function TChunkPLTE.LoadFromStream(Stream: TStream;
+function TChunkPLTE.LoadFromStream(Stream: TDStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
 type
   pPalEntry = ^PalEntry;
@@ -4025,7 +4025,7 @@ begin
 end;
 
 {Saves the PLTE chunk to a stream}
-function TChunkPLTE.SaveToStream(Stream: TStream): Boolean;
+function TChunkPLTE.SaveToStream(Stream: TDStream): Boolean;
 var
   J: Integer;
   DataPtr: PByte;
@@ -4112,7 +4112,7 @@ begin
 end;
 
 {Loading the chunk from a stream}
-function TChunkgAMA.LoadFromStream(Stream: TStream;
+function TChunkgAMA.LoadFromStream(Stream: TDStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
 var
   i: Integer;
@@ -4636,7 +4636,7 @@ const
   PngHeader: array[0..7] of Char = (#137, #80, #78, #71, #13, #10, #26, #10);
 
 {Loads the image from a stream of data}
-procedure TPngObject.LoadFromStream(Stream: TStream);
+procedure TPngObject.LoadFromStream(Stream: TDStream);
 var
   Header: array[0..7] of Char;
   HasIDAT: Boolean;
@@ -4766,7 +4766,7 @@ begin
 end;
 
 {Saving the PNG image to a stream of data}
-procedure TPngObject.SaveToStream(Stream: TStream);
+procedure TPngObject.SaveToStream(Stream: TDStream);
 var
   j: Integer;
 begin
@@ -5344,7 +5344,7 @@ begin
 end;
 
 {Loads the chunk from a stream}
-function TChunkpHYs.LoadFromStream(Stream: TStream; const ChunkName: TChunkName;
+function TChunkpHYs.LoadFromStream(Stream: TDStream; const ChunkName: TChunkName;
   Size: Integer): Boolean;
 begin
   {Let ancestor load the data}
@@ -5359,7 +5359,7 @@ begin
 end;
 
 {Saves the chunk to a stream}
-function TChunkpHYs.SaveToStream(Stream: TStream): Boolean;
+function TChunkpHYs.SaveToStream(Stream: TDStream): Boolean;
 begin
   {Update data}
   ResizeData(9);  {Make sure the size is 9}
@@ -5483,7 +5483,7 @@ begin
   inherited Create(PNGEXT);
 end;
 
-function TPNGTextureManager.LoadHeader(stream: TStream): boolean;
+function TPNGTextureManager.LoadHeader(stream: TDStream): boolean;
 begin
   png.LoadFromStream(stream);
   FBitmap.SetTransparentColor(RGBSwap(png.GetTransparentColor));
@@ -5497,7 +5497,7 @@ begin
   Result := CheckPNGError;
 end;
 
-function TPNGTextureManager.LoadImage(stream: TStream): boolean;
+function TPNGTextureManager.LoadImage(stream: TDStream): boolean;
 var
   x, y: integer;
   buffer: LongWord;
@@ -5557,7 +5557,7 @@ begin
   inherited Create(PNGSPRITEEXT);
 end;
 
-function TPNGSpriteTextureManager.LoadHeader(stream: TStream): boolean;
+function TPNGSpriteTextureManager.LoadHeader(stream: TDStream): boolean;
 begin
   png.LoadFromStream(stream);
   ftransparentcolor := RGBSwap(png.GetTransparentColor);
@@ -5572,7 +5572,7 @@ begin
   Result := CheckPNGError;
 end;
 
-function TPNGSpriteTextureManager.LoadImage(stream: TStream): boolean;
+function TPNGSpriteTextureManager.LoadImage(stream: TDStream): boolean;
 var
   x, y: integer;
   buffer: LongWord;

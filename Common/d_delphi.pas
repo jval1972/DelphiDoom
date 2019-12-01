@@ -237,7 +237,7 @@ const
   sFromEnd = 2;
 
 type
-  TStream = class
+  TDStream = class
   protected
     FIOResult: integer;
   public
@@ -252,7 +252,7 @@ type
     function IOResult: integer;
   end;
 
-  TMemoryStream = class(TStream)
+  TDMemoryStream = class(TDStream)
   private
     FSize: integer;
     FRealSize: integer;
@@ -273,7 +273,7 @@ type
     property Memory: pointer read FMemory;
   end;
 
-  TAttachableStream = class(TStream)
+  TAttachableMemoryStream = class(TDStream)
   protected
     FSize: integer;
     FPosition: integer;
@@ -291,7 +291,7 @@ type
     function Position: integer; override;
   end;
 
-  TFile = class(TStream)
+  TFile = class(TDStream)
   private
     f: file;
   public
@@ -489,7 +489,7 @@ type
     procedure InsertObject(Index: Integer; const S: string;
       AObject: TObject);
     function  LoadFromFile(const FileName: string): boolean; virtual;
-    function  LoadFromStream(const strm: TStream): boolean; virtual;
+    function  LoadFromStream(const strm: TDStream): boolean; virtual;
     procedure Move(CurIndex, NewIndex: Integer); virtual;
     function SaveToFile(const FileName: string): boolean; virtual;
     procedure SetText(Text: PChar); virtual;
@@ -690,7 +690,7 @@ function StrIsInteger(const s: string): Boolean;
 
 function StrIsFloat(const s: string): Boolean;
 
-function SaveStreamToFile(const s: TStream; const fname: string): boolean;
+function SaveStreamToFile(const s: TDStream; const fname: string): boolean;
 
 implementation
 
@@ -1620,12 +1620,12 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TStream
-constructor TStream.Create;
+constructor TDStream.Create;
 begin
   FIOResult := 0;
 end;
 
-function TStream.IOResult: integer;
+function TDStream.IOResult: integer;
 begin
   result := FIOResult;
   FIOResult := 0;
@@ -1633,7 +1633,7 @@ end;
 
 ////////////////////////////////////////////////////////////////////////////////
 // TMemoryStream
-constructor TMemoryStream.Create;
+constructor TDMemoryStream.Create;
 begin
   Inherited Create;
   FSize := 0;
@@ -1642,13 +1642,13 @@ begin
   FMemory := nil;
 end;
 
-destructor TMemoryStream.Destroy;
+destructor TDMemoryStream.Destroy;
 begin
   Resize(0);
   Inherited Destroy;
 end;
 
-procedure TMemoryStream.Resize(newsize: integer);
+procedure TDMemoryStream.Resize(newsize: integer);
 var
   newrealsize: integer;
 begin
@@ -1671,7 +1671,7 @@ begin
   end;
 end;
 
-function TMemoryStream.Read(var Buffer; Count: Longint): Longint;
+function TDMemoryStream.Read(var Buffer; Count: Longint): Longint;
 begin
   if Count + FPosition > FSize then
     result := FSize - FPosition
@@ -1682,7 +1682,7 @@ begin
   FPosition := FPosition + result;
 end;
 
-function TMemoryStream.Write(const Buffer; Count: Longint): Longint;
+function TDMemoryStream.Write(const Buffer; Count: Longint): Longint;
 begin
   if Count + FPosition > FSize then
     resize(Count + FPosition);
@@ -1691,7 +1691,7 @@ begin
   result := Count;
 end;
 
-function TMemoryStream.Seek(Offset: Longint; Origin: Word): Longint;
+function TDMemoryStream.Seek(Offset: Longint; Origin: Word): Longint;
 begin
   case Origin of
     sFromBeginning:
@@ -1706,19 +1706,19 @@ begin
   FPosition := result;
 end;
 
-function TMemoryStream.Size: Longint;
+function TDMemoryStream.Size: Longint;
 begin
   result := FSize;
 end;
 
-function TMemoryStream.Position: integer;
+function TDMemoryStream.Position: integer;
 begin
   result := FPosition;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
-// TAttachableStream
-constructor TAttachableStream.Create;
+// TAttachableMemoryStream
+constructor TAttachableMemoryStream.Create;
 begin
   Inherited Create;
   FSize := 0;
@@ -1726,18 +1726,19 @@ begin
   FMemory := nil;
 end;
 
-destructor TAttachableStream.Destroy;
+destructor TAttachableMemoryStream.Destroy;
 begin
   Inherited Destroy;
 end;
 
-procedure TAttachableStream.Attach(const amemory: pointer; const asize: integer); 
+procedure TAttachableMemoryStream.Attach(const amemory: pointer; const asize: integer);
 begin
   FMemory := amemory;
   FSize := asize;
+  FPosition := 0;
 end;
 
-function TAttachableStream.Read(var Buffer; Count: Longint): Longint;
+function TAttachableMemoryStream.Read(var Buffer; Count: Longint): Longint;
 begin
   if Count + FPosition > FSize then
     result := FSize - FPosition
@@ -1748,21 +1749,21 @@ begin
   FPosition := FPosition + result;
 end;
 
-function TAttachableStream.Write(const Buffer; Count: Longint): Longint;
+function TAttachableMemoryStream.Write(const Buffer; Count: Longint): Longint;
 begin
-  if Count + FPosition > FSize then  
+  if Count + FPosition > FSize then
     result := FSize - FPosition
   else
     result := Count;
 
   if result <= 0 then
     Exit;
-     
+
   memcpy(pointer(integer(FMemory) + FPosition), @Buffer, result);
   FPosition := FPosition + result;
 end;
 
-function TAttachableStream.Seek(Offset: Longint; Origin: Word): Longint;
+function TAttachableMemoryStream.Seek(Offset: Longint; Origin: Word): Longint;
 begin
   case Origin of
     sFromBeginning:
@@ -1777,12 +1778,12 @@ begin
   FPosition := result;
 end;
 
-function TAttachableStream.Size: Longint;
+function TAttachableMemoryStream.Size: Longint;
 begin
   result := FSize;
 end;
 
-function TAttachableStream.Position: integer;
+function TAttachableMemoryStream.Position: integer;
 begin
   result := FPosition;
 end;
@@ -2672,7 +2673,7 @@ begin
     result := false;
 end;
 
-function TDStrings.LoadFromStream(const strm: TStream): boolean;
+function TDStrings.LoadFromStream(const strm: TDStream): boolean;
 var
   Size: Integer;
   A: PByteArray;
@@ -3925,7 +3926,7 @@ begin
   end;
 end;
 
-function SaveStreamToFile(const s: TStream; const fname: string): boolean;
+function SaveStreamToFile(const s: TDStream; const fname: string): boolean;
 var
   p: integer;
   sz: integer;

@@ -46,6 +46,9 @@ const
   OVERLAYSIZE = OVERLAYWIDTH * OVERLAYHEIGHT;
 
 type
+  overlayindexes_t = array[0..OVERLAYSIZE - 1] of Integer;
+  overlayindexes_p = ^overlayindexes_t;
+type
   overlaydrawer_t = record
     proc: Integer;
     tick: Integer;
@@ -74,11 +77,11 @@ type
 type
   TOverlayDrawer = class(TObject)
   private
-    overlayscreen: PByteArray;
-    overlaylookup: overlaylookup_p;
-    firstoverlaylookup: array[0..OVERLAYSIZE - 1] of Integer;
-    lastoverlaylookup: array[0..OVERLAYSIZE - 1] of Integer;
-    drawers: Poverlaydrawer_tArray;
+    foverlayscreen: PByteArray;
+    foverlaylookup: overlaylookup_p;
+    ffirstoverlaylookup: overlayindexes_t;
+    flastoverlaylookup: overlayindexes_t;
+    fdrawers: Poverlaydrawer_tArray;
     fnumdrawers: Integer;
     frealnumdrawers: Integer;
     fmodified: Boolean;
@@ -124,6 +127,12 @@ type
     function GetOverlayHeight: Integer;
     {$ENDIF}
     property Modified: Boolean read fmodified;
+    property overlayscreen: PByteArray read foverlayscreen;
+    property overlaylookup: overlaylookup_p read foverlaylookup;
+    property firstoverlaylookup: overlayindexes_t read ffirstoverlaylookup;
+    property lastoverlaylookup: overlayindexes_t read flastoverlaylookup;
+    property drawers: Poverlaydrawer_tArray read fdrawers;
+    property numdrawers: Integer read fnumdrawers;
   end;
 
 // ----------------- OVERLAY FUNCTIONS -----------------------------------------
@@ -194,10 +203,10 @@ const
 constructor TOverlayDrawer.Create;
 begin
   inherited Create;
-  overlayscreen := malloc(OVERLAYSIZE * SizeOf(Byte));
-  overlaylookup := malloc(V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte));
+  foverlayscreen := malloc(OVERLAYSIZE * SizeOf(Byte));
+  foverlaylookup := malloc(V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte));
   CalcOverlayLookUp;
-  drawers := malloc(OVR_GROWSTEP * SizeOf(overlaydrawer_t));
+  fdrawers := malloc(OVR_GROWSTEP * SizeOf(overlaydrawer_t));
   fnumdrawers := 0;
   frealnumdrawers := OVR_GROWSTEP;
   fstart := 0;
@@ -209,9 +218,9 @@ end;
 
 destructor TOverlayDrawer.Destroy;
 begin
-  memfree(Pointer(drawers), frealnumdrawers * SizeOf(overlaydrawer_t));
-  memfree(Pointer(overlaylookup), V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte));
-  memfree(Pointer(overlayscreen), OVERLAYSIZE * SizeOf(Byte));
+  memfree(Pointer(fdrawers), frealnumdrawers * SizeOf(overlaydrawer_t));
+  memfree(Pointer(foverlaylookup), V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte));
+  memfree(Pointer(foverlayscreen), OVERLAYSIZE * SizeOf(Byte));
   inherited;
 end;
 
@@ -223,8 +232,8 @@ var
   tw, th: Integer;
   apos: Integer;
 begin
-  MT_memseti(@firstoverlaylookup, MAXINT, OVERLAYSIZE);
-  MT_memseti(@lastoverlaylookup, 0, OVERLAYSIZE);
+  MT_memseti(@ffirstoverlaylookup, MAXINT, OVERLAYSIZE);
+  MT_memseti(@flastoverlaylookup, 0, OVERLAYSIZE);
   idx := 0;
   w := V_GetScreenWidth(SCN_FG);
   h := V_GetScreenHeight(SCN_FG);
@@ -243,11 +252,11 @@ begin
       else if tw < 0 then
         tw := 0;
       apos := BufferPosition(tw, th);
-      overlaylookup[idx] := @overlayscreen[apos];
-      if firstoverlaylookup[apos] > idx then
-        firstoverlaylookup[apos] := idx;
-      if lastoverlaylookup[apos] < idx then
-        lastoverlaylookup[apos] := idx;
+      foverlaylookup[idx] := @foverlayscreen[apos];
+      if ffirstoverlaylookup[apos] > idx then
+        ffirstoverlaylookup[apos] := idx;
+      if flastoverlaylookup[apos] < idx then
+        flastoverlaylookup[apos] := idx;
       Inc(idx);
     end;
   end;
@@ -260,7 +269,7 @@ begin
   PInteger(buff)^ := fnumdrawers;
   incp(buff, SizeOf(Integer));
   sz := fnumdrawers * SizeOf(overlaydrawer_t);
-  MT_memcpy(buff, @drawers[0], sz);
+  MT_memcpy(buff, @fdrawers[0], sz);
   incp(buff, sz);
 end;
 
@@ -271,9 +280,9 @@ begin
   fnumdrawers := PInteger(buff)^;
   incp(buff, SizeOf(Integer));
   sz := fnumdrawers * SizeOf(overlaydrawer_t);
-  realloc(pointer(drawers), frealnumdrawers * SizeOf(overlaydrawer_t), sz);
+  realloc(pointer(fdrawers), frealnumdrawers * SizeOf(overlaydrawer_t), sz);
   frealnumdrawers := fnumdrawers;
-  MT_memcpy(@drawers[0], buff, sz);
+  MT_memcpy(@fdrawers[0], buff, sz);
   incp(buff, sz);
   ClearScreen;
 end;
@@ -286,7 +295,7 @@ end;
 procedure TOverlayDrawer.Clear;
 begin
   fnumdrawers := 0;
-  realloc(pointer(drawers), frealnumdrawers * SizeOf(overlaydrawer_t), OVR_GROWSTEP * SizeOf(overlaydrawer_t));
+  realloc(pointer(fdrawers), frealnumdrawers * SizeOf(overlaydrawer_t), OVR_GROWSTEP * SizeOf(overlaydrawer_t));
   frealnumdrawers := OVR_GROWSTEP;
   ClearScreen;
 end;
@@ -294,7 +303,7 @@ end;
 procedure TOverlayDrawer.ClearScreen;
 begin
   if fstart <= fend then
-    MT_ZeroMemory(@overlayscreen[fstart], fend - fstart + 1);
+    MT_ZeroMemory(@foverlayscreen[fstart], fend - fstart + 1, 2);
   fstart := OVERLAYSIZE;
   fend := -1;
 end;
@@ -303,7 +312,7 @@ procedure TOverlayDrawer.Grow;
 begin
   if fnumdrawers = frealnumdrawers then
   begin
-    realloc(pointer(drawers), frealnumdrawers * SizeOf(overlaydrawer_t),
+    realloc(pointer(fdrawers), frealnumdrawers * SizeOf(overlaydrawer_t),
       (frealnumdrawers + OVR_GROWSTEP) * SizeOf(overlaydrawer_t));
     frealnumdrawers := frealnumdrawers + OVR_GROWSTEP;
   end;
@@ -336,7 +345,7 @@ begin
   fy := y - patch.topoffset;
   apos := BufferPosition(fx, fy);
 
-  desttop := @overlayscreen[apos];
+  desttop := @foverlayscreen[apos];
 
   col := 0;
   w := patch.width;
@@ -352,7 +361,7 @@ begin
       dest := @desttop[column.topdelta * OVERLAYWIDTH];
       count := column.length;
 
-      astart := pDiff(dest, @overlayscreen[0], 1);
+      astart := pDiff(dest, @foverlayscreen[0], 1);
       aend := astart + OVERLAYWIDTH * (count - 1);
       if (astart >= 0) and (astart < OVERLAYSIZE) and
          (aend >= 0) and (aend < OVERLAYSIZE) and
@@ -383,7 +392,7 @@ begin
   apos := BufferPosition(x, y);
   if (apos >= 0) and (apos < OVERLAYSIZE) then
   begin
-    pb := @overlayscreen[apos];
+    pb := @foverlayscreen[apos];
     pb^ := V_FindAproxColorIndex(@videopal, blue or (green shl 8) or (red shl 16));
     NotifyDrawSize(apos, apos);
   end;
@@ -461,7 +470,7 @@ procedure TOverlayDrawer.DrawDrawer(const i: Integer);
 var
   dr: Poverlaydrawer_t;
 begin
-  dr := @drawers[i];
+  dr := @fdrawers[i];
   case dr.proc of
     OVR_DRAWTEXT:
       DrawText(dr.sparam, dr.iparam1, dr.xparam, dr.yparam);
@@ -514,7 +523,7 @@ begin
   end;
 
   Grow;
-  pdrawer := @drawers[fnumdrawers];
+  pdrawer := @fdrawers[fnumdrawers];
   Inc(fnumdrawers);
 
   pdrawer.proc := OVR_DRAWPATCH;
@@ -534,7 +543,7 @@ begin
     Exit;
 
   Grow;
-  pdrawer := @drawers[fnumdrawers];
+  pdrawer := @fdrawers[fnumdrawers];
   Inc(fnumdrawers);
 
   pdrawer.proc := OVR_DRAWPIXEL;
@@ -555,7 +564,7 @@ begin
     Exit;
 
   Grow;
-  pdrawer := @drawers[fnumdrawers];
+  pdrawer := @fdrawers[fnumdrawers];
   Inc(fnumdrawers);
 
   pdrawer.proc := OVR_DRAWTEXT;
@@ -593,7 +602,7 @@ begin
   cnt := 0;
   drawcnt := 0;
   for i := 0 to fnumdrawers - 1 do
-    if leveltime <= drawers[i].tick then
+    if leveltime <= fdrawers[i].tick then
     begin
       DrawDrawer(i);
       Inc(drawcnt);
@@ -601,7 +610,7 @@ begin
     else
     begin
       Inc(cnt);
-      drawers[i].proc := 0;
+      fdrawers[i].proc := 0;
     end;
 
   if cnt > 0 then
@@ -611,13 +620,13 @@ begin
     begin
       if j < i then
       begin
-        if drawers[i].proc <> 0 then
+        if fdrawers[i].proc <> 0 then
         begin
-          drawers[j] := drawers[i];
+          fdrawers[j] := fdrawers[i];
           inc(j);
         end;
       end
-      else if drawers[i].proc <> 0 then
+      else if fdrawers[i].proc <> 0 then
         inc(j);
     end;
     fnumdrawers := j;
@@ -644,30 +653,32 @@ begin
 end;
 {$ENDIF}
 
+type
+  ovrflash_t = record
+    ovr: TOverlayDrawer;
+    astart, afinish: integer;
+  end;
+  ovrflash_p = ^ovrflash_t;
+
 {$IFNDEF OPENGL}
-procedure TOverlayDrawer.FlashToScreen8;
+function _thr_ovr_flash8(p: ovrflash_p): integer; stdcall;
 var
   destb: PByte;
   src: PByte;
   dstart, dend: Integer;
   b: byte;
+  ovr: TOverlayDrawer;
 begin
-  if fnumdrawers = 0 then
-    Exit;
+  Result := 0;
 
-  if firstinterpolation then
-    DrawDrawers;
-
-  if fstart > fend then
-    Exit;
-
-  dstart := firstoverlaylookup[fstart];
+  ovr := p.ovr;
+  dstart := ovr.firstoverlaylookup[p.astart];
   destb := @screens[SCN_FG][dstart];
 
-  dend := lastoverlaylookup[fend];
+  dend := ovr.lastoverlaylookup[p.afinish];
 
   repeat
-    src := overlaylookup[dstart];
+    src := ovr.overlaylookup[dstart];
     if PLongWord(src)^ = 0 then
     begin
       Inc(dstart, 4);
@@ -683,14 +694,17 @@ begin
     end;
   until dstart > dend;
 end;
-{$ENDIF}
 
-procedure TOverlayDrawer.FlashToScreen32;
+procedure TOverlayDrawer.FlashToScreen8;
 var
-  destl: PLongWord;
+  parms: array[0..16] of ovrflash_t;
+  destb: PByte;
   src: PByte;
   dstart, dend: Integer;
   b: byte;
+  i: integer;
+  nthreads: integer;
+  sz: integer;
 begin
   if fnumdrawers = 0 then
     Exit;
@@ -698,16 +712,275 @@ begin
   if firstinterpolation then
     DrawDrawers;
 
-  if fstart > fend then
+  sz := fend - fstart;
+  if sz < 0 then
     Exit;
 
-  dstart := firstoverlaylookup[fstart];
+  if usemultithread and (sz > 8 * 320) then
+  begin
+    nthreads := I_GetNumCPUs;
+    if nthreads < 2 then
+      nthreads := 2
+    else if nthreads > 17 then
+      nthreads := 17;
+    sz := sz div nthreads;
+    parms[0].ovr := self;
+    parms[0].astart := fstart;
+    for i := 1 to nthreads - 1 do
+    begin
+      parms[i].ovr := self;
+      parms[i - 1].afinish := fstart + sz * i;
+      parms[i].astart := parms[i - 1].afinish + 1;
+    end;
+    parms[nthreads - 1].afinish := fend;
+    case nthreads of
+      2:
+        MT_Execute(
+          @_thr_ovr_flash8, @parms[0],
+          @_thr_ovr_flash8, @parms[1]
+        );
+      3:
+        MT_Execute(
+          @_thr_ovr_flash8, @parms[0],
+          @_thr_ovr_flash8, @parms[1],
+          @_thr_ovr_flash8, @parms[2]
+        );
+      4:
+        MT_Execute(
+          @_thr_ovr_flash8, @parms[0],
+          @_thr_ovr_flash8, @parms[1],
+          @_thr_ovr_flash8, @parms[2],
+          @_thr_ovr_flash8, @parms[3]
+        );
+      5:
+        MT_Execute(
+          @_thr_ovr_flash8, @parms[0],
+          @_thr_ovr_flash8, @parms[1],
+          @_thr_ovr_flash8, @parms[2],
+          @_thr_ovr_flash8, @parms[3],
+          @_thr_ovr_flash8, @parms[4]
+        );
+      6:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5]
+        );
+      7:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6]
+        );
+      8:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7]
+        );
+      9:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8]
+        );
+     10:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9]
+        );
+     11:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9],
+         @_thr_ovr_flash8, @parms[10]
+        );
+     12:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9],
+         @_thr_ovr_flash8, @parms[10],
+         @_thr_ovr_flash8, @parms[11]
+        );
+     13:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9],
+         @_thr_ovr_flash8, @parms[10],
+         @_thr_ovr_flash8, @parms[11],
+         @_thr_ovr_flash8, @parms[12]
+        );
+     14:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9],
+         @_thr_ovr_flash8, @parms[10],
+         @_thr_ovr_flash8, @parms[11],
+         @_thr_ovr_flash8, @parms[12],
+         @_thr_ovr_flash8, @parms[13]
+        );
+     15:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9],
+         @_thr_ovr_flash8, @parms[10],
+         @_thr_ovr_flash8, @parms[11],
+         @_thr_ovr_flash8, @parms[12],
+         @_thr_ovr_flash8, @parms[13],
+         @_thr_ovr_flash8, @parms[14]
+        );
+     16:
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9],
+         @_thr_ovr_flash8, @parms[10],
+         @_thr_ovr_flash8, @parms[11],
+         @_thr_ovr_flash8, @parms[12],
+         @_thr_ovr_flash8, @parms[13],
+         @_thr_ovr_flash8, @parms[14],
+         @_thr_ovr_flash8, @parms[15]
+        );
+      else
+        MT_Execute(
+         @_thr_ovr_flash8, @parms[0],
+         @_thr_ovr_flash8, @parms[1],
+         @_thr_ovr_flash8, @parms[2],
+         @_thr_ovr_flash8, @parms[3],
+         @_thr_ovr_flash8, @parms[4],
+         @_thr_ovr_flash8, @parms[5],
+         @_thr_ovr_flash8, @parms[6],
+         @_thr_ovr_flash8, @parms[7],
+         @_thr_ovr_flash8, @parms[8],
+         @_thr_ovr_flash8, @parms[9],
+         @_thr_ovr_flash8, @parms[10],
+         @_thr_ovr_flash8, @parms[11],
+         @_thr_ovr_flash8, @parms[12],
+         @_thr_ovr_flash8, @parms[13],
+         @_thr_ovr_flash8, @parms[14],
+         @_thr_ovr_flash8, @parms[15],
+         @_thr_ovr_flash8, @parms[16]
+        );
+    end;
+  end
+  else
+  begin
+    dstart := ffirstoverlaylookup[fstart];
+    destb := @screens[SCN_FG][fstart];
+
+    dend := flastoverlaylookup[fend];
+
+    repeat
+      src := foverlaylookup[dstart];
+      if PLongWord(src)^ = 0 then
+      begin
+        Inc(dstart, 4);
+        Inc(destb, 4);
+      end
+      else
+      begin
+        b := src^;
+        if b <> 0 then
+          destb^ := b;
+        Inc(dstart);
+        Inc(destb);
+      end;
+    until dstart > dend;
+  end;
+end;
+{$ENDIF}
+
+function _thr_ovr_flash32(p: ovrflash_p): integer; stdcall;
+var
+  destl: PLongWord;
+  src: PByte;
+  dstart, dend: Integer;
+  b: byte;
+  ovr: TOverlayDrawer;
+begin
+  Result := 0;
+
+  ovr := p.ovr;
+  dstart := ovr.firstoverlaylookup[p.astart];
   destl := @screen32[dstart];
 
-  dend := lastoverlaylookup[fend];
+  dend := ovr.lastoverlaylookup[p.afinish];
 
   repeat
-    src := overlaylookup[dstart];
+    src := ovr.overlaylookup[dstart];
     if PLongWord(src)^ = 0 then
     begin
       Inc(dstart, 4);
@@ -722,6 +995,273 @@ begin
       Inc(destl);
     end;
   until dstart > dend;
+end;
+
+procedure TOverlayDrawer.FlashToScreen32;
+var
+  parms: array[0..16] of ovrflash_t;
+  destl: PLongWord;
+  src: PByte;
+  dstart, dend: Integer;
+  b: byte;
+  i: integer;
+  nthreads: integer;
+  sz: integer;
+begin
+  if fnumdrawers = 0 then
+    Exit;
+
+  if firstinterpolation then
+    DrawDrawers;
+
+  sz := fend - fstart;
+  if sz < 0 then
+    Exit;
+
+  if usemultithread and (sz > 8 * 320) then
+  begin
+    nthreads := I_GetNumCPUs;
+    if nthreads < 2 then
+      nthreads := 2
+    else if nthreads > 17 then
+      nthreads := 17;
+    sz := sz div nthreads;
+    parms[0].ovr := self;
+    parms[0].astart := fstart;
+    for i := 1 to nthreads - 1 do
+    begin
+      parms[i].ovr := self;
+      parms[i - 1].afinish := fstart + sz * i;
+      parms[i].astart := parms[i - 1].afinish + 1;
+    end;
+    parms[nthreads - 1].afinish := fend;
+    case nthreads of
+      2:
+        MT_Execute(
+          @_thr_ovr_flash32, @parms[0],
+          @_thr_ovr_flash32, @parms[1]
+        );
+      3:
+        MT_Execute(
+          @_thr_ovr_flash32, @parms[0],
+          @_thr_ovr_flash32, @parms[1],
+          @_thr_ovr_flash32, @parms[2]
+        );
+      4:
+        MT_Execute(
+          @_thr_ovr_flash32, @parms[0],
+          @_thr_ovr_flash32, @parms[1],
+          @_thr_ovr_flash32, @parms[2],
+          @_thr_ovr_flash32, @parms[3]
+        );
+      5:
+        MT_Execute(
+          @_thr_ovr_flash32, @parms[0],
+          @_thr_ovr_flash32, @parms[1],
+          @_thr_ovr_flash32, @parms[2],
+          @_thr_ovr_flash32, @parms[3],
+          @_thr_ovr_flash32, @parms[4]
+        );
+      6:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5]
+        );
+      7:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6]
+        );
+      8:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7]
+        );
+      9:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8]
+        );
+     10:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9]
+        );
+     11:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9],
+         @_thr_ovr_flash32, @parms[10]
+        );
+     12:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9],
+         @_thr_ovr_flash32, @parms[10],
+         @_thr_ovr_flash32, @parms[11]
+        );
+     13:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9],
+         @_thr_ovr_flash32, @parms[10],
+         @_thr_ovr_flash32, @parms[11],
+         @_thr_ovr_flash32, @parms[12]
+        );
+     14:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9],
+         @_thr_ovr_flash32, @parms[10],
+         @_thr_ovr_flash32, @parms[11],
+         @_thr_ovr_flash32, @parms[12],
+         @_thr_ovr_flash32, @parms[13]
+        );
+     15:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9],
+         @_thr_ovr_flash32, @parms[10],
+         @_thr_ovr_flash32, @parms[11],
+         @_thr_ovr_flash32, @parms[12],
+         @_thr_ovr_flash32, @parms[13],
+         @_thr_ovr_flash32, @parms[14]
+        );
+     16:
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9],
+         @_thr_ovr_flash32, @parms[10],
+         @_thr_ovr_flash32, @parms[11],
+         @_thr_ovr_flash32, @parms[12],
+         @_thr_ovr_flash32, @parms[13],
+         @_thr_ovr_flash32, @parms[14],
+         @_thr_ovr_flash32, @parms[15]
+        );
+      else
+        MT_Execute(
+         @_thr_ovr_flash32, @parms[0],
+         @_thr_ovr_flash32, @parms[1],
+         @_thr_ovr_flash32, @parms[2],
+         @_thr_ovr_flash32, @parms[3],
+         @_thr_ovr_flash32, @parms[4],
+         @_thr_ovr_flash32, @parms[5],
+         @_thr_ovr_flash32, @parms[6],
+         @_thr_ovr_flash32, @parms[7],
+         @_thr_ovr_flash32, @parms[8],
+         @_thr_ovr_flash32, @parms[9],
+         @_thr_ovr_flash32, @parms[10],
+         @_thr_ovr_flash32, @parms[11],
+         @_thr_ovr_flash32, @parms[12],
+         @_thr_ovr_flash32, @parms[13],
+         @_thr_ovr_flash32, @parms[14],
+         @_thr_ovr_flash32, @parms[15],
+         @_thr_ovr_flash32, @parms[16]
+        );
+    end;
+  end
+  else
+  begin
+    dstart := ffirstoverlaylookup[fstart];
+    destl := @screen32[dstart];
+
+    dend := flastoverlaylookup[fend];
+
+    repeat
+      src := foverlaylookup[dstart];
+      if PLongWord(src)^ = 0 then
+      begin
+        Inc(dstart, 4);
+        Inc(destl, 4);
+      end
+      else
+      begin
+        b := src^;
+        if b <> 0 then
+          destl^ := videopal[b];
+        Inc(dstart);
+        Inc(destl);
+      end;
+    until dstart > dend;
+  end;
 end;
 
 procedure CmdOverlayDrawText(const s1, s2: string; const align: Integer);

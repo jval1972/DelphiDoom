@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -41,12 +41,12 @@ uses
 type
   TJPGTextureManager = object(TBMPTextureManager)
   private
-    bmpstream: TStream;
+    bmpstream: TDStream;
   public
     constructor Create(const ext: string);
     destructor Destroy; virtual;
-    function LoadHeader(stream: TStream): boolean; virtual;
-    function LoadImage(stream: TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    function LoadImage(stream: TDStream): boolean; virtual;
   end;
 
 implementation
@@ -73,7 +73,7 @@ type
   my_src_ptr = ^my_source_mgr;
   my_source_mgr = record
     pub: jpeg_source_mgr;  {public fields}
-    infile: TStream;    {source stream}
+    infile: TDStream;    {source stream}
     buffer: JOCTET_FIELD_PTR;  {start of buffer}
     start_of_file: boolean;  {have we gotten any data yet?}
   end;
@@ -137,7 +137,7 @@ begin
   { no work necessary here }
 end;
 
-procedure jpeg_stream_src(cinfo: j_decompress_ptr; const infile: TStream);
+procedure jpeg_stream_src(cinfo: j_decompress_ptr; const infile: TDStream);
 var
   src: my_src_ptr;
 begin
@@ -192,7 +192,7 @@ type
 
   bmp_dest_ptr = ^bmp_dest_struct;
   bmp_dest_struct = record
-    outfile: TStream;               {Stream to write to}
+    outfile: TDStream;               {Stream to write to}
     inmemory: boolean;              {keep whole image in memory}
     {image info}
     data_width: JDIMENSION;         {JSAMPLEs per row}
@@ -416,7 +416,7 @@ begin
     end;
 end;
 
-function jinit_write_bmp(cinfo: j_decompress_ptr; outfile: TStream;
+function jinit_write_bmp(cinfo: j_decompress_ptr; outfile: TDStream;
   inmemory: boolean): bmp_dest_ptr;
 var
   dest: bmp_dest_ptr;
@@ -551,7 +551,7 @@ end;
 {   for reference: DJPEG.PAS in PASJPG10 library                           }
 { ------------------------------------------------------------------------ }
 
-procedure LoadJPEG(const infile, outfile: TStream; inmemory: boolean;
+procedure LoadJPEG(const infile, outfile: TDStream; inmemory: boolean;
                    {decompression parameters:}
                    numcolors: integer = 0);
 var
@@ -598,7 +598,7 @@ end;
 constructor TJPGTextureManager.Create(const ext: string);
 begin
   TTextureManager.Create;
-  bmpstream := TMemoryStream.Create;
+  bmpstream := TDMemoryStream.Create;
   SetFileExt(ext);
 end;
 
@@ -608,7 +608,7 @@ begin
   Inherited Destroy;
 end;
 
-function TJPGTextureManager.LoadHeader(stream: TStream): boolean;
+function TJPGTextureManager.LoadHeader(stream: TDStream): boolean;
 begin
   bmpstream.Seek(0, sFromBeginning);
   LoadJPEG(stream, bmpstream, false);
@@ -616,7 +616,7 @@ begin
   LoadHeader := Inherited LoadHeader(bmpstream);
 end;
 
-function TJPGTextureManager.LoadImage(stream: TStream): boolean;
+function TJPGTextureManager.LoadImage(stream: TDStream): boolean;
 begin
   result := Inherited LoadImage(bmpstream);
   if result then

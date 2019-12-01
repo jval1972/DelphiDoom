@@ -365,7 +365,7 @@ var
   reloadlump: integer;
   reloadname: string;
 
-function W_AddFile(var filename: string): TStream;
+function W_AddFile(var filename: string): TDStream;
 var
   header: wadinfo_t;
   lump_p: Plumpinfo_t;

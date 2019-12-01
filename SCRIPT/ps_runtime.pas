@@ -8920,7 +8920,7 @@ begin
   for l := FExportedVars.Count - 1 downto 0 do
   begin
     p := FexportedVars.Data^[L];
-    if (p^.FNameHash = h) and(p^.FName = s) then
+    if (p^.FNameHash = h) and (p^.FName = s) then
     begin
       Result := L;
       Exit;

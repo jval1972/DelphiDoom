@@ -603,6 +603,7 @@ var
       if mobj.speed < 2048 then // JVAL fix me
         mobj.speed := mobj.speed * FRACUNIT;
     AddRes('Speed = ' + itoa(mobj.speed));
+    AddRes('VSpeed = ' + itoa(round(mobj.vspeed * $10000)));
     AddRes('Width = ' + itoa(mobj.radius * $10000));
     AddRes('Height = ' + itoa(mobj.height * $10000));
     AddRes('Mass = ' + itoa(mobj.mass));
@@ -1069,6 +1070,12 @@ begin
         begin
           sc.GetInteger;
           mobj.height := sc._integer;
+          sc.GetString;
+        end
+        else if sc.MatchString('vspeed') then
+        begin
+          sc.GetFloat;
+          mobj.vspeed := sc._float;
           sc.GetString;
         end
         else if sc.MatchString('speed') then

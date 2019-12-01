@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -140,15 +140,23 @@ uses
 
 const
   FPSSIZE = 128;
+  FPSSIZE2 = 128;
 
 var
   FPSHISTORY: array[0..FPSSIZE - 1] of integer;
+  FPSHISTORY2: array[0..FPSSIZE2 - 1] of integer;
   fpshead: integer = -1;
+  fpshead2: integer = -1;
 
 procedure HU_DoFPSStuff;
+var
+  ftime: integer;
 begin
+  ftime := I_GetFracTime;
   fpshead := (fpshead + 1) mod FPSSIZE;
-  FPSHISTORY[fpshead] := I_GetFracTime;
+  FPSHISTORY[fpshead] := ftime;
+  fpshead2 := (fpshead2 + 1) mod FPSSIZE2;
+  FPSHISTORY2[fpshead2] := ftime;
 end;
 
 function HU_FPS: integer;
@@ -157,7 +165,15 @@ var
 begin
   fpsdiff := FPSHISTORY[fpshead] - FPSHISTORY[(fpshead + 1) mod FPSSIZE] + 1;
   if fpsdiff > 0 then
-    result :=  TICRATE * FPSSIZE * FRACUNIT div fpsdiff
+  begin
+    result :=  TICRATE * FPSSIZE * FRACUNIT div fpsdiff;
+    if result > FPSSIZE then
+    begin
+      fpsdiff := FPSHISTORY2[fpshead2] - FPSHISTORY2[(fpshead2 + 1) mod FPSSIZE2] + 1;
+      if fpsdiff > 0 then
+        result :=  TICRATE * FPSSIZE2 * FRACUNIT div fpsdiff;
+    end;
+  end
   else
     result := TICRATE;
 end;
@@ -386,6 +402,8 @@ begin
 
   for i := 0 to FPSSIZE - 1 do
     FPSHISTORY[i] := 0;
+  for i := 0 to FPSSIZE2 - 1 do
+    FPSHISTORY2[i] := 0;
 
   C_AddCmd('fps', @HU_CmdFPS);
   C_AddCmd('playermessage', @HU_CmdPlayerMessage);

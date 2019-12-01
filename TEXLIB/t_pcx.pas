@@ -43,8 +43,8 @@ type
     ferrorstring: string;
   public
     constructor Create;
-    function LoadHeader(stream: d_delphi.TStream): boolean; virtual;
-    function LoadImage(stream: d_delphi.TStream): boolean; virtual;
+    function LoadHeader(stream: TDStream): boolean; virtual;
+    function LoadImage(stream: TDStream): boolean; virtual;
     destructor Destroy; virtual;
   end;
 
@@ -1492,7 +1492,7 @@ begin
   ferrorstring := '';
 end;
 
-function TPCXTextureManager.LoadHeader;
+function TPCXTextureManager.LoadHeader(stream: TDStream): boolean;
 var
   buf: PByteArray;
   ftmpfilename: string;
@@ -1600,7 +1600,7 @@ begin
   fdelete(ftmpfilename);
 end;
 
-function TPCXTextureManager.LoadImage;
+function TPCXTextureManager.LoadImage(stream: TDStream): boolean;
 begin
   Result := ferrorstring = '';
 end;

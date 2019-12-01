@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -332,7 +332,8 @@ uses
   r_flat32 in 'Base\r_flat32.pas',
   r_flat8 in 'Base\r_flat8.pas',
   p_bridge in 'Base\p_bridge.pas',
-  w_sprite in 'Base\w_sprite.pas';
+  w_sprite in 'Base\w_sprite.pas',
+  r_things_sortvissprites in 'Base\r_things_sortvissprites.pas';
 
 var
   Saved8087CW: Word;

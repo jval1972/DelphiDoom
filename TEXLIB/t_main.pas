@@ -130,7 +130,7 @@ type
     destructor Destroy; virtual;
     procedure Empty;
     function LoadFromFile(const FileName: string): boolean;
-    function LoadFromStream(stream: TStream; const alias: string): boolean;
+    function LoadFromStream(stream: TDStream; const alias: string): boolean;
     function GetData: pointer;
     function GetImage: pointer;
     function GetPalette: PPalette;
@@ -193,7 +193,7 @@ type
     procedure SetFileExt(const ext: string);
   public
     function LoadFromFile(const FileName: string): boolean;
-    function LoadFromStream(Stream: TStream): boolean;
+    function LoadFromStream(Stream: TDStream): boolean;
     procedure SetFrame(Value: integer);
     procedure SetNext(Value: PTextureManager);
     function GetFileExt: string;
@@ -202,8 +202,8 @@ type
     function GetNext: PTextureManager;
     procedure SetBitmap(Value: PTexture);
     constructor Create;
-    function LoadHeader(Stream: TStream): boolean; virtual;
-    function LoadImage(Stream: TStream): boolean; virtual;
+    function LoadHeader(Stream: TDStream): boolean; virtual;
+    function LoadImage(Stream: TDStream): boolean; virtual;
     destructor Destroy; virtual;
   end;
 
@@ -369,7 +369,7 @@ begin
   end;
 end;
 
-function TTexture.LoadFromStream(stream: TStream; const alias: string): boolean;
+function TTexture.LoadFromStream(stream: TDStream; const alias: string): boolean;
 var
   i: integer;
   ImageFormat: PTextureManager;
@@ -1349,7 +1349,7 @@ end;
 
 function TTextureManager.LoadFromFile(const FileName: string): boolean;
 var
-  Stream: TStream;
+  Stream: TDStream;
 begin
   Stream := TCachedFile.Create(FileName, fOpenReadOnly, $10000);
   try
@@ -1359,7 +1359,7 @@ begin
   end;
 end;
 
-function TTextureManager.LoadFromStream(Stream: TStream): boolean;
+function TTextureManager.LoadFromStream(Stream: TDStream): boolean;
 begin
   if FBitmap <> nil then
   begin
@@ -1384,12 +1384,12 @@ begin
   FBitmap := Value;
 end;
 
-function TTextureManager.LoadHeader(Stream: TStream): boolean;
+function TTextureManager.LoadHeader(Stream: TDStream): boolean;
 begin
   LoadHeader := false;
 end;
 
-function TTextureManager.LoadImage(Stream: TStream): boolean;
+function TTextureManager.LoadImage(Stream: TDStream): boolean;
 begin
   LoadImage := false;
 end;
