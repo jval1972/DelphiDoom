@@ -670,8 +670,6 @@ begin
                 inc(dest, 2);
                 PInt64(dest)^ := PInt64(@ldest64)^;
                 inc(dest, 2);
-                PInt64(dest)^ := PInt64(@ldest64)^;
-                inc(dest, 2);
                 inc(col);
               end;
               fracy := fracy + fracystep;
@@ -690,6 +688,8 @@ begin
               begin
                 ldest64.longword1 := videopal[src[col]];
                 ldest64.longword2 := ldest64.longword1;
+                PInt64(dest)^ := PInt64(@ldest64)^;
+                inc(dest, 2);
                 PInt64(dest)^ := PInt64(@ldest64)^;
                 inc(dest, 2);
                 PInt64(dest)^ := PInt64(@ldest64)^;
