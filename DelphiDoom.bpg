@@ -1,0 +1,36 @@
+#------------------------------------------------------------------------------
+VERSION = BWS.01
+#------------------------------------------------------------------------------
+!ifndef ROOT
+ROOT = $(MAKEDIR)\..
+!endif
+#------------------------------------------------------------------------------
+MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
+DCC = $(ROOT)\bin\dcc32.exe $**
+BRCC = $(ROOT)\bin\brcc32.exe $**
+#------------------------------------------------------------------------------
+PROJECTS = Doom32.exe GLDoom32.exe GLHeretic32.exe Heretic32.exe Launcher.exe \
+  Hexen32.exe
+#------------------------------------------------------------------------------
+default: $(PROJECTS)
+#------------------------------------------------------------------------------
+
+Doom32.exe: Doom32.dpr
+  $(DCC)
+
+GLDoom32.exe: GLDoom32.dpr
+  $(DCC)
+
+GLHeretic32.exe: GLHeretic32.dpr
+  $(DCC)
+
+Heretic32.exe: Heretic32.dpr
+  $(DCC)
+
+Launcher.exe: Launcher.dpr
+  $(DCC)
+
+Hexen32.exe: Hexen32.dpr
+  $(DCC)
+
+

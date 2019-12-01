@@ -1,0 +1,240 @@
+//------------------------------------------------------------------------------
+//
+//  DelphiHeretic: A modified and improved Heretic port for Windows
+//  based on original Linux Doom as published by "id Software", on
+//  Heretic source as published by "Raven" software and DelphiDoom
+//  as published by Jim Valavanis.
+//  Copyright (C) 2004-2009 by Jim Valavanis
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+//
+//------------------------------------------------------------------------------
+//  E-Mail: jimmyvalavanis@yahoo.gr
+//  Site  : http://delphidoom.sitesled.com/
+//------------------------------------------------------------------------------
+
+{$I Doom32.inc}
+
+unit doomdata;
+
+interface
+
+uses
+// The most basic types we use, portability.
+  doomtype,
+// Some global defines, that configure the game.
+  doomdef,
+// char8_t
+  w_wad;
+
+{
+    doomdata.h
+}
+
+// Emacs style mode select   -*- C++ -*-  
+//----------------------------------------------------------------------------- 
+// 
+// $Id:$ 
+// 
+// Copyright (C) 1993-1996 by id Software, Inc. 
+// 
+// This source is available for distribution and/or modification 
+// only under the terms of the DOOM Source Code License as 
+// published by id Software. All rights reserved. 
+// 
+// The source is distributed in the hope that it will be useful, 
+// but WITHOUT ANY WARRANTY; without even the implied warranty of 
+// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License 
+// for more details. 
+// 
+// DESCRIPTION: 
+//  all external data is defined here 
+//  most of the data is loaded into different structures at run time 
+//  some internal structures shared by many modules are here 
+// 
+//-----------------------------------------------------------------------------
+
+type
+//
+// Map level types.
+// The following data structures define the persistent format
+// used in the lumps of the WAD files.
+//
+
+// Lump order in a map WAD: each map needs a couple of lumps
+// to provide a complete scene geometry description.
+  maplumpdesc_t = (
+    ML_LABEL,     // A separator, name, ExMx or MAPxx
+    ML_THINGS,    // Monsters, items..
+    ML_LINEDEFS,  // LineDefs, from editing
+    ML_SIDEDEFS,  // SideDefs, from editing
+    ML_VERTEXES,  // Vertices, edited and BSP splits generated
+    ML_SEGS,      // LineSegs, from LineDefs split by BSP
+    ML_SSECTORS,  // SubSectors, list of LineSegs
+    ML_NODES,     // BSP nodes
+    ML_SECTORS,   // Sectors, from editing
+    ML_REJECT,    // LUT, sector-sector visibility
+    ML_BLOCKMAP,  // LUT, motion clipping, walls/grid element
+    ML_CODE       // JVAL: script goes here
+  );
+
+  mapvertex_t = record
+    x : smallint;
+    y : smallint;
+  end;
+  Pmapvertex_t = ^mapvertex_t;
+
+// A SideDef, defining the visual appearance of a wall,
+// by setting textures and offsets.
+  mapsidedef_t = record
+    textureoffset : smallint;
+    rowoffset : smallint;
+    toptexture : char8_t;
+    bottomtexture : char8_t;
+    midtexture : char8_t;
+  // Front sector, towards viewer.
+    sector : smallint;
+  end;
+  Pmapsidedef_t = ^mapsidedef_t;
+
+// A LineDef, as used for editing, and as input
+// to the BSP builder.
+  maplinedef_t = record
+    v1 : smallint;
+    v2 : smallint;
+    flags : smallint;
+    special : smallint;
+    tag : smallint;
+  // sidenum[1] will be -1 if one sided
+    sidenum : array[0..1] of smallint;
+  end;
+  Pmaplinedef_t = ^maplinedef_t;
+
+//
+// LineDef attributes.
+//
+
+const
+// Solid, is an obstacle.
+  ML_BLOCKING = 1;
+
+// Blocks monsters only.
+  ML_BLOCKMONSTERS = 2;
+
+// Backside will not be present at all
+//  if not two sided.
+  ML_TWOSIDED = 4;
+
+// If a texture is pegged, the texture will have
+// the end exposed to air held constant at the
+// top or bottom of the texture (stairs or pulled
+// down things) and will move with a height change
+// of one of the neighbor sectors.
+// Unpegged textures allways have the first row of
+// the texture at the top pixel of the line for both
+// top and bottom textures (use next to windows).
+
+// upper texture unpegged
+  ML_DONTPEGTOP = 8;
+
+// lower texture unpegged
+  ML_DONTPEGBOTTOM = 16;
+
+// In AutoMap: don't map as two sided: IT'S A SECRET!
+  ML_SECRET = 32;
+
+// Sound rendering: don't let sound cross two of these.
+  ML_SOUNDBLOCK = 64;
+
+// Don't draw on the automap at all.
+  ML_DONTDRAW = 128;
+
+// Set if already seen, thus drawn in automap.
+  ML_MAPPED = 256;
+
+
+type
+// Sector definition, from editing.
+  mapsector_t = record
+    floorheight : smallint;
+    ceilingheight : smallint;
+    floorpic : char8_t;
+    ceilingpic : char8_t;
+    lightlevel : smallint;
+    special : smallint;
+    tag : smallint;
+  end;
+  Pmapsector_t = ^mapsector_t;
+
+// SubSector, as generated by BSP.
+  mapsubsector_t = record
+    numsegs : smallint;
+  // Index of first one, segs are stored sequentially.
+    firstseg : smallint;
+  end;
+  Pmapsubsector_t = ^mapsubsector_t;
+
+// LineSeg, generated by splitting LineDefs
+// using partition lines selected by BSP builder.
+  mapseg_t = record
+    v1 : smallint;
+    v2 : smallint;
+    angle : smallint;
+    linedef : smallint;
+    side : smallint;
+    offset : smallint;
+  end;
+  Pmapseg_t = ^mapseg_t;
+
+// BSP node structure.
+
+// Indicate a leaf.
+const
+  NF_SUBSECTOR = $8000;
+
+type
+  mapnode_t = record
+  // Partition line from (x,y) to x+dx,y+dy)
+    x: smallint;
+    y: smallint;
+    dx: smallint;
+    dy: smallint;
+
+  // Bounding box for each child,
+  // clip against view frustum.
+    bbox: packed array[0..1] of packed array[0..3] of smallint;
+
+  // If NF_SUBSECTOR its a subsector,
+  // else it's a node of another subtree.
+    children: packed array[0..1] of word;
+  end;
+  Pmapnode_t = ^mapnode_t;
+
+// Thing definition, position, orientation and type,
+// plus skill/visibility flags and attributes.
+  mapthing_t = record
+    x: smallint;
+    y: smallint;
+    angle: smallint;
+    _type: word;
+    options: smallint;
+  end;
+  Pmapthing_t = ^mapthing_t;
+
+implementation
+
+end.
+

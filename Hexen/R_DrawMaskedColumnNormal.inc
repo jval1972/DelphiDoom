@@ -1,0 +1,43 @@
+{$IFNDEF NO_INLINE_LOOPS}
+  while count >= 16 do
+  begin
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    count := count - 16;
+  end;
+
+  while count >= 4 do
+  begin
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    count := count - 4;
+  end;
+{$ENDIF}
+
+  fraclimit := frac + count * fracstep;
+
+  while frac < fraclimit do
+  begin
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+  end;
+  while frac <= fraclimit do
+  begin
+    {$I R_DrawMaskedColumnNormal_Loop.inc}
+  end;

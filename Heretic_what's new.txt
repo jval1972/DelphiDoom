@@ -1,0 +1,117 @@
+New Changes
+-----------
+Displays Disk Buzy icon for 4 ticks instead of 4 frames.
+Fixed ENDOOM bug witch causing menu to respond during ending game while playing a demo. 
+Changed SKEL cheat to idskek due to problems with WASD key compination for moving
+Fixed Medusa Effect Bug.
+Added displayresolution alias for "detaillevel" console variable.
+WAD lumps hash indexing for better performance. (using djb2 hash function)
+Fixed bug that didn't recornized mf2_ex flags inside ACTORDEF lumps
+Added A_FadeOut10, A_FadeOut20, A_FadeOut30, A_FadeIn10, A_FadeIn20, A_FadeIn30 mobj functions.
+Added A_SpawnItemEx and A_RandomMissile mobj functions.
+Fixed transparency HUD in OpenGL mode.
+Added support for GL_FRIENDLY nodes (OpenGL version). 
+Automatically loads *.GWA files if autoloadgwafiles console variable is set to true. (OpenGL version). 
+Suspend interpolation for teleporting objects.
+Added giveallkeys and idkeys console commands alias for skel and idskel.
+Fixed sprite drawing bug in OpenGL mode when looking up/down.
+Hash Indexing of external PAK/PK3/ZIP files.
+Added debugsound console command alias for noise cheat.
+Default miditempo changed to 128.
+Added support for dynamic lights, using LIGHTDEF lump.
+Precaclulate OpenGL display lists for floors and ceilings if possible.
+Fixed sky rendering problems in OpenGL mode.
+New simplified blocklinks handling mechanism.
+Added gl_stencilsky conslole variable.
+Corrected some issues in OpenGL rendering.
+Added support for MD2 models (OpenGL only).
+Check for LIGHTDEF lumps inside PAK/PK3 files. (First parse all LIGHTDEF entries and then all LIGHTDEF.txt entries)
+Added gl_drawmodels console variable.
+Added gl_smoothmodelmovement console variable.
+Dynamic lightmap implementation.
+Added gl_uselightmaps console variable.
+Added gl_precachemodeltextures console variable.
+OpenGL UI speed optimizations.
+Custom lighttables in OpenGL using GLGAMMA lump.
+New external texture format named (using .material extension) to combine at load time with user defined parameters more than one external textures into one.
+Added simple shadows.
+Added gl_drawshadows console command.
+
+Changes from version 0.1.6.44
+-----------------------------
+Added jpeg external textures support.
+Maximum display resolution increased to 2048x1536.
+Fixed zip library memory leak.
+Keyboard movement can be changed from <arrows> movement to <WASD> movement.
+Added keyboardmode console command.
+
+Changes from 0.1.5.38
+---------------------
+Added criticalcpupriority console variable.
+Corrected chace camera view.
+Added usetransparentsprites, dontusetransparentsprites, uselightboost and dontuselightboost command line parameters.
+Added lightboostfactor command line parameter.
+Added chasecamera and nochasecamera command line parameters.
+Corrected bug that drawn the player sprites in black color when starting with -warp parameter.
+Corrected menu flashes.
+Added ENDTEXT support (displays end screen).
+Added displayendscreen console variable.
+Added displaydiskbuzyicon console variable.
+
+Changes from 0.1.4.19
+---------------------
+Fixed FOG spawning while teleporting.
+Changed position of flight and weapon level2 icons.
+Fixed end episode bug: Now displays the end text.
+Corrected status bar health display when health > 100.
+Fixed crash while typing massacre console command before game start.
+Added easy launcher to control the most common tasks.
+Displays disk buzy icon.
+Fixed problem with statusbar display in automap when setblocks was 12.
+Corrected main menu graphic position.
+Corrected random pain sound when MF_EX_RANDOMPAINSOUND flag is set.
+Draws the "Advisory warning".
+Added -internalgamedef command line parameter to ignore GAMEDEF lump inside DHSYSTEM.WAD.
+Added game files menu.
+Added menu_gamefiles console command.
+Allows ';' for comment in SNDINFO lumps.
+Corrected weapon positioning to be identical to original game.
+Changed console font.
+Automap zoom in and screenblocks change can also work with the '+' key in numeric keyboard.
+Added listcmds console command.
+Added noise cheat and noise console command.
+Chace camera view.
+Added chasecamera console variable.
+Added chasecamera_viewxy console variable.
+Added chasecamera_viewz console variable.
+Fixed random monsters spawning in shareware version of the game.
+Corrected small sky bug in Ultra Detail with zaxisshift.
+
+Changes from 0.1.3.14
+---------------------
+Fixed crashes while ending level. (thanks Robert)
+Added gimme console command.
+Corrected automap marks rotation.
+Added skel and ponce console commands.
+Added skel and ponce cheats.
+Added engage console command.
+Fixed music problems in some levels.
+Does not use external textures for title screens if useexternaltextures variable is set to false.
+Correctly identifies game directories for external textures and mp3 music.
+Corrected display of flight and weapon level2 icons.
+Fixed movement in low friction sectors.
+Fixed bug that crashed the game when loading non standard flats inside wads.
+Fixed water, lava and sludge terrain behaviour.
+Fixed sound problems in help screens.
+Fixed player flying movement.
+
+Changes from 0.1.2.12
+---------------------
+Fixed quicken cheat.
+Fixed iddqd cheat.
+Fixed health > 100 issue.
+
+------------------------------------
+Added automap background display.
+Added DHSYSTEM.WAD system wad.
+Added automap rotation.

@@ -1,0 +1,1685 @@
+//------------------------------------------------------------------------------
+//
+//  DelphiHexen: A modified and improved Hexen port for Windows
+//  based on original Linux Doom as published by "id Software", on
+//  Hexen source as published by "Raven" software and DelphiDoom
+//  as published by Jim Valavanis.
+//  Copyright (C) 2004-2008 by Jim Valavanis
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+//
+//------------------------------------------------------------------------------
+//  E-Mail: jimmyvalavanis@yahoo.gr
+//  Site  : http://delphidoom.sitesled.com/
+//------------------------------------------------------------------------------
+
+{$I Doom32.inc}
+
+unit d_main;
+
+interface
+
+uses
+  d_event,
+  xn_defs;
+
+//-----------------------------------------------------------------------------
+//
+// DESCRIPTION (d_main.h):
+//  System specific interface stuff.
+//
+// DESCRIPTION (d_main.c):
+// DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
+// plus functions to determine game mode (shareware, registered),
+// parse command line parameters, configure game parameters (turbo),
+// and call the startup functions.
+//
+//-----------------------------------------------------------------------------
+
+const
+{$IFNDEF FPC}
+  AppTitle = 'Delphi Hexen';
+{$ELSE}
+  AppTitle = 'Free Pascal Hexen';
+{$ENDIF}
+
+procedure D_ProcessEvents;
+procedure D_DoAdvanceDemo;
+
+
+procedure D_AddFile(const filename: string);
+
+//
+// D_DoomMain()
+// Not a globally visible function, just included for source reference,
+// calls all startup code, parses command line options.
+// If not overrided by user input, calls N_AdvanceDemo.
+//
+procedure D_DoomMain;
+
+// Called by IO functions when input is detected.
+procedure D_PostEvent(ev: Pevent_t);
+
+//
+// BASE LEVEL
+//
+procedure D_PageTicker;
+
+procedure D_PageDrawer;
+
+procedure D_AdvanceDemo;
+
+procedure D_StartTitle;
+
+function D_IsPaused: boolean;
+
+procedure D_Display;
+
+// wipegamestate can be set to -1 to force a wipe on the next draw
+var
+  wipegamestate: integer = -1;   // JVAL was gamestate_t = GS_DEMOSCREEN;
+  wipedisplay: boolean = false;
+
+  nomonsters: boolean;          // checkparm of -nomonsters
+  fastparm: boolean;            // checkparm of -fast
+  devparm: boolean;             // started game with -devparm
+  singletics: boolean;          // debug flag to cancel adaptiveness
+  noartiskip: boolean;          // whether shift-enter skips an artifact
+  autostart: boolean;
+  startskill: skill_t;
+  respawnparm: boolean;         // checkparm of -respawn
+  randomclass: boolean;         // checkparm of -randclass
+
+  startepisode: integer;
+  startmap: integer;
+  advancedemo: boolean;
+
+  basedefault: string;          // default file
+
+function D_Version: string;
+function D_VersionBuilt: string;
+
+procedure D_ShutDown;
+
+implementation
+
+uses
+  d_delphi,
+  deh_main,
+  doomstat,
+  d_ticcmd, d_player, d_net, d_net_h,
+  c_con, c_cmds,
+  f_finale, f_wipe,
+  m_argv, m_misc, m_menu, m_fixed,
+  xn_strings,
+  info, info_rnd,
+  i_system, i_sound, i_video, i_io, i_startup,
+  g_game, g_demo,
+  sb_bar,
+  hu_stuff, in_stuff,
+  am_map,
+  p_setup, p_mobj_h, p_acs,
+  r_draw, r_main, r_hires, r_defs, r_intrpl, r_data, r_fake3d, r_lights, r_camera,
+  sounds, s_sound, s_sndseq,
+  sc_decorate,
+  sv_save,
+  t_main,
+  v_data, v_video,
+  w_wad, w_pak,
+  z_zone;
+
+const
+  BGCOLOR = 7;
+  FGCOLOR = 8;
+
+var
+  hexdd_pack: boolean = false; // Death Kings of the Dark Citadel pack
+
+//
+// D_DoomLoop()
+// Not a globally visible function,
+//  just included for source reference,
+//  called by D_DoomMain, never exits.
+// Manages timing and IO,
+//  calls all ?_Responder, ?_Ticker, and ?_Drawer,
+//  calls I_GetTime, I_StartFrame, and I_StartTic
+//
+
+//
+// D_PostEvent
+// Called by the I/O functions when input is detected
+//
+procedure D_PostEvent(ev: Pevent_t);
+begin
+  events[eventhead] := ev^;
+  inc(eventhead);
+  eventhead := eventhead and (MAXEVENTS - 1);
+end;
+
+//
+// D_ProcessEvents
+// Send all the events of the given timestamp down the responder chain
+//
+procedure D_ProcessEvents;
+var
+  ev: Pevent_t;
+begin
+  if I_GameFinished then
+    exit;
+
+  while eventtail <> eventhead do
+  begin
+    ev := @events[eventtail];
+    if C_Responder(ev) then
+      // console ate the event
+    else if M_Responder(ev) then
+      // menu ate the event
+    else
+      G_Responder(ev);
+    if I_GameFinished then
+    begin
+      eventtail := eventhead;
+      exit;
+    end;
+    inc(eventtail);
+    eventtail := eventtail and (MAXEVENTS - 1);
+  end;
+end;
+
+//
+// D_Display
+//  draw current display, possibly wiping it from the previous
+//
+
+var
+  viewactivestate: boolean = false;
+  menuactivestate: boolean = false;
+  inhelpscreensstate: boolean = false;
+  borderdrawcount: integer;
+  nodrawers: boolean = false; // for comparative timing purposes
+  noblit: boolean = false;    // for comparative timing purposes
+  norender: boolean = false;  // for comparative timing purposes
+  autoscreenshot: boolean = false;
+  shotnumber: integer = 0;
+  lastshotnumber: integer = -1;
+
+
+procedure D_FinishUpdate;
+begin
+  if not noblit then
+    I_FinishUpdate; // page flip or blit buffer
+  if autoscreenshot then
+  begin
+    shotnumber := I_GetTime;
+    if shotnumber <> lastshotnumber then
+    begin
+      M_ScreenShot(IntToStrZFill(8, shotnumber), true);
+      inc(shotnumber);
+    end;
+  end;
+end;
+
+procedure D_RenderPlayerView(player: Pplayer_t);
+begin
+  if norender then
+  begin
+    R_PlayerViewBlanc(aprox_black);
+    exit;
+  end;
+
+  if player <> nil then
+    R_RenderPlayerView(player)
+end;
+
+var
+  diskbusyend: integer = -1;
+
+procedure D_Display;
+var
+  nowtime: integer;
+  tics: integer;
+  wipestart: integer;
+  y: integer;
+  done: boolean;
+  wipe: boolean;
+  redrawsbar: boolean;
+  redrawbkscn: boolean;
+  palette: PByteArray;
+  oldvideomode: videomode_t;
+  drawhu: boolean;
+begin
+  HU_DoFPSStuff;
+
+  if nodrawers then
+    exit; // for comparative timing / profiling
+
+  redrawsbar := false;
+  redrawbkscn := false;
+  drawhu := false;
+
+  if borderneedsrefresh then
+    borderdrawcount := 3;
+
+  // change the view size if needed
+  if setsizeneeded then
+  begin
+    R_ExecuteSetViewSize;
+    oldgamestate := -1; // force background redraw
+    borderdrawcount := 3;
+  end;
+
+  // save the current screen if about to wipe
+//  if (Ord(gamestate) <> wipegamestate) and (gamestate <> GS_INTERMISSION) and (wipegamestate <> Ord(GS_INTERMISSION)) then
+  if (Ord(gamestate) <> wipegamestate) and ((gamestate = GS_DEMOSCREEN) or (wipegamestate = Ord(GS_DEMOSCREEN))) then
+  begin
+    wipe := true;
+    wipe_StartScreen;
+  end
+  else
+    wipe := false;
+
+  if (gamestate = GS_LEVEL) and (gametic <> 0) then
+    HU_Erase;
+
+  // do buffered drawing
+  case gamestate of
+    GS_LEVEL:
+      begin
+        if gametic <> 0 then
+        begin
+          if amstate = am_only then
+            AM_Drawer;
+          redrawsbar := true;
+        end;
+      end;
+    GS_INTERMISSION:
+      IN_Drawer;
+    GS_FINALE:
+      F_Drawer;
+    GS_DEMOSCREEN:
+      D_PageDrawer;
+  end;
+
+  if Ord(gamestate) <> oldgamestate then
+  begin
+  // clean up border stuff
+    palette := V_ReadPalette(PU_STATIC);
+    I_SetPalette(palette);
+    V_SetPalette(palette);
+    Z_ChangeTag(palette, PU_CACHE);
+    borderdrawcount := 3;
+  end;
+
+  // draw the view directly
+  if gamestate = GS_LEVEL then
+  begin
+    if (amstate <> am_only) and (gametic <> 0) then
+    begin
+      D_RenderPlayerView(@players[displayplayer]);
+      if amstate = am_overlay then
+        AM_Drawer;
+    end;
+
+    redrawsbar := true;
+    if gametic <> 0 then
+      drawhu := true;
+
+  // see if the border needs to be initially drawn
+    if needsbackscreen or (oldgamestate <> Ord(GS_LEVEL)) then
+    begin
+      viewactivestate := false; // view was not active
+      R_FillBackScreen;         // draw the pattern into the back screen
+    end;
+
+  // see if the border needs to be updated to the screen
+    if amstate <> am_only then
+    begin
+      if scaledviewwidth <> SCREENWIDTH then
+      begin
+        if sbiconsactive or menuactive or menuactivestate or (not viewactivestate) or C_IsConsoleActive then
+          borderdrawcount := 3;
+        if borderdrawcount > 0 then
+        begin
+          R_DrawViewBorder; // erase old menu stuff
+          redrawbkscn := true;
+          dec(borderdrawcount);
+        end;
+      end;
+    end;
+  end;
+
+  menuactivestate := menuactive;
+  viewactivestate := viewactive;
+  inhelpscreensstate := inhelpscreens;
+  oldgamestate := Ord(gamestate);
+  wipegamestate := Ord(gamestate);
+
+  // draw pause pic
+  if paused then
+  begin
+    if amstate = am_only then
+      y := 4
+    else
+      y := (viewwindowy * 200) div SCREENHEIGHT + 4;
+    V_DrawPatch(160, y, SCN_FG,
+      'PAUSED', true);
+  end;
+
+  if drawhu then
+    HU_Drawer;
+
+  nowtime := I_GetTime;
+  
+  if isdiskbusy then
+  begin
+    diskbusyend := nowtime + 4; // Display busy disk for a little...
+    isdiskbusy := false;
+  end;
+
+  if diskbusyend > nowtime then
+  begin
+    if redrawsbar then
+      SB_Drawer;
+
+    // Menus go directly to the screen
+    M_Drawer; // Menu is drawn even on top of everything
+
+    // Console goes directly to the screen
+    C_Drawer;   // Console is drawn even on top of menus
+
+    // Draw disk busy patch
+    R_DrawDiskBusy; // Draw disk busy is draw on top of console
+  end
+  else if (diskbusyend <= nowtime) and (diskbusyend <> -1) then
+  begin
+    if not redrawbkscn then
+    begin
+      R_DrawViewBorder;
+      if drawhu then
+        HU_Drawer;
+    end;
+
+    if redrawsbar then
+      SB_Drawer;
+
+    M_Drawer;
+    C_Drawer;
+    diskbusyend := -1;
+  end
+  else
+  begin
+    if redrawsbar then
+      SB_Drawer;
+
+    M_Drawer;
+    C_Drawer;
+  end;
+
+  NetUpdate; // send out any new accumulation
+
+  // normal update
+  if not wipe then
+  begin
+    D_FinishUpdate; // page flip or blit buffer
+    exit;
+  end;
+
+  // wipe update
+  wipe_EndScreen;
+
+  wipedisplay := true;
+  wipestart := I_GetTime - 1;
+
+  oldvideomode := videomode;
+  videomode := vm32bit;
+  repeat
+    repeat
+      nowtime := I_GetTime;
+      tics := nowtime - wipestart;
+    until tics <> 0;
+    wipestart := nowtime;
+    done := wipe_Ticker(tics);
+    M_Drawer;         // Menu is drawn even on top of wipes
+    C_Drawer;         // Console draw on top of wipes and menus
+    D_FinishUpdate;   // page flip or blit buffer
+    HU_DoFPSStuff;
+  until done;
+  videomode := oldvideomode;
+  wipedisplay := false;
+end;
+
+//
+//  D_DoomLoop
+//
+
+{$IFDEF DEBUG}
+var
+  internalerrors: integer = 0;
+{$ENDIF}
+
+procedure D_DoomLoop;
+{$IFNDEF DEBUG}
+var
+  iscritical: boolean;
+{$ENDIF}
+begin
+  if demorecording then
+    G_BeginRecording;
+
+  while true do
+  begin
+{$IFDEF DEBUG}
+    try
+{$ENDIF}
+    // frame syncronous IO operations
+    I_StartFrame;
+
+    iscritical := not usemultithread and not devparm and criticalcpupriority;
+    if iscritical then
+      I_SetCriticalCPUPriority;
+
+    // process one or more tics
+    if singletics then
+      D_RunSingleTick // will run only one tick
+    else
+      D_RunMultipleTicks; // will run at least one tick
+
+    if iscritical then
+      I_SetNormalCPUPriority;
+
+    S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
+
+{$IFDEF DEBUG}
+    except
+      inc(internalerrors);
+      fprintf(debugfile, 'Internal Error No %d'#13#10, [internalerrors]);
+    end;
+{$ENDIF}
+  end;
+end;
+
+//
+//  DEMO LOOP
+//
+var
+  demosequence: integer;
+  pagetic: integer;
+  pagename: string;
+
+//
+// D_PageTicker
+// Handles timing for warped projection
+//
+procedure D_PageTicker;
+begin
+  dec(pagetic);
+  if pagetic < 0 then
+    D_AdvanceDemo;
+end;
+
+//
+// D_PageDrawer
+//
+procedure D_PageDrawer;
+begin
+  V_PageDrawer(pagename);
+  if demosequence = 1 then
+    V_DrawPatch(4, 160, SCN_FG, W_CacheLumpName('ADVISOR', PU_CACHE), true);
+end;
+
+//
+// D_AdvanceDemo
+// Called after each demo or intro demosequence finishes
+//
+procedure D_AdvanceDemo;
+begin
+  advancedemo := true;
+end;
+
+//
+// This cycles through the demo sequences.
+// FIXME - version dependend demo numbers?
+//
+procedure D_DoAdvanceDemo;
+begin
+  players[consoleplayer].playerstate := PST_LIVE;  // not reborn
+  advancedemo := false;
+  usergame := false;               // no save / end game here
+  paused := false;
+  gameaction := ga_nothing;
+
+  demosequence := (demosequence + 1) mod 7;
+
+  case demosequence of
+    0:
+      begin
+        pagetic := 280;
+        gamestate := GS_DEMOSCREEN;
+        pagename := pg_TITLE;
+        S_StartMusic(Ord(mus_hexen));
+      end;
+    1:
+      begin
+        pagetic := 210;
+        gamestate := GS_DEMOSCREEN;
+        pagename := pg_TITLE;
+      end;
+    2:
+      begin
+        G_DeferedPlayDemo('1');
+      end;
+    3:
+      begin
+        pagetic := 200;
+        gamestate := GS_DEMOSCREEN;
+        pagename := pg_CREDIT;
+      end;
+    4:
+      begin
+        G_DeferedPlayDemo('2');
+      end;
+    5:
+      begin
+        pagetic := 200;
+        gamestate := GS_DEMOSCREEN;
+        pagename := pg_CREDIT;
+      end;
+    6:
+      begin
+        G_DeferedPlayDemo('3');
+      end;
+  end;
+end;
+
+//
+// D_StartTitle
+//
+procedure D_StartTitle;
+begin
+  gameaction := ga_nothing;
+  demosequence := -1;
+  D_AdvanceDemo;
+end;
+
+var
+  wadfiles: TDStringList;
+
+//
+// D_AddFile
+//
+procedure D_AddFile(const filename: string);
+begin
+  if filename <> '' then
+  begin
+    try
+      wadfiles.Add(filename);
+      if strupper(fname(filename)) = 'HEXDD.WAD' then
+        hexdd_pack := true
+      else
+      // the parms after p are wadfile/lump names,
+      // until end of parms or another - preceded parm
+        modifiedgame := true; // homebrew levels
+    except
+      printf('D_AddFile(): Can not add %s'#13#10, [filename]);
+    end;
+  end;
+end;
+
+const
+  SYSWAD = 'Hexen32.swd';
+
+procedure D_AddSystemWAD;
+var
+  xnsyswad: string;
+  hexenwaddir: string;
+begin
+  hexenwaddir := getenv('hexenwaddir');
+  if hexenwaddir = '' then
+    hexenwaddir := '.';
+
+  sprintf(xnsyswad, '%s\%s', [hexenwaddir, SYSWAD]);
+  if fexists(xnsyswad) then
+    D_AddFile(xnsyswad)
+  else
+    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [xnsyswad]);
+end;
+
+//
+// IdentifyVersion
+// Checks availability of IWAD files by name,
+// to determine whether registered/commercial features
+// should be executed (notably loading PWAD's).
+//
+var
+  custiwad: string = ''; // Custom main WAD
+
+procedure IdentifyVersion;
+var
+  hexen1wad: string;
+  hexenwad: string;
+
+  hexenwaddir: string;
+
+  p: integer;
+begin
+  hexenwaddir := getenv('hexenwaddir');
+  if hexenwaddir = '' then
+    hexenwaddir := '.';
+
+  // Shareware
+  sprintf(hexen1wad, '%s\hexen1.wad', [hexenwaddir]);
+
+  // Registered
+  sprintf(hexenwad, '%s\hexen.wad', [hexenwaddir]);
+
+  basedefault := 'Hexen32.ini';
+
+  p := M_CheckParm('-mainwad');
+  if p = 0 then
+    p := M_CheckParm('-iwad');
+  if (p > 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    custiwad := myargv[p];
+    if fexists(custiwad) then
+    begin
+      printf(' External main wad in use: %s'#13#10, [custiwad]);
+      gamemode := indetermined;
+      D_AddFile(custiwad);
+      exit;
+    end
+    else
+      custiwad := '';
+  end;
+
+  if fexists(hexenwad) then
+  begin
+    gamemode := indetermined; // Will check if register or extended wad later
+    D_AddFile(hexenwad);
+    exit;
+  end;
+
+  if fexists(hexen1wad) then
+  begin
+    gamemode := shareware;
+    D_AddFile(hexen1wad);
+    exit;
+  end;
+
+  printf('Game mode indeterminate.'#13#10);
+  gamemode := indetermined;
+
+end;
+
+//
+// Find a Response File
+//
+// JVAL: Changed to handle more than 1 response files
+procedure FindResponseFile;
+var
+  i: integer;
+  handle: file;
+  size: integer;
+  index: integer;
+  myargv1: string;
+  infile: string;
+  filename: string;
+  s: TDStringList;
+begin
+  s := TDStringList.Create;
+  try
+    s.Add(myargv[0]);
+
+    for i := 1 to myargc - 1 do
+    begin
+      if myargv[i][1] = '@' then
+      begin
+        // READ THE RESPONSE FILE INTO MEMORY
+        myargv1 := Copy(myargv[i], 2, length(myargv[i]) - 1);
+        if fopen(handle, myargv1, fOpenReadOnly) then
+        begin
+          printf('Found response file %s!'#13#10, [myargv1]);
+
+          size := FileSize(handle);
+          seek(handle, 0);
+          SetLength(filename, size);
+          BlockRead(handle, (@filename[1])^, size);
+          close(handle);
+
+          infile := '';
+          for index := 1 to Length(filename) do
+            if filename[index] = ' ' then
+              infile := infile + #13#10
+            else
+              infile := infile + filename[i];
+
+          s.Text := s.Text + infile;
+        end
+        else
+          printf(#13#10'No such response file: %s!'#13#10, [myargv1]);
+      end
+      else
+        s.Add(myargv[i])
+    end;
+
+    index := 0;
+    for i := 0 to s.Count - 1 do
+      if s[i] <> '' then
+      begin
+        myargv[index] := s[i];
+        inc(index);
+        if index = MAXARGS then
+          break;
+      end;
+    myargc := index;
+  finally
+    s.Free;
+  end;
+end;
+
+function D_Version: string;
+begin
+  sprintf(result, Apptitle + ' version %d.%d', [VERSION div 100, VERSION mod 100]);
+end;
+
+function D_VersionBuilt: string;
+begin
+  sprintf(result, ' built %s', [I_VersionBuilt]);
+end;
+
+procedure D_CmdVersion;
+begin
+  printf('%s,%s'#13#10, [D_Version, D_VersionBuilt]);
+end;
+
+procedure D_CmdAddPakFile(const parm: string);
+var
+  files: TDStringList;
+  i: integer;
+begin
+  if parm = '' then
+  begin
+    printf('Please specify the pak file or directory to load'#13#10);
+    exit;
+  end;
+
+  // JVAL
+  // If a shareware game do not allow external files
+  if gamemode = shareware then
+  begin
+    I_Warning('You cannot use external files with the shareware version. Register!'#13#10);
+    exit;
+  end;
+
+  if (Pos('*', parm) > 0) or (Pos('?', parm) > 0) then // It's a mask
+    files := findfiles(parm)
+  else
+  begin
+    files := TDStringList.Create;
+    files.Add(parm)
+  end;
+
+  try
+
+    for i := 0 to files.Count - 1 do
+      if not PAK_AddFile(files[i]) then
+        I_Warning('PAK_AddFile(): %s could not be added to PAK file system.'#13#10, [files[i]]);
+
+  finally
+    files.Free;
+  end;
+
+end;
+
+procedure D_StartThinkers;
+begin
+  Info_Init(true);
+  printf('Thinkers initialized'#13#10);
+end;
+
+procedure D_StopThinkers;
+begin
+  if demoplayback then
+  begin
+    I_Warning('Thinkers can not be disabled during demo playback.'#13#10);
+    exit;
+  end;
+
+  if demorecording then
+  begin
+    I_Warning('Thinkers can not be disabled during demo recording.'#13#10);
+    exit;
+  end;
+
+  Info_Init(false);
+  printf('Thinkers disabled'#13#10);
+end;
+
+procedure D_AddWADFiles(const parm: string);
+var
+  p: integer;
+begin
+  p := M_CheckParm(parm);
+  if p <> 0 then
+  begin
+    inc(p);
+    while (p < myargc) and (myargv[p][1] <> '-') do
+    begin
+      D_AddFile(myargv[p]);
+      inc(p);
+    end;
+  end;
+end;
+
+procedure D_AddPAKFiles(const parm: string);
+var
+  p: integer;
+begin
+  p := M_CheckParm(parm);
+  if p <> 0 then
+  begin
+  // the parms after p are wadfile/lump names,
+  // until end of parms or another - preceded parm
+    modifiedgame := true; // homebrew levels
+    externalpakspresent := true;
+    inc(p);
+    while (p < myargc) and (myargv[p][1] <> '-') do
+    begin
+      PAK_AddFile(myargv[p]);
+      inc(p);
+    end;
+  end;
+end;
+
+procedure D_AddDEHFiles(const parm: string);
+var
+  p: integer;
+begin
+  p := M_CheckParm(parm);
+  if p <> 0 then
+  begin
+  // the parms after p are wadfile/lump names,
+  // until end of parms or another - preceded parm
+    modifiedgame := true; // homebrew levels
+    externaldehspresent := true;
+    inc(p);
+    while (p < myargc) and (myargv[p][1] <> '-') do
+    begin
+      DEH_ParseFile(myargv[p]);
+      inc(p);
+    end;
+  end;
+end;
+
+procedure D_IdentifyGameDirectories;
+var
+  gamedirectorystring: string;
+  i: integer;
+  wad: string;
+begin
+  gamedirectorystring := 'HEXEN,HEXEN1';
+  for i := wadfiles.Count - 1 downto 0 do
+  begin
+    wad := strupper(fname(wadfiles[i]));
+    if Pos('.', wad) > 0 then
+      wad := Copy(wad, 1, Pos('.', wad) - 1);
+    if Pos(wad + ',', gamedirectorystring + ',') <> 1 then
+      gamedirectorystring := wad + ',' + gamedirectorystring;
+  end;
+
+  if hexdd_pack then
+    gamedirectorystring := 'HEXDD,' + gamedirectorystring;
+  gamedirectories := PAK_GetDirectoryListFromString(gamedirectorystring);
+  for i := 0 to gamedirectories.Count - 1 do
+  begin
+    wad := gamedirectories[i];
+    if wad <> '' then
+      if wad[length(wad)] = '\' then
+        printf(' %s'#13#10, [wad]);
+  end;
+  MakeDir(SAVEPATH);
+end;
+
+//
+// D_DoomMain
+//
+procedure D_DoomMain;
+var
+  p: integer;
+  filename: string;
+  scale: integer;
+  _time: integer;
+  i: integer;
+  oldoutproc: TOutProc;
+  mb_min: integer; // minimum zone size
+  nummaps: integer;
+  sharewaremsg: string;
+begin
+  SUC_Open;
+  outproc := @SUC_Outproc;
+  wadfiles := TDSTringList.Create;
+
+  printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
+  C_AddCmd('ver, version', @D_CmdVersion);
+  C_AddCmd('addpakfile, loadpakfile, addpak, loadpak', @D_CmdAddPakFile);
+  C_AddCmd('startthinkers', @D_StartThinkers);
+  C_AddCmd('stopthinkers', @D_StopThinkers);
+
+  SUC_Progress(1);
+
+  printf('M_InitArgv: Initializing command line parameters.'#13#10);
+  M_InitArgv;
+
+  SUC_Progress(2);
+
+  FindResponseFile;
+
+  printf('I_InitializeIO: Initializing input/output streams.'#13#10);
+  I_InitializeIO;
+
+  SUC_Progress(3);
+
+  D_AddSystemWAD; // Add system wad first
+
+  IdentifyVersion;
+
+  SUC_Progress(5);
+
+  modifiedgame := false;
+
+  nomonsters := M_CheckParm('-nomonsters') > 0;
+  respawnparm := M_CheckParm('-respawn') > 0;
+  fastparm := M_CheckParm('-fast') > 0;
+  devparm := M_CheckParm('-devparm') > 0;
+  randomclass := M_CheckParm('-randclass') > 0;
+
+  SUC_Progress(6);
+
+  if M_CheckParm('-altdeath') > 0 then
+    deathmatch := 2
+  else if M_CheckParm('-deathmatch') > 0 then
+    deathmatch := 1;
+
+  if gamemode = shareware then
+    printf(
+           '                           ' +
+           'Hexen Shareware Startup v%d.%d' +
+           '                         '#13#10,
+            [VERSION div 100, VERSION mod 100])
+  else
+    printf(
+           '                            ' +
+           '   Hexen Startup v%d.%d' +
+           '                           '#13#10,
+            [VERSION div 100, VERSION mod 100]);
+
+  if devparm then
+    printf(D_DEVSTR);
+
+  if M_CheckParmCDROM then
+  begin
+    printf(D_CDROM);
+    basedefault := CD_WORKDIR + 'Hexen32.ini';
+  end;
+
+  // turbo option
+  p := M_CheckParm('-turbo');
+  if p <> 0 then
+  begin
+    if p < myargc - 1 then
+    begin
+      scale := atoi(myargv[p + 1]);
+      if scale < 10 then
+        scale := 10
+      else if scale > 400 then
+        scale := 400;
+    end
+    else
+      scale := 200;
+    printf(' turbo scale: %d'#13#10, [scale]);
+    for i := 0 to Ord(NUMCLASSES) - 1 do
+    begin
+      forwardmove[i, 0] := forwardmove[i, 0] * scale div 100;
+      forwardmove[i, 1] := forwardmove[i, 1] * scale div 100;
+      sidemove[i, 0] := sidemove[i, 0] * scale div 100;
+      sidemove[i, 1] := sidemove[i, 1] * scale div 100;
+    end;
+  end;
+
+  SUC_Progress(7);
+
+  // add any files specified on the command line with -file wadfile
+  // to the wad list
+  //
+  // convenience hack to allow -wart e m to add a wad file
+  // prepend a tilde to the filename so wadfile will be reloadable
+  p := M_CheckParm('-wart');
+  if (p <> 0) and (p < myargc - 2) then
+  begin
+    myargv[p][5] := 'p';     // big hack, change to -warp
+
+  // Map name handling.
+    if p < myargc - 2 then
+    begin
+      sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
+        [myargv[p + 1][1], myargv[p + 2][1]]);
+      printf('Warping to Episode %s, Map %s.'#13#10,
+      [myargv[p + 1], myargv[p + 2]]);
+    end;
+
+    D_AddFile(filename);
+  end;
+
+  SUC_Progress(8);
+
+  D_AddWADFiles('-file');
+  for p := 1 to 9 do
+    D_AddWADFiles('-file' + itoa(p));
+  D_AddWADFiles('-lfile');  // JVAL launcher specific
+
+  SUC_Progress(9);
+
+  printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
+  PAK_InitFileSystem;
+
+  SUC_Progress(10);
+
+  D_AddPAKFiles('-pakfile');
+  for p := 1 to 9 do
+    D_AddPAKFiles('-pakfile' + itoa(p));
+
+  SUC_Progress(15);
+
+  D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
+
+  SUC_Progress(16);
+
+  p := M_CheckParm('-playdemo');
+
+  if p = 0 then
+    p := M_CheckParm('-timedemo');
+
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    if Pos('.', myargv[p]) > 0 then
+      filename := myargv[p]
+    else
+      sprintf(filename,'%s.lmp', [myargv[p]]);
+    D_AddFile(filename);
+    printf('Playing demo %s.'#13#10, [filename]);
+  end;
+
+  // get skill / episode / map from parms
+  startskill := sk_medium;
+  startepisode := 1;
+  startmap := 1;
+  autostart := false;
+
+  p := M_CheckParm('-skill');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    startskill := skill_t(Ord(myargv[p + 1][1]) - Ord('1'));
+    autostart := true;
+  end;
+
+  p := M_CheckParm('-timer');
+  if (p <> 0) and (p < myargc - 1) and (deathmatch <> 0) then
+  begin
+    _time := atoi(myargv[p + 1]);
+    printf('Levels will end after %d minute' + decide(_time > 1, 's', '') + #13#10, [_time]);
+  end;
+
+  p := M_CheckParm('-avg');
+  if (p <> 0) and (p <= myargc - 1) and (deathmatch <> 0) then
+    printf('Austin Virtual Gaming: Levels will end after 20 minutes'#13#10);
+
+  printf('M_LoadDefaults: Load system defaults.'#13#10);
+  M_LoadDefaults;              // load before initing other systems
+
+  SUC_Progress(20);
+
+  p := M_CheckParm('-fullscreen');
+  if (p <> 0) and (p <= myargc - 1) then
+    fullscreen := true;
+
+  p := M_CheckParm('-nofullscreen');
+  if p = 0 then
+    p := M_CheckParm('-windowed');
+  if (p <> 0) and (p <= myargc - 1) then
+    fullscreen := false;
+
+  p := M_CheckParm('-zaxisshift');
+  if (p <> 0) and (p <= myargc - 1) then
+    zaxisshift := true;
+
+  p := M_CheckParm('-nozaxisshift');
+  if (p <> 0) and (p <= myargc - 1) then
+    zaxisshift := false;
+
+  p := M_CheckParm('-fake3d');
+  if (p <> 0) and (p <= myargc - 1) then
+    usefake3d := true;
+
+  p := M_CheckParm('-nofake3d');
+  if (p <> 0) and (p <= myargc - 1) then
+    usefake3d := false;
+
+  if M_Checkparm('-ultrares') <> 0 then
+    detailLevel := DL_ULTRARES;
+
+  if M_Checkparm('-hires') <> 0 then
+    detailLevel := DL_HIRES;
+
+  if M_Checkparm('-normalres') <> 0 then
+    detailLevel := DL_NORMAL;
+
+  if M_Checkparm('-mediumres') <> 0 then
+    detailLevel := DL_MEDIUM;
+
+  if M_Checkparm('-lowres') <> 0 then
+    detailLevel := DL_LOW;
+
+  if M_Checkparm('-lowestres') <> 0 then
+    detailLevel := DL_LOWEST;
+
+  if M_Checkparm('-interpolate') <> 0 then
+    interpolate := true;
+
+  if M_Checkparm('-nointerpolate') <> 0 then
+    interpolate := false;
+
+  p := M_CheckParm('-compatibilitymode');
+  if (p <> 0) and (p <= myargc - 1) then
+    compatibilitymode := true;
+
+  p := M_CheckParm('-nocompatibilitymode');
+  if (p <> 0) and (p <= myargc - 1) then
+    compatibilitymode := false;
+
+  oldcompatibilitymode := compatibilitymode;
+
+  p := M_CheckParm('-spawnrandommonsters');
+  if (p <> 0) and (p <= myargc - 1) then
+    spawnrandommonsters := true;
+
+  p := M_CheckParm('-nospawnrandommonsters');
+  if (p <> 0) and (p <= myargc - 1) then
+    spawnrandommonsters := false;
+
+  p := M_CheckParm('-mouse');
+  if (p <> 0) and (p <= myargc - 1) then
+    usemouse := true;
+
+  p := M_CheckParm('-nomouse');
+  if (p <> 0) and (p <= myargc - 1) then
+    usemouse := false;
+
+  p := M_CheckParm('-invertmouselook');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouselook := true;
+
+  p := M_CheckParm('-noinvertmouselook');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouselook := false;
+
+  p := M_CheckParm('-invertmouseturn');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouseturn := true;
+
+  p := M_CheckParm('-noinvertmouseturn');
+  if (p <> 0) and (p <= myargc - 1) then
+    invertmouseturn := false;
+
+  p := M_CheckParm('-nojoystick');
+  if (p <> 0) and (p <= myargc - 1) then
+    usejoystick := false;
+
+  p := M_CheckParm('-joystick');
+  if (p <> 0) and (p <= myargc - 1) then
+    usejoystick := true;
+
+  SCREENWIDTH := WINDOWWIDTH;
+  p := M_CheckParm('-screenwidth');
+  if (p <> 0) and (p < myargc - 1) then
+    SCREENWIDTH := atoi(myargv[p + 1]);
+  if SCREENWIDTH > MAXWIDTH then
+    SCREENWIDTH := MAXWIDTH;
+
+  SCREENHEIGHT := WINDOWHEIGHT;
+  p := M_CheckParm('-screenheight');
+  if (p <> 0) and (p < myargc - 1) then
+    SCREENHEIGHT := atoi(myargv[p + 1]);
+  if SCREENHEIGHT > MAXHEIGHT then
+    SCREENHEIGHT := MAXHEIGHT;
+
+  singletics := M_CheckParm('-singletics') > 0;
+  noartiskip := M_CheckParm('-noartiskip') > 0;
+
+  p := M_CheckParm('-autoscreenshot');
+  autoscreenshot := p > 0;
+
+//  I_RestoreWindowPos;
+
+  SUC_Progress(25);
+
+  nodrawers := M_CheckParm('-nodraw') <> 0;
+  noblit := M_CheckParm('-noblit') <> 0;
+  norender := M_CheckParm('-norender') <> 0;
+
+  if M_CheckParm('-usetransparentsprites') <> 0 then
+    usetransparentsprites := true;
+  if M_CheckParm('-dontusetransparentsprites') <> 0 then
+    usetransparentsprites := false;
+  if M_CheckParm('-uselightboost') <> 0 then
+    uselightboost := true;
+  if M_CheckParm('-dontuselightboost') <> 0 then
+    uselightboost := false;
+  p := M_CheckParm('-lightboostfactor');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    p := atoi(myargv[p + 1], -1);
+    if (p >= LFACTORMIN) and (p <= LFACTORMAX) then
+      lightboostfactor := p
+    else
+      I_Warning('Invalid lightboostfactor specified from command line %d. Specify a value in range (%d..%d)'#13#10, [p, LFACTORMIN, LFACTORMAX]);
+  end;
+  if M_CheckParm('-chasecamera') <> 0 then
+    chasecamera := true;
+  if M_CheckParm('-nochasecamera') <> 0 then
+    chasecamera := false;
+
+
+
+// Try to guess minimum zone memory to allocate
+// Give Hexen a little more minimum zone memory than Doom and Heretic
+  mb_min := 8 + V_ScreensSize(SCN_FG) div (1024 * 1024);
+  if zonesize < mb_min then
+    zonesize := mb_min;
+
+  mb_used := zonesize;
+
+  p := M_CheckParm('-zone');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    mb_used := atoi(myargv[p + 1]);
+    if mb_used < mb_min then
+    begin
+      printf('Zone memory allocation needs at least %d MB (%d).'#13#10, [mb_min, mb_used]);
+      mb_used := mb_min;
+    end;
+    zonesize := mb_used;
+  end;
+
+  // init subsystems
+  printf('Z_Init: Init zone memory allocation daemon, allocation %d MB.'#13#10, [mb_used]);
+  Z_Init;
+
+  SUC_Progress(30);
+
+  p := M_CheckParm('-nothinkers');
+  if p = 0 then
+  begin
+    printf('I_InitInfo: Initialize information tables.'#13#10);
+    Info_Init(true);
+  end
+  else
+  begin
+    I_Warning('Thinkers not initialized.'#13#10);
+    Info_Init(false);
+  end;
+
+  SUC_Progress(31);
+
+  printf('W_Init: Init WADfiles.'#13#10);
+  if W_InitMultipleFiles(wadfiles) = 0 then
+  begin
+  // JVAL
+  //  If none wadfile has found as far,
+  //  we search the current directory
+  //  and we use the first WAD we find
+    filename := findfile('*.wad');
+    if filename <> '' then
+      I_Warning('Loading unspecified wad file: %d'#13#10, [filename]);
+    D_AddFile(filename);
+    if W_InitMultipleFiles(wadfiles) = 0 then
+      I_Error('W_InitMultipleFiles(): no files found');
+  end;
+
+  SUC_Progress(40);
+
+  printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
+  DEH_Init;
+
+  if M_CheckParm('-internalgamedef') = 0 then
+    if not DEH_ParseLumpName('GAMEDEF') then
+      I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
+
+  SUC_Progress(41);
+
+  printf('SC_Init: Initializing script engine.'#13#10);
+  SC_Init;
+  printf('SC_ParseDecorateLumps(): Parsing DECORATE lumps.'#13#10);
+  SC_ParseDecorateLumps;
+
+  SUC_Progress(45);
+
+  if M_CheckParm('-nowaddehacked') = 0 then
+    if not DEH_ParseLumpName('DEHACKED') then
+      printf('DEH_ParseLumpName(): DEHACKED lump not found.'#13#10);
+
+  // JVAL Adding dehached files
+  D_AddDEHFiles('-deh');
+  D_AddDEHFiles('-bex');
+
+  SUC_Progress(50);
+
+  for i := 0 to NUM_STARTUPMESSAGES - 1 do
+    if startmsg[i] <> '' then
+      printf('%s'#13#10, [startmsg[i]]);
+
+  SUC_Progress(51);
+
+  printf('P_ACSInit: Initializing ACS script.'#13#10);
+  P_ACSInit;
+
+  SUC_Progress(52);
+
+  printf('SV_Init: Initializing load/save game subsystem.'#13#10);
+  SV_Init;
+
+  SUC_Progress(53);
+
+  printf('T_Init: Initializing texture manager.'#13#10);
+  T_Init;
+
+  SUC_Progress(56);
+
+  printf('V_Init: allocate screens.'#13#10);
+  V_Init;
+
+  SUC_Progress(58);
+
+  printf('AM_Init: initializing automap.'#13#10);
+  AM_Init;
+
+  SUC_Progress(59);
+
+  p := M_CheckParm('-autoexec');
+  if (p <> 0) and (p < myargc - 1) then
+    autoexecfile := myargv[p + 1]
+  else
+    autoexecfile := DEFAUTOEXEC;
+
+  printf('M_InitMenus: Initializing menus.'#13#10);
+  M_InitMenus;
+
+  SUC_Progress(60);
+
+  sharewaremsg := '';
+  nummaps := 0;
+  for i := 0 to 9 do
+    if W_CheckNumForName('MAP0' + itoa(i)) <> -1 then
+      inc(nummaps);
+  for i := 10 to 99 do
+    if W_CheckNumForName('MAP' + itoa(i)) <> -1 then
+      inc(nummaps);
+  sprintf(sharewaremsg, MSG_SHAREWARE, [nummaps]);
+
+  if gamemode = indetermined then
+  begin
+    // JVAL: OK, let's guess, official demo had 4 maps
+    if nummaps > 6 then
+      gamemode := registered
+    else
+      gamemode := shareware;
+  end;
+
+  SUC_Progress(61);
+
+  printf('D_IdentifyGameDirectories: Identify game directories.'#13#10, [mb_used]);
+  D_IdentifyGameDirectories;
+
+  SUC_Progress(62);
+
+  p := M_CheckParm('-warp');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    startmap := atoi(myargv[p + 1]);
+    autostart := true;
+  end;
+
+  // Check for -file in shareware
+  // JVAL
+  // Allow modified games if -devparm is specified, for debuging reasons
+  if modifiedgame and (not devparm) then
+  begin
+    if gamemode = shareware then
+      I_DevError(#13#10 + 'D_DoomMain(): You cannot use external files with the shareware version. Register!');
+
+  // If additonal PWAD files are used, print modified banner
+    printf(MSG_MODIFIEDGAME);
+    oldoutproc := outproc;
+    I_IOSetWindowHandle(SUC_GetHandle);
+    outproc := @I_IOMessageBox; // Print the message again to messagebox
+    printf(MSG_MODIFIEDGAME);
+    outproc := oldoutproc;
+  end;
+
+  SUC_Progress(63);
+
+  if hexdd_pack then
+  begin
+    printf(MSG_HEXDD);
+    SUC_SetGameMode('Hexen: Death Kings of the Dark Citadel');
+  end
+  else if gamemode = registered then
+    SUC_SetGameMode('Registered Hexen')
+  else
+    SUC_SetGameMode('Shareware Hexen');
+
+  case gamemode of
+    shareware:
+      printf(sharewaremsg);
+    registered:
+      printf(MSG_COMMERCIAL);
+  else
+    begin
+      printf(MSG_UNDETERMINED);
+    end;
+  end;
+
+  printf('Info_InitRandom: Initializing randomizers.'#13#10);
+  Info_InitRandom;
+
+  SUC_Progress(64);
+
+  printf('M_Init: Init miscellaneous info.'#13#10);
+  M_Init;
+
+  SUC_Progress(65);
+
+  p := M_CheckParm('-mmx');
+  if p > 0 then
+    usemmx := true;
+
+  p := M_CheckParm('-nommx');
+  if p > 0 then
+    usemmx := false;
+
+  if usemmx then
+  begin
+    printf('I_DetectCPU: Detecting CPU extensions.'#13#10);
+    I_DetectCPU;
+  end;
+
+  printf('R_Init: Init HEXEN refresh daemon.');
+  R_Init;
+
+  SUC_Progress(80);
+
+  printf(#13#10 + 'P_Init: Init Playloop state.'#13#10);
+  P_Init;
+
+  SUC_Progress(81);
+
+  printf('D_CheckNetGame: Checking network game status.'#13#10);
+  D_CheckNetGame;
+
+  SUC_Progress(83);
+
+  printf('S_Init: Setting up sound.'#13#10);
+  S_Init(snd_SfxVolume, snd_MusicVolume);
+
+  SUC_Progress(85);
+
+  printf('S_InitSequenceScript: Registering sound sequences.'#13#10);
+  S_InitSequenceScript;
+
+  SUC_Progress(86);
+
+  printf('HU_Init: Setting up heads up display.'#13#10);
+  HU_Init;
+
+  SUC_Progress(87);
+
+  printf('SB_Init: Init status bar.'#13#10);
+  SB_Init;
+
+  SUC_Progress(88);
+
+  // check for a driver that wants intermission stats
+  p := M_CheckParm('-statcopy');
+  if (p > 0) and (p < myargc - 1) then
+  begin
+    // for statistics driver
+    statcopy := pointer(atoi(myargv[p + 1]));
+    printf('External statistics registered.'#13#10);
+  end;
+
+  // start the apropriate game based on parms
+  p := M_CheckParm('-record');
+
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    G_RecordDemo(myargv[p + 1]);
+    autostart := true;
+  end;
+
+  SUC_Progress(89);
+
+  I_InitGraphics;
+
+  SUC_Progress(95);
+
+  printf('I_Init: Setting up machine state.'#13#10);
+  I_Init;
+
+  SUC_Progress(99);
+
+
+  printf('C_Init: Initializing console.'#13#10);
+  C_Init;
+
+  SUC_Progress(100);
+
+  SUC_Close;
+
+  p := M_CheckParm('-playdemo');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+  // JVAL
+  /// if -nosingledemo param exists does not
+  // quit after one demo
+    singledemo := M_CheckParm('-nosingledemo') = 0;
+    G_DeferedPlayDemo(myargv[p + 1]);
+    D_DoomLoop;  // never returns
+  end;
+
+  p := M_CheckParm('-timedemo');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    G_TimeDemo(myargv[p + 1]);
+    D_DoomLoop;  // never returns
+  end;
+
+  p := M_CheckParm('-loadgame');
+  if (p <> 0) and (p < myargc - 1) then
+    G_LoadGame(Ord(myargv[p + 1][1]) - Ord('0'));
+
+  if gameaction <> ga_loadgame then
+  begin
+    if autostart or netgame then
+    begin
+      G_InitNew(startskill, startepisode, startmap);
+    end
+    else
+      D_StartTitle; // start up intro loop
+  end;
+
+  D_DoomLoop;  // never returns
+end;
+
+function D_IsPaused: boolean;
+begin
+  result := paused;
+end;
+
+procedure D_ShutDown;
+var
+  i: integer;
+begin
+  printf('C_ShutDown: Shut down console.'#13#10);
+  C_ShutDown;
+  printf('P_ShutDown: Shut down Playloop state.'#13#10);
+  P_ShutDown;
+  printf('R_ShutDown: Shut down DOOM refresh daemon.');
+  R_ShutDown;
+  printf('Info_ShutDownRandom: Shut down randomizers.'#13#10);
+  Info_ShutDownRandom;
+  printf('P_ACSShutDown: Shut down ACS script.'#13#10);
+  P_ACSShutDown;
+  printf('T_ShutDown: Shut down texture manager.'#13#10);
+  T_ShutDown;
+  printf('SC_ShutDown: Shut down script engine.'#13#10);
+  SC_ShutDown;
+  printf('DEH_ShutDown: Shut down dehacked subsystem.'#13#10);
+  DEH_ShutDown;
+  printf('Info_ShutDown: Shut down game definition.'#13#10);
+  Info_ShutDown;
+  printf('PAK_ShutDown: Shut down PAK/ZIP/PK3/PK4 file system.'#13#10);
+  PAK_ShutDown;
+  printf('W_ShutDown: Shut down WAD file system.'#13#10);
+  W_ShutDown;
+  printf('Z_ShutDown: Shut down zone memory allocation daemon.'#13#10, [mb_used]);
+  Z_ShutDown;
+  printf('V_ShutDown: Shut down screens.'#13#10, [mb_used]);
+  V_ShutDown;
+
+  gamedirectories.Free;
+
+  if wadfiles <> nil then
+  begin
+    for i := 0 to wadfiles.Count - 1 do
+      if wadfiles.Objects[i] <> nil then
+        wadfiles.Objects[i].Free;
+
+    wadfiles.Free;
+  end;
+
+end;
+
+end.

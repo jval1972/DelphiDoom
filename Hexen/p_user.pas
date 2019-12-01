@@ -1,0 +1,1811 @@
+//------------------------------------------------------------------------------
+//
+//  DelphiHexen: A modified and improved Hexen port for Windows
+//  based on original Linux Doom as published by "id Software", on
+//  Hexen source as published by "Raven" software and DelphiDoom
+//  as published by Jim Valavanis.
+//  Copyright (C) 2004-2008 by Jim Valavanis
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+//
+//------------------------------------------------------------------------------
+//  E-Mail: jimmyvalavanis@yahoo.gr
+//  Site  : http://delphidoom.sitesled.com/
+//------------------------------------------------------------------------------
+
+{$I Doom32.inc}
+
+unit p_user;
+
+interface
+
+//-----------------------------------------------------------------------------
+//
+// DESCRIPTION:
+//  Player related stuff.
+//  Bobbing POV/weapon, movement.
+//  Pending weapon.
+//
+//-----------------------------------------------------------------------------
+
+uses
+  info_h,
+  xn_defs,
+  d_player,
+  m_fixed,
+  p_mobj_h,
+  tables;
+
+procedure P_PlayerThink(player: Pplayer_t);
+
+procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
+
+procedure P_PlayerNextArtifact(player: Pplayer_t);
+
+procedure P_PlayerUseArtifact(player: Pplayer_t; arti: artitype_t);
+
+function P_GetPlayerNum(player: Pplayer_t): integer;
+
+function P_IsInvisiblePlayer(player: Pplayer_t): boolean;
+
+function P_UndoPlayerMorph(player: Pplayer_t): boolean;
+
+function P_UseArtifact(player: Pplayer_t; arti: artitype_t): boolean;
+
+procedure P_PlayerRemoveArtifact(player: Pplayer_t; slot: integer);
+
+procedure P_TeleportOther(victim: Pmobj_t);
+
+procedure P_ResetBlasted(mo: Pmobj_t);
+
+procedure A_SpeedFade(actor: Pmobj_t);
+
+const
+  PStateNormal: array[0..Ord(NUMCLASSES) - 1] of statenum_t = (
+    S_FPLAY,
+    S_CPLAY,
+    S_MPLAY,
+    S_PIGPLAY
+  );
+
+  PStateRun: array[0..Ord(NUMCLASSES) - 1] of statenum_t = (
+    S_FPLAY_RUN1,
+    S_CPLAY_RUN1,
+    S_MPLAY_RUN1,
+    S_PIGPLAY_RUN1
+  );
+
+  PStateAttack: array[0..Ord(NUMCLASSES) - 1] of statenum_t = (
+    S_FPLAY_ATK1,
+    S_CPLAY_ATK1,
+    S_MPLAY_ATK1,
+    S_PIGPLAY_ATK1
+  );
+
+  PStateAttackEnd: array[0..Ord(NUMCLASSES) - 1] of statenum_t = (
+    S_FPLAY_ATK2,
+    S_CPLAY_ATK3,
+    S_MPLAY_ATK2,
+    S_PIGPLAY_ATK1
+  );
+
+const
+  ArmorMax: array[0..Ord(NUMCLASSES) - 1] of integer = (20, 18, 16, 1);
+
+implementation
+
+uses
+  d_delphi,
+  d_ticcmd, d_event, d_think,
+  info,
+  i_video, i_system,
+{$IFDEF DEBUG}
+  i_io,
+{$ENDIF}
+  m_rnd,
+  g_game,
+  p_mobj, p_tick, p_pspr, p_local, p_spec, p_map, p_maputl, p_setup,
+  p_telept, p_inter, p_enemy,
+  r_main, r_defs, r_hires,
+  doomstat,
+  sb_bar,
+  v_data, v_video,
+  s_sound, sounds,
+  xn_strings,
+  z_zone;
+
+//
+// Movement.
+//
+const
+// 16 pixels of bob
+  MAXBOB = $100000;
+
+var
+  onground: boolean;
+  newtorch: integer; // used in the torch flicker effect.
+  newtorchdelta: integer;
+
+//
+// P_Thrust
+// Moves the given origin along a given angle.
+//
+procedure P_Thrust(player: Pplayer_t; angle: angle_t; const move: fixed_t);
+var
+  mv: fixed_t;
+begin
+  angle := angle shr ANGLETOFINESHIFT;
+
+  if (player.powers[Ord(pw_flight)] <> 0) and (player.mo.z > player.mo.floorz) then
+  begin
+    player.mo.momx := player.mo.momx + FixedMul(move, finecosine[angle]);
+    player.mo.momy := player.mo.momy + FixedMul(move, finesine[angle]);
+  end
+  else if P_GetThingFloorType(player.mo) = FLOOR_ICE then // Friction_Low
+  begin
+    mv := move div 4;
+    player.mo.momx := player.mo.momx + FixedMul(mv, finecosine[angle]);
+    player.mo.momy := player.mo.momy + FixedMul(mv, finesine[angle]);
+  end
+  else
+  begin
+    player.mo.momx := player.mo.momx + FixedMul(move, finecosine[angle]);
+    player.mo.momy := player.mo.momy + FixedMul(move, finesine[angle]);
+  end
+end;
+
+//
+// P_CalcHeight
+// Calculate the walking / running height adjustment
+//
+procedure P_CalcHeight(player: Pplayer_t);
+var
+  angle: integer;
+  bob: fixed_t;
+begin
+  // Regular movement bobbing
+  // (needs to be calculated for gun swing
+  // even if not on ground)
+  // OPTIMIZE: tablify angle
+  // Note: a LUT allows for effects
+  //  like a ramp with low health.
+
+  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+    player.bob := FRACUNIT div 2
+  else
+  begin
+    player.bob :=  FixedMul(player.mo.momx, player.mo.momx) +
+                   FixedMul(player.mo.momy, player.mo.momy);
+    player.bob :=  player.bob div 4;
+
+    if player.bob > MAXBOB then
+      player.bob := MAXBOB;
+  end;
+
+  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  begin
+    player.viewz := player.mo.z + PVIEWHEIGHT;
+
+    if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
+      player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+
+//    player.viewz := player.mo.z + player.viewheight;  JVAL removed!
+    exit;
+  end;
+
+  angle := (FINEANGLES div 20 * leveltime) and FINEMASK;
+  bob := FixedMul(player.bob div 2, finesine[angle]);
+
+  // move viewheight
+  if player.playerstate = PST_LIVE then
+  begin
+    player.viewheight := player.viewheight + player.deltaviewheight;
+
+    if player.viewheight > PVIEWHEIGHT then
+    begin
+      player.viewheight := PVIEWHEIGHT;
+      player.deltaviewheight := 0;
+    end;
+
+    if player.viewheight < PVIEWHEIGHT div 2 then
+    begin
+      player.viewheight := PVIEWHEIGHT div 2;
+      if player.deltaviewheight <= 0 then
+        player.deltaviewheight := 1;
+    end;
+
+    if player.deltaviewheight <> 0 then
+    begin
+      player.deltaviewheight := player.deltaviewheight + FRACUNIT div 4;
+      if player.deltaviewheight = 0 then
+        player.deltaviewheight := 1;
+    end;
+  end;
+
+  if player.morphTics <> 0 then
+    player.viewz := player.mo.z + player.viewheight - (20 * FRACUNIT)
+  else
+    player.viewz := player.mo.z + player.viewheight + bob;
+
+  if (player.mo.floorclip <> 0) and
+     (player.playerstate <> PST_DEAD) and
+     (player.mo.z <= player.mo.floorz) then
+    player.viewz := player.viewz - player.mo.floorclip;
+
+  if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
+    player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+  if player.viewz < player.mo.floorz + 4 * FRACUNIT then
+    player.viewz := player.mo.floorz + 4 * FRACUNIT;
+end;
+
+//
+// P_MovePlayer
+//
+procedure P_MovePlayer(player: Pplayer_t);
+var
+  cmd: Pticcmd_t;
+  look: integer;
+  look2: integer;
+  fly: integer;
+  onair: boolean;
+begin
+  cmd := @player.cmd;
+
+  player.mo.angle := player.mo.angle + _SHLW(cmd.angleturn, 16);
+
+  // Do not let the player control movement
+  //  if not onground.
+  onground := (player.mo.z <= player.mo.floorz) or (player.mo.flags2 and MF2_ONMOBJ <> 0);
+  onair := (player.cheats and CF_LOWGRAVITY <> 0) or (player.mo.flags2 and MF2_FLY <> 0);
+
+  if (cmd.forwardmove <> 0) and
+     (onground or (onair and (player.powers[Ord(pw_flight)] > 0)) or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0))) then
+    P_Thrust(player, player.mo.angle, cmd.forwardmove * 2048);
+
+  if (cmd.sidemove <> 0) and
+     (onground or (onair and (player.powers[Ord(pw_flight)] > 0)) or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0))) then
+    P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * 2048);
+
+  // JVAL: Adjust speed while flying, bye-bye compatibility :(
+  if onair and (player.mo.z > player.mo.floorz) then
+  begin
+    if player.mo.momx > 18 * FRACUNIT then
+      player.mo.momx := 18 * FRACUNIT
+    else if player.mo.momx < -18 * FRACUNIT then
+      player.mo.momx := -18 * FRACUNIT;
+    if player.mo.momy > 18 * FRACUNIT then
+      player.mo.momy := 18 * FRACUNIT
+    else if player.mo.momy < -18 * FRACUNIT then
+      player.mo.momy := -18 * FRACUNIT;
+
+    if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
+    begin
+      player.mo.momx := player.mo.momx * 15 div 16;
+      player.mo.momy := player.mo.momy * 15 div 16;
+    end;
+  end;
+
+  if (cmd.forwardmove <> 0) or (cmd.sidemove <> 0) then
+  begin
+    if player.mo.state = @states[Ord(PStateNormal[Ord(player._class)])] then
+      P_SetMobjState(player.mo, PStateRun[Ord(player._class)]);
+  end;
+
+// JVAL Look UP and DOWN
+  if zaxisshift then
+  begin
+    look := cmd.lookfly and 15;
+    if look > 7 then
+      look := look - 16;
+
+    if look <> 0 then
+    begin
+      if look = TOCENTER then
+        player.centering := true
+      else
+      begin
+        player.lookdir := player.lookdir + 5 * look;
+        if player.lookdir > MAXLOOKDIR then
+          player.lookdir := MAXLOOKDIR
+        else if player.lookdir < MINLOOKDIR then
+          player.lookdir := MINLOOKDIR;
+      end;
+    end;
+
+    if player.centering then
+    begin
+      if player.lookdir > 0 then
+        player.lookdir := player.lookdir - 8
+      else if player.lookdir < 0 then
+        player.lookdir := player.lookdir + 8;
+
+      if abs(player.lookdir) < 8 then
+      begin
+        player.lookdir := 0;
+        player.centering := false;
+      end;
+    end;
+  end;
+
+  if not G_NeedsCompatibilityMode then
+  begin
+// JVAL Look LEFT and RIGHT
+    look2 := cmd.look2;
+    if look2 > 7 then
+      look2 := look2 - 16;
+
+    if look2 <> 0 then
+    begin
+      if look2 = TOFORWARD then
+        player.forwarding := true
+      else
+      begin
+        player.lookdir2 := (player.lookdir2 + 2 * look2) and 255;
+        if player.lookdir2 in [64..127] then
+          player.lookdir2 := 63
+        else if player.lookdir2 in [128..191] then
+          player.lookdir2 := 192;
+      end;
+    end
+    else
+      if player.oldlook2 <> 0 then
+        player.forwarding := true;
+
+    if player.forwarding then
+    begin
+      if player.lookdir2 in [3..63] then
+        player.lookdir2 := player.lookdir2 - 6
+      else if player.lookdir2 in [192..251] then
+        player.lookdir2 := player.lookdir2 + 6;
+
+      if (player.lookdir2 < 8) or (player.lookdir2 > 247) then
+      begin
+        player.lookdir2 := 0;
+        player.forwarding := false;
+      end;
+    end;
+    player.mo.viewangle := player.lookdir2 shl 24;
+
+    player.oldlook2 := look2;
+
+    if (onground or (player.cheats and CF_LOWGRAVITY <> 0)) and (cmd.jump > 1) then
+      player.mo.momz := 8 * FRACUNIT;
+  end
+  else
+    player.lookdir2 := 0;
+
+  fly := _SHR(cmd.lookfly, 4);
+  if fly > 7 then
+    fly := fly - 16;
+
+  if (fly <> 0) and (player.powers[Ord(pw_flight)] <> 0) then
+  begin
+    if fly <> TOCENTER then
+    begin
+      player.flyheight := fly * 2;
+      if player.mo.flags2 and MF2_FLY = 0 then
+      begin
+        player.mo.flags2 := player.mo.flags2 or MF2_FLY;
+        player.mo.flags := player.mo.flags or MF_NOGRAVITY;
+        if player.mo.momz <= -39 * FRACUNIT then // stop falling scream
+          S_StopSound(player.mo);
+      end;
+    end
+    else
+    begin
+      player.mo.flags2 := player.mo.flags2 and not MF2_FLY;
+      player.mo.flags := player.mo.flags and not MF_NOGRAVITY;
+    end;
+  end
+  else if fly > 0 then
+    P_PlayerUseArtifact(player, arti_fly);
+
+  if player.mo.flags2 and MF2_FLY <> 0 then
+  begin
+    player.mo.momz := player.flyheight * FRACUNIT;
+    if player.flyheight <> 0 then
+      player.flyheight := player.flyheight div 2;
+  end;
+
+end;
+
+//
+// P_DeathThink
+// Fall on your face when dying.
+// Decrease POV height to floor height.
+//
+procedure P_DeathThink(player: Pplayer_t);
+var
+  angle: angle_t;
+  delta: angle_t;
+  lookDelta: integer;
+  palette: PByteArray;
+begin
+  P_MovePsprites(player);
+
+  onground := player.mo.z <= player.mo.floorz;
+
+  if (player.mo._type = Ord(MT_BLOODYSKULL)) or (player.mo._type = Ord(MT_ICECHUNK)) then
+  begin // Flying bloody skull or flying ice chunk
+    player.viewheight := 6 * FRACUNIT;
+    player.deltaviewheight := 0;
+    //player.damagecount := 20;
+    if onground then
+    begin
+      if player.lookdir < 60 then
+      begin
+        lookDelta := (60 - player.lookdir) div 8;
+
+        if (lookDelta < 1) and (leveltime and 1 <> 0) then
+          lookDelta := 1
+        else if lookDelta > 6 then
+          lookDelta := 6;
+
+        player.lookdir := player.lookdir + lookDelta;
+
+      end;
+    end;
+  end
+  else if player.mo.flags2 and MF2_ICEDAMAGE = 0 then
+  begin // Fall to ground (if not frozen)
+    player.deltaviewheight := 0;
+
+    if player.viewheight > 6 * FRACUNIT then
+      player.viewheight := player.viewheight - FRACUNIT;
+
+    if player.viewheight < 6 * FRACUNIT then
+      player.viewheight := 6 * FRACUNIT;
+
+    if player.lookdir > 0 then
+      player.lookdir := player.lookdir - 6
+    else if player.lookdir < 0 then
+      player.lookdir := player.lookdir + 6;
+
+    if abs(player.lookdir) < 6 then
+      player.lookdir := 0;
+
+  end;
+
+  P_CalcHeight(player);
+
+  if (player.attacker <> nil) and (player.attacker <> player.mo) then
+  begin
+
+    angle := R_PointToAngle2(
+      player.mo.x, player.mo.y, player.attackerx, player.attackery);
+
+    delta := angle - player.mo.angle;
+
+    if (delta < ANG5) or (delta > ANG355) then
+    begin
+      // Looking at killer,
+      //  so fade damage flash down.
+      player.mo.angle := angle;
+
+      if player.damagecount > 0 then
+        player.damagecount := player.damagecount - 1;
+
+      if player.poisoncount > 0 then
+        player.poisoncount := player.poisoncount - 1;
+
+    end
+    else if delta < ANG180 then
+      player.mo.angle := player.mo.angle + ANG5
+    else
+      player.mo.angle := player.mo.angle - ANG5;
+  end
+  else
+  begin
+    if player.damagecount > 0 then
+      player.damagecount := player.damagecount - 1;
+    if player.poisoncount > 0 then
+      player.poisoncount := player.poisoncount - 1;
+  end;
+
+  if player.cmd.buttons and BT_USE <> 0 then
+  begin
+    if player = @players[consoleplayer] then
+    begin
+      palette := V_ReadPalette(PU_STATIC);
+      I_SetPalette(palette);
+      V_SetPalette(palette);
+      Z_ChangeTag(palette, PU_CACHE);
+      R_SetPalette(0);
+
+      inv_ptr := 0;
+      curpos := 0;
+      newtorch := 0;
+      newtorchdelta := 0;
+    end;
+    player.playerstate := PST_REBORN;
+    player.mo.special1 := Ord(player._class);
+    if player.mo.special1 > 2 then
+      player.mo.special1 := 0;
+    // Let the mobj know the player has entered the reborn state.  Some
+    // mobjs need to know when it's ok to remove themselves.
+    player.mo.special2 := 666;
+  end;
+end;
+
+//----------------------------------------------------------------------------
+//
+// PROC P_MorphPlayerThink
+//
+//----------------------------------------------------------------------------
+
+procedure P_MorphPlayerThink(player: Pplayer_t);
+var
+  pmo: Pmobj_t;
+begin
+  if player.morphTics and 15 <> 0 then
+    exit;
+
+  pmo := player.mo;
+  if (pmo.momx + pmo.momy = 0) and (P_Random < 64) then
+  begin // Snout sniff
+    P_SetPspriteNF(player, ps_weapon, S_SNOUTATK2);
+    S_StartSound(pmo, Ord(SFX_PIG_ACTIVE1)); // snort
+    exit;
+  end;
+
+  if P_Random < 48 then
+  begin
+    if P_Random < 128 then
+      S_StartSound(pmo, Ord(SFX_PIG_ACTIVE1))
+    else
+      S_StartSound(pmo, Ord(SFX_PIG_ACTIVE2));
+  end;
+end;
+
+//----------------------------------------------------------------------------
+//
+// FUNC P_GetPlayerNum
+//
+//----------------------------------------------------------------------------
+
+function P_GetPlayerNum(player: Pplayer_t): integer;
+var
+  i: integer;
+begin
+  for i := 0 to MAXPLAYERS - 1 do
+  begin
+    if player = @players[i] then
+    begin
+      result := i;
+      exit;
+    end;
+  end;
+  result := 0;
+end;
+
+function P_IsInvisiblePlayer(player: Pplayer_t): boolean;
+begin
+  if player.mo = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  result := player.mo.flags and (MF_SHADOW or MF_ALTSHADOW) <> 0;
+end;
+
+//----------------------------------------------------------------------------
+//
+// FUNC P_UndoPlayerMorph
+//
+//----------------------------------------------------------------------------
+
+function P_UndoPlayerMorph(player: Pplayer_t): boolean;
+var
+  fog: Pmobj_t;
+  mo: Pmobj_t;
+  pmo: Pmobj_t;
+  x: fixed_t;
+  y: fixed_t;
+  z: fixed_t;
+  angle: angle_t;
+  playerNum: integer;
+  weapon: weapontype_t;
+  oldFlags: integer;
+  oldFlags2: integer;
+  oldBeast: integer;
+begin
+  pmo := player.mo;
+  x := pmo.x;
+  y := pmo.y;
+  z := pmo.z;
+  angle := pmo.angle;
+  weapon := weapontype_t(pmo.special1);
+  oldFlags := pmo.flags;
+  oldFlags2 := pmo.flags2;
+  oldBeast := pmo._type;
+  P_SetMobjState(pmo, S_FREETARGMOBJ);
+
+  playerNum := P_GetPlayerNum(player);
+
+  case PlayerClass[playerNum] of
+
+    PCLASS_FIGHTER:
+      mo := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_FIGHTER));
+
+    PCLASS_CLERIC:
+      mo := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_CLERIC));
+
+    PCLASS_MAGE:
+      mo := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_MAGE));
+
+  else
+    begin
+      I_Error('P_UndoPlayerMorph(): Unknown player class %d', [Ord(player._class)]);
+      mo := nil;
+    end;
+  end;
+
+  if not P_TestMobjLocation(mo) then
+  begin // Didn't fit
+    P_RemoveMobj(mo);
+    mo := P_SpawnMobj(x, y, z, oldBeast);
+    mo.angle := angle;
+    mo.health := player.health;
+    mo.special1 := Ord(weapon);
+    mo.player := player;
+    mo.flags := oldFlags;
+    mo.flags2 := oldFlags2;
+    player.mo := mo;
+    player.morphTics := 2 * TICRATE;
+    result := false;
+    exit;
+  end;
+
+  if player._class = PCLASS_FIGHTER then
+  begin
+    // The first type should be blue, and the third should be the
+    // Fighter's original gold color
+    if playerNum = 0 then
+      mo.flags := mo.flags or (2 shl MF_TRANSSHIFT)
+    else if playerNum <> 2 then
+      mo.flags := mo.flags or (playerNum shl MF_TRANSSHIFT);
+  end
+  else if playerNum <> 0 then
+  begin // Set color translation bits for player sprites
+    mo.flags := mo.flags or (playerNum shl MF_TRANSSHIFT);
+  end;
+
+  mo.angle := angle;
+  mo.player := player;
+  mo.reactiontime := 18;
+  if oldFlags2 and MF2_FLY <> 0 then
+  begin
+    mo.flags2 := mo.flags2 or MF2_FLY;
+    mo.flags := mo.flags or MF_NOGRAVITY;
+  end;
+
+  player.morphTics := 0;
+
+  player.health := P_MaxPlayerHealth(player);
+  mo.health := player.health;
+
+  player.mo := mo;
+  player._class := PlayerClass[playerNum];
+  angle := angle shr ANGLETOFINESHIFT;
+  fog := P_SpawnMobj(x + 20 * finecosine[angle],
+                     y + 20 * finesine[angle],
+                     z + TELEFOGHEIGHT,
+                     Ord(MT_TFOG));
+  S_StartSound(fog, Ord(SFX_TELEPORT));
+  P_PostMorphWeapon(player, weapon);
+  result := true;
+end;
+
+
+//----------------------------------------------------------------------------
+//
+// PROC P_PlayerThink
+//
+//----------------------------------------------------------------------------
+
+procedure P_PlayerThink(player: Pplayer_t);
+var
+  cmd: Pticcmd_t;
+  newweapon: weapontype_t;
+  floorType: integer;
+  pmo: Pmobj_t;
+  speedMo: Pmobj_t;
+  playerNum: integer;
+  i: integer;
+begin
+  // No-clip cheat
+  if player.cheats and CF_NOCLIP <> 0 then
+    player.mo.flags := player.mo.flags or MF_NOCLIP
+  else
+    player.mo.flags := player.mo.flags and not MF_NOCLIP;
+
+  cmd := @player.cmd;
+
+  if player.mo.flags and MF_JUSTATTACKED <> 0 then
+  begin // Gauntlets attack auto forward motion
+    cmd.angleturn := 0;
+    cmd.forwardmove := $c800 div 512;
+    cmd.sidemove := 0;
+    player.mo.flags := player.mo.flags and not MF_JUSTATTACKED;
+  end;
+// messageTics is above the rest of the counters so that messages will
+//     go away, even in death.
+  dec(player.messageTics); // Can go negative
+  if player.messageTics <= 0 then
+  begin // Refresh the screen when a message goes away
+    player.ultimateMessage := false; // clear out any chat messages.
+    player.yellowMessage := false;
+    player.messageTics := 0;
+  end;
+
+  inc(player.worldTimer);
+
+  if player.playerstate = PST_DEAD then
+  begin
+    P_DeathThink(player);
+    exit;
+  end;
+
+  if player.jumpTics > 0 then
+    dec(player.jumpTics);
+
+  if player.morphTics > 0 then
+    P_MorphPlayerThink(player);
+
+  // Handle movement
+  if player.mo.reactiontime > 0 then
+  begin // Player is frozen
+    dec(player.mo.reactiontime);
+  end
+  else
+  begin
+    P_MovePlayer(player);
+    pmo := player.mo;
+    if (player.powers[Ord(pw_speed)] > 0) and
+       (leveltime and 1 = 0) and
+       (P_AproxDistance(pmo.momx, pmo.momy) > 12 * FRACUNIT) then
+    begin
+
+      speedMo := P_SpawnMobj(pmo.x, pmo.y, pmo.z, Ord(MT_PLAYER_SPEED));
+      if speedMo <> nil then
+      begin
+        speedMo.angle := pmo.angle;
+        playerNum := P_GetPlayerNum(player);
+        if player._class = PCLASS_FIGHTER then
+        begin
+          // The first type should be blue, and the
+          // third should be the Fighter's original gold color
+          if playerNum = 0 then
+            speedMo.flags := speedMo.flags or (2 shl MF_TRANSSHIFT)
+          else if playerNum <> 2 then
+            speedMo.flags := speedMo.flags or (playerNum shl MF_TRANSSHIFT);
+        end
+        else if playerNum > 0 then
+        begin // Set color translation bits for player sprites
+          speedMo.flags := speedMo.flags or (playerNum shl MF_TRANSSHIFT);
+        end;
+        speedMo.target := pmo;
+        speedMo.special1 := Ord(player._class);
+        if speedMo.special1 > 2 then
+          speedMo.special1 := 0;
+        speedMo.sprite := pmo.sprite;
+        speedMo.floorclip := pmo.floorclip;
+        if player = @players[consoleplayer] then
+        begin
+          speedMo.flags2 := speedMo.flags2 or MF2_DONTDRAW;
+        end;
+      end;
+    end;
+  end;
+
+  P_CalcHeight(player);
+
+  if Psubsector_t(player.mo.subsector).sector.special <> 0 then
+    P_PlayerInSpecialSector(player);
+
+  floorType := P_GetThingFloorType(player.mo);
+  if floorType <> FLOOR_SOLID then
+    P_PlayerOnSpecialFlat(player, floorType);
+
+  case player._class of
+
+    PCLASS_FIGHTER:
+      begin
+        if (player.mo.momz <= -35 * FRACUNIT) and
+           (player.mo.momz >= -40 * FRACUNIT) and
+           (player.morphTics = 0) and
+           (not S_GetSoundPlayingInfo(player.mo, Ord(SFX_PLAYER_FIGHTER_FALLING_SCREAM))) then
+          S_StartSound(player.mo, Ord(SFX_PLAYER_FIGHTER_FALLING_SCREAM));
+      end;
+
+    PCLASS_CLERIC:
+      begin
+        if (player.mo.momz <= -35 * FRACUNIT) and
+           (player.mo.momz >= -40 * FRACUNIT) and
+           (player.morphTics = 0) and
+           (not S_GetSoundPlayingInfo(player.mo, Ord(SFX_PLAYER_CLERIC_FALLING_SCREAM))) then
+          S_StartSound(player.mo, Ord(SFX_PLAYER_CLERIC_FALLING_SCREAM));
+      end;
+
+    PCLASS_MAGE:
+      begin
+        if (player.mo.momz <= -35 * FRACUNIT) and
+           (player.mo.momz >= -40 * FRACUNIT) and
+           (player.morphTics = 0) and
+           (not S_GetSoundPlayingInfo(player.mo, Ord(SFX_PLAYER_MAGE_FALLING_SCREAM))) then
+          S_StartSound(player.mo, Ord(SFX_PLAYER_MAGE_FALLING_SCREAM));
+      end;
+
+  end;
+
+  if cmd.arti <> 0 then
+  begin // Use an artifact
+    if (cmd.arti and AFLAG_JUMP <> 0) and onground and (player.jumpTics = 0) then
+    begin
+      if player.morphTics <> 0 then
+      begin
+        player.mo.momz := 6 * FRACUNIT;
+      end
+      else
+      begin
+        player.mo.momz := 9 * FRACUNIT;
+      end;
+      player.mo.flags2 := player.mo.flags2 and not MF2_ONMOBJ;
+      player.jumpTics := 18;
+    end
+    else if cmd.arti and AFLAG_SUICIDE <> 0 then
+    begin
+      P_DamageMobj(player.mo, nil, nil, 10000);
+    end;
+    if artitype_t(cmd.arti) = NUMARTIFACTS then
+    begin // use one of each artifact (except puzzle artifacts)
+      for i := 1 to arti_firstpuzzitem - 1 do
+        P_PlayerUseArtifact(player, artitype_t(i));
+    end
+    else
+    begin
+      P_PlayerUseArtifact(player, artitype_t(cmd.arti and AFLAG_MASK));
+    end;
+  end;
+
+  // Check for weapon change
+  if cmd.buttons and BT_SPECIAL <> 0 then
+  begin // A special event has no other buttons
+    cmd.buttons := 0;
+  end;
+  if (cmd.buttons and BT_CHANGE <> 0) and (player.morphTics = 0) then
+  begin
+    // The actual changing of the weapon is done when the weapon
+    // psprite can do it (A_WeaponReady), so it doesn't happen in
+    // the middle of an attack.
+    newweapon := weapontype_t(_SHR(cmd.buttons and BT_WEAPONMASK, BT_WEAPONSHIFT));
+    if player.weaponowned[Ord(newweapon)] and (newweapon <> player.readyweapon) then
+      player.pendingweapon := newweapon;
+  end;
+
+  // Check for use
+  if cmd.buttons and BT_USE <> 0 then
+  begin
+    if not player.usedown then
+    begin
+      P_UseLines(player);
+      player.usedown := true;
+    end;
+  end
+  else
+  begin
+    player.usedown := false;
+  end;
+
+  // Morph counter
+  if player.morphTics > 0 then
+  begin
+    dec(player.morphTics);
+    if player.morphTics = 0 then
+    begin // Attempt to undo the pig
+      P_UndoPlayerMorph(player);
+    end;
+  end;
+  // Cycle psprites
+  P_MovePsprites(player);
+
+  // Other Counters
+  if player.powers[Ord(pw_invulnerability)] > 0 then
+  begin
+    if player._class = PCLASS_CLERIC then
+    begin
+      if (leveltime and 7 = 0) and
+         (player.mo.flags and MF_SHADOW <> 0) and
+         (player.mo.flags2 and MF2_DONTDRAW = 0) then
+      begin
+        player.mo.flags := player.mo.flags and not MF_SHADOW;
+        if player.mo.flags and MF_ALTSHADOW = 0 then
+        begin
+          player.mo.flags2 := player.mo.flags2 or MF2_DONTDRAW or MF2_NONSHOOTABLE;
+        end;
+      end;
+      if leveltime and 31 = 0 then
+      begin
+        if player.mo.flags2 and MF2_DONTDRAW <> 0 then
+        begin
+          if player.mo.flags and MF_SHADOW = 0 then
+            player.mo.flags := player.mo.flags or MF_SHADOW or MF_ALTSHADOW
+          else
+            player.mo.flags2 := player.mo.flags2 and not (MF2_DONTDRAW or MF2_NONSHOOTABLE);
+        end
+        else
+        begin
+          player.mo.flags := player.mo.flags or MF_SHADOW;
+          player.mo.flags := player.mo.flags and not MF_ALTSHADOW;
+        end;
+      end;
+    end;
+    if player.powers[Ord(pw_invulnerability)] > 0 then
+    begin
+      dec(player.powers[Ord(pw_invulnerability)]);
+      if player.powers[Ord(pw_invulnerability)] = 0 then
+      begin
+        player.mo.flags2 := player.mo.flags2 and not MF2_INVULNERABLE;
+        player.mo.flags_ex := player.mo.flags_ex and not MF_EX_INVULNERABLE;
+        player.mo.flags2_ex := player.mo.flags2_ex and not MF2_EX_REFLECTIVE;
+        if player._class = PCLASS_CLERIC then
+        begin
+          player.mo.flags2 := player.mo.flags2 and not (MF2_DONTDRAW or MF2_NONSHOOTABLE);
+          player.mo.flags := player.mo.flags and not (MF_SHADOW or MF_ALTSHADOW);
+        end;
+      end;
+    end;
+  end;
+
+  if player.powers[Ord(pw_minotaur)] > 0 then
+  begin
+    dec(player.powers[Ord(pw_minotaur)]);
+  end;
+
+  if (player.powers[Ord(pw_flight)] > 0) and netgame then
+  begin
+    dec(player.powers[Ord(pw_flight)]);
+    if player.powers[Ord(pw_flight)] = 0 then
+    begin
+      if player.mo.z <> player.mo.floorz then
+      begin
+        player.centering := true;
+      end;
+      player.mo.flags2 := player.mo.flags2 and not MF2_FLY;
+      player.mo.flags := player.mo.flags and not MF_NOGRAVITY;
+    end;
+  end;
+
+  if player.powers[Ord(pw_speed)] > 0 then
+  begin
+    dec(player.powers[Ord(pw_speed)]);
+  end;
+
+  if player.damagecount > 0 then
+  begin
+    dec(player.damagecount);
+  end;
+
+  if player.bonuscount > 0 then
+  begin
+    dec(player.bonuscount);
+  end;
+
+  if (player.poisoncount > 0) and (leveltime and 15 = 0) then
+  begin
+    player.poisoncount := player.poisoncount - 5;
+    if player.poisoncount < 0 then
+    begin
+      player.poisoncount := 0;
+    end;
+    P_PoisonDamage(player, player.poisoner, 1, true);
+  end;
+  // Colormaps
+//  if player.powers[pw_invulnerability])
+//  begin
+//    if player.powers[pw_invulnerability] > BLINKTHRESHOLD
+//      or (player.powers[pw_invulnerability]&8))
+//    begin
+//      player.fixedcolormap := INVERSECOLORMAP;
+//    end;
+//    else
+//    begin
+//      player.fixedcolormap := 0;
+//    end;
+//  end;
+//  else
+
+  if player.powers[Ord(pw_infrared)] > 0 then
+  begin
+    dec(player.powers[Ord(pw_infrared)]);
+  end;
+
+  if player.powers[Ord(pw_infrared)] > 0 then
+  begin
+    if player.powers[Ord(pw_infrared)] <= BLINKTHRESHOLD then
+    begin
+      if player.powers[Ord(pw_infrared)] and 8 <> 0 then
+        player.fixedcolormap := 0
+      else
+        player.fixedcolormap := 1;
+    end
+    else if (leveltime and 16 = 0) and (player = @players[consoleplayer]) then
+    begin
+      if newtorch <> 0 then
+      begin
+        if (player.fixedcolormap + newtorchdelta > 7) or
+           (player.fixedcolormap + newtorchdelta < 1) or
+           (newtorch = player.fixedcolormap) then
+          newtorch := 0
+        else
+          player.fixedcolormap := player.fixedcolormap + newtorchdelta;
+      end
+      else
+      begin
+        newtorch := (M_Random and 7) + 1;
+        if newtorch = player.fixedcolormap then
+          newtorchdelta := 0
+        else if newtorch > player.fixedcolormap then
+          newtorchdelta := 1
+        else
+          newtorchdelta := -1;
+      end;
+    end;
+  end
+  else
+    player.fixedcolormap := 0;
+end;
+
+//----------------------------------------------------------------------------
+//
+// PROC P_ArtiTele
+//
+//----------------------------------------------------------------------------
+
+procedure P_ArtiTele(player: Pplayer_t);
+var
+  i: integer;
+  selections: integer;
+  destX: fixed_t;
+  destY: fixed_t;
+  destAngle: angle_t;
+begin
+  if deathmatch <> 0 then
+  begin
+    selections := deathmatch_p;
+    i := P_Random mod selections;
+    destX := deathmatchstarts[i].x * FRACUNIT;
+    destY := deathmatchstarts[i].y * FRACUNIT;
+    destAngle := ANG45 * (deathmatchstarts[i].angle div 45);
+  end
+  else
+  begin
+    destX := playerstarts[0, 0].x * FRACUNIT;
+    destY := playerstarts[0, 0].y * FRACUNIT;
+    destAngle := ANG45 * (playerstarts[0][0].angle div 45);
+  end;
+  P_Teleport(player.mo, destX, destY, destAngle, true);
+  if player.morphTics <> 0 then
+  begin // Teleporting away will undo any morph effects (pig)
+    P_UndoPlayerMorph(player);
+  end;
+end;
+
+
+//----------------------------------------------------------------------------
+//
+// PROC P_ArtiTeleportOther
+//
+//----------------------------------------------------------------------------
+
+procedure P_ArtiTeleportOther(player: Pplayer_t);
+var
+  mo: Pmobj_t;
+begin
+  mo := P_SpawnPlayerMissile(player.mo, Ord(MT_TELOTHER_FX1));
+  if mo <> nil then
+    mo.target := player.mo;
+end;
+
+
+procedure P_TeleportToPlayerStarts(victim: Pmobj_t);
+var
+  i, selections: integer;
+  destX, destY: fixed_t;
+  destAngle: angle_t;
+begin
+  selections := 0;
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      inc(selections);
+  i := P_Random mod selections;
+  destX := playerstarts[0][i].x * FRACUNIT;
+  destY := playerstarts[0][i].y * FRACUNIT;
+  destAngle := ANG45 * (playerstarts[0][i].angle div 45);
+  P_Teleport(victim, destX, destY, destAngle, true);
+end;
+
+procedure P_TeleportToDeathmatchStarts(victim: Pmobj_t);
+var
+  i, selections: integer;
+  destX, destY: fixed_t;
+  destAngle: angle_t;
+begin
+  selections := deathmatch_p;
+  if selections > 0 then
+  begin
+    i := P_Random mod selections;
+    destX := deathmatchstarts[i].x * FRACUNIT;
+    destY := deathmatchstarts[i].y * FRACUNIT;
+    destAngle := ANG45 * (deathmatchstarts[i].angle div 45);
+    P_Teleport(victim, destX, destY, destAngle, true);
+  end
+  else
+    P_TeleportToPlayerStarts(victim);
+end;
+
+
+
+//----------------------------------------------------------------------------
+//
+// PROC P_TeleportOther
+//
+//----------------------------------------------------------------------------
+procedure P_TeleportOther(victim: Pmobj_t);
+begin
+  if victim.player <> nil then
+  begin
+    if deathmatch <> 0 then
+      P_TeleportToDeathmatchStarts(victim)
+    else
+      P_TeleportToPlayerStarts(victim);
+  end
+  else
+  begin
+    // If death action, run it upon teleport
+    if (victim.flags and MF_COUNTKILL <> 0) and (victim.special <> 0) then
+    begin
+      P_RemoveMobjFromTIDList(victim);
+      P_ExecuteLineSpecial(victim.special, @victim.args, nil, 0, victim); // JVAL SOS
+      victim.special := 0;
+    end;
+
+    // Send all monsters to deathmatch spots
+    P_TeleportToDeathmatchStarts(victim);
+  end;
+end;
+
+
+const
+  BLAST_RADIUS_DIST = 255 * FRACUNIT;
+  BLAST_SPEED = 20 * FRACUNIT;
+  BLAST_FULLSTRENGTH = 255;
+
+procedure P_ResetBlasted(mo: Pmobj_t);
+begin
+  mo.flags2 := mo.flags2 and not MF2_BLASTED;
+  if mo.flags and MF_ICECORPSE = 0 then
+    mo.flags2 := mo.flags2 and not MF2_SLIDE;
+end;
+
+procedure P_BlastMobj(source: Pmobj_t; victim: Pmobj_t; strength: fixed_t);
+var
+  angle, ang: angle_t;
+  mo: Pmobj_t;
+  x, y, z: fixed_t;
+begin
+  angle := R_PointToAngle2(source.x, source.y, victim.x, victim.y);
+  angle := angle shr ANGLETOFINESHIFT;
+  if strength < BLAST_FULLSTRENGTH then
+  begin
+    victim.momx := FixedMul(strength, finecosine[angle]);
+    victim.momy := FixedMul(strength, finesine[angle]);
+    if victim.player = nil then // Players handled automatically
+    begin
+      victim.flags2 := victim.flags2 or MF2_SLIDE;
+      victim.flags2 := victim.flags2 or MF2_BLASTED;
+    end;
+  end
+  else    // full strength blast from artifact
+  begin
+    if victim.flags and MF_MISSILE <> 0 then
+    begin
+      case victim._type of
+        Ord(MT_SORCBALL1),  // don't blast sorcerer balls
+        Ord(MT_SORCBALL2),
+        Ord(MT_SORCBALL3):
+          exit;
+
+        Ord(MT_MSTAFF_FX2):  // Reflect to originator
+          begin
+            victim.special1 := integer(victim.target);
+            victim.target := source;
+          end;
+      end;
+    end;
+
+    if victim._type = Ord(MT_HOLY_FX) then
+      if Pmobj_t(victim.special1) = source then
+      begin
+        victim.special1 := integer(victim.target);
+        victim.target := source;
+      end;
+
+    victim.momx := FixedMul(BLAST_SPEED, finecosine[angle]);
+    victim.momy := FixedMul(BLAST_SPEED, finesine[angle]);
+
+    // Spawn blast puff
+    ang := R_PointToAngle2(victim.x, victim.y, source.x, source.y);
+    ang := ang shr ANGLETOFINESHIFT;
+    x := victim.x + FixedMul(victim.radius + FRACUNIT, finecosine[ang]);
+    y := victim.y + FixedMul(victim.radius + FRACUNIT, finesine[ang]);
+    z := victim.z - victim.floorclip + _SHR1(victim.height);
+    mo := P_SpawnMobj(x, y, z, Ord(MT_BLASTEFFECT));
+    if mo <> nil then
+    begin
+      mo.momx := victim.momx;
+      mo.momy := victim.momy;
+    end;
+
+    if victim.flags and MF_MISSILE <> 0 then
+    begin
+      victim.momz := 8 * FRACUNIT;
+      mo.momz := victim.momz;
+    end
+    else
+    begin
+      if victim.info.mass <= 1 then
+        victim.momz := 1000 * FRACUNIT
+      else
+        victim.momz := (1000 div victim.info.mass) * FRACUNIT;
+    end;
+
+    if victim.player = nil then // Players handled automatically
+    begin
+      victim.flags2 := victim.flags2 or MF2_SLIDE;
+      victim.flags2 := victim.flags2 or MF2_BLASTED;
+    end;
+  end;
+end;
+
+
+// Blast all mobj things away
+procedure P_BlastRadius(player: Pplayer_t);
+var
+  mo: Pmobj_t;
+  pmo: Pmobj_t;
+  think: Pthinker_t;
+  dist: fixed_t;
+begin
+  pmo := player.mo;
+  S_StartSound(pmo, Ord(SFX_ARTIFACT_BLAST));
+  P_NoiseAlert(player.mo, player.mo);
+
+  think := thinkercap.next;
+  while think <> @thinkercap do
+  begin
+    if @think._function.acp1 <> @P_MobjThinker then
+    begin // Not a mobj thinker
+      think := think.next;
+      continue;
+    end;
+    mo := Pmobj_t(think);
+    if (mo = pmo) or (mo.flags2 and MF2_BOSS <> 0) or (mo.flags_ex and MF_EX_BOSS <> 0) then
+    begin // Not a valid monster
+      think := think.next;
+      continue;
+    end;
+
+    if (mo._type = Ord(MT_POISONCLOUD)) or    // poison cloud
+       (mo._type = Ord(MT_HOLY_FX)) or        // holy fx
+       (mo.flags and MF_ICECORPSE <> 0) then  // frozen corpse
+    begin
+      // Let these special cases go
+    end
+    else if (mo.flags and MF_COUNTKILL <> 0) and (mo.health <= 0) then
+    begin
+      think := think.next;
+      continue;
+    end
+    else if (mo.flags and MF_COUNTKILL = 0) and
+            (mo.player = nil) and
+            (mo.flags and MF_MISSILE = 0) then
+    begin  // Must be monster, player, or missile
+      think := think.next;
+      continue;
+    end;
+
+    if mo.flags2 and MF2_DORMANT <> 0 then
+    begin
+      think := think.next;
+      continue;    // no dormant creatures
+    end;
+
+    if (mo._type = Ord(MT_WRAITHB)) and (mo.flags2 and MF2_DONTDRAW <> 0) then
+    begin
+      think := think.next;
+      continue;    // no underground wraiths
+    end;
+
+    if (mo._type = Ord(MT_SPLASHBASE)) or (mo._type = Ord(MT_SPLASH)) then
+    begin
+      think := think.next;
+      continue;
+    end;
+
+    if (mo._type = Ord(MT_SERPENT)) or (mo._type = Ord(MT_SERPENTLEADER)) then
+    begin
+      think := think.next;
+      continue;
+    end;
+
+    dist := P_AproxDistance(pmo.x - mo.x, pmo.y - mo.y);
+    if dist > BLAST_RADIUS_DIST then
+    begin // Out of range
+      think := think.next;
+      continue;
+    end;
+
+    P_BlastMobj(pmo, mo, BLAST_FULLSTRENGTH);
+    think := think.next;
+  end;
+end;
+
+const
+  HEAL_RADIUS_DIST = 255 * FRACUNIT;
+
+// Do class specific effect for everyone in radius
+function P_HealRadius(player: Pplayer_t): boolean;
+var
+  mo: Pmobj_t;
+  pmo: Pmobj_t;
+  think: Pthinker_t;
+  dist: fixed_t;
+  amount: integer;
+begin
+  pmo := player.mo;
+  result := false;
+  think := thinkercap.next;
+  while think <> @thinkercap do
+  begin
+    if @think._function.acp1 <> @P_MobjThinker then
+    begin // Not a mobj thinker
+      think := think.next;
+      continue;
+    end;
+
+    mo := Pmobj_t(think);
+
+    if mo.player = nil then
+    begin
+      think := think.next;
+      continue;
+    end;
+
+    if mo.health <= 0 then
+    begin
+      think := think.next;
+      continue;
+    end;
+
+    dist := P_AproxDistance(pmo.x - mo.x, pmo.y - mo.y);
+    if dist > HEAL_RADIUS_DIST then
+    begin // Out of range
+      think := think.next;
+      continue;
+    end;
+
+    case player._class of
+
+      PCLASS_FIGHTER:    // Radius armor boost
+        begin
+          if (P_GiveArmor(mo.player, ARMOR_ARMOR, 1)) or
+             (P_GiveArmor(mo.player, ARMOR_SHIELD, 1)) or
+             (P_GiveArmor(mo.player, ARMOR_HELMET, 1)) or
+             (P_GiveArmor(mo.player, ARMOR_AMULET, 1)) then
+          begin
+            result := true;
+            S_StartSound(mo, Ord(SFX_MYSTICINCANT));
+          end;
+        end;
+
+      PCLASS_CLERIC:      // Radius heal
+        begin
+          amount := 50 + (P_Random mod 50);
+          if P_GiveBody(mo.player, amount) then
+          begin
+            result := true;
+            S_StartSound(mo, Ord(SFX_MYSTICINCANT));
+          end;
+        end;
+
+      PCLASS_MAGE:      // Radius mana boost
+        begin
+          amount := 50 + (P_Random mod 50);
+          if (P_GiveMana(mo.player, MANA_1, amount)) or
+             (P_GiveMana(mo.player, MANA_2, amount)) then
+          begin
+            result := true;
+            S_StartSound(mo, Ord(SFX_MYSTICINCANT));
+          end;
+        end;
+
+    end;
+
+    think := think.next;
+  end;
+
+end;
+
+
+//----------------------------------------------------------------------------
+//
+// PROC P_PlayerNextArtifact
+//
+//----------------------------------------------------------------------------
+
+procedure P_PlayerNextArtifact(player: Pplayer_t);
+begin
+  if player = @players[consoleplayer] then
+  begin
+    dec(inv_ptr);
+    if inv_ptr < 6 then
+    begin
+      dec(curpos);
+      if curpos < 0 then
+        curpos := 0;
+    end;
+    if inv_ptr < 0 then
+    begin
+      inv_ptr := player.inventorySlotNum - 1;
+      if inv_ptr < 6 then
+        curpos := inv_ptr
+      else
+        curpos := 6;
+    end;
+    player.readyArtifact := artitype_t(player.inventory[inv_ptr]._type);
+  end;
+end;
+
+//----------------------------------------------------------------------------
+//
+// PROC P_PlayerRemoveArtifact
+//
+//----------------------------------------------------------------------------
+
+procedure P_PlayerRemoveArtifact(player: Pplayer_t; slot: integer);
+var
+  i: integer;
+begin
+  if player.inventory[slot].count = 0 then // JVAL -> safety
+    exit;
+
+  dec(player.artifactCount);
+  dec(player.inventory[slot].count);
+  if player.inventory[slot].count = 0 then
+  begin // Used last of a type - compact the artifact list
+    player.readyArtifact := arti_none;
+    player.inventory[slot]._type := Ord(arti_none);
+    for i := slot + 1 to player.inventorySlotNum - 1 do
+      player.inventory[i - 1] := player.inventory[i];
+
+    player.inventory[player.inventorySlotNum - 1]._type := 0;
+    player.inventory[player.inventorySlotNum - 1].count := 0;
+    dec(player.inventorySlotNum);
+    if player = @players[consoleplayer] then
+    begin // Set position markers and get next readyArtifact
+      dec(inv_ptr);
+      if inv_ptr < 6 then
+      begin
+        dec(curpos);
+        if curpos < 0 then
+          curpos := 0;
+      end;
+      if inv_ptr >= player.inventorySlotNum then
+        inv_ptr := player.inventorySlotNum - 1;
+      if inv_ptr < 0 then
+        inv_ptr := 0;
+      player.readyArtifact := artitype_t(player.inventory[inv_ptr]._type);
+    end;
+  end;
+end;
+
+//----------------------------------------------------------------------------
+//
+// PROC P_PlayerUseArtifact
+//
+//----------------------------------------------------------------------------
+
+procedure P_PlayerUseArtifact(player: Pplayer_t; arti: artitype_t);
+var
+  i: integer;
+begin
+  for i := 0 to player.inventorySlotNum - 1 do
+  begin
+    if player.inventory[i]._type = Ord(arti) then
+    begin // Found match - try to use
+      if P_UseArtifact(player, arti) then
+      begin // Artifact was used - remove it from inventory
+        P_PlayerRemoveArtifact(player, i);
+        if player = @players[consoleplayer] then
+        begin
+          if Ord(arti) < arti_firstpuzzitem then
+            S_StartSound(nil, Ord(SFX_ARTIFACT_USE))
+          else
+            S_StartSound(nil, Ord(SFX_PUZZLE_SUCCESS));
+          ArtifactFlash := 4;
+        end;
+      end
+      else if Ord(arti) < arti_firstpuzzitem then
+      begin // Unable to use artifact, advance pointer
+        P_PlayerNextArtifact(player);
+      end;
+
+      exit;
+    end;
+  end;
+end;
+
+//==========================================================================
+//
+// P_UseArtifact
+//
+// Returns true if the artifact was used.
+//
+//==========================================================================
+
+function P_UseArtifact(player: Pplayer_t; arti: artitype_t): boolean;
+var
+  mo: Pmobj_t;
+  angle: angle_t;
+  i: integer;
+  count: integer;
+begin
+  case arti of
+
+    arti_invulnerability:
+      begin
+        if not P_GivePower(player, pw_invulnerability) then
+        begin
+          result := false;
+          exit;
+        end;
+      end;
+
+    arti_health:
+      begin
+        if not P_GiveBody(player, p_quartzflaskhealth) then
+        begin
+          result := false;
+          exit;
+        end;
+      end;
+
+    arti_superhealth:
+      begin
+        if not P_GiveBody(player, p_mysticurnhealth) then
+        begin
+          result := false;
+          exit;
+        end;
+      end;
+
+    arti_healingradius:
+      begin
+        if not P_HealRadius(player) then
+        begin
+          result := false;
+          exit;
+        end;
+      end;
+
+    arti_torch:
+      begin
+        if not P_GivePower(player, pw_infrared) then
+        begin
+          result := false;
+          exit;
+        end;
+      end;
+
+    arti_egg:
+      begin
+        mo := player.mo;
+        P_SpawnPlayerMissile(mo, Ord(MT_EGGFX));
+        P_SPMAngle(mo, Ord(MT_EGGFX), mo.angle - (ANG45 div 6));
+        P_SPMAngle(mo, Ord(MT_EGGFX), mo.angle + (ANG45 div 6));
+        P_SPMAngle(mo, Ord(MT_EGGFX), mo.angle - (ANG45 div 3));
+        P_SPMAngle(mo, Ord(MT_EGGFX), mo.angle + (ANG45 div 3));
+      end;
+
+    arti_fly:
+      begin
+        if not P_GivePower(player, pw_flight) then
+        begin
+          result := false;
+          exit;
+        end;
+        if player.mo.momz <= -35 * FRACUNIT then
+        begin // stop falling scream
+          S_StopSound(player.mo);
+        end;
+      end;
+
+    arti_summon:
+      begin
+        mo := P_SpawnPlayerMissile(player.mo, Ord(MT_SUMMON_FX));
+        if mo <> nil then
+        begin
+          mo.target := player.mo;
+          mo.special1 := integer(player.mo);
+          mo.momz := 5 * FRACUNIT;
+        end;
+      end;
+
+    arti_teleport:
+      begin
+        P_ArtiTele(player);
+      end;
+
+    arti_teleportother:
+      begin
+        P_ArtiTeleportOther(player);
+      end;
+
+    arti_poisonbag:
+      begin
+        angle := player.mo.angle shr ANGLETOFINESHIFT;
+        if player._class = PCLASS_CLERIC then
+        begin
+          mo := P_SpawnMobj(player.mo.x + 16 * finecosine[angle],
+                            player.mo.y + 24 * finesine[angle],
+                            player.mo.z - player.mo.floorclip + 8 * FRACUNIT,
+                            Ord(MT_POISONBAG));
+          if mo <> nil then
+            mo.target := player.mo;
+        end
+        else if player._class = PCLASS_MAGE then
+        begin
+          mo := P_SpawnMobj(player.mo.x + 16 * finecosine[angle],
+                            player.mo.y + 24 * finesine[angle],
+                            player.mo.z - player.mo.floorclip + 8 * FRACUNIT,
+                            Ord(MT_FIREBOMB));
+          if mo <> nil then
+            mo.target := player.mo;
+        end
+        else // PCLASS_FIGHTER, obviously (also pig, not so obviously)
+        begin
+          mo := P_SpawnMobj(player.mo.x,
+                            player.mo.y,
+                            player.mo.z - player.mo.floorclip + 35 * FRACUNIT,
+                            Ord(MT_THROWINGBOMB));
+          if mo <> nil then
+          begin
+            mo.angle := player.mo.angle + _SHLW((P_Random and 7) - 4, 24);
+            mo.momz := 4 * FRACUNIT + player.lookdir * 4096;
+            mo.z := mo.z + player.lookdir * 4096;
+            P_ThrustMobj(mo, mo.angle, mo.info.speed);
+            mo.momx := mo.momx + _SHR1(player.mo.momx);
+            mo.momy := mo.momy + _SHR1(player.mo.momy);
+            mo.target := player.mo;
+            mo.tics := mo.tics - P_Random and 3;
+            P_CheckMissileSpawn(mo);
+          end;
+        end;
+      end;
+
+    arti_speed:
+      begin
+        if not P_GivePower(player, pw_speed) then
+        begin
+          result := false;
+          exit;
+        end;
+      end;
+
+    arti_boostmana:
+      begin
+        if not P_GiveMana(player, MANA_1, MAX_MANA) then
+        begin
+          if not P_GiveMana(player, MANA_2, MAX_MANA) then
+          begin
+            result := false;
+            exit;
+          end;
+        end
+        else
+          P_GiveMana(player, MANA_2, MAX_MANA);
+      end;
+
+    arti_boostarmor:
+      begin
+        count := 0;
+
+        for i := 0 to Ord(NUMARMOR) - 1 do
+        begin
+          if P_GiveArmor(player, armortype_t(i), 1) then; // 1 point per armor type
+            inc(count);
+        end;
+        if count = 0 then
+        begin
+          result := false;
+          exit;
+        end;
+      end;
+
+    arti_blastradius:
+      begin
+        P_BlastRadius(player);
+      end;
+
+    arti_puzzskull,
+    arti_puzzgembig,
+    arti_puzzgemred,
+    arti_puzzgemgreen1,
+    arti_puzzgemgreen2,
+    arti_puzzgemblue1,
+    arti_puzzgemblue2,
+    arti_puzzbook1,
+    arti_puzzbook2,
+    arti_puzzskull2,
+    arti_puzzfweapon,
+    arti_puzzcweapon,
+    arti_puzzmweapon,
+    arti_puzzgear1,
+    arti_puzzgear2,
+    arti_puzzgear3,
+    arti_puzzgear4:
+      begin
+        if P_UsePuzzleItem(player, Ord(arti) - arti_firstpuzzitem) then
+        begin
+          result := true;
+          exit;
+        end
+        else
+        begin
+          P_SetYellowMessage(player, TXT_USEPUZZLEFAILED, false);
+          result := false;
+          exit;
+        end;
+      end;
+
+  else
+    begin
+      result := false;
+      exit;
+    end;
+
+  end;
+
+  result := true;
+end;
+
+//============================================================================
+//
+// A_SpeedFade
+//
+//============================================================================
+
+procedure A_SpeedFade(actor: Pmobj_t);
+begin
+  actor.flags := actor.flags or MF_SHADOW;
+  actor.flags := actor.flags and not MF_ALTSHADOW;
+  actor.sprite := actor.target.sprite;
+end;
+
+end.

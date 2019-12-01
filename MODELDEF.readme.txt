@@ -1,0 +1,41 @@
+MD2 model support for DelphiDoom is supported via MODELDEF lump, or MODEFDEF.txt files inside external pk3 or pak files.
+
+Example of a MODELDEF lump
+
+
+// ------------------------------------------------------
+// DELPHIDOOM MODEL DEFINITION FILE
+// ------------------------------------------------------
+
+// ------------------------------------------------------
+// SPIDER MASTERMIND
+// ------------------------------------------------------
+
+
+// ------------------------------------------------------
+
+// Model definition, we use the modeldef keyword
+// 'framemerge' keyword: Merge frames from another model for smooth movement. Both models must have the exact same number of triangles
+// modeldef keyword is required only when we must define offset, scale and framemerge keywords.
+// if modedef keyword is missing then the default values for offset is 0.0, scale is 1.0
+modeldef "spider_base.md2" 
+{
+  offset 0.0
+  scale 1.0
+  framemerge "spider_attack.md2"
+}
+
+// State definition
+// Standard state names are defined inside STATEDEF lump inside doom32.swd (DelphiDoom system wad)
+// In custom actors are defined as S_xxx_999, where XXX is the new mobj name and 999 is the state number of the mobj starting from 0
+// 'model' keyword points to the md2 filename, if not present a previous modeldef definition the default values will be used (offset = 0.0, scale = 1.0)
+// 'texture' keyword points to the external texture filename for this frame
+// 'frame' keyword point to the model frame anmation for the state
+// 'transparency' keyword (range [0.0 - 1.0]) is the texture transparency for the current state, default is 1.0 (not transparent).
+state S_SPID_STND
+{
+  model "spider_base.md2"
+  texture "spider_base.png"
+  frame 0
+}
+

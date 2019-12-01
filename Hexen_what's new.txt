@@ -1,0 +1,20 @@
+Displays Disk Buzy icon for 4 ticks instead of 4 frames.
+WAD lumps hash indexing for better performance. (using djb2 hash function)
+Satan and skel cheats changed to idsatan and idcheat due to problems with WASD key compination for moving
+Fixed bug that didn't recornized mf2_ex flags inside ACTORDEF lumps
+Added displayresolution alias for "detaillevel" console variable.
+Maximum display resolution increased to 2048x1536.
+Added jpeg external textures support.
+Fixed zip library memory leak.
+Keyboard movement can be changed from <arrows> movement to <WASD> movement.
+Added keyboardmode console command.
+Fixed Medusa Effect Bug.
+Added A_FadeOut10, A_FadeOut20, A_FadeOut30, A_FadeIn10, A_FadeIn20, A_FadeIn30 mobj functions.
+Added A_SpawnItemEx and A_RandomMissile mobj functions.
+Removed limit on lines hit.
+Suspend interpolation for teleporting objects.
+Hash Indexing of external PAK/PK3/ZIP files.
+Added option to start game in random class.
+New simplified blocklinks handling mechanism.
+New external texture format named (using .material extension) to combine at load time with user defined parameters more than one external textures into one.
+

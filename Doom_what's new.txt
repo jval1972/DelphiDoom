@@ -1,0 +1,570 @@
+New Changes
+-----------
+Displays Disk Buzy icon for 4 ticks instead of 4 frames.
+WAD lumps hash indexing for better performance. (using djb2 hash function)
+Fixed ENDOOM bug witch causing menu to respond during ending game while playing a demo. 
+Added A_SpawnItemEx mobj function
+Fixed bug that didn't recornized mf2_ex flags inside ACTORDEF lumps
+Added Green blood and Blue blood flags.
+Added MF2_EX_NOTELEPORT flag.
+Added A_RandomMissile mobj function.
+Default zone size increased from 8 MB to 32 MB.
+Show demo playback progress.
+Added showdemoplaybackprogress console variable.
+Transparency in 8 bit rendering using euclidian square distance to aproximate palette indexes.
+Added diher8bittransparency console variable.
+Added displayresolution alias for "detaillevel" console variable.
+Fixed Medusa Effect Bug.
+Added engage console command, alias for start and playgame.
+Precalculate floating point parameters of custom mobj functions as fixed_t.
+Boom compatible friction effect.
+Boom compatible pushers. (linedef special 224/wind, 225/current, 226/push-pull)
+Suspends interpolation for teleporting objects, that eliminates some drawing gliches.
+Fixed transparency HUD in OpenGL mode.
+Added support for GL_FRIENDLY nodes (OpenGL version). 
+Automatically loads *.GWA files if autoloadgwafiles console variable is set to true. (OpenGL version). 
+Fixed background flat in finale text drawing (F_TextWrite) 
+Added giveallkeys, idkeys console commands, give all keys (idkeys cheat).
+Fixed sprite clipping bug in OpenGL mode when looking up/down.
+Removed limit on lines hit.
+Hash Indexing of external PAK/PK3/ZIP files.
+FastMM memory manager upgrated to version 4.94.
+Default miditempo changed to 128.
+Added MF2_EX_PUSHABLE and MF2_EX_CANNOTPUSH mobj flags, enabled pushable objects.
+Added A_HideThing and A_UnHideThing mobj functions.
+Added support for dynamic lights, using LIGHTDEF lump.
+Added hidedoublicatedbarrels console variable, if there are many barrels at the exact same position draws only one.
+Precaclulate OpenGL display lists for floors and ceilings if possible.
+Fixed sky rendering problems in OpenGL mode.
+Added Crash state in mobjs.
+New simplified blocklinks handling mechanism.
+Fixed Dehacked bug, now correctly handles POINTER keyword
+Added gl_stencilsky conslole variable.
+Corrected some issues in OpenGL rendering.
+Added support for MD2 models (OpenGL only).
+Check for LIGHTDEF lumps inside PAK/PK3 files. (First parse all LIGHTDEF entries and then all LIGHTDEF.txt entries)
+Added gl_drawmodels console variable.
+Added gl_smoothmodelmovement console variable.
+Dynamic lightmap implementation.
+Added gl_uselightmaps console variable.
+Added gl_precachemodeltextures console variable.
+OpenGL UI speed optimizations.
+Custom lighttables in OpenGL using GLGAMMA lump.
+New external texture format named (using .material extension) to combine at load time with user defined parameters more than one external textures into one.
+Added simple shadows.
+Added gl_drawshadows console command.
+Added ATurn5 and A_Turn10 mobj functions.
+
+Old Changes
+-----------
+Added PAGE_TITLE dehacked field.
+Keyboard movement can be changed from <arrows> movement to <WASD> movement.
+Added keyboardmode console command.
+Added Boom generalized linedefs.
+Added PD_BLUEC, PD_REDC, PD_YELLOWC, PD_BLUES, PD_REDS, PD_YELLOWS, PD_ANY, PD_ALL3, PD_ALL6 dehacked strings.
+Added support for ANIMATED wad lump, to define custom animations.
+New line scrolling specials for scrolling:
+  Right, down and up texture scrolling (85, 273, 274).
+  Fast left, right, down and up texture scrolling (275, 276, 277, 278).
+
+
+--------------------------------------
+version 1.0.2.383 (Released 3/3/2008)
+---------------
+New features:
+
+   1. Added OpenGL rendering. (gldoom32.exe)
+   2. Added displaydiskbuzyicon console variable.
+   3. Added jpeg external textures support.
+   4. Added A_FadeIn10, A_FadeIn20 and A_FadeIn30 mobj functions.
+   5. Added A_FadeOut10, A_FadeOut20 and A_FadeOut30 mobj functions.
+   6. The idmypos cheats now shows also the z position (height) of the player.
+   7. Added idmypos console command.
+   8. Added menu_optionsdisplayopengl, menu_optionsopengl, menu_opengl console commands.
+   9. Added OpenGL support for Hi-resolution flats inside WADs.
+  10. Added default_transparent_filter_percent, use_fog, fog_density, gl_nearclip console variables.
+  11. Added gl_tex_filter, gl_texture_filter_anisotropic console variables.
+  12. Added gl_drawsky and gl_linear_hud console variables.
+  13. Enabled external texture support for OpenGL rendering.
+  14. External hi-resolution sprite support. (OpenGL version only)
+
+Fixes:
+
+   1. Fixed zip library memory leak.
+   2. Speed optimization for V_ReadPalette function.
+   3. Fixed lighting effect glitches in OpenGL rendering.
+   4. Fixed very rare bug that coused crashes when statusbar drawned.
+
+--------------------------------------
+version 0.8.5.342 (Released 4/1/2008)
+---------------
+The source code can be compiled with FPC (tested with version 2.2.0) (Some features are not present like PNG textures and PK3/PK4 files support)
+Added massacre console command.
+Added terrain types.
+Added allowterrainsplashes variable.
+Added MF2_EX_NOHITFLOOR flag.
+Added continueafterplayerdeath variable, allows monsters to fight each other after player's death.
+Plays random pain sound when MF_EX_RANDOMPAINSOUND flag is set.
+Don't spawn blood when a sector crashes an invulnerable thing or player.
+Added -internalgamedef command line parameter to ignore GAMEDEF lump inside DDSYSTEM.WAD.
+Allows ';' for comment in SNDINFO lumps.
+Automap zoom in and screenblocks change can also work with the '+' key in numeric keyboard.
+Added listcmds console command.
+Chace camera view.
+Added chasecamera console variable.
+Added chasecamera_viewxy console variable.
+Added chasecamera_viewz console variable.
+Corrected small sky bug in Ultra Detail with zaxisshift.
+Added criticalcpupriority console variable.
+Added usetransparentsprites, dontusetransparentsprites, uselightboost and dontuselightboost command line parameters.
+Added lightboostfactor command line parameter.
+Added chasecamera and nochasecamera command line parameters.
+Maximum display resolution increased to 2048x1536.
+Added ENDOOM support.
+Corrected menu flashes.
+
+--------------------------------------
+version 0.8.317 (Released 18/11/2007)
+---------------
+Added option for automap rotation.
+Does not use external textures for title screens if useexternaltextures variable is set to false.
+Correctly identify game directories for external textures and mp3 music.
+
+--------------------------------------
+version 0.8.312 (Released 12/10/2007)
+---------------
+Fixed compatibility with old version 1.1, 1.2
+Added music tracks aliases.
+
+--------------------------------------
+version 0.8.311 (Released 12/9/2007)
+---------------
+Corrected sound clipping distance.
+Corrected choppers cheat bug.
+Fixed bug with shareware 0.99 IWAD.
+Corrected bug: Don't keep cheats in demo playback when keepcheatsinplayerreborn variable is set.
+
+Added mp3 music support.
+Added usemp3 and preferemp3namesingamedirectory defaults.
+Added defaults and setdefaults console commands for resetting all variables to default values.
+Added default console command to set the default value for a specified variable. Use default * to reset variables to defaults.
+More efficient palette change emulation for hi-resolution textures.
+Better search algorythm inside PK3 directory stucture. 
+Added iddt console command.
+Added idspispopd and idclip console commands.
+Modified games with shareware are allowed when in development mode.
+Added cmdline console command.
+Added miditempo default and console command for setting the mus lumps conversion tempo.
+Added lowest resolution mode.
+Added lowestres, lowestresolution console commands.
+Added -lowestres command line parameter.
+Added use32bittexturepaletteeffects console command, alias for 32bittexturepaletteeffects.
+More readable menus, when in the menus the background turns darker.
+Added shademenubackground variable.
+Added compatibility menu. 
+Added allowplayerjumps variable.
+Zone size can be specified in default.cfg.
+Added menu_main console command.
+Added menu_newgame, menu_new console commands.
+Added menu_options console command.
+Added menu_optionsgeneral, menu_generaloptions console commands.
+Added menu_optionsdisplay, menu_displayoptions, menu_display console commands.
+Added menu_optionsdisplaydetail, menu_displaydetailoptions console commands.
+Added menu_optionsdisplayappearence, menu_displayappearenceoptions, menu_displayappearence console commands.
+Added menu_optionsdisplayadvanced, menu_displayadvancedoptions, menu_displayadvanced console commands.
+Added menu_optionsdisplay32bit, menu_display32bitoptions, menu_display32bit console commands.
+Added menu_optionssound, menu_soundoptions, menu_sound console commands.
+Added menu_optionssoundvol, menu_soundvoloptions, menu_soundvol console commands.
+Added menu_optionscompatibility, menu_compatibilityoptions, menu_compatibility console commands.
+Added menu_optionscontrols, menu_controlsoptions, menu_controls console commands.
+Added menu_optionssystem, menu_systemoptions, menu_system console commands.
+Added menu_load, menu_loadgame console commands.
+Added menu_save, menu_savegame console commands.
+Added lumpsize, lumplength console commands.
+Added lumpnum console command.
+Added numlumps console command.
+Added -autoscreenshot command line parameter.
+Support for dehacked DEH and BEX files, to use them use -deh or -bex command line parameter.
+Added DEH_ParseFile and BEX_ParseFile console commands.
+Added DEH_ParseLump and BEX_ParseLump console commands.
+Added DEH_PrintCurrentSettings, DEH_PrintSettings, BEX_PrintCurrentSettings and BEX_PrintSettings console command.
+Added DEH_SaveCurrentSettings, DEH_SaveToFile, BEX_SaveCurrentSettings and BEX_SaveToFile console command.
+Added -nowaddehacked command line parameter to prevent loading 'DEHACKED' lump inside wad.
+Due to internal string manipulation are allowed DEHACKED strings bigger than original strings.
+Music lumps does not require the 'D_' prefix.
+Sound lumps does not require the 'DS' prefix.
+Corrected bug: Cyberdeamon death in E4M2 will no longer trigger G_ExitLevel().
+Added badbossdeathendsdoom1level varyable to end Doom1 levels if Cyberdeamon or Spider Die.
+Added type and cat console commands.
+Added -file1, -file2 .. -file9 command line parameters to specify priority PWADs.
+Added -pakfile1, -pakfile2 .. -pakfile9 command line parameters to specify priority PAK files.
+Maximum command line arguments increased from 256 to 1024 (mostly for usage with default.cmd or response files).
+Added sfx support for external wav files inside pak/pk3 files.
+Added sfx support for wav files inside WAD as lumps.
+Added useexternalwav console command.
+The minimum number of sound channels is set to 8.
+Added MF_EX_FLOATBOB flag.
+Added MF_EX_NORADIUSDMG flag.
+Added MF_EX_FIRERESIST flag.
+Added random sound selector subsystem, sound lumps with last character numeric can be in range '0' to '9' to define them.
+Added MF_EX_RANDOMSEESOUND flag.
+Added MF_EX_RANDOMPAINSOUND flag.
+Added MF_EX_RANDOMATTACKSOUND flag.
+Added MF_EX_RANDOMDEATHSOUND flag.
+Added MF_EX_RANDOMACTIVESOUND flag.
+Added MF_EX_RANDOMCUSTOMSOUND1 flag.
+Added MF_EX_RANDOMCUSTOMSOUND2 flag.
+Added MF_EX_RANDOMCUSTOMSOUND3 flag.
+Added A_RandomPainSound mobj function.
+Added A_RandomSeeSound mobj function.
+Added A_RandomAttackSound mobj function.
+Added A_RandomDeathSound mobj function.
+Added A_RandomActiveSound mobj function.
+Added A_RandomCustomSound1 mobj function.
+Added A_RandomCustomSound2 mobj function.
+Added A_RandomCustomSound3 mobj function.
+Added A_RandomCustomSound mobj function.
+Number of external wad files can exceed 64 now.
+Added MF_EX_CUSTOMEXPLODE flag.
+Added ExplosionDamage and ExplosionRadius mobj fields to use with A_Explode when MF_EX_CUSTOMEXPLODE flag is set.
+Added MF_EX_BOSS flag.
+Replaced original memory manager with FastMM.
+Added lowgravity cheat (available trhu console only).
+Added -singletics command line parameter to prevent adaptiveness of internal clock.
+Added support for SNDINFO lump (sound aliases).
+Added support for functions with custom parameters inside DECORATE lump.
+Added A_Stop function.
+Added A_Jump function.
+Added MF_EX_FLOORHUGGER flag.
+Added MF_EX_CEILINGHUGGER flag.
+Added MF_EX_SEEKERMISSILE flag.
+Added meleedamage mobj field.
+Added A_CustomMissile, A_NoGravity, A_Gravity, A_NoBlocking, A_MeleeAttack mobj functions.
+Added MF_EX_SPAWNFLOAT flag.
+Added forum and forums console command, go to DelphiDoom forums.
+Changed switcing fullscreen code to keep non-standard windowed modes.
+Added MF_EX_DONTHURTSPECIES flag.
+Added A_SpawnItem, A_SeekerMissile, A_CStaffMissileSlither and A_SetTranslucent mobj functions.
+Transparency can be controlled with A_SetTranslucent() function.
+Added suport for custom dropped items.
+Added A_CustomBulletAttack, A_FadeOut, A_FadeIn and A_MissileAttack mobj functions.
+Added MF_EX_LOWGRAVITY flag.
+Added A_LowGravity, A_AdjustSideSpot, A_Countdown, A_FastChase mobj functions.
+Added A_ThrustXY, A_ThrustZ, A_Turn mobj functions.
+Added A_JumpIfCloser and A_JumpIfHealthLower mobj functions.
+Added A_ScreamAndUnblock mobj function.
+Added MF_EX_INVULNERABLE and MF_EX_RANDOMMELEESOUND flags.
+Added A_PlayWeaponsound, A_SetInvulnerable, A_UnSetInvulnerable, A_RandomMeleeSound mobj functions.
+Added A_FloatBob and A_NoFloatBob mobj functions.
+Added A_Missile and A_NoMissile mobj functions.
+Added MF_EX_DONOTREMOVE mobj flag.
+Added MF_EX_DONTHURTSHOOTER mobj flag.
+Added DEFAULTMISSILE and DEFAULTTRANSPARENT decorate keywords.
+Added A_ComboAttack and A_BulletAttack mobj functions.
+Added MF_EX_LOOKALLAROUND, MF_EX_GHOST, MF_EX_THRUGHOST and MF2_EX_MEDIUMGRAVITY mobj flags.
+Added A_MediumGravity mobj function.
+Added heal state for actors.
+Added A_Wander mobj function.
+Added random monster spawning option, use spawnrandommonsters console command to set.
+Added -spawnrandommonsters and -nospawnrandommonsters command line parameters.
+Added DEH_PrintActions, DEH_ShowActions, BEX_PrintActions and BEX_ShowActions console commands.
+Added dehacked support for misc section.
+Support for hi-res full screen texture replacements (TITLEPIC, HELP1, HELP2, CREDIT).
+
+--------------------------------------
+version 0.8.308 (Released 3/9/2007)
+---------------
+Corrected external demo bug.
+Displays the correct intermission texts in Plutonia and TNT.
+Scales correctly external textures with wrong aspect.
+The 'exec' console command does not allow recursive calls of con files.
+Plays external demos with filenames bigger than 8 chars.
+Changed sound pan to be more accurate.
+
+Added true 3d emulation.
+Added fake3d and usefake3d console command.
+Added -fake3d and -nofake3d command line parameters.
+Controls Options menu added.
+Added -invertmouselook, -noinvertmouselook, -invertmouseturn and -noinvertmouseturn command line parameters.
+Added invertmouselook and invertmouseturn console commands.
+Improved hash function for column cache.
+Added cachehit console command to display 32 bit texture cache hit factor.
+Added resetcachehit console command to reset 32 bit texture cache hit counter.
+More accurate scaling drawing menus (M_Drawer).
+Added addpakfile, loadpakfile, addpak, loadpak console commands for adding at runtime PAK/PK3files. Also work with directories and wildcards. (zip files will be excluded).
+Added cleartexturecache alias for clearcache console command.
+Added resetcache and resettexturecache console command.
+Improved column cache managment, increase cache hit propability.
+MMX inline assembly optimization.
+Added -nommx command line parameter to disable MMX and 3DNow extensions.
+Added -iwad command line parameter alias for -mainwad.
+Added -windowed command line parameter alias for -nofullscreen.
+Added typeof console command.
+Fuzz table optimization.
+Added use32bitfuzzeffect console command, use old fuzz effect in 32 bit mode.
+Added fullscreen console command.
+Display menu options divided into submenus.
+Added safemode console command. Type 'safemode true' if you have any problems like crashes.
+More readable default.cfg file.
+Added usemmx, mmx console commands.
+Experimental multithreading support, disabled by default.
+Added usemultithread console command.
+Added preferetexturesnamesingamedirectory console command, prefer pk3 textures inside path containing the game name (DOOM, DOOM2, PLUTONIA, TNT).
+Added ls console command, alias for dir.
+Added pwd console command, alias for cd.
+Added gotowebpage console command.
+Added homepage console command.
+Added help and documentation console command.
+Added getlatestversion and downloadlatestversion console command.
+
+--------------------------------------
+version 0.8.307 (Released 31/8/2007)
+---------------
+Corrected animated flats bug outside F_START and F_END lumps.
+Restarting midi files inside PWADS does not freeze the game.
+
+Display fps while playing.
+Added suicide console command.
+Added keepcheatsinplayerreborn default.
+Added playermessage console command.
+Better smoke spawning in lower textures. 
+Added support for PNG images.
+Added support for hi resolution textures (walls). 
+Added a launcher for easy start.
+Added 32bittexturepaletteeffects console command, to enable/disable palette effects.
+Corrected hi-resolution transparent textures bug.
+
+--------------------------------------
+version 0.8.303 (Released 27/8/2007)
+-----------
+Determine hi-resolution flats (raw format) inside wad.
+Use flats from PWADS even if not inside F_START, F_END lumps.
+Increased flat cache size limit.
+In ultra resolution increased flat filtering level.
+In high resolution does not make anymore 1-D wall filtering, instead use 2-D filtering in lower scale than ultra resolution.
+Added clearcache console command.
+32 bit texture cache is now dynamically resized.
+Added execcommandfile console command alias for exec.
+Added clearscreen console command alias for cls.
+Added iddqd console command alias.
+Added idfa console command alias.
+Added idkfa console command alias.
+Playdemo console command plays also external demos stored in files. 
+Added extremeflatfiltering console command.
+
+Corrected multiline player messages display.
+You can't disable thinkers during demo recording and playback.
+Fixed automap display bug.
+Fixed screenshot bug while running from CD-ROM.
+
+--------------------------------------
+version 0.8.302 (Released 23/8/2007)
+-----------
+Fixed interpolation bug. Interpolation runs smoother.
+Fixed jump problem that was occuring in some sectors with sky ceiling.
+Better compatibility with old game demos.
+Inline span and column drawing, gives about 5% faster rendering.
+Memory stall crazy hack fixed performance problems in resolutions 1024x768 or higher.
+Fixed problem in hi resolution modes while running in 16 bit color desktop.
+More accurate fps counter.
+Wipe screen works in 32 bit color mode.
+
+Added line specials for right, down and up texture scrolling (142, 143, 144).
+Added line specials for fast left, right, down and up texture scrolling (145, 146, 147, 148).
+Corrected smoke spawning in lower textures. 
+Added fixstallhack variable to avoid blanc line in the right side of the screen.
+Multiline player messages.
+Rendering engine now is configurable within the menus.
+Added support for 512x512 hi-resolution flats.
+Double scale for standard 64x64 flats in Hi and Ultra resolution.
+Added -nosingledemo command line parameter to avoid exiting after playing an external demo.
+Added 'playgame' and 'start' console commands, warping to level from console.
+Appends command line parameters from file 'default.cmd'.
+Added commandlineparams console command.
+
+--------------------------------------
+version 0.7.286 (Released 19/7/2007)
+-----------
+Fixed masked columns light level in 32 bit color modes.
+Fixed vision flats drawing bug in 32 bit color modes.
+Fixed bug with doors that were not closing.
+Blood spawns red light effect.
+
+--------------------------------------
+version 0.7 (Released 18/7/2007)
+-----------
+Added zonefiledump console command.
+Added cmdlist console command.
+Runs about 5% faster in high and ultra resolution.
+Corrected floor filtering for flats.
+General optimizations, runs smoother.
+Added detailLevel console command.
+Add medium resolution, classic Doom's high.
+Normal resolution now uses unfilterer textures with dynamic lighting.
+Programming: Speed optimizations.
+Corrected aspect ratio display. 
+Correted masked columns rendering bug.
+Corrected E4M8 end bug in ultimate Doom.
+Added 'set usetransparentsprites' console command to enable/disable transparency.
+Added flag for transparent Rocket explosion.
+Added red, green, blue and yellow light flags.
+Added lightboostfactor console command to adjust light level.
+Added uselightboost console command to enable/disable lightboost.
+Added playdemo console command.
+Added loadgame console command.
+Added savegame console command.
+Added -nothinkers command line parameter.
+Added stopthinkers console command to stop all thinker functions.
+Added startthinkers console command to restore thinker functions.
+Added endgame console command.
+Added support for autoexec files.
+Added -autoexec command line parameter.
+Added exec console command to execute an autoexec file.
+Added printf console command.
+Added write console command.
+Added autorunmode in config file.
+Fixed frame interpolation support to exceed 35fps.
+Added interpolate console command.
+Added -interpolate and -nointerpolate command line parameters.
+Added pause_console command.
+Added -defaultvalues command line parameter to use default built-in config.
+Fixed display bug in 16 bit desktop when using windowed modes.
+Dropped items fall down to floor.
+Display automap overlayed with 3d view.
+Added allowautomapoverlay console command.
+Added rambo console command.
+Added givefullammo console command.
+Added givefullammoandkeys console command.
+Added dir console command.
+The commands set, get, list and cmdlist now work with wildcards also.
+Added allowlowdetails console command, if true allow Low and Medium detail level.
+Added Bitmap and Targa external textures support.
+Added PK3 and PAK file filesystem support.
+While dying player turn the face towards ceiling.
+
+--------------------------------------
+version 0.6 (Released 20/6/2007)
+-----------
+Added disk busy display
+Statusbar now can draw minimum status display in full screen (press again'+' to clear)
+Added 'set' console command.
+Added 'get' console command.
+Added Hi resolution mode.
+-hires, -normalres and -lowres -ultrares commandline parameters to override default resolution.
+Changed screenshot code for TGA images, store a upper-left hand corner image.
+Added fps console command to display fps.
+Speed optimizations for hires and ultrares modes.
+Now determines if runs from a cdrom without -cdrom parameter.
+Frame interpolation to exceed the 35 fps game engine limit.
+
+
+--------------------------------------
+
+version 0.5.232 (Released 6/6/2007)
+---------------
+Added Quake-style console.
+Added console commands.
+Display stderr, stdout in console.
+Changed network code, still net unavailable.
+Corrected mouse sensivity.
+Save game and Load game slots increased from 6 to 8.
+In automap is displayed the level time.
+Corrected FPC rendering issues.
+
+
+--------------------------------------
+
+version 0.4.225 (Released 29/5/2007)
+---------------
+
+Now it compiles also with FPC version 2.1.4.
+Fixed the sky texture bug. Now displays the correct sky texture depending on the episode.
+Fixed the change music cheat bug in shareware version, now does not change the music if music number is invalid.
+Change: The god mode cheat after the player's death reborns the player.
+Fixed status bar drawing from older game versions. Now works with ancient ver 0.99 shareware IWAD.
+Corrected sound probjem with 22KHz samples (??)
+No more mono audio, now supports 2 channels stereo sound.
+Increased maximum numbers of visible sprites from 128 to 1024.
+Increased MAXDRAWSEGS from 1024 to 2048 (originally 256)
+Increased MAXPLATS from 30 to 512.
+Increased MAXLINEANIMS from 64 to 1024.
+Increased SAVEGAMESIZE from $2C000 to $80000
+Look left and right unsing [HOME] and [PAGE UP] keys. 
+Fixed mouse support.
+Fixed joystick support.
+Added -mouse, -nomouse, -joystick and -nojoystick command line parameters.
+Fixed bug with unchanged textures in switches in Retail version.
+Maximum external wad files increased from 20 to 64
+If there is not any known wad file in the current path tries to find one and load it. For example can be used with freedoom.wad without specifing -mainwad command line parameter.
+Deault starting resolution is now 800x600.
+You can now jump using the 'a' key.
+Changed cheat code to ate the keypress event if in cheat pending state. Now Allows usage of all keys for gameplay.
+Supports up to 12 button joystick.
+Assignable joystick functions:
+  attack
+  use
+  autorun
+  strafe
+  jump
+  look left
+  look right
+  
+--------------------------------------
+
+version 0.3.213 (Released 21/5/2007)
+---------------
+Corrected weapon positioning
+if you have the chainsaw you can now change back to fist by pressing "1". Use -compatibilitymode to suspend this.
+Option -mainwad from the command line to specify main wad file
+Look up and down with z-axis shift
+Added -nozaxisshift parameter to prevent z-axis shift 
+Added -zaxisshift parameter to force z-axis shift 
+Fixed lighttable calculation
+Fixed demo recording and playback
+Fixed doom2 end bug
+Added PRINT SCREEN button for screenshoot, also creates up to 1000 screenshots.
+Corrected the "endless" ironfeet bug 
+Code: Now does not depend on Delphi's classes.pas unit, 
+  TStringList class replaced by TDStringList class in d_delphi.pas unit
+Added -compatibilitymode and -nocompatibilitymode cmd parameters for old compatibility mode
+  -compatibilitymode -> Behaves as the original Doom (as possible)
+  -nocompatibilitymode -> Use some new features
+
+
+
+TODO
+----
+r_main.pas:
+  viewangle := player.mo.angle + viewangleoffset;
+   ??? change viewangleoffset from keyboard????
+
+ 
+
+The list of the increased limits:
+
+limit	old	new	factor
+MAXVISPLANES 	128 	1024 	*8
+MAXVISSPRITE 	128 	1024 	*8
+MAXDRAWSEGS 	256 	2048 	*8
+MAXPLATS 	30 	7680 	*256
+SAVEGAMESIZE 	180224 	2883584 	*16
+MAXLINEANIMS 	64 	16384 	*256
+MAXOPENINGS 	16384 	65536 	*4
+
+------------------------------------------------
+Getting a Doom IWAD
+
+The IWAD is the main data file containing the graphics and levels for Doom. 
+You need one to use PrBoom. If you have a copy of one of the 
+original Doom games, copy your Doom, Doom 2, 
+Ultimate Doom or Final Doom IWAD (doom.wad, doom2.wad, 
+tnt.wad or plutonia.wad) to /usr/local/share/games/doom/. 
+Or, if you don't have any of those, use the 
+shareware IWAD, which you can get 
+from http://www.doomworld.com/ or 
+http://www.idsoftware.com/. 
+
+
+
+----------------------------------
+
