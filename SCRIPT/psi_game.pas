@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -796,7 +796,9 @@ begin
   mo := mobj_from_key(key);
   if mo = nil then
     Exit;
+  P_UnsetThingPosition(mo);
   mo.x := x;
+  P_SetThingPosition(mo);
 end;
 
 function PS_GetActorY(const key: LongWord): Integer;
@@ -819,7 +821,9 @@ begin
   mo := mobj_from_key(key);
   if mo = nil then
     Exit;
+  P_UnsetThingPosition(mo);
   mo.y := y;
+  P_SetThingPosition(mo);
 end;
 
 function PS_GetActorZ(const key: LongWord): Integer;

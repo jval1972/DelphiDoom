@@ -1,5 +1,6 @@
 DelphiDoom now supports advanced scripting mechanism inside ACTORDEF lumps.
 The core of the scripting mechanism is based on RemObjects PascalScript. (http://www.remobjects.com/ps.aspx)
+Examples can be downloaded at https://sourceforge.net/projects/delphidoom/files/Tools%2C%20maps%20and%20examples/
 
 Scripts can be mobj scripts (internal, external and precompiled) or map scripts.
 
@@ -36,7 +37,7 @@ externalscript.ddscipt file contains the source code for script sc003.
 ----------------------------------------------------------------------
 
 ----------------------------------------------------------------------
-Map script example: We write these lines inside an ACTORDEF lump (assumiong we define the MAP01 script): 
+Map script example: We write these lines inside an ACTORDEF lump (assuming we define the MAP01 script): 
 ----------------------------------------------------------------------
 script map01;
 
@@ -184,7 +185,7 @@ begin
   ConsoleCommand(
     'writeln Actor "' + IntToStr(actorKEY) + 
     '" shot line "' + IntToStr(lineNO) +
-    '" oldsize = "' + IntToStr(side) + '"');
+    '" size = "' + IntToStr(side) + '"');
 end;
 
 event OnUseLine(const actorKEY: LongWord; const lineNO: Integer; 
@@ -196,7 +197,7 @@ begin
   ConsoleCommand(
     'writeln Actor "' + IntToStr(actorKEY) + 
     '" use line "' + IntToStr(lineNO) +
-    '" oldsize = "' + IntToStr(side) + '"');
+    '" size = "' + IntToStr(side) + '"');
 end;
 
 event OnMapStart;
@@ -204,7 +205,4 @@ begin
 // Executes the first time the map loads, before runing thinkers
   NUMENEMIES := 0;
 end;
-
-
-
 

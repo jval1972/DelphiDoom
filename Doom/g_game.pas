@@ -160,6 +160,9 @@ var
   displayplayer: integer; // view being displayed
   gametic: integer;
 
+  // https://www.doomworld.com/forum/topic/95719-a_tracer-and-gametic/?do=findComment&comment=1788516
+  demostarttic: integer; // JVAL: Thanks fabian :)
+
   totalkills, totalitems, totalsecret: integer; // for intermission
 
   wminfo: wbstartstruct_t; // parms for world map / intermission
@@ -2019,7 +2022,7 @@ begin
         episode := 1;
     end;
   end;
-  
+
   R_ResetInterpolationBuffer;
 
   M_ClearRandom;
@@ -2062,6 +2065,8 @@ begin
   gameskill := skill;
 
   viewactive := true;
+  demostarttic := 0;
+
 
   G_DoLoadLevel;
 end;
@@ -2525,6 +2530,7 @@ begin
   preparingdemoplayback := false;
   spawnrandommonsters := oldspawnrandommonsters;  // Back to default
   precache := true;
+  demostarttic := gametic; // [crispy] fix revenant internal demo bug
   usergame := false;
   demoplayback := true;
   demotickstart := demo_p;

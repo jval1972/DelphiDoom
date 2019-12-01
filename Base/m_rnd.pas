@@ -66,6 +66,10 @@ var
 implementation
 
 uses
+  {$IFDEF DEBUG}
+  d_delphi,
+  g_game,
+  {$ENDIF}
   i_system,
   m_stack;
 
@@ -97,34 +101,52 @@ function M_Random: integer;
 begin
   rndindex := (rndindex + 1) and $ff;
   result := rndtable[rndindex];
+  {$IFDEF DEBUG}
+  printf('M_Random(): %d (seed = %d), tic=%d'#13#10, [Result, rndindex, gametic]);
+  {$ENDIF}
 end;
 
 function P_Random: integer;
 begin
   prndindex := (prndindex + 1) and $ff;
   result := rndtable[prndindex];
+  {$IFDEF DEBUG}
+  printf('P_Random(): %d (seed = %d), tic=%d'#13#10, [Result, prndindex, gametic]);
+  {$ENDIF}
 end;
 
 function N_Random: integer;
 begin
   nrndindex := (nrndindex + 1) and $ff;
   result := rndtable[nrndindex];
+  {$IFDEF DEBUG}
+  printf('N_Random(): %d (seed = %d), tic=%d'#13#10, [Result, nrndindex, gametic]);
+  {$ENDIF}
 end;
 
 function I_Random: integer;
 begin
   result := Random(256);
+  {$IFDEF DEBUG}
+  printf('I_Random(): %d, tic=%d'#13#10, [Result, gametic]);
+  {$ENDIF}
 end;
 
 function C_Random(var idx: integer): integer;
 begin
   idx := (idx + 1) and $ff;
   result := rndtable[idx];
+  {$IFDEF DEBUG}
+  printf('C_Random(): %d (seed = %d), tic=%d'#13#10, [Result, idx, gametic]);
+  {$ENDIF}
 end;
 
 function P_RandomFromSeed(const seed: integer): integer;
 begin
   result := rndtable[seed and $ff];
+  {$IFDEF DEBUG}
+  printf('P_RandomFromSeed(): %d (seed = %d), tic=%d'#13#10, [Result, seed, gametic]);
+  {$ENDIF}
 end;
 
 var

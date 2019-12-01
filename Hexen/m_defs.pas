@@ -139,7 +139,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 155;
+  NUMDEFAULTS = 156;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -1188,6 +1188,14 @@ const
 
     (name: 'mirrorjpgsshot';
      location: @mirrorjpgsshot;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'keepsavegamename';
+     location: @keepsavegamename;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;

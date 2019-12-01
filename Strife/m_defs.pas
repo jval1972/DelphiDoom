@@ -151,7 +151,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}163{$ELSE}166{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}164{$ELSE}167{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1276,6 +1276,14 @@ const
 
     (name: 'mirrorjpgsshot';
      location: @mirrorjpgsshot;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'keepsavegamename';
+     location: @keepsavegamename;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;

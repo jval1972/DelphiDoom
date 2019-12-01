@@ -82,6 +82,8 @@ var
 
   shademenubackground: boolean;
 
+  keepsavegamename: boolean;
+
   menuactive: boolean;
 
   inhelpscreens: boolean;
@@ -1107,13 +1109,31 @@ end;
 // User wants to save. Start string input for M_Responder
 //
 procedure M_SaveSelect(choice: integer);
+var
+  s: string;
+  i: integer;
+  c: char;
 begin
   // we are going to be intercepting all chars
   saveStringEnter := 1;
 
   saveSlot := choice;
   saveOldString := savegamestrings[choice];
-  if savegamestrings[choice] <> '' then
+  // JVAL 21/4/2017
+  if keepsavegamename then
+  begin
+    s := '';
+    for i := 1 to Length(savegamestrings[choice]) do
+    begin
+      c := savegamestrings[choice][i];
+      if c in [#0, #13, #10, ' '] then
+        Break
+      else
+        s := s + c;
+    end;
+    savegamestrings[choice] := s;
+  end
+  else if savegamestrings[choice] <> '' then
     savegamestrings[choice] := '';
   saveCharIndex := Length(savegamestrings[choice]);
 end;
@@ -1514,7 +1534,7 @@ begin
     OptionsGeneralDef.x + 34, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(scrnsize) + 1), 9, m_screensize);
 
   M_DrawThermo(
-    OptionsGeneralDef.x + 32, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(mousesens) + 1), 10, mouseSensitivity);
+    OptionsGeneralDef.x + 32, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(mousesens) + 1), 20, mouseSensitivity);
 
 end;
 
@@ -1688,7 +1708,7 @@ begin
       if mouseSensitivity > 0 then
         dec(mouseSensitivity);
     1:
-      if mouseSensitivity < 9 then
+      if mouseSensitivity < 19 then
         inc(mouseSensitivity);
   end;
 end;

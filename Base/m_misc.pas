@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -84,6 +84,7 @@ uses
   m_sshot_jpg,
 {$IFDEF OPENGL}
   gl_main,
+  gl_defs,
 {$ELSE}
   i_video,
 {$ENDIF}
@@ -235,6 +236,7 @@ var
   buffer: PByteArray;
   bufsize: integer;
   src: PByteArray;
+  i: integer;
 begin
   bufsize := SCREENWIDTH * SCREENHEIGHT * 4 + 18;
   buffer := malloc(bufsize);
@@ -250,6 +252,10 @@ begin
   src := @buffer[18];
 
   I_ReadScreen32(src);
+
+  // JVAL 21/4/2017: Thanks Vladimir :) 
+  for i := 0 to SCREENWIDTH * SCREENHEIGHT - 1 do
+    src[i * 4 + 3] := 255;
 
   Result := M_WriteFile(filename, buffer, SCREENWIDTH * SCREENHEIGHT * 4 + 18);
 
@@ -718,6 +724,11 @@ begin
   {$IFNDEF STRIFE}
   if confignotfound then
     G_SetKeyboardMode(0);
+  {$ENDIF}
+  {$IFNDEF DEBUG}
+  {$IFDEF OPENGL}
+  gl_drawsky := true;
+  {$ENDIF}
   {$ENDIF}
 end;
 

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -2220,7 +2220,7 @@ var
   end;
 
 begin
-  if (not gl_drawsky) and (wall.flag >= GLDWF_SKY) then
+  if {$IFDEF DEBUG}(not gl_drawsky) and {$ENDIF}(wall.flag >= GLDWF_SKY) then
     exit;
 
   if wall.gltexture.index = 0 then
@@ -4244,7 +4244,7 @@ begin
       begin
         if count >= pglitem.itemcount then
           continue;
-        if gl_drawsky and (k >= GLDWF_SKY) then
+        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
         begin
           gld_PauseLightmap;
           if gl_shared_texture_palette then
@@ -4264,7 +4264,7 @@ begin
             inc(count);
             gld_DrawWall(@gld_drawinfo.walls[j + pglitem.firstitemindex]);
           end;
-        if gl_drawsky and (k >= GLDWF_SKY) then
+        if {$IFDEF DEBUG}gl_drawsky and {$ENDIF}(k >= GLDWF_SKY) then
         begin
           gld_ResumeLightmap;
           gld_StartFog;
@@ -4327,7 +4327,7 @@ begin
 
   if zaxisshift then
   begin
-    if gl_drawsky and dodrawsky then
+    if {$IFDEF DEBUG}gl_drawsky and{$ENDIF} dodrawsky then
     begin
 
       if gl_stencilsky then

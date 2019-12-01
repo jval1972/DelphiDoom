@@ -148,7 +148,7 @@ type
 // There is another anim_t used in p_spec.
 //
 type
-  wianim_t = record // JVAL renamed from anim_t -> wianim_t
+  wianim_t = record // JVAL: renamed from anim_t -> wianim_t
     _type: animenum_t;
 
     // period in tics between animations
@@ -425,12 +425,15 @@ begin
   y := WI_TITLEY;
 
   // draw <LevelName>
-  V_DrawPatch((320 - lnames[wbs.last].width) div 2, y, SCN_TMP, lnames[wbs.last], false);
-  y := y + (5 * lnames[wbs.last].height) div 4;
-  if y + finished.height > 200 then
-    y := 200 - finished.height;
+  if wbs.last < NUMCMAPS then // JVAL: 20170826 Avoid crash when missing levelname patches
+  begin
+    V_DrawPatch((320 - lnames[wbs.last].width) div 2, y, SCN_TMP, lnames[wbs.last], false);
+    y := y + (5 * lnames[wbs.last].height) div 4;
+    if y + finished.height > 200 then
+      y := 200 - finished.height;
 
-  V_DrawPatch((320 - finished.width) div 2, y, SCN_TMP, finished, false);
+    V_DrawPatch((320 - finished.width) div 2, y, SCN_TMP, finished, false);
+  end;
 end;
 
 // Draws "Entering <LevelName>"
@@ -444,11 +447,14 @@ begin
   V_DrawPatch((320 - entering.width) div 2, y, SCN_TMP, entering, false);
 
   // draw level
-  y := y + (5 * lnames[wbs.next].height) div 4;
-  if y + lnames[wbs.next].height > 200 then
-    y := 200 - lnames[wbs.next].height;
+  if wbs.next < NUMCMAPS then // JVAL: 20170826 Avoid crash when missing levelname patches
+  begin
+    y := y + (5 * lnames[wbs.next].height) div 4;
+    if y + lnames[wbs.next].height > 200 then
+      y := 200 - lnames[wbs.next].height;
 
-  V_DrawPatch((320 - lnames[wbs.next].width) div 2, y, SCN_TMP, lnames[wbs.next], false);
+    V_DrawPatch((320 - lnames[wbs.next].width) div 2, y, SCN_TMP, lnames[wbs.next], false);
+  end;
 end;
 
 procedure WI_DrawOnLnode(n: integer; c: Ppatch_tPArray);
@@ -1478,7 +1484,7 @@ begin
         Z_Malloc(SizeOf(Ppatch_t) * NUMCMAPS, PU_STATIC, nil));
     for i := 0 to NUMCMAPS - 1 do
     begin
-      name := 'CWILV' + IntToStrZfill(2, i); // JVAL was sprintf(name, 'CWILV%2.2d', i);
+      name := 'CWILV' + IntToStrZfill(2, i); // JVAL: was sprintf(name, 'CWILV%2.2d', i);
       lnames[i] := W_CacheLumpName(name, PU_STATIC);
     end;
   end

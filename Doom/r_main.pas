@@ -631,6 +631,7 @@ begin
     dx := dy;
     dy := temp;
   end;
+       //   Result := Round(Sqrt(dx /fracunit * (dx/fracunit) + dy /fracunit * (dy/fracunit)) * fracunit); exit;
 
   {$IFDEF FPC}
   angle := _SHRW(tantoangle[FixedDiv(dy, dx) shr DBITS], ANGLETOFINESHIFT);

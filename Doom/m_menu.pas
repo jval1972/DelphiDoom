@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -74,6 +74,8 @@ var
   showMessages: integer;
 
   shademenubackground: boolean;
+
+  keepsavegamename: boolean;
 
   menuactive: boolean;
 
@@ -609,7 +611,9 @@ type
   optionsdisplayopengl_e = (
     od_usefog,
     od_gl_texture_filter_anisotropic,
+    {$IFDEF DEBUG}
     od_gl_drawsky,
+    {$ENDIF}
     od_gl_stencilsky,
     od_gl_renderwireframe,
     od_gl_drawmodels,
@@ -873,13 +877,31 @@ end;
 // User wants to save. Start string input for M_Responder
 //
 procedure M_SaveSelect(choice: integer);
+var
+  s: string;
+  i: integer;
+  c: char;
 begin
   // we are going to be intercepting all chars
   saveStringEnter := 1;
 
   saveSlot := choice;
   saveOldString := savegamestrings[choice];
-  if savegamestrings[choice] <> '' then
+  // JVAL 21/4/2017
+  if keepsavegamename then
+  begin
+    s := '';
+    for i := 1 to Length(savegamestrings[choice]) do
+    begin
+      c := savegamestrings[choice][i];
+      if c in [#0, #13, #10, ' '] then
+        Break
+      else
+        s := s + c;
+    end;
+    savegamestrings[choice] := s;
+  end
+  else if savegamestrings[choice] <> '' then
     savegamestrings[choice] := '';
   saveCharIndex := Length(savegamestrings[choice]);
 end;
@@ -1262,7 +1284,7 @@ begin
       msgNames[showMessages], false);
 
   M_DrawThermo(
-    OptionsGeneralDef.x, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(mousesens) + 1), 10, mouseSensitivity);
+    OptionsGeneralDef.x, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(mousesens) + 1), 20, mouseSensitivity);
 
   M_DrawThermo(
     OptionsGeneralDef.x, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(scrnsize) + 1), 9, m_screensize);
@@ -1466,7 +1488,7 @@ begin
       if mouseSensitivity > 0 then
         dec(mouseSensitivity);
     1:
-      if mouseSensitivity < 9 then
+      if mouseSensitivity < 19 then
         inc(mouseSensitivity);
   end;
 end;
@@ -3151,6 +3173,7 @@ begin
   pmi.pBoolVal := @gl_texture_filter_anisotropic;
   pmi.alphaKey := 'a';
 
+  {$IFDEF DEBUG}
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Draw Sky';
@@ -3158,6 +3181,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_drawsky;
   pmi.alphaKey := 's';
+  {$ENDIF}
 
   inc(pmi);
   pmi.status := 1;

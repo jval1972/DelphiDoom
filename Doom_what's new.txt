@@ -1,3 +1,16 @@
+Version 2.0.2 build 702 - (30/8/2017)
+-----------
+Fixed alpha channel in TGA screenshots.
+Added keepsavegamename console variable, when true (default) you do not have to re-ender the save game name when overwritting saves.
+The mouse sensitivity slider within menus can accept values up to 20.
+Will not crush when finishing MAP33 etc levels.
+Fixed revenant internal demo bug (https://www.doomworld.com/forum/topic/95719-a_tracer-and-gametic/?do=findComment&comment=1788516)
+
+Version 2.0.1 build 701 - (28/12/2016)
+-----------
+Fixed some glitches of the overlay drawer when screenblocks < 10.
+New PascalScript functions, mostly for retrieving information about mobjinfo.
+
 Version 2.0.1 build 700 - (22/12/2016)
 -----------
 Ignores map things 4001, 4002, 4003 & 4004 (Boom compatibility).
@@ -40,7 +53,7 @@ Teleport zoom effect.
 Added getworldvar & getmapvar console commands. Display pascal script world and map variables.
 Added setworldvar & setmapvar console commands. Set pascal script world and map variables.
 Will use PK3ENTRY lump inside a wad file to define long filename aliases for other wad lumps.
-Added MF2_EX_CUSTOMDROPITEM mobj flag. When set, the specified instance of the mobj drops a cutom dropitem
+Added MF2_EX_CUSTOMDROPITEM mobj flag. When set, the specified instance of the mobj drops a custom dropitem
 Added A_SetDropItem & A_SetDefaultDropItem mobj functions.
 Added A_TargetDropItem & A_DefaultTargetDropItem mobj functions.
 Added overlaydrawtextleft, overlaydrawtextright, overlaydrawtextcenter, overlaydrawpixel and overlayputpixel console commands.
@@ -54,7 +67,7 @@ Fixes to the textured automap.
 Version 1.1.6 build 600 - (31/12/2015)
 -----------
 When setblocks = 10 viewwidth does not pad div 8.
-Unlimited buffer when recordifng demos.
+Unlimited buffer when recording demos.
 Fake3d fixes.
 Added excludewidescreenplayersprites console variable, will not apply widescreen correction to player sprites.
 Menu appearance improvements.
@@ -263,7 +276,7 @@ Fixes:
    1. Fixed zip library memory leak.
    2. Speed optimization for V_ReadPalette function.
    3. Fixed lighting effect glitches in OpenGL rendering.
-   4. Fixed very rare bug that coused crashes when statusbar drawned.
+   4. Fixed very rare bug that caused crashes when statusbar drawned.
 
 --------------------------------------
 version 0.8.5.342 (Released 4/1/2008)
