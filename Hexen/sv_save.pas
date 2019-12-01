@@ -98,7 +98,7 @@ uses
   r_main,
   s_sndseq,
   sb_bar,
-  xn_defs,
+  doomdef,
   z_zone;
 
 var

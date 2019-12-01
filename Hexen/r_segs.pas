@@ -70,7 +70,7 @@ uses
   r_bsp,
 {$IFNDEF OPENGL}
   doomtype,
-  xn_defs,
+  doomdef,
   doomstat,
   doomdata,
   r_main,
@@ -1241,11 +1241,13 @@ begin
       markfloor := (worldlow <> worldbottom) or
                    (backsector.floorpic <> frontsector.floorpic) or
                    (backsector.lightlevel <> frontsector.lightlevel) or
-                   (backsector.special <> frontsector.special);
+                   (backsector.special <> frontsector.special) or
+                   (backsector.renderflags <> frontsector.renderflags);
 
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
-                     (backsector.lightlevel <> frontsector.lightlevel);
+                     (backsector.lightlevel <> frontsector.lightlevel) or
+                     (backsector.renderflags <> frontsector.renderflags);
     end;
 
     if worldhigh < worldtop then

@@ -33,7 +33,7 @@ unit p_pspr_h;
 interface
 
 uses
-  xn_defs,
+  doomdef,
   m_fixed,
   info_h;
 

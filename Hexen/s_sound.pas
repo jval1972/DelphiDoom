@@ -175,7 +175,7 @@ uses
   sounds, s_sndseq,
   z_zone,
   w_wad, w_pak,
-  xn_defs,
+  doomdef,
   r_main,
   tables,
   doomstat;
@@ -363,7 +363,6 @@ end;
 procedure S_ShutDownSound;
 begin
   S_FreeRandomSoundLists;
-  S_FreeMP3Streams;
 end;
 
 //

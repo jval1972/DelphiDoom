@@ -188,6 +188,7 @@ begin
 
     end;
   end;
+  lumps.Free;
 end;
 
 procedure R_ShutDownCustomColormaps;

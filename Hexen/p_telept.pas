@@ -57,7 +57,7 @@ uses
   p_local,
   s_sound,
   sounds,
-  xn_defs;
+  doomdef;
 
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean): boolean;
 var

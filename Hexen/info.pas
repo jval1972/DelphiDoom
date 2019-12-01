@@ -79,7 +79,7 @@ function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
 implementation
 
 uses
-  xn_defs,
+  doomdef,
   i_system,
   m_fixed,
   a_action,

@@ -94,13 +94,13 @@ OutputDir=..\bin\Hexen
 UnitOutputDir=..\dcu\Hexen\GL
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=
+SearchPath=C:\Program Files\Borland\Delphi7\Lib
 Packages=Vcl50;Vclx50;VclSmp50;Vcldb50;vclado50;ibevnt50;Vclbde50;vcldbx50;Qrpt50;TeeUI50;TeeDB50;Tee50;Dss50;TeeQR50;VCLIB50;Vclmid50;vclie50;Inetdb50;Inet50;NMFast50;webmid50;dclocx50;dclaxserver50;MyWisdomNT;Custom;Components2002;BcBarMenus50;BcXPMenuDrawModule50;dcslib25;Delphi6;dfwD5_NT;D5DIB;DShow;GLScene5;GLSS_BASS5;GLSS_FMOD5;MyGamesNT;ProLibDB50;ProLib50;ractl5;radb5;rai5;rmCmpLib_d5;WinshoesPkgD5;RegComponents5;B304_r50;O406_R50;Components2003_Part2;DelphiX_for5;MNOgl;Components2003
 Conditionals=HEXEN;OPENGL
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1920 -screenheight 1080 -fullscreen
+RunParams=-svga -nofullscreen HX_RIPPLE_TEST.WAD
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=555
+Build=560
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Hexen to Delphi Total Conversion
-FileVersion=1.1.4.555
+FileVersion=1.1.4.560
 InternalName=Hexen
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=
@@ -145,6 +145,9 @@ Item5=HEXEN
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[HistoryLists\hlSearchPath]
+Count=1
+Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
 Count=5
 Item0=..\dcu\Hexen\GL

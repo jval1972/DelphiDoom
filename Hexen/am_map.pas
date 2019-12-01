@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -35,12 +35,17 @@ interface
 uses
   d_delphi,
   z_zone,
-  xn_defs, doomdata,
+  doomdef,
+  doomdata,
   d_player,
   r_defs,
   d_event,
-  p_local, w_wad, m_cheat, i_system,
-  xn_strings, m_fixed;
+  p_local,
+  w_wad,
+  m_cheat,
+  i_system,
+  xn_strings,
+  m_fixed;
 
 //-----------------------------------------------------------------------------
 //

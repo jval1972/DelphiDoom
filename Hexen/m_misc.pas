@@ -77,7 +77,7 @@ implementation
 uses
   d_delphi,
   c_cmds,
-  xn_defs,
+  doomdef,
   d_main,
   d_player,
   g_game,

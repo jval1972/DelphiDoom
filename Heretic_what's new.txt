@@ -5,6 +5,8 @@ Added force_numwallrenderingthreads_8bit and force_numwallrenderingthreads_32bit
 Loads wad and pk3/pak files from command line without -file and -pakfile
 Default miditempo changed to 160
 Executes all console commands inside wad lumps with the "AUTOEXEC"name.
+Maximum visplanes increased to 8192.
+Added line specials 279 & 280, create ripple effect to tagged sectors floor or/and ceiling.
 
 --------------------------------------
 version 1.1.4.551 (Released 19/3/2013)

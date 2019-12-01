@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -82,11 +82,9 @@ implementation
 
 uses
   {$IFDEF HEXEN}
-  xn_defs,
   r_data,
-  {$ELSE}
-  doomdef,
   {$ENDIF}
+  doomdef,
   i_threads,
   i_system,
   r_column,

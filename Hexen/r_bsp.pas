@@ -67,7 +67,7 @@ implementation
 uses
   d_delphi,
   doomdata,
-  xn_defs,
+  doomdef,
   m_fixed,
   tables,
   m_bbox,
@@ -699,7 +699,8 @@ begin
     floorplane := R_FindPlane(frontsector.floorheight,
                               frontsector.floorpic,
                               frontsector.lightlevel,
-                              frontsector.special);
+                              frontsector.special,
+                              frontsector.renderflags and not SRF_RIPPLE_CEILING);
   end
   else
     floorplane := nil;
@@ -710,7 +711,8 @@ begin
     ceilingplane := R_FindPlane(frontsector.ceilingheight,
                                 frontsector.ceilingpic,
                                 frontsector.lightlevel,
-                                0);
+                                0,
+                                frontsector.renderflags and not SRF_RIPPLE_FLOOR);
   end
   else
     ceilingplane := nil;

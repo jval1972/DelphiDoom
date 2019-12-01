@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -50,13 +50,9 @@ procedure R_InitFake3D;
 
 implementation
 
-uses           
+uses
   d_delphi,
-  {$IFDEF HEXEN}
-  xn_defs,
-  {$ELSE}
   doomdef,
-  {$ENDIF}
   i_system,
   i_threads,
   r_draw,

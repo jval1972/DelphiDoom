@@ -21,6 +21,9 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//      Refresh/rendering module, shared data struct definitions.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -48,31 +51,6 @@ uses
   p_mobj_h,
   t_main,
   w_wad;
-
-{
-    r_defs.h
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//      Refresh/rendering module, shared data struct definitions.
-//
-//-----------------------------------------------------------------------------
 
 // Silhouette, needed for clipping Segs (mainly)
 // and sprites representing things.
@@ -166,6 +144,7 @@ type
 
     linecount: integer;
     lines: Pline_tPArray; // [linecount] size
+    renderflags: LongWord;
 {$IFDEF OPENGL}
     iSectorID: integer;
     no_toptextures: boolean;
@@ -261,6 +240,12 @@ type
 const
   LRF_ISOLATED = 1;
 {$ENDIF}
+
+const
+  // Sector rendering flags
+  SRF_RIPPLE_FLOOR = 1;
+  SRF_RIPPLE_CEILING = 2;
+  SRF_RIPPLE = SRF_RIPPLE_FLOOR or SRF_RIPPLE_CEILING;
 
 //
 // A SubSector.
@@ -507,7 +492,7 @@ type
     lightlevel: integer;
     minx: integer;
     maxx: integer;
-
+    renderflags: LongWord;
     // leave pads for [minx-1] and [maxx+1]
     top: Pvisindex_tArray;    // Now allocated dinamically!
 

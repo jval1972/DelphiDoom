@@ -22,7 +22,10 @@
       begin
 {$ENDIF}
 {$IFDEF INVERSECOLORMAPS}
-      {$I R_InverseLight.inc}
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+        destl^ := precal32_ic[r1 + g1 + b1];
 {$ELSE}
       destl^ := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 {$ENDIF}

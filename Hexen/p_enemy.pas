@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -392,18 +392,35 @@ implementation
 
 uses
   d_delphi,
-  d_think, d_player, d_main,
+  d_think,
+  d_player,
+  d_main,
   doomdata,
-  xn_defs,
+  doomdef,
   g_game,
   i_system,
   info_h,
-  m_fixed, m_rnd,
+  m_fixed,
+  m_rnd,
   a_action,
-  p_mobj, p_extra, p_tick, p_inter, p_map, p_maputl, p_setup, p_local, p_sight,
-  p_spec, p_sounds, p_pspr, p_telept, p_acs,
-  r_defs, r_main,
-  s_sound, sounds,
+  p_mobj,
+  p_extra,
+  p_tick,
+  p_inter,
+  p_map,
+  p_maputl,
+  p_setup,
+  p_local,
+  p_sight,
+  p_spec,
+  p_sounds,
+  p_pspr,
+  p_telept,
+  p_acs,
+  r_defs,
+  r_main,
+  s_sound,
+  sounds,
   sb_bar;
 
 const

@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -88,11 +88,7 @@ uses
   i_system,
   tables,
   doomtype,
-  {$IFDEF HEXEN}
-  xn_defs,
-  {$ELSE}
   doomdef,
-  {$ENDIF}
   {$IFDEF DOOM}
   st_stuff,
   r_colormaps,
@@ -1053,12 +1049,13 @@ type
   GLFlat = record
     sectornum: integer;
     light: float; // the lightlevel of the flat
-    {$IFNDEF HERETIC}
-    hasoffset: boolean;
-    uoffs, voffs: float; // the texture coordinates
-    {$ENDIF}
     z: float; // the z position of the flat (height)
     gltexture: PGLTexture;
+    {$IFNDEF HERETIC}
+    uoffs, voffs: float; // the texture coordinates
+    hasoffset: boolean;
+    {$ENDIF}
+    ripple: boolean;
     ceiling: boolean;
   end;
   PGLFlat = ^GLFlat;
@@ -2095,7 +2092,7 @@ begin
   inc(gld_drawinfo.num_walls);
 end;
 
-procedure gld_AddFlatEx(sectornum: integer; pic, zheight: integer);
+procedure gld_AddFlatEx(sectornum: integer; pic, zheight: integer; ripple: boolean);
 var
   {$IFDEF DOOM}
   tempsec: sector_t; // needed for R_FakeFlat
@@ -2126,7 +2123,7 @@ begin
   flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(pic), true);
   if flat.gltexture = nil then
     exit;
-  // get the lightlevel 
+  // get the lightlevel
   flat.light := gld_CalcLightLevel(sector.lightlevel + (extralight shl 5));
   // calculate texture offsets
   {$IFDEF DOOM}
@@ -2467,7 +2464,7 @@ bottomtexture:
         else if (backsector <> nil) and (seg.linedef.renderflags and LRF_ISOLATED = 0) and
                 (frontsector.ceilingpic <> skyflatnum) and (backsector.ceilingpic <> skyflatnum) then
         begin
-          gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.frontsector.floorheight);
+          gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.frontsector.floorheight, seg.frontsector.renderflags and SRF_RIPPLE_CEILING <> 0);
         end;
       end;
     end;
@@ -2493,6 +2490,45 @@ end;
  * Flats         *
  *               *
  *****************)
+
+var
+  rippletexmatrix: array[0..15] of TGLfloat;
+  ripplelastfrac: Integer = -1;
+
+procedure gld_MakeRippleMatrix;
+var
+  rsin, rcos: TGLfloat;
+  frac: integer;
+begin
+  frac := leveltime and 63;
+  if ripplelastfrac = frac then
+    exit;
+
+  ripplelastfrac := frac;
+
+  rsin := 0.01 * Sin(frac / 64 * 2 * __glPi);
+  rcos := 0.01 * Cos(frac / 64 * 2 * __glPi);
+
+  rippletexmatrix[0 + 4 * 0] := 1;
+  rippletexmatrix[0 + 4 * 1] := rsin;
+  rippletexmatrix[0 + 4 * 2] := rsin;
+  rippletexmatrix[0 + 4 * 3] := 0;
+
+  rippletexmatrix[1 + 4 * 0] := rcos;
+  rippletexmatrix[1 + 4 * 1] := 1;
+  rippletexmatrix[1 + 4 * 2] := rcos;
+  rippletexmatrix[1 + 4 * 3] := 0;
+
+  rippletexmatrix[2 + 4 * 0] := 0;
+  rippletexmatrix[2 + 4 * 1] := 0;
+  rippletexmatrix[2 + 4 * 2] := 1;
+  rippletexmatrix[2 + 4 * 3] := 0;
+
+  rippletexmatrix[3 + 4 * 0] := 0;
+  rippletexmatrix[3 + 4 * 1] := 0;
+  rippletexmatrix[3 + 4 * 2] := 0;
+  rippletexmatrix[3 + 4 * 3] := 1;
+end;
 
 procedure gld_DrawFlat(flat: PGLFlat);
 var
@@ -2567,6 +2603,13 @@ begin
                  0.0);
   end;
   {$ENDIF}
+  if flat.ripple then
+  begin
+    gld_MakeRippleMatrix;
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix;
+    glMultMatrixf(@rippletexmatrix);
+  end;
   // JVAL: Call the precalced list if available
   if glsec.list <> GL_BAD_LIST then
     glCallList(glsec.list)
@@ -2579,6 +2622,11 @@ begin
       currentloop := @glsec.loops[loopnum];
       glDrawArrays(currentloop.mode, currentloop.vertexindex, currentloop.vertexcount);
     end;
+  end;
+  if flat.ripple then
+  begin
+    glPopMatrix;
+    glMatrixMode(GL_MODELVIEW);
   end;
   {$IFNDEF HERETIC}
   if flat.hasoffset then
@@ -2644,6 +2692,7 @@ begin
     flat.uoffs := plane.xoffs / FLATUVSCALE;
     flat.voffs := plane.yoffs / FLATUVSCALE;
     {$ENDIF}
+    flat.ripple := plane.renderflags and SRF_RIPPLE_CEILING <> 0;
   end
   else // if it is a floor ...
   begin
@@ -2667,6 +2716,7 @@ begin
     flat.uoffs := plane.xoffs / FLATUVSCALE;
     flat.voffs := plane.yoffs / FLATUVSCALE;
     {$ENDIF}
+    flat.ripple := plane.renderflags and SRF_RIPPLE_FLOOR <> 0;
   end;
 
   // get height from plane

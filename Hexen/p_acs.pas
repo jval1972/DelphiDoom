@@ -137,7 +137,7 @@ uses
   po_man,
   r_data,
   s_sound, sounds, s_sndseq,
-  xn_defs, xn_strings,
+  doomdef, xn_strings,
   w_wad,
   z_zone;
 
@@ -285,6 +285,11 @@ var
   b: PByteArray;
   stmp: string;
 begin
+  if W_LumpLength(lump) = 0 then
+  begin
+    ACScriptCount := 0;
+    exit;
+  end;
   header := W_CacheLumpNum(lump, PU_LEVEL);
   ActionCodeBase := PByteArray(header);
   buffer := PInteger(integer(header) + header.infoOffset);

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,6 +18,13 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:  none
+//  Implements special effects:
+//  Texture animation, height or lighting changes
+//   according to adjacent sectors, respective
+//   utility functions, etc.
+//  Line Tag handling. Line and Sector triggers.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -38,36 +45,6 @@ uses
   p_mobj_h,
   p_tick,
   r_defs;
-
-{
-    p_spec.h, p_spec.c
-}
-
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:  none
-//  Implements special effects:
-//  Texture animation, height or lighting changes
-//   according to adjacent sectors, respective
-//   utility functions, etc.
-//  Line Tag handling. Line and Sector triggers.
-//
-//-----------------------------------------------------------------------------
 
 //
 // End-level timer (-TIMER option)
@@ -579,7 +556,6 @@ implementation
 uses
   d_delphi,
   doomdef,
-  
   doomdata,
   d_englsh,
   i_system,
@@ -589,7 +565,11 @@ uses
   m_rnd,
   m_bbox,
   w_wad,
-  r_data, r_main,
+  r_data,
+  r_main,
+  {$IFNDEF OPENGL}
+  r_ripple,
+  {$ENDIF}
   info_h,
   tables,
   g_game,
@@ -3055,6 +3035,10 @@ begin
     end;
   end;
 
+  {$IFNDEF OPENGL}
+  curripple := @r_defripple[leveltime and 31];
+  {$ENDIF}
+
   // ANIMATE LINE SPECIALS
   for i := 0 to numlinespecials - 1 do
   begin
@@ -3292,6 +3276,20 @@ begin
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].ceilinglightsec := sec;
+        end;
+      // JVAL: ripple effect to tagged sectors floor
+      279:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_FLOOR;
+        end;
+      // JVAL: ripple effect to tagged sectors floor
+      280:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_CEILING;
         end;
     end;
 end;

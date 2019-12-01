@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$IFDEF FPC}
@@ -129,44 +129,46 @@ uses
   DirectX in 'Common\DirectX.pas',
   am_map in 'Heretic\am_map.pas',
   c_cmds in 'Base\c_cmds.pas',
-  c_con in 'Heretic\c_con.pas',
-  c_utils in 'Heretic\c_utils.pas',
-  d_event in 'Heretic\d_event.pas',
+  c_con in 'Base\c_con.pas',
+  c_utils in 'Base\c_utils.pas',
+  d_event in 'Base\d_event.pas',
+  d_fpc in 'Base\d_fpc.pas',
   d_main in 'Heretic\d_main.pas',
   d_net in 'Heretic\d_net.pas',
-  d_net_h in 'Heretic\d_net_h.pas',
+  d_net_h in 'Base\d_net_h.pas',
   d_player in 'Heretic\d_player.pas',
-  d_think in 'Heretic\d_think.pas',
-  d_ticcmd in 'Heretic\d_ticcmd.pas',
+  d_think in 'Base\d_think.pas',
+  d_ticcmd in 'Base\d_ticcmd.pas',
   deh_main in 'Heretic\deh_main.pas',
   doomdata in 'Heretic\doomdata.pas',
   doomdef in 'Heretic\doomdef.pas',
   doomstat in 'Heretic\doomstat.pas',
-  doomtype in 'Heretic\doomtype.pas',
-  e_endoom in 'Heretic\e_endoom.pas',
+  doomtype in 'Base\doomtype.pas',
+  e_endoom in 'Base\e_endoom.pas',
   f_finale in 'Heretic\f_finale.pas',
-  f_wipe in 'Heretic\f_wipe.pas',
+  f_wipe in 'Base\f_wipe.pas',
   g_game in 'Heretic\g_game.pas',
   h_strings in 'Heretic\h_strings.pas',
-  hu_lib in 'Heretic\hu_lib.pas',
+  hu_lib in 'Base\hu_lib.pas',
   hu_stuff in 'Heretic\hu_stuff.pas',
-  i_input in 'Heretic\i_input.pas',
+  i_input in 'Base\i_input.pas',
   i_io in 'Base\i_io.pas',
-  i_main in 'Heretic\i_main.pas',
-  i_midi in 'Heretic\i_midi.pas',
-  i_mp3 in 'Heretic\i_mp3.pas',
-  i_music in 'Heretic\i_music.pas',
-  i_net in 'Heretic\i_net.pas',
-  i_sound in 'Heretic\i_sound.pas',
-  i_system in 'Heretic\i_system.pas',
-  i_video in 'Heretic\i_video.pas',
+  i_main in 'Base\i_main.pas',
+  i_midi in 'Base\i_midi.pas',
+  i_mp3 in 'Base\i_mp3.pas',
+  i_music in 'Base\i_music.pas',
+  i_net in 'Base\i_net.pas',
+  i_sound in 'Base\i_sound.pas',
+  i_system in 'Base\i_system.pas',
+  i_video in 'Base\i_video.pas',
   in_stuff in 'Heretic\in_stuff.pas',
   info in 'Heretic\info.pas',
   info_h in 'Heretic\info_h.pas',
   info_rnd in 'Heretic\info_rnd.pas',
-  m_argv in 'Heretic\m_argv.pas',
-  m_bbox in 'Heretic\m_bbox.pas',
-  m_cheat in 'Heretic\m_cheat.pas',
+  m_argv in 'Base\m_argv.pas',
+  m_base in 'Base\m_base.pas',
+  m_bbox in 'Base\m_bbox.pas',
+  m_cheat in 'Base\m_cheat.pas',
   m_defs in 'Heretic\m_defs.pas',
   m_fixed in 'Base\m_fixed.pas',
   m_menu in 'Heretic\m_menu.pas',
@@ -215,27 +217,27 @@ uses
   r_defs in 'Heretic\r_defs.pas',
   r_draw in 'Heretic\r_draw.pas',
   r_fake3d in 'Base\r_fake3d.pas',
-  r_grow in 'Heretic\r_grow.pas',
+  r_grow in 'Base\r_grow.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Heretic\r_intrpl.pas',
-  r_lights in 'Heretic\r_lights.pas',
+  r_lights in 'Base\r_lights.pas',
   r_main in 'Heretic\r_main.pas',
-  r_mmx in 'Heretic\r_mmx.pas',
+  r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Heretic\r_plane.pas',
   r_scache in 'Heretic\r_scache.pas',
   r_segs in 'Heretic\r_segs.pas',
   r_sky in 'Heretic\r_sky.pas',
-  r_span in 'Heretic\r_span.pas',
-  r_span32 in 'Heretic\r_span32.pas',
+  r_span in 'Base\r_span.pas',
+  r_span32 in 'Base\r_span32.pas',
   r_things in 'Heretic\r_things.pas',
   rtl_types in 'Heretic\rtl_types.pas',
   s_sound in 'Heretic\s_sound.pas',
   sb_bar in 'Heretic\sb_bar.pas',
   sc_decorate in 'Heretic\sc_decorate.pas',
-  sc_engine in 'Heretic\sc_engine.pas',
+  sc_engine in 'Base\sc_engine.pas',
   sc_params in 'Base\sc_params.pas',
   sounds in 'Heretic\sounds.pas',
-  tables in 'Heretic\tables.pas',
+  tables in 'Base\tables.pas',
   v_data in 'Heretic\v_data.pas',
   v_video in 'Heretic\v_video.pas',
   w_pak in 'Base\w_pak.pas',
@@ -257,7 +259,9 @@ uses
   i_threads in 'Base\i_threads.pas',
   r_aspect in 'Base\r_aspect.pas',
   r_batchcolumn in 'Base\r_batchcolumn.pas',
-  r_batchsky in 'Base\r_batchsky.pas';
+  r_batchsky in 'Base\r_batchsky.pas',
+  r_ripple in 'Base\r_ripple.pas',
+  z_memmgr in 'Base\z_memmgr.pas';
 
 var
   Saved8087CW: Word;

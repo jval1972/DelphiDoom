@@ -113,7 +113,7 @@ procedure S_ChangeNodeData(nodeNum: integer; seqOffset: integer; delayTics: inte
 implementation
 
 uses
-  xn_defs,
+  doomdef,
   g_game,
   i_system,
   m_rnd,

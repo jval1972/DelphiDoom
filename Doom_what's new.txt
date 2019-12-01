@@ -8,6 +8,8 @@ Boom fake3d custom colormaps work with external textures in software mode.
 Boom fake3d custom colormaps work in OpenGL.
 Executes all console commands inside wad lumps with the "AUTOEXEC"name.
 Improved BOOM compatibility.
+Maximum visplanes increased to 8192.
+Added line specials 279 & 280, create ripple effect to tagged sectors floor or/and ceiling.
 
 New Changes
 -----------

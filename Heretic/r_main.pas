@@ -160,6 +160,8 @@ var
   bluelightcolfunc: PProcedure;
   yellowlightcolfunc: PProcedure;
   spanfunc: PProcedure;
+  basespanfunc: PProcedure;
+  ripplespanfunc: PProcedure;
 
   centerxfrac: fixed_t;
   centeryfrac: fixed_t;
@@ -281,6 +283,7 @@ uses
 {$IFNDEF OPENGL}
   r_cache,
   r_precalc,
+  r_ripple,
 {$ENDIF}
   r_lights,
   r_fake3d,
@@ -860,6 +863,8 @@ begin
         maskedcolfunc := R_DrawColumnLowest;
         maskedcolfunc2 := R_DrawColumnLowest;
         spanfunc := R_DrawSpanLow;
+        basespanfunc := R_DrawSpanLow;
+        ripplespanfunc := R_DrawSpanLow;
         fuzzcolfunc := R_DrawFuzzColumn;
         lightcolfunc := R_DrawFuzzColumn;
         whitelightcolfunc := R_DrawFuzzColumn;
@@ -893,6 +898,8 @@ begin
         maskedcolfunc := R_DrawColumnLow;
         maskedcolfunc2 := R_DrawColumnLow;
         spanfunc := R_DrawSpanLow;
+        basespanfunc := R_DrawSpanLow;
+        ripplespanfunc := R_DrawSpanLow;
         fuzzcolfunc := R_DrawFuzzColumn;
         lightcolfunc := R_DrawFuzzColumn;
         whitelightcolfunc := R_DrawFuzzColumn;
@@ -926,6 +933,8 @@ begin
         maskedcolfunc := R_DrawColumnMedium;
         maskedcolfunc2 := R_DrawColumnMedium;
         spanfunc := R_DrawSpanMedium;
+        basespanfunc := R_DrawSpanMedium;
+        ripplespanfunc := R_DrawSpanMedium_Ripple;
         fuzzcolfunc := R_DrawFuzzColumn;
         lightcolfunc := R_DrawFuzzColumn;
         whitelightcolfunc := R_DrawFuzzColumn;
@@ -962,6 +971,8 @@ begin
         maskedcolfunc := R_DrawMaskedColumnNormal;
         maskedcolfunc2 := R_DrawMaskedColumnHi32;
         spanfunc := R_DrawSpanNormal;
+        basespanfunc := R_DrawSpanNormal;
+        ripplespanfunc := R_DrawSpanNormal_Ripple;
         if use32bitfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
         else
@@ -1001,6 +1012,8 @@ begin
         maskedcolfunc := R_DrawMaskedColumnHi;
         maskedcolfunc2 := R_DrawMaskedColumnHi32;
         spanfunc := R_DrawSpanNormal; //R_DrawSpanHi;
+        basespanfunc := R_DrawSpanNormal;
+        ripplespanfunc := R_DrawSpanNormal_Ripple;
         if use32bitfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
         else
@@ -1040,6 +1053,8 @@ begin
         maskedcolfunc := R_DrawMaskedColumnHi;
         maskedcolfunc2 := R_DrawMaskedColumnUltra32;
         spanfunc := R_DrawSpanNormal; //R_DrawSpanUltra;
+        basespanfunc := R_DrawSpanNormal;
+        ripplespanfunc := R_DrawSpanNormal_Ripple;
         if use32bitfuzzeffect then
           fuzzcolfunc := R_DrawFuzzColumn32
         else
@@ -1310,6 +1325,10 @@ begin
   R_InitAspect;
   printf(#13#10 + 'R_InitData');
   R_InitData;
+{$IFNDEF OPENGL}
+  printf(#13#10 + 'R_InitRippleEffects');
+  R_InitRippleEffects;
+{$ENDIF}
   printf(#13#10 + 'R_InitInterpolations');
   R_InitInterpolations;
   printf(#13#10 + 'R_InitPointToAngle');
@@ -1327,6 +1346,7 @@ begin
   R_InitSkyMap;
   printf(#13#10 + 'R_InitTranslationsTables');
   R_InitTranslationTables;
+
 {$IFNDEF OPENGL}
   printf(#13#10 + 'R_InitPrecalc');
   R_InitPrecalc;

@@ -39,7 +39,7 @@ uses
   d_delphi,
   tables,
 // Screenwidth.
-  xn_defs,
+  doomdef,
   info_h,
 // Some more or less basic data types
 // we depend on.
@@ -144,6 +144,9 @@ type
 
     linecount: integer;
     lines: Pline_tPArray; // [linecount] size
+
+    renderflags: LongWord;
+
 {$IFDEF OPENGL}
     iSectorID: integer;
     no_toptextures: boolean;
@@ -237,6 +240,12 @@ type
 const
   LRF_ISOLATED = 1;
 {$ENDIF}
+
+const
+  // Sector rendering flags
+  SRF_RIPPLE_FLOOR = 1;
+  SRF_RIPPLE_CEILING = 2;
+  SRF_RIPPLE = SRF_RIPPLE_FLOOR or SRF_RIPPLE_CEILING;
 
 type
 //
@@ -525,7 +534,7 @@ type
     {$IFDEF OPENGL}
     xoffs, yoffs: integer;
     {$ENDIF}
-
+    renderflags: LongWord;
     // leave pads for [minx-1] and [maxx+1]
     top: Pvisindex_tArray;    // Now allocated dinamically!
 

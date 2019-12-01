@@ -1270,11 +1270,13 @@ begin
     begin
       markfloor := (worldlow <> worldbottom) or
                    (backsector.floorpic <> frontsector.floorpic) or
-                   (backsector.lightlevel <> frontsector.lightlevel);
+                   (backsector.lightlevel <> frontsector.lightlevel) or
+                   (backsector.renderflags <> frontsector.renderflags);
 
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
-                     (backsector.lightlevel <> frontsector.lightlevel);
+                     (backsector.lightlevel <> frontsector.lightlevel) or
+                     (backsector.renderflags <> frontsector.renderflags);
     end;
 
     if worldhigh < worldtop then

@@ -205,11 +205,7 @@ var
 implementation
 
 uses
-{$IFDEF HEXEN}
-  xn_defs,
-{$ELSE}
   doomdef,
-{$ENDIF}
   i_system,
   t_bmp,
   t_tga,

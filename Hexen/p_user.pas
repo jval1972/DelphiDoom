@@ -43,7 +43,7 @@ interface
 
 uses
   info_h,
-  xn_defs,
+  doomdef,
   d_player,
   m_fixed,
   p_mobj_h,

@@ -33,7 +33,7 @@ unit p_pspr;
 interface
 
 uses
-  xn_defs,
+  doomdef,
   doomdata,
 // Basic data types.
 // Needs fixed point, and BAM angles.

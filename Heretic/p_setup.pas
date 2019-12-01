@@ -513,6 +513,7 @@ begin
     ss.special := ms.special;
     ss.tag := ms.tag;
     ss.thinglist := nil;
+    ss.renderflags := 0;
 {$IFDEF OPENGL}
     ss.iSectorID := i;
 {$ENDIF}

@@ -36,7 +36,7 @@ uses
 // The most basic types we use, portability.
   doomtype,
 // Some global defines, that configure the game.
-  xn_defs,
+  doomdef,
 // char8_t
   w_wad;
 

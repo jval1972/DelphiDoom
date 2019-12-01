@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -105,7 +105,8 @@ implementation
 
 uses
   c_cmds,
-  i_system;
+  i_system,
+  z_memmgr;
 
 //
 // ZONE MEMORY ALLOCATION
@@ -117,6 +118,9 @@ uses
 // It is of no value to free a cachable block,
 //  because it will get overwritten automatically if needed.
 //
+
+var
+  memmanager: TMemManager;
 
 const
   ZONEID = $1d4a11;
@@ -252,6 +256,8 @@ var
   block: Pmemblock_t;
   size: integer;
 begin
+  memmanager := TMemManager.Create;
+
   mainzone := Pmemzone_t(I_ZoneBase(size));
   mainzone.size := size;
 
@@ -281,6 +287,7 @@ end;
 
 procedure Z_ShutDown;
 begin
+  memmanager.Free;
   I_ZoneFree(pointer(mainzone));
 end;
 
@@ -292,6 +299,9 @@ var
   block: Pmemblock_t;
   other: Pmemblock_t;
 begin
+  memmanager.M_Free(ptr);
+  exit;
+
   block := Pmemblock_t(integer(ptr) - SizeOf(memblock_t));
 
   if block.id <> ZONEID then
@@ -354,6 +364,9 @@ var
   newblock: Pmemblock_t;
   base: Pmemblock_t;
 begin
+  result := memmanager.M_Malloc(size, tag, user);
+  exit;
+
   size := (size + 7) and (not 7);
 
   // scan through the block list,
@@ -460,6 +473,9 @@ var
   newblock: Pmemblock_t;
   base: Pmemblock_t;
 begin
+  result := memmanager.M_Malloc(size, tag, user);
+  exit;
+
   size := (size + 7) and (not 7);
 
   // scan through the block list,
@@ -563,6 +579,9 @@ var
   tmp: pointer;
   copysize: integer;
 begin
+  result := memmanager.M_Realloc(ptr, size, tag, user);
+  exit;
+
   if size = 0 then
   begin
     Z_Free(ptr);
@@ -611,6 +630,10 @@ var
   block: Pmemblock_t;
   next: Pmemblock_t;
 begin
+  memmanager.M_FreeTags(lowtag, hightag);
+  Result := True;
+  exit;
+
   result := false;
   block := mainzone.blocklist.next;
   while block <> @mainzone.blocklist do
@@ -772,6 +795,9 @@ procedure Z_ChangeTag(ptr: pointer; tag: integer);
 var
   block: Pmemblock_t;
 begin
+  memmanager.M_ChangeTag(ptr, tag);
+  exit;
+
   block := Pmemblock_t(integer(ptr) - SizeOf(memblock_t));
 
   if block.id <> ZONEID then

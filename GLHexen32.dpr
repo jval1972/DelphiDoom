@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and on DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$IFDEF FPC}
@@ -79,40 +79,40 @@ uses
   gl_data in 'OPENGL\gl_data.pas',
   v_video in 'Hexen\v_video.pas',
   w_utils in 'Hexen\w_utils.pas',
-  xn_defs in 'Hexen\xn_defs.pas',
+  doomdef in 'Hexen\doomdef.pas',
   xn_strings in 'Hexen\xn_strings.pas',
   a_action in 'Hexen\a_action.pas',
   am_map in 'Hexen\am_map.pas',
   c_cmds in 'Base\c_cmds.pas',
-  c_con in 'Hexen\c_con.pas',
-  c_utils in 'Hexen\c_utils.pas',
+  c_con in 'Base\c_con.pas',
+  c_utils in 'Base\c_utils.pas',
   d_delphi in 'Common\d_delphi.pas',
-  d_event in 'Hexen\d_event.pas',
-  d_fpc in 'Hexen\d_fpc.pas',
+  d_event in 'Base\d_event.pas',
+  d_fpc in 'Base\d_fpc.pas',
   d_main in 'Hexen\d_main.pas',
   d_net in 'Hexen\d_net.pas',
-  d_net_h in 'Hexen\d_net_h.pas',
+  d_net_h in 'Base\d_net_h.pas',
   d_player in 'Hexen\d_player.pas',
-  d_think in 'Hexen\d_think.pas',
-  d_ticcmd in 'Hexen\d_ticcmd.pas',
+  d_think in 'Base\d_think.pas',
+  d_ticcmd in 'Base\d_ticcmd.pas',
   deh_main in 'Hexen\deh_main.pas',
   DirectX in 'Common\DirectX.pas',
   doomdata in 'Hexen\doomdata.pas',
   doomstat in 'Hexen\doomstat.pas',
-  doomtype in 'Hexen\doomtype.pas',
+  doomtype in 'Base\doomtype.pas',
   f_finale in 'Hexen\f_finale.pas',
   g_demo in 'Hexen\g_demo.pas',
   g_game in 'Hexen\g_game.pas',
-  hu_lib in 'Hexen\hu_lib.pas',
+  hu_lib in 'Base\hu_lib.pas',
   hu_stuff in 'Hexen\hu_stuff.pas',
-  i_input in 'Hexen\i_input.pas',
+  i_input in 'Base\i_input.pas',
   i_io in 'Base\i_io.pas',
-  i_midi in 'Hexen\i_midi.pas',
-  i_mp3 in 'Hexen\i_mp3.pas',
-  i_music in 'Hexen\i_music.pas',
-  i_net in 'Hexen\i_net.pas',
-  i_sound in 'Hexen\i_sound.pas',
-  i_system in 'Hexen\i_system.pas',
+  i_midi in 'Base\i_midi.pas',
+  i_mp3 in 'Base\i_mp3.pas',
+  i_music in 'Base\i_music.pas',
+  i_net in 'Base\i_net.pas',
+  i_sound in 'Base\i_sound.pas',
+  i_system in 'Base\i_system.pas',
   in_stuff in 'Hexen\in_stuff.pas',
   info in 'Hexen\info.pas',
   info_h in 'Hexen\info_h.pas',
@@ -146,9 +146,10 @@ uses
   jpg_moreCfg in 'JPEGLIB\jpg_morecfg.pas',
   jpg_Quant1 in 'JPEGLIB\jpg_quant1.pas',
   jpg_Quant2 in 'JPEGLIB\jpg_quant2.pas',
-  m_argv in 'Hexen\m_argv.pas',
-  m_bbox in 'Hexen\m_bbox.pas',
-  m_cheat in 'Hexen\m_cheat.pas',
+  m_argv in 'Base\m_argv.pas',
+  m_base in 'Base\m_base.pas',
+  m_bbox in 'Base\m_bbox.pas',
+  m_cheat in 'Base\m_cheat.pas',
   m_defs in 'Hexen\m_defs.pas',
   m_fixed in 'Base\m_fixed.pas',
   m_menu in 'Hexen\m_menu.pas',
@@ -212,9 +213,9 @@ uses
   r_draw in 'Hexen\r_draw.pas',
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Hexen\r_intrpl.pas',
-  r_lights in 'Hexen\r_lights.pas',
+  r_lights in 'Base\r_lights.pas',
   r_main in 'Hexen\r_main.pas',
-  r_mmx in 'Hexen\r_mmx.pas',
+  r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Hexen\r_plane.pas',
   r_segs in 'Hexen\r_segs.pas',
   r_sky in 'Hexen\r_sky.pas',
@@ -224,11 +225,11 @@ uses
   s_sound in 'Hexen\s_sound.pas',
   sb_bar in 'Hexen\sb_bar.pas',
   sc_decorate in 'Hexen\sc_decorate.pas',
-  sc_engine in 'Hexen\sc_engine.pas',
+  sc_engine in 'Base\sc_engine.pas',
   sc_params in 'Base\sc_params.pas',
   sounds in 'Hexen\sounds.pas',
   sv_save in 'Hexen\sv_save.pas',
-  tables in 'Hexen\tables.pas',
+  tables in 'Base\tables.pas',
   v_data in 'Hexen\v_data.pas',
   z_files in 'ZLIB\z_files.pas',
   t_tga in 'TEXLIB\t_tga.pas',
@@ -261,7 +262,8 @@ uses
   p_common in 'Base\p_common.pas',
   r_fake3d in 'Base\r_fake3d.pas',
   r_aspect in 'Base\r_aspect.pas',
-  i_threads in 'Base\i_threads.pas';
+  i_threads in 'Base\i_threads.pas',
+  z_memmgr in 'Base\z_memmgr.pas';
 
 var
   Saved8087CW: Word;

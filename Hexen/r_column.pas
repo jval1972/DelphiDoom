@@ -79,7 +79,7 @@ var
 implementation
 
 uses
-  xn_defs,
+  doomdef,
   doomtype,
   r_data,
   r_draw,

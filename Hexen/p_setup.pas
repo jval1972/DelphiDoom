@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -34,7 +34,7 @@ interface
 
 uses
   d_delphi,
-  xn_defs,
+  doomdef,
   doomdata,
   m_fixed,
   p_mobj_h,
@@ -523,6 +523,7 @@ begin
     ss.tag := ms.tag;
     ss.thinglist := nil;
     ss.seqType := SEQTYPE_STONE; // default seqType
+    ss.renderflags := 0;
 {$IFDEF OPENGL}
     ss.iSectorID := i;
 {$ENDIF}

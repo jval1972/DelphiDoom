@@ -36,7 +36,7 @@ uses
   d_delphi,
   m_fixed,
   p_mobj_h,
-  xn_defs;
+  doomdef;
 
 procedure A_PotteryExplode(actor: Pmobj_t);
 

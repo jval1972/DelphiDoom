@@ -79,11 +79,7 @@ var
 implementation
 
 uses
-  {$IFDEF HEXEN}
-  xn_defs,
-  {$ELSE}
   doomdef,
-  {$ENDIF}
   i_system,
   i_threads,
   r_column,

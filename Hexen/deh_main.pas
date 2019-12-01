@@ -99,7 +99,7 @@ implementation
 
 uses
   c_cmds,
-  xn_defs,
+  doomdef,
   d_main,
   xn_strings,
   f_finale,

@@ -71,7 +71,7 @@ uses
   s_sound,
   sounds,
   sc_engine,
-  xn_defs,
+  doomdef,
   w_wad,
   z_zone;
 

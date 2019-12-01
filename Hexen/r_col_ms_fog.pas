@@ -44,7 +44,7 @@ implementation
 
 uses
   d_delphi,
-  xn_defs,
+  doomdef,
   m_fixed,
   r_precalc,
   r_draw,
@@ -64,7 +64,7 @@ var
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1: LongWord;
+  c: LongWord;
   lfactor: integer;
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
@@ -108,7 +108,7 @@ var
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c, r, g, b: LongWord;
   lfactor: integer;
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
@@ -150,7 +150,7 @@ var
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1: LongWord;
+  c: LongWord;
   lfactor: integer;
   and_mask: integer;
   bf_r: PIntegerArray;

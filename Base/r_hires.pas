@@ -21,7 +21,7 @@
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$I Doom32.inc}
@@ -124,11 +124,7 @@ implementation
 
 uses
   c_cmds,
-{$IFDEF HEXEN}
-  xn_defs,
-{$ELSE}
   doomdef,
-{$ENDIF}
   m_misc,
 {$IFDEF OPENGL}
   gl_main,

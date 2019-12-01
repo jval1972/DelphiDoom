@@ -40,7 +40,7 @@ interface
 uses
   d_delphi,
   doomtype,
-  xn_defs,
+  doomdef,
   m_fixed,
 // Needed because we are refering to patches.
   r_defs,

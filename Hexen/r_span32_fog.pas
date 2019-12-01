@@ -33,6 +33,7 @@ unit r_span32_fog;
 interface
 
 procedure R_DrawSpanNormal_Fog;
+procedure R_DrawSpanNormal_Fog_Ripple;
 
 implementation
 {$DEFINE FOG}
@@ -41,6 +42,7 @@ uses
   d_delphi,
   m_fixed,
   r_precalc,
+  r_ripple,
   r_span,
   r_span32,
   r_draw,
@@ -62,8 +64,7 @@ var
   i: integer;
   spot: integer;
 
-  r1, g1, b1: byte;
-  c, c1: LongWord;
+  c: LongWord;
   lfactor: integer;
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
@@ -78,15 +79,51 @@ begin
   if lfactor >= 0 then // Use hi detail lightlevel
   begin
     R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
-    {$UNDEF INVERSECOLORMAPS}
-    {$UNDEF TRANSPARENTFLAT}
-    {$I R_DrawSpanNormal.inc}
+    {$UNDEF RIPPLE}
+    {$I R_DrawSpanNormalFog.inc}
   end
   else // Use inversecolormap
   begin
-    {$DEFINE INVERSECOLORMAPS}
-    {$UNDEF TRANSPARENTFLAT}
-    {$I R_DrawSpanNormal.inc}
+    {$UNDEF RIPPLE}
+    {$I R_DrawSpanNormalFog.inc}
+  end;
+end;
+
+procedure R_DrawSpanNormal_Fog_Ripple;
+var
+  xfrac: fixed_t;
+  yfrac: fixed_t;
+  xstep: fixed_t;
+  ystep: fixed_t;
+  destl: PLongWord;
+  count: integer;
+  i: integer;
+  spot: integer;
+
+  c: LongWord;
+  lfactor: integer;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
+  rpl: PIntegerArray;
+begin
+  destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
+
+  // We do not check for zero spans here?
+  count := ds_x2 - ds_x1;
+
+  rpl := ds_ripple;
+  lfactor := ds_lightlevel;
+  if lfactor >= 0 then // Use hi detail lightlevel
+  begin
+    R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$DEFINE RIPPLE}
+    {$I R_DrawSpanNormalFog.inc}
+  end
+  else // Use inversecolormap
+  begin
+    {$DEFINE RIPPLE}
+    {$I R_DrawSpanNormalFog.inc}
   end;
 end;
 

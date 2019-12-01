@@ -53,7 +53,7 @@ procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: int
 procedure R_DrawPlanes;
 {$ENDIF}
 
-function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer; xoffs, yoffs: fixed_t): Pvisplane_t;
+function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer; xoffs, yoffs: fixed_t; flags: LongWord): Pvisplane_t;
 
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 
@@ -99,6 +99,7 @@ uses
   r_main,
 {$IFNDEF OPENGL}
   r_batchsky,
+  r_ripple,
   r_span,
   r_span32,
   r_column,
@@ -116,8 +117,8 @@ const
 //   Use -zone cmdline param to specify more zone memory allocation
 //   if out of memory.
 //   See also R_NewVisPlane()
-// Now maximum visplanes are 2048 (originally 128)
-  MAXVISPLANES = 2048;
+// Now maximum visplanes are 8192 (originally 128)
+  MAXVISPLANES = 8192;
 
 var
   visplanes: array[0..MAXVISPLANES - 1] of visplane_t;
@@ -324,7 +325,7 @@ end;
 //
 // R_FindPlane
 //
-function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer; xoffs, yoffs: fixed_t): Pvisplane_t;
+function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer; xoffs, yoffs: fixed_t; flags: LongWord): Pvisplane_t;
 var
   check: integer;
 begin
@@ -344,7 +345,8 @@ begin
        (picnum = result.picnum) and
        (xoffs = result.xoffs) and
        (yoffs = result.yoffs) and
-       (lightlevel = result.lightlevel) then
+       (lightlevel = result.lightlevel) and
+       (flags = result.renderflags) then
       break;
     inc(check);
     inc(result);
@@ -367,6 +369,7 @@ begin
   result.maxx := -1;
   result.xoffs := xoffs;
   result.yoffs := yoffs;
+  result.renderflags := flags;
 
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
 end;
@@ -433,6 +436,9 @@ begin
   pll.height := pl.height;
   pll.picnum := pl.picnum;
   pll.lightlevel := pl.lightlevel;
+  pll.xoffs := pl.xoffs;
+  pll.yoffs := pl.yoffs;
+  pll.renderflags := pl.renderflags;
 
   pl := pll;
 
@@ -611,6 +617,16 @@ begin
     pl.top[pl.minx - 1] := VISEND;
     xoffs := pl.xoffs;
     yoffs := pl.yoffs;
+    if pl.renderflags and SRF_RIPPLE <> 0 then
+    begin
+      spanfunc := ripplespanfunc;
+      ds_ripple := curripple
+    end
+    else
+    begin
+      spanfunc := basespanfunc;
+      ds_ripple := nil;
+    end;
 
     stop := pl.maxx + 1;
 

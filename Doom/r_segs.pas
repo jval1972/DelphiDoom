@@ -554,7 +554,8 @@ begin
                    // from bleeding through deep water
                    (frontsector.heightsec <> -1) or
                    // killough 4/17/98: draw floors if different light levels
-                   (backsector.floorlightsec <> frontsector.floorlightsec);
+                   (backsector.floorlightsec <> frontsector.floorlightsec) or
+                   (backsector.renderflags <> frontsector.renderflags);
 
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
@@ -566,7 +567,8 @@ begin
                      // from bleeding through fake ceilings
                      ((frontsector.heightsec <> -1) and (frontsector.ceilingpic <> skyflatnum)) or
                      // killough 4/17/98: draw ceilings if different light levels
-                     (backsector.ceilinglightsec <> frontsector.ceilinglightsec);
+                     (backsector.ceilinglightsec <> frontsector.ceilinglightsec) or
+                     (backsector.renderflags <> frontsector.renderflags);
     end;
 
     if worldhigh < worldtop then

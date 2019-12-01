@@ -34,7 +34,7 @@ interface
 
 uses
   d_delphi,
-  z_zone, xn_defs,
+  z_zone, doomdef,
   m_fixed,
   p_local, p_mobj_h, p_spec,
   r_defs,

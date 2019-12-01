@@ -33,7 +33,7 @@ unit g_game;
 interface
 
 uses
-  xn_defs,
+  doomdef,
   m_fixed,
   d_event,
   d_player,

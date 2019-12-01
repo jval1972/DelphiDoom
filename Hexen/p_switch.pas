@@ -50,7 +50,7 @@ uses
   doomdata,
   m_fixed,
   p_local, p_setup, p_lights, p_plats, p_doors, p_ceilng, p_floor,
-  i_system, xn_defs, g_game, s_sound,
+  i_system, doomdef, g_game, s_sound,
   r_data,
 // Data
   sounds,

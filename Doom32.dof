@@ -94,13 +94,13 @@ OutputDir=..\bin\Doom
 UnitOutputDir=..\dcu\Doom\soft
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=
+SearchPath=C:\Program Files\Borland\Delphi7\Lib
 Packages=vcl;rtl;dbrtl;inet;inetdb;dsnap;bdertl;vclx;vcldb;vcldbx;visualclx;visualdbclx;vclactnband;vclshlctrls;vclie;xmlrtl;inetdbbde;inetdbxpress;webdsnap;soaprtl;websnap;adortl;dbexpress;dsnapcon;dbxcds;ibxpress;teeui;teedb;tee;dss;indy;VclSmp;qrpt;teeqr;Rave50CLX;Rave50VCL;IntrawebDB_50_70;Intraweb_50_70;VclNewlyext
 Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-svga -nofullscreen -iwad doom2.wad boomedit.wad
+RunParams=-svga -nofullscreen -iwad doom2.wad doom-hires.pk3 BOOMEDIT.WAD
 HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
@@ -108,14 +108,14 @@ DebugCWD=
 [Language]
 ActiveLang=
 ProjectLang=
-RootDir=C:\Program Files (x86)\Borland\Delphi7\Bin\
+RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=1
 MinorVer=1
 Release=4
-Build=555
+Build=560
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.555
+FileVersion=1.1.4.560
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=
@@ -134,6 +134,42 @@ OriginalFilename=Doom32.exe
 ProductName=Doom 32 bit engine
 ProductVersion=1.0
 Comments=http://sourceforge.net/projects/delphidoom/
+[Excluded Packages]
+C:\Program Files\Borland\Delphi7\Bin\visualclx70.bpl=Borland Component Library for Crossplatform (CLX)
+C:\Program Files\Borland\Delphi7\Bin\coreide70.bpl=Borland Core IDE Package
+C:\Program Files\Borland\Delphi7\Bin\vcldb70.bpl=Borland Database Components
+C:\Program Files\Borland\Delphi7\Bin\vclie70.bpl=Internet Explorer Components Runtime Package
+C:\Program Files\Borland\Delphi7\Bin\indy70.bpl=Internet Direct (Indy) for D7
+C:\Program Files\Borland\Delphi7\Bin\IntrawebDB_50_70.bpl=Intraweb 5.0 Runtime DB Package for Delphi 7
+C:\Program Files\Borland\Delphi7\Bin\Intraweb_50_70.bpl=Intraweb 5.0 Runtime Package for Delphi 7
+C:\Program Files\Borland\Delphi7\Bin\inet70.bpl=Borland Internet/World Wide Web components
+C:\Program Files\Borland\Delphi7\Bin\inetdbbde70.bpl=Borland Internet/World Wide Web BDE components
+C:\Program Files\Borland\Delphi7\Bin\inetdb70.bpl=Borland Internet/World Wide Web database components
+C:\Program Files\Borland\Delphi7\Bin\inetdbxpress70.bpl=Borland Internet/World Wide Web DBXExpress components
+C:\Program Files\Borland\Delphi7\Bin\qrpt70.bpl=QuickReport Runtime Package
+C:\Program Files\Borland\Delphi7\Bin\Rave50CLXBE70.bpl=Rave Reports 5.0 Run-Time Package (CLX)
+C:\Program Files\Borland\Delphi7\Bin\Rave50VCLBE70.bpl=Rave Reports 5.0 Run-Time Package (VCL)
+C:\Program Files\Borland\Delphi7\Bin\vclshlctrls70.bpl=Win32 Shell Controls
+C:\Program Files\Borland\Delphi7\Bin\VclSmp70.bpl=Borland Sample Components
+C:\Program Files\Borland\Delphi7\Bin\soaprtl70.bpl=Borland SOAP Runtime Package
+C:\Program Files\Borland\Delphi7\Bin\dsnap70.bpl=Borland DataSnap Components
+C:\Program Files\Borland\Delphi7\Bin\webdsnap70.bpl=Borland Web Midas Components
+C:\Program Files\Borland\Delphi7\Bin\dsnapcon70.bpl=Borland DataSnap Connection Components
+C:\Program Files\Borland\Delphi7\Bin\websnap70.bpl=Borland Web Midas Components
+C:\Program Files\Borland\Delphi7\Bin\vcldbx70.bpl=Borland BDE Database Components
+C:\Program Files\Borland\Delphi7\Bin\teeui70.bpl=TeeChart UI Components
+C:\Program Files\Borland\Delphi7\Bin\teedb70.bpl=TeeChart Database Components
+C:\Program Files\Borland\Delphi7\Bin\tee70.bpl=TeeChart Components
+C:\Program Files\Borland\Delphi7\Bin\dss70.bpl=Borland Decision Cube Components
+C:\Program Files\Borland\Delphi7\Bin\dcltqr70.bpl=TeeChart for QuickReport Components
+C:\Program Files\Borland\Delphi7\Bin\teeqr70.bpl=TeeChart for QuickReport Components
+C:\Program Files\Borland\Delphi7\Bin\dclib70.bpl=InterBase Data Access Components
+C:\Program Files\Borland\Delphi7\Bin\ibxpress70.bpl=Borland DataSnap Components
+C:\Program Files\Borland\Delphi7\Bin\dcl31w70.bpl=Delphi 1.0 Compatibility Components
+C:\Program Files\Borland\Delphi7\Bin\dclclxdb70.bpl=Borland CLX Database Components
+C:\Program Files\Borland\Delphi7\Bin\visualdbclx70.bpl=Borland Component Library for Crossplatform (CLX) Data Controls
+C:\Program Files\Borland\Delphi7\Bin\dclmid70.bpl=Borland MyBase DataAccess Components
+C:\Program Files\Borland\Delphi7\Bin\dclmcn70.bpl=Borland DataSnap Connection Components
 [HistoryLists\hlDebugSourcePath]
 Count=2
 Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
@@ -153,6 +189,9 @@ Item9=HEXEN
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[HistoryLists\hlSearchPath]
+Count=1
+Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
 Count=5
 Item0=..\dcu\Doom\soft

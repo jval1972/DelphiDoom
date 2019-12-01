@@ -107,7 +107,7 @@ implementation
 uses
   d_delphi,
   doomstat,
-  xn_defs,
+  doomdef,
   am_map,
   c_cmds,
   xn_strings,

@@ -40,9 +40,66 @@ uses
 //
 // TYPES
 //
+
 type
   char8_t = array[0..7] of char;
 
+  lumpindicator_t = record
+    _START: char8_t;
+    _END: char8_t;
+    _type: byte;
+  end;
+
+const
+  NUMINDICATORS = 36;
+  IND_FLOOR = 1;
+  IND_SPRITE = 2;
+  IND_PATCH = 3;
+  IND_MAX = 4;
+  TYPE_FLOOR = 1 shl IND_FLOOR;
+  TYPE_SPRITE = 1 shl IND_SPRITE;
+  TYPE_PATCH = 1 shl IND_PATCH;
+
+  lumpindicators: array[0..NUMINDICATORS - 1] of lumpindicator_t = (
+    (_START: 'F_START';  _END: 'F_END';    _type: IND_FLOOR),
+    (_START: 'F1_START'; _END: 'F1_END';   _type: IND_FLOOR),
+    (_START: 'F2_START'; _END: 'F2_END';   _type: IND_FLOOR),
+    (_START: 'F3_START'; _END: 'F3_END';   _type: IND_FLOOR),
+    (_START: 'F4_START'; _END: 'F4_END';   _type: IND_FLOOR),
+    (_START: 'F5_START'; _END: 'F5_END';   _type: IND_FLOOR),
+    (_START: 'F6_START'; _END: 'F6_END';   _type: IND_FLOOR),
+    (_START: 'F7_START'; _END: 'F7_END';   _type: IND_FLOOR),
+    (_START: 'F8_START'; _END: 'F8_END';   _type: IND_FLOOR),
+    (_START: 'F9_START'; _END: 'F9_END';   _type: IND_FLOOR),
+    (_START: 'F0_START'; _END: 'F0_END';   _type: IND_FLOOR),
+    (_START: 'FF_START'; _END: 'FF_END';   _type: IND_FLOOR),
+    (_START: 'S_START';  _END: 'S_END';    _type: IND_SPRITE),
+    (_START: 'S1_START'; _END: 'S1_END';   _type: IND_SPRITE),
+    (_START: 'S2_START'; _END: 'S2_END';   _type: IND_SPRITE),
+    (_START: 'S3_START'; _END: 'S3_END';   _type: IND_SPRITE),
+    (_START: 'S4_START'; _END: 'S4_END';   _type: IND_SPRITE),
+    (_START: 'S5_START'; _END: 'S5_END';   _type: IND_SPRITE),
+    (_START: 'S6_START'; _END: 'S6_END';   _type: IND_SPRITE),
+    (_START: 'S7_START'; _END: 'S7_END';   _type: IND_SPRITE),
+    (_START: 'S8_START'; _END: 'S8_END';   _type: IND_SPRITE),
+    (_START: 'S9_START'; _END: 'S9_END';   _type: IND_SPRITE),
+    (_START: 'S0_START'; _END: 'S0_END';   _type: IND_SPRITE),
+    (_START: 'SS_START'; _END: 'SS_END';   _type: IND_SPRITE),
+    (_START: 'P_START';  _END: 'P_END';    _type: IND_PATCH),
+    (_START: 'P1_START'; _END: 'P1_END';   _type: IND_PATCH),
+    (_START: 'P2_START'; _END: 'P2_END';   _type: IND_PATCH),
+    (_START: 'P3_START'; _END: 'P3_END';   _type: IND_PATCH),
+    (_START: 'P4_START'; _END: 'P4_END';   _type: IND_PATCH),
+    (_START: 'P5_START'; _END: 'P5_END';   _type: IND_PATCH),
+    (_START: 'P6_START'; _END: 'P6_END';   _type: IND_PATCH),
+    (_START: 'P7_START'; _END: 'P7_END';   _type: IND_PATCH),
+    (_START: 'P8_START'; _END: 'P8_END';   _type: IND_PATCH),
+    (_START: 'P9_START'; _END: 'P9_END';   _type: IND_PATCH),
+    (_START: 'P0_START'; _END: 'P0_END';   _type: IND_PATCH),
+    (_START: 'PP_START'; _END: 'PP_END';   _type: IND_PATCH)
+  );
+
+type
   wadinfo_t = packed record
     // Should be "IWAD" or "PWAD".
     identification: integer;
@@ -67,6 +124,7 @@ type
     handle: TCachedFile;
     position: integer;
     size: integer;
+    flags: LongWord;
     case integer of
       0: (name: char8_t);
       1: (v1, v2: integer);
@@ -97,11 +155,11 @@ procedure W_Reload;
 
 function W_NumLumps: integer;
 
-function W_CheckNumForName(const name: string): integer;
+function W_CheckNumForName(const name: string; const flags: LongWord = $0): integer;
 
 function W_CheckNumForName2(const name: string; first: integer; last: integer): integer;
 
-function W_GetNumForName(const name: string): integer;
+function W_GetNumForName(const name: string; const flags: LongWord = $0): integer;
 function W_GetFirstNumForName(const name: string): integer;
 
 function W_GetNameForNum(const lump: integer): char8_t;
@@ -110,7 +168,7 @@ function W_LumpLength(const lump: integer): integer;
 procedure W_ReadLump(const lump: integer; dest: pointer);
 
 function W_CacheLumpNum(const lump: integer; const tag: integer): pointer;
-function W_CacheLumpName(const name: string; const tag: integer): pointer;
+function W_CacheLumpName(const name: string; const tag: integer; const flags: LongWord = $0): pointer;
 function W_TextLumpNum(const lump: integer): string;
 function W_TextLumpName(const name: string): string;
 
@@ -392,6 +450,7 @@ begin
   begin
     lump_p := @lumpinfo[i];
     lump_p.handle := storehandle;
+
     pfi := @fileinfo[i - startlump];
     lump_p.position := pfi.filepos;
     lump_p.size := pfi.size;
@@ -415,17 +474,47 @@ end;
 
 procedure W_InitLumpHash;
 var
-  i: integer;
+  i, j: integer;
   hash: integer;
   lumphit: integer;
+  ind_A: array[0..IND_MAX - 1] of integer;
+
+  procedure _check_indicator;
+  var
+    x: integer;
+  begin
+    for x := 0 to NUMINDICATORS - 1 do
+    begin
+      if char8tostring(lumpinfo[i].name) = char8tostring(lumpindicators[x]._START) then
+      begin
+        Dec(ind_A[lumpindicators[x]._type]);
+        if ind_A[lumpindicators[x]._type] < 0 then
+          I_Warning('W_InitLumpHash(): Lump indicators misplaced, lump #%d'#13#10, [i]);
+        Break;
+      end;
+      if char8tostring(lumpinfo[i].name) = char8tostring(lumpindicators[x]._END) then
+      begin
+        Inc(ind_A[lumpindicators[x]._type]);
+        Break;
+      end;
+    end;
+  end;
+
+
 begin
   ZeroMemory(lumphash, SizeOf(lumphash_tArray));
+  ZeroMemory(@ind_A, SizeOf(ind_A));
   for i := 0 to LUMPHASHSIZE - 1 do
     lumphash[i].position := -1;
 
   lumphit := 0;
   for i := numlumps - 1 downto 0 do
   begin
+    _check_indicator;
+    lumpinfo[i].flags := 0;
+    for j := 0 to IND_MAX - 1 do
+      if ind_A[j] > 0 then
+        lumpinfo[i].flags := lumpinfo[i].flags or (1 shl j);
     hash := djb2Hash(lumpinfo[i].name);
     if lumphash[hash].position = -1 then
     begin
@@ -577,7 +666,7 @@ end;
 // W_CheckNumForName
 // Returns -1 if name not found.
 //
-function W_CheckNumForName(const name: string): integer;
+function W_CheckNumForName(const name: string; const flags: LongWord = $0): integer;
 var
   name8: name8_t;
   v1: integer;
@@ -609,10 +698,11 @@ begin
   hash := djb2Hash(name8.s);
   if (lumphash[hash].name.x[0] = v1) and
      (lumphash[hash].name.x[1] = v2) then
-  begin
-    result := lumphash[hash].position;
-    exit;
-  end;
+    if (flags = 0) or (lumpinfo[lumphash[hash].position].flags or flags <> 0) then
+    begin
+      result := lumphash[hash].position;
+      exit;
+    end;
 
   // JVAL: If hash position is -1 then the lump does don exist!
   result := lumphash[hash].position;
@@ -629,10 +719,11 @@ begin
   begin
     dec(lump_p);
     if (lump_p.v1 = v1) and (lump_p.v2 = v2) then
-    begin
-      result := (integer(lump_p) - integer(lumpinfo)) div SizeOf(lumpinfo_t);
-      exit;
-    end;
+      if (flags = 0) or (lump_p.flags or flags <> 0) then
+      begin
+        result := (integer(lump_p) - integer(lumpinfo)) div SizeOf(lumpinfo_t);
+        exit;
+      end;
   end;
 
   // TFB. Not found.
@@ -747,9 +838,9 @@ end;
 // W_GetNumForName
 // Calls W_CheckNumForName, but bombs out if not found.
 //
-function W_GetNumForName(const name: string): integer;
+function W_GetNumForName(const name: string; const flags: LongWord = $0): integer;
 begin
-  result := W_CheckNumForName(name);
+  result := W_CheckNumForName(name, flags);
   if result = -1 then
     I_Error('W_GetNumForName(): %s not found!', [name]);
 end;
@@ -853,9 +944,9 @@ end;
 //
 // W_CacheLumpName
 //
-function W_CacheLumpName(const name: string; const tag: integer): pointer;
+function W_CacheLumpName(const name: string; const tag: integer; const flags: LongWord = $0): pointer;
 begin
-  result := W_CacheLumpNum(W_GetNumForName(name), tag);
+  result := W_CacheLumpNum(W_GetNumForName(name, flags), tag);
 end;
 
 function W_TextLumpNum(const lump: integer): string;

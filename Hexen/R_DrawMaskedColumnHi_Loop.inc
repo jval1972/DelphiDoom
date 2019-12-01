@@ -3,7 +3,10 @@
     spot2 := (LongWord(spot) + 1) and 127;
     c := hirestable[fmod, dc_source[spot], dc_source[spot2]];
 {$IFDEF INVERSECOLORMAPS}
-    {$I R_InverseLight.inc}
+    r1 := c;
+    g1 := c shr 8;
+    b1 := c shr 16;
+    destl^ := precal32_ic[r1 + g1 + b1];
 {$ELSE}
     {$I R_ColorLight.inc}
 {$ENDIF}

@@ -33,7 +33,7 @@ unit xn_strings;
 interface
 
 uses
-  xn_defs;
+  doomdef;
 
 // Emacs style mode select   -*- C++ -*-  
 //----------------------------------------------------------------------------- 

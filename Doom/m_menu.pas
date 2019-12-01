@@ -3352,7 +3352,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Major boss death ends Doom1 level';
+  pmi.name := '!Âoss death ends Doom1 level';
   pmi.cmd := 'majorbossdeathendsdoom1level';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @majorbossdeathendsdoom1level;

@@ -166,6 +166,8 @@ type
     midmap: integer;
     bottommap: integer;
 
+    renderflags: LongWord;
+
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
@@ -270,8 +272,14 @@ type
   line_tPArray = packed array[0..$FFFF] of Pline_t;
 
 const
+  // Line rendering flags
   LRF_ISOLATED = 1;
   LRF_TRANSPARENT = 2;
+
+  // Sector rendering flags
+  SRF_RIPPLE_FLOOR = 1;
+  SRF_RIPPLE_CEILING = 2;
+  SRF_RIPPLE = SRF_RIPPLE_FLOOR or SRF_RIPPLE_CEILING;
 //
 // A SubSector.
 // References a Sector.
@@ -519,6 +527,7 @@ type
     maxx: integer;
     xoffs: fixed_t;
     yoffs: fixed_t;
+    renderflags: LongWord;
 
     // leave pads for [minx-1] and [maxx+1]
     top: Pvisindex_tArray;    // Now allocated dinamically!

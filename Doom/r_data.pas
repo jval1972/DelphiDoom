@@ -19,6 +19,12 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Refresh module, data I/O, caching, retrieval of graphics
+//  by name.
+//  Preparation of data for rendering,
+//  generation of lookups, caching, retrieval by name.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -34,34 +40,6 @@ uses
   d_delphi,
   m_fixed,
   r_defs;
-
-{
-    r_data.h, r_data.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  Refresh module, data I/O, caching, retrieval of graphics
-//  by name.
-//  Preparation of data for rendering,
-//  generation of lookups, caching, retrieval by name.
-//
-//-----------------------------------------------------------------------------
 
 // Retrieve column data for span blitting.
 function R_GetColumn(const tex: integer; col: integer): PByteArray;
@@ -151,6 +129,7 @@ uses
   r_things,
   r_bsp,
   r_hires,
+  r_colormaps,
 {$IFNDEF OPENGL}
   r_column,
   r_span,
@@ -158,7 +137,8 @@ uses
   r_scache,
   r_col_fz,
 {$ENDIF}
-  v_data, v_video,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 
@@ -611,7 +591,7 @@ begin
       name[j] := #0;
       inc(j);
     end;
-    patchlookup[i] := W_CheckNumForName(char8tostring(name));
+    patchlookup[i] := W_CheckNumForName(strtrim(char8tostring(name)), TYPE_PATCH or TYPE_SPRITE);
   end;
   Z_Free(names);
 
@@ -1091,7 +1071,8 @@ begin
         exit;
       end;
 
-  I_Warning('R_SafeTextureNumForName(): %s not found.'#13#10, [name]);
+  if R_CustomColorMapForName(name) < 0 then
+    I_Warning('R_SafeTextureNumForName(): %s not found.'#13#10, [name]);
   result := 0;
 end;
 
@@ -1198,7 +1179,7 @@ begin
 {$IFNDEF OPENGL}
   dc_mod := 0;
   dc_texturemod := 0;
-{$ENDIF}  
+{$ENDIF}
   for i := 0 to numtextures - 1 do
   begin
     if texturepresent[i] = 0 then

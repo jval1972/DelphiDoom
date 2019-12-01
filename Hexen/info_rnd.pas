@@ -49,7 +49,7 @@ implementation
 
 uses
   d_delphi,
-  xn_defs,
+  doomdef,
   info,
   m_rnd,
   p_setup, p_mobj, p_mobj_h;

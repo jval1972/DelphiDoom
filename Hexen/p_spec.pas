@@ -368,20 +368,41 @@ implementation
 uses
   a_action,
   xn_strings,
-  xn_defs, doomstat, doomdata,
-  i_system, i_io,
+  doomdef,
+  doomstat,
+  doomdata,
+  i_system,
+  i_io,
   z_zone,
-  m_argv, m_rnd,
+  m_argv,
+  m_rnd,
   w_wad,
   r_data,
   info_h,
+  {$IFNDEF OPENGL}
+  r_ripple,
+  {$ENDIF}
   g_game,
-  p_setup, p_inter, p_switch, p_ceilng, p_plats, p_lights, p_doors, p_mobj, p_user,
-  p_floor, p_telept, p_acs, p_anim, p_things,
+  p_setup,
+  p_inter,
+  p_switch,
+  p_ceilng,
+  p_plats,
+  p_lights,
+  p_doors,
+  p_mobj,
+  p_user,
+  p_floor,
+  p_telept,
+  p_acs,
+  p_anim,
+  p_things,
   po_man,
   tables,
   sb_bar,
-  s_sound, s_sndseq, sounds;
+  s_sound,
+  s_sndseq,
+  sounds;
 
 
 procedure P_InitLava;
@@ -1429,6 +1450,9 @@ begin
       end;
     end;
   end;
+  {$IFNDEF OPENGL}
+  curripple := @r_defripple[leveltime and 31];
+  {$ENDIF}
 end;
 
 
@@ -1439,6 +1463,21 @@ end;
 //
 //==============================================================================
 //
+function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
+var
+  i: integer;
+begin
+  for i := start + 1 to numsectors - 1 do
+    if sectors[i].tag = line.arg1 then
+    begin
+      result := i;
+      start := result;
+      exit;
+    end;
+
+  result := -1;
+  start := -1;
+end;
 
 //
 //================================================================================
@@ -1454,6 +1493,7 @@ procedure P_SpawnSpecials;
 var
   sector: Psector_t;
   i: integer;
+  s: integer;
 begin
   //
   //      Init special SECTORs
@@ -1523,6 +1563,22 @@ begin
 
   // Initialize flat and texture animations
   P_InitFTAnims;
+
+  for i := 0 to numlines - 1 do
+    case lines[i].special of
+      // JVAL: ripple effect to tagged sectors floor/Ceiling
+      255:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+          begin
+            if lines[i].arg2 <> 0 then
+              sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_FLOOR;
+            if lines[i].arg3 <> 0 then
+              sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_CEILING;
+          end;
+        end;
+    end;
 end;
 
 //==========================================================================

@@ -942,7 +942,8 @@ begin
                               frontsector.floorpic,
                               floorlightlevel,
                               frontsector.floor_xoffs,
-                              frontsector.floor_yoffs);
+                              frontsector.floor_yoffs,
+                              frontsector.renderflags and not SRF_RIPPLE_CEILING);
   end
   else
     floorplane := nil;
@@ -955,7 +956,8 @@ begin
                                 frontsector.ceilingpic,
                                 ceilinglightlevel,
                                 frontsector.ceiling_xoffs,
-                                frontsector.ceiling_yoffs);
+                                frontsector.ceiling_yoffs,
+                                frontsector.renderflags and not SRF_RIPPLE_FLOOR);
   end
   else
     ceilingplane := nil;

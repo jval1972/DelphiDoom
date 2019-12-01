@@ -330,17 +330,33 @@ implementation
 
 uses
   d_delphi,
+  {$IFNDEF OPENGL}
+  r_ripple,
+  {$ENDIF}
   h_strings,
-  doomdef, doomstat, doomdata,
-  i_system, i_io,
+  doomdef,
+  doomstat,
+  doomdata,
+  i_system,
+  i_io,
   z_zone,
-  m_argv, m_rnd,
+  m_argv,
+  m_rnd,
   w_wad,
   r_data,
   info_h,
   g_game,
-  p_setup, p_inter, p_switch, p_ceilng, p_plats, p_lights, p_doors, p_mobj, p_user,
-  p_floor, p_telept,
+  p_setup,
+  p_inter,
+  p_switch,
+  p_ceilng,
+  p_plats,
+  p_lights,
+  p_doors,
+  p_mobj,
+  p_user,
+  p_floor,
+  p_telept,
   tables,
   s_sound,
 // Data.
@@ -1403,7 +1419,9 @@ begin
     end;
   end;
 
-
+  {$IFNDEF OPENGL}
+  curripple := @r_defripple[leveltime and 31];
+  {$ENDIF}
   // DO BUTTONS
   button := @buttonlist[0];
   for i := 0 to MAXBUTTONS - 1 do
@@ -1499,6 +1517,23 @@ end;
 // SPECIAL SPAWNING
 //
 
+function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
+var
+  i: integer;
+begin
+  for i := start + 1 to numsectors - 1 do
+    if sectors[i].tag = line.tag then
+    begin
+      result := i;
+      start := result;
+      exit;
+    end;
+
+  result := -1;
+  start := -1;
+end;
+
+
 //
 // P_SpawnSpecials
 // After the map has been loaded, scan for specials
@@ -1510,6 +1545,7 @@ var
   sector: Psector_t;
   i: integer;
   time: integer;
+  s: integer;
 begin
   if W_CheckNumForName('texture2') < 0 then
     gameepisode := 1; // ???
@@ -1639,6 +1675,23 @@ begin
 
     // UNUSED: no horizonal sliders.
     //  P_InitSlidingDoorFrames();
+  for i := 0 to numlines - 1 do
+    case lines[i].special of
+      // JVAL: ripple effect to tagged sectors floor
+      279:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_FLOOR;
+        end;
+      // JVAL: ripple effect to tagged sectors floor
+      280:
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].renderflags := sectors[s].renderflags or SRF_RIPPLE_CEILING;
+        end;
+    end;
 end;
 
 end.

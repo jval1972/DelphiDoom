@@ -34,7 +34,7 @@ interface
 
 uses
   d_delphi,
-  xn_defs,
+  doomdef,
   r_defs,
 // Needs access to LFB (guess what).
   v_video;

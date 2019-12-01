@@ -38,7 +38,7 @@ uses
   m_fixed;
 
 const
-  DIHERBITS = 4;
+  DIHERBITS = 5;
   DIHERRANGE = 1 shl DIHERBITS;
   DIHERSHIFT = 8 - DIHERBITS;
 

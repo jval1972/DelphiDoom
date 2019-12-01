@@ -44,7 +44,7 @@ implementation
 uses
   d_delphi,
   m_fixed,
-  xn_defs,
+  doomdef,
   r_draw, r_main, r_column, r_hires,
   v_video;
 

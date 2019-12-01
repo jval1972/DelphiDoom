@@ -40,7 +40,7 @@ implementation
 
 uses
   d_delphi,
-  xn_defs,
+  doomdef,
   m_fixed,
   r_draw, r_main, r_column, r_hires,
   v_video;

@@ -35,7 +35,7 @@ interface
 uses
   am_map,
   c_con,
-  xn_defs,
+  doomdef,
   xn_strings,
   d_main,
   g_game,

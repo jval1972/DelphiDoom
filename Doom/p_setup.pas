@@ -503,6 +503,7 @@ begin
     ss.topmap := -1;
     ss.midmap := -1;
     ss.bottommap := -1;
+    ss.renderflags := 0;
 
 {$IFDEF OPENGL}
     ss.floorlightlevel := ss.lightlevel;

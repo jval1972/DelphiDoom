@@ -33,7 +33,7 @@ unit hu_stuff;
 interface
 
 uses
-  xn_defs,
+  doomdef,
   d_event,
   r_defs;
 

@@ -34,7 +34,7 @@ interface
 
 uses
   m_fixed,
-  xn_defs, 
+  doomdef, 
   r_data,
   r_defs;
 
@@ -83,7 +83,7 @@ procedure R_CalcPlaneOffsets(const pl: Pvisplane_t);
 {$ENDIF}
 
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
-  special: integer): Pvisplane_t;
+  special: integer; flags: LongWord): Pvisplane_t;
 
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 
@@ -132,6 +132,7 @@ uses
   r_main,
   r_things,
 {$IFNDEF OPENGL}
+  r_ripple,
   r_span,
   r_span32,
   r_column,
@@ -150,8 +151,8 @@ const
 //   Use -zone cmdline param to specify more zone memory allocation
 //   if out of memory.
 //   See also R_NewVisPlane()
-// Now maximum visplanes are 2048 (originally 128)
-  MAXVISPLANES = 2048;
+// Now maximum visplanes are 8192 (originally 128)
+  MAXVISPLANES = 8192;
 
 var
   visplanes: array[0..MAXVISPLANES - 1] of visplane_t;
@@ -359,7 +360,7 @@ end;
 // R_FindPlane
 //
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
-  special: integer): Pvisplane_t;
+  special: integer; flags: LongWord): Pvisplane_t;
 var
   check: integer;
 begin
@@ -381,7 +382,8 @@ begin
     if (height = result.height) and
        (picnum = result.picnum) and
        (lightlevel = result.lightlevel) and
-       (special = result.special) then
+       (special = result.special) and
+       (flags = result.renderflags) then
       break;
     inc(check);
     inc(result);
@@ -403,6 +405,7 @@ begin
   result.special := special;
   result.minx := SCREENWIDTH;
   result.maxx := -1;
+  result.renderflags := flags;
 
   memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
 end;
@@ -470,6 +473,7 @@ begin
   pll.picnum := pl.picnum;
   pll.lightlevel := pl.lightlevel;
   pll.special := pl.special;
+  pll.renderflags := pl.renderflags;
 
   pl := pll;
 
@@ -754,6 +758,17 @@ begin
 
     pl.top[pl.maxx + 1] := VISEND;
     pl.top[pl.minx - 1] := VISEND;
+
+    if pl.renderflags and SRF_RIPPLE <> 0 then
+    begin
+      spanfunc := ripplespanfunc;
+      ds_ripple := curripple
+    end
+    else
+    begin
+      spanfunc := basespanfunc;
+      ds_ripple := nil;
+    end;
 
     stop := pl.maxx + 1;
 

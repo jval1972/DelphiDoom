@@ -63,7 +63,7 @@ uses
   s_sound,
   sounds,
   s_sndseq,
-  xn_defs,
+  doomdef,
   w_wad,
   z_zone;
 

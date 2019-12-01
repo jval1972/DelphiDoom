@@ -717,7 +717,8 @@ begin
   begin
     floorplane := R_FindPlane(frontsector.floorheight,
                               frontsector.floorpic,
-                              frontsector.lightlevel);
+                              frontsector.lightlevel,
+                              frontsector.renderflags and not SRF_RIPPLE_CEILING);
   end
   else
     floorplane := nil;
@@ -727,7 +728,8 @@ begin
   begin
     ceilingplane := R_FindPlane(frontsector.ceilingheight,
                                 frontsector.ceilingpic,
-                                frontsector.lightlevel);
+                                frontsector.lightlevel,
+                                frontsector.renderflags and not SRF_RIPPLE_FLOOR);
   end
   else
     ceilingplane := nil;

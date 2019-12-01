@@ -7,6 +7,8 @@ Different savegame filenames for "Death Kings of the Dark Citadel" pak.
 Default miditempo changed to 160
 Fixed rendering issues when playing levels with fog.
 Executes all console commands inside wad lumps with the "AUTOEXEC"name.
+Maximum visplanes increased to 8192.
+Added line specials 255, create ripple effect to tagged sectors floor or/and ceiling (sector tag=Arg0, floor=Arg1, Ceiling=Arg2).
 
 --------------------------------------
 version 1.1.4.551 (Released 19/3/2013)

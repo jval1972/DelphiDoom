@@ -46,7 +46,7 @@ uses
 // as commands per game tick.
   d_ticcmd,
   m_fixed,
-  xn_defs;
+  doomdef;
 
 //-----------------------------------------------------------------------------
 //

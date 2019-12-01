@@ -94,13 +94,13 @@ OutputDir=..\bin\Heretic
 UnitOutputDir=..\dcu\Heretic\Soft
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=
+SearchPath=C:\Program Files\Borland\Delphi7\Lib
 Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP
 Conditionals=HERETIC
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-fullhd -nofullscreen heretic-hires.pk3
+RunParams=-svga -fullscreen heretic-hires.pk3 HT_RIPPLE_TEST.wad
 HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=1
 MinorVer=1
 Release=4
-Build=555
+Build=560
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Heretic to Delphi Total Conversion
-FileVersion=1.1.4.555
+FileVersion=1.1.4.560
 InternalName=Heretic
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=
@@ -145,6 +145,9 @@ Item5=HEXEN
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
+[HistoryLists\hlSearchPath]
+Count=1
+Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
 Count=5
 Item0=..\dcu\Heretic\Soft

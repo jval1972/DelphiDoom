@@ -171,7 +171,7 @@ uses
   p_mobj, p_mobj_h, p_sounds, p_map, p_inter,
   tables,
   sounds, s_sound,
-  xn_defs;
+  doomdef;
 
 //==========================================================================
 //
