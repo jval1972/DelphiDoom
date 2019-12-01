@@ -304,6 +304,7 @@ var
   ldef: Pline_t;
   linedef: integer;
   side: integer;
+  sidenum: integer;
 begin
   numsegs := W_LumpLength(lump) div SizeOf(mapseg_t);
   segs := Z_Malloc(numsegs * SizeOf(seg_t), PU_LEVEL, nil);
@@ -326,7 +327,17 @@ begin
     li.sidedef := @sides[ldef.sidenum[side]];
     li.frontsector := li.sidedef.sector;
     if ldef.flags and ML_TWOSIDED <> 0 then
-      li.backsector := sides[ldef.sidenum[side xor 1]].sector
+    begin
+      sidenum := ldef.sidenum[side xor 1];
+      if sidenum = -1 then
+      begin
+        I_Warning('P_LoadSegs(): Line %d is marked with ML_TWOSIDED flag without backsector'#13#10, [linedef]);
+        ldef.flags := ldef.flags and not ML_TWOSIDED;
+        li.backsector := nil;
+      end
+      else
+        li.backsector := sides[sidenum].sector
+    end
     else
       li.backsector := nil;
     {$IFDEF OPENGL}
@@ -393,6 +404,7 @@ var
   ldef: Pline_t;
   linedef: integer;
   side: integer;
+  sidenum: integer;
 begin
   // JVAL glbsp V5
   if glnodesver = 3 then
@@ -441,7 +453,17 @@ begin
         li.sidedef := @sides[ldef.sidenum[side]];
         li.frontsector := li.sidedef.sector;
         if ldef.flags and ML_TWOSIDED <> 0 then
-          li.backsector := sides[ldef.sidenum[side xor 1]].sector
+        begin
+          sidenum := ldef.sidenum[side xor 1];
+          if sidenum = -1 then
+          begin
+            I_Warning('P_LoadGLSegs(): Line %d is marked with ML_TWOSIDED flag without backsector'#13#10, [linedef]);
+            ldef.flags := ldef.flags and not ML_TWOSIDED;
+            li.backsector := nil;
+          end
+          else
+            li.backsector := sides[sidenum].sector;
+        end
         else
           li.backsector := nil;
         li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);
@@ -489,7 +511,17 @@ begin
         li.sidedef := @sides[ldef.sidenum[side]];
         li.frontsector := li.sidedef.sector;
         if ldef.flags and ML_TWOSIDED <> 0 then
-          li.backsector := sides[ldef.sidenum[side xor 1]].sector
+        begin
+          sidenum := ldef.sidenum[side xor 1];
+          if sidenum = -1 then
+          begin
+            I_Warning('P_LoadGLSegs(): Line %d is marked with ML_TWOSIDED flag without backsector'#13#10, [linedef]);
+            ldef.flags := ldef.flags and not ML_TWOSIDED;
+            li.backsector := nil;
+          end
+          else
+            li.backsector := sides[sidenum].sector;
+        end
         else
           li.backsector := nil;
         li.length := GetDistance(li.v2.x - li.v1.x, li.v2.y - li.v1.y);

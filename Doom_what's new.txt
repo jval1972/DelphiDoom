@@ -1,3 +1,7 @@
+Version 2.0.4 build 709 - (23/12/2017)
+-----------
+Automatically unset the TWO-SIDED flag for lines without backsector.
+
 Version 2.0.4 build 708 - (21/12/2017)
 -----------
 Mobjs do not slip while descenting a slopped floor.

@@ -113,14 +113,12 @@ var
   ss: Psector_t;
   heightsec: integer;
   underwater: boolean;
-
   function notback1: boolean;
   begin
     tempsec.floorheight := sec.floorheight;
     tempsec.ceilingheight := ss.floorheight - 1;
     result := not back;
   end;
-
 begin
   if floorlightlevel <> nil then
   begin

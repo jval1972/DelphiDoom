@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-geom 640X400 -nofullscreen -iwad doomu.wad
+RunParams=-cgaX3 -nofullscreen DVII-1i.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -111,7 +111,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=708
+Build=709
 Debug=0
 PreRelease=0
 Special=0
@@ -122,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=2.0.4.708
+FileVersion=2.0.4.709
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2017, Jim Valavanis
 LegalTrademarks=
@@ -131,12 +131,13 @@ ProductName=Doom 32 bit engine
 ProductVersion=2.0
 Comments=http://sourceforge.net/projects/delphidoom/
 [HistoryLists\hlDebugSourcePath]
-Count=5
-Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\;F:\DelphiDoomSrc\Src\Doom\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\;F:\DelphiDoomSrc\Src\Base\
-Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
-Item2=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
-Item3=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
-Item4=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
+Count=6
+Item0=D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\
+Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\;F:\DelphiDoomSrc\Src\Doom\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Base\;F:\DelphiDoomSrc\Src\Base\
+Item2=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
+Item3=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
+Item4=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item5=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
 Count=28
 Item0=DOOM;OPTIMIZE_FOR_SPEED;

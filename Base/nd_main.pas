@@ -4723,6 +4723,7 @@ var
   ldef: Pline_t;
   linedef: integer;
   side: integer;
+  sidenum: integer;
 begin
   numsegs := gwa.nummapsegs;
   segs := Z_Malloc(numsegs * SizeOf(seg_t), PU_LEVEL, nil);
@@ -4766,7 +4767,17 @@ begin
       li.sidedef := @sides[ldef.sidenum[side]];
       li.frontsector := li.sidedef.sector;
       if ldef.flags and ML_TWOSIDED <> 0 then
-        li.backsector := sides[ldef.sidenum[side xor 1]].sector
+      begin
+        sidenum := ldef.sidenum[side xor 1];
+        if sidenum = -1 then
+        begin
+          I_Warning('ND_LoadSegs(): Line %d is marked with ML_TWOSIDED flag without backsector'#13#10, [linedef]);
+          ldef.flags := ldef.flags and not ML_TWOSIDED;
+          li.backsector := nil;
+        end
+        else
+          li.backsector := sides[sidenum].sector;
+      end
       else
         li.backsector := nil;
       {$IFDEF OPENGL}
