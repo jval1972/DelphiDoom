@@ -37,8 +37,8 @@ uses
   d_delphi,
   SysUtils,
   Classes,
-  uPSCompiler,
-  uPSRuntime;
+  ps_compiler,
+  ps_runtime;
 
 const
   HASHSIZE = 8192;

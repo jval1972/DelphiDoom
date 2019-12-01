@@ -109,7 +109,7 @@ var
   min_yh, max_yl: integer;
   max_yh, min_yl: integer;
 
-  buf: fourbytes;
+  buf: fourbytes_t;
 begin
   sk := @skies8.skies[0];
   min_yh := sk.dc_yh;
@@ -638,7 +638,6 @@ begin
   end;
 
 end;
-
 
 procedure R_FlashSkyColumns32;
 var

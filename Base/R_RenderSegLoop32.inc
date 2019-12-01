@@ -149,9 +149,9 @@ begin
       begin
         {$IFDEF USEDOUBLE}
         index := Round(rw_scale_dbl * 320 / (1 shl (HLL_LIGHTSCALESHIFT + 2)) / SCREENWIDTH);
-	{$ELSE}
+        {$ELSE}
         index := _SHR(rw_scale * 320, HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH;
-	{$ENDIF}
+        {$ENDIF}
         if index >= HLL_MAXLIGHTSCALE then
           index := HLL_MAXLIGHTSCALE - 1
         else if index < 0 then

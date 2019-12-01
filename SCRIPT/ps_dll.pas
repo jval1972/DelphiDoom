@@ -143,7 +143,7 @@ begin
 
   hc := dlls.Objects[idx] as THandleClass;
   if hc.LoadCount <= 0 then
-    I_Warning('PS_PAKUnLoadDll(): Zero Load count on dll "%s"'#13#10, [dlls.Strings[idx]])
+    I_Warning('PS_PAKUnLoadDll(): Zero LoadCount on dll "%s"'#13#10, [dlls.Strings[idx]])
   else
     hc.LoadCount := hc.LoadCount - 1;
 

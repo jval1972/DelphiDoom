@@ -4,7 +4,7 @@ unit uPSR_dll;
 interface
 
 uses
-  uPSRuntime, uPSUtils;
+  ps_runtime, ps_utils, ps_defs;
 
 procedure RegisterDLLRuntime(Caller: TPSExec);
 
@@ -105,7 +105,7 @@ begin
   dllhandle := 0;
   repeat
     ph := Caller.FindProcResource2(@dllFree, i);
-    if (ph = nil) then
+    if ph = nil then
     begin
       if s2 = '' then
       begin

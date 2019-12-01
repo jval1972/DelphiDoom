@@ -9,7 +9,7 @@ interface
 
 }
 uses
-  uPSCompiler, uPSUtils;
+  ps_compiler, ps_utils, ps_defs;
 
 {$IFDEF DELPHI3UP }
 resourceString

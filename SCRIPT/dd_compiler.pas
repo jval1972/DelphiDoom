@@ -174,9 +174,10 @@ uses
   ps_import,
   ps_main,
   ps_proclist,
-  uPSCompiler,
+  ps_compiler,
   uPSDisassembly,
-  uPSUtils;
+  ps_utils,
+  ps_defs;
 
 procedure DD_InitDoomEngine;
 begin

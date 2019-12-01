@@ -99,19 +99,19 @@ type
 type
   charset_t = set of char;
 
-  twobytes = packed record
+  twobytes_t = packed record
     byte1, byte2: byte;
   end;
 
-  fourbytes = packed record
+  fourbytes_t = packed record
     byte1, byte2, byte3, byte4: byte;
   end;
 
-  twointegers = packed record
+  twointegers_t = packed record
     int1, int2: integer;
   end;
 
-  twolongwords = packed record
+  twolongwords_t = packed record
     longword1, longword2: LongWord;
   end;
 
@@ -313,9 +313,9 @@ type
     function Add(const value: integer): integer; overload; virtual;
     procedure Add(const nlist: TDNumberList); overload; virtual;
     function Delete(const Index: integer): boolean;
-    function IndexOf(const value: integer): integer;
+    function IndexOf(const value: integer): integer; virtual;
     procedure Clear;
-    procedure Sort;
+    procedure Sort; virtual;
     function Sum: integer;
     property Count: integer read fNumItems;
     property Numbers[Index: Integer]: integer read Get write Put; default;
@@ -343,14 +343,32 @@ type
     destructor Destroy; override;
     function Add(const value: float): integer; overload; virtual;
     procedure Add(const nlist: TDFloatList); overload; virtual;
-    function Delete(const Index: integer): boolean;
-    function IndexOf(const value: float): integer;
-    procedure Clear;
-    procedure Sort;
+    function Delete(const Index: integer): boolean; virtual;
+    function IndexOf(const value: float): integer; virtual;
+    procedure Clear; virtual;
+    procedure Sort; virtual;
     function Sum: float;
     property Count: integer read fNumItems;
     property Floats[Index: Integer]: float read Get write Put; default;
     property List: PFloatArray read fList;
+  end;
+
+const
+  NLHASHSIZE = 2048;
+
+type
+  TDHashNumberList = class(TDNumberList)
+  private
+    fhash: array[0..NLHASHSIZE - 1] of integer;
+    fsorted: boolean;
+    procedure CreateHashTable;
+  protected
+    procedure Put(Index: Integer; const value: integer); override;
+  public
+    constructor Create; override;
+    function IndexOf(const value: integer): integer; override;
+    procedure Sort; override;
+    property sorted: boolean read fsorted;
   end;
 
 type
@@ -2027,6 +2045,86 @@ begin
   result := 0.0;
   for i := 0 to fNumItems - 1 do
     result := result + fList[i];
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// TDHashNumberList
+constructor TDHashNumberList.Create;
+begin
+  Inherited Create;
+  memset(@fhash, SizeOf(fhash), 0);
+  fsorted := True;
+end;
+
+procedure TDHashNumberList.Put(Index: Integer; const value: integer);
+begin
+  Inherited Put(Index, value);
+  if fsorted then
+    if fnumitems > 1 then
+      fsorted := fList[fNumItems - 1] >= fList[fNumItems - 2];
+  fhash[value and (NLHASHSIZE - 1)] := Index;
+end;
+
+function TDHashNumberList.IndexOf(const value: integer): integer;
+var
+  idx: integer;
+  l, h: integer;
+begin
+  idx := fhash[value and (NLHASHSIZE - 1)];
+  if (idx >= 0) and (idx < fNumItems) then
+    if fList[idx] = value then
+    begin
+      result := idx;
+      exit;
+    end;
+
+  if fsorted then
+  begin
+    l := 0;
+    h := fNumItems - 1;
+    while l <= h do
+    begin
+      idx := (l + h) div 2;
+      if fList[idx] > value then
+      begin
+        h := idx - 1;
+      end
+      else if fList[idx] < value then
+      begin
+        l := idx + 1;
+      end
+      else
+      begin
+        Result := idx;
+        fhash[value and (NLHASHSIZE - 1)] := Result;
+        Exit;
+      end;
+    end;
+    Result := -1;
+    Exit;
+  end;
+
+  result := Inherited IndexOf(value);
+  if result >= 0 then
+    fhash[value and (NLHASHSIZE - 1)] := result;
+end;
+
+procedure TDHashNumberList.Sort;
+begin
+  if not fsorted then
+  begin
+    Inherited Sort;
+    fsorted := True;
+    CreateHashTable;
+  end;
+end;
+
+procedure TDHashNumberList.CreateHashTable;
+var
+  i: integer;
+begin
+  for i := 0 to fNumItems - 1 do
+    fhash[fList[i] and (NLHASHSIZE - 1)] := i;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

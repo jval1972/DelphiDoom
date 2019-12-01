@@ -73,8 +73,8 @@ var
   i, j: integer;
   p: PIntegerArray;
   l: LongWord;
-  buf2: twobytes;
-  buf4: fourbytes;
+  buf2: twobytes_t;
+  buf4: fourbytes_t;
 begin
   for i := 0 to 255 do
   begin

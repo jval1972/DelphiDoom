@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -120,30 +120,60 @@ begin
 
   bdest := dc_colormap[dc_color];
 
-  if num_batch_columns = 2 then
-  begin
-    PWord(dest)^ := precal8_toword[bdest];
-    exit;
-  end;
-
-  if num_batch_columns = 3 then
-  begin
-    dest^ := bdest;
-    inc(dest);
-    PWord(dest)^ := precal8_toword[bdest];
-    exit;
-  end;
-
-  if num_batch_columns = 4 then
-  begin
-    PLongWord(dest)^ := precal8_tolong[bdest];
-    exit;
-  end;
-
-  if num_batch_columns = 1 then
-  begin
-    dest^ := bdest;
-    exit;
+  case num_batch_columns of
+    1:
+      begin
+        dest^ := bdest;
+        exit;
+      end;
+    2:
+      begin
+        PWord(dest)^ := precal8_toword[bdest];
+        exit;
+      end;
+    3:
+      begin
+        dest^ := bdest;
+        inc(dest);
+        PWord(dest)^ := precal8_toword[bdest];
+        exit;
+      end;
+    4:
+      begin
+        PLongWord(dest)^ := precal8_tolong[bdest];
+        exit;
+      end;
+    5:
+      begin
+        dest^ := bdest;
+        inc(dest);
+        PLongWord(dest)^ := precal8_tolong[bdest];
+        exit;
+      end;
+    6:
+      begin
+        PWord(dest)^ := precal8_toword[bdest];
+        inc(dest, 2);
+        PLongWord(dest)^ := precal8_tolong[bdest];
+        exit;
+      end;
+    7:
+      begin
+        dest^ := bdest;
+        inc(dest);
+        PWord(dest)^ := precal8_toword[bdest];
+        inc(dest, 2);
+        PLongWord(dest)^ := precal8_tolong[bdest];
+        exit;
+      end;
+    8:
+      begin
+        ldest := precal8_tolong[bdest];
+        PLongWord(dest)^ := ldest;
+        inc(dest, 4);
+        PLongWord(dest)^ := ldest;
+        exit;
+      end;
   end;
 
   ldest := precal8_tolong[bdest];
@@ -213,48 +243,48 @@ begin
 
   bdest := dc_colormap[dc_color];
 
-  if num_batch_columns = 2 then
-  begin
-    swidth := SCREENWIDTH;
-    wdest := precal8_toword[bdest];
-    PWord(dest)^ := wdest;
-    inc(dest, swidth);
-    PWord(dest)^ := wdest;
-    exit;
-  end;
-
-  if num_batch_columns = 3 then
-  begin
-    swidth := SCREENWIDTH - 1;
-    wdest := precal8_toword[bdest];
-    dest^ := bdest;
-    inc(dest);
-    PWord(dest)^ := wdest;
-    inc(dest, swidth);
-    dest^ := bdest;
-    inc(dest);
-    PWord(dest)^ := wdest;
-    exit;
+  case num_batch_columns of
+    1:
+      begin
+        dest^ := bdest;
+        inc(dest, SCREENWIDTH);
+        dest^ := bdest;
+        exit;
+      end;
+    2:
+      begin
+        swidth := SCREENWIDTH;
+        wdest := precal8_toword[bdest];
+        PWord(dest)^ := wdest;
+        inc(dest, swidth);
+        PWord(dest)^ := wdest;
+        exit;
+      end;
+    3:
+      begin
+        swidth := SCREENWIDTH - 1;
+        wdest := precal8_toword[bdest];
+        dest^ := bdest;
+        inc(dest);
+        PWord(dest)^ := wdest;
+        inc(dest, swidth);
+        dest^ := bdest;
+        inc(dest);
+        PWord(dest)^ := wdest;
+        exit;
+      end;
+    4:
+      begin
+        ldest := precal8_tolong[bdest];
+        swidth := SCREENWIDTH;
+        PLongWord(dest)^ := ldest;
+        inc(dest, swidth);
+        PLongWord(dest)^ := ldest;
+        exit;
+      end;
   end;
 
   ldest := precal8_tolong[bdest];
-
-  if num_batch_columns = 4 then
-  begin
-    swidth := SCREENWIDTH;
-    PLongWord(dest)^ := ldest;
-    inc(dest, swidth);
-    PLongWord(dest)^ := ldest;
-    exit;
-  end;
-
-  if num_batch_columns = 1 then
-  begin
-    dest^ := bdest;
-    inc(dest, SCREENWIDTH);
-    dest^ := bdest;
-    exit;
-  end;
 
   swidth := SCREENWIDTH - num_batch_columns;
 
@@ -376,48 +406,116 @@ begin
 
   bdest := dc_colormap[dc_color];
 
-  if num_batch_columns = 2 then
-  begin
-    swidth := SCREENWIDTH;
-    wdest := precal8_toword[bdest];
-    while count >= 0 do
-    begin
-      PWord(dest)^ := wdest;
-      inc(dest, swidth);
-      dec(count);
-    end;
-    exit;
-  end;
+  case num_batch_columns of
+    1:
+      begin
+        swidth := SCREENWIDTH;
+        while count >= 4 do
+        begin
+          dest^ := bdest;
+          inc(dest, swidth);
+          dest^ := bdest;
+          inc(dest, swidth);
+          dest^ := bdest;
+          inc(dest, swidth);
+          dest^ := bdest;
+          inc(dest, swidth);
+          count := count - 4;
+        end;
+        while count >= 0 do
+        begin
+          dest^ := bdest;
+          inc(dest, swidth);
+          dec(count);
+        end;
 
-  if num_batch_columns = 3 then
-  begin
-    swidth := SCREENWIDTH - 1;
-    wdest := precal8_toword[bdest];
-    while count >= 0 do
-    begin
-      dest^ := bdest;
-      inc(dest);
-      PWord(dest)^ := wdest;
-      inc(dest, swidth);
-      dec(count);
-    end;
-    exit;
+        exit;
+      end;
+    2:
+      begin
+        swidth := SCREENWIDTH;
+        wdest := precal8_toword[bdest];
+        while count >= 4 do
+        begin
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          dec(count, 4);
+        end;
+        while count >= 0 do
+        begin
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          dec(count);
+        end;
+        exit;
+      end;
+    3:
+      begin
+        swidth := SCREENWIDTH - 1;
+        wdest := precal8_toword[bdest];
+        while count >= 4 do
+        begin
+          dest^ := bdest;
+          inc(dest);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          dest^ := bdest;
+          inc(dest);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          dest^ := bdest;
+          inc(dest);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          dest^ := bdest;
+          inc(dest);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          dec(count, 4);
+        end;
+        while count >= 0 do
+        begin
+          dest^ := bdest;
+          inc(dest);
+          PWord(dest)^ := wdest;
+          inc(dest, swidth);
+          dec(count);
+        end;
+        exit;
+      end;
+    4:
+      begin
+        ldest := precal8_tolong[bdest];
+        swidth := SCREENWIDTH;
+        while count >= 4 do
+        begin
+          PLongWord(dest)^ := ldest;
+          inc(dest, swidth);
+          PLongWord(dest)^ := ldest;
+          inc(dest, swidth);
+          PLongWord(dest)^ := ldest;
+          inc(dest, swidth);
+          PLongWord(dest)^ := ldest;
+          inc(dest, swidth);
+          dec(count, 4);
+        end;
+        while count >= 0 do
+        begin
+          PLongWord(dest)^ := ldest;
+          inc(dest, swidth);
+          dec(count);
+        end;
+        exit;
+      end;
   end;
 
   ldest := precal8_tolong[bdest];
-
-  if num_batch_columns = 4 then
-  begin
-    swidth := SCREENWIDTH;
-    while count >= 0 do
-    begin
-      PLongWord(dest)^ := ldest;
-      inc(dest, swidth);
-      dec(count);
-    end;
-    exit;
-  end;
-
   swidth := SCREENWIDTH - num_batch_columns;
 
   if num_batch_columns > 4 then
@@ -691,50 +789,6 @@ begin
 
       dec(count);
     end;
-    exit;
-  end;
-
-  if num_batch_columns = 1 then
-  begin
-    while count >= 8 do
-    begin
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      count := count - 8;
-    end;
-    if count >= 4 then
-    begin
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      count := count - 4;
-    end;
-    while count >= 0 do
-    begin
-      dest^ := bdest;
-      inc(dest, SCREENWIDTH);
-      dec(count);
-    end;
-
     exit;
   end;
 
@@ -1230,27 +1284,30 @@ begin
   if count < 0 then
     exit;
 
-  if num_batch_columns = 2 then
-  begin
-    R_DrawColorColumnHi_bc2(count);
-    exit;
-  end
-  else if num_batch_columns = 3 then
-  begin
-    R_DrawColorColumnHi_bc3(count);
-    exit;
-  end
-  else if num_batch_columns = 1 then
-  begin
-    R_DrawColorColumnHi_bc1(count);
-    exit;
-  end
-  else if num_batch_columns = 4 then
-  begin
-    R_DrawColorColumnHi_bc4(count);
-    exit;
-  end
-  else if count = 0 then
+  case num_batch_columns of
+    1:
+      begin
+        R_DrawColorColumnHi_bc1(count);
+        exit;
+      end;
+    2:
+      begin
+        R_DrawColorColumnHi_bc2(count);
+        exit;
+      end;
+    3:
+      begin
+        R_DrawColorColumnHi_bc3(count);
+        exit;
+      end;
+    4:
+      begin
+        R_DrawColorColumnHi_bc4(count);
+        exit;
+      end
+  end;
+
+  if count = 0 then
   begin
     R_DrawColorColumnHi_cnt0;
     exit;

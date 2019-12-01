@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -43,7 +43,11 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
-  r_draw, r_main, r_column, r_hires, r_trans8,
+  r_draw,
+  r_main,
+  r_column,
+  r_hires,
+  r_trans8,
   v_video;
 
 procedure R_DrawColumnAlphaLowest;
@@ -54,7 +58,7 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   swidth: integer;
-  buf: twobytes;
+  buf: twobytes_t;
 begin
   if odd(dc_x) then
     exit;

@@ -103,7 +103,7 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   swidth: integer;
-  buf: twobytes;
+  buf: twobytes_t;
 begin
   if odd(dc_x) then
     exit;

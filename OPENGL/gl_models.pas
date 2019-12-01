@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
-//    External md2 model support
+//    External model support
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -39,7 +39,8 @@ uses
   d_delphi,
   m_fixed,
   dglOpenGL,
-  gl_types;
+  gl_types,
+  mdl_base;
 
 var
   gl_drawmodels: boolean = true;
@@ -47,36 +48,27 @@ var
   gl_precachemodeltextures: boolean = true;
 
 type
-  TFrameIndexInfo = class
-  private
-    fStartFrame,
-    fEndFrame: integer;
-  public
-    property StartFrame: integer read fStartFrame write fStartFrame;
-    property EndFrame: integer read fEndFrame write fEndFrame;
-  end;
+  modeltype_t = (
+    mt_md2,     // md2 (Quake2) models
+    mt_ddmodel, // DelphiDoom Procedural model (source code)
+    mt_dmx,     // DelphiDoom Procedural model (binary)
+    mt_unknown
+  );
 
+type
   TModel = class
   protected
-    fNumFrames: integer;
-    fNumVertexes: integer;
-    frameNames: TDStringList;
-    TheVectorsArray: PGLVertexArraysP;
-    UV: PGLTexcoordArray;
-    precalc: PGLuintArray;
-    fname: string;
+    fmodel: TBaseModel;
+    fmodeltype: modeltype_t;
+    flastdrawframe: integer;
   public
-    constructor Create(const name: string; const offset, scale: float; const additionalframes: TDStringList); virtual;
+    constructor Create(const name: string; const xoffset, yoffset, zoffset,
+      xscale, yscale, zscale: float; const additionalframes: TDStringList); virtual;
     destructor Destroy; override;
-    function MergeFrames(const model: TModel): boolean;
     procedure Draw(const frm1, frm2: integer; const offset: float);
     procedure DrawSimple(const frm: integer);
-    function StartFrame(const i: integer): integer; overload; virtual;
-    function EndFrame(const i: integer): integer; overload; virtual;
-    function StartFrame(const frame: string): integer; overload; virtual;
-    function EndFrame(const frame: string): integer; overload; virtual;
-    function FrameName(const i: integer): string; virtual;
-    function FrameIndex(const frame: string): integer; virtual;
+    property modeltype: modeltype_t read fmodeltype;
+    property lastdrawframe: integer read flastdrawframe;
   end;
 
 procedure gld_InitModels;
@@ -91,8 +83,12 @@ const
 type
   modelmanageritem_t = record
     name: string[MDSTRLEN];
-    offset: float;
-    scale: float;
+    xoffset: float;
+    yoffset: float;
+    zoffset: float;
+    xscale: float;
+    yscale: float;
+    zscale: float;
     framemerge: TDStringList;
     model: TModel;
   end;
@@ -152,7 +148,8 @@ uses
   g_game,
   i_system,
   info,
-  gl_md2,
+  mdl_md2,
+  mdl_ddmodel,
   gl_tex,
   gl_defs,
   sc_engine,
@@ -176,13 +173,17 @@ begin
     end;
     inc(i);
   end;
-  
+
   realloc(pointer(modelmanager.items), modelmanager.size * SizeOf(modelmanageritem_t), (1 + modelmanager.size) * SizeOf(modelmanageritem_t));
   result := modelmanager.size;
   modelinf := @modelmanager.items[result];
   modelinf.name := item.name;
-  modelinf.offset := item.offset;
-  modelinf.scale := item.scale;
+  modelinf.xoffset := item.xoffset;
+  modelinf.yoffset := item.yoffset;
+  modelinf.zoffset := item.zoffset;
+  modelinf.xscale := item.xscale;
+  modelinf.yscale := item.yscale;
+  modelinf.zscale := item.zscale;
   if item.framemerge.Count > 0 then
   begin
     modelinf.framemerge := TDStringList.Create;
@@ -190,7 +191,10 @@ begin
   end
   else
     modelinf.framemerge := nil;
-  modelinf.model := TModel.Create(modelinf.name, modelinf.offset, modelinf.scale, modelinf.framemerge);
+  modelinf.model := TModel.Create(modelinf.name,
+    modelinf.xoffset, modelinf.yoffset, modelinf.zoffset,
+    modelinf.xscale, modelinf.yscale, modelinf.zscale,
+    modelinf.framemerge);
 
   inc(modelmanager.size);
 end;
@@ -226,7 +230,7 @@ begin
   result := modeltexturemanager.size;
   modeltexturemanager.items[result].name := texturename;
   if gl_precachemodeltextures then
-    modeltexturemanager.items[result].tex := gld_LoadExternalTexture(texturename, true, GL_CLAMP)
+    modeltexturemanager.items[result].tex := gld_LoadExternalTexture(texturename, true, GL_REPEAT)
   else
     modeltexturemanager.items[result].tex := 0;
   inc(modeltexturemanager.size);
@@ -256,14 +260,19 @@ begin
   modelitem.framemerge := TDStringList.Create;
   tokens.Add('MODELDEF, MODELDEFINITION');
   tokens.Add('STATE');
-  tokens.Add('OFFSET');
+  tokens.Add('OFFSET, ZOFFSET, OFFSETZ');
   tokens.Add('SCALE');
   tokens.Add('TEXTURE');
   tokens.Add('FRAME, FRAME1, STARTFRAME');
-  tokens.Add('FRAME2, ENDFRAME, NEXTFRAME'); // JVAL: unused :(
+  tokens.Add('FRAME2, ENDFRAME, NEXTFRAME'); // JVAL: used from version 2.0.3.706 and up
   tokens.Add('MODEL');
   tokens.Add('FRAMEMERGE');
   tokens.Add('TRANSPARENCY');
+  tokens.Add('XOFFSET, OFFSETX'); // 10
+  tokens.Add('YOFFSET, OFFSETY'); // 11
+  tokens.Add('XSCALE, SCALEX');   // 12
+  tokens.Add('YSCALE, SCALEY');   // 13
+  tokens.Add('ZSCALE, SCALEZ');   // 14
 
   if devparm then
   begin
@@ -296,8 +305,12 @@ begin
         begin
           modelpending := true;
           modelitem.name := '';
-          modelitem.offset := 0.0;
-          modelitem.scale := 1.0;
+          modelitem.xoffset := 0.0;
+          modelitem.yoffset := 0.0;
+          modelitem.zoffset := 0.0;
+          modelitem.xscale := 1.0;
+          modelitem.yscale := 1.0;
+          modelitem.zscale := 1.0;
           modelitem.framemerge.Clear;
           if not sc.GetString then
           begin
@@ -311,15 +324,42 @@ begin
             token := strupper(sc._String);
             token_idx := tokens.IndexOfToken(token);
             case token_idx of
-              2:  // Offset
+              2:  // Offset / zoffset
                 begin
                   sc.MustGetFloat;
-                  modelitem.offset := sc._Float;
+                  modelitem.zoffset := sc._Float;
+                end;
+             10:  // xoffset
+                begin
+                  sc.MustGetFloat;
+                  modelitem.xoffset := sc._Float;
+                end;
+             11:  // yoffset
+                begin
+                  sc.MustGetFloat;
+                  modelitem.xoffset := sc._Float;
                 end;
               3:  // Scale
                 begin
                   sc.MustGetFloat;
-                  modelitem.scale := sc._Float;
+                  modelitem.xscale := sc._Float;
+                  modelitem.yscale := sc._Float;
+                  modelitem.zscale := sc._Float;
+                end;
+             12:  // xscale
+                begin
+                  sc.MustGetFloat;
+                  modelitem.xscale := sc._Float;
+                end;
+             13:  // yscale
+                begin
+                  sc.MustGetFloat;
+                  modelitem.yscale := sc._Float;
+                end;
+             14:  // zscale
+                begin
+                  sc.MustGetFloat;
+                  modelitem.zscale := sc._Float;
                 end;
               8:  // FRAMEMERGE
                 begin
@@ -341,8 +381,12 @@ begin
         begin
           statepending := true;
           ZeroMemory(@modelstate, SizeOf(modelstate_t));
-          modelitem.offset := 0.0;
-          modelitem.scale := 1.0;
+          modelitem.xoffset := 0.0;
+          modelitem.yoffset := 0.0;
+          modelitem.zoffset := 0.0;
+          modelitem.xscale := 1.0;
+          modelitem.yscale := 1.0;
+          modelitem.zscale := 1.0;
           modelitem.framemerge.Clear;
 
           modelstate.modelidx := -1;
@@ -372,8 +416,12 @@ begin
                 begin
                   sc.MustGetString;
                   modelitem.name := strupper(sc._String);
-                  modelitem.offset := 0.0;
-                  modelitem.scale := 1.0;
+                  modelitem.xoffset := 0.0;
+                  modelitem.yoffset := 0.0;
+                  modelitem.zoffset := 0.0;
+                  modelitem.xscale := 1.0;
+                  modelitem.yscale := 1.0;
+                  modelitem.zscale := 1.0;
                   modelstate.modelidx := gld_AddModel(modelitem);
                 end;
               4:  // Texture
@@ -531,353 +579,54 @@ end;
 //--------------------------- MD2 Model Class ----------------------------------
 //------------------------------------------------------------------------------
 
-constructor TModel.Create(const name: string; const offset, scale: float; const additionalframes: TDStringList);
+constructor TModel.Create(const name: string; const xoffset, yoffset, zoffset,
+  xscale, yscale, zscale: float; const additionalframes: TDStringList);
 var
-  strm: TPakStream;
-  base_st: PMD2DstVert_TArray;
-  tri: TMD2Triangle_T;
-  out_t: PMD2AliasFrame_T;
-  i, j, k, idx1: Integer;
-  vert: PGLVertex;
-  frameName: string;
-  m_index_list: PMD2_Index_List_Array;
-  m_frame_list: PMD2_Frame_List_Array;
-  fm_iTriangles: integer;
-  foffset, fscale: single;
-  modelheader: TDmd2_T;
-  m: TModel;
+  ext: string;
 begin
-  fname := name;
-  printf('  Found external model %s'#13#10, [fname]);
-  frameNames := TDStringList.Create;
-  UV := nil;
-  TheVectorsArray := nil;
-  fNumFrames := 0;
-  fNumVertexes := 0;
-  foffset := offset / MAP_COEFF;
-  fscale := scale / MAP_COEFF;
-  strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
-  if strm.IOResult <> 0 then
-    I_Error('TModel.Create(): Can not find model %s!', [fname]);
-
-  strm.Read(modelheader, SizeOf(modelheader));
-
-  if modelheader.ident <> MD2_MAGIC then
-    I_Error('TModel.Create(): Invalid MD2 model magic (%d)!', [modelheader.ident]);
-
-  fNumFrames := modelheader.num_frames;
-  fm_iTriangles := modelheader.num_tris;
-  fNumVertexes := fm_iTriangles * 3;
-
-  m_index_list := malloc(SizeOf(TMD2_Index_List) * modelheader.num_tris);
-  m_frame_list := malloc(SizeOf(TMD2_Frame_List) * modelheader.num_frames);
-
-  for i := 0 to modelheader.num_frames - 1 do
-    m_frame_list[i].vertex := malloc(SizeOf(TMD2_Vertex_List) * modelheader.num_xyz);
-
-  strm.Seek(modelheader.ofs_st, sFromBeginning);
-  base_st := malloc(modelheader.num_st * SizeOf(base_st[0]));
-  strm.Read(base_st^, modelheader.num_st * SizeOf(base_st[0]));
-
-  for i := 0 to modelheader.num_tris - 1 do
+  fmodeltype := mt_unknown;
+  ext := strupper(fext(name));
+  if ext = '.MD2' then
   begin
-    strm.Read(Tri, SizeOf(TMD2Triangle_T));
-    with m_index_list[i] do
-    begin
-      a := tri.index_xyz[2];
-      b := tri.index_xyz[1];
-      c := tri.index_xyz[0];
-      a_s := base_st[tri.index_st[2]].s / modelheader.skinWidth;
-      a_t := base_st[tri.index_st[2]].t / modelheader.skinHeight;
-      b_s := base_st[tri.index_st[1]].s / modelheader.skinWidth;
-      b_t := base_st[tri.index_st[1]].t / modelheader.skinHeight;
-      c_s := base_st[tri.index_st[0]].s / modelheader.skinWidth;
-      c_t := base_st[tri.index_st[0]].t / modelheader.skinHeight;
-    end;
-  end;
-  memfree(pointer(base_st), modelheader.num_st * SizeOf(base_st[0]));
-
-  out_t := malloc(modelheader.framesize);
-  for i := 0 to modelheader.num_frames - 1 do
+    fmodel := TMD2Model.Create(name, xoffset, yoffset, zoffset, xscale, yscale, zscale, additionalframes);
+    fmodeltype := mt_md2;
+  end
+  else if (ext = '.DDMODEL') or (ext = '.TXT') then
   begin
-    strm.Read(out_t^, modelheader.framesize);
-    frameName := strupper(strtrim(out_t^.name));
-    if Copy(frameName, Length(frameName) - 1, 1)[1] in ['0'..'9'] then
-      frameName := Copy(frameName, 1, Length(frameName) - 2)
-    else
-      frameName := Copy(frameName, 1, Length(frameName) - 1);
-    if frameNames.IndexOf(frameName) < 0 then
-    begin
-      frameNames.AddObject(frameName, TFrameIndexInfo.Create);
-      (frameNames.Objects[frameNames.Count - 1] as TFrameIndexInfo).StartFrame := i;
-      (frameNames.Objects[frameNames.Count - 1] as TFrameIndexInfo).EndFrame := i;
-    end
-    else
-      (frameNames.Objects[frameNames.IndexOf(frameName)] as TFrameIndexInfo).EndFrame := i;
-
-    for j := 0 to modelheader.num_xyz - 1 do
-    begin
-      with m_frame_list[i].vertex[j] do
-      begin
-        x := (out_t^.verts[j].v[0] * out_t^.scale[0] + out_t^.translate[0]) * fscale;
-        y := (out_t^.verts[j].v[1] * out_t^.scale[1] + out_t^.translate[1]) * fscale;
-        z := (out_t^.verts[j].v[2] * out_t^.scale[2] + out_t^.translate[2]) * fscale + foffset;
-      end;
-    end;
-  end;
-  memfree(pointer(out_t), modelheader.framesize);
-
-  UV := malloc(fNumVertexes * SizeOf(GLTexcoord));
-  TheVectorsArray := malloc(fNumFrames * SizeOf(PGLVertexArray));
-
-  k := 0;
-  for j := 0 to fm_iTriangles - 1 do
+    fmodel := TDDModel.Create(name, xoffset, yoffset, zoffset, xscale, yscale, zscale, additionalframes);
+    fmodeltype := mt_ddmodel;
+  end
+  else if ext = '.DMX' then
   begin
-    UV[k].u := m_index_list[j].a_s;
-    UV[k].v := m_index_list[j].a_t;
-    inc(k);
-
-    UV[k].u := m_index_list[j].b_s;
-    UV[k].v := m_index_list[j].b_t;
-    inc(k);
-
-    UV[k].u := m_index_list[j].c_s;
-    UV[k].v := m_index_list[j].c_t;
-    inc(k);
-  end;
-
-  for i := 0 to fNumFrames - 1 do
-  begin
-    TheVectorsArray[i] := malloc(fNumVertexes * SizeOf(TGLVectorf3));
-    vert := @TheVectorsArray[i][0];
-    for j := 0 to fm_iTriangles - 1 do
-    begin
-      idx1 := m_index_list[j].a;
-      vert.x := m_frame_list[i].vertex[idx1].y;
-      vert.y := m_frame_list[i].vertex[idx1].z;
-      vert.z := m_frame_list[i].vertex[idx1].x;
-      inc(vert);
-
-      idx1 := m_index_list[j].b;
-      vert.x := m_frame_list[i].vertex[idx1].y;
-      vert.y := m_frame_list[i].vertex[idx1].z;
-      vert.z := m_frame_list[i].vertex[idx1].x;
-      inc(vert);
-
-      idx1 := m_index_list[j].c;
-      vert.x := m_frame_list[i].vertex[idx1].y;
-      vert.y := m_frame_list[i].vertex[idx1].z;
-      vert.z := m_frame_list[i].vertex[idx1].x;
-      inc(vert);
-    end;
-  end;
-
-  for i := 0 to fNumFrames - 1 do
-    memfree(pointer(m_frame_list[i].vertex), SizeOf(TMD2_Vertex_List) * modelheader.num_xyz);
-  memfree(pointer(m_frame_list), SizeOf(TMD2_Frame_List) * modelheader.num_frames);
-  memfree(pointer(m_index_list), SizeOf(TMD2_Index_List) * modelheader.num_tris);
-
-  precalc := mallocz(fNumFrames * SizeOf(GLuint));
-
-  strm.Free;
-
-  if additionalframes <> nil then
-    for i := 0 to additionalframes.Count - 1 do
-    begin
-      m := TModel.Create(additionalframes.strings[i], offset, scale, nil);
-      if not MergeFrames(m) then
-        I_Error('TModel.MergeFrames(): Can not merge model "%s" into model "%s"', [additionalframes.strings[i], fname]);
-      m.Free;
-    end;
-
-end;
-
-//------------------------------------------------------------------------------
-
-function TModel.MergeFrames(const model: TModel): boolean;
-var
-  i: integer;
-begin
-  if model.fNumVertexes <> fNumVertexes then
-  begin
-    result := false;
-    exit;
-  end;
-
-  for i := 0 to model.frameNames.Count - 1 do
-  begin
-    frameNames.AddObject(model.frameNames.Strings[i], TFrameIndexInfo.Create);
-      (frameNames.Objects[frameNames.Count - 1] as TFrameIndexInfo).StartFrame := (model.frameNames.Objects[i] as TFrameIndexInfo).StartFrame + fNumFrames;
-      (frameNames.Objects[frameNames.Count - 1] as TFrameIndexInfo).EndFrame := (model.frameNames.Objects[i] as TFrameIndexInfo).EndFrame + fNumFrames;
-  end;
-  
-  realloc(pointer(TheVectorsArray),
-    fNumFrames * SizeOf(PGLVertexArray),
-    (model.fNumFrames + fNumFrames) * SizeOf(PGLVertexArray));
-
-  realloc(pointer(precalc),
-    fNumFrames * SizeOf(GLuint),
-    (model.fNumFrames + fNumFrames) * SizeOf(GLuint));
-
-  for i := fNumFrames to model.fNumFrames + fNumFrames - 1 do
-  begin
-    precalc[i] := model.precalc[fNumFrames - i];
-    TheVectorsArray[i] := malloc(fNumVertexes * SizeOf(TGLVectorf3));
-    memcpy(TheVectorsArray[i], model.TheVectorsArray[fNumFrames - i], fNumVertexes * SizeOf(TGLVectorf3));
-  end;
-
-  fNumFrames := model.fNumFrames + fNumFrames;
-
-  result := true;
+    fmodel := TDDModel.Create(name, xoffset, yoffset, zoffset, xscale, yscale, zscale, additionalframes);
+    fmodeltype := mt_dmx;
+  end
+  else
+    I_Error('TModel.Create(): Invalid model type "%s"', [ext]);
+  flastdrawframe := 0;
 end;
 
 //------------------------------------------------------------------------------
 
 destructor TModel.Destroy;
-var
-  i: integer;
 begin
-  for i := 0 to fNumFrames - 1 do
-    if precalc[i] > 0 then
-      glDeleteLists(precalc[i], 1);
-  memfree(pointer(precalc), fNumFrames * SizeOf(GLuint));
-  memfree(pointer(UV), fNumVertexes * SizeOf(GLTexcoord));
-  for i := 0 to fNumFrames - 1 do
-    memfree(pointer(TheVectorsArray[i]), fNumVertexes * SizeOf(TGLVectorf3));
-  memfree(pointer(TheVectorsArray), fNumFrames * SizeOf(GLVertexArraysP));
-
-  for i := 0 to frameNames.Count - 1 do
-    frameNames.Objects[i].Free;
-  frameNames.Free;
+  fmodel.Free;
 end;
 
 //------------------------------------------------------------------------------
 
 procedure TModel.Draw(const frm1, frm2: integer; const offset: float);
-var
-  w2: float;
-  v1, v2, mark: PGLVertex;
-  x, y, z: float;
-  coord: PGLTexcoord;
 begin
-{$IFDEF DEBUG}
-  printf('gametic=%d, frm1=%d, frm2=%d, offset=%2.2f'#13#10, [gametic, frm1, frm2, offset]);
-{$ENDIF}
-  if (frm1 = frm2) or (frm2 < 0) or (offset < 0.01) then
-  begin
-    DrawSimple(frm1);
-    exit;
-  end;
-
-  if offset > 0.99 then
-  begin
-    DrawSimple(frm2);
-    exit;
-  end;
-
-  w2 := 1.0 - offset;
-
-  v1 := @TheVectorsArray[frm1][0];
-  mark := @TheVectorsArray[frm1][fNumVertexes];
-  v2 := @TheVectorsArray[frm2][0];
-  coord := @UV[0];
-
-  glBegin(GL_TRIANGLES);
-    while integer(v1) < integer(mark) do
-    begin
-      x := v1.x * w2 + v2.x * offset;
-      y := v1.y * w2 + v2.y * offset;
-      z := v1.z * w2 + v2.z * offset;
-      glTexCoord2fv(@coord.u);
-      glVertex3f(x, y, z);
-      inc(v1);
-      inc(v2);
-      inc(coord);
-    end;
-  glEnd;
+  fmodel.Draw(frm1, frm2, offset);
+  flastdrawframe := Round(frm1 * (1.0 - offset) + frm2 * offset);
 end;
 
 //------------------------------------------------------------------------------
 
 procedure TModel.DrawSimple(const frm: integer);
-var
-  i: integer;
 begin
-  if precalc[frm] > 0 then
-    glCallList(precalc[frm])
-  else
-  begin
-    precalc[frm] := glGenLists(1);
-
-    glNewList(precalc[frm], GL_COMPILE_AND_EXECUTE);
-
-      glBegin(GL_TRIANGLES);
-        for i := 0 to fNumVertexes - 1 do
-        begin
-          glTexCoord2f(UV[i].u, UV[i].v);
-          glVertex3fv(@TheVectorsArray[frm][i]);
-        end;
-      glEnd;
-
-    glEndList;
-  end;
-end;
-
-//------------------------------------------------------------------------------
-
-function TModel.StartFrame(const i: integer): integer;
-begin
-  result := -1;
-  if IsIntegerInRange(i, 0, frameNames.Count - 1) then
-    if frameNames.Objects[i] <> nil then
-      result := (frameNames.Objects[i] as TFrameIndexInfo).StartFrame;
-end;
-
-//------------------------------------------------------------------------------
-
-function TModel.EndFrame(const i: integer): integer;
-begin
-  result := -1;
-  if IsIntegerInRange(i, 0, frameNames.Count - 1) then
-    if frameNames.Objects[i] <> nil then
-      result := (frameNames.Objects[i] as TFrameIndexInfo).EndFrame;
-end;
-
-//------------------------------------------------------------------------------
-
-function TModel.StartFrame(const frame: string): integer;
-begin
-  result := StartFrame(frameNames.IndexOf(frame));
-  if result = -1 then
-    result := StartFrame(frameNames.IndexOf(strupper(frame)));
-end;
-
-//------------------------------------------------------------------------------
-
-function TModel.EndFrame(const frame: string): integer;
-begin
-  result := EndFrame(frameNames.IndexOf(frame));
-  if result = -1 then
-    result := EndFrame(frameNames.IndexOf(strupper(frame)));
-end;
-
-//------------------------------------------------------------------------------
-
-function TModel.FrameName(const i: integer): string;
-begin
-  if IsIntegerInRange(i, 0, frameNames.Count - 1) then
-    result := frameNames.Strings[i]
-  else
-    result := '';
-end;
-
-//------------------------------------------------------------------------------
-
-function TModel.FrameIndex(const frame: string): integer;
-begin
-  result := frameNames.IndexOf(frame);
-  if result = -1 then
-    result := frameNames.IndexOf(strupper(frame));
+  fmodel.DrawSimple(frm);
+  flastdrawframe := frm;
 end;
 
 //------------------------------------------------------------------------------

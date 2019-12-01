@@ -1,4 +1,12 @@
-MD2 model support for DelphiDoom is supported via MODELDEF lump, or MODEFDEF.txt files inside external pk3 or pak files.
+DelphiDoom (OpenGL renderer) surrports the following model formats:
+- MD2 (Quake Models)
+- DDMODEL (DelphiDoom procedure model) 
+- DMX (DelphiDoom compiled procedure model)
+
+DDMODEL & DMX models can be created with the DD_MODEL tool (https://sourceforge.net/projects/delphidoom-procedural-modeler/) 
+They are supported from versions 2.0.3 build 706 and up.
+
+Model support for DelphiDoom is supported via MODELDEF lump, or MODEFDEF.txt files inside external pk3 or pak files.
 
 Example of a MODELDEF lump
 
@@ -15,13 +23,19 @@ Example of a MODELDEF lump
 // ------------------------------------------------------
 
 // Model definition, we use the modeldef keyword
-// 'framemerge' keyword: Merge frames from another model for smooth movement. Both models must have the exact same number of triangles
-// modeldef keyword is required only when we must define offset, scale and framemerge keywords.
+// 'framemerge' keyword: Merge frames from another model for smooth movement. 
+// MD2 models can be merged only with other MD2 models with the exact same number of triangles
+// DDMODEL & DMX models can be merged only with DDMODEL & DMX models
+// modeldef keyword is required only when we must define offset[], scale[] and framemerge keywords.
 // if modedef keyword is missing then the default values for offset is 0.0, scale is 1.0
 modeldef "spider_base.md2" 
 {
-  offset 0.0
-  scale 1.0
+  xoffset 0.0
+  yoffset 0.0
+  zoffset 0.0
+  xscale 1.0
+  yscale 1.0
+  zscale 1.0
   framemerge "spider_attack.md2"
 }
 

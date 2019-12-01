@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -3230,7 +3230,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Smooth model movement';
+  pmi.name := '!Smooth md2 model movement';
   pmi.cmd := 'gl_smoothmodelmovement';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_smoothmodelmovement;

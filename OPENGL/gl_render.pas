@@ -491,7 +491,7 @@ begin
   try
     ext_lst.Text := extensions_l;
     for i := 0 to ext_lst.count - 1 do
-      printf('%s'#13#10, [ext_lst.strings[i]]);
+      printf('  %s'#13#10, [ext_lst.strings[i]]);
     gld_InitExtensions(ext_lst);
   finally
     ext_lst.Free;
@@ -977,8 +977,9 @@ end;
 procedure gld_Finish;
 begin
   gld_Set2DMode;
-  // Hack to avoid Intel HD4000 problem with Win10
-  // https://communities.intel.com/thread/117626
+  // JVAL:
+  //  Hack to avoid Intel HD4000 problem with Win10
+  //  https://communities.intel.com/thread/117626
   if not gl_no_glfinish_hack then
     glFinish;
   glFlush;
@@ -3415,13 +3416,28 @@ begin
     result := -1;
     exit;
   end;
-  for i := 0 to st.models.Count - 1 do
+  if st = mo.state then
   begin
-    idx := st.models.Numbers[i];
-    if modelstates[idx].modelidx = modelidx then
+    for i := 0 to st.models.Count - 1 do
     begin
-      result := modelstates[idx].startframe;
-      exit;
+      idx := st.models.Numbers[i];
+      if modelstates[idx].modelidx = modelidx then
+      begin
+        result := modelstates[idx].endframe;
+        exit;
+      end;
+    end;
+  end
+  else
+  begin
+    for i := 0 to st.models.Count - 1 do
+    begin
+      idx := st.models.Numbers[i];
+      if modelstates[idx].modelidx = modelidx then
+      begin
+        result := modelstates[idx].startframe;
+        exit;
+      end;
     end;
   end;
   result := -1;
@@ -3468,7 +3484,7 @@ begin
   texitem := @modeltexturemanager.items[info.texture];
   if texitem.tex = 0 then
   begin
-    texitem.tex := gld_LoadExternalTexture(texitem.name, true, GL_CLAMP);
+    texitem.tex := gld_LoadExternalTexture(texitem.name, true, GL_REPEAT);
     if texitem.tex = 0 then
       I_DevError('gld_DrawModel(): Can not load texture %s'#13#10, [texitem.name]);
   end;
@@ -3478,7 +3494,12 @@ begin
   modelinf := @modelmanager.items[info.modelidx];
   if modelinf.model = nil then
   begin
-    modelinf.model := TModel.Create(modelinf.name, modelinf.offset, modelinf.scale, modelinf.framemerge);
+    modelinf.model :=
+      TModel.Create(modelinf.name,
+        modelinf.xoffset, modelinf.yoffset, modelinf.zoffset,
+        modelinf.xscale, modelinf.yscale, modelinf.zscale,
+        modelinf.framemerge
+      );
     if modelinf.model = nil then
     begin
       I_Warning('gld_DrawModel(): Can not load model %s'#13#10, [modelinf.name]);
@@ -3491,7 +3512,19 @@ begin
   printf('**drawing model %d'#13#10, [idx]);
   {$ENDIF}
 
-  if gl_smoothmodelmovement and not isgamesuspended and (sprite.aproxdist < MODELINTERPOLATERANGE)  then
+  if modelinf.model.modeltype in [mt_ddmodel, mt_dmx] then
+  begin
+    if isgamesuspended then
+    begin
+      modelinf.model.DrawSimple(modelinf.model.lastdrawframe);
+    end
+    else
+    begin
+      nextframe := gld_FindNextModelFrame(sprite.mo, info.modelidx);
+      modelinf.model.Draw(info.startframe, nextframe, 1.0 - (sprite.mo.tics - ticfrac / FRACUNIT) / sprite.mo.state.tics);
+    end;
+  end
+  else if gl_smoothmodelmovement and not isgamesuspended and (sprite.aproxdist < MODELINTERPOLATERANGE)  then
   begin
     nextframe := gld_FindNextModelFrame(sprite.mo, info.modelidx);
     modelinf.model.Draw(info.startframe, nextframe, 1.0 - (sprite.mo.tics - ticfrac / FRACUNIT) / sprite.mo.state.tics);

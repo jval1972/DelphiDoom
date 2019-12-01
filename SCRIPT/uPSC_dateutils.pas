@@ -3,7 +3,7 @@ unit uPSC_dateutils;
 
 interface
 uses
-  SysUtils, uPSCompiler, uPSUtils;
+  SysUtils, ps_compiler, ps_utils;
 
 
 procedure RegisterDateTimeLibrary_C(S: TPSPascalCompiler);

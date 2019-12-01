@@ -39,8 +39,8 @@ uses
   p_mobj_h,
   p_mobjlist,
   psi_system,
-  uPSCompiler,
-  uPSRuntime;
+  ps_compiler,
+  ps_runtime;
 
 // ---------------------------- ACTORS -----------------------------------------
 

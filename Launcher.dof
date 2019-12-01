@@ -111,7 +111,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=6
 Release=1
-Build=32
+Build=37
 Debug=0
 PreRelease=0
 Special=0
@@ -122,16 +122,14 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Launcher
-FileVersion=1.6.1.32
+FileVersion=1.6.1.37
 InternalName=Launcher
-LegalCopyright=Copyright 2008 - 2016, Jim Valavanis
+LegalCopyright=Copyright 2008 - 2017, Jim Valavanis
 LegalTrademarks=
 OriginalFilename=Launcher.exe
 ProductName=
 ProductVersion=1.6
 Comments=http://sourceforge.net/projects/delphidoom/
-[Excluded Packages]
-c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
 Count=5
 Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\
@@ -178,11 +176,11 @@ Item0=C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
 Count=15
 Item0=..\dcu\Launcher
-Item1=..\dcu\ddc_strife
-Item2=..\dcu\ddc_hexen
-Item3=..\dcu\ddc_heretic
-Item4=..\dcu\ddc_doom
-Item5=..\dcu\DD_IDE
+Item1=..\dcu\DD_IDE
+Item2=..\dcu\ddc_strife
+Item3=..\dcu\ddc_hexen
+Item4=..\dcu\ddc_heretic
+Item5=..\dcu\ddc_doom
 Item6=..\dcu\Strife\soft
 Item7=..\dcu\Strife\GL
 Item8=..\dcu\Hexen\GL

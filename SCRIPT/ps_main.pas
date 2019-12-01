@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -35,8 +35,8 @@ interface
 
 uses
   p_mobj_h,
-  uPSCompiler,
-  uPSRuntime;
+  ps_compiler,
+  ps_runtime;
 
 type
   psscripttype_t = (pst_normal, pst_global, pst_none);
@@ -116,7 +116,7 @@ uses
   psi_overlay,
   uPSR_dll,
   w_pak,
-  uPSUtils;
+  ps_utils;
 
 type
   psscriptitem_t = record

@@ -35,8 +35,8 @@ interface
 
 uses
   ps_import,
-  uPSCompiler,
-  uPSUtils;                                             
+  ps_compiler,
+  ps_utils;                                             
 
 const
   EventExportedProcs: array [0..9] of record
@@ -207,7 +207,7 @@ implementation
 uses
   i_system,
   SysUtils,
-  uPSRuntime;
+  ps_runtime;
 
 type
   TScriptEvent = procedure of object;

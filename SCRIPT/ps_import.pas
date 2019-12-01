@@ -35,10 +35,11 @@ interface
 
 uses
   d_delphi,
-  uPSCompiler,
+  ps_defs,
+  ps_compiler,
   uPSPreProcessor,
-  uPSRuntime,
-  uPSUtils;
+  ps_runtime,
+  ps_utils;
 
 procedure PS_InitProcLists;
 
@@ -107,7 +108,8 @@ uses
   sc_states,
   tables,
   w_pak,
-  ddc_base;
+  ddc_base,
+  ps_keywords;
 
 var
   units: TStringList;
@@ -169,7 +171,7 @@ begin
   baseproclist.Add('function MergeFloatArrays(const A1, A2: TFloatArray): TFloatArray;', @PS_MergeSingleArrays);
   baseproclist.Add('function MergeDoubleArrays(const A1, A2: TDoubleArray): TDoubleArray;', @PS_MergeDoubleArrays);
   baseproclist.Add('function MergeExtendedArrays(const A1, A2: TExtendedArray): TExtendedArray;', @PS_MergeExtendedArrays);
-  baseproclist.Add('function IsPrime(const N: Int64): Boolean;', @PS_IsPrime); 
+  baseproclist.Add('function IsPrime(const N: Int64): Boolean;', @PS_IsPrime);
   units.AddObject(basename, baseproclist);
 
   basename := 'PS_GAME';
@@ -819,7 +821,7 @@ begin
 
   Inc(dccnt);
 
-  inherited Create;
+  inherited Create(@DefaultLookupTable, DEFAULT_KEYWORD_COUNT);
   OnUses := PS_ScriptOnUses;
   OnExternalProc := DllExternalProc;
   AllowNoEnd := true;
@@ -892,6 +894,10 @@ begin
   FPP.Defines.Add('DOOM_OR_STRIFE');
   FPP.Defines.Add('HERETIC_OR_STRIFE');
   FPP.Defines.Add('HEXEN_OR_STRIFE');
+  {$ENDIF}
+
+  {$IFDEF OPENGL}
+  FPP.Defines.Add('OPENGL');
   {$ENDIF}
 
   OnTranslateLineInfo := CompTranslateLineInfo;

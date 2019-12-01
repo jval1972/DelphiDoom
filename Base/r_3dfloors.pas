@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -59,7 +59,7 @@ var
 
 const
   MAXVISPLANES3D = $10000;
-  
+
 var
   visplanes3d: array[0..MAXVISPLANES3D - 1] of visplane3d_t;
   maxvisplane3d: Integer = -1;
@@ -1304,11 +1304,9 @@ begin
       end;
     end;
     if vis.top[x1] <= ceilingclip[x1] + 1 then
-//    if vis.top[x1] <= ceilingclip[x1] then
       if vis.bottom[x1] > ceilingclip[x1] then
         ceilingclip[x1] := vis.bottom[x1];
     if vis.bottom[x1] >= floorclip[x1] - 1 then
-//    if vis.bottom[x1] >= floorclip[x1] then
       if vis.top[x1] < floorclip[x1] then
         floorclip[x1] := vis.top[x1];
   end;

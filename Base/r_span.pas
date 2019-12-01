@@ -269,7 +269,7 @@ var
   count: integer;
   i: integer;
   spot: integer;
-  fb: fourbytes;
+  fb: fourbytes_t;
 begin
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
@@ -293,7 +293,7 @@ var
   i: integer;
   spot: integer;
   rpl: PIntegerArray;
-  fb: fourbytes;
+  fb: fourbytes_t;
 begin
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 

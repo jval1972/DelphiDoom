@@ -55,7 +55,7 @@ type
   end;
   Pbatchwallrenderinfo32_t = ^batchwallrenderinfo32_t;
 
-  batchwallrenderinfo32_tArray = array[0..$FFFF] of batchwallrenderinfo32_t;
+  batchwallrenderinfo32_tArray = array[0..$FFF] of batchwallrenderinfo32_t;
   Pbatchwallrenderinfo32_tArray = ^batchwallrenderinfo32_tArray;
 
 procedure R_StoreWallColumn32(const idx: PInteger);

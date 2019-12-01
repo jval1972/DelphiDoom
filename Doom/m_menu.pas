@@ -3207,7 +3207,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Smooth model movement';
+  pmi.name := '!Smooth md2 model movement';
   pmi.cmd := 'gl_smoothmodelmovement';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_smoothmodelmovement;

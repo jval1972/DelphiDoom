@@ -547,7 +547,7 @@ var
   swidth: integer;
   dwidth: integer;
   ldest: LongWord;
-  ldest64: twolongwords;
+  ldest64: twolongwords_t;
   pv: boolean;
 begin
   swidth := V_GetScreenWidth(srcscrn);
@@ -605,7 +605,7 @@ begin
             end;
             Exit;
           end;
-  // JVAL: Typically unused because we use stallhack to prevent 1280 width
+  // JVAL: Unused if we use stallhack to prevent 1280 width
        4: // Width: 1280
           begin
             destw := destw div 4;
@@ -2091,7 +2091,6 @@ begin
       begin
         source := PByte(integer(column) + 3);
         dest := @desttop[((column.topdelta * sheight) * fraczoom div FRACUNIT div 200) * swidth];
-//        dest := @desttop[((column.topdelta * sheight) * fraczoom div FRACUNIT) * swidth div 200];
         count := column.length;
         fracy := 0;
         lasty := 0;

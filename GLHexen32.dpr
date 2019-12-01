@@ -246,7 +246,6 @@ uses
   gl_types in 'OPENGL\gl_types.pas',
   gl_models in 'OPENGL\gl_models.pas',
   gl_lightmaps in 'OPENGL\gl_lightmaps.pas',
-  gl_md2 in 'OPENGL\gl_md2.pas',
   t_material in 'TEXLIB\t_material.pas',
   gl_shadows in 'OPENGL\gl_shadows.pas',
   dglOpenGL in 'OPENGL\dglOpenGL.pas',
@@ -275,11 +274,11 @@ uses
   ps_main in 'SCRIPT\ps_main.pas',
   uPSC_dateutils in 'SCRIPT\uPSC_dateutils.pas',
   uPSC_dll in 'SCRIPT\uPSC_dll.pas',
-  uPSCompiler in 'SCRIPT\uPSCompiler.pas',
+  ps_compiler in 'SCRIPT\ps_compiler.pas',
   uPSR_dateutils in 'SCRIPT\uPSR_dateutils.pas',
   uPSR_dll in 'SCRIPT\uPSR_dll.pas',
-  uPSRuntime in 'SCRIPT\uPSRuntime.pas',
-  uPSUtils in 'SCRIPT\uPSUtils.pas',
+  ps_runtime in 'SCRIPT\ps_runtime.pas',
+  ps_utils in 'SCRIPT\ps_utils.pas',
   info_common in 'Base\info_common.pas',
   sc_thinker in 'Base\sc_thinker.pas',
   m_hash in 'Base\m_hash.pas',
@@ -303,7 +302,16 @@ uses
   p_affectees in 'Base\p_affectees.pas',
   t_pcx in 'TEXLIB\t_pcx.pas',
   t_pcx4 in 'TEXLIB\t_pcx4.pas',
-  ps_dll in 'SCRIPT\ps_dll.pas';
+  ps_dll in 'SCRIPT\ps_dll.pas',
+  ps_keywords in 'SCRIPT\ps_keywords.pas',
+  ps_defs in 'SCRIPT\ps_defs.pas',
+  mdl_base in 'OPENGL\mdl_base.pas',
+  mdl_md2 in 'OPENGL\mdl_md2.pas',
+  mdl_ddmodel in 'OPENGL\mdl_ddmodel.pas',
+  mdl_script in 'OPENGL\mdl_script.pas',
+  mdl_script_functions in 'OPENGL\mdl_script_functions.pas',
+  mdl_script_model in 'OPENGL\mdl_script_model.pas',
+  mdl_script_proclist in 'OPENGL\mdl_script_proclist.pas';
 
 var
   Saved8087CW: Word;

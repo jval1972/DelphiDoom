@@ -1,3 +1,12 @@
+Version 2.0.3 build 706 - (18/11/2017)
+-----------
+Added new model formats (ddmodel & dmx) for the OpenGL version. These formats can be created with the DD_MODEL tool (https://sourceforge.net/projects/delphidoom-procedural-modeler/).
+
+Version 2.0.3 build 705 - (7/11/2017)
+-----------
+Fixed music pitch problem (as mentioned by RTC_Marine at https://www.doomworld.com/forum/topic/92113-delphidoom-20/?do=findComment&comment=1700485)
+Hud drawing speed optimizations in 2560 x 1440 & 3840 x 2160 resolutions.
+
 Version 2.0.3 build 704 - (29/10/2017)
 -----------
 PascalScript can now access DLLs from inside pk3 files. (or WAD files if using PK3ENTRY lump)

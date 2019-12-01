@@ -4,7 +4,7 @@ unit uPSDisassembly;
 interface
 
 uses
-  uPSRuntime, uPSUtils, sysutils;
+  ps_runtime, ps_utils, SysUtils, ps_defs;
 
 function IFPS3DataToText(const Input: tbtstring; var Output: string): Boolean;
 

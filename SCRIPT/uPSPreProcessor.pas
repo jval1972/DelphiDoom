@@ -4,14 +4,15 @@ unit uPSPreProcessor;
 interface
 
 uses
-  Classes, SysUtils, uPSCompiler, uPSUtils;
+  Classes, SysUtils, ps_compiler, ps_utils, ps_defs;
 
 type
   EPSPreProcessor = class(Exception); //- jgv
   TPSPreProcessor = class;
   TPSPascalPreProcessorParser = class;
 
-  TPSOnNeedFile = function (Sender: TPSPreProcessor; const callingfilename: TbtString; var FileName, Output: TbtString): Boolean;
+  TPSOnNeedFile = function (Sender: TPSPreProcessor;
+    const callingfilename: TbtString; var FileName, Output: TbtString): Boolean;
   TPSOnProcessDirective = procedure (
                             Sender: TPSPreProcessor;
                             Parser: TPSPascalPreProcessorParser;
@@ -29,32 +30,22 @@ type
     FFileName: TbtString;
     FLineOffsets: TIfList;
   public
-   
     property FileName: TbtString read FFileName;
-    
     property StartPos: Cardinal read FStartPos;
-    
     property EndPos: Cardinal read FEndPos;
-    
     property LineOffsetCount: Longint read GetLineOffsetCount;
-    
     property LineOffset[I: Longint]: Cardinal read GetLineOffset;
-
-    
     constructor Create;
-    
     destructor Destroy; override;
   end;
-  
+
   TPSLineInfoResults = record
-    
-    Row,
-    Col,
+    Row: Cardinal;
+    Col: Cardinal;
     Pos: Cardinal;
-    
     Name: TbtString;
   end;
-  
+
   TPSLineInfoList = class(TObject)
   private
     FItems: TIfList;
@@ -62,23 +53,14 @@ type
     function GetCount: Longint;
     function GetItem(I: Integer): TPSLineInfo;
   protected
-
     function Add: TPSLineInfo;
   public
-    
     property Count: Longint read GetCount;
-    
     property Items[I: Longint]: TPSLineInfo read GetItem; default;
-
     procedure Clear;
-    
     function GetLineInfo(const ModuleName: TbtString; Pos: Cardinal; var Res: TPSLineInfoResults): Boolean;
-    
     property Current: Longint read FCurrent write FCurrent;
-
-    
     constructor Create;
-    
     destructor Destroy; override;
   end;
   TPSDefineStates = class;
@@ -104,29 +86,17 @@ type
     {The maximum number of levels deep the parser will go, defaults to 20}
     property MaxLevel: Longint read FMaxLevel write FMaxLevel;
     property CurrentLineInfo: TPSLineInfoList read FCurrentLineInfo;
-
     property OnNeedFile: TPSOnNeedFile read FOnNeedFile write FOnNeedFile;
-
     property Defines: TStringList read FDefines write FDefines;
-
     property MainFile: TbtString read FMainFile write FMainFile;
-
     property MainFileName: TbtString read FMainFileName write FMainFileName;
-
     property ID: Pointer read FID write FID;
-
     procedure AdjustMessages(Comp: TPSPascalCompiler);
     procedure AdjustMessage(Msg: TPSPascalCompilerMessage); //-jgv
-
     procedure PreProcess(const Filename: TbtString; var Output: TbtString);
-
     procedure Clear;
-
-
     constructor Create;
-
     destructor Destroy; override;
-
     property OnProcessDirective: TPSOnProcessDirective read fOnProcessDirective write fOnProcessDirective;
     property OnProcessUnknowDirective: TPSOnProcessDirective read fOnProcessUnknowDirective write fOnProcessUnknowDirective;
   end;
@@ -144,32 +114,22 @@ type
     FLastEnterPos, FLen, FRow, FCol, FPos: Cardinal;
     FOnNewLine: TPSOnNewLine;
   public
-    
     procedure SetText(const dta: TbtString);
-    
     procedure Next;
-    
     property Token: TbtString read FToken;
-    
     property TokenId: TPSPascalPreProcessorType read FTokenId;
-    
     property Row: Cardinal read FRow;
-    
     property Col: Cardinal read FCol;
-    
     property Pos: Cardinal read FPos;
-    
     property OnNewLine: TPSOnNewLine read FOnNewLine write FOnNewLine;
   end;
-  
+
   TPSDefineState = class(TObject)
   private
     FInElse: Boolean;
     FDoWrite: Boolean;
   public
-    
     property InElse: Boolean read FInElse write FInElse;
-    
     property DoWrite: Boolean read FDoWrite write FDoWrite;
   end;
 
@@ -181,22 +141,13 @@ type
     function GetWrite: Boolean;
     function GetPrevWrite: Boolean; //JeromeWelsh - nesting fix
   public
-
     property Count: Longint read GetCount;
-
     property Item[I: Longint]: TPSDefineState read GetItem; default;
-    
     function Add: TPSDefineState;
-    
     procedure Delete(I: Longint);
-
-    
     constructor Create;
-    
     destructor Destroy; override;
-
     procedure Clear;
-    
     property DoWrite: Boolean read GetWrite;
     property DoPrevWrite: Boolean read GetPrevWrite; //JeromeWelsh - nesting fix
   end;
@@ -208,7 +159,6 @@ resourceString
 {$ELSE }
 const
 {$ENDIF }
-
   RPS_TooManyNestedInclude = 'Too many nested include files while processing ''%s'' from ''%s''';
   RPS_IncludeNotFound = 'Unable to find file ''%s'' used from ''%s''';
   RPS_DefineTooManyParameters = 'Too many parameters at %d:%d';
@@ -329,7 +279,6 @@ end;
 procedure TPSPascalPreProcessorParser.Next;
 var
   ci: Cardinal;
-
 begin
   FPos := FPos + FLen;
   case FText[FPos] of
@@ -608,15 +557,15 @@ begin
       s := Parser.Token;
       if Parser.TokenId = ptDefine then
       begin
-        Delete(s,1,2);  // delete the {$
+        Delete(s, 1, 2);  // delete the {$
         Delete(s, Length(s), 1); // delete the }
 
         //-- 20050707_jgv trim right
         i := Length(s);
         while (i > 0) and (s[i] = ' ') do
         begin
-          Delete (s, i, 1);
-          Dec (i);
+          Delete(s, i, 1);
+          Dec(i);
         end;
         //-- end_jgv
 

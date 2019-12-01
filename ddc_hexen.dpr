@@ -298,11 +298,11 @@ uses
   ps_main in 'SCRIPT\ps_main.pas',
   uPSC_dateutils in 'SCRIPT\uPSC_dateutils.pas',
   uPSC_dll in 'SCRIPT\uPSC_dll.pas',
-  uPSCompiler in 'SCRIPT\uPSCompiler.pas',
+  ps_compiler in 'SCRIPT\ps_compiler.pas',
   uPSR_dateutils in 'SCRIPT\uPSR_dateutils.pas',
   uPSR_dll in 'SCRIPT\uPSR_dll.pas',
-  uPSRuntime in 'SCRIPT\uPSRuntime.pas',
-  uPSUtils in 'SCRIPT\uPSUtils.pas',
+  ps_runtime in 'SCRIPT\ps_runtime.pas',
+  ps_utils in 'SCRIPT\ps_utils.pas',
   sc_thinker in 'Base\sc_thinker.pas',
   info_common in 'Base\info_common.pas',
   p_ladder in 'Base\p_ladder.pas',
@@ -334,7 +334,9 @@ uses
   p_affectees in 'Base\p_affectees.pas',
   t_pcx in 'TEXLIB\t_pcx.pas',
   t_pcx4 in 'TEXLIB\t_pcx4.pas',
-  ps_dll in 'SCRIPT\ps_dll.pas';
+  ps_dll in 'SCRIPT\ps_dll.pas',
+  ps_keywords in 'SCRIPT\ps_keywords.pas',
+  ps_defs in 'SCRIPT\ps_defs.pas';
 
 exports
   dd_compile_hexen,

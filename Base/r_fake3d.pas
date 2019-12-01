@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -435,7 +435,7 @@ var
   src: PByte;
   frac, fracstep: fixed_t;
   range: integer;
-  fb: fourbytes;
+  fb: fourbytes_t;
   top: integer;
   bottom: integer;
   top2: integer;

@@ -9,8 +9,8 @@ MAKE = $(ROOT)\bin\make.exe -$(MAKEFLAGS) -f$**
 DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
-PROJECTS = Doom32.exe GLDoom32.exe GLHeretic32.exe Heretic32.exe Launcher.exe \
-  Hexen32.exe GLHexen32.exe GLStrife32.exe Strife32.exe ddc.exe ddc_doom.dll \
+PROJECTS = Doom32.exe GLDoom32.exe Heretic32.exe GLHeretic32.exe Hexen32.exe \
+  GLHexen32.exe Strife32.exe GLStrife32.exe Launcher.exe ddc.exe ddc_doom.dll \
   ddc_heretic.dll ddc_hexen.dll ddc_strife.dll DD_IDE.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
@@ -22,13 +22,10 @@ Doom32.exe: Doom32.dpr
 GLDoom32.exe: GLDoom32.dpr
   $(DCC)
 
-GLHeretic32.exe: GLHeretic32.dpr
-  $(DCC)
-
 Heretic32.exe: Heretic32.dpr
   $(DCC)
 
-Launcher.exe: Launcher.dpr
+GLHeretic32.exe: GLHeretic32.dpr
   $(DCC)
 
 Hexen32.exe: Hexen32.dpr
@@ -37,10 +34,13 @@ Hexen32.exe: Hexen32.dpr
 GLHexen32.exe: GLHexen32.dpr
   $(DCC)
 
+Strife32.exe: Strife32.dpr
+  $(DCC)
+
 GLStrife32.exe: GLStrife32.dpr
   $(DCC)
 
-Strife32.exe: Strife32.dpr
+Launcher.exe: Launcher.dpr
   $(DCC)
 
 ddc.exe: ddc.dpr

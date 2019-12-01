@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -497,6 +497,8 @@ var
   h_Instance : HINST;           // Current instance
   pfd : TPIXELFORMATDESCRIPTOR;  // Settings for the OpenGL window
 begin
+  printf('GL_InitGraphics: Initializing OpenGL.' + #13#10);
+
   InitOpenGL;                               // New call to initialize and bind the OpenGL dll
   gl_initialized := true;
 
@@ -548,7 +550,8 @@ begin
   ShowCursor(False);                    // Turn of the cursor (gets in the way)
 
   // Attempt to create the actual window
-  hMainWnd := CreateWindowEx(dwExStyle,      // Extended window styles
+  hMainWnd := CreateWindowEx(
+                          dwExStyle,      // Extended window styles
                           WindowClass.lpszClassName,
                           AppTitle,
                           dwStyle,        // Window styles
@@ -677,7 +680,6 @@ begin
   set_hud := gl_linear_hud;
 
   glTexImage2D(GL_TEXTURE_2D, 0, 4, GLDRAWTEXWIDTH, GLDRAWTEXHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, screen32);
-          
 end;
 
 procedure GL_ChangeFullScreen(const full: boolean);
