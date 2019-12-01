@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -155,7 +155,7 @@ var
         for i := 0 to str.Count - 1 do
         begin
           if myargc > MAXARGS then
-            exit;
+            break;
           if strtrim(str[i]) <> '' then
           begin
             myargv[myargc] := strtrim(str[i]);

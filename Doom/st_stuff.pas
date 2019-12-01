@@ -48,6 +48,12 @@ const
 
 type
   stdrawoptions_t = (stdo_no, stdo_small, stdo_full);
+
+var
+  st_palette: integer;
+// lump number for PLAYPAL
+  lu_palette: integer;
+
 //
 // STATUS BAR
 //
@@ -336,18 +342,12 @@ const
   ST_MWY = 29;
 
 var
-  st_palette: integer;
-
-var
 
 // main player in game
   plyr: Pplayer_t;
 
 // ST_Start() has just been called
   st_firsttime: boolean;
-
-// lump number for PLAYPAL
-  lu_palette: integer;
 
 // used for timing
   st_clock: LongWord;
@@ -1329,8 +1329,12 @@ begin
     {$ENDIF}
     p := W_CacheLumpNum(lu_palette, PU_STATIC);
     pal := PByteArray(integer(p) + palette * 768);
+    {$IFDEF OPENGL}
     I_SetPalette(pal);
     V_SetPalette(pal);
+    {$ELSE}
+    IV_SetPalette(pal);
+    {$ENDIF}
     Z_ChangeTag(p, PU_CACHE);
   end;
 end;
@@ -1839,8 +1843,12 @@ begin
     exit;
 
   pal := PByteArray(W_CacheLumpNum(lu_palette, PU_STATIC));
+  {$IFDEF OPENGL}
   I_SetPalette(pal);
   V_SetPalette(pal);
+  {$ELSE}
+  IV_SetPalette(pal);
+  {$ENDIF}
   Z_ChangeTag(pal, PU_CACHE);
 
   st_stopped := true;

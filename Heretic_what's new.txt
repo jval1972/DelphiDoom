@@ -1,5 +1,14 @@
 New Changes
------------
+---------------
+Added -fullhd, -vga and -svga command line parameters.
+Added force_numwallrenderingthreads_8bit and force_numwallrenderingthreads_32bit console variables, set the number of threads to create for wall rendering.
+Loads wad and pk3/pak files from command line without -file and -pakfile
+Default miditempo changed to 160
+Executes all console commands inside wad lumps with the "AUTOEXEC"name.
+
+--------------------------------------
+version 1.1.4.551 (Released 19/3/2013)
+---------------
 Fixed wav chunks reading bug.
 Added A_RemoveSelf  mobj function.
 Chase camera positioning improvements.

@@ -75,6 +75,8 @@ const
 // Index of the special effects (INVUL inverse) map.
   INVERSECOLORMAP = 32;
 
+  DISTMAP = 2;
+  
 var
   forcecolormaps: boolean;
   use32bitfuzzeffect: boolean;
@@ -192,12 +194,31 @@ var
 // bumped light from gun blasts
   extralight: integer;
 
-  scalelight: array[0..LIGHTLEVELS - 1, 0..MAXLIGHTSCALE - 1] of PByteArray;
+type
+  scalelight_t = array[0..LIGHTLEVELS - 1, 0..MAXLIGHTSCALE - 1] of PByteArray;
+  Pscalelight_t = ^scalelight_t;
+
+var
+  def_scalelight: scalelight_t;
+  scalelight: Pscalelight_t;
+
+var
   scalelightlevels: array[0..LIGHTLEVELS - 1, 0..HLL_MAXLIGHTSCALE - 1] of fixed_t;
   scalelightfixed: array[0..MAXLIGHTSCALE - 1] of PByteArray;
-  zlight: array[0..LIGHTLEVELS - 1, 0..MAXLIGHTZ - 1] of PByteArray;
+
+type
+  zlight_t = array[0..LIGHTLEVELS - 1, 0..MAXLIGHTZ - 1] of PByteArray;
+  Pzlight_t = ^zlight_t;
+
+var
+  def_zlight: zlight_t;
+  zlight: Pzlight_t;
+
+var
   zlightlevels: array[0..LIGHTLEVELS - 1, 0..HLL_MAXLIGHTZ - 1] of fixed_t;
 
+
+var
   viewplayer: Pplayer_t;
 
 // The viewangletox[viewangle + FINEANGLES/4] lookup
@@ -268,6 +289,7 @@ uses
   i_video,
   i_system,
   {$ENDIF}
+  r_colormaps,
   r_draw,
   r_aspect,
   r_bsp,
@@ -321,7 +343,7 @@ begin
   src := PByte(screens[scrn]);
   inc(src, ofs);
   cnt := count;
-  colormap := @colormaps[cmap * 256];
+  colormap := @def_colormaps[cmap * 256];
 
   while cnt > 0 do
   begin
@@ -628,14 +650,14 @@ begin
   num := FixedMul(projectiony, finesine[_SHRW(angleb, ANGLETOFINESHIFT)]); // JVAL For correct aspect
   den := FixedMul(rw_distance, finesine[_SHRW(anglea, ANGLETOFINESHIFT)]);
   {$ELSE}
-  num := FixedMul(projectiony, finesine[angleb shr ANGLETOFINESHIFT]); // JVAL For correct aspect
-  den := FixedMul(rw_distance, finesine[anglea shr ANGLETOFINESHIFT]);
+  num := FixedMulEx(projectiony, finesine[angleb shr ANGLETOFINESHIFT]); // JVAL For correct aspect
+  den := FixedMulEx(rw_distance, finesine[anglea shr ANGLETOFINESHIFT]);
   {$ENDIF}
 
   if den > FixedInt(num) then
   begin
     result := FixedDiv(num, den);
-
+  // JVAL: Change it to 256 * FRACUNIT ??
     if result > 64 * FRACUNIT then
       result := 64 * FRACUNIT
     else if result < 256 then
@@ -748,9 +770,6 @@ end;
 // Only inits the zlight table,
 //  because the scalelight table changes with view size.
 //
-const
-  DISTMAP = 2;
-
 procedure R_InitLightTables;
 var
   i: integer;
@@ -778,7 +797,7 @@ begin
       else if level >= NUMCOLORMAPS then
         level := NUMCOLORMAPS - 1;
 
-      zlight[i][j] := PByteArray(integer(colormaps) + level * 256);
+      def_zlight[i][j] := PByteArray(integer(def_colormaps) + level * 256);
     end;
 
     startmaphi := ((LIGHTLEVELS - 1 - i) * 2 * FRACUNIT) div LIGHTLEVELS;
@@ -1210,7 +1229,7 @@ begin
           level := NUMCOLORMAPS - 1;
       end;
 
-      scalelight[i][j] := PByteArray(integer(colormaps) + level * 256);
+      def_scalelight[i][j] := PByteArray(integer(def_colormaps) + level * 256);
     end;
   end;
 
@@ -1231,6 +1250,7 @@ begin
       end;
     end;
 
+  R_RecalcColormaps;
 end;
 
 
@@ -1372,6 +1392,8 @@ begin
   R_InitAspect;
   printf(#13#10 + 'R_InitData');
   R_InitData;
+  printf(#13#10 + 'R_InitCustomColormaps');
+  R_InitCustomColormaps;
   printf(#13#10 + 'R_InitInterpolations');
   R_InitInterpolations;
   printf(#13#10 + 'R_InitPointToAngle');
@@ -1448,6 +1470,8 @@ begin
   printf(#13#10 + 'R_ShutDownWallsCache32');
   R_ShutDownWallsCache32;
 {$ENDIF}
+  printf(#13#10 + 'R_ShutDownCustomColormaps');
+  R_ShutDownCustomColormaps;
   printf(#13#10 + 'R_FreeMemory');
   R_FreeMemory;
 {$IFDEF OPENGL}
@@ -1556,6 +1580,8 @@ begin
 end;
 
 
+var
+  lastcm: integer = -2;
 //
 // R_SetupFrame
 //
@@ -1563,6 +1589,9 @@ procedure R_SetupFrame(player: Pplayer_t);
 var
   i: integer;
   cy{$IFNDEF OPENGL}, dy{$ENDIF}: fixed_t;
+  sblocks: integer;
+  sec: Psector_t;
+  cm: integer;
 begin
   viewplayer := player;
   viewx := player.mo.x;
@@ -1583,7 +1612,11 @@ begin
 // JVAL Enabled z axis shift
   if zaxisshift and ((player.lookdir <> 0) or p_justspawned) and (viewangleoffset = 0) then
   begin
-    cy := (viewheight + player.lookdir * screenblocks * SCREENHEIGHT div 1000) div 2;
+    sblocks := screenblocks;
+    if sblocks > 11 then
+      sblocks := 11;
+    cy := (viewheight + player.lookdir * sblocks * SCREENHEIGHT div 1000) div 2;
+    //cy := viewheight div 2+(player.lookdir)*screenblocks div 10;
     if centery <> cy then
     begin
       centery := cy;
@@ -1619,11 +1652,60 @@ begin
 // JVAL: Widescreen support
   relativeaspect := 320 / 200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
 {$ENDIF}
+
+  cm := -1;
+  if Psubsector_t(player.mo.subsector).sector.heightsec > -1 then
+  begin
+    sec := @sectors[Psubsector_t(player.mo.subsector).sector.heightsec];
+    if viewz < sec.floorheight then
+      cm := sec.bottommap
+    else if viewz > sec.ceilingheight then
+      cm := sec.topmap
+    else
+      cm := sec.midmap;
+  end;
+
+  if cm >= 0 then
+  begin
+    customcolormap := @customcolormaps[cm];
+    R_RecalcColormaps;
+    if cm <> lastcm then
+    begin
+      zlight := @customcolormap.zlight;
+      scalelight := @customcolormap.scalelight;
+      colormaps := customcolormap.colormap;
+     {$IFNDEF OPENGL}
+      V_CalcColorMapPalette;
+     {$ENDIF}
+      lastcm := cm;
+      recalctablesneeded := true;
+    end;
+  end
+  else
+  begin
+    if cm <> lastcm then
+    begin
+      customcolormap := nil;
+      zlight := @def_zlight;
+      scalelight := @def_scalelight;
+      colormaps := def_colormaps;
+     {$IFNDEF OPENGL}
+      V_CalcColorMapPalette;
+     {$ENDIF}
+      lastcm := cm;
+      recalctablesneeded := true;
+    end;
+  end;
+
   fixedcolormapnum := player.fixedcolormap;
   if fixedcolormapnum <> 0 then
   begin
-    fixedcolormap := PByteArray(
-      integer(colormaps) + fixedcolormapnum * 256);
+    if customcolormap <> nil then
+      fixedcolormap := PByteArray(
+        integer(customcolormap.colormap) + fixedcolormapnum * 256)
+    else
+      fixedcolormap := PByteArray(
+        integer(colormaps) + fixedcolormapnum * 256);
 
     {$IFNDEF OPENGL}
     walllights := @scalelightfixed;
@@ -1714,9 +1796,8 @@ end;
 
 procedure R_RenderPlayerView32_MultiThread(player: Pplayer_t);
 begin
-  R_CalcHiResTables;
-
   R_SetupFrame(player);
+  R_CalcHiResTables;
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -1769,11 +1850,11 @@ begin
   end;
 {$ENDIF}
 
+  R_SetupFrame(player);
+
 {$IFNDEF OPENGL}
   R_CalcHiResTables;
 {$ENDIF}
-
-  R_SetupFrame(player);
 
   // Clear buffers.
 {$IFNDEF OPENGL}

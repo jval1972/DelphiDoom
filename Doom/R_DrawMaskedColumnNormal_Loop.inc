@@ -1,5 +1,9 @@
     spot := (LongWord(frac) shr FRACBITS) and 127;
+{$IFDEF CUSTOMCOLORMAP}
+    c := cvideopal[dc_source[spot]];
+{$ELSE}
     c := curpal[dc_source[spot]];
+{$ENDIF}
 {$IFDEF INVERSECOLORMAPS}
     {$I R_InverseLight.inc}
 {$ELSE}

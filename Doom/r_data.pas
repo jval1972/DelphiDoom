@@ -114,6 +114,7 @@ var
   spritetopoffset: Pfixed_tArray;
   spritepresent: PBooleanArray;
 
+  def_colormaps: PByteArray;
   colormaps: PByteArray;
   colormaps32: PLongWordArray;
 
@@ -141,10 +142,20 @@ uses
   d_think,
   g_game,
   i_system,
-  p_setup, p_tick, p_mobj_h, p_mobj, p_terrain,
-  r_sky, r_things, r_bsp, r_hires,
+  p_setup,
+  p_tick,
+  p_mobj_h,
+  p_mobj,
+  p_terrain,
+  r_sky,
+  r_things,
+  r_bsp,
+  r_hires,
 {$IFNDEF OPENGL}
-  r_column, r_span, r_ccache, r_scache,
+  r_column,
+  r_span,
+  r_ccache,
+  r_scache,
   r_col_fz,
 {$ENDIF}
   v_data, v_video,
@@ -935,13 +946,13 @@ begin
   //  256 byte align tables.
   lump := W_GetNumForName('COLORMAP');
   length := W_LumpLength(lump);
-  colormaps := Z_Malloc(length, PU_STATIC, nil);
+  def_colormaps := Z_Malloc(length, PU_STATIC, nil);
   colormaps32 := Z_Malloc(length * SizeOf(LongWord), PU_STATIC, nil);
-  W_ReadLump(lump, colormaps);
+  W_ReadLump(lump, def_colormaps);
   for i := 0 to length - 1 do
-    if colormaps[i] = 0 then
-      colormaps[i] := aprox_black;
-  v_translation := colormaps;
+    if def_colormaps[i] = 0 then
+      def_colormaps[i] := aprox_black;
+  v_translation := def_colormaps;
 end;
 
 //

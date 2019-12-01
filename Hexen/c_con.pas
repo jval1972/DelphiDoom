@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -434,10 +434,31 @@ begin
     fprintf(stdout, txt);
 end;
 
+const
+  AUTOEXECLUMPNAME = 'AUTOEXEC';
+
+procedure C_ExecCommands(const commands: string);
+var
+  l: TDStringList;
+  cmd: string;
+  i: integer;
+begin
+  l := TDStringList.Create;
+  for i := 0 to l.Count - 1 do
+  begin
+    cmd := strtrim(l.Strings[i]);
+    if cmd <> '' then
+      if Pos('//', cmd) <> 1 then
+        C_ExecuteCmd(cmd);
+  end;
+  l.Free;
+end;
+
 procedure C_RunAutoExec;
 var
   str: TDstringList;
   deffile: string;
+  i: integer;
 begin
   printf('C_RunAutoExec()'#13#10);
   if not fexists(DEFAUTOEXEC) then
@@ -445,7 +466,7 @@ begin
     str := TDStringList.Create;
     try
       str.Add('// Add autoexec console commands in this file.');
-      str.Add('// These console commands will be executed everytime you start DelphiHexen.');
+      str.Add('// These console commands will be executed everytime you start DelphiDoom.');
       deffile := M_SaveFileName(DEFAUTOEXEC);
       str.SaveToFile(deffile);
     finally
@@ -453,6 +474,9 @@ begin
     end;
   end;
   C_ExecCommandFile(autoexecfile);
+  for i := 0 to W_NumLumps - 1 do
+    if char8tostring(W_GetNameForNum(i)) = AUTOEXECLUMPNAME then
+      C_ExecCommands(W_TextLumpNum(i));
 end;
 
 var

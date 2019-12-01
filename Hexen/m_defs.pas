@@ -52,6 +52,8 @@ uses
 {$ELSE}
   i_video,
   r_batchcolumn,
+  r_wall8,
+  r_wall32,
 {$ENDIF}
   i_system,
   i_mp3,
@@ -87,6 +89,8 @@ var
   soft_SCREENWIDTH,
   soft_SCREENHEIGHT: integer;
   optimizedthingsrendering: Boolean;
+  force_numwallrenderingthreads_8bit: integer;
+  force_numwallrenderingthreads_32bit: integer;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -123,7 +127,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 144;
+  NUMDEFAULTS = 146;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -1044,7 +1048,7 @@ const
      location: @miditempo;
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: $50;
+     defaultivalue: 160;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1249,6 +1253,22 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tBoolean),
+
+    (name: 'force_numwallrenderingthreads_8bit';
+     location: @force_numwallrenderingthreads_8bit;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'force_numwallrenderingthreads_32bit';
+     location: @force_numwallrenderingthreads_32bit;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
 
     (name: 'criticalcpupriority';
      location: @criticalcpupriority;

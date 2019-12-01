@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1920 -screenheight 1080 -nofullscreen
+RunParams=-vga -nofullscreen -iwad doom2.wad boomedit.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=1
 Release=4
-Build=551
+Build=555
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.551
+FileVersion=1.1.4.555
 InternalName=GLDoom
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=

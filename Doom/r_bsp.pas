@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,6 +19,10 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Refresh module, BSP traversal and handling.
+//  BSP traversal, handling of LineSegs for rendering.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -33,32 +37,6 @@ interface
 uses
   d_delphi,
   r_defs;
-
-{
-    r_bsp.h, r_bsp.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  Refresh module, BSP traversal and handling.
-//  BSP traversal, handling of LineSegs for rendering.
-//
-//-----------------------------------------------------------------------------
 
 // BSP?
 procedure R_ClearClipSegs;
@@ -84,18 +62,28 @@ var
   sidedef: Pside_t;
   linedef: Pline_t;
   drawsegs: array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
+  doorclosed: boolean;
 
 function R_UnderWater: boolean;
-
 
 implementation
 
 uses
   doomdata,
-  m_fixed, tables,
-  doomdef, m_bbox,
+  m_fixed,
+  tables,
+  doomdef,
+  m_bbox,
   p_setup,
-  {$IFNDEF OPENGL}r_segs, {$ENDIF}r_main, r_plane, r_things, r_draw, r_sky{$IFDEF OPENGL},
+  {$IFNDEF OPENGL}
+  r_segs,
+  {$ENDIF}
+  r_main,
+  r_plane,
+  r_things,
+  r_draw,
+  r_sky
+  {$IFDEF OPENGL},
   doomtype,
   r_data,
   gl_render, // JVAL OPENGL
@@ -118,16 +106,14 @@ uses
 function R_FakeFlat(sec: Psector_t; tempsec: Psector_t;
   floorlightlevel, ceilinglightlevel: PSmallInt; back: boolean): Psector_t;
 var
-  secheight: Psector_t;
-{$IFDEF OPENGL}
+  ss: Psector_t;
   heightsec: integer;
   underwater: boolean;
-{$ENDIF}
 
   function notback1: boolean;
   begin
     tempsec.floorheight := sec.floorheight;
-    tempsec.ceilingheight := secheight.floorheight - 1;
+    tempsec.ceilingheight := ss.floorheight - 1;
     result := not back;
   end;
 
@@ -147,55 +133,41 @@ begin
     else
       ceilinglightlevel^ := sectors[sec.ceilinglightsec].lightlevel;
   end;
-{$IFDEF OPENGL}
- // underwater := false;
 
   if sec.heightsec <> -1 then
   begin
-    secheight := @sectors[sec.heightsec];
+    ss := @sectors[sec.heightsec];
     heightsec := Psubsector_t(viewplayer.mo.subsector).sector.heightsec;
     underwater := (heightsec <> -1) and (viewz <= sectors[heightsec].floorheight);
 
     // Replace sector being drawn, with a copy to be hacked
     tempsec^ := sec^;
 
- {   test
-    if underwater then
-    begin
-      tempsec.ceilingpic := tempsec.floorpic;
-      tempsec.ceilingheight := secheight.floorheight - 1;
-    end
-    else
-      tempsec.floorheight := secheight.floorheight;
-
-     result := tempsec;
-    exit;  }
-
-    tempsec.floorheight := secheight.floorheight;
-    tempsec.ceilingheight := secheight.ceilingheight;
+    tempsec.floorheight := ss.floorheight;
+    tempsec.ceilingheight := ss.ceilingheight;
 
 
     // Replace floor and ceiling height with other sector's heights.
 {    if underwater then
     begin
       tempsec.floorheight := sec.floorheight;
-      tempsec.ceilingheight := s.floorheight - 1;
+      tempsec.ceilingheight := ss.floorheight - 1;
     end
     else
     begin
-      tempsec.floorheight := s.floorheight;
-      tempsec.ceilingheight := s.ceilingheight;
+      tempsec.floorheight := ss.floorheight;
+      tempsec.ceilingheight := ss.ceilingheight;
     end;}
 
-    if (underwater and notback1) or (viewz <= secheight.floorheight) then
+    if (underwater and notback1) or (viewz <= ss.floorheight) then
     begin                   // head-below-floor hack
-      tempsec.floorpic := secheight.floorpic;
-      tempsec.floor_xoffs := secheight.floor_xoffs;
-      tempsec.floor_yoffs := secheight.floor_yoffs;
+      tempsec.floorpic := ss.floorpic;
+      tempsec.floor_xoffs := ss.floor_xoffs;
+      tempsec.floor_yoffs := ss.floor_yoffs;
 
       if underwater then
       begin
-        if secheight.ceilingpic = skyflatnum then
+        if ss.ceilingpic = skyflatnum then
         begin
           tempsec.floorheight := tempsec.ceilingheight + 1;
           tempsec.ceilingpic := tempsec.floorpic;
@@ -204,80 +176,80 @@ begin
         end
         else
         begin
-          tempsec.ceilingpic := secheight.ceilingpic;
-          tempsec.ceiling_xoffs := secheight.ceiling_xoffs;
-          tempsec.ceiling_yoffs := secheight.ceiling_yoffs;
+          tempsec.ceilingpic := ss.ceilingpic;
+          tempsec.ceiling_xoffs := ss.ceiling_xoffs;
+          tempsec.ceiling_yoffs := ss.ceiling_yoffs;
         end;
       end;
 
-      tempsec.lightlevel  := secheight.lightlevel;
+      tempsec.lightlevel  := ss.lightlevel;
 
       if floorlightlevel <> nil then
       begin
-        if secheight.floorlightsec = -1 then
-          floorlightlevel^ := secheight.lightlevel
+        if ss.floorlightsec = -1 then
+          floorlightlevel^ := ss.lightlevel
         else
-          floorlightlevel^ := sectors[secheight.floorlightsec].lightlevel; // killough 3/16/98
+          floorlightlevel^ := sectors[ss.floorlightsec].lightlevel; // killough 3/16/98
       end;
 
       if ceilinglightlevel <> nil then
       begin
-        if secheight.ceilinglightsec = -1 then
-          ceilinglightlevel^ := secheight.lightlevel
+        if ss.ceilinglightsec = -1 then
+          ceilinglightlevel^ := ss.lightlevel
         else
-          ceilinglightlevel^ := sectors[secheight.ceilinglightsec].lightlevel; // killough 4/11/98
+          ceilinglightlevel^ := sectors[ss.ceilinglightsec].lightlevel; // killough 4/11/98
       end;
 
     end
     else
     begin
       if (heightsec <> -1) and (viewz >= sectors[heightsec].ceilingheight) and
-         (sec.ceilingheight > secheight.ceilingheight) then
+         (sec.ceilingheight > ss.ceilingheight) then
       begin   // Above-ceiling hack
-        tempsec.ceilingheight := secheight.ceilingheight;
-        tempsec.floorheight := secheight.ceilingheight + 1;
+        tempsec.ceilingheight := ss.ceilingheight;
+        tempsec.floorheight := ss.ceilingheight + 1;
 
-        tempsec.ceilingpic := secheight.ceilingpic;
-        tempsec.ceiling_xoffs := secheight.ceiling_xoffs;
-        tempsec.ceiling_yoffs := secheight.ceiling_yoffs;
+        tempsec.ceilingpic := ss.ceilingpic;
+        tempsec.ceiling_xoffs := ss.ceiling_xoffs;
+        tempsec.ceiling_yoffs := ss.ceiling_yoffs;
 
-        if secheight.floorpic <> skyflatnum then
+        if ss.floorpic <> skyflatnum then
         begin
           tempsec.ceilingheight := sec.ceilingheight;
-          tempsec.floorpic := secheight.floorpic;
-          tempsec.floor_xoffs := secheight.floor_xoffs;
-          tempsec.floor_yoffs := secheight.floor_yoffs;
+          tempsec.floorpic := ss.floorpic;
+          tempsec.floor_xoffs := ss.floor_xoffs;
+          tempsec.floor_yoffs := ss.floor_yoffs;
         end
         else
         begin
-          tempsec.floorpic := secheight.ceilingpic;
-          tempsec.floor_xoffs := secheight.ceiling_xoffs;
-          tempsec.floor_yoffs := secheight.ceiling_yoffs;
+          tempsec.floorpic := ss.ceilingpic;
+          tempsec.floor_xoffs := ss.ceiling_xoffs;
+          tempsec.floor_yoffs := ss.ceiling_yoffs;
         end;
 
-        tempsec.lightlevel := secheight.lightlevel;
+        tempsec.lightlevel := ss.lightlevel;
 
         if floorlightlevel <> nil then
         begin
-          if secheight.floorlightsec = -1 then
-            floorlightlevel^ := secheight.lightlevel
+          if ss.floorlightsec = -1 then
+            floorlightlevel^ := ss.lightlevel
           else
-            floorlightlevel^ := sectors[secheight.floorlightsec].lightlevel; // killough 3/16/98
+            floorlightlevel^ := sectors[ss.floorlightsec].lightlevel; // killough 3/16/98
         end;
 
         if ceilinglightlevel <> nil then
         begin
-          if secheight.ceilinglightsec = -1 then
-            ceilinglightlevel^ := secheight.lightlevel
+          if ss.ceilinglightsec = -1 then
+            ceilinglightlevel^ := ss.lightlevel
           else
-            ceilinglightlevel^ := sectors[secheight.ceilinglightsec].lightlevel; // killough 4/11/98
+            ceilinglightlevel^ := sectors[ss.ceilinglightsec].lightlevel; // killough 4/11/98
         end;
 
       end;
     end;
     sec := tempsec;               // Use other sector
   end;
-{$ENDIF}
+{.$ENDIF}
   result := sec;
 end;
 
@@ -501,7 +473,10 @@ begin
 end;
 
 var
-  tempsec: sector_t;     // killough 3/8/98: ceiling/water hack
+  ftempsec: sector_t;     // killough 3/8/98: ceiling/water hack
+{$IFNDEF OPENGL}
+  btempsec: sector_t;     // killough 3/8/98: ceiling/water hack
+{$ENDIF}
 
 {$IFDEF OPENGL}
 var
@@ -572,8 +547,33 @@ begin
   end;
   result := false;
 end;
+{$ELSE}
+// killough 1/18/98 -- This function is used to fix the automap bug which
+// showed lines behind closed doors simply because the door had a dropoff.
+//
+// It assumes that Doom has already ruled out a door being closed because
+// of front-back closure (e.g. front floor is taller than back ceiling).
 
+function R_DoorClosed: boolean;
+begin
+  result :=
+
+    // if door is closed because back is shut:
+    (backsector.ceilingheight <= backsector.floorheight) and
+
+    // preserve a kind of transparent door/lift special effect:
+    ((backsector.ceilingheight >= frontsector.ceilingheight) or
+     (curline.sidedef.toptexture <> 0)) and
+
+    ((backsector.floorheight <= frontsector.floorheight) or
+     (curline.sidedef.bottomtexture <> 0)) and
+
+    // properly render skies (consider door "open" if both ceilings are sky):
+    ((backsector.ceilingpic <> skyflatnum) or
+     (frontsector.ceilingpic <> skyflatnum));
+end;
 {$ENDIF}
+
 //
 // R_AddLine
 // Clips the given segment
@@ -681,11 +681,22 @@ begin
     exit;
   end;
 
-  backsector := R_FakeFlat(backsector, @tempsec, nil, nil, true);
+  backsector := R_FakeFlat(backsector, @btempsec, nil, nil, true);
+
+  doorclosed := false;       // killough 4/16/98
 
   // Closed door.
   if (backsector.ceilingheight <= frontsector.floorheight) or
      (backsector.floorheight >= frontsector.ceilingheight) then
+  begin
+    R_ClipSolidWallSegment(x1, x2 - 1);
+    exit;
+  end;
+
+  // This fixes the automap floor height bug -- killough 1/18/98:
+  // killough 4/7/98: optimize: save result in doorclosed for use in r_segs.c
+  doorclosed := R_DoorClosed;
+  if doorclosed then
   begin
     R_ClipSolidWallSegment(x1, x2 - 1);
     exit;
@@ -803,13 +814,13 @@ begin
 
 {$IFDEF OPENGL}
   angle1 := R_PointToAngleEx(x1, y1);
-  angle2 := R_PointToAngle(x2, y2);
+  angle2 := R_PointToAngleEx(x2, y2);
   result := gld_clipper_SafeCheckRange(angle2, angle1);
   exit;
 {$ELSE}
   // check clip list for an open space
-  angle1 := R_PointToAngleEx(x1, y1) - viewangle;
-  angle2 := R_PointToAngleEx(x2, y2) - viewangle;
+  angle1 := R_PointToAngle(x1, y1) - viewangle;
+  angle2 := R_PointToAngle(x2, y2) - viewangle;
 
   span := angle1 - angle2;
 
@@ -916,13 +927,12 @@ begin
   i_line := sub.firstline;
   line := @segs[i_line];
 
-  // killough 3/8/98, 4/4/98: Deep water / fake ceiling effect
-  frontsector := R_FakeFlat(frontsector, @tempsec,
+  frontsector := R_FakeFlat(frontsector, @ftempsec,
     @floorlightlevel, @ceilinglightlevel, false);   // killough 4/11/98
 {$IFDEF OPENGL}
   frontsector.floorlightlevel := floorlightlevel;
   frontsector.ceilinglightlevel := ceilinglightlevel;
-{$ENDIF}  
+{$ENDIF}
 
   if (frontsector.floorheight < viewz) or
      ((frontsector.heightsec <> -1) and

@@ -139,8 +139,7 @@ begin
   end;
 
   pal := V_ReadPalette(PU_STATIC);
-  V_SetPalette(pal);
-  I_SetPalette(pal);
+  IV_SetPalette(pal);
   Z_ChangeTag(pal, PU_CACHE);
 
   for i := 0 to 15 do
@@ -172,8 +171,7 @@ var
   pal: PByteArray;
 begin
   pal := V_ReadPalette(PU_STATIC);
-  V_SetPalette(pal);
-  I_SetPalette(pal);
+  IV_SetPalette(pal);
   Z_ChangeTag(pal, PU_CACHE);
 
   if e_needsupdate then

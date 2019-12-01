@@ -5,11 +5,6 @@
         g2 := c2 shr 8;
         b2 := c2 shr 16;
 
-{
-        r := ((r2 * factor2) + rA) shr FRACBITS;
-        g := ((g2 * factor2) + gA) shr FRACBITS;
-        b := ((b2 * factor2) + bA) and $FF0000;
-}
         r := (cf2[r2] + rA) shr FRACBITS;
         g := (cf2[g2] + gA) shr FRACBITS;
         b := (cf2[b2] + bA) and $FF0000;

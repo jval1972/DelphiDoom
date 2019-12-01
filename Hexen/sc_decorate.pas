@@ -969,6 +969,8 @@ begin
             stmp := ' while parsing mobj "' + mobj.name + '"'
           else
             stmp := '';
+          if mobj.doomednum > -1 then
+            stmp := stmp + ' (doomednum=' + itoa(mobj.doomednum) + ')';
           I_Warning('SC_DecorateToDEH(): Unknown token "%s" found%s'#13#10, [sc._String, stmp]);
           sc.GetString;
         end;

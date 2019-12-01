@@ -67,7 +67,14 @@ implementation
 uses
   d_delphi,
   t_main,
-  r_cache, r_data, r_grow, r_span32, r_hires, r_mmx,
+  r_cache,
+  r_colormaps,
+  r_diher,
+  r_data,
+  r_grow,
+  r_span32,
+  r_hires,
+  r_mmx,
   v_video,
   w_wad,
   z_zone;
@@ -90,6 +97,7 @@ var
   r2, g2, b2: byte;
   r, g, b: LongWord;
   c: LongWord;
+  dihertable: Pdihertable_t;
   lump: integer;
   lumplen: integer;
   loops: integer;
@@ -153,7 +161,7 @@ begin
       numpixels := fsize * fsize;
       curgamma := @gammatable[usegamma]; // To Adjust gamma
 
-      if t.GetBytesPerPixel = 1 then
+      if (t.GetBytesPerPixel = 1) and (customcolormap = nil) then
       begin
         r1 := pal_color;
         g1 := pal_color shr 8;
@@ -173,10 +181,38 @@ begin
       end
       else
       begin
+        if t.GetBytesPerPixel = 1 then
+          t.ConvertTo32bit;
+
         memcpy(pds32, t.GetImage, numpixels * SizeOf(LongWord));
 
         // Simutate palette changes
         plw := @pds32[0];
+
+{        if customcolormap <> nil then
+        begin
+          for i := 0 to numpixels - 1 do
+          begin
+            plw^ := R_CustomColorMapColor32(customcolormap, plw^);
+            inc(plw);
+          end;
+          Dec(plw, numpixels);
+        end;}
+        if customcolormap <> nil then
+        begin
+          dihertable := @customcolormap.dihertable;
+          for i := 0 to numpixels - 1 do
+          begin
+            c := plw^;
+            b2 := (c shr 16) shr DIHERSHIFT;
+            g2 := ((c shr 8) and $FF) shr DIHERSHIFT;
+            r2 := (c and $FF) shr DIHERSHIFT;
+            plw^ := dihertable[b2, g2, r2];
+            inc(plw);
+          end;
+          Dec(plw, numpixels);
+        end;
+
 
         if dc_32bittexturepaletteeffects and (pal_color <> 0) then
         begin

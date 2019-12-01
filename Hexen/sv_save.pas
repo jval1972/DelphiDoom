@@ -49,6 +49,8 @@ function SV_GetRebornSlot: integer;
 var
   SAVEGAMENAME: string = '%s\hex%d00.hxs';
   SAVEGAMEMAP: string = '%s\hex%d%s.hxs';
+  SAVEGAMENAMEDD: string = '%s\hexdd%d00.hxs';
+  SAVEGAMEMAPDD: string = '%s\hexdd%d%s.hxs';
   SAVEPATH: string = 'HEXNDATA';
 
 function SV_GetSaveGameName(const slot: integer): string;
@@ -63,17 +65,37 @@ implementation
 
 uses
   d_delphi,
-  d_think, d_player, d_main,
+  d_think,
+  d_player,
+  d_main,
   i_system,
-  info_h, info,
-  m_fixed, tables,
-  m_misc, m_argv,
+  info_h,
+  info,
+  m_fixed,
+  tables,
+  m_misc,
+  m_argv,
   g_game,
   a_action,
-  p_mobj_h, p_floor, p_setup, p_acs, p_maputl, p_spec, p_plats, p_ceilng,
-  p_lights, p_doors, p_pspr_h, p_inter, p_tick, p_mobj, p_enemy, p_map,
+  p_mobj_h,
+  p_floor,
+  p_setup,
+  p_acs,
+  p_maputl,
+  p_spec,
+  p_plats,
+  p_ceilng,
+  p_lights,
+  p_doors,
+  p_pspr_h,
+  p_inter,
+  p_tick,
+  p_mobj,
+  p_enemy,
+  p_map,
   po_man,
-  r_defs, r_main,
+  r_defs,
+  r_main,
   s_sndseq,
   sb_bar,
   xn_defs,
@@ -81,6 +103,22 @@ uses
 
 var
   saveptr: pointer;
+
+function _SAVEGAMENAME: string;
+begin
+  if hexdd_pack then
+    Result := SAVEGAMENAMEDD
+  else
+    Result := SAVEGAMENAME
+end;
+
+function _SAVEGAMEMAP: string;
+begin
+  if hexdd_pack then
+    Result := SAVEGAMEMAPDD
+  else
+    Result := SAVEGAMEMAP
+end;
 
 function GET_BYTE: byte; overload;
 begin
@@ -1345,11 +1383,11 @@ var
 begin
   for i := 1 to MAX_MAPS do
   begin
-    sprintf(fileName, SAVEGAMEMAP, [SAVEPATH, slot, IntToStrZFill(2, i)]);
+    sprintf(fileName, _SAVEGAMEMAP, [SAVEPATH, slot, IntToStrZFill(2, i)]);
     filename := M_SaveFileName(filename);
     fdelete(fileName);
   end;
-  sprintf(fileName, SAVEGAMENAME, [SAVEPATH, slot]);
+  sprintf(fileName, _SAVEGAMENAME, [SAVEPATH, slot]);
   filename := M_SaveFileName(filename);
   fdelete(fileName);
 end;
@@ -1370,20 +1408,20 @@ var
 begin
   for i := 1 to MAX_MAPS do
   begin
-    sprintf(sourceName, SAVEGAMEMAP, [SAVEPATH, sourceSlot, IntToStrZFill(2, i)]);
+    sprintf(sourceName, _SAVEGAMEMAP, [SAVEPATH, sourceSlot, IntToStrZFill(2, i)]);
     sourceName := M_SaveFileName(sourceName);
     if fexists(sourceName) then
     begin
-      sprintf(destName, SAVEGAMEMAP, [SAVEPATH, destSlot, IntToStrZFill(2, i)]);
+      sprintf(destName, _SAVEGAMEMAP, [SAVEPATH, destSlot, IntToStrZFill(2, i)]);
       destName := M_SaveFileName(destName);
       CopyFile(sourceName, destName);
     end;
   end;
-  sprintf(sourceName, SAVEGAMENAME, [SAVEPATH, sourceSlot]);
+  sprintf(sourceName, _SAVEGAMENAME, [SAVEPATH, sourceSlot]);
   sourceName := M_SaveFileName(sourceName);
   if fexists(sourceName) then
   begin
-    sprintf(destName, SAVEGAMENAME, [SAVEPATH, destSlot]);
+    sprintf(destName, _SAVEGAMENAME, [SAVEPATH, destSlot]);
     destName := M_SaveFileName(destName);
     CopyFile(sourceName, destName);
   end;
@@ -1402,7 +1440,7 @@ begin
   SavingPlayers := savePlayers;
 
   // Open the output file
-  sprintf(fileName, SAVEGAMEMAP, [SAVEPATH, BASE_SLOT, IntToStrZFill(2, gamemap)]);
+  sprintf(fileName, _SAVEGAMEMAP, [SAVEPATH, BASE_SLOT, IntToStrZFill(2, gamemap)]);
   fileName := M_SaveFileName(fileName);
   OpenStreamOut(fileName);
 
@@ -1443,7 +1481,7 @@ var
   versionText: string;
 begin
   // Open the output file
-  sprintf(fileName, SAVEGAMENAME, [SAVEPATH, BASE_SLOT]);
+  sprintf(fileName, _SAVEGAMENAME, [SAVEPATH, BASE_SLOT]);
   fileName := M_SaveFileName(fileName);
   OpenStreamOut(fileName);
 
@@ -1500,7 +1538,7 @@ begin
   RemoveAllThinkers;
 
   // Create the name
-  sprintf(fileName, SAVEGAMEMAP, [SAVEPATH, BASE_SLOT, IntToStrZFill(2, gamemap)]);
+  sprintf(fileName, _SAVEGAMEMAP, [SAVEPATH, BASE_SLOT, IntToStrZFill(2, gamemap)]);
   fileName := M_SaveFileName(fileName);
 
   // Load the file
@@ -1549,7 +1587,7 @@ begin
   end;
 
   // Create the name
-  sprintf(fileName, SAVEGAMENAME, [SAVEPATH, BASE_SLOT]);
+  sprintf(fileName, _SAVEGAMENAME, [SAVEPATH, BASE_SLOT]);
   fileName := M_SaveFileName(fileName);
 
   // Load the file
@@ -1685,7 +1723,7 @@ begin
   TargetPlayerAddrs := nil;
 
   gamemap := map;
-  sprintf(fileName, SAVEGAMEMAP, [SAVEPATH, BASE_SLOT, IntToStrZFill(2, gamemap)]);
+  sprintf(fileName, _SAVEGAMEMAP, [SAVEPATH, BASE_SLOT, IntToStrZFill(2, gamemap)]);
   fileName := M_SaveFileName(fileName);
   if (deathmatch = 0) and fexists(fileName) then
   begin // Unarchive map
@@ -1828,7 +1866,7 @@ function SV_RebornSlotAvailable: boolean;
 var
   fileName: string;
 begin
-  sprintf(fileName, SAVEGAMENAME, [SAVEPATH, REBORN_SLOT]);
+  sprintf(fileName, _SAVEGAMENAME, [SAVEPATH, REBORN_SLOT]);
   fileName := M_SaveFileName(fileName);
   result := fexists(fileName);
 end;
@@ -1846,7 +1884,7 @@ end;
 
 function SV_GetSaveGameName(const slot: integer): string;
 begin
-  sprintf(result, SAVEGAMENAME, [SAVEPATH, slot]);
+  sprintf(result, _SAVEGAMENAME, [SAVEPATH, slot]);
   result := M_SaveFileName(result);
 end;
 

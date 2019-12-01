@@ -102,7 +102,6 @@ uses
   r_draw,
   r_main,
 {$IFNDEF OPENGL}
-  p_setup,
   r_segs,
   r_column,
   r_batchcolumn,
@@ -661,7 +660,7 @@ begin
     batchcolfunc := basebatchcolfunc;
   end;
 
-  dc_iscale := FixedDivEx(FRACUNIT, vis.scale);
+  dc_iscale := FixedDiv(FRACUNIT, vis.scale);
   dc_texturemid := vis.texturemid;
   frac := vis.startfrac;
   spryscale := vis.scale;
@@ -768,7 +767,7 @@ begin
   frac := vis.startfrac * LIGHTBOOSTSIZE div patch.width;
   fracstep := vis.xiscale * (LIGHTBOOSTSIZE shr 1) div patch.width;
   spryscale := vis.scale * patch.height div (LIGHTBOOSTSIZE shr 1);
-  dc_iscale := FixedDivEx(FRACUNIT, spryscale);
+  dc_iscale := FixedDiv(FRACUNIT, spryscale);
   sprtopscreen := centeryfrac - FixedMul(vis.texturemid2, vis.scale);
 
   if fixedcolormapnum = INVERSECOLORMAP then // JVAL: if in invulnerability mode use white color
@@ -935,11 +934,9 @@ var
   checksides: boolean;
 {$ELSE}
   iscale: fixed_t;
-  heightsec: integer;
-  plheightsec: integer;
-  gzt: integer;
 {$ENDIF}
 begin
+
   if (thing.player = viewplayer) and not chasecamera then
     exit;
 
@@ -994,11 +991,7 @@ begin
   begin
     // choose a different rotation based on player view
     ang := R_PointToAngle(thing.x, thing.y);
-    {$IFDEF FPC}
-    rot := _SHRW(ang - thing.angle + LongWord(ANG45 div 2) * 9), 29);
-    {$ELSE}
     rot := (ang - thing.angle + LongWord(ANG45 div 2) * 9) shr 29;
-    {$ENDIF}
     lump := sprframe.lump[rot];
     flip := sprframe.flip[rot];
   end
@@ -1030,41 +1023,6 @@ begin
     if x2 < 0 then
       exit;
 
-  {$IFNDEF OPENGL}
-  gzt := thing.z + spritetopoffset[lump];
-  heightsec := Psubsector_t(thing.subsector).sector.heightsec;
-
-  if heightsec <> -1 then   // only clip things which are in special sectors
-  begin
-    plheightsec := Psubsector_t(viewplayer.mo.subsector).sector.heightsec;
-    if plheightsec <> -1 then
-    begin
-      if viewz < sectors[plheightsec].floorheight then
-      begin
-        if thing.z >= sectors[heightsec].floorheight then
-          Exit;
-      end
-      else
-      begin
-        if gzt < sectors[heightsec].floorheight then
-          Exit;
-      end;
-
-      if viewz > sectors[plheightsec].ceilingheight then
-      begin
-        if (gzt < sectors[heightsec].ceilingheight) and
-           (viewz >= sectors[heightsec].ceilingheight) then
-           Exit;
-      end
-      else
-      begin
-        if thing.z >= sectors[heightsec].ceilingheight then
-           Exit;
-      end;
-    end;
-  end;
-  {$ENDIF}
-
   // store information in a vissprite
   vis := R_NewVisSprite;
   vis.mobjflags := thing.flags;
@@ -1074,11 +1032,10 @@ begin
   vis._type := thing._type;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   {$IFNDEF OPENGL}
-  vis.heightsec := heightsec;
   vis.gx := thing.x;
   vis.gy := thing.y;
   vis.gz := thing.z;
-  vis.gzt := gzt;
+  vis.gzt := thing.z + spritetopoffset[lump];
   // foot clipping
   vis.footclip := thing.floorclip;
   vis.texturemid := vis.gzt - viewz - vis.footclip * FRACUNIT;
@@ -1428,10 +1385,6 @@ var
   lowscale: fixed_t;
   silhouette: integer;
   i: integer;
-{$IFNDEF OPENGL}
-  h, mh: fixed_t;
-  plheightsec: integer;
-{$ENDIF}
 begin
   for x := spr.x1 to spr.x2 do
   begin
@@ -1519,71 +1472,6 @@ begin
       end;
     end;
   end;
-
-
-  {$IFNDEF OPENGL}
-  // killough 3/27/98:
-  // Clip the sprite against deep water and/or fake ceilings.
-  // killough 4/9/98: optimize by adding mh
-  // killough 4/11/98: improve sprite clipping for underwater/fake ceilings
-
-  if spr.heightsec <> -1 then  // only things in specially marked sectors
-  begin
-    plheightsec := Psubsector_t(viewplayer.mo.subsector).sector.heightsec;
-    mh := sectors[spr.heightsec].floorheight;
-    if mh > spr.gz then
-    begin
-      mh := mh - viewz;
-      h := centeryfrac - FixedMul(mh, spr.scale);
-      if h >= 0 then
-      begin
-        h := h div FRACUNIT;
-        if h < viewheight then
-        begin
-          if (mh <= 0) or ((plheightsec <> -1) and (viewz > sectors[plheightsec].floorheight)) then
-          begin
-            for x := spr.x1 to spr.x2 do
-              if (clipbot[x] = -2) or (h < clipbot[x]) then
-                clipbot[x] := h;
-          end
-          else
-          begin
-            for x := spr.x1 to spr.x2 do
-              if (cliptop[x] = -2) or (h > cliptop[x]) then
-                cliptop[x] := h;
-          end;
-        end;
-      end;
-    end;
-
-    mh := sectors[spr.heightsec].ceilingheight;
-    if mh < spr.gzt then
-    begin
-      h := centeryfrac - FixedMul(mh - viewz, spr.scale);
-      if h >= 0 then
-      begin
-        h := h div FRACUNIT;
-        if h < viewheight then
-        begin
-          if (plheightsec <> -1) and (viewz >= sectors[plheightsec].ceilingheight) then
-          begin
-            for x := spr.x1 to spr.x2 do
-              if (clipbot[x] = -2) or (h < clipbot[x]) then
-                clipbot[x] := h;
-          end
-          else
-          begin
-            for x :=spr.x1 to spr.x2 do
-              if (cliptop[x] = -2) or (h > cliptop[x]) then
-                cliptop[x] := h;
-          end;
-        end;
-      end;
-    end;
-  end;
-
-  // killough 3/27/98: end special clipping for deep water / fake ceilings
-  {$ENDIF}
 
   // all clipping has been performed, so draw the sprite
 

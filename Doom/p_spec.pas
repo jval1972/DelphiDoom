@@ -3435,7 +3435,7 @@ begin
   begin
     if l.special = 223 then
     begin
-      len := P_AproxDistance(l.dx, l.dy) shr FRACBITS;
+      len := P_AproxDistance(l.dx, l.dy) div FRACUNIT;
       friction := ($1EB8 * len) div $80 + $D000;
 
       // The following check might seem odd. At the time of movement,
@@ -3540,7 +3540,7 @@ begin
   sx := tmpusher.x;
   sy := tmpusher.y;
   dist := P_AproxDistance(thing.x - sx,thing.y - sy);
-  speed := (tmpusher.magnitude - ((dist shr FRACBITS) shr 1)) shl (FRACBITS - PUSH_FACTOR - 1);
+  speed := (tmpusher.magnitude - (dist div (2 * FRACUNIT))) * (1 shl (FRACBITS - PUSH_FACTOR - 1));
 
   // If speed <= 0, you're outside the effective radius. You also have
   // to be able to see the push/pull source point.
@@ -3659,8 +3659,8 @@ begin
         end
         else // on ground
         begin
-          xspeed := p.x_mag shr 1; // half force
-          yspeed := p.y_mag shr 1;
+          xspeed := p.x_mag div 2; // half force
+          yspeed := p.y_mag div 2;
         end;
       end
       else // special water sector
@@ -3677,8 +3677,8 @@ begin
         end
         else // wading in water
         begin
-          xspeed := p.x_mag shr 1; // half force
-          yspeed := p.y_mag shr 1;
+          xspeed := p.x_mag div 2; // half force
+          yspeed := p.y_mag div 2;
         end;
       end;
     end
@@ -3712,8 +3712,8 @@ begin
       end;
     end;
 
-    thing.momx := thing.momx + (xspeed shl (FRACBITS - PUSH_FACTOR));
-    thing.momy := thing.momy + (yspeed shl (FRACBITS - PUSH_FACTOR));
+    thing.momx := thing.momx + (xspeed * (1 shl (FRACBITS - PUSH_FACTOR)));
+    thing.momy := thing.momy + (yspeed * (1 shl (FRACBITS - PUSH_FACTOR)));
     node := node.m_snext
   end;
 end;
@@ -3733,12 +3733,12 @@ begin
   p.thinker._function.acp1 := @T_Pusher;
   p.source := source;
   p._type := _type;
-  p.x_mag := x_mag shr FRACBITS;
-  p.y_mag := y_mag shr FRACBITS;
+  p.x_mag := x_mag div FRACUNIT;
+  p.y_mag := y_mag div FRACUNIT;
   p.magnitude := P_AproxDistance(p.x_mag, p.y_mag);
   if source <> nil then // point source exist?
   begin
-    p.radius := p.magnitude shl (FRACBITS + 1); // where force goes to zero
+    p.radius := p.magnitude * (FRACUNIT * 2); // where force goes to zero
     p.x := p.source.x;
     p.y := p.source.y;
   end;

@@ -75,11 +75,15 @@ var
   lowerwalls32: integer;
   upperwalls32: integer;
 
+var
+  force_numwallrenderingthreads_32bit: integer = 0;
+
 implementation
 
 uses
   {$IFDEF HEXEN}
   xn_defs,
+  r_data,
   {$ELSE}
   doomdef,
   {$ENDIF}
@@ -181,6 +185,11 @@ begin
   end;
   lfactor1 := w.dc_lightlevel;
   if lfactor1 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
   Inc(w);
 
@@ -194,6 +203,11 @@ begin
   end;
   lfactor2 := w.dc_lightlevel;
   if lfactor2 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
   Inc(w);
 
@@ -207,6 +221,11 @@ begin
   end;
   lfactor3 := w.dc_lightlevel;
   if lfactor3 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
   Inc(w);
 
@@ -220,6 +239,11 @@ begin
   end;
   lfactor4 := w.dc_lightlevel;
   if lfactor4 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4);
   Inc(w);
 
@@ -233,6 +257,11 @@ begin
   end;
   lfactor5 := w.dc_lightlevel;
   if lfactor5 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5);
   Inc(w);
 
@@ -246,6 +275,11 @@ begin
   end;
   lfactor6 := w.dc_lightlevel;
   if lfactor6 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6);
   Inc(w);
 
@@ -259,6 +293,11 @@ begin
   end;
   lfactor7 := w.dc_lightlevel;
   if lfactor7 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7);
   Inc(w);
 
@@ -272,6 +311,11 @@ begin
   end;
   lfactor8 := w.dc_lightlevel;
   if lfactor8 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor8, bf_r8, bf_g8, bf_b8)
+    else
+  {$ENDIF}
     R_GetPrecalc32Tables(lfactor8, bf_r8, bf_g8, bf_b8);
 
   swidth := SCREENWIDTH32PITCH - (MAXBATCHWALLS - 1) * SizeOf(LongWord);
@@ -1221,11 +1265,13 @@ begin
   Inc(wallcachesize);
 end;
 
-procedure R_DoFlashWallColumns32(const walls: Pbatchwallrenderinfo32_t; const idx: PInteger);
+procedure R_FlashWallColumns32(const idx: PInteger);
 var
   i: integer;
   w: Pwallrenderinfo32_t;
+  walls: Pbatchwallrenderinfo32_t;
 begin
+  walls := @wallcache[idx^];
   if walls.numwalls = 0 then
     exit;
 
@@ -1259,11 +1305,6 @@ begin
   end;
 end;
 
-procedure R_FlashWallColumns32(const idx: PInteger);
-begin
-  R_DoFlashWallColumns32(@wallcache[idx^], idx);
-end;
-
 procedure R_StoreWallColumn32(const idx: PInteger);
 var
   w: Pwallrenderinfo32_t;
@@ -1281,7 +1322,15 @@ begin
   w.dc_lightlevel := dc_lightlevel;
   Inc(walls.numwalls);
   if walls.numwalls = MAXBATCHWALLS then
-    R_DoFlashWallColumns32(walls, idx);
+  begin
+    if usemultithread then
+      R_AddWallsToCache32(idx)
+    else
+    begin
+      R_DrawBatchColumnHi(walls);
+      walls.numwalls := 0;
+    end
+  end;
 end;
 
 const
@@ -1315,6 +1364,8 @@ begin
   result := 0;
 end;
 
+var
+  default_numwallrenderingthreads_32bit: integer = 0;
 
 procedure R_InitWallsCache32;
 var
@@ -1332,12 +1383,17 @@ begin
   wallcache[upperwalls32].numwalls := 0;
   wallcachesize := 3;
 
-  numwallthreads32 := I_GetNumCPUs - 2;
+  if force_numwallrenderingthreads_32bit > 0 then
+    numwallthreads32 := force_numwallrenderingthreads_32bit
+  else
+    numwallthreads32 := I_GetNumCPUs - 2;
+
   if numwallthreads32 < 1 then
     numwallthreads32 := 1
   else if numwallthreads32 > MAXWALLTHREADS32 then
     numwallthreads32 := MAXWALLTHREADS32;
 
+  default_numwallrenderingthreads_32bit := numwallthreads32;
   for i := 0 to numwallthreads32 - 1 do
     wallthreads32[i] := TDThread.Create(@_wall_thread_worker32);
 end;
@@ -1366,7 +1422,37 @@ var
 procedure R_RenderMultiThreadWalls32;
 var
   i: integer;
+  newnumthreads: integer;
 begin
+  if force_numwallrenderingthreads_32bit > 0 then
+  begin
+    if force_numwallrenderingthreads_32bit <> numwallthreads32 then
+    begin
+      newnumthreads := force_numwallrenderingthreads_32bit;
+      if newnumthreads > MAXWALLTHREADS32 then
+      begin
+        newnumthreads := MAXWALLTHREADS32;
+        force_numwallrenderingthreads_32bit := MAXWALLTHREADS32;
+      end;
+    end
+    else
+      newnumthreads := numwallthreads32;
+  end
+  else
+    newnumthreads := default_numwallrenderingthreads_32bit;
+
+  if newnumthreads = 0 then
+    newnumthreads := I_GetNumCPUs - 2;
+
+  if newnumthreads <> numwallthreads32 then
+  begin
+    for i := numwallthreads32 to newnumthreads - 1 do
+      wallthreads32[i] := TDThread.Create(@_wall_thread_worker32);
+    for i := newnumthreads to numwallthreads32 - 1 do
+      wallthreads32[i].Free;
+    numwallthreads32 := newnumthreads;
+  end;
+
   for i := 0 to numwallthreads32 - 1 do
     parms[i].start := (wallcachesize div numwallthreads32) * i;
   for i := 0 to numwallthreads32 - 2 do
@@ -1379,6 +1465,8 @@ begin
 end;
 
 procedure R_WaitWallsCache32;
+{var
+  A: array[0..MAXWALLTHREADS32 - 1] of integer;}
 
   function _alldone: boolean;
   var
@@ -1386,12 +1474,23 @@ procedure R_WaitWallsCache32;
   begin
     Result := true;
     for i := 0 to numwallthreads32 - 1 do
+    begin
       Result := Result and wallthreads32[i].CheckJobDone;
+{      if not wallthreads32[i].CheckJobDone then Inc(A[i]);}
+    end;
   end;
 
+{var
+  i: integer;
+  s: string;}
 begin
+{  ZeroMemory(@A, SizeOf(A));}
   while not _alldone do
     I_Sleep(0);
+{  s := 'CYCLES PER THREAD ->';
+  for i := 0 to numwallthreads32 - 1 do
+    s := s + 'THREAD #' + itoa(i + 1) + '=' + itoa(A[i]) + ' ';
+  printf('%s'#13#10, [s])}
 end;
 
 

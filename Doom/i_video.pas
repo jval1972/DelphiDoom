@@ -51,6 +51,8 @@ procedure I_ShutDownGraphics;
 // Takes full 8 bit values.
 procedure I_SetPalette(const palette: PByteArray);
 
+procedure IV_SetPalette(const palette: PByteArray);
+
 procedure I_FinishUpdate;
 
 procedure I_ReadScreen32(dest: pointer);
@@ -421,6 +423,28 @@ begin
   end;
   if videomode = vm8bit then
     I_SetPalette64;
+end;
+
+procedure IV_SetPalette(const palette: PByteArray);
+var
+  dest: PLongWord;
+  src: PByteArray;
+  curgamma: PByteArray;
+begin
+  dest := @curpal[0];
+  src := palette;
+  curgamma := @gammatable[usegamma];
+  while integer(src) < integer(@palette[256 * 3]) do
+  begin
+    dest^ := (LongWord(curgamma[src[0]]) shl 16) or
+             (LongWord(curgamma[src[1]]) shl 8) or
+             (LongWord(curgamma[src[2]]));
+    inc(dest);
+    src := PByteArray(integer(src) + 3);
+  end;
+  if videomode = vm8bit then
+    I_SetPalette64;
+  V_SetPalette(palette);
 end;
 
 function I_AdjustWindowMode: boolean;

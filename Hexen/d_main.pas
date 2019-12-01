@@ -121,6 +121,9 @@ var
   wads_autoload: string = '';
   paks_autoload: string = '';
 
+var
+  hexdd_pack: boolean = false; // Death Kings of the Dark Citadel pack
+
 implementation
 
 uses
@@ -191,9 +194,6 @@ uses
 const
   BGCOLOR = 7;
   FGCOLOR = 8;
-
-var
-  hexdd_pack: boolean = false; // Death Kings of the Dark Citadel pack
 
 //
 // D_DoomLoop()
@@ -718,6 +718,8 @@ var
 begin
   if filename <> '' then
   begin
+    if wadfiles.IndexOf(filename) >= 0 then
+      exit;
     try
       wadfiles.Add(filename);
       if strupper(fname(filename)) = 'HEXDD.WAD' then
@@ -1421,6 +1423,39 @@ begin
   if SCREENHEIGHT > MAXHEIGHT then
     SCREENHEIGHT := MAXHEIGHT;
 
+  p := M_CheckParm('-fullhd');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 1920;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 1080;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-vga');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 640;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 480;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-svga');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 800;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 600;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
   singletics := M_CheckParm('-singletics') > 0;
   noartiskip := M_CheckParm('-noartiskip') > 0;
 
@@ -1498,6 +1533,21 @@ begin
   end;
 
   SUC_Progress(31);
+
+  for p := 1 to myargc do
+    if strupper(fext(myargv[p])) = '.WAD' then
+      D_AddFile(myargv[p]);
+
+  for p := 1 to myargc do
+    if (strupper(fext(myargv[p])) = '.PK3') or
+       (strupper(fext(myargv[p])) = '.PK4') or
+       (strupper(fext(myargv[p])) = '.ZIP') or
+       (strupper(fext(myargv[p])) = '.PAK') then
+    begin
+      modifiedgame := true;
+      externalpakspresent := true;
+      PAK_AddFile(myargv[p]);
+    end;
 
   printf('W_Init: Init WADfiles.'#13#10);
   if W_InitMultipleFiles(wadfiles) = 0 then

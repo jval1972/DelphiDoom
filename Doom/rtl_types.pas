@@ -89,6 +89,7 @@ type
     healstate: integer;
     crashstate: integer;
     interactstate: integer;
+    missileheight: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

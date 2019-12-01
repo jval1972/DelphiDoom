@@ -87,12 +87,14 @@ uses
   i_io,
 {$ENDIF}
   g_game,
+  p_genlin,
   p_mobj,
   p_tick,
   p_pspr,
   p_local,
   p_spec,
   p_map,
+  p_maputl,
   r_main,
   r_defs,
   sounds,
@@ -194,6 +196,47 @@ begin
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
 end;
 
+function P_GetMoveFactor(const mo: Pmobj_t): fixed_t;
+var
+  momentum, friction: integer;
+begin
+  result := ORIG_FRICTION_FACTOR;
+
+  // If the floor is icy or muddy, it's harder to get moving. This is where
+  // the different friction factors are applied to 'trying to move'. In
+  // p_mobj.c, the friction factors are applied as you coast and slow down.
+
+  if (mo.flags and (MF_NOGRAVITY or MF_NOCLIP) = 0) and
+     (mo.flags_ex and MF_EX_LOWGRAVITY = 0) then
+  begin
+    friction := mo.friction;
+    if friction = ORIG_FRICTION then            // normal floor
+
+    else if friction > ORIG_FRICTION then       // ice
+    begin
+      result := mo.movefactor;
+      mo.movefactor := ORIG_FRICTION_FACTOR;    // reset
+    end
+    else                                        // sludge
+    begin
+
+      // phares 3/11/98: you start off slowly, then increase as
+      // you get better footing
+
+      momentum := P_AproxDistance(mo.momx, mo.momy);
+      result := mo.movefactor;
+      if momentum > MORE_FRICTION_MOMENTUM shl 2 then
+        result := result shl 3
+      else if momentum > MORE_FRICTION_MOMENTUM shl 1 then
+        result := result shl 2
+      else if momentum > MORE_FRICTION_MOMENTUM then
+        result := result shl 1;
+
+      mo.movefactor := ORIG_FRICTION_FACTOR;  // reset
+    end;
+  end;
+end;
+
 //
 // P_MovePlayer
 //
@@ -202,6 +245,7 @@ var
   cmd: Pticcmd_t;
   look: integer;
   look2: integer;
+  movefactor: fixed_t;
 begin
   cmd := @player.cmd;
 
@@ -211,15 +255,22 @@ begin
   //  if not onground.
   onground := player.mo.z <= player.mo.floorz;
 
+  movefactor := ORIG_FRICTION_FACTOR;
+
+  if player.cheats and CF_LOWGRAVITY = 0 then
+    if G_PlayingEngineVersion >= VERSION120 then
+      if Psubsector_t(player.mo.subsector).sector.special and FRICTION_MASK <> 0 then
+        movefactor := P_GetMoveFactor(player.mo); //movefactor * 2;
+
   if (player.cheats and CF_LOWGRAVITY <> 0) or
     ((cmd.forwardmove <> 0) and
      (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
-    P_Thrust(player, player.mo.angle, cmd.forwardmove * 2048);
+    P_Thrust(player, player.mo.angle, cmd.forwardmove * movefactor);
 
   if (player.cheats and CF_LOWGRAVITY <> 0) or
     ((cmd.sidemove <> 0) and
      (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
-    P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * 2048);
+    P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * movefactor);
 
   if G_PlayingEngineVersion >= VERSION115 then
   begin

@@ -1492,6 +1492,7 @@ procedure R_SetupFrame(player: Pplayer_t);
 var
   i: integer;
   cy{$IFNDEF OPENGL}, dy{$ENDIF}: fixed_t;
+  sblocks: integer;
 begin
   viewplayer := player;
   viewx := player.mo.x;
@@ -1512,7 +1513,10 @@ begin
 // JVAL Enabled z axis shift
   if zaxisshift and ((player.lookdir <> 0) or p_justspawned) and (viewangleoffset = 0) then
   begin
-    cy := (viewheight + player.lookdir * screenblocks * SCREENHEIGHT div 1000) div 2;
+    sblocks := screenblocks;
+    if sblocks > 11 then
+      sblocks := 11;
+    cy := (viewheight + player.lookdir * sblocks * SCREENHEIGHT div 1000) div 2;
     if centery <> cy then
     begin
       centery := cy;

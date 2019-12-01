@@ -351,9 +351,6 @@ begin
     R_ExecuteSetViewSize;
     oldgamestate := -1; // force background redraw
     borderdrawcount := 3;
-    {$IFDEF OPENGL}
-//    R_VideoBlanc(SCN_FG, 0,
-    {$ENDIF}
   end;
 
 {$IFNDEF OPENGL}
@@ -415,8 +412,12 @@ begin
   begin
   // clean up border stuff
     palette := V_ReadPalette(PU_STATIC);
+    {$IFDEF OPENGL}
     I_SetPalette(palette);
     V_SetPalette(palette);
+    {$ELSE}
+    IV_SetPalette(palette);
+    {$ENDIF}
     Z_ChangeTag(palette, PU_CACHE);
   end;
 
@@ -651,7 +652,7 @@ begin
   if demosequence = 0 then
     if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
       V_DrawPatch(120, 1020, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
-  {$ENDIF}      
+  {$ENDIF}
 end;
 
 //
@@ -767,6 +768,8 @@ var
 begin
   if fname <> '' then
   begin
+    if wadfiles.IndexOf(fname) >= 0 then
+      exit;
     try
       wadfiles.Add(fname);
       D_CheckCustomWad(fname);
@@ -898,7 +901,7 @@ begin
   sprintf(doom2fwad, '%s\doom2f.wad', [doomwaddir]);
 
 
-  basedefault := 'Doom32.ini';
+  basedefault := {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
 
   p := M_CheckParm('-mainwad');
   if p = 0 then
@@ -925,7 +928,7 @@ begin
     D_AddFile(DEVDATA + 'doom1.wad');
     D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
     D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
-    basedefault := DEVDATA + 'Doom32.ini';
+    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
     exit;
   end;
 
@@ -937,7 +940,7 @@ begin
     D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
     D_AddFile(DEVMAPS + 'data_se/texture2.lmp');
     D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
-    basedefault := DEVDATA + 'Doom32.ini';
+    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
     exit;
   end;
 
@@ -949,7 +952,7 @@ begin
 
     D_AddFile(DEVMAPS + 'cdata/texture1.lmp');
     D_AddFile(DEVMAPS + 'cdata/pnames.lmp');
-    basedefault := DEVDATA + 'Doom32.ini';
+    basedefault := DEVDATA + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
     exit;
   end;
 
@@ -1382,7 +1385,7 @@ begin
   if M_CheckParmCDROM then
   begin
     printf(D_CDROM);
-    basedefault := CD_WORKDIR + 'Doom32.ini';
+    basedefault := CD_WORKDIR + {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
   end;
 
   // turbo option
@@ -1659,6 +1662,39 @@ begin
   if SCREENHEIGHT > MAXHEIGHT then
     SCREENHEIGHT := MAXHEIGHT;
 
+  p := M_CheckParm('-fullhd');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 1920;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 1080;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-vga');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 640;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 480;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  p := M_CheckParm('-svga');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 800;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 600;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
   singletics := M_CheckParm('-singletics') > 0;
 
   p := M_CheckParm('-autoscreenshot');
@@ -1742,6 +1778,21 @@ begin
   {$IFNDEF FPC}
   SUC_Progress(31);
   {$ENDIF}
+
+  for p := 1 to myargc do
+    if strupper(fext(myargv[p])) = '.WAD' then
+      D_AddFile(myargv[p]);
+
+  for p := 1 to myargc do
+    if (strupper(fext(myargv[p])) = '.PK3') or
+       (strupper(fext(myargv[p])) = '.PK4') or
+       (strupper(fext(myargv[p])) = '.ZIP') or
+       (strupper(fext(myargv[p])) = '.PAK') then
+    begin
+      modifiedgame := true;
+      externalpakspresent := true;
+      PAK_AddFile(myargv[p]);
+    end;
 
   printf('W_Init: Init WADfiles.'#13#10);
   if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
@@ -2216,6 +2267,8 @@ begin
   Info_ShutDownRandom;
   printf('T_ShutDown: Shut down texture manager.'#13#10);
   T_ShutDown;
+  printf('M_ShutDownMenus: Shut down menus.'#13#10);
+  M_ShutDownMenus;
   printf('SC_ShutDown: Shut down script engine.'#13#10);
   SC_ShutDown;
   printf('DEH_ShutDown: Shut down dehacked subsystem.'#13#10);

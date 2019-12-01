@@ -85,6 +85,8 @@ uses
   g_game,
   r_wall32,
   r_cache,
+  r_colormaps,
+  r_diher,
   r_defs,
   r_hires,
   r_column,
@@ -166,6 +168,7 @@ var
   r2, g2, b2: byte;
   r, g, b: LongWord;
   c: LongWord;
+  dihertable: Pdihertable_t;
   twidth: integer;
   theight: integer;
   tfactor: integer;
@@ -293,7 +296,7 @@ begin
       curgamma := @gammatable[usegamma]; // To Adjust gamma
 
       c := 0;
-      if t.GetBytesPerPixel = 1 then
+      if (t.GetBytesPerPixel = 1) and (customcolormap = nil) then
       begin
         r1 := pal_color;
         g1 := pal_color shr 8;
@@ -307,7 +310,7 @@ begin
       // Texture filtering if dc_texturemod <> 0
       if dc_texturemod <> 0 then
       begin
-        if t.GetBytesPerPixel = 1 then
+        if (t.GetBytesPerPixel = 1) and (customcolormap = nil) then
           t.GetPalettedColumn32(col + 1, columnsize, @dc32_a, c)
         else
           t.GetColumn32(col + 1, columnsize, @dc32_a);
@@ -321,7 +324,7 @@ begin
         end;
       end;
 
-      if t.GetBytesPerPixel <> 1 then
+      if (t.GetBytesPerPixel <> 1) or (customcolormap <> nil) then
       begin
         {$IFDEF FPC}
         pdc32 := R_Get_dc32(dc32cache[hash][index], columnsize);
@@ -329,6 +332,32 @@ begin
         {$ELSE}
         plw := @R_Get_dc32(dc32cache[hash][index], columnsize)[0];
         {$ENDIF}
+
+{        if customcolormap <> nil then
+        begin
+          for i := 0 to columnsize - 1 do
+          begin
+            plw^ := R_CustomColorMapColor32(customcolormap, plw^);
+            inc(plw);
+          end;
+          Dec(plw, columnsize);
+        end;}
+
+        if customcolormap <> nil then
+        begin
+          dihertable := @customcolormap.dihertable;
+          for i := 0 to columnsize - 1 do
+          begin
+            c := plw^;
+            b2 := (c shr 16) shr DIHERSHIFT;
+            g2 := ((c shr 8) and $FF) shr DIHERSHIFT;
+            r2 := (c and $FF) shr DIHERSHIFT;
+            plw^ := dihertable[b2, g2, r2];
+            inc(plw);
+          end;
+          Dec(plw, columnsize);
+        end;
+
         // Simutate palette changes
         if dc_32bittexturepaletteeffects and (pal_color <> 0) then
         begin
@@ -346,6 +375,11 @@ begin
               {$I R_CachePaletteSimulation64.inc}
               loops := loops - 64;
             end;
+            while loops >= 8 do
+            begin
+              {$I R_CachePaletteSimulation8.inc}
+              loops := loops - 8;
+            end;
             while loops >= 0 do
             begin
               {$I R_CachePaletteSimulation_Loop.inc}
@@ -362,6 +396,11 @@ begin
               begin
                 {$I R_CachePaletteSimulation64.inc}
                 loops := loops - 64;
+              end;
+              while loops >= 8 do
+              begin
+                {$I R_CachePaletteSimulation8.inc}
+                loops := loops - 8;
               end;
               while loops >= 0 do
               begin

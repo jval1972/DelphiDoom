@@ -29,15 +29,16 @@
         factor2 := (cfrac2 * lfactor) shr FRACBITS;
 
 {$IFDEF FOG}
-        r := (fog_color + (r2 * factor2) + (r1 * factor1)) shr FRACBITS;
-        g := (fog_color + (g2 * factor2) + (g1 * factor1)) shr FRACBITS;
-        b := (fog_color + (b2 * factor2) + (b1 * factor1)) shr FRACBITS;
+        r := ((r2 * factor2) + (r1 * factor1)) shr FRACBITS;
+        g := ((g2 * factor2) + (g1 * factor1)) shr FRACBITS;
+        b := ((b2 * factor2) + (b1 * factor1)) shr FRACBITS;
+        destl^ := bf_r[r] + bf_g[g] + bf_b[b];
 {$ELSE}
         r := ((r2 * factor2) + (r1 * factor1)) shr FRACBITS;
         g := ((g2 * factor2) + (g1 * factor1)) shr FRACBITS;
         b := ((b2 * factor2) + (b1 * factor1)) shr FRACBITS;
-{$ENDIF}
         destl^ := r + g shl 8 + b shl 16;
+{$ENDIF}
 
 {$ENDIF}
 

@@ -12,6 +12,9 @@ var
   lfactor: fixed_t;
   r1, g1, b1: byte;
   r, g, b: LongWord;
+
+  lc: LongWord;
+  lnc: LongWord;
 begin
   count := dc_yh - dc_yl;
 
@@ -31,55 +34,64 @@ begin
     spot := (LongWord(frac) shr FRACBITS) and 255;
     lfactor := dc_source32[spot];
 
+    lnc := $FFFFFFFF;
+    lc := $FFFFFFFF;
     cnt := num_batch_columns;
     while cnt > 0 do
     begin
       c := destl^;
-      r1 := c;
-      g1 := c shr 8;
-      b1 := c shr 16;
-  {$IFDEF WHITE}
-      r := (r1 * lfactor) shr FRACBITS;
-      if r > 255 then
-        r := 255;
-      g := (g1 * lfactor) shr FRACBITS;
-      if g > 255 then
-        g := 255;
-      b := (b1 * lfactor) shr FRACBITS;
-      if b > 255 then
-        b := 255;
-  {$ENDIF}
-  {$IFDEF RED}
-      r := r1;
-      g := g1;
-      b := (b1 * lfactor) shr FRACBITS;
-      if b > 255 then
-        b := 255;
-  {$ENDIF}
-  {$IFDEF GREEN}
-      r := r1;
-      g := (g1 * lfactor) shr FRACBITS;
-      if g > 255 then
-        g := 255;
-      b := b1;
-  {$ENDIF}
-  {$IFDEF BLUE}
-      r := (r1 * lfactor) shr FRACBITS;
-      if r > 255 then
-        r := 255;
-      g := g1;
-      b := b1;
-  {$ENDIF}
-  {$IFDEF YELLOW}
-      r := r1;
-      g := (g1 * lfactor) shr FRACBITS;
-      if g > 255 then
-        g := 255;
-      b := (b1 * lfactor) shr FRACBITS;
-      if b > 255 then
-        b := 255;
-  {$ENDIF}
-      destl^ := r + g shl 8 + b shl 16;
+      if c <> lc then
+      begin
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+    {$IFDEF WHITE}
+        r := (r1 * lfactor) shr FRACBITS;
+        if r > 255 then
+          r := 255;
+        g := (g1 * lfactor) shr FRACBITS;
+        if g > 255 then
+          g := 255;
+        b := (b1 * lfactor) shr FRACBITS;
+        if b > 255 then
+          b := 255;
+    {$ENDIF}
+    {$IFDEF RED}
+        r := r1;
+        g := g1;
+        b := (b1 * lfactor) shr FRACBITS;
+        if b > 255 then
+          b := 255;
+    {$ENDIF}
+    {$IFDEF GREEN}
+        r := r1;
+        g := (g1 * lfactor) shr FRACBITS;
+        if g > 255 then
+          g := 255;
+        b := b1;
+    {$ENDIF}
+    {$IFDEF BLUE}
+        r := (r1 * lfactor) shr FRACBITS;
+        if r > 255 then
+          r := 255;
+        g := g1;
+        b := b1;
+    {$ENDIF}
+    {$IFDEF YELLOW}
+        r := r1;
+        g := (g1 * lfactor) shr FRACBITS;
+        if g > 255 then
+          g := 255;
+        b := (b1 * lfactor) shr FRACBITS;
+        if b > 255 then
+          b := 255;
+    {$ENDIF}
+        lnc := r + g shl 8 + b shl 16;
+        destl^ := lnc;
+        lc := c;
+      end
+      else
+        destl^ := lnc;
       Inc(destl);
       Dec(cnt);
     end;

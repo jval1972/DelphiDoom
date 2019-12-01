@@ -103,6 +103,8 @@ var
 
 procedure M_InitMenus;
 
+procedure M_ShutDownMenus;
+
 implementation
 
 uses
@@ -119,6 +121,7 @@ uses
   m_misc,
   m_fixed,
   i_system,
+  i_threads,
   i_io,
   i_mp3,
   i_sound,
@@ -1857,8 +1860,12 @@ begin
             usegamma := 0;
           players[consoleplayer]._message := gammamsg[usegamma];
           palette := V_ReadPalette(PU_STATIC);
+          {$IFDEF OPENGL}
           I_SetPalette(palette);
           V_SetPalette(palette);
+          {$ELSE}
+          IV_SetPalette(palette);
+          {$ENDIF}
           Z_ChangeTag(palette, PU_CACHE);
           result := true;
           exit;
@@ -2036,165 +2043,6 @@ begin
   menuactive := true;
   currentMenu := @MainDef;// JDC
   itemOn := currentMenu.lastOn; // JDC
-end;
-
-//
-// M_Drawer
-// Called after the view has been rendered,
-// but before it has been blitted.
-//
-
-//
-// JVAL
-// Threaded shades the half screen
-//
-function M_Thr_ShadeScreen(p: pointer): integer; stdcall;
-var
-  half: integer;
-begin
-{$IFDEF OPENGL}
-  half := V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2;
-  V_ShadeBackground(half, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) - half);
-{$ELSE}
-  half := SCREENWIDTH * SCREENHEIGHT div 2;
-  V_ShadeScreen(SCN_FG, half, SCREENWIDTH * SCREENHEIGHT - half);
-{$ENDIF}
-  result := 0;
-end;
-
-procedure M_MenuShader;
-var
-  h1: integer;
-begin
-  if (not wipedisplay) and shademenubackground then
-  begin
-    if usemultithread then
-    begin
-    // JVAL
-      h1 := I_CreateProcess(@M_Thr_ShadeScreen, nil, false);
-      {$IFDEF OPENGL}
-      V_ShadeBackground(0, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2);
-      {$ELSE}
-      V_ShadeScreen(SCN_FG, 0, SCREENWIDTH * SCREENHEIGHT div 2);
-      {$ENDIF}
-      // Wait for extra thread to terminate.
-      I_WaitForProcess(h1, 1000);
-    end
-    else
-      {$IFDEF OPENGL}
-      V_ShadeBackground;
-      {$ELSE}
-      V_ShadeScreen(SCN_FG);
-      {$ENDIF}
-  end;
-end;
-
-procedure M_FinishUpdate(const height: integer);
-begin
-  // JVAL
-  // Menu is no longer drawn to primary surface,
-  // Instead we use SCN_TMP and after the drawing we blit to primary surface
-  if inhelpscreens then
-  begin
-    V_CopyRectTransparent(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
-    inhelpscreens := false;
-  end
-  else
-  begin
-    M_MenuShader;
-    V_CopyRectTransparent(0, 0, SCN_TMP, 320, height, 0, 0, SCN_FG, true);
-  end;
-end;
-
-procedure M_Drawer;
-var
-  i: integer;
-  max: integer;
-  str: string;
-  len: integer;
-  x, y: integer;
-  mheight: integer;
-begin
-  // Horiz. & Vertically center string and print it.
-  if messageToPrint <> 0 then
-  begin
-
-    mheight := M_StringHeight(messageString);
-    y := (200 - mheight) div 2;
-    mheight := y + mheight + 20;
-    ZeroMemory(screens[SCN_TMP], 320 * mheight);
-    len := Length(messageString);
-    str := '';
-    for i := 1 to len do
-    begin
-      if messageString[i] = #13 then
-        y := y + hu_font[0].height
-      else if messageString[i] = #10 then
-      begin
-        x := (320 - M_StringWidth(str)) div 2;
-        M_WriteText(x, y, str);
-        str := '';
-      end
-      else
-        str := str + messageString[i];
-    end;
-    if str <> '' then
-    begin
-      x := (320 - M_StringWidth(str)) div 2;
-      y := y + hu_font[0].height;
-      M_WriteText(x, y, str);
-    end;
-
-    M_FinishUpdate(mheight);
-    exit;
-  end;
-
-  if not menuactive then
-    exit;
-
-  ZeroMemory(screens[SCN_TMP], 320 * 200);
-
-  if Assigned(currentMenu.routine) then
-    currentMenu.routine; // call Draw routine
-
-  // DRAW MENU
-  x := currentMenu.x;
-  y := currentMenu.y;
-  max := currentMenu.numitems;
-
-  for i := 0 to max - 1 do
-  begin
-    str := currentMenu.menuitems[i].name;
-    if str <> '' then
-    begin
-      if str[1] = '@' then // Draw text
-      begin
-        delete(str, 1, 1);
-        M_WriteText(x, y, str, 2 * FRACUNIT)
-      end
-      else if str[1] = '!' then // Draw text with Yes/No
-      begin
-        delete(str, 1, 1);
-        if currentMenu.menuitems[i].pBoolVal <> nil then
-          M_WriteText(x, y, str + ': ' + yesnoStrings[currentMenu.menuitems[i].pBoolVal^])
-        else
-          M_WriteText(x, y, str);
-      end
-      else
-        V_DrawPatch(x, y, SCN_TMP,
-          currentMenu.menuitems[i].name, false);
-    end;
-    y := y + currentMenu.itemheight;
-  end;
-
-  if currentMenu.itemheight <= LINEHEIGHT2 then
-    M_WriteText(x + ARROWXOFF, currentMenu.y + itemOn * LINEHEIGHT2, '>')
-  else
-    // DRAW SKULL
-    V_DrawPatch(x + SKULLXOFF, currentMenu.y + SKULLYOFF + itemOn * LINEHEIGHT, SCN_TMP,
-      skullName[whichSkull], false);
-
-  M_FinishUpdate(200);
 end;
 
 //
@@ -2386,11 +2234,183 @@ begin
   C_AddCmd('menu_save, menu_savegame', @M_CmdMenuSaveDef);
 end;
 
+var
+  threadmenushader: TDThread;
+
+procedure M_ShutDownMenus;
+begin
+  threadmenushader.Free;
+end;
+
+function M_Thr_ShadeScreen(p: pointer): integer; stdcall;
+var
+  half: integer;
+begin
+{$IFDEF OPENGL}
+  half := V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2;
+  V_ShadeBackground(half, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) - half);
+{$ELSE}
+  half := SCREENWIDTH * SCREENHEIGHT div 2;
+  V_ShadeScreen(SCN_FG, half, SCREENWIDTH * SCREENHEIGHT - half);
+{$ENDIF}
+  result := 0;
+end;
+
+//
+// JVAL
+// Threaded shades the half screen
+//
+procedure M_MenuShader;
+//var
+//  h1: integer;
+begin
+  if (not wipedisplay) and shademenubackground then
+  begin
+    if usemultithread then
+    begin
+    // JVAL
+//      h1 := I_CreateProcess(@M_Thr_ShadeScreen, nil, false);
+      threadmenushader.Activate(nil);
+      {$IFDEF OPENGL}
+      V_ShadeBackground(0, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2);
+      {$ELSE}
+      V_ShadeScreen(SCN_FG, 0, SCREENWIDTH * SCREENHEIGHT div 2);
+      {$ENDIF}
+      threadmenushader.Wait;
+      // Wait for extra thread to terminate.
+//      I_WaitForProcess(h1, 1000);
+    end
+    else
+      {$IFDEF OPENGL}
+      V_ShadeBackground;
+      {$ELSE}
+      V_ShadeScreen(SCN_FG);
+      {$ENDIF}
+  end;
+end;
+
+procedure M_FinishUpdate(const height: integer);
+begin
+  // JVAL
+  // Menu is no longer drawn to primary surface,
+  // Instead we use SCN_TMP and after the drawing we blit to primary surface
+  if inhelpscreens then
+  begin
+    V_CopyRectTransparent(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+    inhelpscreens := false;
+  end
+  else
+  begin
+    M_MenuShader;
+    V_CopyRectTransparent(0, 0, SCN_TMP, 320, height, 0, 0, SCN_FG, true);
+  end;
+end;
+
+
+//
+// M_Drawer
+// Called after the view has been rendered,
+// but before it has been blitted.
+//
+
+procedure M_Drawer;
+var
+  i: integer;
+  max: integer;
+  str: string;
+  len: integer;
+  x, y: integer;
+  mheight: integer;
+begin
+  // Horiz. & Vertically center string and print it.
+  if messageToPrint <> 0 then
+  begin
+
+    mheight := M_StringHeight(messageString);
+    y := (200 - mheight) div 2;
+    mheight := y + mheight + 20;
+    ZeroMemory(screens[SCN_TMP], 320 * mheight);
+    len := Length(messageString);
+    str := '';
+    for i := 1 to len do
+    begin
+      if messageString[i] = #13 then
+        y := y + hu_font[0].height
+      else if messageString[i] = #10 then
+      begin
+        x := (320 - M_StringWidth(str)) div 2;
+        M_WriteText(x, y, str);
+        str := '';
+      end
+      else
+        str := str + messageString[i];
+    end;
+    if str <> '' then
+    begin
+      x := (320 - M_StringWidth(str)) div 2;
+      y := y + hu_font[0].height;
+      M_WriteText(x, y, str);
+    end;
+
+    M_FinishUpdate(mheight);
+    exit;
+  end;
+
+  if not menuactive then
+    exit;
+
+  ZeroMemory(screens[SCN_TMP], 320 * 200);
+
+  if Assigned(currentMenu.routine) then
+    currentMenu.routine; // call Draw routine
+
+  // DRAW MENU
+  x := currentMenu.x;
+  y := currentMenu.y;
+  max := currentMenu.numitems;
+
+  for i := 0 to max - 1 do
+  begin
+    str := currentMenu.menuitems[i].name;
+    if str <> '' then
+    begin
+      if str[1] = '@' then // Draw text
+      begin
+        delete(str, 1, 1);
+        M_WriteText(x, y, str, 2 * FRACUNIT)
+      end
+      else if str[1] = '!' then // Draw text with Yes/No
+      begin
+        delete(str, 1, 1);
+        if currentMenu.menuitems[i].pBoolVal <> nil then
+          M_WriteText(x, y, str + ': ' + yesnoStrings[currentMenu.menuitems[i].pBoolVal^])
+        else
+          M_WriteText(x, y, str);
+      end
+      else
+        V_DrawPatch(x, y, SCN_TMP,
+          currentMenu.menuitems[i].name, false);
+    end;
+    y := y + currentMenu.itemheight;
+  end;
+
+  if currentMenu.itemheight <= LINEHEIGHT2 then
+    M_WriteText(x + ARROWXOFF, currentMenu.y + itemOn * LINEHEIGHT2, '>')
+  else
+    // DRAW SKULL
+    V_DrawPatch(x + SKULLXOFF, currentMenu.y + SKULLYOFF + itemOn * LINEHEIGHT, SCN_TMP,
+      skullName[whichSkull], false);
+
+  M_FinishUpdate(200);
+end;
+
+
 procedure M_InitMenus;
 var
   i: integer;
   pmi: Pmenuitem_t;
 begin
+  threadmenushader := TDThread.Create(@M_Thr_ShadeScreen);
 ////////////////////////////////////////////////////////////////////////////////
 //gammamsg
   gammamsg[0] := GAMMALVL0;

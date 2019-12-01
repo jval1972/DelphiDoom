@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -244,7 +244,7 @@ begin
     x := y;
     y := d;
   end;
-  d := FixedDiv(x, finesine[(tantoangle[FixedDiv(y,x) shr DBITS] + ANG90) shr ANGLETOFINESHIFT]);
+  d := FixedDiv(x, finesine[LongWord(tantoangle[FixedDiv(y,x) div DRANGE] + ANG90) shr ANGLETOFINESHIFT]);
   x := -FixedDiv(FixedMul(dy, l.dy) + FixedMul(dx, l.dx), d);
   y := -FixedDiv(FixedMul(dx, l.dy) - FixedMul(dy, l.dx), d);
   P_AddScroller(sc_side, x, y, control, l.sidenum[0], accel);
@@ -253,6 +253,7 @@ end;
 // Amount (dx,dy) vector linedef is shifted right to get scroll amount
 const
   SCROLL_SHIFT = 5;
+  SCROLL_FACTOR = 1 shl SCROLL_SHIFT;
 
 // Factor to scale scrolling effect into mobj-carrying properties := 3/32.
 // (This is so scrolling floors and objects on them can move at same speed.)
@@ -273,8 +274,8 @@ begin
   for i := 0 to numlines - 1 do
   begin
     l := @lines[i];
-    dx := l.dx shr SCROLL_SHIFT;  // direction and speed of scrolling
-    dy := l.dy shr SCROLL_SHIFT;
+    dx := l.dx div SCROLL_FACTOR;  // direction and speed of scrolling
+    dy := l.dy div SCROLL_FACTOR;
     special := l.special;
 
     // killough 3/7/98: Types 245-249 are same as 250-254 except that the

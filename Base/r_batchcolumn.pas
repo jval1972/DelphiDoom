@@ -80,6 +80,7 @@ uses
   r_precalc,
   {$IFDEF DOOM}
   r_trans8,
+  r_colormaps,
   {$ENDIF}
   r_data,
   r_draw,
@@ -971,11 +972,19 @@ var
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
   bf_b: PIntegerArray;
+  pal: PLongWordArray;
 begin
   count := dc_yh - dc_yl;
 
   if count < 0 then
     exit;
+
+  {$IFDEF DOOM}
+  if customcolormap <> nil then
+    pal := @cvideopal
+  else
+  {$ENDIF}
+    pal := @curpal;
 
   destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
 
@@ -989,7 +998,7 @@ begin
     while count >= 0 do
     begin
       spot := (LongWord(frac) shr FRACBITS) and 127;
-      c := curpal[dc_source[spot]];
+      c := pal[dc_source[spot]];
       ldest := bf_r[c and $FF] + bf_g[(c shr 8) and $FF] + bf_b[(c shr 16) and $FF];
 
       cnt := num_batch_columns;
@@ -1010,7 +1019,7 @@ begin
     while count >= 0 do
     begin
       spot := (LongWord(frac) shr FRACBITS) and 127;
-      c := curpal[dc_source[spot]];
+      c := pal[dc_source[spot]];
       r1 := c;
       g1 := c shr 8;
       b1 := c shr 16;

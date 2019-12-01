@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -47,7 +47,7 @@ procedure R_StoreWallRange(const start: integer; const stop: integer);
 var
 // angle to line origin
   rw_angle1: angle_t;
-  
+
   rw_normalangle: angle_t;
 
 //
@@ -158,12 +158,18 @@ begin
   if use32 then
   begin
     mc2height := textures[texnum].height;
-    colfunc := maskedcolfunc2;
+    if ds.curline.linedef.renderflags and LRF_TRANSPARENT <> 0 then
+      colfunc := averagecolfunc
+    else
+      colfunc := maskedcolfunc2;
   end
   else
   begin
     mc2height := 0;
-    colfunc := maskedcolfunc;
+    if ds.curline.linedef.renderflags and LRF_TRANSPARENT <> 0 then
+      colfunc := averagecolfunc
+    else
+      colfunc := maskedcolfunc;
   end;
 
   lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
@@ -497,6 +503,28 @@ begin
       end;
   }
 
+      // killough 1/17/98: this test is required if the fix
+      // for the automap bug (r_bsp.c) is used, or else some
+      // sprites will be displayed behind closed doors. That
+      // fix prevents lines behind closed doors with dropoffs
+      // from being displayed on the automap.
+      //
+      // killough 4/7/98: make doorclosed external variable
+
+    if doorclosed or (backsector.ceilingheight <= frontsector.floorheight) then
+    begin
+      pds.sprbottomclip := @negonearray;
+      pds.bsilheight := MAXINT;
+      pds.silhouette := pds.silhouette or SIL_BOTTOM;
+    end;
+
+    if doorclosed or (backsector.floorheight >= frontsector.ceilingheight) then
+    begin                   // killough 1/17/98, 2/8/98
+      pds.sprtopclip := @screenheightarray;
+      pds.tsilheight := MININT;
+      pds.silhouette := pds.silhouette or SIL_TOP;
+    end;
+
     worldhigh := backsector.ceilingheight - viewz;
     worldlow := backsector.floorheight - viewz;
 
@@ -518,11 +546,27 @@ begin
     begin
       markfloor := (worldlow <> worldbottom) or
                    (backsector.floorpic <> frontsector.floorpic) or
-                   (backsector.lightlevel <> frontsector.lightlevel);
+                   (backsector.lightlevel <> frontsector.lightlevel) or
+                   // killough 3/7/98: Add checks for (x,y) offsets
+                   (backsector.floor_xoffs <> frontsector.floor_xoffs) or
+                   (backsector.floor_yoffs <> frontsector.floor_yoffs) or
+                   // killough 4/15/98: prevent 2s normals
+                   // from bleeding through deep water
+                   (frontsector.heightsec <> -1) or
+                   // killough 4/17/98: draw floors if different light levels
+                   (backsector.floorlightsec <> frontsector.floorlightsec);
 
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
-                     (backsector.lightlevel <> frontsector.lightlevel);
+                     (backsector.lightlevel <> frontsector.lightlevel) or
+                     // killough 3/7/98: Add checks for (x,y) offsets
+                     (backsector.ceiling_xoffs <> frontsector.ceiling_xoffs) or
+                     (backsector.ceiling_yoffs <> frontsector.ceiling_yoffs) or
+                     // killough 4/15/98: prevent 2s normals
+                     // from bleeding through fake ceilings
+                     ((frontsector.heightsec <> -1) and (frontsector.ceilingpic <> skyflatnum)) or
+                     // killough 4/17/98: draw ceilings if different light levels
+                     (backsector.ceilinglightsec <> frontsector.ceilinglightsec);
     end;
 
     if worldhigh < worldtop then
@@ -626,19 +670,22 @@ begin
   //  and doesn't need to be marked.
 
 
-  if frontsector.floorheight >= viewz then
+  // killough 3/7/98: add deep water check
+  if frontsector.heightsec = -1 then
   begin
-    // above view plane
-    markfloor := false;
-  end;
+    if frontsector.floorheight >= viewz then
+    begin
+      // above view plane
+      markfloor := false;
+    end;
 
-  if (frontsector.ceilingheight <= viewz) and
-     (frontsector.ceilingpic <> skyflatnum) then
-  begin
-    // below view plane
-    markceiling := false;
+    if (frontsector.ceilingheight <= viewz) and
+       (frontsector.ceilingpic <> skyflatnum) then
+    begin
+      // below view plane
+      markceiling := false;
+    end;
   end;
-
 
   // calculate incremental stepping values for texture edges
   worldtop := worldtop div WORLDUNIT;
@@ -672,10 +719,20 @@ begin
 
   // render it
   if markceiling then
-    ceilingplane := R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1);
+  begin
+    if ceilingplane <> nil then
+      ceilingplane := R_CheckPlane(ceilingplane, rw_x, rw_stopx - 1)
+    else
+      markceiling := false;
+  end;
 
   if markfloor then
-    floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
+  begin
+    if floorplane <> nil then
+      floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1)
+    else
+      markfloor := false;
+  end;
 
   if videomode = vm32bit then
   begin

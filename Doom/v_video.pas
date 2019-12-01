@@ -19,6 +19,11 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Gamma correction LUT.
+//  Functions to draw patches (by post) directly to screen.
+//  Functions to blit a block to the screen.
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://delphidoom.sitesled.com/
@@ -38,38 +43,16 @@ uses
   r_defs,
   v_data;
 
-{
-    v_video.h, v_video.c
-}
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  Gamma correction LUT.
-//  Functions to draw patches (by post) directly to screen.
-//  Functions to blit a block to the screen.
-//
-//-----------------------------------------------------------------------------
 
 function V_GetScreenWidth(scrn: integer): integer;
 
 function V_GetScreenHeight(scrn: integer): integer;
 
 procedure V_SetPalette(const palette: PByteArray);
+
+{$IFNDEF OPENGL}
+procedure V_CalcColorMapPalette;
+{$ENDIF}
 
 // Allocates buffer screens, call before R_Init.
 procedure V_Init;
@@ -266,6 +249,7 @@ var
 
   curpal: array[0..255] of LongWord;
   videopal: array[0..255] of LongWord;
+  cvideopal: array[0..255] of LongWord;
 
 function V_FindAproxColorIndex(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255): integer;
@@ -281,6 +265,8 @@ uses
   r_mmx,
   r_trans8,
   r_data,
+  r_colormaps,
+  st_stuff,
   {$ENDIF}
   t_draw,
   w_wad,
@@ -1063,7 +1049,7 @@ begin
   end
   else
   begin
-    cmap := @colormaps[(NUMCOLORMAPS div 2) * 256];
+    cmap := @def_colormaps[(NUMCOLORMAPS div 2) * 256];
     while cnt > 0 do
     begin
       src^ := cmap[src^];
@@ -2116,7 +2102,50 @@ begin
   videopal[0] := videopal[0] and $FFFFFF;
   recalctablesneeded := true;
   needsbackscreen := true; // force background redraw
+{$IFNDEF OPENGL}
+  V_CalcColorMapPalette;
+{$ENDIF}
 end;
+
+{$IFNDEF OPENGL}
+procedure V_CalcColorMapPalette;
+var
+  p: pointer;
+  dest: PLongWord;
+  src: PByteArray;
+  curgamma: PByteArray;
+  palette: PByteArray;
+  i: integer;
+begin
+  if customcolormap = nil then
+  begin
+    memmove(@cvideopal, @curpal, SizeOf(cvideopal));
+    exit;
+  end;
+
+  p := W_CacheLumpNum(lu_palette, PU_STATIC);
+  palette := PByteArray(integer(p) + st_palette * 768);
+
+  dest := @cvideopal[0];
+  curgamma := @gammatable[usegamma];
+
+  i := 0;
+  while i < 256 do
+  begin
+    src := @palette[3 * customcolormap.colormap[i]];
+    dest^ := (LongWord(curgamma[src[0]]) shl 16) or
+             (LongWord(curgamma[src[1]]) shl 8) or
+             (LongWord(curgamma[src[2]])) or $FF000000;
+    inc(dest);
+    Inc(i);
+  end;
+
+  cvideopal[0] := cvideopal[0] and $FFFFFF;
+  recalctablesneeded := true;
+
+  Z_ChangeTag(p, PU_CACHE);
+end;
+{$ENDIF}
 
 var
   vsize: integer = 0;
@@ -2126,12 +2155,8 @@ var
   i: integer;
   base: PByteArray;
   st: integer;
-  pal: PByteArray;
 begin
   SCREENWIDTH32PITCH := SCREENWIDTH * SizeOf(LongWord);
-  pal := V_ReadPalette(PU_STATIC);
-  V_SetPalette(pal);
-  Z_ChangeTag(pal, PU_CACHE);
   for i := SCN_FG to SCN_ST do
   begin
     if FIXED_DIMENTIONS[i].width = -1 then

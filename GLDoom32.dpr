@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -256,7 +256,10 @@ uses
   w_autoload in 'Base\w_autoload.pas',
   p_common in 'Base\p_common.pas',
   d_check in 'Doom\d_check.pas',
-  r_aspect in 'Base\r_aspect.pas';
+  r_aspect in 'Base\r_aspect.pas',
+  i_threads in 'Base\i_threads.pas',
+  r_colormaps in 'Doom\r_colormaps.pas',
+  r_diher in 'Doom\r_diher.pas';
 
 var
   Saved8087CW: Word;

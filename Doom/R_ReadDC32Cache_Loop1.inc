@@ -1,4 +1,4 @@
-        plw^ := videopal[src1^];
+        plw^ := cvideopal[src1^];
         inc(plw);
 {$IFNDEF LASTLOOP}
         inc(src1);

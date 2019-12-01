@@ -2685,6 +2685,8 @@ begin
   DEH_AddString(@deh_strings, @GACCESSDENIEDDEMO, 'GACCESSDENIEDDEMO');
   DEH_AddString(@deh_strings, @SAVEGAMENAME, 'SAVEGAMENAME');
   DEH_AddString(@deh_strings, @SAVEGAMEMAP, 'SAVEGAMEMAP');
+  DEH_AddString(@deh_strings, @SAVEGAMENAMEDD, 'SAVEGAMENAMEDD');
+  DEH_AddString(@deh_strings, @SAVEGAMEMAPDD, 'SAVEGAMEMAPDD');
   DEH_AddString(@deh_strings, @SAVEPATH, 'SAVEPATH');
 
 

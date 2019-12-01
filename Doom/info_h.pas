@@ -517,6 +517,7 @@ type
     healstate: smallint;
     crashstate: smallint;
     interactstate: smallint;
+    missileheight: smallint;
   end;
 {$ELSE}
 const
@@ -565,6 +566,7 @@ type
     healstate: integer;
     crashstate: integer;
     interactstate: integer;
+    missileheight: integer;
   end;
 {$ENDIF}
 

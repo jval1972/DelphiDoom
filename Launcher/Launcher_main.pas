@@ -785,17 +785,17 @@ begin
   else if cpuspeed < 3000 then
   begin
     ScreenResolutionComboBox.Text := '800x600';
-    DetailLevelComboBox.ItemIndex := 5;
+    DetailLevelComboBox.ItemIndex := 4;
   end
   else if cpuspeed < 3500 then
   begin
     ScreenResolutionComboBox.Text := '800x600';
-    DetailLevelComboBox.ItemIndex := 6;
+    DetailLevelComboBox.ItemIndex := 4;
   end
   else
   begin
     ScreenResolutionComboBox.Text := '1024x768';
-    DetailLevelComboBox.ItemIndex := 5;
+    DetailLevelComboBox.ItemIndex := 4;
   end
 end;
 
@@ -1059,6 +1059,7 @@ begin
   else
     ZoneSizeTrackBar.Min := 6;
   ZoneSizeTrackBar.Enabled := SpecifyZoneSizeCheckBox.Checked;
+  ZoneSizeTrackBar.Visible := SpecifyZoneSizeCheckBox.Checked;
   ZoneSizeLabel.Caption := Format('%d MB', [ZoneSizeTrackBar.Position]);
 end;
 

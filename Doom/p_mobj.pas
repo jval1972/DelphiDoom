@@ -1190,7 +1190,12 @@ begin
     exit;
   end;
 
-  th := P_SpawnMobj(source.x, source.y, source.z + 4 * 8 * FRACUNIT, _type);
+  if source.info.missileheight = 0 then
+    th := P_SpawnMobj(source.x, source.y, source.z + 4 * 8 * FRACUNIT, _type)
+  else if source.info.missileheight < FRACUNIT div 2 then
+    th := P_SpawnMobj(source.x, source.y, source.z + th.info.missileheight * FRACUNIT, _type)
+  else
+    th := P_SpawnMobj(source.x, source.y, source.z + th.info.missileheight, _type);
 
   A_SeeSound(th, th);
 

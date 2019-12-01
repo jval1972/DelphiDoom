@@ -264,7 +264,9 @@ uses
   i_threads in 'Base\i_threads.pas',
   r_aspect in 'Base\r_aspect.pas',
   r_batchcolumn in 'Base\r_batchcolumn.pas',
-  r_batchsky in 'Base\r_batchsky.pas';
+  r_batchsky in 'Base\r_batchsky.pas',
+  r_colormaps in 'Doom\r_colormaps.pas',
+  r_diher in 'Doom\r_diher.pas';
 
 var
   Saved8087CW: Word;

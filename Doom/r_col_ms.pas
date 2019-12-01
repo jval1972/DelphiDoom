@@ -46,6 +46,7 @@ uses
   r_draw,
   r_main,
   r_column,
+  r_colormaps,
   r_hires,
   v_video;
 
@@ -77,16 +78,37 @@ begin
 
   swidth := SCREENWIDTH32PITCH;
   lfactor := dc_lightlevel;
-  if lfactor >= 0 then
+  if customcolormap = nil then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
-    {$UNDEF INVERSECOLORMAPS}
-    {$I R_DrawMaskedColumnNormal.inc}
+    if lfactor >= 0 then
+    begin
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF CUSTOMCOLORMAP}
+      {$I R_DrawMaskedColumnNormal.inc}
+    end
+    else
+    begin
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF CUSTOMCOLORMAP}
+      {$I R_DrawMaskedColumnNormal.inc}
+    end;
   end
   else
   begin
-    {$DEFINE INVERSECOLORMAPS}
-    {$I R_DrawMaskedColumnNormal.inc}
+    if lfactor >= 0 then
+    begin
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$DEFINE CUSTOMCOLORMAP}
+      {$I R_DrawMaskedColumnNormal.inc}
+    end
+    else
+    begin
+      {$DEFINE INVERSECOLORMAPS}
+      {$DEFINE CUSTOMCOLORMAP}
+      {$I R_DrawMaskedColumnNormal.inc}
+    end;
   end;
 end;
 

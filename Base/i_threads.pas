@@ -109,6 +109,7 @@ begin
   Inherited Destroy;
 end;
 
+// JVAL: Should check for fstatus, but it is not called while active 
 procedure TDThread.Activate(const parms: pointer);
 begin
   fparms := parms;

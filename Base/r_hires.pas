@@ -686,12 +686,12 @@ begin
 
   R_Reset32Cache;
 
-  for i := 0 to NUMCOLORMAPS * 256 do
+  for i := 0 to NUMCOLORMAPS * 256 - 1 do
     colormaps32[i] := curpal[colormaps[i]];
 
   hrtp := @hirestable[0, 0, 0];
 
-  vpli := @videopal[0];
+  vpli := {$IFDEF DOOM}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
   for i := 0 to 255 do
   begin
     vplc := vpli^;
@@ -768,7 +768,7 @@ begin
 
   for k := 1 to DC_HIRESFACTOR - 1 do
   begin
-    vpli := @videopal[0];
+    vpli := {$IFDEF DOOM}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
     factor2 := k shl (FRACBITS - DC_HIRESBITS);
     factor1 := (FRACUNIT - 1) - factor2;
     for i := 0 to 255 do
@@ -783,7 +783,7 @@ begin
       gA := g1 * factor1;
       bA := b1 * factor1;
 
-      vplj := @videopal[0];
+      vplj := {$IFDEF DOOM}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
       {$UNDEF LASTLOOP}
       for j := 0 to 3 do
       begin

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -51,7 +51,11 @@ implementation
 {$UNDEF FOG}
 
 uses
-  r_span, r_draw, r_hires, r_grow,
+  r_precalc,
+  r_span,
+  r_draw,
+  r_hires,
+  r_grow,
   v_video;
 
 //
@@ -69,8 +73,11 @@ var
   spot: integer;
 
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c, c1: LongWord;
   lfactor: integer;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
 begin
   destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
 
@@ -80,6 +87,7 @@ begin
   lfactor := ds_lightlevel;
   if lfactor >= 0 then // Use hi detail lightlevel
   begin
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF TRANSPARENTFLAT}
     {$I R_DrawSpanNormal.inc}

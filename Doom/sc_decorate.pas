@@ -569,6 +569,7 @@ var
       AddRes('Renderstyle = NORMAL');
     AddRes('Alpha = ' + itoa(mobj.alpha));
     AddRes('flags2_ex = ' + mobj.flags2_ex);
+    AddRes('missileheight = ' + itoa(mobj.missileheight));
     AddRes('');
 
     if numstates > 0 then
@@ -735,6 +736,7 @@ begin
           mobj.explosionradius := pinf.explosionradius;
           mobj.meleedamage := pinf.meleedamage;
           mobj.meleesound := itoa(pinf.meleesound);
+          mobj.missileheight := pinf.missileheight;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -942,6 +944,12 @@ begin
           mobj.meleesound := sc._String;
           sc.GetString;
         end
+        else if sc.MatchString('missileheight') then
+        begin
+          sc.GetInteger;
+          mobj.missileheight := sc._Integer;
+          sc.GetString;
+        end
         else if sc.MatchString('states') then
         begin
           foundstates := true;
@@ -952,6 +960,8 @@ begin
             stmp := ' while parsing mobj "' + mobj.name + '"'
           else
             stmp := '';
+          if mobj.doomednum > -1 then
+            stmp := stmp + ' (doomednum=' + itoa(mobj.doomednum) + ')';
           I_Warning('SC_DecorateToDEH(): Unknown token "%s" found%s'#13#10, [sc._String, stmp]);
           sc.GetString;
         end;

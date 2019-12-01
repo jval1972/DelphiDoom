@@ -165,6 +165,7 @@ uses
   r_things,
   info_rnd,
   m_rnd,
+  r_colormaps,
 {$IFNDEF OPENGL}
   r_cache,
 {$ENDIF}
@@ -499,6 +500,10 @@ begin
     ss.ceiling_yoffs := 0;
     ss.heightsec := -1;
     ss.floorlightsec := -1;   // sector used to get floor lighting
+    ss.topmap := -1;
+    ss.midmap := -1;
+    ss.bottommap := -1;
+
 {$IFDEF OPENGL}
     ss.floorlightlevel := ss.lightlevel;
     ss.ceilinglightlevel := ss.lightlevel;
@@ -740,9 +745,7 @@ begin
     else
       ld.backsector := nil;
 
-    {$IFDEF OPENGL}
     ld.renderflags := 0;
-    {$ENDIF}
     inc(mld);
     inc(ld);
   end;
@@ -801,8 +804,16 @@ begin
     sd.textureoffset := msd.textureoffset * FRACUNIT;
     sd.rowoffset := msd.rowoffset * FRACUNIT;
     sd.toptexture := R_SafeTextureNumForName(msd.toptexture);
+    if sd.toptexture = 0 then
+      sd.toptexture := -1 - R_CustomColorMapForName(msd.toptexture);
+
     sd.bottomtexture := R_SafeTextureNumForName(msd.bottomtexture);
+    if sd.bottomtexture = 0 then
+      sd.bottomtexture := -1 - R_CustomColorMapForName(msd.bottomtexture);
+
     sd.midtexture := R_SafeTextureNumForName(msd.midtexture);
+    if sd.midtexture = 0 then
+      sd.midtexture := -1 - R_CustomColorMapForName(msd.midtexture);
 
     sd.sector := @sectors[msd.sector];
     inc(msd);
@@ -1225,37 +1236,37 @@ var
   total: integer;
   li: Pline_t;
   sector: Psector_t;
-  psd: Psubsector_t;
+  pss: Psubsector_t;
   seg: Pseg_t;
   bbox: array[0..3] of fixed_t;
   block: integer;
 begin
   // look up sector number for each subsector
-  psd := @subsectors[0];
+  pss := @subsectors[0];
   for i := 0 to numsubsectors - 1 do
   begin
-    seg := @segs[psd.firstline];
+    seg := @segs[pss.firstline];
     {$IFDEF OPENGL}
-    psd.sector := nil;
-    for j := 0 to psd.numlines - 1 do
+    pss.sector := nil;
+    for j := 0 to pss.numlines - 1 do
     begin
       if seg.sidedef <> nil then
       begin
       {$IFDEF DEBUG}
         printf('subsector %5d (%8d), line %2d (%8d), sector %4d (%8d) '#13#10,
-          [i, integer(psd), j, integer(seg.sidedef), integer(seg.sidedef.sector), (integer(seg.sidedef.sector) - integer(sectors)) div SizeOf(sector_t)]);
+          [i, integer(pss), j, integer(seg.sidedef), integer(seg.sidedef.sector), (integer(seg.sidedef.sector) - integer(sectors)) div SizeOf(sector_t)]);
       {$ENDIF}
-        psd.sector := seg.sidedef.sector;
+        pss.sector := seg.sidedef.sector;
         break;
       end;
       inc(seg);
     end;
-    if psd.sector = nil then
+    if pss.sector = nil then
       I_Error('P_GroupLines(): Subsector %d is not part of a sector', [i]);
     {$ELSE}
-    psd.sector := seg.sidedef.sector;
+    pss.sector := seg.sidedef.sector;
     {$ENDIF}
-    inc(psd);
+    inc(pss);
   end;
 
   // count number of lines in each sector
@@ -1271,6 +1282,18 @@ begin
     begin
       li.backsector.linecount := li.backsector.linecount + 1;
       inc(total);
+    end;
+    
+    if li.special = 260 then
+    begin
+      if li.tag = 0 then
+        li.renderflags := li.renderflags or LRF_TRANSPARENT
+      else
+      begin
+        for j := 0 to numlines - 1 do
+          if lines[j].tag = li.tag then
+            lines[j].renderflags := lines[j].renderflags or LRF_TRANSPARENT
+      end;
     end;
   end;
 
@@ -1322,6 +1345,28 @@ begin
     sector.blockbox[BOXLEFT] := block;
 
     inc(sector);
+  end;
+
+
+  for i := 0 to numlines - 1 do
+    if lines[i].special = 242 then
+    begin
+      if sides[lines[i].sidenum[0]].toptexture < 0 then
+        sides[lines[i].sidenum[0]].sector.topmap := -sides[lines[i].sidenum[0]].toptexture - 1;
+      if sides[lines[i].sidenum[0]].bottomtexture < 0 then
+        sides[lines[i].sidenum[0]].sector.bottommap := -sides[lines[i].sidenum[0]].bottomtexture - 1;
+      if sides[lines[i].sidenum[0]].midtexture < 0 then
+        sides[lines[i].sidenum[0]].sector.midmap := -sides[lines[i].sidenum[0]].midtexture - 1;
+    end;
+
+  for i := 0 to numsides - 1 do
+  begin
+    if sides[i].toptexture < 0 then
+      sides[i].toptexture := 0;
+    if sides[i].bottomtexture < 0 then
+      sides[i].bottomtexture := 0;
+    if sides[i].midtexture < 0 then
+      sides[i].midtexture := 0;
   end;
 end;
 

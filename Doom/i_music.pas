@@ -73,7 +73,7 @@ type
   Pmp3header_t = ^mp3header_t;
 
 var
-  miditempo: integer = 128;  
+  miditempo: integer = 160;  
 
 implementation
 

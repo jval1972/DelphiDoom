@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,37 +18,6 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
-//
-//------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
-//  Site  : http://delphidoom.sitesled.com/
-//------------------------------------------------------------------------------
-
-{$I Doom32.inc}
-
-unit tables;
-
-interface
-
-{
-    tables.h, tables.c
-}
-
-// Emacs style mode select   -*- C++ -*-  
-//----------------------------------------------------------------------------- 
-// 
-// $Id:$ 
-// 
-// Copyright (C) 1993-1996 by id Software, Inc. 
-// 
-// This source is available for distribution and/or modification 
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-// 
-// The source is distributed in the hope that it will be useful, 
-// but WITHOUT ANY WARRANTY; without even the implied warranty of 
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License 
-// for more details.
 //
 // DESCRIPTION:
 //  Lookup tables.
@@ -66,7 +35,16 @@ interface
 //  int tantoangle[2049]  - ArcTan LUT,
 //    maps tan(angle) to angle fast. Gotta search.
 //
-//-----------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//  E-Mail: jimmyvalavanis@yahoo.gr
+//  Site  : http://delphidoom.sitesled.com/
+//------------------------------------------------------------------------------
+
+{$I Doom32.inc}
+
+unit tables;
+
+interface
 
 uses
   m_fixed;
@@ -100,6 +78,7 @@ const
   SLOPEBITS = 11;
   SLOPERANGE = 1 shl SLOPEBITS;
   DBITS = FRACBITS - SLOPEBITS;
+  DRANGE = 1 shl DBITS;
 
 const
   ANG1 = ANG90 div 90;

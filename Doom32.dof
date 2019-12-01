@@ -97,10 +97,10 @@ PackageDCPOutputDir=
 SearchPath=
 Packages=vcl;rtl;dbrtl;inet;inetdb;dsnap;bdertl;vclx;vcldb;vcldbx;visualclx;visualdbclx;vclactnband;vclshlctrls;vclie;xmlrtl;inetdbbde;inetdbxpress;webdsnap;soaprtl;websnap;adortl;dbexpress;dsnapcon;dbxcds;ibxpress;teeui;teedb;tee;dss;indy;VclSmp;qrpt;teeqr;Rave50CLX;Rave50VCL;IntrawebDB_50_70;Intraweb_50_70;VclNewlyext
 Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
-DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
+DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1920 -screenheight 1080 -nofullscreen -pakfile DOOM-HIRES.pk3
+RunParams=-svga -nofullscreen -iwad doom2.wad boomedit.wad
 HostApplication=G:\QUAKE2\bin\quake2d.exe
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=1
 Release=4
-Build=551
+Build=555
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.551
+FileVersion=1.1.4.555
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=
@@ -135,8 +135,9 @@ ProductName=Doom 32 bit engine
 ProductVersion=1.0
 Comments=http://sourceforge.net/projects/delphidoom/
 [HistoryLists\hlDebugSourcePath]
-Count=1
-Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
+Count=2
+Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
+Item1=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\
 [HistoryLists\hlConditionals]
 Count=10
 Item0=DOOM;OPTIMIZE_FOR_SPEED;

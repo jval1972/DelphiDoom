@@ -73,6 +73,9 @@ var
   lowerwalls8: integer;
   upperwalls8: integer;
 
+var
+  force_numwallrenderingthreads_8bit: integer = 0;
+
 implementation
 
 uses
@@ -271,40 +274,6 @@ begin
 
   while ypos <= min_yh do
   begin
-{    dest^ := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
-    inc(dest);
-    inc(frac1, fracstep1);
-
-    dest^ := dc_colormap2[dc_source2[(LongWord(frac2) shr FRACBITS) and 127]];
-    inc(dest);
-    inc(frac2, fracstep2);
-
-    dest^ := dc_colormap3[dc_source3[(LongWord(frac3) shr FRACBITS) and 127]];
-    inc(dest);
-    inc(frac3, fracstep3);
-
-    dest^ := dc_colormap4[dc_source4[(LongWord(frac4) shr FRACBITS) and 127]];
-    inc(dest);
-    inc(frac4, fracstep4);
-
-    dest^ := dc_colormap5[dc_source5[(LongWord(frac5) shr FRACBITS) and 127]];
-    inc(dest);
-    inc(frac5, fracstep5);
-
-    dest^ := dc_colormap6[dc_source6[(LongWord(frac6) shr FRACBITS) and 127]];
-    inc(dest);
-    inc(frac6, fracstep6);
-
-    dest^ := dc_colormap7[dc_source7[(LongWord(frac7) shr FRACBITS) and 127]];
-    inc(dest);
-    inc(frac7, fracstep7);
-
-    dest^ := dc_colormap8[dc_source8[(LongWord(frac8) shr FRACBITS) and 127]];
-    inc(frac8, fracstep8);
-
-    dest := PByte(integer(dest) + swidth);
-    inc(ypos);}
-
     buf.byte1 := dc_colormap1[dc_source1[(LongWord(frac1) shr FRACBITS) and 127]];
     inc(frac1, fracstep1);
 
@@ -414,11 +383,13 @@ begin
   Inc(wallcachesize);
 end;
 
-procedure R_DoFlashWallColumns8(const walls: Pbatchwallrenderinfo8_t; const idx: PInteger);
+procedure R_FlashWallColumns8(const idx: PInteger);
 var
   i: integer;
   w: Pwallrenderinfo8_t;
+  walls: Pbatchwallrenderinfo8_t;
 begin
+  walls := @wallcache[idx^];
   if walls.numwalls = 0 then
     exit;
 
@@ -451,11 +422,6 @@ begin
   end;
 end;
 
-procedure R_FlashWallColumns8(const idx: PInteger);
-begin
-  R_DoFlashWallColumns8(@wallcache[idx^], idx);
-end;
-
 procedure R_StoreWallColumn8(const idx: PInteger);
 var
   w: Pwallrenderinfo8_t;
@@ -472,7 +438,15 @@ begin
   w.dc_texturemid := dc_texturemid;
   Inc(walls.numwalls);
   if walls.numwalls = MAXBATCHWALLS then
-    R_DoFlashWallColumns8(walls, idx);
+  begin
+    if usemultithread then
+      R_AddWallsToCache8(idx)
+    else
+    begin
+      R_DrawBatchColumn(walls);
+      walls.numwalls := 0;
+    end
+  end;
 end;
 
 const
@@ -506,6 +480,9 @@ begin
 end;
 
 
+var
+  default_numwallrenderingthreads_8bit: integer = 0;
+
 procedure R_InitWallsCache8;
 var
   i: integer;
@@ -522,12 +499,17 @@ begin
   wallcache[upperwalls8].numwalls := 0;
   wallcachesize := 3;
 
-  numwallthreads8 := I_GetNumCPUs - 2;
+  if force_numwallrenderingthreads_8bit > 0 then
+    numwallthreads8 := force_numwallrenderingthreads_8bit
+  else
+    numwallthreads8 := I_GetNumCPUs - 2;
+
   if numwallthreads8 < 1 then
     numwallthreads8 := 1
   else if numwallthreads8 > MAXWALLTHREADS8 then
     numwallthreads8 := MAXWALLTHREADS8;
 
+  default_numwallrenderingthreads_8bit := numwallthreads8;
   for i := 0 to numwallthreads8 - 1 do
     wallthreads8[i] := TDThread.Create(@_wall_thread_worker8);
 end;
@@ -556,7 +538,37 @@ var
 procedure R_RenderMultiThreadWalls8;
 var
   i: integer;
+  newnumthreads: integer;
 begin
+  if force_numwallrenderingthreads_8bit > 0 then
+  begin
+    if force_numwallrenderingthreads_8bit <> numwallthreads8 then
+    begin
+      newnumthreads := force_numwallrenderingthreads_8bit;
+      if newnumthreads > MAXWALLTHREADS8 then
+      begin
+        newnumthreads := MAXWALLTHREADS8;
+        force_numwallrenderingthreads_8bit := MAXWALLTHREADS8;
+      end;
+    end
+    else
+      newnumthreads := numwallthreads8;
+  end
+  else
+    newnumthreads := default_numwallrenderingthreads_8bit;
+
+  if newnumthreads = 0 then
+    newnumthreads := I_GetNumCPUs - 2;
+
+  if newnumthreads <> numwallthreads8 then
+  begin
+    for i := numwallthreads8 to newnumthreads - 1 do
+      wallthreads8[i] := TDThread.Create(@_wall_thread_worker8);
+    for i := newnumthreads to numwallthreads8 - 1 do
+      wallthreads8[i].Free;
+    numwallthreads8 := newnumthreads;
+  end;
+
   for i := 0 to numwallthreads8 - 1 do
     parms[i].start := (wallcachesize div numwallthreads8) * i;
   for i := 0 to numwallthreads8 - 2 do

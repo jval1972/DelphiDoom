@@ -58,7 +58,7 @@ const
   SIL_TOP = 2;
   SIL_BOTH = 3;
 
-  MAXDRAWSEGS = 2048; // JVAL Original was 256
+  MAXDRAWSEGS = 4096; // JVAL Original was 256
 
 var
   needsbackscreen: boolean = false;
@@ -162,6 +162,10 @@ type
     floorlightsec: integer;
     ceilinglightsec: integer;
 
+    topmap: integer;
+    midmap: integer;
+    bottommap: integer;
+
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
@@ -258,20 +262,16 @@ type
 
     // thinker_t for reversable actions
     specialdata: pointer;
-    {$IFDEF OPENGL}
     renderflags: integer;
-    {$ENDIF}
   end;
   Pline_t = ^line_t;
   PPline_t = ^Pline_t;
   line_tArray = packed array[0..$FFFF] of line_t;
   line_tPArray = packed array[0..$FFFF] of Pline_t;
 
-{$IFDEF OPENGL}
 const
   LRF_ISOLATED = 1;
-{$ENDIF}
-
+  LRF_TRANSPARENT = 2;
 //
 // A SubSector.
 // References a Sector.
@@ -436,14 +436,13 @@ type
     texturemid: fixed_t;
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
+    heightsec: integer; // killough 3/27/98: height sector for underwater/fake ceiling support
     {$ENDIF}
     patch: integer;
 
     // for color translation and shadow draw,
     //  maxbright frames as well
     colormap: PByteArray;
-
-    heightsec: integer; // killough 3/27/98: height sector for underwater/fake ceiling support
 
     mobjflags: integer;
     mobjflags_ex: integer;

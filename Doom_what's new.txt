@@ -1,3 +1,14 @@
+Added -fullhd, -svga and -vga command line parameter.
+Added force_numwallrenderingthreads_8bit and force_numwallrenderingthreads_32bit console variables, set the number of threads to create for wall rendering.
+Status bar does not appear transparent when you open the menu (OpenGL)
+Default miditempo changed to 160
+Added missileheight mobjinfo field.
+MAXDRAWSEGS increased to 4096.
+Boom fake3d custom colormaps work with external textures in software mode.
+Boom fake3d custom colormaps work in OpenGL.
+Executes all console commands inside wad lumps with the "AUTOEXEC"name.
+Improved BOOM compatibility.
+
 New Changes
 -----------
 Added interact state for mobjs.

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -92,6 +92,10 @@ uses
   xn_defs,
   {$ELSE}
   doomdef,
+  {$ENDIF}
+  {$IFDEF DOOM}
+  st_stuff,
+  r_colormaps,
   {$ENDIF}
   doomdata,
   info_h,
@@ -672,7 +676,10 @@ procedure gld_DrawBackground(const name: string);
 var
   gltexture: PGLTexture;
   fU1, fU2, fV1, fV2: float;
-  width, height: integer;
+  width, height: float;
+{$IFDEF DOOM}
+  sbar: Integer;
+{$ENDIF}
 begin
   gltexture := gld_RegisterFlat(W_GetNumForName(name), false);
   gld_BindFlat(gltexture);
@@ -681,9 +688,12 @@ begin
   fU1 := 0;
   fV1 := 0;
   fU2 := 320 / gltexture.realtexwidth;
-  fV2 := 200 / gltexture.realtexheight;
+  {$IFDEF DOOM}
+  sbar := ST_HEIGHT;
+  {$ENDIF}
+  fV2 := (200{$IFDEF DOOM} - sbar{$ENDIF}) / gltexture.realtexheight;
   width := SCREENWIDTH;
-  height := SCREENHEIGHT;
+  height := SCREENHEIGHT{$IFDEF DOOM} - sbar * SCREENHEIGHT / 200{$ENDIF};
 
   glBegin(GL_TRIANGLE_STRIP);
     glTexCoord2f(fU1, fV1);
@@ -1816,9 +1826,17 @@ begin
   end;
 
   {$IFDEF DOOM}
-  if R_UnderWater then
+  if customcolormap <> nil then
   begin
-    extra_blue := 1.0;
+    extra_red := extra_red + customcolormap.fog_r;
+    if extra_red > 1.0 then
+      extra_red := 1.0;
+    extra_green := extra_green + customcolormap.fog_g;
+    if extra_green > 1.0 then
+      extra_green := 1.0;
+    extra_blue := extra_blue + customcolormap.fog_b;
+    if extra_blue > 1.0 then
+      extra_blue := 1.0;
     extra_alpha := extra_alpha + 0.8;
     if extra_alpha > 1.0 then
       extra_alpha := 1.0;
@@ -2182,7 +2200,14 @@ begin
     rellight := 0;
 
   wall.light := gld_CalcLightLevel(frontsector.lightlevel + rellight + (extralight shl 5));
-  wall.alpha := 1.0; // JVAL: SOS Lower values for transparent walls!
+
+  {$IFDEF DOOM}
+  if seg.linedef.renderflags and LRF_TRANSPARENT <> 0 then
+    wall.alpha := 0.5
+  else
+  {$ENDIF}
+    wall.alpha := 1.0;
+
   wall.gltexture := nil;
 
   {$IFDEF HEXEN}
@@ -3322,13 +3347,25 @@ begin
     if players[displayplayer].fixedcolormap = 0 then
     begin
 {$IFDEF DOOM}
-      FogColor[0] := 0.0;
-      FogColor[1] := 0.0;
-      if R_UnderWater then
-        FogColor[2] := 1.0
+
+      if customcolormap <> nil then
+      begin
+        glFogf(GL_FOG_DENSITY, customcolormap.fog_density * fog_density / 1000.0);
+
+        FogColor[0] := customcolormap.fog_r;
+        FogColor[1] := customcolormap.fog_g;
+        FogColor[2] := customcolormap.fog_b;
+        FogColor[3] := 0.0;
+      end
       else
+      begin
+        glFogf(GL_FOG_DENSITY, fog_density / 1000.0);
+
+        FogColor[0] := 0.0;
+        FogColor[1] := 0.0;
         FogColor[2] := 0.0;
-      FogColor[3] := 0.0;
+        FogColor[3] := 0.0;
+      end;
 
       glFogfv(GL_FOG_COLOR, @FogColor);
 {$ENDIF}

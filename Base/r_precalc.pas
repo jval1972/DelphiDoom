@@ -45,11 +45,20 @@ procedure R_ShutDownPrecalc;
 
 procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
 
+{$IFDEF HEXEN}
+procedure R_GetFogPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
+{$ENDIF}
+
 var
   // Invert colormap precalc
   precal32_ic: array[0..767] of longword;
   precal8_tolong: array[0..255] of longword;
   precal_light: array[0..255] of byte;
+{$IFDEF HEXEN}
+  precalc_fog_r: array[0..255] of PIntegerArray;
+  precalc_fog_g: array[0..255] of PIntegerArray;
+  precalc_fog_b: array[0..255] of PIntegerArray;
+{$ENDIF}
 
 implementation
 
@@ -84,6 +93,20 @@ begin
     buf.byte3 := i;
     buf.byte4 := i;
     precal8_tolong[i] := PLongWord(@buf)^;
+    {$IFDEF HEXEN}
+    p := malloc(256 * SizeOf(Integer));
+    precalc_fog_r[i] := p;
+    for j := 0 to 255 do
+      p[j] := 255 - (i * (255 - j)) shr 8;
+    p := malloc(256 * SizeOf(Integer));
+    precalc_fog_g[i] := p;
+    for j := 0 to 255 do
+      p[j] := precalc_fog_r[i][j] shl 8;
+    p := malloc(256 * SizeOf(Integer));
+    precalc_fog_b[i] := p;
+    for j := 0 to 255 do
+      p[j] := precalc_fog_r[i][j] shl 16;
+    {$ENDIF}
   end;
 
   for i := 0 to 767 do
@@ -103,6 +126,11 @@ begin
     memfree(pointer(precal32_r[i]), 256 * SizeOf(Integer));
     memfree(pointer(precal32_g[i]), 256 * SizeOf(Integer));
     memfree(pointer(precal32_b[i]), 256 * SizeOf(Integer));
+    {$IFDEF HEXEN}
+    memfree(pointer(precalc_fog_r[i]), 256 * SizeOf(Integer));
+    memfree(pointer(precalc_fog_g[i]), 256 * SizeOf(Integer));
+    memfree(pointer(precalc_fog_b[i]), 256 * SizeOf(Integer));
+    {$ENDIF}
   end;
 end;
 
@@ -117,5 +145,19 @@ begin
   tg := precal32_g[lf];
   tb := precal32_b[lf];
 end;
+
+{$IFDEF HEXEN}
+procedure R_GetFogPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
+var
+  lf: Integer;
+begin
+  lf := f shr 8;
+  if lf > 255 then
+    lf := 255;
+  tr := precalc_fog_r[lf];
+  tg := precalc_fog_g[lf];
+  tb := precalc_fog_b[lf];
+end;
+{$ENDIF}
 
 end.

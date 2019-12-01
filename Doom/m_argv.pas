@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2012 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -76,11 +76,13 @@ var
 function M_CheckParm(const check: string): integer;
 var
   i: integer;
+  check2: string;
 begin
   if cmdparams.IndexOf(check) < 0 then
     cmdparams.Add(check);
+  check2 := strupper(check);
   for i := 1 to myargc - 1 do
-    if strupper(check) = myargv[i] then
+    if check2 = myargv[i] then
     begin
       result := i;
       exit;
@@ -148,7 +150,7 @@ var
         for i := 0 to str.Count - 1 do
         begin
           if myargc > MAXARGS then
-            exit;
+            break;
           if strtrim(str[i]) <> '' then
           begin
             myargv[myargc] := strtrim(str[i]);

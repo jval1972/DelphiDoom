@@ -651,6 +651,7 @@ begin
               end;
           40: mobjinfo[mobj_no].crashstate := mobj_val;
           41: mobjinfo[mobj_no].interactstate := mobj_val;
+          42: mobjinfo[mobj_no].missileheight := mobj_val;
         end;
       end;
 
@@ -1496,7 +1497,6 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[19]), mobjinfo[i].damage]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[20]), mobjinfo[i].activesound]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[23]), mobjinfo[i].raisestate]);
-
     str := '';
     for j := 0 to mobj_flags.Count - 1 do
     begin
@@ -1562,6 +1562,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[38]), mobjinfo[i].healstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[40]), mobjinfo[i].crashstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[41]), mobjinfo[i].interactstate]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[42]), mobjinfo[i].missileheight]);
 
     result.Add('');
   end;
@@ -1835,6 +1836,7 @@ begin
   mobj_tokens.Add('FLAGS2_EX');          // .flags2_ex (DelphiDoom)   // 39
   mobj_tokens.Add('CRASH FRAME');        // .crashstate (DelphiDoom)  // 40
   mobj_tokens.Add('INTERACT FRAME');     // .interactstate (DelphiDoom) // 41
+  mobj_tokens.Add('MISSILEHEIGHT');      // .interactstate (DelphiDoom) // 42
 
 
   mobj_flags := TDTextList.Create;

@@ -2448,13 +2448,18 @@ end;
 
 function G_CheckDemoStatus: boolean;
 var
-  endtime: integer;
+  realtics: integer;
   i: integer;
 begin
   if timingdemo then
   begin
-    endtime := I_GetTime;
-    I_Error('G_CheckDemoStatus(): timed %d gametics in %d realtics', [gametic, endtime - starttime]);
+    realtics := I_GetTime - starttime;
+    if realtics > 0 then
+      I_Error('G_CheckDemoStatus(): timed %d gametics in %d realtics'#13#10'(%3.2ffps)',
+        [gametic, realtics, gametic / realtics * TICRATE])
+    else
+      I_Error('G_CheckDemoStatus(): timed %d gametics in %d realtics',
+        [gametic, realtics]);
   end;
 
   if demoplayback then

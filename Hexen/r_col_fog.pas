@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -42,7 +42,12 @@ uses
   m_fixed,
   xn_defs,
   doomtype,
-  r_data, r_draw, r_hires, r_main, r_column,
+  r_data,
+  r_draw,
+  r_hires,
+  r_main,
+  r_column,
+  r_precalc,
   v_video;
 
 
@@ -63,7 +68,9 @@ var
   lspot: integer;
   ldest: LongWord;
   and_mask: integer;
-  fog_color: fixed_t;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -86,26 +93,24 @@ begin
 
   swidth := SCREENWIDTH32PITCH;
   lfactor := dc_lightlevel;
-  fog_color := (FOGBASE - lfactor) * 255;
-  if fog_color < 0 then
-    fog_color := 0;
   if fracstep > 2 * FRACUNIT div 5 then
   begin
     if lfactor >= 0 then
     begin
-    {$UNDEF INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$DEFINE FOG}
-    {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$UNDEF SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end
     else
     begin
-    {$DEFINE INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$DEFINE FOG}
-    {$UNDEF SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$UNDEF SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end;
   end
   else
@@ -114,19 +119,20 @@ begin
     ldest := 0;
     if lfactor >= 0 then
     begin
-    {$UNDEF INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$DEFINE FOG}
-    {$DEFINE SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end
     else
     begin
-    {$DEFINE INVERSECOLORMAPS}
-    {$UNDEF MASKEDCOLUMN}
-    {$DEFINE FOG}
-    {$DEFINE SMALLSTEPOPTIMIZER}
-    {$I R_DrawColumnHi.inc}
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      {$I R_DrawColumnHi.inc}
     end;
   end;
 end;
@@ -150,7 +156,9 @@ var
   factor2: fixed_t;
   lfactor: integer;
   and_mask: integer;
-  fog_color: fixed_t;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
 begin
 
   count := dc_yh - dc_yl;
@@ -174,23 +182,20 @@ begin
 
   swidth := SCREENWIDTH32PITCH;
   lfactor := dc_lightlevel;
-//    fog_color := (FRACUNIT - lfactor) * 255;
-  fog_color := (FOGBASE - lfactor) * 255;
-  if fog_color < 0 then
-    fog_color := 0;
   if lfactor >= 0 then
   begin
-  {$UNDEF INVERSECOLORMAPS}
-  {$UNDEF MASKEDCOLUMN}
-  {$DEFINE FOG}
-  {$I R_DrawColumnUltra.inc}
+    R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$UNDEF INVERSECOLORMAPS}
+    {$UNDEF MASKEDCOLUMN}
+    {$DEFINE FOG}
+    {$I R_DrawColumnUltra.inc}
   end
   else
   begin
-  {$DEFINE INVERSECOLORMAPS}
-  {$UNDEF MASKEDCOLUMN}
-  {$DEFINE FOG}
-  {$I R_DrawColumnUltra.inc}
+    {$DEFINE INVERSECOLORMAPS}
+    {$UNDEF MASKEDCOLUMN}
+    {$DEFINE FOG}
+    {$I R_DrawColumnUltra.inc}
   end;
 end;
 

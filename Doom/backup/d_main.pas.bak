@@ -1,10 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHeretic: A modified and improved Heretic port for Windows
-//  based on original Linux Doom as published by "id Software", on
-//  Heretic source as published by "Raven" software and DelphiDoom
-//  as published by Jim Valavanis.
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 2004-2013 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,14 +19,14 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION (d_main.h:
-//  System specific interface stuff.
+//  DESCRIPTION (d_main.h):
+//   System specific interface stuff.
 //
-// DESCRIPTION (d_main.c:
-// DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
-// plus functions to determine game mode (shareware, registered),
-// parse command line parameters, configure game parameters (turbo),
-// and call the startup functions.
+//  DESCRIPTION (d_main.c):
+//   DOOM main program (D_DoomMain) and game loop (D_DoomLoop),
+//   plus functions to determine game mode (shareware, registered),
+//   parse command line parameters, configure game parameters (turbo),
+//   and call the startup functions.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -46,10 +44,10 @@ uses
   doomdef;
 
 const
-{$IFDEF FPC}
-  AppTitle = 'Free Pascal Heretic';
+{$IFNDEF FPC}
+  AppTitle = 'Delphi Doom';
 {$ELSE}
-  AppTitle = 'Delphi Heretic';
+  AppTitle = 'Free Pascal Doom';
 {$ENDIF}
 
 procedure D_ProcessEvents;
@@ -92,8 +90,9 @@ var
   nomonsters: boolean;          // checkparm of -nomonsters
   fastparm: boolean;            // checkparm of -fast
   devparm: boolean;             // started game with -devparm
+  hackshareware: boolean;       // started game with -hackshareware (undocumented)
+  debugmode: boolean = false;   // JVAL: Debug mode, extended checks, setable only with -debugmode
   singletics: boolean;          // debug flag to cancel adaptiveness
-  noartiskip: boolean;          // whether shift-enter skips an artifact
   autostart: boolean;
   startskill: skill_t;
   respawnparm: boolean;         // checkparm of -respawn
@@ -115,36 +114,38 @@ var
 var
   wads_autoload: string = '';
   paks_autoload: string = '';
-  
+
 implementation
 
 uses
   d_delphi,
   deh_main,
   doomstat,
-  d_ticcmd,
+  dstrings,
+  d_englsh,
   d_player,
   d_net,
-  d_net_h,
   c_con,
   c_cmds,
+  d_check,
 {$IFNDEF OPENGL}
   e_endoom,
   f_wipe,
+  r_defs,
 {$ENDIF}
   f_finale,
   m_argv,
   m_misc,
   m_menu,
-  m_fixed,
-  h_strings,
   info,
   info_rnd,
   i_system,
   i_sound,
   i_io,
   i_tmp,
+{$IFNDEF FPC}
   i_startup,
+{$ENDIF}
 {$IFDEF OPENGL}
   gl_main,
   gl_data,
@@ -152,19 +153,21 @@ uses
   i_video,
 {$ENDIF}
   g_game,
-  sb_bar,
   hu_stuff,
-  in_stuff,
+  wi_stuff,
+  st_stuff,
   am_map,
   p_setup,
+  p_mobj,
   p_mobj_h,
   r_draw,
   r_main,
   r_hires,
-  r_defs,
   r_intrpl,
   r_data,
+{$IFNDEF OPENGL}
   r_fake3d,
+{$ENDIF}
   r_lights,
   sounds,
   s_sound,
@@ -206,10 +209,23 @@ end;
 // D_ProcessEvents
 // Send all the events of the given timestamp down the responder chain
 //
+var
+  map01_lump: integer = -2;
+
 procedure D_ProcessEvents;
 var
   ev: Pevent_t;
 begin
+// IF STORE DEMO, DO NOT ACCEPT INPUT
+  if gamemode = commercial then
+  begin
+  // JVAL: Optimize checking for MAP01 lump
+    if map01_lump = -2 then
+      map01_lump := W_CheckNumForName('MAP01');
+    if map01_lump = -1 then
+      exit;
+  end;
+
   if I_GameFinished then
     exit;
 
@@ -240,11 +256,15 @@ end;
 var
   viewactivestate: boolean = false;
   menuactivestate: boolean = false;
+  viewfullscreen: boolean = false;
   inhelpscreensstate: boolean = false;
   borderdrawcount: integer;
   nodrawers: boolean = false; // for comparative timing purposes
   noblit: boolean = false;    // for comparative timing purposes
   norender: boolean = false;  // for comparative timing purposes
+{$IFNDEF OPENGL}
+  blancbeforerender: Boolean = false;
+{$ENDIF}
   autoscreenshot: boolean = false;
   shotnumber: integer = 0;
   lastshotnumber: integer = -1;
@@ -272,6 +292,11 @@ begin
     R_PlayerViewBlanc(aprox_black);
     exit;
   end;
+
+{$IFNDEF OPENGL}
+  if blancbeforerender then
+    R_PlayerViewBlanc(aprox_black);
+{$ENDIF}
 
   if player <> nil then
     R_RenderPlayerView(player)
@@ -326,6 +351,9 @@ begin
     R_ExecuteSetViewSize;
     oldgamestate := -1; // force background redraw
     borderdrawcount := 3;
+    {$IFDEF OPENGL}
+//    R_VideoBlanc(SCN_FG, 0,
+    {$ENDIF}
   end;
 
 {$IFNDEF OPENGL}
@@ -350,11 +378,19 @@ begin
         begin
           if amstate = am_only then
             AM_Drawer;
-          redrawsbar := true;
+          if {$IFNDEF OPENGL}wipe or {$ENDIF}((viewheight <> SCREENHEIGHT) and viewfullscreen) then
+            redrawsbar := true;
+          if inhelpscreensstate and (not inhelpscreens) then
+            redrawsbar := true; // just put away the help screen
+          viewfullscreen := viewheight = SCREENHEIGHT;
+          if viewfullscreen then
+            ST_Drawer(stdo_no, redrawsbar)
+          else
+            ST_Drawer(stdo_full, redrawsbar);
         end;
       end;
     GS_INTERMISSION:
-      IN_Drawer;
+      WI_Drawer;
     GS_FINALE:
       F_Drawer;
     GS_DEMOSCREEN:
@@ -372,7 +408,6 @@ begin
         AM_Drawer;
     end;
   {$ENDIF}
-    redrawsbar := true;
     if gametic <> 0 then
       drawhu := true;
   end
@@ -410,7 +445,7 @@ begin
         end;
       end
       else if R_FullStOn and (gametic <> 0) then
-        redrawsbar := true;
+        ST_Drawer(stdo_small, redrawsbar);
     end;
   end;
 
@@ -427,8 +462,8 @@ begin
       y := 4
     else
       y := (viewwindowy * 200) div SCREENHEIGHT + 4;
-    V_DrawPatch(160, y, SCN_FG,
-      'PAUSED', true);
+    V_DrawPatch((320 - 68) div 2, y, SCN_FG,
+      'M_PAUSE', true);
   end;
 
   if drawhu then
@@ -441,9 +476,6 @@ begin
     diskbusyend := nowtime + 4; // Display busy disk for a little...
     isdiskbusy := false;
   end;
-
-  if redrawsbar then
-    SB_Drawer;
 
   if diskbusyend > nowtime then
   begin
@@ -471,14 +503,17 @@ begin
   end
   else
   begin
+    {$IFDEF OPENGL}
+    diskbuzy_height := 0;
+    {$ENDIF}
     M_Drawer;
     C_Drawer;
   end;
 
   NetUpdate; // send out any new accumulation
 
-  {$IFNDEF OPENGL}
   // normal update
+  {$IFNDEF OPENGL}
   if not wipe then
   begin
     D_FinishUpdate; // page flip or blit buffer
@@ -559,9 +594,11 @@ begin
     // frame syncronous IO operations
     I_StartFrame;
 
+{$IFNDEF DEBUG}
     iscritical := not usemultithread and not devparm and criticalcpupriority;
     if iscritical then
       I_SetCriticalCPUPriority;
+{$ENDIF}
 
     // process one or more tics
     if singletics then
@@ -569,8 +606,10 @@ begin
     else
       D_RunMultipleTicks; // will run at least one tick
 
+{$IFNDEF DEBUG}
     if iscritical then
       I_SetNormalCPUPriority;
+{$ENDIF}
 
     S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
 
@@ -611,10 +650,8 @@ begin
   {$IFNDEF OPENGL}
   if demosequence = 0 then
     if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
-      V_DrawPatch(120, 1060, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
-  {$ENDIF}
-  if demosequence = 1 then
-    V_DrawPatch(4, 160, SCN_FG, W_CacheLumpName('ADVISOR', PU_CACHE), true);
+      V_DrawPatch(120, 1020, SCN_FG, W_CacheLumpName('FULLHD', PU_CACHE), false);
+  {$ENDIF}      
 end;
 
 //
@@ -641,48 +678,65 @@ begin
   paused := false;
   gameaction := ga_nothing;
 
-  demosequence := (demosequence + 1) mod 7;
+  if gamemode = retail then
+    demosequence := (demosequence + 1) mod 7
+  else
+    demosequence := (demosequence + 1) mod 6;
 
   case demosequence of
     0:
       begin
-        pagetic := 210;
+        if gamemode = commercial then
+          pagetic := TICRATE * 11
+        else
+          pagetic := (TICRATE * 170) div 35;
         gamestate := GS_DEMOSCREEN;
         pagename := pg_TITLE;
-        S_StartMusic(Ord(mus_titl));
+        if gamemode = commercial then
+          S_StartMusic(Ord(mus_dm2ttl))
+        else
+          S_StartMusic(Ord(mus_intro));
       end;
     1:
       begin
-        pagetic := 140;
-        gamestate := GS_DEMOSCREEN;
-        pagename := pg_TITLE;
+        G_DeferedPlayDemo('1');
       end;
     2:
       begin
-        G_DeferedPlayDemo('1');
-      end;
-    3:
-      begin
-        pagetic := 200;
+        pagetic := (TICRATE * 200) div 35;
         gamestate := GS_DEMOSCREEN;
         pagename := pg_CREDIT;
       end;
-    4:
+    3:
       begin
         G_DeferedPlayDemo('2');
       end;
+    4:
+      begin
+        gamestate := GS_DEMOSCREEN;
+        if gamemode = commercial then
+        begin
+          pagetic := TICRATE * 11;
+          pagename := pg_TITLE;
+          S_StartMusic(Ord(mus_dm2ttl));
+        end
+        else
+        begin
+          pagetic := (TICRATE * 200) div 35;
+          if gamemode = retail then
+            pagename := pg_CREDIT
+          else
+            pagename := pg_HELP2;
+        end;
+      end;
     5:
       begin
-        pagetic := 200;
-        gamestate := GS_DEMOSCREEN;
-        if gamemode = shareware then
-          pagename := pg_ORDER
-        else
-          pagename := pg_CREDIT;
+        G_DeferedPlayDemo('3');
       end;
+        // THE DEFINITIVE DOOM Special Edition demo
     6:
       begin
-        G_DeferedPlayDemo('3');
+        G_DeferedPlayDemo('4');
       end;
   end;
 end;
@@ -713,12 +767,13 @@ var
 begin
   if fname <> '' then
   begin
-    if wadfiles.IndexOf(fname) >= 0 then
-      exit;
     try
       wadfiles.Add(fname);
+      D_CheckCustomWad(fname);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
+    // GL_xxxx lumps has lower priority from GWA files, that's for we
+    // first add the *.GWA file.
       if autoloadgwafiles then
       begin
         ext := strupper(fext(fname));
@@ -749,24 +804,23 @@ begin
 end;
 
 const
-  SYSWAD = 'Heretic32.swd';
+  SYSWAD = 'Doom32.swd';
 
 procedure D_AddSystemWAD;
 var
   ddsyswad: string;
-  hereticwaddir: string;
+  doomwaddir: string;
 begin
-  hereticwaddir := getenv('hereticwaddir');
-  if hereticwaddir = '' then
-    hereticwaddir := '.';
+  doomwaddir := getenv('DOOMWADDIR');
+  if doomwaddir = '' then
+    doomwaddir := '.';
 
-  sprintf(ddsyswad, '%s\%s', [hereticwaddir, SYSWAD]);
+  sprintf(ddsyswad, '%s\%s', [doomwaddir, SYSWAD]);
   if fexists(ddsyswad) then
     D_AddFile(ddsyswad)
   else
     I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [ddsyswad]);
 end;
-
 
 procedure D_WadsAutoLoad(fnames: string);
 var
@@ -794,6 +848,7 @@ begin
   D_PaksAutoload(s2);
 end;
 
+
 //
 // IdentifyVersion
 // Checks availability of IWAD files by name,
@@ -801,28 +856,49 @@ end;
 // should be executed (notably loading PWAD's).
 //
 var
-  custiwad: string = ''; // Custom main WAD
+  doomcwad: string = ''; // Custom main WAD
 
 procedure IdentifyVersion;
 var
-  heretic1wad: string;
-  hereticwad: string;
+  doom1wad: string;
+  doomwad: string;
+  doomuwad: string;
+  doom2wad: string;
 
-  hereticwaddir: string;
-
+  doom2fwad: string;
+  plutoniawad: string;
+  tntwad: string;
+  doomwaddir: string;
   p: integer;
 begin
-  hereticwaddir := getenv('HERETICWADDIR');
-  if hereticwaddir = '' then
-    hereticwaddir := '.';
+  doomwaddir := getenv('DOOMWADDIR');
+  if doomwaddir = '' then
+    doomwaddir := '.';
 
-  // Shareware
-  sprintf(heretic1wad, '%s\heretic1.wad', [hereticwaddir]);
+  // Commercial.
+  sprintf(doom2wad, '%s\doom2.wad', [doomwaddir]);
 
-  // Registered / extendedwad
-  sprintf(hereticwad, '%s\heretic.wad', [hereticwaddir]);
+  // Retail.
+  sprintf(doomuwad, '%s\doomu.wad', [doomwaddir]);
 
-  basedefault := 'Heretic32.ini';
+  // Registered.
+  sprintf(doomwad, '%s\doom.wad', [doomwaddir]);
+
+  // Shareware.
+  sprintf(doom1wad, '%s\doom1.wad', [doomwaddir]);
+
+  // plutonia pack
+  sprintf(plutoniawad, '%s\plutonia.wad', [doomwaddir]);
+
+  // tnt pack
+  sprintf(tntwad, '%s\tnt.wad', [doomwaddir]);
+
+
+  // French stuff.
+  sprintf(doom2fwad, '%s\doom2f.wad', [doomwaddir]);
+
+
+  basedefault := {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
 
   p := M_CheckParm('-mainwad');
   if p = 0 then
@@ -830,29 +906,110 @@ begin
   if (p > 0) and (p < myargc - 1) then
   begin
     inc(p);
-    custiwad := myargv[p];
-    if fexists(custiwad) then
+    doomcwad := myargv[p];
+    if fexists(doomcwad) then
     begin
-      printf(' External main wad in use: %s'#13#10, [custiwad]);
+      printf(' External main wad in use: %s'#13#10, [doomcwad]);
       gamemode := indetermined;
-      D_AddFile(custiwad);
+      D_AddFile(doomcwad);
       exit;
     end
     else
-      custiwad := '';
+      doomcwad := '';
   end;
 
-  if fexists(hereticwad) then
+  if M_CheckParm('-shdev') > 0 then
   begin
-    gamemode := indetermined; // Will check if register or extended wad later
-    D_AddFile(hereticwad);
+    gamemode := shareware;
+    devparm := true;
+    D_AddFile(DEVDATA + 'doom1.wad');
+    D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
+    D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
+    basedefault := DEVDATA + 'Doom32.ini';
     exit;
   end;
 
-  if fexists(heretic1wad) then
+  if M_CheckParm('-regdev') > 0 then
+  begin
+    gamemode := registered;
+    devparm := true;
+    D_AddFile(DEVDATA + 'doom.wad');
+    D_AddFile(DEVMAPS + 'data_se/texture1.lmp');
+    D_AddFile(DEVMAPS + 'data_se/texture2.lmp');
+    D_AddFile(DEVMAPS + 'data_se/pnames.lmp');
+    basedefault := DEVDATA + 'Doom32.ini';
+    exit;
+  end;
+
+  if M_CheckParm('-comdev') > 0 then
+  begin
+    gamemode := commercial;
+    devparm := true;
+    D_AddFile(DEVDATA + 'doom2.wad');
+
+    D_AddFile(DEVMAPS + 'cdata/texture1.lmp');
+    D_AddFile(DEVMAPS + 'cdata/pnames.lmp');
+    basedefault := DEVDATA + 'Doom32.ini';
+    exit;
+  end;
+
+  if fexists(doom2fwad) then
+  begin
+    gamemode := commercial;
+    gamemission := doom2;
+    // C'est ridicule!
+    // Let's handle languages in config files, okay?
+    language := french;
+    printf('French version'#13#10);
+    D_AddFile(doom2fwad);
+    exit;
+  end;
+
+  if fexists(doom2wad) then
+  begin
+    gamemode := commercial;
+    gamemission := doom2;
+    D_AddFile(doom2wad);
+    exit;
+  end;
+
+  if fexists(plutoniawad) then
+  begin
+    gamemode := commercial;
+    gamemission := pack_plutonia;
+    D_AddFile(plutoniawad);
+    exit;
+  end;
+
+  if fexists(tntwad) then
+  begin
+    gamemode := commercial;
+    gamemission := pack_tnt;
+    D_AddFile(tntwad);
+    exit;
+  end;
+
+  if fexists(doomuwad) then
+  begin
+    gamemode := indetermined; // Will check if retail or register mode later
+    gamemission := doom;
+    D_AddFile(doomuwad);
+    exit;
+  end;
+
+  if fexists(doomwad) then
+  begin
+    gamemode := indetermined; // Will check if retail or register mode later
+    gamemission := doom;
+    D_AddFile(doomwad);
+    exit;
+  end;
+
+  if fexists(doom1wad) then
   begin
     gamemode := shareware;
-    D_AddFile(heretic1wad);
+    gamemission := doom;
+    D_AddFile(doom1wad);
     exit;
   end;
 
@@ -1070,20 +1227,19 @@ var
   i: integer;
   wad: string;
 begin
-  if gamemode = shareware then
-    gamedirectorystring := 'HERETIC1,HERETIC'
+  case gamemission of
+    doom2: gamedirectorystring := 'DOOM2,DOOM1,DOOM';
+    pack_tnt: gamedirectorystring := 'DOOM2-TNT,TNT,DOOM2,DOOM1,DOOM';
+    pack_plutonia: gamedirectorystring := 'DOOM2-PLUT,PLUTONIA,DOOM2,DOOM1,DOOM';
   else
-  begin
-    gamedirectorystring := 'HERETIC,HERETIC1';
-    if gamemode = extendedwad then
-      gamedirectorystring := 'EXTENDED,HERETIC-EXT,' + gamedirectorystring;
+    gamedirectorystring := 'TEXTURES,DOOM1,DOOM';
   end;
   for i := wadfiles.Count - 1 downto 0 do
   begin
-    wad := strupper(fname(wadfiles[0]));
+    wad := strupper(fname(wadfiles[i]));
     if Pos('.', wad) > 0 then
       wad := Copy(wad, 1, Pos('.', wad) - 1);
-    if Pos(wad + ',', gamedirectorystring + ',') = 0 then
+    if Pos(',' + wad + ',', ',' + gamedirectorystring + ',') = 0 then
       gamedirectorystring := wad + ',' + gamedirectorystring;
   end;
 
@@ -1093,7 +1249,7 @@ begin
     wad := gamedirectories[i];
     if wad <> '' then
       if wad[length(wad)] = '\' then
-        printf(' %s'#13#10, [wad]);
+        printf(' %s'#13#10, [gamedirectories[i]]);
   end;
 end;
 
@@ -1111,9 +1267,15 @@ var
   j: integer;
   oldoutproc: TOutProc;
   mb_min: integer; // minimum zone size
+  episodes: integer;
+  err_shown: boolean;
 begin
+  {$IFDEF FPC}
+  outproc := @I_IOprintf;
+  {$ELSE}
   SUC_Open;
   outproc := @SUC_Outproc;
+  {$ENDIF}
   wadfiles := TDSTringList.Create;
 
   printf('Starting %s, %s'#13#10, [D_Version, D_VersionBuilt]);
@@ -1122,12 +1284,16 @@ begin
   C_AddCmd('startthinkers', @D_StartThinkers);
   C_AddCmd('stopthinkers', @D_StopThinkers);
 
+  {$IFNDEF FPC}
   SUC_Progress(1);
+  {$ENDIF}
 
   printf('M_InitArgv: Initializing command line parameters.'#13#10);
   M_InitArgv;
 
+  {$IFNDEF FPC}
   SUC_Progress(2);
+  {$ENDIF}
 
   FindResponseFile;
 
@@ -1137,11 +1303,15 @@ begin
   printf('I_InitTempFiles: Initializing temporary file managment.'#13#10);
   I_InitTempFiles;
 
+  {$IFNDEF FPC}
   SUC_Progress(3);
+  {$ENDIF}
 
   D_AddSystemWAD; // Add system wad first
 
+  {$IFNDEF FPC}
   SUC_Progress(5);
+  {$ENDIF}
 
   IdentifyVersion;
 
@@ -1151,26 +1321,60 @@ begin
   respawnparm := M_CheckParm('-respawn') > 0;
   fastparm := M_CheckParm('-fast') > 0;
   devparm := M_CheckParm('-devparm') > 0;
+  hackshareware := M_CheckParm('-hackshareware') > 0;
+  debugmode := M_CheckParm('-debugmode') > 0;
 
+  {$IFNDEF FPC}
   SUC_Progress(6);
+  {$ENDIF}
 
   if M_CheckParm('-altdeath') > 0 then
     deathmatch := 2
   else if M_CheckParm('-deathmatch') > 0 then
     deathmatch := 1;
 
-  if gamemode = shareware then
-    printf(
-           '                           ' +
-           'Heretic Shareware Startup v%d.%d' +
-           '                         '#13#10,
-            [VERSION div 100, VERSION mod 100])
-  else
-    printf(
-           '                            ' +
-           '   Heretic Startup v%d.%d' +
+  case gamemode of
+    retail:
+      begin
+        printf(
+           '                         ' +
+           'The Ultimate DOOM Startup v%d.%d' +
            '                           '#13#10,
             [VERSION div 100, VERSION mod 100]);
+      end;
+    shareware:
+      begin
+        printf(
+           '                            ' +
+           'DOOM Shareware Startup v%d.%d' +
+           '                           '#13#10,
+            [VERSION div 100, VERSION mod 100]);
+      end;
+    registered:
+      begin
+        printf(
+           '                            ' +
+           'DOOM Registered Startup v%d.%d' +
+           '                           '#13#10,
+            [VERSION div 100, VERSION mod 100]);
+      end;
+    commercial:
+      begin
+        printf(
+           '                         ' +
+           'DOOM 2: Hell on Earth v%d.%d' +
+           '                           '#13#10,
+            [VERSION div 100, VERSION mod 100]);
+      end;
+  else
+    begin
+      printf(
+         '                         ' +
+         'Public DOOM - v%d.%d' +
+         '                           '#13#10,
+          [VERSION div 100, VERSION mod 100]);
+    end;
+  end;
 
   if devparm then
     printf(D_DEVSTR);
@@ -1178,7 +1382,7 @@ begin
   if M_CheckParmCDROM then
   begin
     printf(D_CDROM);
-    basedefault := CD_WORKDIR + 'Heretic32.ini';
+    basedefault := CD_WORKDIR + 'Doom32.ini';
   end;
 
   // turbo option
@@ -1187,23 +1391,25 @@ begin
   begin
     if p < myargc - 1 then
     begin
-      scale := atoi(myargv[p + 1]);
+      scale := atoi(myargv[p + 1], 200);
       if scale < 10 then
         scale := 10
-      else if scale > 200 then
-        scale := 200;
+      else if scale > 200 then // 22/3/2012 (was 400)
+        scale := 200;          // 22/3/2012 (was 400)
     end
     else
       scale := 200;
     printf(' turbo scale: %d'#13#10, [scale]);
+    // 22/3/2012
     forwardmove[0] := forwardmove[0] * scale div 100;
     forwardmove[1] := forwardmove[1] * scale div 100;
     sidemove[0] := sidemove[0] * scale div 100;
     sidemove[1] := sidemove[1] * scale div 100;
   end;
 
-
+  {$IFNDEF FPC}
   SUC_Progress(7);
+  {$ENDIF}
 
   // add any files specified on the command line with -file wadfile
   // to the wad list
@@ -1211,42 +1417,70 @@ begin
   // convenience hack to allow -wart e m to add a wad file
   // prepend a tilde to the filename so wadfile will be reloadable
   p := M_CheckParm('-wart');
-  if (p <> 0) and (p < myargc - 2) then
+  if (p <> 0) and (p < myargc - 1) then
   begin
     myargv[p][5] := 'p';     // big hack, change to -warp
 
   // Map name handling.
-    if p < myargc - 2 then
-    begin
-      sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
-        [myargv[p + 1][1], myargv[p + 2][1]]);
-      printf('Warping to Episode %s, Map %s.'#13#10,
-      [myargv[p + 1], myargv[p + 2]]);
+    case gamemode of
+      shareware,
+      retail,
+      registered:
+        begin
+          if p < myargc - 2 then
+          begin
+            sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
+              [myargv[p + 1][1], myargv[p + 2][1]]);
+            printf('Warping to Episode %s, Map %s.'#13#10,
+              [myargv[p + 1], myargv[p + 2]]);
+          end;
+        end;
+    else
+      begin
+        p := atoi(myargv[p + 1]);
+        if p < 10 then
+          sprintf(filename, '~' + DEVMAPS + 'cdata/map0%d.wad', [p])
+        else
+          sprintf (filename,'~' + DEVMAPS + 'cdata/map%d.wad', [p]);
+      end;
     end;
 
     D_AddFile(filename);
   end;
 
+  {$IFNDEF FPC}
   SUC_Progress(8);
+  {$ENDIF}
 
   D_AddWADFiles('-file');
   for p := 1 to 9 do
     D_AddWADFiles('-file' + itoa(p));
   D_AddWADFiles('-lfile');  // JVAL launcher specific
 
+  {$IFNDEF FPC}
   SUC_Progress(9);
+  {$ENDIF}
 
   printf('PAK_InitFileSystem: Init PAK/ZIP/PK3/PK4 files.'#13#10);
   PAK_InitFileSystem;
 
-  SUC_Progress(15);
+  {$IFNDEF FPC}
+  SUC_Progress(10);
+  {$ENDIF}
 
   D_AddPAKFiles('-pakfile');
   for p := 1 to 9 do
     D_AddPAKFiles('-pakfile' + itoa(p));
+
+  {$IFNDEF FPC}
+  SUC_Progress(15);
+  {$ENDIF}
+
   D_AddPAKFiles('-lpakfile'); // JVAL launcher specific
 
+  {$IFNDEF FPC}
   SUC_Progress(16);
+  {$ENDIF}
 
   p := M_CheckParm('-playdemo');
 
@@ -1302,7 +1536,9 @@ begin
   D_WadsAutoLoad(wads_autoload);
   D_PaksAutoload(paks_autoload);
 
+  {$IFNDEF FPC}
   SUC_Progress(20);
+  {$ENDIF}
 
   p := M_CheckParm('-fullscreen');
   if (p <> 0) and (p <= myargc - 1) then
@@ -1322,6 +1558,7 @@ begin
   if (p <> 0) and (p <= myargc - 1) then
     zaxisshift := false;
 
+{$IFNDEF OPENGL}
   p := M_CheckParm('-fake3d');
   if (p <> 0) and (p <= myargc - 1) then
     usefake3d := true;
@@ -1329,7 +1566,7 @@ begin
   p := M_CheckParm('-nofake3d');
   if (p <> 0) and (p <= myargc - 1) then
     usefake3d := false;
-
+{$ENDIF}
   if M_Checkparm('-ultrares') <> 0 then
     detailLevel := DL_ULTRARES;
 
@@ -1433,41 +1670,23 @@ begin
       SCREENHEIGHT := MAXHEIGHT;
   end;
 
-  p := M_CheckParm('-vga');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    SCREENWIDTH := 640;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 480;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
-  p := M_CheckParm('-svga');
-  if (p <> 0) and (p < myargc - 1) then
-  begin
-    SCREENWIDTH := 800;
-    if SCREENWIDTH > MAXWIDTH then
-      SCREENWIDTH := MAXWIDTH;
-    SCREENHEIGHT := 600;
-    if SCREENHEIGHT > MAXHEIGHT then
-      SCREENHEIGHT := MAXHEIGHT;
-  end;
-
   singletics := M_CheckParm('-singletics') > 0;
-  noartiskip := M_CheckParm('-noartiskip') > 0;
 
   p := M_CheckParm('-autoscreenshot');
   autoscreenshot := p > 0;
 
 //  I_RestoreWindowPos;
 
+  {$IFNDEF FPC}
   SUC_Progress(25);
+  {$ENDIF}
 
   nodrawers := M_CheckParm('-nodraw') <> 0;
   noblit := M_CheckParm('-noblit') <> 0;
   norender := M_CheckParm('-norender') <> 0;
+{$IFNDEF OPENGL}
+  blancbeforerender := M_CheckParm('-blancbeforerender') <> 0;
+{$ENDIF}
 
   if M_CheckParm('-usetransparentsprites') <> 0 then
     usetransparentsprites := true;
@@ -1490,6 +1709,7 @@ begin
     chasecamera := true;
   if M_CheckParm('-nochasecamera') <> 0 then
     chasecamera := false;
+
 
 // Try to guess minimum zone memory to allocate
   mb_min := 6 + V_ScreensSize(SCN_FG) div (1024 * 1024);
@@ -1514,7 +1734,9 @@ begin
   printf('Z_Init: Init zone memory allocation daemon, allocation %d MB.'#13#10, [mb_used]);
   Z_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(30);
+  {$ENDIF}
 
   p := M_CheckParm('-nothinkers');
   if p = 0 then
@@ -1528,42 +1750,43 @@ begin
     Info_Init(false);
   end;
 
+  {$IFNDEF FPC}
   SUC_Progress(31);
-
-  for p := 1 to myargc do
-    if strupper(fext(myargv[p])) = '.WAD' then
-      D_AddFile(myargv[p]);
-
-  for p := 1 to myargc do
-    if (strupper(fext(myargv[p])) = '.PK3') or
-       (strupper(fext(myargv[p])) = '.PK4') or
-       (strupper(fext(myargv[p])) = '.ZIP') or
-       (strupper(fext(myargv[p])) = '.PAK') then
-    begin
-      modifiedgame := true;
-      externalpakspresent := true;
-      PAK_AddFile(myargv[p]);
-    end;
+  {$ENDIF}
 
   printf('W_Init: Init WADfiles.'#13#10);
   if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
   begin
-  // JVAL
-  //  If none wadfile has found as far,
-  //  we search the current directory
-  //  and we use the first WAD we find
-    filename := findfile('*.wad');
-    if filename <> '' then
-      I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
-    D_AddFile(filename);
-    if W_InitMultipleFiles(wadfiles) = 0 then
-      I_Error('W_InitMultipleFiles(): no files found');
+    if fexists('CHEX.WAD') then
+      D_AddFile('CHEX.WAD')
+    else if fexists('HACX.WAD') then
+      D_AddFile('HACX.WAD')
+    else if fexists('FREEDOOM.WAD') then
+      D_AddFile('FREEDOOM.WAD')
+    else if fexists('FREEDOOM2.WAD') then
+      D_AddFile('FREEDOOM2.WAD');
+
+    if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
+    begin
+    // JVAL
+    //  If none wadfile has found as far,
+    //  we search the current directory
+    //  and we use the first WAD we find
+      filename := findfile('*.wad');
+      if filename <> '' then
+        I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
+      D_AddFile(filename);
+      if W_InitMultipleFiles(wadfiles) = 0 then
+        I_Error('W_InitMultipleFiles(): no files found');
+    end;
   end;
 
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
+  {$IFNDEF FPC}
   SUC_Progress(40);
+  {$ENDIF}
 
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
   DEH_Init;
@@ -1572,45 +1795,66 @@ begin
     if not DEH_ParseLumpName('GAMEDEF') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
 
+  if customgame in [cg_chex, cg_chex2] then
+    if not DEH_ParseLumpName('CHEX.DEH') then
+      I_Warning('DEH_ParseLumpName(): GAMEDEF lump for CHEX QUEST not found, using defaults.'#13#10);
+
+  {$IFNDEF FPC}
   SUC_Progress(41);
+  {$ENDIF}
 
   printf('SC_Init: Initializing script engine.'#13#10);
   SC_Init;
-  printf('SC_ParseDecorateLumps(): Parsing DECORATE lumps.'#13#10);
+  printf('SC_ParseDecorateLumps: Parsing ACTORDEF lumps.'#13#10);
   SC_ParseDecorateLumps;
 
+  {$IFNDEF FPC}
   SUC_Progress(45);
+  {$ENDIF}
 
   if M_CheckParm('-nowaddehacked') = 0 then
     if not DEH_ParseLumpName('DEHACKED') then
-      printf('DEH_ParseLumpName(): DEHACKED lump not found.'#13#10);
+      printf('DEH_ParseLumpName: DEHACKED lump not found.'#13#10);
 
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
 
+  {$IFNDEF FPC}
   SUC_Progress(50);
+  {$ENDIF}
 
   for i := 0 to NUM_STARTUPMESSAGES - 1 do
     if startmsg[i] <> '' then
       printf('%s'#13#10, [startmsg[i]]);
 
+  {$IFNDEF FPC}
   SUC_Progress(51);
+  {$ENDIF}
 
   printf('T_Init: Initializing texture manager.'#13#10);
   T_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(55);
+  {$ENDIF}
 
   printf('V_Init: allocate screens.'#13#10);
   V_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(56);
+  {$ENDIF}
 
   printf('AM_Init: initializing automap.'#13#10);
   AM_Init;
 
+  printf('MObj_Init: initializing mobj commands.'#13#10);
+  MObj_Init;
+
+  {$IFNDEF FPC}
   SUC_Progress(57);
+  {$ENDIF}
 
   p := M_CheckParm('-autoexec');
   if (p <> 0) and (p < myargc - 1) then
@@ -1621,105 +1865,184 @@ begin
   printf('M_InitMenus: Initializing menus.'#13#10);
   M_InitMenus;
 
+  {$IFNDEF FPC}
   SUC_Progress(58);
+  {$ENDIF}
 
   if gamemode = indetermined then
   begin
-    if W_CheckNumForName('e5m1') <> -1 then
+    if W_CheckNumForName('e4m1') <> -1 then
     begin
-      gamemode := extendedwad;
+      gamemission := doom;
+      gamemode := retail;
+      {$IFNDEF FPC}
+      SUC_SetGameMode('Ultimate Doom');
+      {$ENDIF}
     end
     else if W_CheckNumForName('e3m1') <> -1 then
     begin
+      gamemission := doom;
       gamemode := registered;
+      {$IFNDEF FPC}
+      SUC_SetGameMode('Registered Doom');
+      {$ENDIF}
+    end
+    else if W_CheckNumForName('e1m1') <> -1 then
+    begin
+      gamemission := doom;
+      gamemode := shareware;
+      {$IFNDEF FPC}
+      SUC_SetGameMode('Shareware Doom');
+      {$ENDIF}
+    end
+    else if W_CheckNumForName('map01') <> -1 then
+    begin
+      gamemode := commercial;
+      if Pos('TNT.WAD', strupper(doomcwad)) > 0 then
+      begin
+        gamemission := pack_tnt;
+        {$IFNDEF FPC}
+        SUC_SetGameMode('TNT Evilution');
+        {$ENDIF}
+      end
+      else if Pos('PLUTONIA.WAD', strupper(doomcwad)) > 0 then
+      begin
+        gamemission := pack_plutonia;
+        {$IFNDEF FPC}
+        SUC_SetGameMode('The Plutonia Experiment');
+        {$ENDIF}
+      end
+      else
+      begin
+        gamemission := doom2;
+        {$IFNDEF FPC}
+        SUC_SetGameMode('DOOM2: Hell On Earth');
+        {$ENDIF}
+      end;
     end
     else
-    begin
-      gamemode := shareware;
-    end
-  end;
-
-  if W_CheckNumForName('e1m4') = -1 then
+      I_Error('Game mode indetermined'#13#10);
+  end
+  else
   begin
-    gamemode := shareware;
-    customgame := cg_beta;
+    {$IFNDEF FPC}
+    if (gamemission = doom) and (gamemode = retail) then
+      SUC_SetGameMode('Ultimate Doom')
+    else if (gamemission = doom) and (gamemode = registered) then
+      SUC_SetGameMode('Registered Doom')
+    else if (gamemission = doom) and (gamemode = shareware) then
+      SUC_SetGameMode('Shareware Doom')
+    else if gamemode = commercial then
+    begin
+      if gamemission = pack_tnt then
+        SUC_SetGameMode('TNT Evilution')
+      else if gamemission = pack_plutonia then
+        SUC_SetGameMode('The Plutonia Experiment')
+      else if gamemission = doom2 then
+        SUC_SetGameMode('DOOM2: Hell On Earth');
+    end;
+    {$ENDIF}
   end;
 
-  case gamemode of
-    extendedwad: SUC_SetGameMode('Heretic: Extented Version');
-    registered: SUC_SetGameMode('Registered Heretic');
-    shareware: if customgame = cg_beta then SUC_SetGameMode('HERETIC - WIDE AREA BETA') else SUC_SetGameMode('Shareware Heretic');
-  end;
-
-  if customgame = cg_beta then
-    if not DEH_ParseLumpName('BETA.DEH') then
-      I_Warning('DEH_ParseLumpName(): BETA.DEH lump not found.'#13#10);
-
+  {$IFNDEF FPC}
   SUC_Progress(59);
+  {$ENDIF}
 
   printf('D_IdentifyGameDirectories: Identify game directories.'#13#10, [mb_used]);
   D_IdentifyGameDirectories;
 
+  {$IFNDEF FPC}
   SUC_Progress(60);
+  {$ENDIF}
 
   p := M_CheckParm('-warp');
-  if (p <> 0) and (p < myargc - 2) then
+  if (p <> 0) and (p < myargc - 1) then
   begin
-    startepisode := atoi(myargv[p + 1]);
-    startmap := atoi(myargv[p + 2]);
-    autostart := true;
+    if gamemode = commercial then
+    begin
+      startmap := atoi(myargv[p + 1]);
+      autostart := true;
+    end
+    else
+    begin
+      if p < myargc - 2 then
+      begin
+        startepisode := atoi(myargv[p + 1]);
+        startmap := atoi(myargv[p + 2]);
+        autostart := true;
+      end;
+    end;
   end;
 
+  {$IFNDEF FPC}
   SUC_Progress(61);
+  {$ENDIF}
 
   // Check for -file in shareware
   // JVAL
   // Allow modified games if -devparm is specified, for debuging reasons
   if modifiedgame and (not devparm) then
   begin
+    err_shown := false;
     if gamemode = shareware then
-      I_DevError(#13#10 + 'D_DoomMain(): You cannot use external files with the shareware version. Register!')
-  // Check for fake IWAD with right name,
-  // but w/o all the lumps of the registered version.
-    else
     begin
-  // These are the lumps that will be checked in IWAD,
-  // if any one is not present, execution will be aborted.
+      if not hackshareware then
+        I_DevError(#13#10 + 'D_DoomMain(): You cannot use external files with the shareware version. Register!');
+      err_shown := true;
+    end;
+    // Check for fake IWAD with right name,
+    // but w/o all the lumps of the registered version.
+    if not err_shown and (gamemode in [registered, retail]) then
+    begin
+      // These are the lumps that will be checked in IWAD,
+      // if any one is not present, execution will be aborted.
       s_error := #13#10 + 'D_DoomMain(): This is not the registered version.';
-      i := 2;
-      while i <= 3 do
-      begin
-        j := 1;
-        while j <= 9 do
-        begin
+      episodes := 3;
+      if gamemode = retail then
+        inc(episodes);
+      for i := 2 to episodes do
+        for j := 1 to 9 do
           if W_CheckNumForName('e' + itoa(i) + 'm' + itoa(j)) < 0 then
           begin
-            I_DevError(s_error);
-            j := 9;
-            i := 3;
+            if not err_shown then
+              I_DevError(s_error);
+            err_shown := true;
           end;
-          inc(j);
-        end;
-        inc(i);
+      if not err_shown then
+      begin
+        if W_CheckNumForName('dphoof') < 0 then
+          I_DevError(s_error)
+        else if W_CheckNumForName('bfgga0') < 0 then
+          I_DevError(s_error)
+        else if W_CheckNumForName('heada1') < 0 then
+          I_DevError(s_error)
+        else if W_CheckNumForName('cybra1') < 0 then
+          I_DevError(s_error)
+        else if W_CheckNumForName('spida1d1') < 0 then
+          I_DevError(s_error);
       end;
     end;
 
   // If additonal PWAD files are used, print modified banner
     printf(MSG_MODIFIEDGAME);
     oldoutproc := outproc;
-    I_IOSetWindowHandle(SUC_GetHandle);
+    I_IOSetWindowHandle({$IFDEF FPC}0{$ELSE}SUC_GetHandle{$ENDIF});
     outproc := @I_IOMessageBox; // Print the message again to messagebox
     printf(MSG_MODIFIEDGAME);
     outproc := oldoutproc;
   end;
 
+  {$IFNDEF FPC}
   SUC_Progress(65);
+  {$ENDIF}
 
   case gamemode of
-    shareware:
+    shareware,
+    indetermined:
       printf(MSG_SHAREWARE);
     registered,
-    extendedwad:
+    retail,
+    commercial:
       printf(MSG_COMMERCIAL);
   else
     begin
@@ -1727,17 +2050,23 @@ begin
     end;
   end;
 
+  {$IFNDEF FPC}
   SUC_Progress(66);
+  {$ENDIF}
 
   printf('Info_InitRandom: Initializing randomizers.'#13#10);
   Info_InitRandom;
 
+  {$IFNDEF FPC}
   SUC_Progress(67);
+  {$ENDIF}
 
   printf('M_Init: Init miscellaneous info.'#13#10);
   M_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(68);
+  {$ENDIF}
 
   p := M_CheckParm('-mmx');
   if p > 0 then
@@ -1753,50 +2082,53 @@ begin
     I_DetectCPU;
   end;
 
+  {$IFNDEF FPC}
   SUC_Progress(69);
+  {$ENDIF}
 
-  printf('R_Init: Init HERETIC refresh daemon.');
+  printf('R_Init: Init DOOM refresh daemon.');
   R_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(80);
+  {$ENDIF}
 
   printf(#13#10 + 'P_Init: Init Playloop state.'#13#10);
   P_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(81);
+  {$ENDIF}
 
   printf('D_CheckNetGame: Checking network game status.'#13#10);
   D_CheckNetGame;
 
+  {$IFNDEF FPC}
   SUC_Progress(87);
+  {$ENDIF}
 
   printf('S_Init: Setting up sound.'#13#10);
   S_Init(snd_SfxVolume, snd_MusicVolume);
 
+  {$IFNDEF FPC}
   SUC_Progress(90);
+  {$ENDIF}
 
   printf('HU_Init: Setting up heads up display.'#13#10);
   HU_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(91);
+  {$ENDIF}
 
-  printf('SB_Init: Init status bar.'#13#10);
-  SB_Init;
+  printf('ST_Init: Init status bar.'#13#10);
+  ST_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(92);
+  {$ENDIF}
 
-{$IFDEF OPENGL}
-  GL_InitGraphics;
-{$ELSE}
-  I_InitGraphics;
-{$ENDIF}
-
-  SUC_Progress(95);
-
-  printf('I_Init: Setting up machine state.'#13#10);
-  I_Init;
-
-//    // check for a driver that wants intermission stats
+  //    // check for a driver that wants intermission stats
   p := M_CheckParm('-statcopy');
   if (p > 0) and (p < myargc - 1) then
   begin
@@ -1814,12 +2146,31 @@ begin
     autostart := true;
   end;
 
+{$IFDEF OPENGL}
+  GL_InitGraphics;
+{$ELSE}
+  I_InitGraphics;
+{$ENDIF}
+
+  {$IFNDEF FPC}
+  SUC_Progress(95);
+  {$ENDIF}
+
+  printf('I_Init: Setting up machine state.'#13#10);
+  I_Init;
+
+  {$IFNDEF FPC}
+  SUC_Progress(96);
+  {$ENDIF}
+
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
 
+  {$IFNDEF FPC}
   SUC_Progress(100);
 
   SUC_Close;
+  {$ENDIF}
 
   p := M_CheckParm('-playdemo');
   if (p <> 0) and (p < myargc - 1) then
