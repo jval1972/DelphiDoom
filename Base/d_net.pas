@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -23,7 +24,6 @@
 //   Networking stuff.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -141,10 +141,8 @@ implementation
 
 uses
   m_menu,
-{$IFNDEF OPENGL}
 {$IFNDEF HEXEN}
   e_endoom,
-{$ENDIF}
 {$ENDIF}
   c_con,
   i_startup,
@@ -884,10 +882,8 @@ begin
     if not demoplayback and not demorecording then
       if I_GetTime div ticdup - entertic >= 10 then
       begin
-        {$IFNDEF OPENGL}
-	{$IFNDEF HEXEN}
+      	{$IFNDEF HEXEN}
         E_Ticker;
-	{$ENDIF}
         {$ENDIF}
         M_Ticker;
         exit;
@@ -926,10 +922,8 @@ begin
       if advancedemo then
         D_DoAdvanceDemo;
       R_Ticker;
-      {$IFNDEF OPENGL}
       {$IFNDEF HEXEN}
       E_Ticker;
-      {$ENDIF}
       {$ENDIF}
       M_Ticker;
       C_Ticker;
@@ -970,10 +964,8 @@ begin
   if advancedemo then
     D_DoAdvanceDemo;
   R_Ticker;
-  {$IFNDEF OPENGL}
   {$IFNDEF HEXEN}
   E_Ticker;
-  {$ENDIF}
   {$ENDIF}
   M_Ticker;
   C_Ticker;

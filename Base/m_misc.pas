@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +26,6 @@
 //  Screenshots.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -39,15 +39,18 @@ interface
 // MISC 
 //
 
+var
+  screenshotformat: string = 'PNG';
+
 function M_WriteFile(const name: string; source: pointer; len: integer): boolean;
 
 function M_AppendFile(const name: string; source: pointer; len: integer): integer;
 
 function M_ReadFile(const name: string; var buffer: Pointer): integer;
 
-procedure M_ScreenShot(const filename: string = ''; const silent: boolean = false);
+procedure M_FixScreenshotFormat;
 
-function M_DoScreenShot(const filename: string): boolean;
+procedure M_ScreenShot(const filename: string = ''; const silent: boolean = false);
 
 procedure M_SetDefaults;
 
@@ -82,6 +85,7 @@ uses
   m_defs,
   i_system,
   m_sshot_jpg,
+  t_png,
 {$IFDEF OPENGL}
   gl_main,
   gl_defs,
@@ -165,73 +169,23 @@ const
 //
 // M_ScreenShot
 //
-procedure M_ScreenShot(const filename: string = ''; const silent: boolean = false);
-var
-  tganame: string;
-  basetganame: string;
-  jpgname: string;
-  l: integer;
-  ret: boolean;
-  dir: string;
-  date: TDateTime;
-  dfmt: string;
+procedure M_FixScreenshotFormat;
 begin
-  dir := M_SaveFileName('DATA');
-  MkDir(dir);
-  MkDir(dir + '\SCREENSHOTS');
-  MkDir(dir + '\SCREENSHOTS\TGA');
-  MkDir(dir + '\SCREENSHOTS\JPG');
-  if filename = '' then
+  screenshotformat := strupper(strtrim(screenshotformat));
+  if Pos('.', screenshotformat) = 1 then
+    Delete(screenshotformat, 1, 1);
+  if screenshotformat = '' then
   begin
-    basetganame := 'SSHOT_' + _GAME + '_';
-
-    tganame := M_SaveFileName('DATA\SCREENSHOTS\TGA\' + basetganame);
-    jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + basetganame);
-    date := NowTime;
-    dfmt := formatDateTimeAsString('yyyymmdd', date) + '_' + formatDateTimeAsString('hhnnsszzz', date);
-    tganame := tganame + dfmt + '.tga';
-    jpgname := jpgname + dfmt + '.jpg';
-
-  end
-  else
-  begin
-    if strupper(fext(filename)) <> '.TGA' then
-    begin
-      tganame := filename + '.tga';
-      jpgname := filename + '.jpg';
-    end
-    else
-    begin
-      tganame := filename;
-      jpgname := tganame;
-      l := Length(jpgname);
-      jpgname[l - 2] := 'j';
-      jpgname[l - 1] := 'p';
-      jpgname[l] := 'g';
-    end;
-    if Pos('/', tganame) = 0 then
-      if Pos('\', tganame) = 0 then
-        tganame := M_SaveFileName('DATA\SCREENSHOTS\TGA\' + tganame);
-    if Pos('/', jpgname) = 0 then
-      if Pos('\', jpgname) = 0 then
-        jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + jpgname);
+    screenshotformat := 'PNG';
+    exit;
   end;
-
-  ret := M_DoScreenShot(tganame);
-
-  if ret and mirrorjpgsshot then
-    TGAtoJPG(tganame, jpgname);
-
-  if not silent then
-  begin
-    if ret then
-      players[consoleplayer]._message := 'screen shot'
-    else
-      players[consoleplayer]._message := MSG_ERR_SCREENSHOT;
-  end;
+  if screenshotformat <> 'PNG' then
+    if screenshotformat <> 'JPG' then
+      if screenshotformat <> 'TGA' then
+        screenshotformat := 'PNG';
 end;
 
-function M_DoScreenShot(const filename: string): boolean;
+function M_DoScreenShotTGA(const filename: string): boolean;
 var
   buffer: PByteArray;
   bufsize: integer;
@@ -253,13 +207,181 @@ begin
 
   I_ReadScreen32(src);
 
-  // JVAL 21/4/2017: Thanks Vladimir :) 
+  // JVAL 21/4/2017: Thanks Vladimir :)
   for i := 0 to SCREENWIDTH * SCREENHEIGHT - 1 do
     src[i * 4 + 3] := 255;
 
   Result := M_WriteFile(filename, buffer, SCREENWIDTH * SCREENHEIGHT * 4 + 18);
 
   memfree(pointer(buffer), bufsize);
+end;
+
+function M_DoScreenShotPNG(const filename: string): boolean;
+var
+  png: TPngObject;
+  r, c: integer;
+  lpng, lsrc: PByteArray;
+  bufsize: integer;
+  buf: PByteArray;
+begin
+  bufsize := SCREENWIDTH * SCREENHEIGHT * 4;
+  buf := malloc(bufsize);
+  I_ReadScreen32(buf);
+  png := TPngObject.CreateBlank(COLOR_RGB, 8, SCREENWIDTH, SCREENHEIGHT);
+  try
+    for r := 0 to SCREENHEIGHT - 1 do
+    begin
+      lpng := png.Scanline[{$IFDEF OPENGL}SCREENHEIGHT - 1 - {$ENDIF}r];
+      lsrc := @buf[r * SCREENWIDTH * 4];
+      for c := 0 to SCREENWIDTH - 1 do
+      begin
+        lpng[c * 3] := lsrc[c * 4];
+        lpng[c * 3 + 1] := lsrc[c * 4 + 1];
+        lpng[c * 3 + 2] := lsrc[c * 4 + 2];
+      end;
+    end;
+    png.SaveToFile(filename);
+    result := png.IOresult = '';
+  finally
+    png.Free;
+  end;
+  memfree(pointer(buf), bufsize);
+end;
+
+procedure M_ScreenShot(const filename: string = ''; const silent: boolean = false);
+var
+  tganame: string;
+  basetganame: string;
+  jpgname: string;
+  pngname: string;
+  l: integer;
+  ret: boolean;
+  dir: string;
+  date: TDateTime;
+  dfmt: string;
+  sctype: string;
+begin
+  M_FixScreenshotFormat;
+  dir := M_SaveFileName('DATA');
+  MkDir(dir);
+  MkDir(dir + '\SCREENSHOTS');
+  MkDir(dir + '\SCREENSHOTS\TGA');
+  MkDir(dir + '\SCREENSHOTS\JPG');
+  MkDir(dir + '\SCREENSHOTS\PNG');
+  if filename = '' then
+  begin
+    basetganame := 'SSHOT_' + _GAME + '_';
+
+    tganame := M_SaveFileName('DATA\SCREENSHOTS\TGA\' + basetganame);
+    jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + basetganame);
+    pngname := M_SaveFileName('DATA\SCREENSHOTS\PNG\' + basetganame);
+    date := NowTime;
+    dfmt := formatDateTimeAsString('yyyymmdd', date) + '_' + formatDateTimeAsString('hhnnsszzz', date);
+    tganame := tganame + dfmt + '.tga';
+    jpgname := jpgname + dfmt + '.jpg';
+    pngname := pngname + dfmt + '.png';
+
+    sctype := screenshotformat;
+  end
+  else
+  begin
+    if strupper(fext(filename)) = '.TGA' then
+    begin
+      sctype := 'TGA';
+      tganame := filename;
+      jpgname := filename;
+      pngname := filename;
+      l := length(filename);
+      jpgname[l - 2] := 'j';
+      jpgname[l - 1] := 'p';
+      jpgname[l] := 'g';
+      pngname[l - 2] := 'p';
+      pngname[l - 1] := 'n';
+      pngname[l] := 'g';
+    end
+    else if strupper(fext(filename)) = '.JPG' then
+    begin
+      sctype := 'JPG';
+      tganame := filename;
+      jpgname := filename;
+      pngname := filename;
+      l := length(filename);
+      tganame[l - 2] := 't';
+      tganame[l - 1] := 'g';
+      tganame[l] := 'a';
+      pngname[l - 2] := 'p';
+      pngname[l - 1] := 'n';
+      pngname[l] := 'g';
+    end
+    else if strupper(fext(filename)) = '.PNG' then
+    begin
+      sctype := 'PNG';
+      tganame := filename;
+      jpgname := filename;
+      pngname := filename;
+      l := length(filename);
+      tganame[l - 2] := 't';
+      tganame[l - 1] := 'g';
+      tganame[l] := 'a';
+      jpgname[l - 2] := 'j';
+      jpgname[l - 1] := 'p';
+      jpgname[l] := 'g';
+    end
+    else
+    begin
+      sctype := 'PNG';
+      tganame := filename + '.tga';
+      jpgname := filename + '.jpg';
+      pngname := filename + '.png';
+    end;
+
+    if Pos('/', tganame) = 0 then
+      if Pos('\', tganame) = 0 then
+        tganame := M_SaveFileName('DATA\SCREENSHOTS\TGA\' + tganame);
+    if Pos('/', jpgname) = 0 then
+      if Pos('\', jpgname) = 0 then
+        jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + jpgname);
+    if Pos('/', pngname) = 0 then
+      if Pos('\', pngname) = 0 then
+        jpgname := M_SaveFileName('DATA\SCREENSHOTS\PNG\' + pngname);
+  end;
+
+  if sctype = 'TGA' then
+  begin
+    ret := M_DoScreenShotTGA(tganame);
+    if ret and mirrorjpgsshot then
+      TGAtoJPG(tganame, jpgname);
+  end
+  else if sctype = 'JPG' then
+  begin
+    ret := M_DoScreenShotTGA(tganame);
+    if ret then
+    begin
+      TGAtoJPG(tganame, jpgname);
+      fdelete(tganame);
+    end;
+  end
+  else
+  begin
+    ret := M_DoScreenShotPNG(pngname);
+    if ret and mirrorjpgsshot then
+    begin
+      ret := M_DoScreenShotTGA(tganame);
+      if ret then
+      begin
+        TGAtoJPG(tganame, jpgname);
+        fdelete(tganame);
+      end;
+    end;
+  end;
+
+  if not silent then
+  begin
+    if ret then
+      players[consoleplayer]._message := 'screen shot'
+    else
+      players[consoleplayer]._message := MSG_ERR_SCREENSHOT;
+  end;
 end;
 
 procedure Cmd_Set(const name: string; const value: string);

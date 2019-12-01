@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -28,7 +31,6 @@
 //  Game completion, final screen animation.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -97,10 +99,13 @@ const
   F_STAGE_ARTSCREEN = 1;
   F_STAGE_CAST = 2;
 
+procedure F_Init;
+  
 implementation
 
 uses
   d_delphi,
+  c_cmds,
   d_check,
   deh_main,
   am_map,
@@ -838,9 +843,9 @@ var
   patch: Ppatch_t;
 begin
   // erase the entire screen to a background
-  V_DrawPatch(0, 0, SCN_TMP, bgcastcall, false);
-
-  F_CastPrint(mobjinfo[Ord(castorder[castnum]._type)].name);
+  V_DrawPatch(0, 0, SCN_TMP, D_Help0Lump, false);
+                                                          
+  F_CastPrint(mobjinfo[Ord(castorder[castnum]._type)].name2);
 
   // draw the current frame in the middle of the screen
   sprdef := @sprites[caststate.sprite];    
@@ -856,7 +861,7 @@ begin
   Z_ChangeTag(patch, PU_CACHE);
   
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
-
+  V_FullScreenStretch;
 end;
 
 //
@@ -951,6 +956,7 @@ begin
   end;
 
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+  V_FullScreenStretch;
 end;
 
 //
@@ -966,6 +972,7 @@ begin
   if slideshow_state = SLIDE_TEXT then
   begin
     V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+    V_FullScreenStretch;
     exit;
   end;
 
@@ -982,6 +989,7 @@ begin
         V_DrawPatch(0, 0, SCN_TMP, patch, false);
         Z_ChangeTag(patch, PU_CACHE);
         V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+        V_FullScreenStretch;
       end;
     F_STAGE_ARTSCREEN:
       begin
@@ -992,6 +1000,7 @@ begin
           V_DrawPatch(0, 0, SCN_TMP, patch, false);
           Z_ChangeTag(patch, PU_CACHE);
           V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+          V_FullScreenStretch;
         end
         else if gamemap = 34 then
         begin
@@ -1000,6 +1009,16 @@ begin
         end;
       end;
   end;
+end;
+
+procedure F_CmdStartCast(const parm: string);
+begin
+  F_StartCast;
+end;
+
+procedure F_Init;
+begin
+  C_AddCmd('startcast', @F_CmdStartCast);
 end;
 
 end.

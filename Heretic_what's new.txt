@@ -1,3 +1,58 @@
+Added VSpeed and PushFactor fields to the mobjinfo PascalScript runtime class.
+New ACTORDEF functions:
+  A_Recoil
+  A_SetSolid
+  A_UnSetSolid
+  A_SetFloat
+  A_UnSetFloat
+  A_SetHealth
+  A_ResetTargetHealth
+  A_SetTargetHealth
+Mouse sensitivity for X & Y mouses axis can be configured thru the menus (Controls/Mouse sensitivity).
+Added option for textured menu background.
+Added menubackgroundflat console variable.
+In multithreading mode the visplanes initialization is done in a separate thread while running the logic to improve performance (software renderer).
+Added -keyboardmode command line parameter. Usage is: 
+  1) "-keyboardmode ARROWS" -> use arrows to navigate
+  2) "-keyboardmode WASD" -> use WASD to navigate
+  3) "-keyboardmode ESDF" -> use ESDF to navigate
+Key bindings menu to customize keyboard player control.
+Menu beutificiations.
+Support for DOOMWADPATH & HERETICWADPATH enviroment variables.
+Search for installed steam applications to find wad files.
+r_drawvoxels console variable is preserved in defaults file.
+Openings are dynamically allocated, depending on screen resolution.
+Screen resolution can be changed from the menu.
+Intermission screens are displayed with correct aspect ratio when the "widescreensupport" console variable is set to true.
+Automap fixes: 
+ -Marks are displayed correctly. 
+ -In OpenGL mode uses hardware acceleration to draw the automap instead of using the same code with software rendering version.
+ -Fixed automap grid rotation.
+ -Added automapgrid console variable.
+ -Automap works correct in cheat modes.
+Support for the C-style #include and Pascal-style {$INCLUDE} directives inside all content definition lumps (ACTORDEF, MODELDEF, VOXELDEF?, LIGHTDEF & SNDINFO). Recoursive include calls are not supported. Maximum include depth set to 32.
+Added png screenshot format (default). The mirrorjpgsshot console variable is set to false by default. It can be changed from the menu (Options/System)
+Fullscreen menu item moved from Options/Display Options/Advanced to Options/Detail/Set Video Mode menu.
+Added Ascpect Ratio & Camera menus (Display Options/Advanced).
+Fixed bug with string to float convertion when the system's decimal separator was comma.
+Will recognize the '+CANPASS' alias for 'PASSMOBJ' flag in ACTORDEF definitions (as well as 'CANPASS').
+Will load kvx voxels from pk3/zip/pak files without the kvx extention, if they are placed inside voxels\*. directory
+Corrected the behaviour of Actordef keyword "replaces".
+In ACTORDEF lumps when a flag specified with the "-" character, it will remove the flag (usefull with inherited objects)
+"Funny rotations" generate an I_Warning, not an I_Error.
+When entering ENDOOM screen, stops the music.
+ENDTEXT screen in OpenGL branch.
+Wipe effect in OpenGL branch.
+Support for renderstyle ADD & renderstyle SUBTRACT in ACTOR definitions.
+Added new flag MF2_EX_SEEINVISIBLE, when set allows monsters to clearly see invisible player. 
+Added the "ACTORALIAS" ACTORDEF command, defines actor name aliases. Usage is: ACTORALIAS name1 name2.
+Added the "DEH_PARSE" & "DEH_PARSE_ALL" ACTORDEF commands, will parse the specified dehacked/bex file. Usage is DEH_PARSE/DEH_PARSE_ALL file1 [file2 ....].
+Added new actor flag MF2_EX_MISSILEHURTSPECIES, when set, the actor can hurt with missile attack actors of the same species.
+Added showmessageboxonmodified console variable. When set to true and a modified game is detected, there will be displayed a messagebox. Default is FALSE.
+Added DEH_SaveMobjInfoCSV console command. Save the current mobjinfo table in a csv file.
+
+Version 2.0.4 build 720 - (12/10/2019)
+-----------------------
 Now recornizes kvx voxels inside the VX_START/VX_END namespace.
 Added vox_exportlightmap console command (OpenGL version only). Exports the current lightmap into a ddvox voxel.
 Limit OpenGL framerate to monitor refresh rate is now preserved and executed right from defaults.

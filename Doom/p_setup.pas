@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +26,6 @@
 //   set up initial state and misc. LUTs.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -171,8 +171,10 @@ uses
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
+  r_subsectors,
   info_rnd,
   m_rnd,
+  mt_utils,
   r_colormaps,
 {$IFNDEF OPENGL}
   r_cache_main,
@@ -1709,6 +1711,8 @@ begin
   gld_CleanMemory; // JVAL OPENGL
 {$ENDIF}
 
+  MT_WaitTasks;
+
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
   R_SetupLevel;
@@ -1840,6 +1844,8 @@ begin
     P_AdjustMissingTextures;
 
   P_CalcSubSectorsBridge;
+
+  R_PrecalcPointInSubSector;
 
   bodyqueslot := 0;
   deathmatch_p := 0;

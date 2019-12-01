@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -436,12 +435,12 @@ begin
 
   // create the map title widget
   HUlib_initTextLine(@w_title,
-    HU_TITLEX, HU_TITLEY,
+    HU_TITLEX{$IFDEF OPENGL} * V_GetScreenWidth(SCN_FG) div 200{$ENDIF}, HU_TITLEY,
     @hu_font,
     Ord(HU_FONTSTART));
 
   HUlib_initTextLine(@w_leveltime,
-    HU_LEVELTIMEX, HU_LEVELTIMEY,
+    HU_LEVELTIMEX{$IFDEF OPENGL} * V_GetScreenWidth(SCN_FG) div 200{$ENDIF}, HU_LEVELTIMEY,
     @hu_font,
     Ord(HU_FONTSTART));
 

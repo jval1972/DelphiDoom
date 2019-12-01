@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -25,7 +26,6 @@
 //    This one is the original DOOM version, preserved.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -57,6 +57,7 @@ uses
   d_delphi,
   info_h,
   info,
+  info_common,
   sc_engine,
   w_wad;
 
@@ -96,11 +97,95 @@ var
 
   function _stindex(const sss: string): integer;
   var
-    sss1: string;
+    sss1, sss2: string;
+    p, idx: integer;
+    inf: Pmobjinfo_t;
   begin
     result := statenames.IndexOfToken(sss);
     if result >= 0 then
       exit;
+
+    sss1 := strupper(sss);
+
+    p := Pos('::', sss1);
+    if p < 2 then // eg allow "goto ::spawn"
+      inf := actor.info
+    else
+    begin
+      sss2 := strtrim(Copy(sss1, 1, p - 1));
+      sss1 := Copy(sss1, p + 2, Length(sss1) - p - 3);
+      if sss2 = 'SUPER' then
+        idx := actor.info.inheritsfrom
+      else
+        idx := Info_GetMobjNumForName(sss2);
+      if (idx >= 0) and (idx < nummobjtypes) then
+        inf := @mobjinfo[idx]
+      else if sss2 = 'SELF' then // eg allow "goto self::spawn"
+        inf := actor.info
+      else
+        inf := nil;
+    end;
+
+    if inf <> nil then
+    begin
+      if sss1 = 'SPAWN' then
+      begin
+        result := inf.spawnstate;
+        exit;
+      end
+      else if sss1 = 'SEE' then
+      begin
+        result := inf.seestate;
+        exit;
+      end
+      else if sss1 = 'MELEE' then
+      begin
+        result := inf.meleestate;
+        exit;
+      end
+      else if sss1 = 'MISSILE' then
+      begin
+        result := inf.missilestate;
+        exit;
+      end
+      else if sss1 = 'MISSILE' then
+      begin
+        result := inf.missilestate;
+        exit;
+      end
+      else if sss1 = 'PAIN' then
+      begin
+        result := inf.painstate;
+        exit;
+      end
+      else if sss1 = 'DEATH' then
+      begin
+        result := inf.deathstate;
+        exit;
+      end
+      else if sss1 = 'XDEATH' then
+      begin
+        result := inf.xdeathstate;
+        exit;
+      end
+      else if sss1 = 'RAISE' then
+      begin
+        result := inf.raisestate;
+        exit;
+      end
+      else if sss1 = 'CRASH' then
+      begin
+        result := inf.crashstate;
+        exit;
+      end
+      {$IFDEF DOOM_OR_STRIFE}
+      else if sss1 = 'INTERACT' then
+      begin
+        result := inf.interactstate;
+        exit;
+      end
+      {$ENDIF};
+    end;
 
     sss1 := 'S_' + strupper(actor.info.name) + '_' + sss;
     result := statenames.IndexOfToken(sss1);
@@ -136,7 +221,7 @@ begin
       Exit;
     end;
   end;
-  Result := -1; // JVAL: Unreachable code
+  Result := -1; // JVAL: No match
 end;
 
 function P_GetStateFromNameWithOffsetCheck(const actor: Pmobj_t; const s: string): integer;

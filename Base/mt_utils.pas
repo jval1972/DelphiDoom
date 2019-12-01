@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  MultiThreading Utility functions
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -34,6 +34,7 @@ unit mt_utils;
 interface
 
 uses
+  d_delphi,
   i_threads;
 
 procedure MT_Init;
@@ -137,10 +138,21 @@ type
 procedure MT_Iterate(const func: threadfunc_t; const data: pointer;
   const nthreads: integer = 0);
 
+// Background tasks
+function MT_ScheduleTask(const proc: PProcedure): integer;
+
+procedure MT_ExecutePendingTask(const id: integer);
+
+procedure MT_ExecutePendingTasks;
+
+procedure MT_WaitTask(const id: integer);
+
+procedure MT_WaitTasks;
+
+
 implementation
 
 uses
-  d_delphi,
   i_system;
 
 var
@@ -160,6 +172,13 @@ const
 
 var
   exec_threads: array[0..NUMEXECTHREADS - 1] of TDThread;
+
+// JVAL: Tasks
+const
+  NUMTASKTHREADS = 8;
+
+var
+  task_threads: array[0..NUMTASKTHREADS - 1] of TDThread;
 
 //
 // MT_ZeroMemory
@@ -405,6 +424,8 @@ begin
     gp_threads[i] := TDThread.Create;
   for i := 0 to NUMEXECTHREADS - 1 do
     exec_threads[i] := TDThread.Create;
+  for i := 0 to NUMTASKTHREADS - 1 do
+    task_threads[i] := TDThread.Create;
   mt_initialized := true;
 end;
 
@@ -416,6 +437,8 @@ begin
     gp_threads[i].Free;
   for i := 0 to NUMEXECTHREADS - 1 do
     exec_threads[i].Free;
+  for i := 0 to NUMTASKTHREADS - 1 do
+    task_threads[i].Free;
   mt_initialized := false;
 end;
 
@@ -847,6 +870,76 @@ begin
     exec_threads[i].Wait;
 
   mt_execute_fetched := False;
+end;
+
+type
+  taskinfo_t = record
+    id: integer;
+    proc: PProcedure;
+  end;
+  Ptaskinfo_t = ^taskinfo_t;
+
+var
+  tasks: array[0..NUMTASKTHREADS - 1] of taskinfo_t;
+
+function _execute_task(p: pointer): integer; stdcall;
+var
+  pt: Ptaskinfo_t;
+begin
+  pt := p;
+  pt.proc;
+  result := pt.id;
+  pt.id := -1;
+  pt.proc := nil;
+end;
+
+function MT_ScheduleTask(const proc: PProcedure): integer;
+var
+  i: integer;
+begin
+  for i := 0 to NUMTASKTHREADS - 1 do
+    if not Assigned(tasks[i].proc) then
+    begin
+      tasks[i].id := i;
+      tasks[i].proc := proc;
+      result := i;
+      exit;
+    end;
+  proc;
+  result := -1;
+end;
+
+procedure MT_ExecutePendingTask(const id: integer);
+begin
+  if Assigned(tasks[id].proc) then
+    task_threads[id].Activate(_execute_task, @tasks[id]);
+end;
+
+procedure MT_ExecutePendingTasks;
+var
+  i: integer;
+begin
+  for i := 0 to NUMTASKTHREADS - 1 do
+    if Assigned(tasks[i].proc) then
+      task_threads[i].Activate(_execute_task, @tasks[i]);
+end;
+
+
+procedure MT_WaitTask(const id: integer);
+begin
+  if (id < 0) or (id >= NUMTASKTHREADS) then
+    exit;
+  if Assigned(tasks[id].proc) then
+    task_threads[id].Wait;
+end;
+
+procedure MT_WaitTasks;
+var
+  i: integer;
+begin
+  for i := 0 to NUMTASKTHREADS - 1 do
+    if Assigned(tasks[i].proc) then
+      task_threads[i].Wait;
 end;
 
 end.

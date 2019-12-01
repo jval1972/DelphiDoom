@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -40,6 +40,8 @@ uses
 procedure C_Init;
 
 procedure C_ShutDown;
+
+procedure C_AdjustScreenSize;
 
 procedure C_AddCommand(const cmd: string);
 
@@ -96,15 +98,15 @@ uses
   d_main,
   g_game,
   hu_stuff,
-  m_argv, 
+  m_argv,
   m_fixed,
   i_io,
   i_system,
   r_defs,
   r_main,
-  v_data, 
+  v_data,
   v_video,
-  w_utils, 
+  w_utils,
   w_wad,
   z_zone;
 
@@ -332,7 +334,7 @@ var
   consolebuffer: TDStringList;
 
 const
-  MAX_CONSOLE_BUFFER = 8192;
+  MAX_CONSOLE_BUFFER = 16384;
 
 procedure C_Init;
 var
@@ -345,9 +347,7 @@ begin
   for i := 0 to MAX_CONSOLE_LINES - 1 do
     ConsoleText[i].line := '';
   C_ResetInputBuff;
-  ConsoleYFrac := V_GetScreenHeight(SCN_CON) div 20;
-  MaxConsolePos := ConsoleYFrac * 11;
-  ConsoleWidth := V_GetScreenWidth(SCN_CON) div C_FONTWIDTH - 2;
+  C_AdjustScreenSize;
   divideline := '';
   for i := 1 to ConsoleWidth do
     divideline := divideline + '-';
@@ -386,14 +386,25 @@ end;
 
 procedure C_ShutDown;
 begin
+  ConsoleInitialized := False;
   if execs <> nil then
     execs.Free;
   pendingcommands.Free;
   consolebuffer.Free;
 end;
 
+procedure C_AdjustScreenSize;
+begin
+  ConsoleYFrac := V_GetScreenHeight(SCN_CON) div 20;
+  MaxConsolePos := ConsoleYFrac * 11;
+  ConsoleWidth := V_GetScreenWidth(SCN_CON) div C_FONTWIDTH - 2;
+  ConsolePos := 0;
+end;
+
 procedure C_AddCommand(const cmd: string);
 begin
+  if not ConsoleInitialized then
+    exit;
   pendingcommands.Add(cmd);
 end;
 
@@ -404,6 +415,8 @@ procedure C_RestoreFromBuffer;
 var
   i: integer;
 begin
+  if not ConsoleInitialized then
+    exit;
   for i := consolebuffer.Count - MAX_CONSOLE_LINES to consolebuffer.Count - 1 do
   begin
     ConsoleHead := (ConsoleHead + CONSOLETEXT_MASK) and CONSOLETEXT_MASK;
@@ -458,7 +471,7 @@ begin
     ConsoleText[ConsoleHead].line := cline;
     consolebuffer.Add(cline);
     if consolebuffer.Count > MAX_CONSOLE_BUFFER then
-      for j := 0 to MAX_CONSOLE_BUFFER div 4 do
+      for j := 0 to MAX_CONSOLE_BUFFER div 100 do
         consolebuffer.Delete(0);
     i := (ConsoleHead + CONSOLETEXT_MASK) and CONSOLETEXT_MASK;
     ConsoleText[i].line := '';
@@ -545,6 +558,9 @@ var
   i: integer;
   c: char;
 begin
+  if mirror_stdout then
+    fprintf(stdout, txt);
+
   if not ConsoleInitialized then
     exit; //not initialised yet
 
@@ -558,8 +574,6 @@ begin
     else
       ConsoleLineBuffer := ConsoleLineBuffer + c;
   end;
-  if mirror_stdout then
-    fprintf(stdout, txt);
 end;
 
 const

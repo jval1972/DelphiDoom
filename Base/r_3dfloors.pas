@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //   3D floors software rendering.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -71,6 +71,8 @@ var
 procedure R_DrawFFloors;  // JVAL: 3d Floors
 
 procedure R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
+
+procedure R_ClearVisPlanes3d;
 
 implementation
 
@@ -205,7 +207,9 @@ var
   texnum: integer;
   i: integer;
   texturecolumn: integer;
+  {$IFNDEF HEXEN}
   curline: Pseg_t;
+  {$ENDIF}
   mid: Psector_t;
   midside: Pside_t;
   roverscale_dbl, roverstep_dbl: Double;
@@ -220,7 +224,9 @@ begin
 
   mid := ds.midsec;
   midside := ds.midside; //@sides[mid.midline.sidenum[0]];
+  {$IFNDEF HEXEN}
   curline := ds.curline;
+  {$ENDIF}
   texnum := texturetranslation[midside.midtexture];
 
   R_GetDCs(texnum, 0); // JVAL Also precache external texture if not loaded
@@ -369,7 +375,6 @@ var
   i: integer;
   texturecolumn: integer;
   curline: Pseg_t;
-  mid: Psector_t;
   midside: Pside_t;
   roverscale_dbl, roverstep_dbl: array[0..1] of Double;
   texscale_dbl, texstep_dbl: array[0..1] of Double;
@@ -382,7 +387,6 @@ begin
   //   for horizontal / vertical / diagonal. Diagonal?
   // OPTIMIZE: get rid of LIGHTSEGSHIFT globally
 
-  mid := ds.midsec;
   midside := ds.midside; //@sides[mid.midline.sidenum[0]];
   curline := ds.curline;
   texnum := texturetranslation[midside.midtexture];
@@ -580,7 +584,9 @@ var
   texnum: integer;
   i: integer;
   texturecolumn: integer;
+  {$IFNDEF HEXEN}
   curline: Pseg_t;
+  {$ENDIF}
   mid: Psector_t;
   midside: Pside_t;
   roverscale, roverstep: fixed_t;
@@ -598,7 +604,9 @@ begin
 
   mid := ds.midsec;
   midside := ds.midside; //@sides[mid.midline.sidenum[0]];
+  {$IFNDEF HEXEN}
   curline := ds.curline;
+  {$ENDIF}
   texnum := texturetranslation[midside.midtexture];
 
   R_GetDCs(texnum, 0); // JVAL Also precache external texture if not loaded
@@ -933,6 +941,21 @@ type
 var
   ffpoints: ffpoint_tArray;
 
+procedure R_ClearVisPlanes3d;
+var
+  i: integer;
+begin
+  for i := 0 to maxvisplane3d do
+  begin
+    Z_Free(visplanes3d[i].vis.top);
+    Z_Free(visplanes3d[i].vis.bottom);
+    Z_Free(visplanes3d[i].vis);
+    Z_Free(visplanes3d[i].realtop);
+    Z_Free(visplanes3d[i].realbottom);
+  end;
+  maxvisplane3d := -1;
+end;
+
 function R_NewVisPlane3d: Pvisplane3d_t;
 begin
   if lastvisplane3d = MAXVISPLANES3D then // JVAL: Do not overflow and crash
@@ -1069,7 +1092,13 @@ begin
       cnt := MAXSUBSECTORPOINTS - 1;  // JVAL: Do not overflow and crash
     for j := 0 to cnt - 1 do
     begin
-      R_PointToScreenBufferEx(solutionI[0][j].x * POINTUNIT + viewx, solutionI[0][j].y * POINTUNIT + viewy, h, ffpoints[numffpoints].x, ffpoints[numffpoints].y);
+      R_PointToScreenBufferEx(
+        solutionI[0][j].x * POINTUNIT + viewx,
+        solutionI[0][j].y * POINTUNIT + viewy,
+        h,
+        ffpoints[numffpoints].x,
+        ffpoints[numffpoints].y
+      );
       Inc(numffpoints);
     end;
     ffpoints[numffpoints] := ffpoints[0];

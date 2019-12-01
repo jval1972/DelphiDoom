@@ -28,7 +28,6 @@
 //  Moreover, the sky areas have to be determined.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -53,7 +52,7 @@ procedure R_ClearPlanes;
 {$IFNDEF OPENGL}
 type
   mapplanefunc_t = procedure(const y: integer; const x1, x2: integer);
-                                        
+
 procedure R_MapPlane(const y: integer; const x1, x2: integer);
 
 procedure R_MakeSpans(x, t1, b1, t2, b2: integer; const func: mapplanefunc_t);
@@ -90,24 +89,13 @@ var
 //
 // opening
 //
-
-//
-//https://www.doomworld.com/vb/source-ports/85967-reasonable-static-limit-for-maxopenings/
-//
-const
-  MAXOPENINGS = MAXWIDTH * MAXHEIGHT;
-
-var
-  openings: packed array[0..MAXOPENINGS - 1] of smallint;
-  lastopening: integer;
-
 {$IFNDEF OPENGL}
+var
+  openings: PSmallIntArray = nil;
+  lastopening: integer;
+  
   yslope: array[0..MAXHEIGHT - 1] of fixed_t;
   distscale: array[0..MAXWIDTH - 1] of fixed_t;
-{$ENDIF}
-
-{$IFNDEF OPENGL}
-function R_NewVisPlane: Pvisplane_t;  // JVAL: 3d Floors
 {$ENDIF}
 
 // JVAL: 3d Floors -> moved to interface
@@ -140,6 +128,12 @@ var
   planeheight: fixed_t;
 {$ENDIF}
 
+{$IFNDEF OPENGL}
+procedure R_InitializeVisplanes;
+
+procedure R_ClearVisPlanes;
+{$ENDIF}
+
 implementation
 
 uses
@@ -153,7 +147,6 @@ uses
   r_things,
   r_draw,
 {$IFNDEF OPENGL}
-  r_patch,
   r_ripple,
   r_span,
   r_span32,
@@ -164,6 +157,7 @@ uses
   r_depthbuffer,
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
+  r_patch,
 {$ENDIF}
   z_zone,
   w_wad;
@@ -251,7 +245,6 @@ begin
     ds_colormap := fixedcolormap;
     if videomode = vm32bit then
     begin
-      ds_colormap32 := R_GetColormap32(ds_colormap);
       if fixedcolormapnum = INVERSECOLORMAP then
         ds_lightlevel := -1  // Negative value -> Use colormaps
       else
@@ -268,7 +261,6 @@ begin
     ds_colormap := planezlight[index];
     if videomode = vm32bit then
     begin
-      ds_colormap32 := R_GetColormap32(ds_colormap);
       if not forcecolormaps then
       begin
          ncolornum := _SHR(distance, HLL_ZDISTANCESHIFT);
@@ -342,17 +334,41 @@ begin
     ceilingclip[viewwidth - 1] := -1;
   end;
 
+{$ENDIF}
   ZeroMemory(@visplanehash, SizeOf(visplanehash));
 
   lastvisplane := 0;
+{$IFNDEF OPENGL}
   lastvisplane3d := 0;  // JVAL: 3d Floors
   lastvisslope := 0;    // JVAL: Slopes
   lastopening := 0;
+
+  //https://www.doomworld.com/vb/source-ports/85967-reasonable-static-limit-for-maxopenings/
+  openings := Z_Realloc(openings, SCREENWIDTH * SCREENHEIGHT * SizeOf(smallint), PU_STATIC, nil);
 
   // texture calculation
   ZeroMemory(@cachedheight, SizeOf(cachedheight));
 {$ENDIF}  // JVAL: 3d Floors
 end;
+
+//
+// R_ClearVisPlanes
+//
+// JVAL
+//   Free zone memory of visplanes
+{$IFNDEF OPENGL}
+procedure R_ClearVisPlanes;
+var
+  i: integer;
+begin
+  for i := 0 to maxvisplane do
+  begin
+    Z_Free(visplanes[i].top);
+    Z_Free(visplanes[i].bottom);
+  end;
+  maxvisplane := -1;
+end;
+{$ENDIF}
 
 //
 // R_NewVisPlane
@@ -370,6 +386,8 @@ begin
       Z_Malloc((SCREENWIDTH + 2) * SizeOf(visindex_t), PU_LEVEL, nil));
     visplanes[lastvisplane].bottom := Pvisindex_tArray(
       Z_Malloc((SCREENWIDTH + 2) * SizeOf(visindex_t), PU_LEVEL, nil));
+    // Clear visplane
+    memset(@visplanes[lastvisplane].top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
     {$ENDIF}
     maxvisplane := lastvisplane;
   end;
@@ -414,9 +432,9 @@ begin
   if picnum = skyflatnum then
   begin
     if floor_or_ceiling then
-      height := 1  // all skys map together
+      height := 1  // all skies map together
     else
-      height := 0; // all skys map together
+      height := 0; // all skies map together
     lightlevel := 0;
     flags := flags and not SRF_SLOPED; // JVAL: Sloped surface do not have sky (why not ?) -> Just copy the sky code to R_DoDrawSlope from R_DoDrawPlane
     slopeSID := -1; // JVAL: Slopes
@@ -441,7 +459,6 @@ begin
       result.slopeSID := slopeSID;  // JVAL: Slopes
       {$IFNDEF OPENGL}
       result.slope := slope;  // JVAL: Slopes
-      memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
       {$ENDIF}
 
       visplanehash[check] := lastvisplane;
@@ -497,7 +514,6 @@ begin
   result.slopeSID := slopeSID;  // JVAL: Slopes
   {$IFNDEF OPENGL}
   result.slope := slope;  // JVAL: Slopes
-  memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
   {$ENDIF}
 
   check := hash;
@@ -593,8 +609,6 @@ begin
   pl.maxx := stop;
 
   result := pl;
-
-  memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
 end;
 {$ENDIF}
 
@@ -636,7 +650,7 @@ begin
   while (b2 > b1) and (b2 >= t2) do
   begin
   // JVAL 9/7/05
-    if (b2 >= 0) and (b2 < viewwidth) then //Length(spanstart)) then
+    if (b2 >= 0) and (b2 < viewwidth) then 
       spanstart[b2] := x;
     dec(b2);
   end;
@@ -721,11 +735,13 @@ end;
 // Static buffer for double sky
 var
   tempsource: array[0..MAXTEXTUREHEIGHT] of LongWord;
+{$ENDIF}
 
 //
 // R_DrawPlanes
 // At the end of each frame.
 //
+{$IFNDEF OPENGL}
 procedure R_DrawPlanes; // JVAL: 3d Floors
 var
   i: integer;
@@ -754,7 +770,7 @@ var
   destl: PLongWord;
 begin
   if pl.minx > pl.maxx then
-    exit;
+    exit; // JVAL: 3d Floors
 
   // sky flat
   if pl.picnum = skyflatnum then
@@ -921,6 +937,16 @@ begin
 
   if ds_source <> nil then
     Z_ChangeTag(ds_source, PU_CACHE);
+end;
+{$ENDIF}
+
+{$IFNDEF OPENGL}
+procedure R_InitializeVisplanes;
+var
+  i: integer;
+begin
+  for i := 0 to lastvisplane - 1 do
+    memset(@visplanes[i].top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
 end;
 {$ENDIF}
 

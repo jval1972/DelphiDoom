@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +25,6 @@
 //  Floor animation: raising stairs.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -241,6 +240,9 @@ begin
   begin
     floor.sector.specialdata := nil;
 
+    if floor._type = raiseBuildStep then
+      S_StartSound(Pmobj_t(@floor.sector.soundorg), Ord(sfx_pstop));
+
     if floor.direction = 1 then
     begin
       if floor._type = donutRaise then
@@ -259,8 +261,6 @@ begin
     end;
 
     P_RemoveThinker(@floor.thinker);
-
-    S_StartSound(Pmobj_t(@floor.sector.soundorg), Ord(sfx_pstop));
   end;
 end;
 
@@ -458,6 +458,7 @@ begin
     sec.specialdata := floor;
     height := sec.floorheight + step;
     floor.thinker._function.acp1 := @T_MoveFloor;
+    floor._type := raiseBuildStep;
     floor.direction := 1;
     floor.sector := sec;
     floor.speed := FLOORSPEED;
@@ -502,6 +503,7 @@ begin
 
         sec.specialdata := floor;
         floor.thinker._function.acp1 := @T_MoveFloor;
+        floor._type := raiseBuildStep;
         floor.direction := 1;
         floor.sector := sec;
         floor.speed := FLOORSPEED;

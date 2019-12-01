@@ -25,7 +25,6 @@
 //  LineOfSight/Visibility checks, uses REJECT Lookup Table.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 

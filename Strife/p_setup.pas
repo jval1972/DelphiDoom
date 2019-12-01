@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -30,7 +33,6 @@
 //   set up initial state and misc. LUTs.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -181,6 +183,7 @@ uses
   r_things,
   info_rnd,
   m_rnd,
+  mt_utils,
   r_colormaps,
 {$IFNDEF OPENGL}
   r_cache_main,
@@ -192,6 +195,7 @@ uses
   gl_render,  // JVAL OPENGL
   r_main,
 {$ENDIF}
+  r_subsectors,
   nd_main,
   s_sound,
   doomstat;
@@ -1613,6 +1617,8 @@ begin
   gld_CleanMemory; // JVAL OPENGL
 {$ENDIF}
 
+  MT_WaitTasks;
+
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
   R_SetupLevel;
@@ -1735,6 +1741,8 @@ begin
     P_AdjustMissingTextures;
 
   P_CalcSubSectorsBridge;
+
+  R_PrecalcPointInSubSector;
 
   bodyqueslot := 0;
   deathmatch_p := 0;

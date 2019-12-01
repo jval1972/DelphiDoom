@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,11 +27,10 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION:
-//  Thing frame/state LUT
+//  DESCRIPTION:
+//   Thing frame/state LUT
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -65,19 +67,6 @@ var
 
 procedure Info_Init(const usethinkers: boolean);
 
-function Info_GetNewState: integer;
-function Info_GetNewMobjInfo: integer;
-function Info_GetSpriteNumForName(const name: string): integer;
-function Info_GetSpriteNameForNum(const id: integer): string;
-function Info_CheckSpriteNumForName(const name: string): integer;
-function Info_GetMobjNumForName(const name: string): integer;
-procedure Info_SetMobjName(const mobj_no: integer; const name: string);
-function Info_GetMobjName(const mobj_no: integer): string;
-
-procedure Info_ShutDown;
-
-function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
-
 implementation
 
 uses
@@ -88,6 +77,7 @@ uses
   p_mobj_h,
   p_extra,
   info_common,
+  r_renderstyle,
   sounds;
 
 const
@@ -29771,242 +29761,5 @@ begin
 
 end;
 
-function Info_GetNewState: integer;
-begin
-  realloc(pointer(states), numstates * SizeOf(state_t), (numstates + 1) * SizeOf(state_t));
-  ZeroMemory(@states[numstates], SizeOf(state_t));
-  result := numstates;
-  inc(numstates);
-end;
-
-function Info_GetNewMobjInfo: integer;
-begin
-  realloc(pointer(mobjinfo), nummobjtypes * SizeOf(mobjinfo_t), (nummobjtypes + 1) * SizeOf(mobjinfo_t));
-  ZeroMemory(@mobjinfo[nummobjtypes], SizeOf(mobjinfo_t));
-  mobjinfo[nummobjtypes].name2 := '';
-  mobjinfo[nummobjtypes].inheritsfrom := -1; // Set to -1
-  mobjinfo[nummobjtypes].doomednum := -1; // Set to -1
-  result := nummobjtypes;
-  inc(nummobjtypes);
-end;
-
-function Info_GetSpriteNumForName(const name: string): integer;
-var
-  spr_name: string;
-  i: integer;
-  check: integer;
-begin
-  result := atoi(name, -1);
-
-  if (result >= 0) and (result < numsprites) and (itoa(result) = name) then
-    exit;
-
-
-  if Length(name) <> 4 then
-    I_Error('Info_GetSpriteNumForName(): Sprite name "%s" must have 4 characters', [name]);
-
-  spr_name := strupper(name);
-
-  check := Ord(spr_name[1]) +
-           Ord(spr_name[2]) shl 8 +
-           Ord(spr_name[3]) shl 16 +
-           Ord(spr_name[4]) shl 24;
-
-  for i := 0 to numsprites - 1 do
-    if sprnames[i] = check then
-    begin
-      result := i;
-      exit;
-    end;
-
-  result := numsprites;
-
-  sprnames[numsprites] := check;
-  inc(numsprites);
-  realloc(pointer(sprnames), numsprites * 4, (numsprites + 1) * 4);
-  sprnames[numsprites] := 0;
-end;
-
-function Info_GetSpriteNameForNum(const id: integer): string;
-var
-  check: LongWord;
-begin
-  result := '';
-  if (id < 0) or (id >= numsprites) then
-    exit;
-
-  check := PLongWord(@sprnames[id])^;
-  result := Chr(check and $FF) + Chr((check shr 8) and $FF) + Chr((check shr 16) and $FF) + Chr((check shr 24) and $FF);
-end;
-
-function Info_CheckSpriteNumForName(const name: string): integer;
-var
-  spr_name: string;
-  i: integer;
-  check: integer;
-begin
-  result := atoi(name, -1);
-
-  if (result >= 0) and (result < numsprites) and (itoa(result) = name) then
-    exit;
-
-
-  if Length(name) <> 4 then
-    I_Error('Info_CheckSpriteNumForName(): Sprite name "%s" must have 4 characters', [name]);
-
-  spr_name := strupper(name);
-
-  check := Ord(spr_name[1]) +
-           Ord(spr_name[2]) shl 8 +
-           Ord(spr_name[3]) shl 16 +
-           Ord(spr_name[4]) shl 24;
-
-  for i := 0 to numsprites - 1 do
-    if sprnames[i] = check then
-    begin
-      result := i;
-      exit;
-    end;
-
-  result := -1;
-end;
-
-function Info_GetMobjNumForName(const name: string): integer;
-var
-  mobj_name: string;
-  check: string;
-  i: integer;
-begin
-  if (name = '') or (name = '-1') then
-  begin
-    result := -1;
-    exit;
-  end;
-
-  result := atoi(name, -1);
-
-  if (result >= 0) and (result < nummobjtypes) and (itoa(result) = name) then
-    exit;
-
-  mobj_name := strupper(strtrim(name));
-  if Length(mobj_name) > MOBJINFONAMESIZE then
-    SetLength(mobj_name, MOBJINFONAMESIZE);
-  for i := 0 to nummobjtypes - 1 do
-  begin
-    check := Info_GetMobjName(i);
-    check := strupper(strtrim(check));
-    if check = mobj_name then
-    begin
-      result := i;
-      exit;
-    end;
-  end;
-
-  mobj_name := strremovespaces(strupper(strtrim(name)));
-  if Length(mobj_name) > MOBJINFONAMESIZE then
-    SetLength(mobj_name, MOBJINFONAMESIZE);
-  for i := 0 to nummobjtypes - 1 do
-  begin
-    check := Info_GetMobjName(i);
-    check := strremovespaces(strupper(strtrim(check)));
-    if check = mobj_name then
-    begin
-      result := i;
-      exit;
-    end;
-  end;
-
-  result := -1;
-end;
-
-procedure Info_SetMobjName(const mobj_no: integer; const name: string);
-var
-  i: integer;
-  len: integer;
-begin
-  len := Length(name);
-  if len > MOBJINFONAMESIZE then
-    len := MOBJINFONAMESIZE;
-  for i := 0 to len - 1 do
-    mobjinfo[mobj_no].name[i] := name[i + 1];
-  for i := len to MOBJINFONAMESIZE - 1 do
-    mobjinfo[mobj_no].name[i] := #0;
-end;
-
-function Info_GetMobjName(const mobj_no: integer): string;
-var
-  i: integer;
-  p: PChar;
-begin
-  result := '';
-  p := @mobjinfo[mobj_no].name[0];
-  for i := 0 to MOBJINFONAMESIZE - 1 do
-    if p^ = #0 then
-      exit
-    else
-    begin
-      result := result + p^;
-      inc(p);
-    end;
-end;
-
-procedure Info_ShutDown;
-var
-  i: integer;
-begin
-  Info_ShutDownDnLookUp;
-  for i := 0 to numstates - 1 do
-  begin
-    if states[i].params <> nil then
-      FreeAndNil(states[i].params);
-{$IFDEF OPENGL}
-    if states[i].dlights <> nil then
-      FreeAndNil(states[i].dlights);
-    if states[i].models <> nil then
-      FreeAndNil(states[i].models);
-{$ENDIF}
-    if states[i].voxels <> nil then
-      FreeAndNil(states[i].voxels);
-  end;
-
-  memfree(pointer(states), numstates * SizeOf(state_t));
-  memfree(pointer(mobjinfo), nummobjtypes * SizeOf(mobjinfo_t));
-  memfree(pointer(sprnames), numsprites * 4);
-end;
-
-function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
-var
-  mo: Pmobjinfo_t;
-  loops: integer;
-begin
-  mo := imo;
-  result := mo.inheritsfrom;
-
-  if result <> -1 then
-  begin
-    loops := 0;
-    while true do
-    begin
-      mo := @mobjinfo[mo.inheritsfrom];
-      if mo.inheritsfrom = -1 then
-        exit
-      else
-        result := mo.inheritsfrom;
-    // JVAL: Prevent wrong inheritances of decorate lumps
-      inc(loops);
-      if loops > nummobjtypes then
-      begin
-        result := -1;
-        break;
-      end;
-    end;
-  end;
-
-  if result = -1 then
-    result :=  (integer(imo) - integer(@mobjinfo[0])) div SizeOf(mobjinfo_t);
-
-end;
-
 end.
-
 

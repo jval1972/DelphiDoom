@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -24,7 +25,6 @@
 //   DirectX DOOM graphics
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -73,6 +73,7 @@ uses
   i_system,
   i_main,
   i_threads,
+  i_displaymodes,
   r_hires,
   v_data,
   v_video;
@@ -96,7 +97,7 @@ var
 
 procedure I_RestoreWindowPos;
 begin
-  SetWindowPos(hMainWnd, HWND_TOP, 0, 0, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW);
+  SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW);
 end;
 
 procedure I_DisableAltTab;
@@ -140,7 +141,7 @@ begin
 end;
 
 var
-  fu8_64a, fu8_64b, fu8_64c: TDThread;
+  fu8_64a, fu8_64b, fu8_64c, fu8_64d, fu8_64e, fu8_64f, fu8_64g: TDThread;
 
 var
   allocscreensize: integer;
@@ -150,11 +151,20 @@ begin
   fu8_64a.Free;
   fu8_64b.Free;
   fu8_64c.Free;
+  if fu8_64d <> nil then
+    fu8_64d.Free;
+  if fu8_64e <> nil then
+    fu8_64e.Free;
+  if fu8_64f <> nil then
+    fu8_64f.Free;
+  if fu8_64g <> nil then
+    fu8_64g.Free;
 
   I_ClearInterface(IInterface(g_pDDScreen));
   I_ClearInterface(IInterface(g_pDDSPrimary));
   I_ClearInterface(IInterface(g_pDD));
   I_EnableAltTab;
+  I_ClearDisplayModes;
   memfree(oscreen, allocscreensize);
   if screen16 <> nil then
     memfree(pointer(screen16), SCREENWIDTH * SCREENHEIGHT * 2);
@@ -312,7 +322,7 @@ var
   h1: integer;
   parms1, parms2: finishupdateparms_t;
   stretch: boolean;
-  p1, p2, p3, p4: finishupdate8param_t;
+  p1, p2, p3, p4, p5, p6, p7, p8: finishupdate8param_t;
 begin
   if (hMainWnd = 0) or (screens[SCN_FG] = nil) or (screen32 = nil) then
     exit;
@@ -362,7 +372,7 @@ begin
           end;
           fu8_64b.Wait;
         end
-        else
+        else if I_GetNumCPUs <= 6 then
         begin
           p1.start := 0;
           p1.finish := (SCREENWIDTH * SCREENHEIGHT div 4) and not 3;
@@ -384,6 +394,49 @@ begin
           end;
           fu8_64b.Wait;
           fu8_64c.Wait;
+        end
+        else
+        begin
+          p1.start := 0;
+          p1.finish := (SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
+          p2.start := p1.finish + 1;
+          p2.finish := (2 * SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
+          p3.start := p2.finish + 1;
+          p3.finish := (3 * SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
+          p4.start := p3.finish + 1;
+          p4.finish := (4 * SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
+          p5.start := p4.finish + 1;
+          p5.finish := (5 * SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
+          p6.start := p5.finish + 1;
+          p6.finish := (6 * SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
+          p7.start := p6.finish + 1;
+          p7.finish := (7 * SCREENWIDTH * SCREENHEIGHT div 8) and not 3;
+          p8.start := p7.finish + 1;
+          p8.finish := SCREENWIDTH * SCREENHEIGHT - 1;
+          fu8_64a.Activate(@p1);
+          fu8_64b.Activate(@p2);
+          fu8_64c.Activate(@p3);
+          fu8_64d.Activate(@p4);
+          fu8_64e.Activate(@p5);
+          fu8_64f.Activate(@p6);
+          fu8_64g.Activate(@p7);
+          I_FinishUpdate8_64a(@p8);
+          while not fu8_64a.CheckJobDone do
+          begin
+            fu8_64b.CheckJobDone;
+            fu8_64c.CheckJobDone;
+            fu8_64d.CheckJobDone;
+            fu8_64e.CheckJobDone;
+            fu8_64f.CheckJobDone;
+            fu8_64g.CheckJobDone;
+            I_Sleep(0);
+          end;
+          fu8_64b.Wait;
+          fu8_64c.Wait;
+          fu8_64d.Wait;
+          fu8_64e.Wait;
+          fu8_64f.Wait;
+          fu8_64g.Wait;
         end
       end
       else
@@ -490,14 +543,14 @@ end;
 function I_AdjustWindowMode: boolean;
 begin
   result := false;
-  if SCREENWIDTH > GetSystemMetrics(SM_CXSCREEN) then
+  if WINDOWWIDTH > GetSystemMetrics(SM_CXSCREEN) then
   begin
-    SCREENWIDTH := GetSystemMetrics(SM_CXSCREEN);
+    WINDOWWIDTH := GetSystemMetrics(SM_CXSCREEN);
     result := true;
   end;
-  if SCREENHEIGHT > GetSystemMetrics(SM_CYSCREEN) then
+  if WINDOWHEIGHT > GetSystemMetrics(SM_CYSCREEN) then
   begin
-    SCREENHEIGHT := GetSystemMetrics(SM_CYSCREEN);
+    WINDOWHEIGHT := GetSystemMetrics(SM_CYSCREEN);
     result := true;
   end;
 end;
@@ -547,10 +600,26 @@ begin
   UpdateWindow(hMainWnd);
 
   printf('I_InitGraphics: Initializing directdraw.'#13#10);
-
+  
+  I_EnumDisplayModes;
+  
   fu8_64a := TDThread.Create(I_FinishUpdate8_64a);
   fu8_64b := TDThread.Create(I_FinishUpdate8_64a);
   fu8_64c := TDThread.Create(I_FinishUpdate8_64a);
+  if I_GetNumCPUs > 6 then
+  begin
+    fu8_64d := TDThread.Create(I_FinishUpdate8_64a);
+    fu8_64e := TDThread.Create(I_FinishUpdate8_64a);
+    fu8_64f := TDThread.Create(I_FinishUpdate8_64a);
+    fu8_64g := TDThread.Create(I_FinishUpdate8_64a);
+  end
+  else
+  begin
+    fu8_64d := nil;
+    fu8_64e := nil;
+    fu8_64f := nil;
+    fu8_64g := nil;
+  end;
 ///////////////////////////////////////////////////////////////////////////
 // Create the main DirectDraw object
 ///////////////////////////////////////////////////////////////////////////
@@ -560,24 +629,25 @@ begin
 
   if fullscreen then
   begin
+    I_FindWindowSize;
+
     // Get exclusive mode
     hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_ALLOWMODEX or DDSCL_EXCLUSIVE or DDSCL_FULLSCREEN);
     if hres <> DD_OK then
       I_ErrorInitGraphics('SetCooperativeLevel');
 
-    // Set the video mode to SCREENWIDTH x SCREENHEIGHT x 32
-    hres := g_pDD.SetDisplayMode(SCREENWIDTH, SCREENHEIGHT, 32, 0, 0);
+    // Set the video mode to WINDOWWIDTH x WINDOWHEIGHT x 32
+    hres := g_pDD.SetDisplayMode(WINDOWWIDTH, WINDOWHEIGHT, 32, 0, 0);
     if hres <> DD_OK then
     begin
     // Fullscreen mode failed, trying window mode
       fullscreen := false;
 
+      I_AdjustWindowMode;
       I_RestoreWindowPos;
 
       I_Warning('SetDisplayMode(): Failed to fullscreen %dx%dx%d, trying window mode...'#13#10,
-        [SCREENWIDTH, SCREENHEIGHT, 32]);
-      if I_AdjustWindowMode then
-        V_ReInit;
+        [WINDOWWIDTH, WINDOWHEIGHT, 32]);
       printf('Window Mode %dx%d'#13#10, [SCREENWIDTH, SCREENHEIGHT]);
 
       hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
@@ -587,38 +657,27 @@ begin
         SCREENWIDTH := 640;
         SCREENHEIGHT := 480;
         V_ReInit;
-        hres := g_pDD.SetDisplayMode(SCREENWIDTH, SCREENHEIGHT, 32, 0, 0);
+        hres := g_pDD.SetDisplayMode(WINDOWWIDTH, WINDOWHEIGHT, 32, 0, 0);
         if hres <> DD_OK then
           I_ErrorInitGraphics('SetDisplayMode');
-        printf('SetDisplayMode(): %dx%d...'#13#10, [SCREENWIDTH, SCREENHEIGHT]);
+        printf('SetDisplayMode(): %dx%d...'#13#10, [WINDOWWIDTH, WINDOWHEIGHT]);
       end;
     end
     else
-    begin
       I_DisableAltTab;
-      SetWindowPos(hMainWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
-    end;
   end
   else
   begin
-    if I_AdjustWindowMode then
-      V_ReInit;
+    I_FindWindowSize;
+    I_AdjustWindowMode;
     I_RestoreWindowPos;
 
-    SetWindowPos(hMainWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
 
     hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
     if hres <> DD_OK then
       I_ErrorInitGraphics('SetCooperativeLevel');
   end;
 
-  ShowWindow(hMainWnd, SW_SHOWNORMAL);
-  UpdateWindow(hMainWnd);
-  SetForegroundWindow(hMainWnd);
-  SetFocus(hMainWnd);
-
-  WINDOWWIDTH := SCREENWIDTH;
-  WINDOWHEIGHT := SCREENHEIGHT;
   if I_MemoryStallHack then
     V_ReInit;
 
@@ -684,9 +743,9 @@ begin
 end;
 
 const
-  NUNSTDRESOLUTIONS = 8;
-  STANDARDSCREENRESOLUTIONS: array[0..NUNSTDRESOLUTIONS - 1, 0..1] of integer = (
-    (1280, 1024), (1280, 800), (1024, 768), (800, 600), (640, 480), (512, 384), (400, 300), (320, 200)
+  NUMSTDRESOLUTIONS = 11;
+  STANDARDSCREENRESOLUTIONS: array[0..NUMSTDRESOLUTIONS - 1, 0..1] of integer = (
+    (1920, 1080), (1366, 768), (1280, 1024), (1280, 800), (1024, 768), (800, 600), (640, 480), (600, 400), (512, 384), (400, 300), (320, 200)
   );
 
 procedure I_ChangeFullScreen;
@@ -713,7 +772,9 @@ begin
       I_ChangeFullScreenError(false);
       exit;
     end;
-    SetWindowPos(hMainWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
+    I_FindWindowSize;
+    I_AdjustWindowMode;
+    I_RestoreWindowPos;
   end
   else
   begin
@@ -723,7 +784,9 @@ begin
       I_ChangeFullScreenError(true);
       exit;
     end;
-    SetWindowPos(hMainWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
+    I_FindWindowSize;
+    I_AdjustWindowMode;
+    I_RestoreWindowPos;
   end;
 
   WINDOWWIDTH := SCREENWIDTH;
@@ -736,13 +799,13 @@ begin
     i := 0;
 
     // Determine a standard screen resolution
-    WINDOWWIDTH := STANDARDSCREENRESOLUTIONS[NUNSTDRESOLUTIONS - 1, 0];
-    WINDOWHEIGHT := STANDARDSCREENRESOLUTIONS[NUNSTDRESOLUTIONS - 1, 1];
-    while i < NUNSTDRESOLUTIONS - 1 do
+    WINDOWWIDTH := STANDARDSCREENRESOLUTIONS[NUMSTDRESOLUTIONS - 1, 0];
+    WINDOWHEIGHT := STANDARDSCREENRESOLUTIONS[NUMSTDRESOLUTIONS - 1, 1];
+    while i < NUMSTDRESOLUTIONS - 1 do
     begin
-      if (SCREENWIDTH <= STANDARDSCREENRESOLUTIONS[i, 0]) and
-         (SCREENHEIGHT <= STANDARDSCREENRESOLUTIONS[i, 1]) and
-         (SCREENWIDTH >= STANDARDSCREENRESOLUTIONS[i + 1, 0]) then
+      if (WINDOWWIDTH <= STANDARDSCREENRESOLUTIONS[i, 0]) and
+         (WINDOWHEIGHT <= STANDARDSCREENRESOLUTIONS[i, 1]) and
+         (WINDOWWIDTH >= STANDARDSCREENRESOLUTIONS[i + 1, 0]) then
       begin
         WINDOWWIDTH := STANDARDSCREENRESOLUTIONS[i, 0];
         WINDOWHEIGHT := STANDARDSCREENRESOLUTIONS[i, 1];
@@ -766,10 +829,9 @@ begin
 
   if fullscreen then
   begin
-    g_pDD.RestoreDisplayMode;
+    I_FindWindowSize;
     I_RestoreWindowPos;
-    WINDOWWIDTH := SCREENWIDTH;
-    WINDOWHEIGHT := SCREENHEIGHT;
+    g_pDD.RestoreDisplayMode;
   end;
   fullscreen := not fullscreen;
 

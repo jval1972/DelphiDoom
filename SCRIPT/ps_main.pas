@@ -115,6 +115,7 @@ uses
   psi_globals,
   psi_overlay,
   uPSR_dll,
+  w_folders,
   w_pak,
   ps_utils;
 
@@ -697,7 +698,7 @@ var
   i: integer;
 begin
   data := '';
-  strm := TPakStream.Create(sc, pm_short);
+  strm := TPakStream.Create(sc, pm_short, '', FOLDER_SCRIPTS);
   if strm.IOResult = 0 then
   begin
     printf('PS_AddCompiledScript(): Adding script "%s" (file "%s")'#13#10, [sname, sc]);

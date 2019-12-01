@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  Multithreading wall rendering - 32 bit color
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ type
   wallrenderinfo32_t = record
     dc_source32: PLongWordArray;
     dc_texturefactorbits: integer;
-    dc_yh, dc_yl, dc_x: Integer;
+    dc_yh, dc_yl, dc_x: integer;
     dc_iscale: fixed_t;
     dc_texturemid: fixed_t;
     dc_lightlevel: fixed_t;
@@ -4699,7 +4699,6 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
-  inc(w);
 
   swidth := SCREENWIDTH32PITCH - 2 * SizeOf(LongWord);
 
@@ -5181,7 +5180,6 @@ begin
     else
   {$ENDIF}
     R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
-  inc(w);
 
   swidth := SCREENWIDTH32PITCH - SizeOf(LongWord);
 

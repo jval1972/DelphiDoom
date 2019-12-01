@@ -5,8 +5,8 @@ object StartUpConsoleForm: TStartUpConsoleForm
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = '-'
-  ClientHeight = 311
-  ClientWidth = 572
+  ClientHeight = 361
+  ClientWidth = 624
   Color = clBtnFace
   Font.Charset = GREEK_CHARSET
   Font.Color = clWindowText
@@ -21,8 +21,8 @@ object StartUpConsoleForm: TStartUpConsoleForm
   object Memo1: TMemo
     Left = 0
     Top = 28
-    Width = 572
-    Height = 249
+    Width = 624
+    Height = 299
     Cursor = crHourGlass
     Align = alClient
     Color = 4210752
@@ -42,7 +42,7 @@ object StartUpConsoleForm: TStartUpConsoleForm
   object GamePanel: TPanel
     Left = 0
     Top = 0
-    Width = 572
+    Width = 624
     Height = 28
     Align = alTop
     BevelOuter = bvNone
@@ -67,8 +67,8 @@ object StartUpConsoleForm: TStartUpConsoleForm
   end
   object StartUpProgressBar: TProgressBar
     Left = 0
-    Top = 294
-    Width = 572
+    Top = 344
+    Width = 624
     Height = 17
     Align = alBottom
     Smooth = True
@@ -76,8 +76,8 @@ object StartUpConsoleForm: TStartUpConsoleForm
   end
   object StartUpProgressBar2: TProgressBar
     Left = 0
-    Top = 277
-    Width = 572
+    Top = 327
+    Width = 624
     Height = 17
     Align = alBottom
     Smooth = True
@@ -85,8 +85,8 @@ object StartUpConsoleForm: TStartUpConsoleForm
     Visible = False
   end
   object NetPanel: TPanel
-    Left = 175
-    Top = 112
+    Left = 209
+    Top = 128
     Width = 222
     Height = 65
     Cursor = crArrow

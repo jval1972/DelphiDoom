@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -fullhd -iwad doom2.wad EXAMPLE_11_THINKER.wad
+RunParams=-nofullscreen -GEOM 1366X768 -iwad doom2.wad V2_EXAMPLE_12_MODIFY_ACTORS.pk3
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=720
+Build=721
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=2.0.4.720
+FileVersion=2.0.4.721
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2019, Jim Valavanis
 LegalTrademarks=
@@ -179,10 +179,11 @@ Item29=
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
-Count=3
+Count=4
 Item0=.\doom;.\base
-Item1=C:\Program Files\Borland\Delphi7\Lib
-Item2=$(DELPHI)\Lib\Debug;C:\Program Files\Borland\Delphi7\Lib
+Item1=$(DELPHI)\Lib\Debug;.\doom;.\base
+Item2=C:\Program Files\Borland\Delphi7\Lib
+Item3=$(DELPHI)\Lib\Debug;C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
 Count=15
 Item0=..\dcu\Doom\soft

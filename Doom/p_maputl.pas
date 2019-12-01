@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -26,7 +27,6 @@
 //  and some PIT_* functions to use for iteration.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -846,23 +846,25 @@ var
   dl: divline_t;
   frac: fixed_t;
   pinrc: Pintercept_t;
+  r: integer;
 begin
   tracepositive := (trace.dx xor trace.dy) > 0;
 
   // check a corner to corner crossection for hit
+  r := thing.radius;
   if tracepositive then
   begin
-    x1 := thing.x - thing.radius;
-    y1 := thing.y + thing.radius;
-    x2 := thing.x + thing.radius;
-    y2 := thing.y - thing.radius;
+    x1 := thing.x - r;
+    y1 := thing.y + r;
+    x2 := thing.x + r;
+    y2 := thing.y - r;
   end
   else
   begin
-    x1 := thing.x - thing.radius;
-    y1 := thing.y - thing.radius;
-    x2 := thing.x + thing.radius;
-    y2 := thing.y + thing.radius;
+    x1 := thing.x - r;
+    y1 := thing.y - r;
+    x2 := thing.x + r;
+    y2 := thing.y + r;
   end;
 
   s1 := P_PointOnDivlineSide(x1, y1, @trace);

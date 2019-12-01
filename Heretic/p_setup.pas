@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@
 //  set up initial state and misc. LUTs.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -176,6 +175,7 @@ uses
   r_things,
   info_rnd,
   m_rnd,
+  mt_utils,
 {$IFNDEF OPENGL}
   r_cache_main,
   r_segs2,
@@ -186,6 +186,7 @@ uses
   gl_render,  // JVAL OPENGL
   r_main,
 {$ENDIF}
+  r_subsectors,
   nd_main,
   s_sound,
   doomstat;
@@ -1198,6 +1199,8 @@ begin
   // Make sure all sounds are stopped before Z_FreeTags.
   S_Start;
 
+  MT_WaitTasks;
+
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
 {$IFDEF OPENGL}
@@ -1324,6 +1327,8 @@ begin
 
   P_CalcSubSectorsBridge;
 
+  R_PrecalcPointInSubSector;
+  
   bodyqueslot := 0;
   deathmatch_p := 0;
   P_InitAmbientSound;

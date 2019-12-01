@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -28,7 +31,6 @@
 //   AutoMap module.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -114,12 +116,12 @@ function M_ZOOMIN: integer;
 function M_ZOOMOUT: integer;
 
 { translates between frame-buffer and map distances }
-function FTOM(x : integer) : integer;
-function MTOF(x : integer) : integer;
+function FTOM(x: integer): integer;
+function MTOF(x: integer): integer;
 
 { translates between frame-buffer and map coordinates }
-function CXMTOF(x : integer) : integer;
-function CYMTOF(y : integer) : integer;
+function CXMTOF(x: integer): integer;
+function CYMTOF(y: integer): integer;
 
 { the following is crap }
 
@@ -193,7 +195,7 @@ type
 
 var
   am_cheating: integer = 0;
-  grid: boolean = false;
+  automapgrid: boolean = false;
 
   leveljuststarted: integer = 1;   // kluge until AM_LevelInit() is called
 
@@ -259,6 +261,7 @@ var
 
 var
   marknums: array[0..9] of Ppatch_t;  // numbers used for marking by the automap
+  marknumsid: array[0..9] of integer; // numbers used for marking by the automap
 
   markpoints: array[0..AM_NUMMARKPOINTS - 1] of mpoint_t; // where the points are
 
@@ -285,11 +288,11 @@ procedure AM_Drawer;
 
 procedure AM_Init;
 
-procedure AM_ShutDown;
-
 // Called to force the automap to quit
 // if the level is completed while it is up.
 procedure AM_Stop;
+
+procedure AM_Start;
 
 var
   allowautomapoverlay: boolean;
@@ -297,6 +300,7 @@ var
   texturedautomap: boolean;
 
 procedure AM_rotate(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
+procedure AM_ShutDown;
 
 implementation
 
@@ -305,14 +309,16 @@ uses
   c_cmds,
   d_englsh,
   g_game,
-{$IFNDEF OPENGL}
-  r_draw,
-{$ENDIF}
-  r_hires,
-  r_data,
   mt_utils,
   p_mobj_h,
   p_setup,
+  r_data,
+{$IFNDEF OPENGL}
+  r_draw,
+  r_hires,
+{$ELSE}  
+  gl_automap,
+{$ENDIF}
   v_data,
   v_video;
 
@@ -353,14 +359,15 @@ end;
 
 function CYMTOF(y : integer): integer;
 begin
-  result := f_y + (f_h - MTOF(y - m_y))
+  result := f_y + (f_h - MTOF(y - m_y));
 end;
 
 //
 //
 //
 procedure AM_getIslope(ml: Pmline_t; _is: Pislope_t);
-var dx, dy: integer;
+var
+  dx, dy: integer;
 begin
   dx := ml.b.x - ml.a.x;
   dy := ml.a.y - ml.b.y;
@@ -550,19 +557,32 @@ begin
   m_w := FTOM(f_w);
   m_h := FTOM(f_h);
 
+  if gamestate =  gs_level then
+  begin
     // find player to center on initially
-  pnum := consoleplayer;
-  if not playeringame[pnum] then
-    for i := 0 to MAXPLAYERS - 1 do
-      if playeringame[i] then
-      begin
-        pnum := i;
-        break;
-      end;
+    pnum := consoleplayer;
+    if not playeringame[pnum] then
+    begin
+      pnum := -1;
+      for i := 0 to MAXPLAYERS - 1 do
+        if playeringame[i] then
+        begin
+          pnum := i;
+          break;
+        end;
+    end;
 
-  plr := @players[pnum];
-  m_x := plr.mo.x - m_w div 2;
-  m_y := plr.mo.y - m_h div 2;
+    if pnum >= 0 then
+    begin
+      plr := @players[pnum];
+      if plr.mo <> nil then
+      begin
+        m_x := plr.mo.x - m_w div 2;
+        m_y := plr.mo.y - m_h div 2;
+      end;
+    end;
+  end;
+
   AM_changeWindowLoc;
 
 
@@ -590,7 +610,8 @@ begin
     for i := 0 to AM_NUMMARKPOINTS - 1 do
     begin
       sprintf(namebuf, 'PLMNUM%d', [i]);
-      marknums[i] := W_CacheLumpName(namebuf, PU_STATIC);
+      marknumsid[i] := W_GetNumForName(namebuf);
+      marknums[i] := W_CacheLumpNum(marknumsid[i], PU_STATIC);
     end;
   end
   else  // JVAL: support for the old demo version
@@ -598,7 +619,8 @@ begin
     for i := 0 to AM_NUMMARKPOINTS - 1 do
     begin
       sprintf(namebuf, 'AMMNUM%d', [i]);
-      marknums[i] := W_CacheLumpName(namebuf, PU_STATIC);
+      marknumsid[i] := W_GetNumForName(namebuf);
+      marknums[i] := W_CacheLumpNum(marknumsid[i], PU_STATIC);      
     end;
   end
 end;
@@ -630,8 +652,8 @@ begin
 
   f_x := 0;
   f_y := 0;
-  f_w := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF};
-  f_h := V_PreserveY(ST_Y);
+  f_w := SCREENWIDTH;
+  f_h := ST_Y * SCREENHEIGHT div 200; //V_PreserveY(ST_Y);
 
   AM_clearMarks;
 
@@ -663,17 +685,22 @@ end;
 //
 var
   lastlevel: integer = -1;
+  lastscreenwidth: integer = -1;
+  lastscreenheight: integer = -1;
 
 procedure AM_Start;
 begin
-  if not stopped then
-    AM_Stop;
+  AM_Stop;
+
   stopped := false;
 
-  if lastlevel <> gamemap then
+  if (lastlevel <> gamemap) or
+     (lastscreenwidth <> SCREENWIDTH) or (lastscreenheight <> SCREENHEIGHT) then
   begin
     AM_LevelInit;
     lastlevel := gamemap;
+    lastscreenwidth := SCREENWIDTH;
+    lastscreenheight := SCREENHEIGHT;
   end;
   AM_initVariables;
   AM_loadPics;
@@ -805,8 +832,8 @@ begin
         end;
       Ord(AM_GRIDKEY):
         begin
-          grid := not grid;
-          if grid then
+          automapgrid := not automapgrid;
+          if automapgrid then
             plr._message := AMSTR_GRIDON
           else
             plr._message := AMSTR_GRIDOFF;
@@ -961,22 +988,20 @@ end;
 //
 // Clear automap frame buffer.
 //
+{$IFNDEF OPENGL}
 procedure AM_clearFB(color: integer);
 var
   c: LongWord;
 begin
-  {$IFNDEF OPENGL}
   if videomode = vm32bit then
   begin
-  {$ENDIF}
     c := videopal[color];
     MT_memseti(fb32, c, f_w * f_h);
-  {$IFNDEF OPENGL}
   end
   else
     MT_memset(fb, color, f_w * f_h);
-  {$ENDIF}
 end;
+{$ENDIF}
 
 //
 // Automap clipping of lines.
@@ -1126,6 +1151,11 @@ end;
 // Classic Bresenham w/ whatever optimizations needed for speed
 //
 procedure AM_drawFline(fl: Pfline_t; color: integer);
+{$IFDEF OPENGL}
+begin
+  gld_AddAutomapLine(fl.a.x, fl.a.y, fl.b.x, fl.b.y,  videopal[color]);
+end;
+{$ELSE}
 var
   x, y,
   dx, dy,
@@ -1136,7 +1166,6 @@ var
   procedure PUTDOT(xx, yy, cc: integer);
   begin
   // JVAL Clip line if in overlay mode
-  {$IFNDEF OPENGL}
     if amstate = am_overlay then
     begin
       if yy <= viewwindowy then
@@ -1149,12 +1178,9 @@ var
         exit;
     end;
     if videomode = vm32bit then
-  {$ENDIF}
       fb32[yy * f_w + xx] := videopal[cc]
-  {$IFNDEF OPENGL}
     else
       fb[yy * f_w + xx] := cc;
-  {$ENDIF}
   end;
 
 begin
@@ -1207,7 +1233,7 @@ begin
     while true do
     begin
       PUTDOT(x, y, color);
-      if (y = fl.b.y) then exit;
+      if y = fl.b.y then exit;
       if d >= 0 then
       begin
         x := x + sx;
@@ -1218,6 +1244,7 @@ begin
     end;
   end;
 end;
+{$ENDIF}
 
 //
 // Clip lines, draw visible parts of lines.
@@ -1239,41 +1266,68 @@ var
   x, y: fixed_t;
   start, finish: fixed_t;
   ml: mline_t;
+  dw, dh: double;
+  minlen, extx, exty: fixed_t;
+  minx, miny: fixed_t;
 begin
+  dw := m_w;
+  dh := m_h;
+
+  minlen := trunc(sqrt(dw * dw + dh * dh));
+  extx := (minlen - m_w) div 2;
+  exty := (minlen - m_h) div 2;
+
+  minx := m_x;
+  miny := m_y;
+
   // Figure out start of vertical gridlines
-  start := m_x;
+  start := m_x - extx;
   if ((start - bmaporgx) mod (MAPBLOCKUNITS * FRACUNIT)) <> 0 then
-    start := start + (MAPBLOCKUNITS * FRACUNIT)
+    start := start {+ (MAPBLOCKUNITS * FRACUNIT)}
           - ((start - bmaporgx) mod (MAPBLOCKUNITS * FRACUNIT));
-  finish := m_x + m_w;
+  finish := minx + minlen - extx;
 
   // draw vertical gridlines
-  ml.a.y := m_y;
-  ml.b.y := m_y + m_h;
   x := start;
   while x < finish do
   begin
     ml.a.x := x;
     ml.b.x := x;
+    ml.a.y := miny - exty;
+    ml.b.y := ml.a.y + minlen;
+
+    if allowautomaprotate then
+    begin
+      AM_rotate(@ml.a.x, @ml.a.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+      AM_rotate(@ml.b.x, @ml.b.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+    end;
+
     AM_drawMline(@ml, color);
     x := x + (MAPBLOCKUNITS * FRACUNIT);
   end;
 
   // Figure out start of horizontal gridlines
-  start := m_y;
+  start := miny - exty;
   if ((start - bmaporgy) mod (MAPBLOCKUNITS * FRACUNIT)) <> 0 then
-    start := start + (MAPBLOCKUNITS * FRACUNIT)
+    start := start {+ (MAPBLOCKUNITS * FRACUNIT)}
           - ((start - bmaporgy) mod (MAPBLOCKUNITS * FRACUNIT));
-  finish := m_y + m_h;
+  finish := miny + minlen - exty;
 
   // draw horizontal gridlines
-  ml.a.x := m_x;
-  ml.b.x := m_x + m_w;
   y := start;
   while y < finish do
   begin
+    ml.a.x := minx - extx;
+    ml.b.x := ml.a.x + minlen;
     ml.a.y := y;
     ml.b.y := y;
+
+    if allowautomaprotate then
+    begin
+      AM_rotate(@ml.a.x, @ml.a.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+      AM_rotate(@ml.b.x, @ml.b.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+    end;
+
     AM_drawMline(@ml, color);
     y := y + (MAPBLOCKUNITS * FRACUNIT);
   end;
@@ -1287,9 +1341,10 @@ end;
 procedure AM_rotate(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
 var
   tmpx: fixed_t;
-  ang: fixed_t;
+  ang: angle_t;
 begin
   ang := a shr FRACBITS;
+
   tmpx := xpos +
     FixedMul(x^ - xpos, fixedcosine[ang]) -
     FixedMul(y^ - ypos, fixedsine[ang]);
@@ -1301,7 +1356,7 @@ begin
   x^ := tmpx;
 end;
 
- procedure AM_rotate_dbl(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
+procedure AM_rotate_dbl(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
 var
   tmpx: fixed_t;
   ang: double;
@@ -1386,6 +1441,7 @@ begin
     inc(pl);
   end;
 end;
+
 
 procedure AM_drawLineCharacter(lineguy: Pmline_tArray; lineguylines: integer;
   scale: fixed_t; angle: angle_t; color: integer;
@@ -1545,7 +1601,11 @@ begin
       fy := CYMTOF(fy);
 
       if (fx >= f_x) and (fx <= f_w - w) and (fy >= f_y) and (fy <= f_h - h) then
-        V_DrawPatch(fx, fy, SCN_FG, marknums[i], false);
+      {$IFDEF OPENGL}
+        gld_AddAutomapPatch(fx, fy, marknumsid[i])
+      {$ELSE}
+        V_DrawPatchZoomed(fx, fy, SCN_FG, marknums[i], false, FRACUNIT * SCREENHEIGHT div 200);
+      {$ENDIF}
     end;
   end;
 end;
@@ -1554,11 +1614,12 @@ procedure AM_drawCrosshair(color: integer);
 begin
   {$IFNDEF OPENGL}
   if videomode = vm32bit then
-  {$ENDIF}
     fb32[(f_w * (f_h div 2)) + (f_w div 2)] := videopal[color] // single point for now
-  {$IFNDEF OPENGL}
   else
     fb[(f_w * (f_h div 2)) + (f_w div 2)] := color; // single point for now
+  {$ELSE}
+  gld_AddAutomapLine(f_w div 2 - 1, f_h div 2, f_w div 2 + 1, f_h div 2,  videopal[color]);
+  gld_AddAutomapLine(f_w div 2, f_h div 2 - 1, f_w div 2, f_h div 2 + 1,  videopal[color]);
   {$ENDIF}
 end;
 
@@ -1577,22 +1638,31 @@ begin
 
   if amstate = am_only then
   begin
+    {$IFDEF OPENGL}
+    gld_ClearAMBuffer(f_w, f_h, videopal[BACKGROUND]);
+    {$ELSE}
     AM_clearFB(BACKGROUND);
+    {$ENDIF}
     if texturedautomap then
     begin
       AM_setSubSectorDrawFuncs;
       AM_drawSubSectors;
     end;
   end;
-  if grid then
+  if automapgrid then
     AM_drawGrid(GRIDCOLORS);
   AM_drawWalls;
+
+  AM_drawMarks;
+
   AM_drawPlayers;
   if (am_cheating = 2) or (plr.powers[Ord(pw_allmap)] <> 0) then
     AM_drawThings;
   AM_drawCrosshair(XHAIRCOLORS);
 
-  AM_drawMarks;
+  {$IFDEF OPENGL}
+  gld_DrawAutomap;
+  {$ENDIF}
 end;
 
 procedure AM_Init;

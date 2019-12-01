@@ -72,7 +72,8 @@ procedure gld_Init(width, height: integer);
 
 procedure gld_SetPalette(palette: integer);
 
-procedure gld_DrawNumPatch(x, y: integer; lump: integer; cm: integer; flags: integer);
+procedure gld_DrawNumPatch(x, y: integer; lump: integer; cm: integer; flags: integer;
+  const zoomx: float = 1.0; const zoomy: float = 1.0);
 
 procedure gld_Enable2D;
 
@@ -84,16 +85,18 @@ procedure gld_CleanMemory;
 
 procedure R_ShutDownOpenGL;
 
-procedure gld_DrawLine(x0, y0, x1, y1: integer; BaseColor: integer);
+procedure gld_DrawLine(x0, y0, x1, y1: integer; PalColor: byte);
 
 implementation
 
 uses
   doomstat,
+  d_net,
   i_system,
   tables,
   doomtype,
   doomdef,
+  am_map,
   {$IFDEF DOOM}
   st_stuff,
   {$ENDIF}
@@ -120,6 +123,7 @@ uses
   gl_voxels,
   vx_base,
   nd_main,
+  gl_automap,
   gl_frustum,
   gl_lightmaps,
   gl_clipper,
@@ -141,6 +145,7 @@ uses
   r_intrpl,
   r_things,
   r_lights,
+  r_renderstyle,
   sc_engine,
   w_wad,
   z_zone;
@@ -395,6 +400,7 @@ begin
       gl_uselightmaps := false;
     end;
   end;
+  gld_InitAutomap;
 end;
 
 {-------------------------------------------------------------------}
@@ -647,7 +653,8 @@ begin
 end;
 
 
-procedure gld_DrawNumPatch(x, y: integer; lump: integer; cm: integer; flags: integer);
+procedure gld_DrawNumPatch(x, y: integer; lump: integer; cm: integer; flags: integer;
+  const zoomx: float = 1.0; const zoomy: float = 1.0);
 
   function SCALE_X(const xx: integer): float;
   begin
@@ -670,15 +677,16 @@ var
   fU1, fU2, fV1, fV2: float;
   width, height: float;
   xpos, ypos: float;
+  dx, dy: float;
 begin
   if flags and VPT_TRANS <> 0 then
   begin
-    gltexture := gld_RegisterPatch(lump, cm);
+    gltexture := gld_RegisterPatch(lump, cm, flags and VPT_NOUNLOAD = 0);
     gld_BindPatch(gltexture, cm);
   end
   else
   begin
-    gltexture := gld_RegisterPatch(lump, Ord(CR_DEFAULT));
+    gltexture := gld_RegisterPatch(lump, Ord(CR_DEFAULT), flags and VPT_NOUNLOAD = 0);
     gld_BindPatch(gltexture, Ord(CR_DEFAULT));
   end;
   if gltexture = nil then
@@ -699,6 +707,15 @@ begin
   ypos := SCALE_Y(y - gltexture.topoffset);
   width := SCALE_X(gltexture.realtexwidth);
   height := SCALE_Y(gltexture.realtexheight);
+  if (zoomx <> 1.0) or (zoomy <> 1.0) then
+  begin
+    dx := width * zoomx - width;
+    dy := height * zoomy - height;
+    xpos := xpos - dx / 2;
+    ypos := ypos - dy / 2;
+    width := width + dx;
+    height := height + dy;
+  end;
 
   glBegin(GL_TRIANGLE_STRIP);
     glTexCoord2f(fU1, fV1);
@@ -747,6 +764,9 @@ begin
   glEnd;
 end;
 
+var
+  scissoron: boolean = false;
+
 procedure gld_DrawBackgroundFrame;
 var
   x1, x2, y1, y2: integer;
@@ -761,19 +781,19 @@ begin
 
   glDisable(GL_TEXTURE_2D);
 
-  glColor4f(1.0, 0.0, 0.0, 1.0);
-  glBegin(GL_LINES);
+  glColor4f(0.5, 0.5, 0.5, 1.0);
+  glBegin(GL_LINE_STRIP);
     glVertex2i(x1, y1);
     glVertex2i(x2, y1);
     glVertex2i(x2, y2);
-    glVertex2i(x2, y1);
+    glVertex2i(x1, y2);
     glVertex2i(x1, y1);
   glEnd;
 
   glEnable(GL_TEXTURE_2D);
 end;
 
-procedure gld_DrawLine(x0, y0, x1, y1: integer; BaseColor: integer);
+procedure gld_DrawLine(x0, y0, x1, y1: integer; PalColor: byte);
 var
   playpal: PByteArray;
   idx: integer;
@@ -783,7 +803,7 @@ begin
   last_cm := -1;
 
   playpal := V_ReadPalette(PU_STATIC);
-  idx := 3 * BaseColor;
+  idx := 3 * PalColor;
   glColor3f(playpal[idx] / 255.0,
             playpal[idx + 1] / 255.0,
             playpal[idx + 2] / 255.0);
@@ -1148,6 +1168,8 @@ const
   GLS_BLUELIGHT = 64;
   GLS_YELLOWLIGHT = 128;
   GLS_LIGHT = GLS_WHITELIGHT or GLS_REDLIGHT or GLS_GREENLIGHT or GLS_BLUELIGHT or GLS_YELLOWLIGHT;
+  GLS_ADDITIVE = 256;
+  GLS_SUBTRACTIVE = 512;
 
 type
   GLSprite = record
@@ -1825,11 +1847,15 @@ begin
 
   glViewport(viewwindowx, SCREENHEIGHT - (height + viewwindowy - ((height - viewheight) div 2)), viewwidth, height);
   if screenblocks > 10 then
-    glDisable(GL_SCISSOR_TEST)
+  begin
+    glDisable(GL_SCISSOR_TEST);
+    scissoron := false;
+  end
   else
   begin
     glScissor(viewwindowx, SCREENHEIGHT - (viewheight + viewwindowy), viewwidth, viewheight);
     glEnable(GL_SCISSOR_TEST);
+    scissoron := true;
   end;
 
   // Player coordinates
@@ -1910,6 +1936,14 @@ begin
 
   R_DrawPlayer;
 
+  if scissoron then
+    glDisable(GL_SCISSOR_TEST);
+
+  gld_DrawBackgroundFrame;
+
+  if scissoron then
+    glEnable(GL_SCISSOR_TEST);
+
   if player.fixedcolormap = 32 then
   begin
     glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
@@ -1987,6 +2021,7 @@ begin
 
   glColor3f(1.0, 1.0, 1.0);
   glDisable(GL_SCISSOR_TEST);
+  scissoron := false;
   if gl_shared_texture_palette then
     glDisable(GL_SHARED_TEXTURE_PALETTE_EXT);
 end;
@@ -2567,8 +2602,8 @@ procedure gld_AddFlatEx2(sectornum: integer; pic, zheight: integer; ripple: bool
 var
   {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t; // needed for R_FakeFlat
-  {$ENDIF}
   sector: Psector_t; // the sector we want to draw
+  {$ENDIF}
   flat: GLFlat;
 begin
   if sectornum < 0 then
@@ -2583,8 +2618,8 @@ begin
   sectorrenderedflatex2[sectornum] := rendermarker;
 
   flat.sectornum := sectornum;
-  sector := @sectors[sectornum]; // get the sector
   {$IFDEF DOOM_OR_STRIFE}
+  sector := @sectors[sectornum]; // get the sector
   sector := R_FakeFlat(sector, @tempsec, nil, nil, false); // for boom effects
   {$ENDIF}
   flat.ceiling := true;
@@ -3540,10 +3575,12 @@ var
   modelinf: Pmodelmanageritem_t;
   nextframe: integer;
   restoreblend: Boolean;
+  restoreequation: Boolean;
 begin
   info := @modelstates[idx];
 
   restoreblend := false;
+  restoreequation := false;
 
   if sprite.flags and GLS_SHADOW <> 0 then
   begin
@@ -3559,6 +3596,22 @@ begin
       gld_StaticLightAlpha(sprite.light, sprite.alpha);
       glAlphaFunc(GL_GEQUAL, 0.01);
       restoreblend := true;
+    end
+    else if sprite.flags and GLS_ADDITIVE <> 0 then
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+      restoreblend := true;
+    end
+    else if sprite.flags and GLS_SUBTRACTIVE <> 0 then
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+      glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+      restoreblend := true;
+      restoreequation := true;
     end
     else if info.transparency < 0.9999 then
     begin
@@ -3596,6 +3649,10 @@ begin
       exit;
     end;
     modelinf.model.DrawSimple(info.startframe);
+    if restoreblend then
+      glAlphaFunc(GL_GEQUAL, 0.01);
+    if restoreequation then
+      glBlendEquation(GL_FUNC_ADD);
     exit;
   end;
   {$IFDEF DEBUG}
@@ -3624,6 +3681,8 @@ begin
 
   if restoreblend then
     glAlphaFunc(GL_GEQUAL, 0.01);
+  if restoreequation then
+    glBlendEquation(GL_FUNC_ADD);
 end;
 
 procedure gld_DrawModels(sprite: PGLSprite);
@@ -3692,10 +3751,12 @@ begin
     glActiveTextureARB(GL_TEXTURE0_ARB);
   end;
 
-  if sprite.flags and (GLS_SHADOW or GLS_TRANSPARENT) <> 0 then
+  if sprite.flags and (GLS_SHADOW or GLS_TRANSPARENT or GLS_ADDITIVE or GLS_SUBTRACTIVE) <> 0 then
   begin
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glAlphaFunc(GL_GEQUAL, 0.5);
+    if sprite.flags and GLS_SUBTRACTIVE <> 0 then
+      glBlendEquation(GL_FUNC_ADD);
   end;
   glColor3f(1.0, 1.0, 1.0);
 
@@ -3706,11 +3767,13 @@ var
   info: Pvoxelstate_t;
   voxelinf: Pvoxelmanageritem_t;
   restoreblend: Boolean;
+  restoreequation: Boolean;
   anglediff, spinang: angle_t;
 begin
   info := @voxelstates[idx];
 
   restoreblend := false;
+  restoreequation := false;
 
   if sprite.flags and GLS_SHADOW <> 0 then
   begin
@@ -3727,6 +3790,23 @@ begin
       glAlphaFunc(GL_GEQUAL, 0.01);
       restoreblend := true;
     end
+    else if sprite.flags and GLS_ADDITIVE <> 0 then
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+      restoreblend := true;
+    end
+    else if sprite.flags and GLS_SUBTRACTIVE <> 0 then
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+      glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+      restoreblend := true;
+      restoreequation := true;
+    end
+
 {    else if info.transparency < 0.9999 then
     begin
       gld_StaticLightAlpha(sprite.light, info.transparency);
@@ -3747,6 +3827,10 @@ begin
     if voxelinf.voxel = nil then
     begin
       I_Warning('gld_DrawVoxel(): Can not load voxel %s'#13#10, [voxelinf.name]);
+      if restoreblend then
+        glAlphaFunc(GL_GEQUAL, 0.01);
+      if restoreequation then
+        glBlendEquation(GL_FUNC_ADD);
       exit;
     end;
   end;
@@ -3777,6 +3861,8 @@ begin
 
   if restoreblend then
     glAlphaFunc(GL_GEQUAL, 0.01);
+  if restoreequation then
+    glBlendEquation(GL_FUNC_ADD);
 end;
 
 procedure gld_DrawVoxels(sprite: PGLSprite);
@@ -3845,10 +3931,12 @@ begin
     glActiveTextureARB(GL_TEXTURE0_ARB);
   end;
 
-  if sprite.flags and (GLS_SHADOW or GLS_TRANSPARENT) <> 0 then
+  if sprite.flags and (GLS_SHADOW or GLS_TRANSPARENT or GLS_ADDITIVE or GLS_SUBTRACTIVE) <> 0 then
   begin
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glAlphaFunc(GL_GEQUAL, 0.5);
+    if sprite.flags and GLS_SUBTRACTIVE <> 0 then
+      glBlendEquation(GL_FUNC_ADD);
   end;
   glColor3f(1.0, 1.0, 1.0);
 end;
@@ -3930,6 +4018,19 @@ begin
       gld_StaticLightAlpha(sprite.light, sprite.alpha);
       glAlphaFunc(GL_GEQUAL, 0.01);
     end
+    else if sprite.flags and GLS_ADDITIVE <> 0 then
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+    end
+    else if sprite.flags and GLS_SUBTRACTIVE <> 0 then
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+      glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+    end
     else
       gld_StaticLight(sprite.light);
   end;
@@ -3955,10 +4056,12 @@ begin
     glActiveTextureARB(GL_TEXTURE0_ARB);
   end;
 
-  if sprite.flags and (GLS_SHADOW or GLS_TRANSPARENT) <> 0 then
+  if sprite.flags and (GLS_SHADOW or GLS_TRANSPARENT or GLS_ADDITIVE or GLS_SUBTRACTIVE) <> 0 then
   begin
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glAlphaFunc(GL_GEQUAL, 0.5);
+    if sprite.flags and GLS_SUBTRACTIVE <> 0 then
+      glBlendEquation(GL_FUNC_ADD);
   end;
   glColor3f(1.0, 1.0, 1.0);
 end;
@@ -4174,7 +4277,18 @@ begin
   begin
     sprite.flags := sprite.flags or GLS_TRANSPARENT;
     sprite.alpha := pSpr.alpha / FRACUNIT;
+  end
+  else if pSpr.renderstyle = mrs_add then
+  begin
+    sprite.flags := sprite.flags or GLS_ADDITIVE;
+    sprite.alpha := pSpr.alpha / FRACUNIT;
+  end
+  else if pSpr.renderstyle = mrs_subtract then
+  begin
+    sprite.flags := sprite.flags or GLS_SUBTRACTIVE;
+    sprite.alpha := pSpr.alpha / FRACUNIT;
   end;
+
   if pSpr.flags_ex and MF_EX_LIGHT <> 0 then
   begin
     if pSpr.flags_ex and MF_EX_WHITELIGHT <> 0 then
@@ -4575,6 +4689,7 @@ begin
     gld_LightmapDone;
     gld_ClipperDone;
     gld_AmbientDone;
+    gld_ShutDownAutomap;
   end;
 end;
 

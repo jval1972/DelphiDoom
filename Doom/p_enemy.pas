@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +26,6 @@
 //  that are associated with states/frames.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -198,6 +198,7 @@ uses
   i_system,
   info_h,
   info,
+  info_common,
   m_rnd,
   p_map,
   p_maputl,
@@ -388,7 +389,7 @@ begin
     end;
     dist := _SHR1(dist);
   end;
-  
+
 
   if (actor._type = Ord(MT_CYBORG)) or
      (actor._type = Ord(MT_SPIDER)) or
@@ -615,8 +616,8 @@ begin
         actor.movedir := Ord(tdir);
         if P_TryWalk(actor) then
           exit;
-      end
-    end
+      end;
+    end;
   end
   else
   begin
@@ -1053,7 +1054,8 @@ begin
     R_PointToAngle2(actor.x, actor.y, actor.target.x, actor.target.y);
 
   if actor.target.flags and MF_SHADOW <> 0 then
-    actor.angle := actor.angle + _SHLW(P_Random - P_Random, 21);
+    if actor.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+      actor.angle := actor.angle + _SHLW(P_Random - P_Random, 21);
 end;
 
 //
@@ -1070,7 +1072,7 @@ begin
 
   A_FaceTarget(actor);
   angle := actor.angle;
-  slope := P_AimLineAttack (actor, angle, MISSILERANGE);
+  slope := P_AimLineAttack(actor, angle, MISSILERANGE);
 
   S_StartSound(actor, Ord(sfx_pistol));
   angle := angle + _SHLW(P_Random - P_Random, 20);
@@ -2292,10 +2294,9 @@ begin
         P_DamageMobj(mo, nil, nil, 10000);
       end;
     end;
-   think := think.next;
+    think := think.next;
   end;
 end;
 
 end.
-
 

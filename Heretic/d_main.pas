@@ -31,7 +31,6 @@
 //  and call the startup functions.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -111,11 +110,18 @@ procedure D_ShutDown;
 
 var
   autoloadgwafiles: boolean = true;
+  searchdoomwaddir: boolean = true;
+  searchdoomwadpath: boolean = true;
+  searchsteampaths: boolean = true;
+  additionalwadpaths: string = '';
 
 var
   wads_autoload: string = '';
   paks_autoload: string = '';
-  
+
+var
+  showmessageboxonmodified: boolean = false;
+
 implementation
 
 uses
@@ -126,10 +132,11 @@ uses
   d_player,
   d_net,
   d_net_h,
+  d_notifications,
   c_con,
   c_cmds,
-{$IFNDEF OPENGL}
   e_endoom,
+{$IFNDEF OPENGL}
   f_wipe,
 {$ENDIF}
   f_finale,
@@ -147,9 +154,12 @@ uses
   i_io,
   i_tmp,
   i_startup,
+  i_steam,
 {$IFDEF OPENGL}
   gl_main,
 {$ELSE}
+  r_defs,
+  r_fake3d,
   i_video,
 {$ENDIF}
   nd_main,
@@ -168,10 +178,6 @@ uses
   r_hires,
   r_intrpl,
   r_data,
-{$IFNDEF OPENGL}
-  r_defs,
-  r_fake3d,
-{$ENDIF}
   r_camera,
   r_lights,
   sounds,
@@ -303,7 +309,7 @@ begin
 {$ENDIF}
 
   if player <> nil then
-    R_RenderPlayerView(player)
+    R_RenderPlayerView(player);
 end;
 
 var
@@ -332,14 +338,14 @@ var
   oldvideomode: videomode_t;
 {$ENDIF}
 begin
-{$IFNDEF OPENGL}
   if gamestate = GS_ENDOOM then
   begin
     E_Drawer;
+    {$IFNDEF OPENGL}
     D_FinishUpdate; // page flip or blit buffer
+    {$ENDIF}
     exit;
   end;
-{$ENDIF}
 
 {$IFNDEF OPENGL}
   HU_DoFPSStuff;
@@ -518,6 +524,7 @@ begin
   begin
     // JVAL: Overlay Drawer before menus
     OVR_Drawer;
+
     M_Drawer;
     C_Drawer;
   end;
@@ -558,6 +565,7 @@ begin
 end;
 {$IFDEF OPENGL}
 begin
+  I_StartUpdate;
   HU_DoFPSStuff;
   if firstinterpolation then
     MT_ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
@@ -565,17 +573,14 @@ begin
   begin
     if (amstate <> am_only) and (gametic <> 0) then
     begin
-      R_FillBackScreen;         // draw the pattern into the back screen
+      R_FillBackScreen; // draw the pattern into the back screen
       D_RenderPlayerView(@players[displayplayer]);
     end;
   end;
-  if firstinterpolation then
-  begin
-    if gamestate = GS_LEVEL then
-      if amstate = am_overlay then
-        AM_Drawer;
-    D_DisplayHU;
-  end;
+  if gamestate = GS_LEVEL then
+    if amstate = am_overlay then
+      AM_Drawer;
+  D_DisplayHU;
   D_FinishUpdate; // page flip or blit buffer
 end;
 {$ENDIF}
@@ -624,6 +629,8 @@ begin
 {$ENDIF}
 
     S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
+
+    D_RunNotifications;
 
 {$IFDEF DEBUG}
     except
@@ -690,9 +697,7 @@ end;
 //
 procedure D_AdvanceDemo;
 begin
-{$IFNDEF OPENGL}
   if gamestate <> GS_ENDOOM then
-{$ENDIF}
     advancedemo := true;
 end;
 
@@ -818,26 +823,6 @@ begin
   end;
 end;
 
-const
-  SYSWAD = 'Heretic32.swd';
-
-procedure D_AddSystemWAD;
-var
-  ddsyswad: string;
-  hereticwaddir: string;
-begin
-  hereticwaddir := getenv('hereticwaddir');
-  if hereticwaddir = '' then
-    hereticwaddir := '.';
-
-  sprintf(ddsyswad, '%s\%s', [hereticwaddir, SYSWAD]);
-  if fexists(ddsyswad) then
-    D_AddFile(ddsyswad)
-  else
-    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [ddsyswad]);
-end;
-
-
 procedure D_WadsAutoLoad(fnames: string);
 var
   s1, s2: string;
@@ -846,7 +831,10 @@ begin
   if fnames = '' then
     exit;
 
-  splitstring(fnames, s1, s2, [',', ' ']);
+  if Pos(';', fnames) > 0 then
+    splitstring(fnames, s1, s2, ';')
+  else
+    splitstring(fnames, s1, s2, ',');
   D_AddFile(s1);
   D_WadsAutoLoad(s2);
 end;
@@ -859,10 +847,149 @@ begin
   if fnames = '' then
     exit;
 
-  splitstring(fnames, s1, s2, [',', ' ']);
+  if Pos(';', fnames) > 0 then
+    splitstring(fnames, s1, s2, ';')
+  else
+    splitstring(fnames, s1, s2, ',');
   PAK_AddFile(s1);
   D_PaksAutoload(s2);
 end;
+
+const
+  PATH_SEPARATOR = ';';
+
+function D_FileInDoomPath(const fn: string): string;
+var
+  doomwaddir: string;
+  doomwadpath: string;
+  paths: TDStringList;
+  i: integer;
+  tmp: string;
+begin
+  if fexists(fn) then
+  begin
+    result := fn;
+    exit;
+  end;
+
+  paths := TDStringList.Create;
+
+  if searchdoomwaddir then
+  begin
+    doomwaddir := getenv('HERETICWADDIR');
+    if doomwaddir <> '' then
+      paths.Add(doomwaddir);
+    doomwaddir := getenv('DOOMWADDIR');
+    if doomwaddir <> '' then
+      paths.Add(doomwaddir);
+  end;
+
+  if searchdoomwadpath then
+  begin
+    doomwadpath := getenv('HERETICWADPATH');
+    if doomwadpath <> '' then
+    begin
+      tmp := '';
+      for i := 1 to length(doomwadpath) do
+      begin
+        if doomwadpath[i] = PATH_SEPARATOR then
+        begin
+          if tmp <> '' then
+          begin
+            paths.Add(tmp);
+            tmp := '';
+          end;
+        end
+        else
+          tmp := tmp + doomwadpath[i];
+      end;
+      if tmp <> '' then
+        paths.Add(tmp);
+    end;
+    doomwadpath := getenv('DOOMWADPATH');
+    if doomwadpath <> '' then
+    begin
+      tmp := '';
+      for i := 1 to length(doomwadpath) do
+      begin
+        if doomwadpath[i] = PATH_SEPARATOR then
+        begin
+          if tmp <> '' then
+          begin
+            paths.Add(tmp);
+            tmp := '';
+          end;
+        end
+        else
+          tmp := tmp + doomwadpath[i];
+      end;
+      if tmp <> '' then
+        paths.Add(tmp);
+    end;
+  end;
+
+  if additionalwadpaths <> '' then
+  begin
+    tmp := '';
+    for i := 1 to length(additionalwadpaths) do
+    begin
+      if additionalwadpaths[i] = PATH_SEPARATOR then
+      begin
+        if tmp <> '' then
+        begin
+          paths.Add(tmp);
+          tmp := '';
+        end;
+      end
+      else
+        tmp := tmp + additionalwadpaths[i];
+    end;
+    if tmp <> '' then
+      paths.Add(tmp);
+  end;
+
+  if searchsteampaths then
+  begin
+    tmp := QuerySteamDirectory(2390);
+    if tmp <> '' then
+    begin
+      paths.Add(tmp);
+      paths.Add(tmp + 'base\');
+      paths.Add(tmp + 'base\wads\');
+    end;
+  end;
+
+  result := fname(fn);
+  for i := 0 to paths.Count - 1 do
+  begin
+    tmp := fixslashpath(paths.Strings[i]);
+    if tmp[length(tmp)] <> '\' then
+      tmp := tmp + '\';
+    if fexists(tmp + result) then
+    begin
+      result := tmp + result;
+      paths.free;
+      exit;
+    end;
+  end;
+  result := fn;
+  paths.free;
+end;
+
+const
+  SYSWAD = 'Heretic32.swd';
+
+procedure D_AddSystemWAD;
+var
+  ddsyswad: string;
+begin
+  ddsyswad := D_FileInDoomPath(SYSWAD);
+  if fexists(ddsyswad) then
+    D_AddFile(ddsyswad)
+  else
+    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [SYSWAD]);
+end;
+
 
 
 //
@@ -878,20 +1005,13 @@ procedure IdentifyVersion;
 var
   heretic1wad: string;
   hereticwad: string;
-
-  hereticwaddir: string;
-
   p: integer;
 begin
-  hereticwaddir := getenv('HERETICWADDIR');
-  if hereticwaddir = '' then
-    hereticwaddir := '.';
-
   // Shareware
-  sprintf(heretic1wad, '%s\heretic1.wad', [hereticwaddir]);
+  heretic1wad := D_FileInDoomPath('heretic1.wad');
 
   // Registered / extendedwad
-  sprintf(hereticwad, '%s\heretic.wad', [hereticwaddir]);
+  hereticwad := D_FileInDoomPath('heretic.wad');
 
   basedefault := 'Heretic32.ini';
 
@@ -901,7 +1021,7 @@ begin
   if (p > 0) and (p < myargc - 1) then
   begin
     inc(p);
-    custiwad := myargv[p];
+    custiwad := D_FileInDoomPath(myargv[p]);
     if fexists(custiwad) then
     begin
       printf(' External main wad in use: %s'#13#10, [custiwad]);
@@ -1100,7 +1220,7 @@ begin
     inc(p);
     while (p < myargc) and (myargv[p][1] <> '-') do
     begin
-      D_AddFile(myargv[p]);
+      D_AddFile(D_FileInDoomPath(myargv[p]));
       inc(p);
     end;
   end;
@@ -1194,6 +1314,7 @@ var
   oldoutproc: TOutProc;
   mb_min: integer; // minimum zone size
   s1, s2: string;
+  kparm: string;
 begin
   SUC_Open;
   outproc := @SUC_Outproc;
@@ -1306,6 +1427,7 @@ begin
     begin
       sprintf(filename, '~' + DEVMAPS + 'E%sM%s.wad',
         [myargv[p + 1][1], myargv[p + 2][1]]);
+      filename := D_FileInDoomPath(filename);
       printf('Warping to Episode %s, Map %s.'#13#10,
       [myargv[p + 1], myargv[p + 2]]);
     end;
@@ -1595,12 +1717,22 @@ begin
   if SCREENHEIGHT = -1 then
     SCREENHEIGHT := I_ScreenHeight;
   if SCREENHEIGHT > MAXHEIGHT then
-    SCREENHEIGHT := MAXHEIGHT;
+    SCREENHEIGHT := MAXHEIGHT
+  else if SCREENHEIGHT < MINHEIGHT then
+    SCREENHEIGHT := MINHEIGHT;
+
 
   if SCREENWIDTH = -1 then
     SCREENWIDTH := I_ScreenWidth;
   if SCREENWIDTH > MAXWIDTH then
-    SCREENWIDTH := MAXWIDTH;
+    SCREENWIDTH := MAXWIDTH
+  else if SCREENWIDTH < MINWIDTH then
+    SCREENWIDTH := MINWIDTH;
+
+  {$IFNDEF OPENGL}
+  WINDOWWIDTH := SCREENWIDTH;
+  WINDOWHEIGHT := SCREENHEIGHT;
+  {$ENDIF}
 
   singletics := M_CheckParm('-singletics') > 0;
   noartiskip := M_CheckParm('-noartiskip') > 0;
@@ -1682,7 +1814,7 @@ begin
 
   for p := 1 to myargc do
     if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
-      D_AddFile(myargv[p]);
+      D_AddFile(D_FileInDoomPath(myargv[p]));
 
   for p := 1 to myargc do
     if (strupper(fext(myargv[p])) = '.PK3') or
@@ -1865,11 +1997,14 @@ begin
 
   // If additonal PWAD files are used, print modified banner
     printf(MSG_MODIFIEDGAME);
-    oldoutproc := outproc;
-    I_IOSetWindowHandle(SUC_GetHandle);
-    outproc := @I_IOMessageBox; // Print the message again to messagebox
-    printf(MSG_MODIFIEDGAME);
-    outproc := oldoutproc;
+    if showmessageboxonmodified then
+    begin
+      oldoutproc := outproc;
+      I_IOSetWindowHandle(SUC_GetHandle);
+      outproc := @I_IOMessageBox; // Print the message again to messagebox
+      printf(MSG_MODIFIEDGAME);
+      outproc := oldoutproc;
+    end;
   end;
 
   SUC_Progress(65);
@@ -1980,6 +2115,19 @@ begin
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
 
+  p := M_CheckParm('-keyboardmode');
+  if (p > 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    kparm := strupper(myargv[p]);
+    if (kparm = '0') or (kparm = 'ARROWS') then
+      M_SetKeyboardMode(0)
+    else if (kparm = '1') or (kparm = 'WASD') then
+      M_SetKeyboardMode(1)
+    else if (kparm = '1') or (kparm = 'ESDF') then
+      M_SetKeyboardMode(2);
+  end;
+
   // JVAL: PascalScript
   SUC_Progress(97);
   printf('PS_CompileAllScripts: Compiling all scripts.'#13#10);
@@ -2057,14 +2205,12 @@ begin
   Info_ShutDown;
   printf('PAK_ShutDown: Shut down PAK/ZIP/PK3/PK4 file system.'#13#10);
   PAK_ShutDown;
-  printf('W_ShutDown: Shut down WAD file system.'#13#10);
-  W_ShutDown;
-{$IFNDEF OPENGL}
   printf('E_ShutDown: Shut down ENDOOM screen.'#13#10);
   E_ShutDown;
-{$ENDIF}
   printf('Z_ShutDown: Shut down zone memory allocation daemon.'#13#10);
   Z_ShutDown;
+  printf('W_ShutDown: Shut down WAD file system.'#13#10);
+  W_ShutDown;
   printf('V_ShutDown: Shut down screens.'#13#10);
   V_ShutDown;
   printf('MT_ShutDown: Shut down multithreading utilities.'#13#10);

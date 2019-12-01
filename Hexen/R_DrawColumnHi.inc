@@ -36,6 +36,27 @@
     count := count - 32;
   end;
 
+  if count >= 16 then
+  begin
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    {$I R_DrawColumnHi_Loop.inc}
+    count := count - 16;
+  end;
+
   while count >= 4 do
   begin
     {$I R_DrawColumnHi_Loop.inc}

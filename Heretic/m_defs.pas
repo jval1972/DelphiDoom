@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -56,13 +55,15 @@ uses
   gl_shadows,
 {$ELSE}
   i_video,
-  e_endoom,
   r_batchcolumn,
   r_wall8,
   r_wall32,
   r_scale,
+  r_voxels,
 {$ENDIF}
+  e_endoom,
   m_menu,
+  m_misc,
   r_aspect,
   r_defs,
   r_main,
@@ -83,6 +84,7 @@ uses
   m_sshot_jpg,
   v_video;
 
+
 const
   DFS_NEVER = 0;
   DFS_SINGLEPLAYER = 1;
@@ -92,15 +94,15 @@ const
 var
 {$IFDEF OPENGL}
 // Stub variables
-  displayendscreen: boolean;
   soft_SCREENWIDTH,
   soft_SCREENHEIGHT: integer;
+  usefake3d: boolean;
   optimizedthingsrendering: Boolean;
   force_numwallrenderingthreads_8bit: integer;
   force_numwallrenderingthreads_32bit: integer;
   precisescalefromglobalangle: boolean;
   preciseslopedrawing: Boolean; // JVAL: Slopes
-  usefake3d: Boolean;
+  r_drawvoxels: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -122,7 +124,7 @@ var
   gl_uselightmaps: boolean;
   gl_drawshadows: boolean;
   gl_renderwireframe: boolean;
-  gl_no_glfinish_hack: Boolean = true;
+  gl_no_glfinish_hack: boolean = true;
 {$ENDIF}
 
 type
@@ -140,8 +142,10 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 157;
+  NUMDEFAULTS = 170;
 
+// JVAL
+// Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
      location: nil;
@@ -155,7 +159,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENWIDTH{$ELSE}WINDOWWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 640;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -163,7 +167,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENHEIGHT{$ELSE}WINDOWHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 400;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -171,7 +175,7 @@ const
      location: @{$IFDEF OPENGL}SCREENWIDTH{$ELSE}gl_SCREENWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 640;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -179,7 +183,7 @@ const
      location: @{$IFDEF OPENGL}SCREENHEIGHT{$ELSE}gl_SCREENHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 400;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -267,9 +271,17 @@ const
      location: @shademenubackground;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'menubackgroundflat';
+     location: @menubackgroundflat;
+     setable: DFS_ALWAYS;
+     defaultsvalue: DEFMENUBACKGROUNDFLAT;
      defaultivalue: 0;
-     defaultbvalue: true;
-     _type: tBoolean),
+     defaultbvalue: false;
+     _type: tString),
 
     (name: 'displaydiskbusyicon';
      location: @displaydiskbusyicon;
@@ -317,6 +329,22 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'optimizedcolumnrendering';
+     location: @optimizedcolumnrendering;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'optimizedthingsrendering';
+     location: @optimizedthingsrendering;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'uselightboost';
@@ -375,24 +403,16 @@ const
      defaultbvalue: false;
      _type: tBoolean),
 
-    (name: 'optimizedcolumnrendering';
-     location: @optimizedcolumnrendering ;
-     setable: DFS_ALWAYS;
-     defaultsvalue: '';
-     defaultivalue: 0;
-     defaultbvalue: true;
-     _type: tBoolean),
-
-    (name: 'optimizedthingsrendering';
-     location: @optimizedthingsrendering;
-     setable: DFS_ALWAYS;
-     defaultsvalue: '';
-     defaultivalue: 0;
-     defaultbvalue: true;
-     _type: tBoolean),
-
     (name: 'widescreensupport';
      location: @widescreensupport;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'intermissionstretch';
+     location: @intermissionstretch;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
@@ -528,14 +548,6 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
-    (name: 'gl_drawvoxels';
-     location: @gl_drawvoxels;
-     setable: DFS_ALWAYS;
-     defaultsvalue: '';
-     defaultivalue: 1;
-     defaultbvalue: true;
-     _type: tBoolean),
-
     (name: 'gl_smoothmodelmovement';
      location: @gl_smoothmodelmovement;
      setable: DFS_ALWAYS;
@@ -616,6 +628,22 @@ const
      defaultbvalue: false;
      _type: tGroup),
 
+    (name: 'gl_drawvoxels';
+     location: @gl_drawvoxels;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'r_drawvoxels';
+     location: @r_drawvoxels;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
     (name: 'vx_maxoptimizerpasscount';
      location: @vx_maxoptimizerpasscount;
      setable: DFS_ALWAYS;
@@ -654,6 +682,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'automapgrid';
+     location: @automapgrid;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
      // Textures
@@ -744,6 +780,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'showmessageboxonmodified';
+     location: @showmessageboxonmodified;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
      // Navigation
@@ -883,7 +927,8 @@ const
      defaultsvalue: '';
      defaultivalue: KEY_INS;
      defaultbvalue: false;
-     _type: tInteger),
+
+     _type: tInteger),
 
      // Fly movement
     (name: 'key_flyup';
@@ -912,7 +957,8 @@ const
 
      // JVAL Look LEFT/RIGHT
     (name: 'key_lookright';
-     location: @key_lookright;
+
+     location: @key_lookright;
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: Ord('*');
@@ -933,33 +979,41 @@ const
      defaultsvalue: '';
      defaultivalue: KEY_ENTER;
      defaultbvalue: false;
-     _type: tInteger),
 
-    (name: 'key_invleft';
+     _type: tInteger),
+
+
+    (name: 'key_invleft';
      location: @key_invleft;
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: Ord('[');
      defaultbvalue: false;
-     _type: tInteger),
 
-    (name: 'key_invright';
+     _type: tInteger),
+
+
+    (name: 'key_invright';
      location: @key_invright;
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: Ord(']');
      defaultbvalue: false;
-     _type: tInteger),
 
-    (name: 'key_useartifact';
+     _type: tInteger),
+
+
+    (name: 'key_useartifact';
      location: @key_useartifact;
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: KEY_ENTER;
      defaultbvalue: false;
-     _type: tInteger),
 
-     // Mouse
+     _type: tInteger),
+
+
+     // Mouse
     (name: 'Mouse';
      location: nil;
      setable: DFS_NEVER;
@@ -978,6 +1032,22 @@ const
 
     (name: 'mouse_sensitivity';
      location: @mouseSensitivity;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 5;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'mouse_sensitivityx';
+     location: @mouseSensitivityX;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 5;
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'mouse_sensitivityy';
+     location: @mouseSensitivityY;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 5;
@@ -1203,6 +1273,14 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+    (name: 'screenshotformat';
+     location: @screenshotformat;
+     setable: DFS_ALWAYS;
+     defaultsvalue: 'PNG';
+     defaultivalue: 1;
+     defaultbvalue: false;
+     _type: tString),
+
     (name: 'keepsavegamename';
      location: @keepsavegamename;
      setable: DFS_ALWAYS;
@@ -1387,6 +1465,47 @@ const
      defaultivalue: 8;
      defaultbvalue: false;
      _type: tInteger),
+
+    (name: 'Paths';
+     location: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
+    (name: 'searchdoomwaddir';
+     location: @searchdoomwaddir;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'searchdoomwadpath';
+     location: @searchdoomwadpath;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'searchsteampaths';
+     location: @searchsteampaths;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'additionalwadpaths';
+     location: @additionalwadpaths;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tString),
+
 
     (name: 'Autoload';
      location: nil;

@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  Depth buffer for the software renderer.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -427,12 +427,15 @@ begin
 
   if dbspancacheinfo <> nil then
     memfree(Pointer(dbspancacheinfo), dbspancacheinfo_realsize * SizeOf(dbSpanCacheInfo_t));
+  dbspancacheinfo_realsize := 0;
 end;
 
 // Called in each render tic before we start depth buffer
 var
   lastviewwindowy: Integer = -1;
   lastviewheight: Integer = -1;
+  lastscreenwidth: Integer = -1;
+  lastscreenheight: Integer = -1;
 
 procedure R_StartDepthBuffer;
 var
@@ -445,10 +448,13 @@ begin
     @spandepthbufferproc := @R_StoreSpanToDepthBufferMT
   else
     @spandepthbufferproc := @R_DrawSpanToDepthBuffer;
-  if (lastviewwindowy <> viewwindowy) or (lastviewheight <> viewheight) then
+  if (lastviewwindowy <> viewwindowy) or (lastviewheight <> viewheight) or
+     (lastscreenwidth <> SCREENWIDTH) or (lastscreenheight <> SCREENHEIGHT) then
   begin
     lastviewwindowy := viewwindowy;
     lastviewheight := viewheight;
+    lastscreenwidth := SCREENWIDTH;
+    lastscreenheight := SCREENHEIGHT;
     for n := 0 to NUMDEPTHBUFFERS - 1 do
       for i := 0 to viewheight - 1 do
         ylookupdb[n][i] := PLongWordArray(@depthbuffer[n][(i) * SCREENWIDTH]);

@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //   Textured AutoMap.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -49,13 +49,15 @@ uses
   doomdata,
   d_main,
   am_map,
-  i_threads,
   i_system,
 {$IFNDEF OPENGL}
+  i_threads,
   r_hires,
   r_draw,
   r_trans8,
 {$ELSE}
+  r_precalc,
+  gl_automap,
   v_data,
 {$ENDIF}
   r_data,
@@ -77,10 +79,12 @@ type
   drawtriangle_t = array[0..2] of drawpoint_t;
   Pdrawtriangle_t = ^drawtriangle_t;
 
+{$IFNDEF OPENGL}
   drawsegfunc_t = procedure(const xx, yy, cc: integer; const amcolormap: pointer);
 
 var
   drawsegfunc: drawsegfunc_t;
+{$ENDIF}
 
 {$IFNDEF OPENGL}
 procedure AM_DrawSeg8(xx, yy, cc: integer; const amcolormap: PByteArray);
@@ -119,12 +123,10 @@ begin
   b := @fb[yy * f_w + xx];
   b^ := averagetrans8table[b^ shl 8 + amcolormap[cc]];
 end;
-{$ENDIF}
 
-procedure AM_DrawSeg32(xx, yy, cc: integer; const amcolormap: {$IFNDEF OPENGL}PLongWordArray{$ELSE}PByteArray{$ENDIF});
+procedure AM_DrawSeg32(xx, yy, cc: integer; const amcolormap: PLongWordArray);
 begin
 // JVAL Clip line if in overlay mode
-{$IFNDEF OPENGL}
   if amstate = am_overlay then
   begin
     if yy <= viewwindowy then
@@ -137,19 +139,13 @@ begin
       exit;
   end;
   fb32[yy * f_w + xx] := amcolormap[cc];
-{$ELSE}
-  fb32[yy * f_w + xx] := videopal[amcolormap[cc]];
-{$ENDIF}
 end;
 
-procedure AM_DrawSeg32Transparent(xx, yy, cc: integer; const amcolormap: {$IFNDEF OPENGL}PLongWordArray{$ELSE}PByteArray{$ENDIF});
-{$IFNDEF OPENGL}
+procedure AM_DrawSeg32Transparent(xx, yy, cc: integer; const amcolormap: PLongWordArray);
 var
   pl: PLongWord;
-{$ENDIF}
 begin
 // JVAL Clip line if in overlay mode
-{$IFNDEF OPENGL}
   if amstate = am_overlay then
   begin
     if yy <= viewwindowy then
@@ -161,14 +157,10 @@ begin
     if xx >= viewwindowx + viewwidth then
       exit;
   end;
-{$ELSE}
-  fb32[yy * f_w + xx] := videopal[amcolormap[cc]] and $80000000;
-{$ENDIF}
-{$IFNDEF OPENGL}
   pl := @fb32[yy * f_w + xx];
   pl^ := R_ColorMean(pl^, amcolormap[cc]);
-{$ENDIF}
 end;
+{$ENDIF}
 
 type
   seg_ap3 = array[0..2] of Pseg_t;
@@ -179,6 +171,7 @@ var
   amsin, amcos: fixed_t;
   f_mx: integer;
 
+{$IFNDEF OPENGL}
 procedure AM_DecodeUV(var xx, yy: integer);
 var
   tmpx: fixed_t;
@@ -198,8 +191,10 @@ begin
   yy := 63 - (yy div FRACUNIT) and 63;
   xx := (xx div FRACUNIT) and 63;
 end;
+{$ENDIF}
 
-procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump: integer; const aminx, amaxx: integer; const amcolormap: pointer);
+procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump: integer; const aminx, amaxx: integer; const {$IFDEF OPENGL}lightlevel: integer{$ELSE}amcolormap: pointer{$ENDIF});
+{$IFNDEF OPENGL}
 var
   data: PByteArray;
 
@@ -332,9 +327,13 @@ var
       xx := xx - scale_ftom;
     end;
   end;
-
+{$ENDIF}
 var
-  v1, v2, v3, v4: drawpoint_t;
+  v1, v2, v3{$IFNDEF OPENGL}, v4{$ENDIF}: drawpoint_t;
+  {$IFDEF OPENGL}
+  tmpuv, du0, dv0, du1, dv1, du2, dv2: integer;
+  clight: LongWord;
+  {$ENDIF}
   t: drawtriangle_t;
   v: Pvertex_t;
   i: integer;
@@ -342,13 +341,24 @@ begin
   v := lst[0].v1;
   t[0].x:= v.x;
   t[0].y := v.y;
+{$IFDEF OPENGL}
+  du0 := -v.y;
+  dv0 := v.x;
+{$ENDIF}
   v := lst[1].v1;
   t[1].x := v.x;
   t[1].y := v.y;
+{$IFDEF OPENGL}
+  du1 := -v.y;
+  dv1 := v.x;
+{$ENDIF}
   v := lst[2].v1;
   t[2].x := v.x;
   t[2].y := v.y;
-
+{$IFDEF OPENGL}
+  du2 := -v.y;
+  dv2 := v.x;
+{$ENDIF}
   for i := 0 to 2 do
   begin
     if allowautomaprotate then
@@ -362,6 +372,14 @@ begin
     v1 := t[1];
     t[1] := t[0];
     t[0] := v1;
+    {$IFDEF OPENGL}
+    tmpuv := du1;
+    du1 := du0;
+    du0 := tmpuv;
+    tmpuv := dv1;
+    dv1 := dv0;
+    dv0 := tmpuv;
+    {$ENDIF}
   end;
 
   if t[2].x < t[1].x then
@@ -369,6 +387,14 @@ begin
     v1 := t[2];
     t[2] := t[1];
     t[1] := v1;
+    {$IFDEF OPENGL}
+    tmpuv := du2;
+    du2 := du1;
+    du1 := tmpuv;
+    tmpuv := dv2;
+    dv2 := dv1;
+    dv1 := tmpuv;
+    {$ENDIF}
   end;
 
   if t[1].x < t[0].x then
@@ -376,6 +402,14 @@ begin
     v1 := t[1];
     t[1] := t[0];
     t[0] := v1;
+    {$IFDEF OPENGL}
+    tmpuv := du1;
+    du1 := du0;
+    du0 := tmpuv;
+    tmpuv := dv1;
+    dv1 := dv0;
+    dv0 := tmpuv;
+    {$ENDIF}
   end;
 
   if t[2].x < aminx then
@@ -398,6 +432,7 @@ begin
   v2 := t[1];
   v3 := t[2];
 
+{$IFNDEF OPENGL}
   data := W_CacheLumpNum(lump, PU_LEVEL);
 
   if v2.x = v3.x then
@@ -417,15 +452,25 @@ begin
 
   fillLeftFlatTriangle(v1, v2, v4);
   fillRightFlatTriangle(v2, v4, v3);
+{$ELSE}
+  clight := precal8_tolong[ibetween(lightlevel, 0, 255)];
+
+  gld_AddAutomapTriangle(
+    v1.x, v1.y, du0, dv0,
+    v2.x, v2.y, du1, dv1,
+    v3.x, v3.y, du2, dv2,
+    clight,
+    lump);
+{$ENDIF}
 end;
 
 procedure AM_setSubSectorDrawFuncs;
 begin
 {$IFDEF OPENGL}
-  if amstate = am_overlay then
-    drawsegfunc := @AM_DrawSeg32Transparent
-  else
-    drawsegfunc := @AM_DrawSeg32;
+//  if amstate = am_overlay then
+//    drawsegfunc := @AM_DrawSeg32Transparent
+//  else
+//    drawsegfunc := @AM_DrawSeg32;
 {$ELSE}
   if amstate = am_overlay then
   begin
@@ -453,7 +498,7 @@ type
 var
   amvalidcount: integer = 0;
 
-function AM_dodrawSubSectors(parms: dssparams_p): integer; stdcall;
+function AM_dodrawSubSectors(parms: dssparams_p): integer; {$IFNDEF OPENGL}stdcall;{$ENDIF}
 var
   i, j: integer;
   ssector: Psubsector_t;
@@ -462,8 +507,12 @@ var
   drawit: boolean;
   wasdrawned: boolean;
   lump: integer;
+  {$IFDEF OPENGL}
+  lightlevel: integer;
+  {$ELSE}
   cmap: integer;
   amcolormap: pointer;
+  {$ENDIF}
 begin
   for i := 0 to numsubsectors - 1 do
   begin
@@ -492,14 +541,14 @@ begin
 
     if drawit then
     begin
+      {$IFDEF OPENGL}
+      lightlevel := ssector.sector.lightlevel;
+      {$ELSE}
       cmap := (ssector.sector.lightlevel) div 8;
       if cmap > 31 then
         cmap := 31
       else if cmap < 0 then
         cmap := 0;
-      {$IFDEF OPENGL}
-      amcolormap := @colormaps[(31 - cmap) * 256];
-      {$ELSE}
       if videomode = vm32bit then
         amcolormap := @colormaps32[(31 - cmap) * 256]
       else
@@ -523,7 +572,7 @@ begin
         lst[1] := lst[2];
         lst[2] := seg;
 
-        AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, amcolormap);
+        AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
       end;
     end;
 
@@ -568,14 +617,14 @@ begin
 
       if drawit then
       begin
+        {$IFDEF OPENGL}
+        lightlevel := ssector.sector.lightlevel;
+        {$ELSE}
         cmap := (ssector.sector.lightlevel) div 8;
         if cmap > 31 then
           cmap := 31
         else if cmap < 0 then
           cmap := 0;
-        {$IFDEF OPENGL}
-        amcolormap := @colormaps[(31 - cmap) * 256];
-        {$ELSE}
         if videomode = vm32bit then
           amcolormap := @colormaps32[(31 - cmap) * 256]
         else
@@ -592,7 +641,7 @@ begin
           Inc(seg);
           lst[1] := lst[2];
           lst[2] := seg;
-          AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, amcolormap);
+          AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
         end;
       end;
 
@@ -601,18 +650,22 @@ begin
   result := 0;
 end;
 
+{$IFNDEF OPENGL}
 const
   MAXDSSTHREADS = 14;
 
 var
   dssthreads: array[0..MAXDSSTHREADS - 2] of TDThread;
   numdssthreads: integer = 1;
+{$ENDIF}
 
 procedure AM_drawSubSectors;
 var
-  parms: array[0..MAXDSSTHREADS - 1] of dssparams_t;
+  parms: {$IFNDEF OPENGL}array[0..MAXDSSTHREADS - 1] of{$ENDIF} dssparams_t;
+{$IFNDEF OPENGL}
   i: integer;
   l, h: integer;
+{$ENDIF}
 begin
   Inc(amvalidcount);
   pla := plr.mo.angle - ANG90;
@@ -624,10 +677,15 @@ begin
   f_mx := f_h;
   if amstate = am_overlay then
     if screenblocks >= 10 then
-      f_mx := {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}SCREENWIDTH{$ENDIF};
+      f_mx := SCREENWIDTH;
 
+  {$IFNDEF OPENGL}
   if usemultithread then
   begin
+    // Precache floor textures
+    for i := 0 to numsectors - 1 do
+      W_CacheLumpNum(R_GetLumpForFlat(sectors[i].floorpic), PU_LEVEL);
+
     numdssthreads := I_GetNumCPUs;
     if numdssthreads > MAXDSSTHREADS then
       numdssthreads := MAXDSSTHREADS
@@ -654,29 +712,37 @@ begin
       dssthreads[i].Wait;
   end
   else
+  {$ENDIF}
   begin
-    parms[0].minx := 1;
-    parms[0].maxx := f_w - 1;
-    AM_dodrawSubSectors(@parms[0]);
+    parms{$IFNDEF OPENGL}[0]{$ENDIF}.minx := 1;
+    parms{$IFNDEF OPENGL}[0]{$ENDIF}.maxx := f_w - 1;
+    AM_dodrawSubSectors(@parms{$IFNDEF OPENGL}[0]{$ENDIF});
   end;
 end;
 
 procedure AM_InitTextured;
+{$IFNDEF OPENGL}
 var
   i: integer;
+{$ENDIF}
 begin
+{$IFNDEF OPENGL}
   for i := 0 to MAXDSSTHREADS - 2 do
     dssthreads[i] := TDThread.Create(@AM_dodrawSubSectors);
+{$ENDIF}
 end;
 
 procedure AM_ShutDownTextured;
+{$IFNDEF OPENGL}
 var
   i: integer;
+{$ENDIF}
 begin
+{$IFNDEF OPENGL}
   for i := 0 to MAXDSSTHREADS - 2 do
     dssthreads[i].Free;
+{$ENDIF}
 end;
 
 end.
-
 

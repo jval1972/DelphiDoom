@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -178,6 +177,7 @@ uses
   d_player,
   doomtype,
   m_argv,
+  mt_utils,
   z_zone,
   m_bbox,
   g_game,
@@ -215,6 +215,7 @@ uses
   gl_render,  // JVAL OPENGL
   r_main,
 {$ENDIF}
+  r_subsectors,
   nd_main,
   s_sound,
   s_sndseq,
@@ -1227,6 +1228,8 @@ begin
   // Make sure all sounds are stopped before Z_FreeTags.
   S_Start;
 
+  MT_WaitTasks;
+  
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
 {$IFDEF OPENGL}
@@ -1351,6 +1354,8 @@ begin
     P_AdjustMissingTextures;
 
   P_CalcSubSectorsBridge;
+
+  R_PrecalcPointInSubSector;
 
   bodyqueslot := 0;
   po_NumPolyobjs := 0;

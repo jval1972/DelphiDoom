@@ -27,7 +27,6 @@
 //  This one is the original DOOM version, preserved.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -40,6 +39,7 @@ interface
 uses
   d_delphi,
   d_think,
+  r_renderstyle,
   sc_params;
 
 type
@@ -1475,11 +1475,6 @@ type
     DO_NUMMOBJTYPES
   );
 
-type
-  mobjrenderstyle_t = (
-    mrs_normal, mrs_translucent, mrs_add, NUMMOBJRENDERSTYLES
-  );
-
 const
   MOBJINFONAMESIZE = 20;
 
@@ -1535,5 +1530,4 @@ type
 implementation
 
 end.
-
 

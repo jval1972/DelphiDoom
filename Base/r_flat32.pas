@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  Multithreading flat rendering - 32 bit color
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -41,7 +41,6 @@ uses
 type
   flatrenderinfo32_t = record
     ds_source32: PLongWordArray;
-    ds_colormap32: PLongWordArray;
     ds_lightlevel: fixed_t;
     ds_y, ds_x1, ds_x2: integer;
     ds_xfrac: fixed_t;
@@ -112,7 +111,6 @@ begin
   R_GrowFlatsCache32;
   flat := @flatcache32[flatcachesize32];
   flat.ds_source32 := ds_source32;
-  flat.ds_colormap32 := ds_colormap32;
   flat.ds_lightlevel := ds_lightlevel;
   flat.ds_y := ds_y;
   flat.ds_x1 := ds_x1;
@@ -669,7 +667,6 @@ end;
 procedure R_DrawSpanNormalMT(const fi: pointer);
 var
   ds_source32: PLongWordArray;
-  ds_colormap32: PLongWordArray;
   ds_y, ds_x1, ds_x2: integer;
   ds_xfrac: fixed_t;
   ds_yfrac: fixed_t;
@@ -693,7 +690,6 @@ var
   bf_b: PIntegerArray;
 begin
   ds_source32 := Pflatrenderinfo32_t(fi).ds_source32;
-  ds_colormap32 := Pflatrenderinfo32_t(fi).ds_colormap32;
   ds_y := Pflatrenderinfo32_t(fi).ds_y;
   ds_x1 := Pflatrenderinfo32_t(fi).ds_x1;
   ds_x2 := Pflatrenderinfo32_t(fi).ds_x2;
@@ -729,7 +725,6 @@ end;
 procedure R_DrawSpanNormal_RippleMT(const fi: pointer);
 var
   ds_source32: PLongWordArray;
-  ds_colormap32: PLongWordArray;
   ds_y, ds_x1, ds_x2: integer;
   ds_xfrac: fixed_t;
   ds_yfrac: fixed_t;
@@ -754,7 +749,6 @@ var
   rpl: PIntegerArray;
 begin
   ds_source32 := Pflatrenderinfo32_t(fi).ds_source32;
-  ds_colormap32 := Pflatrenderinfo32_t(fi).ds_colormap32;
   ds_y := Pflatrenderinfo32_t(fi).ds_y;
   ds_x1 := Pflatrenderinfo32_t(fi).ds_x1;
   ds_x2 := Pflatrenderinfo32_t(fi).ds_x2;

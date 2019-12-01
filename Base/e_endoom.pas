@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -31,6 +31,7 @@ unit e_endoom;
 interface
 
 uses
+  d_delphi,
   d_event;
 
 //-----------------------------------------------------------------------------
@@ -61,10 +62,18 @@ procedure E_ShutDown;
 
 procedure E_Ticker;
 
+{$IFDEF OPENGL}
+const
+  ESCREENWIDTH = 1024;
+  ESCREENHEIGHT = 256;
+
+var
+  e_screen32: PLongWordArray = nil;
+{$ENDIF}
+
 implementation
 
 uses
-  d_delphi,
   doomdef,
   i_system,
 {$IFDEF OPENGL}
@@ -225,7 +234,16 @@ begin
     e_needsupdate := false;
   end;
 
+{$IFDEF OPENGL}
+  if e_screen32 = nil then
+    e_screen32 := mallocz(ESCREENWIDTH * ESCREENHEIGHT * SizeOf(LongWord));
+
+  for ix := 0 to 639 do
+    for iy := 0 to 199 do
+      e_screen32[iy * ESCREENWIDTH + ix] := videopal[e_screen[iy * 640 + ix]] or $FF000000;
+{$ELSE}
   V_CopyCustomScreen(e_screen, 640, 200, SCN_FG);
+{$ENDIF}
 end;
 
 procedure E_ShutDown;
@@ -235,6 +253,10 @@ begin
     memfree(pointer(e_screen), 640 * 200 * SizeOf(byte));
     Z_Free(dosfont);
   end;
+{$IFDEF OPENGL}
+  if e_screen32 <> nil then
+    memfree(pointer(e_screen32), ESCREENWIDTH * ESCREENHEIGHT * SizeOf(LongWord));
+{$ENDIF}
 end;
 
 procedure E_Ticker;

@@ -28,7 +28,6 @@
 //  Moreover, the sky areas have to be determined.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -63,7 +62,7 @@ procedure R_DrawPlanes;
 procedure R_DoDrawPlane(const pl: Pvisplane_t); // JVAL: 3d Floors
 {$ENDIF}
 function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
-  flags: LongWord;  const floor_or_ceiling: boolean;
+  flags: LongWord; const floor_or_ceiling: boolean;
   {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF} slopeSID: integer = -1): Pvisplane_t;
 
 {$IFNDEF OPENGL}
@@ -89,23 +88,13 @@ var
 // opening
 //
 
-//
-//https://www.doomworld.com/vb/source-ports/85967-reasonable-static-limit-for-maxopenings/
-//
-const
-  MAXOPENINGS = MAXWIDTH * MAXHEIGHT;
-
-var
-  openings: packed array[0..MAXOPENINGS - 1] of smallint;
-  lastopening: integer;
-
 {$IFNDEF OPENGL}
+var
+  openings: PSmallIntArray = nil;
+  lastopening: integer;
+  
   yslope: array[0..MAXHEIGHT - 1] of fixed_t;
   distscale: array[0..MAXWIDTH - 1] of fixed_t;
-{$ENDIF}
-
-{$IFNDEF OPENGL}
-function R_NewVisPlane: Pvisplane_t;  // JVAL: 3d Floors
 {$ENDIF}
 
 // JVAL: 3d Floors -> moved to interface
@@ -133,6 +122,12 @@ var
 //
   planezlight: PBytePArray;
   planeheight: fixed_t;
+{$ENDIF}
+
+{$IFNDEF OPENGL}
+procedure R_InitializeVisplanes;
+
+procedure R_ClearVisPlanes;
 {$ENDIF}
 
 implementation
@@ -242,7 +237,6 @@ begin
     ds_colormap := fixedcolormap;
     if videomode = vm32bit then
     begin
-      ds_colormap32 := R_GetColormap32(ds_colormap);
       if fixedcolormapnum = INVERSECOLORMAP then
         ds_lightlevel := -1  // Negative value -> Use colormaps
       else
@@ -259,7 +253,6 @@ begin
     ds_colormap := planezlight[index];
     if videomode = vm32bit then
     begin
-      ds_colormap32 := R_GetColormap32(ds_colormap);
       if not forcecolormaps then
       begin
          ncolornum := _SHR(distance, HLL_ZDISTANCESHIFT);
@@ -333,17 +326,41 @@ begin
     ceilingclip[viewwidth - 1] := -1;
   end;
 
+{$ENDIF}
   ZeroMemory(@visplanehash, SizeOf(visplanehash));
 
   lastvisplane := 0;
+{$IFNDEF OPENGL}
   lastvisplane3d := 0;  // JVAL: 3d Floors
   lastvisslope := 0;    // JVAL: Slopes
   lastopening := 0;
+
+  //https://www.doomworld.com/vb/source-ports/85967-reasonable-static-limit-for-maxopenings/
+  openings := Z_Realloc(openings, SCREENWIDTH * SCREENHEIGHT * SizeOf(smallint), PU_STATIC, nil);
 
   // texture calculation
   ZeroMemory(@cachedheight, SizeOf(cachedheight));
 {$ENDIF}  // JVAL: 3d Floors
 end;
+
+//
+// R_ClearVisPlanes
+//
+// JVAL
+//   Free zone memory of visplanes
+{$IFNDEF OPENGL}
+procedure R_ClearVisPlanes;
+var
+  i: integer;
+begin
+  for i := 0 to maxvisplane do
+  begin
+    Z_Free(visplanes[i].top);
+    Z_Free(visplanes[i].bottom);
+  end;
+  maxvisplane := -1;
+end;
+{$ENDIF}
 
 //
 // R_NewVisPlane
@@ -361,6 +378,8 @@ begin
       Z_Malloc((SCREENWIDTH + 2) * SizeOf(visindex_t), PU_LEVEL, nil));
     visplanes[lastvisplane].bottom := Pvisindex_tArray(
       Z_Malloc((SCREENWIDTH + 2) * SizeOf(visindex_t), PU_LEVEL, nil));
+    // Clear visplane
+    memset(@visplanes[lastvisplane].top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
     {$ENDIF}
     maxvisplane := lastvisplane;
   end;
@@ -425,7 +444,6 @@ begin
       result.slopeSID := slopeSID;  // JVAL: Slopes
       {$IFNDEF OPENGL}
       result.slope := slope;  // JVAL: Slopes
-      memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
       {$ENDIF}
 
       visplanehash[check] := lastvisplane;
@@ -478,7 +496,6 @@ begin
   result.slopeSID := slopeSID;  // JVAL: Slopes
   {$IFNDEF OPENGL}
   result.slope := slope;  // JVAL: Slopes
-  memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
   {$ENDIF}
 
   check := hash;
@@ -573,8 +590,6 @@ begin
   pl.maxx := stop;
 
   result := pl;
-
-  memset(@result.top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
 end;
 {$ENDIF}
 
@@ -616,7 +631,7 @@ begin
   while (b2 > b1) and (b2 >= t2) do
   begin
   // JVAL 9/7/05
-    if (b2 >= 0) and (b2 < viewwidth) then //Length(spanstart)) then
+    if (b2 >= 0) and (b2 < viewwidth) then 
       spanstart[b2] := x;
     dec(b2);
   end;
@@ -793,6 +808,16 @@ begin
 
   if ds_source <> nil then
     Z_ChangeTag(ds_source, PU_CACHE);
+end;
+{$ENDIF}
+
+{$IFNDEF OPENGL}
+procedure R_InitializeVisplanes;
+var
+  i: integer;
+begin
+  for i := 0 to lastvisplane - 1 do
+    memset(@visplanes[i].top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
 end;
 {$ENDIF}
 

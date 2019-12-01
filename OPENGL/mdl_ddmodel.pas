@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -67,6 +67,7 @@ uses
   doomdef,
   gl_defs,
   i_system,
+  w_folders,
   w_pak;
 
 constructor TDDModel.Create(const name: string;
@@ -108,6 +109,11 @@ var
   source: TDStringList;
 begin
   strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    strm := TPakStream.Create(fname, pm_short, '', FOLDER_MODELS);
+  end;
   if strm.IOResult <> 0 then
     I_Error('TDDModel.LoadFrom(): Can not find model %s!', [fname]);
 

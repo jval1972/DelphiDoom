@@ -7,6 +7,9 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -34,7 +37,6 @@
 //  and call the startup functions.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -127,6 +129,10 @@ procedure D_ShutDown;
 
 var
   autoloadgwafiles: boolean = true;
+  searchdoomwaddir: boolean = true;
+  searchdoomwadpath: boolean = true;
+  searchsteampaths: boolean = true;
+  additionalwadpaths: string = '';
 
 var
   wads_autoload: string = '';
@@ -139,6 +145,9 @@ var
   isregistered: boolean;
   isdemoversion: boolean;
 
+var
+  showmessageboxonmodified: boolean = false;
+
 implementation
 
 uses
@@ -150,12 +159,12 @@ uses
   d_englsh,
   d_player,
   d_net,
+  d_notifications,
   c_con,
   c_cmds,
-{$IFNDEF OPENGL}
   e_endoom,
+{$IFNDEF OPENGL}
   f_fade,
-  r_defs,
 {$ENDIF}
   f_finale,
   m_argv,
@@ -165,17 +174,17 @@ uses
   info,
   info_common,
   info_rnd,
-  m_saves,
   i_system,
   i_sound,
   i_io,
   i_tmp,
-{$IFNDEF FPC}
   i_startup,
-{$ENDIF}
+  i_steam,
 {$IFDEF OPENGL}
   gl_main,
 {$ELSE}
+  r_defs,
+  r_fake3d,
   i_video,
 {$ENDIF}
   nd_main,
@@ -184,8 +193,8 @@ uses
   st_stuff,
   am_map,
   p_setup,
-  p_mobj,
   p_mobj_h,
+  p_mobj,
   ps_main,
   psi_overlay,
   p_dialog,
@@ -194,14 +203,12 @@ uses
   r_hires,
   r_intrpl,
   r_data,
-{$IFNDEF OPENGL}
-  r_fake3d,
-{$ENDIF}
   r_camera,
   r_lights,
   sounds,
   s_sound,
   sc_actordef,
+  m_saves,
   t_main,
   v_data,
   v_video,
@@ -337,7 +344,7 @@ begin
 {$ENDIF}
 
   if player <> nil then
-    R_RenderPlayerView(player)
+    R_RenderPlayerView(player);
 end;
 
 var
@@ -366,14 +373,14 @@ var
   oldvideomode: videomode_t;
 {$ENDIF}
 begin
-{$IFNDEF OPENGL}
   if gamestate = GS_ENDOOM then
   begin
     E_Drawer;
+    {$IFNDEF OPENGL}
     D_FinishUpdate; // page flip or blit buffer
+    {$ENDIF}
     exit;
   end;
-{$ENDIF}
 
 {$IFNDEF OPENGL}
   HU_DoFPSStuff;
@@ -570,10 +577,11 @@ begin
   else
   begin
     {$IFDEF OPENGL}
-    diskbuzy_height := 0;
+    diskbusy_height := 0;
     {$ENDIF}
     // JVAL: Overlay Drawer before menus
     OVR_Drawer;
+
     M_Drawer;
     C_Drawer;
   end;
@@ -614,6 +622,7 @@ begin
 end;
 {$IFDEF OPENGL}
 begin
+  I_StartUpdate;
   HU_DoFPSStuff;
   if firstinterpolation then
     MT_ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
@@ -621,17 +630,14 @@ begin
   begin
     if (amstate <> am_only) and (gametic <> 0) then
     begin
-      R_FillBackScreen;         // draw the pattern into the back screen
+      R_FillBackScreen; // draw the pattern into the back screen
       D_RenderPlayerView(@players[displayplayer]);
     end;
   end;
-  if firstinterpolation then
-  begin
-    if gamestate = GS_LEVEL then
-      if amstate = am_overlay then
-        AM_Drawer;
-    D_DisplayHU;
-  end;
+  if gamestate = GS_LEVEL then
+    if amstate = am_overlay then
+      AM_Drawer;
+  D_DisplayHU;
   D_FinishUpdate; // page flip or blit buffer
 end;
 {$ENDIF}
@@ -680,6 +686,8 @@ begin
 {$ENDIF}
 
     S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
+
+    D_RunNotifications;
 
 {$IFDEF DEBUG}
     except
@@ -744,9 +752,7 @@ end;
 //
 procedure D_AdvanceDemo;
 begin
-{$IFNDEF OPENGL}
   if gamestate <> GS_ENDOOM then
-{$ENDIF}
     advancedemo := true;
 end;
 
@@ -956,25 +962,6 @@ begin
   end;
 end;
 
-const
-  SYSWAD = 'Strife32.swd';
-
-procedure D_AddSystemWAD;
-var
-  ddsyswad: string;
-  doomwaddir: string;
-begin
-  doomwaddir := getenv('STRIFEWADDIR');
-  if doomwaddir = '' then
-    doomwaddir := '.';
-
-  sprintf(ddsyswad, '%s\%s', [doomwaddir, SYSWAD]);
-  if fexists(ddsyswad) then
-    D_AddFile(ddsyswad)
-  else
-    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [ddsyswad]);
-end;
-
 procedure D_WadsAutoLoad(fnames: string);
 var
   s1, s2: string;
@@ -983,7 +970,10 @@ begin
   if fnames = '' then
     exit;
 
-  splitstring(fnames, s1, s2, [',', ' ']);
+  if Pos(';', fnames) > 0 then
+    splitstring(fnames, s1, s2, ';')
+  else
+    splitstring(fnames, s1, s2, ',');
   D_AddFile(s1);
   D_WadsAutoLoad(s2);
 end;
@@ -996,10 +986,149 @@ begin
   if fnames = '' then
     exit;
 
-  splitstring(fnames, s1, s2, [',', ' ']);
+  if Pos(';', fnames) > 0 then
+    splitstring(fnames, s1, s2, ';')
+  else
+    splitstring(fnames, s1, s2, ',');
   PAK_AddFile(s1);
   D_PaksAutoload(s2);
 end;
+
+const
+  PATH_SEPARATOR = ';';
+
+function D_FileInDoomPath(const fn: string): string;
+var
+  doomwaddir: string;
+  doomwadpath: string;
+  paths: TDStringList;
+  i: integer;
+  tmp: string;
+begin
+  if fexists(fn) then
+  begin
+    result := fn;
+    exit;
+  end;
+
+  paths := TDStringList.Create;
+
+  if searchdoomwaddir then
+  begin
+    doomwaddir := getenv('STRIFEWADDIR');
+    if doomwaddir <> '' then
+      paths.Add(doomwaddir);
+    doomwaddir := getenv('DOOMWADDIR');
+    if doomwaddir <> '' then
+      paths.Add(doomwaddir);
+  end;
+
+  if searchdoomwadpath then
+  begin
+    doomwadpath := getenv('STRIFEWADPATH');
+    if doomwadpath <> '' then
+    begin
+      tmp := '';
+      for i := 1 to length(doomwadpath) do
+      begin
+        if doomwadpath[i] = PATH_SEPARATOR then
+        begin
+          if tmp <> '' then
+          begin
+            paths.Add(tmp);
+            tmp := '';
+          end;
+        end
+        else
+          tmp := tmp + doomwadpath[i];
+      end;
+      if tmp <> '' then
+        paths.Add(tmp);
+    end;
+    doomwadpath := getenv('DOOMWADPATH');
+    if doomwadpath <> '' then
+    begin
+      tmp := '';
+      for i := 1 to length(doomwadpath) do
+      begin
+        if doomwadpath[i] = PATH_SEPARATOR then
+        begin
+          if tmp <> '' then
+          begin
+            paths.Add(tmp);
+            tmp := '';
+          end;
+        end
+        else
+          tmp := tmp + doomwadpath[i];
+      end;
+      if tmp <> '' then
+        paths.Add(tmp);
+    end;
+  end;
+
+  if additionalwadpaths <> '' then
+  begin
+    tmp := '';
+    for i := 1 to length(additionalwadpaths) do
+    begin
+      if additionalwadpaths[i] = PATH_SEPARATOR then
+      begin
+        if tmp <> '' then
+        begin
+          paths.Add(tmp);
+          tmp := '';
+        end;
+      end
+      else
+        tmp := tmp + additionalwadpaths[i];
+    end;
+    if tmp <> '' then
+      paths.Add(tmp);
+  end;
+
+  if searchsteampaths then
+  begin
+    tmp := QuerySteamDirectory(317040);
+    if tmp <> '' then
+    begin
+      paths.Add(tmp);
+      paths.Add(tmp + 'base\');
+      paths.Add(tmp + 'base\wads');
+    end;
+  end;
+
+  result := fname(fn);
+  for i := 0 to paths.Count - 1 do
+  begin
+    tmp := fixslashpath(paths.Strings[i]);
+    if tmp[length(tmp)] <> '\' then
+      tmp := tmp + '\';
+    if fexists(tmp + result) then
+    begin
+      result := tmp + result;
+      paths.free;
+      exit;
+    end;
+  end;
+  result := fn;
+  paths.free;
+end;
+
+const
+  SYSWAD = 'Strife32.swd';
+
+procedure D_AddSystemWAD;
+var
+  ddsyswad: string;
+begin
+  ddsyswad := D_FileInDoomPath(SYSWAD);
+  if fexists(ddsyswad) then
+    D_AddFile(ddsyswad)
+  else
+    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [SYSWAD]);
+end;
+
 
 
 //
@@ -1014,22 +1143,17 @@ var
   strife1wad: string;
   voiceswad: string;
   doomcwad: string;
-  doomwaddir: string;
   p: integer;
 begin
-  doomwaddir := getenv('STRIFEWADDIR');
-  if doomwaddir = '' then
-    doomwaddir := '.';
-
   //Shareware
-  sprintf(strife0wad, '%s\strife0.wad', [doomwaddir]);
+  strife0wad := D_FileInDoomPath('strife0.wad');
   // Registered.
-  sprintf(strife1wad, '%s\strife1.wad', [doomwaddir]);
+  strife1wad := D_FileInDoomPath('strife1.wad');
   // voices
-  sprintf(voiceswad, '%s\voices.wad', [doomwaddir]);
+  voiceswad := D_FileInDoomPath('voices.wad');
 
 
-  basedefault := {$IFDEF FPC}'Strife32f.ini'{$ELSE}'Strife32.ini'{$ENDIF};
+  basedefault := 'Strife32.ini';
 
   p := M_CheckParm('-mainwad');
   if p = 0 then
@@ -1037,7 +1161,7 @@ begin
   if (p > 0) and (p < myargc - 1) then
   begin
     inc(p);
-    doomcwad := myargv[p];
+    doomcwad := D_FileInDoomPath(myargv[p]);
     if fexists(doomcwad) then
     begin
       printf(' External main wad in use: %s'#13#10, [doomcwad]);
@@ -1045,7 +1169,7 @@ begin
       D_AddFile(doomcwad);
       if strupper(fname(doomcwad)) = 'STRIFE1.WAD' then
       begin
-        voiceswad := fpath(fexpand(doomcwad)) + 'voices.wad';
+        voiceswad := D_FileInDoomPath(fpath(fexpand(doomcwad)) + 'voices.wad');
         if fexists(voiceswad) then
         begin
           D_AddFile(voiceswad{$IFDEF OPENGL}, true{$ENDIF});
@@ -1254,7 +1378,7 @@ begin
     inc(p);
     while (p < myargc) and (myargv[p][1] <> '-') do
     begin
-      D_AddFile(myargv[p]);
+      D_AddFile(D_FileInDoomPath(myargv[p]));
       inc(p);
     end;
   end;
@@ -1342,6 +1466,7 @@ var
   maps: integer;
   err_shown: boolean;
   s1, s2: string;
+  kparm: string;
 begin
   {$IFDEF FPC}
   outproc := @I_IOprintf;
@@ -1767,12 +1892,22 @@ begin
   if SCREENHEIGHT = -1 then
     SCREENHEIGHT := I_ScreenHeight;
   if SCREENHEIGHT > MAXHEIGHT then
-    SCREENHEIGHT := MAXHEIGHT;
+    SCREENHEIGHT := MAXHEIGHT
+  else if SCREENHEIGHT < MINHEIGHT then
+    SCREENHEIGHT := MINHEIGHT;
+
 
   if SCREENWIDTH = -1 then
     SCREENWIDTH := I_ScreenWidth;
   if SCREENWIDTH > MAXWIDTH then
-    SCREENWIDTH := MAXWIDTH;
+    SCREENWIDTH := MAXWIDTH
+  else if SCREENWIDTH < MINWIDTH then
+    SCREENWIDTH := MINWIDTH;
+
+  {$IFNDEF OPENGL}
+  WINDOWWIDTH := SCREENWIDTH;
+  WINDOWHEIGHT := SCREENHEIGHT;
+  {$ENDIF}
 
   singletics := M_CheckParm('-singletics') > 0;
 
@@ -1859,7 +1994,7 @@ begin
 
   for p := 1 to myargc do
     if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
-      D_AddFile(myargv[p]);
+      D_AddFile(D_FileInDoomPath(myargv[p]));
 
   for p := 1 to myargc do
     if (strupper(fext(myargv[p])) = '.PK3') or
@@ -2093,11 +2228,14 @@ begin
 
   // If additonal PWAD files are used, print modified banner
     printf(MSG_MODIFIEDGAME);
-    oldoutproc := outproc;
-    I_IOSetWindowHandle({$IFDEF FPC}0{$ELSE}SUC_GetHandle{$ENDIF});
-    outproc := @I_IOMessageBox; // Print the message again to messagebox
-    printf(MSG_MODIFIEDGAME);
-    outproc := oldoutproc;
+    if showmessageboxonmodified then
+    begin
+      oldoutproc := outproc;
+      I_IOSetWindowHandle({$IFDEF FPC}0{$ELSE}SUC_GetHandle{$ENDIF});
+      outproc := @I_IOMessageBox; // Print the message again to messagebox
+      printf(MSG_MODIFIEDGAME);
+      outproc := oldoutproc;
+    end;
   end;
 
   {$IFNDEF FPC}
@@ -2178,8 +2316,10 @@ begin
   // haleyjd 20110210: Create Strife hub save folders
   printf('M_CreateSaveDirs: Creating game save directories.'#13#10);
   M_CreateSaveDirs(M_SaveFileName(''));
-  savepathtemp := M_SafeFilePath(M_SaveFileName(''), 'strfsav8.ssg');
-  M_ClearTmp;
+
+  savepathtemp := M_SafeFilePath(M_SaveFileName(''), 'strfsav8.ssg');
+
+  M_ClearTmp;
 
   {$IFNDEF FPC}
   SUC_Progress(87);
@@ -2236,6 +2376,22 @@ begin
 
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
+
+  p := M_CheckParm('-keyboardmode');
+  if (p > 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    kparm := strupper(myargv[p]);
+    if (kparm = '0') or (kparm = 'ARROWS') then
+      M_SetKeyboardMoveMode(0)
+    else if (kparm = '1') or (kparm = 'WASD') then
+      M_SetKeyboardMoveMode(1)
+    else if (kparm = '2') or (kparm = 'ESDF') then
+      M_SetKeyboardMoveMode(2);
+  end;
+
+  printf('F_Init: Setting up startcast :)'#13#10);
+  F_Init;
 
   // JVAL: PascalScript
   {$IFNDEF FPC}
@@ -2318,14 +2474,12 @@ begin
   Info_ShutDown;
   printf('PAK_ShutDown: Shut down PAK/ZIP/PK3/PK4 file system.'#13#10);
   PAK_ShutDown;
-  printf('W_ShutDown: Shut down WAD file system.'#13#10);
-  W_ShutDown;
-{$IFNDEF OPENGL}
   printf('E_ShutDown: Shut down ENDSTRF screen.'#13#10);
   E_ShutDown;
-{$ENDIF}
   printf('Z_ShutDown: Shut down zone memory allocation daemon.'#13#10);
   Z_ShutDown;
+  printf('W_ShutDown: Shut down WAD file system.'#13#10);
+  W_ShutDown;
   printf('V_ShutDown: Shut down screens.'#13#10);
   V_ShutDown;
   printf('MT_ShutDown: Shut down multithreading utilities.'#13#10);

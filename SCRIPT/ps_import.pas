@@ -105,6 +105,7 @@ uses
   p_setup,
   {$ENDIF}
   r_main,
+  r_renderstyle,
   sc_states,
   tables,
   w_pak,
@@ -480,6 +481,7 @@ begin
   baseproclist.Add('function P_AproxDistance(dx: fixed_t; dy: fixed_t): fixed_t;', @P_AproxDistance);
   baseproclist.Add('function P_PointOnLineSide(x: fixed_t; y: fixed_t; line: integer): integer;', @PS_P_PointOnLineSide);
   baseproclist.Add('function R_PointInSector(const x: fixed_t; const y: fixed_t): integer;', @PS_R_PointInSector);
+  baseproclist.Add('function R_PointInSubSector(const x: fixed_t; const y: fixed_t): integer;', @PS_R_PointInSubSector);
   units.AddObject(basename, baseproclist);
 
   basename := 'PS_FIXED';
@@ -1066,8 +1068,9 @@ procedure TRTLObject.FakeFree;
 begin
   // JVAL: Do nothing :)
   // Explanation:
-  //   Since we can only use imported classes usage of Free procedure inside script could cause problems.
-  //   Instead we use a stub method, and we leave the actual Free of the objects to the calling Application
+  //   Since we can only use imported classes usage of Free procedure inside
+  //   script could cause problems. Instead we use a stub method, and we leave
+  //   the actual Free of the objects to the calling Application.
 end;
 
 constructor TPSDoomRuntimeClassImporter.Create;

@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -144,6 +144,7 @@ type
     function POpenFileName(var F: TPakFile; Name: string): boolean;
     function POpenEntry(var F: TPakFile; const idx: integer): boolean;
     function POpenShortFileName(var F: TPakFile; Name: string): boolean;
+    function POpenFileNameWithDirectory(var F: TPakFile; Name: string): boolean;
     function POpenPreferedFileName(var F: TPakFile; const aName: string; prefdirs: TDStringList): boolean;
     function PClosefile(var F: TPakFile): boolean;
     function PBlockRead(var F: TPakFile; var Buf; const Size: Integer): integer;
@@ -155,9 +156,10 @@ type
   end;
 
   pakmode_t = (
-    pm_full,    // Full pathname match
-    pm_short,   // Filename only match
-    pm_prefered // Filename match but specified prefered directories
+    pm_full,      // Full pathname match
+    pm_short,     // Filename only match
+    pm_prefered,  // Filename match but specified prefered directories
+    pm_directory  // A dicectory will be provided
   );
 
 function PAK_GetDirectoryListFromString(const aprefdirs: string): TDStringList;
@@ -170,8 +172,8 @@ type
     mode: pakmode_t;
     prefdirs: TDStringList;
   public
-    constructor Create(const FileName: string; amode: pakmode_t; const aprefdirs: string = ''); overload;
-    constructor Create(const FileName: string; amode: pakmode_t; const apreflist: TDStringList); overload;
+    constructor Create(const FileName: string; amode: pakmode_t; const aprefdirs: string = ''; const adir: string = ''); overload;
+    constructor Create(const FileName: string; amode: pakmode_t; const apreflist: TDStringList; const adir: string = ''); overload;
     constructor Create(const idx: integer); overload;
     destructor Destroy; override;
     function Read(var Buffer; Count: integer): integer; override;
@@ -194,6 +196,8 @@ type
 function PAK_StringIterator(const filename: string; proc: stringiteratorproc): integer;
 
 function PAK_ReadFileAsString(const filename: string): string;
+
+function PAK_ReadAllFilesAsString(const filename: string): string;
 
 procedure PAK_LoadPendingPaks;
 
@@ -320,7 +324,7 @@ begin
   Grow;
   e := @Entries[NumEntries - 1];
   e.Pak := ZIPFileName;
-  e.Name := strupper(EntryName);
+  e.Name := fixpathname(strupper(EntryName));
   e.ShortName := fshortname(e.Name);
   e.Hash := MkHash(e.ShortName);
   e.Offset := index; // offset -> index to ZIP file
@@ -349,7 +353,7 @@ begin
 
   e := @Entries[NumEntries - 1];
   e.Pak := Pakn;
-  e.Name := S;
+  e.Name := fixpathname(S);
   e.ShortName := fshortname(e.Name);
   e.Hash := MkHash(e.ShortName);
   e.Offset := H.Offs;
@@ -379,7 +383,7 @@ begin
 
   e := @Entries[NumEntries - 1];
   e.Pak := Pakn;
-  e.Name := S;
+  e.Name := fixpathname(S);
   e.ShortName := fshortname(e.Name);
   e.Hash := MkHash(e.ShortName);
   e.Offset := HD.Offs;
@@ -399,7 +403,7 @@ begin
 
   e := @Entries[NumEntries - 1];
   e.Pak := Pakn;
-  e.Name := strupper(aname);
+  e.Name := fixpathname(strupper(aname));
   e.ShortName := fshortname(e.Name);
   e.Hash := MkHash(e.ShortName);
   e.Offset := aPos;
@@ -822,6 +826,93 @@ begin
   end;
 end;
 
+// Name contains a directory
+function TPakManager.POpenFileNameWithDirectory(var F: TPakFile; Name: string): boolean;
+var
+  I, p: Integer;
+  hcode: integer;
+  pe: PPakEntry;
+  hashcheck: PPakHash;
+begin
+  result := false;
+
+  Name := fixpathname(Name);
+
+  p := Pos('\', Name);
+  if p = 1 then
+  begin
+    Delete(Name, 1, 1);
+    p := Pos('\', Name);
+  end;
+  if p = 0 then
+    Exit;
+    
+  Name := strtrim(Name);
+  if Name = '' then
+    Exit;
+
+{$IFNDEF FPC}
+  F.Z := nil;
+{$ENDIF}
+
+  if fopen(F.F, Name, fOpenReadOnly) then
+  begin
+    F.Entry := -1;
+    result := true;
+    Exit;
+  end; // Disk file Overrides Pak file
+
+  Name := strupper(fshortname(Name));
+  hcode := MkHash(Name);
+
+  hashcheck := HashTable[HashToHashTableIndex(hcode)];
+  while hashcheck <> nil do
+  begin
+    pe := @Entries[hashcheck.index];
+    if hcode = pe.Hash then   // Fast compare the hash values
+      if (pe.Name = Name) or (RightStr(pe.Name, Length(Name) + 1) =  '\' + Name) then
+      begin // Found In Pak
+      {$IFNDEF FPC}
+        if pe.ZIP <> nil then // It's a zip (pk3/pk4) file
+          F.Z := TCompressorCache.Create(pe.ZIP, pe.Offset)
+        else
+      {$ENDIF}
+        begin // Standard Quake1/2 pak file
+          if not fopen(F.F, string(pe.Pak), fOpenReadOnly) then
+            exit;
+          Seek(F.F, pe.Offset);
+        end;
+        F.Entry := hashcheck.index;
+        result := true;
+        exit;
+      end;
+    hashcheck := hashcheck.next;
+  end;
+
+  // Highly unlikely that we get to this point....
+  for I := NumEntries - 1 downto 0 do
+  begin
+    pe := @Entries[i];
+    if hcode = pe.Hash then
+      if (pe.Name = Name) or (RightStr(pe.Name, Length(Name) + 1) =  '\' + Name) then
+      begin // Found In Pak
+      {$IFNDEF FPC}
+        if pe.ZIP <> nil then
+          F.Z := TCompressorCache.Create(pe.ZIP, pe.Offset)
+        else
+      {$ENDIF}
+        begin
+          if not fopen(F.F, string(pe.Pak), fOpenReadOnly) then
+            exit;
+          Seek(F.F, pe.Offset);
+        end;
+        F.Entry := I;
+        result := true;
+        Exit;
+      end;
+  end;
+end;
+
 type
   Ppref_rec = ^pref_rec;
   pref_rec = record
@@ -1174,9 +1265,9 @@ end;
 
 //
 // TPakStream
-constructor TPakStream.Create(const FileName: string; amode: pakmode_t; const apreflist: TDStringList);
+constructor TPakStream.Create(const FileName: string; amode: pakmode_t; const apreflist: TDStringList; const adir: string = '');
 var
-  ok: boolean;
+  ok, diddir: boolean;
   i: integer;
 begin
   Inherited Create;
@@ -1185,12 +1276,20 @@ begin
   OnEndBusy := nil;
 
   prefdirs := TDStringList.Create;
-  for i := 0 to apreflist.Count - 1 do
-    prefdirs.Add(apreflist[i]);
+
+  if apreflist <> nil then
+    for i := 0 to apreflist.Count - 1 do
+      prefdirs.Add(apreflist[i]);
 
   manager := pakmanager;
   mode := amode;
-  if mode = pm_full then
+  diddir := false;
+  if (adir <> '') and (mode <> pm_full) then
+  begin
+    ok := manager.POpenFileNameWithDirectory(entry, adir + '\' + FileName);
+    diddir := true;
+  end
+  else if mode = pm_full then
     ok := manager.POpenFileName(entry, FileName)
   else if mode = pm_short then
     ok := manager.POpenShortFileName(entry, FileName)
@@ -1198,18 +1297,28 @@ begin
     ok := manager.POpenPreferedFileName(entry, FileName, prefdirs)
   else
     ok := false;
+
+  if not ok then
+  begin
+    ok := manager.POpenFileNameWithDirectory(entry, FileName);
+    if not ok then
+      if not diddir then
+        if adir <> '' then
+          ok := manager.POpenFileNameWithDirectory(entry, adir + '\' + FileName);
+  end;
+
   if not ok then
     FIOResult := 1
   else
     FIOResult := 0;
 end;
 
-constructor TPakStream.Create(const FileName: string; amode: pakmode_t; const aprefdirs: string = '');
+constructor TPakStream.Create(const FileName: string; amode: pakmode_t; const aprefdirs: string = ''; const adir: string = '');
 var
   apreflist: TDStringList;
 begin
   apreflist := PAK_GetDirectoryListFromString(aprefdirs);
-  Create(FileName, amode, apreflist);
+  Create(FileName, amode, apreflist, adir);
   apreflist.Free;
 end;
 
@@ -1396,6 +1505,30 @@ begin
   end
   else
     Result := '';
+  entries.Free;
+end;
+
+function PAK_ReadAllFilesAsString(const filename: string): string;
+var
+  entries: TDNumberList;
+  strm: TPakStream;
+  list: TDStringList;
+  i: integer;
+begin
+  entries := PAK_GetMatchingEntries(filename);
+  Result := '';
+  for i := 0 to entries.Count - 1 do
+  begin
+    list := TDStringList.Create;
+    strm := TPakStream.Create(entries.Numbers[i]);
+    if strm.IOResult = 0 then
+    begin
+      list.LoadFromStream(strm);
+      Result := Result + list.Text + #13#10;
+    end;
+    strm.Free;
+    list.Free;
+  end;
   entries.Free;
 end;
 

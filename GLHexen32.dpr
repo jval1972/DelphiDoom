@@ -318,7 +318,16 @@ uses
   r_precalc in 'Base\r_precalc.pas',
   p_bridge in 'Base\p_bridge.pas',
   w_sprite in 'Base\w_sprite.pas',
-  mdl_dllmodel in 'OPENGL\mdl_dllmodel.pas';
+  mdl_dllmodel in 'OPENGL\mdl_dllmodel.pas',
+  i_steam in 'Base\i_steam.pas',
+  i_displaymodes in 'Base\i_displaymodes.pas',
+  d_notifications in 'Base\d_notifications.pas',
+  gl_automap in 'OPENGL\gl_automap.pas',
+  sc_utils in 'Base\sc_utils.pas',
+  w_folders in 'Base\w_folders.pas',
+  r_subsectors in 'Base\r_subsectors.pas',
+  f_wipe in 'Base\f_wipe.pas',
+  r_renderstyle in 'Base\r_renderstyle.pas';
 
 var
   Saved8087CW: Word;

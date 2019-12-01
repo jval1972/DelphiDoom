@@ -3104,7 +3104,7 @@ object Form1: TForm1
         Top = 0
         Width = 432
         Height = 320
-        ActivePage = TabSheet8
+        ActivePage = TabSheet3
         Align = alClient
         TabOrder = 0
         object TabSheet8: TTabSheet
@@ -3636,6 +3636,20 @@ object Form1: TForm1
             Caption = 'Use joystick'
             State = cbGrayed
             TabOrder = 1
+          end
+          object KeyboardModeRadioGroup: TRadioGroup
+            Left = 8
+            Top = 72
+            Width = 185
+            Height = 105
+            Caption = ' Keyboard Mode '
+            ItemIndex = 0
+            Items.Strings = (
+              'Default'
+              'Arrows'
+              'WASD'
+              'ESDF')
+            TabOrder = 2
           end
         end
         object TabSheet5: TTabSheet

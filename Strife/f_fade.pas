@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -28,7 +31,6 @@
 //  Fade screen special effect.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -38,22 +40,41 @@ unit f_fade;
 
 interface
 
+uses
+  d_delphi;
+
 procedure fade_StartScreen;
 
 procedure fade_EndScreen;
 
 function fade_Ticker(ticks: integer): boolean;
 
+{$IFDEF OPENGL}
+var
+  WIPESCREENWIDTH: integer;
+  WIPESCREENHEIGHT: integer;
+
+var
+  w_screen32: PLongWordArray = nil;
+
+procedure fade_ClearMemory;
+{$ENDIF}
+
 implementation
 
 uses
-  d_delphi,
   doomdef,
   r_hires,
   m_fixed,
+{$IFNDEF OPENGL}
   mt_utils,
+{$ENDIF}
   i_system,
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
   i_video,
+{$ENDIF}
   v_data,
   v_video;
 
@@ -64,13 +85,37 @@ var
 var
   fade: fixed_t = 0;
 
-procedure fade_initFade;
+{$IFDEF OPENGL}
+function fade_glsize(const value: integer): integer;
 begin
+  result := 1;
+  while result < value do
+    result := result * 2;
+end;
+{$ENDIF}
+
+procedure fade_initFade;
+{$IFDEF OPENGL}
+var
+  i, r: integer;
+{$ENDIF}
+begin
+{$IFDEF OPENGL}
+  WIPESCREENWIDTH := fade_glsize(SCREENWIDTH);
+  WIPESCREENHEIGHT := fade_glsize(SCREENHEIGHT);
+  if w_screen32 = nil then
+    w_screen32 := malloc(WIPESCREENWIDTH * WIPESCREENHEIGHT * SizeOf(LongWord));
   // copy start screen to main screen
+  for i := 0 to SCREENWIDTH - 1 do
+    for r := 0 to SCREENHEIGHT - 1 do
+      w_screen32[r * WIPESCREENWIDTH + i] := fade_scr_start[r * SCREENWIDTH + i];
+{$ELSE}
   MT_memcpy(screen32, fade_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
+{$ENDIF}
   fade := FRACUNIT;
 end;
 
+{$IFNDEF OPENGL}
 function fade_doFade_thr(p: mt_range_p): integer; stdcall;
 var
   i: integer;
@@ -79,11 +124,16 @@ begin
     screen32[i] := R_ColorAverage(fade_scr_end[i], fade_scr_start[i], fade);
   result := 0;
 end;
+{$ENDIF}
 
 function fade_doFade(ticks: integer): integer;
 var
   i: integer;
+{$IFDEF OPENGL}
+  j: integer;
+{$ELSE}
   r1, r2, r3, r4: mt_range_t;
+{$ENDIF}
 begin
   result := 1;
 
@@ -94,6 +144,11 @@ begin
   if fade < 0 then
     fade := 0;
 
+  {$IFDEF OPENGL}
+  for i := 0 to SCREENWIDTH - 1 do
+    for j := 0 to SCREENHEIGHT - 1 do
+      w_screen32[j * WIPESCREENWIDTH  + i] := R_ColorAverage(fade_scr_end[j * SCREENWIDTH + i], fade_scr_start[j * SCREENWIDTH + i], fade) or $FF000000;
+  {$ELSE}
   if usemultithread then
   begin
     r1.start := 0;
@@ -114,7 +169,7 @@ begin
   else
     for i := 0 to SCREENWIDTH * SCREENHEIGHT - 1 do
       screen32[i] := R_ColorAverage(fade_scr_end[i], fade_scr_start[i], fade);
-
+  {$ENDIF}
   if fade > 0 then
     result := 0;
 end;
@@ -125,16 +180,30 @@ begin
   memfree(pointer(fade_scr_end), SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
 end;
 
+{$IFDEF OPENGL}
+procedure fade_ClearMemory;
+begin
+  if w_screen32 <> nil then
+    memfree(pointer(w_screen32), WIPESCREENWIDTH * WIPESCREENHEIGHT * SizeOf(LongWord));
+end;
+{$ENDIF}
+
 procedure fade_StartScreen;
 begin
   fade_scr_start := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   I_ReadScreen32(fade_scr_start);
+{$IFDEF OPENGL}
+  I_ReverseScreen(fade_scr_start);
+{$ENDIF}
 end;
 
 procedure fade_EndScreen;
 begin
   fade_scr_end := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   I_ReadScreen32(fade_scr_end);
+{$IFDEF OPENGL}
+  I_ReverseScreen(fade_scr_end);
+{$ENDIF}
 end;
 
 // when zero, stop the fade

@@ -66,6 +66,7 @@ uses
   i_system,
   sc_engine,
   vx_base,
+  w_folders,
   w_pak,
   w_wad;
 
@@ -874,7 +875,7 @@ var
   skip: integer;
   vmx: TVoxelMeshOptimizerDDVOX;
 begin
-  strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fname, pm_prefered, gamedirectories, FOLDER_VOXELS);
   if strm.IOResult <> 0 then
   begin
     strm.Free;
@@ -1064,7 +1065,7 @@ var
   end;
 
 begin
-  strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fname, pm_prefered, gamedirectories, FOLDER_VOXELS);
   if strm.IOResult <> 0 then
   begin
     strm.Free;
@@ -1186,7 +1187,12 @@ var
   len: integer;
   s1, s2, s3: string;
 begin
-  strm := TPakStream.Create(fn, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fn, pm_prefered, gamedirectories, FOLDER_VOXELS);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    strm := TPakStream.Create(fn, pm_directory, '', FOLDER_VOXELS);
+  end;
   if strm.IOResult <> 0 then
   begin
     strm.Free;
@@ -1499,7 +1505,7 @@ var
   skip: integer;
   vmx: TVoxelMeshOptimizerDDVOX;
 begin
-  strm := TPakStream.Create(fn, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fn, pm_prefered, gamedirectories, FOLDER_VOXELS);
   if strm.IOResult <> 0 then
   begin
     strm.Free;

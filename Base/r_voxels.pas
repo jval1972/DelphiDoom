@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -23,7 +24,6 @@
 //  Voxel stuff (software rendering)
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -74,6 +74,7 @@ uses
   doomdef,
   g_game,
   mt_utils,
+  r_renderstyle,
   r_softgl,
   r_palette,
   r_utils,
@@ -104,6 +105,7 @@ uses
   sc_engine,
   v_data,
   v_video,
+  w_folders,
   w_pak,
   w_wad,
   z_zone;
@@ -957,7 +959,7 @@ var
   voxelbuffer: voxelbuffer_p;
   voxelsize: integer;
 begin
-  strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fname, pm_prefered, gamedirectories, FOLDER_VOXELS);
   if strm.IOResult <> 0 then
   begin
     strm.Free;
@@ -1037,7 +1039,7 @@ var
   buf: ddmeshitem_pa;
   item: ddmeshitem_p;
 begin
-  strm := TPakStream.Create(fname, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fname, pm_prefered, gamedirectories, FOLDER_VOXELS);
   if strm.IOResult <> 0 then
   begin
     strm.Free;
@@ -1140,7 +1142,12 @@ var
   len: integer;
   s1, s2, s3: string;
 begin
-  strm := TPakStream.Create(fn, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fn, pm_prefered, gamedirectories, FOLDER_VOXELS);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    strm := TPakStream.Create(fn, pm_directory, '', FOLDER_VOXELS);
+  end;
   if strm.IOResult <> 0 then
   begin
     strm.Free;
@@ -1328,7 +1335,7 @@ var
   cc: integer;
   palfactor: double;
 begin
-  strm := TPakStream.Create(fn, pm_prefered, gamedirectories);
+  strm := TPakStream.Create(fn, pm_prefered, gamedirectories, FOLDER_VOXELS);
   if strm.IOResult <> 0 then
   begin
     strm.Free;
@@ -2248,6 +2255,18 @@ begin
     dc_alpha := vis.mo.alpha;
     curtrans8table := R_GetTransparency8table(dc_alpha);
     batchcolfunc := batchtalphacolfunc;
+  end
+  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_add) then
+  begin
+    dc_alpha := vis.mo.alpha;
+    curadd8table := R_GetAdditive8table(dc_alpha);
+    batchcolfunc := batchaddcolfunc;
+  end
+  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_subtract) then
+  begin
+    dc_alpha := vis.mo.alpha;
+    cursubtract8table := R_GetSubtractive8table(dc_alpha);
+    batchcolfunc := batchsubtractcolfunc;
   end
   else
   begin

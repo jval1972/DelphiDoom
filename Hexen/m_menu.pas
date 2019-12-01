@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -22,10 +22,9 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//   Menu widget stuff, episode selection and such. 
-//     
+//   Menu widget stuff, episode selection and such.
+//
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -76,11 +75,13 @@ var
 // defaulted values
 //
   mouseSensitivity: integer;  // has default
+  mouseSensitivityX: integer;
+  mouseSensitivityY: integer;
 
 // Show messages has default, 0 = off, 1 = on
   showMessages: integer;
 
-  shademenubackground: boolean;
+  shademenubackground: integer;
 
   keepsavegamename: boolean;
 
@@ -88,19 +89,26 @@ var
 
   inhelpscreens: boolean;
 
+  menubackgroundflat: string = 'F_010';
+
+const
+  DEFMENUBACKGROUNDFLAT = 'F_010';
+
 procedure M_ShutDownMenus;
 
 procedure M_InitMenus;
 
-procedure M_WriteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
+procedure M_WriteText(x, y: integer; const str: string; const fraczoom: fixed_t = FRACUNIT);
 
-procedure M_WriteTextYellow(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
+procedure M_WriteTextYellow(x, y: integer; const str: string; const fraczoom: fixed_t = FRACUNIT);
 
-procedure M_WriteText2(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
+procedure M_WriteText2(x, y: integer; const str: string; const fraczoom: fixed_t = FRACUNIT);
 
-function M_StringWidth(const _string: string): integer;
+function M_StringWidth(const str: string): integer;
 
-function M_StringWidth2(const _string: string): integer;
+function M_StringWidth2(const str: string): integer;
+
+procedure M_SetKeyboardMode(const mode: integer);
 
 implementation
 
@@ -113,6 +121,7 @@ uses
   xn_strings,
   d_main,
   d_player,
+  d_notifications,
   g_game,
   g_demo,
   m_argv,
@@ -120,8 +129,11 @@ uses
   m_rnd,
   mt_utils,
   i_system,
-  i_io,
   i_threads,
+  i_io,
+  i_mp3,
+  i_sound,
+  i_displaymodes,
 {$IFDEF OPENGL}
   gl_main,
   gl_defs,
@@ -136,19 +148,17 @@ uses
   r_scale,
   r_slopes, // JVAL: Slopes
 {$ENDIF}
-  r_data,
-  i_mp3,
-  i_sound,
   p_mobj_h,
   p_adjust,
   r_aspect,
+  r_data,
   r_main,
   r_hires,
   r_lights,
   r_intrpl,
 {$IFNDEF OPENGL}
   r_fake3d,
-{$ENDIF}  
+{$ENDIF}
   r_camera,
   r_draw,
   t_main,
@@ -195,7 +205,7 @@ var
   arrowname: array[0..1] of string;
 
 // we are going to be entering a savegame string
-  saveStringEnter: integer;
+  saveStringEnter: integer = 0;
   saveSlot: integer;  // which slot to save in
   saveCharIndex: integer; // which char we're editing
 // old save description before edit
@@ -244,12 +254,17 @@ type
   menu_t = record
     numitems: smallint;         // # of menu items
     prevMenu: Pmenu_t;          // previous menu
+    leftMenu: Pmenu_t;          // left menu
+    lefttext: string[20];
+    rightMenu: Pmenu_t;         // right menu
+    righttext: string[20];
     menuitems: Pmenuitem_tArray;// menu items
-    routine: PProcedure;        // draw routine
+    drawproc: PProcedure;       // draw routine
     x: smallint;
     y: smallint;                // x,y of menu
     lastOn: smallint;           // last item user was on in menu
     itemheight: integer;
+    texturebk: boolean;
   end;
 
 var
@@ -267,7 +282,7 @@ var
 //
 //      Menu Functions
 //
-procedure M_DrawThermo(x, y, thermWidth, thermDot: integer);
+procedure M_DrawThermo(x, y, thermWidth, thermDot: integer; numdots: integer = -1);
 var
   xx: integer;
   i: integer;
@@ -283,20 +298,48 @@ begin
   end;
   V_DrawPatch(xx, y, SCN_TMP, 'M_SLDRT', false);
 
+  if numdots < 0 then
+    numdots := thermWidth;
+
+  tmpdot := thermDot;
+  if tmpdot < 0 then
+    tmpdot := 0
+  else if tmpdot >= numdots then
+    tmpdot := numdots - 1;
+  V_DrawPatch((x + 8) + (tmpdot * 8 * thermWidth) div numdots, y + 8, SCN_TMP,
+    'M_SLDKB', false);
+end;
+
+procedure M_DrawThermoNarrow(x, y, thermWidth, thermDot: integer);
+var
+  xx: integer;
+  i: integer;
+  tmpdot: integer;
+begin
+  xx := x;
+  V_DrawPatch(xx - 24, y, SCN_TMP, 'M_SLDLT', false);
+  xx := xx + 8;
+  for i := 0 to thermWidth - 1 do
+  begin
+    V_DrawPatch(xx, y, SCN_TMP, 'M_SLDMD1', false);
+    xx := xx + 5;
+  end;
+  V_DrawPatch(xx, y, SCN_TMP, 'M_SLDRT', false);
+
   tmpdot := thermDot;
   if tmpdot < 0 then
     tmpdot := 0
   else if tmpdot >= thermWidth then
     tmpdot := thermWidth - 1;
-  V_DrawPatch((x + 8) + tmpdot * 8, y + 8, SCN_TMP,
+  V_DrawPatch((x + 8) + tmpdot * 5, y + 8, SCN_TMP,
     'M_SLDKB', false);
 end;
 
-procedure M_StartMessage(const _string: string; routine: PmessageRoutine; const input: boolean);
+procedure M_StartMessage(const str: string; routine: PmessageRoutine; const input: boolean);
 begin
   messageLastMenuActive := menuactive;
   messageToPrint := 1;
-  messageString := _string;
+  messageString := str;
   if Assigned(routine) then
     @messageRoutine := @routine
   else
@@ -314,15 +357,15 @@ end;
 //
 // Find string width from hu_font chars
 //
-function M_StringWidth(const _string: string): integer;
+function M_StringWidth(const str: string): integer;
 var
   i: integer;
   c: integer;
 begin
   result := 0;
-  for i := 1 to Length(_string) do
+  for i := 1 to Length(str) do
   begin
-    c := Ord(toupper(_string[i])) - Ord(HU_FONTSTART);
+    c := Ord(toupper(str[i])) - Ord(HU_FONTSTART);
     if (c < 0) or (c >= HU_FONTSIZE) then
       result := result + 4
     else
@@ -331,9 +374,9 @@ begin
 end;
 
 //
-//      Find string height from hu_font chars
+// Find string height from hu_font chars
 //
-function M_StringHeight(const _string: string): integer;
+function M_StringHeight(const str: string): integer;
 var
   i: integer;
   height: integer;
@@ -341,15 +384,15 @@ begin
   height := hu_font[0].height;
 
   result := height;
-  for i := 1 to Length(_string) do
-    if _string[i] = #13 then
+  for i := 1 to Length(str) do
+    if str[i] = #13 then
       result := result + height;
 end;
 
 //
 //      Write a string using the hu_font
 //
-procedure M_WriteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
+procedure M_WriteText(x, y: integer; const str: string; const fraczoom: fixed_t = FRACUNIT);
 var
   w: integer;
   ch: integer;
@@ -358,7 +401,7 @@ var
   cy: integer;
   len: integer;
 begin
-  len := Length(_string);
+  len := Length(str);
   if len = 0 then
     exit;
 
@@ -371,7 +414,7 @@ begin
     if ch > len then
       break;
 
-    c := Ord(_string[ch]);
+    c := Ord(str[ch]);
     inc(ch);
 
     if c = 0 then
@@ -407,7 +450,7 @@ end;
 //
 //      Write a string using the hu_font
 //
-procedure M_WriteTextYellow(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
+procedure M_WriteTextYellow(x, y: integer; const str: string; const fraczoom: fixed_t = FRACUNIT);
 var
   w: integer;
   ch: integer;
@@ -416,7 +459,7 @@ var
   cy: integer;
   len: integer;
 begin
-  len := Length(_string);
+  len := Length(str);
   if len = 0 then
     exit;
 
@@ -429,7 +472,7 @@ begin
     if ch > len then
       break;
 
-    c := Ord(_string[ch]);
+    c := Ord(str[ch]);
     inc(ch);
 
     if c = 0 then
@@ -465,15 +508,15 @@ end;
 //
 // Find string width from hu_font2 chars
 //
-function M_StringWidth2(const _string: string): integer;
+function M_StringWidth2(const str: string): integer;
 var
   i: integer;
   c: integer;
 begin
   result := 0;
-  for i := 1 to Length(_string) do
+  for i := 1 to Length(str) do
   begin
-    c := Ord(toupper(_string[i])) - Ord(HU_FONTSTART);
+    c := Ord(toupper(str[i])) - Ord(HU_FONTSTART);
     if (c < 0) or (c >= HU_FONTSIZE) then
       result := result + 8
     else
@@ -484,17 +527,17 @@ end;
 //
 //      Find string height from hu_font chars
 //
-function M_StringHeight2(const _string: string): integer;
+function M_StringHeight2(const str: string): integer;
 var
   i: integer;
 begin
   result := 24;
-  for i := 1 to Length(_string) do
-    if _string[i] = #13 then
+  for i := 1 to Length(str) do
+    if str[i] = #13 then
       result := result + 24;
 end;
 
-procedure M_WriteText2(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
+procedure M_WriteText2(x, y: integer; const str: string; const fraczoom: fixed_t = FRACUNIT);
 var
   w: integer;
   ch: integer;
@@ -503,7 +546,7 @@ var
   cy: integer;
   len: integer;
 begin
-  len := Length(_string);
+  len := Length(str);
   if len = 0 then
     exit;
 
@@ -516,7 +559,7 @@ begin
     if ch > len then
       break;
 
-    c := Ord(_string[ch]);
+    c := Ord(str[ch]);
     inc(ch);
 
     if c = 0 then
@@ -557,15 +600,15 @@ end;
 //
 // Find string width from hu_font3 chars
 //
-function M_StringWidth3(const _string: string): integer;
+function M_StringWidth3(const str: string): integer;
 var
   i: integer;
   c: integer;
 begin
   result := 0;
-  for i := 1 to Length(_string) do
+  for i := 1 to Length(str) do
   begin
-    c := Ord(toupper(_string[i])) - Ord(HU_FONTSTART);
+    c := Ord(toupper(str[i])) - Ord(HU_FONTSTART);
     if (c < 0) or (c >= HU_CFONTSIZE) then
       result := result + 4
     else
@@ -576,7 +619,7 @@ end;
 //
 //      Find string height from hu_font3 chars
 //
-function M_StringHeight3(const _string: string): integer;
+function M_StringHeight3(const str: string): integer;
 var
   i: integer;
   height: integer;
@@ -584,8 +627,8 @@ begin
   height := hu_font3[0].height;
 
   result := height;
-  for i := 1 to Length(_string) do
-    if _string[i] = #13 then
+  for i := 1 to Length(str) do
+    if str[i] = #13 then
       result := result + height;
 end;
 
@@ -597,7 +640,7 @@ type
     x, y: integer;
   end;
 
-function M_WriteText3(x, y: integer; const _string: string): menupos_t;
+function M_WriteText3(x, y: integer; const str: string): menupos_t;
 var
   w: integer;
   ch: integer;
@@ -606,7 +649,7 @@ var
   cy: integer;
   len: integer;
 begin
-  len := Length(_string);
+  len := Length(str);
   if len = 0 then
   begin
     result.x := x;
@@ -623,7 +666,7 @@ begin
     if ch > len then
       break;
 
-    c := Ord(_string[ch]);
+    c := Ord(str[ch]);
     inc(ch);
 
     if c = 0 then
@@ -659,7 +702,7 @@ begin
   result.y := cy;
 end;
 
-function M_WriteWhiteText3(x, y: integer; const _string: string): menupos_t;
+function M_WriteWhiteText3(x, y: integer; const str: string): menupos_t;
 var
   w: integer;
   ch: integer;
@@ -669,7 +712,7 @@ var
   len: integer;
   oldtrans: PByteArray;
 begin
-  len := Length(_string);
+  len := Length(str);
   if len = 0 then
   begin
     result.x := x;
@@ -688,7 +731,7 @@ begin
     if ch > len then
       break;
 
-    c := Ord(_string[ch]);
+    c := Ord(str[ch]);
     inc(ch);
 
     if c = 0 then
@@ -725,7 +768,6 @@ begin
   result.x := cx;
   result.y := cy;
 end;
-
 
 //
 // M_ClearMenus
@@ -868,6 +910,7 @@ var
 // DISPLAY DETAIL MENU
 type
   optionsdisplaydetail_e = (
+    od_setvideomode,
     od_detaillevel,
     od_allowlowdetails,
     od_allowhidetails,
@@ -878,12 +921,26 @@ var
   OptionsDisplayDetailMenu: array[0..Ord(optdispdetail_end) - 1] of menuitem_t;
   OptionsDisplayDetailDef: menu_t;
 
+type
+  optionsdisplayvideomode_e = (
+    odm_fullscreen,
+    odm_screensize,
+    odm_filler1,
+    odm_filler2,
+    odm_setvideomode,
+    optdispvideomode_end
+  );
+
+var
+  OptionsDisplayVideoModeMenu: array[0..Ord(optdispvideomode_end) - 1] of menuitem_t;
+  OptionsDisplayVideoModeDef: menu_t;
+
 // DISPLAY APPEARANCE MENU
 type
   optionsdisplayappearance_e = (
     od_drawfps,
     od_shademenubackground,
-    od_displaydiskbuzyicon,
+    od_displaydiskbusyicon,
     optdispappearance_end
   );
 
@@ -897,6 +954,7 @@ type
     od_allowautomapoverlay,
     od_allowautomaprotate,
     od_texturedautomap,
+    od_automapgrid,
     optdispautomap_end
   );
 
@@ -907,13 +965,12 @@ var
 // DISPLAY ADVANCED MENU
 type
   optionsdisplayadvanced_e = (
-    od_fullscreen,
+    od_aspect,
+    od_camera,
     od_interpolate,
-    od_zaxisshift,
 {$IFNDEF OPENGL}
     od_usefake3d,
 {$ENDIF}
-    od_chasecamera,
     od_useclassicfuzzeffect,
     od_enableflatscrolling,
     od_fixstallhack,
@@ -924,14 +981,45 @@ type
     od_precisescalefromglobalangle,
     od_preciseslopedrawing, // JVAL: Slopes
 {$ENDIF}
-    od_widescreensupport,
-    od_excludewidescreenplayersprites,
     optdispadvanced_end
   );
 
 var
   OptionsDisplayAdvancedMenu: array[0..Ord(optdispadvanced_end) - 1] of menuitem_t;
   OptionsDisplayAdvancedDef: menu_t;
+
+// DISPLAY ASPECT RATIO MENU
+type
+  optionsdisplayaspectratio_e = (
+    oda_widescreensupport,
+    oda_excludewidescreenplayersprites,
+    oda_forceaspectratio,
+    oda_intermissionaspect,
+    optdispaspect_end
+  );
+
+var
+  OptionsDisplayAspectRatioMenu: array[0..Ord(optdispaspect_end) - 1] of menuitem_t;
+  OptionsDisplayAspectRatioDef: menu_t;
+
+//
+// DISPLAY CAMERA MENU
+type
+  optionsdisplaycamera_e = (
+    odc_zaxisshift,
+    odc_chasecamera,
+    odc_chasecameraxy,
+    odc_filler3,
+    odc_filler4,
+    odc_chasecameraz,
+    odc_filler5,
+    odc_filler6,
+    optdispcamera_end
+  );
+
+var
+  OptionsDisplayCameraMenu: array[0..Ord(optdispcamera_end) - 1] of menuitem_t;
+  OptionsDisplayCameraDef: menu_t;
 
 // DISPLAY 32 BIT RENDERING MENU
 type
@@ -954,6 +1042,7 @@ var
 // DISPLAY OPENGL RENDERING MENU
 type
   optionsdisplayopengl_e = (
+    od_glsetvideomode,
     od_usefog,
     od_gl_texture_filter_anisotropic,
     {$IFDEF DEBUG}
@@ -980,7 +1069,6 @@ var
   OptionsDisplayOpenGLDef: menu_t;
 {$ENDIF}
 
-
 type
 //
 // Read This! MENU 1 & 2
@@ -995,7 +1083,7 @@ var
   ReadDef1: menu_t;
 
 type
-  read_e32 = (
+  read_e2 = (
     rdthsempty2,
     read2_end
   );
@@ -1060,15 +1148,261 @@ type
     ctrl_usemouse,
     ctrl_invertmouselook,
     ctrl_invertmouseturn,
+    cttl_mousesensitivity,
     ctrl_usejoystic,
     ctrl_autorun,
     ctrl_keyboardmode,
+    ctrl_keybindings,
     ctrl_end
   );
 
 var
   ControlsMenu: array[0..Ord(ctrl_end) - 1] of menuitem_t;
   ControlsDef: menu_t;
+
+type
+//
+// MOUSE SENSITIVITY MENU
+//
+  sensitivity_e = (
+    sens_mousesensitivity,
+    sens_empty1,
+    sens_empty2,
+    sens_empty3,
+    sens_mousesensitivityx,
+    sens_empty4,
+    sens_empty5,
+    sens_empty6,
+    sens_mousesensitivityy,
+    sens_empty7,
+    sens_empty8,
+    sens_empty9,
+    sens_end
+  );
+
+var
+  SensitivityMenu: array[0..Ord(sens_end) - 1] of menuitem_t;
+  SensitivityDef: menu_t;
+
+
+type
+//
+// KEY BINDINGS MENU
+//
+  keybindings_e = (
+    kb_up,
+    kb_down,
+    kb_left,
+    kb_right,
+    kb_strafeleft,
+    kb_straferight,
+    kb_jump,
+    kb_fire,
+    kb_use,
+    kb_strafe,
+    kb_speed,
+    kb_lookup,
+    kb_lookdown,
+    kb_lookcenter,
+    kb_lookleft,
+    kb_lookright,
+    kb_flyup,
+    kb_flydown,
+    kb_flycenter,
+    kb_invleft,
+    kb_invright,
+    kb_end
+  );
+
+var
+  KeyBindingsMenu: array[0..Ord(kb_flyup) - 1] of menuitem_t;
+  KeyBindingsDef: menu_t;
+  KeyBindings2Menu: array[0..Ord(kb_end) - Ord(kb_flyup) - 1] of menuitem_t;
+  KeyBindings2Def: menu_t;
+
+type
+  bindinginfo_t = record
+    text: string[20];
+    pkey: PInteger;
+  end;
+
+const
+  KeyBindingsInfo: array [0..Ord(kb_end) - 1] of bindinginfo_t = (
+    (text: 'Move forward'; pkey: @key_up),
+    (text: 'Move backward'; pkey: @key_down),
+    (text: 'Turn left'; pkey: @key_left),
+    (text: 'Turn right'; pkey: @key_right),
+    (text: 'Strafe left'; pkey: @key_strafeleft),
+    (text: 'Strafe right'; pkey: @key_straferight),
+    (text: 'Jump'; pkey: @key_jump),
+    (text: 'Fire'; pkey: @key_fire),
+    (text: 'Use'; pkey: @key_use),
+    (text: 'Strafe'; pkey: @key_strafe),
+    (text: 'Run'; pkey: @key_speed),
+    (text: 'Look up'; pkey: @key_lookup),
+    (text: 'Look down'; pkey: @key_lookdown),
+    (text: 'Look center'; pkey: @key_lookcenter),
+    (text: 'Look left'; pkey: @key_lookleft),
+    (text: 'Look right'; pkey: @key_lookright),
+    (text: 'Fly Up'; pkey: @key_flyup),
+    (text: 'Fly Down'; pkey: @key_flydown),
+    (text: 'Fly Center'; pkey: @key_flycenter),
+    (text: 'Inventory left page'; pkey: @key_invleft),
+    (text: 'Inventory right page'; pkey: @key_invright)
+  );
+
+var
+  bindkeyEnter: boolean;
+  bindkeySlot: integer;
+  saveOldkey: integer;
+
+function M_KeyToString(const k: integer): string;
+begin
+  if (k >= 33) and (k <= 126) then
+  begin
+    result := Chr(k);
+    if result = '=' then
+      result := '+'
+    else if result = ',' then
+      result := '<'
+    else if result = '.' then
+      result := '>';
+    exit;
+  end;
+
+  case k of
+    32: result := 'SPACE';
+    KEY_RIGHTARROW: result := 'RIGHTARROW';
+    KEY_LEFTARROW: result := 'LEFTARROW';
+    KEY_UPARROW: result := 'UPARROW';
+    KEY_DOWNARROW: result := 'DOWNARROW';
+    KEY_ESCAPE: result := 'ESCAPE';
+    KEY_ENTER: result := 'ENTER';
+    KEY_TAB: result := 'TAB';
+    KEY_F1: result := 'F1';
+    KEY_F2: result := 'F2';
+    KEY_F3: result := 'F3';
+    KEY_F4: result := 'F4';
+    KEY_F5: result := 'F5';
+    KEY_F6: result := 'F6';
+    KEY_F7: result := 'F7';
+    KEY_F8: result := 'F8';
+    KEY_F9: result := 'F9';
+    KEY_F10: result := 'F10';
+    KEY_F11: result := 'F11';
+    KEY_F12: result := 'F12';
+    KEY_PRNT: result := 'PRNT';
+    KEY_CON: result := 'CON';
+    KEY_BACKSPACE: result := 'BACKSPACE';
+    KEY_PAUSE: result := 'PAUSE';
+    KEY_EQUALS: result := 'EQUALS';
+    KEY_MINUS: result := 'MINUS';
+    KEY_RSHIFT: result := 'RSHIFT';
+    KEY_RCTRL: result := 'RCTRL';
+    KEY_RALT: result := 'ALT';
+    KEY_PAGEDOWN: result := 'PAGEDOWN';
+    KEY_PAGEUP: result := 'PAGEUP';
+    KEY_INS: result := 'INS';
+    KEY_HOME: result := 'HOME';
+    KEY_END: result := 'END';
+    KEY_DELETE: result := 'DELETE';
+  else
+    result := '';
+  end;
+end;
+
+function M_SetKeyBinding(const slot: integer; key: integer): boolean;
+var
+  i: integer;
+  oldk: integer;
+begin
+  if (slot < 0) or (slot >= Ord(kb_end)) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if key = 18 then
+    key := KEY_RALT;
+
+  result := key in [32..125,
+    KEY_RIGHTARROW,
+    KEY_LEFTARROW,
+    KEY_UPARROW,
+    KEY_DOWNARROW,
+    KEY_BACKSPACE,
+    KEY_RSHIFT,
+    KEY_RCTRL,
+    KEY_RALT,
+    KEY_PAGEDOWN,
+    KEY_PAGEUP,
+    KEY_INS,
+    KEY_HOME,
+    KEY_END,
+    KEY_DELETE
+  ];
+
+  if not result then
+    exit;
+
+  oldk := KeyBindingsInfo[slot].pkey^;
+  for i := 0 to Ord(kb_end) - 1 do
+    if i <> slot then
+     if KeyBindingsInfo[i].pkey^ = key then
+       KeyBindingsInfo[i].pkey^ := oldk;
+  KeyBindingsInfo[slot].pkey^ := key;
+end;
+
+procedure M_DrawBindings(const start, stop: integer);
+var
+  i: integer;
+  ppos: menupos_t;
+  drawkey: boolean;
+begin
+  M_WriteCenterText2('Key Bindings', KeyBindingsDef.y - 26);
+  for i := 0 to stop - start - 1 do
+  begin
+    ppos := M_WriteText3(KeyBindingsDef.x, KeyBindingsDef.y + KeyBindingsDef.itemheight * i, KeyBindingsInfo[start + i].text);
+    drawkey := true;
+    if bindkeyEnter then
+      if i = bindkeySlot - start then
+        if (gametic div 18) mod 2 <> 0 then
+          drawkey := false;
+    if drawkey then
+      M_WriteWhiteText3(ppos.x + 6, ppos.y, M_KeyToString(KeyBindingsInfo[start + i].pkey^));
+  end;
+end;
+
+procedure M_DrawBindings1;
+begin
+  M_DrawBindings(0, Ord(kb_flyup));
+end;
+
+procedure M_DrawBindings2;
+begin
+  M_DrawBindings(Ord(kb_flyup), Ord(kb_end));
+end;
+
+//
+// Select key binding
+//
+procedure M_KeyBindingSelect1(choice: integer);
+begin
+  bindkeyEnter := true;
+
+  bindkeySlot := choice;
+
+  saveOldkey := KeyBindingsInfo[choice].pkey^;
+end;
+
+procedure M_KeyBindingSelect2(choice: integer);
+begin
+  bindkeyEnter := true;
+
+  bindkeySlot := Ord(kb_flyup) + choice;
+
+  saveOldkey := KeyBindingsInfo[Ord(kb_flyup) + choice].pkey^;
+end;
 
 type
 //
@@ -1079,6 +1413,7 @@ type
     sys_usemmx,
     sys_criticalcpupriority,
     sys_usemultithread,
+    sys_screenshottype,
     sys_end
   );
 
@@ -1370,66 +1705,81 @@ end;
 function M_GetKeyboardMode: integer;
 begin
   if (key_right = 174) and
-    (key_left = 172) and
-    (key_up = 173) and
-    (key_down = 175) and
-    (key_strafeleft = 44) and
-    (key_straferight = 46) and
-    (key_jump = 97) and
-    (key_fire = 157) and
-    (key_use = 32) and
-    (key_strafe = 184) and
-    (key_speed = 182) and
-    (key_lookup = 197) and
-    (key_lookdown = 202) and
-    (key_lookcenter = 199) and
-    (key_lookright = 198) and
-    (key_lookleft = 200) and
-    (key_lookforward = 13) then
+     (key_left = 172) and
+     (key_up = 173) and
+     (key_down = 175) and
+     (key_strafeleft = 44) and
+     (key_straferight = 46) and
+     (key_jump = 97) and
+     (key_fire = 157) and
+     (key_use = 32) and
+     (key_strafe = 184) and
+     (key_speed = 182) and
+     (key_lookup = 197) and
+     (key_lookdown = 202) and
+     (key_lookcenter = 199) and
+     (key_lookright = 42) and
+     (key_lookleft = 47) and
+     (key_lookforward = 13) and
+     (key_flyup = 198) and
+     (key_flydown = 200) and
+     (key_flycenter = 201) and
+     (key_invleft = Ord('[')) and
+     (key_invright = Ord(']')) then
   begin
     result := 0;
     exit;
   end;
 
   if (key_right = 174) and
-    (key_left = 172) and
-    (key_up = 119) and
-    (key_down = 115) and
-    (key_strafeleft = 97) and
-    (key_straferight = 100) and
-    (key_jump = 106) and
-    (key_fire = 157) and
-    (key_use = 32) and
-    (key_strafe = 184) and
-    (key_speed = 182) and
-    (key_lookup = 197) and
-    (key_lookdown = 202) and
-    (key_lookcenter = 199) and
-    (key_lookright = 198) and
-    (key_lookleft = 200) and
-    (key_lookforward = 13) then
+     (key_left = 172) and
+     (key_up = 119) and
+     (key_down = 115) and
+     (key_strafeleft = 97) and
+     (key_straferight = 100) and
+     (key_jump = 106) and
+     (key_fire = 157) and
+     (key_use = 32) and
+     (key_strafe = 184) and
+     (key_speed = 182) and
+     (key_lookup = 197) and
+     (key_lookdown = 202) and
+     (key_lookcenter = 199) and
+     (key_lookright = 42) and
+     (key_lookleft = 47) and
+     (key_lookforward = 13) and
+     (key_flyup = 198) and
+     (key_flydown = 200) and
+     (key_flycenter = 201) and
+     (key_invleft = Ord('[')) and
+     (key_invright = Ord(']')) then
   begin
     result := 1;
     exit;
   end;
 
   if (key_right = 174) and
-    (key_left = 172) and
-    (key_up = 101) and
-    (key_down = 100) and
-    (key_strafeleft = 115) and
-    (key_straferight = 102) and
-    (key_jump = 97) and
-    (key_fire = 157) and
-    (key_use = 32) and
-    (key_strafe = 184) and
-    (key_speed = 182) and
-    (key_lookup = 197) and
-    (key_lookdown = 202) and
-    (key_lookcenter = 199) and
-    (key_lookright = 198) and
-    (key_lookleft = 200) and
-    (key_lookforward = 13) then
+     (key_left = 172) and
+     (key_up = 101) and
+     (key_down = 100) and
+     (key_strafeleft = 115) and
+     (key_straferight = 102) and
+     (key_jump = 97) and
+     (key_fire = 157) and
+     (key_use = 32) and
+     (key_strafe = 184) and
+     (key_speed = 182) and
+     (key_lookup = 197) and
+     (key_lookdown = 202) and
+     (key_lookcenter = 199) and
+     (key_lookright = 42) and
+     (key_lookleft = 47) and
+     (key_lookforward = 13) and
+     (key_flyup = 198) and
+     (key_flydown = 200) and
+     (key_flycenter = 201) and
+     (key_invleft = Ord('[')) and
+     (key_invright = Ord(']')) then
   begin
     result := 2;
     exit;
@@ -1478,7 +1828,7 @@ begin
 
   sparm1 := strupper(parm1);
 
-  if (parm1 <> '0') and (parm1 <> '1')  and (parm1 <> '2') and
+  if (parm1 <> '0') and (parm1 <> '1') and (parm1 <> '2') and
      (sparm1 <> 'ARROWS') and (sparm1 <> 'WASD') and (sparm1 <> 'ESDF') then
     wrongparms := true;
 
@@ -1504,6 +1854,7 @@ var
   ppos: menupos_t;
 begin
   M_WriteCenterText2('Controls', 15);
+
   ppos := M_WriteText3(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmode), 'Keyboard movement: ');
   M_WriteWhiteText3(ppos.x, ppos.y, mkeyboardmodes[M_GetKeyboardMode]);
 end;
@@ -1514,8 +1865,14 @@ begin
 end;
 
 procedure M_DrawSystem;
+var
+  ppos: menupos_t;
 begin
   M_WriteCenterText2('System', 15);
+
+  M_FixScreenshotFormat;
+  ppos := M_WriteText3(SystemDef.x, SystemDef.y + SystemDef.itemheight * Ord(sys_screenshottype), 'Screenshot format: ');
+  M_WriteWhiteText3(ppos.x, ppos.y, screenshotformat);
 end;
 
 procedure M_OptionsSound(choice: integer);
@@ -1531,6 +1888,11 @@ end;
 procedure M_OptionsConrols(choice: integer);
 begin
   M_SetupNextMenu(@ControlsDef);
+end;
+
+procedure M_OptionsSensitivity(choice: integer);
+begin
+  M_SetupNextMenu(@SensitivityDef);
 end;
 
 procedure M_OptionsCompatibility(choice: integer);
@@ -1558,6 +1920,21 @@ begin
   M_SetupNextMenu(@OptionsDisplayDetailDef);
 end;
 
+var
+  mdisplaymode_idx: integer = 0;
+
+procedure M_SetVideoMode(choice: integer);
+var
+  idx: integer;
+begin
+  idx := I_NearestDisplayModeIndex(SCREENWIDTH, SCREENHEIGHT);
+  if idx >= 0 then
+    mdisplaymode_idx := idx;
+  OptionsDisplayVideoModeDef.lastOn := 0;
+  itemOn := 0;
+  M_SetupNextMenu(@OptionsDisplayVideoModeDef);
+end;
+
 procedure M_OptionsDisplayAutomap(choice: integer);
 begin
   M_SetupNextMenu(@OptionsDisplayAutomapDef);
@@ -1566,6 +1943,91 @@ end;
 procedure M_OptionsDisplayAppearance(choice: integer);
 begin
   M_SetupNextMenu(@OptionsDisplayAppearanceDef);
+end;
+
+procedure M_OptionAspectRatio(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayAspectRatioDef);
+end;
+
+procedure M_OptionCameraShift(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayCameraDef);
+end;
+
+procedure M_ChangeCameraXY(choice: integer);
+begin
+  case choice of
+    0: chasecamera_viewxy := chasecamera_viewxy - 8;
+    1: chasecamera_viewxy := chasecamera_viewxy + 8;
+  end;
+  chasecamera_viewxy := ibetween(chasecamera_viewxy, CHASECAMERA_XY_MIN, CHASECAMERA_XY_MAX);
+end;
+
+procedure M_ChangeCameraZ(choice: integer);
+begin
+  case choice of
+    0: chasecamera_viewz := chasecamera_viewz - 4;
+    1: chasecamera_viewz := chasecamera_viewz + 4;
+  end;
+  chasecamera_viewz := ibetween(chasecamera_viewz, CHASECAMERA_Z_MIN, CHASECAMERA_Z_MAX);
+end;
+
+const
+  NUMSTRASPECTRATIOS = 5;
+  straspectratios: array[0..NUMSTRASPECTRATIOS - 1] of string =
+    ('AUTO', '4:3', '16:10', '16:9', '1.85:1');
+
+var
+  aspectratioidx: integer;
+
+procedure M_SwitchForcedAspectRatio(choice: integer);
+begin
+  aspectratioidx := (aspectratioidx + 1) mod NUMSTRASPECTRATIOS;
+  if aspectratioidx = 0 then
+    forcedaspectstr := '0'
+  else
+  begin
+    widescreensupport := true;
+    forcedaspectstr := straspectratios[aspectratioidx];
+  end;
+  setsizeneeded := true;
+end;
+
+function _nearest_aspect_index: integer;
+var
+  asp: single;
+  i: integer;
+  diff, test, mx: single;
+  ar, par: string;
+begin
+  result := 0;
+
+  asp := R_ForcedAspect;
+  if asp < 1.0 then
+    exit;
+
+  mx := 100000000.0;
+
+  for i := 1 to NUMSTRASPECTRATIOS - 1 do
+  begin
+    splitstring(straspectratios[i], ar, par, [':', '/']);
+    if par = '' then
+      test := atof(ar)
+    else
+      test := atof(ar) / atof(par);
+    diff := fabs(test - asp);
+    if diff = 0 then
+    begin
+      result := i;
+      exit;
+    end;
+    if diff < mx then
+    begin
+      result := i;
+      mx := diff;
+    end;
+  end;
 end;
 
 procedure M_OptionsDisplayAdvanced(choice: integer);
@@ -1772,7 +2234,20 @@ begin
 
   M_DrawThermo(
     OptionsGeneralDef.x - 8, OptionsGeneralDef.y + OptionsGeneralDef.itemheight * (Ord(mousesens) + 1), 20, mouseSensitivity);
+end;
 
+procedure M_DrawSensitivity;
+begin
+  M_WriteCenterText2('Mouse sensitivity', 15);
+
+  M_DrawThermo(
+    SensitivityDef.x, SensitivityDef.y + SensitivityDef.itemheight * (Ord(sens_mousesensitivity) + 1), 20, mouseSensitivity);
+
+  M_DrawThermo(
+    SensitivityDef.x, SensitivityDef.y + SensitivityDef.itemheight * (Ord(sens_mousesensitivityx) + 1), 11, mouseSensitivityX);
+
+  M_DrawThermo(
+    SensitivityDef.x, SensitivityDef.y + SensitivityDef.itemheight * (Ord(sens_mousesensitivityy) + 1), 11, mouseSensitivityY);
 end;
 
 procedure M_DrawDisplayOptions;
@@ -1789,7 +2264,6 @@ var
   ppos: menupos_t;
 begin
   M_DrawDisplayOptions;
-
   ppos := M_WriteText3(OptionsDisplayDetailDef.x, OptionsDisplayDetailDef.y + OptionsDisplayDetailDef.itemheight * Ord(od_detaillevel), 'Detail level: ');
   {$IFDEF OPENGL}
   sprintf(stmp, '%s (%dx%dx32)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT]);
@@ -1799,9 +2273,48 @@ begin
   M_WriteWhiteText3(ppos.x, ppos.y, stmp);
 end;
 
-procedure M_DrawDisplayAppearanceOptions;
+procedure M_DrawDisplaySetVideoMode;
+var
+  stmp: string;
+  ppos: menupos_t;
 begin
   M_DrawDisplayOptions;
+
+  if mdisplaymode_idx < 0 then
+    mdisplaymode_idx := 0
+  else if mdisplaymode_idx >= numdisplaymodes then
+    mdisplaymode_idx := numdisplaymodes - 1;
+  ppos := M_WriteText3(OptionsDisplayVideoModeDef.x, OptionsDisplayVideoModeDef.y + OptionsDisplayVideoModeDef.itemheight * Ord(odm_screensize), 'Screen Size: ');
+  sprintf(stmp, '(%dx%d)', [displaymodes[mdisplaymode_idx].width, displaymodes[mdisplaymode_idx].height]);
+  M_WriteWhiteText3(ppos.x, ppos.y, stmp);
+
+  M_DrawThermo(
+    OptionsDisplayVideoModeDef.x, OptionsDisplayVideoModeDef.y + OptionsDisplayVideoModeDef.itemheight * (Ord(odm_screensize) + 1), 30, mdisplaymode_idx, numdisplaymodes);
+
+  if (displaymodes[mdisplaymode_idx].width = SCREENWIDTH) and (displaymodes[mdisplaymode_idx].height = SCREENHEIGHT) then
+    stmp := 'No change'
+  else
+    sprintf(stmp, 'Set video mode to %dx%d...', [displaymodes[mdisplaymode_idx].width, displaymodes[mdisplaymode_idx].height]);
+  M_WriteText3(OptionsDisplayVideoModeDef.x, OptionsDisplayVideoModeDef.y + OptionsDisplayVideoModeDef.itemheight * Ord(odm_setvideomode), stmp);
+end;
+
+procedure M_SwitchShadeMode(choice: integer);
+begin
+  shademenubackground := (shademenubackground + 1) mod 3;
+end;
+
+const
+  menubackrounds: array[0..2] of string =
+    ('NONE', 'SHADOW', 'TEXTURE');
+
+procedure M_DrawDisplayAppearanceOptions;
+var
+  ppos: menupos_t;
+begin
+  M_DrawDisplayOptions;
+
+  ppos := M_WriteText3(OptionsDisplayAppearanceDef.x, OptionsDisplayAppearanceDef.y + OptionsDisplayAppearanceDef.itemheight * Ord(od_shademenubackground), 'Menu background: ');
+  M_WriteWhiteText3(ppos.x, ppos.y, menubackrounds[shademenubackground mod 3]);
 end;
 
 procedure M_DrawDisplayAutomapOptions;
@@ -1814,12 +2327,47 @@ begin
   M_DrawDisplayOptions;
 end;
 
-procedure M_DrawOptionsDisplay32bit;
+procedure M_DrawOptionsDisplayAspectRatio;
+var
+  ppos: menupos_t;
 begin
   M_DrawDisplayOptions;
 
-  M_WriteText3(OptionsDisplay32bitDef.x, OptionsDisplay32bitDef.y + OptionsDisplay32bitDef.itemheight * Ord(od_flatfiltering),
-    'Flat filtering: ' + flatfilteringstrings[extremeflatfiltering]);
+  aspectratioidx := _nearest_aspect_index;
+  ppos := M_WriteText3(OptionsDisplayAspectRatioDef.x, OptionsDisplayAspectRatioDef.y + OptionsDisplayAspectRatioDef.itemheight * Ord(oda_forceaspectratio), 'Force Aspect Ratio: ');
+  M_WriteWhiteText3(ppos.x, ppos.y, straspectratios[_nearest_aspect_index]);
+end;
+
+procedure M_DrawOptionsDisplayCamera;
+var
+  ppos: menupos_t;
+begin
+  M_DrawDisplayOptions;
+
+  chasecamera_viewxy := ibetween(chasecamera_viewxy, CHASECAMERA_XY_MIN, CHASECAMERA_XY_MAX);
+  ppos := M_WriteText3(OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * Ord(odc_chasecameraxy), 'Chase Camera XY postion: ');
+  M_WriteWhiteText3(ppos.x, ppos.y, itoa(chasecamera_viewxy));
+
+  chasecamera_viewz := ibetween(chasecamera_viewz, CHASECAMERA_Z_MIN, CHASECAMERA_Z_MAX);
+  ppos := M_WriteText3(OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * Ord(odc_chasecameraz), 'Chase Camera Z postion: ');
+  M_WriteWhiteText3(ppos.x, ppos.y, itoa(chasecamera_viewz));
+
+  M_DrawThermo(
+    OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * (Ord(odc_chasecameraxy) + 1), 21, (chasecamera_viewxy - CHASECAMERA_XY_MIN) div 8, (CHASECAMERA_XY_MAX - CHASECAMERA_XY_MIN) div 8 + 1);
+
+  M_DrawThermo(
+    OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * (Ord(odc_chasecameraz) + 1), 21, (chasecamera_viewz - CHASECAMERA_Z_MIN) div 4, (CHASECAMERA_Z_MAX - CHASECAMERA_Z_MIN) div 4 + 1);
+end;
+
+procedure M_DrawOptionsDisplay32bit;
+var
+  ppos: menupos_t;
+begin
+  M_DrawDisplayOptions;
+
+  ppos := M_WriteText3(OptionsDisplay32bitDef.x, OptionsDisplay32bitDef.y + OptionsDisplay32bitDef.itemheight * Ord(od_flatfiltering),
+    'Flat filtering: ');
+  M_WriteWhiteText3(ppos.x, ppos.y, flatfilteringstrings[extremeflatfiltering]);
 end;
 
 {$IFDEF OPENGL}
@@ -1952,6 +2500,48 @@ begin
   end;
 end;
 
+procedure M_ChangeSensitivityX(choice: integer);
+begin
+  case choice of
+    0:
+      if mouseSensitivityX > 0 then
+        dec(mouseSensitivityX);
+    1:
+      if mouseSensitivityX < 10 then
+        inc(mouseSensitivityX);
+  end;
+end;
+
+procedure M_ChangeSensitivityY(choice: integer);
+begin
+  case choice of
+    0:
+      if mouseSensitivityY > 0 then
+        dec(mouseSensitivityY);
+    1:
+      if mouseSensitivityY < 10 then
+        inc(mouseSensitivityY);
+  end;
+end;
+
+procedure M_KeyBindings(choice: integer);
+begin
+  M_SetupNextMenu(@KeyBindingsDef);
+end;
+
+procedure M_ScreenShotCmd(choice: integer);
+begin
+  M_FixScreenshotFormat;
+  if strupper(screenshotformat) = 'PNG' then
+    screenshotformat := 'JPG'
+  else if strupper(screenshotformat) = 'JPG' then
+    screenshotformat := 'TGA'
+  else if strupper(screenshotformat) = 'TGA' then
+    screenshotformat := 'PNG'
+  else
+    screenshotformat := 'PNG';
+end;
+
 procedure M_ChangeDetail(choice: integer);
 begin
   detailLevel := (detailLevel + 1) mod DL_NUMRESOLUTIONS;
@@ -1975,6 +2565,31 @@ begin
 
 end;
 
+procedure M_ChangeScreenSize(choice: integer);
+begin
+  case choice of
+    0:
+      if mdisplaymode_idx > 0 then
+        dec(mdisplaymode_idx);
+    1:
+      if mdisplaymode_idx < numdisplaymodes - 1 then
+        inc(mdisplaymode_idx);
+  end;
+end;
+
+procedure M_ApplyScreenSize(choice: integer);
+begin
+  if mdisplaymode_idx < 0 then
+    mdisplaymode_idx := 0
+  else if mdisplaymode_idx >= numdisplaymodes then
+    mdisplaymode_idx := numdisplaymodes - 1;
+
+  OptionsDisplayVideoModeDef.lastOn := 0;
+  itemOn := 0;
+
+  D_NotifyVideoModeChange(displaymodes[mdisplaymode_idx].width, displaymodes[mdisplaymode_idx].height);
+end;
+
 procedure M_ChangeFlatFiltering(choice: integer);
 begin
   C_ExecuteCmd('extremeflatfiltering', yesnoStrings[not extremeflatfiltering]);
@@ -1988,6 +2603,12 @@ begin
   if length(s) = 0 then
     I_Error('M_BoolCmd(): Unknown option');
   C_ExecuteCmd(s, yesnoStrings[not currentMenu.menuitems[choice].pBoolVal^]);
+end;
+
+procedure M_BoolCmdSetSize(choice: integer);
+begin
+  M_BoolCmd(choice);
+  setsizeneeded := true;
 end;
 
 procedure M_SizeDisplay(choice: integer);
@@ -2174,6 +2795,27 @@ begin
           end;
         end;
       end;
+    end;
+    result := true;
+    exit;
+  end;
+
+  // Key bindings
+  if bindkeyEnter then
+  begin
+    case ch of
+      KEY_ESCAPE:
+        begin
+          bindkeyEnter := false;
+          KeyBindingsInfo[bindkeySlot].pkey^ := saveOldkey;
+        end;
+      KEY_ENTER:
+        begin
+          bindkeyEnter := false;
+        end;
+    else
+      M_SetKeyBinding(bindkeySlot, ch);
+      bindkeyEnter := false;
     end;
     result := true;
     exit;
@@ -2400,6 +3042,13 @@ begin
         begin
           S_StartSound(nil, Ord(SFX_PICKUP_KEY));
           currentMenu.menuitems[itemOn].routine(0);
+        end
+        else if (currentMenu.leftMenu <> nil) and not (ev._type in [ev_mouse, ev_joystick]) then
+        begin
+          currentMenu.lastOn := itemOn;
+          currentMenu := currentMenu.leftMenu;
+          itemOn := currentMenu.lastOn;
+          S_StartSound(nil, Ord(SFX_FIGHTER_HAMMER_HITWALL));
         end;
         result := true;
         exit;
@@ -2411,6 +3060,13 @@ begin
         begin
           S_StartSound(nil, Ord(SFX_PICKUP_KEY));
           currentMenu.menuitems[itemOn].routine(1);
+        end
+        else if (currentMenu.rightMenu <> nil) and not (ev._type in [ev_mouse, ev_joystick]) then
+        begin
+          currentMenu.lastOn := itemOn;
+          currentMenu := currentMenu.rightMenu;
+          itemOn := currentMenu.lastOn;
+          S_StartSound(nil, Ord(SFX_FIGHTER_HAMMER_HITWALL));
         end;
         result := true;
         exit;
@@ -2542,11 +3198,6 @@ begin
   M_DoDrawLoadIcon;
 end;
 
-//
-// M_Drawer
-// Called after the view has been rendered,
-// but before it has been blitted.
-//
 
 //
 // JVAL
@@ -2571,7 +3222,8 @@ var
 
 procedure M_MenuShader;
 begin
-  if (not wipedisplay) and shademenubackground then
+  shademenubackground := shademenubackground mod 3;
+  if (not wipedisplay) and (shademenubackground >= 1) then
   begin
     if usemultithread then
     begin
@@ -2611,16 +3263,59 @@ begin
   end;
 end;
 
+procedure M_DrawFlatBackground(const sflat: string);
+var
+  x, y: integer;
+  src: PByteArray;
+  dest: integer;
+  iflat: integer;
+begin
+  iflat := R_FlatNumForName(sflat);
+  if iflat < 0 then
+  begin
+    iflat := R_FlatNumForName(DEFMENUBACKGROUNDFLAT);
+    if iflat < 0 then
+      exit;
+  end;
+
+  src := W_CacheLumpNum(R_GetLumpForFlat(iflat), PU_STATIC);
+  dest := 0;
+
+  for y := 0 to 200 - 1 do
+  begin
+    for x := 0 to (320 div 64) - 1 do
+    begin
+      memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 64);
+      dest := dest + 64;
+    end;
+
+    if 320 and 63 <> 0 then
+    begin
+      memcpy(@screens[SCN_TMP, dest], @src[_SHL(y and 63, 6)], 320 and 63);
+      dest := dest + (320 and 63);
+    end;
+  end;
+  Z_ChangeTag(src, PU_CACHE);
+end;
+
+//
+// M_Drawer
+// Called after the view has been rendered,
+// but before it has been blitted.
+//
 procedure M_Drawer;
 var
   i: integer;
   max: integer;
-  _string: string;
+  str: string;
   len: integer;
   x, y: integer;
   mheight: integer;
   ppos: menupos_t;
   sxoffs, syoffs: integer;
+  lstr: string;
+  rstr: string;
+  rlen: integer;
 begin
   // Horiz. & Vertically center string and print it.
   if (messageToPrint <> 0) or M_MustDrawIcons then
@@ -2637,25 +3332,25 @@ begin
     M_DoDrawIcons;
 
     len := Length(messageString);
-    _string := '';
+    str := '';
     for i := 1 to len do
     begin
       if messageString[i] = #13 then
         y := y + hu_font[0].height
       else if messageString[i] = #10 then
       begin
-        x := (320 - M_StringWidth(_string)) div 2;
-        M_WriteText(x, y, _string);
-        _string := '';
+        x := (320 - M_StringWidth(str)) div 2;
+        M_WriteText(x, y, str);
+        str := '';
       end
       else
-        _string := _string + messageString[i];
+        str := str + messageString[i];
     end;
-    if _string <> '' then
+    if str <> '' then
     begin
-      x := (320 - M_StringWidth(_string)) div 2;
+      x := (320 - M_StringWidth(str)) div 2;
       y := y + hu_font[0].height;
-      M_WriteText(x, y, _string);
+      M_WriteText(x, y, str);
     end;
 
     M_FinishUpdate(mheight);
@@ -2675,8 +3370,11 @@ begin
 
   MT_ZeroMemory(screens[SCN_TMP], 320 * 200);
 
-  if Assigned(currentMenu.routine) then
-    currentMenu.routine; // call Draw routine
+  if (shademenubackground = 2) and currentMenu.texturebk then
+    M_DrawFlatBackground(menubackgroundflat);
+
+  if Assigned(currentMenu.drawproc) then
+    currentMenu.drawproc; // call Draw routine
 
   // DRAW MENU
   x := currentMenu.x;
@@ -2685,29 +3383,29 @@ begin
 
   for i := 0 to max - 1 do
   begin
-    _string := currentMenu.menuitems[i].name;
-    if _string <> '' then
+    str := currentMenu.menuitems[i].name;
+    if str <> '' then
     begin
-      if _string[1] = '%' then // Draw center big text
+      if str[1] = '%' then // Draw center big text
       begin
-        delete(_string, 1, 1);
-        M_WriteCenterText2(_string, y);
+        delete(str, 1, 1);
+        M_WriteCenterText2(str, y);
       end
-      else if _string[1] = '/' then // Draw not centered big text
+      else if str[1] = '/' then // Draw not centered big text
       begin
-        delete(_string, 1, 1);
-        M_WriteText2(x, y, _string);
+        delete(str, 1, 1);
+        M_WriteText2(x, y, str);
       end
-      else if _string[1] = '!' then // Draw small text with Yes/No
+      else if str[1] = '!' then // Draw small text with Yes/No
       begin
-        delete(_string, 1, 1);
+        delete(str, 1, 1);
         if currentMenu.menuitems[i].pBoolVal <> nil then
         begin
-          ppos := M_WriteText3(x, y, _string + ': ');
+          ppos := M_WriteText3(x, y, str + ': ');
           M_WriteWhiteText3(ppos.x, ppos.y, yesnostrings[currentMenu.menuitems[i].pBoolVal^]);
         end
         else
-          M_WriteText3(x, y, _string);
+          M_WriteText3(x, y, str);
       end
       else // Else name holds the patch name of the menu item
         V_DrawPatch(x, y, SCN_TMP,
@@ -2716,6 +3414,25 @@ begin
     y := y + currentMenu.itemheight;
   end;
 
+  if currentMenu.leftMenu <> nil then
+  begin
+    if currentMenu.lefttext = '' then
+      lstr := '<<'
+    else
+      lstr := currentMenu.lefttext;
+    M_WriteWhiteText3(5, 158, lstr);
+  end;
+
+  if currentMenu.rightMenu <> nil then
+  begin
+    if currentMenu.righttext = '' then
+      rstr := '>>'
+    else
+      rstr := currentMenu.righttext;
+    rlen := M_StringWidth(rstr);
+    M_WriteWhiteText3(315 - rlen, 158, rstr);
+  end;
+  
   if currentMenu.itemheight <= LINEHEIGHT2 then
     M_WriteWhiteText3(x + LINECHARXOFF, currentMenu.y + LINECHARYOFF + itemOn * LINEHEIGHT2, '-')
   else
@@ -2984,12 +3701,12 @@ begin
   MainDef.numitems := Ord(main_end);
   MainDef.prevMenu := nil;
   MainDef.menuitems := Pmenuitem_tArray(@MainMenu);
-  MainDef.routine := @M_DrawMainMenu;  // draw routine
+  MainDef.drawproc := @M_DrawMainMenu;  // draw routine
   MainDef.x := 110;
   MainDef.y := 60;
   MainDef.lastOn := 0;
   MainDef.itemheight := LINEHEIGHT;
-
+  MainDef.texturebk := false;
 ////////////////////////////////////////////////////////////////////////////////
 //GameFilesMenu
   pmi := @GameFilesMenu[0];
@@ -3011,12 +3728,12 @@ begin
   GameFilesDef.numitems := Ord(gf_end); // # of menu items
   GameFilesDef.prevMenu := @MainDef; // previous menu
   GameFilesDef.menuitems := Pmenuitem_tArray(@GameFilesMenu);  // menu items
-  GameFilesDef.routine := @M_DrawGameFiles;  // draw routine
+  GameFilesDef.drawproc := @M_DrawGameFiles;  // draw routine
   GameFilesDef.x := 110;
   GameFilesDef.y := 60; // x,y of menu
   GameFilesDef.lastOn := Ord(gf_loadgame); // last item user was on in menu
   GameFilesDef.itemheight := LINEHEIGHT;
-
+  GameFilesDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //EpisodeMenu
@@ -3057,11 +3774,12 @@ begin
   ClassDef.numitems := Ord(mclass_end); // # of menu items
   ClassDef.prevMenu := @MainDef; // previous menu
   ClassDef.menuitems := Pmenuitem_tArray(@ClassMenu);  // menu items
-  ClassDef.routine := @M_DrawClass;  // draw routine
+  ClassDef.drawproc := @M_DrawClass;  // draw routine
   ClassDef.x := 66;
   ClassDef.y := 66; // x,y of menu
   ClassDef.lastOn := Ord(MenuPClass); // last item user was on in menu
   ClassDef.itemheight := LINEHEIGHT;
+  ClassDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //NewGameMenu
@@ -3110,11 +3828,12 @@ begin
   NewDef.numitems := Ord(newg_end); // # of menu items
   NewDef.prevMenu := @ClassDef; // previous menu
   NewDef.menuitems := Pmenuitem_tArray(@NewGameMenu);  // menu items
-  NewDef.routine := @M_DrawNewGame;  // draw routine
+  NewDef.drawproc := @M_DrawNewGame;  // draw routine
   NewDef.x := 110;
   NewDef.y := 60; // x,y of menu
   NewDef.lastOn := Ord(newg_hurtme); // last item user was on in menu
   NewDef.itemheight := LINEHEIGHT;
+  NewDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsMenu
@@ -3171,11 +3890,12 @@ begin
   OptionsDef.numitems := Ord(opt_end); // # of menu items
   OptionsDef.prevMenu := @MainDef; // previous menu
   OptionsDef.menuitems := Pmenuitem_tArray(@OptionsMenu);  // menu items
-  OptionsDef.routine := @M_DrawOptions;  // draw routine
+  OptionsDef.drawproc := @M_DrawOptions;  // draw routine
   OptionsDef.x := 110;
   OptionsDef.y := 60; // x,y of menu
   OptionsDef.lastOn := 0; // last item user was on in menu
   OptionsDef.itemheight := LINEHEIGHT;
+  OptionsDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsGeneralMenu
@@ -3232,11 +3952,12 @@ begin
   OptionsGeneralDef.numitems := Ord(optgen_end); // # of menu items
   OptionsGeneralDef.prevMenu := @OptionsDef; // previous menu
   OptionsGeneralDef.menuitems := Pmenuitem_tArray(@OptionsGeneralMenu);  // menu items
-  OptionsGeneralDef.routine := @M_DrawGeneralOptions;  // draw routine
+  OptionsGeneralDef.drawproc := @M_DrawGeneralOptions;  // draw routine
   OptionsGeneralDef.x := 80;
   OptionsGeneralDef.y := 48; // x,y of menu
   OptionsGeneralDef.lastOn := 0; // last item user was on in menu
   OptionsGeneralDef.itemheight := LINEHEIGHT;
+  OptionsDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayMenu
@@ -3293,15 +4014,24 @@ begin
   OptionsDisplayDef.numitems := Ord(optdisp_end); // # of menu items
   OptionsDisplayDef.prevMenu := @OptionsDef; // previous menu
   OptionsDisplayDef.menuitems := Pmenuitem_tArray(@OptionsDisplayMenu);  // menu items
-  OptionsDisplayDef.routine := @M_DrawDisplayOptions;  // draw routine
+  OptionsDisplayDef.drawproc := @M_DrawDisplayOptions;  // draw routine
   OptionsDisplayDef.x := 110;
   OptionsDisplayDef.y := 60; // x,y of menu
   OptionsDisplayDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayDef.itemheight := LINEHEIGHT;
+  OptionsDisplayDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayDetailMenu
   pmi := @OptionsDisplayDetailMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Set video mode...';
+  pmi.cmd := '';
+  pmi.routine := @M_SetVideoMode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
   pmi.status := 1;
   pmi.name := '';
   pmi.cmd := '';
@@ -3324,17 +4054,75 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @allowhidetails;
   pmi.alphaKey := 'h';
-  
+
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayDetailDef
   OptionsDisplayDetailDef.numitems := Ord(optdispdetail_end); // # of menu items
   OptionsDisplayDetailDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayDetailDef.leftMenu := @OptionsDisplay32bitDef; // left menu
+  OptionsDisplayDetailDef.rightMenu := @OptionsDisplayAutomapDef; // right menu
   OptionsDisplayDetailDef.menuitems := Pmenuitem_tArray(@OptionsDisplayDetailMenu);  // menu items
-  OptionsDisplayDetailDef.routine := @M_DrawDisplayDetailOptions;  // draw routine
+  OptionsDisplayDetailDef.drawproc := @M_DrawDisplayDetailOptions;  // draw routine
   OptionsDisplayDetailDef.x := 30;
   OptionsDisplayDetailDef.y := 40; // x,y of menu
   OptionsDisplayDetailDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayDetailDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayDetailDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayVideoModeMenu
+  pmi := @OptionsDisplayVideoModeMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Fullscreen';
+  pmi.cmd := 'fullscreen';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @fullscreen;
+  pmi.alphaKey := 'f';
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeScreenSize;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_ApplyScreenSize;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'a';
+
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayVideoModeDef
+  OptionsDisplayVideoModeDef.numitems := Ord(optdispvideomode_end); // # of menu items
+  OptionsDisplayVideoModeDef.prevMenu := {$IFDEF OPENGL}@OptionsDisplayOpenGLDef{$ELSE}@OptionsDisplayDetailDef{$ENDIF}; // previous menu
+  OptionsDisplayVideoModeDef.menuitems := Pmenuitem_tArray(@OptionsDisplayVideoModeMenu);  // menu items
+  OptionsDisplayVideoModeDef.drawproc := @M_DrawDisplaySetVideoMode;  // draw routine
+  OptionsDisplayVideoModeDef.x := 30;
+  OptionsDisplayVideoModeDef.y := 40; // x,y of menu
+  OptionsDisplayVideoModeDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayVideoModeDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayVideoModeDef.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAutomapMenu
@@ -3362,16 +4150,27 @@ begin
   pmi.pBoolVal := @texturedautomap;
   pmi.alphaKey := 't';
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Automap grid';
+  pmi.cmd := 'automapgrid';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @automapgrid;
+  pmi.alphaKey := 'g';
+
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAutomapDef
   OptionsDisplayAutomapDef.numitems := Ord(optdispautomap_end); // # of menu items
   OptionsDisplayAutomapDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayAutomapDef.leftMenu := {$IFDEF OPENGL}@OptionsDisplayOpenGLDef{$ELSE}@OptionsDisplayDetailDef{$ENDIF}; // left menu
+  OptionsDisplayAutomapDef.rightMenu := @OptionsDisplayAppearanceDef; // right menu
   OptionsDisplayAutomapDef.menuitems := Pmenuitem_tArray(@OptionsDisplayAutomapMenu);  // menu items
-  OptionsDisplayAutomapDef.routine := @M_DrawDisplayAutomapOptions;  // draw routine
+  OptionsDisplayAutomapDef.drawproc := @M_DrawDisplayAutomapOptions;  // draw routine
   OptionsDisplayAutomapDef.x := 30;
   OptionsDisplayAutomapDef.y := 40; // x,y of menu
   OptionsDisplayAutomapDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayAutomapDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayAutomapDef.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAppearanceMenu
@@ -3385,56 +4184,58 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Shade menu background';
-  pmi.cmd := 'shademenubackground';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @shademenubackground;
-  pmi.alphaKey := 's';
+  pmi.name := '!Menu background';
+  pmi.cmd := '';
+  pmi.routine := @M_SwitchShadeMode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'b';
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Display disk buzy icon';
-  pmi.cmd := 'displaydiskbuzyicon';
+  pmi.name := '!Display disk busy icon';
+  pmi.cmd := 'displaydiskbusyicon';
   pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @displaydiskbuzyicon;
-  pmi.alphaKey := 'b';
+  pmi.pBoolVal := @displaydiskbusyicon;
+  pmi.alphaKey := 'd';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAppearanceDef
   OptionsDisplayAppearanceDef.numitems := Ord(optdispappearance_end); // # of menu items
   OptionsDisplayAppearanceDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayAppearanceDef.leftMenu := @OptionsDisplayAutomapDef; // left menu
+  OptionsDisplayAppearanceDef.rightMenu := @OptionsDisplayAdvancedDef; // rightmenu
   OptionsDisplayAppearanceDef.menuitems := Pmenuitem_tArray(@OptionsDisplayAppearanceMenu);  // menu items
-  OptionsDisplayAppearanceDef.routine := @M_DrawDisplayAppearanceOptions;  // draw routine
+  OptionsDisplayAppearanceDef.drawproc := @M_DrawDisplayAppearanceOptions;  // draw routine
   OptionsDisplayAppearanceDef.x := 30;
   OptionsDisplayAppearanceDef.y := 40; // x,y of menu
   OptionsDisplayAppearanceDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayAppearanceDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayAppearanceDef.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAdvancedMenu
   pmi := @OptionsDisplayAdvancedMenu[0];
   pmi.status := 1;
-  pmi.name := '!Fullscreen';
-  pmi.cmd := 'fullscreen';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @fullscreen;
-  pmi.alphaKey := 'f';
+  pmi.name := '!Aspect Ratio...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionAspectRatio;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'a';
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Interpolate';
+  pmi.name := '!Camera...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionCameraShift;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'c';
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Uncapped framerate';
   pmi.cmd := 'interpolate';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @interpolate;
   pmi.alphaKey := 'i';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Z-Axis Shift';
-  pmi.cmd := 'zaxisshift';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @zaxisshift;
-  pmi.alphaKey := 'z';
 
 {$IFNDEF OPENGL}
   inc(pmi);
@@ -3443,16 +4244,9 @@ begin
   pmi.cmd := 'usefake3d';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @usefake3d;
-  pmi.alphaKey := 'e';
+  pmi.alphaKey := 'f';
 {$ENDIF}
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Chase camera';
-  pmi.cmd := 'chasecamera';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @chasecamera;
-  pmi.alphaKey := 'c';
-                        
+
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Use classic fuzz effect';
@@ -3471,7 +4265,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Stretch to fix memory stall';
+  pmi.name := '!Auto fix memory stall';
   pmi.cmd := 'fixstallhack';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @fixstallhack;
@@ -3521,11 +4315,27 @@ begin
 
 {$ENDIF}
 
-  inc(pmi);
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayAdvancedDef
+  OptionsDisplayAdvancedDef.numitems := Ord(optdispadvanced_end); // # of menu items
+  OptionsDisplayAdvancedDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayAdvancedDef.leftMenu := @OptionsDisplayAppearanceDef; // left menu
+  OptionsDisplayAdvancedDef.rightMenu := @OptionsDisplay32bitDef; // right menu
+  OptionsDisplayAdvancedDef.menuitems := Pmenuitem_tArray(@OptionsDisplayAdvancedMenu);  // menu items
+  OptionsDisplayAdvancedDef.drawproc := @M_DrawOptionsDisplayAdvanced;  // draw routine
+  OptionsDisplayAdvancedDef.x := 30;
+  OptionsDisplayAdvancedDef.y := 40; // x,y of menu
+  OptionsDisplayAdvancedDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayAdvancedDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayAdvancedDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayAspectRatioMenu
+  pmi := @OptionsDisplayAspectRatioMenu[0];
   pmi.status := 1;
   pmi.name := '!Widescreen support';
   pmi.cmd := 'widescreensupport';
-  pmi.routine := @M_BoolCmd;
+  pmi.routine := @M_BoolCmdSetSize;
   pmi.pBoolVal := @widescreensupport;
   pmi.alphaKey := 'w';
 
@@ -3537,16 +4347,112 @@ begin
   pmi.pBoolVal := @excludewidescreenplayersprites;
   pmi.alphaKey := 'p';
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Force Aspect Ratio';
+  pmi.cmd := '';
+  pmi.routine := @M_SwitchForcedAspectRatio;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'f';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Intermission screens resize';
+  pmi.cmd := 'intermissionstretch';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @intermissionstretch;
+  pmi.alphaKey := 'i';
+
 ////////////////////////////////////////////////////////////////////////////////
-//OptionsDisplayAdvancedDef
-  OptionsDisplayAdvancedDef.numitems := Ord(optdispadvanced_end); // # of menu items
-  OptionsDisplayAdvancedDef.prevMenu := @OptionsDisplayDef; // previous menu
-  OptionsDisplayAdvancedDef.menuitems := Pmenuitem_tArray(@OptionsDisplayAdvancedMenu);  // menu items
-  OptionsDisplayAdvancedDef.routine := @M_DrawOptionsDisplayAdvanced;  // draw routine
-  OptionsDisplayAdvancedDef.x := 30;
-  OptionsDisplayAdvancedDef.y := 40; // x,y of menu
-  OptionsDisplayAdvancedDef.lastOn := 0; // last item user was on in menu
-  OptionsDisplayAdvancedDef.itemheight := LINEHEIGHT2;
+//OptionsDisplayAspectRatioDef
+  OptionsDisplayAspectRatioDef.numitems := Ord(optdispaspect_end); // # of menu items
+  OptionsDisplayAspectRatioDef.prevMenu := @OptionsDisplayAdvancedDef; // previous menu
+  OptionsDisplayAspectRatioDef.menuitems := Pmenuitem_tArray(@OptionsDisplayAspectRatioMenu);  // menu items
+  OptionsDisplayAspectRatioDef.drawproc := @M_DrawOptionsDisplayAspectRatio;  // draw routine
+  OptionsDisplayAspectRatioDef.x := 32;
+  OptionsDisplayAspectRatioDef.y := 68; // x,y of menu
+  OptionsDisplayAspectRatioDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayAspectRatioDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayAspectRatioDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayCameraMenu
+  pmi := @OptionsDisplayCameraMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Look Up/Down';
+  pmi.cmd := 'zaxisshift';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @zaxisshift;
+  pmi.alphaKey := 'z';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Chase camera';
+  pmi.cmd := 'chasecamera';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @chasecamera;
+  pmi.alphaKey := 'c';
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '!Chase Camera XY postion';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeCameraXY;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'x';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '!Chase Camera Z postion';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeCameraZ;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'z';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayCameraDef
+  OptionsDisplayCameraDef.numitems := Ord(optdispcamera_end); // # of menu items
+  OptionsDisplayCameraDef.prevMenu := @OptionsDisplayAdvancedDef; // previous menu
+  OptionsDisplayCameraDef.menuitems := Pmenuitem_tArray(@OptionsDisplayCameraMenu);  // menu items
+  OptionsDisplayCameraDef.drawproc := @M_DrawOptionsDisplayCamera;  // draw routine
+  OptionsDisplayCameraDef.x := 32;
+  OptionsDisplayCameraDef.y := 68; // x,y of menu
+  OptionsDisplayCameraDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayCameraDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayCameraDef.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplay32bitMenu
@@ -3607,20 +4513,31 @@ begin
   pmi.alphaKey := 'f';
 
 ////////////////////////////////////////////////////////////////////////////////
-//OptionsDisplayAdvancedDef
+//OptionsDisplay32bitDef
   OptionsDisplay32bitDef.numitems := Ord(optdisp32bit_end); // # of menu items
   OptionsDisplay32bitDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplay32bitDef.leftMenu := @OptionsDisplayAdvancedDef; // left menu
+  OptionsDisplay32bitDef.rightMenu := {$IFDEF OPENGL}@OptionsDisplayOpenGLDef{$ELSE}@OptionsDisplayDetailDef{$ENDIF}; // right menu
   OptionsDisplay32bitDef.menuitems := Pmenuitem_tArray(@OptionsDisplay32bitMenu);  // menu items
-  OptionsDisplay32bitDef.routine := @M_DrawOptionsDisplay32bit;  // draw routine
+  OptionsDisplay32bitDef.drawproc := @M_DrawOptionsDisplay32bit;  // draw routine
   OptionsDisplay32bitDef.x := 30;
   OptionsDisplay32bitDef.y := 40; // x,y of menu
   OptionsDisplay32bitDef.lastOn := 0; // last item user was on in menu
   OptionsDisplay32bitDef.itemheight := LINEHEIGHT2;
+  OptionsDisplay32bitDef.texturebk := true;
 
 {$IFDEF OPENGL}
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayOpenGLMenu
   pmi := @OptionsDisplayOpenGLMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Set video mode...';
+  pmi.cmd := '';
+  pmi.routine := @M_SetVideoMode;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
   pmi.status := 1;
   pmi.name := '!Use fog';
   pmi.cmd := 'use_fog';
@@ -3744,7 +4661,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Limit framerate to screen syncronization';
+  pmi.name := '!Limit framerate to screen sync';
   pmi.cmd := 'gl_screensync';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_screensync;
@@ -3754,12 +4671,15 @@ begin
 //OptionsDisplayOpenGLDef
   OptionsDisplayOpenGLDef.numitems := Ord(optdispopengl_end); // # of menu items
   OptionsDisplayOpenGLDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayOpenGLDef.leftMenu := @OptionsDisplay32bitDef; // left menu
+  OptionsDisplayOpenGLDef.rightMenu := @OptionsDisplayAutomapDef; // right menu
   OptionsDisplayOpenGLDef.menuitems := Pmenuitem_tArray(@OptionsDisplayOpenGLMenu);  // menu items
-  OptionsDisplayOpenGLDef.routine := @M_DrawOptionsDisplayOpenGL;  // draw routine
+  OptionsDisplayOpenGLDef.drawproc := @M_DrawOptionsDisplayOpenGL;  // draw routine
   OptionsDisplayOpenGLDef.x := 30;
   OptionsDisplayOpenGLDef.y := 40; // x,y of menu
   OptionsDisplayOpenGLDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayOpenGLDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayOpenGLDef.texturebk := true;
 {$ENDIF}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -3777,11 +4697,12 @@ begin
   ReadDef1.numitems := Ord(read1_end); // # of menu items
   ReadDef1.prevMenu := @MainDef; // previous menu
   ReadDef1.menuitems := Pmenuitem_tArray(@ReadMenu1);  // menu items
-  ReadDef1.routine := @M_DrawReadThis1;  // draw routine
+  ReadDef1.drawproc := @M_DrawReadThis1;  // draw routine
   ReadDef1.x := 310;
   ReadDef1.y := 175; // x,y of menu
   ReadDef1.lastOn := 0; // last item user was on in menu
   ReadDef1.itemheight := LINEHEIGHT;
+  ReadDef1.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //ReadMenu2
@@ -3798,11 +4719,12 @@ begin
   ReadDef2.numitems := Ord(read2_end); // # of menu items
   ReadDef2.prevMenu := @ReadDef1; // previous menu
   ReadDef2.menuitems := Pmenuitem_tArray(@ReadMenu2);  // menu items
-  ReadDef2.routine := @M_DrawReadThis2;  // draw routine
+  ReadDef2.drawproc := @M_DrawReadThis2;  // draw routine
   ReadDef2.x := 310;
   ReadDef2.y := 175; // x,y of menu
   ReadDef2.lastOn := 0; // last item user was on in menu
   ReadDef2.itemheight := LINEHEIGHT;
+  ReadDef2.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //SoundMenu
@@ -3850,12 +4772,15 @@ begin
 //SoundDef
   SoundDef.numitems := Ord(sound_end); // # of menu items
   SoundDef.prevMenu := @OptionsDef; // previous menu
+  SoundDef.leftMenu := @SystemDef; // left menu
+  SoundDef.rightMenu := @CompatibilityDef; // left menu
   SoundDef.menuitems := Pmenuitem_tArray(@SoundMenu);  // menu items
-  SoundDef.routine := @M_DrawSound;  // draw routine
+  SoundDef.drawproc := @M_DrawSound;  // draw routine
   SoundDef.x := 30;
   SoundDef.y := 40; // x,y of menu
   SoundDef.lastOn := 0; // last item user was on in menu
   SoundDef.itemheight := LINEHEIGHT2;
+  SoundDef.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //SoundVolMenu
@@ -3896,11 +4821,12 @@ begin
   SoundVolDef.numitems := Ord(soundvol_end); // # of menu items
   SoundVolDef.prevMenu := @SoundDef; // previous menu
   SoundVolDef.menuitems := Pmenuitem_tArray(@SoundVolMenu);  // menu items
-  SoundVolDef.routine := @M_DrawSoundVol;  // draw routine
+  SoundVolDef.drawproc := @M_DrawSoundVol;  // draw routine
   SoundVolDef.x := 80;
   SoundVolDef.y := 64; // x,y of menu
   SoundVolDef.lastOn := 0; // last item user was on in menu
   SoundVolDef.itemheight := LINEHEIGHT;
+  SoundVolDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //CompatibilityMenu
@@ -3932,12 +4858,15 @@ begin
 //CompatibilityDef
   CompatibilityDef.numitems := Ord(cmp_end); // # of menu items
   CompatibilityDef.prevMenu := @OptionsDef; // previous menu
+  CompatibilityDef.leftMenu := @SoundDef; // left menu
+  CompatibilityDef.rightMenu := @ControlsDef; // right menu
   CompatibilityDef.menuitems := Pmenuitem_tArray(@CompatibilityMenu);  // menu items
-  CompatibilityDef.routine := @M_DrawCompatibility;  // draw routine
+  CompatibilityDef.drawproc := @M_DrawCompatibility;  // draw routine
   CompatibilityDef.x := 30;
   CompatibilityDef.y := 40; // x,y of menu
   CompatibilityDef.lastOn := 0; // last item user was on in menu
   CompatibilityDef.itemheight := LINEHEIGHT2;
+  CompatibilityDef.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //ControlsMenu
@@ -3967,6 +4896,14 @@ begin
 
   inc(pmi);
   pmi.status := 1;
+  pmi.name := '!Mouse sensitivity...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsSensitivity;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
   pmi.name := '!Use joystic';
   pmi.cmd := 'use_joystick';
   pmi.routine := @M_BoolCmd;
@@ -3988,16 +4925,138 @@ begin
   pmi.routine := @M_SwitchKeyboardMode;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'k';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Key bindings...';
+  pmi.cmd := '';
+  pmi.routine := @M_KeyBindings;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'b';
+
 ////////////////////////////////////////////////////////////////////////////////
 //ControlsDef
   ControlsDef.numitems := Ord(ctrl_end); // # of menu items
   ControlsDef.prevMenu := @OptionsDef; // previous menu
+  ControlsDef.leftMenu := @CompatibilityDef; // left menu
+  ControlsDef.rightMenu := @SystemDef; // left menu
   ControlsDef.menuitems := Pmenuitem_tArray(@ControlsMenu);  // menu items
-  ControlsDef.routine := @M_DrawControls;  // draw routine
+  ControlsDef.drawproc := @M_DrawControls;  // draw routine
   ControlsDef.x := 30;
   ControlsDef.y := 40; // x,y of menu
   ControlsDef.lastOn := 0; // last item user was on in menu
   ControlsDef.itemheight := LINEHEIGHT2;
+  ControlsDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//SensitivityMenu
+  pmi := @SensitivityMenu[0];
+  pmi.status := 2;
+  pmi.name := '!Global sensitivity';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeSensitivity;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'x';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '!X Axis sensitivity';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeSensitivityX;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'x';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '!Y Axis sensitivity';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeSensitivityY;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'y';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+////////////////////////////////////////////////////////////////////////////////
+//SensitivityDef
+  SensitivityDef.numitems := Ord(sens_end); // # of menu items
+  SensitivityDef.prevMenu := @ControlsDef; // previous menu
+  SensitivityDef.menuitems := Pmenuitem_tArray(@SensitivityMenu);  // menu items
+  SensitivityDef.drawproc := @M_DrawSensitivity;  // draw routine
+  SensitivityDef.x := 30;
+  SensitivityDef.y := 40; // x,y of menu
+  SensitivityDef.lastOn := 0; // last item user was on in menu
+  SensitivityDef.itemheight := LINEHEIGHT2;
+  SensitivityDef.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //SystemMenu
@@ -4033,16 +5092,85 @@ begin
   pmi.pBoolVal := @usemultithread;
   pmi.alphaKey := 't';
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Screenshot format';
+  pmi.cmd := '';
+  pmi.routine := @M_ScreenShotCmd;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 's';
+
 ////////////////////////////////////////////////////////////////////////////////
-//ControlsDef
+//SystemDef
   SystemDef.numitems := Ord(sys_end); // # of menu items
   SystemDef.prevMenu := @OptionsDef; // previous menu
+  SystemDef.leftMenu := @ControlsDef; // left menu
+  SystemDef.rightMenu := @SoundDef; // right menu
   SystemDef.menuitems := Pmenuitem_tArray(@SystemMenu);  // menu items
-  SystemDef.routine := @M_DrawSystem;  // draw routine
+  SystemDef.drawproc := @M_DrawSystem;  // draw routine
   SystemDef.x := 30;
   SystemDef.y := 40; // x,y of menu
   SystemDef.lastOn := 0; // last item user was on in menu
   SystemDef.itemheight := LINEHEIGHT2;
+  SystemDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindingsMenu
+  pmi := @KeyBindingsMenu[0];
+  for i := 0 to Ord(kb_flyup) - 1 do
+  begin
+    pmi.status := 1;
+    pmi.name := '!' + KeyBindingsInfo[i].text + ': ';
+    pmi.cmd := '';
+    pmi.routine := @M_KeyBindingSelect1;
+    pmi.pBoolVal := nil;
+    pmi.alphaKey := Chr(Ord('1') + i);
+    inc(pmi);
+  end;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindingsDef
+  KeyBindingsDef.numitems := Ord(kb_flyup); // # of menu items
+  KeyBindingsDef.prevMenu := @ControlsDef; // previous menu
+  KeyBindingsDef.leftmenu := nil; // left menu
+  KeyBindingsDef.rightmenu := @KeyBindings2Def; // right menu
+  KeyBindingsDef.righttext := 'next >>';
+  KeyBindingsDef.menuitems := Pmenuitem_tArray(@KeyBindingsMenu);  // menu items
+  KeyBindingsDef.drawproc := @M_DrawBindings1;  // draw routine
+  KeyBindingsDef.x := 32;
+  KeyBindingsDef.y := 34; // x,y of menu
+  KeyBindingsDef.lastOn := 0; // last item user was on in menu
+  KeyBindingsDef.itemheight := LINEHEIGHT2;
+  KeyBindingsDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindings2Menu
+  pmi := @KeyBindings2Menu[0];
+  for i := 0 to Ord(kb_end) - Ord(kb_flyup) - 1 do
+  begin
+    pmi.status := 1;
+    pmi.name := '!' + KeyBindingsInfo[Ord(kb_flyup) + i].text + ': ';
+    pmi.cmd := '';
+    pmi.routine := @M_KeyBindingSelect2;
+    pmi.pBoolVal := nil;
+    pmi.alphaKey := Chr(Ord('1') + i);
+    inc(pmi);
+  end;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindings2Def
+  KeyBindings2Def.numitems := Ord(kb_end) - Ord(kb_flyup); // # of menu items
+  KeyBindings2Def.prevMenu := @ControlsDef; // previous menu
+  KeyBindings2Def.leftmenu := @KeyBindingsDef; // left menu
+  KeyBindings2Def.lefttext := '<< prev';
+  KeyBindings2Def.rightmenu := nil; // right menu
+  KeyBindings2Def.menuitems := Pmenuitem_tArray(@KeyBindings2Menu);  // menu items
+  KeyBindings2Def.drawproc := @M_DrawBindings2;  // draw routine
+  KeyBindings2Def.x := 32;
+  KeyBindings2Def.y := 34; // x,y of menu
+  KeyBindings2Def.lastOn := 0; // last item user was on in menu
+  KeyBindings2Def.itemheight := LINEHEIGHT2;
+  KeyBindings2Def.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //LoadMenu
@@ -4063,11 +5191,12 @@ begin
   LoadDef.numitems := Ord(load_end); // # of menu items
   LoadDef.prevMenu := @MainDef; // previous menu
   LoadDef.menuitems := Pmenuitem_tArray(@LoadMenu);  // menu items
-  LoadDef.routine := @M_DrawLoad;  // draw routine
+  LoadDef.drawproc := @M_DrawLoad;  // draw routine
   LoadDef.x := 80;
   LoadDef.y := 34; // x,y of menu
   LoadDef.lastOn := 0; // last item user was on in menu
   LoadDef.itemheight := LINEHEIGHT;
+  LoadDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //SaveMenu
@@ -4088,11 +5217,12 @@ begin
   SaveDef.numitems := Ord(load_end); // # of menu items
   SaveDef.prevMenu := @MainDef; // previous menu
   SaveDef.menuitems := Pmenuitem_tArray(@SaveMenu);  // menu items
-  SaveDef.routine := M_DrawSave;  // draw routine
+  SaveDef.drawproc := M_DrawSave;  // draw routine
   SaveDef.x := 80;
   SaveDef.y := 34; // x,y of menu
   SaveDef.lastOn := 0; // last item user was on in menu
   SaveDef.itemheight := LINEHEIGHT;
+  SaveDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
   joywait := 0;
@@ -4105,6 +5235,4 @@ begin
 end;
 
 end.
-
-
 

@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -73,6 +73,8 @@ type
     procedure ScriptError(const Fmt: string; const Args: array of const); overload;
     function GetString: boolean;
     function GetStringEOL: string;
+    function GetStringEOLWithQuotes: string;
+    function GetTokensEOL: TDStringList;
     function GetStringEOLUnChanged: string;
     procedure MustGetString;
     procedure MustGetStringName(const name: string);
@@ -472,6 +474,54 @@ begin
       exit;
     end;
     result := result + ' ' + StringVal(sc_string);
+  end;
+end;
+
+function TScriptEngine.GetStringEOLWithQuotes: string;
+begin
+  result := '';
+  if not GetString then
+    exit;
+
+  if fNewLine then
+  begin
+    AlreadyGot := true;
+    exit;
+  end;
+  result := '"' + StringVal(sc_string) + '"';
+  while not sc_End and not fNewLine do
+  begin
+    GetString;
+    if fNewLine then
+    begin
+      AlreadyGot := true;
+      exit;
+    end;
+    result := result + ' ' + '"' + StringVal(sc_string) + '"';
+  end;
+end;
+
+function TScriptEngine.GetTokensEOL: TDStringList;
+begin
+  result := TDStringList.Create;
+  if not GetString then
+    exit;
+
+  if fNewLine then
+  begin
+    AlreadyGot := true;
+    exit;
+  end;
+  result.Add(sc_string);
+  while not sc_End and not fNewLine do
+  begin
+    GetString;
+    if fNewLine then
+    begin
+      AlreadyGot := true;
+      exit;
+    end;
+    result.Add(sc_string);
   end;
 end;
 

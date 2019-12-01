@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -26,7 +26,6 @@
 //  key definitions, lots of other stuff. 
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -54,7 +53,9 @@ const
   VERSION203 = 203;
   VERSION204 = 204;
   VERSION = VERSION204;
+{$IFDEF OPENGL}
   VERSIONSLOPES = VERSION115;
+{$ENDIF}
 
 type
 // Game mode handling - identify IWAD version
@@ -81,10 +82,15 @@ type
   );
 
 const
-// ?
+  // MAX RENDERING DIMENTIONS
   MAXWIDTH = 4096;
   MAXHEIGHT = 3072;
 
+const
+  // MIN RENDERING DIMENTIONS
+  MINWIDTH = 160;
+  MINHEIGHT = 100;
+  
 var
 // Rendering Engine Screen Dimentions
   SCREENWIDTH: integer;
@@ -318,11 +324,13 @@ const
   KEY_PAGEDOWN = $80 + $45;
   KEY_PAGEUP = $80 + $46;
   KEY_INS = $80 + $47;
-
+
+
   KEY_HOME = $80 + $48;
   KEY_END = $80 + $49;
   KEY_DELETE = $80 + $4a;
-
+
+
   KEY_LALT = KEY_RALT;
 
 const

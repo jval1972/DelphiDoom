@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -126,10 +126,12 @@ uses
   p_tick,
   w_wad,
   info,
+  info_common,
   i_system,
   p_pspr,
   sc_engine,
   sc_tokens,
+  sc_utils,
   w_pak;
 
 const
@@ -142,9 +144,9 @@ var
 
 //
 // SC_ParceDynamicLights
-// JVAL: Parse LIGHTDEF 
+// JVAL: Parse LIGHTDEF
 //
-procedure SC_ParceDynamicLight(const in_text: string);
+procedure SC_DoParceDynamicLight(const in_text: string);
 var
   sc: TScriptEngine;
   tokens: TTokenList;
@@ -417,6 +419,11 @@ begin
   end;
 
   sc.Free;
+end;
+
+procedure SC_ParceDynamicLight(const in_text: string);
+begin
+  SC_DoParceDynamicLight(SC_Preprocess(in_text, false));
 end;
 
 //

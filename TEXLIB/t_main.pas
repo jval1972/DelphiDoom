@@ -234,6 +234,7 @@ uses
   t_patch,
   t_draw,
   r_hires,
+  w_folders,
   w_pak;
 
 const
@@ -279,7 +280,7 @@ begin
       if preferetexturesnamesingamedirectory then
         strm := TPakStream.Create(tname, pm_prefered, gamedirectories)
       else
-        strm := TPakStream.Create(tname, pm_short);
+        strm := TPakStream.Create(tname, pm_short, '', FOLDER_TEXTURES);
       strm.OnBeginBusy := I_BeginDiskBusy;
       if strm.IOResult = 0 then
         if tm^.LoadFromStream(strm) then

@@ -7,6 +7,9 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -25,7 +28,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -269,8 +271,8 @@ uses
   i_io,
 {$IFNDEF OPENGL}
   r_draw,
-  e_endoom,
 {$ENDIF}
+  e_endoom,
   m_argv,
   m_misc,
   m_menu,
@@ -335,7 +337,7 @@ const
   SAVESTRINGSIZE = 24;
 
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
-procedure G_WriteDemoTiccmd (cmd: Pticcmd_t); forward;
+procedure G_WriteDemoTiccmd(cmd: Pticcmd_t); forward;
 
 procedure G_DoReborn(playernum: integer); forward;
 
@@ -935,13 +937,11 @@ var
   bmask: integer;
   i: integer;
 begin
-{$IFNDEF OPENGL}
   if gamestate = GS_ENDOOM then
   begin
     result := E_Responder(ev);
     exit;
   end;
-{$ENDIF}
   // allow spy mode changes even during the demo
   if (gamestate = GS_LEVEL) and (ev._type = ev_keydown) and
      (ev.data1 = KEY_F12) and (singledemo or (gameskill = sk_baby)) then
@@ -1035,8 +1035,8 @@ begin
           mousebuttons[0] := ev.data1 and 1 <> 0;
           mousebuttons[1] := ev.data1 and 2 <> 0;
           mousebuttons[2] := ev.data1 and 4 <> 0;
-          mousex := mousex + (ev.data2 * (mouseSensitivity + 5)) div 10;
-          mousey := mousey + (ev.data3 * (mouseSensitivity + 5)) div 10;
+          mousex := mousex + ((ev.data2 * (mouseSensitivity + 5)) div 10) * mouseSensitivityX div 5;
+          mousey := mousey + ((ev.data3 * (mouseSensitivity + 5)) div 10) * mouseSensitivityY div 5;
         end
         else
         begin
@@ -1147,6 +1147,7 @@ begin
 
       if demoplayback then
         G_ReadDemoTiccmd(cmd);
+
       if demorecording then
         G_WriteDemoTiccmd(cmd);
 
@@ -1322,7 +1323,7 @@ begin
 
   // [STRIFE] clear inventory
   for i := 0 to NUMINVENTORY - 1 do
-    p.inventory[i]._type := NUMMOBJTYPES;
+    p.inventory[i]._type := nummobjtypes;
 
   // villsa [STRIFE]: Default objective
   mission_objective := DEH_GetString('Find help');
@@ -2815,15 +2816,14 @@ end;
 
 procedure G_Quit;
 begin
-{$IFNDEF OPENGL}
   if displayendscreen then
   begin
     gamestate := GS_ENDOOM;
+    S_PauseSound; // Stop music in ENDOOM screen
     printf('E_Init: Initializing ENDSTRF screen.'#13#10);
     E_Init;
   end
   else
-{$ENDIF}
     I_Quit;
 end;
 

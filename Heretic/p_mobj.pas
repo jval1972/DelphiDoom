@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -26,7 +26,6 @@
 //  Moving object handling. Spawn functions.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -1623,7 +1622,8 @@ begin
 
   // fuzzy player
   if dest.flags and MF_SHADOW <> 0 then
-    an := an + _SHLW(P_Random - P_Random, 20);
+    if source.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+      an := an + _SHLW(P_Random - P_Random, 20);
 
   th.angle := an;
   {$IFDEF FPC}
@@ -1763,12 +1763,13 @@ begin
 
   // fuzzy player
   if dest.flags and MF_SHADOW <> 0 then
-  begin
-    an := _SHLW(P_Random - P_Random, 20);
-    an := an shr ANGLETOFINESHIFT;
-    th.momx := th.momx + FixedMul(th.info.speed, finecosine[an]);
-    th.momy := th.momy + FixedMul(th.info.speed, finesine[an]);
-  end;
+    if source.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+    begin
+      an := _SHLW(P_Random - P_Random, 20);
+      an := an shr ANGLETOFINESHIFT;
+      th.momx := th.momx + FixedMul(th.info.speed, finecosine[an]);
+      th.momy := th.momy + FixedMul(th.info.speed, finesine[an]);
+    end;
 
   th.angle := R_PointToAngle2(0, 0, th.momx, th.momy);
 

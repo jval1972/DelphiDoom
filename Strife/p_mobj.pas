@@ -7,6 +7,9 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -29,7 +32,6 @@
 //  Moving object handling. Spawn functions.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -1560,10 +1562,13 @@ begin
   an := R_PointToAngle2(source.x, source.y, dest.x, dest.y);
 
   // fuzzy player
-  if dest.flags and MF_SHADOW <> 0 then
-    an := an + _SHLW(P_Random - P_Random, 21);
-  if dest.flags and MF_MVIS <> 0 then
-    an := an + _SHLW(P_Random - P_Random, 22);
+  if source.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+  begin
+    if dest.flags and MF_SHADOW <> 0 then
+      an := an + _SHLW(P_Random - P_Random, 21);
+    if dest.flags and MF_MVIS <> 0 then
+      an := an + _SHLW(P_Random - P_Random, 22);
+  end;
 
   th.angle := an;
   {$IFDEF FPC}
@@ -1646,12 +1651,13 @@ begin
 
   // fuzzy player
   if dest.flags and MF_SHADOW <> 0 then
-  begin
-    an := _SHLW(P_Random - P_Random, 20);
-    an := an shr ANGLETOFINESHIFT;
-    th.momx := th.momx + FixedMul(th.info.speed, finecosine[an]);
-    th.momy := th.momy + FixedMul(th.info.speed, finesine[an]);
-  end;
+    if source.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+    begin
+      an := _SHLW(P_Random - P_Random, 20);
+      an := an shr ANGLETOFINESHIFT;
+      th.momx := th.momx + FixedMul(th.info.speed, finecosine[an]);
+      th.momy := th.momy + FixedMul(th.info.speed, finesine[an]);
+    end;
 
   th.angle := R_PointToAngle2(0, 0, th.momx, th.momy);
 
@@ -1737,14 +1743,17 @@ begin
   an := result.angle;
 
   // fuzzy player
-  if target.flags and MF_SHADOW <> 0 then
+  if source.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
   begin
-    an := an + _SHLW(P_Random - P_Random, 21);
-  end
-  // villsa [STRIFE] check for heavily transparent things
-  else if target.flags and MF_MVIS <> 0 then
-  begin
-    an := an + _SHLW(P_Random - P_Random, 22);
+    if target.flags and MF_SHADOW <> 0 then
+    begin
+      an := an + _SHLW(P_Random - P_Random, 21);
+    end
+    // villsa [STRIFE] check for heavily transparent things
+    else if target.flags and MF_MVIS <> 0 then
+    begin
+      an := an + _SHLW(P_Random - P_Random, 22);
+    end;
   end;
 
   an := an shr ANGLETOFINESHIFT;

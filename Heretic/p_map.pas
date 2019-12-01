@@ -26,7 +26,6 @@
 //  Shooting and aiming.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -117,6 +116,7 @@ uses
   g_game,
   info_h,
   info,
+  info_common,
   p_gravity,
   p_setup,
   p_maputl,
@@ -582,7 +582,8 @@ begin
         exit;
       end;
 
-      if thing._type <> Ord(MT_PLAYER) then // Hit same species as originator, explode, no damage
+      // Hit same species as originator, explode, no damage
+      if (thing._type <> Ord(MT_PLAYER)) and (thing.flags2_ex and MF2_EX_MISSILEHURTSPECIES = 0)  then
       begin
         // Explode, but do no damage.
         // Let players missile other players.

@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  Game completion, final screen animation.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -387,6 +387,8 @@ begin
     dec(count);
   end;
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+
+  V_FullScreenStretch;
 end;
 
 var
@@ -634,9 +636,10 @@ begin
   else
     V_DrawPatch(160, 170, SCN_TMP, patch, false);
   Z_ChangeTag(patch, PU_CACHE);
-  
+
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
 
+  V_FullScreenStretch;
 end;
 
 //
@@ -731,6 +734,8 @@ begin
   end;
 
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+
+  V_FullScreenStretch;
 end;
 
 //

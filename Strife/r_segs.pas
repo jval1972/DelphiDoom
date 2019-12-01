@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -29,7 +32,6 @@
 //  All the clipping: columns, horizontal spans, sky columns.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -326,10 +328,24 @@ begin
 end;
 {$ENDIF}
 
+// JVAL: Drawseg buffers
+const
+  NUMDRAWSEGBUFFERS = 16;
+  DRAWSEGBUFFERSIZE = MAXDRAWSEGS div NUMDRAWSEGBUFFERS;
+
+type
+  drawsegbuffer_t = array[0..DRAWSEGBUFFERSIZE - 1] of drawseg_t;
+  Pdrawsegbuffer_t = ^drawsegbuffer_t;
+
+var
+  drawsegbuffers: array[0..NUMDRAWSEGBUFFERS - 1] of Pdrawsegbuffer_t;
+
 var
   rndsmap: integer = -1;
 
 function R_NewDrawSeg: Pdrawseg_t;
+var
+  i, bufid: integer;
 begin
   // don't overflow and crash
   if ds_p = MAXDRAWSEGS then
@@ -346,8 +362,11 @@ begin
   // Dynamically allocation using zone
   if ds_p > max_ds_p then
   begin
-    drawsegs[ds_p] := Z_Malloc(SizeOf(drawseg_t), PU_LEVEL, nil);
-    max_ds_p := ds_p;
+    bufid := ds_p div DRAWSEGBUFFERSIZE;
+    drawsegbuffers[bufid] := Z_Malloc(SizeOf(drawseg_t) * DRAWSEGBUFFERSIZE, PU_LEVEL, nil);
+    for i := 0 to DRAWSEGBUFFERSIZE - 1 do
+      drawsegs[bufid * DRAWSEGBUFFERSIZE + i] := @drawsegbuffers[bufid][i];
+    max_ds_p := (bufid + 1) * DRAWSEGBUFFERSIZE - 1;
   end;
   result := drawsegs[ds_p];
   {$IFNDEF OPENGL}

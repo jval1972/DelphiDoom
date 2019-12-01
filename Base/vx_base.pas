@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  Basic Voxel Definitions
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -97,6 +97,7 @@ uses
   sc_engine,
   sc_tokens,
   sc_states,
+  sc_utils,
   info,
   info_fnd,
   {$IFNDEF OPENGL}
@@ -158,7 +159,7 @@ const
 // SC_ParseVoxelDefinition
 // JVAL: Parse VOXELDEF LUMP
 //
-procedure SC_ParseVoxelDefinition(const in_text: string);
+procedure SC_DoParseVoxelDefinition(const in_text: string);
 var
   sc: TScriptEngine;
   tokens: TTokenList;
@@ -383,6 +384,11 @@ begin
   tokens.Free;
 end;
 
+procedure SC_ParseVoxelDefinition(const in_text: string);
+begin
+  SC_DoParseVoxelDefinition(SC_Preprocess(in_text, false));
+end;
+
 //
 // SC_ParseVoxelDefinitions
 // JVAL: Parse all VOXELDEF lumps
@@ -469,7 +475,31 @@ begin
     numvoxelstates := 0;
   end;
 end;
+{
+function VXE_ExportGetFront(const voxelbuffer: voxelbuffer_p; const fvoxelsize: Integer): TBitmap;
+var
+  x, y, z: integer;
+  c: voxelitem_t;
+begin
+  result := TBitmap.Create;
+  result.Width := fvoxelsize;
+  result.Height := fvoxelsize;
+  result.PixelFormat := pf24bit;
 
+  for x := 0 to fvoxelsize - 1 do
+    for y := 0 to fvoxelsize - 1 do
+    begin
+      c := 0;
+      for z := 0 to fvoxelsize - 1 do
+        if voxelbuffer[x, y, z] <> 0 then
+        begin
+          c := voxelbuffer[x, y, z];
+          Break;
+        end;
+      result.Canvas.Pixels[x, y] := c;
+    end;
 
+end;
+ }
 end.
  

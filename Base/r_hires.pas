@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -81,6 +81,7 @@ procedure R_Cmd32bittexturepaletteeffects(const parm1: string = '');
 procedure R_CmdUseExternalTextures(const parm1: string = '');
 
 function R_ColorAdd(const c1, c2: LongWord): LongWord; register;
+function R_ColorSubtract(const c1, c2: LongWord): LongWord; register;
 
 function R_ColorAverage(const c1, c2: LongWord; const factor: fixed_t): LongWord; register;
 function R_ColorMean(const c1, c2: LongWord): LongWord; register;
@@ -464,6 +465,34 @@ begin
   b := b1 + b2;
   if b > 255 then
     b := 255;
+  result := r + g shl 8 + b shl 16;
+end;
+
+function R_ColorSubtract(const c1, c2: LongWord): LongWord; register;
+var
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  r, g, b: LongWord;
+begin
+  r1 := c1;
+  g1 := c1 shr 8;
+  b1 := c1 shr 16;
+  r2 := c2;
+  g2 := c2 shr 8;
+  b2 := c2 shr 16;
+
+  if r2 > r1 then
+    r := 0
+  else
+    r := r1 - r2;
+  if g2 > g1 then
+    g := 0
+  else
+    g := g1 - g2;
+  if b2 > b1 then
+    b := 0
+  else
+    b := b1 - b2;
   result := r + g shl 8 + b shl 16;
 end;
 
@@ -1133,8 +1162,6 @@ begin
 
   recalctablesneeded := false;
 end;
-
-
 {$ENDIF}
 
 procedure R_InitHiRes;
@@ -1142,7 +1169,7 @@ begin
   R_InitLightBoost;
 {$IFNDEF OPENGL}
   R_InitSpanTables;
-{$ENDIF}  
+{$ENDIF}
 end;
 
 procedure R_SetPalette(palette: integer);

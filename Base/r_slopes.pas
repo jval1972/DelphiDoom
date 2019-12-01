@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  Slopes software rendering.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -58,6 +58,8 @@ var
 procedure R_DrawSlopeMedium;
 
 procedure R_DrawSlopeMedium_Ripple;
+
+procedure R_ClearVisSlopes;
 
 var
   preciseslopedrawing: Boolean = false;
@@ -138,6 +140,7 @@ begin
   count := ds_x2 - ds_x1;
 
   rpl := ds_ripple;
+
   {$DEFINE RIPPLE}
   {$I R_DrawSlopeMedium.inc}
 end;
@@ -166,7 +169,7 @@ begin
     {$IFDEF DEBUG}
     visslopes[lastvisslope].id := lastvisslope;
     {$ENDIF}
-    
+
     maxvisslope := lastvisslope;
   end;
 
@@ -177,6 +180,20 @@ begin
 
   result := @visslopes[lastvisslope];
   inc(lastvisslope);
+end;
+
+procedure R_ClearVisSlopes;
+var
+  i: integer;
+begin
+  for i := 0 to maxvisslope do
+  begin
+    Z_Free(visslopes[i].screenleft);
+    Z_Free(visslopes[i].screenright);
+    Z_Free(visslopes[i].ds_zleft);
+    Z_Free(visslopes[i].ds_zright);
+  end;
+  maxvisslope := -1;
 end;
 
 function R_FindVisSlope(const sectorID: Integer; const virtualfloor: Boolean): Pvisslope_t;
@@ -267,7 +284,6 @@ begin
     ds_colormap := fixedcolormap;
     if videomode = vm32bit then
     begin
-      ds_colormap32 := R_GetColormap32(ds_colormap);
       if fixedcolormapnum = INVERSECOLORMAP then
         ds_lightlevel := -1  // Negative value -> Use colormaps
       else
@@ -310,7 +326,6 @@ begin
       ds_colormap := planezlight[index];
       if videomode = vm32bit then
       begin
-        ds_colormap32 := R_GetColormap32(ds_colormap);
         if not forcecolormaps then
         begin
           ncolornum := _SHR(distance, HLL_ZDISTANCESHIFT);
@@ -393,7 +408,6 @@ begin
     ds_colormap := fixedcolormap;
     if videomode = vm32bit then
     begin
-      ds_colormap32 := R_GetColormap32(ds_colormap);
       if fixedcolormapnum = INVERSECOLORMAP then
         ds_lightlevel := -1  // Negative value -> Use colormaps
       else
@@ -450,7 +464,6 @@ begin
         ds_colormap := planezlight[index];
         if videomode = vm32bit then
         begin
-          ds_colormap32 := R_GetColormap32(ds_colormap);
           if not forcecolormaps then
           begin
             ncolornum := _SHR(distance, HLL_ZDISTANCESHIFT);

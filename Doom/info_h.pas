@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -25,7 +26,6 @@
 //    This one is the original DOOM version, preserved.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -38,6 +38,7 @@ interface
 uses
   d_delphi,
   d_think,
+  r_renderstyle,
   sc_params;
 
 type
@@ -467,11 +468,6 @@ type
     DO_NUMMOBJTYPES
   );
 
-type
-  mobjrenderstyle_t = (
-    mrs_normal, mrs_translucent, mrs_add, NUMMOBJRENDERSTYLES
-  );
-
 const
   MOBJINFONAMESIZE = 20;
 
@@ -528,3 +524,4 @@ type
 implementation
 
 end.
+

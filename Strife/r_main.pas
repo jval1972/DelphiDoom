@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -31,7 +34,6 @@
 //  See tables.c, too.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -105,6 +107,8 @@ function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t
 
 function R_PointToDist(const x: fixed_t; const y: fixed_t): fixed_t;
 
+function R_PointInSubsectorClassic(const x: fixed_t; const y: fixed_t): Psubsector_t;
+
 function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;
 
 procedure R_AddPointToBox(const x: integer; const y: integer; box: Pfixed_tArray);
@@ -145,6 +149,8 @@ var
   batchfuzztranscolfunc: PProcedure;
   batchtaveragecolfunc: PProcedure;
   batchtalphacolfunc: PProcedure;
+  batchaddcolfunc: PProcedure;
+  batchsubtractcolfunc: PProcedure;
 
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
@@ -153,6 +159,8 @@ var
   fuzztranscolfunc: PProcedure;
   averagecolfunc: PProcedure;
   alphacolfunc: PProcedure;
+  addcolfunc: PProcedure;
+  subtractcolfunc: PProcedure;
   maskedcolfunc: PProcedure;
   maskedcolfunc2: PProcedure; // For hi res textures
   fuzzcolfunc1: PProcedure;
@@ -308,6 +316,7 @@ uses
   c_cmds,
   d_net,
   i_io,
+  mt_utils,
   m_bbox,
   m_misc,
   p_setup,
@@ -365,9 +374,12 @@ uses
   r_col_av,
   r_col_al,
   r_col_tr,
+  r_draw_additive,
+  r_draw_subtractive,
   r_depthbuffer,  // JVAL: 3d Floors
   v_video,
 {$ENDIF}
+  r_subsectors,
   v_data,
   st_stuff,
   z_zone;
@@ -911,6 +923,11 @@ begin
           batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
           batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
+        addcolfunc := R_DrawColumnAddLowest;
+        batchaddcolfunc := R_DrawColumnAddMedium_Batch;
+        subtractcolfunc := R_DrawColumnSubtractLowest;
+        batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
+
         maskedcolfunc := R_DrawColumnLowest;
         maskedcolfunc2 := R_DrawColumnLowest;
 
@@ -985,6 +1002,11 @@ begin
           batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
           batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
+        addcolfunc := R_DrawColumnAddLow;
+        batchaddcolfunc := R_DrawColumnAddMedium_Batch;
+        subtractcolfunc := R_DrawColumnSubtractLow;
+        batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
+
         maskedcolfunc := R_DrawColumnLow;
         maskedcolfunc2 := R_DrawColumnLow;
 
@@ -1059,6 +1081,11 @@ begin
           batchtaveragecolfunc := R_DrawColumnAverageMedium_Batch;
           batchtalphacolfunc := R_DrawColumnAlphaMedium_Batch;
         end;
+        addcolfunc := R_DrawColumnAddMedium;
+        batchaddcolfunc := R_DrawColumnAddMedium_Batch;
+        subtractcolfunc := R_DrawColumnSubtractMedium;
+        batchsubtractcolfunc := R_DrawColumnSubtractMedium_Batch;
+
         maskedcolfunc := R_DrawColumnMedium;
         maskedcolfunc2 := R_DrawColumnMedium;
 
@@ -1114,6 +1141,8 @@ begin
         batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
         batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
         batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+        batchaddcolfunc := R_DrawColumnAddHi_Batch;
+        batchsubtractcolfunc := R_DrawColumnSubtractHi_Batch;
 
         fuzztranscolfunc := R_DrawFuzzColumnHiTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnHiTL_Batch;
@@ -1123,6 +1152,8 @@ begin
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
+        addcolfunc := R_DrawColumnAddHi;
+        subtractcolfunc := R_DrawColumnSubtractHi;
         maskedcolfunc := R_DrawMaskedColumnNormal;
         maskedcolfunc2 := R_DrawMaskedColumnHi32;
 
@@ -1178,6 +1209,8 @@ begin
         batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
         batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
         batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+        batchaddcolfunc := R_DrawColumnAddHi_Batch;
+        batchsubtractcolfunc := R_DrawColumnSubtractHi_Batch;
 
         fuzztranscolfunc := R_DrawFuzzColumnHiTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnHiTL_Batch;
@@ -1187,6 +1220,8 @@ begin
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
+        addcolfunc := R_DrawColumnAddHi;
+        subtractcolfunc := R_DrawColumnSubtractHi;
         maskedcolfunc := R_DrawMaskedColumnHi;
         maskedcolfunc2 := R_DrawMaskedColumnHi32;
 
@@ -1242,6 +1277,8 @@ begin
         batchtranscolfunc := R_DrawTranslatedColumnHi_Batch;
         batchtaveragecolfunc := R_DrawColumnAverageHi_Batch;
         batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
+        batchaddcolfunc := R_DrawColumnAddHi_Batch;
+        batchsubtractcolfunc := R_DrawColumnSubtractHi_Batch;
 
         fuzztranscolfunc := R_DrawFuzzColumnHiTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnHiTL_Batch;
@@ -1250,6 +1287,8 @@ begin
         wallcolfunc := R_DrawColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageUltra;
+        addcolfunc := R_DrawColumnAddHi;
+        subtractcolfunc := R_DrawColumnSubtractHi;
         alphacolfunc := R_DrawColumnAlphaHi;
         maskedcolfunc := R_DrawMaskedColumnHi;
         maskedcolfunc2 := R_DrawMaskedColumnUltra32;
@@ -1433,7 +1472,7 @@ begin
         if levelhi < 0 then
           scalelightlevels[i][j] := FRACUNIT
         else if levelhi >= FRACUNIT then
-            scalelightlevels[i][j] := 1
+          scalelightlevels[i][j] := 1
         else
           scalelightlevels[i][j] := FRACUNIT - levelhi;
       end;
@@ -1679,7 +1718,7 @@ end;
 //
 // R_PointInSubsector
 //
-function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;
+function R_PointInSubsectorClassic(const x: fixed_t; const y: fixed_t): Psubsector_t;
 var
   node: Pnode_t;
   nodenum: LongWord;
@@ -1702,7 +1741,14 @@ begin
       nodenum := node.children[0]
   end;
 
-  result := @subsectors[nodenum and (not NF_SUBSECTOR_V5)];
+  result := @subsectors[nodenum and (not NF_SUBSECTOR_V5)]; // JVAL: glbsp
+end;
+
+function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;
+begin
+  result := R_PointInSubsectorPrecalc(x, y);
+  if result = nil then
+    result := R_PointInSubSectorClassic(x, y);
 end;
 
 var
@@ -1901,6 +1947,9 @@ begin
   R_ExecuteSetViewSize;
 end;
 
+var
+  task_clearplanes: integer = -1;
+
 procedure R_RenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
@@ -1950,6 +1999,8 @@ begin
   // Check for new console commands.
   NetUpdate;
 
+  task_clearplanes := MT_ScheduleTask(@R_InitializeVisplanes);
+  MT_ExecutePendingTask(task_clearplanes);
 end;
 
 procedure R_RenderPlayerView32_MultiThread(player: Pplayer_t);
@@ -2001,12 +2052,16 @@ begin
 
   // Check for new console commands.
   NetUpdate;
+
+  task_clearplanes := MT_ScheduleTask(@R_InitializeVisplanes);
+  MT_ExecutePendingTask(task_clearplanes);
 end;
 {$ENDIF}
 
 procedure R_RenderPlayerView(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
+  MT_WaitTask(task_clearplanes);
   if usemultithread then
   begin
     if (videomode = vm8bit) then
@@ -2082,6 +2137,10 @@ begin
   // Check for new console commands.
   NetUpdate;
 
+{$IFNDEF OPENGL}
+  task_clearplanes := MT_ScheduleTask(@R_InitializeVisplanes);
+  MT_ExecutePendingTask(task_clearplanes);
+{$ENDIF}  
 end;
 
 procedure R_Ticker;

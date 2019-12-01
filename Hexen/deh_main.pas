@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -57,7 +56,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 371;
+  DEHNUMACTIONS = 379;
 
 type
   deh_action_t = record
@@ -109,6 +108,7 @@ uses
   i_system,
   info_h,
   info,
+  info_common,
   m_argv,
   a_action,
   ps_main,
@@ -121,11 +121,13 @@ uses
   p_pspr_h,
   p_inter,
   p_user,
+  r_renderstyle,
   sounds,
   sc_params,
   v_data,
   sv_save,
   w_wad,
+  w_folders,
   w_pak,
   z_zone;
 
@@ -229,7 +231,7 @@ begin
     done := false;
     for i := 0 to fnames.Count - 1 do
     begin
-      strm := TPakStream.Create(fnames[i], pm_short);
+      strm := TPakStream.Create(fnames[i], pm_short, '', FOLDER_DEHACKED);
       strm.OnBeginBusy := I_BeginDiskBusy;
       if strm.IOResult = 0 then
         done := s.LoadFromStream(strm) and (strm.IOResult = 0);
@@ -455,7 +457,7 @@ begin
           continue;
         end;
 
-        if (mobj_no <= 0) or (mobj_no > Ord(DO_NUMMOBJTYPES)) then
+        if (mobj_no <= 0) or (mobj_no > nummobjtypes) then
         begin
           I_Warning('DEH_Parse(): Wrong think number = %d'#13#10, [mobj_no]);
           continue;
@@ -625,7 +627,11 @@ begin
           28: mobjinfo[mobj_no].explosiondamage := mobj_val;
           29: mobjinfo[mobj_no].explosionradius := mobj_val;
           30: mobjinfo[mobj_no].meleedamage := mobj_val;
-          31: mobjinfo[mobj_no].inheritsfrom := Info_GetMobjNumForName(token2);
+          31: begin
+                mobjinfo[mobj_no].inheritsfrom := Info_GetMobjNumForName(token2);
+                if mobjinfo[mobj_no].inheritsfrom = mobj_no then
+                  mobjinfo[mobj_no].inheritsfrom := -1;
+              end;
           32: Info_SetMobjName(mobj_no, token2);
           33: mobjinfo[mobj_no].meleesound := S_GetSoundNumForName(token2);
           34: begin
@@ -638,7 +644,7 @@ begin
                 end
                 else
                 begin
-                  mobj_val := renderstyle_tokens.IndexOf(token2);
+                  mobj_val := Ord(R_GetRenderstyleForName(token2));
                   if mobj_val >= 0 then
                     mobjinfo[mobj_no].renderstyle := mobjrenderstyle_t(mobj_val)
                   else
@@ -727,7 +733,7 @@ begin
       else
       begin
         state_no := atoi(stmp, -1);
-        if (state_no < 0) or (state_no >= Ord(DO_NUMSTATES)) then
+        if (state_no < 0) or (state_no >= numstates) then
         begin
           I_Warning('DEH_Parse(): Wrong state number = %s'#13#10, [stmp]);
           continue;
@@ -1391,6 +1397,92 @@ begin
 
 end;
 
+function DEH_MobjInfoCSV: TDStringList;
+var
+  i, idx1, idx2: integer;
+  s1, s2, headstr, datstr: string;
+  cs: TDStringList;
+begin
+  if not deh_initialized then
+    DEH_Init;
+
+  cs := DEH_CurrentSettings;
+  idx1 := cs.IndexOf('# Things');
+  idx2 := cs.IndexOf('# States');
+
+  headstr := '';
+  for i := idx1 + 1 to idx2 + 1 do
+    if strtrim(cs.Strings[i]) <> '' then
+      if Pos('#', strtrim(cs.Strings[i])) <> 1 then
+        if Pos('//', strtrim(cs.Strings[i])) < 1 then
+        begin
+          if Pos('THING ', strtrim(strupper(cs.Strings[i]))) = 1 then
+          begin
+            if headstr = '' then
+              headstr := '"id"'
+            else
+              break;
+          end
+          else if headstr <> '' then
+          begin
+            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
+            headstr := headstr + ';' + '"' + strtrim(s1) + '"';
+          end;
+        end;
+
+  result := TDStringList.Create;
+  result.Add(headstr);
+
+  datstr := '';
+  for i := idx1 + 1 to idx2 - 1 do
+  begin
+    if strtrim(cs.Strings[i]) <> '' then
+      if Pos('#', strtrim(cs.Strings[i])) <> 1 then
+        if Pos('//', strtrim(cs.Strings[i])) < 1 then
+          if Pos('THING ', strtrim(strupper(cs.Strings[i]))) < 1 then
+          begin
+            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
+            datstr := datstr + ';' + '"' + strtrim(s2) + '"';
+          end
+          else
+          begin
+            if datstr <> '' then
+              result.Add(datstr);
+            datstr := '"' + itoa(result.Count - 1) + '"';
+          end;
+  end;
+  if datstr <> '' then
+    result.Add(datstr);
+  cs.Free;
+end;
+
+procedure DEH_SaveMobjInfoCSV(const fname: string);
+var
+  s: TDSTringList;
+  fname1: string;
+begin
+  if fname = '' then
+  begin
+    printf('Please specify the filename to save current MobjInfo'#13#10);
+    exit;
+  end;
+
+  if Pos('.', fname) = 0 then
+    fname1 := fname + '.csv'
+  else
+    fname1 := fname;
+
+  fname1 := M_SaveFileName(fname1);
+
+  s := DEH_MobjInfoCSV;
+  try
+    s.SaveToFile(fname1);
+    printf('MobjInfo saved to %s'#13#10, [fname1]);
+  finally
+    s.Free;
+  end;
+end;
+
 function DEH_CurrentSettings: TDStringList;
 var
   i, j: integer;
@@ -1901,6 +1993,8 @@ begin
   mobj_flags2_ex.Add('MF2_EX_FULLVOLPAIN');
   mobj_flags2_ex.Add('MF2_EX_FULLVOLATTACK');
   mobj_flags2_ex.Add('MF2_EX_DONOTRENDERSHADOW');
+  mobj_flags2_ex.Add('MF2_EX_SEEINVISIBLE');
+  mobj_flags2_ex.Add('MF2_EX_MISSILEHURTSPECIES');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite
@@ -2670,7 +2764,7 @@ begin
   {$IFDEF DLL}deh_actions[251].decl := 'A_CStaffMissileSlither()';{$ENDIF}
   deh_actions[252].action.acp1 := @A_SetTranslucent;
   deh_actions[252].name := strupper('SetTranslucent');
-  {$IFDEF DLL}deh_actions[252].decl := 'A_SetTranslucent(alpha: float)';{$ENDIF}
+  {$IFDEF DLL}deh_actions[252].decl := 'A_SetTranslucent(alpha: float, [style: integer])';{$ENDIF}
   deh_actions[253].action.acp1 := @A_Die;
   deh_actions[253].name := strupper('Die');
   {$IFDEF DLL}deh_actions[253].decl := 'A_Die()';{$ENDIF}
@@ -3025,6 +3119,30 @@ begin
   deh_actions[370].action.acp1 := @A_ResetHealth;
   deh_actions[370].name := strupper('ResetHealth');
   {$IFDEF DLL}deh_actions[370].decl := 'A_ResetHealth';{$ENDIF}
+  deh_actions[371].action.acp1 := @A_Recoil;
+  deh_actions[371].name := strupper('Recoil');
+  {$IFDEF DLL}deh_actions[371].decl := 'A_Recoil(xymom: float)';{$ENDIF}
+  deh_actions[372].action.acp1 := @A_SetSolid;
+  deh_actions[372].name := strupper('SetSolid');
+  {$IFDEF DLL}deh_actions[372].decl := 'A_SetSolid()';{$ENDIF}
+  deh_actions[373].action.acp1 := @A_UnSetSolid;
+  deh_actions[373].name := strupper('UnSetSolid');
+  {$IFDEF DLL}deh_actions[373].decl := 'A_UnSetSolid()';{$ENDIF}
+  deh_actions[374].action.acp1 := @A_SetFloat;
+  deh_actions[374].name := strupper('SetFloat');
+  {$IFDEF DLL}deh_actions[374].decl := 'A_SetFloat()';{$ENDIF}
+  deh_actions[375].action.acp1 := @A_UnSetFloat;
+  deh_actions[375].name := strupper('UnSetFloat');
+  {$IFDEF DLL}deh_actions[375].decl := 'A_UnSetFloat()';{$ENDIF}
+  deh_actions[376].action.acp1 := @A_SetHealth;
+  deh_actions[376].name := strupper('SetHealth');
+  {$IFDEF DLL}deh_actions[376].decl := 'A_SetHealth(h: integer)';{$ENDIF}
+  deh_actions[377].action.acp1 := @A_ResetTargetHealth;
+  deh_actions[377].name := strupper('ResetTargetHealth');
+  {$IFDEF DLL}deh_actions[377].decl := 'A_ResetTargetHealth()';{$ENDIF}
+  deh_actions[378].action.acp1 := @A_SetTargetHealth;
+  deh_actions[378].name := strupper('SetTargetHealth');
+  {$IFDEF DLL}deh_actions[378].decl := 'A_SetTargetHealth(h: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
@@ -3262,6 +3380,7 @@ begin
   renderstyle_tokens.Add('NORMAL');
   renderstyle_tokens.Add('TRANSLUCENT');
   renderstyle_tokens.Add('ADD');
+  renderstyle_tokens.Add('SUBTRACT');
 
 
   misc_tokens := TDTextList.Create;
@@ -3277,6 +3396,7 @@ begin
   C_AddCmd('DEH_ParseLump, BEX_ParseLump', @DEH_ParseLumpName);
   C_AddCmd('DEH_PrintCurrentSettings, DEH_PrintSettings, BEX_PrintCurrentSettings, BEX_PrintSettings', @DEH_PrintCurrentSettings);
   C_AddCmd('DEH_SaveCurrentSettings, DEH_SaveToFile, BEX_SaveCurrentSettings, BEX_SaveToFile', @DEH_SaveCurrentSettings);
+  C_AddCmd('DEH_SaveMobjInfoCSV, BEX_SaveMobjInfoCSV', @DEH_SaveMobjInfoCSV);
   C_AddCmd('DEH_PrintActions, DEH_ShowActions, BEX_PrintActions, BEX_ShowActions', @DEH_PrintActions);
 end;
 

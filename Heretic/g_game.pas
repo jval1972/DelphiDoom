@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -250,9 +249,7 @@ uses
   info,
   i_system,
   i_io,
-{$IFNDEF OPENGL}
   e_endoom,
-{$ENDIF}
   m_argv,
   m_misc,
   m_menu,
@@ -290,7 +287,7 @@ const
   SAVESTRINGSIZE = 24;
 
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
-procedure G_WriteDemoTiccmd (cmd: Pticcmd_t); forward;
+procedure G_WriteDemoTiccmd(cmd: Pticcmd_t); forward;
 
 procedure G_DoReborn(playernum: integer); forward;
 
@@ -1215,13 +1212,11 @@ var
   i: integer;
   plr: Pplayer_t;
 begin
-{$IFNDEF OPENGL}
   if gamestate = GS_ENDOOM then
   begin
     result := E_Responder(ev);
     exit;
   end;
-{$ENDIF}
 
   plr := @players[consoleplayer];
 //  if (ev._type = ev_keyup) and (ev.data1 = key_useartifact) then
@@ -1293,7 +1288,6 @@ begin
     end;
   end;
 
-
   // For smooth mouse movement
   mousex := mousex div 2;
   mousey := mousey div 2;
@@ -1353,14 +1347,11 @@ begin
           result := true;
           exit;
         end;
-
         if ev.data1 < NUMKEYS then
           gamekeydown[ev.data1] := true;
-
         result := true; // eat key down events
         exit;
       end;
-
     ev_keyup:
       begin
         if ev.data1 < NUMKEYS then
@@ -1368,7 +1359,6 @@ begin
         result := false; // always let key up events filter down
         exit;
       end;
-
     ev_mouse:
       begin
         if usemouse then
@@ -1376,8 +1366,8 @@ begin
           mousebuttons[0] := ev.data1 and 1 <> 0;
           mousebuttons[1] := ev.data1 and 2 <> 0;
           mousebuttons[2] := ev.data1 and 4 <> 0;
-          mousex := mousex + (ev.data2 * (mouseSensitivity + 5)) div 10;
-          mousey := mousey + (ev.data3 * (mouseSensitivity + 5)) div 10;
+          mousex := mousex + ((ev.data2 * (mouseSensitivity + 5)) div 10) * mouseSensitivityX div 5;
+          mousey := mousey + ((ev.data3 * (mouseSensitivity + 5)) div 10) * mouseSensitivityY div 5;
         end
         else
         begin
@@ -1390,7 +1380,6 @@ begin
         result := true;    // eat events
         exit;
       end;
-
     ev_joystick:
       begin
         if usejoystick then
@@ -1479,6 +1468,7 @@ begin
 
       if demoplayback then
         G_ReadDemoTiccmd(cmd);
+
       if demorecording then
         G_WriteDemoTiccmd(cmd);
 
@@ -1609,7 +1599,8 @@ procedure G_PlayerFinishLevel(p: Pplayer_t);
 begin
   ZeroMemory(@p.powers, SizeOf(p.powers));
   ZeroMemory(@p.keys, SizeOf(p.keys));
-  p.mo.flags := p.mo.flags and (not MF_SHADOW); // cancel invisibility
+  if p.mo <> nil then
+    p.mo.flags := p.mo.flags and (not MF_SHADOW); // cancel invisibility
   p.lookdir := 0;       // JVAL cancel lookdir Up/Down
   p.lookdir16 := 0;     // JVAL Smooth Look Up/Down
   p.centering := false;
@@ -1639,9 +1630,14 @@ begin
     key_lookup := 197;
     key_lookdown := 202;
     key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
+    key_lookright := 42;
+    key_lookleft := 47;
     key_lookforward := 13;
+    key_flyup := 198;
+    key_flydown := 200;
+    key_flycenter := 201;
+    key_invleft := Ord('[');
+    key_invright := Ord(']');
   end
   else if mode = 1 then
   begin
@@ -1659,9 +1655,14 @@ begin
     key_lookup := 197;
     key_lookdown := 202;
     key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
+    key_lookright := 42;
+    key_lookleft := 47;
     key_lookforward := 13;
+    key_flyup := 198;
+    key_flydown := 200;
+    key_flycenter := 201;
+    key_invleft := Ord('[');
+    key_invright := Ord(']');
   end
   else if mode = 2 then
   begin
@@ -1679,9 +1680,14 @@ begin
     key_lookup := 197;
     key_lookdown := 202;
     key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
+    key_lookright := 42;
+    key_lookleft := 47;
     key_lookforward := 13;
+    key_flyup := 198;
+    key_flydown := 200;
+    key_flycenter := 201;
+    key_invleft := Ord('[');
+    key_invright := Ord(']');
   end;
 end;
 
@@ -3001,15 +3007,14 @@ end;
 
 procedure G_Quit;
 begin
-{$IFNDEF OPENGL}
   if displayendscreen then
   begin
     gamestate := GS_ENDOOM;
+    S_PauseSound; // Stop music in ENDOOM screen
     printf('E_Init: Initializing ENDTEXT screen.'#13#10, [mb_used]);
     E_Init;
   end
   else
-{$ENDIF}  
     I_Quit;
 end;
 
@@ -3063,5 +3068,4 @@ initialization
   precache := true;
 
 end.
-
 

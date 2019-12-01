@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -104,7 +104,7 @@ type
 var
   colorregions: array[0..Ord(CR_LIMIT) - 1] of PByteArray;
 {$IFDEF OPENGL}
-  diskbuzy_height: integer = 0;
+  diskbusy_height: integer = 0;
 {$ENDIF}
 
 implementation
@@ -449,7 +449,7 @@ begin
       diskpatch := W_CacheLumpNum(disklump, PU_STATIC)
     else
     begin
-      I_Warning('Disk buzy lump not found!'#13#10);
+      I_Warning('Disk busy lump not found!'#13#10);
       exit;
     end;
   end;
@@ -458,7 +458,7 @@ begin
     V_DrawPatch(318 - diskpatch.width, 2, SCN_FG,
       diskpatch, true);
   {$IFDEF OPENGL}
-  diskbuzy_height := diskpatch.height + 3;
+  diskbusy_height := diskpatch.height + 3;
   {$ENDIF}
 end;
 

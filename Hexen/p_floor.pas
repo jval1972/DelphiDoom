@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +25,6 @@
 //  Floor animation: raising stairs.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -304,6 +303,7 @@ begin
 
   secnum := -1;
   result := false;
+  sec := nil;
 
   while _FindSectorFromTag >= 0 do
   begin
@@ -407,7 +407,8 @@ begin
   if result then
   begin
     S_StartSequence(Pmobj_t(@floor.sector.soundorg), Ord(SEQ_PLATFORM) + Ord(floor.sector.seqType));  // JVAL SOS
-    P_DynamicSlope(sec);  // JVAL: Slopes
+    if sec <> nil then
+      P_DynamicSlope(sec);  // JVAL: Slopes
   end;
 end;
 

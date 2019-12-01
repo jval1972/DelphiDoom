@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -71,6 +71,12 @@ procedure R_DrawGreenLightColumnHi_Batch;
 procedure R_DrawBlueLightColumnHi_Batch;
 procedure R_DrawYellowLightColumnHi_Batch;
 
+procedure R_DrawColumnAddMedium_Batch;
+procedure R_DrawColumnAddHi_Batch;
+
+procedure R_DrawColumnSubtractMedium_Batch;
+procedure R_DrawColumnSubtractHi_Batch;
+
 var
 // JVAL: batch column drawing
   num_batch_columns: integer;
@@ -84,8 +90,8 @@ uses
   r_column,
   r_col_fz,
   r_precalc,
-  {$IFDEF DOOM_OR_STRIFE}
   r_trans8,
+  {$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
   {$ENDIF}
   r_data,
@@ -2005,7 +2011,272 @@ procedure R_DrawYellowLightColumnHi_Batch;
 {$I R_DrawLightColumnHi_Batch.inc}
 {$UNDEF YELLOW}
 
+procedure R_DrawColumnAddMedium_Batch;
+var
+  count: integer;
+  dest: PByte;
+  b: byte;
+  u: integer;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+  cnt: integer;
+begin
+  count := dc_yh - dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[dc_yl]^)[columnofs[dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  swidth := SCREENWIDTH - num_batch_columns;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+
+    b := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    u := b shl 8;
+    cnt := num_batch_columns;
+    while cnt > 0 do
+    begin
+      dest^ := curadd8table[dest^ + u];
+      inc(dest);
+      dec(cnt);
+    end;
+
+
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+procedure R_DrawColumnAddHi_Batch;
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+
+  addfactor: integer;
+
+// For inline color averaging
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  c1, c2, r, g, b: LongWord;
+
+  cnt: integer;
+begin
+  count := dc_yh - dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
+
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH - num_batch_columns * SizeOf(LongWord);
+
+  addfactor := dc_alpha;
+    
+  fraclimit := frac + fracstep * count;
+  while frac <= fraclimit do
+  begin
+    c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+    if addfactor < FRACUNIT then
+    begin
+      r2 := (r2 * addfactor) shr FRACBITS;
+      g2 := (g2 * addfactor) shr FRACBITS;
+      b2 := (b2 * addfactor) shr FRACBITS;
+    end;
+
+    cnt := num_batch_columns;
+    while cnt > 0 do
+    begin
+    // Color averaging
+      c1 := destl^;
+      r1 := c1;
+      g1 := c1 shr 8;
+      b1 := c1 shr 16;
+
+      r := r2 + r1;
+      if r > 255 then
+        r := 255;
+      g := g2 + g1;
+      if g > 255 then
+        g := 255;
+      b := b2 + b1;
+      if b > 255 then
+        b := 255;
+
+      destl^ := r + g shl 8 + b shl 16;
+      inc(destl);
+      dec(cnt);
+    end;
+
+    destl := PLongWord(integer(destl) + swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+procedure R_DrawColumnSubtractMedium_Batch;
+var
+  count: integer;
+  dest: PByte;
+  b: byte;
+  u: integer;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+  cnt: integer;
+begin
+  count := dc_yh - dc_yl;
+
+  // Zero length, column does not exceed a pixel.
+  if count < 0 then
+    exit;
+
+  // Framebuffer destination address.
+  // Use ylookup LUT to avoid multiply with ScreenWidth.
+  // Use columnofs LUT for subwindows?
+  dest := @((ylookup[dc_yl]^)[columnofs[dc_x]]);
+
+  // Determine scaling,
+  //  which is the only mapping to be done.
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+  fraclimit := frac + count * fracstep;
+  swidth := SCREENWIDTH - num_batch_columns;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  while frac <= fraclimit do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+
+    b := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    u := b shl 8;
+    cnt := num_batch_columns;
+    while cnt > 0 do
+    begin
+      dest^ := cursubtract8table[dest^ + u];
+      inc(dest);
+      dec(cnt);
+    end;
+
+
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
+procedure R_DrawColumnSubtractHi_Batch;
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  swidth: integer;
+
+  subfactor: integer;
+
+// For inline color averaging
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  c1, c2, r, g, b: LongWord;
+
+  cnt: integer;
+begin
+  count := dc_yh - dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
+
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+
+  // Inner loop that does the actual texture mapping,
+  //  e.g. a DDA-lile scaling.
+  // This is as fast as it gets.
+  swidth := SCREENWIDTH32PITCH - num_batch_columns * SizeOf(LongWord);
+
+  subfactor := dc_alpha;
+    
+  fraclimit := frac + fracstep * count;
+  while frac <= fraclimit do
+  begin
+    c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+    if subfactor < FRACUNIT then
+    begin
+      r2 := (r2 * subfactor) shr FRACBITS;
+      g2 := (g2 * subfactor) shr FRACBITS;
+      b2 := (b2 * subfactor) shr FRACBITS;
+    end;
+
+    cnt := num_batch_columns;
+    while cnt > 0 do
+    begin
+    // Color averaging
+      c1 := destl^;
+      r1 := c1;
+      g1 := c1 shr 8;
+      b1 := c1 shr 16;
+
+      if r2 > r1 then
+        r := 0
+      else
+        r := r1 - r2;
+      if g2 > g1 then
+        g := 0
+      else
+        g := g1 - g2;
+      if b2 > b1 then
+        b := 0
+      else
+        b := b1 - b2;
+
+      destl^ := r + g shl 8 + b shl 16;
+      inc(destl);
+      dec(cnt);
+    end;
+
+    destl := PLongWord(integer(destl) + swidth);
+    inc(frac, fracstep);
+  end;
+end;
+
 end.
-
-
 

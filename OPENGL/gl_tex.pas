@@ -81,7 +81,7 @@ function gld_RegisterTexture(texture_num: integer; mipmap:  boolean): PGLTexture
 
 procedure gld_BindTexture(gltexture: PGLTexture);
 
-function gld_RegisterPatch(lump: integer; cm: integer): PGLTexture;
+function gld_RegisterPatch(lump: integer; cm: integer; const unload: boolean = true): PGLTexture;
 
 procedure gld_BindPatch(gltexture: PGLTexture; cm: integer);
 
@@ -1110,7 +1110,7 @@ begin
   memfree(pointer(buffer), gltexture.buffer_size);
 end;
 
-function gld_RegisterPatch(lump: integer; cm: integer): PGLTexture;
+function gld_RegisterPatch(lump: integer; cm: integer; const unload: boolean = true): PGLTexture;
 var
   patch: Ppatch_t;
 begin
@@ -1140,7 +1140,8 @@ begin
     result.buffer_height := result.tex_height;
     result.buffer_size := result.buffer_width * result.buffer_height * 4;
     result.heightscale := result.height / result.tex_height;
-    Z_ChangeTag(patch, PU_CACHE);
+    if unload then
+      Z_ChangeTag(patch, PU_CACHE);
     if result.realtexwidth > result.buffer_width then
       exit;
     if result.realtexheight > result.buffer_height then

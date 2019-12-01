@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +25,6 @@
 //    Head up display
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -46,11 +45,13 @@ const
 //
   HU_FONTSTART = '!'; // the first font characters
   HU_FONTEND = '[';   // the last font characters
+  HU_FONT4END = ']';   // the last font characters
   HU_CFONTEND = '_';  // the last console font character
   HU_FONTCURSOR = 62; // Console cursor
 
 // Calculate # of glyphs in font.
   HU_FONTSIZE = (Ord(HU_FONTEND) - Ord(HU_FONTSTART)) + 1;
+  HU_FONTSIZE4 = (Ord(HU_FONT4END) - Ord(HU_FONTSTART)) + 1;
   HU_CFONTSIZE = (Ord(HU_CFONTEND) - Ord(HU_FONTSTART)) + 1;
   HU_BROADCAST = 5;
 
@@ -82,7 +83,7 @@ var
   hu_font: array[0..HU_FONTSIZE - 1] of Ppatch_t;
   hu_font2: array[0..HU_FONTSIZE - 2] of Ppatch_t;
   hu_font3: array[0..HU_CFONTSIZE - 1] of Ppatch_t; // Console font
-  hu_font4: array[0..HU_FONTSIZE - 1] of Ppatch_t;  // Menu secondary font
+  hu_font4: array[0..HU_FONTSIZE4 - 1] of Ppatch_t;  // Menu secondary font
 
   chat_on: boolean;
 
@@ -392,7 +393,7 @@ begin
       hu_font3[i - 1] := hu_font[HU_FONTSIZE - 1]
   end;
 
-  for i := 1 to HU_FONTSIZE do
+  for i := 1 to HU_FONTSIZE4 do
   begin
     buffer := 'STCFN' + IntToStrZfill(3, i + 32);
     hu_font4[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
@@ -434,12 +435,12 @@ begin
 
   // create the map title widget
   HUlib_initTextLine(@w_title,
-    HU_TITLEX, HU_TITLEY,
+    HU_TITLEX{$IFDEF OPENGL} * V_GetScreenWidth(SCN_FG) div 200{$ENDIF}, HU_TITLEY,
     @hu_font,
     Ord(HU_FONTSTART));
 
   HUlib_initTextLine(@w_leveltime,
-    HU_LEVELTIMEX, HU_LEVELTIMEY,
+    HU_LEVELTIMEX{$IFDEF OPENGL} * V_GetScreenWidth(SCN_FG) div 200{$ENDIF}, HU_LEVELTIMEY,
     @hu_font,
     Ord(HU_FONTSTART));
 

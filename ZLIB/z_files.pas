@@ -172,6 +172,7 @@ const
     ''
   );
 
+{** c function implementations **********************************************}
 function zcalloc(opaque: Pointer; items, size: Integer): Pointer;
 begin
   GetMem(result, items * size);
@@ -186,8 +187,6 @@ procedure memcpy(dest, source: Pointer; count: Integer); cdecl;
 begin
   d_delphi.memcpy(dest, source, count);
 end;
-
-{** c function implementations **********************************************}
 
 function memset(p: Pointer; b: Byte; count: Integer): pointer; cdecl;
 begin

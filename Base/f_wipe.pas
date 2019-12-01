@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,7 +25,6 @@
 //  Mission begin melt/wipe screen special effect.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -33,6 +33,9 @@
 unit f_wipe;
 
 interface
+
+uses
+  d_delphi;
 
 procedure wipe_StartScreen;
 
@@ -49,15 +52,29 @@ type
     wipe_NUMWIPES
   );
 
+{$IFDEF OPENGL}
+var
+  WIPESCREENWIDTH: integer;
+  WIPESCREENHEIGHT: integer;
+
+var
+  w_screen32: PLongWordArray = nil;
+
+procedure wipe_ClearMemory;
+{$ENDIF}
+
 implementation
 
 uses
-  d_delphi,
   doomdef,
   m_rnd,
   m_fixed,
   mt_utils,
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
   i_video,
+{$ENDIF}
   v_data,
   v_video,
   z_zone;
@@ -74,6 +91,16 @@ var
   yy: Pfixed_tArray;
   vy: fixed_t;
 
+
+{$IFDEF OPENGL}
+function wipe_glsize(const value: integer): integer;
+begin
+  result := 1;
+  while result < value do
+    result := result * 2;
+end;
+{$ENDIF}
+
 procedure wipe_initMelt;
 var
   i, r: integer;
@@ -81,13 +108,26 @@ var
   SHEIGHTS: array[0..MAXWIDTH - 1] of integer;
   RANDOMS: array[0..319] of byte;
 begin
+{$IFDEF OPENGL}
+  WIPESCREENWIDTH := wipe_glsize(SCREENWIDTH);
+  WIPESCREENHEIGHT := wipe_glsize(SCREENHEIGHT);
+  if w_screen32 = nil then
+    w_screen32 := malloc(WIPESCREENWIDTH * WIPESCREENHEIGHT * SizeOf(LongWord));
+{$ENDIF}
+
   for i := 0 to SCREENWIDTH - 1 do
     SHEIGHTS[i] := trunc(i * 320 / SCREENWIDTH);
   for i := 0 to 319 do
     RANDOMS[i] := I_Random;
 
+  {$IFNDEF OPENGL}
   // copy start screen to main screen
   MT_memcpy(screen32, wipe_scr_start, SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
+  {$ELSE}
+  for i := 0 to SCREENWIDTH - 1 do
+    for r := 0 to SCREENHEIGHT - 1 do
+      w_screen32[r * WIPESCREENWIDTH + i] := wipe_scr_start[r * SCREENWIDTH + i];
+  {$ENDIF}
   // setup initial column positions
   // (y<0 => not ready to scroll yet)
   yy := Z_Malloc(SCREENWIDTH * SizeOf(fixed_t), PU_STATIC, nil);
@@ -115,7 +155,7 @@ begin
     py^ := py^ * vy;
     inc(py);
   end;
-  
+
   for i := 1 to SCREENWIDTH - 1 do
     if SHEIGHTS[i - 1] = SHEIGHTS[i] then
       yy[i] := yy[i - 1];
@@ -155,18 +195,30 @@ begin
         begin
           pos := py^ div FRACUNIT;
           sidx := @wipe_scr_end[i];
+          {$IFDEF OPENGL}
+          didx := @w_screen32[i];
+          {$ELSE}
           didx := @screen32[i];
+          {$ENDIF}
           for j := 0 to pos - 1 do
           begin
-            didx^ := sidx^;
+            didx^ := sidx^{$IFDEF OPENGL} or $FF000000{$ENDIF};
+            {$IFDEF OPENGL}
+            inc(didx, WIPESCREENWIDTH);
+            {$ELSE}
             inc(didx, SCREENWIDTH);
+            {$ENDIF}
             inc(sidx, SCREENWIDTH);
           end;
           sidx := @wipe_scr_start[i];
           for j := pos to SCREENHEIGHT - 1 do
           begin
-            didx^ := sidx^;
+            didx^ := sidx^{$IFDEF OPENGL} or $FF000000{$ENDIF};
+            {$IFDEF OPENGL}
+            inc(didx, WIPESCREENWIDTH);
+            {$ELSE}
             inc(didx, SCREENWIDTH);
+            {$ENDIF}
             inc(sidx, SCREENWIDTH);
           end;
         end;
@@ -179,43 +231,45 @@ begin
     end;
     dec(ticks);
   end;
-{$IFDEF OPENGL}
-//  gld_wipe_doMelt(ticks, yy);
-{$ENDIF}
 end;
 
 procedure wipe_exitMelt;
 begin
-{$IFDEF OPENGL}
-//  gld_wipe_exitMelt;
-{$ENDIF}  
   Z_Free(yy);
   memfree(pointer(wipe_scr_start), SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   memfree(pointer(wipe_scr_end), SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
 end;
 
+{$IFDEF OPENGL}
+procedure wipe_ClearMemory;
+begin
+  if w_screen32 <> nil then
+    memfree(pointer(w_screen32), WIPESCREENWIDTH * WIPESCREENHEIGHT * SizeOf(LongWord));
+end;
+{$ENDIF}
+
 procedure wipe_StartScreen;
 begin
-{$IFDEF OPENGL}
-//  gld_wipe_StartScreen;
-{$ENDIF}
   wipe_scr_start := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   I_ReadScreen32(wipe_scr_start);
+{$IFDEF OPENGL}
+  I_ReverseScreen(wipe_scr_start);
+{$ENDIF}
 end;
 
 procedure wipe_EndScreen;
 begin
-{$IFDEF OPENGL}
-//  gld_wipe_EndScreen;
-{$ENDIF}
   wipe_scr_end := malloc(SCREENWIDTH * SCREENHEIGHT * SizeOf(LongWord));
   I_ReadScreen32(wipe_scr_end);
+{$IFDEF OPENGL}
+  I_ReverseScreen(wipe_scr_end);
+{$ENDIF}
 end;
 
-// when zero, stop the wipe
 var
   wiping: boolean = false;
 
+// when zero, stop the wipe
 function wipe_Ticker(ticks: integer): boolean;
 begin
   // initial stuff

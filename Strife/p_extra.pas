@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +28,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -118,6 +120,7 @@ uses
   i_system,
   info_h,
   info,
+  info_common,
   r_defs,
   m_rnd,
   m_vectors,
@@ -200,8 +203,16 @@ begin
       damage := actor.info.meleedamage
     else
     begin
-      dmin := actor.state.params.IntVal[0];
-      dmax := actor.state.params.IntVal[1];
+      if actor.state.params.Count = 1 then
+      begin
+        dmin := actor.state.params.IntVal[0];
+        dmax := dmin;
+      end
+      else
+      begin
+        dmin := actor.state.params.IntVal[0];
+        dmax := actor.state.params.IntVal[1];
+      end;
       if dmax < dmin then
       begin
         damage := dmax;

@@ -7,6 +7,9 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -29,7 +32,6 @@
 //  Refresh of things, i.e. objects represented by sprites.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -58,6 +60,7 @@ procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 
 procedure R_AddSprites(sec: Psector_t);
 procedure R_InitSprites(namelist: PIntegerArray);
+procedure R_InitNegoArray;
 procedure R_ClearSprites;
 {$IFNDEF OPENGL}
 procedure R_DrawMasked_SingleThread;
@@ -141,6 +144,7 @@ uses
   r_things_sortvissprites,
 {$ENDIF}
   r_camera,
+  r_renderstyle,
   z_zone,
   w_sprite,
   w_wad,
@@ -402,17 +406,29 @@ end;
 //
 // GAME FUNCTIONS
 //
+
 //
-// R_InitSprites
-// Called at program start.
+// R_InitNegoArray
 //
-procedure R_InitSprites(namelist: PIntegerArray);
+procedure R_InitNegoArray;
 var
   i: integer;
 begin
   for i := 0 to SCREENWIDTH - 1 do
     negonearray[i] := -1;
+end;
 
+var
+  funny_rotations: TDStringList;
+//
+// R_InitSprites
+// Called at program start.
+//
+procedure R_InitSprites(namelist: PIntegerArray);
+begin
+  R_InitNegoArray;
+
+  funny_rotations := TDStringList.Create;
   R_InitSpriteDefs(namelist);
 {$IFNDEF OPENGL}
   R_InitSpriteSort;
@@ -456,6 +472,7 @@ begin
 {$IFNDEF OPENGL}
   R_ShutDownSpriteSort;
 {$ENDIF}
+  funny_rotations.Free;
 end;
 
 {$IFNDEF OPENGL}
@@ -752,6 +769,20 @@ begin
     curtrans8table := R_GetTransparency8table(dc_alpha);
     colfunc := alphacolfunc;
     batchcolfunc := batchtalphacolfunc;
+  end
+  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_add) then
+  begin
+    dc_alpha := vis.mo.alpha;
+    curadd8table := R_GetAdditive8table(dc_alpha);
+    colfunc := addcolfunc;
+    batchcolfunc := batchaddcolfunc;
+  end
+  else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_subtract) then
+  begin
+    dc_alpha := vis.mo.alpha;
+    cursubtract8table := R_GetSubtractive8table(dc_alpha);
+    colfunc := subtractcolfunc;
+    batchcolfunc := batchsubtractcolfunc;
   end
   else
   begin
@@ -1151,7 +1182,11 @@ begin
     end;
   else
     begin
-      I_DevError('R_ProjectSprite(): Sprite for "%s" has funny rotations.'#13#10, [thing.info.name]);
+      if funny_rotations.IndexOf(thing.info.name) < 0 then
+      begin
+        funny_rotations.Add(thing.info.name);
+        I_Warning('R_ProjectSprite(): Sprite for "%s" has funny rotations.'#13#10, [thing.info.name]);
+      end;
       // use single rotation for all views
       lump := sprframe.lump[0];
       flip := sprframe.flip[0];
@@ -1190,6 +1225,8 @@ begin
     if x2 < 0 then
       exit;
 
+  if x2 < x1 then
+    exit; // SOS
 {$IFNDEF OPENGL}
   gzt := thing.z + spritetopoffset[lump];
   heightsec := Psubsector_t(thing.subsector).sector.heightsec;
@@ -1795,6 +1832,8 @@ begin
   if x2 >= viewwidth then
     x2 := viewwidth - 1;
 
+  if x2 < x1 then
+    exit; // sos
   size := x2 - x1 + 1;
   memsetsi(@clipbot[x1], - 2, size);
   memsetsi(@cliptop[x1], - 2, size);

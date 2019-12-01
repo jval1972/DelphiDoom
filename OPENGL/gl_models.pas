@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -159,6 +159,7 @@ uses
   sc_engine,
   sc_tokens,
   sc_states,
+  sc_utils,
   w_pak,
   w_wad;
 
@@ -248,7 +249,7 @@ const
 // SC_ParseModelDefinition
 // JVAL: Parse MODELDEF LUMP
 //
-procedure SC_ParseModelDefinition(const in_text: string);
+procedure SC_DoParseModelDefinition(const in_text: string);
 var
   sc: TScriptEngine;
   tokens: TTokenList;
@@ -485,6 +486,11 @@ begin
   sc.Free;
   tokens.Free;
   modelitem.framemerge.Free;
+end;
+
+procedure SC_ParseModelDefinition(const in_text: string);
+begin
+  SC_DoParseModelDefinition(SC_Preprocess(in_text, false));
 end;
 
 //

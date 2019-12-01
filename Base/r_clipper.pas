@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : https://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -6000,7 +6000,7 @@ begin
     for I := 0 to Cnt - 1 do
     begin
       Paths2 := Minkowski(Pattern, Paths[I], True, PathIsClosed);
-      AddPaths( Paths2, ptSubject, True);
+      AddPaths(Paths2, ptSubject, True);
       if PathIsClosed then
       begin
         Path := TranslatePath(Paths[I], Pattern[0]);

@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -23,7 +24,6 @@
 //    The not so system specific sound interface.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -129,6 +129,7 @@ uses
   p_tick,
   sounds,
   z_zone,
+  w_folders,
   w_wad,
   w_pak,
   doomdef,
@@ -716,7 +717,7 @@ begin
         if preferemp3namesingamedirectory then
           music.mp3stream := TPakStream.Create(mp3filename, pm_prefered, gamedirectories)
         else
-          music.mp3stream := TPakStream.Create(mp3filename, pm_short);
+          music.mp3stream := TPakStream.Create(mp3filename, pm_short, '', FOLDER_MUSIC);
         music.mp3stream.OnBeginBusy := I_BeginDiskBusy;
         mp3error := music.mp3stream.IOResult <> 0;
         if mp3error then

@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +26,6 @@
 //  Functions to blit a block to the screen.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -273,11 +273,17 @@ var
 function V_FindAproxColorIndex(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255): integer;
 
+function V_FindAproxColorIndexExcluding(const pal: PLongWordArray; const c: LongWord;
+  const start: integer = 0; const finish: integer = 255; const exclude: integer = -1): integer;
+
+procedure V_FullScreenStretch;
+
 var
   v_translation: PByteArray;
 
 var
   default_palette: PLongWordArray = nil;
+  intermissionstretch: boolean = true;
 
 implementation
 
@@ -294,6 +300,7 @@ uses
   st_stuff,
   {$ENDIF}
   {$ENDIF}
+  r_aspect,
   i_system,
   t_draw,
   w_wad,
@@ -2237,7 +2244,7 @@ begin
 {$IFNDEF OPENGL}
   if (videomode = vm32bit) and (scrn = SCN_FG) then
     V_CopyRect32(0, 0, SCN_FG, 320, 200, 0, 0, true);
-{$ENDIF}    
+{$ENDIF}
 end;
 
 procedure V_RemoveTransparency(const scn: integer; const ofs: integer;
@@ -3219,7 +3226,10 @@ begin
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
-        dest := PByte(integer(desttop) + ((column.topdelta * sheight) * fraczoom div FRACUNIT div 200) * swidth);
+        if preserve then
+          dest := PByte(integer(desttop) + ((column.topdelta * sheight) * fraczoom div FRACUNIT div 200) * swidth)
+        else
+          dest := PByte(integer(desttop) + (column.topdelta * fraczoom div FRACUNIT) * swidth);
         count := column.length;
         fracy := 0;
         lasty := 0;
@@ -3280,6 +3290,8 @@ begin
   begin
     pw := V_PreserveW(x, patch.width) * fraczoom div FRACUNIT;
     ph := V_PreserveH(y, patch.height) * fraczoom div FRACUNIT;
+    x := V_PreserveX(x);
+    y := V_PreserveY(y);
   end
   else
   begin
@@ -3289,9 +3301,6 @@ begin
 
   if (pw > 0) and (ph > 0) then
   begin
-
-    x := V_PreserveX(x);
-    y := V_PreserveY(y);
 
     fracx := 0;
     fracxstep := FRACUNIT * patch.width div pw;
@@ -3312,7 +3321,10 @@ begin
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
-        dest := @desttop[((column.topdelta * sheight) * fraczoom div FRACUNIT div 200) * swidth];
+        if preserve then
+          dest := @desttop[((column.topdelta * sheight) * fraczoom div FRACUNIT div 200) * swidth]
+        else
+          dest := @desttop[(column.topdelta * fraczoom div FRACUNIT) * swidth];
         count := column.length;
         fracy := 0;
         lasty := 0;
@@ -3403,9 +3415,13 @@ procedure V_PageDrawer(const pagename: string);
 begin
   if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} useexternaltextures then
     if T_DrawFullScreenPatch(pagename, screen32) then
+    begin
+      V_FullScreenStretch;
       exit;
+    end;
   V_DrawPatch(0, 0, SCN_TMP, pagename, false);
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+  V_FullScreenStretch;
 end;
 {$ELSE}
 procedure V_PageDrawer(const pagename: string);
@@ -3418,7 +3434,10 @@ var
 begin
 {$IFDEF OPENGL}
   if T_DrawFullScreenPatch(pagename, screen32) then
+  begin
+    V_FullScreenStretch;
     exit;
+  end;
   lump := W_GetNumForName(pagename);
   len := W_LumpLength(lump);
   if len <> 320 * 200 then
@@ -3433,10 +3452,14 @@ begin
 {$ELSE}
   if (videomode = vm32bit) and useexternaltextures then
     if T_DrawFullScreenPatch(pagename, screen32) then
+    begin
+      V_FullScreenStretch;
       exit;
+    end;
   V_CopyRawDataToScreen(SCN_TMP, pagename);
   V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
 {$ENDIF}
+  V_FullScreenStretch;
 end;
 {$ENDIF}
 
@@ -3838,6 +3861,139 @@ begin
     end;
   end;
 end;
+
+function V_FindAproxColorIndexExcluding(const pal: PLongWordArray; const c: LongWord;
+  const start: integer = 0; const finish: integer = 255; const exclude: integer = -1): integer;
+var
+  r, g, b: integer;
+  rc, gc, bc: integer;
+  dr, dg, db: integer;
+  i: integer;
+  cc: LongWord;
+  dist: LongWord;
+  mindist: LongWord;
+begin
+  r := c and $FF;
+  g := (c shr 8) and $FF;
+  b := (c shr 16) and $FF;
+  result := start;
+  mindist := LongWord($ffffffff);
+  for i := start to finish do
+  begin
+    if i = exclude then
+      continue;
+    cc := pal[i];
+    rc := cc and $FF;
+    gc := (cc shr 8) and $FF;
+    bc := (cc shr 16) and $FF;
+    dr := r - rc;
+    dg := g - gc;
+    db := b - bc;
+    dist := dr * dr + dg * dg + db * db;
+    if dist < mindist then
+    begin
+      result := i;
+      if dist = 0 then
+        exit
+      else
+        mindist := dist;
+    end;
+  end;
+end;
+
+{$IFDEF OPENGL}
+procedure V_FullScreenStretch;
+var
+  x, y: integer;
+  bufl, pl: PLongWordArray;
+  start, stop: integer;
+  pct: integer;
+  w, h: integer;
+begin
+  if not intermissionstretch then
+    exit;
+
+  w := V_GetScreenWidth(SCN_FG);
+  h := V_GetScreenHeight(SCN_FG);
+
+  pct := round((1 - (4 / 3) / (w / h)) * 100);
+  if (pct <= 0) or (pct >= 100) then
+    exit;
+
+  start := (pct div 2) * w div 100;
+  stop := w - start;
+
+  bufl := malloc(w * SizeOf(LongWord));
+
+  for x := 0 to h - 1 do
+  begin
+    pl := @screen32[x * w];
+    for y := 0 to start - 1 do
+      bufl[y] := $FF000000;
+    for y := start to stop do
+      bufl[y] := pl[ibetween(w * (y - start) div (stop - start + 1), 0, w - 1)];
+    for y := stop + 1 to w - 1 do
+      bufl[y] := $FF000000;
+    memcpy(pl, bufl, w * SizeOf(LongWord));
+  end;
+
+  memfree(pointer(bufl), w * SizeOf(LongWord));
+end;
+
+{$ELSE}
+procedure V_FullScreenStretch;
+var
+  x, y: integer;
+  bufb, pb: PByteArray;
+  bufl, pl: PLongWordArray;
+  start, stop: integer;
+  pct: integer;
+begin
+  if not intermissionstretch then
+    exit;
+
+  pct := round((1 - (4 / 3) / (SCREENWIDTH / SCREENHEIGHT)) * 100);
+  if (pct <= 0) or (pct >= 100) then
+    exit;
+
+  start := (pct div 2) * SCREENWIDTH div 100;
+  stop := SCREENWIDTH - start;
+
+  if videomode = vm32bit then
+  begin
+    bufl := mallocz(SCREENWIDTH * SizeOf(LongWord));
+
+    for x := 0 to SCREENHEIGHT - 1 do
+    begin
+      pl := @screen32[x * SCREENWIDTH];
+      for y := start to stop do
+        bufl[y] := pl[ibetween(SCREENWIDTH * (y - start) div (stop - start + 1), 0, SCREENWIDTH - 1)];
+      memcpy(pl, bufl, SCREENWIDTH * SizeOf(LongWord));
+    end;
+
+    memfree(pointer(bufl), SCREENWIDTH * SizeOf(LongWord));
+  end
+  else
+  begin
+    bufb := malloc(SCREENWIDTH * SizeOf(byte));
+
+    for x := 0 to start - 1 do
+      bufb[x] := aprox_black;
+    for x := stop + 1 to SCREENWIDTH - 1 do
+      bufb[x] := aprox_black;
+
+    for x := 0 to SCREENHEIGHT - 1 do
+    begin
+      pb := @screens[SCN_FG][x * SCREENWIDTH];
+      for y := start to stop do
+        bufb[y] := pb[ibetween(SCREENWIDTH * (y - start) div (stop - start + 1), 0, SCREENWIDTH - 1)];
+      memcpy(pb, bufb, SCREENWIDTH * SizeOf(byte));
+    end;
+
+    memfree(pointer(bufb), SCREENWIDTH * SizeOf(byte));
+  end;
+end;
+{$ENDIF}
 
 end.
 

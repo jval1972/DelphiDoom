@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -23,7 +24,6 @@
 //  Multithreading flat rendering - 8 bit color
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -653,7 +653,6 @@ var
   ds_yfrac: fixed_t;
   ds_xstep: fixed_t;
   ds_ystep: fixed_t;
-  ds_ripple: PIntegerArray;
   ds_scale: dsscale_t;
   xfrac: fixed_t;
   yfrac: fixed_t;
@@ -677,7 +676,6 @@ begin
   ds_yfrac := Pflatrenderinfo8_t(fi).ds_yfrac;
   ds_xstep := Pflatrenderinfo8_t(fi).ds_xstep;
   ds_ystep := Pflatrenderinfo8_t(fi).ds_ystep;
-  ds_ripple := Pflatrenderinfo8_t(fi).ds_ripple;
   ds_scale := Pflatrenderinfo8_t(fi).ds_scale;
 
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
@@ -841,7 +839,6 @@ var
   ds_yfrac: fixed_t;
   ds_xstep: fixed_t;
   ds_ystep: fixed_t;
-  ds_ripple: PIntegerArray;
   ds_scale: dsscale_t;
   xfrac: fixed_t;
   yfrac: fixed_t;
@@ -862,7 +859,6 @@ begin
   ds_yfrac := Pflatrenderinfo8_t(fi).ds_yfrac;
   ds_xstep := Pflatrenderinfo8_t(fi).ds_xstep;
   ds_ystep := Pflatrenderinfo8_t(fi).ds_ystep;
-  ds_ripple := Pflatrenderinfo8_t(fi).ds_ripple;
   ds_scale := Pflatrenderinfo8_t(fi).ds_scale;
 
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);

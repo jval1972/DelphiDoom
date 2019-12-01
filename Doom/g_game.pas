@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -259,8 +259,8 @@ uses
   i_io,
 {$IFNDEF OPENGL}
   r_draw,
-  e_endoom,
 {$ENDIF}
+  e_endoom,
   m_argv,
   m_misc,
   m_menu,
@@ -510,7 +510,6 @@ begin
 
     look16 := 256 * look; // JVAL Smooth Look Up/Down
   end;
-
 
   // JVAL Look right/left/forward keys
   if gamekeydown[key_lookleft] or (usejoystick and joybuttons[joyblleft]) then
@@ -1069,7 +1068,7 @@ begin
   end;
 
   if wipegamestate = Ord(GS_LEVEL) then
-    wipegamestate := -1;             // force a wipe
+    wipegamestate := -1;  // force a wipe
 
   gamestate := GS_LEVEL;
 
@@ -1124,13 +1123,11 @@ var
   bmask: integer;
   i: integer;
 begin
-{$IFNDEF OPENGL}
   if gamestate = GS_ENDOOM then
   begin
     result := E_Responder(ev);
     exit;
   end;
-{$ENDIF}
   // allow spy mode changes even during the demo
   if (gamestate = GS_LEVEL) and (ev._type = ev_keydown) and
      (ev.data1 = KEY_F12) and (singledemo or (deathmatch = 0)) then
@@ -1221,8 +1218,8 @@ begin
           mousebuttons[0] := ev.data1 and 1 <> 0;
           mousebuttons[1] := ev.data1 and 2 <> 0;
           mousebuttons[2] := ev.data1 and 4 <> 0;
-          mousex := mousex + (ev.data2 * (mouseSensitivity + 5)) div 10;
-          mousey := mousey + (ev.data3 * (mouseSensitivity + 5)) div 10;
+          mousex := mousex + ((ev.data2 * (mouseSensitivity + 5)) div 10) * mouseSensitivityX div 5;
+          mousey := mousey + ((ev.data3 * (mouseSensitivity + 5)) div 10) * mouseSensitivityY div 5;
         end
         else
         begin
@@ -1323,6 +1320,7 @@ begin
 
       if demoplayback then
         G_ReadDemoTiccmd(cmd);
+
       if demorecording then
         G_WriteDemoTiccmd(cmd);
 
@@ -1413,24 +1411,6 @@ end;
 // PLAYER STRUCTURE FUNCTIONS
 // also see P_SpawnPlayer in P_Things
 //
-
-{
-//
-// G_InitPlayer
-// Called at the start.
-// Called by the game initialization functions.
-//
-procedure G_InitPlayer(player: integer);
-var
-  p: Pplayer_t;
-begin
-  // set up the saved info
-  p := @players[player];
-
-  // clear everything else to defaults
-  G_PlayerReborn(player);
-end;
-}
 
 //
 // G_PlayerFinishLevel
@@ -2435,7 +2415,6 @@ begin
   viewactive := true;
   demostarttic := 0;
 
-
   G_DoLoadLevel;
 end;
 
@@ -2574,7 +2553,9 @@ begin
   demoend := @demobuffer[new_length];
 end;
 
-
+//
+// DEMO RECORDING
+//
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t);
 var
   demo_start: PByteArray;
@@ -3027,15 +3008,14 @@ end;
 
 procedure G_Quit;
 begin
-{$IFNDEF OPENGL}
   if displayendscreen then
   begin
     gamestate := GS_ENDOOM;
+    S_PauseSound; // Stop music in ENDOOM screen
     printf('E_Init: Initializing ENDOOM screen.'#13#10);
     E_Init;
   end
   else
-{$ENDIF}
     I_Quit;
 end;
 

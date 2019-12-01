@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,7 +27,6 @@
 //  that are associated with states/frames.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -258,6 +257,7 @@ uses
   i_system,
   info_h,
   info,
+  info_common,
   m_rnd,
   p_map,
   p_maputl,
@@ -887,20 +887,21 @@ begin
     end;
 
     if player.mo.flags and MF_SHADOW <> 0 then
-    begin // Player is invisible
-      if (P_AproxDistance(player.mo.x - actor.x, player.mo.y - actor.y) > 2 * MELEERANGE) and
-         (P_AproxDistance(player.mo.momx, player.mo.momy) < 5 * FRACUNIT) then
-      begin // Player is sneaking - can't detect
-        result := false;
-        exit;
-      end;
+      if actor.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+      begin // Player is invisible
+        if (P_AproxDistance(player.mo.x - actor.x, player.mo.y - actor.y) > 2 * MELEERANGE) and
+           (P_AproxDistance(player.mo.momx, player.mo.momy) < 5 * FRACUNIT) then
+        begin // Player is sneaking - can't detect
+          result := false;
+          exit;
+        end;
 
-      if P_Random < 225 then
-      begin // Player isn't sneaking, but still didn't detect
-        result := false;
-        exit;
+        if P_Random < 225 then
+        begin // Player isn't sneaking, but still didn't detect
+          result := false;
+          exit;
+        end;
       end;
-    end;
 
     actor.target := player.mo;
     result := true;
@@ -1095,7 +1096,8 @@ begin
     R_PointToAngle2(actor.x, actor.y, actor.target.x, actor.target.y);
 
   if actor.target.flags and MF_SHADOW <> 0 then
-    actor.angle := actor.angle + _SHLW(P_Random - P_Random, 21);
+    if actor.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+      actor.angle := actor.angle + _SHLW(P_Random - P_Random, 21);
 end;
 
 procedure A_Pain(actor: Pmobj_t);
@@ -2146,7 +2148,8 @@ begin
 
   if (actor.special1 <> 0) and
      (Pmobj_t(actor.special1).flags and MF_SHADOW <> 0) then
-    exit;
+    if actor.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+      exit;
 
   P_SeekerMissile(actor, ANG1 * 10, ANG1 * 30);
 end;

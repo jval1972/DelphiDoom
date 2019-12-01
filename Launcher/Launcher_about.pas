@@ -68,7 +68,7 @@ var
 begin
   vb := I_VersionBuilt;
   if vb = '' then
-    vb := '1.8';
+    vb := '1.9';
   Label1.Caption := 'DelphiDoom Launcher version ' + vb;
 end;
 

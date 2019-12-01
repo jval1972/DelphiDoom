@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -24,7 +25,6 @@
 //  Handles WAD file header, directory, lump I/O.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -595,7 +595,7 @@ begin
   begin
     lump_p := @lumpinfo[i];
     if lumpcache[i] <> nil then
-      Z_Free(lumpcache[i]);                   
+      Z_Free(lumpcache[i]);
 
     lump_p.position := fileinfo[i - reloadlump].filepos;
     lump_p.size := fileinfo[i - reloadlump].size;

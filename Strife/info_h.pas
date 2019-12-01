@@ -7,6 +7,9 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -28,7 +31,6 @@
 //    Thing frame/state LUT.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -41,6 +43,7 @@ interface
 uses
   d_delphi,
   d_think,
+  r_renderstyle,
   sc_params;
 
 type
@@ -2289,11 +2292,6 @@ type
     DO_NUMMOBJTYPES
   );
 
-type
-  mobjrenderstyle_t = (
-    mrs_normal, mrs_translucent, mrs_add, NUMMOBJRENDERSTYLES
-  );
-
 const
   MOBJINFONAMESIZE = 32;
 
@@ -2351,3 +2349,4 @@ type
 implementation
 
 end.
+

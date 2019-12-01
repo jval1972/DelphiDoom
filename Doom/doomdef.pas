@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,7 +25,6 @@
 //  key definitions, lots of other stuff.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -115,10 +115,15 @@ type
   );
 
 const
-// ?
+  // MAX RENDERING DIMENTIONS
   MAXWIDTH = 4096;
   MAXHEIGHT = 3072;
 
+const
+  // MIN RENDERING DIMENTIONS
+  MINWIDTH = 160;
+  MINHEIGHT = 100;
+  
 var
 // Rendering Engine Screen Dimentions
   SCREENWIDTH: integer;
@@ -150,8 +155,8 @@ type
     GS_LEVEL,
     GS_INTERMISSION,
     GS_FINALE,
-    GS_DEMOSCREEN{$IFNDEF OPENGL},
-    GS_ENDOOM{$ENDIF}
+    GS_DEMOSCREEN,
+    GS_ENDOOM
   );
 
 var

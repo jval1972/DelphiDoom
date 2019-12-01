@@ -100,7 +100,7 @@ Conditionals=HEXEN;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Hexen\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -fullhd
+RunParams=-nofullscreen -geom 1920x1080
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=720
+Build=721
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Hexen to Delphi Total Conversion
-FileVersion=2.0.4.720
+FileVersion=2.0.4.721
 InternalName=Hexen
 LegalCopyright=Copyright 2005 - 2018, Jim Valavanis
 LegalTrademarks=

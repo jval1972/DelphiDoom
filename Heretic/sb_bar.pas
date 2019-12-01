@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -1017,7 +1016,7 @@ end;
 //
 //      Write a string using the hu_font
 //
-procedure SB_WriteText(x, y: integer; const _string: string);
+procedure SB_WriteText(x, y: integer; const str: string);
 var
   w: integer;
   ch: integer;
@@ -1026,7 +1025,7 @@ var
   cy: integer;
   len: integer;
 begin
-  len := Length(_string);
+  len := Length(str);
   if len = 0 then
     exit;
 
@@ -1039,7 +1038,7 @@ begin
     if ch > len then
       break;
 
-    c := Ord(_string[ch]);
+    c := Ord(str[ch]);
     inc(ch);
 
     if c = 0 then

@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -33,6 +33,8 @@ interface
 procedure R_InitAspect;
 
 function R_GetRelativeAspect: double;
+
+function R_ForcedAspect: Double;
 
 var
   widescreensupport: Boolean = true;
@@ -96,13 +98,13 @@ end;
 function R_ForcedAspect: Double;
 var
   ar, par: string;
-  nar, npar: integer;
+  nar, npar: float;
 begin
   splitstring(forcedaspectstr, ar, par, [':', '/']);
   if par <> '' then
   begin
-    nar := atoi(strtrim(ar));
-    npar := atoi(strtrim(par));
+    nar := atof(strtrim(ar));
+    npar := atof(strtrim(par));
     if npar > 0 then
       result := nar / npar
     else

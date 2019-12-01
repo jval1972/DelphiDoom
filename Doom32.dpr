@@ -333,7 +333,17 @@ uses
   r_flat8 in 'Base\r_flat8.pas',
   p_bridge in 'Base\p_bridge.pas',
   w_sprite in 'Base\w_sprite.pas',
-  r_things_sortvissprites in 'Base\r_things_sortvissprites.pas';
+  r_things_sortvissprites in 'Base\r_things_sortvissprites.pas',
+  i_steam in 'Base\i_steam.pas',
+  i_displaymodes in 'Base\i_displaymodes.pas',
+  v_displaymode in 'Base\v_displaymode.pas',
+  d_notifications in 'Base\d_notifications.pas',
+  sc_utils in 'base\sc_utils.pas',
+  w_folders in 'Base\w_folders.pas',
+  r_subsectors in 'Base\r_subsectors.pas',
+  r_draw_additive in 'Base\r_draw_additive.pas',
+  r_draw_subtractive in 'Base\r_draw_subtractive.pas',
+  r_renderstyle in 'Base\r_renderstyle.pas';
 
 var
   Saved8087CW: Word;

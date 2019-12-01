@@ -118,6 +118,7 @@ type
     OpenGLCheckBox: TCheckBox;
     PopupMenu1: TPopupMenu;
     ItemProperties1: TMenuItem;
+    KeyboardModeRadioGroup: TRadioGroup;
     procedure Button2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure RunDelphiDoomClick(Sender: TObject);
@@ -789,6 +790,12 @@ begin
 
   if NoSingleDemoCheckBox.Checked then
     AddCmd('-nosingledemo');
+
+  if KeyboardModeRadioGroup.ItemIndex > 0 then
+  begin
+    AddCmd('-keyboardmode');
+    AddCmd(IntToStr(KeyboardModeRadioGroup.ItemIndex - 1));
+  end;
 
   result := cmd + ' ' + AdditionalParametersEdit.Text;
 end;

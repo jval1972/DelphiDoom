@@ -7,7 +7,10 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2005 Simon Howard
+//  Copyright (C) 2010 James Haley, Samuel Villarreal
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -30,7 +33,6 @@
 //  that are associated with states/frames.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -1445,10 +1447,13 @@ begin
   actor.angle :=
     R_PointToAngle2(actor.x, actor.y, actor.target.x, actor.target.y);
 
-  if actor.target.flags and MF_SHADOW <> 0 then
-    actor.angle := actor.angle + _SHLW(P_Random - P_Random, 22)
-  else if actor.target.flags and MF_MVIS <> 0 then
-    actor.angle := actor.angle + _SHLW(P_Random - P_Random, 23);
+  if actor.flags2_ex and MF2_EX_SEEINVISIBLE = 0 then
+  begin
+    if actor.target.flags and MF_SHADOW <> 0 then
+      actor.angle := actor.angle + _SHLW(P_Random - P_Random, 22)
+    else if actor.target.flags and MF_MVIS <> 0 then
+      actor.angle := actor.angle + _SHLW(P_Random - P_Random, 23);
+  end;
 end;
 
 //

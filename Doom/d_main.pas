@@ -2,6 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -29,7 +30,6 @@
 //  and call the startup functions.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -110,10 +110,19 @@ procedure D_ShutDown;
 
 var
   autoloadgwafiles: boolean = true;
+  searchdoomwaddir: boolean = true;
+  searchdoomwadpath: boolean = true;
+  searchsteampaths: boolean = true;
+  additionalwadpaths: string = '';
 
 var
   wads_autoload: string = '';
   paks_autoload: string = '';
+
+function D_FileInDoomPath(const fn: string): string;
+
+var
+  showmessageboxonmodified: boolean = false;
 
 implementation
 
@@ -125,13 +134,13 @@ uses
   d_englsh,
   d_player,
   d_net,
+  d_notifications,
   c_con,
   c_cmds,
   d_check,
-{$IFNDEF OPENGL}
   e_endoom,
+{$IFNDEF OPENGL}
   f_wipe,
-  r_defs,
 {$ENDIF}
   f_finale,
   m_argv,
@@ -145,12 +154,13 @@ uses
   i_sound,
   i_io,
   i_tmp,
-{$IFNDEF FPC}
   i_startup,
-{$ENDIF}
+  i_steam,
 {$IFDEF OPENGL}
   gl_main,
 {$ELSE}
+  r_defs,
+  r_fake3d,
   i_video,
 {$ENDIF}
   nd_main,
@@ -160,8 +170,8 @@ uses
   st_stuff,
   am_map,
   p_setup,
-  p_mobj,
   p_mobj_h,
+  p_mobj,
   ps_main,
   psi_overlay,
   r_draw,
@@ -169,9 +179,6 @@ uses
   r_hires,
   r_intrpl,
   r_data,
-{$IFNDEF OPENGL}
-  r_fake3d,
-{$ENDIF}
   r_camera,
   r_lights,
   sounds,
@@ -275,7 +282,6 @@ var
   shotnumber: integer = 0;
   lastshotnumber: integer = -1;
 
-
 procedure D_FinishUpdate;
 begin
   if not noblit then
@@ -346,14 +352,14 @@ var
   oldvideomode: videomode_t;
 {$ENDIF}
 begin
-{$IFNDEF OPENGL}
   if gamestate = GS_ENDOOM then
   begin
     E_Drawer;
+    {$IFNDEF OPENGL}
     D_FinishUpdate; // page flip or blit buffer
+    {$ENDIF}
     exit;
   end;
-{$ENDIF}
 
 {$IFNDEF OPENGL}
   HU_DoFPSStuff;
@@ -482,7 +488,9 @@ begin
   viewactivestate := viewactive;
   inhelpscreensstate := inhelpscreens;
   oldgamestate := Ord(gamestate);
+{$IFNDEF OPENGL}
   wipegamestate := Ord(gamestate);
+{$ENDIF}
 
   // draw pause pic
   if paused then
@@ -539,7 +547,7 @@ begin
   else
   begin
     {$IFDEF OPENGL}
-    diskbuzy_height := 0;
+    diskbusy_height := 0;
     {$ENDIF}
     // JVAL: Overlay Drawer before menus
     OVR_Drawer;
@@ -584,6 +592,7 @@ begin
 end;
 {$IFDEF OPENGL}
 begin
+  I_StartUpdate;
   HU_DoFPSStuff;
   if firstinterpolation then
     MT_ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
@@ -591,17 +600,14 @@ begin
   begin
     if (amstate <> am_only) and (gametic <> 0) then
     begin
-      R_FillBackScreen;         // draw the pattern into the back screen
+      R_FillBackScreen; // draw the pattern into the back screen
       D_RenderPlayerView(@players[displayplayer]);
     end;
   end;
-  if firstinterpolation then
-  begin
-    if gamestate = GS_LEVEL then
-      if amstate = am_overlay then
-        AM_Drawer;
-    D_DisplayHU;
-  end;
+  if gamestate = GS_LEVEL then
+    if amstate = am_overlay then
+      AM_Drawer;
+  D_DisplayHU;
   D_FinishUpdate; // page flip or blit buffer
 end;
 {$ENDIF}
@@ -650,6 +656,8 @@ begin
 {$ENDIF}
 
     S_UpdateSounds(players[consoleplayer].mo);// move positional sounds
+
+    D_RunNotifications;
 
 {$IFDEF DEBUG}
     except
@@ -714,9 +722,7 @@ end;
 //
 procedure D_AdvanceDemo;
 begin
-{$IFNDEF OPENGL}
   if gamestate <> GS_ENDOOM then
-{$ENDIF}
     advancedemo := true;
 end;
 
@@ -860,25 +866,6 @@ begin
   end;
 end;
 
-const
-  SYSWAD = 'Doom32.swd';
-
-procedure D_AddSystemWAD;
-var
-  ddsyswad: string;
-  doomwaddir: string;
-begin
-  doomwaddir := getenv('DOOMWADDIR');
-  if doomwaddir = '' then
-    doomwaddir := '.';
-
-  sprintf(ddsyswad, '%s\%s', [doomwaddir, SYSWAD]);
-  if fexists(ddsyswad) then
-    D_AddFile(ddsyswad)
-  else
-    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [ddsyswad]);
-end;
-
 procedure D_WadsAutoLoad(fnames: string);
 var
   s1, s2: string;
@@ -887,7 +874,10 @@ begin
   if fnames = '' then
     exit;
 
-  splitstring(fnames, s1, s2, [',', ' ']);
+  if Pos(';', fnames) > 0 then
+    splitstring(fnames, s1, s2, ';')
+  else
+    splitstring(fnames, s1, s2, ',');
   D_AddFile(s1);
   D_WadsAutoLoad(s2);
 end;
@@ -900,11 +890,144 @@ begin
   if fnames = '' then
     exit;
 
-  splitstring(fnames, s1, s2, [',', ' ']);
+  if Pos(';', fnames) > 0 then
+    splitstring(fnames, s1, s2, ';')
+  else
+    splitstring(fnames, s1, s2, ',');
   PAK_AddFile(s1);
   D_PaksAutoload(s2);
 end;
 
+const
+  PATH_SEPARATOR = ';';
+
+function D_FileInDoomPath(const fn: string): string;
+var
+  doomwaddir: string;
+  doomwadpath: string;
+  paths: TDStringList;
+  i: integer;
+  tmp: string;
+begin
+  if fexists(fn) then
+  begin
+    result := fn;
+    exit;
+  end;
+
+  paths := TDStringList.Create;
+
+  if searchdoomwaddir then
+  begin
+    doomwaddir := getenv('DOOMWADDIR');
+    if doomwaddir <> '' then
+      paths.Add(doomwaddir);
+  end;
+
+  if searchdoomwadpath then
+  begin
+    doomwadpath := getenv('DOOMWADPATH');
+    if doomwadpath <> '' then
+    begin
+      tmp := '';
+      for i := 1 to length(doomwadpath) do
+      begin
+        if doomwadpath[i] = PATH_SEPARATOR then
+        begin
+          if tmp <> '' then
+          begin
+            paths.Add(tmp);
+            tmp := '';
+          end;
+        end
+        else
+          tmp := tmp + doomwadpath[i];
+      end;
+      if tmp <> '' then
+        paths.Add(tmp);
+    end;
+  end;
+
+  if additionalwadpaths <> '' then
+  begin
+    tmp := '';
+    for i := 1 to length(additionalwadpaths) do
+    begin
+      if additionalwadpaths[i] = PATH_SEPARATOR then
+      begin
+        if tmp <> '' then
+        begin
+          paths.Add(tmp);
+          tmp := '';
+        end;
+      end
+      else
+        tmp := tmp + additionalwadpaths[i];
+    end;
+    if tmp <> '' then
+      paths.Add(tmp);
+  end;
+
+  if searchsteampaths then
+  begin
+    tmp := QuerySteamDirectory(2280);
+    if tmp <> '' then
+    begin
+      paths.Add(tmp);
+      paths.Add(tmp + 'base\');
+      paths.Add(tmp + 'base\wads\');
+    end;
+
+    tmp := QuerySteamDirectory(2290);
+    if tmp <> '' then
+    begin
+      paths.Add(tmp);
+      paths.Add(tmp + 'base\');
+      paths.Add(tmp + 'base\wads\');
+    end;
+
+    tmp := QuerySteamDirectory(2300);
+    if tmp <> '' then
+    begin
+      paths.Add(tmp);
+      paths.Add(tmp + 'base\');
+      paths.Add(tmp + 'base\wads\');
+    end;
+  end;
+
+  result := fname(fn);
+  for i := 0 to paths.Count - 1 do
+  begin
+    tmp := fixslashpath(paths.Strings[i]);
+    if tmp[length(tmp)] <> '\' then
+      tmp := tmp + '\';
+    if fexists(tmp + result) then
+    begin
+      result := tmp + result;
+      paths.free;
+      exit;
+    end;
+  end;
+  result := fn;
+  paths.free;
+end;
+
+const
+  SYSWAD = 'Doom32.swd';
+
+procedure D_AddSystemWAD;
+var
+  ddsyswad: string;
+begin
+  ddsyswad := D_FileInDoomPath(SYSWAD);
+  if fexists(ddsyswad) then
+    D_AddFile(ddsyswad)
+  else
+    I_Warning('D_AddSystemWAD(): System WAD %s not found.'#13#10, [SYSWAD]);
+end;
+
+var
+  doomcwad: string = ''; // Custom main WAD
 
 //
 // IdentifyVersion
@@ -912,9 +1035,6 @@ end;
 // to determine whether registered/commercial features
 // should be executed (notably loading PWAD's).
 //
-var
-  doomcwad: string = ''; // Custom main WAD
-
 procedure IdentifyVersion;
 var
   doom1wad: string;
@@ -928,7 +1048,11 @@ var
   doomwaddir: string;
   p: integer;
 begin
-  doomwaddir := getenv('DOOMWADDIR');
+  if searchdoomwaddir then
+    doomwaddir := getenv('DOOMWADDIR')
+  else
+    doomwaddir := '';
+
   if doomwaddir = '' then
     doomwaddir := '.';
 
@@ -954,7 +1078,6 @@ begin
   // French stuff.
   sprintf(doom2fwad, '%s\doom2f.wad', [doomwaddir]);
 
-
   basedefault := {$IFDEF FPC}'Doom32f.ini'{$ELSE}'Doom32.ini'{$ENDIF};
 
   p := M_CheckParm('-mainwad');
@@ -963,7 +1086,7 @@ begin
   if (p > 0) and (p < myargc - 1) then
   begin
     inc(p);
-    doomcwad := myargv[p];
+    doomcwad := D_FileInDoomPath(myargv[p]);
     if fexists(doomcwad) then
     begin
       printf(' External main wad in use: %s'#13#10, [doomcwad]);
@@ -1010,64 +1133,78 @@ begin
     exit;
   end;
 
-  if fexists(doom2fwad) then
+  for p := 1 to 2 do
   begin
-    gamemode := commercial;
-    gamemission := doom2;
-    // C'est ridicule!
-    // Let's handle languages in config files, okay?
-    language := french;
-    printf('French version'#13#10);
-    D_AddFile(doom2fwad);
-    exit;
-  end;
+    if fexists(doom2fwad) then
+    begin
+      gamemode := commercial;
+      gamemission := doom2;
+      // C'est ridicule!
+      // Let's handle languages in config files, okay?
+      language := french;
+      printf('French version'#13#10);
+      D_AddFile(doom2fwad);
+      exit;
+    end;
 
-  if fexists(doom2wad) then
-  begin
-    gamemode := commercial;
-    gamemission := doom2;
-    D_AddFile(doom2wad);
-    exit;
-  end;
+    if fexists(doom2wad) then
+    begin
+      gamemode := commercial;
+      gamemission := doom2;
+      D_AddFile(doom2wad);
+      exit;
+    end;
 
-  if fexists(plutoniawad) then
-  begin
-    gamemode := commercial;
-    gamemission := pack_plutonia;
-    D_AddFile(plutoniawad);
-    exit;
-  end;
+    if fexists(plutoniawad) then
+    begin
+      gamemode := commercial;
+      gamemission := pack_plutonia;
+      D_AddFile(plutoniawad);
+      exit;
+    end;
 
-  if fexists(tntwad) then
-  begin
-    gamemode := commercial;
-    gamemission := pack_tnt;
-    D_AddFile(tntwad);
-    exit;
-  end;
+    if fexists(tntwad) then
+    begin
+      gamemode := commercial;
+      gamemission := pack_tnt;
+      D_AddFile(tntwad);
+      exit;
+    end;
 
-  if fexists(doomuwad) then
-  begin
-    gamemode := indetermined; // Will check if retail or register mode later
-    gamemission := doom;
-    D_AddFile(doomuwad);
-    exit;
-  end;
+    if fexists(doomuwad) then
+    begin
+      gamemode := indetermined; // Will check if retail or register mode later
+      gamemission := doom;
+      D_AddFile(doomuwad);
+      exit;
+    end;
 
-  if fexists(doomwad) then
-  begin
-    gamemode := indetermined; // Will check if retail or register mode later
-    gamemission := doom;
-    D_AddFile(doomwad);
-    exit;
-  end;
+    if fexists(doomwad) then
+    begin
+      gamemode := indetermined; // Will check if retail or register mode later
+      gamemission := doom;
+      D_AddFile(doomwad);
+      exit;
+    end;
 
-  if fexists(doom1wad) then
-  begin
-    gamemode := shareware;
-    gamemission := doom;
-    D_AddFile(doom1wad);
-    exit;
+    if fexists(doom1wad) then
+    begin
+      gamemode := shareware;
+      gamemission := doom;
+      D_AddFile(doom1wad);
+      exit;
+    end;
+
+    if p = 1 then
+    begin
+      doom2wad := D_FileInDoomPath(doom2wad);
+      doomuwad := D_FileInDoomPath(doomuwad);
+      doomwad := D_FileInDoomPath(doomwad);
+      doom1wad := D_FileInDoomPath(doom1wad);
+      plutoniawad := D_FileInDoomPath(plutoniawad);
+      tntwad := D_FileInDoomPath(tntwad);
+      doom2fwad := D_FileInDoomPath(doom2fwad);
+    end;
   end;
 
   printf('Game mode indeterminate.'#13#10);
@@ -1243,7 +1380,7 @@ begin
     inc(p);
     while (p < myargc) and (myargv[p][1] <> '-') do
     begin
-      D_AddFile(myargv[p]);
+      D_AddFile(D_FileInDoomPath(myargv[p]));
       inc(p);
     end;
   end;
@@ -1338,6 +1475,7 @@ var
   episodes: integer;
   err_shown: boolean;
   s1, s2: string;
+  kparm: string;
 begin
   {$IFDEF FPC}
   outproc := @I_IOprintf;
@@ -1729,6 +1867,7 @@ begin
   {$IFNDEF OPENGL}
   SCREENWIDTH := WINDOWWIDTH;
   {$ENDIF}
+
   p := M_CheckParm('-screenwidth');
   if (p <> 0) and (p < myargc - 1) then
     SCREENWIDTH := atoi(myargv[p + 1]);
@@ -1738,6 +1877,7 @@ begin
   {$IFNDEF OPENGL}
   SCREENHEIGHT := WINDOWHEIGHT;
   {$ENDIF}
+  
   p := M_CheckParm('-screenheight');
   if (p <> 0) and (p < myargc - 1) then
     SCREENHEIGHT := atoi(myargv[p + 1]);
@@ -1825,12 +1965,22 @@ begin
   if SCREENHEIGHT = -1 then
     SCREENHEIGHT := I_ScreenHeight;
   if SCREENHEIGHT > MAXHEIGHT then
-    SCREENHEIGHT := MAXHEIGHT;
+    SCREENHEIGHT := MAXHEIGHT
+  else if SCREENHEIGHT < MINHEIGHT then
+    SCREENHEIGHT := MINHEIGHT;
+
 
   if SCREENWIDTH = -1 then
     SCREENWIDTH := I_ScreenWidth;
   if SCREENWIDTH > MAXWIDTH then
-    SCREENWIDTH := MAXWIDTH;
+    SCREENWIDTH := MAXWIDTH
+  else if SCREENWIDTH < MINWIDTH then
+    SCREENWIDTH := MINWIDTH;
+
+  {$IFNDEF OPENGL}
+  WINDOWWIDTH := SCREENWIDTH;
+  WINDOWHEIGHT := SCREENHEIGHT;
+  {$ENDIF}
 
   singletics := M_CheckParm('-singletics') > 0;
 
@@ -1933,18 +2083,18 @@ begin
   printf('W_Init: Init WADfiles.'#13#10);
   if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
   begin
-    if fexists('CHEX.WAD') then
-      D_AddFile('CHEX.WAD')
-    else if fexists('HACX.WAD') then
-      D_AddFile('HACX.WAD')
-    else if fexists('FREEDOOM1.WAD') then
-      D_AddFile('FREEDOOM1.WAD')
-    else if fexists('FREEDOOM2.WAD') then
-      D_AddFile('FREEDOOM2.WAD')
-    else if fexists('FREEDM.WAD') then
-      D_AddFile('FREEDM.WAD')
-    else if fexists('FREEDOOM.WAD') then
-      D_AddFile('FREEDOOM.WAD');
+    if fexists(D_FileInDoomPath('CHEX.WAD')) then
+      D_AddFile(D_FileInDoomPath('CHEX.WAD'))
+    else if fexists(D_FileInDoomPath('HACX.WAD')) then
+      D_AddFile(D_FileInDoomPath('HACX.WAD'))
+    else if fexists(D_FileInDoomPath('FREEDOOM1.WAD')) then
+      D_AddFile(D_FileInDoomPath('FREEDOOM1.WAD'))
+    else if fexists(D_FileInDoomPath('FREEDOOM2.WAD')) then
+      D_AddFile(D_FileInDoomPath('FREEDOOM2.WAD'))
+    else if fexists(D_FileInDoomPath('FREEDM.WAD')) then
+      D_AddFile(D_FileInDoomPath('FREEDM.WAD'))
+    else if fexists(D_FileInDoomPath('FREEDOOM.WAD')) then
+      D_AddFile(D_FileInDoomPath('FREEDOOM.WAD'));
 
     if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
     begin
@@ -1954,8 +2104,10 @@ begin
     //  and we use the first WAD we find
       filename := findfile('*.wad');
       if filename <> '' then
+      begin
         I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
-      D_AddFile(filename);
+        D_AddFile(filename);
+      end;
       if W_InitMultipleFiles(wadfiles) = 0 then
         I_Error('W_InitMultipleFiles(): no files found');
     end;
@@ -2226,11 +2378,14 @@ begin
 
   // If additonal PWAD files are used, print modified banner
     printf(MSG_MODIFIEDGAME);
-    oldoutproc := outproc;
-    I_IOSetWindowHandle({$IFDEF FPC}0{$ELSE}SUC_GetHandle{$ENDIF});
-    outproc := @I_IOMessageBox; // Print the message again to messagebox
-    printf(MSG_MODIFIEDGAME);
-    outproc := oldoutproc;
+    if showmessageboxonmodified then
+    begin
+      oldoutproc := outproc;
+      I_IOSetWindowHandle({$IFDEF FPC}0{$ELSE}SUC_GetHandle{$ENDIF});
+      outproc := @I_IOMessageBox; // Print the message again to messagebox
+      printf(MSG_MODIFIEDGAME);
+      outproc := oldoutproc;
+    end;
   end;
 
   {$IFNDEF FPC}
@@ -2369,6 +2524,19 @@ begin
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
 
+  p := M_CheckParm('-keyboardmode');
+  if (p > 0) and (p < myargc - 1) then
+  begin
+    inc(p);
+    kparm := strupper(myargv[p]);
+    if (kparm = '0') or (kparm = 'ARROWS') then
+      M_SetKeyboardMode(0)
+    else if (kparm = '1') or (kparm = 'WASD') then
+      M_SetKeyboardMode(1)
+    else if (kparm = '2') or (kparm = 'ESDF') then
+      M_SetKeyboardMode(2);
+  end;
+
   // JVAL: PascalScript
   {$IFNDEF FPC}
   SUC_Progress(97);
@@ -2450,14 +2618,12 @@ begin
   Info_ShutDown;
   printf('PAK_ShutDown: Shut down PAK/ZIP/PK3/PK4 file system.'#13#10);
   PAK_ShutDown;
-  printf('W_ShutDown: Shut down WAD file system.'#13#10);
-  W_ShutDown;
-{$IFNDEF OPENGL}
   printf('E_ShutDown: Shut down ENDOOM screen.'#13#10);
   E_ShutDown;
-{$ENDIF}
   printf('Z_ShutDown: Shut down zone memory allocation daemon.'#13#10);
   Z_ShutDown;
+  printf('W_ShutDown: Shut down WAD file system.'#13#10);
+  W_ShutDown;
   printf('V_ShutDown: Shut down screens.'#13#10);
   V_ShutDown;
   printf('MT_ShutDown: Shut down multithreading utilities.'#13#10);

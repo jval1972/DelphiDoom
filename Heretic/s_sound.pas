@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -25,7 +25,6 @@
 //  The not so system specific sound interface.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -157,6 +156,7 @@ uses
   sounds,
   z_zone,
   w_wad,
+  w_folders,
   w_pak,
   doomdef,
   r_main,
@@ -678,7 +678,7 @@ begin
         if preferemp3namesingamedirectory then
           music.mp3stream := TPakStream.Create(mp3filename, pm_prefered, gamedirectories)
         else
-          music.mp3stream := TPakStream.Create(mp3filename, pm_short);
+          music.mp3stream := TPakStream.Create(mp3filename, pm_short, '', FOLDER_MUSIC);
         music.mp3stream.OnBeginBusy := I_BeginDiskBusy;
         mp3error := music.mp3stream.IOResult <> 0;
         if mp3error then

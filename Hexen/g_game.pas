@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -1479,8 +1478,8 @@ begin
           mousebuttons[0] := ev.data1 and 1 <> 0;
           mousebuttons[1] := ev.data1 and 2 <> 0;
           mousebuttons[2] := ev.data1 and 4 <> 0;
-          mousex := mousex + (ev.data2 * (mouseSensitivity + 5)) div 10;
-          mousey := mousey + (ev.data3 * (mouseSensitivity + 5)) div 10;
+          mousex := mousex + ((ev.data2 * (mouseSensitivity + 5)) div 10) * mouseSensitivityX div 5;
+          mousey := mousey + ((ev.data3 * (mouseSensitivity + 5)) div 10) * mouseSensitivityY div 5;
         end
         else
         begin
@@ -1627,9 +1626,14 @@ begin
     key_lookup := 197;
     key_lookdown := 202;
     key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
+    key_lookright := 42;
+    key_lookleft := 47;
     key_lookforward := 13;
+    key_flyup := 198;
+    key_flydown := 200;
+    key_flycenter := 201;
+    key_invleft := Ord('[');
+    key_invright := Ord(']');
   end
   else if mode = 1 then
   begin
@@ -1647,9 +1651,14 @@ begin
     key_lookup := 197;
     key_lookdown := 202;
     key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
+    key_lookright := 42;
+    key_lookleft := 47;
     key_lookforward := 13;
+    key_flyup := 198;
+    key_flydown := 200;
+    key_flycenter := 201;
+    key_invleft := Ord('[');
+    key_invright := Ord(']');
   end
   else if mode = 2 then
   begin
@@ -1667,9 +1676,14 @@ begin
     key_lookup := 197;
     key_lookdown := 202;
     key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
+    key_lookright := 42;
+    key_lookleft := 47;
     key_lookforward := 13;
+    key_flyup := 198;
+    key_flydown := 200;
+    key_flycenter := 201;
+    key_invleft := Ord('[');
+    key_invright := Ord(']');
   end
 end;
 
