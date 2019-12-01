@@ -83,6 +83,8 @@ procedure PS_EventMapStart;
 //-------------------- Map Script Serialization --------------------------------
 function PS_MapScriptSaveToFile(const fname: string): boolean;
 
+function PS_MapScriptSaveSize: integer;
+
 function PS_MapScriptAppendToFile(const fname: string): boolean;
 
 function PS_MapScriptLoadFromFile(const fname: string): boolean;
@@ -107,10 +109,12 @@ uses
   p_setup,
   ps_import,
   ps_events,
+  ps_dll,
   ps_serializer,
   psi_game,
   psi_globals,
   psi_overlay,
+  uPSR_dll,
   w_pak,
   uPSUtils;
 
@@ -658,6 +662,7 @@ end;
 
 procedure PS_Init;
 begin
+  PS_InitDLLLoader;
   PS_InitProcLists;
   PS_InitGlobals;
   PS_InitGameImport;
@@ -673,6 +678,7 @@ begin
   PS_ShutDownOverlay;
   PS_ShutDownGlobals;
   PS_ShutDownProcLists;
+  PS_ShutDownDLLLoader;
 end;
 
 procedure PS_AddSourceScript(const sname: string; const sc: string;
@@ -817,6 +823,15 @@ begin
   finally
     psser.Free;
   end;
+end;
+
+function PS_MapScriptSaveSize: integer;
+var
+  psser: TScriptSerializer;
+begin
+  psser := TScriptSerializer.Create(psmanager.EventsExec);
+  Result := psser.SaveSize;
+  psser.Free;
 end;
 
 function PS_MapScriptAppendToFile(const fname: string): boolean;

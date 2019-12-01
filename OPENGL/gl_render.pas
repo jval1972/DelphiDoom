@@ -977,7 +977,10 @@ end;
 procedure gld_Finish;
 begin
   gld_Set2DMode;
-  glFinish;
+  // Hack to avoid Intel HD4000 problem with Win10
+  // https://communities.intel.com/thread/117626
+  if not gl_no_glfinish_hack then
+    glFinish;
   glFlush;
   SwapBuffers(h_DC);
 end;
@@ -1793,7 +1796,7 @@ begin
 
 
   if zaxisshift then
-    pitch := -players[displayplayer].lookdir / 2
+    pitch := -players[displayplayer].lookdir16 / 32 // JVAL Smooth Look Up/Down
   else
     pitch := 0;
   // JVAL: Correct 2d bsp limitation

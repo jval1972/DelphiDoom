@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -122,6 +122,7 @@ var
   gl_uselightmaps: boolean;
   gl_drawshadows: boolean;
   gl_renderwireframe: boolean;
+  gl_no_glfinish_hack: Boolean = true;
 {$ENDIF}
 
 type
@@ -139,7 +140,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 156;
+  NUMDEFAULTS = 157;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -493,6 +494,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'gl_no_glfinish_hack';
+     location: @gl_no_glfinish_hack;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'gl_drawsky';

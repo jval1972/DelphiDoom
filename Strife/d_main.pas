@@ -1133,7 +1133,7 @@ end;
 
 function D_Version: string;
 begin
-  sprintf(result, Apptitle + ' version %d.%d', [VERSION div 100, VERSION mod 100]);
+  sprintf(result, Apptitle + ' version %d.%.*d', [VERSION div 100, 2, VERSION mod 100]);
 end;
 
 function D_VersionBuilt: string;
@@ -1386,25 +1386,25 @@ begin
       begin
         printf(
            '                            ' +
-           'Strife Shareware (DEMO) Startup v%d.%d' +
+           'Strife Shareware (DEMO) Startup v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
       end;
     registered:
       begin
         printf(
            '                            ' +
-           'STRIFE Registered Startup v%d.%d' +
+           'STRIFE Registered Startup v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
       end;
   else
     begin
       printf(
          '                         ' +
-         'Public STRIFE - v%d.%d' +
+         'Public STRIFE - v%d.%.*d' +
          '                           '#13#10,
-          [VERSION div 100, VERSION mod 100]);
+          [VERSION div 100, 2, VERSION mod 100]);
     end;
   end;
 

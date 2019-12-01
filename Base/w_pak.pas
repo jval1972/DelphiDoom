@@ -446,6 +446,7 @@ var
   b4: packed array[0..127] of byte;
   pk3lumps: TDStringList;
   pk3lump: string;
+  wadlumpname: string;
 begin
   result := false;
   Fn := strupper(FileName);
@@ -525,7 +526,8 @@ begin
       BlockRead(F, wadlump, SizeOf(filelump_t), N);
       // 'PK3ENTRY' wad lump contains aliases for wad lumps (8 characters - short filename)
       // to the PK3/PAK filesystem (long filenames).
-      if char8tostring(wadlump.name) = 'PK3ENTRY' then
+      wadlumpname := char8tostring(wadlump.name);
+      if wadlumpname = 'PK3ENTRY' then
       begin
         Seek(F, wadlump.filepos);
         SetLength(pk3lump, wadlump.size);
@@ -534,24 +536,24 @@ begin
         pk3lumps.Text := pk3lumps.Text + pk3lump + #13#10;
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end
-      else if char8tostring(wadlump.name) = 'HI_START' then
+      else if wadlumpname = 'HI_START' then
         inHIRES := True
-      else if char8tostring(wadlump.name) = 'HI_END' then
+      else if wadlumpname = 'HI_END' then
         inHIRES := False
       else if inHIRES then
       begin
         Seek(F, wadlump.filepos);
         BlockRead(F, b4, 128, N);
         if (b4[0] = 0) and (b4[1] = 0) and (b4[2] = 2) and (b4[3] = 0) then // TGA
-          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.TGA', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.TGA', Fn)
         else if (b4[1] = $50) and (b4[2] = $4E) and (b4[3] = $47) then // PNG
-          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.PNG', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PNG', Fn)
         else if (b4[0] = $42) and (b4[1] = $4D) then // BMP
-          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.BMP', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.BMP', Fn)
         else if (b4[6] = $4A) and (b4[7] = $46) and (b4[8] = $49) and (b4[9] = $46) then // JPEG
-          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.JPG', Fn)
+          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.JPG', Fn)
         else if (N >= 128) and T_IsValidPCXHeader(@b4) then // PCX detection
-          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.PCX', Fn);
+          AddEntry(wadlump.filepos, wadlump.size, wadlumpname + '.PCX', Fn);
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end;
     end;
@@ -565,8 +567,9 @@ begin
       for i := 0 to Nr - 1 do
       begin
         BlockRead(F, wadlump, SizeOf(filelump_t), N);
-        if pk3lumps.IndexOfName(char8tostring(wadlump.name)) > -1 then
-          AddEntry(wadlump.filepos, wadlump.size, pk3lumps.Values[char8tostring(wadlump.name)], Fn)
+        wadlumpname := char8tostring(wadlump.name);
+        if pk3lumps.IndexOfName(wadlumpname) > -1 then
+          AddEntry(wadlump.filepos, wadlump.size, pk3lumps.Values[wadlumpname], Fn)
       end;
     end;
     pk3lumps.Free;

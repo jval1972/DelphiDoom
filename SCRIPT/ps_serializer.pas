@@ -79,6 +79,7 @@ type
     function LoadFromFilePos(const fname: string; var position: integer): boolean;
     function SaveToStream(const SaveStream: TStream): boolean;
     function LoadFromStream(const LoadStream: TStream): boolean;
+    function SaveSize: Integer;
   end;
 
 implementation
@@ -491,6 +492,20 @@ begin
     end;
   except
     Result := False;
+  end;
+end;
+
+function TScriptSerializer.SaveSize: Integer;
+var
+  ms: TMemoryStream;
+begin
+  Result := 0;
+  ms := TMemoryStream.Create;
+  try
+    if SaveToStream(ms) then
+      Result := ms.Size;
+  finally
+    ms.Free;
   end;
 end;
 

@@ -195,6 +195,17 @@ begin
 
   cmd.jump := demo_p[0];
   demo_p := @demo_p[1];
+
+  if demoversion < VERSION203 then
+  begin
+    cmd.lookupdown16 := (cmd.lookfly and 15) * 256; // JVAL Smooth Look Up/Down
+  end
+  else
+  begin
+    cmd.lookupdown16 := PWord(demo_p)^;
+    demo_p := @demo_p[2];
+  end;
+  cmd.lookupdown := cmd.lookupdown16 div 256; // JVAL unused :)
 end;
 
 //
@@ -266,6 +277,11 @@ begin
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.jump;
+  demo_p := @demo_p[1];
+
+  // JVAL Smooth Look Up/Down
+  PWord(demo_p)^ := cmd.lookupdown16;
+//  demo_p := @demo_p[2];
 
   demo_p := demo_start;
 
@@ -293,7 +309,7 @@ begin
   if (i <> 0) and (i < myargc - 1) then
     maxsize := atoi(myargv[i + 1]) * 1024
   else
-    maxsize := SAVEGAMESIZE; 
+    maxsize := SAVEGAMESIZE;
 
   repeat
     demobuffer := Z_Malloc2(maxsize, PU_STATIC, nil);
@@ -481,14 +497,17 @@ begin
     demoversion := demobuffer[0];
   end;
 
-  if demoversion <> VERSION then
+  if demoversion < VERSION142 then
   begin
-    I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%d' + #13#10,
-      [demo_p[0] div 100, demo_p[0] mod 100]);
+    I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%.*d' + #13#10,
+      [demo_p[0] div 100, 2, demo_p[0] mod 100]);
     gameaction := ga_nothing;
     exit;
-  end;
-
+  end
+  else if demoversion <> VERSION then
+    I_Warning('G_DoPlayDemo(): Demo is from a partial supported game version = %d.%.*d' + #13#10,
+      [demo_p[0] div 100, 2, demo_p[0] mod 100]);
+      
   demo_p := @demo_p[1];
 
   skill := skill_t(demo_p[0]);

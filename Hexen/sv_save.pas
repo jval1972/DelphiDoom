@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -67,6 +67,7 @@ implementation
 
 uses
   d_delphi,
+  d_ticcmd,
   d_think,
   d_player,
   d_main,
@@ -787,7 +788,19 @@ begin
       players[i].oldviewz := players[i].viewz;
       players[i].teleporttics := 0;
       players[i].quaketics := 0;
+      players[i].lookdir16 := players[i].lookdir * 16; // JVAL Smooth Look Up/Down
+      Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
+      players[i].cmd.lookupdown16 := (players[i].cmd.lookfly and 15) * 256;
       incp(saveptr, SizeOf(player_t141));
+    end
+    else if LOADVERSION <= VERSION142 then
+    begin
+      ZeroMemory(@players[i], SizeOf(player_t));
+      memcpy(@players[i], saveptr, SizeOf(player_t142));
+      players[i].lookdir16 := players[i].lookdir * 16; // JVAL Smooth Look Up/Down
+      Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
+      players[i].cmd.lookupdown16 := (players[i].cmd.lookfly and 15) * 256;
+      incp(saveptr, SizeOf(player_t142));
     end
     else
     begin
@@ -1898,6 +1911,8 @@ begin
     LOADVERSION := VERSION141
   else if vstring = HXS_VERSION_TEXT_142 then
     LOADVERSION := VERSION142
+  else if vstring = HXS_VERSION_TEXT_203 then
+    LOADVERSION := VERSION203
   else
   begin // Bad version
     I_Warning('SV_LoadGame(): Game is from unsupported version'#13#10);

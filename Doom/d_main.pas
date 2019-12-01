@@ -1121,7 +1121,7 @@ end;
 
 function D_Version: string;
 begin
-  sprintf(result, Apptitle + ' version %d.%d', [VERSION div 100, VERSION mod 100]);
+  sprintf(result, Apptitle + ' version %d.%.*d', [VERSION div 100, 2, VERSION mod 100]);
 end;
 
 function D_VersionBuilt: string;
@@ -1377,41 +1377,41 @@ begin
       begin
         printf(
            '                         ' +
-           'The Ultimate DOOM Startup v%d.%d' +
+           'The Ultimate DOOM Startup v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
       end;
     shareware:
       begin
         printf(
            '                            ' +
-           'DOOM Shareware Startup v%d.%d' +
+           'DOOM Shareware Startup v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
       end;
     registered:
       begin
         printf(
            '                            ' +
-           'DOOM Registered Startup v%d.%d' +
+           'DOOM Registered Startup v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
       end;
     commercial:
       begin
         printf(
            '                         ' +
-           'DOOM 2: Hell on Earth v%d.%d' +
+           'DOOM 2: Hell on Earth v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
       end;
   else
     begin
       printf(
          '                         ' +
-         'Public DOOM - v%d.%d' +
+         'Public DOOM - v%d.%.*d' +
          '                           '#13#10,
-          [VERSION div 100, VERSION mod 100]);
+          [VERSION div 100, 2, VERSION mod 100]);
     end;
   end;
 

@@ -299,7 +299,7 @@ function gld_FrustumAngle: angle_t;
 var
   tilt: single;
 begin
-  tilt := abs(viewplayer.lookdir / 2);
+  tilt := abs(viewplayer.lookdir16 / 32); // JVAL Smooth Look Up/Down
 
   // If the pitch is larger than this you can look all around at a FOV of 90
   if tilt > 46.0 then

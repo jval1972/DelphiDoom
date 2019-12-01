@@ -77,6 +77,7 @@ procedure I_StartTic;
 //  This ticcmd will then be modified by the gameloop
 //  for normal input.
 function I_BaseTiccmd: Pticcmd_t;
+function I_BaseTiccmd202: Pticcmd_t202;
 
 //  Called by M_Responder when quit is selected.
 //  Clean exit, displays sell blurb.
@@ -235,6 +236,14 @@ var
 function I_BaseTiccmd: Pticcmd_t;
 begin
   result := @emptycmd;
+end;
+
+var
+  emptycmd202: ticcmd_t202;
+
+function I_BaseTiccmd202: Pticcmd_t202;
+begin
+  result := @emptycmd202;
 end;
 
 function I_GetHeapSize: integer;

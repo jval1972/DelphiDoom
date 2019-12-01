@@ -70,13 +70,14 @@ procedure A_BulletAttack(actor: Pmobj_t);
 
 procedure A_MediumGravity(actor: Pmobj_t);
 
-
+procedure A_PlayerMessage(actor: Pmobj_t);
 
 implementation
 
 uses
   d_delphi,
   doomdef,
+  d_player,
   g_game,
   i_system,
   info_h,
@@ -371,6 +372,35 @@ begin
   actor.flags := actor.flags and (not MF_NOGRAVITY);
   actor.flags_ex := actor.flags_ex and (not MF_EX_LOWGRAVITY);
   actor.flags2_ex := actor.flags2_ex or MF2_EX_MEDIUMGRAVITY;
+end;
+
+//
+// A_PlayerMessage
+//
+procedure A_PlayerMessage(actor: Pmobj_t);
+var
+  p: Pplayer_t;
+  msg: string;
+  i: integer;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  p := actor.player;
+  if p = nil then
+  begin
+    if actor.target <> nil then
+      Exit;
+    p := actor.target.player;
+    if p = nil then
+      exit;
+  end;
+
+  msg := actor.state.params.StrVal[0];
+  for i := 1 to actor.state.params.Count - 1 do
+    msg := msg + ' ' + actor.state.params.StrVal[i];
+
+  p._message := msg;
 end;
 
 end.

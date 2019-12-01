@@ -507,7 +507,7 @@ begin
 end;
 
 const
-  VERFMT = 'ver %d.%d';
+  VERFMT = 'ver %d.%.*d';
 
 var
   defaultfile: string;
@@ -522,7 +522,7 @@ var
 begin
   s := TDStringList.Create;
   try
-    sprintf(verstr, '[' + AppTitle + ' ' + VERFMT + ']', [VERSION div 100, VERSION mod 100]);
+    sprintf(verstr, '[' + AppTitle + ' ' + VERFMT + ']', [VERSION div 100, 2, VERSION mod 100]);
     s.Add(verstr);
     pd := @defaults[0];
     for i := 0 to NUMDEFAULTS - 1 do
@@ -642,6 +642,8 @@ var
   s: TDStringList;
   n: string;
   verstr: string;
+  ver: integer;
+  acceptablever: Boolean;
   stmp: string;
 begin
   // set everything to base values
@@ -674,8 +676,17 @@ begin
 
     if s.Count > 1 then
     begin
-      sprintf(verstr, VERFMT, [VERSION div 100, VERSION mod 100]);
-      if Pos(verstr, s[0]) > 0 then
+      acceptablever := False;
+      for ver := VERSION downto 110 do
+      begin
+        sprintf(verstr, VERFMT, [ver div 100, 2, ver mod 100]);
+        if Pos(verstr, s[0]) > 0 then
+        begin
+          acceptablever := True;
+          break;
+        end;
+      end;
+      if acceptablever then
       begin
         s.Delete(0);
         confignotfound := False;

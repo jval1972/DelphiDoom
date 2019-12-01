@@ -620,6 +620,8 @@ function StrIsInteger(const s: string): Boolean;
 
 function StrIsFloat(const s: string): Boolean;
 
+function SaveStreamToFile(const s: TStream; const fname: string): boolean;
+
 implementation
 
 uses
@@ -3573,6 +3575,35 @@ begin
       Result := False;
       Exit;
     end;
+  end;
+end;
+
+function SaveStreamToFile(const s: TStream; const fname: string): boolean;
+var
+  p: integer;
+  sz: integer;
+  buf: PByteArray;
+  fs: TFile;
+begin
+  result := true;
+  try
+    p := s.Position;
+    sz := s.Size;
+    s.Seek(0, sFromBeginning);
+    buf := malloc(sz);
+    s.Read(buf^, sz);
+    s.Seek(p, sFromBeginning);
+
+    fs := TFile.Create(fname, fcreate);
+    try
+      fs.Write(buf^, sz);
+    finally
+      fs.Free;
+    end;
+
+    memfree(Pointer(buf), sz);
+  except
+    result := false;
   end;
 end;
 

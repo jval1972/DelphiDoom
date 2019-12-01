@@ -21,6 +21,7 @@ function UnloadProc(Caller: TPSExec; p: TPSExternalProcRec; Global, Stack: TPSSt
 implementation
 
 uses
+  ps_dll,
   {$IFDEF UNIX}
   Unix, baseunix, dynlibs, termio, sockets;
   {$ELSE}
@@ -39,6 +40,7 @@ type
     dllnamehash: Longint;
     dllname: TbtString;
     dllhandle: THandle;
+    pakdll: boolean;
   end;
   TMyExec = class(TPSExec);
   PInteger = ^Integer;
@@ -86,6 +88,7 @@ var
   ph: PLoadedDll;
   dllhandle: THandle;
   loadwithalteredsearchpath: Boolean;
+  pakdll: boolean;
   {$IFNDEF UNIX}
   FileName: String;
   {$ENDIF}
@@ -130,10 +133,17 @@ begin
       {$ELSE}
       FileName := s2;
       {$ENDIF}
-      if loadwithalteredsearchpath then
-        dllhandle := LoadLibraryEx(PChar(FileName), 0, LOAD_WITH_ALTERED_SEARCH_PATH)
+      dllhandle := PS_PAKLoadDll(FileName);
+      if dllhandle = 0 then
+      begin
+        pakdll := false;
+        if loadwithalteredsearchpath then
+          dllhandle := LoadLibraryEx(PChar(FileName), 0, LOAD_WITH_ALTERED_SEARCH_PATH)
+        else
+          dllhandle := LoadLibrary(PChar(FileName));
+      end
       else
-        dllhandle := LoadLibrary(PChar(FileName));
+        pakdll := true;
       {$ENDIF}
       if dllhandle = 0 then
       begin
@@ -145,6 +155,7 @@ begin
       ph^.dllnamehash := h;
       ph^.dllname := s2;
       ph^.dllhandle := dllhandle;
+      ph^.pakdll := pakdll;
       Caller.AddResource(@DllFree, ph);
     end;
     if (ph^.dllnamehash = h) and (ph^.dllname = s2) then
@@ -293,7 +304,10 @@ begin
       Break;
     if (ph.dllnamehash = h) and (ph.dllname = sname) then
     begin
-      FreeLibrary(ph^.dllhandle);
+      if ph.pakdll then
+        PS_PAKUnLoadDll(ph.dllname)
+      else
+        FreeLibrary(ph^.dllhandle);
       Caller.DeleteResource(ph);
       dispose(ph);
     end;

@@ -367,6 +367,7 @@ procedure P_MovePlayer(player: Pplayer_t);
 var
   cmd: Pticcmd_t;
   look: integer;
+  look16: integer; // JVAL Smooth Look Up/Down
   look2: integer;
   movefactor: fixed_t;
 begin
@@ -429,37 +430,90 @@ begin
 // JVAL Look UP and DOWN
   if zaxisshift then
   begin
-    look := cmd.lookupdown;
-    if look > 7 then
-      look := look - 16;
-
-    if player.angletargetticks > 0 then
-      player.centering := true
-    else if look <> 0 then
+    if G_PlayingEngineVersion < VERSION203 then // JVAL Smooth Look Up/Down
     begin
-      if look = TOCENTER then
+      look := cmd.lookupdown;
+      if look > 7 then
+        look := look - 16;
+
+      if player.angletargetticks > 0 then
         player.centering := true
-      else
+      else if look <> 0 then
       begin
-        player.lookdir := player.lookdir + 5 * look;
-        if player.lookdir > MAXLOOKDIR then
-          player.lookdir := MAXLOOKDIR
-        else if player.lookdir < MINLOOKDIR then
-          player.lookdir := MINLOOKDIR;
+        if look = TOCENTER then
+          player.centering := true
+        else
+        begin
+          player.lookdir := player.lookdir + 5 * look;
+          if player.lookdir > MAXLOOKDIR then
+            player.lookdir := MAXLOOKDIR
+          else if player.lookdir < MINLOOKDIR then
+            player.lookdir := MINLOOKDIR;
+        end;
+      end;
+      player.lookdir16 := player.lookdir * 16;
+    end
+    else
+    begin // JVAL Smooth Look Up/Down
+      look16 := cmd.lookupdown16;
+      if look16 > 7 * 256 then
+        look16 := look16 - 16 * 256;
+
+      if player.angletargetticks > 0 then
+        player.centering := true
+      else if look16 <> 0 then
+      begin
+        if look16 = TOCENTER * 256 then
+          player.centering := true
+        else
+        begin
+          player.lookdir16 := player.lookdir16 + Round(5 * look16 / 16);
+          player.lookdir := player.lookdir16 div 16;
+
+          if player.lookdir16 > MAXLOOKDIR * 16 then
+            player.lookdir16 := MAXLOOKDIR * 16
+          else if player.lookdir16 < MINLOOKDIR * 16 then
+            player.lookdir16 := MINLOOKDIR * 16;
+
+          if player.lookdir > MAXLOOKDIR then
+            player.lookdir := MAXLOOKDIR
+          else if player.lookdir < MINLOOKDIR then
+            player.lookdir := MINLOOKDIR;
+        end;
       end;
     end;
 
     if player.centering then
     begin
-      if player.lookdir > 0 then
-        player.lookdir := player.lookdir - 8
-      else if player.lookdir < 0 then
-        player.lookdir := player.lookdir + 8;
-
-      if abs(player.lookdir) < 8 then
+      if G_PlayingEngineVersion < VERSION203 then // JVAL Smooth Look Up/Down
       begin
-        player.lookdir := 0;
-        player.centering := false;
+        if player.lookdir > 0 then
+          player.lookdir := player.lookdir - 8
+        else if player.lookdir < 0 then
+          player.lookdir := player.lookdir + 8;
+
+        if abs(player.lookdir) < 8 then
+        begin
+          player.lookdir := 0;
+          player.centering := false;
+        end;
+
+        player.lookdir16 := player.lookdir * 16;
+      end
+      else
+      begin // JVAL Smooth Look Up/Down
+        if player.lookdir16 > 0 then
+          player.lookdir16 := player.lookdir16 - 8 * 16
+        else if player.lookdir16 < 0 then
+          player.lookdir16 := player.lookdir16 + 8 * 16;
+
+        if abs(player.lookdir16) < 8 * 16 then
+        begin
+          player.lookdir16 := 0;
+          player.centering := false;
+        end;
+
+        player.lookdir := player.lookdir16 div 16;
       end;
     end;
   end;
@@ -540,7 +594,10 @@ begin
 
   if player.viewheight > 6 * FRACUNIT then
     if player.lookdir < 45 then
+    begin
       player.lookdir := player.lookdir + 5;
+      player.lookdir16 := player.lookdir * 16; // JVAL Smooth Look Up/Down
+    end;
 
   player.deltaviewheight := 0;
   onground := player.mo.z <= player.mo.floorz;

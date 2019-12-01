@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -406,6 +406,7 @@ var
   _forward: integer;
   side: integer;
   look: integer;    // JVAL Look up and down
+  look16: integer;  // JVAL Smooth Look Up/Down
   look2: integer;   // JVAL look left and right
   flyheight: integer;
   base: Pticcmd_t;
@@ -413,6 +414,392 @@ var
   imousey: integer;
 begin
   base := I_BaseTiccmd;    // empty, or external driver
+
+  memcpy(cmd, base, SizeOf(cmd^));
+
+  cmd.consistancy := consistancy[consoleplayer][maketic mod BACKUPTICS];
+
+  strafe := gamekeydown[key_strafe] or
+            (usemouse and mousebuttons[mousebstrafe]) or
+            (usejoystick and joybuttons[joybstrafe]);
+  speed := intval(gamekeydown[key_speed] or joybuttons[joybspeed]);
+  if autorunmode then
+    speed := 1 - speed;
+
+  _forward := 0;
+  side := 0;
+  look := 0;
+  look16 := 0; // JVAL Smooth Look Up/Down
+  look2 := 0;
+  flyheight := 0;
+
+  // use two stage accelerative turning
+  // on the keyboard and joystick
+  if (joyxmove <> 0) or
+     (gamekeydown[key_right]) or
+     (gamekeydown[key_left]) then
+    turnheld := turnheld + ticdup
+  else
+    turnheld := 0;
+
+  if turnheld < SLOWTURNTICS then
+    tspeed := 2             // slow turn
+  else
+    tspeed := speed;
+
+  if gamekeydown[key_lookdown] or gamekeydown[key_lookup] then
+    lookheld := lookheld + ticdup
+  else
+    lookheld := 0;
+
+  if lookheld < SLOWTURNTICS then
+    lspeed := 1
+  else
+    lspeed := 2;
+
+  if gamekeydown[key_lookleft] or gamekeydown[key_lookright] or
+    (usejoystick and (joybuttons[joyblleft] or joybuttons[joyblright])) then
+    lookheld2 := lookheld2 + ticdup
+  else
+    lookheld2 := 0;
+
+  if lookheld2 < SLOWTURNTICS then
+    lspeed2 := 1
+  else
+    lspeed2 := 2;
+
+  // let movement keys cancel each other out
+  if strafe then
+  begin
+    if gamekeydown[key_right] then
+      side := side + sidemove[speed];
+    if gamekeydown[key_left] then
+      side := side - sidemove[speed];
+    if joyxmove > 0 then
+      side := side + sidemove[speed];
+    if joyxmove < 0 then
+      side := side - sidemove[speed];
+  end
+  else
+  begin
+    if gamekeydown[key_right] then
+      cmd.angleturn := cmd.angleturn - angleturn[tspeed];
+    if gamekeydown[key_left] then
+      cmd.angleturn := cmd.angleturn + angleturn[tspeed];
+    if joyxmove > 0 then
+      cmd.angleturn := cmd.angleturn - angleturn[tspeed];
+    if joyxmove < 0 then
+      cmd.angleturn := cmd.angleturn + angleturn[tspeed];
+  end;
+
+  if gamekeydown[key_up] then
+    _forward := _forward + forwardmove[speed];
+
+  if gamekeydown[key_down] then
+    _forward := _forward - forwardmove[speed];
+
+  // JVAL Look up/down/center keys
+  if zaxisshift then
+  begin
+    if gamekeydown[key_lookup] then
+      look := lspeed;
+
+    if gamekeydown[key_lookdown] then
+      look := -lspeed;
+
+    if gamekeydown[key_lookcenter] then
+      look := TOCENTER;
+
+    look16 := 256 * look; // JVAL Smooth Look Up/Down
+  end;
+
+  // JVAL Look right/left/forward keys
+  if gamekeydown[key_lookleft] or (usejoystick and joybuttons[joyblleft]) then
+    look2 := lspeed2;
+
+  if gamekeydown[key_lookright] or (usejoystick and joybuttons[joyblright]) then
+    look2 := -lspeed2;
+
+  if gamekeydown[key_lookforward] then
+    look2 := TOFORWARD;
+
+  if joyymove < 0 then
+    _forward := _forward + forwardmove[speed];
+
+  if joyymove > 0 then
+    _forward := _forward - forwardmove[speed];
+
+  if gamekeydown[key_straferight] then
+    side := side + sidemove[speed];
+
+  if gamekeydown[key_strafeleft] then
+    side := side - sidemove[speed];
+
+  // buttons
+  cmd.chatchar := Ord(HU_dequeueChatChar);
+
+  if gamekeydown[key_fire] or
+     (usemouse and mousebuttons[mousebfire]) or
+     (usejoystick and joybuttons[joybfire]) then
+    cmd.buttons := cmd.buttons or BT_ATTACK;
+
+  if gamekeydown[key_use] or (usejoystick and joybuttons[joybuse]) then
+  begin
+    cmd.buttons := cmd.buttons or BT_USE;
+  // clear double clicks if hit use button
+    dclicks := 0;
+  end;
+
+  // chainsaw overrides
+  for i := 0 to Ord(NUMWEAPONS) - 2 do
+    if gamekeydown[Ord('1') + i] then
+    begin
+      cmd.buttons := cmd.buttons or BT_CHANGE;
+      cmd.buttons := cmd.buttons or _SHL(i, BT_WEAPONSHIFT);
+      break;
+    end;
+
+  // mouse
+  if (usemouse and mousebuttons[mousebforward]) then
+    _forward := _forward + forwardmove[speed];
+
+  // forward double click
+  if usemouse and (mousebuttons[mousebforward] <> dclickstate) and (dclicktime > 1) then
+  begin
+    dclickstate := mousebuttons[mousebforward];
+    if dclickstate then
+      inc(dclicks);
+    if dclicks = 2 then
+    begin
+      cmd.buttons := cmd.buttons or BT_USE;
+      dclicks := 0;
+    end
+    else
+      dclicktime := 0;
+  end
+  else
+  begin
+    dclicktime := dclicktime + ticdup;
+    if dclicktime > 20 then
+    begin
+      dclicks := 0;
+      dclickstate := false;
+    end
+  end;
+
+  // strafe double click
+  bstrafe := (usemouse and mousebuttons[mousebstrafe]) or
+             (usejoystick and joybuttons[joybstrafe]);
+  if (bstrafe <> dclickstate2) and (dclicktime2 > 1) then
+  begin
+    dclickstate2 := bstrafe;
+    if bstrafe then
+      inc(dclicks2);
+    if dclicks2 = 2 then
+    begin
+      cmd.buttons := cmd.buttons or BT_USE;
+      dclicks2 := 0;
+    end
+    else
+      dclicktime2 := 0;
+  end
+  else
+  begin
+    dclicktime2 := dclicktime2 + ticdup;
+    if dclicktime2 > 20 then
+    begin
+      dclicks2 := 0;
+      dclickstate2 := false;
+    end;
+  end;
+
+  // JVAL: invert mouse
+  if invertmouseturn then
+    imousex := -mousex
+  else
+    imousex := mousex;
+
+  if strafe then
+    side := side - imousex * 2
+  else
+    cmd.angleturn := cmd.angleturn + imousex * $8;
+
+  if invertmouselook then
+    imousey := -mousey
+  else
+    imousey := mousey;
+
+  if usemouse then
+  begin
+    look := look + imousey div 16;
+    if imousey < 0 then
+    begin
+      if look < -4 then
+        look := -4;
+    end
+    else if imousey > 0 then
+    begin
+      if look > 4 then
+        look := 4;
+    end;
+
+    // JVAL Smooth Look Up/Down
+    if G_PlayingEngineVersion < VERSION203 then
+      look16 := 256 * look
+    else
+    begin
+      look16 := look16 + imousey * 16;
+      if imousey < 0 then
+      begin
+        if look16 < -4 * 256 then
+          look16 := -4 * 256;
+      end
+      else if imousey > 0 then
+      begin
+        if look16 > 4 * 256 then
+          look16 := 4 * 256;
+      end;
+    end;
+  end;
+
+  // JVAL: For smooth mouse movement
+  mousex := mousex div 4;
+  mousey := mousey div 4;
+
+  if _forward > MAXPLMOVE then
+    _forward := MAXPLMOVE
+  else if _forward < -MAXPLMOVE then
+    _forward := -MAXPLMOVE;
+
+  if side > MAXPLMOVE then
+    side := MAXPLMOVE
+  else if side < -MAXPLMOVE then
+    side := -MAXPLMOVE;
+
+  cmd.forwardmove := cmd.forwardmove + _forward;
+  cmd.sidemove := cmd.sidemove + side;
+
+  if players[consoleplayer].playerstate = PST_LIVE then
+  begin
+    if zaxisshift then
+    begin
+      if look < 0 then
+        look := look + 16;
+      cmd.lookfly := look;
+
+      // JVAL Smooth Look Up/Down
+      if look16 < 0 then
+        look16 := look16 + 16 * 256;
+      cmd.lookupdown16 := look16;
+    end;
+    if look2 < 0 then
+      look2 := look2 + 16;
+    cmd.lookleftright:= look2;
+    // JVAL
+    // allowplayerjumps variable controls if we accept input for jumping
+    if allowplayerjumps and (gamekeydown[key_jump] or (usejoystick and joybuttons[joybjump])) then
+    begin
+      if players[consoleplayer].oldjump <> 0 then
+        cmd.jump := 1
+      else
+        cmd.jump := 2
+      end
+    else
+      cmd.jump := 0;
+    players[consoleplayer].oldjump := cmd.jump;
+  end;
+
+  // special buttons
+  if sendpause then
+  begin
+    sendpause := false;
+    cmd.buttons := BT_SPECIAL or BTS_PAUSE;
+  end;
+
+  // Fly up/down/drop keys
+  if gamekeydown[key_flyup] then
+    flyheight := 5; // note that the actual flyheight will be twice this
+
+  if gamekeydown[key_flydown] then
+    flyheight := -5;
+
+  if gamekeydown[key_flycenter] then
+    flyheight := TOCENTER;
+
+  if flyheight < 0 then
+    flyheight := flyheight + 16;
+
+  cmd.lookfly := cmd.lookfly or _SHL(flyheight, 4);
+
+  // Use artifact key
+  if gamekeydown[key_useartifact] then
+  begin
+    if gamekeydown[key_speed] and not noartiskip then
+    begin
+      if players[consoleplayer].inventory[inv_ptr]._type <> Ord(arti_none) then
+      begin
+        gamekeydown[key_useartifact] := false;
+        cmd.arti := $ff; // skip artifact code
+      end
+    end
+    else
+    begin
+      if inventory then
+      begin
+        players[consoleplayer].readyArtifact :=
+          artitype_t(players[consoleplayer].inventory[inv_ptr]._type);
+        inventory := false;
+        cmd.arti := 0;
+        usearti := false;
+      end
+      else if usearti then
+      begin
+        cmd.arti := players[consoleplayer].inventory[inv_ptr]._type;
+        usearti := false;
+      end;
+    end;
+  end;
+
+  if gamekeydown[127] and (cmd.arti = 0) and (players[consoleplayer].powers[Ord(pw_weaponlevel2)] = 0) then
+  begin
+    gamekeydown[127] := false;
+    cmd.arti := Ord(arti_tomeofpower);
+  end;
+
+
+  if sendsave then
+  begin
+    sendsave := false;
+    cmd.buttons := BT_SPECIAL or BTS_SAVEGAME or _SHL(savegameslot, BTS_SAVESHIFT);
+  end;
+
+  if sendcmdsave then
+  begin
+    sendcmdsave := false;
+    cmd.commands := CM_SAVEGAME;
+  end;
+
+end;
+
+procedure G_BuildTiccmd202(cmd: Pticcmd_t202);
+var
+  i: integer;
+  strafe: boolean;
+  bstrafe: boolean;
+  speed: integer;
+  tspeed: integer;
+  lspeed: integer;  // JVAL Look up and down
+  lspeed2: integer; // JVAL look left and right
+  _forward: integer;
+  side: integer;
+  look: integer;    // JVAL Look up and down
+  look2: integer;   // JVAL look left and right
+  flyheight: integer;
+  base: Pticcmd_t202;
+  imousex: integer;
+  imousey: integer;
+begin
+  base := I_BaseTiccmd202;    // empty, or external driver
 
   memcpy(cmd, base, SizeOf(cmd^));
 
@@ -1224,6 +1611,7 @@ begin
   ZeroMemory(@p.keys, SizeOf(p.keys));
   p.mo.flags := p.mo.flags and (not MF_SHADOW); // cancel invisibility
   p.lookdir := 0;       // JVAL cancel lookdir Up/Down
+  p.lookdir16 := 0;     // JVAL Smooth Look Up/Down
   p.centering := false;
   p.lookdir2 := 0;      // JVAL cancel lookdir Left/Right
   p.forwarding := false;
@@ -1704,6 +2092,8 @@ begin
         savegameversion := 113
       else if vsaved = 'heretic 114' then
         savegameversion := 114
+      else if vsaved = 'heretic 115' then
+        savegameversion := 115
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
@@ -1792,7 +2182,7 @@ begin
 
   description := savedescription;
 
-  maxsize := SAVEGAMESIZE;
+  maxsize := SAVEGAMESIZE + PS_MapScriptSaveSize;
   repeat
     savebuffer := PByteArray(Z_Malloc2(maxsize, PU_STATIC, nil));
     if savebuffer = nil then
@@ -2079,6 +2469,9 @@ begin
   G_DoLoadLevel;
 end;
 
+var
+  demoversion: byte;
+
 //
 // DEMO PLAYBACK
 //
@@ -2120,6 +2513,17 @@ begin
 
   cmd.jump := demo_p[0];
   demo_p := @demo_p[1];
+
+  if demoversion < VERSION203 then
+  begin
+    cmd.lookupdown16 := (cmd.lookfly and 15) * 256; // JVAL Smooth Look Up/Down
+  end
+  else
+  begin
+    cmd.lookupdown16 := PWord(demo_p)^;
+    demo_p := @demo_p[2];
+  end;
+  cmd.lookupdown := cmd.lookupdown16 div 256; // JVAL unused :)
 end;
 
 //
@@ -2191,6 +2595,11 @@ begin
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.jump;
+  demo_p := @demo_p[1];
+
+  // JVAL Smooth Look Up/Down
+  PWord(demo_p)^ := cmd.lookupdown16;
+//  demo_p := @demo_p[2];
 
   demo_p := demo_start;
 
@@ -2235,9 +2644,6 @@ end;
 
 const
   DEMOHDR: integer = $4D454448; // JVAL: HDEM in hex
-
-var
-  demoversion: byte;
 
 procedure G_BeginRecording;
 var
@@ -2414,11 +2820,14 @@ begin
 
   if demoversion < VERSION110 then
   begin
-    I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%d' + #13#10,
-      [demo_p[0] div 100, demo_p[0] mod 100]);
+    I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%.*d' + #13#10,
+      [demo_p[0] div 100, 2, demo_p[0] mod 100]);
     gameaction := ga_nothing;
     exit;
-  end;
+  end
+  else if demoversion <> VERSION then
+    I_Warning('G_DoPlayDemo(): Demo is from a partial supported game version = %d.%.*d' + #13#10,
+      [demo_p[0] div 100, 2, demo_p[0] mod 100]);
 
   demo_p := @demo_p[1];
 

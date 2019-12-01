@@ -983,7 +983,7 @@ end;
 
 function D_Version: string;
 begin
-  sprintf(result, Apptitle + ' version %d.%d', [VERSION div 100, VERSION mod 100]);
+  sprintf(result, Apptitle + ' version %d.%.*d', [VERSION div 100, 2, VERSION mod 100]);
 end;
 
 function D_VersionBuilt: string;
@@ -1214,15 +1214,15 @@ begin
   if gamemode = shareware then
     printf(
            '                           ' +
-           'Hexen Shareware Startup v%d.%d' +
+           'Hexen Shareware Startup v%d.%.*d' +
            '                         '#13#10,
-            [VERSION div 100, VERSION mod 100])
+            [VERSION div 100, 2, VERSION mod 100])
   else
     printf(
            '                            ' +
-           '   Hexen Startup v%d.%d' +
+           '   Hexen Startup v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
 
   if devparm then
     printf(D_DEVSTR);

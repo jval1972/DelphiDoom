@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 259;
+  DEHNUMACTIONS = 260;
 
 type
   deh_action_t = record
@@ -2501,6 +2501,8 @@ begin
   deh_actions[257].name := strupper('GoToIfWorldFloatLess');
   deh_actions[258].action.acp1 := @A_GoToIfWorldFloatGreater;
   deh_actions[258].name := strupper('GoToIfWorldFloatGreater');
+  deh_actions[259].action.acp1 := @A_PlayerMessage;
+  deh_actions[259].name := strupper('PlayerMessage');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

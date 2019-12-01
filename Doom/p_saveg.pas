@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -74,6 +74,7 @@ implementation
 
 uses
   doomdef,
+  d_ticcmd,
   d_player,
   d_think,
   g_game,
@@ -144,8 +145,12 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer(p: Pplayer_t): boolean;
+function P_UnArchiveOldPlayer(pp: Pplayer_t): boolean;
+var
+  p1: player_t122;
+  p: Pplayer_t122;
 begin
+  p := @p1;
   if savegameversion <= VERSION114 then
   begin
     memcpy(pointer(p), save_p, SizeOf(player_t114));
@@ -198,8 +203,22 @@ begin
     p.quaketics := 0;
     result := true;
   end
+  else if savegameversion <= VERSION122 then
+  begin
+    memcpy(pointer(p), save_p, SizeOf(player_t122));
+    incp(pointer(save_p), SizeOf(player_t122));
+    result := true;
+  end
   else
-    result := false
+  begin
+    result := false;
+    exit;
+  end;
+
+  memcpy(pointer(pp), pointer(p), SizeOf(player_t122));
+  pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
+  Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
+  pp.cmd.lookupdown16 := pp.cmd.lookupdown * 256;
 end;
 
 procedure P_UnArchivePlayers;
@@ -214,7 +233,7 @@ begin
 
     PADSAVEP;
 
-    if savegameversion >= VERSION122 then
+    if savegameversion >= VERSION203 then
     begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));

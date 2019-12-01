@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -325,7 +325,8 @@ uses
   r_earthquake in 'Base\r_earthquake.pas',
   p_affectees in 'Base\p_affectees.pas',
   t_pcx in 'TEXLIB\t_pcx.pas',
-  t_pcx4 in 'TEXLIB\t_pcx4.pas';
+  t_pcx4 in 'TEXLIB\t_pcx4.pas',
+  ps_dll in 'SCRIPT\ps_dll.pas';
 
 var
   Saved8087CW: Word;

@@ -76,6 +76,7 @@ implementation
 
 uses
   doomdef,
+  d_ticcmd,
   doomstat,
   d_player,
   d_think,
@@ -146,7 +147,10 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer(p: Pplayer_t): boolean;
+function P_UnArchiveOldPlayer(pp: Pplayer_t): boolean;
+var
+  p1: player_t115;
+  p: Pplayer_t115;
 begin
   if savegameversion <= VERSION110 then
   begin
@@ -175,7 +179,15 @@ begin
     result := true;
   end
   else
-    result := false
+  begin
+    result := false;
+    exit;
+  end;
+
+  memcpy(pointer(pp), pointer(p), SizeOf(player_t115));
+  pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
+  Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
+  pp.cmd.lookupdown16 := (pp.cmd.lookfly and 15) * 256;
 end;
 
 
@@ -191,7 +203,7 @@ begin
 
     PADSAVEP;
 
-    if savegameversion > VERSION114 then
+    if savegameversion >= VERSION203 then
     begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));

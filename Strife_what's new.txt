@@ -1,3 +1,13 @@
+Version 2.0.3 build 704 - (29/10/2017)
+-----------
+PascalScript can now access DLLs from inside pk3 files. (or WAD files if using PK3ENTRY lump)
+Smooth freelooking. Now the engine does not ignore the slight variations in mouse movement (as suggested by  RTC_Marine - https://www.doomworld.com/forum/topic/92113-delphidoom-20/?do=findComment&comment=1700485) 
+Internal save/load version updated to version 2.03.
+Added gl_no_glfinish_hack console variable to avoid with OpenGL slowdown on systems with Intel HD4000 and Windows 10 (default is True).
+Will load configuration file (strife32.ini) of previous versions.
+
+Version 2.0.2 build 703 - (17/10/2017)
+-----------
 Added PCX image external texture support.
 A_Gotoxxxxx functions evaluate small expresions in state parameter (addition & substraction of a constant value).
 Added AllMissiles method to "Actors" PascalScript variable.

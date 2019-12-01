@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -319,6 +319,7 @@ begin
   if player <> nil then
   begin
     R_AddInterpolationItem(@player.lookdir, iinteger);
+    R_AddInterpolationItem(@player.lookdir16, iinteger); // JVAL Smooth Look Up/Down
     R_AddInterpolationItem(@player.lookdir2, ibyte);
     R_AddInterpolationItem(@player.viewz, iinteger);
     R_AddInterpolationItem(@player.teleporttics, iinteger);

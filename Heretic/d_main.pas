@@ -971,7 +971,7 @@ end;
 
 function D_Version: string;
 begin
-  sprintf(result, Apptitle + ' version %d.%d', [VERSION div 100, VERSION mod 100]);
+  sprintf(result, Apptitle + ' version %d.%.*d', [VERSION div 100, 2, VERSION mod 100]);
 end;
 
 function D_VersionBuilt: string;
@@ -1208,15 +1208,15 @@ begin
   if gamemode = shareware then
     printf(
            '                           ' +
-           'Heretic Shareware Startup v%d.%d' +
+           'Heretic Shareware Startup v%d.%.*d' +
            '                         '#13#10,
-            [VERSION div 100, VERSION mod 100])
+            [VERSION div 100, 2, VERSION mod 100])
   else
     printf(
            '                            ' +
-           '   Heretic Startup v%d.%d' +
+           '   Heretic Startup v%d.%.*d' +
            '                           '#13#10,
-            [VERSION div 100, VERSION mod 100]);
+            [VERSION div 100, 2, VERSION mod 100]);
 
   if devparm then
     printf(D_DEVSTR);

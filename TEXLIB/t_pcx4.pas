@@ -184,7 +184,7 @@ begin
   Syspal.Dummy[1].peGreen := 255;
   Syspal.Dummy[1].peBlue := 255;
   Syspal.Dummy[1].peFlags := 0;
-  Bitmap.Palette:= CreatePalette(Syspal.LPal);
+  Bitmap.Palette := CreatePalette(Syspal.LPal);
 end;
 
 procedure MakePalPalette(const bitmap: TBitmap);
@@ -413,7 +413,7 @@ begin
   if B1 <> 10 then
   begin
     ErrorString := 'Not a PCX file, or header read error.';
-    FileOk:=False;
+    FileOk := False;
     exit;
   end;
   PcxVersion := FastGetByte;
@@ -486,8 +486,8 @@ var
             for I := 0 to 16 do
             begin
               Syspal.LPal.PalPalEntry[I].peRed := (PaletteVga[I, 1] + 1) * 4 - 1;
-              Syspal.LPal.PalPalEntry[I].peGreen:=(PaletteVga[I, 2] + 1) * 4 - 1;
-              Syspal.LPal.PalPalEntry[I].peBlue:= (PaletteVga[I, 3] + 1) * 4 - 1;
+              Syspal.LPal.PalPalEntry[I].peGreen := (PaletteVga[I, 2] + 1) * 4 - 1;
+              Syspal.LPal.PalPalEntry[I].peBlue := (PaletteVga[I, 3] + 1) * 4 - 1;
             end;
             if MyKeepTrueFormat then
               bitmap.PixelFormat := pf8bit

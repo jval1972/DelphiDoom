@@ -516,7 +516,8 @@ var
   _forward: integer;
   side: integer;
   lookupdown: integer;    // JVAL Look up and down
-  lookleftright: integer;   // JVAL look left and right
+  look16: integer;        // JVAL Smooth Look Up/Down
+  lookleftright: integer; // JVAL look left and right
   base: Pticcmd_t;
   imousex: integer;
   imousey: integer;
@@ -571,6 +572,7 @@ begin
   _forward := 0;
   side := 0;
   lookupdown := 0;
+  look16 := 0; // JVAL Smooth Look Up/Down
   lookleftright := 0;
 
   // use two stage accelerative turning
@@ -649,6 +651,8 @@ begin
 
     if gamekeydown[key_lookcenter] then
       lookupdown := TOCENTER;
+
+    look16 := 256 * lookupdown; // JVAL Smooth Look Up/Down
   end;
 
   // JVAL Look right/left/forward keys
@@ -777,7 +781,26 @@ begin
       if lookupdown > 4 then
         lookupdown := 4;
     end;
+
+    // JVAL Smooth Look Up/Down
+    if G_PlayingEngineVersion < VERSION203 then
+      look16 := 256 * lookupdown
+    else
+    begin
+      look16 := look16 + imousey * 16;
+      if imousey < 0 then
+      begin
+        if look16 < -4 * 256 then
+          look16 := -4 * 256;
+      end
+      else if imousey > 0 then
+      begin
+        if look16 > 4 * 256 then
+          look16 := 4 * 256;
+      end;
+    end;
   end;
+
   // For smooth mouse movement
   mousex := mousex div 4;
   mousey := mousey div 4;
@@ -802,6 +825,11 @@ begin
       if lookupdown < 0 then
         lookupdown := lookupdown + 16;
       cmd.lookupdown := lookupdown;
+
+      // JVAL Smooth Look Up/Down
+      if look16 < 0 then
+        look16 := look16 + 16 * 256;
+      cmd.lookupdown16 := look16;
     end;
     if lookleftright < 0 then
       lookleftright := lookleftright + 16;
@@ -1770,6 +1798,8 @@ begin
         savegameversion := VERSION120
       else if vsaved = 'version 121' then
         savegameversion := VERSION121
+      else if vsaved = 'version 122' then
+        savegameversion := VERSION122
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
@@ -1905,7 +1935,7 @@ begin
 
   description := savedescription;
 
-  maxsize := SAVEGAMESIZE;
+  maxsize := SAVEGAMESIZE + PS_MapScriptSaveSize;
   repeat
     savebuffer := Z_Malloc2(maxsize, PU_STATIC, nil);
     if savebuffer = nil then
@@ -2266,6 +2296,9 @@ begin
   end;
 end;
 
+var
+  demoversion: byte;
+
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t);
 begin
   if demo_p[0] = DEMOMARKER then
@@ -2301,6 +2334,16 @@ begin
   demo_p := @demo_p[1];
   cmd.jump := demo_p[0];
   demo_p := @demo_p[1];
+
+  // JVAL Smooth Look Up/Down
+  if demoversion >= VERSION203 then
+  begin
+    cmd.lookupdown16 := PWord(demo_p)^;
+    demo_p := @demo_p[2];
+  end
+  else
+    cmd.lookupdown16 := 256 * cmd.lookupdown;
+
 end;
 
 //
@@ -2375,6 +2418,11 @@ begin
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.jump;
+  demo_p := @demo_p[1];
+
+  // JVAL Smooth Look Up/Down
+  PWord(demo_p)^ := cmd.lookupdown16;
+//  demo_p := @demo_p[2];
 
   demo_p := demo_start;
 
@@ -2560,7 +2608,6 @@ begin
 end;
 
 var
-  demoversion: byte;
   demotickstart: pointer = nil;
 
 procedure G_DoPlayDemo;
@@ -2594,13 +2641,16 @@ begin
   demo_p := @demo_p[4];
   demoversion := demo_p[0];
 
-  if demoversion <> VERSION then
+  if demoversion < VERSION122 then
   begin
-    I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%d' + #13#10,
-      [demo_p[0] div 100, demo_p[0] mod 100]);
+    I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%.*d' + #13#10,
+      [demo_p[0] div 100, 2, demo_p[0] mod 100]);
     gameaction := ga_nothing;
     exit;
-  end;
+  end
+  else if demoversion <> VERSION then
+    I_Warning('G_DoPlayDemo(): Demo is from a partial supported game version = %d.%.*d' + #13#10,
+      [demo_p[0] div 100, 2, demo_p[0] mod 100]);
 
   demo_p := @demo_p[1];
 

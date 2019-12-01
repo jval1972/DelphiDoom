@@ -4225,7 +4225,6 @@ begin
   players[plnum].powers[powertype] := ticks;
 end;
 
-
 function PS_GetPlayerPowerTicks(const plnum: Integer; const powertype: Integer): Integer;
 begin
   if not PS_PlayerInGame(plnum) then

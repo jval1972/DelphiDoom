@@ -39,7 +39,30 @@ interface
 // plus a checksum for internal state consistency.
 type
   ticcmd_t = packed record
-    forwardmove: shortint; // *2048 for move 
+    forwardmove: shortint; // *2048 for move
+    sidemove: shortint;    // *2048 for move
+    angleturn: smallint;   // <<16 for angle delta
+    consistancy: smallint; // checks for net game
+    chatchar: byte;
+    buttons: byte;
+{$IFDEF STRIFE}
+    buttons2: byte;
+    inventory: integer;
+{$ENDIF}
+    commands: byte; // JVAL for special commands
+{$IFDEF HERETIC_OR_HEXEN}
+    lookfly: byte;   // look up/down/centering/fly
+    arti: byte;
+{$ENDIF}
+    lookupdown: byte;      // JVAL look up/down/centering
+    lookleftright: byte;   // JVAL look left/right/forward
+    jump: byte;     // JVAL Jump!
+    lookupdown16: word;    // JVAL Smooth Look Up/Down
+  end;
+  Pticcmd_t = ^ticcmd_t;
+
+  ticcmd_t202 = packed record
+    forwardmove: shortint; // *2048 for move
     sidemove: shortint;    // *2048 for move
     angleturn: smallint;   // <<16 for angle delta
     consistancy: smallint; // checks for net game
@@ -58,7 +81,7 @@ type
     lookleftright: byte;    // JVAL look left/right/forward
     jump: byte;     // JVAL Jump!
   end;
-  Pticcmd_t = ^ticcmd_t;
+  Pticcmd_t202 = ^ticcmd_t202;
 
 implementation
 
