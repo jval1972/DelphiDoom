@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -107,12 +107,24 @@ type
     FTransparentColor3: LongWord;
     FNeedsSwapRGB: boolean;
     FExternalAlphaPresent: boolean;
+    // JVAL: Support for offsets
+    FLeftOffset: integer;
+    FLeftOffsetSet: boolean;
+    FTopOffset: integer;
+    FTopOffsetSet: boolean;
     procedure putPixels1(Source, Dest: Pointer; Count: integer);
     procedure putPixels4(Source, Dest: Pointer; Count: integer);
     procedure putPixels8(Source, Dest: Pointer; Count: integer);
     procedure putPixels15(Source, Dest: Pointer; Count: integer);
     procedure putPixels24(Source, Dest: Pointer; Count: integer);
     procedure putPixels32(Source, Dest: Pointer; Count: integer);
+  protected
+    // JVAL: Support for offsets
+    procedure SetLeftOffset(const offs: integer); virtual;
+    procedure SetTopOffset(const offs: integer); virtual;
+    function GetLeftOffset: integer; virtual;
+    function GetTopOffset: integer; virtual;
+    function GetHasOffsets: boolean; virtual;
   public
     constructor Create;
     destructor Destroy; virtual;
@@ -157,6 +169,9 @@ type
     procedure SetTransparentColor3(const value: LongWord);
     function Clone: PTexture;
     procedure Mirror;
+    property LeftOffset: integer read GetLeftOffset write SetLeftOffset;
+    property TopOffset: integer read GetTopOffset write SetTopOffset;
+    property HasOffsets: boolean read GetHasOffsets;
   end;
 
 function T_LoadHiResTexture(const FileName: string): PTexture;
@@ -290,11 +305,49 @@ begin
   FTransparentColor3 := 0;
   FNeedsSwapRGB := true;
   FExternalAlphaPresent := false;
+  // JVAL: Support for offsets
+  FLeftOffset := 0;
+  FLeftOffsetSet := false;
+  FTopOffset := 0;
+  FTopOffsetSet := false;
 end;
 
 destructor TTexture.Destroy;
 begin
   Empty;
+end;
+
+procedure TTexture.SetLeftOffset(const offs: integer);
+begin
+  FLeftOffset := offs;
+  FLeftOffsetSet := true;
+end;
+
+procedure TTexture.SetTopOffset(const offs: integer);
+begin
+  FTopOffset := offs;
+  FTopOffsetSet := true;
+end;
+
+function TTexture.GetLeftOffset: integer;
+begin
+  if FLeftOffsetSet then
+    result := FLeftOffset
+  else
+    result := FWidth div 2;
+end;
+
+function TTexture.GetTopOffset: integer;
+begin
+  if FTopOffsetSet then
+    result := FTopOffset
+  else
+    result := FHeight;
+end;
+
+function TTexture.GetHasOffsets: boolean;
+begin
+  result := FLeftOffsetSet and FTopOffsetSet;
 end;
 
 function TTexture.LoadFromFile(const FileName: string): boolean;
@@ -1373,6 +1426,7 @@ var
   tm_pcx: TPCXTextureManager;
 {$IFNDEF FPC}
   tm_png: TPNGTextureManager;
+  tm_pngsprite: TPNGSpriteTextureManager;
 {$ENDIF}
   tm_mat: TMaterialTextureManager;
   tm_patch: TPatchTextureManager;
@@ -1382,7 +1436,9 @@ begin
   TextureExtensions := TDStringList.Create;
   ImageFormats := nil;
 {$IFNDEF FPC}
+  PNG_RegisterCommonChunks;
   tm_png.Create;
+  tm_pngsprite.Create;
 {$ENDIF}
   tm_jpg.Create('.JPG');
   tm_jpeg.Create('.JPEG');
@@ -1400,6 +1456,8 @@ begin
   TextureExtensions.Free;
 {$IFNDEF FPC}
   tm_png.Destroy;
+  tm_pngsprite.Destroy;
+  PNG_FreeChunkClassList;
 {$ENDIF}
   tm_jpg.Destroy;
   tm_jpeg.Destroy;

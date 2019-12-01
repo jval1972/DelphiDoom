@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -171,6 +171,7 @@ uses
   p_inter,
   p_maputl,
   p_adjust,
+  p_bridge,
   p_udmf,
   p_3dfloors,
   p_slopes,   // JVAL: Slopes
@@ -1732,6 +1733,8 @@ begin
 
   if autoadjustmissingtextures then
     P_AdjustMissingTextures;
+
+  P_CalcSubSectorsBridge;
 
   bodyqueslot := 0;
   deathmatch_p := 0;

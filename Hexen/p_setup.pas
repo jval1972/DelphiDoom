@@ -191,6 +191,7 @@ uses
   p_spec,
   p_switch,
   p_adjust,
+  p_bridge,
   p_inter,
   p_enemy,
   p_pspr,
@@ -1348,6 +1349,8 @@ begin
 
   if autoadjustmissingtextures then
     P_AdjustMissingTextures;
+
+  P_CalcSubSectorsBridge;
 
   bodyqueslot := 0;
   po_NumPolyobjs := 0;

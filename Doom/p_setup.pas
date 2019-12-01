@@ -163,6 +163,7 @@ uses
   p_inter,
   p_maputl,
   p_adjust,
+  p_bridge,
   p_udmf,
   p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
@@ -1837,6 +1838,8 @@ begin
 
   if autoadjustmissingtextures then
     P_AdjustMissingTextures;
+
+  P_CalcSubSectorsBridge;
 
   bodyqueslot := 0;
   deathmatch_p := 0;

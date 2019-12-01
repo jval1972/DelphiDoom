@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, Buttons, ComCtrls, Menus, ActnList, ImgList, ide_project,
   frm_projectmanager, AppEvnts, StdActns, StdCtrls, Clipbrd,
-  frm_unitfunctions, frm_constants, frm_variables, frm_classes, frm_types;
+  frm_unitfunctions, frm_constants, frm_variables, frm_classes, frm_types,
+  frm_actordef;
 
 type
   TForm1 = class(TForm)
@@ -115,6 +116,8 @@ type
     Frame_Classes1: TFrame_Classes;
     TabSheet5: TTabSheet;
     Frame_Types1: TFrame_Types;
+    TabSheet6: TTabSheet;
+    Frame_Actordef1: TFrame_Actordef;
     procedure ActionAboutExecute(Sender: TObject);
     procedure ActionNewProjectExecute(Sender: TObject);
     procedure ActionOpenProjectExecute(Sender: TObject);
@@ -157,6 +160,7 @@ type
     procedure PageControl1DragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure PageControl1DragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
+    procedure Frame_ProjectManager1GameTypeComboBoxChange(Sender: TObject);
   private
     { private declarations }
     project: TIDEProject;
@@ -870,6 +874,7 @@ begin
     Frame_Variables1.UpdateGameControls(LowerCase(newgame));
     Frame_Classes1.UpdateGameControls(LowerCase(newgame));
     Frame_Types1.UpdateGameControls(LowerCase(newgame));
+    Frame_Actordef1.UpdateGameControls(LowerCase(newgame));
   finally
     Screen.Cursor := crDefault;
   end;
@@ -943,6 +948,13 @@ procedure TForm1.PageControl1DragOver(Sender, Source: TObject; X,
   Y: Integer; State: TDragState; var Accept: Boolean);
 begin
   Accept := Sender = PageControl1;
+end;
+
+procedure TForm1.Frame_ProjectManager1GameTypeComboBoxChange(
+  Sender: TObject);
+begin
+  Frame_ProjectManager1.GameTypeComboBoxChange(Sender);
+
 end;
 
 end.

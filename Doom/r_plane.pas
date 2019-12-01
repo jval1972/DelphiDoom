@@ -218,7 +218,7 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    slope := (planeheight / 65536.0 / abs(centery - y)) * relativeaspect;
+    slope := (planeheight / abs(centery - y)) * planerelativeaspect;
     ds_xstep := round(dviewsin * slope);
     ds_ystep := round(dviewcos * slope);
     cachedxstep[y] := ds_xstep;

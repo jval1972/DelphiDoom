@@ -98,6 +98,9 @@ var
 
 function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
 
+var
+  spawnmask: LongWord = $FFFFFFFF;
+
 implementation
 
 uses
@@ -1131,6 +1134,8 @@ var
   ss: Psubsector_t; // JVAL: 3d floors
   msec: Psector_t;  // JVAL: 3d floors
 begin
+  mthing.options := mthing.options and spawnmask;
+
   // Count deathmatch start positions
   if mthing._type = 11 then
   begin
@@ -1782,6 +1787,7 @@ var
   mo: Pmobj_t;
   sec: Psector_t;
   z: fixed_t; // JVAL: 3d Floors
+  ss: Psubsector_t;
 begin
   result := FLOOR_SOLID;
 
@@ -1797,7 +1803,13 @@ begin
   if G_PlayingEngineVersion <= VERSION114 then
     exit;
 
-  sec := Psubsector_t(thing.subsector).sector;
+  ss := thing.subsector;
+
+  if ss.flags and SSF_BRIDGE <> 0 then
+    if G_PlayingEngineVersion >= VERSION204 then
+      exit;
+
+  sec := ss.sector;
   // don't splash if landing on the edge above water/lava/etc....
   if thing.floorz <> sec.floorheight then
     exit;
@@ -1887,7 +1899,7 @@ begin
   parm := strtrim(parm1 + ' ' + parm2);
   if parm = '' then
   begin
-    printf('Usage:'#13#10' spawnmobj [x y z angle doomdnum/doomname]'#13#10);
+    printf('Usage:'#13#10' spawnmobj [x y z angle doomednum/doomname]'#13#10);
     exit;
   end;
 

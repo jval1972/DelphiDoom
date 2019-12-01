@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -165,6 +165,7 @@ uses
   p_ambient,
   p_enemy,
   p_adjust,
+  p_bridge,
   p_pspr,
   p_udmf,
   p_3dfloors,
@@ -1320,6 +1321,8 @@ begin
 
   if autoadjustmissingtextures then
     P_AdjustMissingTextures;
+
+  P_CalcSubSectorsBridge;
 
   bodyqueslot := 0;
   deathmatch_p := 0;

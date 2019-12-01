@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -307,7 +307,7 @@ var
   cx, cy: double;
 begin
   result := s;
-  if result.centroidcalced then
+  if result.flags and SSF_CENTROIDCALCED <> 0 then
     exit;
 
   signedArea := 0.0;
@@ -332,7 +332,8 @@ begin
 
   result.x := Round(cx * FRACUNIT);
   result.y := Round(cy * FRACUNIT);
-  result.centroidcalced := true;
+
+  result.flags := result.flags or SSF_CENTROIDCALCED;
 end;
 
 procedure P_3dFloorSetupSegs;

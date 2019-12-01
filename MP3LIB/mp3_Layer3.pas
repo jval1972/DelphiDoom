@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -298,7 +298,7 @@ begin
     begin
       FPart2Start := FBR.hsstell;
 
-      if (FHeader.version = MPEG1) then
+      if FHeader.version = MPEG1 then
         GetScaleFactors(ch, gr)
       else  // MPEG-2 LSF
         GetLSFScaleFactors(ch, gr);
@@ -331,7 +331,7 @@ begin
         inc(sb18, 36);
       end;
 
-      if ((ch = 0) or (FWhichChannels = Right)) then
+      if (ch = 0) or (FWhichChannels = Right) then
       begin
         for ss := 0 to SSLIMIT - 1 do
         begin  // Polyphase synthesis
@@ -403,7 +403,7 @@ begin
     next_cb_boundary := sfBandIndex[FSFreq].l[1];  // LONG blocks: 0,1,3
 
   // Compute overall (global) scaling.
-  g_gain := Power(2.0 , (0.25 * (gr_info.global_gain - 210.0)));
+  g_gain := Power(2.0, (0.25 * (gr_info.global_gain - 210.0)));
 
   for j := 0 to FNonZero[ch] - 1 do
   begin
@@ -496,7 +496,7 @@ begin
     inc(index);
   end;
 
-  for j := FNonZero[ch] to 576-1 do
+  for j := FNonZero[ch] to 576 - 1 do
     xr1d[j] := 0.0;
 end;
 

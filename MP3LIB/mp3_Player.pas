@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -53,7 +53,9 @@ interface
 
 uses
   d_delphi,
-  mp3_OBuffer, mp3_Shared, mp3_Header;
+  mp3_OBuffer,
+  mp3_Shared,
+  mp3_Header;
 
 type
   TPlayer = class
@@ -86,6 +88,7 @@ type
     procedure SetOutput(Output: TOBuffer); virtual; abstract;
     procedure Play; virtual; abstract;
     procedure Pause; virtual; abstract;
+    procedure Resume; virtual; abstract;
     procedure Stop; virtual; abstract;
   end;
 

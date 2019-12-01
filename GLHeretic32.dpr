@@ -309,7 +309,9 @@ uses
   p_gravity in 'Base\p_gravity.pas',
   gl_ambient in 'OPENGL\gl_ambient.pas',
   t_patch in 'TEXLIB\t_patch.pas',
-  r_precalc in 'Base\r_precalc.pas';
+  r_precalc in 'Base\r_precalc.pas',
+  p_bridge in 'Base\p_bridge.pas',
+  w_sprite in 'Base\w_sprite.pas';
 
 var
   Saved8087CW: Word;

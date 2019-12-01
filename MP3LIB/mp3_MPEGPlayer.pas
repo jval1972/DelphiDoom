@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -55,7 +55,14 @@ interface
 
 uses
   d_delphi,
-  mp3_Player, mp3_OBuffer, mp3_Args, mp3_SynthFilter, mp3_CRC, mp3_Layer3, mp3_Shared, mp3_Header;
+  mp3_Player,
+  mp3_OBuffer,
+  mp3_Args,
+  mp3_SynthFilter,
+  mp3_CRC,
+  mp3_Layer3,
+  mp3_Shared,
+  mp3_Header;
 
 type
   TMPEGPlayer = class(TPlayer)
@@ -73,6 +80,7 @@ type
     FThreadID: Cardinal;
     FThreadHandle: Cardinal;
     FStartTime: Cardinal;
+    FPaused: Boolean;
 
     function ThreadProc: Cardinal;
     procedure DoDecode;
@@ -109,8 +117,9 @@ type
     procedure LoadStream(AStream: TStream); override;
     procedure SetOutput(Output: TOBuffer); override;
     procedure Play; override;
-    procedure Pause; override;
     procedure Stop; override;
+    procedure Pause; override;
+    procedure Resume; override;
   end;
 
 implementation
@@ -118,7 +127,10 @@ implementation
 uses
   Windows,
   i_system,
-  mp3_BitStream, mp3_SubBand, mp3_SubBand1, mp3_SubBand2;
+  mp3_BitStream,
+  mp3_SubBand,
+  mp3_SubBand1,
+  mp3_SubBand2;
 
 function _ThreadProc(Self: TMPEGPlayer): Cardinal; cdecl;
 begin
@@ -140,6 +152,7 @@ begin
   FThreadHandle := 0;
   FDoRepeat := false;
   FDoTryHardRepeat := false;
+  FPaused := False;
 end;
 
 destructor TMPEGPlayer.Destroy;
@@ -164,10 +177,11 @@ begin
 end;
 
 procedure TMPEGPlayer.DoDecode;
-var Mode: TMode;
-    NumSubBands, i: Cardinal;
-    SubBands: array[0..31] of TSubBand;
-    ReadReady, WriteReady: Boolean;
+var
+  Mode: TMode;
+  NumSubBands, i: Cardinal;
+  SubBands: array[0..31] of TSubBand;
+  ReadReady, WriteReady: Boolean;
 begin
   // is there a change in important parameters?
   // (bitrate switching is allowed)
@@ -196,7 +210,7 @@ begin
       if Mode = SingleChannel then
         for i := 0 to NumSubBands-1 do
           SubBands[i] := TSubbandLayer1.Create(i)
-      else if (Mode = JointStereo) then
+      else if Mode = JointStereo then
       begin
         for i := 0 to FArgs.MPEGHeader.IntensityStereoBound - 1 do
           SubBands[i] := TSubbandLayer1Stereo.Create(i);
@@ -210,7 +224,7 @@ begin
       end
       else
       begin
-        for i := 0 to NumSubBands-1 do
+        for i := 0 to NumSubBands - 1 do
           SubBands[i] := TSubbandLayer1Stereo.Create(i);
       end;
     end
@@ -219,7 +233,7 @@ begin
       if Mode = SingleChannel then
         for i := 0 to NumSubBands - 1 do
           SubBands[i] := TSubbandLayer2.Create(i)
-      else if (Mode = JointStereo) then
+      else if Mode = JointStereo then
       begin
         for i := 0 to FArgs.MPEGHeader.IntensityStereoBound - 1 do
           SubBands[i] := TSubbandLayer2Stereo.Create(i);
@@ -265,8 +279,8 @@ begin
           FFilter1.CalculatePCMSamples(FOutput);
           if (FArgs.WhichC = Both) and (Mode <> SingleChannel) then
             FFilter2.CalculatePCMSamples(FOutput);
-        until (WriteReady);
-      until (ReadReady);
+        until WriteReady;
+      until ReadReady;
 
       FOutput.WriteBuffer;
     end;
@@ -344,11 +358,6 @@ begin
   FArgs.MPEGHeader.ReadHeader(FArgs.Stream, FCRC);
 end;
 
-procedure TMPEGPlayer.Pause;
-begin
-//  SuspendThread(FThreadHandle);
-end;
-
 procedure TMPEGPlayer.Play;
 begin
   // Start the thread.
@@ -395,12 +404,12 @@ begin
     Curr := FArgs.Stream.CurrentFrame;
     Total := FArgs.MPEGHeader.MaxNumberOfFrames(FArgs.Stream);
 
-    if (FDoRepeat) then
+    if FDoRepeat then
     begin
       if ((not FrameRead) and (Curr + 20 >= Total)) or (Curr >= Total) then
       begin
         FArgs.Stream.Restart;
-        if (Assigned(FCRC)) then
+        if Assigned(FCRC) then
           FreeAndNil(FCRC);
 
         FrameRead := FArgs.MPEGHeader.ReadHeader(FArgs.Stream, FCRC);
@@ -415,12 +424,30 @@ begin
           FrameRead := FArgs.MPEGHeader.ReadHeader(FArgs.Stream, FCRC);
         end;
 
-      if (GetTickCount >= FStartTime + Round(FArgs.MPEGHeader.TotalMS(FArgs.Stream))) then
+      if GetTickCount >= FStartTime + Round(FArgs.MPEGHeader.TotalMS(FArgs.Stream)) then
         FStartTime := GetTickCount;
+    end;
+
+    while FPaused do
+    begin
+      if not FIsPlaying then
+        Break;
+      Sleep(1);
     end;
   end;
   FIsPlaying := false;
   result := 0;
 end;
 
+procedure TMPEGPlayer.Pause;
+begin
+  FPaused := True;
+end;
+
+procedure TMPEGPlayer.Resume;
+begin
+  FPaused := False;
+end;
+
 end.
+

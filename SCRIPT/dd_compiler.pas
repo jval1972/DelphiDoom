@@ -161,6 +161,20 @@ procedure dd_getevents_strife(
 {$ENDIF}
   var _out: PChar; var _outsize: Integer); stdcall;
 
+{$IFDEF DOOM}
+procedure dd_getactordeffunctions_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getactordeffunctions_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getactordeffunctions_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getactordeffunctions_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+
 implementation
 
 uses
@@ -789,6 +803,34 @@ begin
   for i := Low(EventExportedProcs) to High(EventExportedProcs) do
     estr := estr + EventExportedProcs[i].Name + '|' + EventExportedProcs[i].Template + #13#10;
   DD_CopyStringToPChar(estr, _out, _outsize);
+end;
+
+{$IFDEF DOOM}
+procedure dd_getactordeffunctions_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getactordeffunctions_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getactordeffunctions_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getactordeffunctions_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+var
+  afstr: string;
+  i: integer;
+begin
+  DEH_Init;
+  try
+    afstr := '';
+    for i := 0 to DEHNUMACTIONS - 1 do
+      afstr := afstr + deh_actions[i].decl + #13#10;
+    DD_CopyStringToPChar(afstr, _out, _outsize);
+  finally
+    DEH_ShutDown;
+  end;
 end;
 
 end.

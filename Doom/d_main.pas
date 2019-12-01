@@ -1653,6 +1653,10 @@ begin
   if M_Checkparm('-nointerpolate') <> 0 then
     interpolate := false;
 
+  p := M_CheckParm('-forcecompatibilitymode');
+  if (p <> 0) and (p <= myargc - 1) then
+    forcecompatibilitymode := true;
+
   p := M_CheckParm('-compatibilitymode');
   if (p <> 0) and (p <= myargc - 1) then
     compatibilitymode := true;
@@ -1660,6 +1664,10 @@ begin
   p := M_CheckParm('-nocompatibilitymode');
   if (p <> 0) and (p <= myargc - 1) then
     compatibilitymode := false;
+
+  p := M_CheckParm('-spawnmask');
+  if (p <> 0) and (p < myargc - 1) then
+    spawnmask := atoi(myargv[p + 1]);
 
   oldcompatibilitymode := compatibilitymode;
 

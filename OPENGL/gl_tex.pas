@@ -130,7 +130,8 @@ uses
   r_sky,
   r_things,
   r_hires,
-  v_data;
+  v_data,
+  w_sprite;
 
 procedure gld_InitPalettedTextures;
 var
@@ -1114,7 +1115,7 @@ begin
     exit;
   if result.textype = GLDT_UNREGISTERED then
   begin
-    patch := W_CacheLumpNum(lump, PU_STATIC);
+    patch := W_CacheSpriteNum(lump, PU_STATIC);
     if patch = nil then
     begin
       result := nil;
@@ -1175,7 +1176,7 @@ begin
     if gld_LoadHiresTexture(gltexture, W_GetNameForNum(gltexture.index)) then
       exit;
 
-  patch := W_CacheLumpNum(gltexture.index, PU_STATIC);
+  patch := W_CacheSpriteNum(gltexture.index, PU_STATIC);
   buffer := malloc(gltexture.buffer_size);
   if gl_paletted_texture then
     memset(buffer, transparent_pal_index, gltexture.buffer_size)

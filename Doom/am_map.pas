@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -120,12 +120,12 @@ function M_ZOOMIN: integer;
 function M_ZOOMOUT: integer;
 
 { translates between frame-buffer and map distances }
-function FTOM(x : integer) : integer;
-function MTOF(x : integer) : integer;
+function FTOM(x: integer): integer;
+function MTOF(x: integer): integer;
 
 { translates between frame-buffer and map coordinates }
-function CXMTOF(x : integer) : integer;
-function CYMTOF(y : integer) : integer;
+function CXMTOF(x: integer): integer;
+function CYMTOF(y: integer): integer;
 
 { the following is crap }
 
@@ -349,7 +349,7 @@ end;
 
 function MTOF(x : integer): integer;
 begin
-  result := FixedInt(FixedMul(x, scale_mtof));
+  result := FixedInt64(FixedMul64(x, scale_mtof));
 end;
 
 function CXMTOF(x : integer): integer;
@@ -1789,4 +1789,5 @@ begin
 end;
 
 end.
+
 

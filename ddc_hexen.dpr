@@ -342,7 +342,9 @@ uses
   r_patch in 'base\r_patch.pas',
   r_cache_sky1_dbl in 'Hexen\r_cache_sky1_dbl.pas',
   r_flat8 in 'Base\r_flat8.pas',
-  r_flat32 in 'Base\r_flat32.pas';
+  r_flat32 in 'Base\r_flat32.pas',
+  p_bridge in 'Base\p_bridge.pas',
+  w_sprite in 'Base\w_sprite.pas';
 
 exports
   dd_compile_hexen,
@@ -353,7 +355,8 @@ exports
   dd_getclasses_hexen,
   dd_getdisassembly_hexen,
   dd_gettypes_hexen,
-  dd_getevents_hexen;
+  dd_getevents_hexen,
+  dd_getactordeffunctions_hexen;
 
 begin
 

@@ -133,6 +133,7 @@ uses
 {$ENDIF}
   r_camera,
   z_zone,
+  w_sprite,
   w_wad,
   doomstat;
 
@@ -164,7 +165,7 @@ procedure R_InstallSpriteLump(lump: integer;
 var
   r: integer;
 begin
-  if (frame >= MAXFRAMES) or (rotation > 8) then
+  if (frame >= MAXFRAMES) or (rotation > 32) then // JVAL: Up to 32 sprite rotations
     I_DevError('R_InstallSpriteLump(): Bad frame characters in lump %d (frame = %d, rotation = %d)'#13#10, [lump, frame, rotation]);
 
   if integer(frame) > maxframe then
@@ -177,7 +178,7 @@ begin
       I_Warning('R_InitSprites(): Sprite %s frame %s has multip rot=0 lump'#13#10,
         [spritename, Chr(Ord('A') + frame)]);
 
-    if sprtemp[frame].rotate = 1 then
+    if sprtemp[frame].rotate in [1..3] then // JVAL: Up to 32 sprite rotations
       I_Warning('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
         [spritename, Chr(Ord('A') + frame)]);
 
@@ -195,13 +196,24 @@ begin
     I_Warning('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
       [spritename, Chr(Ord('A') + frame)]);
 
-  sprtemp[frame].rotate := 1;
+  // JVAL: Up to 32 sprite rotations
+  if rotation in [1..8] then
+    if sprtemp[frame].rotate = -1 then
+      sprtemp[frame].rotate := 1;
+
+  if rotation in [9..16] then
+    if (sprtemp[frame].rotate = -1) or (sprtemp[frame].rotate = 1) then
+      sprtemp[frame].rotate := 2;
+
+  if rotation in [17..32] then
+    if (sprtemp[frame].rotate = -1) or (sprtemp[frame].rotate = 1) or (sprtemp[frame].rotate = 2) then
+      sprtemp[frame].rotate := 3;
 
   // make 0 based
   dec(rotation);
   if sprtemp[frame].lump[rotation] <> -1 then
     I_DevWarning('R_InitSprites(): Sprite %s : %s : %s has two lumps mapped to it'#13#10,
-      [spritename, Chr(Ord('A') + frame), Chr(Ord('1') + rotation)]);
+      [spritename, Chr(Ord('A') + frame), decide(rotation > 9, Chr(Ord('A') + rotation - 10), Chr(Ord('1') + rotation))]); // JVAL: Up to 32 sprite rotations
 
   sprtemp[frame].lump[rotation] := lump - firstspritelump;
   sprtemp[frame].flip[rotation] := flipped;
@@ -232,12 +244,28 @@ procedure R_InitSpriteDefs(namelist: PIntegerArray);
     for i := 0 to MAXFRAMES - 1 do
     begin
       sprtemp[i].rotate := -1;
-      for j := 0 to 7 do
+      for j := 0 to 31 do // JVAL: Up to 32 sprite rotations
       begin
         sprtemp[i].lump[j] := -1;
         sprtemp[i].flip[j] := false;
       end;
     end;
+  end;
+
+  // JVAL: Up to 32 sprite rotations
+  function rotationfromchar(const ch: char): integer;
+  begin
+    if ch in ['0'..'9'] then
+    begin
+      result := Ord(ch) - Ord('0');
+      exit;
+    end;
+    if ch in ['A'..'W'] then
+    begin
+      result := Ord(ch) - Ord('A') + 10;
+      exit;
+    end;
+    result := 33; // will trigger error
   end;
 
 var
@@ -286,7 +314,7 @@ begin
         if lumpinfo[l].v1 = intname then // JVAL
         begin
           frame := Ord(lumpinfo[l].name[4]) - Ord('A');
-          rotation := Ord(lumpinfo[l].name[5]) - Ord('0');
+          rotation := rotationfromchar(lumpinfo[l].name[5]); // JVAL: Up to 32 sprite rotations
 
           if modifiedgame then
             patched := W_GetNumForName(lumpinfo[l].name)
@@ -298,7 +326,7 @@ begin
           if lumpinfo[l].name[6] <> #0 then
           begin
             frame := Ord(lumpinfo[l].name[6]) - Ord('A');
-            rotation := Ord(lumpinfo[l].name[7]) - Ord('0');
+            rotation := rotationfromchar(lumpinfo[l].name[7]); // JVAL: Up to 32 sprite rotations
             R_InstallSpriteLump(l, frame, rotation, true);
           end;
         end;
@@ -331,6 +359,22 @@ begin
           begin
             // must have all 8 frames
             for rotation := 0 to 7 do
+              if sprtemp[frame].lump[rotation] = -1 then
+                I_Error('R_InitSprites(): Sprite %s frame %s is missing rotations',
+                  [spritename, Chr(frame + Ord('A'))]);
+          end;
+         2: // JVAL: Up to 32 sprite rotations
+          begin
+            // must have all 16 frames
+            for rotation := 0 to 15 do
+              if sprtemp[frame].lump[rotation] = -1 then
+                I_Error('R_InitSprites(): Sprite %s frame %s is missing rotations',
+                  [spritename, Chr(frame + Ord('A'))]);
+          end;
+         3: // JVAL: Up to 32 sprite rotations
+          begin
+            // must have all 32 frames
+            for rotation := 0 to 31 do
               if sprtemp[frame].lump[rotation] = -1 then
                 I_Error('R_InitSprites(): Sprite %s frame %s is missing rotations',
                   [spritename, Chr(frame + Ord('A'))]);
@@ -633,7 +677,7 @@ var
   last_cc_x: smallint;
   save_dc_x: integer;
 begin
-  patch := W_CacheLumpNum2(vis.patch + firstspritelump, PU_STATIC);
+  patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
   dc_colormap := vis.colormap;
 
@@ -785,7 +829,7 @@ var
   ltopdelta: integer;
   llength: integer;
 begin
-  patch := W_CacheLumpNum2(vis.patch + firstspritelump, PU_STATIC);
+  patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
   frac := vis.startfrac * LIGHTBOOSTSIZE div patch.width;
   fracstep := vis.xiscale * (LIGHTBOOSTSIZE shr 1) div patch.width;
@@ -845,8 +889,8 @@ begin
 
       basetexturemid := dc_texturemid;
 
-      topscreen := sprtopscreen + spryscale * ltopdelta;
-      bottomscreen := topscreen + spryscale * llength;
+      topscreen := sprtopscreen + int64(spryscale * ltopdelta);
+      bottomscreen := topscreen + int64(spryscale * llength);
 
       dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
       dc_yh := FixedInt64(bottomscreen - 1);
@@ -933,6 +977,13 @@ begin
 end;
 {$ENDIF}
 
+// JVAL: Up to 32 sprite rotations
+const
+  translaterotations: array[1..3] of array [0..31] of integer = (
+    ( 0,  1,  2,  3,  4,  5,  6,  7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    ( 0,  8,  1,  9,  2, 10,  3, 11,  4, 12,  5, 13,  6, 14,  7, 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1),
+    ( 0, 16,  8, 17,  1, 18,  9, 19,  2, 20, 10, 21,  3, 22, 11, 23,  4, 24, 12, 25,  5, 26, 13, 27,  6, 28, 14, 29,  7, 30, 15, 31)
+  );
 //
 //
 // R_ProjectSprite
@@ -1038,19 +1089,45 @@ begin
     exit;
   end;
 
-  if sprframe.rotate <> 0 then
-  begin
-    // choose a different rotation based on player view
-    ang := R_PointToAngleEx(thing.x, thing.y);
-    rot := (ang - thing.angle + LongWord(ANG45 div 2) * 9) shr 29;
-    lump := sprframe.lump[rot];
-    flip := sprframe.flip[rot];
-  end
+  // JVAL: Up to 32 sprite rotations
+  case sprframe.rotate of
+  0:  // 1 angle
+    begin
+      // use single rotation for all views
+      lump := sprframe.lump[0];
+      flip := sprframe.flip[0];
+    end;
+  1:  // 8 angles
+    begin
+      // choose a different rotation based on player view
+      ang := R_PointToAngleEx(thing.x, thing.y);
+      rot := (ang - thing.angle + LongWord(ANG45 div 2) * 9) shr 29;
+      lump := sprframe.lump[rot];
+      flip := sprframe.flip[rot];
+    end;
+  2:  // 16 angles
+    begin
+      // choose a different rotation based on player view
+      ang := R_PointToAngleEx(thing.x, thing.y);
+      rot := translaterotations[2, (ang - thing.angle + LongWord(ANG45 div 4) * 17) shr 28];
+      lump := sprframe.lump[rot];
+      flip := sprframe.flip[rot];
+    end;
+  3:  // 32 angles
+    begin
+      // choose a different rotation based on player view
+      ang := R_PointToAngleEx(thing.x, thing.y);
+      rot := translaterotations[3, (ang - thing.angle + LongWord(ANG45 div 8) * 33) shr 27];
+      lump := sprframe.lump[rot];
+      flip := sprframe.flip[rot];
+    end;
   else
-  begin
-    // use single rotation for all views
-    lump := sprframe.lump[0];
-    flip := sprframe.flip[0];
+    begin
+      I_DevError('R_ProjectSprite(): Sprite for "%s" has funny rotations.'#13#10, [thing.info.name]);
+      // use single rotation for all views
+      lump := sprframe.lump[0];
+      flip := sprframe.flip[0];
+    end;
   end;
 
   soffset := spriteoffset[lump];
@@ -1754,6 +1831,7 @@ begin
   mceilingclip := @cliptop;
 
   R_DrawVisSpriteLight(spr, x1, x2);
+
 end;
 
 //

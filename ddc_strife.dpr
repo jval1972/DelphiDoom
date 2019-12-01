@@ -343,7 +343,9 @@ uses
   t_patch in 'TEXLIB\t_patch.pas',
   r_patch in 'base\r_patch.pas',
   r_flat8 in 'Base\r_flat8.pas',
-  r_flat32 in 'Base\r_flat32.pas';
+  r_flat32 in 'Base\r_flat32.pas',
+  p_bridge in 'Base\p_bridge.pas',
+  w_sprite in 'Base\w_sprite.pas';
 
 exports
   dd_compile_strife,
@@ -354,7 +356,8 @@ exports
   dd_getclasses_strife,
   dd_getdisassembly_strife,
   dd_gettypes_strife,
-  dd_getevents_strife;
+  dd_getevents_strife,
+  dd_getactordeffunctions_strife;
 
 begin
 

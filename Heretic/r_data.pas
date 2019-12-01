@@ -147,6 +147,7 @@ uses
 {$ENDIF}
   v_data,
   v_video,
+  w_sprite,
   z_zone;
 
 //
@@ -820,6 +821,7 @@ begin
     I_Warning('R_InitSpriteLumps(): WAD files have missplaced sprite markers (start=%d, end=%d)'#13#10, [firstspritelump, lastspritelump]);
     lastspritelump := W_NumLumps;
   end;
+  W_InitSprites; // JVAL: Images as sprites
   numspritelumps := lastspritelump - firstspritelump + 1;
   spritewidth := Z_Malloc(numspritelumps * SizeOf(fixed_t), PU_STATIC, nil);
   spriteoffset := Z_Malloc(numspritelumps * SizeOf(fixed_t), PU_STATIC, nil);
@@ -841,7 +843,7 @@ begin
       in_loop := false
     else if in_loop then
     begin
-      patch := W_CacheLumpNum(firstspritelump + i, PU_STATIC);
+      patch := W_CacheSpriteNum(firstspritelump + i, PU_STATIC); // JVAL: Images as sprites
       spritewidth[i] := patch.width * FRACUNIT;
       spriteoffset[i] := patch.leftoffset * FRACUNIT;
       spritetopoffset[i] := patch.topoffset * FRACUNIT;

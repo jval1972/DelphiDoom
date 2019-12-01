@@ -2042,12 +2042,24 @@ function P_HitFloor(thing: Pmobj_t): integer;
 var
   mo: Pmobj_t;
   z: fixed_t; // JVAL: 3d Floors
+  ss: Psubsector_t;
+  sec: Psector_t;
 begin
-  if thing.floorz <> Psubsector_t(thing.subsector).sector.floorheight then
+  ss := thing.subsector;
+  sec := ss.sector;
+
+  if thing.floorz <> sec.floorheight then
   begin // don't splash if landing on the edge above water/lava/etc....
     result := FLOOR_SOLID;
     exit;
   end;
+
+  if ss.flags and SSF_BRIDGE <> 0 then
+    if G_PlayingEngineVersion >= VERSION204 then
+    begin
+      result := FLOOR_SOLID;
+      exit;
+    end;
 
   // JVAL: 3d Floors
   if G_PlayingEngineVersion >= VERSION115 then
@@ -2175,7 +2187,7 @@ begin
   parm := strtrim(parm1 + ' ' + parm2);
   if parm = '' then
   begin
-    printf('Usage:'#13#10' spawnmobj [x y z angle doomdnum/doomname]'#13#10);
+    printf('Usage:'#13#10' spawnmobj [x y z angle doomednum/doomname]'#13#10);
     exit;
   end;
 

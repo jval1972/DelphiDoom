@@ -162,7 +162,6 @@ type
     // JVAL: 3d floors
     midsec: integer;
     midline: integer;
-    numssector: integer;
     // JVAL: Slopes
     fa, fb, fd, fic, ca, cb, cd, cic: float;
     slopesec: Psector_t;
@@ -282,6 +281,10 @@ const
 //  indicating the visible walls that define
 //  (all or some) sides of a convex BSP leaf.
 //
+const
+  SSF_CENTROIDCALCED = 1;
+  SSF_BRIDGE = 2;
+
 type
   subsector_t = packed record
     sector: Psector_t;
@@ -289,7 +292,7 @@ type
     firstline: LongWord;// JVAL glbsp (was word)
     poly: pointer;
     x, y: fixed_t; // JVAL 3d Floors (Subsector Centroid)
-    centroidcalced: Boolean;  // JVAL 3d Floors (Subsector Centroid)
+    flags: LongWord;
   end;
   Psubsector_t = ^subsector_t;
   subsector_tArray = packed array[0..$FFFF] of subsector_t;
@@ -321,7 +324,6 @@ type
     inv_length: double;      
 {$ENDIF}
     miniseg: boolean;
-    diffloor: boolean;
   end;
   Pseg_t = ^seg_t;
   PPseg_t = ^Pseg_t;
@@ -535,10 +537,10 @@ type
     rotate: integer;
 
     // Lump to use for view angles 0-7.
-    lump: array[0..7] of integer;
+    lump: array[0..31] of integer; // JVAL: Up to 32 sprite rotations
 
     // Flip bit (1 = flip) to use for view angles 0-7.
-    flip: array[0..7] of boolean;
+    flip: array[0..31] of boolean; // JVAL: Up to 32 sprite rotations
   end;
   Pspriteframe_t = ^spriteframe_t;
   spriteframe_tArray = packed array[0..$FFFF] of spriteframe_t;

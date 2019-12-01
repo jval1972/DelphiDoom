@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -111,6 +111,10 @@ begin
   col := 0;
 
   desttop := FBitmap.GetImage;
+
+  // JVAL: Support for offsets
+  FBitmap.LeftOffset := patch.leftoffset;
+  FBitmap.TopOffset := patch.topoffset;
 
   w := patch.width;
 

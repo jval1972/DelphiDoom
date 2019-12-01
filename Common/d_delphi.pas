@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -253,16 +253,37 @@ type
   end;
 
   TMemoryStream = class(TStream)
-  protected
+  private
     FSize: integer;
+    FRealSize: integer;
     FPosition: integer;
     FMemory: pointer;
-    procedure Resize(newsize: integer);
+  protected
+    procedure Resize(newsize: integer); virtual;
   public
     OnBeginBusy: PProcedure;
     OnEndBusy: PProcedure;
     constructor Create;
     destructor Destroy; override;
+    function Read(var Buffer; Count: Longint): Longint; override;
+    function Write(const Buffer; Count: Longint): Longint; override;
+    function Seek(Offset: Longint; Origin: Word): Longint; override;
+    function Size: Longint; override;
+    function Position: integer; override;
+    property Memory: pointer read FMemory;
+  end;
+
+  TAttachableStream = class(TStream)
+  protected
+    FSize: integer;
+    FPosition: integer;
+    FMemory: pointer;
+  public
+    OnBeginBusy: PProcedure;
+    OnEndBusy: PProcedure;
+    constructor Create;
+    destructor Destroy; override;
+    procedure Attach(const amemory: pointer; const asize: integer); virtual;
     function Read(var Buffer; Count: Longint): Longint; override;
     function Write(const Buffer; Count: Longint): Longint; override;
     function Seek(Offset: Longint; Origin: Word): Longint; override;
@@ -306,10 +327,32 @@ type
 
 
 type
+  TDByteList = class
+  private
+    fList: PByteArray;
+    fNumItems: integer;
+    fRealNumItems: integer;
+  protected
+    function Get(Index: Integer): byte; virtual;
+    procedure Put(Index: Integer; const value: byte); virtual;
+  public
+    constructor Create; virtual;
+    destructor Destroy; override;
+    function Add(const value: byte): integer; overload; virtual;
+    function Delete(const Index: integer): boolean;
+    function IndexOf(const value: byte): integer; virtual;
+    procedure Clear;
+    procedure FastClear;
+    property Count: integer read fNumItems;
+    property Bytes[Index: Integer]: byte read Get write Put; default;
+    property List: PByteArray read fList;
+  end;
+
   TDNumberList = class
   private
     fList: PIntegerArray;
     fNumItems: integer;
+    fRealNumItems: integer;
   protected
     function Get(Index: Integer): integer; virtual;
     procedure Put(Index: Integer; const value: integer); virtual;
@@ -321,6 +364,7 @@ type
     function Delete(const Index: integer): boolean;
     function IndexOf(const value: integer): integer; virtual;
     procedure Clear;
+    procedure FastClear;
     procedure Sort; virtual;
     function Sum: integer;
     property Count: integer read fNumItems;
@@ -594,6 +638,8 @@ function IsFloatInRange(const test, f1, f2: float): boolean;
 function IsDoubleInRange(const test, f1, f2: double): boolean;
 
 function IsExtendedInRange(const test, f1, f2: Extended): boolean;
+
+function GetIntegerInRange(const val, f1, f2: integer): integer;
 
 var
   mmxMachine: byte = 0;
@@ -1439,7 +1485,7 @@ begin
   if result <> nil then
     ZeroMemory(result, size);
 end;
-
+                  
 procedure realloc(var p: pointer; const oldsize, newsize: integer);
 begin
   if newsize = 0 then
@@ -1591,6 +1637,7 @@ constructor TMemoryStream.Create;
 begin
   Inherited Create;
   FSize := 0;
+  FRealSize := 0;
   FPosition := 0;
   FMemory := nil;
 end;
@@ -1602,10 +1649,22 @@ begin
 end;
 
 procedure TMemoryStream.Resize(newsize: integer);
+var
+  newrealsize: integer;
 begin
   if FSize <> newsize then
   begin
-    realloc(FMemory, FSize, newsize);
+    if newsize = 0 then
+      newrealsize := 0
+    else if newsize < 64 then
+      newrealsize := 64
+    else
+      newrealsize := newsize and not $FF + $100;
+    if newrealsize <> FRealSize then
+    begin
+      realloc(FMemory, FRealSize, newrealsize);
+      FRealSize := newrealsize;
+    end;
     FSize := newsize;
     if FPosition > FSize then
       FPosition := FSize;
@@ -1653,6 +1712,77 @@ begin
 end;
 
 function TMemoryStream.Position: integer;
+begin
+  result := FPosition;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// TAttachableStream
+constructor TAttachableStream.Create;
+begin
+  Inherited Create;
+  FSize := 0;
+  FPosition := 0;
+  FMemory := nil;
+end;
+
+destructor TAttachableStream.Destroy;
+begin
+  Inherited Destroy;
+end;
+
+procedure TAttachableStream.Attach(const amemory: pointer; const asize: integer); 
+begin
+  FMemory := amemory;
+  FSize := asize;
+end;
+
+function TAttachableStream.Read(var Buffer; Count: Longint): Longint;
+begin
+  if Count + FPosition > FSize then
+    result := FSize - FPosition
+  else
+    result := Count;
+
+  memcpy(@Buffer, pointer(integer(FMemory) + FPosition), result);
+  FPosition := FPosition + result;
+end;
+
+function TAttachableStream.Write(const Buffer; Count: Longint): Longint;
+begin
+  if Count + FPosition > FSize then  
+    result := FSize - FPosition
+  else
+    result := Count;
+
+  if result <= 0 then
+    Exit;
+     
+  memcpy(pointer(integer(FMemory) + FPosition), @Buffer, result);
+  FPosition := FPosition + result;
+end;
+
+function TAttachableStream.Seek(Offset: Longint; Origin: Word): Longint;
+begin
+  case Origin of
+    sFromBeginning:
+      result := Offset;
+    sFromCurrent:
+      result := FPosition + Offset;
+    sFromEnd:
+      result := FPosition - Offset;
+  else
+    result := 0;
+  end;
+  FPosition := result;
+end;
+
+function TAttachableStream.Size: Longint;
+begin
+  result := FSize;
+end;
+
+function TAttachableStream.Position: integer;
 begin
   result := FPosition;
 end;
@@ -1834,11 +1964,105 @@ begin
 end;
 
 ////////////////////////////////////////////////////////////////////////////////
+// TDByteList
+constructor TDByteList.Create;
+begin
+  fList := nil;
+  fNumItems := 0;
+  fRealNumItems := 0;
+end;
+
+destructor TDByteList.Destroy;
+begin
+  Clear;
+end;
+
+function TDByteList.Get(Index: Integer): byte;
+begin
+  if (Index < 0) or (Index >= fNumItems) then
+    result := 0
+  else
+    result := fList[Index];
+end;
+
+procedure TDByteList.Put(Index: Integer; const value: byte);
+begin
+  fList[Index] := value;
+end;
+
+function TDByteList.Add(const value: byte): integer;
+var
+  newrealitems: integer;
+begin
+  if fNumItems >= fRealNumItems then
+  begin
+    if fRealNumItems < 8 then
+      newrealitems := 8
+    else if fRealNumItems < 32 then
+      newrealitems := 32
+    else if fRealNumItems < 128 then
+      newrealitems := fRealNumItems + 32
+    else
+      newrealitems := fRealNumItems + 64;
+    realloc(pointer(fList), fRealNumItems * SizeOf(byte), newrealitems * SizeOf(byte));
+    fRealNumItems := newrealitems;
+  end;
+  Put(fNumItems, value);
+  result := fNumItems;
+  inc(fNumItems);
+end;
+
+function TDByteList.Delete(const Index: integer): boolean;
+var
+  i: integer;
+begin
+  if (Index < 0) or (Index >= fNumItems) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  for i := Index + 1 to fNumItems - 1 do
+    fList[i - 1] := fList[i];
+
+  dec(fNumItems);
+
+  result := true;
+end;
+
+function TDByteList.IndexOf(const value: byte): integer;
+var
+  i: integer;
+begin
+  for i := 0 to fNumItems - 1 do
+    if fList[i] = value then
+    begin
+      result := i;
+      exit;
+    end;
+  result := -1;
+end;
+
+procedure TDByteList.Clear;
+begin
+  realloc(pointer(fList), fRealNumItems * SizeOf(byte), 0);
+  fList := nil;
+  fNumItems := 0;
+  fRealNumItems := 0;
+end;
+
+procedure TDByteList.FastClear;
+begin
+  fNumItems := 0;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
 // TDNumberList
 constructor TDNumberList.Create;
 begin
   fList := nil;
   fNumItems := 0;
+  fRealNumItems := 0;
 end;
 
 destructor TDNumberList.Destroy;
@@ -1860,8 +2084,22 @@ begin
 end;
 
 function TDNumberList.Add(const value: integer): integer;
+var
+  newrealitems: integer;
 begin
-  realloc(pointer(fList), fNumItems * SizeOf(integer), (fNumItems + 1) * SizeOf(integer));
+  if fNumItems >= fRealNumItems then
+  begin
+    if fRealNumItems < 8 then
+      newrealitems := 8
+    else if fRealNumItems < 32 then
+      newrealitems := 32
+    else if fRealNumItems < 128 then
+      newrealitems := fRealNumItems + 32
+    else
+      newrealitems := fRealNumItems + 64;
+    realloc(pointer(fList), fRealNumItems * SizeOf(integer), newrealitems * SizeOf(integer));
+    fRealNumItems := newrealitems;
+  end;
   Put(fNumItems, value);
   result := fNumItems;
   inc(fNumItems);
@@ -1888,7 +2126,6 @@ begin
   for i := Index + 1 to fNumItems - 1 do
     fList[i - 1] := fList[i];
 
-  realloc(pointer(fList), fNumItems * SizeOf(integer), (fNumItems - 1) * SizeOf(integer));
   dec(fNumItems);
 
   result := true;
@@ -1909,8 +2146,14 @@ end;
 
 procedure TDNumberList.Clear;
 begin
-  realloc(pointer(fList), fNumItems * SizeOf(integer), 0);
+  realloc(pointer(fList), fRealNumItems * SizeOf(integer), 0);
   fList := nil;
+  fNumItems := 0;
+  fRealNumItems := 0;
+end;
+
+procedure TDNumberList.FastClear;
+begin
   fNumItems := 0;
 end;
 
@@ -3709,6 +3952,16 @@ begin
   except
     result := false;
   end;
+end;
+
+function GetIntegerInRange(const val, f1, f2: integer): integer;
+begin
+  if val < f1 then
+    result := f1
+  else if val > f2 then
+    result := f2
+  else
+    result := val;
 end;
 
 end.

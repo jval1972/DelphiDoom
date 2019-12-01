@@ -228,7 +228,7 @@ begin
     cachedheight[y] := planeheight;
     cacheddistance[y] := FixedMul(planeheight, yslope[y]);
     distance := cacheddistance[y];
-    slope := (planeheight / 65536.0 / abs(centery - y)) * relativeaspect;
+    slope := (planeheight / abs(centery - y)) * planerelativeaspect;
     ds_xstep := round(dviewsin * slope);
     ds_ystep := round(dviewcos * slope);
     cachedxstep[y] := ds_xstep;
@@ -318,13 +318,10 @@ type
   two_smallints_t = record
     sm1, sm2: SmallInt;
   end;
-{$ENDIF}
 var
-{$IFNDEF OPENGL}
   vv: integer;
   ff, cc: two_smallints_t;
 {$ENDIF}
-  angle: angle_t;
 begin
 {$IFNDEF OPENGL}
   // opening / clipping determination
@@ -353,13 +350,6 @@ begin
   // texture calculation
   ZeroMemory(@cachedheight, SizeOf(cachedheight));
 {$ENDIF}  // JVAL: 3d Floors
-
-  // left to right mapping
-  {$IFDEF FPC}
-  angle := _SHRW(viewangle - ANG90, ANGLETOFINESHIFT);
-  {$ELSE}
-  angle := (viewangle - ANG90) shr ANGLETOFINESHIFT;
-  {$ENDIF}
 end;
 
 //

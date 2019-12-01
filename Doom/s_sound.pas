@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -113,15 +113,24 @@ implementation
 uses
   d_delphi,
   c_cmds,
-  d_player, d_think,
+  d_player,
+  d_think,
   g_game,
-  i_system, i_sound, i_music, i_mp3,
+  i_system,
+  i_sound,
+  i_music,
+  i_mp3,
   info_h,
-  m_fixed, m_rnd, m_misc,
-  p_mobj_h, p_mobj, p_tick,
+  m_fixed,
+  m_rnd,
+  m_misc,
+  p_mobj_h,
+  p_mobj,
+  p_tick,
   sounds,
   z_zone,
-  w_wad, w_pak,
+  w_wad,
+  w_pak,
   doomdef,
   r_main,
   tables,
@@ -182,8 +191,6 @@ var
 // music currently being played
   mus_playing: Pmusicinfo_t = nil;
   looping_playing: boolean;
-
-  nextcleanup: integer;
 
 //
 // Internals.
@@ -356,8 +363,6 @@ begin
   end;
 
   S_ChangeMusic(mnum, true);
-
-  nextcleanup := 15;
 end;
 
 procedure S_StartSoundAtVolume(origin_p: pointer; sfx_id: integer; volume: integer);

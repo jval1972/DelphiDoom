@@ -79,7 +79,8 @@ uses
   frm_variables in 'DD_IDE\frm_variables.pas' {Frame_Variables: TFrame},
   frm_classes in 'DD_IDE\frm_classes.pas' {Frame_Classes: TFrame},
   frm_types in 'DD_IDE\frm_types.pas' {Frame_Types: TFrame},
-  SynHighlighterDDScript in 'DD_IDE\SynEdit\SynHighlighterDDScript.pas';
+  SynHighlighterDDScript in 'DD_IDE\SynEdit\SynHighlighterDDScript.pas',
+  frm_actordef in 'DD_IDE\frm_actordef.pas' {Frame_Actordef: TFrame};
 
 {$R *.res}
 

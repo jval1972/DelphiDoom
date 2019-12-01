@@ -197,7 +197,7 @@ var
 {$IFNDEF OPENGL}
   // for precise plane drawing in hi-res
   dviewsin, dviewcos: Double;
-  relativeaspect: Double;
+  planerelativeaspect: Double;
 {$ENDIF}
   projection: fixed_t;
   projectiony: fixed_t; // JVAL For correct aspect
@@ -1780,7 +1780,7 @@ begin
   dviewsin := Sin(viewangle / $FFFFFFFF * 2 * pi);
   dviewcos := Cos(viewangle / $FFFFFFFF * 2 * pi);
 // JVAL: Widescreen support
-  relativeaspect := 320 / 200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
+  planerelativeaspect := 320 / 200 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
 {$ENDIF}
 
   cm := -1;

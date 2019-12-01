@@ -19,6 +19,9 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  Bridge stuff
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -26,80 +29,45 @@
 
 {$I Doom32.inc}
 
-unit i_mp3;
+unit p_bridge;
 
 interface
 
-uses
-  d_delphi;
-
-procedure I_InitMp3;
-
-procedure I_StopMP3;
-
-procedure I_PauseMP3;
-
-procedure I_ResumeMP3;
-
-procedure I_ShutDownMP3;
-
-procedure I_PlayMP3(strm: TStream);
-
-var
-  usemp3: boolean;
-  preferemp3namesingamedirectory: boolean;
+procedure P_CalcSubSectorsBridge;
 
 implementation
 
 uses
-  sounds,
-  mp3_OBuffer_MCI,
-  mp3_MPEGPlayer;
+  r_defs,
+  p_setup;
 
+procedure P_CalcSubSectorBridge(const ss: Psubsector_t);
 var
-  mp3player: TMPEGPlayer;
-
-procedure I_InitMp3;
+  i: integer;
+  numsr: integer; // Number of lines that have both sides at the same sector
+  seg: Pseg_t;
 begin
-  mp3player := TMPEGPlayer.Create;
-end;
-
-procedure I_StopMP3;
-begin
-  if mp3player <> nil then
+  numsr := 0;
+  for i := ss.firstline to ss.firstline + ss.numlines - 1 do
   begin
-    if mp3player.IsPlaying then
-      mp3player.Stop;
-    FreeAndNil(mp3player);
+    seg := @segs[i];
+    if seg.miniseg then
+      Continue;
+    if seg.linedef.frontsector = seg.linedef.backsector then
+      inc(numsr)
+    else if (seg.linedef.frontsector <> nil) and (seg.linedef.backsector <> nil) then
+      exit; // 2s line encountered
   end;
+  if numsr > 0 then
+    ss.flags := ss.flags or SSF_BRIDGE;
 end;
 
-procedure I_PauseMP3;
+procedure P_CalcSubSectorsBridge;
+var
+  i: integer;
 begin
-  if mp3player <> nil then
-    mp3player.Pause;
-end;
-
-procedure I_ResumeMP3;
-begin
-  if mp3player <> nil then
-    mp3player.Resume;
-end;
-
-procedure I_ShutDownMP3;
-begin
-  I_StopMP3;
-  S_FreeMP3Streams;
-end;
-
-procedure I_PlayMP3(strm: TStream);
-begin
-  I_StopMP3;
-  I_InitMp3;
-  mp3player.LoadStream(strm);
-  mp3player.SetOutput(CreateMCIOBffer(mp3player));
-  mp3player.DoRepeat := true;
-  mp3player.Play;
+  for i := 0 to numsubsectors - 1 do
+    P_CalcSubSectorBridge(@subsectors[i]);
 end;
 
 end.

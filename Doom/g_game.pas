@@ -204,6 +204,7 @@ function G_NeedsCompatibilityMode: boolean;
 function G_PlayingEngineVersion: integer;
 
 var
+  forcecompatibilitymode: boolean = false;
   compatibilitymode: boolean = false;
   oldcompatibilitymode: boolean = false;
 
@@ -294,7 +295,7 @@ const
   SAVESTRINGSIZE = 24;
 
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
-procedure G_WriteDemoTiccmd (cmd: Pticcmd_t); forward;
+procedure G_WriteDemoTiccmd(cmd: Pticcmd_t); forward;
 
 procedure G_DoReborn(playernum: integer); forward;
 
@@ -2655,6 +2656,7 @@ var
   i: integer;
 begin
   demo_p := demobuffer;
+  demoversion := VERSION;
 
   PInteger(demo_p)^ := DEMOHDR;
   demo_p := @demo_p[4];
@@ -3010,10 +3012,9 @@ begin
   result := demoplayback and olddemo;
 end;
 
-
 function G_NeedsCompatibilityMode: boolean;
 begin
-  result := compatibilitymode or (demoplayback and olddemo);
+  result := compatibilitymode or (demoplayback and olddemo) or forcecompatibilitymode;
 end;
 
 function G_PlayingEngineVersion: integer;

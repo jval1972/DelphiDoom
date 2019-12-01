@@ -332,7 +332,9 @@ uses
   r_patch in 'Base\r_patch.pas',
   r_flat8 in 'Base\r_flat8.pas',
   r_flat32 in 'Base\r_flat32.pas',
-  r_cache_sky1_dbl in 'Hexen\r_cache_sky1_dbl.pas';
+  r_cache_sky1_dbl in 'Hexen\r_cache_sky1_dbl.pas',
+  p_bridge in 'Base\p_bridge.pas',
+  w_sprite in 'Base\w_sprite.pas';
 
 var
   Saved8087CW: Word;

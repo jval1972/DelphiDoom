@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -540,6 +540,7 @@ begin
   case m_type of
     m_midi: I_PauseMidi;
     m_mus: I_PauseSongMus(handle);
+    m_mp3: I_PauseMP3;
   end;
 end;
 
@@ -563,6 +564,7 @@ begin
   case m_type of
     m_midi: I_ResumeMidi;
     m_mus: I_ResumeSongMus(handle);
+    m_mp3: I_ResumeMP3;
   end;
 end;
 
@@ -639,7 +641,7 @@ begin
       song.header[i].dwFlags := MHDR_ISSTRM or MHDR_DONE;
     end;
   end
-  else
+  else if (size > 4) and (PLongWord(data)^ = MThd) then
   begin
     if m_type <> m_midi then
     begin
@@ -667,9 +669,7 @@ begin
       exit;
     end;
 
-    ClearMidiFilePlayList;
-    AddMidiFileToPlayList(MidiFileName);
-    I_PlayMidi(0);
+    I_PlayMidi(MidiFileName);
   end;
   result := integer(song);
 end;
@@ -707,8 +707,8 @@ procedure I_SetMusicVolume(volume: integer);
 begin
   case m_type of
     m_mus: I_SetMusicVolumeMus(volume);
-    m_midi: ; // unsupported
-    m_mp3: ; // unsupported
+    m_midi: I_SetMusicVolumeMidi(volume);
+    m_mp3: ; // unsupported :(
   end;
 end;
 

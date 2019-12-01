@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -402,21 +402,33 @@ end;
 type
   TVSyncMode = (vsmSync, vsmNoSync);
 
-procedure gld_VSync(vsync: TVSyncMode);
 var
-   i : Integer;
-begin
-   if WGL_EXT_swap_control then
-   begin
-      i := wglGetSwapIntervalEXT;
-      case VSync of
-         vsmSync    : if i <> 1 then wglSwapIntervalEXT(1);
-         vsmNoSync  : if i <> 0 then wglSwapIntervalEXT(0);
-      else
-         Assert(False);
-      end;
-   end;
+  gld_VSync_Warning: boolean = false;
 
+function gld_VSync(vsync: TVSyncMode): boolean;
+var
+  i: Integer;
+begin
+  if WGL_EXT_swap_control then
+  begin
+    result := True;
+    i := wglGetSwapIntervalEXT;
+    case VSync of
+      vsmSync    : if i <> 1 then wglSwapIntervalEXT(1);
+      vsmNoSync  : if i <> 0 then wglSwapIntervalEXT(0);
+    else
+      Assert(False);
+    end;
+  end
+  else
+  begin
+    result := False;
+    if not gld_VSync_Warning then
+    begin
+      I_Warning('gld_VSync(): wglSwapIntervalEXT() not assigned'#13#10);
+      gld_VSync_Warning := true;
+    end;
+  end;
 end;
 
 var
@@ -1746,6 +1758,7 @@ var
   ytr: float;
   xCamera, yCamera: float;
   height: integer;
+  syncret: boolean;
 begin
   if gl_shared_texture_palette then
     glEnable(GL_SHARED_TEXTURE_PALETTE_EXT);
@@ -1754,11 +1767,11 @@ begin
   if (last_screensync <> gl_screensync) or not didfirstscreensync then
   begin
     if gl_screensync then
-      gld_VSync(vsmSync)
+      syncret := gld_VSync(vsmSync)
     else
-      gld_VSync(vsmNoSync);
+      syncret := gld_VSync(vsmNoSync);
     last_screensync := gl_screensync;
-    didfirstscreensync := true;
+    didfirstscreensync := syncret;
   end;
 
   if screenblocks > 10 then

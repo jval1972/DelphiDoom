@@ -52,6 +52,8 @@ function dll_getdisassembly(const game: string; const pcode: string): string;
 
 function dll_getevents(const game: string): string;
 
+function dll_getactordeffunctions(const game: string): TStringList;
+
 implementation
 
 uses
@@ -408,6 +410,11 @@ begin
   end;
   Result := lst.Text;
   lst.Free;
+end;
+
+function dll_getactordeffunctions(const game: string): TStringList;
+begin
+  Result := dll_getpcharfunc(game, 'dd_getactordeffunctions_');
 end;
 
 end.

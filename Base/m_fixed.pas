@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -49,6 +49,8 @@ type
   Pfixed_t = ^fixed_t;
   fixed_tArray = packed array[0..$FFFF] of fixed_t;
   Pfixed_tArray = ^fixed_tArray;
+  fixed64_t = int64;
+  fixedfloat_t = double;
 
 function FixedMul(const a, b: fixed_t): fixed_t;
 
@@ -74,8 +76,6 @@ function FixedDiv2(const a, b: fixed_t): fixed_t;
 
 function FixedInt(const x: integer): integer;
 
-function FixedInt64(const x: int64): integer;
-
 function FloatToFixed(const f: float): fixed_t;
 
 function DoubleToFixed(const f: double): fixed_t;
@@ -91,6 +91,14 @@ function FixedToExtended(const x: fixed_t): extended;
 function FixedInt_FixedMul(const a, b: fixed_t): fixed_t;
 
 function FixedSqrt(const a: fixed_t): fixed_t;
+
+function FixedInt64(const x: fixed64_t): integer;
+
+function FixedMul64(const a, b: fixed64_t): fixed64_t;
+
+function FloatDiv(const a, b: fixedfloat_t): fixedfloat_t;
+
+function FloatMul(const a, b: fixedfloat_t): fixedfloat_t;
 
 implementation
 
@@ -179,7 +187,7 @@ asm
   sar edx, 16
   idiv ebx
 @@exit:
-end; 
+end;
 
 function FixedDivEx(const a, b: fixed_t): fixed_t;
 var
@@ -224,23 +232,6 @@ asm
 end;
 
 
-//
-// FixedInt64
-// JVAL: This is 30 times faster than using  result := x div FRACUNIT;
-//
-function FixedInt64(const x: int64): integer;
-var
-  x2: int64;
-begin
-  if x < 0 then
-  begin
-    x2 := -x;
-    result := -PInteger(integer(@x2) + 2)^;
-  end
-  else
-    result := PInteger(integer(@x) + 2)^;
-end;
-
 function FloatToFixed(const f: float): fixed_t;
 begin
   result := Round(f * FRACUNIT);
@@ -281,6 +272,53 @@ end;
 function FixedSqrt(const a: fixed_t): fixed_t;
 begin
   Result := Round(Sqrt(a / FRACUNIT) * FRACUNIT);
+end;
+
+//
+// FixedInt64
+// JVAL: This is 30 times faster than using  result := x div FRACUNIT;
+//
+function FixedInt64(const x: fixed64_t): integer;
+var
+  x2: fixed64_t;
+begin
+  if x < 0 then
+  begin
+    x2 := -x;
+    result := -PInteger(integer(@x2) + 2)^;
+  end
+  else
+    result := PInteger(integer(@x) + 2)^;
+end;
+
+function FixedMul64(const a, b: fixed64_t): fixed64_t;
+begin
+  result := Round(a / FRACUNIT * b);
+end;
+
+function FloatDiv(const a, b: fixedfloat_t): fixedfloat_t;
+var
+  ad: fixedfloat_t;
+  bd: fixedfloat_t;
+begin
+  if b = 0 then
+  begin
+    if a < 0 then
+      result := MININT
+    else
+      result := MAXINT;
+  end
+  else
+  begin
+    ad := a / FRACUNIT;
+    bd := b / FRACUNIT;
+    result := (ad / bd) * FRACUNIT;
+  end;
+end;
+
+function FloatMul(const a, b: fixedfloat_t): fixedfloat_t;
+begin
+  result := a / FRACUNIT * b;
 end;
 
 end.

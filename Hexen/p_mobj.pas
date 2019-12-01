@@ -2168,12 +2168,21 @@ function P_HitFloor(thing: Pmobj_t): integer;
 var
   mo: Pmobj_t;
   smallsplash: boolean;
+  ss: Psubsector_t;
 begin
-  if thing.floorz <> Psubsector_t(thing.subsector).sector.floorheight then
+  ss := thing.subsector;
+  if thing.floorz <> ss.sector.floorheight then
   begin // don't splash if landing on the edge above water/lava/etc....
     result := FLOOR_SOLID;
     exit;
   end;
+
+  if ss.flags and SSF_BRIDGE <> 0 then
+    if G_PlayingEngineVersion >= VERSION204 then
+    begin
+      result := FLOOR_SOLID;
+      exit;
+    end;
 
   // Things that don't splash go here
   case thing._type of
@@ -2869,7 +2878,7 @@ begin
   parm := strtrim(parm1 + ' ' + parm2);
   if parm = '' then
   begin
-    printf('Usage:'#13#10' spawnmobj [x y z angle doomdnum/doomname]'#13#10);
+    printf('Usage:'#13#10' spawnmobj [x y z angle doomednum/doomname]'#13#10);
     exit;
   end;
 

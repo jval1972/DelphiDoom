@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -94,6 +94,7 @@ var
   i: integer;
   sc: TScriptEngine;
   token1: string;
+  token: string;
 begin
   Create;
 
@@ -105,7 +106,18 @@ begin
   sc := TScriptEngine.Create(token1);
   try
     while sc.GetString do
-      Add(sc._String);
+    begin
+      token := sc._String;
+      if strupper(token) = 'RANDOM' then
+        for i := 0 to 1 do
+        begin
+          if sc.GetString then
+            token := token + ' ' + sc._String
+          else
+            break;
+        end;
+      Add(token);
+    end;
   finally
     sc.Free;
   end;
@@ -128,6 +140,7 @@ begin
   if strupper(token1) = 'RANDOM' then
   begin
     fList[fNumItems].israndom := true;
+    fList[fNumItems].s_param := '';
     fList[fNumItems].computed := false;
     if token = '' then
     begin
@@ -183,7 +196,7 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     if fList[index].israndom then
-      result := fList[index].i_rand1 + N_Random * (fList[index].i_rand2 - fList[index].i_rand1) div 256
+      result := fList[index].i_rand1 + (N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1)) div 256
     else
       result := fList[index].i_param
   end
@@ -206,7 +219,7 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     if fList[index].israndom then
-      result := (fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1) * 256) / FRACUNIT
+      result := (fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1) * 256) / FRACUNIT
     else
       result := fList[index].f_param
   end
@@ -230,7 +243,7 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     if fList[index].israndom then
-      result := fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1) * 256
+      result := fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1) * 256
     else
       result := fList[index].fx_param
   end

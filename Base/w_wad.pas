@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -175,8 +175,6 @@ function W_GetNameForNum(const lump: integer): char8_t;
 
 function W_LumpLength(const lump: integer): integer;
 procedure W_ReadLump(const lump: integer; dest: pointer);
-var
-  lumpcache: PPointerArray;
 
 function W_CacheLumpNum(const lump: integer; const tag: integer): pointer;
 function W_CacheLumpNum2(const lump: integer; const tag: integer): pointer;
@@ -213,6 +211,7 @@ uses
   z_zone;
 
 var
+  lumpcache: PPointerArray;
   numlumps: integer = 0;
 
 const

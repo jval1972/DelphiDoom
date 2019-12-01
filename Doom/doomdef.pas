@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -171,6 +171,13 @@ const
 
 // Deaf monsters/do not react to sound.
   MTF_AMBUSH = 8;
+
+// killough 11/98
+  MTF_NOTSINGLE = 16;
+  MTF_NOTDM = 32;
+  MTF_NOTCOOP = 64;
+// DelphiDoom
+  MTF_COMPATIBILITY = 31;
   MTF_ONMIDSECTOR = 128;  // JVAL: 3d floors
   MTF_DONOTTRIGGERSCRIPTS = 256;  // JVAL: Script Events
 

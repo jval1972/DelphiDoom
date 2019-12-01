@@ -1,3 +1,15 @@
+Version 2.0.4 build 715 - (18/2/2018)
+-----------
+Corrected demo recording bug. Problem was more likely appeared in version 2.0.3.704.
+16 and 32 angles in sprites.
+Midi files will not freeze the game input when restarted.
+Volume control now works in midi files.
+Midi files playback will pause when the game is paused (pause key pressed).
+MP3 files playback will pause when the game is paused (pause key pressed).
+Will not spawn terrain splashes in case of a bridge of self referencing sectors.
+Will read PNG sprites inside WADs, support for "grAb" PNG chunk to determine offsets.
+Will also read BMP (bitmaps) sprites inside WADs. 
+
 Version 2.0.4 build 714 - (22/1/2018)
 -----------
 Interpolate sector flag can be controled within PascalScript.

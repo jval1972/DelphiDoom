@@ -1990,6 +1990,7 @@ var
   mo: Pmobj_t;
   sec: Psector_t;
   z: fixed_t; // JVAL: 3d Floors
+  ss: Psubsector_t;
 begin
   result := FLOOR_SOLID;
 
@@ -2001,7 +2002,13 @@ begin
   if G_NeedsCompatibilityMode then
     exit;
 
-  sec := Psubsector_t(thing.subsector).sector;
+  ss := thing.subsector;
+
+  if ss.flags and SSF_BRIDGE <> 0 then
+    if G_PlayingEngineVersion >= VERSION204 then
+      exit;
+
+  sec := ss.sector;
   // don't splash if landing on the edge above water/lava/etc....
   if thing.floorz <> sec.floorheight then
     exit;
@@ -2090,7 +2097,7 @@ begin
   parm := strtrim(parm1 + ' ' + parm2);
   if parm = '' then
   begin
-    printf('Usage:'#13#10' spawnmobj [x y z angle doomdnum/doomname]'#13#10);
+    printf('Usage:'#13#10' spawnmobj [x y z angle doomednum/doomname]'#13#10);
     exit;
   end;
 

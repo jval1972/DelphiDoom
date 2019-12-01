@@ -194,7 +194,7 @@ var
 {$IFNDEF OPENGL}
   // for precise plane drawing in hi-res
   dviewsin, dviewcos: Double;
-  relativeaspect: Double;
+  planerelativeaspect: Double;
 {$ENDIF}
   projection: fixed_t;
   projectiony: fixed_t; // JVAL For correct aspect
@@ -356,6 +356,7 @@ uses
 {$ENDIF}
   v_data,
   sb_bar,
+  w_sprite,
   z_zone;
 
 var
@@ -1675,6 +1676,8 @@ begin
   printf(#13#10 + 'R_ShutDownDepthBuffer'#13#10); // JVAL: 3d Floors
   R_ShutDownDepthBuffer;
 {$ENDIF}
+  printf(#13#10 + 'W_ShutDownSprites'#13#10); // JVAL: Images as sprites
+  W_ShutDownSprites; // JVAL: Images as sprites
   printf(#13#10);
 
 end;
@@ -1797,7 +1800,7 @@ begin
   dviewsin := Sin(viewangle / $FFFFFFFF * 2 * pi);
   dviewcos := Cos(viewangle / $FFFFFFFF * 2 * pi);
 // JVAL: Widescreen support
-  relativeaspect := 320 / 200 * 65536.0 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
+  planerelativeaspect := 320 / 200 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
 {$ENDIF}
   sscount := 0;
 

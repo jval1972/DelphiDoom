@@ -193,13 +193,18 @@ begin
     begin
       dmin := actor.state.params.IntVal[0];
       dmax := actor.state.params.IntVal[1];
-      if dmax < dmin then
+      if (dmin = 0) and (dmax = 0) then
+        damage := actor.info.meleedamage
+      else
       begin
-        damage := dmax;
-        dmax := dmin;
-        dmin := damage;
+        if dmax < dmin then
+        begin
+          damage := dmax;
+          dmax := dmin;
+          dmin := damage;
+        end;
+        damage := dmin + N_Random mod (dmax - dmin + 1);
       end;
-      damage := dmin + N_Random mod (dmax - dmin + 1);
     end;
     P_DamageMobj(actor.target, actor, actor, damage);
   end;

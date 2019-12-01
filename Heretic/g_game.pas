@@ -2672,6 +2672,7 @@ var
   i: integer;
 begin
   demo_p := demobuffer;
+  demoversion := VERSION;
 
   PInteger(demo_p)^ := DEMOHDR;
   demo_p := @demo_p[4];

@@ -4343,7 +4343,7 @@ object Form1: TForm1
       Top = 1
       Width = 294
       Height = 357
-      ActivePage = FunctionsTabSheet
+      ActivePage = TabSheet6
       Align = alClient
       MultiLine = True
       TabOrder = 0
@@ -4490,6 +4490,41 @@ object Form1: TForm1
         Caption = 'Types'
         ImageIndex = 4
         inline Frame_Types1: TFrame_Types
+          Left = 0
+          Top = 0
+          Width = 286
+          Height = 311
+          Align = alClient
+          TabOrder = 0
+          inherited Splitter1: TSplitter
+            Width = 286
+          end
+          inherited ToolbarPanel: TPanel
+            Width = 286
+          end
+          inherited EditorPanel: TPanel
+            Width = 286
+            Height = 80
+          end
+          inherited DetailPanel: TPanel
+            Width = 286
+            Height = 80
+            inherited DeclPanel: TPanel
+              Width = 284
+            end
+          end
+          inherited Panel1: TPanel
+            Width = 286
+            inherited ListView1: TListView
+              Width = 284
+            end
+          end
+        end
+      end
+      object TabSheet6: TTabSheet
+        Caption = 'Actordef Actions'
+        ImageIndex = 5
+        inline Frame_Actordef1: TFrame_Actordef
           Left = 0
           Top = 0
           Width = 286
@@ -4669,6 +4704,9 @@ object Form1: TForm1
                 8B8E8D8C8A89888A89888B8A898D8C8B8E8D8C8E8D8C8F8F8D919190FFFFFFFF
                 FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
               NumGlyphs = 1
+            end
+            inherited GameTypeComboBox: TComboBox
+              OnChange = Frame_ProjectManager1GameTypeComboBoxChange
             end
           end
           inherited TreeView1: TTreeView
