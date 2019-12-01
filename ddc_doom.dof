@@ -105,13 +105,17 @@ HostApplication=D:\DelphiDoom_Release\DelphiDoom_Src\bin\Tools\DD_IDE.exe
 Launcher=
 UseLauncher=0
 DebugCWD=
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=4
-Build=711
+Build=712
 Debug=0
 PreRelease=0
 Special=0
@@ -122,9 +126,9 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=DelphiDoom Script DLL
-FileVersion=2.0.4.711
+FileVersion=2.0.4.712
 InternalName=
-LegalCopyright=Copyright 2016-2017, Jim Valavanis
+LegalCopyright=Copyright 2016-2018, Jim Valavanis
 LegalTrademarks=
 OriginalFilename=ddc_doom.dll
 ProductName=

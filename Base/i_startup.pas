@@ -90,7 +90,7 @@ uses
   d_main,
   i_io,
   i_system;
-  
+
 var
   StartUpConsoleForm: TStartUpConsoleForm;
   startupformactive: boolean = false;

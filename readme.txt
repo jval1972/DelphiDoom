@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,21 +27,19 @@
 
 General
 -------
-This is the translation of the Linux C source code of the game Doom to the Delphi programming language. 
-Many features have been added to take advantage of modern hardware: 
- -External hi-res textures 
- -32 bit color software renderer (multithreading up to 256 logical CPUs)
- -Voxels
+This is the recreation of the games Doom, Heretic, Hexen and Strife to the Delphi programming language. 
+Features: 
+ -Multithreading 32 bit color software renderer
  -OpenGL support with md2 models and dynamic lightmaps 
+ -External hi-res textures 
+ -MD2 models
+ -Voxels
  -mp3 & midi music 
  -3d middle Floors
  -Slopes
+ -Advanced script engine (PascalScript) to customize levels and actors
+ -Custom actor definition (ACTORDEF lumps)
  -and more... 
-In addition provides accurate demo playback of most Vanilla Doom demos.
-
-Description
------------
-This Application is a WIN32 port of the famous Doom game created by ID Software.
 
 --------------------------------------------
 Requirements

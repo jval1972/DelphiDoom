@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=0
 Release=1
-Build=10
+Build=11
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=DelphiDoom Script IDE
-FileVersion=1.0.1.10
+FileVersion=1.0.1.11
 InternalName=DD_IDE
 LegalCopyright=Copyright 2016-2017, Jim Valavanis
 LegalTrademarks=

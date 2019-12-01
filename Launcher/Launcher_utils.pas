@@ -36,6 +36,8 @@ function I_ScreenHeight: integer;
 
 function I_SetDPIAwareness: boolean;
 
+function I_GetWindowDPI(const h: THandle): integer;
+
 implementation
 
 uses
@@ -363,18 +365,39 @@ var
 begin
   result := false;
 
-  dllinst := LoadLibrary(user32);
-  dpifunc2 := GetProcAddress(dllinst, 'SetProcessDpiAwareness');
-  if assigned(dpifunc2) then
+  dllinst := LoadLibrary('Shcore.dll');
+  if dllinst <> 0 then
   begin
-    result := dpifunc2(2) = S_OK;
+    dpifunc2 := GetProcAddress(dllinst, 'SetProcessDpiAwareness');
+    if assigned(dpifunc2) then
+    begin
+      result := dpifunc2(2) = S_OK;
+      if not result then
+        result := dpifunc2(1) = S_OK;
+    end;
     FreeLibrary(dllinst);
     exit;
   end;
 
+  dllinst := LoadLibrary('user32');
   dpifunc := GetProcAddress(dllinst, 'SetProcessDPIAware');
   if assigned(dpifunc) then
     result := dpifunc;
+  FreeLibrary(dllinst);
+end;
+
+function I_GetWindowDPI(const h: THandle): integer;
+var
+  dpifunc2: dpiproc2_t;
+  dllinst: THandle;
+begin
+  dllinst := LoadLibrary(user32);
+  dpifunc2 := GetProcAddress(dllinst, 'GetDpiForWindow');
+  if assigned(dpifunc2) then
+    result := dpifunc2(h)
+  else
+    result := 96;
+
   FreeLibrary(dllinst);
 end;
 

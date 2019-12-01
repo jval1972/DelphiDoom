@@ -3374,7 +3374,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Limit framerate to screen syncronization';
+  pmi.name := '!Limit framerate to screen sync';
   pmi.cmd := 'gl_screensync';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_screensync;

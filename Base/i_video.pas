@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2018 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -83,6 +83,7 @@ var
 
 var
   bpp: integer;
+  dpi: integer;
 
 var
   s_alttab_disabled: boolean = false;
@@ -415,6 +416,7 @@ begin
   stretch := stallhack and fixstallhack and (WINDOWHEIGHT = SCREENHEIGHT);
   if not stretch then
     stretch := (WINDOWWIDTH <> SCREENWIDTH) or (WINDOWHEIGHT <> SCREENHEIGHT);
+
   if stretch then
   begin
     destrect.Left := 0;
@@ -676,6 +678,8 @@ begin
   hres := g_pDD.CreateSurface(ddsd, g_pDDScreen, nil);
   if hres <> DD_OK then
     I_ErrorInitGraphics('CreateSurface');
+
+  dpi := I_GetWindowDPI(hMainWnd);
 end;
 
 const
@@ -821,6 +825,8 @@ begin
   hres := g_pDD.CreateSurface(ddsd, g_pDDScreen, nil);
   if hres <> DD_OK then
     I_Error('I_ChangeFullScreen(): CreateSurface failed');
+
+  dpi := I_GetWindowDPI(hMainWnd);
 end;
 
 procedure I_ReadScreen32(dest: pointer);
