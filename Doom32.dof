@@ -96,11 +96,11 @@ PackageDLLOutputDir=
 PackageDCPOutputDir=
 SearchPath=
 Packages=vcl;rtl;dbrtl;inet;inetdb;dsnap;bdertl;vclx;vcldb;vcldbx;visualclx;visualdbclx;vclactnband;vclshlctrls;vclie;xmlrtl;inetdbbde;inetdbxpress;webdsnap;soaprtl;websnap;adortl;dbexpress;dsnapcon;dbxcds;ibxpress;teeui;teedb;tee;dss;indy;VclSmp;qrpt;teeqr;Rave50CLX;Rave50VCL;IntrawebDB_50_70;Intraweb_50_70;VclNewlyext
-Conditionals=DOOM
+Conditionals=DOOM;OPTIMIZE_FOR_SPEED
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1366 -screenheight 768 -fullscreen
+RunParams=-screenwidth 640 -screenheight 400 -nofullscreen -iwad doom1.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -114,8 +114,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=1
 MinorVer=1
-Release=3
-Build=510
+Release=4
+Build=532
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.3.510
+FileVersion=1.1.4.532
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2012, Jim Valavanis
 LegalTrademarks=
@@ -135,14 +135,27 @@ ProductName=Doom 32 bit engine
 ProductVersion=1.0
 Comments=http://delphidoom.sitesled.com/
 [HistoryLists\hlConditionals]
-Count=1
-Item0=DOOM
+Count=8
+Item0=DOOM;OPTIMIZE_FOR_SPEED
+Item1=DOOM;OPTIMIZE_FOR_SIZE
+Item2=DOOM
+Item3=HEXEN;OPENGL
+Item4=HERETIC
+Item5=OPENGL;DOOM
+Item6=HEXEN;OPTIMIZE_FOR_SIZE
+Item7=HEXEN
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlUnitOutputDirectory]
-Count=1
+Count=5
 Item0=..\dcu\Doom\soft
+Item1=..\dcu\Hexen\GL
+Item2=..\dcu\Hexen\Soft
+Item3=..\dcu\Heretic\Soft
+Item4=..\dcu\Doom\GL
 [HistoryLists\hlOutputDirectorry]
-Count=1
+Count=3
 Item0=..\bin\Doom
+Item1=..\bin\Hexen
+Item2=..\bin\Heretic

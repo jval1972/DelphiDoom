@@ -183,6 +183,54 @@ procedure A_NoiseAlert(actor: Pmobj_t);
 
 procedure A_ConsoleCommand(actor: Pmobj_t);  
 
+procedure A_SetCustomParam(actor: Pmobj_t);
+
+procedure A_AddCustomParam(actor: Pmobj_t);
+
+procedure A_SubtractCustomParam(actor: Pmobj_t);
+
+procedure A_SetTargetCustomParam(actor: Pmobj_t);
+
+procedure A_AddTargetCustomParam(actor: Pmobj_t);
+
+procedure A_SubtractTargetCustomParam(actor: Pmobj_t);
+
+procedure A_JumpIfCustomParam(actor: Pmobj_t);
+
+procedure A_JumpIfCustomParamLess(actor: Pmobj_t);
+
+procedure A_JumpIfCustomParamGreater(actor: Pmobj_t);
+
+procedure A_JumpIfTargetCustomParam(actor: Pmobj_t);
+
+procedure A_JumpIfTargetCustomParamLess(actor: Pmobj_t);
+
+procedure A_JumpIfTargetCustomParamGreater(actor: Pmobj_t);
+
+procedure A_SetShootable(actor: Pmobj_t);
+
+procedure A_UnSetShootable(actor: Pmobj_t);
+
+procedure A_PlayerMessage(actor: Pmobj_t);
+
+procedure A_PlayerFaceMe(actor: Pmobj_t);
+
+procedure A_GoToIfCustomParam(actor: Pmobj_t);
+
+procedure A_GoToIfCustomParamLess(actor: Pmobj_t);
+
+procedure A_GoToIfCustomParamGreater(actor: Pmobj_t);
+
+procedure A_GoToIfTargetCustomParam(actor: Pmobj_t);
+
+procedure A_GoToIfTargetCustomParamLess(actor: Pmobj_t);
+
+procedure A_GoToIfTargetCustomParamGreater(actor: Pmobj_t);
+
+procedure A_SetFloorClip(actor: Pmobj_t);
+
+procedure A_UnSetFloorClip(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -210,13 +258,28 @@ implementation
 
 uses
   d_delphi,
+  d_player,
   i_system,
   c_con,
-  info_h, info,
-  m_rnd, m_vectors,
-  p_enemy, p_mobj, p_inter, p_map, p_maputl, p_local, p_pspr, p_sounds,
+  info_h,
+  info,
+  r_defs,
+  m_rnd,
+  m_vectors,
+  p_enemy,
+  p_mobj,
+  p_inter,
+  p_user,
+  p_map,
+  p_maputl,
+  p_local,
+  p_pspr,
+  p_sounds,
+  p_terrain,
   sounds,
   s_sound,
+  sc_states,
+  p_common,
   tables;
 
 procedure A_CustomSound1(mo: Pmobj_t);
@@ -372,36 +435,6 @@ begin
   mo.momy := FixedMul(speed, finesine[an]);
   mo.z := mo.z + 5 * FRACUNIT;
 
-end;
-
-function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1): boolean;
-begin
-  if numparms = 0 then
-  begin
-    I_Warning('P_CheckStateParams(): Expected params can not be 0'#13#10, [numparms]);
-    result := false;
-    exit;
-  end;
-
-  if actor.state.params = nil then
-  begin
-    I_Warning('P_CheckStateParams(): Parameter list is null');
-    if numparms > 0 then
-      I_Warning(', %d parameters expected', [numparms]);
-    I_Warning(#13#10);
-    result := false;
-    exit;
-  end;
-
-  if numparms <> -1 then
-    if actor.state.params.Count <> numparms then
-    begin
-      I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
-      result := false;
-      exit;
-    end;
-
-  result := true;
 end;
 
 //
@@ -1814,7 +1847,7 @@ begin
   P_NoiseAlert(actor.target, actor);
 end;
 
-procedure A_ConsoleCommand(actor: Pmobj_t);   // xmen
+procedure A_ConsoleCommand(actor: Pmobj_t);
 var
   cmd: string;
   i: integer;
@@ -1828,6 +1861,464 @@ begin
 
   C_AddCommand(cmd);
 end;
+
+procedure A_SetCustomParam(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
+end;
+
+procedure A_AddCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  parm := P_GetMobjCustomParam(actor, actor.state.params.StrVal[0]);
+  if parm = nil then
+    P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], parm.value + actor.state.params.IntVal[1])
+end;
+
+procedure A_SubtractCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  parm := P_GetMobjCustomParam(actor, actor.state.params.StrVal[0]);
+  if parm <> nil then
+  begin
+    P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], parm.value + actor.state.params.IntVal[1]);
+    if parm.value < 0 then
+      parm.value := 0;
+  end;
+end;
+
+procedure A_SetTargetCustomParam(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
+end;
+
+procedure A_AddTargetCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  parm := P_GetMobjCustomParam(actor.target, actor.state.params.StrVal[0]);
+  if parm = nil then
+    P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], actor.state.params.IntVal[1])
+  else
+    P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], parm.value + actor.state.params.IntVal[1])
+end;
+
+procedure A_SubtractTargetCustomParam(actor: Pmobj_t);
+var
+  parm: Pmobjcustomparam_t;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  parm := P_GetMobjCustomParam(actor.target, actor.state.params.StrVal[0]);
+  if parm <> nil then
+  begin
+    P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], parm.value + actor.state.params.IntVal[1]);
+    if parm.value < 0 then
+      parm.value := 0;
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfCustomParam(customparam, value of customparam, offset)
+//
+procedure A_JumpIfCustomParam(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfCustomParamLess(customparam, value of customparam, offset)
+//
+procedure A_JumpIfCustomParamLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfCustomParamGreater(customparam, value of customparam, offset)
+//
+procedure A_JumpIfCustomParamGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfTargetCustomParam(customparam, value of customparam, offset)
+//
+procedure A_JumpIfTargetCustomParam(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfTargetCustomParamLess(customparam, value of customparam, offset)
+//
+procedure A_JumpIfTargetCustomParamLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+//
+// JVAL
+// Change state offset
+// A_JumpIfTargetCustomParamGreater(customparam, value of customparam, offset)
+//
+procedure A_JumpIfTargetCustomParamGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_SetShootable(actor: Pmobj_t);
+begin
+  actor.flags := actor.flags or MF_SHOOTABLE;
+end;
+
+procedure A_UnSetShootable(actor: Pmobj_t);
+begin
+  actor.flags := actor.flags and (not MF_SHOOTABLE);
+end;
+
+//
+// A_PlayerMessage
+//
+procedure A_PlayerMessage(actor: Pmobj_t);
+var
+  p: Pplayer_t;
+  msg: string;
+  i: integer;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  p := actor.player;
+  if p = nil then
+  begin
+    if actor.target <> nil then
+      Exit;
+    p := actor.target.player;
+    if p = nil then exit;
+  end;
+
+  msg := actor.state.params.StrVal[0];
+  for i := 1 to actor.state.params.Count - 1 do
+    msg := msg + ' ' + actor.state.params.StrVal[i];
+
+  p._message := msg;
+end;
+
+procedure A_PlayerFaceMe(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.target = nil then
+    Exit;
+
+  if actor.target.player = nil then
+    Exit;
+
+  P_PlayerFaceMobj(actor.target.player, actor, actor.state.params.IntVal[0]);
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfCustomParam(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfCustomParam(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfCustomParamLess(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfCustomParamLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfCustomParamGreater(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfCustomParamGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfTargetCustomParam(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfTargetCustomParam(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) = actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfTargetCustomParamLess(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfTargetCustomParamLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) < actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfTargetCustomParamGreater(customparam, value of customparam, newstate)
+//
+procedure A_GoToIfTargetCustomParamGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_SetFloorClip(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_FLOORCLIP;
+  if (actor.z = Psubsector_t(actor.subsector).sector.floorheight) and
+     (P_GetThingFloorType(actor) > FLOOR_SOLID) then
+      actor.floorclip := FOOTCLIPSIZE
+    else
+      actor.floorclip := 0;
+end;
+
+procedure A_UnSetFloorClip(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_FLOORCLIP);
+end;
+                     {
+procedure A_PlayPlayerWalkSound(actor: Pmobj_t);
+begin
+  if actor.player = nil then
+    exit;
+
+  if actor.health <= 0 then
+    exit;
+
+  if P_AproxDistance(actor.x - Pplayer_t(actor.player).lastsoundstepx,
+                     actor.y - Pplayer_t(actor.player).lastsoundstepy) < 128 * FRACUNIT then
+    exit;
+
+  Pplayer_t(actor.player).lastsoundstepx := actor.x;
+  Pplayer_t(actor.player).lastsoundstepy := actor.y;
+
+  A_PlaysoundIfMoving(actor);
+end;          }
 
 end.
 

@@ -55,9 +55,8 @@ uses
   info_h,
   rtl_types,
   sc_engine,
-  {$IFDEF OPENGL}
   sc_states,
-  {$ENDIF}
+  sc_tokens,
   w_pak,
   w_wad;
 
@@ -265,6 +264,7 @@ var
     stmp: string;
     finished: boolean;
     p: integer;
+    alias: string;
   begin
     result := false;
     if sc._Finished then
@@ -410,6 +410,21 @@ var
     end;
 
     result := true;
+    
+    alias := sc._String;
+    if alias <> '' then
+    begin
+      if alias[Length(alias)] = ':' then
+      begin
+        sc.GetString;
+        SetLength(alias, Length(alias) - 1);
+        alias := 'S_' + strupper(mobj.name + '_' + alias);
+      end
+      else
+        alias := '';
+    end;
+
+
     sprite := sc._string;
     sc.GetString;
     frames := sc._string;
@@ -457,7 +472,7 @@ var
         action := stmp;
     end;
 
-    if stmp = '' then
+    if action = '' then
       action := 'A_Null';
 
     for i := 1 to length(frames) do
@@ -475,6 +490,8 @@ var
         pm_state.action := action;
         pm_state.nextstate := numstates + 1;
         pm_state.bright := bright;
+        pm_state.alias := alias;
+        alias := ''; // Alias only for the first state
         inc(numstates);
       end;
     end;
@@ -499,9 +516,7 @@ var
   procedure SubmitParsedData;
   var
     cnt: integer;
-    {$IFDEF OPENGL}
     stateprefix: string;
-    {$ENDIF}
   begin
     res := '';
     AddRes('NewThing ' + mobj.name);
@@ -561,14 +576,13 @@ var
       if m_states[numstates - 1].nextstate = numstates then
         m_states[numstates - 1].nextstate := numstates - 1;
 
-      {$IFDEF OPENGL}
       stateprefix := 'S_' + strupper(mobj.name);
-      {$ENDIF}
       for cnt := 0 to numstates - 1 do
       begin
-      {$IFDEF OPENGL}
-        statenames.Add(stateprefix + itoa(cnt));
-      {$ENDIF}
+        if m_states[cnt].alias <> '' then
+          statenames.Add(stateprefix + itoa(cnt)+ ', ' + m_states[cnt].alias)
+        else
+          statenames.Add(stateprefix + itoa(cnt));
         AddRes('Frame NewFrame ' + itoa(cnt));
         AddRes('Sprite Number = ' + m_states[cnt].sprite);
         if m_states[cnt].bright then
@@ -935,10 +949,10 @@ begin
         else
         begin
           if mobj.name <> '' then
-            stmp := ' while parsing mobj"' + mobj.name + '"'
+            stmp := ' while parsing mobj "' + mobj.name + '"'
           else
             stmp := '';
-          I_Warning('SC_DecorateToDEH(): Unknown token %s found%s'#13#10, [sc._String, stmp]);
+          I_Warning('SC_DecorateToDEH(): Unknown token "%s" found%s'#13#10, [sc._String, stmp]);
           sc.GetString;
         end;
       until foundstates or sc._Finished;
@@ -1039,9 +1053,7 @@ var
   p: integer;
   lumplist: TDNumberList;
 begin
-  {$IFDEF OPENGL}
   SC_ParseStatedefLump;
-  {$ENDIF}
 // JVAL
 // Retrive sndinfo lumps for sound alias list
   sound_tx := '';
@@ -1115,17 +1127,13 @@ end;
 procedure SC_Init;
 begin
   soundaliases := TDStringList.Create;
-  {$IFDEF OPENGL}
-  statenames := TDStringList.Create;
-  {$ENDIF}
+  statenames := TTokenList.Create;
 end;
 
 procedure SC_ShutDown;
 begin
   soundaliases.Free;
-  {$IFDEF OPENGL}
   statenames.Free;
-  {$ENDIF}
 end;
 
 end.

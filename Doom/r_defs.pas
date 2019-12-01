@@ -449,6 +449,8 @@ type
     gz: fixed_t;
     gzt: fixed_t;
 
+    footclip: fixed_t;  // foot clipping
+
     // horizontal position of x1
     startfrac: fixed_t;
     {$ENDIF}

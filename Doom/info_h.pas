@@ -389,7 +389,7 @@ type
   state_t = record
 {$IFDEF OPTIMIZE_FOR_SIZE}
     sprite: smallint;
-    frame: smallint;
+    frame: integer;
     tics: smallint;
 {$ELSE}
     sprite: integer;
@@ -472,7 +472,7 @@ type
 
 {$IFDEF OPTIMIZE_FOR_SIZE}
 const
-  MOBJINFONAMESIZE = 17;
+  MOBJINFONAMESIZE = 18;
 
 type
   mobjinfo_t = packed record
@@ -506,6 +506,7 @@ type
     customsound1: smallint;
     customsound2: smallint;
     customsound3: smallint;
+    meleesound: smallint;
     dropitem: smallint;
     missiletype: smallint;
     explosiondamage: smallint;

@@ -134,6 +134,7 @@ uses
   i_mp3,
   i_sound,
   p_mobj_h,
+  p_adjust,
   r_main,
   r_hires,
   r_lights,
@@ -709,6 +710,7 @@ type
     od_useclassicfuzzeffect,
     od_enableflatscrolling,
     od_fixstallhack,
+    od_autoadjustmissingtextures,
     optdispadvanced_end
   );
 
@@ -3061,6 +3063,13 @@ begin
   pmi.pBoolVal := @fixstallhack;
   pmi.alphaKey := 's';
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Auto-adjust missing textures';
+  pmi.cmd := 'autoadjustmissingtextures';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @autoadjustmissingtextures;
+  pmi.alphaKey := 'a';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAdvancedDef

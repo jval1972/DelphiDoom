@@ -55,7 +55,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 151;
+  DEHNUMACTIONS = 178;
 
 type
   deh_action_t = record
@@ -98,21 +98,31 @@ implementation
 uses
   c_cmds,
   doomdef,
-  d_main, d_items, d_englsh, dstrings,
+  d_main,
+  d_items,
+  d_englsh,
+  dstrings,
 {$IFNDEF OPENGL}
   e_endoom,
-{$ENDIF}  
+{$ENDIF}
   f_finale,
   g_game,
   hu_stuff,
   i_system,
   info_h, info,
   m_argv,
-  p_mobj, p_mobj_h, p_enemy, p_extra, p_pspr, p_inter,
+  p_mobj,
+  p_mobj_h,
+  p_enemy,
+  p_extra,
+  p_common,
+  p_pspr,
+  p_inter,
   sounds,
   sc_params,
   v_data,
-  w_wad, w_pak;
+  w_wad,
+  w_pak;
 
 function DHE_NextLine(const s: TDStringList; var str: string; var counter: integer; const skipblanc: boolean = true): boolean;
 var
@@ -349,6 +359,7 @@ var
   token3: string;
   token4: string;
   token5: string;
+  settext: string;
   mustnextline: boolean;
 
   mobj_no: integer;
@@ -767,7 +778,7 @@ begin
                     states[state_no].params := TCustomParamList.CreateFromText(token4);
                 end
                 else
-                  I_Warning('DEH_Parse(): Unknown action function = %s in state %d'#13#10, [token3, state_no]);
+                  I_Warning('DEH_Parse(): Unknown action function = "%s" in state %d'#13#10, [token3, state_no]);
               end;
             end;
            5: states[state_no].misc1 := state_val;
@@ -841,7 +852,8 @@ begin
       if len2 <= 0 then
         continue;
 
-      token1 := DEH_StringValue(Copy(stmp, 1, len1));
+      settext := Copy(stmp, 1, len1);
+      token1 := DEH_StringValue(settext);
       token2 := Copy(stmp, len1 + 1, len2);
 
       foundtext := false;
@@ -854,7 +866,33 @@ begin
         end;
 
       if not foundtext then
-        I_Warning('DEH_Parse(): Can not find setable text "%s"'#13#10, [Copy(stmp, 1, len1)]);
+      begin
+        for j := 1 to Ord(NUMMUSIC) - 1 do // First music is dummy
+        begin
+          stmp := strupper(S_music[j].name);
+          if stmp = token1 then
+          begin
+            foundtext := true;
+            S_music[j].name := token2;
+            break;
+          end
+          else if 'D_' + stmp = token1 then // JVAL Allow D_ prefix for checking
+          begin
+            foundtext := true;
+            S_music[j].name := token2;
+            break;
+          end
+          else if strupper(S_music[j].mapname) = token1 then
+          begin
+            foundtext := true;
+            S_music[j].name := token2;
+            break;
+          end
+        end;
+      end;
+
+      if not foundtext then
+        I_Warning('DEH_Parse(): Can not find setable text "%s"'#13#10, [settext]);
 
     end
 
@@ -1877,7 +1915,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_DONTDRAW');
   mobj_flags2_ex.Add('MF2_EX_INTERACTIVE');
   mobj_flags2_ex.Add('MF2_EX_DONTINFIGHTMONSTERS');
-
+  mobj_flags2_ex.Add('MF2_EX_FLOORCLIP');
   
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite
@@ -2192,6 +2230,60 @@ begin
   deh_actions[149].name := strupper('NoiseAlert');
   deh_actions[150].action.acp1 := @A_ConsoleCommand;
   deh_actions[150].name := strupper('ConsoleCommand');
+  deh_actions[151].action.acp1 := @A_SetCustomParam;
+  deh_actions[151].name := strupper('SetCustomParam');
+  deh_actions[152].action.acp1 := @A_AddCustomParam;
+  deh_actions[152].name := strupper('AddCustomParam');
+  deh_actions[153].action.acp1 := @A_SubtractCustomParam;
+  deh_actions[153].name := strupper('SubtractCustomParam');
+  deh_actions[154].action.acp1 := @A_SetTargetCustomParam;
+  deh_actions[154].name := strupper('SetTargetCustomParam');
+  deh_actions[155].action.acp1 := @A_AddTargetCustomParam;
+  deh_actions[155].name := strupper('AddTargetCustomParam');
+  deh_actions[156].action.acp1 := @A_SubtractTargetCustomParam;
+  deh_actions[156].name := strupper('SubtractTargetCustomParam');
+  deh_actions[157].action.acp1 := @A_JumpIfCustomParam;
+  deh_actions[157].name := strupper('JumpIfCustomParam');
+  deh_actions[158].action.acp1 := @A_JumpIfCustomParamLess;
+  deh_actions[158].name := strupper('JumpIfCustomParamLess');
+  deh_actions[159].action.acp1 := @A_JumpIfCustomParamGreater;
+  deh_actions[159].name := strupper('JumpIfCustomParamGreater');
+  deh_actions[160].action.acp1 := @A_JumpIfTargetCustomParam;
+  deh_actions[160].name := strupper('JumpIfTargetCustomParam');
+  deh_actions[161].action.acp1 := @A_JumpIfTargetCustomParamLess;
+  deh_actions[161].name := strupper('JumpIfTargetCustomParamLess');
+  deh_actions[162].action.acp1 := @A_JumpIfTargetCustomParamGreater;
+  deh_actions[162].name := strupper('JumpIfTargetCustomParamGreater');
+  deh_actions[163].action.acp1 := @A_SetShootable;
+  deh_actions[163].name := strupper('SetShootable');
+  deh_actions[164].action.acp1 := @A_UnSetShootable;
+  deh_actions[164].name := strupper('UnSetShootable');
+  deh_actions[165].action.acp1 := @A_PlayerMessage;
+  deh_actions[165].name := strupper('PlayerMessage');
+  deh_actions[166].action.acp1 := @A_PlayerFaceMe;
+  deh_actions[166].name := strupper('PlayerFaceMe');
+  deh_actions[167].action.acp1 := @A_GoTo;
+  deh_actions[167].name := strupper('GoTo');
+  deh_actions[168].action.acp1 := @A_GoToIfCloser;
+  deh_actions[168].name := strupper('GoToIfCloser');
+  deh_actions[169].action.acp1 := @A_GoToIfHealthLower;
+  deh_actions[169].name := strupper('GoToIfHealthLower');
+  deh_actions[170].action.acp1 := @A_GoToIfCustomParam;
+  deh_actions[170].name := strupper('GoToIfCustomParam');
+  deh_actions[171].action.acp1 := @A_GoToIfCustomParamLess;
+  deh_actions[171].name := strupper('GoToIfCustomParamLess');
+  deh_actions[172].action.acp1 := @A_GoToIfCustomParamGreater;
+  deh_actions[172].name := strupper('GoToIfCustomParamGreater');
+  deh_actions[173].action.acp1 := @A_GoToIfTargetCustomParam;
+  deh_actions[173].name := strupper('GoToIfTargetCustomParam');
+  deh_actions[174].action.acp1 := @A_GoToIfTargetCustomParamLess;
+  deh_actions[174].name := strupper('GoToIfTargetCustomParamLess');
+  deh_actions[175].action.acp1 := @A_GoToIfTargetCustomParamGreater;
+  deh_actions[175].name := strupper('GoToIfTargetCustomParamGreater');
+  deh_actions[176].action.acp1 := @A_SetFloorClip;
+  deh_actions[176].name := strupper('SetFloorClip');
+  deh_actions[177].action.acp1 := @A_UnSetFloorClip;
+  deh_actions[177].name := strupper('UnSetFloorClip');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

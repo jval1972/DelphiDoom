@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -113,7 +113,7 @@ var
   realdlitems: integer = 0;
 
 const
-  DLIGHTSDRAWRANGE = 1024 * FRACUNIT;
+  DLIGHTSDRAWRANGE = 2048 * FRACUNIT;
 
 implementation
 

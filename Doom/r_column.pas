@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -66,7 +66,7 @@ var
   dc_alpha: fixed_t;
 
 const
-  MAXTEXTUREFACTORBITS = 3; // JVAL: Allow hi resolution textures x 8 
+  MAXTEXTUREFACTORBITS = 3; // JVAL: Allow hi resolution textures x 8
 
 var
 // first pixel in a column (possibly virtual)
@@ -79,7 +79,9 @@ implementation
 uses
   doomdef,
   doomtype,
-  r_data, r_draw, r_hires,
+  r_data,
+  r_draw,
+  r_hires,
   v_video;
 
 //
@@ -196,7 +198,9 @@ var
   frac: fixed_t;
   fracstep: fixed_t;
   fraclimit: fixed_t;
+  fraclimit2: fixed_t;
   swidth: integer;
+  dc_local: PByteArray;
 begin
   count := dc_yh - dc_yl;
 
@@ -214,16 +218,87 @@ begin
   fracstep := dc_iscale;
   frac := dc_texturemid + (dc_yl - centery) * fracstep;
   fraclimit := frac + count * fracstep;
+  fraclimit2 := frac + (count - 16) * fracstep;
   swidth := SCREENWIDTH;
+  dc_local := dc_source;
 
   // Inner loop that does the actual texture mapping,
   //  e.g. a DDA-lile scaling.
   // This is as fast as it gets.
+  while frac <= fraclimit2 do
+  begin
+  // Re-map color indices from wall texture column
+  //  using a lighting/special effects LUT.
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    inc(dest, swidth);
+    inc(frac, fracstep);
+  end;
+
   while frac <= fraclimit do
   begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
-    dest^ := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
 
     inc(dest, swidth);
     inc(frac, fracstep);
@@ -296,7 +371,7 @@ begin
 
   swidth := SCREENWIDTH32PITCH;
   lfactor := dc_lightlevel;
-  if fracstep > 2 * FRACUNIT div 5 then
+  if fracstep > 2 * FRACUNIT div 3 then
   begin
     if lfactor >= 0 then
     begin

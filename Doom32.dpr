@@ -251,7 +251,13 @@ uses
   i_exec in 'Base\i_exec.pas',
   i_tmp in 'Base\i_tmp.pas',
   i_startup in 'Base\i_startup.pas' {StartUpConsoleForm},
-  t_material in 'TEXLIB\t_material.pas';
+  t_material in 'TEXLIB\t_material.pas',
+  p_adjust in 'Base\p_adjust.pas',
+  w_autoload in 'Base\w_autoload.pas',
+  sc_tokens in 'Base\sc_tokens.pas',
+  sc_states in 'Base\sc_states.pas',
+  p_common in 'Base\p_common.pas',
+  d_check in 'Doom\d_check.pas';
 
 var
   Saved8087CW: Word;

@@ -42,6 +42,7 @@ uses
   hu_stuff,
   p_mobj_h,
   p_setup,
+  p_adjust,
 {$IFDEF OPENGL}
   gl_main,
   gl_defs,
@@ -118,7 +119,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 132;
+  NUMDEFAULTS = 133;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -337,6 +338,13 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+    (name: 'autoadjustmissingtextures';
+     location: @autoadjustmissingtextures;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
 
     (name: 'OpenGL';
      location: nil;

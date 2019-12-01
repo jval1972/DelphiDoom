@@ -123,6 +123,7 @@ uses
   d_net,
   c_con,
   c_cmds,
+  d_check,
 {$IFNDEF OPENGL}
   e_endoom,
   f_wipe,
@@ -167,6 +168,7 @@ uses
   t_main,
   v_data,
   v_video,
+  w_autoload,
   w_wad,
   w_pak,
   z_zone;
@@ -747,6 +749,7 @@ begin
   begin
     try
       wadfiles.Add(fname);
+      D_CheckCustomWad(fname);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
     // GL_xxxx lumps has lower priority from GWA files, that's for we
@@ -1688,6 +1691,14 @@ begin
   printf('W_Init: Init WADfiles.'#13#10);
   if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
   begin
+    if fexists('CHEX.WAD') then
+      D_AddFile('CHEX.WAD')
+    else if fexists('HACX.WAD') then
+      D_AddFile('HACX.WAD');
+  end;
+
+  if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
+  begin
   // JVAL
   //  If none wadfile has found as far,
   //  we search the current directory
@@ -1700,6 +1711,9 @@ begin
       I_Error('W_InitMultipleFiles(): no files found');
   end;
 
+  printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
+  W_AutoLoadPakFiles;
+
   {$IFNDEF FPC}
   SUC_Progress(40);
   {$ENDIF}
@@ -1710,6 +1724,10 @@ begin
   if M_CheckParm('-internalgamedef') = 0 then
     if not DEH_ParseLumpName('GAMEDEF') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
+
+  if customgame in [cg_chex, cg_chex2] then
+    if not DEH_ParseLumpName('CHEX.DEH') then
+      I_Warning('DEH_ParseLumpName(): GAMEDEF lump for CHEX QUEST not found, using defaults.'#13#10);
 
   {$IFNDEF FPC}
   SUC_Progress(41);

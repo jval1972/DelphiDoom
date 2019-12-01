@@ -44,6 +44,7 @@ type
     flags_ex: integer;
     bright: boolean;
     has_goto: boolean;
+    alias: string;
   end;
 
 type

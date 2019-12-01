@@ -309,7 +309,7 @@ begin
     R_SetInterpolateSkipTicks(1);
 
   thing.flags := thing.flags or MF_JUSTAPPEARED;
-                                
+
   result := true;
 end;
 

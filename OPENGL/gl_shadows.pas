@@ -50,7 +50,7 @@ procedure gld_DynamicShadowsDone;
 function gld_GetDynamicShadow(const radious: integer): PGLDRenderLight;
 
 const
-  SHADOWSDRAWRANGE = 512 * FRACUNIT;
+  SHADOWSDRAWRANGE = 2048 * FRACUNIT;
 
 implementation
 

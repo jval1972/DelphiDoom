@@ -37,7 +37,7 @@ uses
     m_menu.h, m_menu.c
 }
 
-// Emacs style mode select   -*- C++ -*-  
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 // 
 // $Id:$ 
@@ -136,6 +136,8 @@ uses
   p_mobj_h,
   p_terrain,
   p_enemy,
+  p_user,
+  p_adjust,
   r_main,
   r_hires,
   r_lights,
@@ -563,6 +565,7 @@ type
     od_chasecamera,
     od_fixstallhack,
     od_hidedoublicatedbarrels,
+    od_autoadjustmissingtextures,
     optdispadvanced_end
   );
 
@@ -675,6 +678,7 @@ type
 //
   compatibility_e = (
     cmp_allowplayerjumps,
+    cmp_allowplayerbreath,
     cmp_keepcheatsinplayerrebord,
     cmp_majorbossdeathendsdoom1level,
     cmp_spawnrandommonsters,
@@ -1151,7 +1155,13 @@ begin
     M_SetupNextMenu(@NewDef);
   end
   else
-    M_SetupNextMenu(@EpiDef);
+  begin
+      // JVAL: Chex Support
+    if customgame in [cg_chex, cg_chex2] then
+      M_SetupNextMenu(@NewDef)
+    else
+      M_SetupNextMenu(@EpiDef);
+  end;
 end;
 
 //
@@ -2893,6 +2903,14 @@ begin
   pmi.pBoolVal := @hidedoublicatedbarrels;
   pmi.alphaKey := 'b';
 
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Auto-adjust missing textures';
+  pmi.cmd := 'autoadjustmissingtextures';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @autoadjustmissingtextures;
+  pmi.alphaKey := 'a';
+
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAdvancedDef
   OptionsDisplayAdvancedDef.numitems := Ord(optdispadvanced_end); // # of menu items
@@ -3249,6 +3267,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @allowplayerjumps;
   pmi.alphaKey := 'j';
+
+  Inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Allow player breath';
+  pmi.cmd := 'allowplayerbreath';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @allowplayerbreath;
+  pmi.alphaKey := 'b';
 
   inc(pmi);
   pmi.status := 1;

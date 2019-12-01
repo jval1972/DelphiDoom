@@ -188,6 +188,7 @@ uses
   p_tick,
   p_spec,
   p_switch,
+  p_adjust,
   p_inter,
   p_enemy,
   p_pspr,
@@ -571,6 +572,13 @@ end;
 
 function P_GameValidThing(const doomdnum: integer): boolean;
 begin
+  // Don't spawn DoomBuilder 3D Editing mode camera
+  if doomdnum = 32000 then
+  begin
+    result := false;
+    exit;
+  end;
+
   // Do not registered monsters if shareware
   if gamemode = shareware then
   begin
@@ -719,7 +727,7 @@ begin
       ld.backsector := sides[ld.sidenum[1]].sector
     else
       ld.backsector := nil;
-
+                         
     {$IFDEF OPENGL}
     ld.renderflags := 0;
     {$ENDIF}
@@ -896,7 +904,6 @@ begin
     inc(sector);
   end;
 end;
-
 
 //==========================================================================
 //
@@ -1117,6 +1124,9 @@ begin
   P_GroupLines;
 
   P_RemoveSlimeTrails;
+
+  if autoadjustmissingtextures then
+    P_AdjustMissingTextures;
 
   bodyqueslot := 0;
   po_NumPolyobjs := 0;

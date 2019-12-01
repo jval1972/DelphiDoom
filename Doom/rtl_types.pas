@@ -42,6 +42,7 @@ type
     flags_ex: integer;
     bright: boolean;
     has_goto: boolean;
+    alias: string;
   end;
   Prtl_state_t = ^rtl_state_t;
 

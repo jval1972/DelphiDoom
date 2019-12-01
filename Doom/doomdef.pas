@@ -51,7 +51,8 @@ const
   VERSION116 = 116;
   VERSION117 = 117;
   VERSION118 = 118;
-  VERSION = VERSION118;
+  VERSION119 = 119;
+  VERSION = VERSION119;
 
 var
   oldsharewareversion: boolean = false;
@@ -76,6 +77,14 @@ type
     pack_tnt,       // TNT mission pack
     pack_plutonia,  // Plutonia pack
     none
+  );
+
+  // JVAL: Chex Support
+  CustomGame_t = (
+    cg_none,
+    cg_chex,
+    cg_chex2,
+    cg_hacx
   );
 
 // Identify language to use, software localization.

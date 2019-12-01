@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-screenwidth 1366 -screenheight 768 -fullscreen -pakfile doom-models.pk3
+RunParams=-screenwidth 1366 -screenheight 768 -fullscreen -iwad hacx\hacx.wad
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -114,8 +114,8 @@ IncludeVerInfo=1
 AutoIncBuild=1
 MajorVer=1
 MinorVer=1
-Release=3
-Build=510
+Release=4
+Build=532
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.3.510
+FileVersion=1.1.4.532
 InternalName=GLDoom
 LegalCopyright=Copyright 2005 - 2012, Jim Valavanis
 LegalTrademarks=
@@ -135,26 +135,26 @@ ProductName=Doom 32 bit OpenGL engine
 ProductVersion=1.0
 Comments=http://delphidoom.sitesled.com/
 [HistoryLists\hlConditionals]
-Count=8
+Count=7
 Item0=OPENGL;DOOM;
-Item1=OPENGL;DOOM;DEBUG
+Item1=HEXEN;OPENGL
 Item2=HERETIC
 Item3=OPENGL;DOOM
 Item4=DOOM
-Item5=HEXEN;
-Item6=HEXEN;OPTIMIZE_FOR_SIZE
-Item7=HEXEN
+Item5=HEXEN;OPTIMIZE_FOR_SIZE
+Item6=HEXEN
 [HistoryLists\hlUnitAliases]
 Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlUnitOutputDirectory]
-Count=4
+Count=5
 Item0=..\dcu\Doom\GL
-Item1=..\dcu\Heretic\Soft
-Item2=..\dcu\Doom\Soft
-Item3=..\dcu\Hexen\Soft
+Item1=..\dcu\Hexen\GL
+Item2=..\dcu\Hexen\Soft
+Item3=..\dcu\Heretic\Soft
+Item4=..\dcu\Doom\Soft
 [HistoryLists\hlOutputDirectorry]
 Count=3
 Item0=..\bin\Doom
-Item1=..\bin\Heretic
-Item2=..\bin\Hexen
+Item1=..\bin\Hexen
+Item2=..\bin\Heretic

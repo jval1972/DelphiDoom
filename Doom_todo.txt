@@ -1,0 +1,34 @@
+touching_thinglist (seems OK)
+msecnode
+MT_PUSH (seems OK)
+MP_PULL (seems OK)
+heightsec
+
+
+P_GetSecnode
+P_PutSecnode
+P_AddSecnode
+P_DelSecnode
+P_DelSeclist
+PIT_GetSectors
+P_CreateSecNodeList (seems OK)
+
+sector_list (seems OK)
+
+touching_sectorlist (seems OK)
+
+T_Friction (seems OK)
+T_Pusher (seems OK)
+
+
+ceilinglightlevel (seems OK)
+floorlightlevel (seems OK)
+
+
+Add_Pusher (seems OK)
+Add_Friction (seems OK)
+
+
+PTR_NoWayTraverse
+
+P_CanUnlockGenDoor

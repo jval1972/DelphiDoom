@@ -245,7 +245,12 @@ uses
   z_files in 'ZLIB\z_files.pas',
   i_tmp in 'Base\i_tmp.pas',
   i_startup in 'Base\i_startup.pas' {StartUpConsoleForm},
-  t_material in 'TEXLIB\t_material.pas';
+  t_material in 'TEXLIB\t_material.pas',
+  p_adjust in 'Base\p_adjust.pas',
+  w_autoload in 'Base\w_autoload.pas',
+  sc_states in 'Base\sc_states.pas',
+  sc_tokens in 'Base\sc_tokens.pas',
+  p_common in 'Base\p_common.pas';
 
 var
   Saved8087CW: Word;

@@ -131,9 +131,30 @@ begin
     incp(pointer(save_p), SizeOf(player_t114));
     p.attackerx := 0;
     p.attackery := 0;
+    p.lastsoundstepx := 0;
+    p.lastsoundstepy := 0;
+    p.lastbreath := 0;
+    p.hardbreathtics := 0;
+    p.angletargetx := 0;
+    p.angletargety := 0;
+    p.angletargetticks := 0;
+    result := true;
+  end
+  else if savegameversion <= VERSION118 then
+  begin
+    memcpy(pointer(p), save_p, SizeOf(player_t118));
+    incp(pointer(save_p), SizeOf(player_t118));
+    p.lastsoundstepx := 0;
+    p.lastsoundstepy := 0;
+    p.lastbreath := 0;
+    p.hardbreathtics := 0;
+    p.angletargetx := 0;
+    p.angletargety := 0;
+    p.angletargetticks := 0;
     result := true;
   end
   else
+
     result := false
 end;
 
@@ -149,7 +170,7 @@ begin
 
     PADSAVEP;
 
-    if savegameversion > VERSION114 then
+    if savegameversion > VERSION118 then
     begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
@@ -355,6 +376,7 @@ procedure P_ArchiveThinkers;
 var
   th: Pthinker_t;
   mobj: Pmobj_t;
+  parm, parm1: Pmobjcustomparam_t;
 begin
   // save off the current thinkers
   th := thinkercap.next;
@@ -373,6 +395,16 @@ begin
 
       if mobj.player <> nil then
         mobj.player := Pplayer_t(pDiff(mobj.player, @players[0], SizeOf(player_t)) + 1);
+
+      parm := mobj.customparams;
+      while parm <> nil do
+      begin
+        parm1 := Pmobjcustomparam_t(save_p);
+        memcpy(parm1, parm, SizeOf(mobjcustomparam_t));
+        incp(pointer(save_p), SizeOf(mobjcustomparam_t));
+        parm := parm.next;
+      end;
+
     end;
   // I_Error ("P_ArchiveThinkers: Unknown thinker function");
     th := th.next;
@@ -389,6 +421,7 @@ var
   mobj114: Pmobj_t114;
   mobj115: Pmobj_t115;
   mobj117: Pmobj_t117;
+  mobj118: Pmobj_t118;
 begin
   ZeroMemory(mobj, SizeOf(mobj_t));
   if savegameversion = VERSION113 then
@@ -436,6 +469,8 @@ begin
     mobj.fastchasetics := 0;
     mobj.friction := 0;
     mobj.movefactor := 0;
+    mobj.customparams := nil;
+    mobj.floorclip := 0;
 
     Z_Free(mobj113);
     result := true
@@ -485,6 +520,8 @@ begin
     mobj.fastchasetics := mobj114.fastchasetics;
     mobj.friction := 0;
     mobj.movefactor := 0;
+    mobj.customparams := nil;
+    mobj.floorclip := 0;
 
     Z_Free(mobj114);
     result := true
@@ -534,6 +571,8 @@ begin
     mobj.fastchasetics := mobj115.fastchasetics;
     mobj.friction := 0;
     mobj.movefactor := 0;
+    mobj.customparams := nil;
+    mobj.floorclip := 0;
 
     Z_Free(mobj115);
     result := true
@@ -583,8 +622,61 @@ begin
     mobj.fastchasetics := mobj117.fastchasetics;
     mobj.friction := mobj117.friction;
     mobj.movefactor := mobj117.movefactor;
+    mobj.customparams := nil;
+    mobj.floorclip := 0;
 
     Z_Free(mobj117);
+    result := true
+  end
+  else if savegameversion = VERSION118 then
+  begin
+    mobj118 := Z_Malloc(SizeOf(mobj_t118), PU_STATIC, nil);
+    memcpy(mobj118, save_p, SizeOf(mobj_t118));
+    incp(pointer(save_p), SizeOf(mobj_t118));
+    mobj.thinker := mobj118.thinker;
+    mobj.x := mobj118.x;
+    mobj.y := mobj118.y;
+    mobj.z := mobj118.z;
+    mobj.snext := mobj118.snext;
+    mobj.sprev := mobj118.sprev;
+    mobj.angle := mobj118.angle;
+    mobj.viewangle := mobj118.viewangle;
+    mobj.sprite := mobj118.sprite;
+    mobj.frame := mobj118.frame;
+    mobj.bpos := mobj118.bpos;
+    mobj.bidx := mobj118.bpos;
+    mobj.subsector := mobj118.subsector;
+    mobj.radius := mobj118.radius;
+    mobj.height := mobj118.height;
+    mobj.momx := mobj118.momx;
+    mobj.momy := mobj118.momy;
+    mobj.momz := mobj118.momz;
+    mobj.validcount := mobj118.validcount;
+    mobj._type := mobj118._type;
+    mobj.tics := mobj118.tics;
+    mobj.state := mobj118.state;
+    mobj.prevstate := mobj118.prevstate;
+    mobj.flags := mobj118.flags;
+    mobj.flags_ex := mobj118.flags_ex;
+    mobj.flags2_ex := mobj118.flags2_ex;
+    mobj.renderstyle := mobj118.renderstyle;
+    mobj.alpha := mobj118.alpha;
+    mobj.bob := mobj118.bob;
+    mobj.health := mobj118.health;
+    mobj.movedir := mobj118.movedir;
+    mobj.movecount := mobj118.movecount;
+    mobj.reactiontime := mobj118.reactiontime;
+    mobj.threshold := mobj118.threshold;
+    mobj.player := mobj118.player;
+    mobj.lastlook := mobj118.lastlook;
+    mobj.spawnpoint := mobj118.spawnpoint;
+    mobj.fastchasetics := mobj118.fastchasetics;
+    mobj.friction := mobj118.friction;
+    mobj.movefactor := mobj118.movefactor;
+    mobj.customparams := nil;
+    mobj.floorclip := 0;
+
+    Z_Free(mobj118);
     result := true
   end
   else
@@ -599,6 +691,7 @@ var
   currentthinker: Pthinker_t;
   next: Pthinker_t;
   mobj: Pmobj_t;
+  parm: Pmobjcustomparam_t;
 begin
   // remove all the current thinkers
   currentthinker := thinkercap.next;
@@ -642,12 +735,25 @@ begin
           mobj.target := nil;
           mobj.tracer := nil;
           mobj.touching_sectorlist := nil;
+
+          if mobj.customparams <> nil then
+          begin
+            mobj.customparams := nil;
+            repeat
+              parm := Z_Malloc(SizeOf(mobjcustomparam_t), PU_STATIC, nil);
+              memcpy(parm, save_p, SizeOf(mobjcustomparam_t));
+              incp(pointer(save_p), SizeOf(mobjcustomparam_t));
+              P_SetMobjCustomParam(mobj, parm.name, parm.value);
+            until parm.next = nil;
+          end;
+
           if mobj.player <> nil then
           begin
             mobj.player := @players[integer(mobj.player) - 1];
 
             Pplayer_t(mobj.player).mo := mobj;
           end;
+
           P_SetThingPosition(mobj);
           mobj.info := @mobjinfo[Ord(mobj._type)];
           mobj.floorz := Psubsector_t(mobj.subsector).sector.floorheight;

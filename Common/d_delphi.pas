@@ -100,6 +100,14 @@ type
     byte1, byte2: byte;
   end;
 
+  twointegers = packed record
+    int1, int2: integer;
+  end;
+
+  twolongwords = packed record
+    longword1, longword2: longword;
+  end;
+
   TOutProc = procedure (const s: string);
 
 var

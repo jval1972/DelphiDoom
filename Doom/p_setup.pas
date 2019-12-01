@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -160,6 +160,7 @@ uses
   p_switch,
   p_inter,
   p_maputl,
+  p_adjust,
   r_data,
   r_things,
 {$IFNDEF OPENGL}
@@ -169,7 +170,6 @@ uses
   info_h,
 {$IFDEF OPENGL}
   gl_data,    // JVAL OPENGL
-      // JVAL OPENGL
   gl_render,  // JVAL OPENGL
   r_main,
 {$ENDIF}
@@ -553,6 +553,12 @@ end;
 
 function P_GameValidThing(const doomdnum: integer): boolean;
 begin
+  // Don't spawn DoomBuilder 3D Editing mode camera
+  if doomdnum = 32000 then
+  begin
+    result := false;
+    exit;
+  end;
   // Do not spawn cool, new monsters if !commercial
   if gamemode <> commercial then
   begin
@@ -1386,7 +1392,7 @@ var
   v_id: integer;
   dx2, dy2, dxy, s: int64;
   x0, y0, x1, y1: integer;
-begin                        exit;
+begin
   hit := mallocz(numvertexes);  // Hitlist for vertices
   for i := 0 to numsegs - 1 do  // Go through each seg
   begin
@@ -1452,6 +1458,9 @@ begin
     players[i].killcount := 0;
     players[i].secretcount := 0;
     players[i].itemcount := 0;
+    players[i].lastsoundstepx := 0;
+    players[i].lastsoundstepy := 0;
+    players[i].lastbreath := 0;
   end;
 
   // Initial height of PointOfView
@@ -1541,6 +1550,9 @@ begin
 
   P_RemoveSlimeTrails;    // killough 10/98: remove slime trails from wad
 
+  if autoadjustmissingtextures then
+    P_AdjustMissingTextures;
+
   bodyqueslot := 0;
   deathmatch_p := 0;
   P_LoadThings(lumpnum + Ord(ML_THINGS));
@@ -1594,3 +1606,4 @@ begin
 end;
 
 end.
+

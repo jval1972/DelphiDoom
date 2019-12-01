@@ -39,6 +39,7 @@ var
 // Game Mode - identify IWAD as shareware, retail etc.
   gamemode: GameMode_t = indetermined;
   gamemission: GameMission_t = doom;
+  customgame: CustomGame_t = cg_none;
 
 // Language.
   language: Language_t = english;

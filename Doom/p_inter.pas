@@ -861,6 +861,11 @@ begin
     item := target.info.dropitem
   else
   begin
+    // JVAL: Support for Chex Quest
+    // Note: We allow the dropitems to custom defined actors
+    if customgame in [cg_chex, cg_chex2] then
+      exit;
+
     case target._type of
       Ord(MT_WOLFSS),
       Ord(MT_POSSESSED):
@@ -1002,6 +1007,7 @@ begin
     if player.damagecount > 100 then
       player.damagecount := 100;  // teleport stomp does 10k points...
 
+    player.hardbreathtics := player.damagecount * 10;
   end;
 
   // do the damage

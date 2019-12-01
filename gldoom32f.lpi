@@ -18,7 +18,12 @@
       <EnableI18N LFM="False"/>
     </i18n>
     <VersionInfo>
-      <StringTable ProductVersion=""/>
+      <UseVersionInfo Value="True"/>
+      <MajorVersionNr Value="1"/>
+      <MinorVersionNr Value="1"/>
+      <RevisionNr Value="3"/>
+      <BuildNr Value="510"/>
+      <StringTable CompanyName="Jim Valavanis" FileDescription="Doom to FreePascal Total Conversion" InternalName="GLDoom" OriginalFilename="gldoom32f.exe" ProductName="Doom 32 bit OpenGL engine" ProductVersion="1.0"/>
     </VersionInfo>
     <BuildModes Count="1" Active="Default">
       <Item1 Name="Default" Default="True"/>
@@ -38,11 +43,10 @@
         <Filename Value="gldoom32f.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="gldoom32f"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
         <TopLine Value="190"/>
-        <CursorPos X="9" Y="200"/>
+        <CursorPos X="22" Y="178"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -411,10 +415,11 @@
       <Unit41>
         <Filename Value="Doom\d_main.pas"/>
         <UnitName Value="d_main"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="1920"/>
-        <CursorPos X="65" Y="1941"/>
+        <TopLine Value="1225"/>
+        <CursorPos X="16" Y="1227"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -471,7 +476,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit46>
     </Units>
-    <JumpHistory Count="24" HistoryIndex="23">
+    <JumpHistory Count="25" HistoryIndex="24">
       <Position1>
         <Filename Value="Base\i_io.pas"/>
         <Caret Line="52" Column="25" TopLine="39"/>
@@ -568,6 +573,10 @@
         <Filename Value="gldoom32f.lpr"/>
         <Caret Line="3" Column="2" TopLine="1"/>
       </Position24>
+      <Position25>
+        <Filename Value="Doom\d_main.pas"/>
+        <Caret Line="1941" Column="65" TopLine="1920"/>
+      </Position25>
     </JumpHistory>
   </ProjectOptions>
   <CompilerOptions>
@@ -590,12 +599,21 @@
       <TargetProcessor Value="pentium4"/>
       <TargetCPU Value="i386"/>
       <TargetOS Value="win32"/>
+      <Optimizations>
+        <OptimizationLevel Value="3"/>
+      </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>
-        <GenerateDebugInfo Value="True"/>
+        <UseLineInfoUnit Value="False"/>
+        <StripSymbols Value="True"/>
       </Debugging>
       <LinkSmart Value="True"/>
+      <Options>
+        <Win32>
+          <GraphicApplication Value="True"/>
+        </Win32>
+      </Options>
     </Linking>
     <Other>
       <CompilerMessages>

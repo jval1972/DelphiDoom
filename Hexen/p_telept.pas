@@ -52,8 +52,11 @@ uses
   i_system,
   info_h,
   m_rnd,
-  p_map, p_mobj, p_local,
-  s_sound, sounds,
+  p_map,
+  p_mobj,
+  p_local,
+  s_sound,
+  sounds,
   xn_defs;
 
 function P_Teleport(thing: Pmobj_t; x, y: fixed_t; angle: angle_t; useFog: boolean): boolean;

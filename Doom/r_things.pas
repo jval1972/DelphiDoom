@@ -50,7 +50,7 @@ var
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
-procedure R_DrawMaskedColumn(column: Pcolumn_t);
+procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 
 procedure R_SortVisSprites;
@@ -402,7 +402,7 @@ end;
 //  in posts/runs of opaque pixels.
 //
 
-procedure R_DrawMaskedColumn(column: Pcolumn_t);
+procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
 var
   topscreen: integer;
   bottomscreen: integer;
@@ -413,32 +413,69 @@ begin
 
   fc_x := mfloorclip[dc_x];
   cc_x := mceilingclip[dc_x];
-  while column.topdelta <> $ff do
+
+  if baseclip <> -1 then
   begin
-    // calculate unclipped screen coordinates
-    // for post
-    topscreen := sprtopscreen + spryscale * column.topdelta;
-    bottomscreen := topscreen + spryscale * column.length;
-
-    dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
-    dc_yh := FixedInt(bottomscreen - 1);
-
-    if dc_yh >= fc_x then
-      dc_yh := fc_x - 1;
-    if dc_yl <= cc_x then
-      dc_yl := cc_x + 1;
-
-    if dc_yl <= dc_yh then
+    while column.topdelta <> $ff do
     begin
-      dc_source := PByteArray(integer(column) + 3);
-      dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
-      // Drawn by either R_DrawColumn
-      //  or (SHADOW) R_DrawFuzzColumn
-      //  or R_DrawColumnAverage
-      //  or R_DrawTranslatedColumn
-      colfunc;
+      // calculate unclipped screen coordinates
+      // for post
+      topscreen := sprtopscreen + spryscale * column.topdelta;
+      bottomscreen := topscreen + spryscale * column.length;
+
+      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt(bottomscreen - 1);
+
+      if dc_yh >= fc_x then
+        dc_yh := fc_x - 1;
+      if dc_yl <= cc_x then
+        dc_yl := cc_x + 1;
+
+      if dc_yh >= baseclip then
+        dc_yh := baseclip;
+
+      if dc_yl <= dc_yh then
+      begin
+        dc_source := PByteArray(integer(column) + 3);
+        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        // Drawn by either R_DrawColumn
+        //  or (SHADOW) R_DrawFuzzColumn
+        //  or R_DrawColumnAverage
+        //  or R_DrawTranslatedColumn
+        colfunc;
+      end;
+      column := Pcolumn_t(integer(column) + column.length + 4);
     end;
-    column := Pcolumn_t(integer(column) + column.length + 4);
+  end
+  else
+  begin
+    while column.topdelta <> $ff do
+    begin
+      // calculate unclipped screen coordinates
+      // for post
+      topscreen := sprtopscreen + spryscale * column.topdelta;
+      bottomscreen := topscreen + spryscale * column.length;
+
+      dc_yl := FixedInt(topscreen + (FRACUNIT - 1));
+      dc_yh := FixedInt(bottomscreen - 1);
+
+      if dc_yh >= fc_x then
+        dc_yh := fc_x - 1;
+      if dc_yl <= cc_x then
+        dc_yl := cc_x + 1;
+
+      if dc_yl <= dc_yh then
+      begin
+        dc_source := PByteArray(integer(column) + 3);
+        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        // Drawn by either R_DrawColumn
+        //  or (SHADOW) R_DrawFuzzColumn
+        //  or R_DrawColumnAverage
+        //  or R_DrawTranslatedColumn
+        colfunc;
+      end;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+    end;
   end;
 
   dc_texturemid := basetexturemid;
@@ -482,7 +519,7 @@ end;
 // R_DrawVisSprite
 //  mfloorclip and mceilingclip should also be set.
 //
-procedure R_DrawVisSprite(vis: Pvissprite_t);
+procedure R_DrawVisSprite(vis: Pvissprite_t; const playerweapon: boolean = false);
 var
   column: Pcolumn_t;
   texturecolumn: integer;
@@ -490,6 +527,7 @@ var
   patch: Ppatch_t;
   i: integer;
   xiscale: integer;
+  baseclip: fixed_t;
 begin
   patch := W_CacheLumpNum(vis.patch + firstspritelump, PU_STATIC);
 
@@ -532,6 +570,11 @@ begin
   spryscale := vis.scale;
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
+  if (vis.footclip <> 0) and (not playerweapon) then
+    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip,  spryscale)))
+  else
+    baseclip := -1;
+
   xiscale := vis.xiscale;
   dc_x := vis.x1;
   for i := vis.x1 to vis.x2 do
@@ -539,7 +582,7 @@ begin
     texturecolumn := LongWord(frac) shr FRACBITS;
 
     column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-    R_DrawMaskedColumn(column);
+    R_DrawMaskedColumn(column, baseclip);
     frac := frac + xiscale;
     inc(dc_x);
   end;
@@ -762,7 +805,9 @@ begin
   vis.gy := thing.y;
   vis.gz := thing.z;
   vis.gzt := thing.z + spritetopoffset[lump];
-  vis.texturemid := vis.gzt - viewz;
+  // foot clipping
+  vis.footclip := thing.floorclip;
+  vis.texturemid := vis.gzt - viewz - vis.footclip * FRACUNIT;
   vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
   if x1 <= 0 then
     vis.x1 := 0
@@ -984,7 +1029,7 @@ begin
 {$IFDEF OPENGL}
   gld_DrawWeapon(lump, vis, lightlevel); // JVAL OPENGL
 {$ELSE}
-  R_DrawVisSprite(vis); // JVAL OPENGL
+  R_DrawVisSprite(vis, true); // JVAL OPENGL
 {$ENDIF}
 end;
 

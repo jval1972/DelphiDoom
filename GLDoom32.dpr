@@ -252,7 +252,11 @@ uses
   gl_lightmaps in 'OPENGL\gl_lightmaps.pas',
   t_material in 'TEXLIB\t_material.pas',
   gl_shadows in 'OPENGL\gl_shadows.pas',
-  gl_shaders in 'OPENGL\gl_shaders.pas';
+  gl_shaders in 'OPENGL\gl_shaders.pas',
+  p_adjust in 'Base\p_adjust.pas',
+  w_autoload in 'Base\w_autoload.pas',
+  p_common in 'Base\p_common.pas',
+  d_check in 'Doom\d_check.pas';
 
 var
   Saved8087CW: Word;

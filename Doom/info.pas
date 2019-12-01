@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -99,7 +99,10 @@ implementation
 uses
   i_system,
   m_fixed,
-  p_enemy, p_pspr, p_mobj_h, p_extra,
+  p_enemy,
+  p_pspr,
+  p_mobj_h,
+  p_extra,
   sounds;
 
 const
@@ -16857,7 +16860,7 @@ var
   check: string;
   i: integer;
 begin
-  if name = '' then
+  if (name = '') or (name = '-1') then
   begin
     result := -1;
     exit;

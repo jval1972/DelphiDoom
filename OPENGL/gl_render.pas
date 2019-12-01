@@ -2807,21 +2807,33 @@ var
   texitem: Ptexturemanagetitem_t;
   modelinf: Pmodelmanageritem_t;
   nextframe: integer;
+  restoreblend: Boolean;
 begin
   info := @modelstates[idx];
+
+  restoreblend := false;
 
   if sprite.flags and GLS_SHADOW <> 0 then
   begin
     glBlendFunc(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA);
     glAlphaFunc(GL_GEQUAL, 0.1);
     glColor4f(0.2, 0.2, 0.2, 0.33);
+    restoreblend := true;
   end
   else
   begin
     if sprite.flags and GLS_TRANSPARENT <> 0 then
-      gld_StaticLightAlpha(sprite.light, sprite.alpha)
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      restoreblend := true;
+    end
     else if info.transparency < 0.9999 then
-      gld_StaticLightAlpha(sprite.light, info.transparency)
+    begin
+      gld_StaticLightAlpha(sprite.light, info.transparency);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+      restoreblend := true;
+    end
     else
       gld_StaticLight(sprite.light);
   end;
@@ -2860,6 +2872,9 @@ begin
   end
   else
     modelinf.model.DrawSimple(info.startframe);
+
+  if restoreblend then
+    glAlphaFunc(GL_GEQUAL, 0.01);
 end;
 
 procedure gld_DrawModels(sprite: PGLSprite);
@@ -2996,7 +3011,10 @@ begin
   else
   begin
     if sprite.flags and GLS_TRANSPARENT <> 0 then
-      gld_StaticLightAlpha(sprite.light, sprite.alpha)
+    begin
+      gld_StaticLightAlpha(sprite.light, sprite.alpha);
+      glAlphaFunc(GL_GEQUAL, 0.01);
+    end
     else
       gld_StaticLight(sprite.light);
   end;
@@ -3236,7 +3254,7 @@ begin
   sprite.aproxdist := P_AproxDistance(sprite.mo.x - viewx, sprite.mo.y - viewy);
 
   sprite.x := -pSpr.x / MAP_SCALE;
-  sprite.y :=  pSpr.z / MAP_SCALE;
+  sprite.y :=  (pSpr.z{$IFNDEF HERETIC} - pSpr.floorclip{$ENDIF}) / MAP_SCALE;
   sprite.z :=  pSpr.y / MAP_SCALE;
 
   sprite.vt := 0.0;
@@ -3488,9 +3506,9 @@ begin
   if gl_uselightmaps then
     gld_DeActivateLightmap;
 
-  gld_DrawDLights;
-
   glDisable(GL_FOG);
+
+  gld_DrawDLights;
 
   glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   glDisableClientState(GL_VERTEX_ARRAY);

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -133,9 +133,20 @@ uses
   d_delphi,
   doomdata,
   g_game,
-  info_h, info,
-  p_setup, p_maputl, p_inter, p_mobj, p_spec, p_sight, p_switch, p_tick,
-  r_main, r_sky, r_intrpl,
+  info_h,
+  info,
+  p_setup,
+  p_maputl,
+  p_inter,
+  p_mobj,
+  p_spec,
+  p_sight,
+  p_switch,
+  p_tick,
+  p_terrain,
+  r_main,
+  r_sky,
+  r_intrpl,
   z_zone;
 
 var
@@ -656,6 +667,15 @@ begin
   thing.y := y;
 
   P_SetThingPosition(thing);
+
+  if thing.flags2_ex and MF2_EX_FLOORCLIP <> 0 then
+  begin
+    if (thing.z = Psubsector_t(thing.subsector).sector.floorheight) and
+       (P_GetThingFloorType(thing) > FLOOR_SOLID) then
+      thing.floorclip := FOOTCLIPSIZE
+    else
+      thing.floorclip := 0;
+  end;
 
   // if any special lines were hit, do the effect
   if thing.flags and (MF_TELEPORT or MF_NOCLIP) = 0 then

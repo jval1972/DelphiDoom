@@ -1405,6 +1405,21 @@ begin
     end;
   end;
 
+  // JVAL: Chex Support
+  if customgame in [cg_chex, cg_chex2] then
+    if gamemap  = 5 then
+    begin
+      gameaction := ga_victory;
+      exit;
+    end;
+
+  // JVAL: Hacx Support
+  if customgame = cg_hacx then
+    if gamemap  = 20 then
+    begin
+      gameaction := ga_victory;
+      exit;
+    end;
 
   wminfo.didsecret := players[consoleplayer].didsecret;
   wminfo.epsd := gameepisode - 1;
@@ -1596,6 +1611,8 @@ begin
         savegameversion := VERSION116
       else if vsaved = 'version 117' then
         savegameversion := VERSION117
+      else if vsaved = 'version 118' then
+        savegameversion := VERSION118
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
@@ -1908,8 +1925,17 @@ begin
   if (map > 9) and (gamemode <> commercial) then
     map := 9;
 
+  // JVAL: Chex Support
+  if customgame in [cg_chex, cg_chex2] then
+  begin
+    if map > 5 then
+      map := 5;
+    if episode > 1 then
+      episode := 1;
+  end;
+
   R_ResetInterpolationBuffer;
-  
+
   M_ClearRandom;
 
   if (skill = sk_nightmare) or respawnparm then

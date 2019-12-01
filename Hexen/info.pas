@@ -40903,7 +40903,7 @@ var
   check: string;
   i: integer;
 begin
-  if name = '' then
+  if (name = '') or (name = '-1') then
   begin
     result := -1;
     exit;

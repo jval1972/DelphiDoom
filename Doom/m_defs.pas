@@ -38,8 +38,16 @@ uses
   d_main,
   g_game,
   hu_stuff,
-  p_mobj_h, p_terrain, p_enemy, p_setup,
-  i_system, i_mp3, i_music, i_sound,
+  p_mobj_h,
+  p_terrain,
+  p_enemy,
+  p_setup,
+  p_user,
+  p_adjust,
+  i_system,
+  i_mp3,
+  i_music,
+  i_sound,
 {$IFDEF OPENGL}
   gl_main,
   gl_defs,
@@ -51,7 +59,13 @@ uses
   e_endoom,
 {$ENDIF}
   m_menu,
-  r_defs, r_main, r_hires, r_lights, r_intrpl, r_fake3d, r_draw,
+  r_defs,
+  r_main,
+  r_hires,
+  r_lights,
+  r_intrpl,
+  r_fake3d,
+  r_draw,
   s_sound,
   t_main,
   v_video;
@@ -106,7 +120,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 132;
+  NUMDEFAULTS = 134;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -351,6 +365,14 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+    (name: 'autoadjustmissingtextures';
+     location: @autoadjustmissingtextures;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
     (name: 'OpenGL';
      location: nil;
      setable: DFS_NEVER;
@@ -591,6 +613,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'allowplayerbreath';
+     location: @allowplayerbreath;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'majorbossdeathendsdoom1level';

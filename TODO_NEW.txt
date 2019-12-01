@@ -1,0 +1,3 @@
+TModel.ReduceMemory from xmen project
+
+DONE -> Chace camera movement depenting on sector in view point (from xmen1 project)

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -184,6 +184,7 @@ uses
   p_inter,
   p_ambient,
   p_enemy,
+  p_adjust,
   p_pspr,
   r_data,
   r_things,
@@ -559,6 +560,13 @@ end;
 
 function P_GameValidThing(const doomdnum: integer): boolean;
 begin
+  // Don't spawn DoomBuilder 3D Editing mode camera
+  if doomdnum = 32000 then
+  begin
+    result := false;
+    exit;
+  end;
+
   // Do not registered monsters if shareware
   if gamemode = shareware then
   begin
@@ -1089,7 +1097,10 @@ begin
   P_GroupLines;
 
   P_RemoveSlimeTrails;
-  
+
+  if autoadjustmissingtextures then
+    P_AdjustMissingTextures;
+
   bodyqueslot := 0;
   deathmatch_p := 0;
   P_InitAmbientSound;

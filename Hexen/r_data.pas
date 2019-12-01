@@ -889,6 +889,7 @@ begin
   v_translation := colormaps;
   {$IFNDEF OPENGL}
   R_SetRenderingFunctions;
+  R_SetPalette64;
   R_CalcHiResTables;
   {$ENDIF}
 end;

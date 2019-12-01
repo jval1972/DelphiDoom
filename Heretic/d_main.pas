@@ -168,6 +168,7 @@ uses
   t_main,
   v_data,
   v_video,
+  w_autoload,
   w_wad,
   w_pak,
   z_zone;
@@ -1469,6 +1470,9 @@ begin
     if W_InitMultipleFiles(wadfiles) = 0 then
       I_Error('W_InitMultipleFiles(): no files found');
   end;
+
+  printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
+  W_AutoLoadPakFiles;
 
   SUC_Progress(40);
 

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -234,16 +234,21 @@ end;
 procedure TLayerIII_Decoder.CreateBitReserve;
 var
   cnt: integer;
+  done: boolean;
 begin
   cnt := 0;
+  done := True;
   repeat
     try
       FBR := TBitReserve.Create;
     except
       I_Sleep(100);
       Inc(cnt);
+      done := false;
     end;
-  until (cnt = 0) or (cnt > 32);
+  until done or (cnt > 32);
+  if not done then
+    I_Error('TLayerIII_Decoder.CreateBitReserve(): Can not create FBR');
 end;
 
 procedure TLayerIII_Decoder.Decode;

@@ -10,7 +10,7 @@ DCC = $(ROOT)\bin\dcc32.exe $**
 BRCC = $(ROOT)\bin\brcc32.exe $**
 #------------------------------------------------------------------------------
 PROJECTS = Doom32.exe GLDoom32.exe GLHeretic32.exe Heretic32.exe Launcher.exe \
-  Hexen32.exe
+  Hexen32.exe GLHexen32.exe
 #------------------------------------------------------------------------------
 default: $(PROJECTS)
 #------------------------------------------------------------------------------
@@ -31,6 +31,9 @@ Launcher.exe: Launcher.dpr
   $(DCC)
 
 Hexen32.exe: Hexen32.dpr
+  $(DCC)
+
+GLHexen32.exe: GLHexen32.dpr
   $(DCC)
 
 

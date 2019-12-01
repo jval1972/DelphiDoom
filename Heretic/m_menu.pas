@@ -143,6 +143,7 @@ uses
   i_video,
 {$ENDIF}
   p_mobj_h,
+  p_adjust,
   r_main,
   r_hires,
   r_lights,
@@ -661,6 +662,7 @@ type
     od_usefake3d,
     od_chasecamera,
     od_fixstallhack,
+    od_autoadjustmissingtextures,
     optdispadvanced_end
   );
 
@@ -2912,6 +2914,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @fixstallhack;
   pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Auto-adjust missing textures';
+  pmi.cmd := 'autoadjustmissingtextures';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @autoadjustmissingtextures;
+  pmi.alphaKey := 'a';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAdvancedDef

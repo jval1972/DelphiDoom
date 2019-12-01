@@ -256,7 +256,10 @@ uses
   sc_tokens in 'Base\sc_tokens.pas',
   i_tmp in 'Base\i_tmp.pas',
   i_exec in 'Base\i_exec.pas',
-  gl_frustum in 'OPENGL\gl_frustum.pas';
+  gl_frustum in 'OPENGL\gl_frustum.pas',
+  p_adjust in 'Base\p_adjust.pas',
+  w_autoload in 'Base\w_autoload.pas',
+  p_common in 'Base\p_common.pas';
 
 var
   Saved8087CW: Word;

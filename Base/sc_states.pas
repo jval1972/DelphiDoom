@@ -38,16 +38,20 @@ unit sc_states;
 interface
 
 uses
-  d_delphi;
+  p_mobj_h,
+  sc_tokens;
 
 var
-  statenames: TDStringList;
+  statenames: TTokenList;
 
 procedure SC_ParseStatedefLump;
+
+function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;
 
 implementation
 
 uses
+  d_delphi,
   sc_engine,
   w_wad;
 
@@ -68,6 +72,19 @@ begin
       sc.Free;
       break;
     end;
+end;
+
+function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;
+var
+  st: string;
+begin
+  st := strupper(s);
+  result := statenames.IndexOfToken(st);
+  if result >= 0 then
+    exit;
+
+  st := 'S_' + strupper(actor.info.name) + '_' + st;
+  result := statenames.IndexOfToken(st);
 end;
 
 end.

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,26 +60,45 @@ interface
 //-----------------------------------------------------------------------------
 
 uses
+  p_mobj_h,
   d_player;
 
 procedure P_PlayerThink(player: Pplayer_t);
 
 procedure P_CalcHeight(player: Pplayer_t);
 
+procedure P_PlayerFaceMobj(const player: Pplayer_t; const face: Pmobj_t; const ticks: integer);
+
+var
+  allowplayerbreath: Boolean = false;
+
 implementation
 
 uses
   d_delphi,
-  m_fixed, tables,
-  d_ticcmd, d_event,
-  info_h, info,
+  m_fixed,
+  m_rnd,
+  tables,
+  d_ticcmd,
+  d_event,
+  info_h,
+  info,
 {$IFDEF DEBUG}
   i_io,
 {$ENDIF}
-  g_game, 
-  p_mobj_h, p_mobj, p_tick, p_pspr, p_local, p_spec, p_map,
-  r_main, r_defs,
-  doomdef, doomstat;
+  g_game,
+  p_mobj,
+  p_tick,
+  p_pspr,
+  p_local,
+  p_spec,
+  p_map,
+  r_main,
+  r_defs,
+  sounds,
+  s_sound,
+  doomdef,
+  doomstat;
 
 //
 // Movement.
@@ -235,7 +254,9 @@ begin
     if look > 7 then
       look := look - 16;
 
-    if look <> 0 then
+    if player.angletargetticks > 0 then
+        player.centering := true
+    else if look <> 0 then
     begin
       if look = TOCENTER then
         player.centering := true
@@ -271,7 +292,9 @@ begin
     if look2 > 7 then
       look2 := look2 - 16;
 
-    if look2 <> 0 then
+    if player.angletargetticks > 0 then
+        player.forwarding := true
+    else if look2 <> 0 then
     begin
       if look2 = TOFORWARD then
         player.forwarding := true
@@ -373,6 +396,77 @@ begin
     player.playerstate := PST_REBORN;
 end;
 
+var
+  brsnd: integer = -1;
+  brsnd2: integer = -1;
+  rnd_breath: Integer = 0;
+
+procedure A_PlayerBreath(p: Pplayer_t);
+var
+  sndidx: integer;
+begin
+  if p.health <= 0 then
+    exit;
+
+  if p.playerstate = PST_DEAD then
+    exit;
+
+  if leveltime - p.lastbreath < 3 * TICRATE + (C_Random(rnd_breath) mod TICRATE) then
+    exit;
+
+  p.lastbreath := leveltime;
+
+  if allowplayerbreath then
+  begin
+    if p.hardbreathtics > 0 then
+    begin
+      if brsnd2 < 0 then
+        brsnd2 := S_GetSoundNumForName('player/breath2');
+      sndidx := brsnd2;
+    end
+    else
+    begin
+      if brsnd < 0 then
+        brsnd := S_GetSoundNumForName('player/breath');
+      sndidx := brsnd;
+    end;
+    if sndidx > 0 then
+      S_StartSound(p.mo, sndidx);
+  end;
+end;
+
+procedure P_AngleTarget(player: Pplayer_t);
+var
+  ticks: LongWord;
+  angle: angle_t;
+  diff: angle_t;
+begin
+  if player.angletargetticks <= 0 then
+    exit;
+
+  player.cmd.angleturn := 0;
+  angle := R_PointToAngle2(player.mo.x, player.mo.y, player.angletargetx, player.angletargety);
+  diff := player.mo.angle - angle;
+
+  ticks := player.angletargetticks;
+  if diff > ANG180 then
+  begin
+    diff := ANGLE_MAX - diff;
+    player.mo.angle := player.mo.angle + (diff div ticks);
+  end
+  else
+    player.mo.angle := player.mo.angle - (diff div ticks);
+
+  Dec(player.angletargetticks);
+end;
+
+procedure P_PlayerFaceMobj(const player: Pplayer_t; const face: Pmobj_t; const ticks: integer);
+begin
+  player.angletargetx := face.x;
+  player.angletargety := face.y;
+  player.angletargetticks := ticks;
+end;
+
 //
 // P_PlayerThink
 //
@@ -403,6 +497,8 @@ begin
     P_DeathThink(player);
     exit;
   end;
+
+  P_AngleTarget(player);
 
   // Move around.
   // Reactiontime is used to prevent movement
@@ -500,6 +596,9 @@ begin
   if player.damagecount <> 0 then
     player.damagecount := player.damagecount - 1;
 
+  if player.hardbreathtics > 0 then
+    player.hardbreathtics := player.hardbreathtics - 1;
+
   if player.bonuscount <> 0 then
     player.bonuscount := player.bonuscount - 1;
 
@@ -524,6 +623,9 @@ begin
   end
   else
     player.fixedcolormap := 0;
+
+  if G_PlayingEngineVersion >= VERSION119 then
+    A_PlayerBreath(player);
 end;
 
 

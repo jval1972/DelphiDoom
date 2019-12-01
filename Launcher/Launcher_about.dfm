@@ -20,7 +20,7 @@ object AboutForm: TAboutForm
     Top = 24
     Width = 188
     Height = 13
-    Caption = 'DelphiDoom Launcher version 1.3'
+    Caption = 'DelphiDoom Launcher version 1.4'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -33,7 +33,7 @@ object AboutForm: TAboutForm
     Top = 48
     Width = 157
     Height = 13
-    Caption = #169' 2008-2011, Jim Valavanis'
+    Caption = #169' 2008-2012, Jim Valavanis'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11

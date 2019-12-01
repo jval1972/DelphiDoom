@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2008 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -184,9 +184,19 @@ uses
   d_delphi,
   d_player,
   i_system,
-  info_h, info,
-  m_rnd, m_vectors,
-  p_enemy, p_mobj, p_inter, p_map, p_maputl, p_local, p_pspr, p_sounds,
+  info_h,
+  info,
+  m_rnd,
+  m_vectors,
+  p_enemy,
+  p_mobj,
+  p_inter,
+  p_map,
+  p_maputl,
+  p_local,
+  p_pspr,
+  p_sounds,
+  p_common,
   r_main,
   sounds,
   s_sound,
@@ -313,36 +323,6 @@ end;
 procedure A_RandomMeleeSound(actor: Pmobj_t);
 begin
   P_RandomSound(actor, actor.info.meleesound);
-end;
-
-function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1): boolean;
-begin
-  if numparms = 0 then
-  begin
-    I_Warning('P_CheckStateParams(): Expected params can not be 0'#13#10, [numparms]);
-    result := false;
-    exit;
-  end;
-
-  if actor.state.params = nil then
-  begin
-    I_Warning('P_CheckStateParams(): Parameter list is null');
-    if numparms > 0 then
-      I_Warning(', %d parameters expected', [numparms]);
-    I_Warning(#13#10);
-    result := false;
-    exit;
-  end;
-
-  if numparms <> -1 then
-    if actor.state.params.Count <> numparms then
-    begin
-      I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
-      result := false;
-      exit;
-    end;
-
-  result := true;
 end;
 
 //
@@ -1216,37 +1196,6 @@ begin
 
   ang := round(actor.state.params.FloatVal[0] * ANG1);
   actor.angle := actor.angle + ang;
-end;
-
-//
-// P_BulletSlope
-// Sets a slope so a near miss is at aproximately
-// the height of the intended target
-//
-var
-  bulletslope: fixed_t;
-
-
-procedure P_BulletSlope(mo: Pmobj_t);
-var
-  an: angle_t;
-begin
-  // see which target is to be aimed at
-  an := mo.angle;
-  bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-
-  if linetarget = nil then
-  begin
-    an := an + $4000000;
-    bulletslope := P_AimLineAttack (mo, an, 16 * 64 * FRACUNIT);
-    if linetarget = nil then
-    begin
-      an := an - $8000000;
-      bulletslope := P_AimLineAttack(mo, an, 16 * 64 * FRACUNIT);
-      if linetarget = nil then
-        bulletslope := (Pplayer_t(mo.player).lookdir * FRACUNIT) div 173;
-    end;
-  end;
 end;
 
 //

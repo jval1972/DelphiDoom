@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 187;
+  DEHNUMACTIONS = 190;
 
 type
   deh_action_t = record
@@ -101,7 +101,8 @@ implementation
 uses
   c_cmds,
   doomdef,
-  d_main, h_strings,
+  d_main,
+  h_strings,
 {$IFNDEF OPENGL}
   e_endoom,
 {$ENDIF}
@@ -111,11 +112,19 @@ uses
   i_system,
   info_h, info,
   m_argv,
-  p_mobj, p_mobj_h, p_enemy, p_extra, p_pspr, p_pspr_h, p_inter,
+  p_mobj,
+  p_mobj_h,
+  p_enemy,
+  p_extra,
+  p_common,
+  p_pspr,
+  p_pspr_h,
+  p_inter,
   sounds,
   sc_params,
   v_data,
-  w_wad, w_pak,
+  w_wad,
+  w_pak,
   z_zone;
 
 function DHE_NextLine(const s: TDStringList; var str: string; var counter: integer; const skipblanc: boolean = true): boolean;
@@ -352,6 +361,7 @@ var
   token2: string;
   token3: string;
   token4: string;
+  settext: string;
   mustnextline: boolean;
 
   mobj_no: integer;
@@ -793,7 +803,7 @@ begin
                     states[state_no].params := TCustomParamList.CreateFromText(token4);
                 end
                 else
-                  I_Warning('DEH_Parse(): Unknown action function = %s in state %d'#13#10, [token3, state_no]);
+                  I_Warning('DEH_Parse(): Unknown action function = "%s" in state %d'#13#10, [token3, state_no]);
               end;
             end;
            5: states[state_no].misc1 := state_val;
@@ -867,7 +877,8 @@ begin
       if len2 <= 0 then
         continue;
 
-      token1 := DEH_StringValue(Copy(stmp, 1, len1));
+      settext := Copy(stmp, 1, len1);
+      token1 := DEH_StringValue(settext);
       token2 := Copy(stmp, len1 + 1, len2);
 
       foundtext := false;
@@ -880,7 +891,34 @@ begin
         end;
 
       if not foundtext then
-        I_Warning('DEH_Parse(): Can not find setable text "%s"'#13#10, [Copy(stmp, 1, len1)]);
+      begin
+        for j := 1 to Ord(NUMMUSIC) - 1 do // First music is dummy
+        begin
+          stmp := strupper(S_music[j].name);
+          if stmp = token1 then
+          begin
+            foundtext := true;
+            S_music[j].name := token2;
+            break;
+          end
+          else if 'D_' + stmp = token1 then // JVAL Allow D_ prefix for checking
+          begin
+            foundtext := true;
+            S_music[j].name := token2;
+            break;
+          end
+          else if strupper(S_music[j].mapname) = token1 then
+          begin
+            foundtext := true;
+            S_music[j].name := token2;
+            break;
+          end
+        end;
+      end;
+
+      if not foundtext then
+        I_Warning('DEH_Parse(): Can not find setable text "%s"'#13#10, [settext]);
+
 
     end
 
@@ -2312,6 +2350,12 @@ begin
   deh_actions[185].name := strupper('RandomMissile');
   deh_actions[186].action.acp1 := @P_RemoveMobj;
   deh_actions[186].name := strupper('RemoveSelf');
+  deh_actions[187].action.acp1 := @A_GoTo;
+  deh_actions[187].name := strupper('GoTo');
+  deh_actions[188].action.acp1 := @A_GoToIfCloser;
+  deh_actions[188].name := strupper('GoToIfCloser');
+  deh_actions[189].action.acp1 := @A_GoToIfHealthLower;
+  deh_actions[189].name := strupper('GoToIfHealthLower');
 
 
   deh_strings.numstrings := 0;

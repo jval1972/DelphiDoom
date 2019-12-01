@@ -359,7 +359,7 @@ begin
             I_Warning('SC_ParseModelDefinition(): Token expected at line %d'#13#10, [sc._Line]);
             break;
           end;
-          modelstate.state := statenames.IndexOf(strupper(sc._String));
+          modelstate.state := statenames.IndexOfToken(strupper(sc._String));
           if modelstate.state < 0 then
           begin
             I_Warning('SC_ParseModelDefinition(): Unknown state "%s" at line %d'#13#10, [sc._String, sc._Line]);

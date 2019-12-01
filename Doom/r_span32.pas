@@ -48,7 +48,10 @@ procedure R_DrawSpanNormal;
 implementation
 
 uses
-  r_span, r_draw, r_hires, r_grow,
+  r_span,
+  r_draw,
+  r_hires,
+  r_grow,
   v_video;
 
 //

@@ -981,6 +981,14 @@ begin
          ((epsd > 1) or (map > 34)) then
         exit;
 
+      // JVAL: Chex Support
+      if customgame in [cg_chex, cg_chex2] then
+      begin
+        epsd := 1;
+        if map > 5 then
+          map := 5;
+      end;
+
       // So be it.
       if W_CheckNumForName(P_GetMapName(epsd, map)) > -1 then
       begin

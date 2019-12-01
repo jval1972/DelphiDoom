@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2009 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -56,6 +56,8 @@ procedure I_FinishUpdate;
 procedure I_ReadScreen32(dest: pointer);
 
 procedure I_RestoreWindowPos;
+
+procedure I_SetPalette64;
 
 var
   fixstallhack: boolean = true;
@@ -155,6 +157,29 @@ type
   end;
   Pfinishupdateparms_t = ^finishupdateparms_t;
 
+var
+  curpal64: array[0..$FFFF] of Int64;
+
+//
+// JVAL: Create extended pallete of int64 values for fast update in 8 bid color mode
+//
+procedure I_SetPalette64;
+var
+  idx: twobytes;
+  pitem: twolongwords;
+  i, j: integer;
+begin
+  for i := 0 to 255 do
+    for j := 0 to 255 do
+    begin
+      idx.byte1 := i;
+      idx.byte2 := j;
+      pitem.longword1 := curpal[i];
+      pitem.longword2 := curpal[j];
+      curpal64[PWord(@idx)^] := PInt64(@pitem)^;
+    end;
+end;
+
 //
 // I_FinishUpdate
 //
@@ -192,6 +217,24 @@ begin
       inc(destw);
       inc(src);
     end;
+  end;
+end;
+
+procedure I_FinishUpdate8_64;
+var
+  dest: PInt64;
+  src: PWord;
+  srcstop: PByte;
+begin
+  src := @(screens[SCN_FG][0]);
+  srcstop := @(screens[SCN_FG][SCREENWIDTH * SCREENHEIGHT - 1]);
+
+  dest := @screen[0];
+  while integer(src) < integer(srcstop) do
+  begin
+    dest^ := curpal64[src^];
+    inc(dest);
+    inc(src);
   end;
 end;
 
@@ -247,20 +290,25 @@ begin
   end
   else
   begin
-    parms1.start := 0;
-    if usemultithread then
-    begin
-      parms1.stop := SCREENWIDTH * SCREENHEIGHT div 2;
-      parms2.start := parms1.stop + 1;
-      parms2.stop := SCREENWIDTH * SCREENHEIGHT - 1;
-      h1 := I_CreateProcess(@I_Thr_FinishUpdate8, @parms2);
-      I_FinishUpdate8(@parms1);
-      I_WaitForProcess(h1);
-    end
+    if bpp = 32 then
+      I_FinishUpdate8_64
     else
     begin
-      parms1.stop := SCREENWIDTH * SCREENHEIGHT - 1;
-      I_FinishUpdate8(@parms1);
+      parms1.start := 0;
+      if usemultithread then
+      begin
+        parms1.stop := SCREENWIDTH * SCREENHEIGHT div 2;
+        parms2.start := parms1.stop + 1;
+        parms2.stop := SCREENWIDTH * SCREENHEIGHT - 1;
+        h1 := I_CreateProcess(@I_Thr_FinishUpdate8, @parms2);
+        I_FinishUpdate8(@parms1);
+        I_WaitForProcess(h1);
+      end
+      else
+      begin
+        parms1.stop := SCREENWIDTH * SCREENHEIGHT - 1;
+        I_FinishUpdate8(@parms1);
+      end;
     end;
   end;
 
@@ -314,6 +362,8 @@ begin
     inc(dest);
     src := PByteArray(integer(src) + 3);
   end;
+  if videomode = vm8bit then
+    I_SetPalette64;
 end;
 
 function I_AdjustWindowMode: boolean;

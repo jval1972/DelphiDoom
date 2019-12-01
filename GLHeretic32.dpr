@@ -248,7 +248,10 @@ uses
   gl_md2 in 'OPENGL\gl_md2.pas',
   gl_bsp in 'OPENGL\gl_bsp.pas',
   t_material in 'TEXLIB\t_material.pas',
-  gl_shadows in 'OPENGL\gl_shadows.pas';
+  gl_shadows in 'OPENGL\gl_shadows.pas',
+  p_adjust in 'Base\p_adjust.pas',
+  w_autoload in 'Base\w_autoload.pas',
+  p_common in 'Base\p_common.pas';
 
 var
   Saved8087CW: Word;

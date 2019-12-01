@@ -245,6 +245,9 @@ uses
   p_setup,
   p_sight,
   p_map,
+  {$IFNDEF OPENGL}
+  i_video,
+  {$ENDIF}
   r_draw,
   r_bsp,
   r_things,
@@ -787,6 +790,12 @@ begin
 end;
 
 {$IFNDEF OPENGL}
+procedure R_SetPalette64;
+begin
+  if setdetail in [DL_LOWEST, DL_LOW, DL_MEDIUM] then
+    I_SetPalette64;
+end;
+
 procedure R_SetRenderingFunctions;
 begin
   case setdetail of
@@ -980,6 +989,7 @@ begin
     videomode := vm32bit;
 {$ELSE}
     R_SetRenderingFunctions;
+    R_SetPalette64;
 {$ENDIF}
   end;
 

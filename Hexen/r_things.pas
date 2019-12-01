@@ -595,7 +595,7 @@ begin
   if (vis.footclip <> 0) and (not playerweapon) then
   begin
     sprbotscreen := sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale);
-    baseclip := FixedInt((sprbotscreen - FixedMul(vis.footclip * FRACUNIT,  spryscale)));
+    baseclip := FixedInt((sprbotscreen - FixedMul(vis.footclip,  spryscale)));
   end
   else
     baseclip := -1;
@@ -830,8 +830,7 @@ begin
   vis.gzt := thing.z + spritetopoffset[lump];
   // foot clipping
   vis.footclip := thing.floorclip;
-
-  vis.texturemid := vis.gzt - viewz - (vis.footclip * FRACUNIT);
+  vis.texturemid := vis.gzt - viewz - vis.footclip;
   vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
   if x1 <= 0 then
     vis.x1 := 0

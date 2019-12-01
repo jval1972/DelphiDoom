@@ -442,19 +442,22 @@ end;
 //
 {$IFNDEF OPENGL}
 procedure R_MakeSpans(x: integer; t1: integer; b1: integer; t2: integer; b2: integer);
+var
+  x1: integer;
 begin
+  x1 := x - 1;
   while (t1 < t2) and (t1 <= b1) do
   begin
   // JVAL 9/7/05
     if (t1 >= 0) and (t1 < Length(spanstart)) then
-      R_MapPlane(t1, spanstart[t1], x - 1);
+      R_MapPlane(t1, spanstart[t1], x);
     inc(t1);
   end;
   while (b1 > b2) and (b1 >= t1) do
   begin
   // JVAL 9/7/05
     if (b1 >= 0) and (b1 < Length(spanstart)) then
-      R_MapPlane(b1, spanstart[b1], x - 1);
+      R_MapPlane(b1, spanstart[b1], x);
     dec(b1);
   end;
 

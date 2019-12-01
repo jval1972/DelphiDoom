@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2011 by Jim Valavanis
+//  Copyright (C) 2004-2012 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -42,6 +42,7 @@ uses
   hu_stuff,
   p_mobj_h,
   p_setup,
+  p_adjust,
   i_system,
   i_mp3,
   i_music,
@@ -117,7 +118,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 132;
+  NUMDEFAULTS = 133;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -334,6 +335,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'autoadjustmissingtextures';
+     location: @autoadjustmissingtextures;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'OpenGL';

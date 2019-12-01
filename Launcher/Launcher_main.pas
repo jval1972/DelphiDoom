@@ -421,7 +421,7 @@ const
   glexenames: array[0..3] of string = (
     'gldoom32.exe',
     'glheretic32.exe',
-    'hexen32.exe',
+    'glhexen32.exe',
     ''
   );
 
@@ -871,7 +871,7 @@ var
   idx: integer;
 begin
   if closing then
-    exit;   
+    exit;
   idx := -1;
   if PageControl2.ActivePageIndex = 0 then
     if ListView1.Selected <> nil then
@@ -1134,11 +1134,31 @@ begin
   SelectGameComboBox.ItemIndex := 0;
 end;
 
+procedure SelectFromListBox(const lb: TCheckListBox; const sl: TStrings);
+var
+  i, j: Integer;
+begin
+  for i := 0 to sl.Count - 1 do
+  begin
+    j := lb.Items.Count - 1;
+    while j >= 0 do
+    begin
+      if sl.Strings[i] = lb.Items.Strings[j] then
+      begin
+        lb.Checked[j] := True;
+        j := 0;
+      end;
+      dec(j);
+    end;
+  end;
+end;
+
 procedure TForm1.OpenPWADSButtonClick(Sender: TObject);
 begin
   if OpenWADDialog.Execute then
   begin
     PWAdsCheckListBox.Items.AddStrings(OpenWADDialog.Files);
+    SelectFromListBox(PWAdsCheckListBox, OpenWADDialog.Files);
     UpdateCurDir;
   end;
 end;
@@ -1148,6 +1168,7 @@ begin
   if OpenPAKDialog.Execute then
   begin
     PaksCheckListBox.Items.AddStrings(OpenPAKDialog.Files);
+    SelectFromListBox(PaksCheckListBox, OpenPAKDialog.Files);
     UpdateCurDir;
   end;
 end;
