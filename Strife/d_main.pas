@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1828,7 +1828,7 @@ begin
   {$ENDIF}
 
   for p := 1 to myargc do
-    if strupper(fext(myargv[p])) = '.WAD' then
+    if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
       D_AddFile(myargv[p]);
 
   for p := 1 to myargc do

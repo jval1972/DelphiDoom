@@ -320,7 +320,9 @@ uses
   psi_game in 'SCRIPT\psi_game.pas',
   psi_overlay in 'SCRIPT\psi_overlay.pas',
   r_earthquake in 'Base\r_earthquake.pas',
-  p_affectees in 'Base\p_affectees.pas';
+  p_affectees in 'Base\p_affectees.pas',
+  t_pcx in 'TEXLIB\t_pcx.pas',
+  t_pcx4 in 'TEXLIB\t_pcx4.pas';
 
 var
   Saved8087CW: Word;

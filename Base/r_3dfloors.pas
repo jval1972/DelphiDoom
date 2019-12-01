@@ -1007,7 +1007,6 @@ begin
     dodraw := false;
   end;
 
-
   // JVAL: Get Points from segs
   // SPEEDUP -> TO BE MOVED IN P_SETUP, ALONG WITH TClipper contruction ?
   SetLength(subjI, 1);

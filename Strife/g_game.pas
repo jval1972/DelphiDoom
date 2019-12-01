@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -515,8 +515,8 @@ var
   lspeed2: integer; // JVAL look left and right
   _forward: integer;
   side: integer;
-  look: integer;    // JVAL Look up and down
-  look2: integer;   // JVAL look left and right
+  lookupdown: integer;    // JVAL Look up and down
+  lookleftright: integer;   // JVAL look left and right
   base: Pticcmd_t;
   imousex: integer;
   imousey: integer;
@@ -570,8 +570,8 @@ begin
 
   _forward := 0;
   side := 0;
-  look := 0;
-  look2 := 0;
+  lookupdown := 0;
+  lookleftright := 0;
 
   // use two stage accelerative turning
   // on the keyboard and joystick
@@ -642,21 +642,21 @@ begin
   if zaxisshift then
   begin
     if gamekeydown[key_lookup] then
-      look := lspeed;
+      lookupdown := lspeed;
 
     if gamekeydown[key_lookdown] then
-      look := -lspeed;
+      lookupdown := -lspeed;
 
     if gamekeydown[key_lookcenter] then
-      look := TOCENTER;
+      lookupdown := TOCENTER;
   end;
 
   // JVAL Look right/left/forward keys
   if gamekeydown[key_lookleft] or (usejoystick and joybuttons[joyblleft]) then
-    look2 := lspeed2;
+    lookleftright := lspeed2;
 
   if gamekeydown[key_lookright] or (usejoystick and joybuttons[joyblright]) then
-    look2 := -lspeed2;
+    lookleftright := -lspeed2;
 
   if joyymove < 0 then
     _forward := _forward + forwardmove[speed];
@@ -766,16 +766,16 @@ begin
 
   if usemouse then
   begin
-    look := look + imousey div 16;
+    lookupdown := lookupdown + imousey div 16;
     if imousey < 0 then
     begin
-      if look < -4 then
-        look := -4;
+      if lookupdown < -4 then
+        lookupdown := -4;
     end
     else if imousey > 0 then
     begin
-      if look > 4 then
-        look := 4;
+      if lookupdown > 4 then
+        lookupdown := 4;
     end;
   end;
   // For smooth mouse movement
@@ -799,13 +799,13 @@ begin
   begin
     if zaxisshift then
     begin
-      if look < 0 then
-        look := look + 16;
-      cmd.look := look;
+      if lookupdown < 0 then
+        lookupdown := lookupdown + 16;
+      cmd.lookupdown := lookupdown;
     end;
-    if look2 < 0 then
-      look2 := look2 + 16;
-    cmd.look2:= look2;
+    if lookleftright < 0 then
+      lookleftright := lookleftright + 16;
+    cmd.lookleftright:= lookleftright;
     // JVAL
     // allowplayerjumps variable controls if we accept input for jumping
     if allowplayerjumps and (gamekeydown[key_jump] or (usejoystick and joybuttons[joybjump])) then
@@ -2295,9 +2295,9 @@ begin
   cmd.inventory := PInteger(demo_p)^;
   demo_p := @demo_p[4];
 
-  cmd.look := demo_p[0];
+  cmd.lookupdown := demo_p[0];
   demo_p := @demo_p[1];
-  cmd.look2 := demo_p[0];
+  cmd.lookleftright := demo_p[0];
   demo_p := @demo_p[1];
   cmd.jump := demo_p[0];
   demo_p := @demo_p[1];
@@ -2368,10 +2368,10 @@ begin
   PInteger(demo_p)^ := cmd.inventory;
   demo_p := @demo_p[4];
 
-  demo_p[0] := cmd.look;
+  demo_p[0] := cmd.lookupdown;
   demo_p := @demo_p[1];
 
-  demo_p[0] := cmd.look2;
+  demo_p[0] := cmd.lookleftright;
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.jump;

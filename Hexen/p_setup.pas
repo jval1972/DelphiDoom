@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1213,6 +1213,8 @@ begin
   printf('Loading %s (%s)'#13#10, [lumpname, P_GetMapDescName(map)]);
 
   UDMF_Check(lumpname);
+  ND_NodesCheck(lumpname);
+  PS_LinkScriptEvents(lumpname);  // JVAL: Script Events
 
   lumpnum := W_GetNumForName(lumpname);
 
@@ -1355,12 +1357,10 @@ begin
     R_PrecacheLevel;
     S_PrecacheSounds;
   end;
-  
+
 {$IFDEF OPENGL}
   gld_PreprocessLevel; // JVAL OPENGL
 {$ENDIF}
-
-  PS_LinkScriptEvents(lumpname);  // JVAL: Script Events
 
   R_SetInterpolateSkipTicks(2);
 

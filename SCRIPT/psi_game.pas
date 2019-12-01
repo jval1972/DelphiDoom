@@ -192,6 +192,7 @@ type
     procedure AddAllMonstersAlive;
     procedure AddAllMonstersDead;
     procedure AddAllMonsters;
+    procedure AddAllMissiles;
     procedure AddAllPlayers;
     procedure AddAllName(const name: string);
     procedure AddAllEdNum(const num: Integer);
@@ -606,6 +607,7 @@ type
     function AllMonstersAlive: TActorArray;
     function AllMonstersDead: TActorArray;
     function AllMonsters: TActorArray;
+    function AllMissiles: TActorArray;
     function AllAtSector(const sec: Integer): TActorArray;
     function AllAtSectorTag(const tag: Integer): TActorArray;
     function AllEditorNumber(const dn: Integer): TActorArray;
@@ -1946,6 +1948,33 @@ begin
   end;
 end;
 
+procedure TActorKeyList.AddAllMissiles;
+var
+  currentthinker: Pthinker_t;
+  mo: Pmobj_t;
+  minfo: Pmobjinfo_t;
+begin
+  currentthinker := thinkercap.next;
+  while Pointer(currentthinker) <> Pointer(@thinkercap) do
+  begin
+    if (@currentthinker._function.acp1 = @P_MobjThinker) then
+    begin
+      mo := Pmobj_t(currentthinker);
+      minfo := mo.info;
+      if (minfo.doomednum > MAXPLAYERS) and // Not player
+      {$IFDEF HERETIC}
+         (minfo.doomednum <> 9100) and           // Not player
+         (minfo.doomednum <> 9101) and           // Not player
+         (minfo.doomednum <> 9102) and           // Not player
+         (minfo.doomednum <> 9103) and           // Not player
+      {$ENDIF}
+         (minfo.flags and MF_MISSILE <> 0) then
+        Add(mo.key);
+    end;
+    currentthinker := currentthinker.next;
+  end;
+end;
+
 procedure TActorKeyList.AddAllPlayers; // Including voodoo dolls
 var
   currentthinker: Pthinker_t;
@@ -2227,6 +2256,16 @@ var
 begin
   akl := TActorKeyList.Create;
   akl.AddAllMonsters;
+  Result := akl.GetActorArray;
+  akl.Free;
+end;
+
+function TRTLActors.AllMissiles: TActorArray;
+var
+  akl: TActorKeyList;
+begin
+  akl := TActorKeyList.Create;
+  akl.AddAllMissiles;
   Result := akl.GetActorArray;
   akl.Free;
 end;
@@ -3118,10 +3157,10 @@ begin
     if sec <> nil then
       Result := sec.iSectorID
     else
-      Result := SIDE_INVALID;
+      Result := SECTOR_INVALID;
   end
   else
-    Result := SIDE_INVALID;
+    Result := SECTOR_INVALID;
 end;
 
 function PS_GetLineBackSector(const ld: Integer): Integer;
@@ -3134,10 +3173,10 @@ begin
     if sec <> nil then
       Result := sec.iSectorID
     else
-      Result := SIDE_INVALID;
+      Result := SECTOR_INVALID;
   end
   else
-    Result := SIDE_INVALID;
+    Result := SECTOR_INVALID;
 end;
 
 function PS_IsValidLine(const ld: Integer): Boolean;
@@ -5082,6 +5121,7 @@ begin
   cactors.RegisterMethod('function AllMonstersAlive: TActorArray;');
   cactors.RegisterMethod('function AllMonstersDead: TActorArray;');
   cactors.RegisterMethod('function AllMonsters: TActorArray;');
+  cactors.RegisterMethod('function AllMissiles: TActorArray;');
   cactors.RegisterMethod('function AllAtSector(const sec: Integer): TActorArray;');
   cactors.RegisterMethod('function AllAtSectorTag(const tag: Integer): TActorArray;');
   cactors.RegisterMethod('function AllEditorNumber(const dn: Integer): TActorArray;');
@@ -5292,6 +5332,7 @@ begin
   ractors.RegisterMethod(@TRTLActors.AllMonstersAlive, 'AllMonstersAlive');
   ractors.RegisterMethod(@TRTLActors.AllMonstersDead, 'AllMonstersDead');
   ractors.RegisterMethod(@TRTLActors.AllMonsters, 'AllMonsters');
+  ractors.RegisterMethod(@TRTLActors.AllMissiles, 'AllMissiles');
   ractors.RegisterMethod(@TRTLActors.AllAtSector, 'AllAtSector');
   ractors.RegisterMethod(@TRTLActors.AllAtSectorTag, 'AllAtSectorTag');
   ractors.RegisterMethod(@TRTLActors.AllEditorNumber, 'AllEditorNumber');

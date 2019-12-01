@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -210,6 +210,7 @@ uses
   t_bmp,
   t_tga,
   t_jpeg,
+  t_pcx,
 {$IFNDEF FPC}
   t_png,
 {$ENDIF}
@@ -993,8 +994,6 @@ asm
   jnz @@loop
 end;
 
-
-
 procedure TTexture.SwapRGB;
 begin
   if not FNeedsSwapRGB then
@@ -1028,7 +1027,6 @@ begin
     dec(count);
   end;
 end;
-
 
 procedure TTexture.SetAlphaChannelFromImage(tex: PTexture);
 var
@@ -1072,7 +1070,7 @@ begin
 
   pdest := PLongWord(integer(Fdata) + 4);
   pdeststop := @PLongWordArray(pdest)[FWidth * FHeight];
-  // JVAL: If transparent colors are both the same then
+  // JVAL: If transparent colors are all the same then
   //       speed-up with a single check.
   if (FTransparentColor = FTransparentColor2) and (FTransparentColor = FTransparentColor3) then
   begin
@@ -1145,6 +1143,7 @@ begin
   for i := 0 to 255 do
     PIntegerArray(FPalette)[i] := i shl 16 + i shl 8 + i;
 
+  tmp.ConvertTo32bit;
   src := tmp.GetImage;
   dest := GetImage;
   for i := 0 to FWidth * FHeight - 1 do
@@ -1370,6 +1369,7 @@ var
   tm_targa: TTGATextureManager;
   tm_jpg: TJPGTextureManager;
   tm_jpeg: TJPGTextureManager;
+  tm_pcx: TPCXTextureManager;
 {$IFNDEF FPC}
   tm_png: TPNGTextureManager;
 {$ENDIF}
@@ -1384,6 +1384,7 @@ begin
 {$ENDIF}
   tm_jpg.Create('.JPG');
   tm_jpeg.Create('.JPEG');
+  tm_pcx.Create;
   tm_targa.Create;
   tm_bitmap.Create;
   tm_mat.Create;
@@ -1399,6 +1400,7 @@ begin
 {$ENDIF}
   tm_jpg.Destroy;
   tm_jpeg.Destroy;
+  tm_pcx.Destroy;
   tm_targa.Destroy;
   tm_bitmap.Destroy;
   tm_mat.Destroy;
@@ -1407,3 +1409,4 @@ begin
 end;
 
 end.
+

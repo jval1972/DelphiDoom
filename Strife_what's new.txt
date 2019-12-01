@@ -1,3 +1,47 @@
+Added PCX image external texture support.
+A_Gotoxxxxx functions evaluate small expresions in state parameter (addition & substraction of a constant value).
+Added AllMissiles method to "Actors" PascalScript variable.
+Added mobj functions to control flow depending on map & world variables:
+ - A_JumpIfMapStringEqual
+ - A_JumpIfMapStringLess
+ - A_JumpIfMapStringGreater
+ - A_JumpIfMapIntegerEqual
+ - A_JumpIfMapIntegerLess
+ - A_JumpIfMapIntegerGreater
+ - A_JumpIfMapFloatEqual
+ - A_JumpIfMapFloatLess
+ - A_JumpIfMapFloatGreater
+ - A_JumpIfWorldStringEqual
+ - A_JumpIfWorldStringLess
+ - A_JumpIfWorldStringGreater
+ - A_JumpIfWorldIntegerEqual
+ - A_JumpIfWorldIntegerLess
+ - A_JumpIfWorldIntegerGreater
+ - A_JumpIfWorldFloatEqual
+ - A_JumpIfWorldFloatLess
+ - A_JumpIfWorldFloatGreater
+ - A_GoToIfMapStringEqual
+ - A_GoToIfMapStringLess
+ - A_GoToIfMapStringGreater
+ - A_GoToIfMapIntegerEqual
+ - A_GoToIfMapIntegerLess
+ - A_GoToIfMapIntegerGreater
+ - A_GoToIfMapFloatEqual
+ - A_GoToIfMapFloatLess
+ - A_GoToIfMapFloatGreater
+ - A_GoToIfWorldStringEqual
+ - A_GoToIfWorldStringLess
+ - A_GoToIfWorldStringGreater
+ - A_GoToIfWorldIntegerEqual
+ - A_GoToIfWorldIntegerLess
+ - A_GoToIfWorldIntegerGreater
+ - A_GoToIfWorldFloatEqual
+ - A_GoToIfWorldFloatLess
+ - A_GoToIfWorldFloatGreater
+Support for 'TEXTURE3' texture lump.
+Added PascalScript function "IsPrime()".
+Builds map nodes if missing.
+
 Version 2.0.2 build 702 - (30/8/2017)
 -----------
 Fixed alpha channel in TGA screenshots.

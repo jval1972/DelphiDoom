@@ -33,7 +33,7 @@ object AboutForm: TAboutForm
     Top = 48
     Width = 157
     Height = 13
-    Caption = #169' 2008-2016, Jim Valavanis'
+    Caption = #169' 2008-2017, Jim Valavanis'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11

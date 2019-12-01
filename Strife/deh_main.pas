@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 236;
+  DEHNUMACTIONS = 272;
 
 type
   deh_action_t = record
@@ -2313,6 +2313,78 @@ begin
   deh_actions[234].name := strupper('SetDefaultDropItem');
   deh_actions[235].action.acp1 := @A_GlobalEarthQuake;
   deh_actions[235].name := strupper('GlobalEarthQuake');
+  deh_actions[236].action.acp1 := @A_JumpIfMapStringEqual;
+  deh_actions[236].name := strupper('JumpIfMapStringEqual');
+  deh_actions[237].action.acp1 := @A_JumpIfMapStringLess;
+  deh_actions[237].name := strupper('JumpIfMapStringLess');
+  deh_actions[238].action.acp1 := @A_JumpIfMapStringGreater;
+  deh_actions[238].name := strupper('JumpIfMapStringGreater');
+  deh_actions[239].action.acp1 := @A_JumpIfMapIntegerEqual;
+  deh_actions[239].name := strupper('JumpIfMapIntegerEqual');
+  deh_actions[240].action.acp1 := @A_JumpIfMapIntegerLess;
+  deh_actions[240].name := strupper('JumpIfMapIntegerLess');
+  deh_actions[241].action.acp1 := @A_JumpIfMapIntegerGreater;
+  deh_actions[241].name := strupper('JumpIfMapIntegerGreater');
+  deh_actions[242].action.acp1 := @A_JumpIfMapFloatEqual;
+  deh_actions[242].name := strupper('JumpIfMapFloatEqual');
+  deh_actions[243].action.acp1 := @A_JumpIfMapFloatLess;
+  deh_actions[243].name := strupper('JumpIfMapFloatLess');
+  deh_actions[244].action.acp1 := @A_JumpIfMapFloatGreater;
+  deh_actions[244].name := strupper('JumpIfMapFloatGreater');
+  deh_actions[245].action.acp1 := @A_JumpIfWorldStringEqual;
+  deh_actions[245].name := strupper('JumpIfWorldStringEqual');
+  deh_actions[246].action.acp1 := @A_JumpIfWorldStringLess;
+  deh_actions[246].name := strupper('JumpIfWorldStringLess');
+  deh_actions[247].action.acp1 := @A_JumpIfWorldStringGreater;
+  deh_actions[247].name := strupper('JumpIfWorldStringGreater');
+  deh_actions[248].action.acp1 := @A_JumpIfWorldIntegerEqual;
+  deh_actions[248].name := strupper('JumpIfWorldIntegerEqual');
+  deh_actions[249].action.acp1 := @A_JumpIfWorldIntegerLess;
+  deh_actions[249].name := strupper('JumpIfWorldIntegerLess');
+  deh_actions[250].action.acp1 := @A_JumpIfWorldIntegerGreater;
+  deh_actions[250].name := strupper('JumpIfWorldIntegerGreater');
+  deh_actions[251].action.acp1 := @A_JumpIfWorldFloatEqual;
+  deh_actions[251].name := strupper('JumpIfWorldFloatEqual');
+  deh_actions[252].action.acp1 := @A_JumpIfWorldFloatLess;
+  deh_actions[252].name := strupper('JumpIfWorldFloatLess');
+  deh_actions[253].action.acp1 := @A_JumpIfWorldFloatGreater;
+  deh_actions[253].name := strupper('JumpIfWorldFloatGreater');
+  deh_actions[254].action.acp1 := @A_GoToIfMapStringEqual;
+  deh_actions[254].name := strupper('GoToIfMapStringEqual');
+  deh_actions[255].action.acp1 := @A_GoToIfMapStringLess;
+  deh_actions[255].name := strupper('GoToIfMapStringLess');
+  deh_actions[256].action.acp1 := @A_GoToIfMapStringGreater;
+  deh_actions[256].name := strupper('GoToIfMapStringGreater');
+  deh_actions[257].action.acp1 := @A_GoToIfMapIntegerEqual;
+  deh_actions[257].name := strupper('GoToIfMapIntegerEqual');
+  deh_actions[258].action.acp1 := @A_GoToIfMapIntegerLess;
+  deh_actions[258].name := strupper('GoToIfMapIntegerLess');
+  deh_actions[259].action.acp1 := @A_GoToIfMapIntegerGreater;
+  deh_actions[259].name := strupper('GoToIfMapIntegerGreater');
+  deh_actions[260].action.acp1 := @A_GoToIfMapFloatEqual;
+  deh_actions[260].name := strupper('GoToIfMapFloatEqual');
+  deh_actions[261].action.acp1 := @A_GoToIfMapFloatLess;
+  deh_actions[261].name := strupper('GoToIfMapFloatLess');
+  deh_actions[262].action.acp1 := @A_GoToIfMapFloatGreater;
+  deh_actions[262].name := strupper('GoToIfMapFloatGreater');
+  deh_actions[263].action.acp1 := @A_GoToIfWorldStringEqual;
+  deh_actions[263].name := strupper('GoToIfWorldStringEqual');
+  deh_actions[264].action.acp1 := @A_GoToIfWorldStringLess;
+  deh_actions[264].name := strupper('GoToIfWorldStringLess');
+  deh_actions[265].action.acp1 := @A_GoToIfWorldStringGreater;
+  deh_actions[265].name := strupper('GoToIfWorldStringGreater');
+  deh_actions[266].action.acp1 := @A_GoToIfWorldIntegerEqual;
+  deh_actions[266].name := strupper('GoToIfWorldIntegerEqual');
+  deh_actions[267].action.acp1 := @A_GoToIfWorldIntegerLess;
+  deh_actions[267].name := strupper('GoToIfWorldIntegerLess');
+  deh_actions[268].action.acp1 := @A_GoToIfWorldIntegerGreater;
+  deh_actions[268].name := strupper('GoToIfWorldIntegerGreater');
+  deh_actions[269].action.acp1 := @A_GoToIfWorldFloatEqual;
+  deh_actions[269].name := strupper('GoToIfWorldFloatEqual');
+  deh_actions[270].action.acp1 := @A_GoToIfWorldFloatLess;
+  deh_actions[270].name := strupper('GoToIfWorldFloatLess');
+  deh_actions[271].action.acp1 := @A_GoToIfWorldFloatGreater;
+  deh_actions[271].name := strupper('GoToIfWorldFloatGreater');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

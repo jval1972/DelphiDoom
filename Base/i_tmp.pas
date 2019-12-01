@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -38,6 +38,8 @@ procedure I_InitTempFiles;
 procedure I_ShutDownTempFiles;
 
 function I_NewTempFile(const name: string): string;
+
+procedure I_DeclareTempFile(const name: string);
 
 implementation
 
@@ -81,5 +83,9 @@ begin
   tempfiles.Add(result);
 end;
 
+procedure I_DeclareTempFile(const name: string);
+begin
+  tempfiles.Add(name);
+end;
+
 end.
- 

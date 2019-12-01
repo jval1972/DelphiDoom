@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,6 +18,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  BMP image format.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -216,8 +219,8 @@ begin
       stream.read(buffer^, bufsize);
       FBitmap^.PutPixels(0, y, bfi.Width, buffer, 8); // This is ok now.
                                                       // Since PutPixels takes
-                                    // the number of bits per
-                                    // pixel instead of bytes.
+                                                      // the number of bits per
+                                                      // pixel instead of bytes.
     end;
   end
   else if (bfi.Bitcount = 8) and (bfi.Compression = biRLE8) then

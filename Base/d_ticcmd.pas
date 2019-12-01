@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -54,8 +54,8 @@ type
     lookfly: byte;   // look up/down/centering/fly
     arti: byte;
 {$ENDIF}
-    look: byte;     // JVAL look up/down/centering
-    look2: byte;    // JVAL look left/right/forward
+    lookupdown: byte;     // JVAL look up/down/centering
+    lookleftright: byte;    // JVAL look left/right/forward
     jump: byte;     // JVAL Jump!
   end;
   Pticcmd_t = ^ticcmd_t;

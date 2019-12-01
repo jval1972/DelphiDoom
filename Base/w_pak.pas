@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -86,7 +86,7 @@ type
     Name: string[255];
     ShortName: string[32];
     Offset, Size: Integer;
-    Hash: integer;
+    Hash: Integer;
   {$IFNDEF FPC}
     ZIP: TZipFile;
   {$ENDIF}
@@ -201,6 +201,7 @@ implementation
 
 uses
   i_system,
+  t_pcx,
   w_wad;
 
 {$IFNDEF FPC}
@@ -442,7 +443,7 @@ var
   Fn: string;
   inHIRES: boolean;
   wadlump: filelump_t;
-  b4: packed array[0..9] of byte;
+  b4: packed array[0..127] of byte;
   pk3lumps: TDStringList;
   pk3lump: string;
 begin
@@ -530,7 +531,7 @@ begin
         SetLength(pk3lump, wadlump.size);
         for j := 1 to wadlump.size do
           BlockRead(F, pk3lump[j], SizeOf(Char));
-        pk3lumps.Text := pk3lumps.Text + pk3lump;
+        pk3lumps.Text := pk3lumps.Text + pk3lump + #13#10;
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end
       else if char8tostring(wadlump.name) = 'HI_START' then
@@ -540,7 +541,7 @@ begin
       else if inHIRES then
       begin
         Seek(F, wadlump.filepos);
-        BlockRead(F, b4, 10);
+        BlockRead(F, b4, 128, N);
         if (b4[0] = 0) and (b4[1] = 0) and (b4[2] = 2) and (b4[3] = 0) then // TGA
           AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.TGA', Fn)
         else if (b4[1] = $50) and (b4[2] = $4E) and (b4[3] = $47) then // PNG
@@ -548,10 +549,16 @@ begin
         else if (b4[0] = $42) and (b4[1] = $4D) then // BMP
           AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.BMP', Fn)
         else if (b4[6] = $4A) and (b4[7] = $46) and (b4[8] = $49) and (b4[9] = $46) then // JPEG
-          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.JPG', Fn);
+          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.JPG', Fn)
+        else if (N >= 128) and T_IsValidPCXHeader(@b4) then // PCX detection
+          AddEntry(wadlump.filepos, wadlump.size, char8tostring(wadlump.name) + '.PCX', Fn);
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end;
     end;
+    // jval: 20170904 Remove blanc entries
+    for i := pk3lumps.Count - 1 downto 0 do
+      if pk3lumps.Strings[i] = '' then
+        pk3lumps.Delete(i);
     if pk3lumps.Count > 0 then
     begin
       seek(F, Ofs);
@@ -1129,15 +1136,17 @@ begin
     stmp := '';
     for i := 0 to result.Count - 1 do
     begin
-      stmp2 := result[i];
+      stmp2 := strtrim(result[i]);
       if Length(stmp2) > 0 then
+      begin
         if stmp2[Length(stmp2)] <> '\' then
-          stmp := stmp + stmp2 + '\'#13#10;
-      stmp := stmp + stmp2 + #13#10;
+          stmp := stmp + stmp2 + '\'#13#10
+        else
+          stmp := stmp + stmp2 + #13#10;
+      end;
     end;
     result.Text := stmp;
   end;
-
 end;
 
 //

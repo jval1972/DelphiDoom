@@ -1358,8 +1358,13 @@ end;
 
 procedure TForm1.RetrieveNetworkComputersButtonClick(Sender: TObject);
 begin
-  I_GetNetComputeListWithOutLocal(NETComputersCheckListBox.Items);
-  UpdateNetwork;
+  Screen.Cursor := crHourGlass;
+  try
+    I_GetNetComputeListWithOutLocal(NETComputersCheckListBox.Items);
+    UpdateNetwork;
+  finally
+    Screen.Cursor := crDefault;
+  end;
 end;
 
 end.

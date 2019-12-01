@@ -80,6 +80,30 @@ procedure A_JumpIfTargetCustomParamLess(actor: Pmobj_t);
 
 procedure A_JumpIfTargetCustomParamGreater(actor: Pmobj_t);
 
+procedure A_JumpIfMapStringEqual(actor: Pmobj_t);
+procedure A_JumpIfMapStringLess(actor: Pmobj_t);
+procedure A_JumpIfMapStringGreater(actor: Pmobj_t);
+
+procedure A_JumpIfMapIntegerEqual(actor: Pmobj_t);
+procedure A_JumpIfMapIntegerLess(actor: Pmobj_t);
+procedure A_JumpIfMapIntegerGreater(actor: Pmobj_t);
+
+procedure A_JumpIfMapFloatEqual(actor: Pmobj_t);
+procedure A_JumpIfMapFloatLess(actor: Pmobj_t);
+procedure A_JumpIfMapFloatGreater(actor: Pmobj_t);
+
+procedure A_JumpIfWorldStringEqual(actor: Pmobj_t);
+procedure A_JumpIfWorldStringLess(actor: Pmobj_t);
+procedure A_JumpIfWorldStringGreater(actor: Pmobj_t);
+
+procedure A_JumpIfWorldIntegerEqual(actor: Pmobj_t);
+procedure A_JumpIfWorldIntegerLess(actor: Pmobj_t);
+procedure A_JumpIfWorldIntegerGreater(actor: Pmobj_t);
+
+procedure A_JumpIfWorldFloatEqual(actor: Pmobj_t);
+procedure A_JumpIfWorldFloatLess(actor: Pmobj_t);
+procedure A_JumpIfWorldFloatGreater(actor: Pmobj_t);
+
 procedure A_GoToIfCustomParam(actor: Pmobj_t);
 
 procedure A_GoToIfCustomParamLess(actor: Pmobj_t);
@@ -91,6 +115,30 @@ procedure A_GoToIfTargetCustomParam(actor: Pmobj_t);
 procedure A_GoToIfTargetCustomParamLess(actor: Pmobj_t);
 
 procedure A_GoToIfTargetCustomParamGreater(actor: Pmobj_t);
+
+procedure A_GoToIfMapStringEqual(actor: Pmobj_t);
+procedure A_GoToIfMapStringLess(actor: Pmobj_t);
+procedure A_GoToIfMapStringGreater(actor: Pmobj_t);
+
+procedure A_GoToIfMapIntegerEqual(actor: Pmobj_t);
+procedure A_GoToIfMapIntegerLess(actor: Pmobj_t);
+procedure A_GoToIfMapIntegerGreater(actor: Pmobj_t);
+
+procedure A_GoToIfMapFloatEqual(actor: Pmobj_t);
+procedure A_GoToIfMapFloatLess(actor: Pmobj_t);
+procedure A_GoToIfMapFloatGreater(actor: Pmobj_t);
+
+procedure A_GoToIfWorldStringEqual(actor: Pmobj_t);
+procedure A_GoToIfWorldStringLess(actor: Pmobj_t);
+procedure A_GoToIfWorldStringGreater(actor: Pmobj_t);
+
+procedure A_GoToIfWorldIntegerEqual(actor: Pmobj_t);
+procedure A_GoToIfWorldIntegerLess(actor: Pmobj_t);
+procedure A_GoToIfWorldIntegerGreater(actor: Pmobj_t);
+
+procedure A_GoToIfWorldFloatEqual(actor: Pmobj_t);
+procedure A_GoToIfWorldFloatLess(actor: Pmobj_t);
+procedure A_GoToIfWorldFloatGreater(actor: Pmobj_t);
 
 procedure A_CustomSound1(mo: Pmobj_t);
 
@@ -253,6 +301,7 @@ uses
   p_map,
   p_maputl,
   p_params,
+  psi_globals,
   sc_states,
   tables,
   s_sound,
@@ -674,6 +723,384 @@ begin
   end;
 end;
 
+procedure A_JumpIfMapStringEqual(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.StrVal[actor.state.params.StrVal[0]] = actor.state.params.StrVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapStringLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.StrVal[actor.state.params.StrVal[0]] < actor.state.params.StrVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapStringGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.StrVal[actor.state.params.StrVal[0]] > actor.state.params.StrVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapIntegerEqual(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.IntVal[actor.state.params.StrVal[0]] = actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapIntegerLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.IntVal[actor.state.params.StrVal[0]] < actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapIntegerGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.IntVal[actor.state.params.StrVal[0]] > actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapFloatEqual(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.FloatVal[actor.state.params.StrVal[0]] = actor.state.params.FloatVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapFloatLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.FloatVal[actor.state.params.StrVal[0]] < actor.state.params.FloatVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfMapFloatGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.FloatVal[actor.state.params.StrVal[0]] > actor.state.params.FloatVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldStringEqual(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.StrVal[actor.state.params.StrVal[0]] = actor.state.params.StrVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldStringLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.StrVal[actor.state.params.StrVal[0]] < actor.state.params.StrVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldStringGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.StrVal[actor.state.params.StrVal[0]] > actor.state.params.StrVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldIntegerEqual(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.IntVal[actor.state.params.StrVal[0]] = actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldIntegerLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.IntVal[actor.state.params.StrVal[0]] < actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldIntegerGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.IntVal[actor.state.params.StrVal[0]] > actor.state.params.IntVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldFloatEqual(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.FloatVal[actor.state.params.StrVal[0]] = actor.state.params.FloatVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldFloatLess(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.FloatVal[actor.state.params.StrVal[0]] < actor.state.params.FloatVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
+procedure A_JumpIfWorldFloatGreater(actor: Pmobj_t);
+var
+  offset: integer;
+  cur: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.FloatVal[actor.state.params.StrVal[0]] > actor.state.params.FloatVal[1] then
+  begin
+    offset := actor.state.params.IntVal[2];
+
+    cur := (integer(actor.state) - integer(states)) div SizeOf(state_t);
+
+    P_SetMobjState(actor, statenum_t(cur + offset));
+  end;
+end;
+
 //
 // JVAL
 // Change state
@@ -806,6 +1233,396 @@ begin
     exit;
 
   if P_GetMobjCustomParamValue(actor.target, actor.state.params.StrVal[0]) > actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfMapStringEqual(map variable, value of map variable, newstate)
+//
+procedure A_GoToIfMapStringEqual(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.StrVal[actor.state.params.StrVal[0]] = actor.state.params.StrVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfMapStringLess(map variable, value of map variable, newstate)
+//
+procedure A_GoToIfMapStringLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.StrVal[actor.state.params.StrVal[0]] < actor.state.params.StrVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfMapStringGreater(map variable, value of map variable, newstate)
+//
+procedure A_GoToIfMapStringGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.StrVal[actor.state.params.StrVal[0]] > actor.state.params.StrVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfMapIntegerEqual(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.IntVal[actor.state.params.StrVal[0]] = actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfMapIntegerLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.IntVal[actor.state.params.StrVal[0]] < actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfMapIntegerGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.IntVal[actor.state.params.StrVal[0]] > actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfMapFloatEqual(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.FloatVal[actor.state.params.StrVal[0]] = actor.state.params.FloatVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfMapFloatLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.FloatVal[actor.state.params.StrVal[0]] < actor.state.params.FloatVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfMapFloatGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if mapvars.FloatVal[actor.state.params.StrVal[0]] > actor.state.params.FloatVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfWorldStringEqual(World variable, value of World variable, newstate)
+//
+procedure A_GoToIfWorldStringEqual(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.StrVal[actor.state.params.StrVal[0]] = actor.state.params.StrVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfWorldStringLess(World variable, value of World variable, newstate)
+//
+procedure A_GoToIfWorldStringLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.StrVal[actor.state.params.StrVal[0]] < actor.state.params.StrVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+//
+// JVAL
+// Change state
+// A_GoToIfWorldStringGreater(World variable, value of World variable, newstate)
+//
+procedure A_GoToIfWorldStringGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.StrVal[actor.state.params.StrVal[0]] > actor.state.params.StrVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfWorldIntegerEqual(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.IntVal[actor.state.params.StrVal[0]] = actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfWorldIntegerLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.IntVal[actor.state.params.StrVal[0]] < actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfWorldIntegerGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.IntVal[actor.state.params.StrVal[0]] > actor.state.params.IntVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfWorldFloatEqual(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.FloatVal[actor.state.params.StrVal[0]] = actor.state.params.FloatVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfWorldFloatLess(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.FloatVal[actor.state.params.StrVal[0]] < actor.state.params.FloatVal[1] then
+  begin
+    if not actor.state.params.IsComputed[2] then
+      actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);
+    newstate := actor.state.params.IntVal[2];
+
+    P_SetMobjState(actor, statenum_t(newstate));
+  end;
+end;
+
+procedure A_GoToIfWorldFloatGreater(actor: Pmobj_t);
+var
+  newstate: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  if Worldvars.FloatVal[actor.state.params.StrVal[0]] > actor.state.params.FloatVal[1] then
   begin
     if not actor.state.params.IsComputed[2] then
       actor.state.params.IntVal[2] := P_GetStateFromName(actor, actor.state.params.StrVal[2]);

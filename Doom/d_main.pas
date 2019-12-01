@@ -1877,7 +1877,7 @@ begin
   {$ENDIF}
 
   for p := 1 to myargc do
-    if strupper(fext(myargv[p])) = '.WAD' then
+    if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
       D_AddFile(myargv[p]);
 
   for p := 1 to myargc do

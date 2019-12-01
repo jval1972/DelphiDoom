@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  MultiThread Utility functions
+//  MultiThreading Utility functions
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -32,6 +32,9 @@
 unit mt_utils;
 
 interface
+
+uses
+  i_threads;
 
 procedure MT_Init;
 
@@ -45,23 +48,36 @@ procedure MT_memseti(const dest0: pointer; const val: integer; const count0: int
 
 procedure MT_memcpy(const dest0: pointer; const src0: pointer; const count0: integer);
 
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t = nil; const parms3: pointer = nil;
+  const func4: threadfunc_t = nil; const parms4: pointer = nil
+  );
+
 implementation
 
 uses
   d_delphi,
-  i_system,
-  i_threads;
+  i_system;
 
 var
   mt_initialized: boolean = false;
 
-// jval: General purpose threads  
+// jval: General purpose threads
 const
   MAXGPTHREADS = 256;
 
 var
   numgpthreads: integer;
   gp_threads: array[0..MAXGPTHREADS - 1] of TDThread;
+
+// jval: Execute code threads
+const
+  NUMEXECTHREADS = 4;
+
+var
+  exec_threads: array[0..NUMEXECTHREADS - 1] of TDThread;
 
 //
 // MT_ZeroMemory
@@ -261,6 +277,8 @@ begin
     numgpthreads := MAXGPTHREADS;
   for i := 0 to numgpthreads - 1 do
     gp_threads[i] := TDThread.Create;
+  for i := 0 to NUMEXECTHREADS - 1 do
+    exec_threads[i] := TDThread.Create;
   mt_initialized := true;
 end;
 
@@ -270,7 +288,43 @@ var
 begin
   for i := 0 to numgpthreads - 1 do
     gp_threads[i].Free;
+  for i := 0 to NUMEXECTHREADS - 1 do
+    exec_threads[i].Free;
   mt_initialized := false;
+end;
+
+procedure MT_Execute(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t = nil; const parms3: pointer = nil;
+  const func4: threadfunc_t = nil; const parms4: pointer = nil
+  );
+var
+  nt: integer;
+  i: integer;
+begin
+  nt := 0;
+  if @func2 <> nil then
+  begin
+    exec_threads[nt].Activate(func2, parms2);
+    inc(nt);
+  end;
+  if @func3 <> nil then
+  begin
+    exec_threads[nt].Activate(func3, parms3);
+    inc(nt);
+  end;
+  if @func4 <> nil then
+  begin
+    exec_threads[nt].Activate(func4, parms4);
+    inc(nt);
+  end;
+  if @func1 = nil then
+    I_Warning('MT_Execute(): Called with null application thread function.'#13#10)
+  else
+    func1(parms1);
+  for i := 0 to nt - 1 do
+    exec_threads[i].Wait;
 end;
 
 end.

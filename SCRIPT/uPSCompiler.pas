@@ -15467,7 +15467,7 @@ function TPSCompileTimeClass.ClassFunc_Find(const Name: TbtString;
   var Index: IPointer): Boolean;
 var
   H: Longint;
-  I: Longint;
+  i: Longint;
   CurrClass: TPSCompileTimeClass;
   C: TPSDelphiClassItem;
 begin
@@ -15477,7 +15477,7 @@ begin
   begin
     for i := CurrClass.FClassItems.Count - 1 downto 0 do
     begin
-      C := CurrClass.FClassItems[I];
+      C := CurrClass.FClassItems[i];
       if (c is TPSDelphiClassItemConstructor) and (C.NameHash = H) and (C.Name = Name) then
       begin
         Index := IPointer(C);

@@ -169,6 +169,7 @@ begin
   baseproclist.Add('function MergeFloatArrays(const A1, A2: TFloatArray): TFloatArray;', @PS_MergeSingleArrays);
   baseproclist.Add('function MergeDoubleArrays(const A1, A2: TDoubleArray): TDoubleArray;', @PS_MergeDoubleArrays);
   baseproclist.Add('function MergeExtendedArrays(const A1, A2: TExtendedArray): TExtendedArray;', @PS_MergeExtendedArrays);
+  baseproclist.Add('function IsPrime(const N: Int64): Boolean;', @PS_IsPrime); 
   units.AddObject(basename, baseproclist);
 
   basename := 'PS_GAME';

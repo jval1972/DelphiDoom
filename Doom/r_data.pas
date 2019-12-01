@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -558,6 +558,7 @@ var
   j: integer;
   maptex: PIntegerArray;
   maptex2: PIntegerArray;
+  maptex3: PIntegerArray;
   maptex1: PIntegerArray;
   name: char8_t;
   names: PByteArray;
@@ -567,8 +568,10 @@ var
   offset: integer;
   maxoff: integer;
   maxoff2: integer;
+  maxoff3: integer;
   numtextures1: integer;
   numtextures2: integer;
+  numtextures3: integer;
   directory: PIntegerArray;
   pname: string;
 begin
@@ -631,7 +634,21 @@ begin
     numtextures2 := 0;
     maxoff2 := 0;
   end;
-  numtextures := numtextures1 + numtextures2;
+
+  if W_CheckNumForName('TEXTURE3') <> -1 then
+  begin
+    maptex3 := W_CacheLumpName('TEXTURE3', PU_STATIC);
+    numtextures3 := maptex3[0];
+    maxoff3 := W_LumpLength(W_GetNumForName('TEXTURE3'));
+  end
+  else
+  begin
+    maptex3 := nil;
+    numtextures3 := 0;
+    maxoff3 := 0;
+  end;
+
+  numtextures := numtextures1 + numtextures2 + numtextures3;
 
   textures := mallocz(numtextures * SizeOf(Ptexture_t));
   texturecolumnlump := mallocz(numtextures * SizeOf(PSmallIntArray));
@@ -648,6 +665,13 @@ begin
       // Start looking in second texture file.
       maptex := maptex2;
       maxoff := maxoff2;
+      directory := PIntegerArray(integer(maptex) + SizeOf(integer));
+    end;
+    if i = numtextures1 + numtextures2 then
+    begin
+      // Start looking in third texture file.
+      maptex := maptex3;
+      maxoff := maxoff3;
       directory := PIntegerArray(integer(maptex) + SizeOf(integer));
     end;
 
@@ -713,6 +737,8 @@ begin
   Z_Free(maptex1);
   if maptex2 <> nil then
     Z_Free(maptex2);
+  if maptex3 <> nil then
+    Z_Free(maptex3);
 
   // Precalculate whatever possible.
   for i := 0 to numtextures - 1 do

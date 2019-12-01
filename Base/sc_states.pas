@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -88,14 +88,47 @@ end;
 function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;
 var
   st: string;
-begin
-  st := strupper(s);
-  result := statenames.IndexOfToken(st);
-  if result >= 0 then
-    exit;
+  fw, sw: string;
+  pps, ppp, ppb: integer;
 
-  st := 'S_' + strupper(actor.info.name) + '_' + st;
-  result := statenames.IndexOfToken(st);
+  function _stindex(const sss: string): integer;
+  var
+    sss1: string;
+  begin
+    result := statenames.IndexOfToken(sss);
+    if result >= 0 then
+      exit;
+
+    sss1 := 'S_' + strupper(actor.info.name) + '_' + sss;
+    result := statenames.IndexOfToken(sss1);
+  end;
+
+begin
+  st := strupper(strtrim(s));
+  pps := Pos('+', st);
+  ppp := Pos('-', st);
+  ppb := Pos(' ', st);
+  if (ppb = 0) and (ppp = 0) and (pps = 0) then
+  begin
+    Result := _stindex(st);
+    Exit;
+  end
+  else // JVAL: 20170927 evaluate small expressions
+  begin
+    if (ppb > 0) or (pps > 0) then
+    begin
+      splitstring(st, fw, sw, ' ');
+      Result := _stindex(fw) + atoi(sw, 0);
+      Exit;
+    end;
+    if ppp > 0 then
+    begin
+      splitstring(st, fw, sw, ' ');
+      Result := _stindex(fw) - atoi(sw, 0);
+      Exit;
+    end;
+  end;
+  Result := -1; // JVAL: Unreachable code
 end;
 
 end.

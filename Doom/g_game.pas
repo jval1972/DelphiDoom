@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -659,11 +659,11 @@ begin
     begin
       if look < 0 then
         look := look + 16;
-      cmd.look := look;
+      cmd.lookupdown := look;
     end;
     if look2 < 0 then
       look2 := look2 + 16;
-    cmd.look2:= look2;
+    cmd.lookleftright:= look2;
     // JVAL
     // allowplayerjumps variable controls if we accept input for jumping
     if allowplayerjumps and (gamekeydown[key_jump] or (usejoystick and joybuttons[joybjump])) then
@@ -2140,15 +2140,15 @@ begin
 
   if olddemo then
   begin
-    cmd.look := 0;
-    cmd.look2 := 0;
+    cmd.lookupdown := 0;
+    cmd.lookleftright := 0;
     cmd.jump := 0;
   end
   else
   begin
-    cmd.look := demo_p[0];
+    cmd.lookupdown := demo_p[0];
     demo_p := @demo_p[1];
-    cmd.look2 := demo_p[0];
+    cmd.lookleftright := demo_p[0];
     demo_p := @demo_p[1];
     cmd.jump := demo_p[0];
     demo_p := @demo_p[1];
@@ -2214,10 +2214,10 @@ begin
   demo_p[0] := cmd.buttons and (not BT_SPECIAL);
   demo_p := @demo_p[1];
 
-  demo_p[0] := cmd.look;
+  demo_p[0] := cmd.lookupdown;
   demo_p := @demo_p[1];
 
-  demo_p[0] := cmd.look2;
+  demo_p[0] := cmd.lookleftright;
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.jump;

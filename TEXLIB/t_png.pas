@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18,6 +18,9 @@
 //  along with this program; if not, write to the Free Software
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
+//
+// DESCRIPTION:
+//  PNG image format.
 //
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -1666,7 +1669,7 @@ begin
   Stream.Write(ChunkCRC, 4);
 
   {Returns that everything went ok}
-  Result := TRUE;
+  Result := true;
 end;
 
 {Saves the chunk to the stream}
@@ -1704,7 +1707,7 @@ begin
       Owner.RaiseError(EPngInvalidCRCText);
       Exit;
     end
-  {$ELSE}Result := TRUE; {$ENDIF}
+  {$ELSE}Result := true; {$ENDIF}
 
 end;
 
@@ -2109,15 +2112,15 @@ begin
     COLOR_GRAYSCALE, COLOR_PALETTE, COLOR_GRAYSCALEALPHA:
       case BitDepth of
         {These are supported by windows}
-        1, 4, 8: SetInfo(BitDepth, TRUE);
+        1, 4, 8: SetInfo(BitDepth, true);
         {2 bits for each pixel is not supported by windows bitmap}
-        2      : SetInfo(4, TRUE);
+        2      : SetInfo(4, true);
         {Also 16 bits (2 bytes) for each pixel is not supported}
         {and should be transormed into a 8 bit grayscale}
-        16     : SetInfo(8, TRUE);
+        16     : SetInfo(8, true);
       end;
     {Only 1 byte (8 bits) is supported}
-    COLOR_RGB, COLOR_RGBALPHA:  SetInfo(24, FALSE);
+    COLOR_RGB, COLOR_RGBALPHA:  SetInfo(24, false);
   end {case ColorType};
   {Number of bytes for each scanline}
   BytesPerRow := (((BitmapInfo.bmiHeader.biBitCount * Width) + 31)
@@ -3185,7 +3188,7 @@ begin
   GetMem(Row_Buffer[true], Row_Bytes + 1);
   ZeroMemory(Row_Buffer[false], Row_bytes + 1);
   {Set the variable to alternate the Row_Buffer item to use}
-  RowUsed := TRUE;
+  RowUsed := true;
 
   {Call special methods for the different interlace methods}
   case Owner.InterlaceMethod of
@@ -3212,7 +3215,7 @@ begin
       Owner.RaiseError(EPngInvalidCRCText);
       Exit;
     end;
-  {$ELSE}Result := TRUE; {$ENDIF}
+  {$ELSE}Result := true; {$ENDIF}
 end;
 
 const
@@ -3968,7 +3971,7 @@ begin
   if (Size mod 3 <> 0) or (Size div 3 > 256) then
   begin
     {Raise error}
-    Result := FALSE;
+    Result := false;
     Owner.RaiseError(EPNGInvalidPaletteText);
     Exit;
   end {if Size mod 3 <> 0};
@@ -4627,7 +4630,7 @@ begin
   end;
 
 
-  HasIDAT := FALSE;
+  HasIDAT := false;
   Chunks.Count := 10;
 
   {Load chunks}
@@ -4668,7 +4671,7 @@ begin
       Continue;
     end;
     {Tell it has an IDAT chunk}
-    if ChunkName = 'IDAT' then HasIDAT := TRUE;
+    if ChunkName = 'IDAT' then HasIDAT := true;
 
     {Creates object for this chunk}
     Chunks.SetItem(ChunkCount - 1, CreateClassChunk(Self, ChunkName));
@@ -5376,7 +5379,7 @@ begin
   {Initialize}
   ChunkClasses := nil;
   {crc table has not being computed yet}
-  crc_table_computed := FALSE;
+  crc_table_computed := false;
   {Register the necessary chunks for png}
   RegisterCommonChunks;
   SetFileExt('.PNG');

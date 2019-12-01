@@ -988,8 +988,8 @@ type
 
 type
   kvxslab_t = record
-    ztop: byte;    // starting z coordinate of top of slab
-    zleng: byte;  // # of bytes in the color array - slab height
+    ztop: byte;     // starting z coordinate of top of slab
+    zleng: byte;    // # of bytes in the color array - slab height
     backfacecull: byte;  // low 6 bits tell which of 6 faces are exposed
     col: array[0..255] of byte;// color data from top to bottom
   end;

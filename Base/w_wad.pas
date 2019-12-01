@@ -380,6 +380,7 @@ var
   singleinfo: filelump_t;
   storehandle: TCachedFile;
   ext: string;
+  iswad: boolean;
   c: char;
 begin
   // open the file and add to directory
@@ -415,7 +416,20 @@ begin
   startlump := numlumps;
 
   ext := strupper(fext(filename));
-  if (ext <> '.WAD') and (ext <> '.SWD') {$IFDEF OPENGL} and (ext <> '.GWA'){$ENDIF} then
+
+  iswad := false;
+  if ext = '.OUT' then
+  begin
+    // Potential WAD file
+    handle.Read(header, SizeOf(header));
+    if (header.identification = IWAD) or
+       (header.identification = PWAD) or
+       (header.identification = DWAD) then
+      iswad := true;
+    handle.Seek(0, sFromBeginning);
+  end;
+
+  if not iswad and (ext <> '.WAD') and (ext <> '.SWD') {$IFDEF OPENGL} and (ext <> '.GWA'){$ENDIF} then
   begin
     // single lump file
     len := 0;

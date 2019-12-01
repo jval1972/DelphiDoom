@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1057,11 +1057,63 @@ begin
     inc(src, ofs);
   end;
 
-
   if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} (scn = SCN_FG) then
   begin
     if R_BatchColorShade_AMD(src, cnt) then
       exit;
+
+    while cnt > 16 do
+    begin
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+
+      dec(cnt, 16);
+    end;
+
+    while cnt > 4 do
+    begin
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      src^ := src^ shr 1;
+      inc(src);
+      
+      dec(cnt, 4);
+    end;
+    
     while cnt > 0 do
     begin
       src^ := src^ shr 1;
@@ -2369,7 +2421,6 @@ begin
   end;
 end;
 
-
 //
 // V_FindAproxColorIndex
 //
@@ -2413,3 +2464,4 @@ begin
 end;
 
 end.
+

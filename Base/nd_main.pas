@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -379,9 +379,12 @@ procedure ND_LoadNodes(gwa: TGWAFile);
 
 procedure ND_LoadSegs(gwa: TGWAFile);
 
+procedure ND_NodesCheck(const lumpname: string);
+
 implementation
 
 uses
+  m_crc32,
   i_tmp,
   i_exec,
   i_system,
@@ -4707,7 +4710,6 @@ begin
   result := round(sqrt(a * a + b * b) * FRACUNIT);
 end;
 
-
 procedure ND_LoadSegs(gwa: TGWAFile);
 var
   i: integer;
@@ -4771,4 +4773,307 @@ begin
   end;
 end;
 
+//
+// ND_NodesCheck
+//
+// Checks is nodes are available in wad map
+// If not we will build the nodes.
+// This routine allows to load levels without building the nodes (eg slige.out)
+procedure ND_NodesCheck(const lumpname: string);
+var
+  lumpnum: integer;
+  candonodes: boolean;
+  has_things, has_lines, has_sides, has_vertexes, has_sectors: integer;
+  has_segs, has_ssectors, has_nodes, has_reject, has_blockmap: integer;
+  {$IFDEF HEXEN}
+  has_behavior: integer;
+  {$ENDIF}
+  i: integer;
+  crc32a, crc32b, crc32c, crc32d: string;
+  outfilemap: string;
+  wadfilemap: string;
+  mapdir: string;
+  lname: string;
+  f: TFile;
+  header: wadinfo_t;
+  infotable: array[0..{$IFDEF HEXEN}11{$ELSE}10{$ENDIF}] of filelump_t;
+  ldata: PByteArray;
+  llen: integer;
+  size: integer;
+  p: pointer;
+  prog: string;
+begin
+  lumpnum := W_GetNumForName(lumpname);
+  if (lumpnum < 0) or (lumpnum >= W_NumLumps - 1) then
+    exit;
+
+  has_things := -1;
+  has_lines := -1;
+  has_sides := -1;
+  has_vertexes := -1;
+  has_sectors := -1;
+  has_segs := -1;
+  has_ssectors := -1;
+  has_nodes := -1;
+  has_reject := -1;
+  has_blockmap := -1;
+  {$IFDEF HEXEN}
+  has_behavior := -1;
+  {$ENDIF}
+
+  if lumpnum <= W_NumLumps - {$IFDEF HEXEN}11{$ELSE}10{$ENDIF} then
+  begin
+    for i := 1 to {$IFDEF HEXEN}11{$ELSE}10{$ENDIF} do
+    begin
+      lname := strupper(char8tostring(W_GetNameForNum(lumpnum + i)));
+      if lname = 'THINGS' then
+        has_things := i
+      else if lname = 'LINEDEFS' then
+        has_lines := i
+      else if lname = 'SIDEDEFS' then
+        has_sides := i
+      else if lname = 'VERTEXES' then
+        has_vertexes := i
+      else if lname = 'SEGS' then
+        has_segs := i
+      else if lname = 'SSECTORS' then
+        has_ssectors := i
+      else if lname = 'NODES' then
+        has_nodes := i
+      else if lname = 'SECTORS' then
+        has_sectors := i
+      else if lname = 'REJECT' then
+        has_reject := i
+      else if lname = 'BLOCKMAP' then
+        has_blockmap := i
+      {$IFDEF HEXEN}
+      else if lname = 'BEHAVIOR' then
+        has_behavior := i{$ENDIF};
+    end;
+  end
+  else if lumpnum <= W_NumLumps - {$IFDEF HEXEN}7{$ELSE}6{$ENDIF} then
+  begin
+    for i := 1 to {$IFDEF HEXEN}6{$ELSE}5{$ENDIF} do
+    begin
+      lname := strupper(char8tostring(W_GetNameForNum(lumpnum + i)));
+      if lname = 'THINGS' then
+        has_things := i
+      else if lname = 'LINEDEFS' then
+        has_lines := i
+      else if lname = 'SIDEDEFS' then
+        has_sides := i
+      else if lname = 'VERTEXES' then
+        has_vertexes := i
+      else if lname = 'SECTORS' then
+        has_sectors := i
+      {$IFDEF HEXEN}
+      else if lname = 'BEHAVIOR' then
+        has_behavior := i{$ENDIF};
+    end;
+  end;
+
+  if has_things = 1 then
+    if has_lines = 2 then
+      if has_sides = 3 then
+        if has_vertexes = 4 then
+          if has_segs = 5 then
+            if has_ssectors = 6 then
+              if has_nodes = 7 then
+                if has_sectors = 8 then
+                  if has_reject = 9 then
+                    if has_blockmap = 10 then
+                    {$IFDEF HEXEN}
+                     if has_behavior = 11 then
+                     {$ENDIF}
+                       exit; // Nothing to do
+
+  // Check if we can build the nodes
+  candonodes := false;
+
+  if has_things > 0 then
+    if has_lines > 0 then
+      if has_sides > 0 then
+        if has_vertexes > 0 then
+          if has_sectors > 0 then
+            candonodes := true;
+
+  if not candonodes then
+  begin
+    I_Warning('ND_NodesCheck(): Missing critical map data to play the map'#13#10);
+    exit;
+  end;
+
+  crc32a := GetLumpCRC32(lumpnum + has_lines);
+  crc32b := GetLumpCRC32(lumpnum + has_sides);
+  crc32c := GetLumpCRC32(lumpnum + has_vertexes);
+  crc32d := GetLumpCRC32(lumpnum + has_sectors);
+
+  mapdir := M_SaveFileName('DATA\');
+  MkDir(mapdir);
+  mapdir := mapdir + 'WADS\';
+  MkDir(mapdir);
+  wadfilemap := mapdir + lumpname + '_' + crc32a + '_' + crc32b + '_' + crc32c + '_' + crc32d + '.wad';
+
+  if not fexists(wadfilemap) then
+  begin
+    outfilemap := mapdir + lumpname + '_' + crc32a + '_' + crc32b + '_' + crc32c + '_' + crc32d + '.out';
+    I_DeclareTempFile(outfilemap);
+
+    header.identification :=
+      integer(Ord('P') or (Ord('W') shl 8) or (Ord('A') shl 16) or (Ord('D') shl 24));
+    header.numlumps := {$IFDEF HEXEN}12{$ELSE}11{$ENDIF};
+
+    f := TFile.Create(outfilemap, fCreate);
+    f.Write(header, SizeOf(header));
+
+    ZeroMemory(@infotable, SizeOf(infotable));
+
+    infotable[0].filepos := f.Position;
+    infotable[0].size := 0;
+    infotable[0].name := stringtochar8(lumpname);
+
+    if has_things > 0 then
+      llen := W_LumpLength(lumpnum + has_things)
+    else
+      llen := 0;
+    infotable[1].filepos := f.Position;
+    infotable[1].size := llen;
+    infotable[1].name := stringtochar8('THINGS');
+    if llen > 0 then
+    begin
+      ldata := malloc(llen);
+      W_ReadLump(lumpnum + has_things, ldata);
+      f.Write(ldata^, llen);
+      memfree(pointer(ldata), llen);
+    end;
+
+    if has_lines > 0 then
+      llen := W_LumpLength(lumpnum + has_lines)
+    else
+      llen := 0;
+    infotable[2].filepos := f.Position;
+    infotable[2].size := llen;
+    infotable[2].name := stringtochar8('LINEDEFS');
+    if llen > 0 then
+    begin
+      ldata := malloc(llen);
+      W_ReadLump(lumpnum + has_lines, ldata);
+      f.Write(ldata^, llen);
+      memfree(pointer(ldata), llen);
+    end;
+
+    if has_sides > 0 then
+      llen := W_LumpLength(lumpnum + has_sides)
+    else
+      llen := 0;
+    infotable[3].filepos := f.Position;
+    infotable[3].size := llen;
+    infotable[3].name := stringtochar8('SIDEDEFS');
+    if llen > 0 then
+    begin
+      ldata := malloc(llen);
+      W_ReadLump(lumpnum + has_sides, ldata);
+      f.Write(ldata^, llen);
+      memfree(pointer(ldata), llen);
+    end;
+
+    if has_sides > 0 then
+      llen := W_LumpLength(lumpnum + has_sides)
+    else
+      llen := 0;
+    infotable[4].filepos := f.Position;
+    infotable[4].size := llen;
+    infotable[4].name := stringtochar8('VERTEXES');
+    if llen > 0 then
+    begin
+      ldata := malloc(llen);
+      W_ReadLump(lumpnum + has_vertexes, ldata);
+      f.Write(ldata^, llen);
+      memfree(pointer(ldata), llen);
+    end;
+
+    infotable[5].filepos := f.Position;
+    infotable[5].size := 0;
+    infotable[5].name := stringtochar8('SEGS');
+
+    infotable[6].filepos := f.Position;
+    infotable[6].size := 0;
+    infotable[6].name := stringtochar8('SSECTORS');
+
+    infotable[7].filepos := f.Position;
+    infotable[7].size := 0;
+    infotable[7].name := stringtochar8('NODES');
+
+    if has_sectors > 0 then
+      llen := W_LumpLength(lumpnum + has_sectors)
+    else
+      llen := 0;
+    infotable[8].filepos := f.Position;
+    infotable[8].size := llen;
+    infotable[8].name := stringtochar8('SECTORS');
+    if llen > 0 then
+    begin
+      ldata := malloc(llen);
+      W_ReadLump(lumpnum + has_sectors, ldata);
+      f.Write(ldata^, llen);
+      memfree(pointer(ldata), llen);
+    end;
+
+    infotable[9].filepos := f.Position;
+    infotable[9].size := 0;
+    infotable[9].name := stringtochar8('REJECT');
+
+    infotable[10].filepos := f.Position;
+    infotable[10].size := 0;
+    infotable[10].name := stringtochar8('BLOCKMAP');
+
+    {$IFDEF HEXEN}
+    infotable[11].filepos := f.Position;
+    if has_behavior > 0 then
+    begin
+      llen := W_LumpLength(lumpnum + has_behavior);
+      infotable[11].size := llen;
+      ldata := malloc(llen);
+      W_ReadLump(lumpnum + has_behavior, ldata);
+      f.Write(ldata^, llen);
+      memfree(pointer(ldata), llen);
+    end
+    else
+      infotable[11].size := 0;
+    infotable[11].name := stringtochar8('BEHAVIOR');
+    {$ENDIF}
+
+    header.infotableofs := f.Position;
+    f.Write(infotable, SizeOf(infotable));
+    f.Seek(0, sFromBeginning);
+    f.Write(header, SizeOf(header));
+    f.Free;
+
+    // Build the nodes
+    prog := I_NewTempFile('glbsp.exe');
+
+    p := @glbsp;
+    size := SizeOf(glbsp);
+    if not M_WriteFile(prog, p, size) then
+    begin
+      I_Warning('ND_NodesCheck(): Failed to allocate glbsp program.'#13#10);
+      exit;
+    end;
+
+    printf(#13#10'  ND_NodesCheck: Building GL-Friendly nodes for %s'#13#10, [lumpname]);
+
+    if not I_ExecProgram(prog + ' ' + outfilemap + ' -o ' + wadfilemap {$IFDEF HEXEN} + ' -hexen'{$ENDIF}, false) then
+    begin
+      printf(#13#10);
+      I_Warning('ND_NodesCheck(): Failed to build GL-Friendly nodes for %s'#13#10, [outfilemap]);
+      exit;
+    end;
+    printf(#13#10);
+
+  end;
+
+  W_RuntimeLoad(wadfilemap);
+end;
+
 end.
+

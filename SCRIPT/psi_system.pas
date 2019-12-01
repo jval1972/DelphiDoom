@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -97,10 +97,13 @@ function PS_MergeDoubleArrays(const A1, A2: TDynamicDoubleArray): TDynamicDouble
 
 function PS_MergeExtendedArrays(const A1, A2: TDynamicExtendedArray): TDynamicExtendedArray;
 
+function PS_IsPrime(const N: Int64): Boolean;
+
 implementation
 
 uses
   d_delphi,
+  Math,
   c_con,
   i_io,
   i_system,
@@ -320,4 +323,32 @@ begin
     Result[l1 + i] := A2[i];
 end;
 
+function PS_IsPrime(const N: Int64): Boolean;
+var
+  Test, k: Int64;
+  ee: Extended;
+begin
+  if N <= 3 then
+    Result := N > 1
+  else if ((N mod 2) = 0) or ((N mod 3) = 0) then
+    Result := False
+  else
+  begin
+    Result := True;
+    ee := N;
+    k := Trunc(Sqrt(ee));
+    Test := 5;
+    while Test <= k do
+    begin
+      if ((N mod Test) = 0) or ((N mod (Test + 2)) = 0) then
+      begin
+        Result := False;
+        break; // jump out of the for loop
+      end;
+      Test := Test + 6;
+    end;
+  end;
+end;
+
 end.
+

@@ -7,7 +7,7 @@
 //    - Chocolate Strife by "Simon Howard"
 //    - DelphiDoom by "Jim Valavanis"
 //
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -429,7 +429,7 @@ begin
 // JVAL Look UP and DOWN
   if zaxisshift then
   begin
-    look := cmd.look;
+    look := cmd.lookupdown;
     if look > 7 then
       look := look - 16;
 
@@ -467,7 +467,7 @@ begin
   if not G_NeedsCompatibilityMode then
   begin
 // JVAL Look LEFT and RIGHT
-    look2 := cmd.look2;
+    look2 := cmd.lookleftright;
     if look2 > 7 then
       look2 := look2 - 16;
 

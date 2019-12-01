@@ -666,7 +666,7 @@ begin
     end;
     if look2 < 0 then
       look2 := look2 + 16;
-    cmd.look2:= look2;
+    cmd.lookleftright:= look2;
     // JVAL
     // allowplayerjumps variable controls if we accept input for jumping
     if allowplayerjumps and (gamekeydown[key_jump] or (usejoystick and joybuttons[joybjump])) then
@@ -2115,7 +2115,7 @@ begin
   cmd.arti := demo_p[0];
   demo_p := @demo_p[1];
 
-  cmd.look2 := demo_p[0];
+  cmd.lookleftright := demo_p[0];
   demo_p := @demo_p[1];
 
   cmd.jump := demo_p[0];
@@ -2187,7 +2187,7 @@ begin
   demo_p[0] := cmd.arti;
   demo_p := @demo_p[1];
 
-  demo_p[0] := cmd.look2;
+  demo_p[0] := cmd.lookleftright;
   demo_p := @demo_p[1];
 
   demo_p[0] := cmd.jump;

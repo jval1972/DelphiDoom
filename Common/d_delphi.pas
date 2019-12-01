@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2017 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -518,6 +518,8 @@ function StringVal(const Str: PChar): string;
 procedure ZeroMemory(const dest0: pointer; const count0: integer);
 
 function fopen(var f: file; const FileName: string; const mode: integer): boolean;
+
+function fwrite(const data: pointer; const sz1, sz2: integer; var f: file): boolean;
 
 function fsize(const FileName: string): integer;
 
@@ -3013,6 +3015,16 @@ begin
   result := IOresult = 0;
 end;
 
+function fwrite(const data: pointer; const sz1, sz2: integer; var f: file): boolean;
+var
+  N1: integer;
+  N2: integer;
+begin
+  N1 := sz1 * sz2;
+  BlockWrite(f, PByteArray(data)^, N1, N2);
+  result := N1 = N2;
+end;
+
 function fsize(const FileName: string): integer;
 var
   f: file;
@@ -3477,7 +3489,7 @@ procedure QSortIntegers(const A: PIntegerArray; const Len: integer);
   end;
 
 begin
-  if Len > 0 then
+  if Len > 1 then
     qsortI(0, Len - 1);
 end;
 
@@ -3514,7 +3526,7 @@ procedure QSortFloats(const A: PFloatArray; const Len: integer);
   end;
 
 begin
-  if Len > 0 then
+  if Len > 1 then
     qsortF(0, Len - 1);
 end;
 
