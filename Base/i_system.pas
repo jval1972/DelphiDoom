@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -182,6 +182,7 @@ uses
   Windows,
   Messages,
   doomdef,
+  m_argv,
   m_misc,
   m_fixed,
   i_sound,
@@ -374,8 +375,11 @@ begin
   I_ShutDownMusic;
   printf('I_ShutDownInput: Shut down input.'#13#10);
   I_ShutDownInput;
-  printf('M_SaveDefaults: Saving defaults.'#13#10);
-  M_SaveDefaults;
+  if M_CheckParm('-dontsavedefaults') = 0 then
+  begin
+    printf('M_SaveDefaults: Saving defaults.'#13#10);
+    M_SaveDefaults;
+  end;
   printf('I_ShutDownGraphics: Shut down graphics.'#13#10);
   I_ShutDownGraphics;
   printf('D_ShutDown: Shut down doom engine.'#13#10);

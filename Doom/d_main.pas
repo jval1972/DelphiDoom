@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1280,9 +1280,9 @@ var
   wad: string;
 begin
   case gamemission of
-    doom2: gamedirectorystring := 'DOOM2,DOOM1,DOOM';
-    pack_tnt: gamedirectorystring := 'DOOM2-TNT,TNT,DOOM2,DOOM1,DOOM';
-    pack_plutonia: gamedirectorystring := 'DOOM2-PLUT,PLUTONIA,DOOM2,DOOM1,DOOM';
+    doom2: gamedirectorystring := 'DOOM2,DOOM.DOOM2,DOOM1,DOOM';
+    pack_tnt: gamedirectorystring := 'DOOM2-TNT,DOOM.DOOM2.TNT,TNT,DOOM2,DOOM1,DOOM';
+    pack_plutonia: gamedirectorystring := 'DOOM2-PLUT,DOOM.DOOM2.PLUTONIA,PLUTONIA,DOOM2,DOOM1,DOOM';
   else
     gamedirectorystring := 'TEXTURES,DOOM1,DOOM';
   end;

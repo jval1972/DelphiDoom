@@ -1,10 +1,24 @@
+Version 2.0.4 build 719 - (19/9/2019)
+-------------
+OpenGL models rendered from external DLL.
+Removed the "Draw sky" command from the OpenGL menu. (gl_drawsky console variable still exists)
+External PNG textures fixes and loading optimization - fixed problems with later DHTP.
+ZLib updated to version 1.2.8
+Allow comments (//) inside PK3ENTRY lump.
+Corrected problem with trailing spaces inside PK3ENTRY lump.
+Small corrections to r_sprites.pas
+ACTORDEF functions parameters appear to the DD_IDE tool.
+Fake 3d is off by default.
+Better support for dehacked strings.
+When the -dontsavedefaults is passed to the command line parameters, the defaults file (Strife32.ini) will not be saved.
+
 Version 2.0.4 build 718 - (13/10/2018)
------------
+-------------
 Paraller vissprite sorting using separate thread.
 Fixed rare bug that could crash the engine. The error could occur if multithreading mode was enabled and total spans had never exceeded the number of active threads for flat drawing.
 
 Version 2.0.4 build 717 - (20/9/2018)
------------
+-------------
 CODEPTR keyword in BEX files will recornize ACTORDEF actions with custom parameters.
 Fixed bug in A_SubtractCustomParam and A_SubtractTargetCustomParam ACTORDEF functions.
 ACTORDEF functions can now access mobj custom params using the appropriate keywords:
@@ -14,7 +28,7 @@ R_SortVisSprites now uses radix sort algorithm when we have more than 1024 vissp
 Use multiple cpu cores for HUD drawing.
 
 Version 2.0.4 build 716 - (21/2/2018)
------------
+-------------
 Added PROJECTILE keyword in ACTORDEF content. It sets the MF_NOGRAVITY MF_DROPOFF and MF_MISSILE flags on.
 Added new ACTORDEF functions to control PASCALSCRIPT world and map variables:
   -A_SetMapStr
@@ -32,7 +46,7 @@ ACTORDEF functions can now access world and map variables using the appropriate 
   -WorldFloat (for world float variables)
 
 Version 2.0.4 build 715 - (18/2/2018)
------------
+-------------
 Corrected demo recording bug. Problem was more likely appeared in version 2.0.3.704.
 16 and 32 angles in sprites.
 Midi files will not freeze the game input when restarted.

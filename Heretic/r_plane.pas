@@ -312,7 +312,6 @@ type
 var
   vv: integer;
   ff, cc: two_smallints_t;
-  angle: angle_t;
 {$ENDIF}
 begin
 {$IFNDEF OPENGL}
@@ -341,13 +340,6 @@ begin
 
   // texture calculation
   ZeroMemory(@cachedheight, SizeOf(cachedheight));
-
-  // left to right mapping
-  {$IFDEF FPC}
-  angle := _SHRW(viewangle - ANG90, ANGLETOFINESHIFT);
-  {$ELSE}
-  angle := (viewangle - ANG90) shr ANGLETOFINESHIFT;
-  {$ENDIF}
 {$ENDIF}  // JVAL: 3d Floors
 end;
 

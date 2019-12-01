@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -451,7 +451,7 @@ begin
   realloc(pointer(vissprites), visspritessize * SizeOf(Pvissprite_t), 0);
 {$IFNDEF OPENGL}
   R_ShutDownSpriteSort;
-{$ENDIF}  
+{$ENDIF}
 end;
 
 {$IFNDEF OPENGL}
@@ -785,9 +785,7 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-        begin
-          R_DrawMaskedColumn_Batch(column, baseclip);
-        end
+          R_DrawMaskedColumn_Batch(column, baseclip)
         else
           R_DrawMaskedColumn(column, baseclip);
         dc_x := last_dc_x;
@@ -801,9 +799,7 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-      begin
-        R_DrawMaskedColumn_Batch(column, baseclip);
-      end
+        R_DrawMaskedColumn_Batch(column, baseclip)
       else
         R_DrawMaskedColumn(column, baseclip);
     end;
@@ -811,7 +807,6 @@ begin
 
   Z_ChangeTag(patch, PU_CACHE);
 end;
-
 
 //
 // R_DrawVisSpriteLight
@@ -907,7 +902,7 @@ begin
       if dc_yl <= mceilingclip[dc_x] then
         dc_yl := mceilingclip[dc_x] + 1;
 
-      if frac < 256 * FRACUNIT then  // JVAL: SOS (Heretic, Hexen & Strife ?
+      if frac < 256 * FRACUNIT then  // JVAL: SOS - Heretic, Hexen & Strife ?
         if dc_yl <= dc_yh then
           if depthbufferactive then                         // JVAL: 3d Floors
             R_DrawColumnWithDepthBufferCheck(lightcolfunc)  // JVAL: 3d Floors
@@ -1801,8 +1796,6 @@ var
   pds: Pdrawseg_t;
   i: integer;
 begin
-  R_SortVisSprites;
-
   if vissprite_p > 0 then
   begin
     // draw all vissprites back to front

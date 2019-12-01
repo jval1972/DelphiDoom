@@ -119,7 +119,8 @@ end;
 procedure gld_AmbientDone;
 begin
   glDeleteTextures(1, @tex);
-  Dispose(ambient_tex, destroy);
+  if ambient_tex <> nil then
+    Dispose(ambient_tex, destroy);
 end;
 
 end.

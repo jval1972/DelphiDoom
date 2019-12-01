@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -450,7 +450,7 @@ type
     texturemid: fixed_t;
     {$IFNDEF OPENGL}
     texturemid2: fixed_t; // JVAL For light boost
-    voxelflag: integer;   // JVAL voxel support 
+    voxelflag: integer;   // JVAL voxel support
     vx1: integer;
     vx2: integer;
     drawn: Boolean;       // JVAL 3d Floors
@@ -468,7 +468,6 @@ type
     mobjflags_ex: integer;
     mobjflags2_ex: integer;
     mo: Pmobj_t;
-    _type: integer;
 {$IFDEF OPENGL}
     flip: boolean;
 {$ENDIF}

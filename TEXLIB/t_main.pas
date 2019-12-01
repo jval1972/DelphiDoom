@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1436,7 +1436,7 @@ begin
   TextureExtensions := TDStringList.Create;
   ImageFormats := nil;
 {$IFNDEF FPC}
-  PNG_RegisterCommonChunks;
+  PNG_RegisterCommonChunks(True);
   tm_png.Create;
   tm_pngsprite.Create;
 {$ENDIF}

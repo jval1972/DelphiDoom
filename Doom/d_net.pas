@@ -150,7 +150,6 @@ uses
   i_io,
   d_main,
   d_event,
-  dstrings,
   r_intrpl,
   r_main,
   p_mobj_h,

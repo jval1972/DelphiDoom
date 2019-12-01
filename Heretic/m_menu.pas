@@ -891,7 +891,9 @@ type
   optionsdisplayopengl_e = (
     od_usefog,
     od_gl_texture_filter_anisotropic,
+    {$IFDEF DEBUG}
     od_gl_drawsky,
+    {$ENDIF}
     od_gl_stencilsky,
     od_gl_renderwireframe,
     od_gl_drawmodels,
@@ -3480,6 +3482,7 @@ begin
   pmi.pBoolVal := @gl_texture_filter_anisotropic;
   pmi.alphaKey := 'a';
 
+  {$IFDEF DEBUG}
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Draw Sky';
@@ -3487,6 +3490,7 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_drawsky;
   pmi.alphaKey := 's';
+  {$ENDIF}
 
   inc(pmi);
   pmi.status := 1;

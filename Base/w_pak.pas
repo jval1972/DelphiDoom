@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -448,6 +448,8 @@ var
   pk3lumps: TDStringList;
   pk3lump: string;
   wadlumpname: string;
+  pc: integer;
+  stmp: string;
 begin
   result := false;
   Fn := strupper(FileName);
@@ -562,6 +564,19 @@ begin
         Seek(F, Ofs + (i + 1) * SizeOf(filelump_t));
       end;
     end;
+    // JVAL: 20190913 Allow comments inside PK3ENTRY lumps
+    pk3lump := '';
+    for i := 0 to pk3lumps.Count - 1 do
+    begin
+      stmp := pk3lumps.Strings[i];
+      pc := Pos('//', stmp);
+      if pc > 0 then
+        SetLength(stmp, pc - 1);
+      stmp := strremovespaces(stmp);
+      if stmp <> '' then
+        pk3lump := pk3lump + stmp + #13#10;
+    end;
+    pk3lumps.Text := pk3lump;
     // JVAL: 20170904 Remove blanc entries
     for i := pk3lumps.Count - 1 downto 0 do
       if pk3lumps.Strings[i] = '' then

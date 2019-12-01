@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2017 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -42,18 +42,12 @@ uses
 
 const
   LIGHTMAPSIZEX = 256;
-  LIGHTMAPSIZEY = 64;
+  LIGHTMAPSIZEY = 128;
   LIGHTMAPSIZEZ = 256;
   LIGHTMAPUNIT = 16;
   LIGHTMAPBUFFERSIZE = LIGHTMAPSIZEX * LIGHTMAPSIZEY * LIGHTMAPSIZEZ * 4;
 
-type
-  lightmapbuffer_t = array[0..LIGHTMAPBUFFERSIZE - 1] of byte;
-  lightmapbuffer_p = ^lightmapbuffer_t;
-
-var
-  lightmapbuffer: lightmapbuffer_p;
-  lightmap_tex_num: GLUint;
+var  
   gl_uselightmaps: boolean = true;
   canuselightmaps: boolean = true;
 
@@ -79,6 +73,14 @@ uses
   p_3dfloors,
   gl_defs,
   gl_dlights;
+
+type
+  lightmapbuffer_t = array[0..LIGHTMAPBUFFERSIZE - 1] of byte;
+  lightmapbuffer_p = ^lightmapbuffer_t;
+
+var
+  lightmapbuffer: lightmapbuffer_p;
+  lightmap_tex_num: GLUint;
 
 // Lightmap regions to update
 type

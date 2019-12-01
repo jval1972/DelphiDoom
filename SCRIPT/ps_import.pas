@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -741,7 +741,6 @@ begin
     Sender.AddConstant('ANG240', uT_longword).Value.tu32 := ANG240;
     Sender.AddConstant('ANG270', uT_longword).Value.tu32 := ANG270;
     Sender.AddConstant('ANG300', uT_longword).Value.tu32 := ANG300;
-    Sender.AddConstant('ANG315', uT_longword).Value.tu32 := ANG315;
     Sender.AddConstant('ANG315', uT_longword).Value.tu32 := ANG315;
     Sender.AddConstant('ANG355', uT_longword).Value.tu32 := ANG355;
     Sender.AddConstant('ANGLE_MAX', uT_longword).Value.tu32 := ANGLE_MAX;

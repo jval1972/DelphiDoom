@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2018 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -996,7 +996,7 @@ const
   PNGEXT = '.PNG';
   PNGSPRITEEXT = '.PNGSPRITE';
 
-procedure PNG_RegisterCommonChunks;
+procedure PNG_RegisterCommonChunks(const onlyimportant: boolean);
 
 procedure PNG_FreeChunkClassList;
 
@@ -1152,7 +1152,7 @@ begin
 end;
 
 {Registering of common chunk classes}
-procedure PNG_RegisterCommonChunks;
+procedure PNG_RegisterCommonChunks(const onlyimportant: boolean);
 begin
   {Important chunks}
   RegisterChunk(TChunkIEND);
@@ -1162,11 +1162,14 @@ begin
   RegisterChunk(TChunkgAMA);
   RegisterChunk(TChunktRNS);
 
-  {Not so important chunks}
-  RegisterChunk(TChunkpHYs);
-  RegisterChunk(TChunktIME);
-  RegisterChunk(TChunktEXt);
-  RegisterChunk(TChunkzTXt);
+  if not onlyimportant then
+  begin
+    {Not so important chunks}
+    RegisterChunk(TChunkpHYs);
+    RegisterChunk(TChunktIME);
+    RegisterChunk(TChunktEXt);
+    RegisterChunk(TChunkzTXt);
+  end;
 end;
 
 {Creates a new chunk of this class}
@@ -1788,6 +1791,29 @@ end;
 
 {TChunkztXt implementation}
 
+function ischarbuffer(const p: PChar; const len: integer): boolean;
+var
+  i: integer;
+  p1: PChar;
+  c: char;
+begin
+  p1 := p;
+  for i := 0 to len - 1 do
+  begin
+    c := p1^;
+    if Pos(c, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
+              'abcdefghijklmnopqrstuvwxyz' +
+              '0123456789' +
+              '~`!@#$%^&*()_-+=''"\|;:?/.>,<* []{}' + #13#10#7#10) = 0 then
+    begin
+      Result := False;
+      Exit;
+    end;
+    inc(p1);
+  end;
+  Result := True;
+end;
+
 {Loading the chunk from a stream}
 function TChunkzTXt.LoadFromStream(Stream: TDStream;
   const ChunkName: TChunkName; Size: Integer): Boolean;
@@ -1796,6 +1822,9 @@ var
   CompressionMethod: Byte;
   Output: Pointer;
   OutputSize: Integer;
+  i, len: integer;
+  p1: PChar;
+  c: char;
 begin
   {Load data from stream and validate}
   Result := inherited LoadFromStream(Stream, ChunkName, Size);
@@ -1811,14 +1840,29 @@ begin
   {In case the compression is 0 (only one accepted by specs), reads it}
   if CompressionMethod = 0 then
   begin
-    Output := nil;
-    if DecompressZLIB(PChar(Longint(Data) + Length(fKeyword) + 2),
-      Size - Length(fKeyword) - 2, Output, OutputSize, ErrorOutput) then
+    // 20190907 JVAL Avoid problems with png
+    p1 := PChar(Longint(Data) + Length(fKeyword) + 2);
+    len := Size - Length(fKeyword) - 2;
+    if ischarbuffer(p1, len) then
     begin
-      SetLength(fText, OutputSize);
-      memcpy(@fText[1], Output, OutputSize);
-    end {if DecompressZLIB(...};
-    FreeMem(Output);
+      for i := 0 to len - 1 do
+      begin
+        c := p1^;
+        fText := fText + c;
+        inc(p1);
+      end;
+    end
+    else
+    begin
+      Output := nil;
+
+      if DecompressZLIB(p1, len, Output, OutputSize, ErrorOutput) then
+      begin
+        SetLength(fText, OutputSize);
+        memcpy(@fText[1], Output, OutputSize);
+      end {if DecompressZLIB(...};
+      FreeMem(Output);
+    end;
   end {if CompressionMethod = 0}
 
 end;

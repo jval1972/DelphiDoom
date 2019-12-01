@@ -819,7 +819,6 @@ var
   ltopdelta: integer;
   llength: integer;
 begin
-//  patch := W_CacheLumpNum2(vis.patch + firstspritelump, PU_STATIC);
   patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
   frac := vis.startfrac * LIGHTBOOSTSIZE div patch.width;
@@ -892,7 +891,7 @@ begin
       if dc_yl <= mceilingclip[dc_x] then
         dc_yl := mceilingclip[dc_x] + 1;
 
-      if frac < 256 * FRACUNIT then  // JVAL: SOS (Heretic, Hexen & Strife ?
+      if frac < 256 * FRACUNIT then  // JVAL: SOS - Heretic, Hexen & Strife ?
         if dc_yl <= dc_yh then
           if depthbufferactive then                         // JVAL: 3d Floors
             R_DrawColumnWithDepthBufferCheck(lightcolfunc)  // JVAL: 3d Floors
@@ -1157,10 +1156,7 @@ begin
       exit;
 
 {$IFNDEF OPENGL}
-{  if voxelflag = 1 then
-    gzt := thing.z
-  else          }
-    gzt := thing.z + spritetopoffset[lump];
+  gzt := thing.z + spritetopoffset[lump];
   heightsec := Psubsector_t(thing.subsector).sector.heightsec;
 
   if heightsec <> -1 then   // only clip things which are in special sectors
@@ -1627,7 +1623,7 @@ begin
       if ds.thicksidecol <> nil then        // JVAL: 3d Floors
         R_RenderThickSideRange(ds, r1, r2); // JVAL: 3d Floors
       if ds.maskedtexturecol <> nil then
-        R_RenderMaskedSegRange(ds, r1, r2);    
+        R_RenderMaskedSegRange(ds, r1, r2);
       // seg is behind sprite
       continue;
     end;
@@ -1940,7 +1936,6 @@ begin
   R_WaitSortVisSpritesMT;
   R_DoDrawMasked;
 end;
-
 {$ENDIF}
 
 procedure R_DrawPlayer;

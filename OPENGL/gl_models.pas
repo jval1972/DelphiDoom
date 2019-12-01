@@ -52,6 +52,7 @@ type
     mt_md2,     // md2 (Quake2) models
     mt_ddmodel, // DelphiDoom Procedural model (source code)
     mt_dmx,     // DelphiDoom Procedural model (binary)
+    mt_dll,     // External DLL  
     mt_unknown
   );
 
@@ -62,7 +63,7 @@ type
     fmodeltype: modeltype_t;
     flastdrawframe: integer;
   public
-    constructor Create(const name: string; const xoffset, yoffset, zoffset,
+    constructor Create(const name, proc: string; const xoffset, yoffset, zoffset,
       xscale, yscale, zscale: float; const additionalframes: TDStringList); virtual;
     destructor Destroy; override;
     procedure Draw(const frm1, frm2: integer; const offset: float);
@@ -79,10 +80,12 @@ procedure gld_ModelsDone;
 
 const
   MDSTRLEN = 64;
+  MDPROCLEN = 48;
 
 type
   modelmanageritem_t = record
     name: string[MDSTRLEN];
+    proc: string[MDPROCLEN]; // JVAL 20181117 - For dll models
     xoffset: float;
     yoffset: float;
     zoffset: float;
@@ -150,6 +153,7 @@ uses
   info,
   mdl_md2,
   mdl_ddmodel,
+  mdl_dllmodel,
   gl_tex,
   gl_defs,
   sc_engine,
@@ -178,6 +182,7 @@ begin
   result := modelmanager.size;
   modelinf := @modelmanager.items[result];
   modelinf.name := item.name;
+  modelinf.proc := item.proc;
   modelinf.xoffset := item.xoffset;
   modelinf.yoffset := item.yoffset;
   modelinf.zoffset := item.zoffset;
@@ -191,7 +196,7 @@ begin
   end
   else
     modelinf.framemerge := nil;
-  modelinf.model := TModel.Create(modelinf.name,
+  modelinf.model := TModel.Create(modelinf.name, modelinf.proc,
     modelinf.xoffset, modelinf.yoffset, modelinf.zoffset,
     modelinf.xscale, modelinf.yscale, modelinf.zscale,
     modelinf.framemerge);
@@ -273,6 +278,7 @@ begin
   tokens.Add('XSCALE, SCALEX');   // 12
   tokens.Add('YSCALE, SCALEY');   // 13
   tokens.Add('ZSCALE, SCALEZ');   // 14
+  tokens.Add('PROC');             // 15
 
   if devparm then
   begin
@@ -305,6 +311,7 @@ begin
         begin
           modelpending := true;
           modelitem.name := '';
+          modelitem.proc := '';
           modelitem.xoffset := 0.0;
           modelitem.yoffset := 0.0;
           modelitem.zoffset := 0.0;
@@ -366,6 +373,11 @@ begin
                   sc.MustGetString;
                   modelitem.framemerge.Add(strupper(sc._String));
                 end;
+             15:  // PROC
+                begin
+                  sc.MustGetString;
+                  modelitem.proc := sc._String;
+                end;
             else
               begin
                 gld_AddModel(modelitem);
@@ -416,6 +428,7 @@ begin
                 begin
                   sc.MustGetString;
                   modelitem.name := strupper(sc._String);
+                  modelitem.proc := '';
                   modelitem.xoffset := 0.0;
                   modelitem.yoffset := 0.0;
                   modelitem.zoffset := 0.0;
@@ -576,10 +589,10 @@ begin
 end;
 
 //------------------------------------------------------------------------------
-//--------------------------- MD2 Model Class ----------------------------------
+//------------------------------ TModel Class ----------------------------------
 //------------------------------------------------------------------------------
 
-constructor TModel.Create(const name: string; const xoffset, yoffset, zoffset,
+constructor TModel.Create(const name, proc: string; const xoffset, yoffset, zoffset,
   xscale, yscale, zscale: float; const additionalframes: TDStringList);
 var
   ext: string;
@@ -600,6 +613,11 @@ begin
   begin
     fmodel := TDDModel.Create(name, xoffset, yoffset, zoffset, xscale, yscale, zscale, additionalframes);
     fmodeltype := mt_dmx;
+  end
+  else if ext = '.DLL' then
+  begin
+    fmodel := TDLLModel.CreateWithProc(name, proc, xoffset, yoffset, zoffset, xscale, yscale, zscale, additionalframes);
+    fmodeltype := mt_dll;
   end
   else
     I_Error('TModel.Create(): Invalid model type "%s"', [ext]);

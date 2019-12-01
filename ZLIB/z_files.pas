@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2016 by Jim Valavanis
+//  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -130,7 +130,7 @@ function inflateInit_(var strm: TZStreamRec; version: PChar;
 function inflateEnd(var strm: TZStreamRec): Integer;
 
 const
-  ZLIB_VERSION = '1.2.5';
+  ZLIB_VERSION = '1.2.8';
 
 
 implementation
@@ -138,15 +138,15 @@ implementation
 uses
   i_system;
 
-{$L z125_deflate}
-{$L z125_inflate}
-{$L z125_inftrees}
-{$L z125_infback}
-{$L z125_inffast}
-{$L z125_trees}
-{$L z125_compress}
-{$L z125_adler32}
-{$L z125_crc32}
+{$L z128_deflate}
+{$L z128_inflate}
+{$L z128_inftrees}
+{$L z128_infback}
+{$L z128_inffast}
+{$L z128_trees}
+{$L z128_compress}
+{$L z128_adler32}
+{$L z128_crc32}
 
 const
   {** flush constants *******************************************************}
@@ -159,16 +159,16 @@ const
   Z_BLOCK         = 5;
 
 const
-  _z_errmsg: array[0..9] of PChar = (
-    'need dictionary',      // Z_NEED_DICT      (2)
-    'stream end',           // Z_STREAM_END     (1)
-    'ok',                   // Z_OK             (0)
-    'file error',           // Z_ERRNO          (-1)
-    'stream error',         // Z_STREAM_ERROR   (-2)
-    'data error',           // Z_DATA_ERROR     (-3)
-    'insufficient memory',  // Z_MEM_ERROR      (-4)
-    'buffer error',         // Z_BUF_ERROR      (-5)
-    'incompatible version', // Z_VERSION_ERROR  (-6)
+  z_errmsg: Array [0..9] of String = (
+    'Need dictionary',      // Z_NEED_DICT      (2)
+    'Stream end',           // Z_STREAM_END     (1)
+    'OK',                   // Z_OK             (0)
+    'File error',           // Z_ERRNO          (-1)
+    'Stream error',         // Z_STREAM_ERROR   (-2)
+    'Data error',           // Z_DATA_ERROR     (-3)
+    'Insufficient memory',  // Z_MEM_ERROR      (-4)
+    'Buffer error',         // Z_BUF_ERROR      (-5)
+    'Incompatible version', // Z_VERSION_ERROR  (-6)
     ''
   );
 
@@ -182,16 +182,17 @@ begin
   FreeMem(block);
 end;
 
-procedure _memcpy(dest, source: Pointer; count: Integer); cdecl;
+procedure memcpy(dest, source: Pointer; count: Integer); cdecl;
 begin
-  memcpy(dest, source, count);
+  d_delphi.memcpy(dest, source, count);
 end;
 
 {** c function implementations **********************************************}
 
-procedure _memset(p: Pointer; b: Byte; count: Integer); cdecl;
+function memset(p: Pointer; b: Byte; count: Integer): pointer; cdecl;
 begin
-  memset(p, b, count);
+  d_delphi.memset(p, b, count);
+  Result := p;
 end;
 
 function inflate(var strm: TZStreamRec; flush: Integer): Integer; external;
@@ -213,7 +214,7 @@ function inflateEnd(var strm: TZStreamRec): Integer; external;
 
 function InflateInit2(var stream: TZStreamRec; windowBits: Integer): Integer;
 begin
-  result := inflateInit2_(stream,windowBits, ZLIB_VERSION, SizeOf(TZStreamRec));
+  result := inflateInit2_(stream, windowBits, ZLIB_VERSION, SizeOf(TZStreamRec));
 end;
 
 procedure ZDecompress2(const inBuffer: Pointer; const inSize: Integer;
@@ -403,6 +404,13 @@ function TZipFile.GetFileCount: integer;
 begin
   result := fFiles.Count;
 end;
+
+{$ifndef WIN64}
+procedure _llmod;
+asm
+  jmp System.@_llmod;
+end;
+{$endif}
 
 end.
 

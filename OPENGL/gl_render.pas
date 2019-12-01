@@ -3543,7 +3543,7 @@ begin
   if modelinf.model = nil then
   begin
     modelinf.model :=
-      TModel.Create(modelinf.name,
+      TModel.Create(modelinf.name, modelinf.proc,
         modelinf.xoffset, modelinf.yoffset, modelinf.zoffset,
         modelinf.xscale, modelinf.yscale, modelinf.zscale,
         modelinf.framemerge
@@ -3572,7 +3572,7 @@ begin
       modelinf.model.Draw(info.startframe, nextframe, 1.0 - (sprite.mo.tics - ticfrac / FRACUNIT) / sprite.mo.state.tics);
     end;
   end
-  else if gl_smoothmodelmovement and not isgamesuspended and (sprite.aproxdist < MODELINTERPOLATERANGE)  then
+  else if gl_smoothmodelmovement and not isgamesuspended and ((sprite.aproxdist < MODELINTERPOLATERANGE) or (modelinf.model.modeltype = mt_dll)) then
   begin
     nextframe := gld_FindNextModelFrame(sprite.mo, info.modelidx);
     modelinf.model.Draw(info.startframe, nextframe, 1.0 - (sprite.mo.tics - ticfrac / FRACUNIT) / sprite.mo.state.tics);
