@@ -278,6 +278,9 @@ begin
   fKeyWords.Add('WHILE');
   fKeyWords.Add('WITH');
   fKeyWords.Add('XOR');
+  fKeyWords.Add('TRY');
+  fKeyWords.Add('FINALLY');
+  fKeyWords.Add('EXCEPT');
   TUnicodeStringList(fKeyWords).Sorted := True;
   TUnicodeStringList(fKeyWords).Duplicates := dupIgnore;
   fCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);

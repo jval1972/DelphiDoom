@@ -1262,9 +1262,12 @@ begin
 
   actor.z := actor.z - 16 * FRACUNIT; // back to normal
 
-  mo.x := mo.x + mo.momx;
-  mo.y := mo.y + mo.momy;
-  mo.tracer := actor.target;
+  if mo <> nil then
+  begin
+    mo.x := mo.x + mo.momx;
+    mo.y := mo.y + mo.momy;
+    mo.tracer := actor.target;
+  end;
 end;
 
 const

@@ -189,6 +189,7 @@ begin
 
   fgame := LowerCase(game);
 
+  ClearClss;
   clss := dll_getclassesdeclarations(fgame);
 
   if clss = nil then

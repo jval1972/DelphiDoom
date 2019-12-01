@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 260;
+  DEHNUMACTIONS = 266;
 
 type
   deh_action_t = record
@@ -2773,6 +2773,24 @@ begin
   deh_actions[259].action.acp1 := @A_PlayerMessage;
   deh_actions[259].name := strupper('PlayerMessage');
   deh_actions[259].decl := 'A_PlayerMessage()';
+  deh_actions[260].action.acp1 := @A_SetMapStr;
+  deh_actions[260].name := strupper('SetMapStr');
+  deh_actions[260].decl := 'A_SetMapStr(mvar: string; value1: string; [value2: string],...)';
+  deh_actions[261].action.acp1 := @A_SetWorldStr;
+  deh_actions[261].name := strupper('SetWorldStr');
+  deh_actions[261].decl := 'A_SetWorldStr(wvar: string; value1: string; [value2: string],...)';
+  deh_actions[262].action.acp1 := @A_SetMapInt;
+  deh_actions[262].name := strupper('SetMapInt');
+  deh_actions[262].decl := 'A_SetMapInt(mvar: string; value: integer)';
+  deh_actions[263].action.acp1 := @A_SetWorldInt;
+  deh_actions[263].name := strupper('SetWorldInt');
+  deh_actions[263].decl := 'A_SetWorldInt(wvar: string; value: integer)';
+  deh_actions[264].action.acp1 := @A_SetMapFloat;
+  deh_actions[264].name := strupper('SetMapFloat');
+  deh_actions[264].decl := 'A_SetMapFloat(mvar: string; value: float)';
+  deh_actions[265].action.acp1 := @A_SetWorldFloat;
+  deh_actions[265].name := strupper('SetWorldFloat');
+  deh_actions[265].decl := 'A_SetWorldFloat(wvar: string; value: float)';
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

@@ -759,9 +759,12 @@ procedure TFrame_ScriptEditor.GenerateParameterHintList(const gamestr: string);
 var
   i, j, k: integer;
   units: TStringList;
+  actordeffuncs: TStringList;
   lst: TStringList;
   decl, stmp, params: string;
+  afuncname: string;
   pos1, pos2: integer;
+  it: TIDEProjectItem;
 begin
   if LowerCase(lastgame) = LowerCase(gamestr) then
     Exit;
@@ -805,6 +808,58 @@ begin
       scpParamsHintList.AddObject(UpperCase(firstword(secondword(stmp, ' '), ' ')), TSimpleString.Create(params));
     end;
   end;
+
+  actordeffuncs := nil;
+  if obj <> nil then
+    if obj is TIDEProjectItem then
+    begin
+      it := obj as TIDEProjectItem;
+      if it.ItemType = pi_actor then
+        actordeffuncs := dll_getactordeffunctions(lastgame);
+    end;
+
+  if actordeffuncs <> nil then
+  begin
+    for j := 0 to actordeffuncs.Count - 1 do
+    begin
+      decl := actordeffuncs.Strings[j];
+      stmp := decl;
+      for k := 1 to Length(decl) do
+        if stmp[k] in ['(', ';', ':'] then
+          stmp[k] := ' ';
+      pos1 := Pos('(', decl);
+      pos2 := Pos(')', decl);
+      params := '';
+      if (pos1 > 1) and (pos2 > pos1) then
+      begin
+        params := '"' + Trim(Copy(decl, pos1 + 1, pos2 - pos1 - 1)) + '"';
+        if params = '""' then
+          params := ''
+        else
+        begin
+          params := StringReplace(params, ',', ',","', [rfReplaceAll]);
+          params := StringReplace(params, ';', ',","', [rfReplaceAll]);
+        end;
+      end;
+      if params = '' then
+        params := '** No parameters expected';
+      afuncname := Trim(UpperCase(firstword(stmp, ' ')));
+      if afuncname <> '' then
+      begin
+        scpParamsHintList.AddObject(afuncname, TSimpleString.Create(params));
+        if Pos('A_', afuncname) = 1 then
+        begin
+          afuncname[1] := ' ';
+          afuncname[2] := ' ';
+          afuncname := Trim(afuncname);
+          if afuncname <> '' then
+            scpParamsHintList.AddObject(afuncname, TSimpleString.Create(params));
+        end;
+      end;
+    end;
+    actordeffuncs.Free;
+  end;
+
   scpParamsHintList.Sorted := True;
 
   FreeStringList(units);

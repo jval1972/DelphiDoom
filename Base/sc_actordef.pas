@@ -147,7 +147,9 @@ type
   TActordefScriptEngine = class(TScriptEngine)
   public
     function MatchFlag(const flag: string): boolean;
+    {$IFDEF HERETIC_OR_HEXEN}
     function MatchFlag2(const flag: string): boolean;
+    {$ENDIF}
     function MatchFlagEx(const flag_ex: string): boolean;
     function MatchFlag2Ex(const flag2_ex: string): boolean;
   end;
@@ -157,10 +159,12 @@ begin
   result := MatchString(flag) or MatchString('+' + flag) or MatchString('MF_' + flag);
 end;
 
+{$IFDEF HERETIC_OR_HEXEN}
 function TActordefScriptEngine.MatchFlag2(const flag: string): boolean;
 begin
   result := MatchString(flag) or MatchString('+' + flag) or MatchString('MF_' + flag) or MatchString('MF2_' + flag);
 end;
+{$ENDIF}
 
 function TActordefScriptEngine.MatchFlagEx(const flag_ex: string): boolean;
 begin
@@ -1000,9 +1004,14 @@ begin
           mobj.spawnhealth := sc._integer;
           sc.GetString;
         end
-        else if sc.MatchString('monster') then
+        else if sc.MatchString('monster') or sc.MatchString('+monster') then
         begin
            mobj.flags := mobj.flags + 'MF_SOLID MF_SHOOTABLE MF_COUNTKILL ';
+           sc.GetString;
+        end
+        else if sc.MatchString('projectile') or sc.MatchString('+projectile') then
+        begin
+           mobj.flags := mobj.flags + 'MF_NOGRAVITY MF_DROPOFF  MF_MISSILE ';
            sc.GetString;
         end
 

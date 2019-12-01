@@ -403,7 +403,7 @@ begin
 end;
 
 //
-// A_SpawnDebris(mobj_no, count, mult_h, mult_v
+// A_SpawnDebris(mobj_no, count, mult_h, mult_v)
 //
 procedure A_SpawnDebris(actor: Pmobj_t);
 var

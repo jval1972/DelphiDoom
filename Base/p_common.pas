@@ -256,6 +256,18 @@ function P_ActorTarget(const actor: Pmobj_t): Pmobj_t;
 
 procedure A_GlobalEarthQuake(actor: Pmobj_t);
 
+procedure A_SetMapStr(actor: Pmobj_t);
+
+procedure A_SetWorldStr(actor: Pmobj_t);
+
+procedure A_SetMapInt(actor: Pmobj_t);
+
+procedure A_SetWorldInt(actor: Pmobj_t);
+
+procedure A_SetMapFloat(actor: Pmobj_t);
+
+procedure A_SetWorldFloat(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -2938,6 +2950,82 @@ begin
   for i := 0 to MAXPLAYERS - 1 do
     if playeringame[i] then
       players[i].quaketics := qtics;
+end;
+
+// A_SetMapStr(var: string; value1: string; [value2: string],...)
+procedure A_SetMapStr(actor: Pmobj_t);
+var
+  s: string;
+  i: integer;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  s := '';
+  for i := 1 to actor.state.params.Count - 1 do
+  begin
+    s := s + actor.state.params.StrVal[i];
+    if i < actor.state.params.Count - 1 then
+      s := s + ' ';
+  end;
+
+  PS_SetMapStr(actor.state.params.StrVal[0], s);
+end;
+
+// A_SetWorldStr(var: string; value1: string; [value2: string],...)
+procedure A_SetWorldStr(actor: Pmobj_t);
+var
+  s: string;
+  i: integer;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  s := '';
+  for i := 1 to actor.state.params.Count - 1 do
+  begin
+    s := s + actor.state.params.StrVal[i];
+    if i < actor.state.params.Count - 1 then
+      s := s + ' ';
+  end;
+
+  PS_SetWorldStr(actor.state.params.StrVal[0], s);
+end;
+
+// A_SetMapInt(var: string; value: integer);
+procedure A_SetMapInt(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  PS_SetMapInt(actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
+end;
+
+// A_SetWorldInt(var: string; value: integer);
+procedure A_SetWorldInt(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  PS_SetWorldInt(actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
+end;
+
+// A_SetMapFloat(var: string; value: float);
+procedure A_SetMapFloat(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  PS_SetMapFloat(actor.state.params.StrVal[0], actor.state.params.FloatVal[1]);
+end;
+
+// A_SetWorldFloat(var: string; value: float);
+procedure A_SetWorldFloat(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  PS_SetWorldFloat(actor.state.params.StrVal[0], actor.state.params.FloatVal[1]);
 end;
 
 end.

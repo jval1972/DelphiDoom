@@ -30,12 +30,20 @@ unit sc_params;
 
 //
 // JVAL
-// Dynamic Custom Parameter List for DECORATE LUMPS 
+// Dynamic Custom Parameter List for ACTORDEF LUMPS 
 
 interface
 
 uses
   m_fixed;
+
+const
+  GLBF_MAP_STRING = 1;
+  GLBF_MAP_INTEGER = 2;
+  GLBF_MAP_FLOAT = 3;
+  GLBF_WORLD_STRING = 4;
+  GLBF_WORLD_INTEGER = 5;
+  GLBF_WORLD_FLOAT = 6;
 
 type
   customparam_t = record
@@ -44,6 +52,7 @@ type
     f_param: single;
     fx_param: fixed_t;
     i_rand1, i_rand2: integer;
+    globalidx: integer;
     israndom: boolean;
     computed: boolean;
   end;
@@ -81,6 +90,7 @@ implementation
 uses
   d_delphi,
   m_rnd,
+  psi_globals,
   sc_engine;
 
 constructor TCustomParamList.Create;
@@ -95,6 +105,7 @@ var
   sc: TScriptEngine;
   token1: string;
   token: string;
+  utoken: string;
 begin
   Create;
 
@@ -108,7 +119,9 @@ begin
     while sc.GetString do
     begin
       token := sc._String;
-      if strupper(token) = 'RANDOM' then
+      utoken := strupper(token);
+      if utoken = 'RANDOM' then
+      begin
         for i := 0 to 1 do
         begin
           if sc.GetString then
@@ -116,6 +129,12 @@ begin
           else
             break;
         end;
+      end
+      else if (utoken = 'MAPSTR') or (utoken = 'WORLDSTR') or (utoken = 'MAPINT') or (utoken = 'WORLDINT') or (utoken = 'MAPFLOAT') or (utoken = 'WORLDFLOAT') then
+      begin
+        if sc.GetString then
+          token := token + ' ' + sc._String;
+      end;
       Add(token);
     end;
   finally
@@ -134,12 +153,15 @@ var
   ival: integer;
   fval: single;
   token, token1, token2: string;
+  utoken: string;
 begin
   realloc(pointer(fList), fNumItems * SizeOf(customparam_t), (fNumItems + 1) * SizeOf(customparam_t));
   splitstring(value, token1, token);
-  if strupper(token1) = 'RANDOM' then
+  utoken := strupper(token1);
+  if utoken = 'RANDOM' then
   begin
     fList[fNumItems].israndom := true;
+    fList[fNumItems].globalidx := 0;
     fList[fNumItems].s_param := '';
     fList[fNumItems].computed := false;
     if token = '' then
@@ -165,7 +187,41 @@ begin
   else
   begin
     fList[fNumItems].israndom := false;
-    fList[fNumItems].s_param := value;
+    if utoken = 'MAPSTR' then
+    begin
+      fList[fNumItems].globalidx := GLBF_MAP_STRING;
+      fList[fNumItems].s_param := token;
+    end
+    else if utoken = 'WORLDSTR' then
+    begin
+      fList[fNumItems].globalidx := GLBF_WORLD_STRING;
+      fList[fNumItems].s_param := token;
+    end
+    else if utoken = 'MAPINT' then
+    begin
+      fList[fNumItems].globalidx := GLBF_MAP_INTEGER;
+      fList[fNumItems].s_param := token;
+    end
+    else if utoken = 'WORLDINT' then
+    begin
+      fList[fNumItems].globalidx := GLBF_WORLD_INTEGER;
+      fList[fNumItems].s_param := token;
+    end
+    else if utoken = 'MAPFLOAT' then
+    begin
+      fList[fNumItems].globalidx := GLBF_MAP_FLOAT;
+      fList[fNumItems].s_param := token;
+    end
+    else if utoken = 'WORLDFLOAT' then
+    begin
+      fList[fNumItems].globalidx := GLBF_WORLD_FLOAT;
+      fList[fNumItems].s_param := token;
+    end
+    else
+    begin
+      fList[fNumItems].globalidx := 0;
+      fList[fNumItems].s_param := value;
+    end;
     ival := atoi(value);
     fList[fNumItems].i_param := ival;
     fList[fNumItems].computed := itoa(ival) = value;
@@ -198,7 +254,24 @@ begin
     if fList[index].israndom then
       result := fList[index].i_rand1 + (N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1)) div 256
     else
-      result := fList[index].i_param
+    begin
+      case fList[index].globalidx of
+        GLBF_MAP_STRING:
+          result := atoi(PS_GetMapStr(fList[index].s_param), 0);
+        GLBF_MAP_INTEGER:
+          result := PS_GetMapInt(fList[index].s_param);
+        GLBF_MAP_FLOAT:
+          result := round(PS_GetMapFloat(fList[index].s_param));
+        GLBF_WORLD_STRING:
+          result := atoi(PS_GetWorldStr(fList[index].s_param), 0);
+        GLBF_WORLD_INTEGER:
+          result := PS_GetWorldInt(fList[index].s_param);
+        GLBF_WORLD_FLOAT:
+          result := round(PS_GetWorldFloat(fList[index].s_param));
+      else
+        result := fList[index].i_param;
+      end;
+    end;
   end
   else
     result := 0;
@@ -209,8 +282,14 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     fList[index].i_param := value;
+    { -----------------------------
+     old code:
     fList[index].computed := true;
     fList[index].israndom := false;
+    -------------------------------}
+    if not fList[index].israndom then
+      if fList[index].globalidx = 0 then
+        fList[index].computed := true;
   end;
 end;
 
@@ -221,7 +300,24 @@ begin
     if fList[index].israndom then
       result := (fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1) * 256) / FRACUNIT
     else
-      result := fList[index].f_param
+    begin
+      case fList[index].globalidx of
+        GLBF_MAP_STRING:
+          result := atof(PS_GetMapStr(fList[index].s_param), 0.0);
+        GLBF_MAP_INTEGER:
+          result := PS_GetMapInt(fList[index].s_param);
+        GLBF_MAP_FLOAT:
+          result := PS_GetMapFloat(fList[index].s_param);
+        GLBF_WORLD_STRING:
+          result := atof(PS_GetWorldStr(fList[index].s_param), 0.0);
+        GLBF_WORLD_INTEGER:
+          result := PS_GetWorldInt(fList[index].s_param);
+        GLBF_WORLD_FLOAT:
+          result := PS_GetWorldFloat(fList[index].s_param);
+      else
+        result := fList[index].f_param;
+      end;
+    end;
   end
   else
     result := 0;
@@ -233,8 +329,14 @@ begin
   begin
     fList[index].f_param := value;
     fList[index].fx_param := round(value * FRACUNIT);
+    {----------------------------
+    old code:
     fList[index].computed := true;
     fList[index].israndom := false;
+    -------------------------------}
+    if not fList[index].israndom then
+      if fList[index].globalidx = 0 then
+        fList[index].computed := true;
   end;
 end;
 
@@ -245,7 +347,24 @@ begin
     if fList[index].israndom then
       result := fList[index].i_rand1 * FRACUNIT + N_Random * (fList[index].i_rand2 - fList[index].i_rand1 + 1) * 256
     else
-      result := fList[index].fx_param
+    begin
+      case fList[index].globalidx of
+        GLBF_MAP_STRING:
+          result := round(atof(PS_GetMapStr(fList[index].s_param), 0.0) * FRACUNIT);
+        GLBF_MAP_INTEGER:
+          result := PS_GetMapInt(fList[index].s_param) * FRACUNIT;
+        GLBF_MAP_FLOAT:
+          result := round(PS_GetMapFloat(fList[index].s_param) * FRACUNIT);
+        GLBF_WORLD_STRING:
+          result := round(atof(PS_GetWorldStr(fList[index].s_param), 0.0) * FRACUNIT);
+        GLBF_WORLD_INTEGER:
+          result := PS_GetWorldInt(fList[index].s_param) * FRACUNIT;
+        GLBF_WORLD_FLOAT:
+          result := round(PS_GetWorldFloat(fList[index].s_param) * FRACUNIT);
+      else
+        result := fList[index].fx_param;
+      end;
+    end;
   end
   else
     result := 0;

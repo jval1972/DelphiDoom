@@ -1,3 +1,22 @@
+Version 2.0.4 build 716 - (21/2/2018)
+-----------
+Added PROJECTILE keyword in ACTORDEF content. It sets the MF_NOGRAVITY MF_DROPOFF and MF_MISSILE flags on.
+Added new ACTORDEF functions to control PASCALSCRIPT world and map variables:
+  -A_SetMapStr
+  -A_SetWorldStr
+  -A_SetMapInt
+  -A_SetWorldInt
+  -A_SetMapFloat
+  -A_SetWorldFloat
+Corrected custom-defined ACTORDEF actions pointers. The bug appeared in version 2.0.4.715
+ACTORDEF functions can now access world and map variables using the appropriate keywords:
+  -MapStr (for map string variables)
+  -MapInt (for map integer variables)
+  -MapFloat (for map float variables)
+  -WorldStr (for world string variables)
+  -WorldInt (for world integer variables)
+  -WorldFloat (for world float variables)
+
 Version 2.0.4 build 715 - (18/2/2018)
 -----------
 Corrected demo recording bug. Problem was more likely appeared in version 2.0.3.704.
