@@ -1,0 +1,59 @@
+{$IFNDEF NO_INLINE_LOOPS}
+  while count >= 32 do
+  begin
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    count := count - 32;
+  end;
+
+  while count >= 4 do
+  begin
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    count := count - 4;
+  end;
+{$ENDIF}
+
+  // JVAL Sky is full bright!
+  fraclimit := frac + fracstep * count;
+  while frac < fraclimit do
+  begin
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+  end;
+  while frac <= fraclimit do
+  begin
+    {$I R_DrawSkyColumnUltra_Loop.inc}
+  end;

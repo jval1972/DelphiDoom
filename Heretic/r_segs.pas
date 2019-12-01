@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -141,6 +141,9 @@ uses
   r_wall32,
   r_scale,
   r_segs2,
+{$ENDIF}
+{$IFDEF DEBUG}
+  r_debug,
 {$ENDIF}
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
@@ -687,6 +690,9 @@ begin
      (pds.sprtopclip = nil) then
   begin
     memcpy(@openings[lastopening], @ceilingclip[start], SizeOf(ceilingclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@ceilingclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprtopclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;
@@ -695,6 +701,9 @@ begin
      (pds.sprbottomclip = nil) then
   begin
     memcpy(@openings[lastopening], @floorclip[start], SizeOf(floorclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@floorclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprbottomclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;
@@ -1077,6 +1086,9 @@ begin
      (pds.sprtopclip = nil) then
   begin
     memcpy(@openings[lastopening], @ceilingclip[start], SizeOf(ceilingclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@ceilingclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprtopclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;
@@ -1085,6 +1097,9 @@ begin
      (pds.sprbottomclip = nil) then
   begin
     memcpy(@openings[lastopening], @floorclip[start], SizeOf(floorclip[0]) * (rw_stopx - start));
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@floorclip, start, rw_stopx - 1);
+    {$ENDIF}
     pds.sprbottomclip := PSmallIntArray(@openings[lastopening - start]);
     lastopening := lastopening + rw_stopx - start;
   end;

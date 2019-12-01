@@ -25,11 +25,15 @@ type
     TabSheet2: TTabSheet;
     ListView1: TListView;
     IconsImageList: TImageList;
+    Label4: TLabel;
+    DelphiStrifeDirEdit: TEdit;
+    DelphiStrifeDirButton: TButton;
     procedure DelphiDoomDirButtonClick(Sender: TObject);
     procedure DelphiHereticDirButtonClick(Sender: TObject);
     procedure DelphiHexenDirButtonClick(Sender: TObject);
     procedure ListView1DblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure DelphiStrifeDirButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -59,6 +63,7 @@ begin
     frm.DelphiDoomDirEdit.Text := gamepaths[Ord(ge_doom)];
     frm.DelphiHereticDirEdit.Text := gamepaths[Ord(ge_heretic)];
     frm.DelphiHexenDirEdit.Text := gamepaths[Ord(ge_hexen)];
+    frm.DelphiStrifeDirEdit.Text := gamepaths[Ord(ge_strife)];
 
     frm.ListView1.Items.Clear;
     idx := 0;
@@ -76,6 +81,7 @@ begin
       gamepaths[Ord(ge_doom)] := frm.DelphiDoomDirEdit.Text;
       gamepaths[Ord(ge_heretic)] := frm.DelphiHereticDirEdit.Text;
       gamepaths[Ord(ge_hexen)] := frm.DelphiHexenDirEdit.Text;
+      gamepaths[Ord(ge_strife)] := frm.DelphiStrifeDirEdit.Text;
       result := true;
     end;
   finally
@@ -130,6 +136,14 @@ end;
 procedure TOptionsForm.FormCreate(Sender: TObject);
 begin
   PageControl1.ActivePageIndex := 0;
+end;
+
+procedure TOptionsForm.DelphiStrifeDirButtonClick(Sender: TObject);
+var
+  s: string;
+begin
+  if SelectDirectory('Choose DelphiStrife directory', '', s) then
+    DelphiStrifeDirEdit.Text := s;
 end;
 
 end.

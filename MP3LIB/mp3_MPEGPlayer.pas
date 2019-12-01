@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -355,7 +355,7 @@ begin
   FIsPlaying := true;
   FThreadHandle := CreateThread(nil, 0, @_ThreadProc, Self, 0, FThreadID);
   if FThreadHandle = 0 then
-    I_Error('TMPEGPlayer: Thread creation failed.');
+    I_Error('TMPEGPlayer.Play(): Thread creation failed.');
   FStartTime := GetTickCount;
 end;
 

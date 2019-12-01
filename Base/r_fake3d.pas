@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -75,6 +75,9 @@ uses
   r_hires,
   r_main,
   r_plane,
+{$IFDEF DEBUG}
+  r_debug,
+{$ENDIF}
   v_data,
   z_zone;
 
@@ -101,6 +104,9 @@ var
 const
   LOOKDIR_TO_ANGLE = 0.5;
 
+//
+// R_ComputeFake3DTables
+//
 procedure R_ComputeFake3DTables(const l: integer);
 var
   f3d: Pf3dinfo_t;
@@ -284,10 +290,12 @@ begin
     // JVAL
     // Adjust ceilingclip
     for i := 0 to viewwidth - 1 do
-      f3d.xclip[i] := ymin - 1; // - 1;
-    for i := ymin + 1 to viewheight - 1 do
+      f3d.xclip[i] := ymin - 1;
+    for i := viewheight - 1 downto ymin + 1 do
+    // f3d.left[i] -> smaller i, bigger value
       f3d.xclip[f3d.left[i]] := i - err;
     for i := ymin + 1 to viewheight - 1 do
+    // f3d.right[i] -> bigger i, bigger value
       f3d.xclip[f3d.right[i]] := i - err;
     for i := 0 to viewwidth - 1 do
       if f3d.xclip[i] > viewheight then
@@ -335,11 +343,17 @@ begin
   begin
     for i := 0 to viewwidth - 1 do
       floorclip[i] := f3d.xclip[i];
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@floorclip, 0, viewwidth - 1)
+    {$ENDIF}
   end
   else
   begin
     for i := 0 to viewwidth - 1 do
       ceilingclip[i] := f3d.xclip[i];
+    {$IFDEF DEBUG}
+    R_CheckClipTable(@ceilingclip, 0, viewwidth - 1)
+    {$ENDIF}
   end;
   fake3dtopclip := f3d.topclip;
   fake3dbottomclip := f3d.bottomclip;

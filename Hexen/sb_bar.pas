@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -76,6 +76,7 @@ uses
   am_map,
   c_cmds,
   d_player,
+  d_net,
   g_game,
   g_demo,
   hu_stuff,
@@ -91,6 +92,7 @@ uses
   m_rnd,
   m_fixed,
   m_cheat,
+  mt_utils,
   p_tick,
   p_pspr_h,
   p_local,
@@ -868,7 +870,7 @@ begin
 end;
 
 var
-  sb_topoffset: integer;
+  sb_topoffset: integer = 0;
 
 procedure SB_DrawPatch(const x, y: integer; patch: Ppatch_t); overload;
 var
@@ -1770,40 +1772,43 @@ end;
 
 procedure SB_Drawer;
 begin
-  sb_topoffset := 158;
-  ZeroMemory(screens[SCN_SB], 320 * 200);
-
-  // Sound info debug stuff
-  if DebugSound then
-    SB_DrawSoundInfo;
-
-  CPlayer := @players[consoleplayer];
-
-  if amstate = am_only then
+  if firstinterpolation then
   begin
-    SB_DrawPatch(0, 134, PatchH2BAR);
-    SB_DrawPatch(38, 162, PatchKEYBAR);
-    SB_DrawKeyBar;
-  end
-  else if R_FullStOn then
-  begin
-    SB_DrawFullScreenStuff;
-  end
-  else if not R_StOff then
-  begin
-    SB_DrawPatch(0, 134, PatchH2BAR);
-    SB_DrawCommonBar;
-    if inventory then
-      SB_DrawInventoryBar
-    else
+    MT_ZeroMemory(@screens[SCN_SB][sb_topoffset * 320], 320 * (200 - sb_topoffset));
+    sb_topoffset := 158;
+
+    // Sound info debug stuff
+    if DebugSound then
+      SB_DrawSoundInfo;
+
+    CPlayer := @players[consoleplayer];
+
+    if amstate = am_only then
     begin
-      // Main interface
-      SB_DrawPatch(38, 162, PatchSTATBAR);
-      SB_DrawMainBar;
+      SB_DrawPatch(0, 134, PatchH2BAR);
+      SB_DrawPatch(38, 162, PatchKEYBAR);
+      SB_DrawKeyBar;
+    end
+    else if R_FullStOn then
+    begin
+      SB_DrawFullScreenStuff;
+    end
+    else if not R_StOff then
+    begin
+      SB_DrawPatch(0, 134, PatchH2BAR);
+      SB_DrawCommonBar;
+      if inventory then
+        SB_DrawInventoryBar
+      else
+      begin
+        // Main interface
+        SB_DrawPatch(38, 162, PatchSTATBAR);
+        SB_DrawMainBar;
+      end;
     end;
+    SB_PaletteFlash(false);
+    SB_DrawAnimatedIcons;
   end;
-  SB_PaletteFlash(false);
-  SB_DrawAnimatedIcons;
 
   V_CopyRectTransparent(0, sb_topoffset, SCN_SB, 320, 200 - sb_topoffset, 0, sb_topoffset, SCN_FG, true);
 end;
@@ -1844,6 +1849,18 @@ begin
   // if a user keypress...
   else if ev._type = ev_keydown then
   begin
+    if CPlayer = nil then
+    begin
+      result := false;
+      exit;
+    end;
+
+    if CPlayer.mo = nil then
+    begin
+      result := false;
+      exit;
+    end;
+
     if not netgame then
     begin
       // b. - enabled for more debug fun.

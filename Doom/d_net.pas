@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -132,9 +132,7 @@ var
 
 var
   isinterpolateddisplay: boolean;
-{$IFDEF OPENGL}
   firstinterpolation: boolean;
-{$ENDIF}
 
 implementation
 
@@ -845,9 +843,7 @@ begin
 
   didinterpolations := false;
   isinterpolateddisplay := true;
-{$IFDEF OPENGL}
   firstinterpolation := true;
-{$ENDIF}
 
   // wait for new tics if needed
   repeat
@@ -872,20 +868,18 @@ begin
         M_Ticker;
         exit;
       end;
-      
+
     if interpolate and (gamestate = GS_LEVEL) and (oldgamestate = Ord(GS_LEVEL)) then
     begin
       if not didinterpolations then
       begin
-        R_StoreInterpolationData(entertime);
+        R_StoreInterpolationData(entertime, counts * ticdup);
       end;
       if R_Interpolate then
       begin
         didinterpolations := true;
         D_Display;
-{$IFDEF OPENGL}
         firstinterpolation := false;
-{$ENDIF}
       end;
     end;
   until lowtic >= gametic div ticdup + counts;
@@ -937,9 +931,7 @@ begin
   // Update display, next frame, with current state.
   if (not didinterpolations) or (Ord(gamestate) <> wipegamestate) then
   begin
-{$IFDEF OPENGL}
     firstinterpolation := true;
-{$ENDIF}
     D_Display;
   end;
 end;
@@ -960,9 +952,7 @@ begin
   G_Ticker;
   inc(gametic);
   inc(maketic);
-  {$IFDEF OPENGL}
   firstinterpolation := true;
-  {$ENDIF}
   D_Display;
 end;
 

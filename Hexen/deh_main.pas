@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 294;
+  DEHNUMACTIONS = 314;
 
 type
   deh_action_t = record
@@ -106,7 +106,8 @@ uses
   g_game,
   hu_stuff,
   i_system,
-  info_h, info,
+  info_h,
+  info,
   m_argv,
   a_action,
   p_mobj,
@@ -122,7 +123,8 @@ uses
   sc_params,
   v_data,
   sv_save,
-  w_wad, w_pak,
+  w_wad,
+  w_pak,
   z_zone;
 
 function DHE_NextLine(const s: TDStringList; var str: string; var counter: integer; const skipblanc: boolean = true): boolean;
@@ -1879,6 +1881,8 @@ begin
   mobj_flags2_ex.Add('MF2_EX_MEDIUMGRAVITY');
   mobj_flags2.Add('MF2_EX_REFLECTIVE');
   mobj_flags2_ex.Add('MF2_EX_FRIGHTENED');
+  mobj_flags2_ex.Add('MF2_EX_SHOOTABLE');
+
 
   state_tokens := TDTextList.Create;
 
@@ -1892,6 +1896,8 @@ begin
   state_tokens.Add('FLAGS_EX');         // .flags_ex (DelphiDoom)
 
 
+  deh_actions[0].action.acp1 := nil;
+  deh_actions[0].name := 'NULL';
   deh_actions[1].action.acp1 := @A_AddPlayerCorpse;
   deh_actions[1].name := strupper('AddPlayerCorpse');
   deh_actions[2].action.acp1 := @A_BatMove;
@@ -2479,6 +2485,47 @@ begin
   deh_actions[292].name := strupper('SetFrightened');
   deh_actions[293].action.acp1 := @A_UnSetFrightened;
   deh_actions[293].name := strupper('UnSetFrightened');
+  deh_actions[294].action.acp1 := @A_SetCustomParam;
+  deh_actions[294].name := strupper('SetCustomParam');
+  deh_actions[295].action.acp1 := @A_AddCustomParam;
+  deh_actions[295].name := strupper('AddCustomParam');
+  deh_actions[296].action.acp1 := @A_SubtractCustomParam;
+  deh_actions[296].name := strupper('SubtractCustomParam');
+  deh_actions[297].action.acp1 := @A_SetTargetCustomParam;
+  deh_actions[297].name := strupper('SetTargetCustomParam');
+  deh_actions[298].action.acp1 := @A_AddTargetCustomParam;
+  deh_actions[298].name := strupper('AddTargetCustomParam');
+  deh_actions[299].action.acp1 := @A_SubtractTargetCustomParam;
+  deh_actions[299].name := strupper('SubtractTargetCustomParam');
+  deh_actions[300].action.acp1 := @A_JumpIfCustomParam;
+  deh_actions[300].name := strupper('JumpIfCustomParam');
+  deh_actions[301].action.acp1 := @A_JumpIfCustomParamLess;
+  deh_actions[301].name := strupper('JumpIfCustomParamLess');
+  deh_actions[302].action.acp1 := @A_JumpIfCustomParamGreater;
+  deh_actions[302].name := strupper('JumpIfCustomParamGreater');
+  deh_actions[303].action.acp1 := @A_JumpIfTargetCustomParam;
+  deh_actions[303].name := strupper('JumpIfTargetCustomParam');
+  deh_actions[304].action.acp1 := @A_JumpIfTargetCustomParamLess;
+  deh_actions[304].name := strupper('JumpIfTargetCustomParamLess');
+  deh_actions[305].action.acp1 := @A_JumpIfTargetCustomParamGreater;
+  deh_actions[305].name := strupper('JumpIfTargetCustomParamGreater');
+  deh_actions[306].action.acp1 := @A_GoToIfCustomParam;
+  deh_actions[306].name := strupper('GoToIfCustomParam');
+  deh_actions[307].action.acp1 := @A_GoToIfCustomParamLess;
+  deh_actions[307].name := strupper('GoToIfCustomParamLess');
+  deh_actions[308].action.acp1 := @A_GoToIfCustomParamGreater;
+  deh_actions[308].name := strupper('GoToIfCustomParamGreater');
+  deh_actions[309].action.acp1 := @A_GoToIfTargetCustomParam;
+  deh_actions[309].name := strupper('GoToIfTargetCustomParam');
+  deh_actions[310].action.acp1 := @A_GoToIfTargetCustomParamLess;
+  deh_actions[310].name := strupper('GoToIfTargetCustomParamLess');
+  deh_actions[311].action.acp1 := @A_GoToIfTargetCustomParamGreater;
+  deh_actions[311].name := strupper('GoToIfTargetCustomParamGreater');
+  deh_actions[312].action.acp1 := @A_SetNoDamage;
+  deh_actions[312].name := strupper('SetNoDamage');
+  deh_actions[313].action.acp1 := @A_UnSetNoDamage;
+  deh_actions[313].name := strupper('UnSetNoDamage');
+
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

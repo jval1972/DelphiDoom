@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -718,6 +718,25 @@ begin
       R_RenderSegLoop8_dbl;
   end;
 
+  // jval: Change to fixed accuracy for masked textures
+  // This fixes some glitches in 2s lines with midtexture (eg BOOMEDIT.WAD)
+  if maskedtexture then
+  begin
+    rw_scale := R_ScaleFromGlobalAngle_Fixed(viewangle + xtoviewangle[start]);
+    pds.scale1 := rw_scale;
+
+    if stop > start then
+    begin
+      pds.scale2 := R_ScaleFromGlobalAngle_Fixed(viewangle + xtoviewangle[stop]);
+      rw_scalestep := (pds.scale2 - rw_scale) div (stop - start);
+      pds.scalestep := rw_scalestep
+    end
+    else
+    begin
+      pds.scale2 := pds.scale1;
+    end;
+  end;
+
   // save sprite clipping info
   if ((pds.silhouette and SIL_TOP <> 0) or maskedtexture) and
      (pds.sprtopclip = nil) then
@@ -1092,7 +1111,7 @@ begin
   worldtop := worldtop div WORLDUNIT;
   worldbottom := worldbottom div WORLDUNIT;
 
-  topstep := - FixedMul(rw_scalestep, worldtop);
+  topstep := -FixedMul(rw_scalestep, worldtop);
 
   topfrac := (centeryfrac div WORLDUNIT) - FixedMul(worldtop, rw_scale);
 

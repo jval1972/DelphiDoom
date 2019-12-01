@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -76,7 +76,6 @@ uses
   gl_render in 'OPENGL\gl_render.pas',
   gl_sky in 'OPENGL\gl_sky.pas',
   gl_lights in 'OPENGL\gl_lights.pas',
-  gl_data in 'OPENGL\gl_data.pas',
   jpg_utils in 'JPEGLIB\jpg_utils.pas',
   jpg_comapi in 'JPEGLIB\jpg_comapi.pas',
   jpg_dapimin in 'JPEGLIB\jpg_dapimin.pas',
@@ -212,7 +211,7 @@ uses
   r_defs in 'Heretic\r_defs.pas',
   r_draw in 'Heretic\r_draw.pas',
   r_hires in 'Base\r_hires.pas',
-  r_intrpl in 'Heretic\r_intrpl.pas',
+  r_intrpl in 'Base\r_intrpl.pas',
   r_lights in 'Base\r_lights.pas',
   r_main in 'Heretic\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
@@ -247,7 +246,6 @@ uses
   gl_models in 'OPENGL\gl_models.pas',
   gl_lightmaps in 'OPENGL\gl_lightmaps.pas',
   gl_md2 in 'OPENGL\gl_md2.pas',
-  gl_bsp in 'OPENGL\gl_bsp.pas',
   t_material in 'TEXLIB\t_material.pas',
   gl_shadows in 'OPENGL\gl_shadows.pas',
   p_adjust in 'Base\p_adjust.pas',
@@ -258,7 +256,13 @@ uses
   z_memmgr in 'Base\z_memmgr.pas',
   gl_voxels in 'OPENGL\gl_voxels.pas',
   vx_base in 'Base\vx_base.pas',
-  info_fnd in 'Base\info_fnd.pas';
+  info_fnd in 'Base\info_fnd.pas',
+  mt_utils in 'Base\mt_utils.pas',
+  p_params in 'Base\p_params.pas',
+  nd_main in 'Base\nd_main.pas',
+  p_udmf in 'Base\p_udmf.pas',
+  m_crc32 in 'Base\m_crc32.pas',
+  am_textured in 'Base\am_textured.pas';
 
 var
   Saved8087CW: Word;

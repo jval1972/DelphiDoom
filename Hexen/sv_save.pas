@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -93,6 +93,7 @@ uses
   p_mobj,
   p_enemy,
   p_map,
+  p_params,
   po_man,
   r_defs,
   r_main,
@@ -103,6 +104,7 @@ uses
 
 var
   saveptr: pointer;
+  LOADVERSION: integer;
 
 function _SAVEGAMENAME: string;
 begin
@@ -985,6 +987,7 @@ var
   count: integer;
   thinker: Pthinker_t;
   tempMobj: mobj_t;
+  parm: Pmobjcustomparam_t;
 begin
   StreamOutLong(ASEG_MOBJS);
   StreamOutLong(MobjCount);
@@ -1006,6 +1009,14 @@ begin
     memcpy(@tempMobj, thinker, SizeOf(mobj_t));
     MangleMobj(@tempMobj);
     StreamOutBuffer(@tempMobj, SizeOf(mobj_t));
+
+    parm := tempMobj.customparams;
+    while parm <> nil do
+    begin
+      StreamOutBuffer(parm, SizeOf(mobjcustomparam_t));
+      parm := parm.next;
+    end;
+
     thinker := thinker.next;
   end;
   if count <> MobjCount then
@@ -1024,6 +1035,7 @@ procedure UnarchiveMobjs;
 var
   i: integer;
   mobj: Pmobj_t;
+  parm: mobjcustomparam_t;
 begin
   AssertSegment(ASEG_MOBJS);
   TargetPlayerAddrs := Z_Malloc(MAX_TARGET_PLAYERS * SizeOf(PInteger), PU_STATIC, nil);
@@ -1037,9 +1049,42 @@ begin
   for i := 0 to MobjCount - 1 do
   begin
     mobj := MobjList[i];
-    memcpy(mobj, saveptr, SizeOf(mobj_t));
-    incp(saveptr, SizeOf(mobj_t));
+    if LOADVERSION = VERSION140 then
+    begin
+      memcpy(mobj, saveptr, SizeOf(mobj_t140));
+      incp(saveptr, SizeOf(mobj_t140));
+      mobj.prevx := mobj.x;
+      mobj.prevy := mobj.y;
+      mobj.prevz := mobj.z;
+      mobj.nextx := mobj.x;
+      mobj.nexty := mobj.y;
+      mobj.nextz := mobj.z;
+      mobj.prevangle := mobj.angle;
+      mobj.nextangle := mobj.angle;
+      mobj.intrplcnt := 0;
+      mobj.key := 0;
+      mobj.customparams := nil;
+    end
+    else
+    begin
+      memcpy(mobj, saveptr, SizeOf(mobj_t));
+      incp(saveptr, SizeOf(mobj_t));
+    end;
     mobj.thinker._function.acp1 := @P_MobjThinker;
+
+    if mobj.key >= mobjkeycnt then
+      mobjkeycnt := mobj.key + 1;
+
+    if mobj.customparams <> nil then
+    begin
+      mobj.customparams := nil;
+      repeat
+        memcpy(@parm, saveptr, SizeOf(mobjcustomparam_t));
+        incp(saveptr, SizeOf(mobjcustomparam_t));
+        P_SetMobjCustomParam(mobj, parm.name, parm.value);
+      until parm.next = nil;
+    end;
+
     RestoreMobj(mobj);
     P_AddThinker(@mobj.thinker);
   end;
@@ -1489,7 +1534,7 @@ begin
   StreamOutString(description);
 
   // Write version info
-  versionText := HXS_VERSION_TEXT;
+  versionText := HXS_VERSION_TEXT_141;
   StreamOutString(versionText);
 
   // Place a header marker
@@ -1578,6 +1623,7 @@ var
   fileName: string;
   playerBackup: array[0..MAXPLAYERS - 1] of player_t;
   mobj: Pmobj_t;
+  vstring: string;
 begin
   // Copy all needed save files to the base slot
   if slot <> BASE_SLOT then
@@ -1598,8 +1644,14 @@ begin
   GET_STRING; // Description
 
   // Check the version text
-  if GET_STRING <> HXS_VERSION_TEXT then
+  vstring := GET_STRING;
+  if vstring = HXS_VERSION_TEXT_140 then
+    LOADVERSION := VERSION140
+  else if vstring = HXS_VERSION_TEXT_141 then
+    LOADVERSION := VERSION141
+  else
   begin // Bad version
+    I_Warning('SV_LoadGame(): Game is from unsupported version'#13#10);
     exit;
   end;
 

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -452,6 +452,11 @@ begin
       thing.bpos := -1;
       thing.bidx := -1;
     end;
+  end
+  else
+  begin
+    thing.bpos := -1;
+    thing.bidx := -1;
   end;
 end;
 

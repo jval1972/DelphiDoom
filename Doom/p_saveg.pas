@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -62,7 +62,6 @@ implementation
 
 uses
   doomdef,
-  
   d_player,
   d_think,
   g_game,
@@ -70,7 +69,6 @@ uses
   info_h,
   info,
   i_system,
-  
   p_pspr_h,
   p_setup,
   p_mobj_h,
@@ -84,6 +82,7 @@ uses
   p_plats,
   p_lights,
   p_scroll,
+  p_params,
   r_defs,
   z_zone;
 
@@ -472,6 +471,17 @@ begin
     mobj.customparams := nil;
     mobj.floorclip := 0;
 
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
+
+
     Z_Free(mobj113);
     result := true
   end
@@ -522,6 +532,16 @@ begin
     mobj.movefactor := 0;
     mobj.customparams := nil;
     mobj.floorclip := 0;
+
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
 
     Z_Free(mobj114);
     result := true
@@ -574,6 +594,16 @@ begin
     mobj.customparams := nil;
     mobj.floorclip := 0;
 
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
+
     Z_Free(mobj115);
     result := true
   end
@@ -624,6 +654,16 @@ begin
     mobj.movefactor := mobj117.movefactor;
     mobj.customparams := nil;
     mobj.floorclip := 0;
+
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
 
     Z_Free(mobj117);
     result := true
@@ -676,13 +716,34 @@ begin
     mobj.customparams := nil;
     mobj.floorclip := 0;
 
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
+
     Z_Free(mobj118);
     result := true;
   end
-  else if savegameversion = VERSION119 then
+  else if (savegameversion = VERSION119) or (savegameversion = VERSION120) then
   begin
-    memcpy(mobj, save_p, SizeOf(mobj_t));
-    incp(pointer(save_p), SizeOf(mobj_t));
+    memcpy(mobj, save_p, SizeOf(mobj_t120));
+    incp(pointer(save_p), SizeOf(mobj_t120));
+
+    mobj.prevx := mobj.x;
+    mobj.prevy := mobj.y;
+    mobj.prevz := mobj.z;
+    mobj.nextx := mobj.x;
+    mobj.nexty := mobj.y;
+    mobj.nextz := mobj.z;
+    mobj.prevangle := mobj.angle;
+    mobj.nextangle := mobj.angle;
+    mobj.intrplcnt := 0;
+
     result := true;
   end
   else

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -44,10 +44,13 @@ implementation
 
 uses
   d_delphi,
-  doomdef, doomstat,
+  doomdef,
+  doomstat,
   am_map,
-  d_player, d_event,
+  d_player,
+  d_event,
   g_game,
+  mt_utils,
   hu_stuff,
   i_system,
 {$IFDEF OPENGL}
@@ -57,11 +60,14 @@ uses
 {$ENDIF}
   m_fixed,
   m_menu,
-  p_tick, p_setup,
+  p_tick,
+  p_setup,
   r_defs,
   sb_bar,
-  s_sound, sounds,
-  v_data, v_video,
+  s_sound,
+  sounds,
+  v_data,
+  v_video,
   w_wad,
   z_zone;
 
@@ -994,7 +1000,7 @@ begin
   if interstate = 3 then
     exit;
 
-  ZeroMemory(screens[SCN_TMP], 320 * 200);
+  MT_ZeroMemory(screens[SCN_TMP], 320 * 200);
 
   if (oldinterstate <> 2) and (interstate = 2) then
     S_StartSound(nil, Ord(sfx_pstop));

@@ -1,4 +1,30 @@
-New Changes
+When setblocks = 10 viewwidth does not pad div 8.
+Unlimited buffer when recordifng demos.
+Fake3d fixes.
+Added excludewidescreenplayersprites console variable, will not apply widescreen correction to player sprites.
+Software renderer speed optimizations.
+Added doadjustmissingtextures console command, adjust missing upper/lower textures on demand, regardless the value of adjustmissingtextures console variable.
+Bug fix, now displays the correct translation of sprites in OpenGL mode.
+Fixed transparency in 8 bit color mode.
+Fixed cachehit command stats when not using external textures.
+Menu drawing speed optimizations.
+Multithreading utilities (mt_utils.pas).
+Improvements to interpolation subsystem.
+Added custom parameters to mobjs ([parameter name(string)] - [value(integer)], eg inventory). 
+Added A_SetCustomParam, A_AddCustomParam, A_SubtractCustomParam mobj functions.
+Added A_SetTargetCustomParam, A_AddTargetCustomParam, A_SubtractTargetCustomParam mobj functions.
+Added A_JumpIfCustomParam, A_JumpIfCustomParamLess, A_JumpIfCustomParamGreater mobj functions.
+Added A_JumpIfTargetCustomParam, A_JumpIfTargetCustomParamLess, A_JumpIfTargetCustomParamGreater mobj functions.
+Corrected automap aspect ratio in OpenGL mode.
+Textured automap.
+Added texturedautomap console variable.
+Will attempt to load UDMF maps.
+Fixed automap drawing when r_interpolate variable is true.
+Fixed voxel loading bug in software mode when using multithreading functions.
+Added MF2_EX_NODAMAGE mobj flag.
+Added A_SetNoDamage & A_UnSetNoDamage mobj functions.
+
+Version 1.1.5 build 581 - (22/5/2013)
 -----------
 Small fixes to voxel support.
 

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -153,12 +153,22 @@ uses
   d_main,
   d_player,
   g_game,
-  info_h, info,
+  info_h,
+  info,
   m_rnd,
-  p_mobj, p_things, p_extra, p_sight, p_map, p_tick, p_inter, p_enemy, p_maputl,
+  p_mobj,
+  p_things,
+  p_extra,
+  p_sight,
+  p_map,
+  p_tick,
+  p_inter,
+  p_enemy,
+  p_maputl,
   p_local,
   r_main,
-  s_sound, sounds,
+  s_sound,
+  sounds,
   tables;
 
 //--------------------------------------------------------------------------
@@ -1302,3 +1312,4 @@ begin
 end;
 
 end.
+

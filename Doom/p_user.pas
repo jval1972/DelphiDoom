@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -122,7 +122,7 @@ begin
 
   player.bob := FixedMul(player.mo.momx, player.mo.momx) +
                 FixedMul(player.mo.momy, player.mo.momy);
-  player.bob :=  player.bob div 4;
+  player.bob := player.bob div 4;
 
   if player.bob > MAXBOB then
     player.bob := MAXBOB;
@@ -231,22 +231,35 @@ begin
   //  if not onground.
   onground := player.mo.z <= player.mo.floorz;
 
-  movefactor := ORIG_FRICTION_FACTOR;
+  if not onground then
+    if G_PlayingEngineVersion > VERSION120 then
+      onground := player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0;
 
-  if player.cheats and CF_LOWGRAVITY = 0 then
-    if G_PlayingEngineVersion >= VERSION120 then
-      if Psubsector_t(player.mo.subsector).sector.special and FRICTION_MASK <> 0 then
-        movefactor := P_GetMoveFactor(player.mo); //movefactor * 2;
+  // villsa [STRIFE] allows player to climb over things by jumping
+  // haleyjd 20110205: air control thrust should be 256, not cmd.forwardmove
+  if (G_PlayingEngineVersion >= VERSION121) and not onground and (player.cheats and CF_LOWGRAVITY = 0) and (cmd.forwardmove <> 0) then
+  begin
+    P_Thrust(player, player.mo.angle, 256);
+  end
+  else
+  begin
+    movefactor := ORIG_FRICTION_FACTOR;
 
-  if (player.cheats and CF_LOWGRAVITY <> 0) or
-    ((cmd.forwardmove <> 0) and
-     (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
-    P_Thrust(player, player.mo.angle, cmd.forwardmove * movefactor);
+    if player.cheats and CF_LOWGRAVITY = 0 then
+      if G_PlayingEngineVersion >= VERSION120 then
+        if Psubsector_t(player.mo.subsector).sector.special and FRICTION_MASK <> 0 then
+          movefactor := P_GetMoveFactor(player.mo); //movefactor * 2;
 
-  if (player.cheats and CF_LOWGRAVITY <> 0) or
-    ((cmd.sidemove <> 0) and
-     (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
-    P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * movefactor);
+    if (player.cheats and CF_LOWGRAVITY <> 0) or
+      ((cmd.forwardmove <> 0) and
+       (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
+      P_Thrust(player, player.mo.angle, cmd.forwardmove * movefactor);
+
+    if (player.cheats and CF_LOWGRAVITY <> 0) or
+      ((cmd.sidemove <> 0) and
+       (onground or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0)))) then
+      P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * movefactor);
+  end;
 
   if G_PlayingEngineVersion >= VERSION115 then
   begin

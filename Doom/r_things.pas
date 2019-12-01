@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -994,7 +994,8 @@ begin
 
   xscale := FixedDiv(projection, tz);
   if xscale <= 0 then
-    exit;
+ //   if voxelflag = 0 then
+      exit;
 
   gxt := -FixedMul(tr_x, viewsin);
   gyt := FixedMul(tr_y, viewcos);
@@ -1011,7 +1012,16 @@ begin
 
   // decide which patch to use for sprite relative to player
   sprdef := @sprites[thing.sprite];
-  sprframe := @sprdef.spriteframes[thing.frame and FF_FRAMEMASK];
+
+  if sprdef.numframes <= 0 then
+  begin
+    sprdef := @sprites[Ord(SPR_TNT1)];
+    sprframe := @sprdef.spriteframes[0];
+  end
+  else
+  begin
+    sprframe := @sprdef.spriteframes[thing.frame and FF_FRAMEMASK];
+  end;
 
   if sprframe = nil then
   begin
@@ -1125,7 +1135,7 @@ begin
   vis.gzt := gzt;
   // foot clipping
   vis.footclip := thing.floorclip;
-  vis.texturemid := vis.gzt - viewz - vis.footclip * FRACUNIT;
+  vis.texturemid := vis.gzt - viewz - vis.footclip;
   vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
   if x1 <= 0 then
     vis.x1 := 0

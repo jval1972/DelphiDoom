@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -80,7 +80,7 @@ const
   INVERSECOLORMAP = 32;
 
 // Fog base ( < FRACUNIT ) for FOGMAP calculation
-  FOGBASE = 55000;  
+  FOGBASE = 55000;
 
 var
   forcecolormaps: boolean;
@@ -96,6 +96,10 @@ function R_PointOnSide(const x: fixed_t; const y: fixed_t; const node: Pnode_t):
 function R_PointOnSegSide(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
 
 function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
+
+{$IFDEF OPENGL}
+function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
+{$ENDIF}
 
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 
@@ -264,6 +268,9 @@ var
 implementation
 
 uses
+{$IFDEF OPENGL}
+  Math,
+{$ENDIF}
   doomdata,
   c_cmds,
   d_net,
@@ -566,6 +573,17 @@ begin
 
   result := 0;
 end;
+
+{$IFDEF OPENGL}
+function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
+var
+  xx, yy: fixed_t;
+begin
+  xx := x - viewx;
+  yy := y - viewy;
+  result := Round(arctan2(yy, xx) * (ANG180 / D_PI));
+end;
+{$ENDIF}
 
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 begin
@@ -1146,7 +1164,10 @@ begin
   end
   else
   begin
-    scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
+    if setblocks = 10 then
+      scaledviewwidth := SCREENWIDTH
+    else
+      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
     if setblocks = 10 then
     {$IFDEF OPENGL}
       viewheight := trunc(SB_Y * SCREENHEIGHT / 200)
@@ -1191,7 +1212,10 @@ begin
 // psprite scales
 // jval: Widescreen support
   pspritescale := Round((centerx / monitor_relative_aspect * FRACUNIT) / 160);
-  pspritescalep := Round((centerx / R_GetRelativeAspect * FRACUNIT) / 160);
+  if excludewidescreenplayersprites then
+    pspritescalep := Round((centerx * FRACUNIT) / 160)
+  else
+    pspritescalep := Round((centerx / R_GetRelativeAspect * FRACUNIT) / 160);
   pspriteyscale := Round((((SCREENHEIGHT * viewwidth) / SCREENWIDTH) * FRACUNIT) / 200);
   pspriteiscale := FixedDiv(FRACUNIT, pspritescale);
   pspriteiscalep := FixedDiv(FRACUNIT, pspritescalep);

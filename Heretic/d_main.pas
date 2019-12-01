@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -137,6 +137,7 @@ uses
   m_misc,
   m_menu,
   m_fixed,
+  mt_utils,
   h_strings,
   info,
   info_rnd,
@@ -147,10 +148,10 @@ uses
   i_startup,
 {$IFDEF OPENGL}
   gl_main,
-  gl_data,
 {$ELSE}
   i_video,
 {$ENDIF}
+  nd_main,
   g_game,
   sb_bar,
   hu_stuff,
@@ -523,7 +524,7 @@ end;
 begin
   HU_DoFPSStuff;
   if firstinterpolation then
-    ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
+    MT_ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
   if gamestate = GS_LEVEL then
   begin
     if (amstate <> am_only) and (gametic <> 0) then
@@ -1149,6 +1150,11 @@ begin
 
   SUC_Progress(3);
 
+  printf('MT_Init: Initializing multithreading utilities.'#13#10);
+  MT_Init;
+
+  SUC_Progress(4);
+
   D_AddSystemWAD; // Add system wad first
 
   SUC_Progress(5);
@@ -1477,6 +1483,27 @@ begin
     if SCREENHEIGHT > MAXHEIGHT then
       SCREENHEIGHT := MAXHEIGHT;
   end;
+
+  p := M_CheckParm('-cgaX2');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 640;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 400;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  if SCREENHEIGHT = -1 then
+    SCREENHEIGHT := I_ScreenHeight;
+  if SCREENHEIGHT > MAXHEIGHT then
+    SCREENHEIGHT := MAXHEIGHT;
+
+  if SCREENWIDTH = -1 then
+    SCREENWIDTH := I_ScreenWidth;
+  if SCREENWIDTH > MAXWIDTH then
+    SCREENWIDTH := MAXWIDTH;
 
   singletics := M_CheckParm('-singletics') > 0;
   noartiskip := M_CheckParm('-noartiskip') > 0;
@@ -1894,6 +1921,8 @@ procedure D_ShutDown;
 var
   i: integer;
 begin
+  printf('M_ShutDownMenus: Shut dowm menus.'#13#10);
+  M_ShutDownMenus;
   printf('C_ShutDown: Shut down console.'#13#10);
   C_ShutDown;
   printf('R_ShutDown: Shut down DOOM refresh daemon.');
@@ -1920,6 +1949,10 @@ begin
   Z_ShutDown;
   printf('V_ShutDown: Shut down screens.'#13#10, [mb_used]);
   V_ShutDown;
+  printf('MT_ShutDown: Shut dowm multithreading utilities.'#13#10);
+  MT_ShutDown;
+  printf('AM_ShutDown: Shut dowm automap.'#13#10);
+  AM_ShutDown;
 
   gamedirectories.Free;
 

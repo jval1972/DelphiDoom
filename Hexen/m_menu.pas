@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -86,6 +86,8 @@ var
 
   inhelpscreens: boolean;
 
+procedure M_ShutDownMenus;
+
 procedure M_InitMenus;
 
 procedure M_WriteText(x, y: integer; const _string: string; const fraczoom: fixed_t = FRACUNIT);
@@ -114,8 +116,10 @@ uses
   m_argv,
   m_misc,
   m_rnd,
+  mt_utils,
   i_system,
   i_io,
+  i_threads,
 {$IFDEF OPENGL}
   gl_main,
   gl_defs,
@@ -758,6 +762,7 @@ type
 {$ELSE}
     od_detail,
 {$ENDIF}
+    od_automap,
     od_appearance,
     od_advanced,
     od_32bitsetup,
@@ -784,8 +789,6 @@ var
 // DISPLAY APPEARANCE MENU
 type
   optionsdisplayappearance_e = (
-    od_allowautomapoverlay,
-    od_allowautomaprotate,
     od_drawfps,
     od_shademenubackground,
     od_displaydiskbuzyicon,
@@ -795,6 +798,19 @@ type
 var
   OptionsDisplayAppearanceMenu: array[0..Ord(optdispappearance_end) - 1] of menuitem_t;
   OptionsDisplayAppearanceDef: menu_t;
+
+// DISPLAY AUTOMAP MENU
+type
+  optionsdisplayautomap_e = (
+    od_allowautomapoverlay,
+    od_allowautomaprotate,
+    od_texturedautomap,
+    optdispautomap_end
+  );
+
+var
+  OptionsDisplayAutomapMenu: array[0..Ord(optdispautomap_end) - 1] of menuitem_t;
+  OptionsDisplayAutomapDef: menu_t;
 
 // DISPLAY ADVANCED MENU
 type
@@ -816,6 +832,7 @@ type
     od_precisescalefromglobalangle,
 {$ENDIF}
     od_widescreensupport,
+    od_excludewidescreenplayersprites,
     optdispadvanced_end
   );
 
@@ -1282,6 +1299,11 @@ begin
   M_SetupNextMenu(@OptionsDisplayDetailDef);
 end;
 
+procedure M_OptionsDisplayAutomap(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayAutomapDef);
+end;
+
 procedure M_OptionsDisplayAppearance(choice: integer);
 begin
   M_SetupNextMenu(@OptionsDisplayAppearanceDef);
@@ -1517,6 +1539,11 @@ begin
 end;
 
 procedure M_DrawDisplayAppearanceOptions;
+begin
+  M_DrawDisplayOptions;
+end;
+
+procedure M_DrawDisplayAutomapOptions;
 begin
   M_DrawDisplayOptions;
 end;
@@ -2315,23 +2342,24 @@ begin
   result := 0;
 end;
 
-procedure M_MenuShader;
 var
-  h1: integer;
+  trd_shade: TDThread;
+
+procedure M_MenuShader;
 begin
   if (not wipedisplay) and shademenubackground then
   begin
     if usemultithread then
     begin
     // JVAL
-      h1 := I_CreateProcess(@M_Thr_ShadeScreen, nil, false);
+      trd_shade.Activate(nil);
       {$IFDEF OPENGL}
       V_ShadeBackground(0, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) div 2);
       {$ELSE}
       V_ShadeScreen(SCN_FG, 0, SCREENWIDTH * SCREENHEIGHT div 2);
       {$ENDIF}
       // Wait for extra thread to terminate.
-      I_WaitForProcess(h1, 1000);
+      trd_shade.Wait;
     end
     else
       {$IFDEF OPENGL}
@@ -2378,7 +2406,7 @@ begin
     if mheight < 132 then
       mheight := 132;
 
-    ZeroMemory(screens[SCN_TMP], 320 * mheight);
+    MT_ZeroMemory(screens[SCN_TMP], 320 * mheight);
 
     M_DoDrawIcons;
 
@@ -2412,14 +2440,14 @@ begin
   begin
     if M_MustDrawIcons then
     begin
-      ZeroMemory(screens[SCN_TMP], 320 * 132);
+      MT_ZeroMemory(screens[SCN_TMP], 320 * 132);
       M_DoDrawIcons;
       M_FinishUpdate(132);
     end;
     exit;
   end;
 
-  ZeroMemory(screens[SCN_TMP], 320 * 200);
+  MT_ZeroMemory(screens[SCN_TMP], 320 * 200);
 
   if Assigned(currentMenu.routine) then
     currentMenu.routine; // call Draw routine
@@ -2649,11 +2677,17 @@ begin
   C_AddCmd('menu_gamefiles', @M_CmdMenuGameFiles);
 end;
 
+procedure M_ShutDownMenus;
+begin
+  trd_shade.Free;
+end;
+
 procedure M_InitMenus;
 var
   i: integer;
   pmi: Pmenuitem_t;
 begin
+  trd_shade := TDThread.Create(M_Thr_ShadeScreen);
 ////////////////////////////////////////////////////////////////////////////////
 //gammamsg
   gammamsg[0] := GAMMALVL0;
@@ -2851,7 +2885,7 @@ begin
 //OptionsMenu
   pmi := @OptionsMenu[0];
   pmi.status := 1;
-  pmi.name := '@General';
+  pmi.name := '%General'; // '@General'
   pmi.cmd := '';
   pmi.routine := @M_OptionsGeneral;
   pmi.pBoolVal := nil;
@@ -2859,7 +2893,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Display';
+  pmi.name := '%Display';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplay;
   pmi.pBoolVal := nil;
@@ -2867,7 +2901,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Sound';
+  pmi.name := '%Sound';
   pmi.cmd := '';
   pmi.routine := @M_OptionsSound;
   pmi.pBoolVal := nil;
@@ -2875,7 +2909,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Compatibility';
+  pmi.name := '%Compatibility';
   pmi.cmd := '';
   pmi.routine := @M_OptionsCompatibility;
   pmi.pBoolVal := nil;
@@ -2883,7 +2917,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Controls';
+  pmi.name := '%Controls';
   pmi.cmd := '';
   pmi.routine := @M_OptionsConrols;
   pmi.pBoolVal := nil;
@@ -2891,7 +2925,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@System';
+  pmi.name := '%System';
   pmi.cmd := '';
   pmi.routine := @M_OptionsSystem;
   pmi.pBoolVal := nil;
@@ -2974,13 +3008,13 @@ begin
   pmi := @OptionsDisplayMenu[0];
   pmi.status := 1;
 {$IFDEF OPENGL}
-  pmi.name := '@OpenGL';
+  pmi.name := '%OpenGL';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayOpenGL;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'o';
 {$ELSE}
-  pmi.name := '@Detail';
+  pmi.name := '%Detail';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayDetail;
   pmi.pBoolVal := nil;
@@ -2989,7 +3023,15 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Appearance';
+  pmi.name := '%Automap';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayAutomap;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'a';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '%Appearance';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayAppearance;
   pmi.pBoolVal := nil;
@@ -2997,7 +3039,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Advanced';
+  pmi.name := '%Advanced';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayAdvanced;
   pmi.pBoolVal := nil;
@@ -3005,7 +3047,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@32 bit rendering';
+  pmi.name := '%32 bit rendering';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplay32bit;
   pmi.pBoolVal := nil;
@@ -3060,8 +3102,8 @@ begin
   OptionsDisplayDetailDef.itemheight := LINEHEIGHT2;
 
 ////////////////////////////////////////////////////////////////////////////////
-//OptionsDisplayAppearanceMenu
-  pmi := @OptionsDisplayAppearanceMenu[0];
+//OptionsDisplayAutomapMenu
+  pmi := @OptionsDisplayAutomapMenu[0];
   pmi.status := 1;
   pmi.name := '!Allow automap overlay';
   pmi.cmd := 'allowautomapoverlay';
@@ -3078,6 +3120,27 @@ begin
   pmi.alphaKey := 'r';
 
   inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Textured Automap';
+  pmi.cmd := 'texturedautomap';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @texturedautomap;
+  pmi.alphaKey := 't';
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayAutomapDef
+  OptionsDisplayAutomapDef.numitems := Ord(optdispautomap_end); // # of menu items
+  OptionsDisplayAutomapDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayAutomapDef.menuitems := Pmenuitem_tArray(@OptionsDisplayAutomapMenu);  // menu items
+  OptionsDisplayAutomapDef.routine := @M_DrawDisplayAutomapOptions;  // draw routine
+  OptionsDisplayAutomapDef.x := 30;
+  OptionsDisplayAutomapDef.y := 40; // x,y of menu
+  OptionsDisplayAutomapDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayAutomapDef.itemheight := LINEHEIGHT2;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayAppearanceMenu
+  pmi := @OptionsDisplayAppearanceMenu[0];
   pmi.status := 1;
   pmi.name := '!Display fps';
   pmi.cmd := 'drawfps';
@@ -3221,6 +3284,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @widescreensupport;
   pmi.alphaKey := 'w';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Player Sprites Stretch';
+  pmi.cmd := 'excludewidescreenplayersprites';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @excludewidescreenplayersprites;
+  pmi.alphaKey := 'p';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAdvancedDef

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -137,6 +137,7 @@ uses
   m_argv,
   m_misc,
   m_menu,
+  mt_utils,
   info,
   info_rnd,
   i_system,
@@ -148,10 +149,10 @@ uses
 {$ENDIF}
 {$IFDEF OPENGL}
   gl_main,
-  gl_data,
 {$ELSE}
   i_video,
 {$ENDIF}
+  nd_main,
   g_game,
   hu_stuff,
   wi_stuff,
@@ -549,7 +550,7 @@ end;
 begin
   HU_DoFPSStuff;
   if firstinterpolation then
-    ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
+    MT_ZeroMemory(screen32, V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * 4);
   if gamestate = GS_LEVEL then
   begin
     if (amstate <> am_only) and (gametic <> 0) then
@@ -1310,6 +1311,9 @@ begin
   SUC_Progress(3);
   {$ENDIF}
 
+  printf('MT_Init: Initializing multithreading utilities.'#13#10);
+  MT_Init;
+
   D_AddSystemWAD; // Add system wad first
 
   {$IFNDEF FPC}
@@ -1706,6 +1710,27 @@ begin
       SCREENHEIGHT := MAXHEIGHT;
   end;
 
+  p := M_CheckParm('-cgaX2');
+  if (p <> 0) and (p < myargc - 1) then
+  begin
+    SCREENWIDTH := 640;
+    if SCREENWIDTH > MAXWIDTH then
+      SCREENWIDTH := MAXWIDTH;
+    SCREENHEIGHT := 400;
+    if SCREENHEIGHT > MAXHEIGHT then
+      SCREENHEIGHT := MAXHEIGHT;
+  end;
+
+  if SCREENHEIGHT = -1 then
+    SCREENHEIGHT := I_ScreenHeight;
+  if SCREENHEIGHT > MAXHEIGHT then
+    SCREENHEIGHT := MAXHEIGHT;
+
+  if SCREENWIDTH = -1 then
+    SCREENWIDTH := I_ScreenWidth;
+  if SCREENWIDTH > MAXWIDTH then
+    SCREENWIDTH := MAXWIDTH;
+
   singletics := M_CheckParm('-singletics') > 0;
 
   p := M_CheckParm('-autoscreenshot');
@@ -1812,10 +1837,14 @@ begin
       D_AddFile('CHEX.WAD')
     else if fexists('HACX.WAD') then
       D_AddFile('HACX.WAD')
-    else if fexists('FREEDOOM.WAD') then
-      D_AddFile('FREEDOOM.WAD')
+    else if fexists('FREEDOOM1.WAD') then
+      D_AddFile('FREEDOOM1.WAD')
     else if fexists('FREEDOOM2.WAD') then
-      D_AddFile('FREEDOOM2.WAD');
+      D_AddFile('FREEDOOM2.WAD')
+    else if fexists('FREEDM.WAD') then
+      D_AddFile('FREEDM.WAD')
+    else if fexists('FREEDOOM.WAD') then
+      D_AddFile('FREEDOOM.WAD');
 
     if (W_InitMultipleFiles(wadfiles) = 0) or (W_CheckNumForName('playpal') = -1) then
     begin
@@ -1967,7 +1996,10 @@ begin
       begin
         gamemission := doom2;
         {$IFNDEF FPC}
-        SUC_SetGameMode('DOOM2: Hell On Earth');
+        if customgame = cg_freedoom then
+          SUC_SetGameMode('FREEDOOM')
+        else
+          SUC_SetGameMode('DOOM2: Hell On Earth');
         {$ENDIF}
       end;
     end
@@ -1977,7 +2009,15 @@ begin
   else
   begin
     {$IFNDEF FPC}
-    if (gamemission = doom) and (gamemode = retail) then
+    if customgame = cg_chex then
+       SUC_SetGameMode('Chex Quest')
+    else if customgame = cg_chex2 then
+       SUC_SetGameMode('Chex Quest 2')
+    else if customgame = cg_freedoom then
+       SUC_SetGameMode('FREEDOOM')
+    else if customgame = cg_hacx then
+       SUC_SetGameMode('HACX')
+    else if (gamemission = doom) and (gamemode = retail) then
       SUC_SetGameMode('Ultimate Doom')
     else if (gamemission = doom) and (gamemode = registered) then
       SUC_SetGameMode('Registered Doom')
@@ -2298,6 +2338,10 @@ begin
   Z_ShutDown;
   printf('V_ShutDown: Shut down screens.'#13#10, [mb_used]);
   V_ShutDown;
+  printf('MT_ShutDown: Shut dowm multithreading utilities.'#13#10);
+  MT_ShutDown;
+  printf('AM_ShutDown: Shut dowm automap.'#13#10);
+  AM_ShutDown;
 
   gamedirectories.Free;
 

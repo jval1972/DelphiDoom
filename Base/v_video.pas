@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -51,7 +51,7 @@ function V_GetScreenHeight(scrn: integer): integer;
 procedure V_SetPalette(const palette: PByteArray);
 
 {$IFNDEF OPENGL}
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
 procedure V_CalcColorMapPalette;
 {$ENDIF}
 {$ENDIF}
@@ -275,7 +275,7 @@ uses
   r_mmx,
   r_trans8,
   r_data,
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
   st_stuff,
   {$ENDIF}
@@ -546,7 +546,7 @@ var
   row: integer;
   swidth: integer;
   dwidth: integer;
-  ldest: longword;
+  ldest: LongWord;
   ldest64: twolongwords;
   pv: boolean;
 begin
@@ -934,7 +934,6 @@ begin
     desth := height;
   end;
   destw1 := destw and $3;
-  destw := destw - destw1;
 
   if (destw <> 0) and (desth <> 0) then
   begin
@@ -952,9 +951,9 @@ begin
       fracystep := FRACUNIT;
       fracxstep4 := 4 * FRACUNIT;
     end;
-
     fracy := srcy * FRACUNIT;
 
+    destw := destw - destw1;
     for row := desty to desty + desth - 1 do
     begin
       fracx := 0;
@@ -1072,7 +1071,7 @@ begin
   end
   else
   begin
-    cmap := @{$IFDEF DOOM}def_colormaps{$ELSE}colormaps{$ENDIF}[(NUMCOLORMAPS div 2) * 256];
+    cmap := @{$IFDEF DOOM_OR_STRIFE}def_colormaps{$ELSE}colormaps{$ENDIF}[(NUMCOLORMAPS div 2) * 256];
     while cnt > 0 do
     begin
       src^ := cmap[src^];
@@ -2008,7 +2007,7 @@ begin
   end;
 end;
 
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
 procedure V_PageDrawer(const pagename: string);
 begin
   if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} useexternaltextures then
@@ -2184,20 +2183,20 @@ begin
     inc(dest);
     src := PByteArray(integer(src) + 3);
   end;
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
   videopal[0] := videopal[0] and $FFFFFF;
 {$ENDIF}
   recalctablesneeded := true;
   needsbackscreen := true; // force background redraw
 {$IFNDEF OPENGL}
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
   V_CalcColorMapPalette;
 {$ENDIF}
 {$ENDIF}
 end;
 
 {$IFNDEF OPENGL}
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
 procedure V_CalcColorMapPalette;
 var
   p: pointer;
@@ -2252,18 +2251,58 @@ begin
   pal := V_ReadPalette(PU_STATIC);
   V_SetPalette(pal);
   Z_ChangeTag(pal, PU_CACHE);
-  {$IFDEF DOOM}
+{$IFDEF OPENGL}
+  if SCREENWIDTH < 1024 then
+  begin
+    if SCREENWIDTH <= SCREENHEIGHT then
+    begin
+      GLDRAWWIDTH := 512;
+      GLDRAWHEIGHT := 512;
+    end
+    else
+    begin
+      GLDRAWWIDTH := 512;
+      GLDRAWHEIGHT := round(SCREENHEIGHT * 512 / SCREENWIDTH);
+    end;
+    GLDRAWTEXWIDTH := 512;
+    GLDRAWTEXHEIGHT := 512;
+  end
+  else
+  begin
+    if SCREENWIDTH <= SCREENHEIGHT then
+    begin
+      GLDRAWWIDTH := 1024;
+      GLDRAWHEIGHT := 1024;
+    end
+    else
+    begin
+      GLDRAWWIDTH := 1024;
+      GLDRAWHEIGHT := round(SCREENHEIGHT * 1024 / SCREENWIDTH);
+    end;
+    GLDRAWTEXWIDTH := 1024;
+    GLDRAWTEXHEIGHT := 1024;
+  end;
+{$ENDIF}
+  {$IFDEF DOOM_OR_STRIFE}
   for i := SCN_FG to SCN_ST do
   {$ELSE}
   for i := SCN_FG to SCN_TMP do
   {$ENDIF}
   begin
     if FIXED_DIMENTIONS[i].width = -1 then
+    {$IFDEF OPENGL}
+      screendimentions[i].width := GLDRAWWIDTH
+    {$ELSE}
       screendimentions[i].width := SCREENWIDTH
+    {$ENDIF}
     else
       screendimentions[i].width := FIXED_DIMENTIONS[i].width;
     if FIXED_DIMENTIONS[i].height = -1 then
+    {$IFDEF OPENGL}
+      screendimentions[i].height := GLDRAWHEIGHT
+    {$ELSE}
       screendimentions[i].height := SCREENHEIGHT
+    {$ENDIF}
     else
       screendimentions[i].height := FIXED_DIMENTIONS[i].height;
   end;
@@ -2272,7 +2311,7 @@ begin
   base := malloc(vsize);
 
   st := 0;
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   for i := SCN_FG to SCN_ST do
   {$ELSE}
   for i := SCN_FG to SCN_TMP do
@@ -2283,6 +2322,7 @@ begin
   end;
 
   V_CalcPreserveTables;
+
 end;
 
 procedure V_ReInit;
@@ -2308,7 +2348,7 @@ begin
   if scrn = -1 then
   begin
     il := SCN_FG;
-    ih := {$IFDEF DOOM}SCN_ST{$ELSE}SCN_TMP{$ENDIF};
+    ih := {$IFDEF DOOM_OR_STRIFE}SCN_ST{$ELSE}SCN_TMP{$ENDIF};
   end
   else
   begin
@@ -2334,7 +2374,7 @@ end;
 // V_FindAproxColorIndex
 //
 // JVAL: Calculates the euclidian square distance of a given color from all
-//       pal items and return the nearest 
+//       pal items and return the nearest
 function V_FindAproxColorIndex(const pal: PLongWordArray; const c: LongWord;
   const start: integer = 0; const finish: integer = 255): integer;
 var
@@ -2364,7 +2404,10 @@ begin
     if dist < mindist then
     begin
       result := i;
-      mindist := dist;
+      if dist = 0 then
+        exit
+      else
+        mindist := dist;
     end;
   end;
 end;

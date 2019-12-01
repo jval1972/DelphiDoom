@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -164,7 +164,7 @@ begin
     colorregions[i] := Z_Malloc(256, PU_STATIC, nil);
   if lump = -1 then
   begin
-    printf(#13#10); // JVAL: keep stdout huppy...
+    printf(#13#10); // JVAL: keep stdout happy...
     I_Warning('Colormap extensions not found, using default translations'#13#10);
     for i := 0 to Ord(CR_LIMIT) - 1 do
       for j := 0 to 255 do

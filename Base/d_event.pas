@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -113,6 +113,17 @@ const
   //  occupy the second byte of buttons.
   BTS_SAVEMASK = 4 + 8 + 16;
   BTS_SAVESHIFT = 2;
+
+{$IFDEF STRIFE}
+const
+    BT2_INVUSE          = 8;
+    // Drop inventory item
+    BT2_INVDROP         = 16;
+    // Jump up and down
+    BT2_JUMP            = 32;
+    // Use medkit
+    BT2_HEALTH          = 128;
+{$ENDIF}
 
 // Commands Actions
 const

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -73,6 +73,7 @@ uses
   Math,
   doomdef,
   g_game,
+  mt_utils,
   r_softgl,
   r_palette,
   r_utils,
@@ -282,17 +283,8 @@ begin
       rover.fixedlength := rover.length * FRACUNIT;
       rover.fixedheight := size * FRACUNIT;
       rover.fixedoffset := rover.fixedheight - rover.fixeddelta;
-{      rover.dc_source := Z_Malloc(128 * SizeOf(byte), PU_STATIC, nil);
-      rover.dc_source32 := Z_Malloc(128 * SizeOf(LongWord), PU_STATIC, nil);}
       rover.dc_color := source[0];
       rover.dc_color32 := source32[0];
-{      for k := 0 to j - 1 do
-      begin
-        rover.dc_source[k] := source[k];
-        rover.dc_source32[k] := source32[k];
-      end;
-      rover.dc_source[127] := source[0];
-      rover.dc_source32[127] := source32[0];}
     end
     else
       inc(i);
@@ -339,56 +331,14 @@ begin
 
 end;
 
-var
-  zm_tr1, zm_tr2: TDThread;
-
-type
-  zmparams_t = record
-    dest: pointer;
-    size: integer;
-  end;
-  zmparams_p = ^zmparams_t;
-
-function VX_ZeroMemory_thr(p: pointer): integer; stdcall;
-begin
-  ZeroMemory(zmparams_p(p).dest, zmparams_p(p).size);
-  result := 1;
-end;
-
 procedure R_ClearVoxelBuffer(const voxelbuffer: voxelbuffer_p; const voxelsize: integer);
 var
   xx, yy, zz: integer;
   vp: voxelitem_p;
-  parms: zmparams_t;
-  sz: integer;
-  parms2: zmparams_t;
 begin
   if voxelsize = MAXVOXELSIZE then
   begin
-    if I_GetNumCPUs < 2 then
-      ZeroMemory(voxelbuffer, SizeOf(voxelbuffer_t))
-    else if I_GetNumCPUs < 4 then
-    begin
-      sz := SizeOf(voxelbuffer_t) div 2;
-      parms.dest := pointer(integer(voxelbuffer) + sz);
-      parms.size := sz;
-      zm_tr1.Activate(@parms);
-      ZeroMemory(voxelbuffer, SizeOf(voxelbuffer) - sz);
-      zm_tr1.Wait;
-    end
-    else
-    begin
-      sz := SizeOf(voxelbuffer_t) div 3;
-      parms.dest := pointer(integer(voxelbuffer));
-      parms.size := sz;
-      parms2.dest := pointer(integer(voxelbuffer) + sz);
-      parms2.size := sz;
-      zm_tr1.Activate(@parms);
-      zm_tr2.Activate(@parms2);
-      ZeroMemory(pointer(integer(voxelbuffer) + 2 * sz), SizeOf(voxelbuffer) - 2 * sz);
-      zm_tr1.Wait;
-      zm_tr2.Wait;
-    end
+    MT_ZeroMemory(voxelbuffer, SizeOf(voxelbuffer_t))
   end
   else
   begin
@@ -601,6 +551,7 @@ var
   blacks: integer;
   dist, maxdist: extended;
   skip: boolean;
+  sz: integer;
 begin
   result := Z_Malloc(SizeOf(voxelcolumns_t), PU_STATIC, nil);
   vbuf := malloc(SizeOf(voxelbuffer2D_t));
@@ -634,9 +585,11 @@ begin
   result.range := Round(Sqrt(maxdist) + 1) * FRACUNIT;
   if buf.Count > 0 then
   begin
-    result.mips[0].columns := Z_Malloc(result.mips[0].numcolumns * SizeOf(voxelcolumn_p), PU_STATIC, nil);
-    for i := 0 to buf.Count - 1 do
-      result.mips[0].columns[i] := voxelcolumn_p(buf.Numbers[i]);
+    sz := result.mips[0].numcolumns * SizeOf(voxelcolumn_p);
+    result.mips[0].columns := Z_Malloc(sz, PU_STATIC, nil);
+    memcpy(@result.mips[0].columns[0], buf.List, sz);
+{    for i := 0 to buf.Count - 1 do
+      result.mips[0].columns[i] := voxelcolumn_p(buf.Numbers[i]);}
   end
   else
     result.mips[0].columns := nil;
@@ -659,28 +612,60 @@ begin
             blacks := 0;
             c := voxelbuffer[xx - 1, yy, zz - 1].color;
             if c = 0 then
+            begin
               inc(blacks);
-            rgb[0].r := c shr 16;
-            rgb[0].g := c shr 8;
-            rgb[0].b := c;
+              rgb[0].r := 0;
+              rgb[0].g := 0;
+              rgb[0].b := 0;
+            end
+            else
+            begin
+              rgb[0].r := c shr 16;
+              rgb[0].g := c shr 8;
+              rgb[0].b := c;
+            end;
             c := voxelbuffer[xx - 1, yy, zz].color;
             if c = 0 then
+            begin
               inc(blacks);
-            rgb[1].r := c shr 16;
-            rgb[1].g := c shr 8;
-            rgb[1].b := c;
+              rgb[1].r := 0;
+              rgb[1].g := 0;
+              rgb[1].b := 0;
+            end
+            else
+            begin
+              rgb[1].r := c shr 16;
+              rgb[1].g := c shr 8;
+              rgb[1].b := c;
+            end;
             c := voxelbuffer[xx, yy, zz - 1].color;
             if c = 0 then
+            begin
               inc(blacks);
-            rgb[2].r := c shr 16;
-            rgb[2].g := c shr 8;
-            rgb[2].b := c;
+              rgb[2].r := 0;
+              rgb[2].g := 0;
+              rgb[2].b := 0;
+            end
+            else
+            begin
+              rgb[2].r := c shr 16;
+              rgb[2].g := c shr 8;
+              rgb[2].b := c;
+            end;
             c := voxelbuffer[xx, yy, zz].color;
             if c = 0 then
+            begin
               inc(blacks);
-            rgb[3].r := c shr 16;
-            rgb[3].g := c shr 8;
-            rgb[3].b := c;
+              rgb[3].r := 0;
+              rgb[3].g := 0;
+              rgb[3].b := 0;
+            end
+            else
+            begin
+              rgb[3].r := c shr 16;
+              rgb[3].g := c shr 8;
+              rgb[3].b := c;
+            end;
             if blacks < 4 then
             begin
               c := Round((rgb[0].r + rgb[1].r + rgb[2].r + rgb[3].r) / (4 - blacks));
@@ -721,9 +706,11 @@ begin
   result.mips[1].mipscale := 2;
   if buf.Count > 0 then
   begin
-    result.mips[1].columns := Z_Malloc(result.mips[1].numcolumns * SizeOf(voxelcolumn_p), PU_STATIC, nil);
-    for i := 0 to buf.Count - 1 do
-      result.mips[1].columns[i] := voxelcolumn_p(buf.Numbers[i]);
+    sz := result.mips[1].numcolumns * SizeOf(voxelcolumn_p);
+    result.mips[1].columns := Z_Malloc(sz, PU_STATIC, nil);
+    memcpy(@result.mips[1].columns[0], buf.List, sz);
+{    for i := 0 to buf.Count - 1 do
+      result.mips[1].columns[i] := voxelcolumn_p(buf.Numbers[i]);}
   end
   else
     result.mips[1].columns := nil;
@@ -754,10 +741,18 @@ begin
             begin
               c := voxelbuffer[xx - (j div 3), yy, zz - (j mod 3)].color;
               if c = 0 then
+              begin
                 inc(blacks);
-              rgb[j].r := c shr 16;
-              rgb[j].g := c shr 8;
-              rgb[j].b := c;
+                rgb[j].r := 0;
+                rgb[j].g := 0;
+                rgb[j].b := 0;
+              end
+              else
+              begin
+                rgb[j].r := c shr 16;
+                rgb[j].g := c shr 8;
+                rgb[j].b := c;
+              end;
             end;
             if blacks < 9 then
             begin
@@ -808,9 +803,12 @@ begin
   result.mips[2].mipscale := 3;
   if buf.Count > 0 then
   begin
-    result.mips[2].columns := Z_Malloc(result.mips[2].numcolumns * SizeOf(voxelcolumn_p), PU_STATIC, nil);
+    sz := result.mips[2].numcolumns * SizeOf(voxelcolumn_p);
+    result.mips[2].columns := Z_Malloc(sz, PU_STATIC, nil);
+    memcpy(@result.mips[2].columns[0], buf.List, sz);
+{    result.mips[2].columns := Z_Malloc(result.mips[2].numcolumns * SizeOf(voxelcolumn_p), PU_STATIC, nil);
     for i := 0 to buf.Count - 1 do
-      result.mips[2].columns[i] := voxelcolumn_p(buf.Numbers[i]);
+      result.mips[2].columns[i] := voxelcolumn_p(buf.Numbers[i]);}
   end
   else
     result.mips[2].columns := nil;
@@ -1151,7 +1149,7 @@ begin
 
   x1 := voxelsize div 2 - xpivot div 256;
   y1 := voxelsize div 2 - ypivot div 256;
-  z1 := voxelsize - zpivot div 256; // jval: Align down
+  z1 := voxelsize - zpivot div 256; // JVAL: Align down
   if x1 < 0 then
     x1 := 0;
   if y1 < 0 then
@@ -1254,11 +1252,7 @@ var
 begin
   size := SizeOf(voxelbuffer_t) + SizeOf(kvxbuffer_t);
   vx_membuffer := malloc(size);
-  zm_tr1 := TDThread.Create(@VX_ZeroMemory_thr);
-  zm_tr2 := TDThread.Create(@VX_ZeroMemory_thr);
   VX_InitVoxels;
-  zm_tr1.Free;
-  zm_tr2.Free;
   memfree(pointer(vx_membuffer), size);
 end;
 
@@ -1267,7 +1261,7 @@ begin
   VX_VoxelsDone;
 end;
 
-procedure R_DrawThingVoxel(const thing: Pmobj_t; const vidx: integer);
+procedure R_DrawThingVoxel(const thing: Pmobj_t; const vidx: integer{; const aleftx, arightx: integer});
 var
   info: Pvoxelstate_t;
   voxelinf: Pvoxelmanageritem_t;
@@ -1525,6 +1519,25 @@ begin
         right := Xup;
       scaley3 := FixedDiv2(projectiony, tz);
 
+//--------------------------------------------------------      
+{      left := left + centerx;
+      if left >= arightx then
+        Continue;
+
+      right := right + centerx;
+      if right < aleftx then
+        Continue;
+
+      if left < aleftx then
+        left := aleftx
+      else if left >= arightx then
+        left := arightx - 1;
+      if right >= arightx then
+        right := arightx - 1
+      else if right < aleftx then
+        right := aleftx;}
+//------------------------------------------------------
+
       left := left + centerx;
       right := right + centerx;
       if left < 0 then
@@ -1693,7 +1706,7 @@ var
   i: integer;
 begin
   for i := 0 to thing.state.voxels.Count - 1 do
-    R_DrawThingVoxel(thing, thing.state.voxels.Numbers[i]);
+    R_DrawThingVoxel(thing, thing.state.voxels.Numbers[i]{, 0, 320});
 end;
 
 procedure R_DrawVoxel(const vis: Pvissprite_t);
@@ -1706,7 +1719,7 @@ var
   scale: fixed_t;
   lowscale: fixed_t;
   silhouette: integer;
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
   h, mh: fixed_t;
   plheightsec: integer;
   y: integer;
@@ -1801,7 +1814,7 @@ begin
   end;
 
 
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   // killough 3/27/98:
   // Clip the sprite against deep water and/or fake ceilings.
   // killough 4/9/98: optimize by adding mh
@@ -1902,8 +1915,34 @@ begin
   if dc_colormap = nil then
   begin
     // NULL colormap = shadow draw
-    batchcolfunc := {$IFDEF HEXEN}batchtaveragecolfunc{$ELSE}batchfuzzcolfunc{$ENDIF};
+    batchcolfunc := {$IFDEF HEXEN}batchtaveragecolfunc{$ELSE}{$IFDEF STRIFE}batchfuzzcolfunc1{$ELSE}batchfuzzcolfunc{$ENDIF}{$ENDIF};
   end
+  {$IFDEF STRIFE}
+  else if vis.mobjflags and MF_SHADOW <> 0 then
+  begin
+    if vis.mobjflags and MF_TRANSLATION = 0 then
+    begin
+      if vis.mobjflags and MF_MVIS <> 0 then
+      begin
+        batchcolfunc := batchfuzzcolfunc2;
+      end
+      else
+      begin
+        batchcolfunc := batchfuzzcolfunc1;
+      end;
+    end
+    else
+    begin
+      dc_translation := PByteArray(integer(translationtables) - 256 +
+        (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
+      batchcolfunc := batchfuzztranscolfunc;
+    end;
+  end
+  else if vis.mobjflags and MF_MVIS <> 0 then
+  begin
+    batchcolfunc := batchfuzzcolfunc2;
+  end
+  {$ENDIF}
   else if vis.mobjflags and MF_TRANSLATION <> 0 then
   begin
     batchcolfunc := batchtranscolfunc;

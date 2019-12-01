@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -428,7 +428,7 @@ begin
   S_StopSound(origin);
 
   // try to find a channel
-  cnum := S_getChannel(origin, sfx);
+  cnum := S_GetChannel(origin, sfx);
 
   if cnum < 0 then
     exit;
@@ -843,10 +843,10 @@ begin
 end;
 
 //
-// S_getChannel :
+// S_GetChannel :
 //   If none available, return -1.  Otherwise channel #.
 //
-function S_getChannel(origin: pointer; sfxinfo: Psfxinfo_t): integer;
+function S_GetChannel(origin: pointer; sfxinfo: Psfxinfo_t): integer;
 var
   // channel number to use
   cnum: integer;

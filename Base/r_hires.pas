@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -687,7 +687,7 @@ begin
 
   hrtp := @hirestable[0, 0, 0];
 
-  vpli := {$IFDEF DOOM}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
+  vpli := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
   for i := 0 to 255 do
   begin
     vplc := vpli^;
@@ -764,7 +764,7 @@ begin
 
   for k := 1 to DC_HIRESFACTOR - 1 do
   begin
-    vpli := {$IFDEF DOOM}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
+    vpli := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
     factor2 := k shl (FRACBITS - DC_HIRESBITS);
     factor1 := (FRACUNIT - 1) - factor2;
     for i := 0 to 255 do
@@ -779,7 +779,7 @@ begin
       gA := g1 * factor1;
       bA := b1 * factor1;
 
-      vplj := {$IFDEF DOOM}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
+      vplj := {$IFDEF DOOM_OR_STRIFE}@cvideopal[0]{$ELSE}@videopal[0]{$ENDIF};
       {$UNDEF LASTLOOP}
       for j := 0 to 3 do
       begin

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -53,7 +53,8 @@ const
   VERSION118 = 118;
   VERSION119 = 119;
   VERSION120 = 120;
-  VERSION = VERSION120;
+  VERSION121 = 121;
+  VERSION = VERSION121;
 
 var
   oldsharewareversion: boolean = false;

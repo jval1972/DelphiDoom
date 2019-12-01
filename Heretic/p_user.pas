@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -200,10 +200,10 @@ begin
   else
     player.viewz := player.mo.z + player.viewheight + bob;
 
-  if (player.mo.flags2 and MF2_FEETARECLIPPED <> 0) and
+{  if (player.mo.flags2 and MF2_FEETARECLIPPED <> 0) and
      (player.playerstate <> PST_DEAD) and
      (player.mo.z <= player.mo.floorz) then
-    player.viewz := player.viewz - FOOTCLIPSIZE;
+    player.viewz := player.viewz - FOOTCLIPSIZE;}
 
   if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
     player.viewz := player.mo.ceilingz - 4 * FRACUNIT;

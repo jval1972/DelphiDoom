@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -36,6 +36,7 @@ function R_GetRelativeAspect: double;
 
 var
   widescreensupport: Boolean = true;
+  excludewidescreenplayersprites: Boolean = true;
   forcedaspectstr: string = '0.00';
 
 implementation
@@ -69,6 +70,28 @@ begin
 
   R_CmdWideScreen('');
 end;
+
+
+procedure R_CmdExcludeWideScreenPlayerSprites(const parm: string);
+var
+  neww: boolean;
+begin
+  if parm = '' then
+  begin
+    printf('Current setting: excludewidescreenplayersprites = %s.'#13#10, [truefalseStrings[excludewidescreenplayersprites]]);
+    exit;
+  end;
+
+  neww := C_BoolEval(parm, excludewidescreenplayersprites);
+  if neww <> excludewidescreenplayersprites then
+  begin
+    excludewidescreenplayersprites := neww;
+    setsizeneeded := true;
+  end;
+
+  R_CmdExcludeWideScreenPlayerSprites('');
+end;
+
 
 function R_ForcedAspect: Double;
 var
@@ -150,6 +173,7 @@ begin
   widths.Free;
   heights.Free;
   C_AddCmd('widescreen,widescreensupport', @R_CmdWideScreen);
+  C_AddCmd('excludewidescreenplayersprites', @R_CmdExcludeWideScreenPlayerSprites);
   C_AddCmd('forcedaspect', @R_CmdForcedAspect);
 end;
 

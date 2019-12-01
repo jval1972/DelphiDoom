@@ -22,6 +22,8 @@ begin
   begin
     // mark floor / ceiling areas
     yl := (topfrac + (HEIGHTUNIT - 1)) div HEIGHTUNIT;
+    if yl > viewheight then
+      yl := viewheight + 1;
 
     // no space above wall?
     if yl <= pceilingclip^ then
@@ -39,8 +41,15 @@ begin
       begin
         ceilingplane.top[rwx] := top;
         ceilingplane.bottom[rwx] := bottom;
+        {$IFDEF DEBUG}
+        R_DebugCheckVisPlane(ceilingplane);
+        {$ENDIF}
       end;
       pceilingclip^ := bottom;
+      {$IFDEF DEBUG}
+      R_CheckClipItem(pceilingclip);
+      R_CheckClipItem(pfloorclip);
+      {$ENDIF}
     end;
 
     yh := bottomfrac div HEIGHTUNIT;
@@ -58,8 +67,15 @@ begin
       begin
         floorplane.top[rwx] := top;
         floorplane.bottom[rwx] := bottom;
+        {$IFDEF DEBUG}
+        R_DebugCheckVisPlane(floorplane);
+        {$ENDIF}
       end;
       pfloorclip^ := top;
+      {$IFDEF DEBUG}
+      R_CheckClipItem(pfloorclip);
+      R_CheckClipItem(pceilingclip);
+      {$ENDIF}
     end;
 
     // texturecolumn and lighting are independent of wall tiers
@@ -96,7 +112,9 @@ begin
       begin
         index := _SHR(rw_scale * 320, HLL_LIGHTSCALESHIFT + 3) div SCREENWIDTH;
         if index >= HLL_MAXLIGHTSCALE then
-          index := HLL_MAXLIGHTSCALE - 1;
+          index := HLL_MAXLIGHTSCALE - 1
+        else if index < 0 then
+          index := 0;
         dc_lightlevel := scalelightlevels[dc_llindex, index];
       end
       else if fixedcolormapnum = INVERSECOLORMAP then
@@ -149,15 +167,31 @@ begin
           wallcolfunc;
           {$ENDIF}
           pceilingclip^ := mid;
+          {$IFDEF DEBUG}
+          R_CheckClipItem(pceilingclip);
+          R_CheckClipItem(pfloorclip);
+          {$ENDIF}
         end
         else
+        begin
           pceilingclip^ := yl - 1;
+          {$IFDEF DEBUG}
+          R_CheckClipItem(pceilingclip);
+          R_CheckClipItem(pfloorclip);
+          {$ENDIF}
+        end;
       end
       else
       begin
         // no top wall
         if markceiling then
+        begin
           pceilingclip^ := yl - 1;
+          {$IFDEF DEBUG}
+          R_CheckClipItem(pceilingclip);
+          R_CheckClipItem(pfloorclip);
+          {$ENDIF}
+        end;
       end;
 
       if bottomtexture <> 0 then
@@ -182,15 +216,31 @@ begin
           wallcolfunc;
           {$ENDIF}
           pfloorclip^ := mid;
+          {$IFDEF DEBUG}
+          R_CheckClipItem(pfloorclip);
+          R_CheckClipItem(pceilingclip);
+          {$ENDIF}
         end
         else
+        begin
           pfloorclip^ := yh + 1;
+          {$IFDEF DEBUG}
+          R_CheckClipItem(pfloorclip);
+          R_CheckClipItem(pceilingclip);
+          {$ENDIF}
+        end
       end
       else
       begin
         // no bottom wall
         if markfloor then
+        begin
           pfloorclip^ := yh + 1;
+          {$IFDEF DEBUG}
+          R_CheckClipItem(pfloorclip);
+          R_CheckClipItem(pceilingclip);
+          {$ENDIF}
+        end;
       end;
 
       if maskedtexture then

@@ -7,6 +7,7 @@ type
     ge_doom,
     ge_heretic,
     ge_hexen,
+    ge_strife,
     NUMGAMEENGINES,
     ge_unknown
   );
@@ -34,6 +35,8 @@ type
     gt_sharewarehexen,
     gt_registeredhexen,
     gt_expansionhexen, // HEXDD.WAD ????
+    gt_strife,
+    gt_strifeteaser,
     gt_custom01,
     gt_custom02,
     gt_custom03,
@@ -156,7 +159,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 4;
+  NUMDEFAULTS = 5;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Directories';
@@ -185,6 +188,13 @@ const
      defaultsvalue: 'hexen\';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tString),
+
+    (name: 'strife_path';
+     location: @gamepaths[Ord(ge_strife)];
+     defaultsvalue: 'strife\';
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tString)
   );
 
@@ -193,7 +203,7 @@ procedure M_LoadDefaults(const defaultfile: string);
 procedure M_SaveDefaults(const defaultfile: string);
 
 const
-  LAUNCHERVERSION = 'DelphiDoom Launcher version 1.1';
+  LAUNCHERVERSION = 'DelphiDoom Launcher version 1.4';
 
 implementation
 
@@ -279,8 +289,20 @@ begin
   gameinfo[Ord(gt_expansionhexen)].extracmdline := '';
   gameinfo[Ord(gt_expansionhexen)].gameengine := ge_hexen;
 
+  gameinfo[Ord(gt_strife)].description := 'Strife: Quest for the Sigil';
+  gameinfo[Ord(gt_strife)].mainwad := 'STRIFE1.WAD';
+  gameinfo[Ord(gt_strife)].pwad := '';
+  gameinfo[Ord(gt_strife)].extracmdline := '';
+  gameinfo[Ord(gt_strife)].gameengine := ge_strife;
+
+  gameinfo[Ord(gt_strifeteaser)].description := 'Strife: Teaser Demo';
+  gameinfo[Ord(gt_strifeteaser)].mainwad := 'STRIFE0.WAD';
+  gameinfo[Ord(gt_strifeteaser)].pwad := '';
+  gameinfo[Ord(gt_strifeteaser)].extracmdline := '';
+  gameinfo[Ord(gt_strifeteaser)].gameengine := ge_strife;
+
   idx := 1;
-  for i := Ord(gt_expansionhexen) + 1 to Ord(NUMGAMETYPES) -  1 do
+  for i := Ord(gt_strifeteaser) + 1 to Ord(NUMGAMETYPES) -  1 do
   begin
     gameinfo[i].description := 'Custom Game ' + IntToStr(idx);
     gameinfo[i].mainwad := '';
@@ -343,7 +365,9 @@ var
       else if token = '1' then
         gi.gameengine := gameengine_t(1)
       else if token = '2' then
-        gi.gameengine := gameengine_t(2);
+        gi.gameengine := gameengine_t(2)
+      else if token = '3' then
+        gi.gameengine := gameengine_t(3);
     end;
   end;
 

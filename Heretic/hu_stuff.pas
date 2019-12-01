@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -119,7 +119,8 @@ implementation
 uses
   d_delphi,
   c_cmds,
-  z_zone, w_wad,
+  z_zone,
+  w_wad,
   i_system,
   doomstat,
   am_map,
@@ -127,11 +128,12 @@ uses
   d_player,
   g_game,
   hu_lib,
-  m_menu, m_fixed,
+  m_menu,
+  m_fixed,
   p_tick,
   r_draw,
-  s_sound, sounds,
-  v_data, v_video;
+  v_data,
+  v_video;
 
 // FPS Stuff
 
@@ -186,7 +188,7 @@ var
   w_message: hu_stext_t;
   message_counter: integer;
 
-  headsupactive: boolean;
+  headsupactive: boolean = false;
 
 
 const
@@ -611,8 +613,8 @@ const
 
 var
   chatchars: array[0..QUEUESIZE - 1] of char;
-  head: integer;
-  tail: integer;
+  head: integer = 0;
+  tail: integer = 0;
 
 procedure HU_queueChatChar(c: char);
 begin
@@ -638,9 +640,9 @@ end;
 
 var
   lastmessage: string;
-  shiftdown: boolean;
-  altdown: boolean;
-  num_nobrainers: integer;
+  shiftdown: boolean = false;
+  altdown: boolean = false;
+  num_nobrainers: integer = 0;
 
 function HU_Responder(ev: Pevent_t): boolean;
 var
@@ -849,20 +851,10 @@ initialization
 
 ////////////////////////////////////////////////////////////////////////////////
 
-  headsupactive := false;
-
-  head := 0;
-  tail := 0;
-
-  shiftdown := false;
-  altdown := false;
-
   destination_keys[0] := HUSTR_KEYGREEN;
   destination_keys[1] := HUSTR_KEYINDIGO;
   destination_keys[2] := HUSTR_KEYBROWN;
   destination_keys[3] := HUSTR_KEYRED;
-
-  num_nobrainers := 0;
 
 end.
 

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2007 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -42,7 +42,10 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
-  r_draw, r_main, r_column, r_hires,
+  r_draw,
+  r_main,
+  r_column,
+  r_hires,
   v_video;
 
 // In 8 bit mode we diher, regardless of dc_alpha value
@@ -126,14 +129,14 @@ begin
   // This is as fast as it gets.
   swidth := SCREENWIDTH32PITCH;
   cfrac2 := dc_alpha;
-
+  factor1 := FRACUNIT - 1 - cfrac2;
 
   fraclimit := frac + fracstep * count;
   while frac < fraclimit do
   begin
     c1 := destl^;
     c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
-    {$I R_ColorAverage.inc}
+    {$I R_ColorAverageCL.inc}
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);

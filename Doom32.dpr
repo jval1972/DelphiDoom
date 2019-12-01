@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -205,14 +205,14 @@ uses
   p_user in 'Doom\p_user.pas',
   r_bsp in 'Doom\r_bsp.pas',
   r_cache in 'Base\r_cache.pas',
-  r_ccache in 'Doom\r_ccache.pas',
+  r_ccache in 'Base\r_ccache.pas',
   r_col_al in 'Doom\r_col_al.pas',
   r_col_av in 'Doom\r_col_av.pas',
   r_col_fz in 'Doom\r_col_fz.pas',
-  r_col_l in 'Doom\r_col_l.pas',
+  r_col_l in 'Base\r_col_l.pas',
   r_col_ms in 'Doom\r_col_ms.pas',
   r_col_sk in 'Doom\r_col_sk.pas',
-  r_col_tr in 'Doom\r_col_tr.pas',
+  r_col_tr in 'Base\r_col_tr.pas',
   r_column in 'Doom\r_column.pas',
   r_data in 'Doom\r_data.pas',
   r_defs in 'Doom\r_defs.pas',
@@ -220,12 +220,12 @@ uses
   r_fake3d in 'Base\r_fake3d.pas',
   r_grow in 'Base\r_grow.pas',
   r_hires in 'Base\r_hires.pas',
-  r_intrpl in 'Doom\r_intrpl.pas',
+  r_intrpl in 'Base\r_intrpl.pas',
   r_lights in 'Base\r_lights.pas',
   r_main in 'Doom\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Doom\r_plane.pas',
-  r_scache in 'Doom\r_scache.pas',
+  r_scache in 'Base\r_scache.pas',
   r_segs in 'Doom\r_segs.pas',
   r_sky in 'Doom\r_sky.pas',
   r_span in 'Base\r_span.pas',
@@ -265,7 +265,7 @@ uses
   r_aspect in 'Base\r_aspect.pas',
   r_batchcolumn in 'Base\r_batchcolumn.pas',
   r_batchsky in 'Base\r_batchsky.pas',
-  r_colormaps in 'Doom\r_colormaps.pas',
+  r_colormaps in 'Base\r_colormaps.pas',
   r_diher in 'Doom\r_diher.pas',
   r_ripple in 'Base\r_ripple.pas',
   z_memmgr in 'Base\z_memmgr.pas',
@@ -278,7 +278,12 @@ uses
   r_palette in 'Base\r_palette.pas',
   r_colorcolumn in 'Base\r_colorcolumn.pas',
   r_utils in 'Base\r_utils.pas',
-  m_crc32 in 'Base\m_crc32.pas';
+  m_crc32 in 'Base\m_crc32.pas',
+  mt_utils in 'Base\mt_utils.pas',
+  p_params in 'Base\p_params.pas',
+  nd_main in 'Base\nd_main.pas',
+  am_textured in 'Base\am_textured.pas',
+  p_udmf in 'Base\p_udmf.pas';
 
 var
   Saved8087CW: Word;

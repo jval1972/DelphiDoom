@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -81,7 +81,7 @@ var
   bf_g: PIntegerArray;
   bf_b: PIntegerArray;
 begin
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else
@@ -843,7 +843,7 @@ var
   bf_b: PIntegerArray;
   pal: PLongWordArray;
 begin
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else
@@ -899,7 +899,7 @@ var
   bf_b: PIntegerArray;
   pal: PLongWordArray;
 begin
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else
@@ -972,7 +972,7 @@ var
   bf_b: PIntegerArray;
   pal: PLongWordArray;
 begin
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else
@@ -1029,7 +1029,7 @@ var
   bf_b: PIntegerArray;
   pal: PLongWordArray;
 begin
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else
@@ -1090,7 +1090,7 @@ var
   bf_b: PIntegerArray;
   pal: PLongWordArray;
 begin
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else
@@ -1155,7 +1155,7 @@ var
   bf_b: PIntegerArray;
   pal: PLongWordArray;
 begin
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else
@@ -1261,7 +1261,7 @@ begin
     exit;
   end;
 
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
     pal := @cvideopal
   else

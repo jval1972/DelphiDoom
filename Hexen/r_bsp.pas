@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -537,6 +537,7 @@ var
   y2: fixed_t;
   angle1: angle_t;
   angle2: angle_t;
+  pcoord: PIntegerArray;
 {$IFNDEF OPENGL}
   span: angle_t;
   tspan: angle_t;
@@ -574,14 +575,15 @@ begin
     exit;
   end;
 
-  x1 := bspcoord[checkcoord[boxpos][0]];
-  y1 := bspcoord[checkcoord[boxpos][1]];
-  x2 := bspcoord[checkcoord[boxpos][2]];
-  y2 := bspcoord[checkcoord[boxpos][3]];
+  pcoord := @checkcoord[boxpos];
+  x1 := bspcoord[pcoord[0]];
+  y1 := bspcoord[pcoord[1]];
+  x2 := bspcoord[pcoord[2]];
+  y2 := bspcoord[pcoord[3]];
 
 {$IFDEF OPENGL}
-  angle1 := R_PointToAngle(x1, y1);
-  angle2 := R_PointToAngle(x2, y2);
+  angle1 := R_PointToAngleEx(x1, y1);
+  angle2 := R_PointToAngleEx(x2, y2);
   result := gld_clipper_SafeCheckRange(angle2, angle1);
   exit;
 {$ELSE}
@@ -794,7 +796,8 @@ begin
       if not polySeg^.miniseg then
         gld_AddWall(polySeg^, true, frontsector);
       {$ELSE}
-      R_AddLine(polySeg^);
+      if not polySeg^.miniseg then
+        R_AddLine(polySeg^);
       {$ENDIF}
       inc(polySeg);
       dec(polyCount);
@@ -837,7 +840,8 @@ begin
 {$ELSE}
   while count <> 0 do
   begin
-    R_AddLine(line);
+    if not line.miniseg then
+      R_AddLine(line);
     inc(line);
     dec(count);
   end;

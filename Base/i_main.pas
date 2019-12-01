@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -41,6 +41,9 @@ uses
 
 var
   hMainWnd: HWND = 0;
+
+const
+  WINDOW_STYLE = (WS_OVERLAPPED); // or WS_BORDER or WS_CAPTION or WS_VISIBLE);
 
 procedure DoomMain;
 
@@ -109,6 +112,7 @@ end;
 procedure DoomMain;
 var
   WindowClass: TWndClass;
+  exStyle: integer;
 begin
   ZeroMemory(@WindowClass, SizeOf(WindowClass));
   WindowClass.lpfnWndProc := @WindowProc;
@@ -122,22 +126,28 @@ begin
     if RegisterClass(WindowClass) = 0 then
       halt(1);
   end;
+
+  if fullscreen then
+    exStyle := WS_EX_TOPMOST
+  else
+    exStyle := 0;
+
   hMainWnd := CreateWindowEx(
-    CS_HREDRAW or CS_VREDRAW,
+    exStyle,
     WindowClass.lpszClassName,
     AppTitle,
-    WS_OVERLAPPED {$IFDEF FPC} or WS_SYSMENU{$ENDIF},
-    0,
-    0,
-    0,
-    0,
+    WINDOW_STYLE,
+    0, 0, 0, 0,
     0,
     0,
     HInstance,
     nil);
+
+  SetWindowLong(hMainWnd, GWL_STYLE, 0);
 
   SetCursor(0);
   D_DoomMain;
 end;
 
 end.
+

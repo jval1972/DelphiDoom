@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -55,7 +55,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 180;
+  DEHNUMACTIONS = 182;
 
 type
   deh_action_t = record
@@ -1921,6 +1921,9 @@ begin
   mobj_flags2_ex.Add('MF2_EX_DONTINFIGHTMONSTERS');
   mobj_flags2_ex.Add('MF2_EX_FLOORCLIP');
   mobj_flags2_ex.Add('MF2_EX_FRIGHTENED');
+  mobj_flags2_ex.Add('MF2_EX_NODAMAGE');
+  mobj_flags2_ex.Add('MF2_EX_ONMOBJ');
+  mobj_flags2_ex.Add('MF2_EX_PASSMOBJ');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite
@@ -2293,6 +2296,10 @@ begin
   deh_actions[178].name := strupper('SetFrightened');
   deh_actions[179].action.acp1 := @A_UnSetFrightened;
   deh_actions[179].name := strupper('UnSetFrightened');
+  deh_actions[180].action.acp1 := @A_SetNoDamage;
+  deh_actions[180].name := strupper('SetNoDamage');
+  deh_actions[181].action.acp1 := @A_UnSetNoDamage;
+  deh_actions[181].name := strupper('UnSetNoDamage');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

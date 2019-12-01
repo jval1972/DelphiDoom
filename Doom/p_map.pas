@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -97,6 +97,8 @@ function P_SectorJumpOverhead(const s: Psector_t): integer;
 procedure P_CreateSecNodeList(thing: Pmobj_t; x, y: fixed_t);
 
 function P_DelSecnode(node: Pmsecnode_t): Pmsecnode_t;
+
+function P_CheckOnmobj(thing: Pmobj_t): Pmobj_t;
 
 var
   tmbbox: array[0..3] of fixed_t;
@@ -340,10 +342,210 @@ begin
     spechit[numspechit] := ld;
     inc(numspechit);
 
-//    fprintf(stderr, 'numspechit = %d' + #13#10, [numspechit]);
+{    if numspechit > 8 then
+      I_Warning('numspechit = %d' + #13#10, [numspechit]);}
   end;
 
   result := true;
+end;
+
+//=============================================================================
+//
+// P_CheckOnmobj(mobj_t *thing)
+//
+//     Checks if the new Z position is legal
+//=============================================================================
+
+//=============================================================================
+//
+// P_FakeZMovement
+//
+//     Fake the zmovement so that we can check if a move is legal
+//=============================================================================
+
+procedure P_FakeZMovement(mo: Pmobj_t);
+var
+  dist: integer;
+  delta: integer;
+begin
+//
+// adjust height
+//
+  mo.z := mo.z + mo.momz;
+  if(mo.flags and MF_FLOAT <> 0) and (mo.target <> nil) then
+  begin  // float down towards target if too close
+    if (mo.flags and MF_SKULLFLY = 0) and (mo.flags and MF_INFLOAT = 0) then
+    begin
+      dist := P_AproxDistance(mo.x - mo.target.x, mo.y - mo.target.y);
+      delta := mo.target.z + (mo.height div 2) - mo.z;
+      if (delta < 0) and (dist < -delta * 3) then
+        mo.z := mo.z - FLOATSPEED
+      else if (delta > 0) and (dist < delta * 3) then
+        mo.z := mo.z + FLOATSPEED;
+    end;
+  end;
+  if (mo.player <> nil) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then
+    mo.z := mo.z + finesine[(FINEANGLES div 20 * leveltime div 4) and FINEMASK];
+
+//
+// clip movement
+//
+  if mo.z <= mo.floorz then
+  begin // Hit the floor
+    mo.z := mo.floorz;
+    if mo.momz < 0 then
+      mo.momz := 0;
+    if mo.flags and MF_SKULLFLY <> 0 then // The skull slammed into something
+      mo.momz := -mo.momz;
+    if (mo.info.crashstate <> 0) and (mo.flags and MF_CORPSE <> 0) then
+      exit;
+  end
+  else if (mo.flags_ex and MF_EX_LOWGRAVITY <> 0) then
+  begin
+    if mo.momz = 0 then
+      mo.momz := -(GRAVITY div 8) * 2
+    else
+      mo.momz := mo.momz - GRAVITY div 8;
+  end
+  else if mo.flags and MF_NOGRAVITY = 0 then
+  begin
+    if mo.momz = 0 then
+      mo.momz := -GRAVITY * 2
+    else
+      mo.momz := mo.momz - GRAVITY;
+  end
+  else if mo.flags2_ex and MF2_EX_MEDIUMGRAVITY <> 0 then
+  begin
+    if mo.momz = 0 then
+      mo.momz := -(GRAVITY div 8) * 4
+    else
+      mo.momz := mo.momz - GRAVITY div 4;
+  end;
+
+  if mo.z + mo.height > mo.ceilingz then
+  begin  // hit the ceiling
+    if mo.momz > 0 then
+      mo.momz := 0;
+    mo.z := mo.ceilingz - mo.height;
+    if mo.flags and MF_SKULLFLY <> 0 then // the skull slammed into something
+      mo.momz := -mo.momz;
+  end;
+end;
+
+var
+  onmobj: Pmobj_t; //generic global onmobj...used for landing on pods/players
+
+//---------------------------------------------------------------------------
+//
+// PIT_CheckOnmobjZ
+//
+//---------------------------------------------------------------------------
+
+function PIT_CheckOnmobjZ(thing: Pmobj_t): boolean;
+var
+  blockdist: fixed_t;
+begin
+  if thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE) = 0 then
+  begin // Can't hit thing
+    result := true;
+    exit;
+  end;
+
+  blockdist := thing.radius + tmthing.radius;
+  if (abs(thing.x - tmx) >= blockdist) or (abs(thing.y - tmy) >= blockdist) then
+  begin // Didn't hit thing
+    result := true;
+    exit;
+  end;
+
+  if thing = tmthing then
+  begin // Don't clip against self
+    result := true;
+    exit;
+  end;
+
+  if tmthing.z > thing.z + thing.height then
+  begin
+    result := true;
+    exit;
+  end
+  else if tmthing.z + tmthing.height < thing.z then
+  begin // under thing
+    result := true;
+    exit;
+  end;
+
+  result := thing.flags and MF_SOLID = 0;
+  if not result then
+    onmobj := thing;
+
+end;
+
+function P_CheckOnmobj(thing: Pmobj_t): Pmobj_t;
+var
+  xl, xh, yl, yh, bx, by: integer;
+  newsubsec: Psubsector_t;
+  x: fixed_t;
+  y: fixed_t;
+  oldmo: mobj_t;
+begin
+  x := thing.x;
+  y := thing.y;
+  tmthing := thing;
+  tmflags := thing.flags;
+  oldmo := thing^; // save the old mobj before the fake zmovement
+  P_FakeZMovement(tmthing);
+
+  tmx := x;
+  tmy := y;
+
+  tmbbox[BOXTOP] := y + tmthing.radius;
+  tmbbox[BOXBOTTOM] := y - tmthing.radius;
+  tmbbox[BOXRIGHT] := x + tmthing.radius;
+  tmbbox[BOXLEFT] := x - tmthing.radius;
+
+  newsubsec := R_PointInSubsector(x, y);
+  ceilingline := nil;
+
+//
+// the base floor / ceiling is from the subsector that contains the
+// point.  Any contacted lines the step closer together will adjust them
+//
+  tmfloorz := newsubsec.sector.floorheight;
+  tmdropoffz := tmfloorz;
+  tmceilingz := newsubsec.sector.ceilingheight;
+
+  inc(validcount);
+  numspechit := 0;
+
+  if tmflags and MF_NOCLIP <> 0 then
+  begin
+    result := nil;
+    exit;
+  end;
+
+//
+// check things first, possibly picking things up
+// the bounding box is extended by MAXRADIUS because mobj_ts are grouped
+// into mapblocks based on their origin point, and can overlap into adjacent
+// blocks by up to MAXRADIUS units
+//
+  xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS);
+  xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
+  yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
+  yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy + MAXRADIUS);
+
+  for bx := xl to xh do
+    for by := yl to yh do
+      if not P_BlockThingsIterator(bx, by, PIT_CheckOnmobjZ) then
+      begin
+        tmthing^ := oldmo;
+        result := onmobj;
+        exit;
+      end;
+
+  tmthing^ := oldmo;
+  result := nil;
 end;
 
 //
@@ -376,6 +578,32 @@ begin
     result := true;
     exit;
   end;
+
+  if G_PlayingEngineVersion > VERSION120 then
+    if tmthing.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
+    begin // check if a mobj passed over/under another object
+
+      if ((tmthing._type = Ord(MT_HEAD)) or (tmthing._type = Ord(MT_SKULL)) or (tmthing._type = Ord(MT_PAIN))) and
+         ((thing._type = Ord(MT_HEAD)) or (thing._type = Ord(MT_SKULL)) or (thing._type = Ord(MT_PAIN))) then
+      begin // don't let cacodemons / skull / pain elementals fly over other imps/wizards
+        result := false;
+        exit;
+      end;
+
+      if (tmthing.z > thing.z + thing.height) and
+         (thing.flags and MF_SPECIAL = 0) then
+      begin
+        result := true;
+        exit;
+      end;
+
+      if (tmthing.z + tmthing.height < thing.z) and
+         (thing.flags and MF_SPECIAL = 0) then
+      begin // under thing
+        result := true;
+        exit;
+      end;
+    end;
 
   // check for skulls slamming into things
   if tmthing.flags and MF_SKULLFLY <> 0 then

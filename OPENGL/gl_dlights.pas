@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -381,7 +381,7 @@ begin
                       foundstate := true;
                     end;
                   if not foundstate then
-                    I_Warning('SC_ParceDynamicLight(): Can not determine light owner, line %d: "%s",'#13#10, [i, stmp]);
+                    I_Warning('SC_ParceDynamicLight(): Can not determine light owner, line %d: "%s",'#13#10, [i + 1, stmp]);
 
                 end
                 else
@@ -396,20 +396,20 @@ begin
                       foundstate := true;
                     end;
                   if not foundstate then
-                    I_DevError('SC_ParceDynamicLight(): Can not determine light owner, line %d: "%s",'#13#10, [i, stmp]);
+                    I_DevError('SC_ParceDynamicLight(): Can not determine light owner, line %d: "%s",'#13#10, [i + 1, stmp]);
                 end;
               end
               else
-                I_Warning('SC_ParceDynamicLight(): Unknown sprite %s at line %d'#13#10, [token, i]);
+                I_Warning('SC_ParceDynamicLight(): Unknown sprite %s at line %d'#13#10, [token, i + 1]);
             end
             else
-              I_Warning('SC_ParceDynamicLight(): Unknown sprite %s at line %d'#13#10, [token2, i]);
+              I_Warning('SC_ParceDynamicLight(): Unknown sprite %s at line %d'#13#10, [token2, i + 1]);
           end
           else
-            I_Warning('SC_ParceDynamicLight(): Unknown light %s at line %d'#13#10, [token4, i]);
+            I_Warning('SC_ParceDynamicLight(): Unknown light %s at line %d'#13#10, [token4, i + 1]);
         end
         else
-          I_Warning('SC_ParceDynamicLight(): Unknown token %s at line %d'#13#10, [token3, i]);
+          I_Warning('SC_ParceDynamicLight(): Unknown token %s at line %d'#13#10, [token3, i + 1]);
       end;
     end;
     slist.Free;
@@ -701,3 +701,4 @@ begin
 end;
 
 end.
+

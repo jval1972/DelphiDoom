@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -43,6 +43,7 @@ implementation
 
 uses
   Windows,
+  m_argv,
   d_delphi;
 
 var
@@ -70,7 +71,13 @@ var
 begin
   ZeroMemory(@buf, SizeOf(buf));
   GetTempPath(SizeOf(buf), buf);
-  result :=  StringVal(buf) + '\' + fname(name);
+
+  result := M_SaveFileName('DATA\');
+  MkDir(result);
+  result := result + 'TMP\';
+  MkDir(result);
+
+  result :=  result + fname(name);
   tempfiles.Add(result);
 end;
 

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -175,18 +175,18 @@ var
   sprname: string;
 begin
   tokens := TTokenList.Create;
-  tokens.Add('VOXELDEF, VOXELDEFINITION');  //  0
-  tokens.Add('STATE');                      //  1
-  tokens.Add('OFFSET');                     //  2
-  tokens.Add('SCALE');                      //  3
-  tokens.Add('FRAME');                      //  4
-  tokens.Add('VOXEL');                      //  5
-  tokens.Add('REPLACE, REPLACES');          //  6
-  tokens.Add('SPRITE');                     //  7
-  tokens.Add('CLIPPED');                    //  8
-  tokens.Add('ANGLEOFFSET');                //  9
-  tokens.Add('DROPPEDSPIN');                // 10
-  tokens.Add('PLACEDSPIN');                 // 11
+  tokens.Add('VOXELDEF, VOXELDEFINITION');    //  0
+  tokens.Add('STATE');                        //  1
+  tokens.Add('OFFSET');                       //  2
+  tokens.Add('SCALE');                        //  3
+  tokens.Add('FRAME');                        //  4
+  tokens.Add('VOXEL');                        //  5
+  tokens.Add('REPLACE, REPLACES, REPLACING'); //  6
+  tokens.Add('SPRITE');                       //  7
+  tokens.Add('CLIPPED');                      //  8
+  tokens.Add('ANGLEOFFSET');                  //  9
+  tokens.Add('DROPPEDSPIN');                  // 10
+  tokens.Add('PLACEDSPIN');                   // 11
 
   if devparm then
   begin

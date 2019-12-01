@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -85,6 +85,7 @@ uses
   p_floor,
   p_plats,
   p_lights,
+  p_params,
   r_defs,
   sb_bar,
   z_zone;
@@ -328,6 +329,7 @@ procedure P_ArchiveThinkers;
 var
   th: Pthinker_t;
   mobj: Pmobj_t;
+  parm, parm1: Pmobjcustomparam_t;
 begin
   // save off the current thinkers
   th := thinkercap.next;
@@ -346,6 +348,16 @@ begin
 
       if mobj.player <> nil then
         mobj.player := Pplayer_t(pDiff(mobj.player, @players[0], SizeOf(player_t)) + 1);
+
+      parm := mobj.customparams;
+      while parm <> nil do
+      begin
+        parm1 := Pmobjcustomparam_t(save_p);
+        memcpy(parm1, parm, SizeOf(mobjcustomparam_t));
+        incp(pointer(save_p), SizeOf(mobjcustomparam_t));
+        parm := parm.next;
+      end;
+
     end;
   // I_Error ("P_ArchiveThinkers: Unknown thinker function");
     th := th.next;
@@ -365,6 +377,7 @@ var
   next: Pthinker_t;
   mobj: Pmobj_t;
   mobj111: Pmobj_t111;
+  parm: mobjcustomparam_t;
 begin
   // remove all the current thinkers
   currentthinker := thinkercap.next;
@@ -395,10 +408,28 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
+          if savegameversion = VERSION114 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
+          end
+          else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
+          begin
+            memcpy(mobj, save_p, SizeOf(mobj_t113));
+            incp(pointer(save_p), SizeOf(mobj_t113));
+
+            mobj.prevx := mobj.x;
+            mobj.prevy := mobj.y;
+            mobj.prevz := mobj.z;
+            mobj.nextx := mobj.x;
+            mobj.nexty := mobj.y;
+            mobj.nextz := mobj.z;
+            mobj.prevangle := mobj.angle;
+            mobj.nextangle := mobj.angle;
+            mobj.intrplcnt := 0;
+            mobj.key := 0; // jval: ToDo
+            mobj.customparams := nil;
+
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -452,10 +483,26 @@ begin
             mobj.spawnpoint := mobj111.spawnpoint;
             mobj.tracer := mobj111.tracer;
             mobj.fastchasetics := mobj111.fastchasetics;
+
+            mobj.prevx := mobj.x;
+            mobj.prevy := mobj.y;
+            mobj.prevz := mobj.z;
+            mobj.nextx := mobj.x;
+            mobj.nexty := mobj.y;
+            mobj.nextz := mobj.z;
+            mobj.prevangle := mobj.angle;
+            mobj.nextangle := mobj.angle;
+            mobj.intrplcnt := 0;
+            mobj.key := 0; // jval: ToDo
+            mobj.customparams := nil;
+
             Z_Free(mobj111);
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
+
+          if mobj.key >= mobjkeycnt then
+            mobjkeycnt := mobj.key + 1;
 
           mobj.state := @states[integer(mobj.state)];
           mobj.target := nil;
@@ -466,6 +513,17 @@ begin
 
             Pplayer_t(mobj.player).mo := mobj;
           end;
+
+          if mobj.customparams <> nil then
+          begin
+            mobj.customparams := nil;
+            repeat
+              memcpy(@parm, save_p, SizeOf(mobjcustomparam_t));
+              incp(pointer(save_p), SizeOf(mobjcustomparam_t));
+              P_SetMobjCustomParam(mobj, parm.name, parm.value);
+            until parm.next = nil;
+          end;
+
           P_SetThingPosition(mobj);
           mobj.info := @mobjinfo[Ord(mobj._type)];
           mobj.floorz := Psubsector_t(mobj.subsector).sector.floorheight;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -76,7 +76,14 @@ var
 
 function GetCRC32(const FileName: string): string;
 
+function GetLumpCRC32(const LumpName: string): string; overload;
+function GetLumpCRC32(const LumpNum: integer): string; overload;
+
 implementation
+
+uses
+  w_wad,
+  z_zone;
 
 function RecountCRC(b: byte; CrcOld: Longword): Longword;
 begin
@@ -115,7 +122,7 @@ begin
   AssignFile(F, FileName);
   FileMode := 0;
   Reset(F);
-  GetMem(Buffer, SizeOf(B));
+  GetMem(Buffer, SizeOf(b));
   repeat
     FillChar(b, SizeOf(b), 0);
     BlockRead(F, b, SizeOf(b), e);
@@ -128,6 +135,32 @@ begin
   {$I+}
   CRC := not CRC;
   Result := HextL(CRC);
+end;
+
+function GetLumpCRC32(const LumpName: string): string;
+begin
+  result := GetLumpCRC32(W_CheckNumForName(LumpName));
+end;
+
+function GetLumpCRC32(const LumpNum: integer): string; overload;
+var
+  b: PByteArray;
+  CRC: Cardinal;
+  i, len: integer;
+begin
+  if lumpnum < 0 then
+  begin
+    result := 'DEADDEAD';
+    exit;
+  end;
+  CRC := $FFFFFFFF;
+  b := W_CacheLumpNum(lumpnum, PU_STATIC);
+  len := W_LumpLength(lumpnum);
+  for i := 0 to len - 1 do
+    CRC := RecountCRC(b[i], CRC);
+  Z_ChangeTag(b, PU_CACHE);
+  CRC := not CRC;
+  result := HextL(CRC);
 end;
 
 end.

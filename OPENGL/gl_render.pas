@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -81,6 +81,8 @@ procedure gld_CleanMemory;
 
 procedure R_ShutDownOpenGL;
 
+procedure gld_DrawLine(x0, y0, x1, y1: integer; BaseColor: integer);
+
 implementation
 
 uses
@@ -91,6 +93,8 @@ uses
   doomdef,
   {$IFDEF DOOM}
   st_stuff,
+  {$ENDIF}
+  {$IFDEF DOOM_OR_STRIFE}
   r_colormaps,
   {$ENDIF}
   doomdata,
@@ -111,7 +115,7 @@ uses
   gl_models,
   gl_voxels,
   vx_base,
-  gl_data,
+  nd_main,
   gl_frustum,
   gl_lightmaps,
   gl_clipper,
@@ -597,7 +601,7 @@ begin
   last_screensync := gl_screensync;
 
   gld_InitLightTable;
-  gld_CalculateSkyDome(100000.0);
+  gld_CalculateSky(100000.0);
   gld_InitDynamicLights;
   gld_InitDynamicShadows;
   gld_InitModels;
@@ -1235,7 +1239,7 @@ begin
         inc(num);
         realloc(pointer(points), (num - 1) * SizeOf(vertex_t), num * SizeOf(vertex_t));
         if num >= MAX_CC_SIDES then
-          I_Error('gld_FlatEdgeClipper: Too many points in carver');
+          I_Error('gld_FlatEdgeClipper(): Too many points in carver');
 
         // Make room for the new vertex.
         memmove(@points[endIdx + 1], @points[endIdx], (num - endIdx - 1) * SizeOf(vertex_t)); // VJ SOS
@@ -1569,17 +1573,17 @@ begin
 
   sectorrendered := Z_Malloc2(numsectors * SizeOf(byte), PU_LEVEL, nil);
   if sectorrendered = nil then
-    I_Error('gld_PreprocessSectors: Not enough memory for array sectorrendered');
+    I_Error('gld_PreprocessSectors(): Not enough memory for array sectorrendered');
   ZeroMemory(sectorrendered, numsectors * SizeOf(byte));
 
   sectorrenderedflatex := Z_Malloc2(numsectors * SizeOf(byte), PU_LEVEL, nil);
   if sectorrenderedflatex = nil then
-    I_Error('gld_PreprocessSectors: Not enough memory for array sectorrenderedflatex');
+    I_Error('gld_PreprocessSectors(): Not enough memory for array sectorrenderedflatex');
   ZeroMemory(sectorrenderedflatex, numsectors * SizeOf(byte));
 
   segrendered := Z_Malloc2(numsegs * SizeOf(byte), PU_LEVEL, nil);
   if segrendered = nil then
-    I_Error('gld_PreprocessSectors: Not enough memory for array segrendered');
+    I_Error('gld_PreprocessSectors(): Not enough memory for array segrendered');
   ZeroMemory(segrendered, numsegs * SizeOf(byte));
 
   gld_vertexes := nil;
@@ -1839,7 +1843,7 @@ begin
   if gl_renderwireframe then
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if customcolormap <> nil then
   begin
     extra_red := extra_red + customcolormap.fog_r;
@@ -2111,7 +2115,7 @@ end;
 
 procedure gld_AddFlatEx(sectornum: integer; pic, zheight: integer; ripple: boolean);
 var
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t; // needed for R_FakeFlat
   {$ENDIF}
   sector: Psector_t; // the sector we want to draw
@@ -2130,7 +2134,7 @@ begin
 
   flat.sectornum := sectornum;
   sector := @sectors[sectornum]; // get the sector
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   sector := R_FakeFlat(sector, @tempsec, nil, nil, false); // for boom effects
   {$ENDIF}
   flat.ceiling := true;
@@ -2143,7 +2147,7 @@ begin
   // get the lightlevel
   flat.light := gld_CalcLightLevel(sector.lightlevel + (extralight shl 5));
   // calculate texture offsets
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   flat.hasoffset := (sector.ceiling_xoffs <> 0) or (sector.ceiling_yoffs <> 0);
   flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
   flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
@@ -2179,7 +2183,7 @@ var
   floor_height, ceiling_height: integer;
   floormax, ceilingmin, linelen: integer;
   mip: float;
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
   ftempsec: sector_t; // needed for R_FakeFlat
   btempsec: sector_t; // needed for R_FakeFlat
 {$ENDIF}
@@ -2200,7 +2204,7 @@ begin
   if seg.frontsector = nil then
     exit;
 
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   frontsector := R_FakeFlat(seg.frontsector, @ftempsec, nil, nil, false); // for boom effects
   {$ELSE}
   frontsector := seg.frontsector;
@@ -2216,10 +2220,15 @@ begin
 
   wall.light := gld_CalcLightLevel(frontsector.lightlevel + rellight + (extralight shl 5));
 
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   if seg.linedef.renderflags and LRF_TRANSPARENT <> 0 then
     wall.alpha := 0.5
   else
+  {$ENDIF}
+  {$IFDEF STRIFE}
+    if (seg.linedef.flags and ML_TRANSPARENT1 <> 0) or (seg.linedef.flags and ML_TRANSPARENT2 <> 0) then
+      wall.alpha := 0.75
+    else
   {$ENDIF}
     wall.alpha := 1.0;
 
@@ -2307,7 +2316,7 @@ begin
   end
   else // twosided
   begin
-    {$IFDEF DOOM}
+    {$IFDEF DOOM_OR_STRIFE}
     backsector := R_FakeFlat(seg.backsector, @btempsec, nil, nil, true); // for boom effects
     {$ELSE}
     backsector := seg.backsector;
@@ -2673,7 +2682,7 @@ end;
 //
 procedure gld_AddFlat(sectornum: integer; ceiling: boolean; plane: Pvisplane_t);
 var
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t; // needed for R_FakeFlat
   {$ENDIF}
   sector: Psector_t; // the sector we want to draw
@@ -2684,7 +2693,7 @@ begin
 
   flat.sectornum := sectornum;
   sector := @sectors[sectornum]; // get the sector
-  {$IFDEF DOOM}
+  {$IFDEF DOOM_OR_STRIFE}
   sector := R_FakeFlat(sector, @tempsec, nil, nil, false); // for boom effects
   {$ENDIF}
   flat.ceiling := ceiling;
@@ -2698,9 +2707,9 @@ begin
     if flat.gltexture = nil then
       exit;
     // get the lightlevel from floorlightlevel
-    flat.light := gld_CalcLightLevel({$IFDEF DOOM}sector.ceilinglightlevel{$ELSE}sector.lightlevel{$ENDIF} + (extralight shl 5));
+    flat.light := gld_CalcLightLevel({$IFDEF DOOM_OR_STRIFE}sector.ceilinglightlevel{$ELSE}sector.lightlevel{$ENDIF} + (extralight shl 5));
     // calculate texture offsets
-    {$IFDEF DOOM}
+    {$IFDEF DOOM_OR_STRIFE}
     flat.hasoffset := (sector.ceiling_xoffs <> 0) or (sector.ceiling_yoffs <> 0);
     flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
     flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
@@ -2722,9 +2731,9 @@ begin
     if flat.gltexture = nil then
       exit;
     // get the lightlevel from ceilinglightlevel
-    flat.light := gld_CalcLightLevel({$IFDEF DOOM}sector.floorlightlevel{$ELSE}sector.lightlevel{$ENDIF} + (extralight shl 5));
+    flat.light := gld_CalcLightLevel({$IFDEF DOOM_OR_STRIFE}sector.floorlightlevel{$ELSE}sector.lightlevel{$ENDIF} + (extralight shl 5));
     // calculate texture offsets
-    {$IFDEF DOOM}
+    {$IFDEF DOOM_OR_STRIFE}
     flat.hasoffset := (sector.floor_xoffs <> 0) or (sector.floor_yoffs <> 0);
     flat.uoffs := sector.floor_xoffs / FLATUVSCALE;
     flat.voffs := sector.floor_yoffs / FLATUVSCALE;
@@ -3461,7 +3470,7 @@ begin
     sprite.light := 1.0
   else
     sprite.light := gld_CalcLightLevel(Psubsector_t(pSpr.subsector).sector.lightlevel + (extralight shl 5));
-  sprite.cm := Ord(CR_LIMIT) + ((pSpr.flags and MF_TRANSLATION) shr (MF_TRANSSHIFT));
+  sprite.cm := Ord(CR_LIMIT) + ((pSpr.flags and MF_TRANSLATION) shr MF_TRANSSHIFT);
   sprite.gltexture := gld_RegisterPatch(vspr.patch + firstspritelump, sprite.cm);
   if sprite.gltexture = nil then
     exit;
@@ -3470,8 +3479,21 @@ begin
 
   sprite.alpha := 0.0;
   sprite.flags := 0;
+  {$IFDEF STRIFE}
+  if pSpr.flags and MF_SHADOW <> 0 then
+  begin
+    sprite.flags := sprite.flags or GLS_TRANSPARENT;
+    sprite.alpha := 33 / 100;
+  end;
+  if pSpr.flags and MF_MVIS <> 0 then
+  begin
+    sprite.flags := sprite.flags or GLS_TRANSPARENT;
+    sprite.alpha := 66 / 100;
+  end;
+  {$ELSE}
   if pSpr.flags and MF_SHADOW <> 0 then
     sprite.flags := GLS_SHADOW;
+  {$ENDIF}
   if pSpr.flags_ex and MF_EX_TRANSPARENT <> 0 then // JVAL -> alpha here!!!!
   begin
     sprite.flags := sprite.flags or GLS_TRANSPARENT;
@@ -3557,7 +3579,7 @@ end;
  *****************)
 
 procedure gld_StartFog;
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
 var
   FogColor: array[0..3] of TGLfloat; // JVAL: set blue fog color if underwater
 {$ENDIF}
@@ -3569,7 +3591,7 @@ begin
   if use_fog then
     if players[displayplayer].fixedcolormap = 0 then
     begin
-{$IFDEF DOOM}
+{$IFDEF DOOM_OR_STRIFE}
 
       if customcolormap <> nil then
       begin

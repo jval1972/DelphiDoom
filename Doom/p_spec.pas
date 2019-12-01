@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -73,8 +73,6 @@ procedure P_PlayerInSpecialSector(player: Pplayer_t);
 function twoSided(sector: integer; line: integer): boolean;
 
 function twoSidedS(sector: Psector_t; line: integer): boolean; 
-
-function getSector(currentSector: integer; line: integer; side: integer): Psector_t;
 
 function getSide(currentSector: integer; line: integer; side: integer): Pside_t;
 
@@ -584,7 +582,8 @@ uses
   p_floor,
   p_telept,
   p_genlin,
-  p_map, p_maputl,
+  p_map,
+  p_maputl,
   p_scroll,
   s_sound,
 // Data.
@@ -809,8 +808,14 @@ end;
 //  the line number and the side (0/1) that you want.
 //
 function getSector(currentSector: integer; line: integer; side: integer): Psector_t;
+var
+  sidenum: integer;
 begin
-  result := sides[(sectors[currentSector].lines[line]).sidenum[side]].sector;
+  sidenum := (sectors[currentSector].lines[line]).sidenum[side];
+  if sidenum >= 0 then
+    result := sides[sidenum].sector
+  else
+    result := nil;
 end;
 
 //
@@ -1266,8 +1271,9 @@ begin
       else
         result := getSector(secnum, i, 0);
 
-      if result.floorheight = floordestheight then
-        exit;
+      if result <> nil then
+        if result.floorheight = floordestheight then
+          exit;
     end;
     inc(i);
   end;
@@ -1319,8 +1325,9 @@ begin
       else
         result := getSector(secnum, i, 0);
 
-      if result.ceilingheight = ceildestheight then
-        exit;
+      if result <> nil then
+        if result.ceilingheight = ceildestheight then
+          exit;
     end;
     inc(i);
   end;

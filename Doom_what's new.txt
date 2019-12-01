@@ -1,4 +1,31 @@
-New Changes
+When setblocks = 10 viewwidth does not pad div 8.
+Unlimited buffer when recordifng demos.
+Fake3d fixes.
+Added excludewidescreenplayersprites console variable, will not apply widescreen correction to player sprites.
+Menu appearance improvements.
+Software renderer speed optimizations.
+Improved Chex Quest compatibility.
+Now recornizes all FREEDOOM iwads.
+Added doadjustmissingtextures console command, adjust missing upper/lower textures on demand, regardless the value of adjustmissingtextures console variable.
+Check for music aliases inside wad.
+Bug fix, now displays the correct translation of sprites in OpenGL mode.
+Fixed transparency in 8 bit color mode.
+Fixed cachehit command stats when not using external textures.
+Multithreading utilities (mt_utils.pas).
+Allows player to climb over things by jumping.
+Improvements to interpolation subsystem.
+Corrected automap aspect ratio in OpenGL mode.
+Textured automap.
+Added texturedautomap console variable.
+Will attempt to load UDMF maps.
+Added -cgaX2 command line parameter, starts at 640X400 resolution.
+Fixed automap drawing when r_interpolate variable is true.
+Fixed voxel loading bug in software mode when using multithreading functions.
+Added MF2_EX_NODAMAGE mobj flag.
+Added A_SetNoDamage & A_UnSetNoDamage mobj functions.
+Added MF2_EX_ONMOBJ and MF2_EX_PASSMOBJ mobj flags.
+
+Version 1.1.5 build 581 - (22/5/2013)
 -----------
 Small fixes to voxel support.
 
@@ -618,39 +645,6 @@ Added -compatibilitymode and -nocompatibilitymode cmd parameters for old compati
   -compatibilitymode -> Behaves as the original Doom (as possible)
   -nocompatibilitymode -> Use some new features
 
-
-
-TODO
-----
-r_main.pas:
-  viewangle := player.mo.angle + viewangleoffset;
-   ??? change viewangleoffset from keyboard????
-
- 
-
-The list of the increased limits:
-
-limit	old	new	factor
-MAXVISPLANES 	128 	1024 	*8
-MAXVISSPRITE 	128 	1024 	*8
-MAXDRAWSEGS 	256 	2048 	*8
-MAXPLATS 	30 	7680 	*256
-SAVEGAMESIZE 	180224 	2883584 	*16
-MAXLINEANIMS 	64 	16384 	*256
-MAXOPENINGS 	16384 	65536 	*4
-
-------------------------------------------------
-Getting a Doom IWAD
-
-The IWAD is the main data file containing the graphics and levels for Doom. 
-You need one to use PrBoom. If you have a copy of one of the 
-original Doom games, copy your Doom, Doom 2, 
-Ultimate Doom or Final Doom IWAD (doom.wad, doom2.wad, 
-tnt.wad or plutonia.wad) to /usr/local/share/games/doom/. 
-Or, if you don't have any of those, use the 
-shareware IWAD, which you can get 
-from http://www.doomworld.com/ or 
-http://www.idsoftware.com/. 
 
 
 

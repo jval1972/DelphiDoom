@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -106,7 +106,6 @@ procedure A_Sor1Chase(actor: Pmobj_t);
 procedure A_Srcr1Attack(actor: Pmobj_t);
 
 procedure A_SorcererRise(actor: Pmobj_t);
-
 
 procedure A_Srcr2Decide(actor: Pmobj_t);
 
@@ -255,14 +254,29 @@ implementation
 uses
   d_delphi,
   doomdata,
-  d_think, d_main,
+  d_think,
+  d_main,
   g_game,
   i_system,
-  info_h, info,
+  info_h,
+  info,
   m_rnd,
-  p_map, p_maputl, p_setup, p_sight, p_switch, p_tick, p_mobj, p_doors, p_spec,
-  p_inter, p_floor, p_pspr, p_extra, p_sounds,
-  r_defs, r_main;
+  p_map,
+  p_maputl,
+  p_setup,
+  p_sight,
+  p_switch,
+  p_tick,
+  p_mobj,
+  p_doors,
+  p_spec,
+  p_inter,
+  p_floor,
+  p_pspr,
+  p_extra,
+  p_sounds,
+  r_defs,
+  r_main;
 
 const
   opposite: array[0..8] of dirtype_t = (
@@ -2431,7 +2445,7 @@ begin
     case actor._type of
       Ord(MT_FIREBOMB): // Time Bombs
         begin
-          actor.z := actor.z + 32*FRACUNIT;
+          actor.z := actor.z + 32 * FRACUNIT;
           actor.flags := actor.flags and not MF_SHADOW;
         end;
       Ord(MT_MNTRFX2): // Minotaur floor fire

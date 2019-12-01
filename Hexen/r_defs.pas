@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -246,6 +246,7 @@ const
   SRF_RIPPLE_FLOOR = 1;
   SRF_RIPPLE_CEILING = 2;
   SRF_RIPPLE = SRF_RIPPLE_FLOOR or SRF_RIPPLE_CEILING;
+  SRF_NO_INTERPOLATE = 4;
 
 type
 //
@@ -287,8 +288,8 @@ type
 {$IFDEF OPENGL}
     length: single;
     iSegID: integer;
-    miniseg: boolean;
 {$ENDIF}
+    miniseg: boolean;
   end;
   Pseg_t = ^seg_t;
   PPseg_t = ^Pseg_t;

@@ -1,0 +1,226 @@
+//------------------------------------------------------------------------------
+//
+//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 2004-2016 by Jim Valavanis
+//
+//  This program is free software; you can redistribute it and/or
+//  modify it under the terms of the GNU General Public License
+//  as published by the Free Software Foundation; either version 2
+//  of the License, or (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program; if not, write to the Free Software
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
+//  02111-1307, USA.
+//
+// DESCRIPTION:
+//  MultiThread Utility functions
+//
+//------------------------------------------------------------------------------
+//  E-Mail: jimmyvalavanis@yahoo.gr
+//  Site  : http://sourceforge.net/projects/delphidoom/
+//------------------------------------------------------------------------------
+
+{$I Doom32.inc}
+
+unit mt_utils;
+
+interface
+
+procedure MT_Init;
+
+procedure MT_ShutDown;
+
+procedure MT_ZeroMemory(const dest0: pointer; const count0: integer);
+
+procedure MT_memset(const dest0: pointer; const val: integer; const count0: integer);
+
+procedure MT_memseti(const dest0: pointer; const val: integer; const count0: integer);
+
+implementation
+
+uses
+  d_delphi,
+  i_system,
+  i_threads;
+
+var
+  mt_initialized: boolean = false;
+
+// jval: General purpose threads  
+const
+  MAXGPTHREADS = 8;
+
+var
+  numgpthreads: integer;
+  gp_threads: array[0..MAXGPTHREADS - 1] of TDThread;
+
+//
+// MT_ZeroMemory
+//
+type
+  zmparams_t = record
+    dest: pointer;
+    size: integer;
+  end;
+  zmparams_p = ^zmparams_t;
+  zmparams_a = array[0..MAXGPTHREADS - 1] of zmparams_t;
+
+function MT_ZeroMemory_thr(p: pointer): integer; stdcall;
+begin
+  ZeroMemory(zmparams_p(p).dest, zmparams_p(p).size);
+  result := 1;
+end;
+
+procedure MT_ZeroMemory(const dest0: pointer; const count0: integer);
+var
+  parms: zmparams_a;
+  sz: integer;
+  dst: pointer;
+  i: integer;
+begin
+  if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
+  begin
+    ZeroMemory(dest0, count0);
+    exit;
+  end;
+
+  sz := (count0 div numgpthreads) and not 7;
+  dst := dest0;
+  for i := 0 to numgpthreads - 1 do
+  begin
+    if i = numgpthreads - 1 then
+      ZeroMemory(dst, count0 - i * sz)
+    else
+    begin
+      parms[i].dest := dst;
+      parms[i].size := sz;
+      gp_threads[i].Activate(MT_ZeroMemory_thr, @parms[i]);
+      dst := pointer(integer(dest0) + sz);
+    end;
+  end;
+  for i := 0 to numgpthreads - 1 do
+    gp_threads[i].Wait;
+end;
+
+
+//
+// MT_memset, MT_memseti
+//
+type
+  msparams_t = record
+    dest: pointer;
+    value: integer;
+    size: integer;
+  end;
+  msparams_p = ^msparams_t;
+  msparams_a = array[0..MAXGPTHREADS - 1] of msparams_t;
+
+function MT_memset_thr(p: pointer): integer; stdcall;
+begin
+  memset(msparams_p(p).dest, msparams_p(p).value, msparams_p(p).size);
+  result := 1;
+end;
+
+function MT_memseti_thr(p: pointer): integer; stdcall;
+begin
+  memseti(msparams_p(p).dest, msparams_p(p).value, msparams_p(p).size);
+  result := 1;
+end;
+
+procedure MT_memset(const dest0: pointer; const val: integer; const count0: integer);
+var
+  parms: msparams_a;
+  sz: integer;
+  dst: pointer;
+  i: integer;
+begin
+  if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
+  begin
+    memset(dest0, val, count0);
+    exit;
+  end;
+
+  sz := (count0 div numgpthreads) and not 7;
+  dst := dest0;
+  for i := 0 to numgpthreads - 1 do
+  begin
+    if i = numgpthreads - 1 then
+      memset(dst, val, count0 - i * sz)
+    else
+    begin
+      parms[i].dest := dst;
+      parms[i].value := val;
+      parms[i].size := sz;
+      gp_threads[i].Activate(MT_memset_thr, @parms[i]);
+      dst := pointer(integer(dest0) + sz);
+    end;
+  end;
+  for i := 0 to numgpthreads - 1 do
+    gp_threads[i].Wait;
+end;
+
+procedure MT_memseti(const dest0: pointer; const val: integer; const count0: integer);
+var
+  parms: msparams_a;
+  sz, sz4: integer;
+  dst: pointer;
+  i: integer;
+begin
+  if (numgpthreads < 2) or (count0 < 1024) or not mt_initialized then
+  begin
+    memseti(dest0, val, count0);
+    exit;
+  end;
+
+  sz := (count0 div numgpthreads) and not 7;
+  sz4 := sz * 4;
+  dst := dest0;
+  for i := 0 to numgpthreads - 1 do
+  begin
+    if i = numgpthreads - 1 then
+      memseti(dst, val, count0 - i * sz)
+    else
+    begin
+      parms[i].dest := dst;
+      parms[i].value := val;
+      parms[i].size := sz;
+      gp_threads[i].Activate(MT_memseti_thr, @parms[i]);
+      dst := pointer(integer(dest0) + sz4);
+    end;
+  end;
+  for i := 0 to numgpthreads - 1 do
+    gp_threads[i].Wait;
+end;
+
+
+procedure MT_Init;
+var
+  i: integer;
+begin
+  numgpthreads := I_GetNumCPUs;
+  if numgpthreads > MAXGPTHREADS then
+    numgpthreads := MAXGPTHREADS
+  else if numgpthreads < 2 then
+    numgpthreads := 2;
+  for i := 0 to numgpthreads - 1 do
+    gp_threads[i] := TDThread.Create;
+  mt_initialized := true;
+end;
+
+procedure MT_ShutDown;
+var
+  i: integer;
+begin
+  for i := 0 to numgpthreads - 1 do
+    gp_threads[i].Free;
+  mt_initialized := false;
+end;
+
+end.

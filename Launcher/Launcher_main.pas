@@ -284,7 +284,7 @@ var
 begin
   SelectGameComboBox.Items.Clear;
   SelectGameComboBox.Items.Add('(select main wad below)');
-  for i := 0 to Ord(gt_expansionhexen) do
+  for i := 0 to Ord(gt_strifeteaser) do
     SelectGameComboBox.Items.Add(gameinfo[i].description);
   SelectGameComboBox.ItemIndex := 0;
 end;
@@ -367,6 +367,12 @@ begin
     begin
       result := 'hexen';
       exit;
+    end
+    else if (Pos('STRIFE0.WAD', mainwad) > 0) or
+            (Pos('STRIFE1.WAD', mainwad) > 0) then
+    begin
+      result := 'strife';
+      exit;
     end;
   end;
   if FileExists('doom2f.wad') then
@@ -391,6 +397,10 @@ begin
     result := 'hexen'
   else if FileExists('hexen1.wad') then
     result := 'hexen'
+  else if FileExists('strife0.wad') then
+    result := 'strife'
+  else if FileExists('strife1.wad') then
+    result := 'strife'
   else
     result := 'doom'; // ????
 end;
@@ -406,22 +416,26 @@ begin
     gameengine := ge_heretic
   else if exename = 'HEXEN' then
     gameengine := ge_hexen
+  else if exename = 'STRIFE' then
+    gameengine := ge_strife
   else
     gameengine := ge_unknown;
 end;
 
 const
-  exenames: array[0..3] of string = (
+  exenames: array[0..4] of string = (
     'doom32.exe',
     'heretic32.exe',
     'hexen32.exe',
+    'strife32.exe',
     ''
   );
 
-  glexenames: array[0..3] of string = (
+  glexenames: array[0..4] of string = (
     'gldoom32.exe',
     'glheretic32.exe',
     'glhexen32.exe',
+    'glstrife32.exe',
     ''
   );
 
@@ -835,6 +849,8 @@ begin
       CheckGameEngine;
       if gameengine = ge_hexen then
         maxpl := 8
+      else if gameengine = ge_strife then
+        maxpl := 8
       else
         maxpl := 4;
       NETComputersCheckListBox.Enabled := true;
@@ -907,6 +923,15 @@ begin
       else
         exit; // No WADS!
     end
+    else if gameengine = ge_strife then
+    begin
+      if FileExists('strife1.wad') then
+        wadname := 'strife1.wad'
+      else if FileExists('strife0.wad') then
+        wadname := 'strife0.wad'
+      else
+        exit; // No WADS!
+    end
     else if FileExists('doom2f.wad') then
       wadname := 'doom2f.wad'
     else if FileExists('doom2.wad') then
@@ -929,6 +954,10 @@ begin
       wadname := 'hexen.wad'
     else if FileExists('hexen1.wad') then
       wadname := 'hexen1.wad'
+    else if FileExists('strife1.wad') then
+      wadname := 'strife1.wad'
+    else if FileExists('strife0.wad') then
+      wadname := 'strife0.wad'
     else
       exit; // NO WADS found
   end
@@ -1117,7 +1146,9 @@ begin
   else if gameengine = ge_heretic then
     RunDelphiDoom1.Caption := '&Run DelphiHeretic'
   else if gameengine = ge_hexen then
-    RunDelphiDoom1.Caption := '&Run DelphiHexen';
+    RunDelphiDoom1.Caption := '&Run DelphiHexen'
+  else if gameengine = ge_strife then
+    RunDelphiDoom1.Caption := '&Run DelphiStrife';
 end;
 
 procedure TForm1.SelectGameComboBoxClick(Sender: TObject);

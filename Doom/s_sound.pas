@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -601,10 +601,10 @@ end;
 
 procedure S_SetSfxVolume(volume: integer);
 begin
-  if (volume < 0) or (volume > 127) then
+  if (volume < 0) or (volume > 15) then
   begin
     I_DevError('S_SetSfxVolume(): Attempt to set sfx volume at %d', [volume]);
-    snd_SfxVolume := 64;
+    snd_SfxVolume := 15;
   end
   else
     snd_SfxVolume := volume;
@@ -658,7 +658,18 @@ begin
     music.lumpnum := W_CheckNumForName(namebuf);
     if music.lumpnum <= 0 then
     begin
-      namebuf := stringtochar8(music.name);
+      namebuf := stringtochar8('d_' + music.alias);
+      music.lumpnum := W_CheckNumForName(namebuf);
+      if music.lumpnum <= 0 then
+      begin
+        namebuf := stringtochar8(music.name);
+        music.lumpnum := W_CheckNumForName(namebuf);
+      end;
+    end;
+
+    if music.lumpnum <= 0 then
+    begin
+      namebuf := stringtochar8(music.alias);
       music.lumpnum := W_GetNumForName(namebuf);
     end;
   end;

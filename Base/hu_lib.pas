@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -119,6 +119,15 @@ function HUlib_delCharFromTextLine(t: Phu_textline_t): boolean;
 // draws tline
 procedure HUlib_drawTextLine(l: Phu_textline_t; drawcursor: boolean);
 
+{$IFDEF STRIFE}
+//
+// HUlib_drawYellowText
+//
+// haleyjd 20100918: [STRIFE] New function.
+//
+procedure HUlib_drawYellowText(x, y: integer; txt: string; const scn: integer);
+{$ENDIF}
+
 // erases text line
 procedure HUlib_eraseTextLine(l: Phu_textline_t);
 
@@ -174,6 +183,7 @@ implementation
 
 uses
   am_map,
+  hu_stuff,
   r_draw,
   v_data, 
   v_video;
@@ -249,7 +259,7 @@ begin
       if x >= {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}320{$ENDIF} then
         break;
     end
-    else if (Ord(c) >= l.sc) and (c <= '_') then
+    else if (Ord(c) >= l.sc) and (c {$IFDEF STRIFE}<{$ELSE}<={$ENDIF} '_') then
     begin
       w := l.font[Ord(c) - l.sc].width;
       if x + w > {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}320{$ENDIF} then
@@ -263,6 +273,63 @@ begin
   if drawcursor and (x + l.font[Ord('_') - l.sc].width <= {$IFDEF OPENGL}V_GetScreenWidth(SCN_FG){$ELSE}320{$ENDIF}) then
     V_DrawPatch(x, l.y, SCN_FG, l.font[Ord('_') - l.sc], true);
 end;
+
+{$IFDEF STRIFE}
+//
+// HUlib_drawYellowText
+//
+// haleyjd 20100918: [STRIFE] New function.
+//
+procedure HUlib_drawYellowText(x, y: integer; txt: string; const scn: integer);
+var
+  i: integer;
+  w: integer;
+  c: char;
+  len: integer;
+  start_x: integer;
+  patch: Ppatch_t;
+  id: integer;
+begin
+  len := length(txt);
+  start_x := x;
+  for i := 1 to len do
+  begin
+    c := toupper(txt[i]);
+    if c = #10 then
+    begin
+      x := start_x;
+      continue;
+    end
+    else if c = #13 then
+    begin
+      y := y + 12;
+      continue;
+    end
+    else if c = '_' then
+      c := ' '
+    else if (c = ' ') and (x = start_x) then // skip spaces at the start of a line
+      continue;
+
+    id := Ord(c) - Ord(HU_FONTSTART);
+    if (id < 0) or (id >= Ord(HU_FONTSIZE)) then
+    begin
+      x := x + 4;
+      continue;
+    end;
+
+    patch := yfont[id];
+    w := patch.width;
+    if x + w > 320 - 20 then
+    begin // word warp
+      x := start_x;
+      y := y + 12;
+    end;
+    V_DrawPatch(x, y, scn, patch, scn = SCN_FG);
+    x := x + w;
+  end;
+end;
+{$ENDIF}
+
 
 // sorta called by HU_Erase and just better darn get things straight
 

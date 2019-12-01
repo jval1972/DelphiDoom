@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 193;
+  DEHNUMACTIONS = 211;
 
 type
   deh_action_t = record
@@ -2364,6 +2364,42 @@ begin
   deh_actions[191].name := strupper('SetFrightened');
   deh_actions[192].action.acp1 := @A_UnSetFrightened;
   deh_actions[192].name := strupper('UnSetFrightened');
+  deh_actions[193].action.acp1 := @A_SetCustomParam;
+  deh_actions[193].name := strupper('SetCustomParam');
+  deh_actions[194].action.acp1 := @A_AddCustomParam;
+  deh_actions[194].name := strupper('AddCustomParam');
+  deh_actions[195].action.acp1 := @A_SubtractCustomParam;
+  deh_actions[195].name := strupper('SubtractCustomParam');
+  deh_actions[196].action.acp1 := @A_SetTargetCustomParam;
+  deh_actions[196].name := strupper('SetTargetCustomParam');
+  deh_actions[197].action.acp1 := @A_AddTargetCustomParam;
+  deh_actions[197].name := strupper('AddTargetCustomParam');
+  deh_actions[198].action.acp1 := @A_SubtractTargetCustomParam;
+  deh_actions[198].name := strupper('SubtractTargetCustomParam');
+  deh_actions[199].action.acp1 := @A_JumpIfCustomParam;
+  deh_actions[199].name := strupper('JumpIfCustomParam');
+  deh_actions[200].action.acp1 := @A_JumpIfCustomParamLess;
+  deh_actions[200].name := strupper('JumpIfCustomParamLess');
+  deh_actions[201].action.acp1 := @A_JumpIfCustomParamGreater;
+  deh_actions[201].name := strupper('JumpIfCustomParamGreater');
+  deh_actions[202].action.acp1 := @A_JumpIfTargetCustomParam;
+  deh_actions[202].name := strupper('JumpIfTargetCustomParam');
+  deh_actions[203].action.acp1 := @A_JumpIfTargetCustomParamLess;
+  deh_actions[203].name := strupper('JumpIfTargetCustomParamLess');
+  deh_actions[204].action.acp1 := @A_JumpIfTargetCustomParamGreater;
+  deh_actions[204].name := strupper('JumpIfTargetCustomParamGreater');
+  deh_actions[205].action.acp1 := @A_GoToIfCustomParam;
+  deh_actions[205].name := strupper('GoToIfCustomParam');
+  deh_actions[206].action.acp1 := @A_GoToIfCustomParamLess;
+  deh_actions[206].name := strupper('GoToIfCustomParamLess');
+  deh_actions[207].action.acp1 := @A_GoToIfCustomParamGreater;
+  deh_actions[207].name := strupper('GoToIfCustomParamGreater');
+  deh_actions[208].action.acp1 := @A_GoToIfTargetCustomParam;
+  deh_actions[208].name := strupper('GoToIfTargetCustomParam');
+  deh_actions[209].action.acp1 := @A_GoToIfTargetCustomParamLess;
+  deh_actions[209].name := strupper('GoToIfTargetCustomParamLess');
+  deh_actions[210].action.acp1 := @A_GoToIfTargetCustomParamGreater;
+  deh_actions[210].name := strupper('GoToIfTargetCustomParamGreater');
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

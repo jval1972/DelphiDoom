@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
-//   AutoMap module. 
+//   AutoMap module.
 // 
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
@@ -47,6 +47,7 @@ uses
   m_cheat,
   i_system,
   dstrings,
+  tables,
   m_fixed;
 
 const
@@ -99,6 +100,7 @@ const
   AM_FOLLOWKEY = 'f';
   AM_GRIDKEY = 'g';
   AM_ROTATEKEY = 'r';
+  AM_TEXTUREDAUTOMAP = 't';
   AM_MARKKEY = 'm';
   AM_CLEARMARKKEY = 'c';
 
@@ -296,11 +298,16 @@ procedure AM_Stop;
 var
   allowautomapoverlay: boolean;
   allowautomaprotate: boolean;
+  texturedautomap: boolean;
+
+procedure AM_rotate(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
+
+procedure AM_ShutDown;
 
 implementation
 
 uses
-  tables,
+  am_textured,
   c_cmds,
   d_englsh,
   g_game,
@@ -311,6 +318,7 @@ uses
 {$ENDIF}
   p_mobj_h,
   p_setup,
+  mt_utils,
   v_data,
   v_video;
 
@@ -479,8 +487,8 @@ begin
   max_w := max_x - min_x;
   max_h := max_y - min_y;
 
-  min_w := 2 * PLAYERRADIUS; // const? never changed?
-  min_h := 2 * PLAYERRADIUS;
+  min_w := 10 * PLAYERRADIUS; // const? never changed?
+  min_h := 10 * PLAYERRADIUS;
 
   a := FixedDiv(f_w * FRACUNIT, max_w);
   b := FixedDiv(f_h * FRACUNIT, max_h);
@@ -490,7 +498,7 @@ begin
   else
     min_scale_mtof := b;
 
-  max_scale_mtof := FixedDiv(f_h * FRACUNIT, 2 * PLAYERRADIUS);
+  max_scale_mtof := FixedDiv(f_h * FRACUNIT, 10 * PLAYERRADIUS);
 end;
 
 //
@@ -808,6 +816,14 @@ begin
           else
             plr._message := AMSTR_ROTATEOFF;
         end;
+      Ord(AM_TEXTUREDAUTOMAP):
+        begin
+          texturedautomap := not texturedautomap;
+          if texturedautomap then
+            plr._message := 'TEXTURED AUTOMAP ON'
+          else
+            plr._message := 'TEXTURED AUTOMAP OFF';
+        end;
       Ord(AM_MARKKEY):
         begin
           sprintf(_message, '%s %d', [AMSTR_MARKEDSPOT, markpointnum]);
@@ -945,25 +961,17 @@ end;
 procedure AM_clearFB(color: integer);
 var
   c: LongWord;
-  dest: PLongWord;
-  deststop: PLongWord;
 begin
   {$IFNDEF OPENGL}
   if videomode = vm32bit then
   begin
   {$ENDIF}
     c := videopal[color];
-    dest := @fb32[0];
-    deststop := @fb32[f_w * f_h];
-    while integer(dest) < integer(deststop) do
-    begin
-      dest^ := c;
-      inc(dest);
-    end;
+    MT_memseti(fb32, c, f_w * f_h);
   {$IFNDEF OPENGL}
   end
   else
-    memset(fb, color, f_w * f_h);
+    MT_memset(fb, color, f_w * f_h);
   {$ENDIF}
 end;
 
@@ -1518,10 +1526,10 @@ begin
   {$IFNDEF OPENGL}
   if videomode = vm32bit then
   {$ENDIF}
-    fb32[(f_w * (f_h + 1)) div 2] := videopal[color] // single point for now
+    fb32[(f_w * (f_h div 2)) + (f_w div 2)] := videopal[color] // single point for now
   {$IFNDEF OPENGL}
   else
-    fb[(f_w * (f_h + 1)) div 2] := color; // single point for now
+    fb[(f_w * (f_h div 2)) + (f_w div 2)] := color; // single point for now
   {$ENDIF}
 end;
 
@@ -1530,8 +1538,23 @@ begin
   if amstate = am_inactive then
     exit;
 
+  if followplayer then
+  begin
+    m_w := FTOM(f_w);
+    m_h := FTOM(f_h);
+    m_x := plr.mo.x - m_w div 2;
+    m_y := plr.mo.y - m_h div 2;
+  end;
+
   if amstate = am_only then
+  begin
     AM_clearFB(aprox_black);
+    if texturedautomap then
+    begin
+      AM_setSubSectorDrawFuncs;
+      AM_drawSubSectors;
+    end;
+  end;
   if grid then
     AM_drawGrid(GRIDCOLORS);
   AM_drawWalls;
@@ -1547,6 +1570,7 @@ procedure AM_Init;
 var
   pl: Pmline_t;
 begin
+  AM_InitTextured;
   pl := @player_arrow[0];
   pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
   pl.a.y := 0;
@@ -1719,11 +1743,11 @@ begin
   pl.a.x := FRACUNIT;
   pl.a.y := 0;
   pl.b.x := round(-0.5 * FRACUNIT);
-  pl.b.y := round(-0.7 * FRACUNIT);
+  pl.b.y := round(0.7 * FRACUNIT);
 
   inc(pl);
   pl.a.x := round(-0.5 * FRACUNIT);
-  pl.a.y := round(-0.7 * FRACUNIT);
+  pl.a.y := round(0.7 * FRACUNIT);
   pl.b.x := round(-0.5 * FRACUNIT);
   pl.b.y := round(-0.7 * FRACUNIT);
 
@@ -1742,6 +1766,11 @@ begin
   st_notify_AM_Stop.data1 := AM_MSGEXITED;
 
   C_AddCmd('allowautomapoverlay', @CmdAllowautomapoverlay);
+end;
+
+procedure AM_ShutDown;
+begin
+  AM_ShutDownTextured;
 end;
 
 end.

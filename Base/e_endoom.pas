@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,6 +45,9 @@ var
 {$ENDIF}
 {$IFDEF HERETIC}
   EndLumpName: string = 'ENDTEXT';
+{$ENDIF}
+{$IFDEF STRIFE}
+  EndLumpName: string = 'ENDSTRF';
 {$ENDIF}
   displayendscreen: boolean;
 
@@ -103,7 +106,7 @@ var
   dosfont: PByteArray;
 
 const
-  fontcolors: array[0..15] of longword = (
+  fontcolors: array[0..15] of LongWord = (
     0,                            // black
     170,                          // blue
     170 shl 8,                    // green

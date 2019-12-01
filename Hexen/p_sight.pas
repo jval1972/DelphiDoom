@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -145,13 +145,11 @@ begin
         segList := polyLink.polyobj.segs;
         for i := 0 to polyLink.polyobj.numsegs - 1 do
         begin
-          {$IFDEF OPENGL}
           if segList^.miniseg then
           begin
             inc(segList);
             continue; // line isn't crossed
           end;
-          {$ENDIF}
           ld := segList^.linedef;
           if ld.validcount = validcount then
           begin

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -35,6 +35,7 @@ uses
   tables;
 
 function R_ScaleFromGlobalAngle(const visangle: angle_t; out overflow: boolean): fixed_t;
+function R_ScaleFromGlobalAngle_Fixed(const visangle: angle_t): fixed_t;
 function R_ScaleFromGlobalAngle_DBL(const visangle: angle_t): double;
 
 var
@@ -83,12 +84,12 @@ begin
     if result > 64 * FRACUNIT then
     begin
       result := 64 * FRACUNIT;
-      overflow := true and precisescalefromglobalangle;
+      overflow := precisescalefromglobalangle;
     end
     else if result < 256 then
     begin
       result := 256;
-      overflow := true and precisescalefromglobalangle;
+      overflow := precisescalefromglobalangle;
     end
     else
       overflow := false;
@@ -96,9 +97,53 @@ begin
   else
   begin
     result := 64 * FRACUNIT;
-    overflow := true and precisescalefromglobalangle;
+    overflow := precisescalefromglobalangle;
   end;
 end;
+
+function R_ScaleFromGlobalAngle_Fixed(const visangle: angle_t): fixed_t;
+var
+  anglea: angle_t;
+  angleb: angle_t;
+  num: fixed_t;
+  den: integer;
+begin
+  anglea := ANG90 + (visangle - viewangle);
+  angleb := ANG90 + (visangle - rw_normalangle);
+
+  {$IFDEF FPC}
+  num := FixedMul(projectiony, finesine[_SHRW(angleb, ANGLETOFINESHIFT)]); // JVAL For correct aspect
+  den := FixedMul(rw_distance, finesine[_SHRW(anglea, ANGLETOFINESHIFT)]);
+  {$ELSE}
+  num := FixedMulEx(projectiony, finesine[angleb shr ANGLETOFINESHIFT]); // JVAL For correct aspect
+  den := FixedMulEx(rw_distance, finesine[anglea shr ANGLETOFINESHIFT]);
+  {$ENDIF}
+
+// JVAL: SOS -> Using  result := FixedDivEx(num, den); Exit; eliminates rendering
+//        precision erros but crash the game as rw_scale & rw_scalestep are 16:16
+//        fixed point
+  if den > FixedInt(num) then
+  begin
+    result := FixedDiv(num, den);
+  // JVAL: Change it to 256 * FRACUNIT ??  - original
+    if result > 64 * FRACUNIT then
+    begin
+      result := 64 * FRACUNIT;
+    end
+    else if result < 256 then
+    begin
+      result := 256;
+    end;
+  end
+  else
+  begin
+    result := 64 * FRACUNIT;
+  end;
+end;
+
+const
+  MINSCALE = -FRACUNIT * (FRACUNIT / 4);
+  MAXSCALE = FRACUNIT * (FRACUNIT / 4);
 
 function R_ScaleFromGlobalAngle_DBL(const visangle: angle_t): double;
 var
@@ -116,17 +161,17 @@ begin
   if den = 0 then
   begin
     if num < 0 then
-      result := MININT
+      result := MINSCALE
     else
-      result := MAXINT;
+      result := MAXSCALE;
   end
   else
   begin
     result := (num / den) * FRACUNIT;
-    if result < MININT then
-      result := MININT
-    else if result > MAXINT then
-      result := MAXINT
+    if result < MINSCALE then
+      result := MINSCALE
+    else if result > MAXSCALE then
+      result := MAXSCALE
   end;
 
 end;

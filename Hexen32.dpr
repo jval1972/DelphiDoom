@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and on DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -199,16 +199,16 @@ uses
   r_bsp in 'Hexen\r_bsp.pas',
   r_cache in 'Base\r_cache.pas',
   r_camera in 'Hexen\r_camera.pas',
-  r_ccache in 'Hexen\r_ccache.pas',
+  r_ccache in 'Base\r_ccache.pas',
   r_col_al in 'Hexen\r_col_al.pas',
   r_col_av in 'Hexen\r_col_av.pas',
   r_col_fog in 'Hexen\r_col_fog.pas',
   r_col_fz in 'Hexen\r_col_fz.pas',
-  r_col_l in 'Hexen\r_col_l.pas',
+  r_col_l in 'Base\r_col_l.pas',
   r_col_ms in 'Hexen\r_col_ms.pas',
   r_col_ms_fog in 'Hexen\r_col_ms_fog.pas',
   r_col_sk in 'Hexen\r_col_sk.pas',
-  r_col_tr in 'Hexen\r_col_tr.pas',
+  r_col_tr in 'Base\r_col_tr.pas',
   r_column in 'Hexen\r_column.pas',
   r_data in 'Hexen\r_data.pas',
   r_defs in 'Hexen\r_defs.pas',
@@ -216,12 +216,12 @@ uses
   r_fake3d in 'Base\r_fake3d.pas',
   r_grow in 'Base\r_grow.pas',
   r_hires in 'Base\r_hires.pas',
-  r_intrpl in 'Hexen\r_intrpl.pas',
+  r_intrpl in 'Base\r_intrpl.pas',
   r_lights in 'Base\r_lights.pas',
   r_main in 'Hexen\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Hexen\r_plane.pas',
-  r_scache in 'Hexen\r_scache.pas',
+  r_scache in 'Base\r_scache.pas',
   r_segs in 'Hexen\r_segs.pas',
   r_sky in 'Hexen\r_sky.pas',
   r_skycache1 in 'Hexen\r_skycache1.pas',
@@ -278,7 +278,14 @@ uses
   info_fnd in 'Base\info_fnd.pas',
   r_palette in 'Base\r_palette.pas',
   r_colorcolumn in 'Base\r_colorcolumn.pas',
-  r_utils in 'Base\r_utils.pas';
+  r_utils in 'Base\r_utils.pas',
+  mt_utils in 'Base\mt_utils.pas',
+  p_params in 'Base\p_params.pas',
+  nd_main in 'Base\nd_main.pas',
+  am_textured in 'Base\am_textured.pas',
+  i_exec in 'Base\i_exec.pas',
+  p_udmf in 'Base\p_udmf.pas',
+  m_crc32 in 'Base\m_crc32.pas';
 
 var
   Saved8087CW: Word;

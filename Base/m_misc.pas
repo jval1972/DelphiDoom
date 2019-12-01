@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -146,7 +146,12 @@ var
 begin
   if filename = '' then
   begin
-    tganame := M_SaveFileName({$IFDEF DOOM}'DOOM000.tga'{$ENDIF}{$IFDEF HERETIC}'HTIC000.tga'{$ENDIF}{$IFDEF HEXEN}'HEXN000.tga'{$ENDIF});
+    tganame := M_SaveFileName(
+                        {$IFDEF DOOM}'DOOM000.tga'{$ENDIF}
+                        {$IFDEF HERETIC}'HTIC000.tga'{$ENDIF}
+                        {$IFDEF HEXEN}'HEXN000.tga'{$ENDIF}
+                        {$IFDEF STRIFE}'STRIF000.tga'{$ENDIF}
+                      );
 //
 // find a file name to save it to
 //
@@ -594,6 +599,7 @@ var
   s: TDStringList;
   n: string;
   verstr: string;
+  stmp: string;
 begin
   // set everything to base values
   for i := 0 to NUMDEFAULTS - 1 do
@@ -646,7 +652,20 @@ begin
           begin
             pd := @defaults[idx];
             if pd._type = tInteger then
-              PInteger(pd.location)^ := atoi(s.Values[n])
+            begin
+              stmp := s.Values[n];
+              PInteger(pd.location)^ := atoi(stmp);
+              // jval: 20151116 hack to easy set key values inside config file
+              if length(stmp) = 3 then
+                if (stmp[1] in ['''', '"']) and (stmp[3] in ['''', '"']) then
+                  if stmp[2] in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'] then
+                    PInteger(pd.location)^ := atoi(stmp[2])
+                  else
+                    PInteger(pd.location)^ := Ord(stmp[2]);
+              if length(stmp) = 1 then
+                if not (stmp[1] in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']) then
+                  PInteger(pd.location)^ := Ord(stmp[1]);
+            end
             else if pd._type = tBoolean then
               PBoolean(pd.location)^ := atoi(s.Values[n]) <> 0
             else if pd._type = tString then
@@ -659,8 +678,10 @@ begin
   finally
     s.Free;
   end;
+  {$IFNDEF STRIFE}
   if confignotfound then
-    G_SetKeyboardMode(1);
+    G_SetKeyboardMode(0);
+  {$ENDIF}
 end;
 
 end.

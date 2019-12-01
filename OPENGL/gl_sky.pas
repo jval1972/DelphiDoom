@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -33,7 +33,7 @@ interface
 uses
   r_sky;
 
-procedure gld_CalculateSkyDome(const aSize : Double);
+procedure gld_CalculateSky(const aSize : Double);
 
 procedure gld_DrawSky(const up, down: boolean);
 
@@ -54,7 +54,145 @@ var
   fSkyListUpper: GLuint;
   fSkyListLower: GLuint;
 
-procedure gld_CalculateSkyDome(const aSize : Double);
+procedure gld_CalculateSky(const aSize : Double);
+{$IFDEF STRIFE}
+    (*
+    --------------------------
+    |\                     / |
+    |  \                 /   |
+    |    \             /     |
+    |      \ _______ /       |
+    |       |       |        |
+    |       |       |        |
+    |       |       |        |
+    |       |_______|        |
+    |      /         \       |
+    |    /             \     |
+    |  /                 \   |
+    |/                     \ |
+    --------------------------
+    *)
+
+const
+  DUX = 0.5;
+  DUY = 1.0;
+begin
+  fSkyListUpper := glGenLists(1);
+
+  glNewList(fSkyListUpper, GL_COMPILE);
+
+    glColor4fv(@gl_whitecolor);
+
+    glBegin(GL_QUADS);
+
+    glTexCoord2f(0.0 * DUX, 0.0 * DUY);
+    glVertex3f(-asize, 0.0, -asize);
+    glTexCoord2f(0.6666 * DUX, 0.6666 * DUY);
+    glVertex3f(-asize / 3, asize / 8, -asize / 3);
+    glTexCoord2f(1.3333 * DUX, 0.6666 * DUY);
+    glVertex3f(asize / 3, asize / 8, -asize / 3);
+    glTexCoord2f(2.0 * DUX, 0.0 * DUY);
+    glVertex3f(asize, 0, -asize);
+
+    glTexCoord2f(0.0 * DUX, 0.0 * DUY);
+    glVertex3f(-asize, 0.0, -asize);
+    glTexCoord2f(0.6666 * DUX, 0.6666 * DUY);
+    glVertex3f(-asize / 3, asize / 8, -asize / 3);
+    glTexCoord2f(0.6666 * DUX, 1.3333 * DUY);
+    glVertex3f(-asize / 3, asize / 8, asize / 3);
+    glTexCoord2f(0.0 * DUX, 2.0 * DUY);
+    glVertex3f(-asize, 0, asize);
+
+    glTexCoord2f(0.6666 * DUX, 1.3333 * DUY);
+    glVertex3f(-asize / 3, asize / 8, asize / 3);
+    glTexCoord2f(0.0 * DUX, 2.0 * DUY);
+    glVertex3f(-asize, 0, asize);
+    glTexCoord2f(2.0 * DUX, 2.0 * DUY);
+    glVertex3f(asize, 0, asize);
+    glTexCoord2f(1.3333 * DUX, 1.3333 * DUY);
+    glVertex3f(asize / 3, asize / 8, asize / 3);
+
+    glTexCoord2f(2.0 * DUX, 2.0 * DUY);
+    glVertex3f(asize, 0, asize);
+    glTexCoord2f(1.3333 * DUX, 1.3333 * DUY);
+    glVertex3f(asize / 3, asize / 8, asize / 3);
+    glTexCoord2f(1.3333 * DUX, 0.6666 * DUY);
+    glVertex3f(asize / 3, asize / 8, -asize / 3);
+    glTexCoord2f(2.0 * DUX, 0.0 * DUY);
+    glVertex3f(asize, 0, -asize);
+
+    glTexCoord2f(1.3333 * DUX, 1.3333 * DUY);
+    glVertex3f(asize / 3, asize / 8, asize / 3);
+    glTexCoord2f(1.3333 * DUX, 0.6666 * DUY);
+    glVertex3f(asize / 3, asize / 8, -asize / 3);
+    glTexCoord2f(0.6666 * DUX, 0.6666 * DUY);
+    glVertex3f(-asize / 3, asize / 8, -asize / 3);
+    glTexCoord2f(0.6666 * DUX, 1.3333 * DUY);
+    glVertex3f(-asize / 3, asize / 8, asize / 3);
+
+    glEnd;
+
+  glEndList;
+
+  fSkyListLower := glGenLists(1);
+
+  glNewList(fSkyListLower, GL_COMPILE);
+
+    glColor4fv(@gl_whitecolor);
+
+    glBegin(GL_QUADS);
+
+    glTexCoord2f(0.0 * DUX, 0.0 * DUY);
+    glVertex3f(-asize, 0.0, -asize);
+    glTexCoord2f(0.6666 * DUX, 0.6666 * DUY);
+    glVertex3f(-asize / 3, -asize / 8, -asize / 3);
+    glTexCoord2f(1.3333 * DUX, 0.6666 * DUY);
+    glVertex3f(asize / 3, -asize / 8, -asize / 3);
+    glTexCoord2f(2.0 * DUX, 0.0 * DUY);
+    glVertex3f(asize, 0, -asize);
+
+    glTexCoord2f(0.0 * DUX, 0.0 * DUY);
+    glVertex3f(-asize, 0.0, -asize);
+    glTexCoord2f(0.6666 * DUX, 0.6666 * DUY);
+    glVertex3f(-asize / 3, -asize / 8, -asize / 3);
+    glTexCoord2f(0.6666 * DUX, 1.3333 * DUY);
+    glVertex3f(-asize / 3, -asize / 8, asize / 3);
+    glTexCoord2f(0.0 * DUX, 2.0 * DUY);
+    glVertex3f(-asize, 0, asize);
+
+    glTexCoord2f(0.6666 * DUX, 1.3333 * DUY);
+    glVertex3f(-asize / 3, -asize / 8, asize / 3);
+    glTexCoord2f(0.0 * DUX, 2.0 * DUY);
+    glVertex3f(-asize, 0, asize);
+    glTexCoord2f(2.0 * DUX, 2.0 * DUY);
+    glVertex3f(asize, 0, asize);
+    glTexCoord2f(1.3333 * DUX, 1.3333 * DUY);
+    glVertex3f(asize / 3, -asize / 8, asize / 3);
+
+    glTexCoord2f(2.0 * DUX, 2.0 * DUY);
+    glVertex3f(asize, 0, asize);
+    glTexCoord2f(1.3333 * DUX, 1.3333 * DUY);
+    glVertex3f(asize / 3, -asize / 8, asize / 3);
+    glTexCoord2f(1.3333 * DUX, 0.6666 * DUY);
+    glVertex3f(asize / 3, -asize / 8, -asize / 3);
+    glTexCoord2f(2.0 * DUX, 0.0 * DUY);
+    glVertex3f(asize, 0, -asize);
+
+    glTexCoord2f(1.3333 * DUX, 1.3333 * DUY);
+    glVertex3f(asize / 3, -asize / 8, asize / 3);
+    glTexCoord2f(1.3333 * DUX, 0.6666 * DUY);
+    glVertex3f(asize / 3, -asize / 8, -asize / 3);
+    glTexCoord2f(0.6666 * DUX, 0.6666 * DUY);
+    glVertex3f(-asize / 3, -asize / 8, -asize / 3);
+    glTexCoord2f(0.6666 * DUX, 1.3333 * DUY);
+    glVertex3f(-asize / 3, -asize / 8, asize / 3);
+
+    glEnd;
+
+  glEndList;
+
+end;
+{$ELSE}
 var
   iRotationStep: double;
   iRotationZ, iRotationY: double;
@@ -183,6 +321,7 @@ begin
   glEndList;
 
 end;
+{$ENDIF}
 
 procedure gld_DrawSky(const up, down: boolean);
 begin

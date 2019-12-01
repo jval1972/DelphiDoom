@@ -126,7 +126,7 @@ begin
   // This is as fast as it gets.
   swidth := SCREENWIDTH32PITCH;
   cfrac2 := dc_alpha;
-
+  factor1 := FRACUNIT - 1 - cfrac2;
 
   fraclimit := frac + fracstep * count;
   while frac < fraclimit do
@@ -134,7 +134,7 @@ begin
     c1 := destl^;
     c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
     {$UNDEF FOG}
-    {$I R_ColorAverage.inc}
+    {$I R_ColorAverageCL.inc}
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);

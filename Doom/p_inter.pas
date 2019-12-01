@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -758,9 +758,6 @@ begin
   end;
 end;
 
-const
-  PLAYERDEATHTICKS = TICRATE;
-
 procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 var
   item: integer;
@@ -771,7 +768,8 @@ begin
     target.flags := target.flags and (not MF_NOGRAVITY);
 
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
-  target.height := _SHR2(target.height);
+  target.flags2_ex := target.flags2_ex and not MF2_EX_PASSMOBJ;
+  target.height := target.height div 4;
 
   if (source <> nil) and (source.player <> nil) then
   begin
@@ -888,6 +886,9 @@ begin
 
   // JVAL: Invulnerable monsters
   if target.flags_ex and MF_EX_INVULNERABLE <> 0 then
+    exit;
+
+  if target.flags2_ex and MF2_EX_NODAMAGE <> 0 then
     exit;
 
   if target.health <= 0 then

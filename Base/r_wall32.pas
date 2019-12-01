@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -168,8 +168,6 @@ begin
   w := @walls.walls[0];
   destl := @((ylookupl[min_yl]^)[columnofs[w.dc_x]]);
 
-  and_mask := 127;
-
   xx := min_yl - centery;
 
   fracstep1 := w.dc_iscale;
@@ -180,7 +178,9 @@ begin
     fracstep1 := fracstep1 * (1 shl w.dc_texturefactorbits);
     frac1 := frac1 * (1 shl w.dc_texturefactorbits);
     and_mask := 128 * (1 shl w.dc_texturefactorbits) - 1;
-  end;
+  end
+  else
+    and_mask := 127;
   lfactor1 := w.dc_lightlevel;
   if lfactor1 >= 0 then
   {$IFDEF HEXEN}
@@ -1241,6 +1241,637 @@ begin
   end;
 end;
 
+procedure R_DrawBatchColumnHi4(const walls: Pbatchwallrenderinfo32_t);
+var
+  w: Pwallrenderinfo32_t;
+  ypos: integer;
+  destl: PLongWord;
+  frac1, frac2, frac3, frac4: fixed_t;
+  fracstep1, fracstep2, fracstep3, fracstep4: fixed_t;
+  spot: integer;
+  swidth: integer;
+
+  r1, g1, b1: byte;
+  c : LongWord;
+  lfactor1, lfactor2, lfactor3, lfactor4: integer;
+  and_mask: integer;
+  bf_r1, bf_g1, bf_b1: PIntegerArray;
+  bf_r2, bf_g2, bf_b2: PIntegerArray;
+  bf_r3, bf_g3, bf_b3: PIntegerArray;
+  bf_r4, bf_g4, bf_b4: PIntegerArray;
+  dc_source32_1: PLongWordArray;
+  dc_source32_2: PLongWordArray;
+  dc_source32_3: PLongWordArray;
+  dc_source32_4: PLongWordArray;
+
+  xx: integer;
+  i: integer;
+
+  min_yh, max_yl: integer;
+  max_yh, min_yl: integer;
+begin
+  w := @walls.walls[0];
+  min_yh := w.dc_yh;
+  max_yl := w.dc_yl;
+  max_yh := w.dc_yh;
+  min_yl := w.dc_yl;
+
+  for i := 1 to 3 do
+  begin
+    inc(w);
+    if w.dc_yh < min_yh then
+      min_yh := w.dc_yh;
+    if w.dc_yl > max_yl then
+      max_yl := w.dc_yl;
+    if w.dc_yh > max_yh then
+      max_yh := w.dc_yh;
+    if w.dc_yl < min_yl then
+      min_yl := w.dc_yl;
+  end;
+
+  if max_yl < 0 then
+    max_yl := 0
+  else if max_yl >= SCREENHEIGHT then
+    max_yl := SCREENHEIGHT - 1;
+  if min_yl < 0 then
+    min_yl := 0
+  else if min_yl >= SCREENHEIGHT then
+    min_yl := SCREENHEIGHT - 1;
+  if min_yh < 0 then
+    min_yh := 0
+  else if min_yh >= SCREENHEIGHT then
+    min_yh := SCREENHEIGHT - 1;
+  if max_yh < 0 then
+    max_yh := 0
+  else if max_yh >= SCREENHEIGHT then
+    max_yh := SCREENHEIGHT - 1;
+
+  w := @walls.walls[0];
+  destl := @((ylookupl[min_yl]^)[columnofs[w.dc_x]]);
+
+  xx := min_yl - centery;
+
+  fracstep1 := w.dc_iscale;
+  frac1 := w.dc_texturemid + xx * fracstep1;
+  dc_source32_1 := w.dc_source32;
+  if w.dc_texturefactorbits > 0 then
+  begin
+    fracstep1 := fracstep1 * (1 shl w.dc_texturefactorbits);
+    frac1 := frac1 * (1 shl w.dc_texturefactorbits);
+    and_mask := 128 * (1 shl w.dc_texturefactorbits) - 1;
+  end
+  else
+    and_mask := 127;
+  lfactor1 := w.dc_lightlevel;
+  if lfactor1 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
+    else
+  {$ENDIF}
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+  inc(w);
+
+  fracstep2 := w.dc_iscale;
+  frac2 := w.dc_texturemid + xx * fracstep2;
+  dc_source32_2 := w.dc_source32;
+  if w.dc_texturefactorbits > 0 then
+  begin
+    fracstep2 := fracstep2 * (1 shl w.dc_texturefactorbits);
+    frac2 := frac2 * (1 shl w.dc_texturefactorbits);
+  end;
+  lfactor2 := w.dc_lightlevel;
+  if lfactor2 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
+    else
+  {$ENDIF}
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+  inc(w);
+
+  fracstep3 := w.dc_iscale;
+  frac3 := w.dc_texturemid + xx * fracstep3;
+  dc_source32_3 := w.dc_source32;
+  if w.dc_texturefactorbits > 0 then
+  begin
+    fracstep3 := fracstep3 * (1 shl w.dc_texturefactorbits);
+    frac3 := frac3 * (1 shl w.dc_texturefactorbits);
+  end;
+  lfactor3 := w.dc_lightlevel;
+  if lfactor3 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
+    else
+  {$ENDIF}
+    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
+  inc(w);
+
+  fracstep4 := w.dc_iscale;
+  frac4 := w.dc_texturemid + xx * fracstep3;
+  dc_source32_4 := w.dc_source32;
+  if w.dc_texturefactorbits > 0 then
+  begin
+    fracstep4 := fracstep4 * (1 shl w.dc_texturefactorbits);
+    frac4 := frac4 * (1 shl w.dc_texturefactorbits);
+  end;
+  lfactor4 := w.dc_lightlevel;
+  if lfactor4 >= 0 then
+  {$IFDEF HEXEN}
+    if LevelUseFog then
+      R_GetFogPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4)
+    else
+  {$ENDIF}
+    R_GetPrecalc32Tables(lfactor3, bf_r4, bf_g4, bf_b4);
+
+  swidth := SCREENWIDTH32PITCH - 3 * SizeOf(LongWord);
+
+  ypos := min_yl;
+  if lfactor1 >= 0 then
+  begin
+    if max_yl < min_yh then
+    begin
+      while ypos < max_yl do
+      begin
+        w := @walls.walls[0];
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          destl^ := bf_r1[c and $FF] + bf_g1[(c shr 8) and $FF] + bf_b1[(c shr 16) and $FF];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          destl^ := bf_r2[c and $FF] + bf_g2[(c shr 8) and $FF] + bf_b2[(c shr 16) and $FF];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          destl^ := bf_r3[c and $FF] + bf_g3[(c shr 8) and $FF] + bf_b3[(c shr 16) and $FF];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          destl^ := bf_r4[c and $FF] + bf_g4[(c shr 8) and $FF] + bf_b4[(c shr 16) and $FF];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+
+      while ypos <= min_yh do
+      begin
+        spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+        c := dc_source32_1[spot];
+        destl^ := bf_r1[c and $FF] + bf_g1[(c shr 8) and $FF] + bf_b1[(c shr 16) and $FF];
+        inc(frac1, fracstep1);
+        inc(destl);
+
+        spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+        c := dc_source32_2[spot];
+        destl^ := bf_r2[c and $FF] + bf_g2[(c shr 8) and $FF] + bf_b2[(c shr 16) and $FF];
+        inc(frac2, fracstep2);
+        inc(destl);
+
+        spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+        c := dc_source32_3[spot];
+        destl^ := bf_r3[c and $FF] + bf_g3[(c shr 8) and $FF] + bf_b3[(c shr 16) and $FF];
+        inc(frac3, fracstep3);
+        inc(destl);
+
+        spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+        c := dc_source32_4[spot];
+        destl^ := bf_r4[c and $FF] + bf_g4[(c shr 8) and $FF] + bf_b4[(c shr 16) and $FF];
+        inc(frac4, fracstep4);
+
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+
+      while ypos <= max_yh do
+      begin
+        w := @walls.walls[0];
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          destl^ := bf_r1[c and $FF] + bf_g1[(c shr 8) and $FF] + bf_b1[(c shr 16) and $FF];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          destl^ := bf_r2[c and $FF] + bf_g2[(c shr 8) and $FF] + bf_b2[(c shr 16) and $FF];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          destl^ := bf_r3[c and $FF] + bf_g3[(c shr 8) and $FF] + bf_b3[(c shr 16) and $FF];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          destl^ := bf_r4[c and $FF] + bf_g4[(c shr 8) and $FF] + bf_b4[(c shr 16) and $FF];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+    end
+    else
+    begin
+      while ypos < max_yl do
+      begin
+        w := @walls.walls[0];
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          destl^ := bf_r1[c and $FF] + bf_g1[(c shr 8) and $FF] + bf_b1[(c shr 16) and $FF];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          destl^ := bf_r2[c and $FF] + bf_g2[(c shr 8) and $FF] + bf_b2[(c shr 16) and $FF];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          destl^ := bf_r3[c and $FF] + bf_g3[(c shr 8) and $FF] + bf_b3[(c shr 16) and $FF];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          destl^ := bf_r4[c and $FF] + bf_g4[(c shr 8) and $FF] + bf_b4[(c shr 16) and $FF];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+
+      while ypos <= max_yh do
+      begin
+        w := @walls.walls[0];
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          destl^ := bf_r1[c and $FF] + bf_g1[(c shr 8) and $FF] + bf_b1[(c shr 16) and $FF];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          destl^ := bf_r2[c and $FF] + bf_g2[(c shr 8) and $FF] + bf_b2[(c shr 16) and $FF];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          destl^ := bf_r3[c and $FF] + bf_g3[(c shr 8) and $FF] + bf_b3[(c shr 16) and $FF];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          destl^ := bf_r4[c and $FF] + bf_g4[(c shr 8) and $FF] + bf_b4[(c shr 16) and $FF];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+    end
+  end
+  else
+  begin
+    if max_yl < min_yh then
+    begin
+      while ypos < max_yl do
+      begin
+        w := @walls.walls[0];
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+
+      while ypos <= min_yh do
+      begin
+        spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+        c := dc_source32_1[spot];
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+        destl^ := precal32_ic[r1 + g1 + b1];
+        inc(frac1, fracstep1);
+        inc(destl);
+
+        spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+        c := dc_source32_2[spot];
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+        destl^ := precal32_ic[r1 + g1 + b1];
+        inc(frac2, fracstep2);
+        inc(destl);
+
+        spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+        c := dc_source32_3[spot];
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+        destl^ := precal32_ic[r1 + g1 + b1];
+        inc(frac3, fracstep3);
+        inc(destl);
+
+        spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+        c := dc_source32_4[spot];
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+        destl^ := precal32_ic[r1 + g1 + b1];
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+
+      while ypos <= max_yh do
+      begin
+        w := @walls.walls[0];
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end
+    end
+    else
+    begin
+      while ypos < max_yl do
+      begin
+        w := @walls.walls[0];
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+
+      while ypos <= max_yh do
+      begin
+        w := @walls.walls[0];
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac1) shr FRACBITS) and and_mask;
+          c := dc_source32_1[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac1, fracstep1);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac2) shr FRACBITS) and and_mask;
+          c := dc_source32_2[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac2, fracstep2);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac3) shr FRACBITS) and and_mask;
+          c := dc_source32_3[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac3, fracstep3);
+        inc(destl);
+        inc(w);
+
+        if (ypos >= w.dc_yl) and (ypos <= w.dc_yh) then
+        begin
+          spot := (LongWord(frac4) shr FRACBITS) and and_mask;
+          c := dc_source32_4[spot];
+          r1 := c;
+          g1 := c shr 8;
+          b1 := c shr 16;
+          destl^ := precal32_ic[r1 + g1 + b1];
+        end;
+        inc(frac4, fracstep4);
+        destl := PLongWord(integer(destl) + swidth);
+        inc(ypos);
+      end;
+    end;
+  end;
+end;
+
 var
   wallcache: Pbatchwallrenderinfo32_tArray;
   wallcachesize: integer;
@@ -1268,6 +1899,7 @@ var
   i: integer;
   w: Pwallrenderinfo32_t;
   walls: Pbatchwallrenderinfo32_t;
+  start_i: integer;
 begin
   walls := @wallcache[idx^];
   if walls.numwalls = 0 then
@@ -1285,8 +1917,16 @@ begin
   end
   else
   begin
-    w := @walls.walls[0];
-    for i := 0 to walls.numwalls - 1 do
+    if walls.numwalls >= 4 then
+    begin
+      R_DrawBatchColumnHi4(walls);
+      start_i := 4;
+    end
+    else
+      start_i := 0;
+
+    w := @walls.walls[start_i];
+    for i := start_i to walls.numwalls - 1 do
     begin
       dc_source32 := w.dc_source32;
       dc_texturefactorbits := w.dc_texturefactorbits;
@@ -1467,8 +2107,6 @@ begin
 end;
 
 procedure R_WaitWallsCache32;
-{var
-  A: array[0..MAXWALLTHREADS32 - 1] of integer;}
 
   function _alldone: boolean;
   var
@@ -1478,22 +2116,13 @@ procedure R_WaitWallsCache32;
     for i := 0 to numwallthreads32 - 1 do
     begin
       result := result and wallthreads32[i].CheckJobDone;
-{      if not wallthreads32[i].CheckJobDone then inc(A[i]);}
     end;
   end;
 
-{var
-  i: integer;
-  s: string;}
 begin
-{  ZeroMemory(@A, SizeOf(A));}
   while not _alldone do
     I_Sleep(0);
-{  s := 'CYCLES PER THREAD ->';
-  for i := 0 to numwallthreads32 - 1 do
-    s := s + 'THREAD #' + itoa(i + 1) + '=' + itoa(A[i]) + ' ';
-  printf('%s'#13#10, [s])}
 end;
 
-
 end.
+

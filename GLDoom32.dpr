@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -209,7 +209,7 @@ uses
   r_defs in 'Doom\r_defs.pas',
   r_draw in 'Doom\r_draw.pas',
   r_hires in 'Base\r_hires.pas',
-  r_intrpl in 'Doom\r_intrpl.pas',
+  r_intrpl in 'Base\r_intrpl.pas',
   r_lights in 'Base\r_lights.pas',
   r_main in 'Doom\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
@@ -235,12 +235,10 @@ uses
   dglOpenGL in 'OPENGL\dglOpenGL.pas',
   p_genlin in 'Doom\p_genlin.pas',
   p_scroll in 'Doom\p_scroll.pas',
-  gl_data in 'OPENGL\gl_data.pas',
   gl_dlights in 'OPENGL\gl_dlights.pas',
   sc_tokens in 'Base\sc_tokens.pas',
   i_exec in 'Base\i_exec.pas',
   i_tmp in 'Base\i_tmp.pas',
-  gl_bsp in 'OPENGL\gl_bsp.pas',
   gl_frustum in 'OPENGL\gl_frustum.pas',
   i_startup in 'Base\i_startup.pas' {StartUpConsoleForm},
   r_segs in 'Doom\r_segs.pas',
@@ -258,13 +256,19 @@ uses
   d_check in 'Doom\d_check.pas',
   r_aspect in 'Base\r_aspect.pas',
   i_threads in 'Base\i_threads.pas',
-  r_colormaps in 'Doom\r_colormaps.pas',
+  r_colormaps in 'Base\r_colormaps.pas',
   r_diher in 'Doom\r_diher.pas',
   z_memmgr in 'Base\z_memmgr.pas',
   gl_voxels in 'OPENGL\gl_voxels.pas',
   vx_base in 'Base\vx_base.pas',
   info_fnd in 'Base\info_fnd.pas',
-  m_crc32 in 'Base\m_crc32.pas';
+  m_crc32 in 'Base\m_crc32.pas',
+  mt_utils in 'Base\mt_utils.pas',
+  p_params in 'Base\p_params.pas',
+  gl_wipe in 'OPENGL\gl_wipe.pas',
+  nd_main in 'Base\nd_main.pas',
+  am_textured in 'Base\am_textured.pas',
+  p_udmf in 'Base\p_udmf.pas';
 
 var
   Saved8087CW: Word;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -116,6 +116,7 @@ uses
   d_think,
   g_game,
   gl_misc,
+  mt_utils,
   info,
   p_mobj,
   p_mobj_h,
@@ -339,7 +340,7 @@ begin
   if cm < Ord(CR_LIMIT) then
     trans := @colorregions[cm]
   else
-    trans := @translationtables[256 * (cm - Ord(CR_LIMIT)) - 1];
+    trans := @translationtables[256 * (cm - Ord(CR_LIMIT) - 1)];
   if xs + originx < 0 then
     xs := -originx;
   if xe + originx > gltexture.realtexwidth then
@@ -987,7 +988,7 @@ begin
   if (not (gltexture.mipmap and use_mipmapping)) and gl_paletted_texture then
     memset(buffer, transparent_pal_index, gltexture.buffer_size)
   else
-    ZeroMemory(buffer, gltexture.buffer_size);
+    MT_ZeroMemory(buffer, gltexture.buffer_size);
 
   // JVAL: This fixes originx <> 0 or originy <> 0 for sky textures.
   skyhack := false;
@@ -1122,7 +1123,7 @@ begin
   if gl_paletted_texture then
     memset(buffer, transparent_pal_index, gltexture.buffer_size)
   else
-    ZeroMemory(buffer, gltexture.buffer_size);
+    MT_ZeroMemory(buffer, gltexture.buffer_size);
   gld_AddPatchToTexture(gltexture, buffer, patch, 0, 0, cm, gl_paletted_texture); // JVAL SOS
   if gltexture.glTexID[cm] = 0 then
     glGenTextures(1, @gltexture.glTexID[cm]);
@@ -1234,7 +1235,7 @@ begin
   if (not (gltexture.mipmap and use_mipmapping)) and gl_paletted_texture then
     memset(buffer, transparent_pal_index, gltexture.buffer_size)
   else
-    ZeroMemory(buffer, gltexture.buffer_size);
+    MT_ZeroMemory(buffer, gltexture.buffer_size);
   gld_AddFlatToTexture(gltexture, buffer, flat, not (gltexture.mipmap and use_mipmapping) and gl_paletted_texture);
   if gltexture.glTexID[Ord(CR_DEFAULT)] = 0 then
     glGenTextures(1, @gltexture.glTexID[Ord(CR_DEFAULT)]);

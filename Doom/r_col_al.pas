@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -43,7 +43,11 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
-  r_draw, r_main, r_column, r_hires, r_trans8,
+  r_draw,
+  r_main,
+  r_column,
+  r_hires,
+  r_trans8,
   v_video;
 
 procedure R_DrawColumnAlphaLowest;
@@ -268,14 +272,26 @@ begin
   // This is as fast as it gets.
   swidth := SCREENWIDTH32PITCH;
   cfrac2 := dc_alpha;
-
+  factor1 := FRACUNIT - 1 - cfrac2;
 
   fraclimit := frac + fracstep * count;
   while frac < fraclimit do
   begin
     c1 := destl^;
     c2 := dc_colormap32[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
-    {$I R_ColorAverage.inc}
+
+    // Color averaging
+    r1 := c1;
+    g1 := c1 shr 8;
+    b1 := c1 shr 16;
+    r2 := c2;
+    g2 := c2 shr 8;
+    b2 := c2 shr 16;
+
+    r := ((r2 * cfrac2) + (r1 * factor1)) shr FRACBITS;
+    g := ((g2 * cfrac2) + (g1 * factor1)) shr FRACBITS;
+    b := ((b2 * cfrac2) + (b1 * factor1)) and $FF0000;
+
     destl^ := r + g shl 8 + b;
 
     destl := PLongWord(integer(destl) + swidth);

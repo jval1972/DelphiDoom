@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,8 +45,12 @@ type
     consistancy: smallint; // checks for net game
     chatchar: byte;
     buttons: byte;
+{$IFDEF STRIFE}
+    buttons2: byte;
+    inventory: integer;
+{$ENDIF}
     commands: byte; // JVAL for special commands
-{$IFNDEF DOOM}
+{$IFDEF HERETIC_OR_HEXEN}
     lookfly: byte;   // look up/down/centering/fly
     arti: byte;
 {$ENDIF}

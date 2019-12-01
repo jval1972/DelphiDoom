@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -162,6 +162,10 @@ var
   usemmx: boolean = true;
   usemultithread: boolean;
   criticalcpupriority: boolean;
+
+function I_ScreenWidth: integer;
+
+function I_ScreenHeight: integer;
 
 implementation
 
@@ -834,6 +838,16 @@ begin
   shellexecutefunc := GetProcAddress(inst, 'ShellExecuteA');
   shellexecutefunc(0, 'open', PChar(cmd), nil, nil, SW_SHOWNORMAL);
   FreeLibrary(inst);
+end;
+
+function I_ScreenWidth: integer;
+begin
+  result := GetSystemMetrics(SM_CXSCREEN);
+end;
+
+function I_ScreenHeight: integer;
+begin
+  result := GetSystemMetrics(SM_CYSCREEN);
 end;
 
 initialization

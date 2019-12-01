@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -112,6 +112,9 @@ uses
   r_ccache,
   r_ripple,
   r_fake3d,
+{$ENDIF}
+{$IFDEF DEBUG}
+  r_debug,
 {$ENDIF}
   z_zone,
   w_wad;
@@ -304,6 +307,12 @@ begin
     floorclip[viewwidth - 1] := viewheight;
     ceilingclip[viewwidth - 1] := -1;
   end;
+  {$IFDEF DEBUG}
+  R_CheckClipTable(@floorclip, 0, viewwidth - 1);
+  {$ENDIF}
+  {$IFDEF DEBUG}
+  R_CheckClipTable(@ceilingclip, 0, viewwidth - 1);
+  {$ENDIF}
 {$ENDIF}
 
   lastvisplane := 0;
@@ -438,6 +447,9 @@ begin
   begin
     pl.minx := unionl;
     pl.maxx := unionh;
+    {$IFDEF DEBUG}
+    R_DebugCheckVisPlane(pl);
+    {$ENDIF}
 
     // use the same one
     result := pl;
@@ -522,6 +534,9 @@ begin
   for i := 0 to lastvisplane - 1 do
   begin
     pl := @visplanes[i];
+    {$IFDEF DEBUG}
+    R_DebugCheckVisPlane(pl);
+    {$ENDIF}
     if pl.minx > pl.maxx then
       continue;
 

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -98,7 +98,9 @@ function R_PointOnSegSide(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
 
 function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
 
+{$IFDEF OPENGL}
 function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
+{$ENDIF}
 
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 
@@ -573,6 +575,7 @@ begin
   result := 0;
 end;
 
+{$IFDEF OPENGL}
 function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
 var
   xx, yy: fixed_t;
@@ -581,6 +584,7 @@ begin
   yy := y - viewy;
   result := Round(arctan2(yy, xx) * (ANG180 / D_PI));
 end;
+{$ENDIF}
 
 function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;
 begin
@@ -1127,7 +1131,10 @@ begin
   end
   else
   begin
-    scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
+    if setblocks = 10 then
+      scaledviewwidth := SCREENWIDTH
+    else
+      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
     if setblocks = 10 then
     {$IFDEF OPENGL}
       viewheight := trunc(ST_Y * SCREENHEIGHT / 200)
@@ -1175,7 +1182,10 @@ begin
   pspriteyscale := Round((((SCREENHEIGHT * viewwidth) / SCREENWIDTH) * FRACUNIT) / 200);
   pspriteiscale := FixedDiv(FRACUNIT, pspritescale);
 
-  pspritescalep := Round((centerx / R_GetRelativeAspect * FRACUNIT) / 160);
+  if excludewidescreenplayersprites then
+    pspritescalep := Round((centerx * FRACUNIT) / 160)
+  else
+    pspritescalep := Round((centerx / R_GetRelativeAspect * FRACUNIT) / 160);
   pspriteiscalep := FixedDiv(FRACUNIT, pspritescalep);
 
   // thing clipping
@@ -1766,7 +1776,7 @@ begin
   R_ClearSprites;
 
   // check for new console commands.
-  NetUpdate;
+//  NetUpdate;
 
   R_ClearWallsCache8;
 
@@ -1782,7 +1792,7 @@ begin
   R_DrawMasked;
 
   // Check for new console commands.
-  NetUpdate;
+//  NetUpdate;
 
   R_Execute3DTransform;
 
@@ -1807,7 +1817,7 @@ begin
   R_ClearSprites;
 
   // check for new console commands.
-  NetUpdate;
+//  NetUpdate;
 
   R_ClearWallsCache32;
 
@@ -1823,7 +1833,7 @@ begin
   R_DrawMasked;
 
   // Check for new console commands.
-  NetUpdate;
+//  NetUpdate;
 
   R_Execute3DTransform;
 
@@ -1887,7 +1897,7 @@ begin
 {$ENDIF}
 
   // check for new console commands.
-  NetUpdate;
+//  NetUpdate;
 
 {$IFDEF OPENGL}
   gld_ClipperAddViewRange;
@@ -1897,12 +1907,12 @@ begin
   R_RenderBSPNode(numnodes - 1);
 
   // Check for new console commands.
-  NetUpdate;
+//  NetUpdate;
 
 {$IFDEF OPENGL}
   gld_DrawScene(player);
 
-  NetUpdate;
+//  NetUpdate;
 
   gld_EndDrawScene;
 
@@ -1910,7 +1920,7 @@ begin
   R_DrawPlanes;
 
   // Check for new console commands.
-  NetUpdate;
+//  NetUpdate;
 
   R_DrawMasked;
 

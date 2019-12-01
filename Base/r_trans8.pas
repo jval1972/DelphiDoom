@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -131,7 +131,7 @@ function R_GetTransparency8table(const factor: fixed_t = FRACUNIT div 2): Ptrans
 var
   idx: integer;
 begin
-  idx := (factor + (FRACUNIT div (NUMTRANS8TABLES * 2)) * NUMTRANS8TABLES) div FRACUNIT;
+  idx := (factor {+ (FRACUNIT div (NUMTRANS8TABLES * 2)) }* NUMTRANS8TABLES) div FRACUNIT;
   if idx < 0 then
     idx := 0
   else if idx > NUMTRANS8TABLES then

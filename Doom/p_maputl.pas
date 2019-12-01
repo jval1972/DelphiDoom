@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -38,8 +38,8 @@ interface
 
 uses
   m_bbox,
-  
-  p_local, p_mobj_h,
+  p_local,
+  p_mobj_h,
   m_fixed,
   r_defs;
 
@@ -61,8 +61,7 @@ function P_BlockLinesIterator(x, y: integer; func: ltraverser_t): boolean;
 
 function P_BlockThingsIterator(x, y: integer; func: ttraverser_t): boolean;
 
-function P_PathTraverse(x1, y1, x2, y2: fixed_t; flags: integer;
-  trav: traverser_t): boolean;
+function P_PathTraverse(x1, y1, x2, y2: fixed_t; flags: integer; trav: traverser_t): boolean;
 
 var
   opentop: fixed_t;
@@ -83,6 +82,12 @@ uses
   p_map,
   r_main,
   z_zone;
+
+
+
+
+
+
 
 //
 // P_AproxDistance
@@ -486,6 +491,11 @@ begin
       thing.bpos := -1;
       thing.bidx := -1;
     end;
+  end
+  else
+  begin
+    thing.bpos := -1;
+    thing.bidx := -1;
   end;
 end;
 

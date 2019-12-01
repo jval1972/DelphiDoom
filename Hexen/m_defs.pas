@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -136,7 +136,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 151;
+  NUMDEFAULTS = 153;
 
   defaults: array[0..NUMDEFAULTS - 1] of default_t = (
     (name: 'Display';
@@ -151,7 +151,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENWIDTH{$ELSE}WINDOWWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 800;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -159,7 +159,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENHEIGHT{$ELSE}WINDOWHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 600;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -167,7 +167,7 @@ const
      location: @{$IFDEF OPENGL}SCREENWIDTH{$ELSE}gl_SCREENWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 800;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -175,7 +175,7 @@ const
      location: @{$IFDEF OPENGL}SCREENHEIGHT{$ELSE}gl_SCREENHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 600;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -189,7 +189,7 @@ const
 
     (name: 'interpolate';
      location: @interpolate;
-     setable: DFS_ALWAYS;
+     setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: 1;
      defaultbvalue: true;
@@ -389,6 +389,14 @@ const
 
     (name: 'widescreensupport';
      location: @widescreensupport;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'excludewidescreenplayersprites';
+     location: @excludewidescreenplayersprites;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
@@ -619,7 +627,15 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
-     // Compatibility
+    (name: 'texturedautomap';
+     location: @texturedautomap;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+     // Textures
     (name: 'Textures';
      location: nil;
      setable: DFS_NEVER;

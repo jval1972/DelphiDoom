@@ -100,22 +100,18 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\
 UsePackages=0
 [Parameters]
-RunParams=-vga -nofullscreen -iwad doom2.wad -pakfile voxeltest.pk3 voxel_map.wad
+RunParams=-cgax2 -iwad doomu.wad
 HostApplication=
 Launcher=
 UseLauncher=0
 DebugCWD=
-[Language]
-ActiveLang=
-ProjectLang=
-RootDir=
 [Version Info]
 IncludeVerInfo=1
 AutoIncBuild=0
 MajorVer=1
 MinorVer=1
-Release=4
-Build=581
+Release=5
+Build=600
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +122,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=1.1.4.581
+FileVersion=1.1.5.600
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2013, Jim Valavanis
 LegalTrademarks=
@@ -134,6 +130,8 @@ OriginalFilename=Doom32.exe
 ProductName=Doom 32 bit engine
 ProductVersion=1.0
 Comments=http://sourceforge.net/projects/delphidoom/
+[Excluded Packages]
+c:\program files (x86)\borland\delphi7\Projects\Bpl\Package1.bpl=(untitled)
 [HistoryLists\hlDebugSourcePath]
 Count=2
 Item0=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Doom\;G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Base\

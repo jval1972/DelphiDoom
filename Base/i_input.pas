@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -109,7 +109,7 @@ begin
     VK_NUMPAD1, VK_END: result := KEY_END;
     VK_DELETE: result := KEY_DELETE;
   else
-      if (keycode >= Ord('A')) and (keycode <= Ord('Z')) then
+    if (keycode >= Ord('A')) and (keycode <= Ord('Z')) then
       result := Ord(tolower(Chr(keycode)))
     else if keycode < 128 then
       result := keycode
@@ -130,7 +130,7 @@ begin
 end;
 
 const
-  I_IGRORETICKS = 15; // ~ half second
+  I_IGNORETICKS = 15; // ~ half second
 
 var
   ignoretics: integer;
@@ -523,7 +523,7 @@ end;
 procedure I_SynchronizeInput(active: boolean);
 begin
   if active then
-    ignoretics := I_IGRORETICKS; // Wait ~ half second when get the focus again
+    ignoretics := I_IGNORETICKS; // Wait ~ half second when get the focus again
   if usedirectinput and (g_pdidKeyboard <> nil) then
   begin
     if active then

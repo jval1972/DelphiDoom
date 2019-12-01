@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -155,6 +155,8 @@ function W_InitMultipleFiles(const filenames: TDStringList): integer;
 procedure W_ShutDown;
 
 procedure W_Reload;
+
+procedure W_RuntimeLoad(fname: string);
 
 function W_NumLumps: integer;
 
@@ -552,10 +554,11 @@ begin
   if not fexists(reloadname) then
     I_Error('W_Reload(): File %s does not exist' + #13#10, [reloadname]);
 
+  handle := nil;
   try
     handle := TCachedFile.Create(reloadname, fOpenReadOnly);
   except
-    handle := nil;
+    handle.Free;
     I_Error('W_Reload(): couldn''t open %s', [reloadname]);
   end;
 
@@ -572,9 +575,9 @@ begin
 
   for i := reloadlump to reloadlump + lumpcount - 1 do
   begin
-    lump_p := @lumpinfo[reloadlump];
+    lump_p := @lumpinfo[i];
     if lumpcache[i] <> nil then
-      Z_Free(lumpcache[i]);
+      Z_Free(lumpcache[i]);                   
 
     lump_p.position := fileinfo[i - reloadlump].filepos;
     lump_p.size := fileinfo[i - reloadlump].size;
@@ -583,6 +586,129 @@ begin
   handle.Free;
 
   W_InitLumpHash;
+end;
+
+var
+  rtllist: TDStringList = nil; // jval: Runtime wads
+
+type
+  rtlinfo_t = class
+    filename: string;
+    startlump: integer;
+    numlumps: integer;
+    stream: TCachedFile;
+    constructor Create(const aname: string); virtual;
+    destructor Destroy; override;
+  end;
+
+constructor rtlinfo_t.Create(const aname: string);
+begin
+  filename := aname;
+  startlump := -1;
+  numlumps := -1;
+  stream := nil;
+end;
+
+destructor rtlinfo_t.Destroy;
+begin
+  stream.Free;
+  inherited;
+end;
+
+procedure W_RuntimeLoad(fname: string);
+var
+  header: wadinfo_t;
+  lumpcount: integer;
+  lump_p: Plumpinfo_t;
+  i: integer;
+  handle: TCachedFile;
+  length: integer;
+  fileinfo: Pfilelump_tArray;
+  idx: integer;
+  rtlinf: rtlinfo_t;
+  start, finish: integer;
+begin
+  printf('W_RuntimeLoad(): adding %s' + #13#10, [fname]);
+
+  fname := strupper(fname);
+
+  if not fexists(fname) then
+  begin
+    I_Warning('W_RuntimeLoad(): File %s does not exist'#13#10, [fname]);
+    exit;
+  end;
+
+  if rtllist = nil then
+    rtllist := TDStringList.Create;
+
+  handle := nil;
+  try
+    handle := TCachedFile.Create(fname, fOpenReadOnly);
+  except
+    handle.Free;
+    I_Warning('W_RuntimeLoad(): couldn''t open %s'#13#10, [fname]);
+    exit;
+  end;
+
+  idx := rtllist.IndexOf(fname);
+  if idx < 0 then
+  begin
+    idx := rtllist.Add(fname);
+    rtlinf := rtlinfo_t.Create(fname);
+    rtllist.Objects[idx] := rtlinf;
+  end
+  else
+    rtlinf := rtllist.Objects[idx] as rtlinfo_t;
+
+  handle.OnBeginBusy := I_BeginDiskBusy;
+
+  handle.Read(header, SizeOf(header));
+  lumpcount := header.numlumps;
+  length := lumpcount * SizeOf(filelump_t);
+  fileinfo := malloc(length);
+  handle.Seek(header.infotableofs, sFromBeginning);
+  handle.Read(fileinfo^, length);
+
+  if (rtlinf.startlump >= 0) and (rtlinf.numlumps = lumpcount) then
+  begin
+    start := rtlinf.startlump;
+    finish := start + lumpcount - 1;
+    for i := start to finish do
+      lumpinfo[i].handle.Free;
+  end
+  else
+  begin
+    // Resize lumpinfo
+    realloc(pointer(lumpinfo), numlumps * SizeOf(lumpinfo_t), (numlumps + lumpcount) * SizeOf(lumpinfo_t));
+    realloc(pointer(lumpcache), numlumps * SizeOf(pointer), (numlumps + lumpcount) * SizeOf(pointer));
+
+    start := numlumps;
+    finish := start + lumpcount - 1;
+    inc(numlumps, lumpcount);
+
+    rtlinf.startlump := start;
+    rtlinf.numlumps := lumpcount;
+  end;
+  rtlinf.stream.Free;
+  rtlinf.stream := handle;
+
+
+  // Fill in lumpinfo
+
+  for i := start to finish do
+  begin
+    lump_p := @lumpinfo[i];
+    lump_p.handle := handle;
+    if lumpcache[i] <> nil then
+      Z_Free(lumpcache[i]);
+
+    lump_p.position := fileinfo[i - start].filepos;
+    lump_p.size := fileinfo[i - start].size;
+    lump_p.name := fileinfo[i - start].name;
+  end;
+
+  W_InitLumpHash;
+
 end;
 
 //
@@ -604,6 +730,8 @@ var
   filename: string;
   i: integer;
 begin
+  if rtllist <> nil then
+    rtllist := TDStringList.Create;
   // open all the files, load headers, and count lumps
   numlumps := 0;
 
@@ -633,10 +761,18 @@ begin
 end;
 
 procedure W_ShutDown;
+var
+  i: integer;
 begin
   memfree(pointer(lumpcache), numlumps * SizeOf(pointer));
   memfree(pointer(lumpinfo), numlumps * SizeOf(lumpinfo_t));
   memfree(pointer(lumphash), SizeOf(lumphash_tArray));
+  if rtllist <> nil then
+  begin
+    for i := 0 to rtllist.Count - 1 do
+      rtllist.Objects[i].Free;
+    rtllist.Free;
+  end;
 end;
 
 //
@@ -708,7 +844,7 @@ begin
       exit;
     end;
 
-  // JVAL: If hash position is -1 then the lump does don exist!
+  // JVAL: If hash position is -1 then the lump does not exist!
   result := lumphash[hash].position;
   if result = -1 then
     exit;

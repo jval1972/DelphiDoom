@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -200,10 +200,49 @@ end;
 //
 // DEMO RECORDING
 //
+
+// Increase the size of the demo buffer to allow unlimited demos
+procedure G_IncreaseDemoBuffer;
+var
+  current_length: integer;
+  new_demobuffer: PByteArray;
+  new_demop: PByteArray;
+  new_length: integer;
+begin
+  // Find the current size
+
+  current_length := integer(demoend) - integer(demobuffer);
+
+  // Generate a new buffer twice the size
+  new_length := current_length + SAVEGAMESIZE;
+
+  new_demobuffer := Z_Malloc2(new_length, PU_STATIC, nil);
+  if new_demobuffer = nil then
+    G_CheckDemoStatus;
+
+  new_demop := @new_demobuffer[integer(demo_p) - integer(demobuffer)];
+
+  // Copy over the old data
+
+  memcpy(new_demobuffer, demobuffer, current_length);
+
+  // Free the old buffer and point the demo pointers at the new buffer.
+
+  Z_Free(demobuffer);
+
+  demobuffer := new_demobuffer;
+  demo_p := new_demop;
+  demoend := @demobuffer[new_length];
+end;
+
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t);
+var
+  demo_start: PByteArray;
 begin
   if gamekeydown[Ord('q')] then // press q to end demo recording
     G_CheckDemoStatus;
+
+  demo_start := demo_p;
 
   demo_p[0] := Ord(cmd.forwardmove);
   demo_p := @demo_p[1];
@@ -228,12 +267,12 @@ begin
 
   demo_p[0] := cmd.jump;
 
-  demo_p := PByteArray(integer(demo_p) - 8);
+  demo_p := demo_start;
 
   if integer(demo_p) > integer(demoend) - 16 then
   begin
     // no more space
-    G_CheckDemoStatus;
+    G_IncreaseDemoBuffer;
     exit;
   end;
   G_ReadDemoTiccmd(cmd);  // make SURE it is exactly the same
@@ -257,7 +296,7 @@ begin
   if (i <> 0) and (i < myargc - 1) then
     maxsize := atoi(myargv[i + 1]) * 1024
   else
-    maxsize := $80000; // JVAL Originally was $20000
+    maxsize := SAVEGAMESIZE; 
 
   repeat
     demobuffer := Z_Malloc2(maxsize, PU_STATIC, nil);

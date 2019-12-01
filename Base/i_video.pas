@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -591,17 +591,28 @@ begin
       end;
     end
     else
+    begin
       I_DisableAltTab;
+      SetWindowPos(hMainWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
+    end;
   end
   else
   begin
     if I_AdjustWindowMode then
       V_ReInit;
     I_RestoreWindowPos;
+
+    SetWindowPos(hMainWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
+
     hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
     if hres <> DD_OK then
       I_ErrorInitGraphics('SetCooperativeLevel');
   end;
+
+  ShowWindow(hMainWnd, SW_SHOWNORMAL);
+  UpdateWindow(hMainWnd);
+  SetForegroundWindow(hMainWnd);
+  SetFocus(hMainWnd);
 
   WINDOWWIDTH := SCREENWIDTH;
   WINDOWHEIGHT := SCREENHEIGHT;
@@ -697,6 +708,7 @@ begin
       I_ChangeFullScreenError(false);
       exit;
     end;
+    SetWindowPos(hMainWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
   end
   else
   begin
@@ -706,6 +718,7 @@ begin
       I_ChangeFullScreenError(true);
       exit;
     end;
+    SetWindowPos(hMainWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE or SWP_NOSIZE);
   end;
 
   WINDOWWIDTH := SCREENWIDTH;

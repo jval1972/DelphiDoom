@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,6 +45,7 @@ uses
   m_cheat,
   i_system,
   xn_strings,
+  tables,
   m_fixed;
 
 //-----------------------------------------------------------------------------
@@ -104,6 +105,7 @@ const
   AM_FOLLOWKEY = 'f';
   AM_GRIDKEY = 'g';
   AM_ROTATEKEY = 'r';
+  AM_TEXTUREDAUTOMAP = 't';
   AM_MARKKEY = 'm';
   AM_CLEARMARKKEY = 'c';
 
@@ -174,7 +176,7 @@ type
 //   starting from the middle.
 //
 const
-  NUMPLYRLINES = 7;
+  NUMPLYRLINES = 10;
 
 var
   player_arrow: array[0..NUMPLYRLINES - 1] of mline_t;
@@ -298,6 +300,8 @@ procedure AM_Drawer;
 
 procedure AM_Init;
 
+procedure AM_ShutDown;
+
 // Called to force the automap to quit
 // if the level is completed while it is up.
 procedure AM_Stop;
@@ -305,24 +309,31 @@ procedure AM_Stop;
 var
   allowautomapoverlay: boolean;
   allowautomaprotate: boolean;
+  texturedautomap: boolean;
 
 var  
   KeyPoints: array[0..Ord(NUMKEYCARDS)] of vertex_t;
 
+procedure AM_rotate(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
+
+
 implementation
 
 uses
-  tables,
+  am_textured,
+  mt_utils,
   c_cmds,
   g_game,
-  p_mobj_h, p_setup,
+  p_mobj_h,
+  p_setup,
   r_data,
 {$IFNDEF OPENGL}
   r_draw,
   r_hires,
 {$ENDIF}
   sb_bar,
-  v_data, v_video;
+  v_data,
+  v_video;
 
 
 procedure CmdAllowautomapoverlay(const parm: string);
@@ -333,13 +344,13 @@ begin
 end;
 
 // how much zoom-in per tic
-function M_ZOOMIN : integer;
+function M_ZOOMIN: integer;
 begin
   result := trunc(1.02 * FRACUNIT);
 end;
 
 // how much zoom-out per tic
-function M_ZOOMOUT : integer;
+function M_ZOOMOUT: integer;
 begin
   result := trunc(FRACUNIT / 1.02);
 end;
@@ -489,8 +500,8 @@ begin
   max_w := max_x - min_x;
   max_h := max_y - min_y;
 
-  min_w := 2 * PLAYERRADIUS; // const? never changed?
-  min_h := 2 * PLAYERRADIUS;
+  min_w := 10 * PLAYERRADIUS; // const? never changed?
+  min_h := 10 * PLAYERRADIUS;
 
   a := FixedDiv(f_w * FRACUNIT, max_w);
   b := FixedDiv(f_h * FRACUNIT, max_h);
@@ -500,7 +511,7 @@ begin
   else
     min_scale_mtof := b;
 
-  max_scale_mtof := FixedDiv(f_h * FRACUNIT, 2 * PLAYERRADIUS);
+  max_scale_mtof := FixedDiv(f_h * FRACUNIT, 10 * PLAYERRADIUS);
 end;
 
 //
@@ -716,7 +727,6 @@ end;
 // Handle events (user inputs) in automap mode
 //
 var
-  cheatstate: integer = 0;
   bigstate: boolean = false;
 
 function AM_Responder(ev: Pevent_t): boolean;
@@ -833,6 +843,14 @@ begin
           else
             plr._message := AMSTR_ROTATEOFF;
         end;
+      Ord(AM_TEXTUREDAUTOMAP):
+        begin
+          texturedautomap := not texturedautomap;
+          if texturedautomap then
+            plr._message := 'TEXTURED AUTOMAP ON'
+          else
+            plr._message := 'TEXTURED AUTOMAP OFF';
+        end;
       Ord(AM_MARKKEY):
         begin
           sprintf(_message, '%s %d', [AMSTR_MARKEDSPOT, markpointnum]);
@@ -846,7 +864,6 @@ begin
         end
       else
       begin
-        cheatstate := 0;
         result := false;
       end;
     end;
@@ -1013,7 +1030,7 @@ begin
   {$IFNDEF OPENGL}
     end
     else
-      memset(fb, color, f_w * f_h);
+      MT_memset(fb, color, f_w * f_h);
   {$ENDIF}
   end;
 end;
@@ -1205,7 +1222,7 @@ begin
      (fl.b.y < 0) or (fl.b.y >= f_h) then
   begin
     I_Error('AM_drawFline(): fuck!');
-      exit;
+    exit;
   end;
 
   dx := fl.b.x - fl.a.x;
@@ -1277,7 +1294,7 @@ end;
 procedure AM_drawGrid(color: integer);
 var
   x, y: fixed_t;
-  start, _end: fixed_t;
+  start, finish: fixed_t;
   ml: mline_t;
 begin
   // Figure out start of vertical gridlines
@@ -1285,13 +1302,13 @@ begin
   if ((start - bmaporgx) mod (MAPBLOCKUNITS * FRACUNIT)) <> 0 then
     start := start + (MAPBLOCKUNITS * FRACUNIT)
           - ((start - bmaporgx) mod (MAPBLOCKUNITS * FRACUNIT));
-  _end := m_x + m_w;
+  finish := m_x + m_w;
 
   // draw vertical gridlines
   ml.a.y := m_y;
   ml.b.y := m_y + m_h;
   x := start;
-  while x < _end do
+  while x < finish do
   begin
     ml.a.x := x;
     ml.b.x := x;
@@ -1304,13 +1321,13 @@ begin
   if ((start - bmaporgy) mod (MAPBLOCKUNITS * FRACUNIT)) <> 0 then
     start := start + (MAPBLOCKUNITS * FRACUNIT)
           - ((start - bmaporgy) mod (MAPBLOCKUNITS * FRACUNIT));
-  _end := m_y + m_h;
+  finish := m_y + m_h;
 
   // draw horizontal gridlines
   ml.a.x := m_x;
   ml.b.x := m_x + m_w;
   y := start;
-  while y < _end do
+  while y < finish do
   begin
     ml.a.y := y;
     ml.b.y := y;
@@ -1318,6 +1335,7 @@ begin
     y := y + (MAPBLOCKUNITS * FRACUNIT);
   end;
 end;
+
 
 //
 // Rotation in 2D.
@@ -1592,10 +1610,10 @@ begin
   {$IFNDEF OPENGL}
   if videomode = vm32bit then
   {$ENDIF}
-    fb32[(f_w * (f_h + 1)) div 2] := videopal[color] // single point for now
+    fb32[(f_w * (f_h div 2)) + (f_w div 2)] := videopal[color] // single point for now
   {$IFNDEF OPENGL}
   else
-    fb[(f_w * (f_h + 1)) div 2] := color; // single point for now
+    fb[(f_w * (f_h div 2)) + (f_w div 2)] := color; // single point for now
   {$ENDIF}
 end;
 
@@ -1604,8 +1622,23 @@ begin
   if amstate = am_inactive then
     exit;
 
+  if followplayer then
+  begin
+    m_w := FTOM(f_w);
+    m_h := FTOM(f_h);
+    m_x := plr.mo.x - m_w div 2;
+    m_y := plr.mo.y - m_h div 2;
+  end;
+
   if amstate = am_only then
+  begin
     AM_clearFB(90);
+    if texturedautomap then
+    begin
+      AM_setSubSectorDrawFuncs;
+      AM_drawSubSectors;
+    end;
+  end;
   if grid then
     AM_drawGrid(GRIDCOLORS);
   AM_drawWalls;
@@ -1621,47 +1654,66 @@ procedure AM_Init;
 var
   pl: Pmline_t;
 begin
+  AM_InitTextured;
   pl := @player_arrow[0];
-  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
   pl.a.y := 0;
+  pl.b.x := 0;
+  pl.b.y := 0;
+
+  inc(pl);
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.a.y := ((8 * PLAYERRADIUS) div 7) div 8;
   pl.b.x := ((8 * PLAYERRADIUS) div 7);
   pl.b.y := 0;
 
   inc(pl);
-  pl.a.x := ((8 * PLAYERRADIUS) div 7);
-  pl.a.y := 0;
-  pl.b.x := ((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 2;
-  pl.b.y := ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.a.y := -((8 * PLAYERRADIUS) div 7) div 8;
+  pl.b.x := ((8 * PLAYERRADIUS) div 7);
+  pl.b.y := 0;
 
   inc(pl);
-  pl.a.x := ((8 * PLAYERRADIUS) div 7);
-  pl.a.y := 0;
-  pl.b.x := ((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 2;
-  pl.b.y := -((8 * PLAYERRADIUS) div 7) div 4;
-
-  inc(pl);
-  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
-  pl.a.y := 0;
-  pl.b.x := -((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.a.y := -((8 * PLAYERRADIUS) div 7) div 4;
+  pl.b.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
   pl.b.y := ((8 * PLAYERRADIUS) div 7) div 4;
 
   inc(pl);
   pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
-  pl.a.y := 0;
-  pl.b.x := -((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 8;
-  pl.b.y := -((8 * PLAYERRADIUS) div 7) div 4;
-
-  inc(pl);
-  pl.a.x := -((8 * PLAYERRADIUS) div 7) + 3 * ((8 * PLAYERRADIUS) div 7) div 8;
-  pl.a.y := 0;
+  pl.a.y := -((8 * PLAYERRADIUS) div 7) div 4;
   pl.b.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
   pl.b.y := ((8 * PLAYERRADIUS) div 7) div 4;
 
   inc(pl);
-  pl.a.x := -((8 * PLAYERRADIUS) div 7) + 3 * ((8 * PLAYERRADIUS) div 7) div 8;
-  pl.a.y := 0;
-  pl.b.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.a.y := -((8 * PLAYERRADIUS) div 7) div 4;
+  pl.b.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
   pl.b.y := -((8 * PLAYERRADIUS) div 7) div 4;
+
+  inc(pl);
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.a.y := ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.b.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.b.y := ((8 * PLAYERRADIUS) div 7) div 4;
+
+  inc(pl);
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.a.y := ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.b.x := -((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.b.y := -((8 * PLAYERRADIUS) div 7) div 8;
+
+  inc(pl);
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.a.y := ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.b.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.b.y := ((8 * PLAYERRADIUS) div 7) div 8;
+
+  inc(pl);
+  pl.a.x := -((8 * PLAYERRADIUS) div 7) - ((8 * PLAYERRADIUS) div 7) div 4;
+  pl.a.y := -((8 * PLAYERRADIUS) div 7) div 8;
+  pl.b.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 8;
+  pl.b.y := -((8 * PLAYERRADIUS) div 7) div 8;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1793,11 +1845,11 @@ begin
   pl.a.x := FRACUNIT;
   pl.a.y := 0;
   pl.b.x := round(-0.5 * FRACUNIT);
-  pl.b.y := round(-0.7 * FRACUNIT);
+  pl.b.y := round(0.7 * FRACUNIT);
 
   inc(pl);
   pl.a.x := round(-0.5 * FRACUNIT);
-  pl.a.y := round(-0.7 * FRACUNIT);
+  pl.a.y := round(0.7 * FRACUNIT);
   pl.b.x := round(-0.5 * FRACUNIT);
   pl.b.y := round(-0.7 * FRACUNIT);
 
@@ -1816,6 +1868,11 @@ begin
   st_notify_AM_Stop.data1 := AM_MSGEXITED;
 
   C_AddCmd('allowautomapoverlay', @CmdAllowautomapoverlay);
+end;
+
+procedure AM_ShutDown;
+begin
+  AM_ShutDownTextured;
 end;
 
 end.

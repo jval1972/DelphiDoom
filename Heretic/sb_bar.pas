@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -72,6 +72,7 @@ uses
   d_delphi,
   doomdef,
   doomstat,
+  d_net,
   am_map,
   c_cmds,
   d_player,
@@ -89,6 +90,7 @@ uses
   m_rnd,
   m_fixed,
   m_cheat,
+  mt_utils,
   p_tick,
   p_pspr_h,
   p_local,
@@ -837,7 +839,7 @@ begin
 end;
 
 var
-  sb_topoffset: integer;
+  sb_topoffset: integer = 0;
 
 procedure SB_DrawPatch(const x, y: integer; patch: Ppatch_t); overload;
 var
@@ -1422,92 +1424,95 @@ var
   icons_x: integer;
   icons_y: integer;
 begin
-  sb_topoffset := 158;
-  ZeroMemory(screens[SCN_SB], 320 * 200);
-
-  // Sound info debug stuff
-  if DebugSound then
-    SB_DrawSoundInfo;
-
-  CPlayer := @players[consoleplayer];
-  if not R_StOff or (amstate = am_only) then
+  if firstinterpolation then
   begin
-    if (viewheight = SCREENHEIGHT) and (amstate <> am_only) then
+    MT_ZeroMemory(@screens[SCN_SB][sb_topoffset * 320], 320 * (200 - sb_topoffset));
+    sb_topoffset := 158;
+
+    // Sound info debug stuff
+    if DebugSound then
+      SB_DrawSoundInfo;
+
+    CPlayer := @players[consoleplayer];
+    if not R_StOff or (amstate = am_only) then
     begin
-      SB_DrawFullScreenStuff;
-      SB_state := -1;
-    end
-    else
-    begin
-      SB_DrawPatch(0, 158, PatchBARBACK);
-      if players[consoleplayer].cheats and CF_GODMODE <> 0 then
+      if (viewheight = SCREENHEIGHT) and (amstate <> am_only) then
       begin
-        SB_DrawPatch(16, 167, 'GOD1');
-        SB_DrawPatch(287, 167, 'GOD2');
-      end;
-      oldhealth := -1;
-      SB_DrawCommonBar;
-      if not inventory then
-      begin
-        // Main interface
-        SB_DrawPatch(34, 160, PatchSTATBAR);
-        SB_DrawMainBar;
-        SB_state := 0;
+        SB_DrawFullScreenStuff;
+        SB_state := -1;
       end
       else
       begin
-        SB_DrawPatch(34, 160, PatchINVBAR);
-        SB_DrawInventoryBar;
-        SB_state := 1;
-      end;
-    end;
-  end;
-
-  SB_PaletteFlash;
-
-  icons_x := (viewwindowx + viewwidth) * 320 div SCREENWIDTH - 20;
-  icons_y := viewwindowy * 200 div SCREENHEIGHT + 25;
-
-  // Flight icons
-  if CPlayer.powers[Ord(pw_flight)] <> 0 then
-  begin
-    if (CPlayer.powers[Ord(pw_flight)] > BLINKTHRESHOLD) or (CPlayer.powers[Ord(pw_flight)] and 16 = 0) then
-    begin
-      frame := (leveltime div 3) and 15;
-      if CPlayer.mo.flags2 and MF2_FLY <> 0 then
-      begin
-        if hitCenterFrame and (frame <> 15) and (frame <> 0) then
-          SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + 15, PU_CACHE))
-        else
+        SB_DrawPatch(0, 158, PatchBARBACK);
+        if players[consoleplayer].cheats and CF_GODMODE <> 0 then
         begin
-          SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + frame, PU_CACHE));
-          hitCenterFrame := false;
+          SB_DrawPatch(16, 167, 'GOD1');
+          SB_DrawPatch(287, 167, 'GOD2');
         end;
-      end
-      else
-      begin
-        if not hitCenterFrame and (frame <> 15) and (frame <> 0) then
+        oldhealth := -1;
+        SB_DrawCommonBar;
+        if not inventory then
         begin
-          SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + frame, PU_CACHE));
-          hitCenterFrame := false;
+          // Main interface
+          SB_DrawPatch(34, 160, PatchSTATBAR);
+          SB_DrawMainBar;
+          SB_state := 0;
         end
         else
         begin
-          SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + 15, PU_CACHE));
-          hitCenterFrame := true;
+          SB_DrawPatch(34, 160, PatchINVBAR);
+          SB_DrawInventoryBar;
+          SB_state := 1;
         end;
       end;
     end;
-    icons_y := icons_y + 25;
-  end;
 
-  // weaponlevel2 icons
-  if (CPlayer.powers[Ord(pw_weaponlevel2)] <> 0) and (CPlayer.chickenTics = 0) then
-  begin
-    if (CPlayer.powers[Ord(pw_weaponlevel2)] > BLINKTHRESHOLD) or (CPlayer.powers[Ord(pw_weaponlevel2)] and 16 = 0) then
+    SB_PaletteFlash;
+
+    icons_x := (viewwindowx + viewwidth) * 320 div SCREENWIDTH - 20;
+    icons_y := viewwindowy * 200 div SCREENHEIGHT + 25;
+
+    // Flight icons
+    if CPlayer.powers[Ord(pw_flight)] <> 0 then
     begin
-      frame := (leveltime div 3) and 15;
-      SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinbooklump + frame, PU_CACHE));
+      if (CPlayer.powers[Ord(pw_flight)] > BLINKTHRESHOLD) or (CPlayer.powers[Ord(pw_flight)] and 16 = 0) then
+      begin
+        frame := (leveltime div 3) and 15;
+        if CPlayer.mo.flags2 and MF2_FLY <> 0 then
+        begin
+          if hitCenterFrame and (frame <> 15) and (frame <> 0) then
+            SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + 15, PU_CACHE))
+          else
+          begin
+            SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + frame, PU_CACHE));
+            hitCenterFrame := false;
+          end;
+        end
+        else
+        begin
+          if not hitCenterFrame and (frame <> 15) and (frame <> 0) then
+          begin
+            SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + frame, PU_CACHE));
+            hitCenterFrame := false;
+          end
+          else
+          begin
+            SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinflylump + 15, PU_CACHE));
+            hitCenterFrame := true;
+          end;
+        end;
+      end;
+      icons_y := icons_y + 25;
+    end;
+
+    // weaponlevel2 icons
+    if (CPlayer.powers[Ord(pw_weaponlevel2)] <> 0) and (CPlayer.chickenTics = 0) then
+    begin
+      if (CPlayer.powers[Ord(pw_weaponlevel2)] > BLINKTHRESHOLD) or (CPlayer.powers[Ord(pw_weaponlevel2)] and 16 = 0) then
+      begin
+        frame := (leveltime div 3) and 15;
+        SB_DrawPatch(icons_x, icons_y, W_CacheLumpNum(spinbooklump + frame, PU_CACHE));
+      end;
     end;
   end;
 
@@ -1546,6 +1551,18 @@ begin
   // if a user keypress...
   else if ev._type = ev_keydown then
   begin
+    if CPlayer = nil then
+    begin
+      result := false;
+      exit;
+    end;
+
+    if CPlayer.mo = nil then
+    begin
+      result := false;
+      exit;
+    end;
+
     if not netgame then
     begin
       // b. - enabled for more debug fun.

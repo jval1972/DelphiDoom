@@ -83,7 +83,9 @@ begin
       index := _SHR(rw_scale * 320 div SCREENWIDTH, LIGHTSCALESHIFT);
 
       if index >=  MAXLIGHTSCALE then
-        index := MAXLIGHTSCALE - 1;
+        index := MAXLIGHTSCALE - 1
+      else if index < 0 then
+        index := 0;
 
       dc_colormap := walllights[index];
       dc_x := rwx;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -51,9 +51,9 @@ procedure R_GetFogPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArra
 
 var
   // Invert colormap precalc
-  precal32_ic: array[0..767] of longword;
-  precal8_tolong: array[0..255] of longword;
-  precal8_toword: array[0..255] of longword;
+  precal32_ic: array[0..767] of LongWord;
+  precal8_tolong: array[0..255] of LongWord;
+  precal8_toword: array[0..255] of LongWord;
   precal_light: array[0..255] of byte;
 {$IFDEF HEXEN}
   precalc_fog_r: array[0..255] of PIntegerArray;

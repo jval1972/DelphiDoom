@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -109,7 +109,7 @@ type
   end;
 
   twolongwords = packed record
-    longword1, longword2: longword;
+    longword1, longword2: LongWord;
   end;
 
   TOutProc = procedure (const s: string);
@@ -125,15 +125,17 @@ procedure printf(const Fmt: string; const Args: array of const); overload;
 
 function itoa(i: integer): string;
 
+function uitoa(l: longword): string;
+
 function ftoa(f: single): string;
 
 function atoi(const s: string): integer; overload;
 
 function atoi(const s: string; const default: integer): integer; overload;
 
-function atoui(const s: string): longword; overload;
+function atoui(const s: string): LongWord; overload;
 
-function atoui(const s: string; const default: longword): longword; overload;
+function atoui(const s: string; const default: LongWord): LongWord; overload;
 
 function atof(const s: string): single; overload;
 
@@ -201,9 +203,15 @@ function getenv(const env: string): string;
 
 function fexists(const filename: string): boolean;
 
+function direxists(const dirname: string): boolean;
+
 function fexpand(const filename: string): string;
 
+function fpath(const filename: string): string;
+
 procedure fdelete(const filename: string);
+
+procedure frename(const src, dest: string);
 
 function fext(const filename: string): string;
 
@@ -305,6 +313,7 @@ type
     procedure Clear;
     property Count: integer read fNumItems;
     property Numbers[Index: Integer]: integer read Get write Put; default;
+    property List: PIntegerArray read fList;
   end;
 
 type
@@ -505,9 +514,13 @@ function fabs(const f: float): float;
 
 procedure MakeDir(const dir: string);
 
-function PascalText(src: PChar): string;
+function PascalText(src: PChar): string; overload;
+
+function PascalText(src: PChar; const maxsize: integer): string; overload;
 
 procedure CopyFile(const sname, dname: string);
+
+procedure CopyFile2(const FromN, ToN: string);
 
 function IsIntegerInRange(const test, f1, f2: integer): boolean;
 
@@ -526,6 +539,8 @@ type
   end;
 
 function GetAllocMemSize: integer;
+
+function MkDir(const d: string): boolean;
 
 implementation
 
@@ -586,6 +601,11 @@ begin
   sprintf(result, '%d', [i]);
 end;
 
+function uitoa(l: longword): string;
+begin
+  sprintf(result, '%d', [l]);
+end;
+
 function ftoa(f: single): string;
 begin
   result := FloatToStr(f);
@@ -602,6 +622,11 @@ begin
   begin
     if Pos('0x', s) = 1 then
       val('$' + Copy(s, 3, Length(s) - 2), ret2, code)
+    else if Pos('-0x', s) = 1 then
+    begin
+      val('$' + Copy(s, 4, Length(s) - 3), ret2, code);
+      ret2 := -ret2;
+    end
     else
       val('$' + s, ret2, code);
     if code = 0 then
@@ -621,6 +646,11 @@ begin
   begin
     if Pos('0x', s) = 1 then
       val('$' + Copy(s, 3, Length(s) - 2), ret2, code)
+    else if Pos('-0x', s) = 1 then
+    begin
+      val('$' + Copy(s, 4, Length(s) - 3), ret2, code);
+      ret2 := -ret2;
+    end
     else
       val('$' + s, ret2, code);
     if code = 0 then
@@ -630,10 +660,10 @@ begin
   end;
 end;
 
-function atoui(const s: string): longword; overload;
+function atoui(const s: string): LongWord; overload;
 var
   code: integer;
-  ret2: longword;
+  ret2: LongWord;
 begin
   val(s, result, code);
   if code <> 0 then
@@ -649,10 +679,10 @@ begin
   end;
 end;
 
-function atoui(const s: string; const default: longword): longword; overload;
+function atoui(const s: string; const default: LongWord): LongWord; overload;
 var
   code: integer;
-  ret2: longword;
+  ret2: LongWord;
 begin
   val(s, result, code);
   if code <> 0 then
@@ -1029,27 +1059,23 @@ begin
 end;
 
 function memseti(const dest0: pointer; const val: integer; const count0: integer): pointer;
-{$IFNDEF FPC}
 var
   data: union_8b;
   pdat: pointer;
   dest: PByte;
   count: integer;
   i: integer;
-{$ENDIF}
 begin
-  {$IFNDEF FPC}
-  if mmxMachine = 0 then
-  begin
-  {$ENDIF}
-    FillChar(dest0^, count0, val);
-    result := dest0;
-    {$IFNDEF FPC}
-    exit;
-  end;
-
   dest := PByte(dest0);
   count := count0;
+
+  if mmxMachine = 0 then
+  begin
+    for i := 0 to count - 1 do
+      PIntegerArray(dest)[i] := val;
+    result := dest;
+    exit;
+  end;
 
   if integer(dest) and 7 <> 0 then
   begin
@@ -1154,7 +1180,6 @@ begin
   end;
 
   result := dest0;
-{$ENDIF}
 end;
 
 function malloc(const size: integer): Pointer;
@@ -2252,15 +2277,34 @@ begin
   result := FileExists(filename);
 end;
 
+function direxists(const dirname: string): boolean;
+begin
+  result := DirectoryExists(dirname);
+end;
+
 function fexpand(const filename: string): string;
 begin
   result := ExpandFileName(filename);
+end;
+
+function fpath(const filename: string): string;
+begin
+  result := ExtractFilePath(filename);
 end;
 
 procedure fdelete(const filename: string);
 begin
   if fexists(filename) then
     DeleteFile(filename);
+end;
+
+procedure frename(const src, dest: string);
+begin
+  if fexists(src) then
+  begin
+    fdelete(dest);
+    RenameFile(src, dest);
+  end;
 end;
 
 function fext(const filename: string): string;
@@ -2860,6 +2904,26 @@ begin
   until src^ = #0;
 end;
 
+function PascalText(src: PChar; const maxsize: integer): string;
+var
+  prev: char;
+  cnt: integer;
+begin
+  result := '';
+  if src^ = #0 then
+    exit;
+  cnt := 0;
+  repeat
+    prev := src^;
+    inc(src);
+    inc(cnt);
+    if (src^ = #10) and (prev <> #13) then
+      result := result + prev + #13#10
+    else if not (prev in [#10, #13]) then
+      result := result + prev;
+  until (cnt = maxsize) or (src^ = #0);
+end;
+
 procedure CopyFile(const sname, dname: string);
 var
   FromF, ToF: file;
@@ -2887,14 +2951,41 @@ begin
   end;
 end;
 
+procedure CopyFile2(const FromN, ToN: string);
+var
+  FromF, ToF: file;
+  NumRead, NumWritten: Integer;
+  Buf: array[1..8192] of Char;
+begin
+  if fexists(FromN) then
+  begin
+    AssignFile(FromF, FromN);
+    Reset(FromF, 1);
+    AssignFile(ToF, ToN);
+    Rewrite(ToF, 1);
+    repeat
+      BlockRead(FromF, Buf, SizeOf(Buf), NumRead);
+      BlockWrite(ToF, Buf, NumRead, NumWritten);
+    until (NumRead = 0) or (NumWritten <> NumRead);
+    CloseFile(FromF);
+    CloseFile(ToF);
+  end;
+end;
+
 function IsIntegerInRange(const test, f1, f2: integer): boolean;
 begin
-  result := (test >= f1) and (test <= f2);
+  if f1 < f2 then
+    result := (test >= f1) and (test <= f2)
+  else
+    result := (test >= f2) and (test <= f1)
 end;
 
 function IsFloatInRange(const test, f1, f2: float): boolean;
 begin
-  result := (test >= f1) and (test <= f2);
+  if f1 < f2 then
+    result := (test >= f1) and (test <= f2)
+  else
+    result := (test >= f2) and (test <= f1)
 end;
 
 function GetAllocMemSize: integer;
@@ -2916,6 +3007,23 @@ begin
     inc(result, MemMgrState.SmallBlockTypeStates[I].UseableBlockSize);
   end;
 {$IFEND}
+end;
+
+function MkDir(const d: string): boolean;
+begin
+  try
+    if direxists(d) then
+    begin
+      result := true;
+      exit;
+    end;
+
+    result := CreateDir(d);
+    if not result then
+      result := ForceDirectories(d);
+  except
+    result := false;
+  end;
 end;
 
 end.

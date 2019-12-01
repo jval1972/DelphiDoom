@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -78,6 +78,9 @@ const
 {$IFDEF HEXEN}
   DEFAUTOEXEC = 'Hexen32.con';
 {$ENDIF}
+{$IFDEF STRIFE}
+  DEFAUTOEXEC = 'Strife32.con';
+{$ENDIF}
 
 implementation
 
@@ -85,6 +88,9 @@ uses
   d_delphi,
 {$IFDEF HEXEN}
   g_demo,
+{$ENDIF}
+{$IFDEF STRIFE}
+  d_check,
 {$ENDIF}
   doomdef,
   c_cmds,
@@ -94,7 +100,7 @@ uses
   hu_stuff,
   m_argv, 
   m_fixed,
-  i_io, 
+  i_io,
   i_system,
   r_defs,
   r_main,
@@ -149,8 +155,13 @@ var
   ConsoleInitialized: boolean = false;
 
 const
+{$IFDEF STRIFE}
+  C_FONTWIDTH = 10;
+  C_FONTHEIGHT = 10;
+{$ELSE}
   C_FONTWIDTH = 8;
   C_FONTHEIGHT = 8;
+{$ENDIF}
 
 function isDivideLine(const s: string): boolean;
 var
@@ -353,7 +364,7 @@ begin
   C_AddCmd('cmdlist, list, listcmds', @C_CmdList);
   C_AddCmd('screenshot', @G_ScreenShot);
   C_AddCmd('playdemo', @G_CmdPlayDemo);
-  C_AddCmd('start, playgame, engage, visit', @G_CmdNewGame);
+  C_AddCmd('start, playgame, engage, visit'{$IFDEF STRIFE} + ', rift'{$ENDIF}, @G_CmdNewGame);
   C_AddCmd('load, loadgame', @G_LoadGame);
   C_AddCmd('save, savegame', @G_CmdSaveGame);
   C_AddCmd('exec, execcommandfile', @C_ExecCommandFile);
@@ -597,7 +608,7 @@ begin
           else
             begin
               c := Ord(toupper(Chr(c)));
-              if ((c >= Ord(HU_FONTSTART)) and (c <= Ord({$IFDEF DOOM}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}))) or
+              if ((c >= Ord(HU_FONTSTART)) and (c <= Ord({$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}))) or
                  (Chr(c) in [' ', '.', '!', '-', '+', '=', '*', '/', '\']) then
               begin
                 if shiftdown then
@@ -715,8 +726,12 @@ procedure C_DrawConsoleBackground;
 begin
 {$IFDEF DOOM}
   V_DrawPatch(0, 0, SCN_TMP, pg_TITLE, false);
-{$ELSE}
+{$ENDIF}
+{$IFDEF HERETIC_OR_HEXEN}
   V_CopyRawDataToScreen(SCN_TMP, 'TITLE');
+{$ENDIF}
+{$IFDEF STRIFE}
+  V_DrawPatch(0, 0, SCN_TMP, char8tostring(W_GetNameForNum(D_Help0Lump)), false);
 {$ENDIF}
 
 // A little bit darker background...
@@ -747,7 +762,7 @@ begin
     exit;
 
   xmax := (ConsoleWidth{$IFDEF DOOM} + 1{$ENDIF}) * C_FONTWIDTH;
-  
+
   if con_needsupdate then
   begin
 
@@ -769,12 +784,12 @@ begin
       y := V_GetScreenHeight(SCN_CON) - (ConsoleHeight - lnum + 1) * C_FONTHEIGHT;
       if isDivideLine(ConsoleText[line].line) then
       begin
-        patch := W_CacheLumpName({$IFDEF DOOM}'brdr_t'{$ELSE}'BORDB'{$ENDIF}, PU_STATIC);
+        patch := W_CacheLumpName({$IFDEF DOOM_OR_STRIFE}'brdr_t'{$ELSE}'BORDB'{$ENDIF}, PU_STATIC);
         if len > ConsoleWidth then
           len := ConsoleWidth;
         for i := 1 to len do
         begin
-          V_DrawPatch(x, y + 2{$IFDEF DOOM} - 4{$ENDIF}, SCN_CON, patch, false);
+          V_DrawPatch(x, y + 2{$IFDEF DOOM_OR_STRIFE} - 4{$ENDIF}, SCN_CON, patch, false);
           x := x + 8;
         end;
         Z_ChangeTag(patch, PU_CACHE);
@@ -783,9 +798,9 @@ begin
         while i <= len do
         begin
           c := toupper(ConsoleText[line].line[i]);
-          if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) then
+          if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) then
           begin
-            patch := {$IFDEF DOOM}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
+            patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
             if c in FIXED_PITCH_CHARS then
             begin
               V_DrawPatch(x + C_FONTWIDTH - patch.width, y, SCN_CON, patch, false);
@@ -814,9 +829,9 @@ begin
     for i := 1 to Length(ConsoleInputBuff) do
     begin
       c := toupper(ConsoleInputBuff[i]);
-      if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) and (x < xmax) then
+      if (c >= HU_FONTSTART) and (c <= {$IFDEF DOOM_OR_STRIFE}HU_FONTEND{$ELSE}HU_CFONTEND{$ENDIF}) and (x < xmax) then
       begin
-        patch := {$IFDEF DOOM}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
+        patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord(c) - Ord(HU_FONTSTART)];
         if c in FIXED_PITCH_CHARS then
         begin
           V_DrawPatch(x + C_FONTWIDTH - patch.width, y, SCN_CON, patch, false);
@@ -834,7 +849,7 @@ begin
 
     if cursonon and (x < xmax) then
     begin
-      patch := {$IFDEF DOOM}hu_font{$ELSE}hu_font3{$ENDIF}[Ord('_') - Ord(HU_FONTSTART)];
+      patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord('_') - Ord(HU_FONTSTART)];
       V_DrawPatch(x, y, SCN_CON, patch, false);
     end;
     cursor_x := x;
@@ -848,7 +863,7 @@ begin
   begin
     if cursonon and (cursor_x < xmax) then
     begin
-      patch := {$IFDEF DOOM}hu_font{$ELSE}hu_font3{$ENDIF}[Ord('_') - Ord(HU_FONTSTART)];
+      patch := {$IFDEF DOOM_OR_STRIFE}hu_font{$ELSE}hu_font3{$ENDIF}[Ord('_') - Ord(HU_FONTSTART)];
       V_DrawPatch(cursor_x, cursor_y, SCN_CON, patch, false);
     end;
     cursor_needs_update := false;

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -182,9 +182,13 @@ begin
   while ypos < max_yl do
   begin
     sk := @skies8.skies[0];
+    {$IFDEF STRIFE}
+    spot := (LongWord(frac) shr FRACBITS) and 127;
+    {$ELSE}
     spot := LongWord(frac) shr FRACBITS;
     if spot > 127 then
       spot := 127 - (spot and 127);
+    {$ENDIF}
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       dest^ := dc_source1[spot];
     inc(dest);
@@ -230,9 +234,13 @@ begin
 
   while ypos <= min_yh do
   begin
+    {$IFDEF STRIFE}
+    spot := (LongWord(frac) shr FRACBITS) and 127;
+    {$ELSE}
     spot := LongWord(frac) shr FRACBITS;
     if spot > 127 then
       spot := 127 - (spot and 127);
+    {$ENDIF}
     buf.byte1 := dc_source1[spot];
     buf.byte2 := dc_source2[spot];
     buf.byte3 := dc_source3[spot];
@@ -255,9 +263,13 @@ begin
   while ypos <= max_yh do
   begin
     sk := @skies8.skies[0];
+    {$IFDEF STRIFE}
+    spot := (LongWord(frac) shr FRACBITS) and 127;
+    {$ELSE}
     spot := LongWord(frac) shr FRACBITS;
     if spot > 127 then
       spot := 127 - (spot and 127);
+    {$ENDIF}
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       dest^ := dc_source1[spot];
     inc(dest);
@@ -481,10 +493,13 @@ begin
   while ypos < max_yl do
   begin
     sk := @skies32.skies[0];
+    {$IFDEF STRIFE}
+    spot := (LongWord(frac) shr FRACBITS) and and_mask;
+    {$ELSE}
     spot := LongWord(frac) shr FRACBITS;
     if spot > and_mask then
       spot := and_mask - (spot and and_mask);
-
+    {$ENDIF}
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       destl^ := dc_source1[spot];
     inc(destl);
@@ -531,9 +546,13 @@ begin
 
   while ypos <= min_yh do
   begin
+    {$IFDEF STRIFE}
+    spot := (LongWord(frac) shr FRACBITS) and and_mask;
+    {$ELSE}
     spot := LongWord(frac) shr FRACBITS;
     if spot > and_mask then
       spot := and_mask - (spot and and_mask);
+    {$ENDIF}
     destl^ := dc_source1[spot];
     inc(destl);
 
@@ -567,9 +586,13 @@ begin
   while ypos <= max_yh do
   begin
     sk := @skies32.skies[0];
+    {$IFDEF STRIFE}
+    spot := (LongWord(frac) shr FRACBITS) and and_mask;
+    {$ELSE}
     spot := LongWord(frac) shr FRACBITS;
     if spot > and_mask then
       spot := and_mask - (spot and and_mask);
+    {$ENDIF}
     if (ypos >= sk.dc_yl) and (ypos <= sk.dc_yh) then
       destl^ := dc_source1[spot];
     inc(destl);

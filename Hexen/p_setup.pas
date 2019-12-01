@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -194,6 +194,7 @@ uses
   p_pspr,
   p_acs,
   p_anim,
+  p_udmf,
   po_man,
   r_data,
   r_things,
@@ -203,10 +204,10 @@ uses
   r_intrpl,
 {$IFDEF OPENGL}
   r_main,
-  gl_data,    // JVAL OPENGL
   gl_tex,     // JVAL OPENGL
   gl_render,  // JVAL OPENGL
 {$ENDIF}
+  nd_main,
   s_sound,
   s_sndseq,
   sc_engine,
@@ -980,10 +981,8 @@ begin                        exit;
   hit := mallocz(numvertexes);  // Hitlist for vertices
   for i := 0 to numsegs - 1 do  // Go through each seg
   begin
-  {$IFDEF OPENGL}
     if segs[i].miniseg then // skip minisegs
       continue;
-  {$ENDIF}
 
     l := segs[i].linedef;               // The parent linedef
     if (l.dx <> 0) and (l.dy <> 0) then // We can ignore orthogonal lines
@@ -1031,6 +1030,9 @@ var
 {$IFDEF OPENGL}
   glmapname: string;
 {$ENDIF}
+  gwa: TGWAFile;
+  gwaname: string;
+  gwaloaded: boolean;
 begin
   totalkills := 0;
   totalitems := 0;
@@ -1067,9 +1069,12 @@ begin
 
   // find map name
   lumpname := P_GetMapName(map);
+  gwaloaded := false;
 
   printf(#13#10'-----------------------'#13#10);
   printf('Loading %s (%s)'#13#10, [lumpname, P_GetMapDescName(map)]);
+
+  UDMF_Check(lumpname);
 
   lumpnum := W_GetNumForName(lumpname);
 
@@ -1078,8 +1083,9 @@ begin
   begin
     glmapnum := gld_GetGLMapLump(lumpnum);
     glnodesver := gld_GetGLNodesVersion(glmapnum);
+    gwaloaded := glnodesver > 0;
   end
-  else    
+  else
   begin
     glmapnum := -1;
     glnodesver := 0;
@@ -1088,19 +1094,31 @@ begin
 
   leveltime := 0;
 
+  gwa := nil;
+  if not gwaloaded then
+  begin
+    gwaname := ND_GetNodes(lumpname);
+    if gwaname <> '' then
+      gwa := TGWAFile.Create(gwaname);
+  end;
+
   // note: most of this ordering is important
   P_LoadBlockMap(lumpnum + Ord(ML_BLOCKMAP));
   // note: most of this ordering is important
   {$IFDEF OPENGL}
-  P_GLLoadVertexes(lumpnum + Ord(ML_VERTEXES), glmapnum + Ord(ML_GL_VERTS));
+  if gwa = nil then
+    P_GLLoadVertexes(lumpnum + Ord(ML_VERTEXES), glmapnum + Ord(ML_GL_VERTS))
+  else
+    ND_LoadVertexes(lumpnum + Ord(ML_VERTEXES), gwa);
   {$ELSE}
-  P_LoadVertexes(lumpnum + Ord(ML_VERTEXES));
+  if gwa = nil then
+    P_LoadVertexes(lumpnum + Ord(ML_VERTEXES))
+  else
+    ND_LoadVertexes(lumpnum + Ord(ML_VERTEXES), gwa);
   {$ENDIF}
   P_LoadSectors(lumpnum + Ord(ML_SECTORS));
   P_LoadSideDefs(lumpnum + Ord(ML_SIDEDEFS));
-
   P_LoadLineDefs(lumpnum + Ord(ML_LINEDEFS));
-
   {$IFDEF OPENGL}
   if glnodesver > 0 then
   begin
@@ -1113,13 +1131,25 @@ begin
   else
   {$ENDIF}
   begin
-  {$IFDEF OPENGL}
-    printf(' GL nodes not found, using standard nodes'#13#10);
-  {$ENDIF}
-    P_LoadSubsectors(lumpnum + Ord(ML_SSECTORS));
-    P_LoadNodes(lumpnum + Ord(ML_NODES));
-    P_LoadSegs(lumpnum + Ord(ML_SEGS));
+    if gwa <> nil then
+    begin
+      ND_LoadSubsectors(gwa);
+      ND_LoadNodes(gwa);
+      ND_LoadSegs(gwa);
+    end
+    else
+    begin
+    {$IFDEF OPENGL}
+      printf(' GL nodes not found, using standard nodes'#13#10);
+    {$ENDIF}
+      P_LoadSubsectors(lumpnum + Ord(ML_SSECTORS));
+      P_LoadNodes(lumpnum + Ord(ML_NODES));
+      P_LoadSegs(lumpnum + Ord(ML_SEGS));
+    end;
   end;
+
+  if gwa <> nil then
+    gwa.Free;
 
   rejectmatrix := W_CacheLumpNum(lumpnum + Ord(ML_REJECT), PU_LEVEL);
   P_GroupLines;
@@ -1688,6 +1718,7 @@ begin
   P_InitLava;
   R_InitSprites(sprnames);
   C_AddCmd('suicide', @P_CmdSuicide);
+  C_AddCmd('doadjustmissingtextures', @P_AdjustMissingTextures);
 end;
 
 //==========================================================================

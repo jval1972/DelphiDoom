@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -86,12 +86,6 @@ function P_SeekerMissile(actor: Pmobj_t; thresh, turnMax: angle_t): boolean;
 
 function P_HitFloor(thing: Pmobj_t): integer;
 
-function P_SetMobjCustomParam(const actor: Pmobj_t; const name: string; const value: integer): Pmobjcustomparam_t;
-
-function P_GetMobjCustomParam(const actor: Pmobj_t; const name: string): Pmobjcustomparam_t;
-
-function P_GetMobjCustomParamValue(const actor: Pmobj_t; const name: string): integer;
-
 function P_GetThingFloorType(thing: Pmobj_t): integer;
 
 procedure MObj_Init;
@@ -99,10 +93,10 @@ var
   iquehead: integer; // Initialized at p_setup
   iquetail: integer; // Initialized at p_setup
 
-function P_FindMobjFromKey(const key: integer): Pmobj_t;
+function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
 
 var
-  mobjkeycnt: Integer = 0;
+  mobjkeycnt: LongWord = 1;
 
 implementation
 
@@ -129,6 +123,7 @@ uses
   p_extra,
   p_terrain,
   p_sounds,
+  p_params,
   r_defs,
   r_sky,
   r_main,
@@ -569,6 +564,8 @@ end;
 // P_MobjThinker
 //
 procedure P_MobjThinker(mobj: Pmobj_t);
+var
+  onmo: Pmobj_t;
 begin
   // JVAL: Clear just spawned flag
   mobj.flags := mobj.flags and (not MF_JUSTAPPEARED);
@@ -593,7 +590,37 @@ begin
   end
   else if (mobj.z <> mobj.floorz) or (mobj.momz <> 0) then
   begin
-    P_ZMovement(mobj);
+    if mobj.flags2_ex and MF2_EX_PASSMOBJ <> 0 then
+    begin
+      onmo := P_CheckOnmobj(mobj);
+      if onmo = nil then
+        P_ZMovement(mobj)
+      else
+      begin
+        if (mobj.player <> nil) and (mobj.momz < 0) then
+        begin
+          mobj.flags2_ex := mobj.flags2_ex or MF2_EX_ONMOBJ;
+          mobj.momz := 0;
+        end;
+        if (mobj.player <> nil) and ((onmo.player <> nil) {or (onmo._type = Ord(MT_POD))}) then
+        begin
+          mobj.momx := onmo.momx;
+          mobj.momy := onmo.momy;
+          if onmo.z < onmo.floorz then
+          begin
+            mobj.z := mobj.z + onmo.floorz - onmo.z;
+            if onmo.player <> nil then
+            begin
+              Pplayer_t(onmo.player).viewheight := Pplayer_t(onmo.player).viewheight - (onmo.floorz - onmo.z);
+              Pplayer_t(onmo.player).deltaviewheight := (PVIEWHEIGHT - Pplayer_t(onmo.player).viewheight) div 8;
+            end;
+            onmo.z := onmo.floorz;
+          end;
+        end;
+      end;
+    end
+    else
+      P_ZMovement(mobj);
 
     if not Assigned(mobj.thinker._function.acv) then
     begin
@@ -736,6 +763,16 @@ begin
 
   P_AddThinker(@mobj.thinker);
 
+  mobj.prevx := mobj.x;
+  mobj.prevy := mobj.y;
+  mobj.prevz := mobj.z;
+  mobj.nextx := mobj.x;
+  mobj.nexty := mobj.y;
+  mobj.nextz := mobj.z;
+  mobj.prevangle := mobj.angle;
+  mobj.nextangle := mobj.angle;
+  mobj.intrplcnt := 0;
+
   result := mobj;
 end;
 
@@ -749,16 +786,6 @@ const
 var
   itemrespawnque: array[0..ITEMQUESIZE - 1] of mapthing_t;
   itemrespawntime: array[0..ITEMQUESIZE - 1] of integer;
-
-procedure P_RemoveMobjCustomParams(const parm: Pmobjcustomparam_t);
-begin
-  if parm <> nil then
-  begin
-    if parm.next <> nil then
-      P_RemoveMobjCustomParams(parm.next);
-    Z_Free(parm);
-  end;
-end;
 
 procedure P_RemoveMobj(mobj: Pmobj_t);
 begin
@@ -1605,53 +1632,6 @@ begin
   end;
 end;
 
-function P_SetMobjCustomParam(const actor: Pmobj_t; const name: string; const value: integer): Pmobjcustomparam_t;
-var
-  check: Pmobjcustomparam_t;
-begin
-  check := P_GetMobjCustomParam(actor, name);
-  if check = nil then
-  begin
-    check := actor.customparams;
-    actor.customparams := Z_Malloc(SizeOf(mobjcustomparam_t), PU_LEVEL, nil);
-    actor.customparams.name := strupper(name);
-    actor.customparams.value := value;
-    actor.customparams.next := check;
-    result := actor.customparams;
-  end
-  else
-  begin
-    check.value := value;
-    result := check;
-  end;
-end;
-
-function P_GetMobjCustomParam(const actor: Pmobj_t; const name: string): Pmobjcustomparam_t;
-var
-  check: string;
-begin
-  check := strupper(name);
-  result := actor.customparams;
-  while result <> nil do
-  begin
-    if result.name = check then
-      Exit;
-    result := result.next;
-  end;
-  result := nil;
-end;
-
-function P_GetMobjCustomParamValue(const actor: Pmobj_t; const name: string): integer;
-var
-  parm: Pmobjcustomparam_t;
-begin
-  parm := P_GetMobjCustomParam(actor, name);
-  if parm <> nil then
-    result := parm.value
-  else
-    result := 0;
-end;
-
 procedure CmdSpwanMobj(const parm1, parm2: string);
 var
   sc: TScriptEngine;
@@ -1708,7 +1688,7 @@ begin
   C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpwanMobj);
 end;
 
-function P_FindMobjFromKey(const key: integer): Pmobj_t;
+function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
 var
   currentthinker: Pthinker_t;
 begin

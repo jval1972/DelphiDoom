@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -93,6 +93,8 @@ implementation
 
 uses
   d_delphi,
+  d_net,
+  m_menu,
   tables,
   c_cmds,
   d_items,
@@ -330,7 +332,7 @@ const
 // Location of medikit
   ST_MX = 8;
   ST_MY = 29;
-// Location of healt percentage
+// Location of health percentage
   ST_MHEALTHX = 60;
   ST_MHEALTHY = ST_Y + 14;
 // Location of ammo number
@@ -843,6 +845,18 @@ begin
   // if a user keypress...
   else if ev._type = ev_keydown then
   begin
+    if plyr = nil then
+    begin
+      result := false;
+      exit;
+    end;
+
+    if plyr.mo = nil then
+    begin
+      result := false;
+      exit;
+    end;
+
     if not netgame then
     begin
       // b. - enabled for more debug fun.
@@ -1319,6 +1333,10 @@ begin
   else
     palette := 0;
 
+  if customgame in [cg_chex, cg_chex2] then
+    if (palette >= STARTREDPALS) and (palette < STARTREDPALS + NUMREDPALS) then
+      palette := RADIATIONPAL;
+          
   if palette <> st_palette then
   begin
     st_palette := palette;
@@ -1446,14 +1464,16 @@ begin
   ST_doPaletteStuff;
   if dopt <> stdo_small then
   begin
-
-    ST_Refresh(st_firsttime);
-    // If just after ST_Start(), refresh all
-    if st_firsttime then
-      ST_doRefresh
-    // Otherwise, update as little as possible
-    else
-      ST_diffDraw;
+    if firstinterpolation or (menuactive and shademenubackground) then
+    begin
+      ST_Refresh(st_firsttime);
+      // If just after ST_Start(), refresh all
+      if st_firsttime then
+        ST_doRefresh
+      // Otherwise, update as little as possible
+      else
+        ST_diffDraw;
+    end;
   end
   else
     ST_RefreshSmall;

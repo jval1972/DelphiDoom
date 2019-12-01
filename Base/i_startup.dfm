@@ -1,6 +1,6 @@
 object StartUpConsoleForm: TStartUpConsoleForm
-  Left = 700
-  Top = 347
+  Left = 778
+  Top = 339
   Cursor = crHourGlass
   BorderIcons = []
   BorderStyle = bsSingle

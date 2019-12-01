@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -50,7 +50,8 @@ const
   VERSION111 = 111;
   VERSION112 = 112;
   VERSION113 = 113;
-  VERSION = VERSION113;
+  VERSION114 = 114;
+  VERSION = VERSION114;
 
 type
 // Game mode handling - identify IWAD version

@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -98,6 +98,7 @@ uses
   m_argv,
   m_misc,
   m_fixed,
+  mt_utils,
   i_system,
   i_threads,
   i_io,
@@ -497,6 +498,7 @@ type
 {$ELSE}
     od_detail,
 {$ENDIF}
+    od_automap,
     od_appearance,
     od_advanced,
     od_32bitsetup,
@@ -523,8 +525,6 @@ var
 // DISPLAY APPEARANCE MENU
 type
   optionsdisplayappearance_e = (
-    od_allowautomapoverlay,
-    od_allowautomaprotate,
     od_drawfps,
     od_shademenubackground,
     od_displaydiskbusyicon,
@@ -538,6 +538,19 @@ type
 var
   OptionsDisplayAppearanceMenu: array[0..Ord(optdispappearance_end) - 1] of menuitem_t;
   OptionsDisplayAppearanceDef: menu_t;
+
+// DISPLAY AUTOMAP MENU
+type
+  optionsdisplayautomap_e = (
+    od_allowautomapoverlay,
+    od_allowautomaprotate,
+    od_texturedautomap,
+    optdispautomap_end
+  );
+
+var
+  OptionsDisplayAutomapMenu: array[0..Ord(optdispautomap_end) - 1] of menuitem_t;
+  OptionsDisplayAutomapDef: menu_t;
 
 // DISPLAY ADVANCED MENU
 type
@@ -562,6 +575,7 @@ type
     od_precisescalefromglobalangle,
 {$ENDIF}
     od_widescreensupport,
+    od_excludewidescreenplayersprites,
     optdispadvanced_end
   );
 
@@ -1017,14 +1031,16 @@ end;
 procedure M_DrawCompatibility;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
-  M_WriteText(20, 48, 'Compatibility', 2 * FRACUNIT);
+  V_DrawPatch(20, 48, SCN_TMP, 'MENU_COM', false);
+//  M_WriteText(20, 48, 'Compatibility', 2 * FRACUNIT);
 end;
 
 procedure M_DrawControls;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
-  M_WriteText(20, 48, 'Controls', 2 * FRACUNIT);
-                                   
+  V_DrawPatch(20, 48, SCN_TMP, 'MENU_CON', false);
+//  M_WriteText(20, 48, 'Controls', 2 * FRACUNIT);
+
   M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodearrows), 'Use arrows for moving');
   M_WriteText(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmodewasd), 'Use WASD keys for moving');
 end;
@@ -1032,13 +1048,15 @@ end;
 procedure M_DrawSound;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
-  M_WriteText(20, 48, 'Sound', 2 * FRACUNIT);
+  V_DrawPatch(20, 48, SCN_TMP, 'MENU_SOU', false);
+//  M_WriteText(20, 48, 'Sound', 2 * FRACUNIT);
 end;
 
 procedure M_DrawSystem;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
-  M_WriteText(20, 48, 'System', 2 * FRACUNIT);
+  V_DrawPatch(20, 48, SCN_TMP, 'MENU_SYS', false);
+//  M_WriteText(20, 48, 'System', 2 * FRACUNIT);
 end;
 
 procedure M_OptionsSound(choice: integer);
@@ -1079,6 +1097,11 @@ end;
 procedure M_OptionsDisplayDetail(choice: integer);
 begin
   M_SetupNextMenu(@OptionsDisplayDetailDef);
+end;
+
+procedure M_OptionsDisplayAutomap(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayAutomapDef);
 end;
 
 procedure M_OptionsDisplayAppearance(choice: integer);
@@ -1270,6 +1293,11 @@ begin
 end;
 
 procedure M_DrawDisplayAppearanceOptions;
+begin
+  M_DrawDisplayOptions;
+end;
+
+procedure M_DrawDisplayAutomapOptions;
 begin
   M_DrawDisplayOptions;
 end;
@@ -2309,7 +2337,7 @@ begin
     mheight := M_StringHeight(messageString);
     y := (200 - mheight) div 2;
     mheight := y + mheight + 20;
-    ZeroMemory(screens[SCN_TMP], 320 * mheight);
+    MT_ZeroMemory(screens[SCN_TMP], 320 * mheight);
     len := Length(messageString);
     str := '';
     for i := 1 to len do
@@ -2339,7 +2367,7 @@ begin
   if not menuactive then
     exit;
 
-  ZeroMemory(screens[SCN_TMP], 320 * 200);
+  MT_ZeroMemory(screens[SCN_TMP], 320 * 200);
 
   if Assigned(currentMenu.routine) then
     currentMenu.routine; // call Draw routine
@@ -2568,7 +2596,8 @@ begin
 //OptionsMenu
   pmi := @OptionsMenu[0];
   pmi.status := 1;
-  pmi.name := '@General';
+//  pmi.name := '@General';
+    pmi.name := 'MENU_GEN';
   pmi.cmd := '';
   pmi.routine := @M_OptionsGeneral;
   pmi.pBoolVal := nil;
@@ -2576,7 +2605,8 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Display';
+//  pmi.name := '@Display';
+  pmi.name := 'MENU_DIS';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplay;
   pmi.pBoolVal := nil;
@@ -2584,7 +2614,8 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Sound';
+//  pmi.name := '@Sound';
+  pmi.name := 'MENU_SOU';
   pmi.cmd := '';
   pmi.routine := @M_OptionsSound;
   pmi.pBoolVal := nil;
@@ -2592,7 +2623,8 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Compatibility';
+//  pmi.name := '@Compatibility';
+  pmi.name := 'MENU_COM';
   pmi.cmd := '';
   pmi.routine := @M_OptionsCompatibility;
   pmi.pBoolVal := nil;
@@ -2600,7 +2632,8 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Controls';
+//  pmi.name := '@Controls';
+  pmi.name := 'MENU_CON';
   pmi.cmd := '';
   pmi.routine := @M_OptionsConrols;
   pmi.pBoolVal := nil;
@@ -2608,7 +2641,8 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@System';
+//  pmi.name := '@System';
+  pmi.name := 'MENU_SYS';
   pmi.cmd := '';
   pmi.routine := @M_OptionsSystem;
   pmi.pBoolVal := nil;
@@ -2691,13 +2725,15 @@ begin
   pmi := @OptionsDisplayMenu[0];
   pmi.status := 1;
 {$IFDEF OPENGL}
-  pmi.name := '@OpenGL';
+//  pmi.name := '@OpenGL';
+  pmi.name := 'MENU_OPE';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayOpenGL;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'o';
 {$ELSE}
-  pmi.name := '@Detail';
+//  pmi.name := '@Detail';
+  pmi.name := 'MENU_DET';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayDetail;
   pmi.pBoolVal := nil;
@@ -2706,7 +2742,15 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Appearance';
+  pmi.name := 'MENU_MAP';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayAutomap;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'a';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := 'MENU_APP';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayAppearance;
   pmi.pBoolVal := nil;
@@ -2714,7 +2758,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@Advanced';
+  pmi.name := 'MENU_ADV';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplayAdvanced;
   pmi.pBoolVal := nil;
@@ -2722,7 +2766,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '@32 bit rendering';
+  pmi.name := 'MENU_32B';
   pmi.cmd := '';
   pmi.routine := @M_OptionsDisplay32bit;
   pmi.pBoolVal := nil;
@@ -2777,8 +2821,8 @@ begin
   OptionsDisplayDetailDef.itemheight := LINEHEIGHT2;
 
 ////////////////////////////////////////////////////////////////////////////////
-//OptionsDisplayAppearanceMenu
-  pmi := @OptionsDisplayAppearanceMenu[0];
+//OptionsDisplayAutomapMenu
+  pmi := @OptionsDisplayAutomapMenu[0];
   pmi.status := 1;
   pmi.name := '!Allow automap overlay';
   pmi.cmd := 'allowautomapoverlay';
@@ -2795,6 +2839,27 @@ begin
   pmi.alphaKey := 'r';
 
   inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Textured Automap';
+  pmi.cmd := 'texturedautomap';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @texturedautomap;
+  pmi.alphaKey := 't';
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayAutomapDef
+  OptionsDisplayAutomapDef.numitems := Ord(optdispautomap_end); // # of menu items
+  OptionsDisplayAutomapDef.prevMenu := @OptionsDisplayDef; // previous menu
+  OptionsDisplayAutomapDef.menuitems := Pmenuitem_tArray(@OptionsDisplayAutomapMenu);  // menu items
+  OptionsDisplayAutomapDef.routine := @M_DrawDisplayAutomapOptions;  // draw routine
+  OptionsDisplayAutomapDef.x := 30;
+  OptionsDisplayAutomapDef.y := 40; // x,y of menu
+  OptionsDisplayAutomapDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayAutomapDef.itemheight := LINEHEIGHT2;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayAppearanceMenu
+  pmi := @OptionsDisplayAppearanceMenu[0];
   pmi.status := 1;
   pmi.name := '!Display fps';
   pmi.cmd := 'drawfps';
@@ -2965,6 +3030,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @widescreensupport;
   pmi.alphaKey := 'w';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Player Sprites Stretch';
+  pmi.cmd := 'excludewidescreenplayersprites';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @excludewidescreenplayersprites;
+  pmi.alphaKey := 'p';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAdvancedDef
@@ -3357,7 +3430,7 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Âoss death ends Doom1 level';
+  pmi.name := '!Boss death ends Doom1 level';
   pmi.cmd := 'majorbossdeathendsdoom1level';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @majorbossdeathendsdoom1level;

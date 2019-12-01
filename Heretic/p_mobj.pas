@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -109,6 +109,11 @@ var
 var
   PuffType: mobjtype_t;
   MissileMobj: Pmobj_t;
+
+function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
+
+var
+  mobjkeycnt: LongWord = 1;
 
 implementation
 
@@ -850,8 +855,11 @@ begin
   mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
   ZeroMemory(mobj, SizeOf(mobj_t));
-  info := @mobjinfo[_type];
 
+  mobj.key := mobjkeycnt;
+  inc(mobjkeycnt);
+
+  info := @mobjinfo[_type];
   mobj._type := _type;
   mobj.info := info;
   mobj.x := x;
@@ -919,6 +927,18 @@ begin
   @mobj.thinker._function.acp1 := @P_MobjThinker;
 
   P_AddThinker(@mobj.thinker);
+
+  mobj.prevx := mobj.x;
+  mobj.prevy := mobj.y;
+  mobj.prevz := mobj.z;
+  mobj.nextx := mobj.x;
+  mobj.nexty := mobj.y;
+  mobj.nextz := mobj.z;
+  mobj.prevangle := mobj.angle;
+  mobj.nextangle := mobj.angle;
+  mobj.intrplcnt := 0;
+
+  mobj.key := 0; // jval: ToDO
 
   result := mobj;
 end;
@@ -1909,6 +1929,25 @@ begin
 
   mo.momx := mo.momx + FixedMul(move, finecosine[angle]);
   mo.momy := mo.momy + FixedMul(move, finesine[angle]);
+end;
+
+function P_FindMobjFromKey(const key: LongWord): Pmobj_t;
+var
+  currentthinker: Pthinker_t;
+begin
+  currentthinker := thinkercap.next;
+  while Pointer(currentthinker) <> Pointer(@thinkercap) do
+  begin
+    if (@currentthinker._function.acp1 = @P_MobjThinker) and
+       (Pmobj_t(currentthinker).key = key) then
+    begin
+      result := Pmobj_t(currentthinker);
+      exit;
+    end;
+    currentthinker := currentthinker.next;
+  end;
+
+  result := nil;
 end;
 
 end.

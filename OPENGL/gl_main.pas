@@ -2,7 +2,7 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,6 +19,10 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+// DESCRIPTION:
+//  System specific interface stuff.
+//  OpenGL DOOM graphics
+//
 //------------------------------------------------------------------------------
 //  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -34,28 +38,6 @@ uses
   SysUtils,
   Windows,
   d_delphi;
-
-// Emacs style mode select   -*- C++ -*-
-//-----------------------------------------------------------------------------
-//
-// $Id:$
-//
-// Copyright (C) 1993-1996 by id Software, Inc.
-//
-// This source is available for distribution and/or modification
-// only under the terms of the DOOM Source Code License as
-// published by id Software. All rights reserved.
-//
-// The source is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// FITNESS FOR A PARTICULAR PURPOSE. See the DOOM Source Code License
-// for more details.
-//
-// DESCRIPTION:
-//  System specific interface stuff.
-//  DirectX DOOM graphics
-//
-//-----------------------------------------------------------------------------
 
 // Called by D_DoomMain,
 // determines the hardware configuration
@@ -260,7 +242,7 @@ var
   sub_y2: integer;
   did_fullhutics: integer = 10;
   overlayupdatetic: integer = 30;
-  last_y1: integer = GLDRAWTEXHEIGHT;
+  last_y1: integer = MAXINT;
 {$ENDIF}
 
 procedure I_FinishUpdate;
@@ -316,6 +298,8 @@ begin
           sub_y1 := V_PreserveY(diskbuzy_height);
           if sub_y1 > y1 then
             y1 := sub_y1;
+          if last_y1 = MAXINT then
+            last_y1 := GLDRAWTEXHEIGHT;
           if last_y1 > y1 then
             glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, GLDRAWWIDTH, last_y1, GL_BGRA, GL_UNSIGNED_BYTE, screen32)
           else
@@ -691,12 +675,6 @@ begin
   glTexImage2D(GL_TEXTURE_2D, 0, 4, GLDRAWTEXWIDTH, GLDRAWTEXHEIGHT, 0, GL_BGRA, GL_UNSIGNED_BYTE, screen32);
           
 end;
-
-const
-  NUNSTDRESOLUTIONS = 8;
-  STANDARDSCREENRESOLUTIONS: array[0..NUNSTDRESOLUTIONS - 1, 0..1] of integer = (
-    (1280, 1024), (1280, 800), (1024, 768), (800, 600), (640, 480), (512, 384), (400, 300), (320, 200)
-  );
 
 procedure GL_ChangeFullScreen(const full: boolean);
 var

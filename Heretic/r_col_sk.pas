@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2007 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,7 +45,10 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
-  r_draw, r_main, r_column, r_hires,
+  r_draw,
+  r_main,
+  r_column,
+  r_hires,
   v_video;
 
 //
@@ -129,7 +132,6 @@ begin
   fracstep := dc_iscale;
   frac := dc_texturemid + (dc_yl - centery) * fracstep;
   swidth := SCREENWIDTH;
-
   {$I R_DrawSkyColumnMedium.inc}
 end;
 
@@ -143,6 +145,7 @@ var
   spot: integer;
   swidth: integer;
   and_mask: integer;
+  factor: integer;
 begin
   count := dc_yh - dc_yl;
 
@@ -154,9 +157,10 @@ begin
   fracstep := dc_iscale;
   frac := dc_texturemid + (dc_yl - centery) * fracstep;
 
-  fracstep := fracstep * (1 shl dc_texturefactorbits);
-  frac := frac * (1 shl dc_texturefactorbits);
-  and_mask := 128 * (1 shl dc_texturefactorbits) - 1;
+  factor := 1 shl dc_texturefactorbits;
+  fracstep := fracstep * factor;
+  frac := frac * factor;
+  and_mask := 128 * factor - 1;
 
   swidth := SCREENWIDTH32PITCH;
   {$I R_DrawSkyColumnHi.inc}
@@ -173,6 +177,7 @@ var
   spot: integer;
   swidth: integer;
   and_mask: integer;
+  factor: integer;
 
 // For inline color averaging
   r1, g1, b1: byte;
@@ -191,9 +196,10 @@ begin
   fracstep := dc_iscale;
   frac := dc_texturemid + (dc_yl - centery) * fracstep - FRACUNIT div 2;
 
-  fracstep := fracstep * (1 shl dc_texturefactorbits);
-  frac := frac * (1 shl dc_texturefactorbits);
-  and_mask := 128 * (1 shl dc_texturefactorbits) - 1;
+  factor := 1 shl dc_texturefactorbits;
+  fracstep := fracstep * factor;
+  frac := frac * factor;
+  and_mask := 128 * factor - 1;
 
   swidth := SCREENWIDTH32PITCH;
   {$I R_DrawSkyColumnUltra.inc}

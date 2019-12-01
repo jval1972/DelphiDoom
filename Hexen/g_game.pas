@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2013 by Jim Valavanis
+//  Copyright (C) 2004-2016 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -242,6 +242,9 @@ var
 const
   NUMKEYS = 256;
 
+const
+  SAVEGAMESIZE = $80000; // Originally $2C000
+  
 var
   gamekeydown: array[0..NUMKEYS - 1] of boolean;
 
@@ -280,8 +283,6 @@ uses
   in_stuff,
   hu_stuff,
   sb_bar,
-// Needs access to LFB.
-  v_video,
   w_wad,
   s_sound,
 // Data.
@@ -299,7 +300,6 @@ uses
   tables;
 
 const
-  SAVEGAMESIZE = $80000; // Originally $2C000
   SAVESTRINGSIZE = 24;
 
 //==========================================================================
@@ -1313,7 +1313,7 @@ begin
     // first spawn of level, before corpses
     for i := 0 to playernum - 1 do
       if (players[i].mo.x = x) and
-         (players[i].mo.y = x) then
+         (players[i].mo.y = y) then
       begin
         result := false;
         exit;
@@ -1976,6 +1976,4 @@ initialization
   joybuttons := PBooleanArray(@joyarray[0]);
 
 end.
-
-
 
