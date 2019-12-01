@@ -20,7 +20,7 @@ type
 
   TPSError = (erNoError, erCannotImport, erInvalidType, erInternalError,
     erInvalidHeader, erInvalidOpcode, erInvalidOpcodeParameter, erNoMainProc,
-    erOutOfGlobalVarsRange, erOutOfProcRange, ErOutOfRange, erOutOfStackRange,
+    erOutOfGlobalVarsRange, erOutOfProcRange, erOutOfRange, erOutOfStackRange,
     erTypeMismatch, erUnexpectedEof, erVersionError, erDivideByZero, erMathError,
     erCouldNotCallProc, erOutofRecordRange, erOutOfMemory, erException,
     erNullPointerException, erNullVariantError, erInterfaceNotSupported, erCustomError);
@@ -1577,13 +1577,13 @@ end;
 function PSErrorToString(x: TPSError; const Param: TbtString): TbtString;
 begin
   case x of
-    ErNoError:
+    erNoError:
       Result := TbtString(RPS_NoError);
     erCannotImport:
       Result := TbtString(Format (RPS_CannotImport, [Safestr(Param)]));
     erInvalidType:
       Result := TbtString(RPS_InvalidType);
-    ErInternalError:
+    erInternalError:
       Result := TbtString(RPS_InternalError);
     erInvalidHeader:
       Result := TbtString(RPS_InvalidHeader);
@@ -1597,17 +1597,17 @@ begin
       Result := TbtString(RPS_OutOfGlobalVarsRange);
     erOutOfProcRange:
       Result := TbtString(RPS_OutOfProcRange);
-    ErOutOfRange:
+    erOutOfRange:
       Result := TbtString(RPS_OutOfRange);
     erOutOfStackRange:
       Result := TbtString(RPS_OutOfStackRange);
-    ErTypeMismatch:
+    erTypeMismatch:
       Result := TbtString(RPS_TypeMismatch);
     erUnexpectedEof:
       Result := TbtString(RPS_UnexpectedEof);
     erVersionError:
       Result := TbtString(RPS_VersionError);
-    ErDivideByZero:
+    erDivideByZero:
       Result := TbtString(RPS_DivideByZero);
     erMathError:
       Result := TbtString(RPS_MathError);
@@ -2356,20 +2356,20 @@ var
     begin
       if (not Read(NameLen, 4)) or (NameLen > Length(s) - Longint(Pos)) then
       begin
-        CMD_Err(ErOutOfRange);
+        CMD_Err(erOutOfRange);
         Result := False;
         Exit;
       end;
       SetLength(Name, NameLen);
       if not Read(Name[1], NameLen) then
       begin
-        CMD_Err(ErOutOfRange);
+        CMD_Err(erOutOfRange);
         Result := False;
         Exit;
       end;
       if not Read(FieldCount, 4) then
       begin
-        CMD_Err(ErOutOfRange);
+        CMD_Err(erOutOfRange);
         Result := False;
         Exit;
       end;
@@ -2380,7 +2380,7 @@ var
       begin
         if (not Read(TypeNo, 4)) or (TypeNo >= Cardinal(FTypes.Count)) then
         begin
-          CMD_Err(ErOutOfRange);
+          CMD_Err(erOutOfRange);
           Result := False;
           Exit;
         end;
@@ -2415,7 +2415,7 @@ var
           btU16:
             if not read(PPSVariantU16(Varp)^.Data, SizeOf(TbtU16)) then
             begin
-              CMD_Err(ErOutOfRange);
+              CMD_Err(erOutOfRange);
               DestroyHeapVariant(VarP);
               Result := False;
               Exit;
@@ -2841,7 +2841,7 @@ var
               if Cardinal(l2) >= FTypes.Count then
               begin
                 curr.Free;
-                cmd_err(ErOutOfRange);
+                cmd_err(erOutOfRange);
                 LoadTypes := False;
                 Exit;
               end;
@@ -5126,7 +5126,7 @@ begin
       end;
     end;
     if Result = False then
-      CMD_Err(ErTypeMismatch);
+      CMD_Err(erTypeMismatch);
   except
     {$IFDEF DELPHI6UP}
     Tmp := AcquireExceptionObject;
@@ -5253,7 +5253,7 @@ var
         Variant(Into^) := b;
       else
         begin
-          CMD_Err(ErTypeMismatch);
+          CMD_Err(erTypeMismatch);
           OK := False;
         end;
     end;
@@ -5368,13 +5368,13 @@ begin
               end;
           else
             begin
-              CMD_Err(ErTypeMismatch);
+              CMD_Err(erTypeMismatch);
               Exit;
             end;
           end;
           if not Result then
           begin
-            CMD_Err(ErTypeMismatch);
+            CMD_Err(erTypeMismatch);
             Exit;
           end;
           SetBoolean(b, Result);
@@ -5484,7 +5484,7 @@ begin
               end;
           else
             begin
-              CMD_Err(ErTypeMismatch);
+              CMD_Err(erTypeMismatch);
               Exit;
             end;
           end;
@@ -8219,7 +8219,7 @@ begin
                     Param := TbtS32(PPSVariantPointer(tmp).DataDest^);
                   else
                     begin
-                      CMD_Err(ErTypeMismatch);
+                      CMD_Err(erTypeMismatch);
                       Result := False;
                       Exit;
                     end;
@@ -8227,13 +8227,13 @@ begin
               end
               else
               begin
-                CMD_Err(ErTypeMismatch);
+                CMD_Err(erTypeMismatch);
                 Result := False;
                 Exit;
               end;
             end;
         else
-          CMD_Err(ErTypeMismatch);
+          CMD_Err(erTypeMismatch);
           Result := False;
           Exit;
         end;
@@ -9701,7 +9701,7 @@ begin
                  ((pp.Finally2Offset <> InvalidVal) and (pp.Finally2Offset >= FDataLength)) or
                  ((pp.EndOfBlock <> InvalidVal) and (pp.EndOfBlock >= FDataLength)) then
               begin
-                CMD_Err(ErOutOfRange);
+                CMD_Err(erOutOfRange);
                 pp.Free;
                 Break;
               end;
@@ -9721,13 +9721,13 @@ begin
                   begin
                     if (FExceptionStack.Count = 0) then
                     begin
-                      cmd_err(ErOutOfRange);
+                      cmd_err(erOutOfRange);
                       Break;
                     end;
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(ErOutOfRange);
+                      cmd_err(erOutOfRange);
                       Break;
                     end;
                     pp.ExceptOffset := InvalidVal;
@@ -9756,7 +9756,7 @@ begin
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(ErOutOfRange);
+                      cmd_err(erOutOfRange);
                       Break;
                     end;
                     if pp.FinallyOffset <> InvalidVal then
@@ -9795,7 +9795,7 @@ begin
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(ErOutOfRange);
+                      cmd_err(erOutOfRange);
                       Break;
                     end;
                     if (ExEx <> ENoError) and (pp.ExceptOffset <> InvalidVal) and (pp.ExceptOffset <> InvalidVal - 1) then
@@ -9805,7 +9805,7 @@ begin
                       pp.ExceptionData := ExEx;
                       pp.ExceptionObject := ExObject;
                       pp.ExceptionParam := ExParam;
-                      ExEx := ErNoError;
+                      ExEx := erNoError;
                       ExObject := nil;
                     end
                     else if (pp.Finally2Offset <> InvalidVal) then
@@ -9840,7 +9840,7 @@ begin
                     pp := FExceptionStack.Data^[FExceptionStack.Count - 1];
                     if pp = nil then
                     begin
-                      cmd_err(ErOutOfRange);
+                      cmd_err(erOutOfRange);
                       Break;
                     end;
                     p := pp.EndOfBlock;
@@ -9893,7 +9893,7 @@ begin
                   begin
                     if vs.FreeType <> vtNone then
                       FTempVars.Pop;
-                    CMD_Err(ErTypeMismatch);
+                    CMD_Err(erTypeMismatch);
                     break;
                   end;
                 end
@@ -9913,7 +9913,7 @@ begin
                 begin
                   if vs.FreeType <> vtNone then
                     FTempVars.Pop;
-                  CMD_Err(ErTypeMismatch);
+                  CMD_Err(erTypeMismatch);
                   break;
                 end;
               end;
@@ -9950,7 +9950,7 @@ begin
                 {$ENDIF}
               else
                 begin
-                  CMD_Err(ErTypeMismatch);
+                  CMD_Err(erTypeMismatch);
                   Break;
                 end;
               end;
@@ -9984,7 +9984,7 @@ begin
                 {$ENDIF}
               else
                 begin
-                  CMD_Err(ErTypeMismatch);
+                  CMD_Err(erTypeMismatch);
                   Break;
                 end;
               end;
@@ -10031,7 +10031,7 @@ begin
               begin
                 if vd.FreeType <> vtNone then
                   FTempVars.Pop;
-                CMD_Err(ErTypeMismatch);
+                CMD_Err(erTypeMismatch);
                 break;
               end;
               p := TbtU32(vd.P^);
@@ -10744,7 +10744,7 @@ begin
       end;
   else
     begin
-      Caller.CMD_Err(ErTypeMismatch);
+      Caller.CMD_Err(erTypeMismatch);
       Result := True;
     end;
   end;

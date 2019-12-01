@@ -196,6 +196,7 @@ var
   passcriptfile: string;
   passcript: string;
   passcriptline: string;
+  actorpending: boolean;
 
   function MatchFlags: boolean;
   var
@@ -561,6 +562,9 @@ var
     cnt: integer;
     stateprefix: string;
   begin
+    if not actorpending then
+      Exit;
+    actorpending := false;
     res := '';
     AddRes('NewThing ' + mobj.name);
     if mobj.inheritsfrom <> '' then
@@ -742,6 +746,7 @@ begin
     printf('--------'#13#10);
   end;
 
+  actorpending := false;
   sc := TActordefScriptEngine.Create(in_text);
   while sc.GetString do
   begin
@@ -850,6 +855,7 @@ begin
 
     if sc.MatchString('ACTOR') then
     begin
+      actorpending := true;
       FillChar(mobj, SizeOf(mobj), 0);
       mobj.spawnstate := -1;
       mobj.seestate := -1;

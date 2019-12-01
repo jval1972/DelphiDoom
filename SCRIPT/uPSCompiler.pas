@@ -13848,10 +13848,10 @@ begin
   AddDelphiFunction('function Null: Variant;');
   AddDelphiFunction('function VarIsNull(const V: Variant): Boolean;');
   AddDelphiFunction('function VarType(const V: Variant): TVarType;');
-  AddTypeS('TIFException', '(ErNoError, erCannotImport, erInvalidType, ErInternalError, ' +
+  AddTypeS('TIFException', '(erNoError, erCannotImport, erInvalidType, erInternalError, ' +
    'erInvalidHeader, erInvalidOpcode, erInvalidOpcodeParameter, erNoMainProc, erOutOfGlobalVarsRange, ' +
-    'erOutOfProcRange, ErOutOfRange, erOutOfStackRange, ErTypeMismatch, erUnexpectedEof, ' +
-    'erVersionError, ErDivideByZero, ErMathError,erCouldNotCallProc, erOutofRecordRange, ' +
+    'erOutOfProcRange, erOutOfRange, erOutOfStackRange, erTypeMismatch, erUnexpectedEof, ' +
+    'erVersionError, erDivideByZero, erMathError,erCouldNotCallProc, erOutofRecordRange, ' +
     'erOutOfMemory, erException, erNullPointerException, erNullVariantError, erInterfaceNotSupported, erCustomError)');
   AddFunction('procedure RaiseLastException;');
   AddFunction('procedure RaiseException(Ex: TIFException; Param: String);');
@@ -14203,7 +14203,6 @@ begin
   end;
 end;
 
-
 procedure TPSPascalCompiler.ParserError(Parser: TObject;
   Kind: TPSParserErrorKind);
 begin
@@ -14219,7 +14218,6 @@ begin
     MakeError('', ecSyntaxError, '');
   end;
 end;
-
 
 function TPSPascalCompiler.AddDelphiFunction(const Decl: TbtString): TPSRegProc;
 var
@@ -14381,7 +14379,7 @@ begin
   Result.FInheritsFrom := InheritsFrom;
   FClasses.Add(Result);
   TPSClassType(f).Cl := Result;
-  f.ExportName := True;    
+  f.ExportName := True;
 end;
 
 function TPSPascalCompiler.AddClassN(InheritsFrom: TPSCompileTimeClass; const aClass: TbtString): TPSCompileTimeClass;

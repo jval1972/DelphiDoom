@@ -250,6 +250,7 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
+  Scaled := False;
   LibraryPanel.Width := 16;
   LibraryPageControl.ActivePageIndex := 0;
   MessagesListBox.Style := lbOwnerDrawFixed;

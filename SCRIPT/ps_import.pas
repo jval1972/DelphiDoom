@@ -99,9 +99,11 @@ uses
   m_fixed,
   m_rnd,
   p_local,
+  p_maputl,
   {$IFDEF HEXEN}
   p_setup,
   {$ENDIF}
+  r_main,
   sc_states,
   tables,
   w_pak,
@@ -182,6 +184,7 @@ begin
   baseproclist.Add('procedure SetActorY(const key: LongWord; const y: fixed_t);', @PS_SetActorY);
   baseproclist.Add('function GetActorZ(const key: LongWord): fixed_t;', @PS_GetActorZ);
   baseproclist.Add('procedure SetActorZ(const key: LongWord; const z: fixed_t);', @PS_SetActorZ);
+  baseproclist.Add('procedure SetActorPosition(const key: LongWord; const x, y, z: fixed_t);', @PS_SetActorPosition);
   baseproclist.Add('function GetActorMOMX(const key: LongWord): fixed_t;', @PS_GetActorMOMX);
   baseproclist.Add('procedure SetActorMOMX(const key: LongWord; const x: fixed_t);', @PS_SetActorMOMX);
   baseproclist.Add('function GetActorMOMY(const key: LongWord): fixed_t;', @PS_GetActorMOMY);
@@ -219,6 +222,8 @@ begin
   baseproclist.Add('function GetActorDistanceXYZ(const key1, key2: LongWord): fixed_t;', @PS_GetActorDistanceXYZ);
   baseproclist.Add('function GetActorMobjType(const key: LongWord): integer;', @PS_GetActorMobjType);
   baseproclist.Add('function GetActorEditorNumber(const key: LongWord): integer;', @PS_GetActorEditorNumber);
+  baseproclist.Add('function GetActorState(const key: LongWord): integer;', @PS_GetActorState);
+  baseproclist.Add('procedure SetActorState(const key: LongWord; const value: Integer);', @PS_SetActorState);
   baseproclist.Add('function IsValidActor(const key: LongWord): boolean;', @PS_IsValidActor);
   baseproclist.Add('procedure ActorPlaySound(const key: LongWord; const snd: string);', @PS_ActorPlaySound);
   baseproclist.Add('procedure PlaySound(const snd: string);', @PS_PlaySound);
@@ -228,6 +233,7 @@ begin
   baseproclist.Add('function SpawnActorEditorNumber(x, y, z: fixed_t; const ednum: integer): LongWord;', @PS_SpawnActorEditorNumber);
   baseproclist.Add('function SpawnActorName(x, y, z: fixed_t; const name: string): LongWord;', @PS_SpawnActorName);
   baseproclist.Add('procedure RemoveActor(const key: LongWord);', @PS_RemoveActor);
+  baseproclist.Add('function CheckActorSight(const actor1, actor2: LongWord): boolean;', @PS_CheckActorSight);
   baseproclist.Add('function ActorTypeFromEditorNumber(const ednum: integer): integer;', @PS_ActorTypeFromEditorNumber);
   baseproclist.Add('function ActorTypeFromName(const name: string): integer;', @PS_ActorTypeFromName);
   baseproclist.Add('function GetActorSeeSound(const key: LongWord): string;', @PS_GetActorSeeSound);
@@ -358,6 +364,9 @@ begin
   baseproclist.Add('function GetPlayerHasCard(const plnum: integer; const card: integer): boolean;', @PS_GetPlayerHasKey);
   baseproclist.Add('procedure SetPlayerHasKey(const plnum: integer; const key: integer; const value: boolean);', @PS_SetPlayerHasKey);
   baseproclist.Add('function GetPlayerHasKey(const plnum: integer; const key: integer): boolean;', @PS_GetPlayerHasKey);
+  baseproclist.Add('procedure PlayerUseArtifact(const plnum: Integer; const arti: Integer);', @PS_PlayerUseArtifact);
+  baseproclist.Add('function GiveArtifactToPlayer(const plnum: Integer; const arti: Integer): Boolean;', @PS_GiveArtifactToPlayer);
+  baseproclist.Add('function CheckPlayerArtifact(const plnum: Integer; const arti: Integer): Integer;', @PS_CheckPlayerArtifact);
   {$ENDIF}
   baseproclist.Add('procedure SetPlayerHasWeapon(const plnum: integer; const weapon: integer; const value: boolean);', @PS_SetPlayerHasWeapon);
   baseproclist.Add('function GetPlayerHasWeapon(const plnum: integer; const weapon: integer): boolean;', @PS_GetPlayerHasWeapon);
@@ -367,6 +376,9 @@ begin
   {$ELSE}
   baseproclist.Add('procedure SetPlayerMana(const plnum: integer; const mana: integer; const value: integer);', @PS_SetPlayerMana);
   baseproclist.Add('function GetPlayerMana(const plnum: integer; const mana: integer): integer;', @PS_GetPlayerMana);
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  baseproclist.Add('function GetPlayerClass(const plnum: Integer): Integer;', @PS_GetPlayerClass);
   {$ENDIF}
   baseproclist.Add('procedure SetPlayerMessage(const plnum: integer; const msg: string);', @PS_SetPlayerMessage);
   baseproclist.Add('function GetPlayerMessage(const plnum: integer): string;', @PS_GetPlayerMessage);
@@ -381,6 +393,56 @@ begin
   baseproclist.Add('function GetTextureWidth(const tex: string): Integer;', @PS_GetTextureWidth);
   baseproclist.Add('function GetTextureHeight(const tex: string): Integer;', @PS_GetTextureHeight);
   baseproclist.Add('function IsValidTexture(const tex: string): boolean;', @PS_IsValidTexture);
+// ----------------------------- MOBJS -----------------------------------------
+  baseproclist.Add('function IsValidMobjType(const typ: integer): boolean;', @PS_IsValidMobjType);
+  baseproclist.Add('function GetMobjTypeFromEditorNumber(const en: integer): integer;', @PS_GetMobjTypeFromEditorNumber);
+  baseproclist.Add('function GetEditorNumberFromMobjType(const typ: integer): integer;', @PS_GetEditorNumberFromMobjType);
+  baseproclist.Add('function GetMobjInfoCount: integer;', @PS_GetMobjInfoCount);
+  baseproclist.Add('function GetMobjInfoName(const typ: integer): string;', @PS_GetMobjInfoName);
+  {$IFDEF STRIFE}
+  baseproclist.Add('function GetMobjInfoName2(const typ: integer): string;', @PS_GetMobjInfoName2);
+  {$ENDIF}
+  baseproclist.Add('function GetMobjInfoInheritsFrom(const typ: integer): integer;', @PS_GetMobjInfoInheritsFrom);
+  baseproclist.Add('function GetMobjInfoDoomEdNum(const typ: integer): integer;', @PS_GetMobjInfoDoomEdNum);
+  baseproclist.Add('function GetMobjInfoSpawnState(const typ: integer): integer;', @PS_GetMobjInfoSpawnState);
+  baseproclist.Add('function GetMobjInfoSpawnHealth(const typ: integer): integer;', @PS_GetMobjInfoSpawnHealth);
+  baseproclist.Add('function GetMobjInfoSeeState(const typ: integer): integer;', @PS_GetMobjInfoSeeState);
+  baseproclist.Add('function GetMobjInfoSeeSound(const typ: integer): string;', @PS_GetMobjInfoSeeSound);
+  baseproclist.Add('function GetMobjInfoReactionTime(const typ: integer): integer;', @PS_GetMobjInfoReactionTime);
+  baseproclist.Add('function GetMobjInfoAttackSound(const typ: integer): string;', @PS_GetMobjInfoAttackSound);
+  baseproclist.Add('function GetMobjInfoPainState(const typ: integer): integer;', @PS_GetMobjInfoPainState);
+  baseproclist.Add('function GetMobjInfoPainChance(const typ: integer): integer;', @PS_GetMobjInfoPainChance);
+  baseproclist.Add('function GetMobjInfoPainSound(const typ: integer): string;', @PS_GetMobjInfoPainSound);
+  baseproclist.Add('function GetMobjInfoMeleeState(const typ: integer): integer;', @PS_GetMobjInfoMeleeState);
+  baseproclist.Add('function GetMobjInfoMissileState(const typ: integer): integer;', @PS_GetMobjInfoMissileState);
+  baseproclist.Add('function GetMobjInfoDeathState(const typ: integer): integer;', @PS_GetMobjInfoDeathState);
+  baseproclist.Add('function GetMobjInfoXdeathState(const typ: integer): integer;', @PS_GetMobjInfoXdeathState);
+  baseproclist.Add('function GetMobjInfoDeathSound(const typ: integer): string;', @PS_GetMobjInfoDeathSound);
+  baseproclist.Add('function GetMobjInfoSpeed(const typ: integer): integer;', @PS_GetMobjInfoSpeed);
+  baseproclist.Add('function GetMobjInfoRadius(const typ: integer): integer;', @PS_GetMobjInfoRadius);
+  baseproclist.Add('function GetMobjInfoHeight(const typ: integer): integer;', @PS_GetMobjInfoHeight);
+  baseproclist.Add('function GetMobjInfoMass(const typ: integer): integer;', @PS_GetMobjInfoMass);
+  baseproclist.Add('function GetMobjInfoDamage(const typ: integer): integer;', @PS_GetMobjInfoDamage);
+  baseproclist.Add('function GetMobjInfoActiveSound(const typ: integer): string;', @PS_GetMobjInfoActiveSound);
+  baseproclist.Add('function GetMobjInfoFlag(const typ: Integer; const flg: integer): boolean;', @PS_GetMobjInfoFlag);
+  baseproclist.Add('function GetMobjInfoRaiseState(const typ: integer): integer;', @PS_GetMobjInfoRaiseState);
+  baseproclist.Add('function GetMobjInfoCustomSound1(const typ: integer): string;', @PS_GetMobjInfoCustomSound1);
+  baseproclist.Add('function GetMobjInfoCustomSound2(const typ: integer): string;', @PS_GetMobjInfoCustomSound2);
+  baseproclist.Add('function GetMobjInfoCustomSound3(const typ: integer): string;', @PS_GetMobjInfoCustomSound3);
+  baseproclist.Add('function GetMobjInfoDropItem(const typ: integer): integer;', @PS_GetMobjInfoDropItem);
+  baseproclist.Add('function GetMobjInfoMissiletype(const typ: integer): integer;', @PS_GetMobjInfoMissiletype);
+  baseproclist.Add('function GetMobjInfoExplosionDamage(const typ: integer): integer;', @PS_GetMobjInfoExplosionDamage);
+  baseproclist.Add('function GetMobjInfoExplosionRadius(const typ: integer): integer;', @PS_GetMobjInfoExplosionRadius);
+  baseproclist.Add('function GetMobjInfoMeleeDamage(const typ: integer): integer;', @PS_GetMobjInfoMeleeDamage);
+  baseproclist.Add('function GetMobjInfoMeleeSound(const typ: integer): string;', @PS_GetMobjInfoMeleeSound);
+  baseproclist.Add('function GetMobjInfoRenderStyle(const typ: integer): integer;', @PS_GetMobjInfoRenderStyle);
+  baseproclist.Add('function GetMobjInfoAlpha(const typ: integer): integer;', @PS_GetMobjInfoAlpha);
+  baseproclist.Add('function GetMobjInfoHealState(const typ: integer): integer;', @PS_GetMobjInfoHealState);
+  baseproclist.Add('function GetMobjInfoCrashState(const typ: integer): integer;', @PS_GetMobjInfoCrashState);
+  {$IFDEF DOOM_OR_STRIFE}
+  baseproclist.Add('function GetMobjInfoInteractState(const typ: integer): integer;', @PS_GetMobjInfoInteractState);
+  baseproclist.Add('function GetMobjInfoMissileHeight(const typ: integer): integer;', @PS_GetMobjInfoMissileHeight);
+  {$ENDIF}
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);
@@ -397,6 +459,13 @@ begin
   baseproclist.Add('function _GAME: string;', @PS_Game);
   baseproclist.Add('procedure GlobalEarthQuake(const tics: integer);', @PS_GlobalEarthQuake);
   baseproclist.Add('function GameSkill: integer;', @PS_GameSkill);
+// ------------------------------- MAP -----------------------------------------
+  baseproclist.Add('function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;', @R_PointToAngle);
+  baseproclist.Add('function R_PointToAngle2(const x1: fixed_t; const y1: fixed_t; const x2: fixed_t; const y2: fixed_t): angle_t;', @R_PointToAngle2);
+  baseproclist.Add('function R_PointToDist(const x: fixed_t; const y: fixed_t): fixed_t;', @R_PointToDist);
+  baseproclist.Add('function P_AproxDistance(dx: fixed_t; dy: fixed_t): fixed_t;', @P_AproxDistance);
+  baseproclist.Add('function P_PointOnLineSide(x: fixed_t; y: fixed_t; line: integer): integer;', @PS_P_PointOnLineSide);
+  baseproclist.Add('function R_PointInSector(const x: fixed_t; const y: fixed_t): integer;', @PS_R_PointInSector);
   units.AddObject(basename, baseproclist);
 
   basename := 'PS_FIXED';
@@ -566,38 +635,50 @@ begin
       Sender.AddConstant(GetENumName(TypeInfo(skill_t), m), uT_integer).Value.ts32 := m;
 
     {$IFDEF DOOM_OR_STRIFE}
-    for m := 0 to Ord(NUMCARDS) - 1 do
+    for m := 0 to Ord(NUMCARDS) do
       Sender.AddConstant(GetENumName(TypeInfo(card_t), m), uT_integer).Value.ts32 := m;
     {$ELSE}
-    for m := 0 to Ord(NUMKEYCARDS) - 1 do
+    for m := 0 to Ord(NUMKEYCARDS) do
       Sender.AddConstant(GetENumName(TypeInfo(keytype_t), m), uT_integer).Value.ts32 := m;
     {$ENDIF}
 
-    for m := 0 to Ord(NUMWEAPONS) - 1 do
+    {$IFDEF HEXEN}
+    for m := 0 to Ord(NUMCLASSES) do
+      Sender.AddConstant(GetENumName(TypeInfo(pclass_t), m), uT_integer).Value.ts32 := m;
+    {$ENDIF}
+
+    for m := 0 to Ord(NUMWEAPONS) do
       Sender.AddConstant(GetENumName(TypeInfo(weapontype_t), m), uT_integer).Value.ts32 := m;
 
+    for m := 0 to Ord(NUMMOBJRENDERSTYLES) do
+      Sender.AddConstant(GetENumName(TypeInfo(mobjrenderstyle_t), m), uT_integer).Value.ts32 := m;
+
     {$IFDEF HEXEN}
-    for m := 0 to Ord(NUMMANA) - 1 do
+    for m := 0 to Ord(NUMMANA) do
       Sender.AddConstant(GetENumName(TypeInfo(manatype_t), m), uT_integer).Value.ts32 := m;
     Sender.AddConstant('MAX_MANA', uT_integer).Value.ts32 := MAX_MANA;
     {$ELSE}
-    for m := 0 to Ord(NUMAMMO) - 1 do
+    for m := 0 to Ord(NUMAMMO) do
       Sender.AddConstant(GetENumName(TypeInfo(ammotype_t), m), uT_integer).Value.ts32 := m;
     {$ENDIF}
 
-    for m := 0 to Ord(NUMPOWERS) - 1 do
+    for m := 0 to Ord(NUMPOWERS) do
       Sender.AddConstant(GetENumName(TypeInfo(powertype_t), m), uT_integer).Value.ts32 := m;
 
     {$IFDEF HERETIC_OR_HEXEN}
-    for m := 0 to Ord(NUMARTIFACTS) - 1 do
+    for m := 0 to Ord(NUMARTIFACTS) do
       Sender.AddConstant(GetENumName(TypeInfo(artitype_t), m), uT_integer).Value.ts32 := m;
     {$ENDIF}
 
+    {$IFDEF HEXEN}
+    Sender.AddConstant('arti_firstpuzzitem', uT_integer).Value.ts32 := arti_firstpuzzitem;
+    {$ENDIF}
+
     {$IFDEF STRIFE}
-    for m := 0 to Ord(tk_numquests) - 1 do
+    for m := 0 to Ord(tk_numquests) do
       Sender.AddConstant(GetENumName(TypeInfo(questtype_t), m), uT_integer).Value.ts32 := m;
     {$ENDIF}
-    
+
     // consts p_local
     Sender.AddConstant('ONFLOORZ', uT_integer).Value.ts32 := ONFLOORZ;
     Sender.AddConstant('FLOORZ', uT_integer).Value.ts32 := ONFLOORZ;
@@ -613,6 +694,7 @@ begin
     Sender.AddConstant('ACTOR_INVALID', uT_integer).Value.ts32 := ACTOR_INVALID;
     Sender.AddConstant('PLAYER_INVALID', uT_integer).Value.ts32 := PLAYER_INVALID;
     Sender.AddConstant('MOBJTYPE_INVALID', uT_integer).Value.ts32 := MOBJTYPE_INVALID;
+    Sender.AddConstant('STATE_INVALID', uT_integer).Value.ts32 := STATE_INVALID;
     Sender.AddConstant('EDITORNUMBER_INVALID', uT_integer).Value.ts32 := EDITORNUMBER_INVALID;
     Sender.AddConstant('EDITORNUMBER_UNKNOWN', uT_integer).Value.ts32 := EDITORNUMBER_UNKNOWN;
     Sender.AddConstant('TEXTURE_INVALID', uT_integer).Value.ts32 := TEXTURE_INVALID;

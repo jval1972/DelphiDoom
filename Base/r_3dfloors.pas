@@ -1304,12 +1304,12 @@ begin
         vis.top[x1] := top;
       end;
     end;
-//    if vis.top[x1] <= ceilingclip[x1] + 1 then
-    if vis.top[x1] <= ceilingclip[x1] then
+    if vis.top[x1] <= ceilingclip[x1] + 1 then
+//    if vis.top[x1] <= ceilingclip[x1] then
       if vis.bottom[x1] > ceilingclip[x1] then
         ceilingclip[x1] := vis.bottom[x1];
-//    if vis.bottom[x1] >= floorclip[x1] - 1 then
-    if vis.bottom[x1] >= floorclip[x1] then
+    if vis.bottom[x1] >= floorclip[x1] - 1 then
+//    if vis.bottom[x1] >= floorclip[x1] then
       if vis.top[x1] < floorclip[x1] then
         floorclip[x1] := vis.top[x1];
   end;

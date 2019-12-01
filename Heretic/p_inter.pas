@@ -127,6 +127,8 @@ var
   p_bluearmorclass: integer = 2;
   p_maxartifacts: integer = 16;
 
+function P_GiveArtifact(player: Pplayer_t; arti: artitype_t; mo: Pmobj_t): boolean;
+  
 implementation
 
 uses

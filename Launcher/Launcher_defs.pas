@@ -283,7 +283,7 @@ begin
   gameinfo[Ord(gt_registeredhexen)].extracmdline := '';
   gameinfo[Ord(gt_registeredhexen)].gameengine := ge_hexen;
 
-  gameinfo[Ord(gt_expansionhexen)].description := 'Hexen: Death Kinks of the Dark Citadel';
+  gameinfo[Ord(gt_expansionhexen)].description := 'Hexen: Death Kings of the Dark Citadel';
   gameinfo[Ord(gt_expansionhexen)].mainwad := 'HEXEN.WAD';
   gameinfo[Ord(gt_expansionhexen)].pwad := 'HEXDD.WAD';
   gameinfo[Ord(gt_expansionhexen)].extracmdline := '';

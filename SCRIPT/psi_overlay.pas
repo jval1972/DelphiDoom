@@ -81,7 +81,8 @@ type
     drawers: Poverlaydrawer_tArray;
     fnumdrawers: Integer;
     frealnumdrawers: Integer;
-    fmodified: boolean;
+    fmodified: Boolean;
+    lastdrawcnt: Integer;
     fstart, fend: Integer;
   protected
     procedure ClearScreen; virtual;
@@ -122,6 +123,7 @@ type
     {$IFDEF OPENGL}
     function GetOverlayHeight: Integer;
     {$ENDIF}
+    property Modified: Boolean read fmodified;
   end;
 
 // ----------------- OVERLAY FUNCTIONS -----------------------------------------
@@ -153,6 +155,8 @@ procedure PS_InitOverlay;
 procedure PS_ShutDownOverlay;
 
 procedure OVR_Drawer;
+
+function OVR_IsModified: Boolean;
 
 {$IFDEF OPENGL}
 function OVR_OverlayHeight: Integer;
@@ -199,6 +203,8 @@ begin
   fstart := 0;
   fend := OVERLAYSIZE - 1;
   ClearScreen;
+  fmodified := False;
+  lastdrawcnt := 0;
 end;
 
 destructor TOverlayDrawer.Destroy;
@@ -289,7 +295,6 @@ procedure TOverlayDrawer.ClearScreen;
 begin
   if fstart <= fend then
     MT_ZeroMemory(@overlayscreen[fstart], fend - fstart + 1);
-  fmodified := False;
   fstart := OVERLAYSIZE;
   fend := -1;
 end;
@@ -470,7 +475,6 @@ begin
       Exit;
     end;
   end;
-  fmodified := True;
 end;
 
 procedure TOverlayDrawer.NotifyDrawSize(const astart, aend: Integer);
@@ -583,13 +587,17 @@ end;
 procedure TOverlayDrawer.DrawDrawers;
 var
   i, j: Integer;
-  cnt: Integer;
+  cnt, drawcnt: Integer;
 begin
   ClearScreen;
   cnt := 0;
+  drawcnt := 0;
   for i := 0 to fnumdrawers - 1 do
     if leveltime <= drawers[i].tick then
-      DrawDrawer(i)
+    begin
+      DrawDrawer(i);
+      Inc(drawcnt);
+    end
     else
     begin
       Inc(cnt);
@@ -614,6 +622,10 @@ begin
     end;
     fnumdrawers := j;
   end;
+  fmodified := lastdrawcnt <> drawcnt;
+  lastdrawcnt := drawcnt;
+  if fmodified then
+    needsbackscreen := True;
 end;
 
 {$IFDEF OPENGL}
@@ -837,6 +849,11 @@ begin
     else
       overlay.FlashToScreen8;
   {$ENDIF}
+end;
+
+function OVR_IsModified: Boolean;
+begin
+  Result := overlay.Modified;
 end;
 
 {$IFDEF OPENGL}

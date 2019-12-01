@@ -502,6 +502,7 @@ var
   errstr: string;
   errlst: TDStringList;
   data: string;
+  uS: string;
 begin
   fevents.Clear;
   idx := IndexOf(mapname);
@@ -539,18 +540,20 @@ begin
   for i := 0 to feventsexec.GetVarCount - 1 do
   begin
     V := feventsexec.GetVarNo(I);
-    if (strupper(V.FType.ExportName) = '!TACTORS') or
-       (strupper(V.FType.ExportName) = '!TMAPFLOATS') or
-       (strupper(V.FType.ExportName) = '!TMAPINTEGERS') or
-       (strupper(V.FType.ExportName) = '!TMAPSTRINGS') or
-       (strupper(V.FType.ExportName) = '!TWORLDFLOATS') or
-       (strupper(V.FType.ExportName) = '!TWORLDINTEGERS') or
-       (strupper(V.FType.ExportName) = '!TWORLDSTRINGS') or
-       (strupper(V.FType.ExportName) = '!TVERTEXES') or
-       (strupper(V.FType.ExportName) = '!TSIDES') or
-       (strupper(V.FType.ExportName) = '!TLINES') or
-       (strupper(V.FType.ExportName) = '!TSECTORS') or
-       (strupper(V.FType.ExportName) = '!TOVERLAY') then
+    uS := strupper(V.FType.ExportName);
+    if (uS = '!TACTORS') or
+       (uS = '!TMAPFLOATS') or
+       (uS = '!TMAPINTEGERS') or
+       (uS = '!TMAPSTRINGS') or
+       (uS = '!TWORLDFLOATS') or
+       (uS = '!TWORLDINTEGERS') or
+       (uS = '!TWORLDSTRINGS') or
+       (uS = '!TVERTEXES') or
+       (uS = '!TSIDES') or
+       (uS = '!TLINES') or
+       (uS = '!TSECTORS') or
+       (uS = '!TOVERLAY') or
+       (uS = '!TMOBJINFO') then
       Continue;
 
     errstr := ValidateVarType(V.FType);

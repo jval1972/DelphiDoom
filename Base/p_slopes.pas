@@ -327,7 +327,7 @@ begin
   if sl <> nil then
   begin
     {$IFDEF HEXEN}
-    if sl.arg1 = 252 then
+    if sl.special = 252 then
     begin
       if sl.arg2 <> 0 then
       begin
@@ -367,7 +367,7 @@ begin
   for i := 0 to numlines - 1 do
   begin
     {$IFDEF HEXEN}
-    if lines[i].arg1 = 252 then
+    if lines[i].special = 252 then
     begin
       if lines[i].arg2 <> 0 then
       begin
