@@ -53,6 +53,16 @@ const
   MThd = $6468544D; // Start of file
   MTrk = $6B72544D; // Start of track
 
+
+const
+  midivolumecontrol: array[0..15] of integer = (
+    0, 7, 13, 20, 27, 33, 40, 47, 53, 60, 67, 73, 80, 87, 93, 100
+  );
+
+const
+  MIDI_CTRLCHANGE: Byte = $B0; // + ctrlr + value
+  MIDICTRL_VOLUME: Byte = $07;
+
 implementation
 
 uses
@@ -71,11 +81,9 @@ uses
 //         hi-word: the new volume in percent
 const
   WM_MIDI_VOLUMECHANGED = WM_USER + 23;
-  MIDI_CTRLCHANGE: Byte = $B0; // + ctrlr + value
   MIDI_PRGMCHANGE: Byte = $C0; // + new patch
   MIDI_CHANPRESS: Byte = $D0; // + pressure (1 byte)
 
-  MIDICTRL_VOLUME: Byte = $07;
   MIDI_SYSEX: Byte = $F0; // SysEx begin
   MIDI_SYSEXEND: Byte = $F7; // SysEx end
   MIDI_META: Byte = $FF; // Meta event begin
@@ -194,6 +202,7 @@ type
     m_tkNext: DWORD;
     m_dwMallocBlocks: DWORD;
     m_teTemp: TTEMPEVENT;
+    m_volume: integer;
   protected
     // This function converts MIDI data from the track buffers.
     function ConvertToBuffer(dwFlags: DWORD; lpciInfo: LPCONVERTINFO): integer;
@@ -227,6 +236,8 @@ type
     procedure OnMidiOutPositionCB(var rHdr: MIDIHDR; var rEvent: MIDIEVENT); virtual;
     // Debug Outpur
     procedure DebugOutput(const fmt: string; const A: array of const);
+    // Set globalvolume
+    procedure SetGlobalVolume(const v: integer);
   public
     constructor Create; virtual;
     destructor Destroy; override;
@@ -269,6 +280,7 @@ type
     // Note that "Play()" resets this setting!
     procedure SetInfinitePlay(bSet: BOOL = True);
 
+    property volume: integer read m_volume write SetGlobalVolume;
   end;
 
 const
@@ -863,6 +875,8 @@ begin
   m_tkNext := 0;
   m_dwMallocBlocks := 0;
 
+  m_volume := VOLUME_INIT;
+
   m_hBufferReturnEvent := CreateEvent(nil, False, False, 'Wait For Buffer Return');
   AssertMidiError(m_hBufferReturnEvent <> 0, 'TMidi.Create(): Can not create event', []);
   Inherited;
@@ -1438,10 +1452,10 @@ begin
   if not m_bPlaying then
     Exit;
 
-  if dwPercent > 100 then
-    m_Volumes[dwChannel] := 100
+  if dwPercent > VOLUME_INIT then
+    m_Volumes[dwChannel] := m_volume
   else
-    m_Volumes[dwChannel] := dwPercent;
+    m_Volumes[dwChannel] := round(dwPercent * m_volume / VOLUME_INIT);
   dwEvent := MIDI_CTRLCHANGE or dwChannel or (DWORD(MIDICTRL_VOLUME) shl 8) or (DWORD(m_Volumes[dwChannel] * VOLUME_MAX div 100) shl 16);
   mmrRetVal := midiOutShortMsg(HMIDIOUT(m_hStream), dwEvent);
   if (mmrRetVal <> MMSYSERR_NOERROR) then
@@ -1672,6 +1686,12 @@ begin
       fprintf(debugfile, fmt, A);
 end;
 
+procedure TMidi.SetGlobalVolume(const v: integer);
+begin
+  m_volume := GetIntegerInRange(v, 0, VOLUME_INIT);
+  SetVolume(VOLUME_INIT);
+end;
+
 var
   midi: TMidi;
   MidiData: PByteArray;
@@ -1732,15 +1752,10 @@ begin
   memfree(pointer(MidiData), MidiDataSize);
 end;
 
-const
-  midivolumecontrol: array[0..15] of integer = (
-    0, 7, 13, 20, 27, 33, 40, 47, 53, 60, 67, 73, 80, 87, 93, 100
-  );
-
 procedure I_SetMusicVolumeMidi(volume: integer);
 begin
   if midi <> nil then
-    midi.SetVolume(midivolumecontrol[GetIntegerInRange(volume, 0, 15)]);
+    midi.volume := (midivolumecontrol[GetIntegerInRange(volume, 0, 15)]);
 end;
 
 end.

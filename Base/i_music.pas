@@ -150,6 +150,7 @@ type
     numevents: integer;
     nextevent: integer;
     midievents: PMidiEvent_tArray;
+    originalmidievents: PMidiEvent_tArray;
     header: array[0..NUMMIDIHEADERS - 1] of midiheader_t;
   end;
   Psonginfo_t = ^songinfo_t;
@@ -596,9 +597,14 @@ begin
 
     song := Psonginfo_t(handle);
     Z_Free(song.midievents);
+    Z_Free(song.originalmidievents);
+
     Z_Free(song);
   end;
 end;
+
+var
+  setmusvolume: integer = -1;
 
 function I_RegisterSong(data: pointer; size: integer): integer;
 var
@@ -611,6 +617,7 @@ begin
   song.numevents := GetSongLength(PByteArray(data));
   song.nextevent := 0;
   song.midievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
+  song.originalmidievents := Z_Malloc(song.numevents * SizeOf(MidiEvent_t), PU_STATIC, nil);
 
   if m_type = m_midi then
     I_StopMidi
@@ -624,6 +631,9 @@ begin
   end
   else if I_MusToMidi(PByteArray(data), song.midievents) then
   begin
+    setmusvolume := -1; // Force music update
+    memcpy(song.originalmidievents, song.midievents, song.numevents * SizeOf(MidiEvent_t));
+
     I_InitMus;
     m_type := m_mus;
 
@@ -670,6 +680,7 @@ begin
     end;
 
     I_PlayMidi(MidiFileName);
+    I_SetMusicVolumeMidi(snd_MusicVolume);
   end;
   result := integer(song);
 end;
@@ -686,21 +697,43 @@ end;
 procedure I_SetMusicVolumeMus(volume: integer);
 var
   rc: MMRESULT;
+  dwEvent: DWORD;
+  vol100: integer;
+  ch: DWORD;
+  i: integer;
 begin
   snd_MusicVolume := volume;
 // Set volume on output device.
   if (CurrentSong <> nil) and (snd_MusicVolume = 0) and musicstarted then
     I_StopMusic(CurrentSong);
 
-  if midicaps.dwSupport and MIDICAPS_VOLUME <> 0 then
+  if win_vista_or_newer and (CurrentSong <> nil) then
   begin
-    rc := midiOutSetVolume(hMidiStream,
-      _SHLW($FFFF * snd_MusicVolume div 16, 16) or _SHLW(($FFFF * snd_MusicVolume div 16), 0));
-    if rc <> MMSYSERR_NOERROR then
-      I_Warning('I_SetMusicVolume(): midiOutSetVolume failed, return value = %d'#13#10, [rc]);
+    vol100 := midivolumecontrol[ibetween(volume, 0, 15)];
+
+    for ch := 0 to 15 do
+    begin
+      dwEvent := MIDI_CTRLCHANGE or ch or (DWORD(MIDICTRL_VOLUME) shl 8) or (DWORD(vol100) shl 16);
+      midiOutShortMsg(hMidiStream, dwEvent);
+    end;
+
+    for i := 0 to CurrentSong.numevents - 1 do
+      if CurrentSong.midievents[i].mevent and $000000F0 = MIDI_CTRLCHANGE then
+        if (CurrentSong.midievents[i].mevent and $0000FF00) shr 8 = MIDICTRL_VOLUME then
+          CurrentSong.midievents[i].mevent := (CurrentSong.originalmidievents[i].mevent and $FF80FFFF) or (vol100 shl 16);
   end
   else
-    I_Warning('I_SetMusicVolume(): Midi device dos not support volume control'#13#10);
+  begin
+    if midicaps.dwSupport and MIDICAPS_VOLUME <> 0 then
+    begin
+      rc := midiOutSetVolume(hMidiStream,
+        _SHLW($FFFF * snd_MusicVolume div 16, 16) or _SHLW(($FFFF * snd_MusicVolume div 16), 0));
+      if rc <> MMSYSERR_NOERROR then
+        I_Warning('I_SetMusicVolume(): midiOutSetVolume failed, return value = %d'#13#10, [rc]);
+    end
+    else
+      I_Warning('I_SetMusicVolume(): Midi device dos not support volume control'#13#10);
+  end;
 end;
 
 procedure I_SetMusicVolume(volume: integer);
@@ -736,6 +769,13 @@ begin
         if rc <> MMSYSERR_NOERROR then
           I_Warning('I_ProcessMusic(): midiOutUnprepareHeader failed, result = %d'#13#10, [rc]);
       end;
+
+      if setmusvolume <> snd_MusicVolume then
+      begin
+        I_SetMusicVolumeMus(snd_MusicVolume);
+        setmusvolume := snd_MusicVolume;
+      end;
+
       header.lpData := @CurrentSong.midievents[CurrentSong.nextevent];
       length := CurrentSong.numevents - CurrentSong.nextevent;
       if length > MAX_MIDI_EVENTS then

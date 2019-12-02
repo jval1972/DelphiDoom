@@ -1854,7 +1854,7 @@ begin
   mobj_tokens.Add('FLAGS2_EX');          // .flags2_ex (DelphiDoom)   // 39
   mobj_tokens.Add('CRASH FRAME');        // .crashstate (DelphiDoom)  // 40
   mobj_tokens.Add('INTERACT FRAME');     // .interactstate (DelphiDoom) // 41
-  mobj_tokens.Add('MISSILEHEIGHT');      // .imissileheight (DelphiDoom) // 42
+  mobj_tokens.Add('MISSILEHEIGHT');      // .missileheight (DelphiDoom) // 42
   mobj_tokens.Add('NAME2');              // .name2 (Strife)           // 43
   mobj_tokens.Add('VSPEED');             // .vspeed                   // 44
   mobj_tokens.Add('PUSHFACTOR');         // .pushfactor               // 45

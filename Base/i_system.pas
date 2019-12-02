@@ -163,6 +163,7 @@ var
   usemmx: boolean = true;
   usemultithread: boolean;
   criticalcpupriority: boolean;
+  win_vista_or_newer: boolean = true;
 
 function I_ScreenWidth: integer;
 
@@ -492,17 +493,6 @@ begin
       DispatchMessage(msg);
     end;
   end;
-
-{  if PeekMessage(msg, 0, 0, 0, PM_REMOVE) then
-  begin
-    if msg.message <> WM_QUIT then
-    begin
-      TranslateMessage(msg);
-      DispatchMessage(msg);
-    end;
-  end
-  else
-    I_FinishUpdate}
 end;
 
 // Wait for vertical retrace or pause a bit.
@@ -713,6 +703,7 @@ begin
           osname := '98'
         else
           osname := 'Me';
+        win_vista_or_newer := false;
       end;
     VER_PLATFORM_WIN32_NT:
       begin
@@ -735,6 +726,7 @@ begin
           osname := 'Vista'
         else if (info.dwMajorVersion = 6) and (info.dwMinorVersion = 1) then
           osname := '7';
+        win_vista_or_newer := info.dwMajorVersion >= 6;
       end;
     else
       begin
