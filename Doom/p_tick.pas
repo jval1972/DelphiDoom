@@ -61,9 +61,6 @@ var
   leveltime: integer;
   isgamesuspended: boolean = true;
 
-const
-  TICKRATE = 35;
-
 implementation
 
 uses
@@ -107,12 +104,18 @@ end;
 // Deallocation is lazy -- it will not actually be freed
 // until its thinking turn comes up.
 //
+procedure _removethinker;
+begin
+// JVAL 20191203 - Fixed non working plats & ceilings thanks to slayermbm
+//                 https://www.doomworld.com/forum/topic/98789-fpcdoom-1124117-updated-dec-2-2019/?do=findComment&comment=2050845
+end;
+
 procedure P_RemoveThinker(thinker: Pthinker_t);
 begin
   if @thinker._function.acp1 = @P_MobjThinker then
     mobjlist.Remove(Pmobj_t(thinker));
   // FIXME: NOP.
-  thinker._function.acv := nil;
+  @thinker._function.acv := @_removethinker;
 end;
 
 //
@@ -125,7 +128,7 @@ begin
   currentthinker := thinkercap.next;
   while currentthinker <> @thinkercap do
   begin
-    if not Assigned(currentthinker._function.acv) then
+    if @currentthinker._function.acv = @_removethinker then
     begin
       // time to remove it
       currentthinker.next.prev := currentthinker.prev;

@@ -5088,7 +5088,7 @@ begin
 
   end;
 
-  W_RuntimeLoad(wadfilemap);
+  W_RuntimeLoad(wadfilemap, F_ORIGIN_WAD);
 end;
 
 end.

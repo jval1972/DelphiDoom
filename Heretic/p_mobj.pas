@@ -936,7 +936,7 @@ begin
 
     mobj.movecount := mobj.movecount + 1;
 
-    if mobj.movecount < 12 * TICKRATE then
+    if mobj.movecount < 12 * TICRATE then
     begin
       exit;
     end;
@@ -1178,7 +1178,7 @@ begin
     exit;
 
   // wait at least 30 seconds
-  if leveltime - itemrespawntime[iquetail] < 30 * TICKRATE then
+  if leveltime - itemrespawntime[iquetail] < 30 * TICRATE then
     exit;
 
   mthing := @itemrespawnque[iquetail];

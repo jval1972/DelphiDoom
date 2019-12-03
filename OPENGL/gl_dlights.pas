@@ -136,6 +136,7 @@ uses
 
 const
   LIGHTSLUMPNAME = 'LIGHTDEF';
+  GLDEFSLUMPNAME = 'GLDEFS';
 
 var
 // JVAL: Random index for light animation operations,
@@ -183,7 +184,7 @@ begin
   if devparm then
   begin
     printf('--------'#13#10);
-    printf('SC_ParceDynamicLight(): Parsing %s lump:'#13#10, [LIGHTSLUMPNAME]);
+    printf('SC_ParceDynamicLight(): Parsing light definitions'#13#10);
 
     slist := TDStringList.Create;
     try
@@ -442,9 +443,18 @@ begin
       SC_ParceDynamicLight(W_TextLumpNum(i));
     end;
 
+  for i := 0 to W_NumLumps - 1 do
+    if char8tostring(W_GetNameForNum(i)) = GLDEFSLUMPNAME then
+    begin
+      lightdeflumppresent := true;
+      SC_ParceDynamicLight(W_TextLumpNum(i));
+    end;
+
 // JVAL: 2011/05 Now check inside PAK/PK3 files for LIGHTDEF entries
   i := PAK_StringIterator(LIGHTSLUMPNAME, SC_ParceDynamicLight);
   i := i + PAK_StringIterator(LIGHTSLUMPNAME + '.txt', SC_ParceDynamicLight);
+  i := PAK_StringIterator(GLDEFSLUMPNAME, SC_ParceDynamicLight);
+  i := i + PAK_StringIterator(GLDEFSLUMPNAME + '.txt', SC_ParceDynamicLight);
   lightdeflumppresent := lightdeflumppresent or (i > 0);
 end;
 

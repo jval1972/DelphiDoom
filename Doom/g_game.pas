@@ -2444,9 +2444,9 @@ begin
     while (integer(@demo_p[i]) < integer(demoend) - 4) and (demo_p[i] <> DEMOMARKER) do
       inc(i, 4);
     // JVAL: Leave maximum 4 seconds after player death
-    if i > 4 * TICKRATE * 4 then
+    if i > 4 * TICRATE * 4 then
     begin
-      i := 4 * TICKRATE * 4;
+      i := 4 * TICRATE * 4;
       demo_p[i] := DEMOMARKER;
     end;
     ZeroMemory(demo_p, i);

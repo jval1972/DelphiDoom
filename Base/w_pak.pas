@@ -39,9 +39,12 @@ const
   WAD2id: integer = $32444157;  // 'WAD2' in Hex!
   WAD3id: integer = $33444157;  // 'WAD3' in Hex!
 
+const
+  PAKHEADSTRINGSIZE = 56;
+
 type
   FPakHead = packed record // A PAK Directory Entry
-    Name: packed array[1..56] of char;
+    Name: packed array[1..PAKHEADSTRINGSIZE] of char;
     Offs: integer;
     Fsize: integer;
   end;
@@ -330,7 +333,7 @@ begin
   e.Offset := index; // offset -> index to ZIP file
   e.Size := 0;
   e.ZIP := ZIPFILE;
-  
+
   AddEntryToHashTable(NumEntries - 1);
 end;
 {$ENDIF}
@@ -345,7 +348,7 @@ begin
   Grow;
 
   S := '';
-  for I := 1 to 56 do
+  for I := 1 to PAKHEADSTRINGSIZE do
     if H.Name[I] <> #0 then
       S := S + toupper(H.Name[I])
     else
@@ -454,6 +457,30 @@ var
   wadlumpname: string;
   pc: integer;
   stmp: string;
+  wads: TDStringList;
+
+  procedure CheckWadEntry(const wadname: string);
+  begin
+    if strupper(fext(wadname)) = '.WAD' then
+    begin
+      if wads = nil then
+        wads := TDStringList.Create;
+      wads.Add(wadname);
+    end;
+  end;
+
+  function _GetPakNameFromPakHead(const p: FPakHead): string;
+  var
+    x: integer;
+  begin
+    result := '';
+    for x := 1 to PAKHEADSTRINGSIZE do
+      if p.Name[x] = #0 then
+        break
+      else
+        result := result + p.Name[x];
+  end;
+
 begin
   result := false;
   Fn := strupper(FileName);
@@ -480,6 +507,8 @@ begin
     exit;
   end;
 
+  wads := nil;
+
   if Id = Pakid then // PAK file
   begin
     BlockRead(F, Ofs, 4, N);
@@ -499,7 +528,10 @@ begin
     P := malloc(Nr * SizeOf(FPakHead));
     Blockread(f, P^, Nr * SizeOf(FPakHead), N);
     for i := 0 to N div SizeOf(FPakHead) - 1 do
+    begin
       AddEntry(PFPakHeadArray(P)[i], Fn);
+      CheckWadEntry(_GetPakNameFromPakHead(PFPakHeadArray(P)[i]));
+    end;
     memfree(P, Nr * SizeOf(FPakHead));
   end
 {$IFNDEF FPC}
@@ -508,7 +540,10 @@ begin
     z := TZipFile.Create(Fn);
     PAKS.Objects[pkid] := z;
     for i := 0 to z.FileCount - 1 do
+    begin
       AddEntry(z, Fn, z.Files[i], i);
+      CheckWadEntry(z.Files[i]);
+    end;
   end
 {$ENDIF}
   else if (Id = IWAD) or (Id = PWAD) or (Id = DWAD) then  // DOOM WAD
@@ -623,6 +658,13 @@ begin
   close(F);
   result := true;
   printf(' adding %s'#13#10, [FileName]);
+
+  if wads <> nil then
+  begin
+    for i := 0 to wads.Count - 1 do
+      W_AddPendingWADfromPAK(wads.Strings[i]);
+    wads.Free;
+  end;
 end;
 
 procedure TPakManager.GetEntries(var s: TDStringList);

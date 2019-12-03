@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -GEOM 1366X768 -iwad doomu.wad vp_cande.wad
+RunParams=-nofullscreen -GEOM 1366X768 -iwad doom2.wad loadtest.zip
 HostApplication=
 Launcher=
 UseLauncher=0

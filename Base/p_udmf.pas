@@ -853,7 +853,7 @@ begin
   udmf.SaveUDMFToVanilla(mapname, wadfilemap{$IFDEF HEXEN}, behav_lump{$ENDIF});
   udmf.Free;
 
-  W_RuntimeLoad(wadfilemap);
+  W_RuntimeLoad(wadfilemap, F_ORIGIN_WAD);
 end;
 
 end.

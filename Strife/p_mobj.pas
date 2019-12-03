@@ -822,7 +822,7 @@ begin
     mobj.movecount := mobj.movecount + 1;
 
     // haleyjd [STRIFE]: respawn time increased from 12 to 16
-    if mobj.movecount < 16 * TICKRATE then
+    if mobj.movecount < 16 * TICRATE then
     begin
       exit;
     end;

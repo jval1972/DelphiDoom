@@ -128,7 +128,7 @@ type
 // WADFILE I/O related stuff.
 //
   lumpinfo_t = record
-    handle: TCachedFile;
+    handle: TDStream;
     position: integer;
     size: integer;
     flags: LongWord;
@@ -160,7 +160,13 @@ procedure W_ShutDown;
 
 procedure W_Reload;
 
-procedure W_RuntimeLoad(fname: string);
+const
+  F_ORIGIN_WAD = 0;
+  F_ORIGIN_PAK = 1;
+
+procedure W_RuntimeLoad(fname: string; const origin: integer);
+
+procedure W_AddPendingWADfromPAK(const fname: string);
 
 function W_NumLumps: integer;
 
@@ -208,6 +214,7 @@ implementation
 
 uses
   i_system,
+  w_pak,
   z_zone;
 
 var
@@ -614,7 +621,7 @@ type
     filename: string;
     startlump: integer;
     numlumps: integer;
-    stream: TCachedFile;
+    stream: TDStream;
     constructor Create(const aname: string); virtual;
     destructor Destroy; override;
   end;
@@ -641,13 +648,13 @@ type
   oldlumpcache_tArray = array[0..$1FFF] of oldlumpcache_t;
   Poldlumpcache_tArray = ^oldlumpcache_tArray;
 
-procedure W_RuntimeLoad(fname: string);
+procedure W_RuntimeLoad(fname: string; const origin: integer);
 var
   header: wadinfo_t;
   lumpcount: integer;
   lump_p: Plumpinfo_t;
   i: integer;
-  handle: TCachedFile;
+  handle: TDStream;
   length: integer;
   fileinfo: Pfilelump_tArray;
   idx: integer;
@@ -656,26 +663,39 @@ var
   A: Poldlumpcache_tArray;
   p1, p2, p3: integer;
   numA: integer;
+  ioret: integer;
 begin
   printf('W_RuntimeLoad(): adding %s'#13#10, [fname]);
 
   fname := strupper(fname);
 
-  if not fexists(fname) then
-  begin
-    I_Warning('W_RuntimeLoad(): File %s does not exist'#13#10, [fname]);
-    exit;
-  end;
+  if origin = F_ORIGIN_WAD then
+    if not fexists(fname) then
+    begin
+      I_Warning('W_RuntimeLoad(): File %s does not exist'#13#10, [fname]);
+      exit;
+    end;
 
   if rtllist = nil then
     rtllist := TDStringList.Create;
 
   handle := nil;
   try
-    handle := TCachedFile.Create(fname, fOpenReadOnly);
+    if origin = F_ORIGIN_WAD then
+      handle := TCachedFile.Create(fname, fOpenReadOnly)
+    else
+      handle := TPakStream.Create(fname, pm_full);
   except
     handle.Free;
     I_Warning('W_RuntimeLoad(): couldn''t open %s'#13#10, [fname]);
+    exit;
+  end;
+
+  ioret := handle.IOResult;
+  if ioret <> 0 then
+  begin
+    I_Warning('W_RuntimeLoad(): couldn''t open %s, IOResult = %d'#13#10, [fname, ioret]);
+    handle.Free;
     exit;
   end;
 
@@ -771,6 +791,16 @@ begin
 
 end;
 
+var
+  pendingwadsfrompak: TDStringList = nil;
+
+procedure W_AddPendingWADfromPAK(const fname: string);
+begin
+  if pendingwadsfrompak = nil then
+    pendingwadsfrompak := TDStringList.Create;
+  pendingwadsfrompak.Add(fname);
+end;
+
 //
 // W_InitMultipleFiles
 // Pass a null terminated list of files to use.
@@ -819,12 +849,22 @@ begin
   lumphash := malloc(SizeOf(lumphash_tArray));
 
   W_InitLumpHash;
+
+  if pendingwadsfrompak <> nil then
+  begin
+    for i := 0 to pendingwadsfrompak.Count - 1 do
+      W_RuntimeLoad(pendingwadsfrompak.Strings[i], F_ORIGIN_PAK);
+    pendingwadsfrompak.Clear;
+  end;
 end;
 
 procedure W_ShutDown;
 var
   i: integer;
 begin
+  if pendingwadsfrompak <> nil then
+    pendingwadsfrompak.Free;
+
   memfree(pointer(lumpcache), lumpcacherealsize * SizeOf(pointer));
   memfree(pointer(lumpinfo), numlumps * SizeOf(lumpinfo_t));
   memfree(pointer(lumphash), SizeOf(lumphash_tArray));
@@ -1079,7 +1119,7 @@ procedure W_ReadLump(const lump: integer; dest: pointer);
 var
   c: integer;
   l: Plumpinfo_t;
-  handle: TCachedFile;
+  handle: TDStream;
 begin
   if lump >= numlumps then
     I_Error('W_ReadLump(): %d >= numlumps', [lump]);

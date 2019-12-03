@@ -45,13 +45,12 @@ unit p_spec;
 interface
 
 uses
-  m_fixed,
   doomdef,
+  m_fixed,
   d_player,
   d_think,
   p_local,
   p_mobj_h,
-  p_tick,
   r_defs;
 
 //
@@ -188,7 +187,7 @@ const
    MAXBUTTONS = 32;
 
  // 1 second, in ticks.
-   BUTTONTIME = 1000 div TICKRATE;
+   BUTTONTIME = 1000 div TICRATE;
 
 
 type
@@ -644,6 +643,7 @@ uses
   p_user,
   p_scroll,
   p_common,
+  p_tick,
   s_sound,
 // Data.
   sounds;
@@ -3386,13 +3386,13 @@ begin
     if i <> 0 then
     begin
       levelTimer := true;
-      levelTimeCount := 20 * 60 * TICKRATE;
+      levelTimeCount := 20 * 60 * TICRATE;
     end;
 
     i := M_CheckParm('-timer');
     if i <> 0 then
     begin
-      time := atoi(myargv[i + 1]) * 60 * TICKRATE;
+      time := atoi(myargv[i + 1]) * 60 * TICRATE;
       levelTimer := true;
       levelTimeCount := time;
     end;

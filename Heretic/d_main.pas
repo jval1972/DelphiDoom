@@ -121,6 +121,9 @@ var
 
 var
   showmessageboxonmodified: boolean = false;
+{$IFNDEF OPENGL}
+  showfullhdlogo: boolean = false;
+{$ENDIF}
 
 implementation
 
@@ -663,9 +666,10 @@ end;
 //
 // D_PageDrawer
 //
+{$IFNDEF OPENGL}
 var
   fullhdpatch: integer = -2;
-
+{$ENDIF}
 procedure D_PageDrawer;
 {$IFNDEF OPENGL}
 var
@@ -674,18 +678,19 @@ var
 begin
   V_PageDrawer(pagename);
   {$IFNDEF OPENGL}
-  if demosequence = 0 then
-    if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
-    begin
-      if fullhdpatch = -2 then
-        fullhdpatch := W_CheckNumForName('FULLHD');
-      if fullhdpatch > 0 then
+  if showfullhdlogo then
+    if demosequence = 0 then
+      if (SCREENWIDTH = 1920) and (SCREENHEIGHT = 1080) then
       begin
-        pt := W_CacheLumpNum(fullhdpatch, PU_STATIC);
-        V_DrawPatch(120, 1020, SCN_FG, pt, false);
-        Z_ChangeTag(pt, PU_CACHE);
+        if fullhdpatch = -2 then
+          fullhdpatch := W_CheckNumForName('FULLHD');
+        if fullhdpatch > 0 then
+        begin
+          pt := W_CacheLumpNum(fullhdpatch, PU_STATIC);
+          V_DrawPatch(120, 1020, SCN_FG, pt, false);
+          Z_ChangeTag(pt, PU_CACHE);
+        end;
       end;
-    end;
   {$ENDIF}
   if demosequence = 1 then
     V_DrawPatch(4, 160, SCN_FG, W_CacheLumpName('ADVISOR', PU_CACHE), true);

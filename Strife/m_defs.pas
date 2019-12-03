@@ -110,8 +110,9 @@ var
   force_numwallrenderingthreads_8bit: integer;
   force_numwallrenderingthreads_32bit: integer;
   precisescalefromglobalangle: boolean;
-  preciseslopedrawing: Boolean; // JVAL: Slopes
+  preciseslopedrawing: boolean; // JVAL: Slopes
   r_drawvoxels: boolean;
+  showfullhdlogo: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -132,7 +133,7 @@ var
   gl_smoothmodelmovement: boolean;
   gl_precachemodeltextures: boolean;
   gl_uselightmaps: boolean;
-  gl_drawshadows: Boolean;
+  gl_drawshadows: boolean;
   gl_renderwireframe: boolean;
   gl_no_glfinish_hack: boolean = true;
 {$ENDIF}
@@ -152,7 +153,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 180;
+  NUMDEFAULTS = 182;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -817,6 +818,14 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+    (name: 'UserInterface';
+     location: nil;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tGroup),
+
     (name: 'showmessageboxonmodified';
      location: @showmessageboxonmodified;
      setable: DFS_ALWAYS;
@@ -824,7 +833,15 @@ const
      defaultivalue: 0;
      defaultbvalue: false;
      _type: tBoolean),
-     
+
+    (name: 'showfullhdlogo';
+     location: @showfullhdlogo;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
      // Navigation
     (name: 'Controls';
      location: nil;
