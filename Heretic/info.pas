@@ -12170,7 +12170,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ITEMSHIELD1
     doomednum: 85;                // doomednum
@@ -12196,7 +12197,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ITEMSHIELD2
     doomednum: 31;                // doomednum
@@ -12222,7 +12224,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC1
     doomednum: 8;                 // doomednum
@@ -12248,7 +12251,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC2
     doomednum: 35;                // doomednum
@@ -12274,7 +12278,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ARTIINVISIBILITY
     doomednum: 75;                // doomednum
@@ -12302,6 +12307,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_SHADOW or MF_COUNTITEM;    // flags
     flags2: MF2_FLOATBOB;          // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC3
     doomednum: 82;                // doomednum
@@ -12327,7 +12333,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ARTIFLY
     doomednum: 83;                // doomednum
@@ -12353,7 +12360,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ARTIINVULNERABILITY
     doomednum: 84;                // doomednum
@@ -12379,7 +12387,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ARTITOMEOFPOWER
     doomednum: 86;                // doomednum
@@ -12405,7 +12414,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ARTIEGG
     doomednum: 30;                // doomednum
@@ -12431,7 +12441,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_EGGFX
     doomednum: -1;                // doomednum
@@ -12457,7 +12468,8 @@ const // Doom Original mobjinfo
     damage: 1;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ARTISUPERHEAL
     doomednum: 32;                // doomednum
@@ -12483,7 +12495,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC4
     doomednum: 33;                // doomednum
@@ -12509,7 +12522,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC5
     doomednum: 34;                // doomednum
@@ -12535,7 +12549,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_FIREBOMB
     doomednum: -1;                // doomednum
@@ -12563,6 +12578,7 @@ const // Doom Original mobjinfo
     flags: MF_NOGRAVITY or MF_SHADOW;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_ARTITELEPORT
     doomednum: 36;                // doomednum
@@ -12588,7 +12604,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB          // flags2
+    flags2: MF2_FLOATBOB;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_POD
     doomednum: 2035;              // doomednum
@@ -12614,7 +12631,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID or MF_NOBLOOD or MF_SHOOTABLE or MF_DROPOFF;    // flags
-    flags2: MF2_WINDTHRUST or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP    // flags2
+    flags2: MF2_WINDTHRUST or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_PODGOO
     doomednum: -1;                // doomednum
@@ -12640,7 +12658,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH    // flags2
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_PODGENERATOR
     doomednum: 43;                // doomednum
@@ -12666,7 +12685,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SPLASH
     doomednum: -1;                // doomednum
@@ -12694,6 +12714,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SPLASHBASE
     doomednum: -1;                // doomednum
@@ -12721,6 +12742,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;         // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_LAVASPLASH
     doomednum: -1;                // doomednum
@@ -12748,6 +12770,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;         // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_LAVASMOKE
     doomednum: -1;                // doomednum
@@ -12775,6 +12798,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SLUDGECHUNK
     doomednum: -1;                // doomednum
@@ -12802,6 +12826,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SLUDGESPLASH
     doomednum: -1;                // doomednum
@@ -12829,6 +12854,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;         // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SKULLHANG70
     doomednum: 17;                // doomednum
@@ -12854,7 +12880,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SKULLHANG60
     doomednum: 24;                // doomednum
@@ -12880,7 +12907,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SKULLHANG45
     doomednum: 25;                // doomednum
@@ -12906,7 +12934,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SKULLHANG35
     doomednum: 26;                // doomednum
@@ -12932,7 +12961,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CHANDELIER
     doomednum: 28;                // doomednum
@@ -12958,7 +12988,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SERPTORCH
     doomednum: 27;                // doomednum
@@ -12984,7 +13015,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SMALLPILLAR
     doomednum: 29;                // doomednum
@@ -13010,7 +13042,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_STALAGMITESMALL
     doomednum: 37;                // doomednum
@@ -13036,7 +13069,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_STALAGMITELARGE
     doomednum: 38;                // doomednum
@@ -13062,7 +13096,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_STALACTITESMALL
     doomednum: 39;                // doomednum
@@ -13088,7 +13123,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_STALACTITELARGE
     doomednum: 40;                // doomednum
@@ -13114,7 +13150,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC6
     doomednum: 76;                // doomednum
@@ -13140,7 +13177,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BARREL
     doomednum: 44;                // doomednum
@@ -13166,7 +13204,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC7
     doomednum: 47;                // doomednum
@@ -13192,7 +13231,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC8
     doomednum: 48;                // doomednum
@@ -13218,7 +13258,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC9
     doomednum: 49;                // doomednum
@@ -13244,7 +13285,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC10
     doomednum: 50;                // doomednum
@@ -13270,7 +13312,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOGRAVITY;          // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC11
     doomednum: 51;                // doomednum
@@ -13296,7 +13339,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_KEYGIZMOBLUE
     doomednum: 94;                // doomednum
@@ -13322,7 +13366,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_KEYGIZMOGREEN
     doomednum: 95;                // doomednum
@@ -13348,7 +13393,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_KEYGIZMOYELLOW
     doomednum: 96;                // doomednum
@@ -13374,7 +13420,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_KEYGIZMOFLOAT
     doomednum: -1;                // doomednum
@@ -13400,7 +13447,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC12
     doomednum: 87;                // doomednum
@@ -13426,7 +13474,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID;              // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_VOLCANOBLAST
     doomednum: -1;                // doomednum
@@ -13452,7 +13501,8 @@ const // Doom Original mobjinfo
     damage: 2;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE    // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_VOLCANOTBLAST
     doomednum: -1;                // doomednum
@@ -13480,6 +13530,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_TELEGLITGEN
     doomednum: 74;                // doomednum
@@ -13505,7 +13556,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_TELEGLITGEN2
     doomednum: 52;                // doomednum
@@ -13531,7 +13583,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_TELEGLITTER
     doomednum: -1;                // doomednum
@@ -13557,7 +13610,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_TELEGLITTER2
     doomednum: -1;                // doomednum
@@ -13583,7 +13637,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_TFOG
     doomednum: -1;                // doomednum
@@ -13611,6 +13666,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_TELEPORTMAN
     doomednum: 14;                // doomednum
@@ -13636,7 +13692,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_STAFFPUFF
     doomednum: -1;                // doomednum
@@ -13664,6 +13721,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_STAFFPUFF2
     doomednum: -1;                // doomednum
@@ -13691,6 +13749,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BEAKPUFF
     doomednum: -1;                // doomednum
@@ -13718,6 +13777,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC13
     doomednum: 2005;              // doomednum
@@ -13743,7 +13803,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_GAUNTLETPUFF1
     doomednum: -1;                // doomednum
@@ -13771,6 +13832,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_GAUNTLETPUFF2
     doomednum: -1;                // doomednum
@@ -13798,6 +13860,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC14
     doomednum: 53;                // doomednum
@@ -13823,7 +13886,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BLASTERFX1
     doomednum: -1;                // doomednum
@@ -13849,7 +13913,8 @@ const // Doom Original mobjinfo
     damage: 2;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BLASTERSMOKE
     doomednum: -1;                // doomednum
@@ -13877,6 +13942,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_RIPPER
     doomednum: -1;                // doomednum
@@ -13902,7 +13968,8 @@ const // Doom Original mobjinfo
     damage: 1;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_RIP    // flags2
+    flags2: MF2_NOTELEPORT or MF2_RIP;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BLASTERPUFF1
     doomednum: -1;                // doomednum
@@ -13930,6 +13997,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BLASTERPUFF2
     doomednum: -1;                // doomednum
@@ -13957,6 +14025,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_WMACE
     doomednum: 2002;              // doomednum
@@ -13982,7 +14051,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MACEFX1
     doomednum: -1;                // doomednum
@@ -14010,6 +14080,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MACEFX2
     doomednum: -1;                // doomednum
@@ -14037,6 +14108,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MACEFX3
     doomednum: -1;                // doomednum
@@ -14064,6 +14136,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MACEFX4
     doomednum: -1;                // doomednum
@@ -14091,6 +14164,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_TELESTOMP;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_WSKULLROD
     doomednum: 2004;              // doomednum
@@ -14116,7 +14190,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_HORNRODFX1
     doomednum: -1;                // doomednum
@@ -14144,6 +14219,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_HORNRODFX2
     doomednum: -1;                // doomednum
@@ -14171,6 +14247,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_RAINPLR1
     doomednum: -1;                // doomednum
@@ -14196,7 +14273,8 @@ const // Doom Original mobjinfo
     damage: 5;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_RAINPLR2
     doomednum: -1;                // doomednum
@@ -14222,7 +14300,8 @@ const // Doom Original mobjinfo
     damage: 5;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_RAINPLR3
     doomednum: -1;                // doomednum
@@ -14248,7 +14327,8 @@ const // Doom Original mobjinfo
     damage: 5;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_RAINPLR4
     doomednum: -1;                // doomednum
@@ -14274,7 +14354,8 @@ const // Doom Original mobjinfo
     damage: 5;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_GOLDWANDFX1
     doomednum: -1;                // doomednum
@@ -14302,6 +14383,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_GOLDWANDFX2
     doomednum: -1;                // doomednum
@@ -14329,6 +14411,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_GOLDWANDPUFF1
     doomednum: -1;                // doomednum
@@ -14356,6 +14439,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_GOLDWANDPUFF2
     doomednum: -1;                // doomednum
@@ -14383,6 +14467,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_WPHOENIXROD
     doomednum: 2003;              // doomednum
@@ -14408,7 +14493,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_PHOENIXFX1
     doomednum: -1;                // doomednum
@@ -14436,6 +14522,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_PHOENIXPUFF
     doomednum: -1;                // doomednum
@@ -14463,6 +14550,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_PHOENIXFX2
     doomednum: -1;                // doomednum
@@ -14490,6 +14578,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MISC15
     doomednum: 2001;              // doomednum
@@ -14515,7 +14604,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CRBOWFX1
     doomednum: -1;                // doomednum
@@ -14543,6 +14633,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CRBOWFX2
     doomednum: -1;                // doomednum
@@ -14570,6 +14661,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CRBOWFX3
     doomednum: -1;                // doomednum
@@ -14597,6 +14689,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_WINDTHRUST or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CRBOWFX4
     doomednum: -1;                // doomednum
@@ -14624,6 +14717,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;         // flags
     flags2: MF2_LOGRAV;           // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BLOOD
     doomednum: -1;                // doomednum
@@ -14651,6 +14745,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;         // flags
     flags2: 0;                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BLOODSPLATTER
     doomednum: -1;                // doomednum
@@ -14678,6 +14773,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_PLAYER
     doomednum: -1;                // doomednum
@@ -14703,7 +14799,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;    // flags
-    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP    // flags2
+    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BLOODYSKULL
     doomednum: -1;                // doomednum
@@ -14729,7 +14826,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF; // flags
-    flags2: MF2_LOGRAV or MF2_CANNOTPUSH  // flags2
+    flags2: MF2_LOGRAV or MF2_CANNOTPUSH; // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CHICPLAYER
     doomednum: -1;                // doomednum
@@ -14755,7 +14853,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOTDMATCH;    // flags
-    flags2: MF2_WINDTHRUST or MF2_SLIDE or MF2_PASSMOBJ or MF2_FOOTCLIP or MF2_LOGRAV or MF2_TELESTOMP    // flags2
+    flags2: MF2_WINDTHRUST or MF2_SLIDE or MF2_PASSMOBJ or MF2_FOOTCLIP or MF2_LOGRAV or MF2_TELESTOMP;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CHICKEN
     doomednum: -1;                // doomednum
@@ -14781,7 +14880,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_chicact);// activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
-    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_FEATHER
     doomednum: -1;                // doomednum
@@ -14807,7 +14907,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH or MF2_WINDTHRUST    // flags2
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH or MF2_WINDTHRUST;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MUMMY
     doomednum: 68;                // doomednum
@@ -14833,7 +14934,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_mumact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MUMMYLEADER
     doomednum: 45;                // doomednum
@@ -14859,7 +14961,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_mumact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MUMMYGHOST
     doomednum: 69;                // doomednum
@@ -14885,7 +14988,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_mumact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MUMMYLEADERGHOST
     doomednum: 46;                // doomednum
@@ -14911,7 +15015,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_mumact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MUMMYSOUL
     doomednum: -1;                // doomednum
@@ -14937,7 +15042,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MUMMYFX1
     doomednum: -1;                // doomednum
@@ -14963,7 +15069,8 @@ const // Doom Original mobjinfo
     damage: 4;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BEAST
     doomednum: 70;                // doomednum
@@ -14989,7 +15096,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_bstact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BEASTBALL
     doomednum: -1;                // doomednum
@@ -15015,7 +15123,8 @@ const // Doom Original mobjinfo
     damage: 4;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT    // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BURNBALL
     doomednum: -1;                // doomednum
@@ -15041,7 +15150,8 @@ const // Doom Original mobjinfo
     damage: 2;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BURNBALLFB
     doomednum: -1;                // doomednum
@@ -15067,7 +15177,8 @@ const // Doom Original mobjinfo
     damage: 2;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_PUFFY
     doomednum: -1;                // doomednum
@@ -15093,7 +15204,8 @@ const // Doom Original mobjinfo
     damage: 2;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SNAKE
     doomednum: 92;                // doomednum
@@ -15119,7 +15231,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_snkact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SNAKEPRO_A
     doomednum: -1;                // doomednum
@@ -15145,7 +15258,8 @@ const // Doom Original mobjinfo
     damage: 1;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT    // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SNAKEPRO_B
     doomednum: -1;                // doomednum
@@ -15171,7 +15285,8 @@ const // Doom Original mobjinfo
     damage: 3;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_HEAD
     doomednum: 6;                 // doomednum
@@ -15197,7 +15312,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_hedact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;    // flags
-    flags2: MF2_PASSMOBJ          // flags2
+    flags2: MF2_PASSMOBJ;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_HEADFX1
     doomednum: -1;                // doomednum
@@ -15223,7 +15339,8 @@ const // Doom Original mobjinfo
     damage: 1;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_THRUGHOST    // flags2
+    flags2: MF2_NOTELEPORT or MF2_THRUGHOST;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_HEADFX2
     doomednum: -1;                // doomednum
@@ -15249,7 +15366,8 @@ const // Doom Original mobjinfo
     damage: 3;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_HEADFX3
     doomednum: -1;                // doomednum
@@ -15275,7 +15393,8 @@ const // Doom Original mobjinfo
     damage: 5;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT    // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_WHIRLWIND
     doomednum: -1;                // doomednum
@@ -15301,7 +15420,8 @@ const // Doom Original mobjinfo
     damage: 1;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CLINK
     doomednum: 90;                // doomednum
@@ -15327,7 +15447,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_clkact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_WIZARD
     doomednum: 15;                // doomednum
@@ -15353,7 +15474,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_wizact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_FLOAT or MF_NOGRAVITY;    // flags
-    flags2: MF2_PASSMOBJ          // flags2
+    flags2: MF2_PASSMOBJ;         // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_WIZFX1
     doomednum: -1;                // doomednum
@@ -15379,7 +15501,8 @@ const // Doom Original mobjinfo
     damage: 3;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_IMP
     doomednum: 66;                // doomednum
@@ -15405,7 +15528,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_impact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_FLOAT or MF_NOGRAVITY or MF_COUNTKILL;    // flags
-    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ    // flags2
+    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_IMPLEADER
     doomednum: 5;                 // doomednum
@@ -15431,7 +15555,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_impact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_FLOAT or MF_NOGRAVITY or MF_COUNTKILL;    // flags
-    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ    // flags2
+    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_IMPCHUNK1
     doomednum: -1;                // doomednum
@@ -15457,7 +15582,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_IMPCHUNK2
     doomednum: -1;                // doomednum
@@ -15483,7 +15609,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_IMPBALL
     doomednum: -1;                // doomednum
@@ -15509,7 +15636,8 @@ const // Doom Original mobjinfo
     damage: 1;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT    // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_KNIGHT
     doomednum: 64;                // doomednum
@@ -15535,7 +15663,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_kgtact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_KNIGHTGHOST
     doomednum: 65;                // doomednum
@@ -15561,7 +15690,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_kgtact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_KNIGHTAXE
     doomednum: -1;                // doomednum
@@ -15587,7 +15717,8 @@ const // Doom Original mobjinfo
     damage: 2;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT or MF2_THRUGHOST    // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT or MF2_THRUGHOST;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_REDAXE
     doomednum: -1;                // doomednum
@@ -15613,7 +15744,8 @@ const // Doom Original mobjinfo
     damage: 7;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_THRUGHOST    // flags2
+    flags2: MF2_NOTELEPORT or MF2_THRUGHOST;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SORCERER1
     doomednum: 7;                 // doomednum
@@ -15639,7 +15771,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_sbtact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SRCRFX1
     doomednum: -1;                // doomednum
@@ -15665,7 +15798,8 @@ const // Doom Original mobjinfo
     damage: 10;                   // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SORCERER2
     doomednum: -1;                // doomednum
@@ -15691,7 +15825,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_soract); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SOR2FX1
     doomednum: -1;                // doomednum
@@ -15717,7 +15852,8 @@ const // Doom Original mobjinfo
     damage: 1;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SOR2FXSPARK
     doomednum: -1;                // doomednum
@@ -15743,7 +15879,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH    // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SOR2FX2
     doomednum: -1;                // doomednum
@@ -15769,7 +15906,8 @@ const // Doom Original mobjinfo
     damage: 10;                   // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT        // flags2
+    flags2: MF2_NOTELEPORT;       // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SOR2TELEFADE
     doomednum: -1;                // doomednum
@@ -15795,7 +15933,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MINOTAUR
     doomednum: 9;                 // doomednum
@@ -15821,7 +15960,8 @@ const // Doom Original mobjinfo
     damage: 7;                    // damage
     activesound: Ord(sfx_minact); // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS    // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MNTRFX1
     doomednum: -1;                // doomednum
@@ -15847,7 +15987,8 @@ const // Doom Original mobjinfo
     damage: 3;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MNTRFX2
     doomednum: -1;                // doomednum
@@ -15873,7 +16014,8 @@ const // Doom Original mobjinfo
     damage: 4;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_MNTRFX3
     doomednum: -1;                // doomednum
@@ -15899,7 +16041,8 @@ const // Doom Original mobjinfo
     damage: 4;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AKYY
     doomednum: 73;                // doomednum
@@ -15925,7 +16068,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_NOTDMATCH;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_BKYY
     doomednum: 79;                // doomednum
@@ -15951,7 +16095,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_NOTDMATCH;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_CKEY
     doomednum: 80;                // doomednum
@@ -15977,7 +16122,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL or MF_NOTDMATCH;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMGWNDWIMPY
     doomednum: 10;                // doomednum
@@ -16003,7 +16149,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMGWNDHEFTY
     doomednum: 12;                // doomednum
@@ -16029,7 +16176,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMMACEWIMPY
     doomednum: 13;                // doomednum
@@ -16055,7 +16203,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMMACEHEFTY
     doomednum: 16;                // doomednum
@@ -16081,7 +16230,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMCBOWWIMPY
     doomednum: 18;                // doomednum
@@ -16107,7 +16257,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMCBOWHEFTY
     doomednum: 19;                // doomednum
@@ -16133,7 +16284,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMSKRDWIMPY
     doomednum: 20;                // doomednum
@@ -16159,7 +16311,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMSKRDHEFTY
     doomednum: 21;                // doomednum
@@ -16185,7 +16338,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMPHRDWIMPY
     doomednum: 22;                // doomednum
@@ -16211,7 +16365,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMPHRDHEFTY
     doomednum: 23;                // doomednum
@@ -16237,7 +16392,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMBLSRWIMPY
     doomednum: 54;                // doomednum
@@ -16263,7 +16419,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_AMBLSRHEFTY
     doomednum: 55;                // doomednum
@@ -16289,7 +16446,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_SPECIAL;            // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SOUNDWIND
     doomednum: 42;                // doomednum
@@ -16315,7 +16473,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    ),
    (    // MT_SOUNDWATERFALL
     doomednum: 41;                // doomednum
@@ -16341,7 +16500,8 @@ const // Doom Original mobjinfo
     damage: 0;                    // damage
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0                     // flags2
+    flags2: 0;                    // flags2
+    scale: FRACUNIT;              // scale
    )
   );
 

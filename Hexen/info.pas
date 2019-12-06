@@ -28603,7 +28603,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MAPSPOTGRAVITY
     name: '';
@@ -28631,7 +28632,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: MF2_DONTDRAW
+    flags2: MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREBALL1
     name: '';
@@ -28659,7 +28661,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_ARROW
     name: '';
@@ -28687,7 +28690,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_DART
     name: '';
@@ -28715,7 +28719,8 @@ const // Hexen Original mobjinfo
     damage: 2;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_POISONDART
     name: '';
@@ -28743,7 +28748,8 @@ const // Hexen Original mobjinfo
     damage: 2;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_RIPPERBALL
     name: '';
@@ -28771,7 +28777,8 @@ const // Hexen Original mobjinfo
     damage: 2;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_RIP    
+    flags2: MF2_NOTELEPORT or MF2_RIP;
+    scale: FRACUNIT;
   ),
   (    // MT_PROJECTILE_BLADE
     name: '';
@@ -28799,7 +28806,8 @@ const // Hexen Original mobjinfo
     damage: 3;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_ICESHARD
     name: '';
@@ -28827,7 +28835,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_FLAME_SMALL_TEMP
     name: '';
@@ -28855,7 +28864,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FLAME_LARGE_TEMP
     name: '';
@@ -28883,7 +28893,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FLAME_SMALL
     name: '';
@@ -28911,7 +28922,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: MF2_NOTELEPORT or MF2_DONTDRAW    
+    flags2: MF2_NOTELEPORT or MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_FLAME_LARGE
     name: '';
@@ -28939,7 +28951,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: MF2_NOTELEPORT or MF2_DONTDRAW    
+    flags2: MF2_NOTELEPORT or MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_HEALINGBOTTLE
     name: '';
@@ -28967,7 +28980,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_HEALTHFLASK
     name: '';
@@ -28995,7 +29009,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIFLY
     name: '';
@@ -29023,7 +29038,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIINVULNERABILITY
     name: '';
@@ -29051,7 +29067,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_SUMMONMAULATOR
     name: '';
@@ -29079,7 +29096,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_SUMMON_FX
     name: '';
@@ -29107,7 +29125,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_DROPOFF or MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_THRUSTFLOOR_UP
     name: '';
@@ -29135,7 +29154,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;    
+    scale: FRACUNIT;
   ),
   (    // MT_THRUSTFLOOR_DOWN
     name: '';
@@ -29163,7 +29183,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP or MF2_DONTDRAW    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP or MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_TELEPORTOTHER
     name: '';
@@ -29191,7 +29212,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_TELOTHER_FX1
     name: '';
@@ -29219,7 +29241,8 @@ const // Hexen Original mobjinfo
     damage: 10001;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_TELOTHER_FX2
     name: '';
@@ -29247,7 +29270,8 @@ const // Hexen Original mobjinfo
     damage: 10001;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_TELOTHER_FX3
     name: '';
@@ -29275,7 +29299,8 @@ const // Hexen Original mobjinfo
     damage: 10001;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_TELOTHER_FX4
     name: '';
@@ -29303,7 +29328,8 @@ const // Hexen Original mobjinfo
     damage: 10001;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_TELOTHER_FX5
     name: '';
@@ -29331,7 +29357,8 @@ const // Hexen Original mobjinfo
     damage: 10001;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_DIRT1
     name: '';
@@ -29359,7 +29386,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_DIRT2
     name: '';
@@ -29387,7 +29415,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_DIRT3
     name: '';
@@ -29415,7 +29444,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_DIRT4
     name: '';
@@ -29443,7 +29473,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV;    
+    scale: FRACUNIT;
   ),
   (    // MT_DIRT5
     name: '';
@@ -29471,7 +29502,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV;    
+    scale: FRACUNIT;
   ),
   (    // MT_DIRT6
     name: '';
@@ -29499,7 +29531,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV;    
+    scale: FRACUNIT;
   ),
   (    // MT_DIRTCLUMP
     name: '';
@@ -29527,7 +29560,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_ROCK1
     name: '';
@@ -29555,7 +29589,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_ROCK2
     name: '';
@@ -29583,7 +29618,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_ROCK3
     name: '';
@@ -29611,7 +29647,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_FOGSPAWNER
     name: '';
@@ -29639,7 +29676,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;
-    flags2: MF2_DONTDRAW or MF2_FLOATBOB    
+    flags2: MF2_DONTDRAW or MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_FOGPATCHS
     name: '';
@@ -29667,7 +29705,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_FLOAT or MF_NOGRAVITY or MF_SHADOW or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_FOGPATCHM
     name: '';
@@ -29695,7 +29734,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_FLOAT or MF_NOGRAVITY or MF_SHADOW or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_FOGPATCHL
     name: '';
@@ -29723,7 +29763,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_FLOAT or MF_NOGRAVITY or MF_SHADOW or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_QUAKE_FOCUS
     name: '';
@@ -29751,7 +29792,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;
-    flags2: MF2_DONTDRAW    
+    flags2: MF2_DONTDRAW;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD1
     name: '';
@@ -29779,7 +29821,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD2
     name: '';
@@ -29807,7 +29850,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD3
     name: '';
@@ -29835,7 +29879,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD4
     name: '';
@@ -29863,7 +29908,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD5
     name: '';
@@ -29891,7 +29937,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD6
     name: '';
@@ -29919,7 +29966,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD7
     name: '';
@@ -29947,7 +29995,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD8
     name: '';
@@ -29975,7 +30024,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD9
     name: '';
@@ -30003,7 +30053,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SGSHARD0
     name: '';
@@ -30031,7 +30082,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIEGG
     name: '';
@@ -30059,7 +30111,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_EGGFX
     name: '';
@@ -30087,7 +30140,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTISUPERHEAL
     name: '';
@@ -30115,7 +30169,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_ZWINGEDSTATUENOSKULL
     name: '';
@@ -30143,7 +30198,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ZGEMPEDESTAL
     name: '';
@@ -30171,7 +30227,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZSKULL
     name: '';
@@ -30199,7 +30256,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEMBIG
     name: '';
@@ -30227,7 +30285,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEMRED
     name: '';
@@ -30255,7 +30314,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEMGREEN1
     name: '';
@@ -30283,7 +30343,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEMGREEN2
     name: '';
@@ -30311,7 +30372,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEMBLUE1
     name: '';
@@ -30339,7 +30401,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEMBLUE2
     name: '';
@@ -30367,7 +30430,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZBOOK1
     name: '';
@@ -30395,7 +30459,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZBOOK2
     name: '';
@@ -30423,7 +30488,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZSKULL2
     name: '';
@@ -30451,7 +30517,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZFWEAPON
     name: '';
@@ -30479,7 +30546,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZCWEAPON
     name: '';
@@ -30507,7 +30575,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZMWEAPON
     name: '';
@@ -30535,7 +30604,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEAR
     name: '';
@@ -30563,7 +30633,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEAR2
     name: '';
@@ -30591,7 +30662,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEAR3
     name: '';
@@ -30619,7 +30691,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPUZZGEAR4
     name: '';
@@ -30647,7 +30720,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTITORCH
     name: '';
@@ -30675,7 +30749,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_FIREBOMB
     name: '';
@@ -30703,7 +30778,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOGRAVITY or MF_ALTSHADOW;
-    flags2: MF2_FIREDAMAGE    
+    flags2: MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_ARTITELEPORT
     name: '';
@@ -30731,7 +30807,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_ARTIPOISONBAG
     name: '';
@@ -30759,7 +30836,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_POISONBAG
     name: '';
@@ -30787,7 +30865,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOGRAVITY or MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_POISONCLOUD
     name: '';
@@ -30815,7 +30894,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOGRAVITY or MF_NOBLOCKMAP or MF_SHADOW or MF_NOCLIP or MF_DROPOFF;
-    flags2: MF2_NODMGTHRUST    
+    flags2: MF2_NODMGTHRUST;    
+    scale: FRACUNIT;
   ),
   (    // MT_THROWINGBOMB
     name: '';
@@ -30843,7 +30923,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_FLOORBOUNCE or MF2_FIREDAMAGE    
+    flags2: MF2_FLOORBOUNCE or MF2_FIREDAMAGE;    
+    scale: FRACUNIT;
   ),
   (    // MT_SPEEDBOOTS
     name: '';
@@ -30871,7 +30952,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_BOOSTMANA
     name: '';
@@ -30899,7 +30981,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_BOOSTARMOR
     name: '';
@@ -30927,7 +31010,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_BLASTRADIUS
     name: '';
@@ -30955,7 +31039,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_HEALRADIUS
     name: '';
@@ -30983,7 +31068,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;    
+    scale: FRACUNIT;
   ),
   (    // MT_SPLASH
     name: '';
@@ -31011,7 +31097,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;    
+    scale: FRACUNIT;
   ),
   (    // MT_SPLASHBASE
     name: '';
@@ -31039,7 +31126,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_LAVASPLASH
     name: '';
@@ -31067,7 +31155,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_LAVASMOKE
     name: '';
@@ -31095,7 +31184,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_SLUDGECHUNK
     name: '';
@@ -31123,7 +31213,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;    
+    scale: FRACUNIT;
   ),
   (    // MT_SLUDGESPLASH
     name: '';
@@ -31151,7 +31242,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC0
     name: '';
@@ -31179,7 +31271,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC1
     name: '';
@@ -31207,7 +31300,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC2
     name: '';
@@ -31235,7 +31329,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC3
     name: '';
@@ -31263,7 +31358,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC4
     name: '';
@@ -31291,7 +31387,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC5
     name: '';
@@ -31319,7 +31416,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC6
     name: '';
@@ -31347,7 +31445,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC7
     name: '';
@@ -31375,7 +31474,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC8
     name: '';
@@ -31403,7 +31503,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_TREEDESTRUCTIBLE
     name: '';
@@ -31431,7 +31532,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC9
     name: '';
@@ -31459,7 +31561,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC10
     name: '';
@@ -31487,7 +31590,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC11
     name: '';
@@ -31515,7 +31619,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC12
     name: '';
@@ -31543,7 +31648,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC13
     name: '';
@@ -31571,7 +31677,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC14
     name: '';
@@ -31599,7 +31706,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC15
     name: '';
@@ -31627,7 +31735,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC16
     name: '';
@@ -31655,7 +31764,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC17
     name: '';
@@ -31683,7 +31793,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC18
     name: '';
@@ -31711,7 +31822,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC19
     name: '';
@@ -31739,7 +31851,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC20
     name: '';
@@ -31767,7 +31880,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC21
     name: '';
@@ -31795,7 +31909,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC22
     name: '';
@@ -31823,7 +31938,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC23
     name: '';
@@ -31851,7 +31967,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC24
     name: '';
@@ -31879,7 +31996,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC25
     name: '';
@@ -31907,7 +32025,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC26
     name: '';
@@ -31935,7 +32054,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC27
     name: '';
@@ -31963,7 +32083,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC28
     name: '';
@@ -31991,7 +32112,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC29
     name: '';
@@ -32019,7 +32141,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC30
     name: '';
@@ -32047,7 +32170,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC31
     name: '';
@@ -32075,7 +32199,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC32
     name: '';
@@ -32103,7 +32228,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC33
     name: '';
@@ -32131,7 +32257,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC34
     name: '';
@@ -32159,7 +32286,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC35
     name: '';
@@ -32187,7 +32315,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC36
     name: '';
@@ -32215,7 +32344,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC37
     name: '';
@@ -32243,7 +32373,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC38
     name: '';
@@ -32271,7 +32402,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC39
     name: '';
@@ -32299,7 +32431,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC40
     name: '';
@@ -32327,7 +32460,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC41
     name: '';
@@ -32355,7 +32489,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC42
     name: '';
@@ -32383,7 +32518,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC43
     name: '';
@@ -32411,7 +32547,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC44
     name: '';
@@ -32439,7 +32576,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC45
     name: '';
@@ -32467,7 +32605,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC46
     name: '';
@@ -32495,7 +32634,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC47
     name: '';
@@ -32523,7 +32663,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC48
     name: '';
@@ -32551,7 +32692,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC49
     name: '';
@@ -32579,7 +32721,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC50
     name: '';
@@ -32607,7 +32750,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC51
     name: '';
@@ -32635,7 +32779,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC52
     name: '';
@@ -32663,7 +32808,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC53
     name: '';
@@ -32691,7 +32837,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC54
     name: '';
@@ -32719,7 +32866,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC55
     name: '';
@@ -32747,7 +32895,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC56
     name: '';
@@ -32775,7 +32924,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC57
     name: '';
@@ -32803,7 +32953,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC58
     name: '';
@@ -32831,7 +32982,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC59
     name: '';
@@ -32859,7 +33011,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC60
     name: '';
@@ -32887,7 +33040,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC61
     name: '';
@@ -32915,7 +33069,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC62
     name: '';
@@ -32943,7 +33098,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC63
     name: '';
@@ -32971,7 +33127,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC64
     name: '';
@@ -32999,7 +33156,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC65
     name: '';
@@ -33027,7 +33185,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC66
     name: '';
@@ -33055,7 +33214,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC67
     name: '';
@@ -33083,7 +33243,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC68
     name: '';
@@ -33111,7 +33272,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC69
     name: '';
@@ -33139,7 +33301,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;    
+    scale: FRACUNIT;
   ),
   (    // MT_MISC70
     name: '';
@@ -33167,7 +33330,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC71
     name: '';
@@ -33195,7 +33359,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC72
     name: '';
@@ -33223,7 +33388,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC73
     name: '';
@@ -33251,7 +33417,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC74
     name: '';
@@ -33279,7 +33446,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC75
     name: '';
@@ -33307,7 +33475,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC76
     name: '';
@@ -33335,7 +33504,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_POTTERY1
     name: '';
@@ -33363,7 +33533,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_DROPOFF;
-    flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ    
+    flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ;
+    scale: FRACUNIT;
   ),
   (    // MT_POTTERY2
     name: '';
@@ -33391,7 +33562,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_DROPOFF;
-    flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ    
+    flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ;
+    scale: FRACUNIT;
   ),
   (    // MT_POTTERY3
     name: '';
@@ -33419,7 +33591,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_DROPOFF;
-    flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ    
+    flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ;
+    scale: FRACUNIT;
   ),
   (    // MT_POTTERYBIT1
     name: '';
@@ -33447,7 +33620,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC77
     name: '';
@@ -33475,7 +33649,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZLYNCHED_NOHEART
     name: '';
@@ -33503,7 +33678,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC78
     name: '';
@@ -33531,7 +33707,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_CORPSEBIT
     name: '';
@@ -33559,7 +33736,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: MF2_TELESTOMP    
+    flags2: MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_CORPSEBLOODDRIP
     name: '';
@@ -33587,7 +33765,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE;
-    flags2: MF2_LOGRAV    
+    flags2: MF2_LOGRAV;
+    scale: FRACUNIT;
   ),
   (    // MT_BLOODPOOL
     name: '';
@@ -33615,7 +33794,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC79
     name: '';
@@ -33643,7 +33823,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC80
     name: '';
@@ -33671,7 +33852,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;
-    flags2: MF2_DONTDRAW    
+    flags2: MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_LEAF1
     name: '';
@@ -33699,7 +33881,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV;
+    scale: FRACUNIT;
   ),
   (    // MT_LEAF2
     name: '';
@@ -33727,7 +33910,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV;
+    scale: FRACUNIT;
   ),
   (    // MT_ZTWINEDTORCH
     name: '';
@@ -33755,7 +33939,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZTWINEDTORCH_UNLIT
     name: '';
@@ -33783,7 +33968,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_BRIDGE
     name: '';
@@ -33811,7 +33997,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_NOGRAVITY;
-    flags2: MF2_DONTDRAW    
+    flags2: MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_BRIDGEBALL
     name: '';
@@ -33839,7 +34026,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_ZWALLTORCH
     name: '';
@@ -33867,7 +34055,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZWALLTORCH_UNLIT
     name: '';
@@ -33895,7 +34084,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZBARREL
     name: '';
@@ -33923,7 +34113,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZSHRUB1
     name: '';
@@ -33951,7 +34142,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZSHRUB2
     name: '';
@@ -33979,7 +34171,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZBUCKET
     name: '';
@@ -34007,7 +34200,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZPOISONSHROOM
     name: '';
@@ -34035,7 +34229,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SHOOTABLE or MF_SOLID or MF_NOBLOOD;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZFIREBULL
     name: '';
@@ -34063,7 +34258,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZFIREBULL_UNLIT
     name: '';
@@ -34091,7 +34287,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_FIRETHING
     name: '';
@@ -34119,7 +34316,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_BRASSTORCH
     name: '';
@@ -34147,7 +34345,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZSUITOFARMOR
     name: '';
@@ -34175,7 +34374,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZARMORCHUNK
     name: '';
@@ -34203,7 +34403,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: 0;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZBELL
     name: '';
@@ -34231,7 +34432,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZBLUE_CANDLE
     name: '';
@@ -34259,7 +34461,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZIRON_MAIDEN
     name: '';
@@ -34287,7 +34490,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZXMAS_TREE
     name: '';
@@ -34315,7 +34519,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCAULDRON
     name: '';
@@ -34343,7 +34548,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCAULDRON_UNLIT
     name: '';
@@ -34371,7 +34577,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCHAINBIT32
     name: '';
@@ -34399,7 +34606,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCHAINBIT64
     name: '';
@@ -34427,7 +34635,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCHAINEND_HEART
     name: '';
@@ -34455,7 +34664,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCHAINEND_HOOK1
     name: '';
@@ -34483,7 +34693,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCHAINEND_HOOK2
     name: '';
@@ -34511,7 +34722,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCHAINEND_SPIKE
     name: '';
@@ -34539,7 +34751,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ZCHAINEND_SKULL
     name: '';
@@ -34567,7 +34780,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT1
     name: '';
@@ -34595,7 +34809,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT2
     name: '';
@@ -34623,7 +34838,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT3
     name: '';
@@ -34651,7 +34867,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT4
     name: '';
@@ -34679,7 +34896,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT5
     name: '';
@@ -34707,7 +34925,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT6
     name: '';
@@ -34735,7 +34954,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT7
     name: '';
@@ -34763,7 +34983,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT8
     name: '';
@@ -34791,7 +35012,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT9
     name: '';
@@ -34819,7 +35041,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TABLE_SHIT10
     name: '';
@@ -34847,7 +35070,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TFOG
     name: '';
@@ -34875,7 +35099,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MISC81
     name: '';
@@ -34903,7 +35128,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_TELEPORTMAN
     name: '';
@@ -34931,7 +35157,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_PUNCHPUFF
     name: '';
@@ -34961,6 +35188,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_FW_AXE
     name: '';
@@ -34988,7 +35216,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_AXEPUFF
     name: '';
@@ -35018,6 +35247,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_AXEPUFF_GLOW
     name: '';
@@ -35047,6 +35277,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_AXEBLOOD
     name: '';
@@ -35076,6 +35307,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_FW_HAMMER
     name: '';
@@ -35103,7 +35335,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_HAMMER_MISSILE
     name: '';
@@ -35131,7 +35364,8 @@ const // Hexen Original mobjinfo
     damage: 10;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_HAMMERPUFF
     name: '';
@@ -35161,6 +35395,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_FSWORD_MISSILE
     name: '';
@@ -35188,7 +35423,8 @@ const // Hexen Original mobjinfo
     damage: 8;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_FSWORD_FLAME
     name: '';
@@ -35216,7 +35452,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_CW_SERPSTAFF
     name: '';
@@ -35244,7 +35481,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_CSTAFF_MISSILE
     name: '';
@@ -35272,7 +35510,8 @@ const // Hexen Original mobjinfo
     damage: 5;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_CSTAFFPUFF
     name: '';
@@ -35302,6 +35541,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_CW_FLAME
     name: '';
@@ -35329,7 +35569,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_CFLAMEFLOOR
     name: '';
@@ -35357,7 +35598,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_FLAMEPUFF
     name: '';
@@ -35387,6 +35629,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_FLAMEPUFF2
     name: '';
@@ -35416,6 +35659,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_CIRCLEFLAME
     name: '';
@@ -35443,7 +35687,8 @@ const // Hexen Original mobjinfo
     damage: 2;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_CFLAME_MISSILE
     name: '';
@@ -35471,7 +35716,8 @@ const // Hexen Original mobjinfo
     damage: 8;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_DONTDRAW or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_DONTDRAW or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_HOLY_FX
     name: '';
@@ -35499,7 +35745,8 @@ const // Hexen Original mobjinfo
     damage: 3;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_SEEKERMISSILE or MF2_RIP or MF2_IMPACT or MF2_PCROSS    
+    flags2: MF2_NOTELEPORT or MF2_SEEKERMISSILE or MF2_RIP or MF2_IMPACT or MF2_PCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_HOLY_TAIL
     name: '';
@@ -35527,7 +35774,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_NOCLIP or MF_ALTSHADOW;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_HOLY_PUFF
     name: '';
@@ -35557,6 +35805,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_HOLY_MISSILE
     name: '';
@@ -35584,7 +35833,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_HOLY_MISSILE_PUFF
     name: '';
@@ -35614,6 +35864,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW;
     flags2: MF2_NOTELEPORT;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_MWANDPUFF
     name: '';
@@ -35643,6 +35894,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_MWANDSMOKE
     name: '';
@@ -35672,6 +35924,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_MWAND_MISSILE
     name: '';
@@ -35699,7 +35952,8 @@ const // Hexen Original mobjinfo
     damage: 2;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_RIP or MF2_IMPACT or MF2_PCROSS or MF2_NODMGTHRUST or MF2_CANNOTPUSH
+    flags2: MF2_NOTELEPORT or MF2_RIP or MF2_IMPACT or MF2_PCROSS or MF2_NODMGTHRUST or MF2_CANNOTPUSH;
+    scale: FRACUNIT;
   ),
   (    // MT_MW_LIGHTNING
     name: '';
@@ -35727,7 +35981,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_LIGHTNING_CEILING
     name: '';
@@ -35755,7 +36010,8 @@ const // Hexen Original mobjinfo
     damage: 8;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_LIGHTNING_FLOOR
     name: '';
@@ -35783,7 +36039,8 @@ const // Hexen Original mobjinfo
     damage: 8;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_LIGHTNING_ZAP
     name: '';
@@ -35811,7 +36068,8 @@ const // Hexen Original mobjinfo
     damage: 2;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MSTAFF_FX
     name: '';
@@ -35839,7 +36097,8 @@ const // Hexen Original mobjinfo
     damage: 6;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_RIP or MF2_IMPACT or MF2_PCROSS    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_RIP or MF2_IMPACT or MF2_PCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_MSTAFF_FX2
     name: '';
@@ -35867,7 +36126,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS or MF2_SEEKERMISSILE    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS or MF2_SEEKERMISSILE;
+    scale: FRACUNIT;
   ),
   (    // MT_FW_SWORD1
     name: '';
@@ -35895,7 +36155,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_FW_SWORD2
     name: '';
@@ -35923,7 +36184,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_FW_SWORD3
     name: '';
@@ -35951,7 +36213,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_CW_HOLY1
     name: '';
@@ -35979,7 +36242,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_CW_HOLY2
     name: '';
@@ -36007,7 +36271,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_CW_HOLY3
     name: '';
@@ -36035,7 +36300,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_MW_STAFF1
     name: '';
@@ -36063,7 +36329,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_MW_STAFF2
     name: '';
@@ -36091,7 +36358,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_MW_STAFF3
     name: '';
@@ -36119,7 +36387,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_SNOUTPUFF
     name: '';
@@ -36149,6 +36418,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_MW_CONE
     name: '';
@@ -36176,7 +36446,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_SHARDFX1
     name: '';
@@ -36204,7 +36475,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_ICEDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_ICEDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_BLOOD
     name: '';
@@ -36232,7 +36504,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_BLOODSPLATTER
     name: '';
@@ -36260,7 +36533,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH    
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;
+    scale: FRACUNIT;
   ),
   (    // MT_GIBS
     name: '';
@@ -36288,7 +36562,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_PLAYER_FIGHTER
     name: '';
@@ -36316,7 +36591,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;
-    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL    
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;
+    scale: FRACUNIT;
   ),
   (    // MT_BLOODYSKULL
     name: '';
@@ -36344,7 +36620,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF;
-    flags2: MF2_LOGRAV or MF2_CANNOTPUSH    
+    flags2: MF2_LOGRAV or MF2_CANNOTPUSH;
+    scale: FRACUNIT;
   ),
   (    // MT_PLAYER_SPEED
     name: '';
@@ -36372,7 +36649,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ICECHUNK
     name: '';
@@ -36400,7 +36678,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF;
-    flags2: MF2_LOGRAV or MF2_CANNOTPUSH or MF2_FLOORCLIP    
+    flags2: MF2_LOGRAV or MF2_CANNOTPUSH or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_PLAYER_CLERIC
     name: '';
@@ -36428,7 +36707,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;
-    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL    
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;
+    scale: FRACUNIT;
   ),
   (    // MT_PLAYER_MAGE
     name: '';
@@ -36456,7 +36736,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;
-    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL    
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;
+    scale: FRACUNIT;
   ),
   (    // MT_PIGPLAYER
     name: '';
@@ -36484,7 +36765,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOTDMATCH;
-    flags2: MF2_WINDTHRUST or MF2_SLIDE or MF2_PASSMOBJ or MF2_FLOORCLIP or MF2_TELESTOMP or MF2_PUSHWALL    
+    flags2: MF2_WINDTHRUST or MF2_SLIDE or MF2_PASSMOBJ or MF2_FLOORCLIP or MF2_TELESTOMP or MF2_PUSHWALL;
+    scale: FRACUNIT;
   ),
   (    // MT_PIG
     name: '';
@@ -36512,7 +36794,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_PIG_ACTIVE1);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP    
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_CENTAUR
     name: '';
@@ -36540,7 +36823,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_CENTAUR_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_CENTAURLEADER
     name: '';
@@ -36568,7 +36852,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_CENTAUR_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_CENTAUR_FX
     name: '';
@@ -36596,7 +36881,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_CENTAUR_SHIELD
     name: '';
@@ -36624,7 +36910,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_CENTAUR_SWORD
     name: '';
@@ -36652,7 +36939,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON
     name: '';
@@ -36680,7 +36968,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_DEMON_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMONCHUNK1
     name: '';
@@ -36708,7 +36997,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMONCHUNK2
     name: '';
@@ -36736,7 +37026,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMONCHUNK3
     name: '';
@@ -36764,7 +37055,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMONCHUNK4
     name: '';
@@ -36792,7 +37084,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMONCHUNK5
     name: '';
@@ -36820,7 +37113,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMONFX1
     name: '';
@@ -36848,7 +37142,8 @@ const // Hexen Original mobjinfo
     damage: 5;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2
     name: '';
@@ -36876,7 +37171,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_DEMON_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2CHUNK1
     name: '';
@@ -36904,7 +37200,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2CHUNK2
     name: '';
@@ -36932,7 +37229,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2CHUNK3
     name: '';
@@ -36960,7 +37258,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2CHUNK4
     name: '';
@@ -36988,7 +37287,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2CHUNK5
     name: '';
@@ -37016,7 +37316,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2FX1
     name: '';
@@ -37044,7 +37345,8 @@ const // Hexen Original mobjinfo
     damage: 5;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_WRAITHB
     name: '';
@@ -37072,7 +37374,8 @@ const // Hexen Original mobjinfo
     damage: 10;
     activesound: Ord(SFX_WRAITH_ACTIVE);
     flags: MF_DROPOFF or MF_NOGRAVITY or MF_FLOAT or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP or MF2_DONTDRAW    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP or MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_WRAITH
     name: '';
@@ -37100,7 +37403,8 @@ const // Hexen Original mobjinfo
     damage: 10;
     activesound: Ord(SFX_WRAITH_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF or MF_NOGRAVITY or MF_FLOAT;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_WRAITHFX1
     name: '';
@@ -37128,7 +37432,8 @@ const // Hexen Original mobjinfo
     damage: 5;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FLOORCLIP or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FLOORCLIP or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_WRAITHFX2
     name: '';
@@ -37156,7 +37461,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_WRAITHFX3
     name: '';
@@ -37184,7 +37490,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_WRAITHFX4
     name: '';
@@ -37212,7 +37519,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_WRAITHFX5
     name: '';
@@ -37240,7 +37548,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_MINOTAUR
     name: '';
@@ -37268,7 +37577,8 @@ const // Hexen Original mobjinfo
     damage: 7;
     activesound: Ord(SFX_MAULATOR_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_MNTRFX1
     name: '';
@@ -37296,7 +37606,8 @@ const // Hexen Original mobjinfo
     damage: 3;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_MNTRFX2
     name: '';
@@ -37324,7 +37635,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_MNTRFX3
     name: '';
@@ -37352,7 +37664,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_MNTRSMOKE
     name: '';
@@ -37380,7 +37693,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_MNTRSMOKEEXIT
     name: '';
@@ -37408,7 +37722,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_SERPENT
     name: '';
@@ -37436,7 +37751,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_COUNTKILL or MF_NOBLOOD;
-    flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE or MF2_MCROSS    
+    flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE or MF2_MCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_SERPENTLEADER
     name: '';
@@ -37464,7 +37780,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_COUNTKILL or MF_NOBLOOD;
-    flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE or MF2_MCROSS    
+    flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE or MF2_MCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_SERPENTFX
     name: '';
@@ -37492,7 +37809,8 @@ const // Hexen Original mobjinfo
     damage: 4;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_SERPENT_HEAD
     name: '';
@@ -37520,7 +37838,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: MF2_LOGRAV    
+    flags2: MF2_LOGRAV;
+    scale: FRACUNIT;
   ),
   (    // MT_SERPENT_GIB1
     name: '';
@@ -37548,7 +37867,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_SERPENT_GIB2
     name: '';
@@ -37576,7 +37896,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_SERPENT_GIB3
     name: '';
@@ -37604,7 +37925,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_BISHOP
     name: '';
@@ -37632,7 +37954,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_BISHOP_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_FLOAT or MF_NOGRAVITY or MF_NOBLOOD;
-    flags2: MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP    
+    flags2: MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_BISHOP_PUFF
     name: '';
@@ -37662,6 +37985,7 @@ const // Hexen Original mobjinfo
     flags: MF_SHADOW or MF_NOBLOCKMAP or MF_NOGRAVITY;
     flags2: 0;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_BISHOPBLUR
     name: '';
@@ -37689,7 +38013,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_BISHOPPAINBLUR
     name: '';
@@ -37717,7 +38042,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_BISH_FX
     name: '';
@@ -37745,7 +38071,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_SEEKERMISSILE    
+    flags2: MF2_NOTELEPORT or MF2_SEEKERMISSILE;
+    scale: FRACUNIT;
   ),
   (    // MT_DRAGON
     name: '';
@@ -37773,7 +38100,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_DRAGON_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_FLOAT or MF_NOGRAVITY or MF_NOBLOOD;
-    flags2: MF2_PASSMOBJ or MF2_BOSS    
+    flags2: MF2_PASSMOBJ or MF2_BOSS;
+    scale: FRACUNIT;
   ),
   (    // MT_DRAGON_FX
     name: '';
@@ -37801,7 +38129,8 @@ const // Hexen Original mobjinfo
     damage: 6;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_DRAGON_FX2
     name: '';
@@ -37829,7 +38158,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP;
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_DONTDRAW    
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_ARMOR_1
     name: '';
@@ -37857,7 +38187,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ARMOR_2
     name: '';
@@ -37885,7 +38216,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ARMOR_3
     name: '';
@@ -37913,7 +38245,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ARMOR_4
     name: '';
@@ -37941,7 +38274,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL or MF_NOGRAVITY;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_MANA1
     name: '';
@@ -37969,7 +38303,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_MANA2
     name: '';
@@ -37997,7 +38332,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_MANA3
     name: '';
@@ -38025,7 +38361,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: MF2_FLOATBOB    
+    flags2: MF2_FLOATBOB;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY1
     name: '';
@@ -38053,7 +38390,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY2
     name: '';
@@ -38081,7 +38419,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY3
     name: '';
@@ -38109,7 +38448,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY4
     name: '';
@@ -38137,7 +38477,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY5
     name: '';
@@ -38165,7 +38506,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY6
     name: '';
@@ -38193,7 +38535,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY7
     name: '';
@@ -38221,7 +38564,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY8
     name: '';
@@ -38249,7 +38593,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEY9
     name: '';
@@ -38277,7 +38622,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEYA
     name: '';
@@ -38305,7 +38651,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_KEYB
     name: '';
@@ -38333,7 +38680,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SPECIAL;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_SOUNDWIND
     name: '';
@@ -38361,7 +38709,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_SOUNDWATERFALL
     name: '';
@@ -38389,7 +38738,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;
-    flags2: 0    
+    flags2: 0;
+    scale: FRACUNIT;
   ),
   (    // MT_ETTIN
     name: '';
@@ -38417,7 +38767,8 @@ const // Hexen Original mobjinfo
     damage: 3;
     activesound: Ord(SFX_ETTIN_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_ETTIN_MACE
     name: '';
@@ -38445,7 +38796,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON
     name: '';
@@ -38473,7 +38825,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_FIRED_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF or MF_NOGRAVITY or MF_FLOAT;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_INVULNERABLE or MF2_MCROSS or MF2_TELESTOMP    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_INVULNERABLE or MF2_MCROSS or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_SPLOTCH1
     name: '';
@@ -38501,7 +38854,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_SPLOTCH2
     name: '';
@@ -38529,7 +38883,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_DROPOFF or MF_CORPSE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP    
+    flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_FX1
     name: '';
@@ -38557,7 +38912,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_FX2
     name: '';
@@ -38585,7 +38941,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_FX3
     name: '';
@@ -38613,7 +38970,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_FX4
     name: '';
@@ -38641,7 +38999,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_FX5
     name: '';
@@ -38669,7 +39028,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FIREDEMON_FX6
     name: '';
@@ -38697,7 +39057,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FLOORCLIP or MF2_FIREDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FLOORCLIP or MF2_FIREDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_ICEGUY
     name: '';
@@ -38725,7 +39086,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_ICEGUY_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;
-    flags2: MF2_PASSMOBJ or MF2_PUSHWALL or MF2_ICEDAMAGE or MF2_MCROSS or MF2_TELESTOMP    
+    flags2: MF2_PASSMOBJ or MF2_PUSHWALL or MF2_ICEDAMAGE or MF2_MCROSS or MF2_TELESTOMP;
+    scale: FRACUNIT;
   ),
   (    // MT_ICEGUY_FX
     name: '';
@@ -38753,7 +39115,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_ICEFX_PUFF
     name: '';
@@ -38783,6 +39146,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW or MF_DROPOFF;
     flags2: MF2_NOTELEPORT;
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
+    scale: FRACUNIT;
   ),
   (    // MT_ICEGUY_FX2
     name: '';
@@ -38810,7 +39174,8 @@ const // Hexen Original mobjinfo
     damage: 1;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_ICEDAMAGE    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_ICEDAMAGE;
+    scale: FRACUNIT;
   ),
   (    // MT_ICEGUY_BIT
     name: '';
@@ -38838,7 +39203,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV;
+    scale: FRACUNIT;
   ),
   (    // MT_ICEGUY_WISP1
     name: '';
@@ -38866,7 +39232,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_ICEGUY_WISP2
     name: '';
@@ -38894,7 +39261,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_FIGHTER_BOSS
     name: '';
@@ -38922,7 +39290,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_CLERIC_BOSS
     name: '';
@@ -38950,7 +39319,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_MAGE_BOSS
     name: '';
@@ -38978,7 +39348,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCBOSS
     name: '';
@@ -39006,7 +39377,8 @@ const // Hexen Original mobjinfo
     damage: 9;
     activesound: Ord(SFX_SORCERER_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_BOSS or MF2_MCROSS    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_BOSS or MF2_MCROSS;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCBALL1
     name: '';
@@ -39034,7 +39406,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCBALL2
     name: '';
@@ -39062,7 +39435,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCBALL3
     name: '';
@@ -39090,7 +39464,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCFX1
     name: '';
@@ -39118,7 +39493,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE;
-    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE    
+    flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCFX2
     name: '';
@@ -39146,7 +39522,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCFX2_T1
     name: '';
@@ -39174,7 +39551,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCFX3
     name: '';
@@ -39202,7 +39580,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCFX3_EXPLOSION
     name: '';
@@ -39230,7 +39609,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCFX4
     name: '';
@@ -39258,7 +39638,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_NOGRAVITY;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_SORCSPARK1
     name: '';
@@ -39286,7 +39667,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV    
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV;
+    scale: FRACUNIT;
   ),
   (    // MT_BLASTEFFECT
     name: '';
@@ -39314,7 +39696,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOCLIP or MF_ALTSHADOW;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_WATER_DRIP
     name: '';
@@ -39342,7 +39725,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_MISSILE;
-    flags2: MF2_LOGRAV or MF2_NOTELEPORT    
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX
     name: '';
@@ -39370,7 +39754,8 @@ const // Hexen Original mobjinfo
     damage: 15;
     activesound: Ord(SFX_KORAX_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;
-    flags2: MF2_FLOORCLIP or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP or MF2_BOSS    
+    flags2: MF2_FLOORCLIP or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP or MF2_BOSS;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX_SPIRIT1
     name: '';
@@ -39398,7 +39783,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX_SPIRIT2
     name: '';
@@ -39426,7 +39812,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX_SPIRIT3
     name: '';
@@ -39454,7 +39841,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX_SPIRIT4
     name: '';
@@ -39482,7 +39870,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX_SPIRIT5
     name: '';
@@ -39510,7 +39899,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX_SPIRIT6
     name: '';
@@ -39538,7 +39928,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON_MASH
     name: '';
@@ -39566,7 +39957,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_DEMON_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;
+    scale: FRACUNIT;
   ),
   (    // MT_DEMON2_MASH
     name: '';
@@ -39594,7 +39986,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_DEMON_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;
+    scale: FRACUNIT;
   ),
   (    // MT_ETTIN_MASH
     name: '';
@@ -39622,7 +40015,8 @@ const // Hexen Original mobjinfo
     damage: 3;
     activesound: Ord(SFX_ETTIN_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;
+    scale: FRACUNIT;
   ),
   (    // MT_CENTAUR_MASH
     name: '';
@@ -39650,7 +40044,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_CENTAUR_ACTIVE);
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;
-    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED    
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;
+    scale: FRACUNIT;
   ),
   (    // MT_KORAX_BOLT
     name: '';
@@ -39678,7 +40073,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;
-    flags2: MF2_NOTELEPORT    
+    flags2: MF2_NOTELEPORT;
+    scale: FRACUNIT;
   ),
   (    // MT_BAT_SPAWNER
     name: '';
@@ -39706,7 +40102,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOSECTOR or MF_NOGRAVITY;
-    flags2: MF2_DONTDRAW    
+    flags2: MF2_DONTDRAW;
+    scale: FRACUNIT;
   ),
   (    // MT_BAT
     name: '';
@@ -39734,7 +40131,8 @@ const // Hexen Original mobjinfo
     damage: 0;
     activesound: Ord(SFX_NONE);
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;
-    flags2: MF2_PASSMOBJ or MF2_NOTELEPORT    
+    flags2: MF2_PASSMOBJ or MF2_NOTELEPORT;
+    scale: FRACUNIT;
   )
   );
 

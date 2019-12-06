@@ -470,6 +470,7 @@ type
 {$IFDEF OPENGL}
     flip: boolean;
 {$ENDIF}
+    infoscale: fixed_t;
   end;
   visspritebuffer_t = array[0..$FFFF] of Pvissprite_t;
   visspritebuffer_p = ^visspritebuffer_t;

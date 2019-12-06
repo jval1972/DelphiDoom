@@ -697,6 +697,7 @@ begin
               end;
           44: mobjinfo[mobj_no].vspeed := mobj_val;
           45: mobjinfo[mobj_no].pushfactor := mobj_val;
+          46: mobjinfo[mobj_no].scale := mobj_val;
         end;
       end;
 
@@ -1617,6 +1618,7 @@ begin
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[43]), PascalText(mobjinfo[i].name2, MOBJINFONAMESIZE)]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[44]), mobjinfo[i].vspeed]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[45]), mobjinfo[i].pushfactor]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[46]), mobjinfo[i].scale]);
 
     result.Add('');
   end;
@@ -1858,6 +1860,7 @@ begin
   mobj_tokens.Add('NAME2');              // .name2 (Strife)           // 43
   mobj_tokens.Add('VSPEED');             // .vspeed                   // 44
   mobj_tokens.Add('PUSHFACTOR');         // .pushfactor               // 45
+  mobj_tokens.Add('SCALE');              // .pushfactor               // 46
 
 
   mobj_flags := TDTextList.Create;

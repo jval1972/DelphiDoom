@@ -1402,7 +1402,7 @@ var
   player: Pplayer_t;
 begin
   dec(actor.health);
-  if actor.health >= 0 then // JVAL: check!
+  if actor.health <= 0 then // JVAL: check!
   begin
     P_SetMobjState(actor, S_NULL);
     if netgame then

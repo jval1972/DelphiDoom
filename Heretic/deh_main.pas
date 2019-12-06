@@ -685,6 +685,7 @@ begin
           40: mobjinfo[mobj_no].crashstate := mobj_val;
           41: mobjinfo[mobj_no].vspeed := mobj_val;
           42: mobjinfo[mobj_no].pushfactor := mobj_val;
+          43: mobjinfo[mobj_no].scale := mobj_val;
         end;
       end;
 
@@ -1692,6 +1693,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[40]), mobjinfo[i].crashstate]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[41]), mobjinfo[i].vspeed]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[42]), mobjinfo[i].pushfactor]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[43]), mobjinfo[i].scale]);
 
     result.Add('');
   end;
@@ -1963,6 +1965,7 @@ begin
   mobj_tokens.Add('CRASH FRAME');        // .crashstate               // 40
   mobj_tokens.Add('VSPEED');             // .vspeed                   // 41
   mobj_tokens.Add('PUSHFACTOR');         // .pushfactor               // 42
+  mobj_tokens.Add('SCALE');              // .scale                    // 43
 
 
   mobj_flags := TDTextList.Create;

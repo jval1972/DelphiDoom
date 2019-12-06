@@ -451,11 +451,27 @@ begin
 
   // JVAL: 3D floors
   if G_PlayingEngineVersion >= VERSION115 then
-    if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
+  begin
+    if (G_PlayingEngineVersion < VERSION204) or ((G_PlayingEngineVersion = VERSION204) and (demoplayback or demorecording)) then
     begin
-      result := t1.floorz = t2.floorz;
-      exit;
+      if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
+      begin
+        result := t1.floorz = t2.floorz;
+        exit;
+      end;
+    end
+    else
+    // JVAL 20191206 - Fix problem reported by slayermbm
+    // https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252
+    begin
+      if midn > -1 then
+        if Psubsector_t(t1.subsector).sector = Psubsector_t(t2.subsector).sector then
+        begin
+          result := t1.floorz = t2.floorz;
+          exit;
+        end;
     end;
+  end;
 
   // An unobstructed LOS is possible.
   // Now look from eyes of t1 to any part of t2.

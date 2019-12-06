@@ -76,7 +76,7 @@ begin
 
   for i := 0 to count - 1 do
   begin
-    buf.byte1 := curtrans8table[(dest^ shl 8) + dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    buf.byte1 := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
     buf.byte2 := buf.byte1;
 
     PWord(dest)^ := Word(buf);
@@ -94,7 +94,7 @@ begin
   count := (dc_yh - dc_yl) mod 3;
   for i := 0 to count do
   begin
-    buf.byte1 := curtrans8table[(dest^ shl 8) + dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    buf.byte1 := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
     buf.byte2 := buf.byte1;
     PWord(dest)^ := Word(buf);
     inc(dest, swidth);
@@ -126,7 +126,7 @@ begin
 
   for i := 0 to count - 1 do
   begin
-    bdest := curtrans8table[(dest^ shl 8) + dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    bdest := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
 
     dest^ := bdest;
     inc(dest, swidth);
@@ -143,7 +143,7 @@ begin
   count := (dc_yh - dc_yl) mod 3;
   for i := 0 to count do
   begin
-    dest^ := curtrans8table[(dest^ shl 8) + dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    dest^ := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]]shl 8)];
     inc(dest, swidth);
 
     inc(frac, dc_iscale);
@@ -184,7 +184,7 @@ begin
   begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
-    dest^ := curtrans8table[(dest^ shl 8) + dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]]];
+    dest^ := curtrans8table[dest^ + (dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]] shl 8)];
 
     inc(dest, swidth);
     inc(frac, fracstep);

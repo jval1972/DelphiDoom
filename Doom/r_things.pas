@@ -721,11 +721,6 @@ begin
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
-  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
-  begin
-    colfunc := averagecolfunc;
-    batchcolfunc := batchtaveragecolfunc;
-  end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
@@ -746,6 +741,11 @@ begin
     cursubtract8table := R_GetSubtractive8table(dc_alpha);
     colfunc := subtractcolfunc;
     batchcolfunc := batchsubtractcolfunc;
+  end
+  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
+  begin
+    colfunc := averagecolfunc;
+    batchcolfunc := batchtaveragecolfunc;
   end
   else
   begin
@@ -1040,10 +1040,10 @@ var
   mid: Psector_t; // JVAL: 3d floors
   midn: integer;  // JVAL: 3d floors
   sprlights: PBytePArray; // JVAL: 3d floors
+  scaledtop: fixed_t;
 {$ENDIF}
   soffset, swidth: fixed_t;
   infoscale: fixed_t;
-  scaledtop: fixed_t;
 begin
   if (thing.player = viewplayer) and not chasecamera then
     exit;
@@ -1247,8 +1247,8 @@ begin
   vis.gzt := gzt;
   // foot clipping
   vis.footclip := thing.floorclip;
-  vis.texturemid := vis.gzt - viewz - vis.footclip;
-  vis.texturemid2 := thing.z + 2 * scaledtop - viewz;
+  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + spritetopoffset[lump];
+  vis.texturemid2 := vis.texturemid + spritetopoffset[lump];
   if x1 <= 0 then
     vis.x1 := 0
   else

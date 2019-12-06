@@ -758,11 +758,6 @@ begin
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
-  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
-  begin
-    colfunc := averagecolfunc;
-    batchcolfunc := batchtaveragecolfunc;
-  end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
@@ -783,6 +778,11 @@ begin
     cursubtract8table := R_GetSubtractive8table(dc_alpha);
     colfunc := subtractcolfunc;
     batchcolfunc := batchsubtractcolfunc;
+  end
+  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
+  begin
+    colfunc := averagecolfunc;
+    batchcolfunc := batchtaveragecolfunc;
   end
   else
   begin
@@ -1077,8 +1077,10 @@ var
   mid: Psector_t; // JVAL: 3d floors
   midn: integer;  // JVAL: 3d floors
   sprlights: PBytePArray; // JVAL: 3d floors
+  scaledtop: fixed_t;
 {$ENDIF}
   soffset, swidth: fixed_t;
+  infoscale: fixed_t;
 begin
   if (thing.player = viewplayer) and not chasecamera then
     exit;
@@ -1193,7 +1195,8 @@ begin
     end;
   end;
 
-  soffset := spriteoffset[lump];
+  infoscale := thing.info.scale;
+  soffset := FixedMul(spriteoffset[lump], infoscale);
   tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
 {$IFNDEF OPENGL}
@@ -1209,7 +1212,7 @@ begin
     if x1 > viewwidth then
       exit;
 
-  swidth := spritewidth[lump];
+  swidth := FixedMul(spritewidth[lump], infoscale);
   tx := tx + swidth;
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
 {$IFNDEF OPENGL}
@@ -1228,7 +1231,8 @@ begin
   if x2 < x1 then
     exit; // SOS
 {$IFNDEF OPENGL}
-  gzt := thing.z + spritetopoffset[lump];
+  scaledtop := FixedMul(spritetopoffset[lump], infoscale);
+  gzt := thing.z + scaledtop;
   heightsec := Psubsector_t(thing.subsector).sector.heightsec;
 
   if heightsec <> -1 then   // only clip things which are in special sectors
@@ -1270,6 +1274,7 @@ begin
   vis.mo := thing;
   vis._type := thing._type;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
+  vis.infoscale := infoscale;
   {$IFNDEF OPENGL}
   vis.heightsec := heightsec;
   vis.voxelflag := voxelflag;  // JVAL voxel support
@@ -1279,8 +1284,8 @@ begin
   vis.gzt := gzt;
   // foot clipping
   vis.footclip := thing.floorclip;
-  vis.texturemid := vis.gzt - viewz - vis.footclip;
-  vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
+  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + spritetopoffset[lump];
+  vis.texturemid2 := vis.texturemid + spritetopoffset[lump];
   if x1 <= 0 then
     vis.x1 := 0
   else
@@ -1303,7 +1308,7 @@ begin
   sprlights := spritelights;
   if hasExtrafloors then
   begin
-    if spritetopoffset[lump] < 60 * FRACUNIT then
+    if scaledtop < 60 * FRACUNIT then
       vis.ceilingz := vis.gz + 60 * FRACUNIT
     else
       vis.ceilingz := vis.gzt;
@@ -1327,7 +1332,7 @@ begin
 
   if flip then
   begin
-    vis.startfrac := swidth - 1;
+    vis.startfrac := spritewidth[lump] - 1;
     vis.xiscale := -iscale;
   end
   else
@@ -1342,7 +1347,7 @@ begin
 
 {$IFNDEF OPENGL}
   if vis.x1 > x1 then
-    vis.startfrac := vis.startfrac + vis.xiscale * (vis.x1 - x1);
+    vis.startfrac := vis.startfrac + FixedDiv(vis.xiscale, infoscale) * (vis.x1 - x1);
 {$ENDIF}
   vis.patch := lump;
 
@@ -1552,6 +1557,7 @@ begin
 {$ENDIF}
   end;
 
+  vis.infoscale := FRACUNIT;
 {$IFDEF OPENGL}
   gld_DrawWeapon(lump, vis, lightlevel); // JVAL OPENGL
 {$ELSE}
@@ -1804,6 +1810,9 @@ begin
 
   mfloorclip := @clipbot;
   mceilingclip := @cliptop;
+
+  spr.scale := FixedMul(spr.scale, spr.infoscale);
+  spr.xiscale := FixedDiv(spr.xiscale, spr.infoscale);
 
   R_DrawVisSprite(spr);
 end;

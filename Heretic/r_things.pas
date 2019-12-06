@@ -726,11 +726,6 @@ begin
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
-  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
-  begin
-    colfunc := averagecolfunc;
-    batchcolfunc := batchtaveragecolfunc;
-  end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
@@ -750,6 +745,11 @@ begin
     cursubtract8table := R_GetSubtractive8table(dc_alpha);
     colfunc := subtractcolfunc;
     batchcolfunc := batchsubtractcolfunc;
+  end
+  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
+  begin
+    colfunc := averagecolfunc;
+    batchcolfunc := batchtaveragecolfunc;
   end
   else
   begin
@@ -1039,13 +1039,16 @@ var
 {$ELSE}
   index: integer;
   iscale: fixed_t;
+  gzt: integer;
   voxelflag: integer;
   vx1, vx2: integer;
   mid: Psector_t; // JVAL: 3d floors
   midn: integer;  // JVAL: 3d floors
   sprlights: PBytePArray; // JVAL: 3d floors
+  scaledtop: fixed_t;
 {$ENDIF}
   soffset, swidth: fixed_t;
+  infoscale: fixed_t;
 begin
   if (thing.player = viewplayer) and not chasecamera then
     exit;
@@ -1160,7 +1163,8 @@ begin
     end;
   end;
 
-  soffset := spriteoffset[lump];
+  infoscale := thing.info.scale;
+  soffset := FixedMul(spriteoffset[lump], infoscale);
   tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
 {$IFNDEF OPENGL}
@@ -1176,7 +1180,7 @@ begin
     if x1 > viewwidth then
       exit;
 
-  swidth := spritewidth[lump];
+  swidth := FixedMul(spritewidth[lump], infoscale);
   tx := tx + swidth;
   x2 := FixedInt(centerxfrac + FixedMul(tx, xscale)) - 1;
 {$IFNDEF OPENGL}
@@ -1194,6 +1198,10 @@ begin
 
   if x2 < x1 then
     exit; // SOS
+{$IFNDEF OPENGL}
+  scaledtop := FixedMul(spritetopoffset[lump], infoscale);
+  gzt := thing.z + scaledtop;
+{$ENDIF}
   // store information in a vissprite
   vis := R_NewVisSprite;
   vis.mobjflags := thing.flags;
@@ -1202,12 +1210,13 @@ begin
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
+  vis.infoscale := infoscale;
 {$IFNDEF OPENGL}
   vis.voxelflag := voxelflag; // JVAL voxel support
   vis.gx := thing.x;
   vis.gy := thing.y;
   vis.gz := thing.z;
-  vis.gzt := thing.z + spritetopoffset[lump];
+  vis.gzt := gzt;
   // foot clipping
   if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <=
     Psubsector_t(thing.subsector).sector.floorheight) then
@@ -1215,8 +1224,8 @@ begin
   else
     vis.footclip := 0;
 
-  vis.texturemid := vis.gzt - viewz - (vis.footclip * FRACUNIT);
-  vis.texturemid2 := thing.z + 2 * spritetopoffset[lump] - viewz;
+  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip * FRACUNIT, infoscale) + spritetopoffset[lump];
+  vis.texturemid2 := vis.texturemid + spritetopoffset[lump];
   if x1 <= 0 then
     vis.x1 := 0
   else
@@ -1239,7 +1248,7 @@ begin
   sprlights := spritelights;
   if hasExtrafloors then
   begin
-    if spritetopoffset[lump] < 60 * FRACUNIT then
+    if scaledtop < 60 * FRACUNIT then
       vis.ceilingz := vis.gz + 60 * FRACUNIT
     else
       vis.ceilingz := vis.gzt;
@@ -1263,7 +1272,7 @@ begin
 
   if flip then
   begin
-    vis.startfrac := swidth - 1;
+    vis.startfrac := spritewidth[lump] - 1;
     vis.xiscale := -iscale;
   end
   else
@@ -1278,7 +1287,7 @@ begin
 
 {$IFNDEF OPENGL}
   if vis.x1 > x1 then
-    vis.startfrac := vis.startfrac + vis.xiscale * (vis.x1 - x1);
+    vis.startfrac := vis.startfrac + FixedDiv(vis.xiscale, infoscale) * (vis.x1 - x1);
 {$ENDIF}
   vis.patch := lump;
 
@@ -1516,6 +1525,7 @@ begin
 {$ENDIF}
   end;
 
+  vis.infoscale := FRACUNIT;
 {$IFDEF OPENGL}
   gld_DrawWeapon(lump, vis, lightlevel); // JVAL OPENGL
 {$ELSE}
@@ -1703,6 +1713,9 @@ begin
 
   mfloorclip := @clipbot;
   mceilingclip := @cliptop;
+
+  spr.scale := FixedMul(spr.scale, spr.infoscale);
+  spr.xiscale := FixedDiv(spr.xiscale, spr.infoscale);
 
   R_DrawVisSprite(spr);
 end;

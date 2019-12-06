@@ -2246,10 +2246,6 @@ begin
     dc_translation := PByteArray(integer(translationtables) - 256 +
       (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
-  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
-  begin
-    batchcolfunc := batchtaveragecolfunc;
-  end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
@@ -2267,6 +2263,10 @@ begin
     dc_alpha := vis.mo.alpha;
     cursubtract8table := R_GetSubtractive8table(dc_alpha);
     batchcolfunc := batchsubtractcolfunc;
+  end
+  else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
+  begin
+    batchcolfunc := batchtaveragecolfunc;
   end
   else
   begin

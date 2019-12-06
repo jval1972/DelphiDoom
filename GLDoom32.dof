@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -iwad doom2.wad RDDVOX.pk3 RDVXTEST.wad
+RunParams=-nofullscreen -iwad doom2.wad
 HostApplication=
 Launcher=
 UseLauncher=0

@@ -212,7 +212,8 @@ begin
     begin
       if mobj.flags_ex and MF_EX_DONOTREMOVE = 0 then // JVAL Do not remove missile
       begin
-        mobj.state := nil;
+//        mobj.state := nil;
+        mobj.state := @states[Ord(S_NULL)];
         P_RemoveMobj(mobj);
       end;
       result := false;
@@ -259,7 +260,8 @@ var
 begin
   if state = S_NULL then
   begin // Remove mobj
-    mobj.state := nil;
+    //mobj.state := nil;
+    mobj.state := @states[Ord(S_NULL)];
     P_RemoveMobj(mobj);
     result := false;
   end

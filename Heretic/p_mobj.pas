@@ -179,7 +179,7 @@ begin
     begin
       if mobj.flags_ex and MF_EX_DONOTREMOVE = 0 then // JVAL Do not remove missile
       begin
-        mobj.state := nil;
+        mobj.state := @states[Ord(S_NULL)];
         P_RemoveMobj(mobj);
       end;
       result := false;
@@ -227,7 +227,7 @@ var
 begin
   if state = S_NULL then
   begin // Remove mobj
-    mobj.state := nil;
+    mobj.state := @states[Ord(S_NULL)];
     P_RemoveMobj(mobj);
     result := false;
   end
@@ -921,7 +921,8 @@ begin
     mobj.tics := mobj.tics - 1;
 
     // you can cycle through multiple states in a tic
-    if mobj.tics = 0 then
+    //if mobj.tics = 0 then
+    while mobj.tics = 0 do
       if not P_SetMobjState(mobj, mobj.state.nextstate) then
         exit; // freed itself
   end

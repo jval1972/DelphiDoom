@@ -81,6 +81,9 @@ uses
   sounds;
 
 const
+  DEFPUSHFACTOR = FRACUNIT div 4;
+
+const
   DO_states: array[0..Ord(DO_NUMSTATES) - 1] of state_t = (
    (                          // #00
     sprite: Ord(SPR_PLAY);    // sprite
@@ -12794,6 +12797,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PLAYER
@@ -12840,6 +12845,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SHOPKEEPER_W
@@ -12886,6 +12893,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SHOPKEEPER_B
@@ -12933,6 +12942,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SHOPKEEPER_A
@@ -12980,6 +12991,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SHOPKEEPER_M
@@ -13027,6 +13040,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT2_A
@@ -13073,6 +13088,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT2_B
@@ -13119,6 +13136,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT2_C
@@ -13165,6 +13184,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT5_A
@@ -13212,6 +13233,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT5_B
@@ -13259,6 +13282,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT5_C
@@ -13306,6 +13331,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT4_A
@@ -13353,6 +13380,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT4_B
@@ -13400,6 +13429,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT4_C
@@ -13446,6 +13477,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT6_A
@@ -13492,6 +13525,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT6_B
@@ -13538,6 +13573,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT6_C
@@ -13584,6 +13621,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT3_A
@@ -13630,6 +13669,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT3_B
@@ -13676,6 +13717,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT3_C
@@ -13722,6 +13765,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT8_A
@@ -13768,6 +13813,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT8_B
@@ -13814,6 +13861,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT8_C
@@ -13860,6 +13909,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT7_A
@@ -13906,6 +13957,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT7_B
@@ -13952,6 +14005,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT7_C
@@ -13998,6 +14053,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PEASANT1
@@ -14044,6 +14101,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_PEAS_14);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ZOMBIE
@@ -14090,6 +14149,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BECOMING
@@ -14136,6 +14197,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ZOMBIESPAWNER
@@ -14182,6 +14245,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_HUGE_TANK_1
@@ -14228,6 +14293,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_HUGE_TANK_2
@@ -14274,6 +14341,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_HUGE_TANK_3
@@ -14320,6 +14389,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TANK_4
@@ -14366,6 +14437,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TANK_5
@@ -14412,6 +14485,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TANK_6
@@ -14458,6 +14533,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KNEELING_GUY
@@ -14504,6 +14581,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NEAL_05);                                 // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BEGGAR1
@@ -14550,6 +14629,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BEGGAR2
@@ -14596,6 +14677,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BEGGAR3
@@ -14642,6 +14725,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BEGGAR4
@@ -14688,6 +14773,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BEGGAR5
@@ -14734,6 +14821,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_REBEL1
@@ -14780,6 +14869,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_REBEL2
@@ -14826,6 +14917,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_REBEL3
@@ -14872,6 +14965,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_REBEL4
@@ -14918,6 +15013,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_REBEL5
@@ -14964,6 +15061,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_REBEL6
@@ -15010,6 +15109,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RLEADER
@@ -15056,6 +15157,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RLEADER2
@@ -15102,6 +15205,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISSILESMOKE
@@ -15148,6 +15253,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_REAVER
@@ -15194,6 +15301,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD1
@@ -15240,6 +15349,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD2
@@ -15286,6 +15397,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD3
@@ -15332,6 +15445,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD4
@@ -15378,6 +15493,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD5
@@ -15424,6 +15541,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD6
@@ -15470,6 +15589,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD7
@@ -15516,6 +15637,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GUARD8
@@ -15562,6 +15685,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SHADOWGUARD
@@ -15608,6 +15733,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PGUARD
@@ -15654,6 +15781,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CRUSADER
@@ -15700,6 +15829,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BISHOP
@@ -15746,6 +15877,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ORACLE
@@ -15792,6 +15925,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PRIEST
@@ -15840,6 +15975,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SPECTRE_A
@@ -15888,6 +16025,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_NODE
@@ -15934,6 +16073,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SPECTREHEAD
@@ -15980,6 +16121,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SPECTRE_B
@@ -16028,6 +16171,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SPECTRE_C
@@ -16076,6 +16221,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SPECTRE_D
@@ -16124,6 +16271,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SPECTRE_E
@@ -16172,6 +16321,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ENTITY
@@ -16220,6 +16371,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SUBENTITY
@@ -16268,6 +16421,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_NEST
@@ -16314,6 +16469,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_POD
@@ -16360,6 +16517,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_B_SHOT
@@ -16407,6 +16566,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_SB_SHOT
@@ -16454,6 +16615,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_C_SHOT
@@ -16501,6 +16664,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_SC_SHOT
@@ -16548,6 +16713,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_E_OFFSHOOT
@@ -16595,6 +16762,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_TRAIL
@@ -16641,6 +16810,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_E_SHOT
@@ -16688,6 +16859,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_SE_SHOT
@@ -16735,6 +16908,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_A_ZAP_LEFT
@@ -16782,6 +16957,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_A_ZAP_RIGHT
@@ -16829,6 +17006,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_A_GROUND
@@ -16875,6 +17054,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_D_SHOT
@@ -16922,6 +17103,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_SD_SHOT
@@ -16969,6 +17152,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SENTINEL
@@ -17017,6 +17202,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_STALKER
@@ -17064,6 +17251,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INQUISITOR
@@ -17111,6 +17300,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INQARM
@@ -17157,6 +17348,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PROGRAMMER
@@ -17204,6 +17397,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PROGRAMMERBASE
@@ -17250,6 +17445,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_HOOKSHOT
@@ -17296,6 +17493,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CHAINSHOT
@@ -17342,6 +17541,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MINIMISSLE
@@ -17388,6 +17589,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_C_MISSILE
@@ -17434,6 +17637,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SEEKMISSILE
@@ -17480,6 +17685,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ELECARROW
@@ -17526,6 +17733,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_POISARROW
@@ -17572,6 +17781,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_R_LASER
@@ -17618,6 +17829,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_L_LASER
@@ -17664,6 +17877,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_HEGRENADE
@@ -17710,6 +17925,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PGRENADE
@@ -17756,6 +17973,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INQGRENADE
@@ -17802,6 +18021,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PFLAME
@@ -17848,6 +18069,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TORPEDO
@@ -17894,6 +18117,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TORPEDOSPREAD
@@ -17940,6 +18165,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SFIREBALL
@@ -17986,6 +18213,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_C_FLAME
@@ -18032,6 +18261,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_STRIFEPUFF3
@@ -18078,6 +18309,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_STRIFEPUFF
@@ -18124,6 +18357,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SPARKPUFF
@@ -18170,6 +18405,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BLOOD_DEATH
@@ -18216,6 +18453,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TFOG
@@ -18262,6 +18501,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_IFOG
@@ -18308,6 +18549,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TELEPORTMAN
@@ -18354,6 +18597,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_01
@@ -18401,6 +18646,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TURRET
@@ -18448,6 +18695,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GATE
@@ -18494,6 +18743,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_COMPUTER
@@ -18541,6 +18792,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_MED1
@@ -18587,6 +18840,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_MED2
@@ -18633,6 +18888,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_MED3
@@ -18679,6 +18936,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_DEGNINORE
@@ -18726,6 +18985,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_ARMOR2
@@ -18772,6 +19033,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_ARMOR1
@@ -18818,6 +19081,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_22
@@ -18864,6 +19129,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_11
@@ -18910,6 +19177,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_BASE
@@ -18956,6 +19225,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GOVSKEY
@@ -19002,6 +19273,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_TRAVEL
@@ -19048,6 +19321,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_ID_BLUE
@@ -19094,6 +19369,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PRISONKEY
@@ -19140,6 +19417,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_HAND
@@ -19186,6 +19465,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_POWER1KEY
@@ -19232,6 +19513,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_POWER2KEY
@@ -19278,6 +19561,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_POWER3KEY
@@ -19324,6 +19609,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_GOLD
@@ -19370,6 +19657,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_ID_GOLD
@@ -19416,6 +19705,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_SILVER
@@ -19462,6 +19753,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_ORACLE
@@ -19508,6 +19801,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MILITARYID
@@ -19554,6 +19849,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_ORDER
@@ -19600,6 +19897,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_WAREHOUSE
@@ -19646,6 +19945,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_BRASS
@@ -19692,6 +19993,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_RED_CRYSTAL
@@ -19738,6 +20041,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_BLUE_CRYSTAL
@@ -19784,6 +20089,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_CHAPEL
@@ -19830,6 +20137,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CATACOMBKEY
@@ -19876,6 +20185,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SECURITYKEY
@@ -19922,6 +20233,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_CORE
@@ -19968,6 +20281,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_MAULER
@@ -20014,6 +20329,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_FACTORY
@@ -20060,6 +20377,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_KEY_MINE
@@ -20106,6 +20425,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_NEWKEY5
@@ -20152,6 +20473,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_SHADOWARMOR
@@ -20198,6 +20521,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_SUIT
@@ -20244,6 +20569,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_QUEST_UNIFORM
@@ -20290,6 +20617,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_QUEST_GUARD_UNIFORM
@@ -20336,6 +20665,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_SUPERMAP
@@ -20382,6 +20713,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_RADAR
@@ -20428,6 +20761,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BEACON
@@ -20474,6 +20809,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_TARGETER
@@ -20520,6 +20857,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MONY_1
@@ -20566,6 +20905,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MONY_10
@@ -20612,6 +20953,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MONY_25
@@ -20658,6 +21001,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MONY_50
@@ -20704,6 +21049,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MONY_300
@@ -20750,6 +21097,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_RING
@@ -20796,6 +21145,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_CHALICE
@@ -20842,6 +21193,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_EAR
@@ -20888,6 +21241,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_COMMUNICATOR
@@ -20934,6 +21289,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_AGREN
@@ -20980,6 +21337,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_APGREN
@@ -21026,6 +21385,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ACLIP
@@ -21072,6 +21433,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_AAMMOBOX
@@ -21118,6 +21481,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_AMINI
@@ -21164,6 +21529,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_AMINIBOX
@@ -21210,6 +21577,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ACELL
@@ -21256,6 +21625,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_APCELL
@@ -21302,6 +21673,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_APAROW
@@ -21348,6 +21721,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_AAROW
@@ -21394,6 +21769,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_INV_SATCHEL
@@ -21440,6 +21817,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PULSE
@@ -21486,6 +21865,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RIFLESTAND
@@ -21532,6 +21913,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_FLAMETHROWER
@@ -21578,6 +21961,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_FLAME_THROWER_PARTS
@@ -21624,6 +22009,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISSILELAUNCHER
@@ -21670,6 +22057,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BLASTER
@@ -21716,6 +22105,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CROSSBOW
@@ -21762,6 +22153,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GRENADELAUNCHER
@@ -21808,6 +22201,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_A
@@ -21854,6 +22249,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_B
@@ -21900,6 +22297,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_C
@@ -21946,6 +22345,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_D
@@ -21992,6 +22393,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SIGIL_E
@@ -22038,6 +22441,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_POWER_CRYSTAL
@@ -22085,6 +22490,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RAT
@@ -22131,6 +22538,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_05
@@ -22177,6 +22586,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_06
@@ -22223,6 +22634,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_15
@@ -22269,6 +22682,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT14
@@ -22315,6 +22730,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT13
@@ -22361,6 +22778,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT12
@@ -22407,6 +22826,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT18
@@ -22453,6 +22874,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR2
@@ -22499,6 +22922,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR3
@@ -22545,6 +22970,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR4
@@ -22591,6 +23018,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR5
@@ -22637,6 +23066,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR6
@@ -22683,6 +23114,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR7
@@ -22729,6 +23162,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CAVE2
@@ -22775,6 +23210,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CAVE3
@@ -22821,6 +23258,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CAVE4
@@ -22867,6 +23306,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CAVE6
@@ -22913,6 +23354,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CAVE7
@@ -22959,6 +23402,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CAVE5
@@ -23005,6 +23450,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT2
@@ -23051,6 +23498,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT3
@@ -23097,6 +23546,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_03
@@ -23143,6 +23594,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_13
@@ -23189,6 +23642,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_02
@@ -23235,6 +23690,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_07
@@ -23281,6 +23738,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BIO2
@@ -23327,6 +23786,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TELEPORTSTAND
@@ -23373,6 +23834,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_DEADTHING1
@@ -23419,6 +23882,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_DEADTHING2
@@ -23465,6 +23930,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_DEADTHING3
@@ -23511,6 +23978,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_DEADTHING4
@@ -23557,6 +24026,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_DEADTHING5
@@ -23603,6 +24074,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_DEADTHING6
@@ -23649,6 +24122,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BIO1
@@ -23695,6 +24170,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GIBS
@@ -23741,6 +24218,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_04
@@ -23787,6 +24266,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT11
@@ -23833,6 +24314,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT10
@@ -23879,6 +24362,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT9
@@ -23925,6 +24410,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT8
@@ -23971,6 +24458,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_14
@@ -24017,6 +24506,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT1
@@ -24063,6 +24554,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR8
@@ -24109,6 +24602,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR9
@@ -24155,6 +24650,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT15
@@ -24201,6 +24698,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT4
@@ -24247,6 +24746,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT5
@@ -24293,6 +24794,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ROCK1
@@ -24339,6 +24842,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ROCK2
@@ -24385,6 +24890,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ROCK3
@@ -24431,6 +24938,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_ROCK4
@@ -24477,6 +24986,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TREE7
@@ -24523,6 +25034,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE1
@@ -24569,6 +25082,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE2
@@ -24615,6 +25130,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE3
@@ -24661,6 +25178,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE4
@@ -24707,6 +25226,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE5
@@ -24753,6 +25274,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE6
@@ -24799,6 +25322,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE7
@@ -24845,6 +25370,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_RUBBLE8
@@ -24891,6 +25418,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_08
@@ -24937,6 +25466,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT6
@@ -24983,6 +25514,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT7
@@ -25029,6 +25562,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TREE2
@@ -25075,6 +25610,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TREE3
@@ -25121,6 +25658,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TREE4
@@ -25167,6 +25706,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TREE1
@@ -25213,6 +25754,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TREE6
@@ -25259,6 +25802,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TREE5
@@ -25305,6 +25850,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_CAVE1
@@ -25351,6 +25898,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR1
@@ -25397,6 +25946,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_10
@@ -25443,6 +25994,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_09
@@ -25489,6 +26042,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_17
@@ -25535,6 +26090,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_18
@@ -25581,6 +26138,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_19
@@ -25627,6 +26186,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_20
@@ -25673,6 +26234,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT16
@@ -25719,6 +26282,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT17
@@ -25765,6 +26330,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_21
@@ -25811,6 +26378,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_12
@@ -25857,6 +26426,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_26
@@ -25903,6 +26474,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_23
@@ -25949,6 +26522,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_24
@@ -25995,6 +26570,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MISC_25
@@ -26041,6 +26618,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_COUPLING
@@ -26088,6 +26667,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_COUPLING_BROKEN
@@ -26134,6 +26715,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR10
@@ -26180,6 +26763,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR11
@@ -26226,6 +26811,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR12
@@ -26272,6 +26859,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_PILLAR13
@@ -26318,6 +26907,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_LIGHT19
@@ -26364,6 +26955,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_MEAT
@@ -26410,6 +27003,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_JUNK
@@ -26456,6 +27051,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_BURNDROP
@@ -26502,6 +27099,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_AMMO
@@ -26548,6 +27147,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_HEALTH
@@ -26594,6 +27195,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN
@@ -26640,6 +27243,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_ALARM
@@ -26686,6 +27291,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_DOOR1
@@ -26732,6 +27339,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_SHOPCLOSE
@@ -26778,6 +27387,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_PRISON_PASS
@@ -26824,6 +27435,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_DOOR3
@@ -26870,6 +27483,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_STAMINA
@@ -26916,6 +27531,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_NEW_ACCURACY
@@ -26962,6 +27579,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_REPORT
@@ -27008,6 +27627,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_TOUGHNESS
@@ -27054,6 +27675,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_ACCURACY
@@ -27100,6 +27723,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_ORACLE_PASS
@@ -27146,6 +27771,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST1
@@ -27192,6 +27819,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST2
@@ -27238,6 +27867,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST3
@@ -27284,6 +27915,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST4
@@ -27330,6 +27963,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST5
@@ -27376,6 +28011,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST6
@@ -27422,6 +28059,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST7
@@ -27468,6 +28107,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST8
@@ -27514,6 +28155,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST9
@@ -27560,6 +28203,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST10
@@ -27606,6 +28251,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST11
@@ -27652,6 +28299,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST12
@@ -27698,6 +28347,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST13
@@ -27744,6 +28395,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_CRYSTAL
@@ -27790,6 +28443,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST15
@@ -27836,6 +28491,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_GATEQUEST
@@ -27882,6 +28539,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST17
@@ -27928,6 +28587,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST18
@@ -27974,6 +28635,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST19
@@ -28020,6 +28683,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST20
@@ -28066,6 +28731,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_BISHOP
@@ -28112,6 +28779,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST22
@@ -28158,6 +28827,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_ORACLE
@@ -28204,6 +28875,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_MACIL
@@ -28250,6 +28923,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST25
@@ -28296,6 +28971,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_LOREMASTER
@@ -28342,6 +29019,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SECRQUEST
@@ -28388,6 +29067,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST28
@@ -28434,6 +29115,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST29
@@ -28480,6 +29163,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST30
@@ -28526,6 +29211,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_TOKEN_QUEST31
@@ -28572,6 +29259,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
   (       //MT_SLIDESHOW
@@ -28618,6 +29307,8 @@ const // Doom Original mobjinfo
     crashstate: Ord(S_NULL);                                    // crashstate
     interactstate: Ord(S_NULL);                                 // interactstate
     missileheight: Ord(S_NULL);                                 // missileheight
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
    (    // MT_SPLASH
@@ -28647,6 +29338,8 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags_ex: MF_EX_LOWGRAVITY;   // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
    (    // MT_SPLASHBASE
     name: 'Splash 2';             // name
@@ -28674,6 +29367,8 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
     flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
    (    // MT_LAVASPLASH
     name: 'Lava Splash';          // name
@@ -28701,6 +29396,8 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
     flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
    (    // MT_LAVASMOKE
     name: 'Lava Smoke';           // name
@@ -28730,6 +29427,8 @@ const // Doom Original mobjinfo
     flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR; // flags2_ex
     renderstyle: mrs_translucent;
     alpha: 40000;
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
    (    // MT_SLUDGECHUNK
     name: 'Sludge Chunk';         // name
@@ -28758,6 +29457,8 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags_ex: MF_EX_LOWGRAVITY;   // flags_ex
     flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
    (    // MT_SLUDGESPLASH
     name: 'Sludge Splash';        // name
@@ -28785,6 +29486,8 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
     flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
    (    // MT_NUKAGECHUNK
@@ -28814,6 +29517,8 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
     flags_ex: MF_EX_LOWGRAVITY;   // flags_ex
     flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
    (    // MT_NUKAGESPLASH
     name: 'Nukage Splash';        // name
@@ -28841,6 +29546,8 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);   // activesound
     flags: MF_NOBLOCKMAP;         // flags
     flags2_ex: MF2_EX_NOHITFLOOR; // flags2_ex
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
    (    // MT_GREENBLOOD
@@ -28877,6 +29584,8 @@ const // Doom Original mobjinfo
     explosiondamage: 0;               // explosiondamage
     explosionradius: 0;               // explosionradius
     meleedamage: 0;                   // meleedamage
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
    (    // MT_BLUEBLOOD
@@ -28913,6 +29622,8 @@ const // Doom Original mobjinfo
     explosiondamage: 0;               // explosiondamage
     explosionradius: 0;               // explosionradius
     meleedamage: 0;                   // meleedamage
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
    ),
 
     // For use with wind and current effects
@@ -28950,6 +29661,8 @@ const // Doom Original mobjinfo
     explosiondamage: 0;               // explosiondamage
     explosionradius: 0;               // explosionradius
     meleedamage: 0;                   // meleedamage
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
   ),
 
   (   // MT_PULL                      // phares
@@ -28986,8 +29699,9 @@ const // Doom Original mobjinfo
     explosiondamage: 0;               // explosiondamage
     explosionradius: 0;               // explosionradius
     meleedamage: 0;                   // meleedamage
+    pushfactor: DEFPUSHFACTOR;        // pushfactor
+    scale: FRACUNIT;                  // scale
   )
-
 
   );
 
