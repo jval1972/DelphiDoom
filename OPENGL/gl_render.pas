@@ -4331,6 +4331,14 @@ begin
   sprite.x2 := hoff;
   sprite.y1 := voff;
   sprite.y2 := voff - (tex.realtexheight / MAP_COEFF);
+  
+  if vspr.infoscale <> FRACUNIT then
+  begin
+    sprite.x1 := sprite.x1 * vspr.infoscale / FRACUNIT;
+    sprite.x2 := sprite.x2 * vspr.infoscale / FRACUNIT;
+    sprite.y1 := sprite.y1 * vspr.infoscale / FRACUNIT;
+    sprite.y2 := sprite.y2 * vspr.infoscale / FRACUNIT;
+  end;
 
   if (sprite.y2 < 0) and (vspr.mobjflags and (MF_SPAWNCEILING or MF_FLOAT or MF_MISSILE or MF_NOGRAVITY) = 0) then
   begin

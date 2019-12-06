@@ -669,6 +669,7 @@ begin
           42: mobjinfo[mobj_no].missileheight := mobj_val;
           43: mobjinfo[mobj_no].vspeed := mobj_val;
           44: mobjinfo[mobj_no].pushfactor := mobj_val;
+          45: mobjinfo[mobj_no].scale := mobj_val;
         end;
       end;
 
@@ -1666,6 +1667,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[42]), mobjinfo[i].missileheight]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[43]), mobjinfo[i].vspeed]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[44]), mobjinfo[i].pushfactor]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[45]), mobjinfo[i].scale]);
 
     result.Add('');
   end;
@@ -1939,6 +1941,7 @@ begin
   mobj_tokens.Add('MISSILEHEIGHT');      // .missileheight (DelphiDoom) // 42
   mobj_tokens.Add('VSPEED');             // .vspeed                   // 43
   mobj_tokens.Add('PUSHFACTOR');         // .pushfactor               // 44
+  mobj_tokens.Add('SCALE');              // .scale                    // 45
 
 
   mobj_flags := TDTextList.Create;

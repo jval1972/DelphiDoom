@@ -124,6 +124,7 @@ type
     pushfactor: float;
     statesdefined: LongWord;
     replacesid: integer;
+    scale: float;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

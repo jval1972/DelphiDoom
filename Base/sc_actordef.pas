@@ -1119,6 +1119,7 @@ var
     {$IFDEF DOOM_OR_STRIFE}
     AddRes('missileheight = ' + itoa(mobj.missileheight));
     {$ENDIF}
+    AddRes('Scale = ' + itoa(round(mobj.scale * FRACUNIT)));
     AddRes('');
 
     if numstates > 0 then
@@ -1465,6 +1466,7 @@ begin
       {$IFDEF STRIFE}
       mobj.name2 := '';
       {$ENDIF}
+      mobj.scale := 1.0;
       mobj.replacesid := -1;
       ismissile := false;
       FillChar(m_states, SizeOf(m_states), 0);
@@ -1548,6 +1550,7 @@ begin
           {$ENDIF}
           mobj.vspeed := pinf.vspeed / FRACUNIT;
           mobj.pushfactor := pinf.pushfactor / FRACUNIT;
+          mobj.scale := pinf.scale / FRACUNIT;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -1754,6 +1757,12 @@ begin
           //      and 0..FRACUNIT in mobjinfo table
           if mobj.pushfactor > 64 then
             mobj.pushfactor := mobj.pushfactor / FRACUNIT;
+          sc.GetString;
+        end
+        else if sc.MatchString('scale') then
+        begin
+          sc.GetFloat;
+          mobj.scale := sc._float;
           sc.GetString;
         end
         else if sc.MatchString('speed') then

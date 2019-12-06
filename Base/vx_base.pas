@@ -89,6 +89,9 @@ procedure VX_InitVoxels;
 
 procedure VX_VoxelsDone;
 
+var
+  voxelspritenames: TDStringList;
+
 implementation
 
 uses
@@ -151,6 +154,40 @@ begin
   inc(numvoxelstates);
 end;
 
+const
+  SPRITEFRAMECHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]';
+
+//
+// VX_CheckVoxelSprite
+// JVAL 20191204
+//    Add the sprname and the it's voxel source
+//    Only one voxel (first parsed) per sprite though
+//
+procedure VX_CheckVoxelSprite(const sprname: string; const voxelsrc: string);
+var
+  s1, s2, check: string;
+  i: integer;
+begin
+  splitstring(fname(sprname), s1, s2, '.');
+  check := strupper(s1);
+  if Length(check) = 4 then
+  begin
+    for i := 1 to Length(SPRITEFRAMECHARS) do
+      if voxelspritenames.IndexOfName(check + SPRITEFRAMECHARS[i]) < 0 then
+        voxelspritenames.Add(check + SPRITEFRAMECHARS[i] + '0' + '=' + strupper(voxelsrc));
+  end
+  else if Length(check) = 5 then
+  begin
+    if voxelspritenames.IndexOfName(check) < 0 then
+      voxelspritenames.Add(check + '0' + '=' + strupper(voxelsrc));
+  end
+  else if Length(check) = 6 then
+  begin
+    if check[6] = '0' then
+      if voxelspritenames.IndexOfName(check) < 0 then
+        voxelspritenames.Add(check + '=' + strupper(voxelsrc));
+  end;
+end;
 
 const
   VOXELDEFLUMPNAME = 'VOXELDEF';
@@ -284,6 +321,7 @@ begin
                   end;
                   sc.MustGetString;
                   sprname := sc._String;
+                  VX_CheckVoxelSprite(sprname, voxelitem.name);
                   nList := Info_FindStatesFromSprite(sprname);
                   vxidx := VX_AddVoxel(voxelitem);
                   voxelpending := false;
@@ -389,6 +427,14 @@ begin
   SC_DoParseVoxelDefinition(SC_Preprocess(in_text, false));
 end;
 
+procedure VX_AddAdditionalVoxels;
+var
+  i: integer;
+begin
+//  for i := 0 to numstates - 1 do
+//    if states[i].sprite
+end;
+
 //
 // SC_ParseVoxelDefinitions
 // JVAL: Parse all VOXELDEF lumps
@@ -447,6 +493,7 @@ begin
   voxelmanager.items := nil;
   numvoxelstates := 0;
   voxelstates := nil;
+  voxelspritenames := TDStringList.Create;
   printf('SC_ParseVoxelDefinitions: Parsing VOXELDEF lumps.'#13#10);
   SC_ParseVoxelDefinitions;
   C_AddCmd('voxelmapping', @Cmd_VoxelMapping);
@@ -474,32 +521,9 @@ begin
     memfree(pointer(voxelstates), numvoxelstates * SizeOf(voxelstate_t));
     numvoxelstates := 0;
   end;
-end;
-{
-function VXE_ExportGetFront(const voxelbuffer: voxelbuffer_p; const fvoxelsize: Integer): TBitmap;
-var
-  x, y, z: integer;
-  c: voxelitem_t;
-begin
-  result := TBitmap.Create;
-  result.Width := fvoxelsize;
-  result.Height := fvoxelsize;
-  result.PixelFormat := pf24bit;
 
-  for x := 0 to fvoxelsize - 1 do
-    for y := 0 to fvoxelsize - 1 do
-    begin
-      c := 0;
-      for z := 0 to fvoxelsize - 1 do
-        if voxelbuffer[x, y, z] <> 0 then
-        begin
-          c := voxelbuffer[x, y, z];
-          Break;
-        end;
-      result.Canvas.Pixels[x, y] := c;
-    end;
-
+  voxelspritenames.Free;
 end;
- }
+
 end.
  

@@ -519,6 +519,8 @@ function PS_GetMobjInfoVSpeed(const typ: integer): integer;
 
 function PS_GetMobjInfoPushFactor(const typ: integer): integer;
 
+function PS_GetMobjInfoScale(const typ: integer): integer;
+
 function PS_GetMobjInfoRadius(const typ: integer): integer;
 
 function PS_GetMobjInfoHeight(const typ: integer): integer;
@@ -4667,6 +4669,16 @@ begin
   Result := mobjinfo[typ].pushfactor;
 end;
 
+function PS_GetMobjInfoScale(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].scale;
+end;
+
 function PS_GetMobjInfoRadius(const typ: integer): integer;
 begin
   if (typ < 0) or (typ >= nummobjtypes) then
@@ -5026,6 +5038,11 @@ begin
   T := PS_GetMobjInfoPushFactor(Integer(Self) - 1);
 end;
 
+procedure TRTLMobjInfoItemScale_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoScale(Integer(Self) - 1);
+end;
+
 procedure TRTLMobjInfoItemRadius_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoRadius(Integer(Self) - 1);
@@ -5380,6 +5397,7 @@ begin
   cmobjinfoitem.RegisterProperty('MissileHeight', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('VSpeed', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('PushFactor', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('Scale', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -5572,6 +5590,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpeed_R, nil, 'Speed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemVSpeed_R, nil, 'VSpeed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemPushFactor_R, nil, 'PushFactor');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemScale_R, nil, 'Scale');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemRadius_R, nil, 'Radius');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHeight_R, nil, 'Height');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMass_R, nil, 'Mass');

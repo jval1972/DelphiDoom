@@ -517,6 +517,7 @@ type
     missileheight: integer;
     vspeed: integer;  // Initial vertical speed
     pushfactor: integer; // How much can be pushed? 1..FRACUNIT
+    scale: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

@@ -1628,6 +1628,8 @@ begin
   printf(#13#10 + 'R_InitPrecalc');
   R_InitPrecalc;
 {$IFNDEF OPENGL}
+  printf(#13#10 + 'R_InitVoxels'#13#10);
+  R_InitVoxels;
   printf(#13#10 + 'R_InitWallsCache8');
   R_InitWallsCache8;
   printf(#13#10 + 'R_InitWallsCache32');
@@ -1636,8 +1638,6 @@ begin
   R_InitFlatsCache8;
   printf(#13#10 + 'R_InitFlatsCache32');
   R_InitFlatsCache32;
-  printf(#13#10 + 'R_InitVoxels'#13#10);
-  R_InitVoxels;
   printf(#13#10 + 'R_InitDepthBuffer'#13#10); // JVAL: 3d Floors
   R_InitDepthBuffer;
 {$ENDIF}

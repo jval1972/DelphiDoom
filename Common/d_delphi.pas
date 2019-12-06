@@ -702,6 +702,8 @@ function RightStr(const s: string; const l: integer): string;
 
 function fixpathname(const s: string): string;
 
+procedure logtofile(const fname: string; const str: string);
+
 implementation
 
 uses
@@ -4074,6 +4076,22 @@ begin
       result := result + tmp[i];
     last := tmp[i];
   end;
+end;
+
+procedure logtofile(const fname: string; const str: string);
+var
+  f: file;
+begin
+  if not fexists(fname) then
+    fopen(f, fname, fCreate)
+  else
+  begin
+    fopen(f, fname, fOpenReadWrite);
+    system.Seek(f, FileSize(f));
+  end;
+  {$I-}
+  BlockWrite(f, Pointer(str)^, Length(str));
+  close(f);
 end;
 
 end.

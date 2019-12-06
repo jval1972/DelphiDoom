@@ -582,9 +582,9 @@ begin
 
         //-- 20050707_jgv - ask the application
         AppContinue := True;
-        If @OnProcessDirective <> nil then OnProcessDirective (Self, Parser, FDefineState.DoWrite, name, s, AppContinue);
+        if @OnProcessDirective <> nil then OnProcessDirective (Self, Parser, FDefineState.DoWrite, name, s, AppContinue);
 
-        If AppContinue then
+        if AppContinue then
         //-- end jgv
 
           if (Name = 'I') or (Name = 'INCLUDE') then

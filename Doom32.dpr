@@ -343,7 +343,8 @@ uses
   r_subsectors in 'Base\r_subsectors.pas',
   r_draw_additive in 'Base\r_draw_additive.pas',
   r_draw_subtractive in 'Base\r_draw_subtractive.pas',
-  r_renderstyle in 'Base\r_renderstyle.pas';
+  r_renderstyle in 'Base\r_renderstyle.pas',
+  vx_voxelsprite in 'Base\vx_voxelsprite.pas';
 
 var
   Saved8087CW: Word;

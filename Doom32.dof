@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -GEOM 1366X768 -iwad doom2.wad loadtest.zip
+RunParams=-nofullscreen -iwad doom2.wad RDDVOX.pk3 RDVXTEST.wad
 HostApplication=
 Launcher=
 UseLauncher=0
