@@ -128,6 +128,7 @@ var
   gl_drawshadows: boolean;
   gl_renderwireframe: boolean;
   gl_no_glfinish_hack: boolean = true;
+  vx_maxoptimizerpasscount: integer;
 {$ENDIF}
 
 type
@@ -145,7 +146,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}171{$ELSE}173{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}179{$ELSE}181{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1030,6 +1031,69 @@ const
      defaultbvalue: false;
      _type: tInteger),
 
+    (name: 'key_weapon0';
+     location: @key_weapon0;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('1');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon1';
+     location: @key_weapon1;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('2');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon2';
+     location: @key_weapon2;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('3');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon3';
+     location: @key_weapon3;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('4');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon4';
+     location: @key_weapon4;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('5');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon5';
+     location: @key_weapon5;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('6');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon6';
+     location: @key_weapon6;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('7');
+     defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'key_weapon7';
+     location: @key_weapon7;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('8');
+     defaultbvalue: false;
+     _type: tInteger),
 
      // Mouse
 

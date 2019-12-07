@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -iwad doom2.wad
+RunParams=-nofullscreen -iwad HACX.WAD
 HostApplication=
 Launcher=
 UseLauncher=0

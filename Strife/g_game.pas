@@ -129,6 +129,20 @@ var
 // JVAL Jump
   key_jump: integer;
 
+// JVAL 20191207 Key bindings for weapon change
+  key_weapon0: integer = Ord('1');
+  key_weapon1: integer = Ord('2');
+  key_weapon2: integer = Ord('3');
+  key_weapon3: integer = Ord('4');
+  key_weapon4: integer = Ord('5');
+  key_weapon5: integer = Ord('6');
+  key_weapon6: integer = Ord('7');
+  key_weapon7: integer = Ord('8');
+  key_weapon8: integer = Ord('9');
+  key_weapon9: integer = Ord('0');
+
+  KEY_WEAPONS: array[0..Ord(NUMWEAPONS) - 1] of PInteger;
+
 // Inventory
   key_usehealth: integer; // 'h'
   key_invquery: integer;  // 'q';
@@ -192,8 +206,6 @@ var
   gameaction: gameaction_t;
 
   usergame: boolean; // ok to save / end game
-
-//procedure G_SetKeyboardMode(const mode: integer);
 
 procedure G_PlayerReborn(player: integer);
 
@@ -693,7 +705,7 @@ begin
 
   // chainsaw overrides
   for i := 0 to Ord(NUMWEAPONS) - 2 do
-    if gamekeydown[Ord('1') + i] then
+    if gamekeydown[KEY_WEAPONS[i]^] then
     begin
       cmd.buttons := cmd.buttons or BT_CHANGE;
       cmd.buttons := cmd.buttons or _SHL(i, BT_WEAPONSHIFT);
@@ -1230,50 +1242,6 @@ begin
   end;
 end;
 
-{procedure G_SetKeyboardMode(const mode: integer);
-begin
-  if mode = 0 then
-  begin
-    key_right := 174;
-    key_left := 172;
-    key_up := 173;
-    key_down := 175;
-    key_strafeleft := 44;
-    key_straferight := 46;
-    key_jump := 97;
-    key_fire := 157;
-    key_use := 32;
-    key_strafe := 184;
-    key_speed := 182;
-    key_lookup := 197;
-    key_lookdown := 202;
-    key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
-    key_lookforward := 13;
-  end
-  else if mode = 1 then
-  begin
-    key_right := 174;
-    key_left := 172;
-    key_up := 119;
-    key_down := 115;
-    key_strafeleft := 97;
-    key_straferight := 100;
-    key_jump := 106;
-    key_fire := 157;
-    key_use := 32;
-    key_strafe := 184;
-    key_speed := 182;
-    key_lookup := 197;
-    key_lookdown := 202;
-    key_lookcenter := 199;
-    key_lookright := 198;
-    key_lookleft := 200;
-    key_lookforward := 13;
-  end;
-end;
-}
 //
 // G_PlayerReborn
 // Called after a player dies
@@ -2841,6 +2809,17 @@ initialization
   joybuttons := PBooleanArray(@joyarray[0]);
 
   precache := true;
+
+  KEY_WEAPONS[0] := @key_weapon0;
+  KEY_WEAPONS[1] := @key_weapon1;
+  KEY_WEAPONS[2] := @key_weapon2;
+  KEY_WEAPONS[3] := @key_weapon3;
+  KEY_WEAPONS[4] := @key_weapon4;
+  KEY_WEAPONS[5] := @key_weapon5;
+  KEY_WEAPONS[6] := @key_weapon6;
+  KEY_WEAPONS[7] := @key_weapon7;
+  KEY_WEAPONS[8] := @key_weapon8;
+  KEY_WEAPONS[9] := @key_weapon9;
 
 end.
 

@@ -859,7 +859,7 @@ begin
   end;
   {$IFNDEF STRIFE}
   if confignotfound then
-    G_SetKeyboardMode(0);
+    G_SetKeyboardMode(1);
   {$ENDIF}
   {$IFNDEF DEBUG}
   {$IFDEF OPENGL}

@@ -56,6 +56,15 @@ procedure gld_InitVoxels;
 
 procedure gld_VoxelsDone;
 
+var
+  // When = 0 we use TVoxelMeshOptimizer.FastOptimize(),
+  // otherwize indicate the pass count for TVoxelMeshOptimizer.Optimize()
+  vx_maxoptimizerpasscount: integer = 0;  // OpenGL
+
+const
+  MAX_VX_OPTIMIZE = 3;
+
+
 implementation
 
 uses
@@ -361,9 +370,10 @@ var
   oldnumquads: integer;
   passc: integer;
 begin
-  if vx_maxoptimizerpasscount <= 0 then
+  vx_maxoptimizerpasscount := GetIntegerInRange(vx_maxoptimizerpasscount, 0, MAX_VX_OPTIMIZE);
+
+  if vx_maxoptimizerpasscount = 0 then
   begin
-    vx_maxoptimizerpasscount := 0;
     FastOptimize;
     exit;
   end;

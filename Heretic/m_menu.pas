@@ -134,6 +134,7 @@ uses
   gl_lightmaps,
   gl_shadows,
   p_setup,
+  gl_tex,
 {$ELSE}
   i_video,
   r_batchcolumn,
@@ -977,20 +978,17 @@ var
 type
   optionsdisplayopengl_e = (
     od_glsetvideomode,
+    od_glmodels,
+    od_glvoxels,
+    od_filter,
     od_usefog,
-    od_gl_texture_filter_anisotropic,
     {$IFDEF DEBUG}
     od_gl_drawsky,
     {$ENDIF}
     od_gl_stencilsky,
     od_gl_renderwireframe,
-    od_gl_drawmodels,
-    od_gl_smoothmodelmovement,
-    od_gl_precachemodeltextures,
-    od_gl_drawvoxels,
     od_gl_uselightmaps,
     od_gl_drawshadows,
-    od_gl_linear_hud,
     od_gl_add_all_lines,
     od_gl_useglnodesifavailable,
     od_gl_autoloadgwafiles,
@@ -1001,7 +999,46 @@ type
 var
   OptionsDisplayOpenGLMenu: array[0..Ord(optdispopengl_end) - 1] of menuitem_t;
   OptionsDisplayOpenGLDef: menu_t;
+
+// OpenGL Models
+type
+  optionsopenglmodels_e = (
+    od_glm_drawmodels,
+    od_glm_smoothmodelmovement,
+    od_glm_precachemodeltextures,
+    optglmodels_end
+  );
+
+var
+  OptionsDisplayOpenGLModelsMenu: array[0..Ord(optglmodels_end) - 1] of menuitem_t;
+  OptionsDisplayOpenGLModelsDef: menu_t;
+
+// OpenGL Voxels
+type
+  optionsopenglvoxels_e = (
+    od_glv_drawvoxels,
+    od_glv_optimize,
+    optglvoxels_end
+  );
+
+var
+  OptionsDisplayOpenGLVoxelsMenu: array[0..Ord(optglvoxels_end) - 1] of menuitem_t;
+  OptionsDisplayOpenGLVoxelsDef: menu_t;
+
+// OpenGL Texture Filtering
+type
+  optionsopenglfilter_e = (
+    od_glf_texture_filter,
+    od_glf_texture_filter_anisotropic,
+    od_glf_linear_hud,
+    optglfilter_end
+  );
+
+var
+  OptionsDisplayOpenGLFilterMenu: array[0..Ord(optglfilter_end) - 1] of menuitem_t;
+  OptionsDisplayOpenGLFilterDef: menu_t;
 {$ENDIF}
+
 
 type
 //
@@ -1145,18 +1182,28 @@ type
     kb_flycenter,
     kb_invleft,
     kb_invright,
+    kb_weapon0,
+    kb_weapon1,
+    kb_weapon2,
+    kb_weapon3,
+    kb_weapon4,
+    kb_weapon5,
+    kb_weapon6,
+    kb_weapon7,
     kb_end
   );
 
 var
-  KeyBindingsMenu: array[0..Ord(kb_flyup) - 1] of menuitem_t;
-  KeyBindingsDef: menu_t;
-  KeyBindings2Menu: array[0..Ord(kb_end) - Ord(kb_flyup) - 1] of menuitem_t;
-  KeyBindings2Def: menu_t;
+  KeyBindingsMenu1: array[0..Ord(kb_flyup) - 1] of menuitem_t;
+  KeyBindingsDef1: menu_t;
+  KeyBindingsMenu2: array[0..Ord(kb_weapon0) - Ord(kb_flyup) - 1] of menuitem_t;
+  KeyBindingsDef2: menu_t;
+  KeyBindingsMenu3: array[0..Ord(kb_end) - Ord(kb_weapon0) - 1] of menuitem_t;
+  KeyBindingsDef3: menu_t;
 
 type
   bindinginfo_t = record
-    text: string[20];
+    text: string[28];
     pkey: PInteger;
   end;
 
@@ -1182,7 +1229,15 @@ const
     (text: 'Fly Down'; pkey: @key_flydown),
     (text: 'Fly Center'; pkey: @key_flycenter),
     (text: 'Inventory left page'; pkey: @key_invleft),
-    (text: 'Inventory right page'; pkey: @key_invright)
+    (text: 'Inventory right page'; pkey: @key_invright),
+    (text: 'Staff'; pkey: @key_weapon0),
+    (text: 'Elven Wand'; pkey: @key_weapon1),
+    (text: 'Ethereal Crossbow'; pkey: @key_weapon2),
+    (text: 'Dragon Claw'; pkey: @key_weapon3),
+    (text: 'Hellstaff'; pkey: @key_weapon4),
+    (text: 'Phoenix Rod'; pkey: @key_weapon5),
+    (text: 'Firemace'; pkey: @key_weapon6),
+    (text: 'Gauntlets of the Necromancer'; pkey: @key_weapon7)
   );
 
 var
@@ -1287,16 +1342,16 @@ begin
   KeyBindingsInfo[slot].pkey^ := key;
 end;
 
-procedure M_DrawBindings(const start, stop: integer);
+procedure M_DrawBindings(const m: menu_t; const start, stop: integer);
 var
   i: integer;
   ppos: menupos_t;
   drawkey: boolean;
 begin
-  M_WriteCenterText2('Key Bindings', KeyBindingsDef.y - 26);
+  M_WriteCenterText2('Key Bindings', m.y - 26);
   for i := 0 to stop - start - 1 do
   begin
-    ppos := M_WriteText4(KeyBindingsDef.x, KeyBindingsDef.y + KeyBindingsDef.itemheight * i, KeyBindingsInfo[start + i].text);
+    ppos := M_WriteText4(m.x, m.y + m.itemheight * i, KeyBindingsInfo[start + i].text);
     drawkey := true;
     if bindkeyEnter then
       if i = bindkeySlot - start then
@@ -1309,12 +1364,17 @@ end;
 
 procedure M_DrawBindings1;
 begin
-  M_DrawBindings(0, Ord(kb_flyup));
+  M_DrawBindings(KeyBindingsDef1, 0, Ord(kb_flyup));
 end;
 
 procedure M_DrawBindings2;
 begin
-  M_DrawBindings(Ord(kb_flyup), Ord(kb_end));
+  M_DrawBindings(KeyBindingsDef2, Ord(kb_flyup), Ord(kb_weapon0));
+end;
+
+procedure M_DrawBindings3;
+begin
+  M_DrawBindings(KeyBindingsDef3, Ord(kb_weapon0), Ord(kb_end));
 end;
 
 //
@@ -1336,6 +1396,15 @@ begin
   bindkeySlot := Ord(kb_flyup) + choice;
 
   saveOldkey := KeyBindingsInfo[Ord(kb_flyup) + choice].pkey^;
+end;
+
+procedure M_KeyBindingSelect3(choice: integer);
+begin
+  bindkeyEnter := true;
+
+  bindkeySlot := Ord(kb_weapon0) + choice;
+
+  saveOldkey := KeyBindingsInfo[Ord(kb_weapon0) + choice].pkey^;
 end;
 
 type
@@ -1669,7 +1738,15 @@ begin
      (key_flydown = 200) and
      (key_flycenter = 201) and
      (key_invleft = Ord('[')) and
-     (key_invright = Ord(']')) then
+     (key_invright = Ord(']')) and
+     (key_weapon0 = Ord('1')) and
+     (key_weapon1 = Ord('2')) and
+     (key_weapon2 = Ord('3')) and
+     (key_weapon3 = Ord('4')) and
+     (key_weapon4 = Ord('5')) and
+     (key_weapon5 = Ord('6')) and
+     (key_weapon6 = Ord('7')) and
+     (key_weapon7 = Ord('8')) then
   begin
     result := 0;
     exit;
@@ -1696,7 +1773,15 @@ begin
      (key_flydown = 200) and
      (key_flycenter = 201) and
      (key_invleft = Ord('[')) and
-     (key_invright = Ord(']')) then
+     (key_invright = Ord(']')) and
+     (key_weapon0 = Ord('1')) and
+     (key_weapon1 = Ord('2')) and
+     (key_weapon2 = Ord('3')) and
+     (key_weapon3 = Ord('4')) and
+     (key_weapon4 = Ord('5')) and
+     (key_weapon5 = Ord('6')) and
+     (key_weapon6 = Ord('7')) and
+     (key_weapon7 = Ord('8')) then
   begin
     result := 1;
     exit;
@@ -1723,7 +1808,15 @@ begin
      (key_flydown = 200) and
      (key_flycenter = 201) and
      (key_invleft = Ord('[')) and
-     (key_invright = Ord(']')) then
+     (key_invright = Ord(']')) and
+     (key_weapon0 = Ord('1')) and
+     (key_weapon1 = Ord('2')) and
+     (key_weapon2 = Ord('3')) and
+     (key_weapon3 = Ord('4')) and
+     (key_weapon4 = Ord('5')) and
+     (key_weapon5 = Ord('6')) and
+     (key_weapon6 = Ord('7')) and
+     (key_weapon7 = Ord('8')) then
   begin
     result := 2;
     exit;
@@ -1799,7 +1892,7 @@ var
 begin
   M_WriteCenterText2('Controls', 15);
 
-  ppos := M_WriteText4(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmode), 'Keyboard movement: ');
+  ppos := M_WriteText4(ControlsDef.x, ControlsDef.y + ControlsDef.itemheight * Ord(ctrl_keyboardmode), 'Keyboard preset: ');
   M_WriteWhiteText4(ppos.x, ppos.y, mkeyboardmodes[M_GetKeyboardMode]);
 end;
 
@@ -1988,6 +2081,21 @@ end;
 procedure M_OptionsDisplayOpenGL(choice: integer);
 begin
   M_SetupNextMenu(@OptionsDisplayOpenGLDef);
+end;
+
+procedure M_OptionsDisplayOpenGLModels(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayOpenGLModelsDef);
+end;
+
+procedure M_OptionsDisplayOpenGLVoxels(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayOpenGLVoxelsDef);
+end;
+
+procedure M_OptionsDisplayOpenGLFilter(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsDisplayOpenGLFilterDef);
 end;
 {$ENDIF}
 
@@ -2266,6 +2374,52 @@ procedure M_DrawOptionsDisplayOpenGL;
 begin
   M_DrawDisplayOptions;
 end;
+
+procedure M_DrawOptionsDisplayOpenGLModels;
+begin
+  M_DrawDisplayOptions;
+end;
+
+procedure M_ChangeVoxelOptimization(choice: integer);
+begin
+  vx_maxoptimizerpasscount := GetIntegerInRange(vx_maxoptimizerpasscount, 0, MAX_VX_OPTIMIZE);
+  if vx_maxoptimizerpasscount = MAX_VX_OPTIMIZE then
+    vx_maxoptimizerpasscount := 0
+  else
+    vx_maxoptimizerpasscount := vx_maxoptimizerpasscount + 1;
+end;
+
+const
+  str_voxeloptimizemethod: array[0..MAX_VX_OPTIMIZE] of string = (
+    'FAST', 'GOOD', 'BETTER', 'BEST'
+  );
+
+procedure M_DrawOptionsDisplayOpenGLVoxels;
+var
+  ppos: menupos_t;
+begin
+  M_DrawDisplayOptions;
+
+  vx_maxoptimizerpasscount := GetIntegerInRange(vx_maxoptimizerpasscount, 0, MAX_VX_OPTIMIZE);
+  ppos := M_WriteText4(OptionsDisplayOpenGLVoxelsDef.x, OptionsDisplayOpenGLVoxelsDef.y + OptionsDisplayOpenGLVoxelsDef.itemheight * Ord(od_glv_optimize), 'Voxel mesh optimization: ');
+  M_WriteWhiteText4(ppos.x, ppos.y, str_voxeloptimizemethod[vx_maxoptimizerpasscount]);
+end;
+
+procedure M_ChangeTextureFiltering(choice: integer);
+begin
+  gld_SetCurrTexFiltering(gl_filter_t((Ord(gld_GetCurrTexFiltering) + 1) mod Ord(NUM_GL_FILTERS)));
+  gld_ClearTextureMemory;
+end;
+
+procedure M_DrawOptionsDisplayOpenGLFilter;
+var
+  ppos: menupos_t;
+begin
+  M_DrawDisplayOptions;
+
+  ppos := M_WriteText4(OptionsDisplayOpenGLFilterDef.x, OptionsDisplayOpenGLFilterDef.y + OptionsDisplayOpenGLFilterDef.itemheight * Ord(od_glf_texture_filter), 'Filter: ');
+  M_WriteWhiteText4(ppos.x, ppos.y, gl_tex_filter_string);
+end;
 {$ENDIF}
 
 procedure M_Options(choice: integer);
@@ -2417,7 +2571,7 @@ end;
 
 procedure M_KeyBindings(choice: integer);
 begin
-  M_SetupNextMenu(@KeyBindingsDef);
+  M_SetupNextMenu(@KeyBindingsDef1);
 end;
 
 procedure M_ScreenShotCmd(choice: integer);
@@ -3797,7 +3951,7 @@ begin
   OptionsGeneralDef.y := 48; // x,y of menu
   OptionsGeneralDef.lastOn := 0; // last item user was on in menu
   OptionsGeneralDef.itemheight := LINEHEIGHT;
-  OptionsDef.texturebk := false;
+  OptionsGeneralDef.texturebk := false;
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayMenu
@@ -3951,11 +4105,11 @@ begin
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'a';
 
-
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayVideoModeDef
   OptionsDisplayVideoModeDef.numitems := Ord(optdispvideomode_end); // # of menu items
   OptionsDisplayVideoModeDef.prevMenu := {$IFDEF OPENGL}@OptionsDisplayOpenGLDef{$ELSE}@OptionsDisplayDetailDef{$ENDIF}; // previous menu
+  OptionsDisplayVideoModeDef.leftMenu := {$IFDEF OPENGL}@OptionsDisplayOpenGLDef{$ELSE}@OptionsDisplayDetailDef{$ENDIF}; // left menu
   OptionsDisplayVideoModeDef.menuitems := Pmenuitem_tArray(@OptionsDisplayVideoModeMenu);  // menu items
   OptionsDisplayVideoModeDef.drawproc := @M_DrawDisplaySetVideoMode;  // draw routine
   OptionsDisplayVideoModeDef.x := 30;
@@ -4379,19 +4533,35 @@ begin
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Use fog';
-  pmi.cmd := 'use_fog';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @use_fog;
+  pmi.name := '!Models...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayOpenGLModels;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'm';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Voxels...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayOpenGLVoxels;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'm';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Texture filtering...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayOpenGLFilter;
+  pmi.pBoolVal := nil;
   pmi.alphaKey := 'f';
 
   inc(pmi);
   pmi.status := 1;
-  pmi.name := '!Anisotropic texture filtering';
-  pmi.cmd := 'gl_texture_filter_anisotropic';
+  pmi.name := '!Use fog';
+  pmi.cmd := 'use_fog';
   pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @gl_texture_filter_anisotropic;
-  pmi.alphaKey := 'a';
+  pmi.pBoolVal := @use_fog;
+  pmi.alphaKey := 'u';
 
   {$IFDEF DEBUG}
   inc(pmi);
@@ -4409,7 +4579,7 @@ begin
   pmi.cmd := 'gl_stencilsky';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_stencilsky;
-  pmi.alphaKey := 'c';
+  pmi.alphaKey := 's';
 
   inc(pmi);
   pmi.status := 1;
@@ -4418,38 +4588,6 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_renderwireframe;
   pmi.alphaKey := 'w';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Draw models instead of sprites';
-  pmi.cmd := 'gl_drawmodels';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @gl_drawmodels;
-  pmi.alphaKey := 'm';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Smooth md2 model movement';
-  pmi.cmd := 'gl_smoothmodelmovement';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @gl_smoothmodelmovement;
-  pmi.alphaKey := 's';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Precache model textures';
-  pmi.cmd := 'gl_precachemodeltextures';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @gl_precachemodeltextures;
-  pmi.alphaKey := 'p';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Draw voxels instead of sprites';
-  pmi.cmd := 'gl_drawvoxels';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @gl_drawvoxels;
-  pmi.alphaKey := 'v';
 
   inc(pmi);
   pmi.status := 1;
@@ -4466,14 +4604,6 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @gl_drawshadows;
   pmi.alphaKey := 's';
-
-  inc(pmi);
-  pmi.status := 1;
-  pmi.name := '!Linear HUD filtering';
-  pmi.cmd := 'gl_linear_hud';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @gl_linear_hud;
-  pmi.alphaKey := 'h';
 
   inc(pmi);
   pmi.status := 1;
@@ -4520,6 +4650,115 @@ begin
   OptionsDisplayOpenGLDef.lastOn := 0; // last item user was on in menu
   OptionsDisplayOpenGLDef.itemheight := LINEHEIGHT2;
   OptionsDisplayOpenGLDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLModelsMenu
+  pmi := @OptionsDisplayOpenGLModelsMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Draw models instead of sprites';
+  pmi.cmd := 'gl_drawmodels';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_drawmodels;
+  pmi.alphaKey := 'd';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Smooth md2 model movement';
+  pmi.cmd := 'gl_smoothmodelmovement';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_smoothmodelmovement;
+  pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Precache model textures';
+  pmi.cmd := 'gl_precachemodeltextures';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_precachemodeltextures;
+  pmi.alphaKey := 'p';
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLModelsDef
+  OptionsDisplayOpenGLModelsDef.numitems := Ord(optglmodels_end); // # of menu items
+  OptionsDisplayOpenGLModelsDef.prevMenu := @OptionsDisplayOpenGLDef; // previous menu
+  OptionsDisplayOpenGLModelsDef.leftMenu := @OptionsDisplayOpenGLDef; // left menu
+  OptionsDisplayOpenGLModelsDef.menuitems := Pmenuitem_tArray(@OptionsDisplayOpenGLModelsMenu);  // menu items
+  OptionsDisplayOpenGLModelsDef.drawproc := @M_DrawOptionsDisplayOpenGLModels;  // draw routine
+  OptionsDisplayOpenGLModelsDef.x := 30;
+  OptionsDisplayOpenGLModelsDef.y := 40; // x,y of menu
+  OptionsDisplayOpenGLModelsDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayOpenGLModelsDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayOpenGLModelsDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLVoxelsMenu
+  pmi := @OptionsDisplayOpenGLVoxelsMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Draw voxels instead of sprites';
+  pmi.cmd := 'gl_drawvoxels';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_drawvoxels;
+  pmi.alphaKey := 'd';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Voxel mesh optimization';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeVoxelOptimization;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'v';
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLVoxelsDef
+  OptionsDisplayOpenGLVoxelsDef.numitems := Ord(optglvoxels_end); // # of menu items
+  OptionsDisplayOpenGLVoxelsDef.prevMenu := @OptionsDisplayOpenGLDef; // previous menu
+  OptionsDisplayOpenGLVoxelsDef.leftMenu := @OptionsDisplayOpenGLDef; // left menu
+  OptionsDisplayOpenGLVoxelsDef.menuitems := Pmenuitem_tArray(@OptionsDisplayOpenGLVoxelsMenu);  // menu items
+  OptionsDisplayOpenGLVoxelsDef.drawproc := @M_DrawOptionsDisplayOpenGLVoxels;  // draw routine
+  OptionsDisplayOpenGLVoxelsDef.x := 30;
+  OptionsDisplayOpenGLVoxelsDef.y := 40; // x,y of menu
+  OptionsDisplayOpenGLVoxelsDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayOpenGLVoxelsDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayOpenGLVoxelsDef.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLFilterMenu
+  pmi := @OptionsDisplayOpenGLFilterMenu[0];
+  pmi.status := 1;
+  pmi.name := '!Filter';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeTextureFiltering;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 't';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Anisotropic texture filtering';
+  pmi.cmd := 'gl_texture_filter_anisotropic';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_texture_filter_anisotropic;
+  pmi.alphaKey := 'a';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Linear HUD filtering';
+  pmi.cmd := 'gl_linear_hud';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gl_linear_hud;
+  pmi.alphaKey := 'l';
+  
+////////////////////////////////////////////////////////////////////////////////
+//OptionsDisplayOpenGLFilterDef
+  OptionsDisplayOpenGLFilterDef.numitems := Ord(optglfilter_end); // # of menu items
+  OptionsDisplayOpenGLFilterDef.prevMenu := @OptionsDisplayOpenGLDef; // previous menu
+  OptionsDisplayOpenGLFilterDef.leftMenu := @OptionsDisplayOpenGLDef; // left menu
+  OptionsDisplayOpenGLFilterDef.menuitems := Pmenuitem_tArray(@OptionsDisplayOpenGLFilterMenu);  // menu items
+  OptionsDisplayOpenGLFilterDef.drawproc := @M_DrawOptionsDisplayOpenGLFilter;  // draw routine
+  OptionsDisplayOpenGLFilterDef.x := 30;
+  OptionsDisplayOpenGLFilterDef.y := 40; // x,y of menu
+  OptionsDisplayOpenGLFilterDef.lastOn := 0; // last item user was on in menu
+  OptionsDisplayOpenGLFilterDef.itemheight := LINEHEIGHT2;
+  OptionsDisplayOpenGLFilterDef.texturebk := true;
 {$ENDIF}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -4570,7 +4809,7 @@ begin
 //SoundMenu
   pmi := @SoundMenu[0];
   pmi.status := 1;
-  pmi.name := '!Volume Control';
+  pmi.name := '!Volume Control...';
   pmi.cmd := '';
   pmi.routine := @M_SoundVolume;
   pmi.pBoolVal := nil;
@@ -4956,7 +5195,7 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsMenu
-  pmi := @KeyBindingsMenu[0];
+  pmi := @KeyBindingsMenu1[0];
   for i := 0 to Ord(kb_flyup) - 1 do
   begin
     pmi.status := 1;
@@ -4970,23 +5209,23 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsDef
-  KeyBindingsDef.numitems := Ord(kb_flyup); // # of menu items
-  KeyBindingsDef.prevMenu := @ControlsDef; // previous menu
-  KeyBindingsDef.leftmenu := nil; // left menu
-  KeyBindingsDef.rightmenu := @KeyBindings2Def; // right menu
-  KeyBindingsDef.righttext := 'next >>';
-  KeyBindingsDef.menuitems := Pmenuitem_tArray(@KeyBindingsMenu);  // menu items
-  KeyBindingsDef.drawproc := @M_DrawBindings1;  // draw routine
-  KeyBindingsDef.x := 32;
-  KeyBindingsDef.y := 34; // x,y of menu
-  KeyBindingsDef.lastOn := 0; // last item user was on in menu
-  KeyBindingsDef.itemheight := LINEHEIGHT2;
-  KeyBindingsDef.texturebk := true;
+  KeyBindingsDef1.numitems := Ord(kb_flyup); // # of menu items
+  KeyBindingsDef1.prevMenu := @ControlsDef; // previous menu
+  KeyBindingsDef1.leftmenu := nil; // left menu
+  KeyBindingsDef1.rightmenu := @KeyBindingsDef2; // right menu
+  KeyBindingsDef1.righttext := 'next >>';
+  KeyBindingsDef1.menuitems := Pmenuitem_tArray(@KeyBindingsMenu1);  // menu items
+  KeyBindingsDef1.drawproc := @M_DrawBindings1;  // draw routine
+  KeyBindingsDef1.x := 32;
+  KeyBindingsDef1.y := 34; // x,y of menu
+  KeyBindingsDef1.lastOn := 0; // last item user was on in menu
+  KeyBindingsDef1.itemheight := LINEHEIGHT2;
+  KeyBindingsDef1.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindings2Menu
-  pmi := @KeyBindings2Menu[0];
-  for i := 0 to Ord(kb_end) - Ord(kb_flyup) - 1 do
+  pmi := @KeyBindingsMenu2[0];
+  for i := 0 to Ord(kb_weapon0) - Ord(kb_flyup) - 1 do
   begin
     pmi.status := 1;
     pmi.name := '!' + KeyBindingsInfo[Ord(kb_flyup) + i].text + ': ';
@@ -4999,18 +5238,48 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindings2Def
-  KeyBindings2Def.numitems := Ord(kb_end) - Ord(kb_flyup); // # of menu items
-  KeyBindings2Def.prevMenu := @ControlsDef; // previous menu
-  KeyBindings2Def.leftmenu := @KeyBindingsDef; // left menu
-  KeyBindings2Def.lefttext := '<< prev';
-  KeyBindings2Def.rightmenu := nil; // right menu
-  KeyBindings2Def.menuitems := Pmenuitem_tArray(@KeyBindings2Menu);  // menu items
-  KeyBindings2Def.drawproc := @M_DrawBindings2;  // draw routine
-  KeyBindings2Def.x := 32;
-  KeyBindings2Def.y := 34; // x,y of menu
-  KeyBindings2Def.lastOn := 0; // last item user was on in menu
-  KeyBindings2Def.itemheight := LINEHEIGHT2;
-  KeyBindings2Def.texturebk := true;
+  KeyBindingsDef2.numitems := Ord(kb_weapon0) - Ord(kb_flyup); // # of menu items
+  KeyBindingsDef2.prevMenu := @ControlsDef; // previous menu
+  KeyBindingsDef2.leftmenu := @KeyBindingsDef1; // left menu
+  KeyBindingsDef2.lefttext := '<< prev';
+  KeyBindingsDef2.rightmenu := @KeyBindingsDef3; // left menu
+  KeyBindingsDef2.righttext := 'next >>';
+  KeyBindingsDef2.menuitems := Pmenuitem_tArray(@KeyBindingsMenu2);  // menu items
+  KeyBindingsDef2.drawproc := @M_DrawBindings2;  // draw routine
+  KeyBindingsDef2.x := 32;
+  KeyBindingsDef2.y := 34; // x,y of menu
+  KeyBindingsDef2.lastOn := 0; // last item user was on in menu
+  KeyBindingsDef2.itemheight := LINEHEIGHT2;
+  KeyBindingsDef2.texturebk := true;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindings2Menu
+  pmi := @KeyBindingsMenu3[0];
+  for i := 0 to Ord(kb_end) - Ord(kb_weapon0) - 1 do
+  begin
+    pmi.status := 1;
+    pmi.name := '!' + KeyBindingsInfo[Ord(kb_weapon0) + i].text + ': ';
+    pmi.cmd := '';
+    pmi.routine := @M_KeyBindingSelect3;
+    pmi.pBoolVal := nil;
+    pmi.alphaKey := Chr(Ord('1') + i);
+    inc(pmi);
+  end;
+
+////////////////////////////////////////////////////////////////////////////////
+//KeyBindingsDef3
+  KeyBindingsDef3.numitems := Ord(kb_end) - Ord(kb_weapon0); // # of menu items
+  KeyBindingsDef3.prevMenu := @ControlsDef; // previous menu
+  KeyBindingsDef3.leftmenu := @KeyBindingsDef2; // left menu
+  KeyBindingsDef3.lefttext := '<< prev';
+  KeyBindingsDef3.rightmenu := nil; // right menu
+  KeyBindingsDef3.menuitems := Pmenuitem_tArray(@KeyBindingsMenu3);  // menu items
+  KeyBindingsDef3.drawproc := @M_DrawBindings3;  // draw routine
+  KeyBindingsDef3.x := 32;
+  KeyBindingsDef3.y := 34; // x,y of menu
+  KeyBindingsDef3.lastOn := 0; // last item user was on in menu
+  KeyBindingsDef3.itemheight := LINEHEIGHT2;
+  KeyBindingsDef3.texturebk := true;
 
 ////////////////////////////////////////////////////////////////////////////////
 //LoadMenu

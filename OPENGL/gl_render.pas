@@ -567,57 +567,7 @@ begin
   glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
 // Texture filtering and mipmaping
-  gl_tex_filter_string := strupper(gl_tex_filter_string);
-  if gl_tex_filter_string = gl_tex_filters[Ord(FLT_NEAREST_MIPMAP_NEAREST)] then
-  begin
-    use_mipmapping := true;
-    gl_shared_texture_palette := false;
-    printf('Using GL_NEAREST for normal textures.'#13#10);
-    printf('Using GL_NEAREST_MIPMAP_NEAREST for mipmap textures.'#13#10);
-    gl_tex_filter := GL_NEAREST;
-    gl_mipmap_filter := GL_NEAREST_MIPMAP_NEAREST;
-  end
-  else if gl_tex_filter_string = gl_tex_filters[Ord(FLT_LINEAR_MIPMAP_NEAREST)] then
-  begin
-    use_mipmapping := true;
-    gl_shared_texture_palette := false;
-    printf('Using GL_LINEAR for normal textures.'#13#10);
-    printf('Using GL_LINEAR_MIPMAP_NEAREST for mipmap textures.'#13#10);
-    gl_tex_filter := GL_LINEAR;
-    gl_mipmap_filter := GL_LINEAR_MIPMAP_NEAREST;
-  end
-  else if gl_tex_filter_string = gl_tex_filters[Ord(FLT_NEAREST_MIPMAP_LINEAR)] then
-  begin
-    use_mipmapping := true;
-    gl_shared_texture_palette := false;
-    printf('Using GL_NEAREST for normal textures.'#13#10);
-    printf('Using GL_NEAREST_MIPMAP_LINEAR for mipmap textures.'#13#10);
-    gl_tex_filter := GL_NEAREST;
-    gl_mipmap_filter := GL_NEAREST_MIPMAP_LINEAR;
-  end
-  else if gl_tex_filter_string = gl_tex_filters[Ord(FLT_LINEAR_MIPMAP_LINEAR)] then
-  begin
-    use_mipmapping := true;
-    gl_shared_texture_palette := false;
-    printf('Using GL_LINEAR for normal textures.'#13#10);
-    printf('Using GL_LINEAR_MIPMAP_LINEAR for mipmap textures.'#13#10);
-    gl_tex_filter := GL_LINEAR;
-    gl_mipmap_filter := GL_LINEAR_MIPMAP_LINEAR;
-  end
-  else if gl_tex_filter_string = gl_tex_filters[Ord(FLT_NEAREST)] then
-  begin
-    use_mipmapping := false;
-    printf('Using GL_NEAREST for textures.'#13#10);
-    gl_tex_filter := GL_NEAREST;
-    gl_mipmap_filter := GL_NEAREST;
-  end
-  else // Default
-  begin
-    use_mipmapping := false;
-    printf('Using GL_LINEAR for textures.'#13#10);
-    gl_tex_filter := GL_LINEAR;
-    gl_mipmap_filter := GL_LINEAR;
-  end;
+  gld_SetCurrTexFiltering(gld_GetCurrTexFiltering);
 
 // Texture format
   gl_tex_format := DEF_TEX_FORMAT;

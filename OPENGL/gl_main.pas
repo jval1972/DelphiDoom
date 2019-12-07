@@ -370,6 +370,8 @@ begin
   glPushAttrib(GL_ALL_ATTRIB_BITS);
   gld_Enable2D;
 
+  glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT or GL_STENCIL_BUFFER_BIT);
+
   if endoom_tex = 0 then
     glGenTextures(1, @endoom_tex);
 

@@ -81,10 +81,7 @@ var
   voxelmanager: voxelmanager_t;
   voxelstates: Pvoxelstate_tArray;
   numvoxelstates: integer;
-  // When = 0 we use TVoxelMeshOptimizer.FastOptimize(),
-  // otherwize indicate the pass count for TVoxelMeshOptimizer.Optimize()
-  vx_maxoptimizerpasscount: integer = 0;
-
+  
 procedure VX_InitVoxels;
 
 procedure VX_VoxelsDone;

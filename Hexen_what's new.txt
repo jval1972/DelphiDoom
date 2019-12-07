@@ -56,7 +56,10 @@ Added showfullhdlogo console variable. When set to true and current display mode
 File system will process WAD files inside pk3/zip/pak files.
 Will parse GLDEFS lumps/pk3 entries for dynamic light definitions (alongside with LIGHTDEF). Currently works in OpenGL version only.
 Added scale ACTOR field in ACTORDEF lumps. 
-Corrected enemies that countinued shooting at you, even when out of sight - reported by slayermbm (https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252)
+Corrected enemies that continued shooting at you, even when out of sight - reported by slayermbm (https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252)
+Key bindings for weapon change as suggested by Khorus.
+Change OpenGL texture filtering from the menu.
+Change the OpenGL voxel optimization method from the menu.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

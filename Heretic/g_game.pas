@@ -125,6 +125,18 @@ var
 // JVAL Jump
   key_jump: integer;
 
+// JVAL 20191207 Key bindings for weapon change
+  key_weapon0: integer = Ord('1');
+  key_weapon1: integer = Ord('2');
+  key_weapon2: integer = Ord('3');
+  key_weapon3: integer = Ord('4');
+  key_weapon4: integer = Ord('5');
+  key_weapon5: integer = Ord('6');
+  key_weapon6: integer = Ord('7');
+  key_weapon7: integer = Ord('8');
+
+  KEY_WEAPONS: array[0..Ord(NUMWEAPONS) - 1] of PInteger;
+
   key_invleft,
   key_invright,
   key_useartifact: integer;
@@ -549,7 +561,7 @@ begin
 
   // chainsaw overrides
   for i := 0 to Ord(NUMWEAPONS) - 2 do
-    if gamekeydown[Ord('1') + i] then
+    if gamekeydown[KEY_WEAPONS[i]^] then
     begin
       cmd.buttons := cmd.buttons or BT_CHANGE;
       cmd.buttons := cmd.buttons or _SHL(i, BT_WEAPONSHIFT);
@@ -932,7 +944,7 @@ begin
 
   // chainsaw overrides
   for i := 0 to Ord(NUMWEAPONS) - 2 do
-    if gamekeydown[Ord('1') + i] then
+    if gamekeydown[KEY_WEAPONS[i]^] then
     begin
       cmd.buttons := cmd.buttons or BT_CHANGE;
       cmd.buttons := cmd.buttons or _SHL(i, BT_WEAPONSHIFT);
@@ -1638,6 +1650,14 @@ begin
     key_flycenter := 201;
     key_invleft := Ord('[');
     key_invright := Ord(']');
+    key_weapon0 := Ord('1');
+    key_weapon1 := Ord('2');
+    key_weapon2 := Ord('3');
+    key_weapon3 := Ord('4');
+    key_weapon4 := Ord('5');
+    key_weapon5 := Ord('6');
+    key_weapon6 := Ord('7');
+    key_weapon7 := Ord('8');
   end
   else if mode = 1 then
   begin
@@ -1663,6 +1683,14 @@ begin
     key_flycenter := 201;
     key_invleft := Ord('[');
     key_invright := Ord(']');
+    key_weapon0 := Ord('1');
+    key_weapon1 := Ord('2');
+    key_weapon2 := Ord('3');
+    key_weapon3 := Ord('4');
+    key_weapon4 := Ord('5');
+    key_weapon5 := Ord('6');
+    key_weapon6 := Ord('7');
+    key_weapon7 := Ord('8');
   end
   else if mode = 2 then
   begin
@@ -1688,6 +1716,14 @@ begin
     key_flycenter := 201;
     key_invleft := Ord('[');
     key_invright := Ord(']');
+    key_weapon0 := Ord('1');
+    key_weapon1 := Ord('2');
+    key_weapon2 := Ord('3');
+    key_weapon3 := Ord('4');
+    key_weapon4 := Ord('5');
+    key_weapon5 := Ord('6');
+    key_weapon6 := Ord('7');
+    key_weapon7 := Ord('8');
   end;
 end;
 
@@ -3066,6 +3102,15 @@ initialization
 
 
   precache := true;
+
+  KEY_WEAPONS[0] := @key_weapon0;
+  KEY_WEAPONS[1] := @key_weapon1;
+  KEY_WEAPONS[2] := @key_weapon2;
+  KEY_WEAPONS[3] := @key_weapon3;
+  KEY_WEAPONS[4] := @key_weapon4;
+  KEY_WEAPONS[5] := @key_weapon5;
+  KEY_WEAPONS[6] := @key_weapon6;
+  KEY_WEAPONS[7] := @key_weapon7;
 
 end.
 
