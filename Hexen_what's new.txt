@@ -60,6 +60,8 @@ Corrected enemies that continued shooting at you, even when out of sight - repor
 Key bindings for weapon change as suggested by Khorus.
 Change OpenGL texture filtering from the menu.
 Change the OpenGL voxel optimization method from the menu.
+Fixed problems with A_SpawnItem & A_SpawnItemEx actordef functions.
+Added A_ScaleVelocity & A_ChangeVelocity ACTORDEF functions.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

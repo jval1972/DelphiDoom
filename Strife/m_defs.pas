@@ -404,7 +404,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: false;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'diher8bittransparency';

@@ -56,7 +56,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 379;
+  DEHNUMACTIONS = 381;
 
 type
   deh_action_t = record
@@ -3146,6 +3146,12 @@ begin
   deh_actions[378].action.acp1 := @A_SetTargetHealth;
   deh_actions[378].name := strupper('SetTargetHealth');
   {$IFDEF DLL}deh_actions[378].decl := 'A_SetTargetHealth(h: integer)';{$ENDIF}
+  deh_actions[379].action.acp1 := @A_ScaleVelocity;
+  deh_actions[379].name := strupper('ScaleVelocity');
+  {$IFDEF DLL}deh_actions[379].decl := 'ScaleVelocity(scale: float)';{$ENDIF}
+  deh_actions[380].action.acp1 := @A_ChangeVelocity;
+  deh_actions[380].name := strupper('ChangeVelocity');
+  {$IFDEF DLL}deh_actions[380].decl := 'A_ChangeVelocity(velx: float, vely: float, velz: float, flags: float)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

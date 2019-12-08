@@ -71,6 +71,7 @@ type
     procedure SetText(const tx: string); virtual;
     procedure ScriptError(const err: string); overload;
     procedure ScriptError(const Fmt: string; const Args: array of const); overload;
+    procedure ScriptPrintLineError(const lnno, offs: integer);
     function GetString: boolean;
     function GetStringEOL: string;
     function GetStringEOLWithQuotes: string;
@@ -189,18 +190,53 @@ begin
   ScriptError(s);
 end;
 
+procedure TScriptEngine.ScriptPrintLineError(const lnno, offs: integer);
+var
+  lst: TDStringList;
+  i: integer;
+  x1, x2: integer;
+  stmp: string;
+begin
+  lst := TDStringList.Create;
+  lst.Text := StringVal(ScriptBuffer);
+  x1 := lnno - offs - 1;
+  x2 := lnno + offs - 1;
+  if x1 < 0 then
+    x1 := 0;
+  if x2 >= lst.Count - 1 then
+    x2 := lst.Count;
+  I_Warning('=========================================================================='#13#10);
+  for i := x1 to x2 do
+  begin
+    stmp := IntToStrZfill(5, i);
+    if i = lnno - 1 then
+      stmp := stmp + ' *** '
+    else
+      stmp := stmp + '     ';
+    I_Warning(stmp + lst.Strings[i] + #13#10);
+  end;
+  I_Warning('=========================================================================='#13#10);
+  I_Warning(#13#10);
+  lst.Free;
+end;
 
 procedure TScriptEngine.MustGetString;
 begin
   if not GetString then
+  begin
     ScriptError('TScriptEngine.MustGetString(): Missing string at Line %d', [sc_Line]);
+    ScriptPrintLineError(sc_Line, 2);
+  end;
 end;
 
 procedure TScriptEngine.MustGetStringName(const name: string);
 begin
   MustGetString;
   if not Compare(name) then
+  begin
     ScriptError('TScriptEngine.MustGetStringName(): "%s" expected at Line %d', [name, sc_Line]);
+    ScriptPrintLineError(sc_Line, 2);
+  end;
 end;
 
 function TScriptEngine.GetInteger: boolean;
@@ -215,6 +251,7 @@ begin
       ScriptError(
           'TScriptEngine.GetInteger(): Bad numeric constant "%s" at Line %d',
           [sc_String, sc_Line]);
+      ScriptPrintLineError(sc_Line, 2);
       result := false;
       exit;
     end;
@@ -227,7 +264,10 @@ end;
 procedure TScriptEngine.MustGetInteger;
 begin
   if not GetInteger then
+  begin
     ScriptError('TScriptEngine.MustGetInteger(): Missing integer at Line %d', [sc_Line]);
+    ScriptPrintLineError(sc_Line, 2);
+  end;
 end;
 
 function TScriptEngine.GetFloat: boolean;
@@ -257,6 +297,7 @@ begin
           ScriptError(
               'TScriptEngine.GetFloat(): Bad numeric constant "%s" at Line %d',
               [sc_String, sc_Line]);
+          ScriptPrintLineError(sc_Line, 2);
           result := false;
           exit;
         end;
@@ -271,7 +312,10 @@ end;
 procedure TScriptEngine.MustGetFloat;
 begin
   if not GetFloat then
+  begin
     ScriptError('TScriptEngine.MustGetFloat(): Missing float at Line %d', [sc_Line]);
+    ScriptPrintLineError(sc_Line, 2);
+  end;
 end;
 
 procedure TScriptEngine.UnGet;
@@ -313,8 +357,10 @@ var
 begin
   i := MatchString(strs);
   if i = -1 then
+  begin
     ScriptError('TScriptEngine.MustMatchString(): List'#13#10'%s'#13#10'expected at Line %d',  [strs.Text, sc_Line]);
-
+    ScriptPrintLineError(sc_Line, 2);
+  end;
   result := i;
 end;
 
@@ -360,7 +406,10 @@ begin
       begin
         dec(fBracketLevel);
         if fBracketLevel < 0 then
+        begin
           ScriptError('TScriptEngine.GetString(): Closing bracket "}" found at line %d without opening bracket "{"', [sc_Line]);
+          ScriptPrintLineError(sc_Line, 2);
+        end;
       end
       else if ScriptPtr^ = '(' then
         inc(fParenthesisLevel)
@@ -368,7 +417,10 @@ begin
       begin
         dec(fParenthesisLevel);
         if fParenthesisLevel < 0 then
+        begin
           ScriptError('TScriptEngine.GetString(): Closing parenthesis ")" found at line %d without opening parenthesis "("', [sc_Line]);
+          ScriptPrintLineError(sc_Line, 2);
+        end;
       end
       else if ScriptPtr^ = Chr(10) then
       begin

@@ -4257,7 +4257,7 @@ begin
   sprite.models := vspr.mo.state.models;
   sprite.voxels := vspr.mo.state.voxels;
   sprite.mo := pSpr;
-  sprite.aproxdist := P_AproxDistance(sprite.mo.x - viewx, sprite.mo.y - viewy);
+  sprite.aproxdist := P_AproxDistance(pSpr.x - viewx, pSpr.y - viewy);
 
   sprite.x := -pSpr.x / MAP_SCALE;
   sprite.y :=  (pSpr.z{$IFNDEF HERETIC} - pSpr.floorclip{$ENDIF}) / MAP_SCALE;

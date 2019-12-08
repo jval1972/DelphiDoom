@@ -34,7 +34,11 @@ uses
   m_fixed,
   p_mobj_h;
 
-function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1): boolean;
+const
+  CSP_AT_LEAST = 1;
+  CSP_AT_MOST = 2;
+
+function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1; const flags: LongWord = 0): boolean;
 
 {$IFDEF HEXEN}
 procedure P_BulletSlope(mo: Pmobj_t);
@@ -288,6 +292,10 @@ procedure A_SetFloat(actor: Pmobj_t);
 
 procedure A_UnSetFloat(actor: Pmobj_t);
 
+procedure A_ScaleVelocity(actor: Pmobj_t);
+
+procedure A_ChangeVelocity(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -341,6 +349,8 @@ uses
   p_params,
   psi_globals,
   r_renderstyle,
+  sc_engine,
+  sc_tokens,
   sc_states,
   tables,
   s_sound,
@@ -380,11 +390,11 @@ begin
 end;
 {$ENDIF}
 
-function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1): boolean;
+function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1; const flags: LongWord = 0): boolean;
 begin
   if numparms = 0 then
   begin
-    I_Warning('P_CheckStateParams(): Expected params can not be 0'#13#10, [numparms]);
+    I_Warning('P_CheckStateParams(): Expected params can not be 0'#13#10);
     result := false;
     exit;
   end;
@@ -400,12 +410,26 @@ begin
   end;
 
   if numparms <> -1 then
-    if actor.state.params.Count <> numparms then
+  begin
+    if (flags = 0) and (actor.state.params.Count <> numparms) then
     begin
       I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
       result := false;
       exit;
+    end
+    else if (flags and CSP_AT_LEAST <> 0) and (actor.state.params.Count < numparms) then
+    begin
+      I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at least %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+      result := false;
+      exit;
+    end
+    else if (flags and CSP_AT_MOST <> 0) and (actor.state.params.Count > numparms) then
+    begin
+      I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at most %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+      result := false;
+      exit;
     end;
+  end;
 
   result := true;
 end;
@@ -1986,7 +2010,7 @@ begin
   ang := (ang + actor.angle) shr ANGLETOFINESHIFT;
   mo := P_SpawnMobj(actor.x + FixedMul(distance, finecosine[ang]),
                     actor.y + FixedMul(distance, finesine[ang]),
-                    actor.z - actor.floorz + zheight, mobj_no);
+                    actor.z{ - actor.floorz }+ zheight, mobj_no);
   if mo <> nil then
     mo.angle := actor.angle;
 end;
@@ -2086,7 +2110,7 @@ begin
     momx := newxmom;
   end;
 
-  mo := P_SpawnMobj(x, y, actor.z - actor.floorz + zofs, mobj_no);
+  mo := P_SpawnMobj(x, y, actor.z{ - actor.floorz} + zofs, mobj_no);
 
   if mo <> nil then
   begin
@@ -3007,6 +3031,87 @@ end;
 procedure A_UnSetFloat(actor: Pmobj_t);
 begin
   actor.flags := actor.flags and not (MF_FLOAT or MF_INFLOAT);
+end;
+
+//
+// A_ScaleVelocity(scale: float)
+// zDoom compatibility
+//
+procedure A_ScaleVelocity(actor: Pmobj_t);
+var
+  scale: fixed_t;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  scale := actor.state.params.FixedVal[0];
+
+  actor.momx := FixedMul(actor.momx, scale);
+  actor.momy := FixedMul(actor.momy, scale);
+  actor.momz := FixedMul(actor.momz, scale);
+end;
+
+//
+// A_ChangeVelocity(velx, vely, velz: float; flags: integer)
+// zDoom compatibility
+//
+procedure A_ChangeVelocity(actor: Pmobj_t);
+var
+  vx, vy, vz: fixed_t;
+  vx1, vy1: fixed_t;
+  an: angle_t;
+  sina, cosa: fixed_t;
+  flags: integer;
+  stmp: string;
+  sc: TSCriptEngine;
+  i: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  vx := actor.state.params.FixedVal[0];
+  vy := actor.state.params.FixedVal[1];
+  vz := actor.state.params.FixedVal[2];
+
+  if not actor.state.params.IsComputed[3] then
+  begin
+    stmp := actor.state.params.StrVal[3];
+    for i := 1 to Length(stmp) do
+      if stmp[i] = '|' then
+        stmp[i] := ' ';
+    flags := 0;
+    sc := TSCriptEngine.Create(stmp);
+    while sc.GetString do
+      flags := flags or SC_EvalueateIntToken(sc._String, ['CVF_RELATIVE', 'CVF_REPLACE']);
+    sc.Free;
+    actor.state.params.IntVal[3] := flags;
+  end
+  else
+    flags := actor.state.params.IntVal[3];
+
+  if flags and 1 <> 0 then
+  begin
+    an := actor.angle shr ANGLETOFINESHIFT;
+    sina := finesine[an];
+    cosa := finecosine[an];
+    vx1 := vx;
+    vy1 := vy;
+		vx := FixedMul(vx1, cosa) - FixedMul(vy1, sina);
+		vy := FixedMul(vx1, sina) + FixedMul(vy1, cosa);
+  end;
+
+  if flags and 2 <> 0 then
+  begin
+    actor.momx := vx;
+    actor.momy := vy;
+    actor.momz := vz;
+  end
+  else
+  begin
+    actor.momx := actor.momx + vx;
+    actor.momy := actor.momy + vy;
+    actor.momz := actor.momz + vz;
+  end;
 end;
 
 end.

@@ -287,7 +287,12 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     if fList[index].israndom then
+    begin
+      if (fList[index].i_parm2 = 5) and (fList[index].i_parm2 = -2) then
       result := fList[index].i_parm1 + (N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1)) div 256
+      else
+      result := fList[index].i_parm1 + (N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1)) div 256
+    end
     else
     begin
       case fList[index].globalidx of

@@ -779,7 +779,7 @@ begin
   xiscale := vis.xiscale;
   dc_x := vis.x1;
 
-  if depthbufferactive or (xiscale > FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
+  if depthbufferactive or (xiscale > FRACUNIT div 2) or (xiscale < -FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
   begin
     while dc_x <= vis.x2 do
     begin

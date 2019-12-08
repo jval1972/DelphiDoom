@@ -40,6 +40,8 @@ type
     function AllTokens: TDStringList;
   end;
 
+function SC_EvalueateIntToken(const token: string; const A: array of string): integer;
+
 implementation
 
 function TTokenList.IndexOfToken(const S: string): Integer;
@@ -107,6 +109,25 @@ begin
     end;
   end;
   list.Free;
+end;
+
+function SC_EvalueateIntToken(const token: string; const A: array of string): integer;
+var
+  i: integer;
+  tt: TTokenList;
+begin
+  i := atoi(token);
+  if itoa(i) = token then
+  begin
+    result := i;
+    exit;
+  end;
+
+  tt := TTokenList.Create;
+  for i := Low(A) to High(A) do
+    tt.Add(A[i]);
+  result := tt.IndexOfToken(token);
+  tt.Free;
 end;
 
 end.
