@@ -2347,9 +2347,7 @@ begin
   if mobjinfo[mobj_no].speed < 256 then
     mobjinfo[mobj_no].speed := mobjinfo[mobj_no].speed * FRACUNIT;  // JVAL fix me!!!
 
-  actor.z := actor.z;
   missile := P_SpawnMissile(actor, actor.target, mobj_no);
-  actor.z := actor.z;
 
   if missile <> nil then
   begin

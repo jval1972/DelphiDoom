@@ -72,6 +72,22 @@ var
   pv: Pvertex_t;
   ss1, ss2: Psubsector_t;
   hitcnt: integer;
+
+  function R_PointInSubsector_Incl(const x: fixed_t; const y: fixed_t): Psubsector_t;
+  var
+    ii: integer;
+  begin
+    result := R_PointInSubSectorClassic(x, y);
+    for ii := 0 to result.numlines - 1 do
+    begin
+      if R_PointOnSegSide(x, y, @segs[result.firstline + ii]) then
+      begin
+        result := nil;
+        exit;
+      end;
+    end;
+  end;
+
 begin
   printf('R_PrecalcPointInSubSector: Generating matrix.'#13#10);
   pv := @vertexes[0];
@@ -104,15 +120,15 @@ begin
   for i := 0 to p_in_ss_width - 1 do
     for j := 0 to p_in_ss_height - 1 do
     begin
-      ss1 := R_PointInSubSectorClassic(p_in_ss_minx + i * POINTINSUBSECTORACCURACY, p_in_ss_miny + j * POINTINSUBSECTORACCURACY);
-      ss2 := R_PointInSubSectorClassic(p_in_ss_minx + i * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1, p_in_ss_miny + j * POINTINSUBSECTORACCURACY);
-      if ss1 = ss2 then
+      ss1 := R_PointInSubsector_Incl(p_in_ss_minx + i * POINTINSUBSECTORACCURACY, p_in_ss_miny + j * POINTINSUBSECTORACCURACY);
+      ss2 := R_PointInSubsector_Incl(p_in_ss_minx + i * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1, p_in_ss_miny + j * POINTINSUBSECTORACCURACY);
+      if (ss1 <> nil) and (ss1 = ss2) then
       begin
-        ss2 := R_PointInSubSectorClassic(p_in_ss_minx + i * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1, p_in_ss_miny + j * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1);
-        if ss1 = ss2 then
+        ss2 := R_PointInSubsector_Incl(p_in_ss_minx + i * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1, p_in_ss_miny + j * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1);
+        if (ss2 <> nil) and (ss1 = ss2) then
         begin
-          ss2 := R_PointInSubSectorClassic(p_in_ss_minx + i * POINTINSUBSECTORACCURACY, p_in_ss_miny + j * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1);
-          if ss1 = ss2 then
+          ss2 := R_PointInSubsector_Incl(p_in_ss_minx + i * POINTINSUBSECTORACCURACY, p_in_ss_miny + j * POINTINSUBSECTORACCURACY + POINTINSUBSECTORACCURACY - 1);
+          if (ss2 <> nil) and (ss1 = ss2) then
           begin
             pointinsubsector[j * p_in_ss_width + i] := ss2;
             inc(hitcnt);

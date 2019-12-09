@@ -51,11 +51,12 @@ type
   customparam_t = record
     s_param: string[64];
     i_param: integer;
-    f_param: single;
-    fx_param: fixed_t;
     i_parm1, i_parm2: integer;
+    f_param: single;
+    f_parm1, f_parm2: single;
+    fx_param: fixed_t;
     globalidx: integer;
-    israndom: boolean;
+    israndom: byte;
     computed: boolean;
   end;
   Pcustomparam_t = ^customparam_t;
@@ -183,7 +184,7 @@ begin
   utoken := strupper(token1);
   if utoken = 'RANDOM' then
   begin
-    fList[fNumItems].israndom := true;
+    fList[fNumItems].israndom := 1;
     fList[fNumItems].globalidx := 0;
     fList[fNumItems].s_param := '';
     fList[fNumItems].computed := false;
@@ -207,9 +208,35 @@ begin
       end;
     end;
   end
+  else if utoken = 'FLOATRANDOM' then
+  begin
+    fList[fNumItems].israndom := 2;
+    fList[fNumItems].globalidx := 0;
+    fList[fNumItems].s_param := '';
+    fList[fNumItems].computed := false;
+    if token = '' then
+    begin
+      fList[fNumItems].f_parm1 := 0;
+      fList[fNumItems].f_parm2 := 255;
+    end
+    else
+    begin
+      splitstring(token, token1, token2);
+      if token2 = '' then
+      begin
+        fList[fNumItems].f_parm1 := 0;
+        fList[fNumItems].f_parm2 := atof(token1, 255);
+      end
+      else
+      begin
+        fList[fNumItems].f_parm1 := atof(token1, 0);
+        fList[fNumItems].f_parm2 := atof(token2, 255);
+      end;
+    end;
+  end
   else
   begin
-    fList[fNumItems].israndom := false;
+    fList[fNumItems].israndom := 0;
     if utoken = 'MAPSTR' then
     begin
       fList[fNumItems].globalidx := GLBF_MAP_STRING;
@@ -240,12 +267,12 @@ begin
       fList[fNumItems].globalidx := GLBF_WORLD_FLOAT;
       fList[fNumItems].s_param := token;
     end
-    else if token = 'CUSTOMPARAM' then
+    else if utoken = 'CUSTOMPARAM' then
     begin
       fList[fNumItems].globalidx := GLBF_MOBJ_CUSTOMPARM;
       fList[fNumItems].s_param := token;
     end
-    else if token = 'TARGETCUSTOMPARAM' then
+    else if utoken = 'TARGETCUSTOMPARAM' then
     begin
       fList[fNumItems].globalidx := GLBF_MOBJ_TARGETCUSTOMPARM;
       fList[fNumItems].s_param := token;
@@ -286,13 +313,10 @@ var
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
-    if fList[index].israndom then
-    begin
-      if (fList[index].i_parm2 = 5) and (fList[index].i_parm2 = -2) then
+    if fList[index].israndom = 1 then
       result := fList[index].i_parm1 + (N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1)) div 256
-      else
-      result := fList[index].i_parm1 + (N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1)) div 256
-    end
+    else if fList[index].israndom = 2 then
+      result := round(fList[index].f_parm1 + (N_Random * (fList[index].f_parm2 - fList[index].f_parm1 + 1)) / 256)
     else
     begin
       case fList[index].globalidx of
@@ -348,7 +372,7 @@ begin
     fList[index].computed := true;
     fList[index].israndom := false;
     -------------------------------}
-    if not fList[index].israndom then
+    if fList[index].israndom = 0 then
       if fList[index].globalidx = 0 then
         fList[index].computed := true;
   end;
@@ -360,8 +384,10 @@ var
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
-    if fList[index].israndom then
+    if fList[index].israndom = 1 then
       result := (fList[index].i_parm1 * FRACUNIT + N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1) * 256) / FRACUNIT
+    else if fList[index].israndom = 2 then
+      result := (fList[index].f_parm1 * FRACUNIT + N_Random * (fList[index].f_parm2 - fList[index].f_parm1 + 1) * 256) / FRACUNIT
     else
     begin
       case fList[index].globalidx of
@@ -418,7 +444,7 @@ begin
     fList[index].computed := true;
     fList[index].israndom := false;
     -------------------------------}
-    if not fList[index].israndom then
+    if fList[index].israndom = 0 then
       if fList[index].globalidx = 0 then
         fList[index].computed := true;
   end;
@@ -430,8 +456,10 @@ var
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
-    if fList[index].israndom then
+    if fList[index].israndom = 1 then
       result := fList[index].i_parm1 * FRACUNIT + N_Random * (fList[index].i_parm2 - fList[index].i_parm1 + 1) * 256
+    else if fList[index].israndom = 2 then
+      result := round(fList[index].f_parm1 * FRACUNIT + N_Random * (fList[index].f_parm2 - fList[index].f_parm1 + 1) * 256)
     else
     begin
       case fList[index].globalidx of
@@ -529,8 +557,10 @@ function TCustomParamList.GetDeclaration(index: integer): string;
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
-    if fList[index].IsRandom then
+    if fList[index].israndom = 1 then
       result := 'Random(' + itoa(fList[index].i_parm1) + ', ' + itoa(fList[index].i_parm2) + ')'
+    else if fList[index].israndom = 2 then
+      result := 'FloatRandom(' + ftoa(fList[index].f_parm1) + ', ' + ftoa(fList[index].f_parm2) + ')'
     else
     begin
       case fList[index].globalidx of

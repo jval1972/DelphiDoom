@@ -508,7 +508,6 @@ type
     mobjflags_ex: integer;
     mobjflags2_ex: integer;
     mo: Pmobj_t;
-    _type: integer;
 {$IFDEF OPENGL}
     flip: boolean;
 {$ENDIF}

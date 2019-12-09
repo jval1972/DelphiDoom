@@ -272,7 +272,7 @@ begin
     execs := TDStringList.Create
   else if execs.IndexOf(fname) >= 0 then
   begin
-    I_Warning(' Recursive calls of con files is not allowed(%s)'#13#10, [filename]);
+    I_Warning(' Recursive calls of con files are not allowed(%s)'#13#10, [filename]);
     exit;
   end;
   execs.Add(fname);

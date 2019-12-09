@@ -302,11 +302,12 @@ begin
     end;
 
     // JVAL: Slopes
-    if mo.player <> nil then
-    begin
+    // JVAL 20191209 - Fix 3d floor problem
+  //  if mo.player <> nil then
+  //  begin
       tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
       tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
-    end;
+  //  end;
 
     if not P_TryMove(mo, ptryx, ptryy) then
     begin
@@ -1173,6 +1174,7 @@ var
   z: fixed_t;
   i: integer;
   plnum: integer;
+  ss: Psubsector_t;
 begin
   // not playing?
   if not playeringame[mthing._type - 1] then
@@ -1189,7 +1191,14 @@ begin
 
   x := mthing.x * FRACUNIT;
   y := mthing.y * FRACUNIT;
-  z  := ONFLOORZ;
+  z := ONFLOORZ;
+
+  // JVAL: 20191209 - 3d floors - Fixed Player spawned in 3d floor
+  ss := R_PointInSubsector(x, y);
+  if ss.sector.midsec >= 0 then
+    if mthing.options and MTF_ONMIDSECTOR <> 0 then
+      z := sectors[ss.sector.midsec].ceilingheight;
+
   result := P_SpawnMobj(x, y, z, Ord(MT_PLAYER), @mthing);
 
   // set color translations for player sprites

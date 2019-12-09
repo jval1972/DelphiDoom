@@ -409,6 +409,7 @@ begin
         begin
           ScriptError('TScriptEngine.GetString(): Closing bracket "}" found at line %d without opening bracket "{"', [sc_Line]);
           ScriptPrintLineError(sc_Line, 2);
+          fBracketLevel := 0;
         end;
       end
       else if ScriptPtr^ = '(' then
@@ -420,6 +421,7 @@ begin
         begin
           ScriptError('TScriptEngine.GetString(): Closing parenthesis ")" found at line %d without opening parenthesis "("', [sc_Line]);
           ScriptPrintLineError(sc_Line, 2);
+          fParenthesisLevel := 0;
         end;
       end
       else if ScriptPtr^ = Chr(10) then

@@ -38,11 +38,13 @@ interface
 uses
   d_delphi,
   doomdef,
-  info,
   m_fixed,
   r_defs;
 
 var
+  // JVAL Note about visprites
+  // Now visprites allocated dynamically using Zone memory
+  // (Original MAXVISSPRITES was 128)
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
@@ -72,7 +74,6 @@ var
   mceilingclip: PSmallIntArray;
   spryscale: fixed_t;
   sprtopscreen: fixed_t;
-  sprbotscreen: fixed_t;
 
 // constant arrays
 //  used for psprite clipping and initializing clipping
@@ -117,7 +118,6 @@ uses
   p_mobj_h,
   p_pspr,
   p_pspr_h,
-  p_user,
   r_data,
   r_draw,
   r_main,
@@ -768,10 +768,7 @@ begin
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
   if (vis.footclip <> 0) and (not playerweapon) then
-  begin
-    sprbotscreen := sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale);
-    baseclip := FixedInt((sprbotscreen - FixedMul(vis.footclip,  spryscale)));
-  end
+    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
   else
     baseclip := -1;
 
@@ -1444,6 +1441,7 @@ begin
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
+
   vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - FPSpriteSY[Ord(viewplayer._class), Ord(viewplayer.readyweapon)];

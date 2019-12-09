@@ -38,7 +38,6 @@ interface
 uses
   d_delphi,
   doomdef,
-  info,
   m_fixed,
   r_defs;
 
@@ -75,7 +74,6 @@ var
   mceilingclip: PSmallIntArray;
   spryscale: fixed_t;
   sprtopscreen: fixed_t;
-  sprbotscreen: fixed_t;
 
 // constant arrays
 //  used for psprite clipping and initializing clipping
@@ -764,10 +762,7 @@ begin
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
   if (vis.footclip <> 0) and (not playerweapon) then
-  begin
-    sprbotscreen := sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale);
-    baseclip := FixedInt((sprbotscreen - FixedMul(vis.footclip * FRACUNIT, spryscale)));
-  end
+    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
   else
     baseclip := -1;
 
@@ -1220,7 +1215,7 @@ begin
   // foot clipping
   if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <=
     Psubsector_t(thing.subsector).sector.floorheight) then
-    vis.footclip := 10
+    vis.footclip := 10 * FRACUNIT
   else
     vis.footclip := 0;
 
@@ -1454,6 +1449,7 @@ begin
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
+
   vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - PSpriteSY[Ord(viewplayer.readyweapon)];

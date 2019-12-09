@@ -48,9 +48,9 @@ uses
   r_defs;
 
 var
-// JVAL Note about visprites
-// Now visprites allocated dynamycally using Zone memory
-// (Original MAXVISSPRITES was 128)
+  // JVAL Note about visprites
+  // Now visprites allocated dynamically using Zone memory
+  // (Original MAXVISSPRITES was 128)
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
@@ -797,7 +797,7 @@ begin
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
   if (vis.footclip <> 0) and (not playerweapon) then
-    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip,  spryscale)))
+    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
   else
     baseclip := -1;
 
@@ -1272,7 +1272,6 @@ begin
   vis.mobjflags_ex := thing.flags_ex; // JVAL: extended flags passed to vis
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
-  vis._type := thing._type;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   vis.infoscale := infoscale;
   {$IFNDEF OPENGL}
@@ -1494,7 +1493,6 @@ begin
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
-  vis._type := Ord(MT_PLAYER);
 
   vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
 

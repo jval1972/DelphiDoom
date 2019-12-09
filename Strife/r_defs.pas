@@ -515,7 +515,6 @@ type
     mobjflags_ex: LongWord;
     mobjflags2_ex: LongWord;
     mo: Pmobj_t;
-    _type: integer;
 {$IFDEF OPENGL}
     flip: boolean;
 {$ENDIF}

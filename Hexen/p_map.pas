@@ -169,6 +169,7 @@ uses
   p_spec,
   p_sight,
   p_slopes, // JVAL: Slopes
+  p_3dfloors,
   p_switch,
   p_tick,
   p_acs,
@@ -1073,11 +1074,12 @@ begin
   // that contains the point.
   // Any contacted lines the step closer together
   // will adjust them.
-  tmdropoffz := P_FloorHeight(newsubsec.sector, x, y); // JVAL: Slopes
+  // JVAL 20191209 - Fix 3d floor problems with A_SpawnItem & A_SpawnItemEx
+  tmdropoffz := P_3dFloorHeight(newsubsec.sector, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
-  tmceilingz := P_CeilingHeight(newsubsec.sector, x, y) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+  tmceilingz := P_3dCeilingHeight(newsubsec.sector, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
 
-  if newsubsec.sector.midsec >= 0 then  // JVAL: 3d floors
+{  if newsubsec.sector.midsec >= 0 then  // JVAL: 3d floors
   begin
     thingtop := thing.z + thing.height;
     midsec := @sectors[newsubsec.sector.midsec];
@@ -1091,7 +1093,7 @@ begin
     end;
     if (midsec.floorheight < tmceilingz) and (delta1 >= delta2) then
       tmceilingz := midsec.floorheight;
-  end;
+  end;}
 
   inc(validcount);
   numspechit := 0;

@@ -1545,6 +1545,8 @@ begin
           mobj.explosionradius := pinf.explosionradius;
           mobj.meleedamage := pinf.meleedamage;
           mobj.meleesound := itoa(pinf.meleesound);
+          mobj.renderstyle := itoa(Ord(pinf.renderstyle));
+          mobj.alpha := pinf.alpha;
           {$IFDEF DOOM_OR_STRIFE}
           mobj.missileheight := pinf.missileheight;
           {$ENDIF}
@@ -1589,10 +1591,6 @@ begin
           if mobj.interactstate > ORIGINALSTATEMARKER then
             mobj.statesdefined := mobj.statesdefined or RTL_ST_INTERACT;
           {$ENDIF};
-
-          mobj.renderstyle := itoa(Ord(pinf.renderstyle));
-          mobj.alpha := pinf.alpha;
-
         end;
 
         if not sc.GetString then

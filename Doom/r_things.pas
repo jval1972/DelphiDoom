@@ -586,8 +586,10 @@ begin
 
   if dc_yl <= dc_yh then
   begin
-    // Drawn by either averagecolfunc
-    //  or maskedcolfunc2
+    // Drawn by either R_DrawColumn
+    //  or (SHADOW) R_DrawFuzzColumn
+    //  or R_DrawColumnAverage
+    //  or R_DrawTranslatedColumn
     if depthbufferactive then                   // JVAL: 3d Floors
       R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
     else
@@ -1235,7 +1237,6 @@ begin
   vis.mobjflags_ex := thing.flags_ex or thing.state.flags_ex; // JVAL: extended flags passed to vis
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
-  vis._type := thing._type;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   vis.infoscale := infoscale;
   {$IFNDEF OPENGL}
@@ -1462,7 +1463,6 @@ begin
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
-  vis._type := Ord(MT_PLAYER);
 
   vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
 

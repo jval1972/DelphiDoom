@@ -2535,7 +2535,7 @@ begin
   {$IFDEF DLL}deh_actions[147].decl := 'A_MeleeAttack([mindamage: integer], [maxdamage: integer])';{$ENDIF}
   deh_actions[148].action.acp1 := @A_SpawnItem;
   deh_actions[148].name := strupper('SpawnItem');
-  {$IFDEF DLL}deh_actions[148].decl := 'A_SpawnItem(type: string, [distance: integer], [zheight: integer], [angle: angle])';{$ENDIF}
+  {$IFDEF DLL}deh_actions[148].decl := 'A_SpawnItem(type: string, [distance: float], [zheight: float], [angle: angle])';{$ENDIF}
   deh_actions[149].action.acp1 := @A_SeekerMissile;
   deh_actions[149].name := strupper('SeekerMissile');
   {$IFDEF DLL}deh_actions[149].decl := 'A_SeekerMissile(threshold_angle: angle, [turnMax_angle: angle])';{$ENDIF}
@@ -2643,7 +2643,7 @@ begin
   {$IFDEF DLL}deh_actions[183].decl := 'A_FadeIn30()';{$ENDIF}
   deh_actions[184].action.acp1 := @A_SpawnItemEx;
   deh_actions[184].name := strupper('SpawnItemEx');
-  {$IFDEF DLL}deh_actions[184].decl := 'A_SpawnItemEx(itemtype: string, [xofs: integer], [yofs: integer], [zofs: integer], [momx: integer], [momy: integer], [momz: integer], [ang: angle], [flags: integer], [chance: integer])';{$ENDIF}
+  {$IFDEF DLL}deh_actions[184].decl := 'A_SpawnItemEx(itemtype: string, [xofs: float], [yofs: float], [zofs: float], [momx: float], [momy: float], [momz: float], [ang: angle], [flags: integer], [chance: integer])';{$ENDIF}
   deh_actions[185].action.acp1 := @A_RandomMissile;
   deh_actions[185].name := strupper('RandomMissile');
   {$IFDEF DLL}deh_actions[185].decl := 'A_RandomMissile(missile1: string, [missile2: string], ...)';{$ENDIF}
