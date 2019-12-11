@@ -156,6 +156,7 @@ uses
 {$ENDIF}
   v_data,
   v_video,
+  vx_voxelsprite,
   w_sprite,
   z_zone;
 
@@ -997,7 +998,7 @@ var
   tmp: integer;
   lumpname: string;
 begin
-
+  VX_VoxelToSprite;
   firstspritelump := 0;
   for i := 0 to W_NumLumps - 1 do
   begin

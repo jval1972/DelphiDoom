@@ -232,7 +232,7 @@ uses
   r_sky in 'Strife\r_sky.pas',
   r_span in 'Base\r_span.pas',
   r_span32 in 'Base\r_span32.pas',
-  r_things in 'Strife\r_things.pas',
+  r_things in 'Base\r_things.pas',
   rtl_types in 'Base\rtl_types.pas',
   s_sound in 'Strife\s_sound.pas',
   sc_actordef in 'Base\sc_actordef.pas',
@@ -346,7 +346,10 @@ uses
   r_subsectors in 'Base\r_subsectors.pas',
   r_draw_additive in 'Base\r_draw_additive.pas',
   r_draw_subtractive in 'Base\r_draw_subtractive.pas',
-  r_renderstyle in 'Base\r_renderstyle.pas';
+  r_renderstyle in 'Base\r_renderstyle.pas',
+  vx_voxelsprite in 'Base\vx_voxelsprite.pas',
+  w_wadwriter in 'Base\w_wadwriter.pas',
+  m_sha1 in 'Base\m_sha1.pas';
 
 var
   Saved8087CW: Word;

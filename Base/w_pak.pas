@@ -194,9 +194,11 @@ function PAK_AddFile(const FileName: string): boolean;
 function PAK_GetMatchingEntries(const Name: string): TDNumberList;
 
 type
-  stringiteratorproc = procedure(const atext: string);
+  stringparmproc_t = procedure(const atext: string);
 
-function PAK_StringIterator(const filename: string; proc: stringiteratorproc): integer;
+function PAK_StringIterator(const filename: string; proc: stringparmproc_t): integer;
+
+function PAK_FileNameIterator(proc: stringparmproc_t): integer;
 
 function PAK_ReadFileAsString(const filename: string): string;
 
@@ -1501,7 +1503,7 @@ begin
   result := pakmanager.GetMatchingEntries(Name);
 end;
 
-function PAK_StringIterator(const filename: string; proc: stringiteratorproc): integer;
+function PAK_StringIterator(const filename: string; proc: stringparmproc_t): integer;
 var
   entries: TDNumberList;
   strm: TPakStream;
@@ -1524,6 +1526,15 @@ begin
   end;
   list.Free;
   entries.Free;
+end;
+
+function PAK_FileNameIterator(proc: stringparmproc_t): integer;
+var
+  i: integer;
+begin
+  result := pakmanager.NumEntries;
+  for i := 0 to result - 1 do
+    proc(pakmanager.Entries[i].Name);
 end;
 
 function PAK_ReadFileAsString(const filename: string): string;

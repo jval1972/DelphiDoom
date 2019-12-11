@@ -1,15 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiStrife: A modified and improved Strife source port for Windows.
-//
-//  Based on:
-//    - Linux Doom by "id Software"
-//    - Chocolate Strife by "Simon Howard"
-//    - DelphiDoom by "Jim Valavanis"
-//
+//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2005 Simon Howard
-//  Copyright (C) 2010 James Haley, Samuel Villarreal
 //  Copyright (C) 2004-2019 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -593,10 +586,8 @@ begin
 
   if dc_yl <= dc_yh then
   begin
-    // Drawn by either R_DrawColumn
-    //  or (SHADOW) R_DrawFuzzColumn
-    //  or R_DrawColumnAverage
-    //  or R_DrawTranslatedColumn
+    // Drawn by either averagecolfunc
+    //  or maskedcolfunc2
     if depthbufferactive then                   // JVAL: 3d Floors
       R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
     else
@@ -720,36 +711,8 @@ begin
   if dc_colormap = nil then
   begin
     // NULL colormap = shadow draw
-    colfunc := fuzzcolfunc1;
-    batchcolfunc := batchfuzzcolfunc1;
-  end
-  else if vis.mobjflags and MF_SHADOW <> 0 then
-  begin
-    if vis.mobjflags and MF_TRANSLATION = 0 then
-    begin
-      if vis.mobjflags and MF_MVIS <> 0 then
-      begin
-        colfunc := fuzzcolfunc2;
-        batchcolfunc := batchfuzzcolfunc2;
-      end
-      else
-      begin
-        colfunc := fuzzcolfunc1;
-        batchcolfunc := batchfuzzcolfunc1;
-      end;
-    end
-    else
-    begin
-      dc_translation := PByteArray(integer(translationtables) - 256 +
-        (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
-      colfunc := fuzztranscolfunc;
-      batchcolfunc := batchfuzztranscolfunc;
-    end;
-  end
-  else if vis.mobjflags and MF_MVIS <> 0 then
-  begin
-    colfunc := fuzzcolfunc2;
-    batchcolfunc := batchfuzzcolfunc2;
+    colfunc := fuzzcolfunc;
+    batchcolfunc := batchfuzzcolfunc;
   end
   else if vis.mobjflags and MF_TRANSLATION <> 0 then
   begin
@@ -797,7 +760,7 @@ begin
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
   if (vis.footclip <> 0) and (not playerweapon) then
-    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
+    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip,  spryscale)))
   else
     baseclip := -1;
 
@@ -1269,9 +1232,10 @@ begin
   // store information in a vissprite
   vis := R_NewVisSprite;
   vis.mobjflags := thing.flags;
-  vis.mobjflags_ex := thing.flags_ex; // JVAL: extended flags passed to vis
+  vis.mobjflags_ex := thing.flags_ex or thing.state.flags_ex; // JVAL: extended flags passed to vis
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
+  vis._type := thing._type;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   vis.infoscale := infoscale;
   {$IFNDEF OPENGL}
@@ -1283,7 +1247,13 @@ begin
   vis.gzt := gzt;
   // foot clipping
   vis.footclip := thing.floorclip;
-  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + spritetopoffset[lump];
+//  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + spritetopoffset[lump];
+//  vis.texturemid := thing.z - FixedDiv(viewz - vis.footclip, infoscale) + spritetopoffset[lump];
+//  vis.texturemid := FixedDiv(thing.z, infoscale) - viewz - vis.footclip + spritetopoffset[lump];
+//  vis.texturemid := thing.z - viewz - vis.footclip + FixedDiv(spritetopoffset[lump], infoscale);
+//  vis.texturemid := thing.z - viewz - vis.footclip + FixedMul(spritetopoffset[lump], infoscale);
+//  vis.texturemid := thing.z - viewz - vis.footclip) + spritetopoffset[lump];
+  vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + FixedMul(spritetopoffset[lump], infoscale);
   vis.texturemid2 := vis.texturemid + spritetopoffset[lump];
   if x1 <= 0 then
     vis.x1 := 0
@@ -1352,7 +1322,12 @@ begin
 
 {$IFNDEF OPENGL}  // JVAL: 3d Floors
   // get light level
-  if fixedcolormap <> nil then
+  if thing.flags and MF_SHADOW <> 0 then
+  begin
+    // shadow draw
+    vis.colormap := nil;
+  end
+  else if fixedcolormap <> nil then
   begin
     // fixed map
     vis.colormap := fixedcolormap;
@@ -1493,6 +1468,7 @@ begin
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
+  vis._type := Ord(MT_PLAYER);
 
   vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
 
@@ -1524,7 +1500,15 @@ begin
 {$ENDIF}
   vis.patch := lump;
 
-  if fixedcolormap <> nil then
+{$IFNDEF OPENGL}
+  if (viewplayer.powers[Ord(pw_invisibility)] > 4 * 32) or
+     (viewplayer.powers[Ord(pw_invisibility)] and 8 <> 0) then
+  begin
+    // shadow draw
+    vis.colormap := nil;
+  end
+  else
+{$ENDIF}if fixedcolormap <> nil then
   begin
     // fixed color
 {$IFNDEF OPENGL}  // JVAL: 3d Floors

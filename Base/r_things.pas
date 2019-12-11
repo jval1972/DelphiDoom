@@ -47,7 +47,7 @@ var
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
-procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
+procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 {$ENDIF}
 
@@ -205,11 +205,13 @@ begin
   // JVAL: Up to 32 sprite rotations
   if rotation in [1..8] then
     if sprtemp[frame].rotate = -1 then
-      sprtemp[frame].rotate := 1;
+      if sprtemp[frame].rotate < 1 then
+        sprtemp[frame].rotate := 1;
 
   if rotation in [9..16] then
     if (sprtemp[frame].rotate = -1) or (sprtemp[frame].rotate = 1) then
-      sprtemp[frame].rotate := 2;
+      if sprtemp[frame].rotate < 2 then
+        sprtemp[frame].rotate := 2;
 
   if rotation in [17..32] then
     if (sprtemp[frame].rotate = -1) or (sprtemp[frame].rotate = 1) or (sprtemp[frame].rotate = 2) then
@@ -475,7 +477,7 @@ end;
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
-procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1);
+procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -516,7 +518,12 @@ begin
         //  or R_DrawColumnAverage
         //  or R_DrawTranslatedColumn
         if depthbufferactive then                   // JVAL: 3d Floors
-          R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+        begin
+          if renderflags and VSF_TRANSPARENCY <> 0 then
+            R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
+          else
+            R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
+        end
         else
           colfunc;
       end;
@@ -549,7 +556,12 @@ begin
         //  or R_DrawColumnAverage
         //  or R_DrawTranslatedColumn
         if depthbufferactive then                   // JVAL: 3d Floors
-          R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+        begin
+          if renderflags and VSF_TRANSPARENCY <> 0 then
+            R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
+          else
+            R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
+        end
         else
           colfunc;
       end;
@@ -591,7 +603,7 @@ begin
     //  or R_DrawColumnAverage
     //  or R_DrawTranslatedColumn
     if depthbufferactive then                   // JVAL: 3d Floors
-      R_DrawColumnWithDepthBufferCheck(colfunc) // JVAL: 3d Floors
+      R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
     else
       colfunc;
   end;
@@ -713,8 +725,53 @@ begin
   if dc_colormap = nil then
   begin
     // NULL colormap = shadow draw
+  {$IFDEF DOOM_OR_HERETIC}
     colfunc := fuzzcolfunc;
     batchcolfunc := batchfuzzcolfunc;
+  {$ENDIF}
+  {$IFDEF HEXEN}
+    colfunc := fuzzcolfunc;
+    batchcolfunc := nil;
+  end
+  else if vis.mobjflags and (MF_SHADOW or MF_ALTSHADOW) <> 0 then
+  begin
+    // NULL colormap = shadow draw
+    colfunc := fuzzcolfunc;
+    batchcolfunc := nil;
+  {$ENDIF}
+  {$IFDEF STRIFE}
+    // NULL colormap = shadow draw
+    colfunc := fuzzcolfunc1;
+    batchcolfunc := batchfuzzcolfunc1;
+  end
+  else if vis.mobjflags and MF_SHADOW <> 0 then
+  begin
+    if vis.mobjflags and MF_TRANSLATION = 0 then
+    begin
+      if vis.mobjflags and MF_MVIS <> 0 then
+      begin
+        colfunc := fuzzcolfunc2;
+        batchcolfunc := batchfuzzcolfunc2;
+      end
+      else
+      begin
+        colfunc := fuzzcolfunc1;
+        batchcolfunc := batchfuzzcolfunc1;
+      end;
+    end
+    else
+    begin
+      dc_translation := PByteArray(integer(translationtables) - 256 +
+        (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
+      colfunc := fuzztranscolfunc;
+      batchcolfunc := batchfuzztranscolfunc;
+    end;
+  end
+  else if vis.mobjflags and MF_MVIS <> 0 then
+  begin
+    colfunc := fuzzcolfunc2;
+    batchcolfunc := batchfuzzcolfunc2;
+  {$ENDIF}
   end
   else if vis.mobjflags and MF_TRANSLATION <> 0 then
   begin
@@ -726,7 +783,9 @@ begin
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
     dc_alpha := vis.mo.alpha;
+    {$IFDEF DOOM_OR_STRIFE}
     curtrans8table := R_GetTransparency8table(dc_alpha);
+    {$ENDIF}
     colfunc := alphacolfunc;
     batchcolfunc := batchtalphacolfunc;
   end
@@ -762,7 +821,7 @@ begin
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
   if (vis.footclip <> 0) and (not playerweapon) then
-    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip,  spryscale)))
+    baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
   else
     baseclip := -1;
 
@@ -777,7 +836,7 @@ begin
       texturecolumn := LongWord(frac) shr FRACBITS;
 
       column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-      R_DrawMaskedColumn(column, baseclip);
+      R_DrawMaskedColumn(column, baseclip, vis.renderflags);
       frac := frac + xiscale;
       inc(dc_x);
     end;
@@ -807,7 +866,7 @@ begin
         if num_batch_columns > 1 then
           R_DrawMaskedColumn_Batch(column, baseclip)
         else
-          R_DrawMaskedColumn(column, baseclip);
+          R_DrawMaskedColumn(column, baseclip, vis.renderflags);
         dc_x := last_dc_x;
       end;
       frac := frac + xiscale;
@@ -821,7 +880,7 @@ begin
       if num_batch_columns > 1 then
         R_DrawMaskedColumn_Batch(column, baseclip)
       else
-        R_DrawMaskedColumn(column, baseclip);
+        R_DrawMaskedColumn(column, baseclip, vis.renderflags);
     end;
   end;
 
@@ -848,7 +907,7 @@ var
   last_floorclip, last_ceilingclip: SmallInt;
   checkcolumn: integer;
   ltopdelta: integer;
-  llength: integer;
+  llength: integer;                       
 begin
   patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
@@ -922,10 +981,10 @@ begin
       if dc_yl <= mceilingclip[dc_x] then
         dc_yl := mceilingclip[dc_x] + 1;
 
-      if frac < 256 * FRACUNIT then  // JVAL: SOS - Heretic, Hexen & Strife ?
+      if frac < 256 * FRACUNIT then
         if dc_yl <= dc_yh then
-          if depthbufferactive then                         // JVAL: 3d Floors
-            R_DrawColumnWithDepthBufferCheck(lightcolfunc)  // JVAL: 3d Floors
+          if depthbufferactive then                             // JVAL: 3d Floors
+            R_DrawColumnWithDepthBufferCheckOnly(lightcolfunc)  // JVAL: 3d Floors
           else
             lightcolfunc;
 
@@ -1034,8 +1093,10 @@ var
 {$ELSE}
   index: integer;
   iscale: fixed_t;
+  {$IFDEF DOOM_OR_STRIFE}
   heightsec: integer;
   plheightsec: integer;
+  {$ENDIF}
   gzt: integer;
   voxelflag: integer;
   vx1, vx2: integer;
@@ -1051,7 +1112,11 @@ begin
     exit;
 
   // Never make a vissprite when MF2_DONTDRAW is flagged.
+  {$IFDEF HERETIC_OR_HEXEN}
+  if thing.flags2 and MF2_DONTDRAW <> 0 then
+  {$ELSE}
   if thing.flags2_ex and MF2_EX_DONTDRAW <> 0 then
+  {$ENDIF}
     exit;
 
   // transform the origin point
@@ -1198,6 +1263,7 @@ begin
 {$IFNDEF OPENGL}
   scaledtop := FixedMul(spritetopoffset[lump], infoscale);
   gzt := thing.z + scaledtop;
+  {$IFDEF DOOM_OR_STRIFE}
   heightsec := Psubsector_t(thing.subsector).sector.heightsec;
 
   if heightsec <> -1 then   // only clip things which are in special sectors
@@ -1229,25 +1295,44 @@ begin
       end;
     end;
   end;
+  {$ENDIF}
 {$ENDIF}
 
   // store information in a vissprite
   vis := R_NewVisSprite;
   vis.mobjflags := thing.flags;
+  {$IFDEF HERETIC_OR_HEXEN}
+  vis.mobjflags2 := thing.flags2;
+  {$ENDIF}
+  {$IFDEF DOOM_OR_HERETIC}
   vis.mobjflags_ex := thing.flags_ex or thing.state.flags_ex; // JVAL: extended flags passed to vis
+  {$ENDIF}
+  {$IFDEF STRIFE}
+  vis.mobjflags_ex := thing.flags_ex; // JVAL: extended flags passed to vis
+  {$ENDIF}
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   vis.infoscale := infoscale;
   {$IFNDEF OPENGL}
+  {$IFDEF DOOM_OR_STRIFE}
   vis.heightsec := heightsec;
+  {$ENDIF}
   vis.voxelflag := voxelflag;  // JVAL voxel support
   vis.gx := thing.x;
   vis.gy := thing.y;
   vis.gz := thing.z;
   vis.gzt := gzt;
   // foot clipping
+  {$IFDEF HERETIC}
+  if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <=
+    Psubsector_t(thing.subsector).sector.floorheight) then
+    vis.footclip := 10 * FRACUNIT
+  else
+    vis.footclip := 0;
+  {$ELSE}
   vis.footclip := thing.floorclip;
+  {$ENDIF}
   vis.texturemid := FixedDiv(thing.z - viewz - vis.footclip, infoscale) + spritetopoffset[lump];
   vis.texturemid2 := vis.texturemid + spritetopoffset[lump];
   if x1 <= 0 then
@@ -1304,7 +1389,7 @@ begin
     vis.startfrac := 0;
     vis.xiscale := iscale;
   end;
-{$ENDIF}
+  {$ENDIF}
 {$IFDEF OPENGL}
   vis.flip := flip;
 {$ENDIF}
@@ -1317,12 +1402,13 @@ begin
 
 {$IFNDEF OPENGL}  // JVAL: 3d Floors
   // get light level
+  {$IFDEF DOOM_OR_HERETIC}
   if thing.flags and MF_SHADOW <> 0 then
   begin
     // shadow draw
     vis.colormap := nil;
   end
-  else if fixedcolormap <> nil then
+  else{$ENDIF} if fixedcolormap <> nil then
   begin
     // fixed map
     vis.colormap := fixedcolormap;
@@ -1344,6 +1430,15 @@ begin
 
     vis.colormap := sprlights[index]; // JVAL: 3d Floors
   end;
+
+  vis.renderflags := 0;
+  if (vis.colormap = nil) or
+     {$IFDEF HEXEN}(vis.mobjflags and (MF_SHADOW or MF_ALTSHADOW) <> 0) or {$ENDIF}
+     {$IFDEF STRIFE}(vis.mobjflags and MF_SHADOW <> 0) or {$ENDIF}
+     (usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle in [mrs_translucent, mrs_add, mrs_subtract])) or
+     (usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0)) then
+    vis.renderflags := VSF_TRANSPARENCY;
+
 {$ENDIF}
 
 {$IFDEF OPENGL}
@@ -1412,6 +1507,31 @@ end;
 //
 // R_DrawPSprite
 //
+{$IFDEF HERETIC}
+const
+  PSpriteSY: array[0..Ord(NUMWEAPONS) - 1] of fixed_t = (
+    0, // staff
+    5 * FRACUNIT, // goldwand
+    15 * FRACUNIT, // crossbow
+    15 * FRACUNIT, // blaster
+    15 * FRACUNIT, // skullrod
+    15 * FRACUNIT, // phoenix rod
+    15 * FRACUNIT, // mace
+    15 * FRACUNIT, // gauntlets
+    15 * FRACUNIT // beak
+    );
+{$ENDIF}
+{$IFDEF HEXEN}
+// Y-adjustment values for full screen (4 weapons)
+const
+  FPSpriteSY: array[0..Ord(NUMCLASSES) - 1, 0..Ord(NUMWEAPONS) - 1] of fixed_t = (
+    (-10 * FRACUNIT,              0,  20 * FRACUNIT, 10 * FRACUNIT),  // Fighter
+    (             0,  10 * FRACUNIT,  10 * FRACUNIT,             0),  // Cleric
+    (  9 * FRACUNIT,  20 * FRACUNIT,  20 * FRACUNIT, 20 * FRACUNIT),  // Mage
+    ( 10 * FRACUNIT,  10 * FRACUNIT,  10 * FRACUNIT, 10 * FRACUNIT)   // Pig
+  );
+{$ENDIF}
+
 procedure R_DrawPSprite(psp: Ppspdef_t);
 var
   tx: fixed_t;
@@ -1460,12 +1580,22 @@ begin
   // store information in a vissprite
   vis := @avis;
   vis.mobjflags := 0;
+{$IFDEF HERETIC_OR_HEXEN}
+  vis.mobjflags2 := 0;
+{$ENDIF}
   vis.mobjflags_ex := 0;
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
 
   vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
-
+{$IFDEF HERETIC}
+  if screenblocks > 10 then
+    vis.texturemid := vis.texturemid - PSpriteSY[Ord(viewplayer.readyweapon)];
+{$ENDIF}
+{$IFDEF HEXEN}
+  if screenblocks > 10 then
+    vis.texturemid := vis.texturemid - FPSpriteSY[Ord(viewplayer._class), Ord(viewplayer.readyweapon)];
+{$ENDIF}
   if x1 < 0 then
     vis.x1 := 0
   else
@@ -1494,7 +1624,7 @@ begin
 {$ENDIF}
   vis.patch := lump;
 
-{$IFNDEF OPENGL}
+{$IFNDEF OPENGL}{$IFDEF DOOM_OR_HERETIC}
   if (viewplayer.powers[Ord(pw_invisibility)] > 4 * 32) or
      (viewplayer.powers[Ord(pw_invisibility)] and 8 <> 0) then
   begin
@@ -1502,7 +1632,7 @@ begin
     vis.colormap := nil;
   end
   else
-{$ENDIF}if fixedcolormap <> nil then
+{$ENDIF}{$ENDIF}if fixedcolormap <> nil then
   begin
     // fixed color
 {$IFNDEF OPENGL}  // JVAL: 3d Floors
@@ -1605,8 +1735,10 @@ var
   silhouette: integer;
   i: integer;
   size: integer;
+  {$IFDEF DOOM_OR_STRIFE}
   h, mh: fixed_t;
   plheightsec: integer;
+  {$ENDIF}
   fds_p: integer;
   fdrawsegs: Pdrawsegsbuffer_t;
 begin
@@ -1705,7 +1837,7 @@ begin
     end;
   end;
 
-
+  {$IFDEF DOOM_OR_STRIFE}
   // killough 3/27/98:
   // Clip the sprite against deep water and/or fake ceilings.
   // killough 4/9/98: optimize by adding mh
@@ -1767,6 +1899,7 @@ begin
   end;
 
   // killough 3/27/98: end special clipping for deep water / fake ceilings
+  {$ENDIF}
 
   // all clipping has been performed, so draw the sprite
 
@@ -1943,17 +2076,53 @@ begin
     // draw all vissprites back to front
     if uselightboost and (videomode = vm32bit) then
     begin
-      for i := 0 to vissprite_p - 1 do
+      if depthbufferactive then
       begin
-        if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
-          R_DrawSpriteLight(vissprites[i]);
-        R_DrawSprite(vissprites[i]);
+        // Front to back opaque
+        for i := vissprite_p - 1 downto 0 do
+          if vissprites[i].renderflags and VSF_TRANSPARENCY = 0 then
+          begin
+            R_DrawSprite(vissprites[i]);
+          end;
+        // Back to front transparent, also lights
+        for i := 0 to vissprite_p - 1 do
+        begin
+          if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
+            R_DrawSpriteLight(vissprites[i]);
+          if vissprites[i].renderflags and VSF_TRANSPARENCY <> 0 then
+          begin
+            R_DrawSprite(vissprites[i]);
+          end;
+        end;
+      end
+      else
+      begin
+        for i := 0 to vissprite_p - 1 do
+        begin
+          if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
+            R_DrawSpriteLight(vissprites[i]);
+          R_DrawSprite(vissprites[i]);
+        end;
       end;
     end
     else
     begin
-      for i := 0 to vissprite_p - 1 do
-        R_DrawSprite(vissprites[i]);
+      if depthbufferactive then
+      begin
+        // Front to back opaque
+        for i := 0 to vissprite_p - 1 do
+          if vissprites[i].renderflags and VSF_TRANSPARENCY = 0 then
+            R_DrawSprite(vissprites[i]);
+        // Back to front transparent
+        for i := vissprite_p - 1 downto 0 do
+          if vissprites[i].renderflags and VSF_TRANSPARENCY <> 0 then
+            R_DrawSprite(vissprites[i]);
+      end
+      else
+      begin
+        for i := 0 to vissprite_p - 1 do
+          R_DrawSprite(vissprites[i]);
+      end;
     end;
   end;
 

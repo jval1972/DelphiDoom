@@ -1267,13 +1267,13 @@ begin
     end;
   end;
 
-  voxelsize := 1;
-  while xsiz > voxelsize do
-    voxelsize := voxelsize * 2;
-  while ysiz > voxelsize do
-    voxelsize := voxelsize * 2;
-  while zsiz > voxelsize do
-    voxelsize := voxelsize * 2;
+  voxelsize := xsiz;
+  if voxelsize < ysiz then
+    voxelsize := ysiz;
+  if voxelsize < zsiz then
+    voxelsize := zsiz;
+  if voxelsize < 256 then
+    inc(voxelsize);
 
   idx := SizeOf(kvxbuffer_t);
   voxelbuffer := @vx_membuffer[idx];
@@ -1532,7 +1532,8 @@ begin
   VX_VoxelsDone;
 end;
 
-procedure R_DrawThingVoxel(const thing: Pmobj_t; const vidx: integer; const depth: LongWord);
+procedure R_DrawThingVoxel(const thing: Pmobj_t; const vidx: integer; const depth: LongWord;
+  const renderflags: LongWord);
 var
   info: Pvoxelstate_t;
   voxelinf: Pvoxelmanageritem_t;
@@ -1925,7 +1926,12 @@ begin
             dc_yh := bottom;
 
           if depthbufferactive then
-            R_DrawBatchColumnWithDepthBufferCheck(batchcolfunc, depth)
+          begin
+            if renderflags and VSF_TRANSPARENCY <> 0 then
+              R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+            else
+              R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+          end
           else
             batchcolfunc;
 
@@ -1962,7 +1968,12 @@ begin
             dc_yh := last_bot;
 
             if depthbufferactive then
-              R_DrawBatchColumnWithDepthBufferCheck(batchcolfunc, depth)
+            begin
+              if renderflags and VSF_TRANSPARENCY <> 0 then
+                R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+              else
+                R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+            end
             else
               batchcolfunc;
 
@@ -1981,7 +1992,12 @@ begin
           dc_yh := last_bot;
 
           if depthbufferactive then
-            R_DrawBatchColumnWithDepthBufferCheck(batchcolfunc, depth)
+          begin
+            if renderflags and VSF_TRANSPARENCY <> 0 then
+              R_DrawBatchColumnWithDepthBufferCheckOnly(batchcolfunc, depth)
+            else
+              R_DrawBatchColumnWithDepthBufferCheckWrite(batchcolfunc, depth)
+          end
           else
             batchcolfunc;
         end;
@@ -1994,12 +2010,13 @@ begin
   end;
 end;
 
-procedure R_DrawThingVoxels(const thing: Pmobj_t; const depth: LongWord);
+procedure R_DrawThingVoxels(const thing: Pmobj_t; const depth: LongWord;
+  const renderflags: LongWord);
 var
   i: integer;
 begin
   for i := 0 to thing.state.voxels.Count - 1 do
-    R_DrawThingVoxel(thing, thing.state.voxels.Numbers[i], depth);
+    R_DrawThingVoxel(thing, thing.state.voxels.Numbers[i], depth, renderflags);
 end;
 
 procedure R_DrawVoxel(const vis: Pvissprite_t);
@@ -2310,7 +2327,7 @@ begin
     end;
   end;
 
-  R_DrawThingVoxels(vis.mo, depth);
+  R_DrawThingVoxels(vis.mo, depth, vis.renderflags);
 end;
 
 end.

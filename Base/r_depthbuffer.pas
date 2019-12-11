@@ -52,11 +52,17 @@ procedure R_StoreSpanToDepthBufferMT; // Store span information for Multithread 
 
 procedure R_FlashSpansToDepthBufferMT; // Flash stored span information using multiple threads
 
-procedure R_DrawColumnWithDepthBufferCheck(const cfunc: Pprocedure);
+procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure);
 
-procedure R_DrawBatchColumnWithDepthBufferCheck(const cfunc: Pprocedure); overload;
+procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure); overload;
 
-procedure R_DrawBatchColumnWithDepthBufferCheck(const cfunc: Pprocedure; const depth: LongWord); overload;
+procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
+
+procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure);
+
+procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure); overload;
+
+procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord); overload;
 
 function R_DepthBufferAt(const x, y: integer): LongWord;
 
@@ -241,7 +247,7 @@ begin
   dbspancacheinfo_size := 0;
 end;
 
-procedure R_DrawColumnWithDepthBufferCheck(const cfunc: Pprocedure);
+procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure);
 // db_distance := rw_scale/fracunit;
 var
   count: integer;
@@ -298,12 +304,12 @@ begin
   dc_yl := old_yl;
 end;
 
-procedure R_DrawBatchColumnWithDepthBufferCheck(const cfunc: Pprocedure); overload;
+procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure); overload;
 begin
-  R_DrawBatchColumnWithDepthBufferCheck(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
+  R_DrawBatchColumnWithDepthBufferCheckWrite(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
 end;
 
-procedure R_DrawBatchColumnWithDepthBufferCheck(const cfunc: Pprocedure; const depth: LongWord); overload;
+procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 // db_distance := rw_scale/fracunit;
 var
   count: integer;
@@ -342,6 +348,133 @@ begin
       if check then
       begin
         destl^ := l;
+        if not oldcheck then
+          start_y := i;
+      end
+      else if oldcheck then
+      begin
+        dc_yl := start_y;
+        dc_yh := i - 1;
+        cfunc;
+      end;
+      oldcheck := check;
+
+      inc(destl, swidth);
+    end;
+    if oldcheck then
+    begin
+      dc_yl := start_y;
+      dc_yh := old_yh;
+      cfunc;
+    end;
+    inc(dc_x);
+  end;
+
+  dc_yh := old_yh;
+  dc_yl := old_yl;
+  dc_x := old_x;
+  num_batch_columns := old_n;
+end;
+
+procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure);
+// db_distance := rw_scale/fracunit;
+var
+  count: integer;
+  i: integer;
+  destl: PLongWord;
+  l: LongWord;
+  old_yh, old_yl: integer;
+  start_y: integer;
+  check, oldcheck: boolean;
+  swidth: LongWord;
+begin
+  count := dc_yh - dc_yl;
+
+  if count < 0 then
+    exit;
+
+  old_yh := dc_yh;
+  old_yl := dc_yl;
+
+  destl := @((ylookupdb[curbuffer][dc_yl]^)[columnofs[dc_x]]);
+
+  swidth := SCREENWIDTH;
+  db_distance := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  l := db_distance;
+  start_y := old_yl;
+  oldcheck := false;
+  for i := old_yl to old_yh do
+  begin
+    check := destl^ <= l;
+    if check then
+    begin
+      if not oldcheck then
+        start_y := i;
+    end
+    else if oldcheck then
+    begin
+      dc_yl := start_y;
+      dc_yh := i - 1;
+      cfunc;
+    end;
+    oldcheck := check;
+
+    inc(destl, swidth);
+  end;
+  if oldcheck then
+  begin
+    dc_yl := start_y;
+    dc_yh := old_yh;
+    cfunc;
+  end;
+
+  dc_yh := old_yh;
+  dc_yl := old_yl;
+end;
+
+procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure); overload;
+begin
+  R_DrawBatchColumnWithDepthBufferCheckOnly(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
+end;
+
+procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord); overload;
+// db_distance := rw_scale/fracunit;
+var
+  count: integer;
+  i: integer;
+  destl: PLongWord;
+  l: LongWord;
+  old_yh, old_yl, old_x, old_n: integer;
+  start_y: integer;
+  check, oldcheck: boolean;
+  xx: integer;
+  swidth: LongWord;
+begin
+  count := dc_yh - dc_yl;
+
+  if count < 0 then
+    exit;
+
+  old_yh := dc_yh;
+  old_yl := dc_yl;
+  old_x := dc_x;
+  old_n := num_batch_columns;
+  num_batch_columns := 1; // Ouch!
+
+  swidth := SCREENWIDTH;
+  db_distance := depth;
+  l := db_distance;
+
+  for xx := old_x to old_x + old_n do
+  begin
+    destl := @((ylookupdb[curbuffer][old_yl]^)[columnofs[xx]]);
+    start_y := old_yl;
+    oldcheck := false;
+    for i := old_yl to old_yh do
+    begin
+      check := destl^ <= l;
+      if check then
+      begin
         if not oldcheck then
           start_y := i;
       end

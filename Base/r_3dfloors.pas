@@ -355,7 +355,7 @@ begin
         dc_source := R_GetColumn(texnum, texturecolumn);
       end;
       if depthbufferactive then
-        R_DrawColumnWithDepthBufferCheck(wallcolfunc)
+        R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
       else
         wallcolfunc;
 
@@ -542,7 +542,7 @@ begin
       end;
       dc_texturemid := texturemid[0];
       if depthbufferactive then
-        R_DrawColumnWithDepthBufferCheck(wallcolfunc)
+        R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
       else
         wallcolfunc;
 
@@ -562,7 +562,7 @@ begin
 
       dc_texturemid := texturemid[1];
       if depthbufferactive then
-        R_DrawColumnWithDepthBufferCheck(wallcolfunc)
+        R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
       else
         wallcolfunc;
 
@@ -714,7 +714,7 @@ begin
         dc_source := R_GetColumn(texnum, texturecolumn);
       end;
       if depthbufferactive then
-        R_DrawColumnWithDepthBufferCheck(wallcolfunc)
+        R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
       else
         wallcolfunc;
 
@@ -885,7 +885,7 @@ begin
       end;
       dc_texturemid := texturemid[0];
       if depthbufferactive then
-        R_DrawColumnWithDepthBufferCheck(wallcolfunc)
+        R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
       else
         wallcolfunc;
 
@@ -905,7 +905,7 @@ begin
         dc_yl := mceilingclip[dc_x] + 1;
       dc_texturemid := texturemid[1];
       if depthbufferactive then
-        R_DrawColumnWithDepthBufferCheck(wallcolfunc)
+        R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
       else
         wallcolfunc;
 

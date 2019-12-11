@@ -230,7 +230,7 @@ uses
   r_sky in 'Doom\r_sky.pas',
   r_span in 'Base\r_span.pas',
   r_span32 in 'Base\r_span32.pas',
-  r_things in 'Doom\r_things.pas',
+  r_things in 'Base\r_things.pas',
   rtl_types in 'Base\rtl_types.pas',
   s_sound in 'Doom\s_sound.pas',
   sc_actordef in 'Base\sc_actordef.pas',
@@ -344,7 +344,9 @@ uses
   r_draw_additive in 'Base\r_draw_additive.pas',
   r_draw_subtractive in 'Base\r_draw_subtractive.pas',
   r_renderstyle in 'Base\r_renderstyle.pas',
-  vx_voxelsprite in 'Base\vx_voxelsprite.pas';
+  vx_voxelsprite in 'Base\vx_voxelsprite.pas',
+  m_sha1 in 'Base\m_sha1.pas',
+  w_wadwriter in 'Base\w_wadwriter.pas';
 
 var
   Saved8087CW: Word;

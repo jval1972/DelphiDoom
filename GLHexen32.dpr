@@ -218,7 +218,7 @@ uses
   r_plane in 'Hexen\r_plane.pas',
   r_segs in 'Hexen\r_segs.pas',
   r_sky in 'Hexen\r_sky.pas',
-  r_things in 'Hexen\r_things.pas',
+  r_things in 'Base\r_things.pas',
   rtl_types in 'Base\rtl_types.pas',
   s_sndseq in 'Hexen\s_sndseq.pas',
   s_sound in 'Hexen\s_sound.pas',
@@ -327,7 +327,10 @@ uses
   w_folders in 'Base\w_folders.pas',
   r_subsectors in 'Base\r_subsectors.pas',
   f_wipe in 'Base\f_wipe.pas',
-  r_renderstyle in 'Base\r_renderstyle.pas';
+  r_renderstyle in 'Base\r_renderstyle.pas',
+  vx_voxelsprite in 'Base\vx_voxelsprite.pas',
+  w_wadwriter in 'Base\w_wadwriter.pas',
+  m_sha1 in 'Base\m_sha1.pas';
 
 var
   Saved8087CW: Word;

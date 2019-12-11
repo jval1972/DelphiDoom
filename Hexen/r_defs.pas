@@ -273,6 +273,10 @@ const
   SRF_SLOPECEILING = 64; // JVAL: Slopes
   SRF_SLOPED = SRF_SLOPEFLOOR + SRF_SLOPECEILING; // JVAL: Slopes
 
+const
+  // Vissprite render flags
+  VSF_TRANSPARENCY = 1;
+
 //
 // A SubSector.
 // References a Sector.
@@ -501,6 +505,7 @@ type
     //  maxbright frames as well
 {$IFNDEF OPENGL} // JVAL: 3d Floors
     colormap: PByteArray;
+    renderflags: LongWord;
 {$ENDIF}
     mobjflags: integer;
     mobjflags2: integer;
