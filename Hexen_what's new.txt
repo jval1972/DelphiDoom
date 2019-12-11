@@ -65,6 +65,9 @@ Added A_ScaleVelocity & A_ChangeVelocity ACTORDEF functions.
 Added FloatRandom function in parameters of ACTORDEF functions. Usage is FloatRandom(1.5, 2.5) <-- return a float value between 1.5 and 2.5.
 Bug fix: Players can now spawned on 3d floors when the "On middle Floor" flag is set.
 Bug fix: Solve issue with A_SpawnItem & A_SpawnItemEx in sectors with 3d floors.
+Eliminated problems with voxel frames without a corresponding sprite in the wad.
+Fixed problem with KVX voxels in software rendering mode.
+Eliminated problems with transparent drawing when the software renderer activates dephtbuffer (3d floors).
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------
