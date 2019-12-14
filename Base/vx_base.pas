@@ -424,14 +424,6 @@ begin
   SC_DoParseVoxelDefinition(SC_Preprocess(in_text, false));
 end;
 
-procedure VX_AddAdditionalVoxels;
-var
-  i: integer;
-begin
-//  for i := 0 to numstates - 1 do
-//    if states[i].sprite
-end;
-
 //
 // SC_ParseVoxelDefinitions
 // JVAL: Parse all VOXELDEF lumps

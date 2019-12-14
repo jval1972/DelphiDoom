@@ -2392,12 +2392,32 @@ begin
   M_WriteWhiteText(ppos.x, ppos.y, stmp);
 end;
 
+procedure M_ChangeFullScreen(choice: integer);
+begin
+  {$IFDEF OPENGL}
+  GL_ChangeFullScreen(not fullscreen);
+  {$ELSE}
+  I_ChangeFullScreen((fullscreen + 1) mod NUMFULLSCREEN_MODES);
+  {$ENDIF}
+end;
+
+const
+  strfullscreenmodes: array[0..NUMFULLSCREEN_MODES - 1] of string = (
+    'SHARED', 'EXCLUSIVE', 'OFF'
+  );
+
 procedure M_DrawDisplaySetVideoMode;
 var
   stmp: string;
   ppos: menupos_t;
 begin
   M_DrawDisplayOptions;
+
+  {$IFNDEF OPENGL}
+  fullscreen := fullscreen mod NUMFULLSCREEN_MODES;
+  {$ENDIF}
+  ppos := M_WriteText(OptionsDisplayVideoModeDef.x, OptionsDisplayVideoModeDef.y + OptionsDisplayVideoModeDef.itemheight * Ord(odm_fullscreen), 'FullScreen: ');
+  M_WriteWhiteText(ppos.x, ppos.y, {$IFDEF OPENGL}yesnoStrings[fullscreen]{$ELSE}strfullscreenmodes[fullscreen]{$ENDIF});
 
   if mdisplaymode_idx < 0 then
     mdisplaymode_idx := 0
@@ -3138,7 +3158,7 @@ begin
           {$IFDEF OPENGL}
             GL_ChangeFullScreen(not fullscreen);
           {$ELSE}
-            I_ChangeFullScreen;
+            I_ChangeFullScreen((fullscreen + 1) mod NUMFULLSCREEN_MODES);
           {$ENDIF}
             result := true;
             exit;
@@ -4127,9 +4147,9 @@ begin
   pmi := @OptionsDisplayVideoModeMenu[0];
   pmi.status := 1;
   pmi.name := '!Fullscreen';
-  pmi.cmd := 'fullscreen';
-  pmi.routine := @M_BoolCmd;
-  pmi.pBoolVal := @fullscreen;
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeFullScreen;
+  pmi.pBoolVal := nil;
   pmi.alphaKey := 'f';
 
   inc(pmi);

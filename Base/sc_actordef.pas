@@ -67,6 +67,7 @@ uses
   sc_states,
   sc_tokens,
   sc_thinker,
+  sc_evaluate_actor,
   sc_utils,
   ps_main,
 {$IFDEF HEXEN}
@@ -550,6 +551,7 @@ var
     alias: string;
     savealias: string;
     blevel: integer;
+    restline: string;
   begin
     result := false;
     if sc._Finished then
@@ -737,26 +739,23 @@ var
       sc.UnGet
     else
     begin
-      stmp := '';
-      finished := false;
-      while not sc.NewLine and not finished do
+      if strupper(sc._string) = 'BRIGHT' then
+        stmp := sc._string + ' ' + SC_RemoveLineComments(sc.GetStringEOLUnChanged)
+      else
       begin
-        if stmp <> '' then
-          stmp := stmp + ' ';
-        if sc.ParenthesisLevel = 1 then
-          stmp := stmp + '"' + sc._string + '"'
-        else
-          stmp := stmp + sc._string;
-        finished := not sc.GetString;
+        restline := strtrim(SC_RemoveLineComments(sc.GetStringEOLUnChanged));
+        if restline <> '' then
+        begin
+          if restline[length(restline)] = ')' then
+            restline := '(' + restline;
+          if restline[1] <> '(' then
+            restline := ' ' + restline;
+        end;
+        stmp := sc._string + restline;
       end;
-      if not finished then
-        sc.UnGet;
 
       bright := false;
-      stmp := strtrim(stmp);  // JVAL for safety, unneeded
-      for i := 1 to length(stmp) do
-        if stmp[i] in ['(', ')',','] then
-          stmp[i] := ' ';
+      stmp := strtrim(stmp);
       if strupper(firstword(stmp)) = 'BRIGHT' then
       begin
         bright := true;
@@ -2170,12 +2169,14 @@ procedure SC_Init;
 begin
   soundaliases := TDStringList.Create;
   statenames := TTokenList.Create;
+  SC_InitActorEvaluator;
 end;
 
 procedure SC_ShutDown;
 begin
   soundaliases.Free;
   statenames.Free;
+  SC_ShutDownActorEvaluator;
 end;
 
 end.

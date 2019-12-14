@@ -156,6 +156,7 @@ uses
   info_common,
   info_rnd,
   i_system,
+  i_displaymodes,
   i_sound,
   i_io,
   i_tmp,
@@ -1538,13 +1539,13 @@ begin
 
   p := M_CheckParm('-fullscreen');
   if (p <> 0) and (p <= myargc - 1) then
-    fullscreen := true;
+    fullscreen := FULLSCREEN_SHARED;
 
   p := M_CheckParm('-nofullscreen');
   if p = 0 then
     p := M_CheckParm('-windowed');
   if (p <> 0) and (p <= myargc - 1) then
-    fullscreen := false;
+    fullscreen := FULLSCREEN_OFF;
 
   p := M_CheckParm('-zaxisshift');
   if (p <> 0) and (p <= myargc - 1) then
@@ -1639,7 +1640,7 @@ begin
     usejoystick := true;
 
   {$IFNDEF OPENGL}
-  SCREENWIDTH := WINDOWWIDTH;
+//  SCREENWIDTH := WINDOWWIDTH;
   {$ENDIF}
   p := M_CheckParm('-screenwidth');
   if (p <> 0) and (p < myargc - 1) then
@@ -1648,7 +1649,7 @@ begin
     SCREENWIDTH := MAXWIDTH;
 
   {$IFNDEF OPENGL}
-  SCREENHEIGHT := WINDOWHEIGHT;
+//  SCREENHEIGHT := WINDOWHEIGHT;
   {$ENDIF}
   p := M_CheckParm('-screenheight');
   if (p <> 0) and (p < myargc - 1) then

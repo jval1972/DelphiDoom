@@ -1212,6 +1212,8 @@ begin
   totalitems := 0;
   totalsecret := 0;
 
+  isgamefreezed := false;
+  
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
   for i := 0 to MAXPLAYERS - 1 do
@@ -1544,7 +1546,7 @@ begin
   info.fadetable := W_GetNumForName(DEFAULT_FADE_TABLE);
   info.name := UNKNOWN_MAP_NAME;
 
-  sc := TScriptEngine.Create(RemoveLineQuotes(W_TextLumpName(MAPINFO_SCRIPT_NAME)));
+  sc := TScriptEngine.Create(SC_RemoveLineQuotes(W_TextLumpName(MAPINFO_SCRIPT_NAME)));
   while sc.GetString do
   begin
     if not sc.Compare('MAP') then

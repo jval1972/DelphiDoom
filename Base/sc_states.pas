@@ -238,7 +238,7 @@ begin
   if check[1] in ['-', '+'] then
     Delete(check, 1, 1);
 
-  if StrIsInteger(check) then
+  if StrIsLongWord(check) then
     Result := ((integer(actor.state) - integer(states)) div SizeOf(state_t)) + atoi(s)
   else
     Result := P_GetStateFromName(actor, s);

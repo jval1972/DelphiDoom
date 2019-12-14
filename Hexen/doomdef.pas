@@ -97,7 +97,7 @@ var
 
   SCREENWIDTH32PITCH: integer;
 
-  fullscreen: boolean = true;
+  fullscreen: integer = 0;
   zaxisshift: boolean = true;
 
 const

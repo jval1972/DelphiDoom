@@ -378,7 +378,7 @@ begin
   fd := 0;
   ad := @AnimDefs[0];
   AnimDefCount := 0;
-  sc := TScriptEngine.Create(RemoveLineQuotes(W_TextLumpName(ANIM_SCRIPT_NAME)));
+  sc := TScriptEngine.Create(SC_RemoveLineQuotes(W_TextLumpName(ANIM_SCRIPT_NAME)));
   while sc.GetString do
   begin
     if AnimDefCount = MAX_ANIM_DEFS then

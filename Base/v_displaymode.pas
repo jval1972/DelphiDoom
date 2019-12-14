@@ -35,6 +35,8 @@ interface
 
 function V_SetDisplayMode(const newwidth, newheight: integer): boolean;
 
+function V_DoSetDisplayMode(const newwidth, newheight: integer): boolean;
+
 implementation
 
 uses
@@ -79,36 +81,39 @@ begin
     nheight := nwidth;
 
   if (SCREENWIDTH <> nwidth) or (SCREENHEIGHT <> nheight) then
-  begin
-    MT_WaitTasks;            // Wait for running tasks to stop
-    R_ShutDownDepthBuffer;   // Shut down depthbuffer
-    R_ClearVisPlanes;        // Clear visplanes (free ::top & ::bottom arrays)
-    R_ClearVisSlopes;        // Clear vissplopes (free screenleft, screenright, ds_zleft & ds_zright arrays)
-    R_ClearVisPlanes3d;      // Clear arrays
-    R_ShutDownFake3D;        // Clear fake 3d planes
-    R_Clear32Cache;          // JVAL: unneeded ?
-    AM_Stop;                 // Stop the automap
+    result := V_DoSetDisplayMode(nwidth, nheight);
+end;
 
-    I_ShutDownGraphics;      // Shut down graphics
+function V_DoSetDisplayMode(const newwidth, newheight: integer): boolean;
+begin
+  MT_WaitTasks;            // Wait for running tasks to stop
+  R_ShutDownDepthBuffer;   // Shut down depthbuffer
+  R_ClearVisPlanes;        // Clear visplanes (free ::top & ::bottom arrays)
+  R_ClearVisSlopes;        // Clear vissplopes (free screenleft, screenright, ds_zleft & ds_zright arrays)
+  R_ClearVisPlanes3d;      // Clear arrays
+  R_ShutDownFake3D;        // Clear fake 3d planes
+  R_Clear32Cache;          // JVAL: unneeded ?
+  AM_Stop;                 // Stop the automap
 
-    SCREENWIDTH := nwidth;
-    SCREENHEIGHT := nheight;
+  I_ShutDownGraphics;      // Shut down graphics
 
-    V_ReInit;                // Recreate screens
+  SCREENWIDTH := newwidth;
+  SCREENHEIGHT := newheight;
 
-    I_InitGraphics;          // Initialize graphics
+  V_ReInit;                // Recreate screens
 
-    AM_Start;                // Start the automap
-    C_AdjustScreenSize;      // Notify console for screen resolution change
-    setsizeneeded := true;   // Set-up new SCREENWIDTH & SCREENHEIGHT
-    R_InitDepthBuffer;       // Initialize the depth-buffer
-    R_InitFake3D;            // Initialize fake 3d
-    {$IFNDEF STRIFE}
-    R_InitFuzzTable;         // Re-calculate fuzz tabble offsets
-    {$ENDIF}
-    R_InitNegoArray;         // Re-calculate the nego-array
-    result := true;
-  end;
+  I_InitGraphics;          // Initialize graphics
+
+  AM_Start;                // Start the automap
+  C_AdjustScreenSize;      // Notify console for screen resolution change
+  setsizeneeded := true;   // Set-up new SCREENWIDTH & SCREENHEIGHT
+  R_InitDepthBuffer;       // Initialize the depth-buffer
+  R_InitFake3D;            // Initialize fake 3d
+  {$IFNDEF STRIFE}
+  R_InitFuzzTable;         // Re-calculate fuzz tabble offsets
+  {$ENDIF}
+  R_InitNegoArray;         // Re-calculate the nego-array
+  result := true;
 end;
 
 end.

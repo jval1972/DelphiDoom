@@ -136,7 +136,7 @@ var
 
   SCREENWIDTH32PITCH: integer;
 
-  fullscreen: boolean = true;
+  fullscreen: {$IFDEF OPENGL}boolean{$ELSE}integer = 0{$ENDIF};
   zaxisshift: boolean = true;
 
 const

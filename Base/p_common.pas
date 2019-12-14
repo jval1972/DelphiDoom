@@ -72,6 +72,8 @@ procedure A_AddTargetCustomParam(actor: Pmobj_t);
 
 procedure A_SubtractTargetCustomParam(actor: Pmobj_t);
 
+procedure A_JumpIf(actor: Pmobj_t);
+
 procedure A_JumpIfCustomParam(actor: Pmobj_t);
 
 procedure A_JumpIfCustomParamLess(actor: Pmobj_t);
@@ -633,6 +635,28 @@ begin
     P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], parm.value - actor.state.params.IntVal[1])
   else
     P_SetMobjCustomParam(actor.target, actor.state.params.StrVal[0], - actor.state.params.IntVal[1])
+end;
+
+//
+// JVAL
+// Conditionally change state offset
+// A_JumpIf(logical expression, offset to jump when true)
+//
+procedure A_JumpIf(actor: Pmobj_t);
+var
+  offset: integer;
+  boolret: string;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  boolret := actor.state.params.StrVal[0];
+  if boolret = 'TRUE' then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
 end;
 
 //

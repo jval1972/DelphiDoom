@@ -47,6 +47,10 @@ const
 
 procedure DoomMain;
 
+var
+  NATIVEWIDTH: integer;
+  NATIVEHEIGHT: integer;
+
 implementation
 
 uses
@@ -56,6 +60,7 @@ uses
   g_game,
   i_input,
   i_system,
+  i_displaymodes,
   m_argv,
   m_base,
   d_main;
@@ -77,7 +82,7 @@ begin
             result := 0;
             exit;
           end;
-          if fullscreen and (wParam = SC_TASKLIST) then
+          if (fullscreen = FULLSCREEN_EXCLUSIVE) and (wParam = SC_TASKLIST) then
           begin
             result := 0;
             exit;
@@ -116,7 +121,10 @@ var
   exStyle: integer;
 begin
   I_SetDPIAwareness;
-  
+
+  NATIVEWIDTH := I_ScreenWidth;
+  NATIVEHEIGHT := I_ScreenHeight;
+
   ZeroMemory(@WindowClass, SizeOf(WindowClass));
   WindowClass.lpfnWndProc := @WindowProc;
   WindowClass.hbrBackground := GetStockObject(DKGRAY_BRUSH);
@@ -130,7 +138,7 @@ begin
       halt(1);
   end;
 
-  if fullscreen then
+  if fullscreen = FULLSCREEN_EXCLUSIVE then
     exStyle := WS_EX_TOPMOST
   else
     exStyle := 0;

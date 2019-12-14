@@ -123,6 +123,7 @@ uses
   p_user,
   r_renderstyle,
   sounds,
+  sc_engine,
   sc_params,
   v_data,
   sv_save,
@@ -542,7 +543,7 @@ begin
                 begin
                   mobj_setflag := -1;
                   repeat
-                    splitstring(token2, token3, token4, ['|', ',', '+']);
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     token3 := strtrim(token3);
                     mobj_flag := mobj_flags.IndexOf('MF_' + token3);
                     if mobj_flag = -1 then
@@ -573,7 +574,7 @@ begin
                 begin
                   mobj_setflag := -1;
                   repeat
-                    splitstring(token2, token3, token4, ['|', ',', '+']);
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     mobj_flag := mobj_flags2.IndexOf('MF2_' + token3);
                     if mobj_flag = -1 then
                       mobj_flag := mobj_flags2.IndexOf('MF_' + token3);
@@ -601,7 +602,7 @@ begin
                 begin
                   mobj_setflag := -1;
                   repeat
-                    splitstring(token2, token3, token4, ['|', ',', '+']);
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     mobj_flag := mobj_flags_ex.IndexOf('MF_EX_' + token3);
                     if mobj_flag = -1 then
                       mobj_flag := mobj_flags_ex.IndexOf('MF_' + token3);
@@ -662,7 +663,7 @@ begin
                 begin
                   mobj_setflag := -1;
                   repeat
-                    splitstring(token2, token3, token4, ['|', ',', '+']);
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     mobj_flag := mobj_flags2_ex.IndexOf('MF2_EX_' + token3);
                     if mobj_flag = -1 then
                       mobj_flag := mobj_flags2_ex.IndexOf('MF_EX_' + token3);
@@ -813,7 +814,7 @@ begin
                 if foundaction then
                 begin
                   if token4 <> '' then
-                    states[state_no].params := TCustomParamList.CreateFromText(token4);
+                    states[state_no].params := TCustomParamList.Create(SC_FixParenthesisLevel(token4));
                 end
                 else
                   I_Warning('DEH_Parse(): Unknown action function = "%s" in state %d'#13#10, [token3, state_no]);
@@ -828,7 +829,7 @@ begin
                 begin
                   state_setflag := -1;
                   repeat
-                    splitstring(token2, token3, token4, ['|', ',', '+']);
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     state_flag := mobj_flags_ex.IndexOf('MF_EX_' + token3);
                     if state_flag = -1 then
                       state_flag := mobj_flags_ex.IndexOf('MF_' + token3);
@@ -1277,7 +1278,7 @@ begin
               break;
             end;
           if token5 <> '' then
-            states[state_no].params := TCustomParamList.CreateFromText(token5);
+            states[state_no].params := TCustomParamList.Create(SC_FixParenthesisLevel(token5));
         end;
       end;
     end

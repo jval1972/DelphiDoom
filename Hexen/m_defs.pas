@@ -103,7 +103,8 @@ var
   precisescalefromglobalangle: boolean;
   preciseslopedrawing: boolean; // JVAL: Slopes
   r_drawvoxels: boolean;
-  showfullhdlogo: boolean;
+  showfullhdlogo: boolean = false;
+  soft_fullscreen: integer = 0;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -126,6 +127,7 @@ var
   gl_drawshadows: boolean;
   gl_renderwireframe: boolean;
   gl_no_glfinish_hack: boolean = true;
+  gl_fullscreen: boolean = true;
   vx_maxoptimizerpasscount: integer;
 {$ENDIF}
 
@@ -144,7 +146,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 176;
+  NUMDEFAULTS = 177;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -158,19 +160,27 @@ const
      _type: tGroup),
 
     (name: 'soft_screenwidth';
-     location: @{$IFDEF OPENGL}soft_SCREENWIDTH{$ELSE}WINDOWWIDTH{$ENDIF};
+     location: @{$IFDEF OPENGL}soft_SCREENWIDTH{$ELSE}SCREENWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: -1;
+     defaultivalue: 640;
      defaultbvalue: false;
      _type: tInteger),
 
     (name: 'soft_screenheight';
-     location: @{$IFDEF OPENGL}soft_SCREENHEIGHT{$ELSE}WINDOWHEIGHT{$ENDIF};
+     location: @{$IFDEF OPENGL}soft_SCREENHEIGHT{$ELSE}SCREENHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: -1;
+     defaultivalue: 400;
      defaultbvalue: false;
+     _type: tInteger),
+
+    (name: 'soft_fullscreen';
+     location: {$IFDEF OPENGL}@soft_fullscreen{$ELSE}@fullscreen{$ENDIF};
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
      _type: tInteger),
 
     (name: 'gl_screenwidth';
@@ -189,11 +199,11 @@ const
      defaultbvalue: false;
      _type: tInteger),
 
-    (name: 'fullscreen';
-     location: @fullscreen;
+    (name: 'gl_fullscreen';
+     location: {$IFDEF OPENGL}@fullscreen{$ELSE}@gl_fullscreen{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 1;
+     defaultivalue: 0;
      defaultbvalue: true;
      _type: tBoolean),
 
@@ -1318,8 +1328,8 @@ const
      location: @mirrorjpgsshot;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 1;
-     defaultbvalue: true;
+     defaultivalue: 0;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'screenshotformat';

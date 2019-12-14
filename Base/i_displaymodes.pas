@@ -51,19 +51,28 @@ function I_DisplayModeIndex(const w, h: integer): integer;
 function I_NearestDisplayModeIndex(const w, h: integer): integer;
 
 {$IFNDEF OPENGL}
-procedure I_FindWindowSize;
+procedure I_FindWindowSize(const mode: integer);
 {$ENDIF}
 
 procedure I_EnumDisplayModes;
 
 procedure I_ClearDisplayModes;
 
+// JVAL: Not the right place to put fullscreen modes
+const
+  FULLSCREEN_SHARED = 0;
+  FULLSCREEN_EXCLUSIVE = 1;
+  FULLSCREEN_OFF = 2;
+  NUMFULLSCREEN_MODES = 3;
+
 implementation
 
 uses
   Windows,
   d_delphi,
-  doomdef;
+  doomdef,
+  r_hires,
+  i_system;
 
 procedure SortDisplayModes;
 
@@ -211,13 +220,20 @@ begin
 end;
 
 {$IFNDEF OPENGL}
-procedure I_FindWindowSize;
+procedure I_FindWindowSize(const mode: integer);
 var
   i: integer;
   dist: double;
   mindist: double;
   idx: integer;
 begin
+  if mode = FULLSCREEN_SHARED then
+  begin
+    WINDOWWIDTH := I_ScreenWidth;
+    WINDOWHEIGHT := I_ScreenHeight;
+    exit;
+  end;
+
   for i := 0 to numdisplaymodes - 1 do
     if displaymodes[i].width = SCREENWIDTH then
       if displaymodes[i].height = SCREENHEIGHT then

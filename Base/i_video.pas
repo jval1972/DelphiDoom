@@ -44,7 +44,7 @@ uses
 // and sets up the video mode
 procedure I_InitGraphics;
 
-procedure I_ChangeFullScreen;
+procedure I_ChangeFullScreen(const newmode: integer);
 
 procedure I_ShutDownGraphics;
 
@@ -56,8 +56,6 @@ procedure IV_SetPalette(const palette: PByteArray);
 procedure I_FinishUpdate;
 
 procedure I_ReadScreen32(dest: pointer);
-
-procedure I_RestoreWindowPos;
 
 procedure I_SetPalette64;
 
@@ -95,9 +93,13 @@ var
   screen: PLongWordArray;
   oscreen: pointer;
 
-procedure I_RestoreWindowPos;
+procedure I_RestoreWindowPos(const mode: integer);
 begin
-  SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW);
+  SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW)
+{  if mode in [FULLSCREEN_EXCLUSIVE, FULLSCREEN_OFF] then
+    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW)
+  else
+    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, I_ScreenWidth, I_ScreenHeight, SWP_SHOWWINDOW);}
 end;
 
 procedure I_DisableAltTab;
@@ -600,7 +602,7 @@ begin
   UpdateWindow(hMainWnd);
 
   printf('I_InitGraphics: Initializing directdraw.'#13#10);
-  
+
   I_EnumDisplayModes;
   
   fu8_64a := TDThread.Create(I_FinishUpdate8_64a);
@@ -627,9 +629,11 @@ begin
   if hres <> DD_OK then
     I_ErrorInitGraphics('DirectDrawCreateEx');
 
-  if fullscreen then
+  fullscreen := fullscreen mod NUMFULLSCREEN_MODES;
+
+  if fullscreen = FULLSCREEN_EXCLUSIVE then
   begin
-    I_FindWindowSize;
+    I_FindWindowSize(fullscreen);
 
     // Get exclusive mode
     hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_ALLOWMODEX or DDSCL_EXCLUSIVE or DDSCL_FULLSCREEN);
@@ -641,10 +645,10 @@ begin
     if hres <> DD_OK then
     begin
     // Fullscreen mode failed, trying window mode
-      fullscreen := false;
+      fullscreen := FULLSCREEN_SHARED;
 
       I_AdjustWindowMode;
-      I_RestoreWindowPos;
+      I_RestoreWindowPos(fullscreen);
 
       I_Warning('SetDisplayMode(): Failed to fullscreen %dx%dx%d, trying window mode...'#13#10,
         [WINDOWWIDTH, WINDOWHEIGHT, 32]);
@@ -668,9 +672,9 @@ begin
   end
   else
   begin
-    I_FindWindowSize;
+    I_FindWindowSize(fullscreen);
     I_AdjustWindowMode;
-    I_RestoreWindowPos;
+    I_RestoreWindowPos(fullscreen);
 
 
     hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
@@ -748,7 +752,7 @@ const
     (1920, 1080), (1366, 768), (1280, 1024), (1280, 800), (1024, 768), (800, 600), (640, 480), (600, 400), (512, 384), (400, 300), (320, 200)
   );
 
-procedure I_ChangeFullScreen;
+procedure I_ChangeFullScreen(const newmode: integer);
 
   procedure I_ChangeFullScreenError(full: boolean);
   begin
@@ -764,7 +768,7 @@ var
   i: integer;
 
 begin
-  if fullscreen then
+  if newmode in [FULLSCREEN_SHARED, FULLSCREEN_OFF] then
   begin
     hres := g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
     if hres <> DD_OK then
@@ -772,9 +776,6 @@ begin
       I_ChangeFullScreenError(false);
       exit;
     end;
-    I_FindWindowSize;
-    I_AdjustWindowMode;
-    I_RestoreWindowPos;
   end
   else
   begin
@@ -784,15 +785,19 @@ begin
       I_ChangeFullScreenError(true);
       exit;
     end;
-    I_FindWindowSize;
-    I_AdjustWindowMode;
-    I_RestoreWindowPos;
   end;
 
   WINDOWWIDTH := SCREENWIDTH;
   WINDOWHEIGHT := SCREENHEIGHT;
 
-  hres := g_pDD.SetDisplayMode(WINDOWWIDTH, WINDOWHEIGHT, 32, 0, 0);
+  I_FindWindowSize(newmode);
+  I_AdjustWindowMode;
+  I_RestoreWindowPos(newmode);
+
+  if newmode = FULLSCREEN_EXCLUSIVE then
+    hres := g_pDD.SetDisplayMode(WINDOWWIDTH, WINDOWHEIGHT, 32, 0, 0)
+  else
+    hres := g_pDD.SetDisplayMode(NATIVEWIDTH, NATIVEHEIGHT, 32, 0, 0);
   if hres <> DD_OK then
   begin
 
@@ -817,9 +822,9 @@ begin
     hres := g_pDD.SetDisplayMode(WINDOWWIDTH, WINDOWHEIGHT, 32, 0, 0);
     if hres <> DD_OK then
     begin
-      I_ChangeFullScreenError(fullscreen);
+      I_ChangeFullScreenError(fullscreen <> FULLSCREEN_OFF);
       // Restore original window state
-      if fullscreen then
+      if fullscreen = FULLSCREEN_EXCLUSIVE then
         g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_EXCLUSIVE or DDSCL_FULLSCREEN)
       else
         g_pDD.SetCooperativeLevel(hMainWnd, DDSCL_NORMAL);
@@ -827,13 +832,13 @@ begin
     end;
   end;
 
-  if fullscreen then
+{  if newmode = FULLSCREEN_EXCLUSIVE then
   begin
-    I_FindWindowSize;
-    I_RestoreWindowPos;
+    I_FindWindowSize(newmode);
+    I_RestoreWindowPos(newmode);
     g_pDD.RestoreDisplayMode;
-  end;
-  fullscreen := not fullscreen;
+  end;}
+  fullscreen := newmode;
 
   ZeroMemory(@ddsd, SizeOf(ddsd));
   ddsd.dwSize := SizeOf(ddsd);

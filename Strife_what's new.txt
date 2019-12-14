@@ -73,6 +73,32 @@ Bug fix: Solve issue with A_SpawnItem & A_SpawnItemEx in sectors with 3d floors.
 Eliminated problems with voxel frames without a corresponding sprite in the wad.
 Fixed problem with KVX voxels in software rendering mode.
 Eliminated problems with transparent drawing when the software renderer activates dephtbuffer (3d floors).
+Changed mirrorjpgsshot console variable default value to false.
+Corrected color overflow in renderstyle add (32 bit color software rendering).
+Shared or exclusive fullscreen mode (as suggested by @khorus).
+Function parameters in ACTORDEF evaluate expressions using C style operators.
+  Supported operators:
+     +, -, *, /, |, &, ^
+  Supported functions:
+  // Math Functions
+     ABS MIN MAX EXP LOG LOG10 LOG2 CEIL FLOOR ROUND TRUNC INT SQR SQRT FRAC POWER
+  // Trigonometry Functions
+     SIN COS TAN ASIN ACOS ATAN SINH COSH TANH ATAN2 VECTORANGLE
+  // Flow
+     IF(bool condition; whentrue; whenfalse) IFF (alias for IF)
+  // Ramdom functions
+     RAND RANDOM RANDOM2 FLOATRANDOM FRANDOM (alias for FLOATRANDOM) RANDOMPICK FRANDOMPICK
+  // Actor position and movement
+     X Y Z MOMX VELX MOMY VELY MOMZ VELZ FLOORZ CEILINGZ ANGLE
+  // Actor properties
+     RADIUS HEIGHT ALPHA HEALTH REACTIONTIME THRESHOLD FASTCHASETICS KEY (Unique mobj key) FLOORCLIP
+  // Pascalscript map & world variables (PascalScript communication)
+     MAPSTR WORLDSTR MAPINT WORLDINT MAPFLOAT WORLDFLOAT
+  // Custom params (Custom integer variables on per instance basis)
+     CUSTOMPARAM PARAM TARGETCUSTOMPARAM TARGETPARAM
+  // States
+     SPAWN SEE MELEE MISSILE PAIN DEATH XDEATH HEAL CRASH INTERACT (Doom and Strife branch only) RAISE
+Added "freeze" console command, freezes the game, stop all thinkers, stop all scripts. Allow only the players to move. It has no effect while demo playback/record.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

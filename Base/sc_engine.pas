@@ -99,8 +99,17 @@ type
     property ParenthesisLevel: integer read fParenthesisLevel;
   end;
 
-function RemoveLineQuotes(const sctext: string): string;
+function SC_RemoveLineQuotes(const sctext: string): string;
 
+function SC_RemoveLineComments(const inp: string): string;
+
+function SC_FixParenthesisLevel(const inp: string): string;
+
+function SC_ParamsToList(inp: string): TDStringList;
+
+function SC_IsStringInQuotes(const s: string): boolean;
+
+function SC_TokensToList(const inp: string): TDStringList;
 
 implementation
 
@@ -604,7 +613,7 @@ begin
   end;
 end;
                           
-function RemoveLineQuotes(const sctext: string): string;
+function SC_RemoveLineQuotes(const sctext: string): string;
 var
   stmp: string;
   s: TDStringList;
@@ -629,6 +638,164 @@ begin
   finally
     s.Free;
   end;
+end;
+
+function SC_RemoveLineComments(const inp: string): string;
+var
+  i: integer;
+  inquotes: boolean;
+begin
+  result := '';
+  inquotes := false;
+  for i := 1 to Length(inp) do
+  begin
+    if inp[i] = '"' then
+      inquotes := not inquotes;
+    if not inquotes then
+      if i < length(inp) then
+        if (inp[i] = '/') and (inp[i + 1] = '/') then
+          break;
+    result := result + inp[i];
+  end;
+end;
+
+function SC_FixParenthesisLevel(const inp: string): string;
+var
+  i: integer;
+  pleft, pright: integer;
+begin
+  result := inp;
+  pleft := 0;
+  pright := 0;
+  for i := 1 to length(result) do
+    if result[i] = '(' then
+      inc(pleft)
+    else if result[i] = ')' then
+      inc(pright);
+  while pright < pleft do
+  begin
+    result := result + ')';
+    inc(pright);
+  end;
+  while pright > pleft do
+  begin
+    result := '(' + result;
+    inc(pleft);
+  end;
+end;
+
+function SC_ParamsToList(inp: string): TDStringList;
+var
+  stmp: string;
+  i: integer;
+  parenthesislevel: integer;
+  inquotes: boolean;
+  allinparenthesis: boolean;
+begin
+  result := TDStringList.Create;
+  inp := strtrim(inp);
+  if inp = '' then
+    exit;
+
+  if (inp[1] = '(') and (inp[length(inp)] = ')') then
+  begin
+    allinparenthesis := true;
+    parenthesislevel := 0;
+    for i := 2 to length(inp) - 1 do
+    begin
+      if inp[i] = '(' then
+        inc(parenthesislevel)
+      else if inp[i] = ')' then
+        dec(parenthesislevel);
+      if parenthesislevel < 0 then
+      begin
+        allinparenthesis := false;
+        break;
+      end;
+    end;
+    if allinparenthesis then
+    begin
+      inp[1] := ' ';
+      inp[length(inp)] := ' ';
+      inp := strtrim(inp);
+      if inp = '' then
+        exit;
+    end;
+  end;
+
+  parenthesislevel := 0;
+  inquotes := false;
+  stmp := '';
+
+  for i := 1 to Length(inp) do
+  begin
+    if inp[i] = ',' then
+      if not inquotes and (parenthesislevel = 0) then
+      begin
+        stmp := strtrim(stmp);
+        if stmp <> '' then
+        begin
+          result.Add(stmp);
+          stmp := '';
+        end;
+        continue;
+      end;
+    stmp := stmp + inp[i];
+    if inp[i] = '(' then
+      inc(parenthesislevel)
+    else if inp[i] = ')' then
+    begin
+      dec(parenthesislevel);
+      if parenthesislevel < 0 then
+      begin
+        //I_Warning ....
+        parenthesislevel := 0;
+      end;
+    end else if inp[i] = '"' then
+      inquotes := not inquotes;
+  end;
+  stmp := strtrim(stmp);
+  if stmp <> '' then
+    result.Add(stmp);
+end;
+
+function SC_IsStringInQuotes(const s: string): boolean;
+var
+  i: integer;
+begin
+  if Length(s) < 2 then
+  begin
+    result := false;
+    exit;
+  end;
+  if not (s[1] in ['''', '"']) then
+  begin
+    result := false;
+    exit;
+  end;
+  if s[1] <> s[length(s)] then
+  begin
+    result := false;
+    exit;
+  end;
+  for i := 2 to Length(s) - 1 do
+    if s[i] = s[1] then
+    begin
+      result := false;
+      exit;
+    end;
+  result := true;
+end;
+
+function SC_TokensToList(const inp: string): TDStringList;
+var
+  sc: TScriptEngine;
+begin
+  result := TDStringList.Create;
+  sc := TScriptEngine.Create(inp);
+  while sc.GetString do
+    result.Add(sc._string);
+  sc.Free;
 end;
 
 end.

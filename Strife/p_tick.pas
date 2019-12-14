@@ -67,6 +67,7 @@ procedure P_Ticker;
 var
   leveltime: integer;
   isgamesuspended: boolean = true;
+  isgamefreezed: boolean = false;
 
 implementation
 
@@ -133,21 +134,45 @@ var
   currentthinker: Pthinker_t;
 begin
   currentthinker := thinkercap.next;
-  while currentthinker <> @thinkercap do
+  if isgamefreezed then
   begin
-    if @currentthinker._function.acv = @_removethinker then
+    while currentthinker <> @thinkercap do
     begin
-      // time to remove it
-      currentthinker.next.prev := currentthinker.prev;
-      currentthinker.prev.next := currentthinker.next;
-      Z_Free(currentthinker);
-    end
-    else
-    begin
-      if Assigned(currentthinker._function.acp1) then
-        currentthinker._function.acp1(currentthinker);
+      if @currentthinker._function.acv = @_removethinker then
+      begin
+        // time to remove it
+        currentthinker.next.prev := currentthinker.prev;
+        currentthinker.prev.next := currentthinker.next;
+        Z_Free(currentthinker);
+      end
+      else
+      begin
+        if Assigned(currentthinker._function.acp1) then
+          if @currentthinker._function.acp1 = @P_MobjThinker then
+            if Pmobj_t(currentthinker).player <> nil then
+              currentthinker._function.acp1(currentthinker);
+      end;
+      currentthinker := currentthinker.next;
     end;
-    currentthinker := currentthinker.next;
+  end
+  else
+  begin
+    while currentthinker <> @thinkercap do
+    begin
+      if @currentthinker._function.acv = @_removethinker then
+      begin
+        // time to remove it
+        currentthinker.next.prev := currentthinker.prev;
+        currentthinker.prev.next := currentthinker.next;
+        Z_Free(currentthinker);
+      end
+      else
+      begin
+        if Assigned(currentthinker._function.acp1) then
+          currentthinker._function.acp1(currentthinker);
+      end;
+      currentthinker := currentthinker.next;
+    end;
   end;
 end;
 
@@ -186,18 +211,24 @@ begin
     if playeringame[i] then
       P_PlayerThink(@players[i]);
 
+  if demoplayback or demorecording then
+    isgamefreezed := false;
+
   P_RunThinkers;
-  P_UpdateSpecials;
-  P_RespawnSpecials;
-
-  // JVAL: Script Events
-  PS_EventTick(leveltime);
-
-  if leveltime mod TICRATE = 0 then
+  if not isgamefreezed then
   begin
-    PS_EventTimerEverySecond(leveltime div TICRATE);
-    if leveltime mod (60 * TICRATE) = 0 then
-      PS_EventTimerEveryMinute(leveltime div (60 * TICRATE));
+    P_UpdateSpecials;
+    P_RespawnSpecials;
+
+    // JVAL: Script Events
+    PS_EventTick(leveltime);
+
+    if leveltime mod TICRATE = 0 then
+    begin
+      PS_EventTimerEverySecond(leveltime div TICRATE);
+      if leveltime mod (60 * TICRATE) = 0 then
+        PS_EventTimerEveryMinute(leveltime div (60 * TICRATE));
+    end;
   end;
 
   // for par times

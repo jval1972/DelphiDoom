@@ -135,6 +135,7 @@ uses
   mt_utils,
   i_system,
   i_video,
+  i_displaymodes,
   v_video,
 {$ENDIF}
   r_main,
@@ -342,6 +343,7 @@ begin
 end;
 
 procedure R_CmdFullScreen(const parm1: string = '');
+{$IFDEF OPENGL}
 var
   newfullscreen: boolean;
 begin
@@ -358,13 +360,37 @@ begin
   newfullscreen := C_BoolEval(parm1, fullscreen);
 
   if newfullscreen <> fullscreen then
-  {$IFDEF OPENGL}
     GL_ChangeFullScreen(newfullscreen);
-  {$ELSE}
-    I_ChangeFullScreen;
-  {$ENDIF}
   R_CmdFullScreen;
 end;
+{$ELSE}
+var
+  newfullscreen: integer;
+  check: string;
+begin
+  if parm1 = '' then
+  begin
+    printf('Current setting: fullscreen = ');
+    if fullscreen = FULLSCREEN_OFF then
+      printf('false.'#13#10)
+    else
+      printf('true(' + decide(fullscreen = FULLSCREEN_SHARED, 'shared', 'exclusive') + ').'#13#10);
+    exit;
+  end;
+
+  check := strupper(parm1);
+  if (check = 'EXCLUSIVE') or (check = 'FULLSCREEN_EXCLUSIVE') or (check = '1') then
+    newfullscreen := FULLSCREEN_EXCLUSIVE
+  else if (check = 'SHARED') or (check = 'FULLSCREEN_SHARED') or (check = '0') or (check = 'YES') or (check = 'TRUE') then
+    newfullscreen := FULLSCREEN_SHARED
+  else
+    newfullscreen := FULLSCREEN_OFF;
+
+  if newfullscreen <> fullscreen then
+    I_ChangeFullScreen(newfullscreen);
+  R_CmdFullScreen;
+end;
+{$ENDIF}
 
 procedure R_CmdExtremeflatfiltering(const parm1: string = '');
 var

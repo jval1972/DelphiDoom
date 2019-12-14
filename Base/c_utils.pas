@@ -43,6 +43,7 @@ uses
 {$ELSE}
   i_video,
 {$ENDIF}
+  i_displaymodes,
   i_system;
 
 procedure C_CmdDir(const parm1, parm2: string);
@@ -123,11 +124,11 @@ end;
 
 procedure C_CmdGoToWebPage(const parm: string);
 begin
-  if fullscreen then
+  if fullscreen {$IFNDEF OPENGL}= FULLSCREEN_EXCLUSIVE {$ENDIF} then
   {$IFDEF OPENGL}
     GL_ChangeFullScreen(false);
   {$ELSE}
-    I_ChangeFullScreen;
+    I_ChangeFullScreen(FULLSCREEN_SHARED);
   {$ENDIF}
   I_GoToWebPage(parm);
 end;

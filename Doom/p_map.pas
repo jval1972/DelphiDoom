@@ -875,9 +875,6 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
-  midsec: Psector_t; // JVAL: 3d floors
-  delta1, delta2, rr: integer;
-  thingtop: integer;
 begin
   tmthing := thing;
   tmflags := thing.flags;
@@ -898,25 +895,9 @@ begin
   // Any contacted lines the step closer together
   // will adjust them.
   // JVAL 20191209 - Fix 3d floor problems with A_SpawnItem & A_SpawnItemEx
-  tmdropoffz := P_3dFloorHeight(newsubsec.sector, x, y, thing.z); // P_FloorHeight(newsubsec.sector, x, y); // JVAL: Slopes
+  tmdropoffz := P_3dFloorHeight(newsubsec.sector, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
-  tmceilingz := P_3dCeilingHeight(newsubsec.sector, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector); // P_CeilingHeight(newsubsec.sector, x, y) + P_SectorJumpOverhead(newsubsec.sector);
-
-{  if newsubsec.sector.midsec >= 0 then  // JVAL: 3d floors
-  begin
-    thingtop := thing.z + thing.height;
-    midsec := @sectors[newsubsec.sector.midsec];
-    rr := (midsec.floorheight + midsec.ceilingheight) div 2;
-    delta1 := abs(thing.z - rr);
-    delta2 := abs(thingtop - rr);
-    if (midsec.ceilingheight > tmfloorz) and (delta1 < delta2) then
-    begin
-      tmdropoffz := midsec.ceilingheight;
-      tmfloorz := tmdropoffz;
-    end;
-    if (midsec.floorheight < tmceilingz) and (delta1 >= delta2) then
-      tmceilingz := midsec.floorheight;
-  end;}
+  tmceilingz := P_3dCeilingHeight(newsubsec.sector, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector);
 
   inc(validcount);
   numspechit := 0;

@@ -247,8 +247,8 @@ begin
     if g > 255 then
       g := 255;
     b := b2 + b1;
-    if g > 255 then
-      g := 255;
+    if b > 255 then
+      b := 255;
 
     destl^ := r + g shl 8 + b shl 16;
 

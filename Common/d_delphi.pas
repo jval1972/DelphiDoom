@@ -97,6 +97,9 @@ type
   TFloatArray = packed array[0..$7FFF] of float;
   PFloatArray = ^TFloatArray;
 
+  TObjectArray = packed array[0..$7FFF] of TObject;
+  PObjectArray = ^TObjectArray;
+
 type
   charset_t = set of char;
 
@@ -690,6 +693,8 @@ procedure QSortFloats(const A: PFloatArray; const Len: integer);
 
 function StrIsInteger(const s: string): Boolean;
 
+function StrIsLongWord(const s: string): Boolean;
+
 function StrIsFloat(const s: string): Boolean;
 
 function SaveStreamToFile(const s: TDStream; const fname: string): boolean;
@@ -703,6 +708,10 @@ function RightStr(const s: string; const l: integer): string;
 function fixpathname(const s: string): string;
 
 procedure logtofile(const fname: string; const str: string);
+
+function wordstolist(const inp: string; const splitters: charset_t): TDStringList;
+
+function RemoveQuotesFromString(const s: string): string;
 
 implementation
 
@@ -3521,10 +3530,13 @@ var
   inp1: string;
 begin
   inp1 := inp;
+  p := 0;
   for i := 1 to Length(inp1) do
     if inp1[i] in splitters then
-      inp1[i] := ' ';
-  p := Pos(' ', inp1);
+    begin
+      p := i;
+      break;
+    end;
   if p = 0 then
   begin
     out1 := inp1;
@@ -3934,6 +3946,20 @@ end;
 
 function StrIsInteger(const s: string): Boolean;
 var
+  check: string;
+begin
+  if Pos('-', s) = 1 then
+  begin
+    check := s;
+    delete(check, 1, 1);
+    result := StrIsLongWord(check)
+  end
+  else
+    result := StrIsLongWord(s);
+end;
+
+function StrIsLongWord(const s: string): Boolean;
+var
   i: integer;
 begin
   Result := False;
@@ -3949,18 +3975,25 @@ begin
   end;
 end;
 
+
 function StrIsFloat(const s: string): Boolean;
 var
   i: integer;
+  check: string;
   dot: Boolean;
 begin
   Result := False;
   dot := False;
-  for i := 1 to Length(s) do
+  check := s;
+  if check = '' then
+    exit;
+  if check[1] = '-' then
+    delete(check, 1, 1);
+  for i := 1 to Length(check) do
   begin
-    if s[i] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] then
+    if check[i] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] then
       Result := True
-    else if s[i] in ['.', ',', DecimalSeparator] then
+    else if check[i] in ['.', ',', DecimalSeparator] then
     begin
       if dot then
       begin
@@ -4092,6 +4125,45 @@ begin
   {$I-}
   BlockWrite(f, Pointer(str)^, Length(str));
   close(f);
+end;
+
+function wordstolist(const inp: string; const splitters: charset_t): TDStringList;
+var
+  i: integer;
+  stmp: string;
+begin
+  result := TDStringList.Create;
+  stmp := '';
+  for i := 1 to length(inp) do
+  begin
+    if inp[i] in splitters then
+    begin
+      stmp := strtrim(stmp);
+      if stmp <> '' then
+      begin
+        result.Add(stmp);
+        stmp := '';
+      end;
+    end
+    else
+      stmp := stmp + inp[i];
+  end;
+  if stmp <> '' then
+  begin
+    result.Add(stmp);
+    stmp := '';
+  end;
+end;
+
+function RemoveQuotesFromString(const s: string): string;
+begin
+  Result := s;
+  if Result = '' then
+    Exit;
+  if Result[1] = '"' then
+    Delete(Result, 1, 1);
+  if (Result <> '') and (Result[Length(Result)] = '"') then
+    Delete(Result, Length(Result), 1);
 end;
 
 end.

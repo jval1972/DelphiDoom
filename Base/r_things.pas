@@ -2076,7 +2076,8 @@ begin
     // draw all vissprites back to front
     if uselightboost and (videomode = vm32bit) then
     begin
-      if depthbufferactive then
+      // 32bit color
+      if depthbufferactive or false then
       begin
         // Front to back opaque
         for i := vissprite_p - 1 downto 0 do
@@ -2107,14 +2108,15 @@ begin
     end
     else
     begin
-      if depthbufferactive then
+      // 8bit color
+      if depthbufferactive or false then
       begin
         // Front to back opaque
-        for i := 0 to vissprite_p - 1 do
+        for i := vissprite_p - 1 downto 0 do
           if vissprites[i].renderflags and VSF_TRANSPARENCY = 0 then
             R_DrawSprite(vissprites[i]);
         // Back to front transparent
-        for i := vissprite_p - 1 downto 0 do
+        for i := 0 to vissprite_p - 1 do
           if vissprites[i].renderflags and VSF_TRANSPARENCY <> 0 then
             R_DrawSprite(vissprites[i]);
       end
