@@ -40,7 +40,7 @@ type
   TExtFunc = function(p: TDStrings): string;
 
 type
-  TEvalFunction = class
+  TEvalFunction = class(TObject)
   private
     FName: string;
     FNumParams: integer;
@@ -56,7 +56,7 @@ type
   end;
 
 type
-  TEvalList = class
+  TEvalList = class(TObject)
   private
     fList: PObjectArray;
     fNumItems: integer;
@@ -73,7 +73,6 @@ type
     function Delete(const Index: integer): boolean;
     function IndexOf(const value: TObject): integer; virtual;
     procedure Clear;
-    procedure FastClear;
     property Count: integer read fNumItems;
     property Objects[Index: Integer]: TObject read Get write Put;
     property List: PObjectArray read fList;
@@ -161,8 +160,8 @@ type
     destructor Destroy; override;
     function Value: string;
     function EvaluateExpression(const aexpr: string): string;
-    procedure AddFunc(aname: string; afunc: TObjFunc; anump: integer); overload;
-    procedure AddFunc(aname: string; afunc: TExtFunc; anump: integer); overload;
+    procedure AddFunc(aname: string; afunc: TObjFunc; anump: integer); overload; virtual;
+    procedure AddFunc(aname: string; afunc: TExtFunc; anump: integer); overload; virtual; 
   end;
 
 const
@@ -343,6 +342,7 @@ end;
 // TEvalFunction
 constructor TEvalFunction.Create(aname: string; afunc: TObjFunc; anum: integer);
 begin
+  Inherited Create;
   Name := aname;
   FEvalObjFunc := afunc;
   FEvalFunc := nil;
@@ -351,6 +351,7 @@ end;
 
 constructor TEvalFunction.Create(aname: string; afunc: TExtFunc; anum: integer);
 begin
+  Inherited Create;
   Name := aname;
   FEvalObjFunc := nil;
   FEvalFunc := afunc;
@@ -392,6 +393,7 @@ end;
 // TEvalList
 constructor TEvalList.Create;
 begin
+  Inherited;
   fList := nil;
   fNumItems := 0;
   fRealNumItems := 0;
@@ -400,6 +402,7 @@ end;
 destructor TEvalList.Destroy;
 begin
   Clear;
+  Inherited;
 end;
 
 function TEvalList.Get(Index: Integer): TObject;
@@ -429,7 +432,7 @@ begin
       newrealitems := fRealNumItems + 32
     else
       newrealitems := fRealNumItems + 64;
-    realloc(pointer(fList), fRealNumItems * SizeOf(TObject), newrealitems * SizeOf(integer));
+    realloc(pointer(fList), fRealNumItems * SizeOf(TObject), newrealitems * SizeOf(TObject));
     fRealNumItems := newrealitems;
   end;
 end;
@@ -500,15 +503,11 @@ begin
   fRealNumItems := 0;
 end;
 
-procedure TEvalList.FastClear;
-begin
-  fNumItems := 0;
-end;
-
 ////////////////////////////////////////////////////////////////////////////////
 // TEvaluator
 constructor TEvaluator.Create;
 begin
+  inherited Create;
   FRoot := nil;
   FExpr := '';
   FFindVar := nil;
@@ -550,7 +549,6 @@ begin
   AddFunc('TANH', PF_tanh, 1);
   AddFunc('ATAN2', PF_atan2, 2);
   AddFunc('VECTORANGLE', PF_VectorAngle, 2);
-  inherited
 end;
 
 destructor TEvaluator.Destroy;

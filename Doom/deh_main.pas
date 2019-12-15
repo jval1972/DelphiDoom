@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 247;
+  DEHNUMACTIONS = 248;
 
 type
   deh_action_t = record
@@ -583,6 +583,7 @@ begin
                   mobj_setflag := -1;
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    token3 := strtrim(token3);
                     mobj_flag := mobj_flags_ex.IndexOf('MF_EX_' + token3);
                     if mobj_flag = -1 then
                       mobj_flag := mobj_flags_ex.IndexOf('MF_' + token3);
@@ -595,7 +596,7 @@ begin
                       mobj_flag := _SHL(1, mobj_flag);
                       mobj_setflag := mobj_setflag or mobj_flag;
                     end;
-                    token2 := token4;
+                    token2 := strtrim(token4);
                   until token2 = '';
                   if mobj_setflag <> -1 then
                     mobjinfo[mobj_no].flags_ex := mobj_setflag;
@@ -1698,8 +1699,7 @@ begin
     if str <> '' then
     begin
       if states[i].params <> nil then
-        for j := 0 to states[i].params.Count - 1 do
-          str := str + ' ' + states[i].params.Declaration[j];  // Add the parameter list
+        str := str + ' ' + states[i].params.Declaration;  // Add the parameter list
       result.Add('%s = %s', [capitalizedstring(state_tokens[4]), str]);
     end;
 
@@ -2797,6 +2797,9 @@ begin
   deh_actions[246].action.acp1 := @A_ChangeVelocity;
   deh_actions[246].name := strupper('ChangeVelocity');
   {$IFDEF DLL}deh_actions[246].decl := 'A_ChangeVelocity(velx: float, vely: float, velz: float, flags: float)';{$ENDIF}
+  deh_actions[247].action.acp1 := @A_JumpIf;
+  deh_actions[247].name := strupper('JumpIf');
+  {$IFDEF DLL}deh_actions[247].decl := 'A_JumpIf(propability: boolean, offset: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

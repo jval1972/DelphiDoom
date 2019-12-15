@@ -39,6 +39,10 @@ procedure SC_ShutDownActorEvaluator;
 
 function SC_EvaluateActorExpression(const actor: Pmobj_t; const aexpr: string): string;
 
+procedure SC_DeclareActorEvaluatorSingleToken(const token: string);
+
+function SC_IsActorEvaluatorSingleToken(const token: string): boolean;
+
 implementation
 
 uses
@@ -60,6 +64,9 @@ type
     factor: Pmobj_t;
     // Random functions
     function PF_rand(p: TDStrings): string;
+    {$IFNDEF HEXEN}
+    function PF_sysrand(p: TDStrings): string;
+    {$ENDIF}
     function PF_random(p: TDStrings): string;
     function PF_random2(p: TDStrings): string;
     function PF_frandom(p: TDStrings): string;
@@ -111,6 +118,8 @@ type
   public
     constructor Create; override;
     function EvaluateActor(const actor: pmobj_t; const aexpr: string): string;
+    procedure AddFunc(aname: string; afunc: TObjFunc; anump: integer); overload; override;
+    procedure AddFunc(aname: string; afunc: TExtFunc; anump: integer); overload; override;
   end;
 
 
@@ -121,6 +130,9 @@ begin
   Inherited Create;
   // Ramdom functions
   AddFunc('RAND', PF_rand, 0);
+  {$IFNDEF HEXEN}
+  AddFunc('SYSRAND', PF_sysrand, -1);
+  {$ENDIF}
   AddFunc('RANDOM', PF_random, -1);
   AddFunc('RANDOM2', PF_random2, -1);
   AddFunc('FLOATRANDOM', PF_frandom, -1);
@@ -178,11 +190,46 @@ begin
   AddFunc('RAISE', PF_RAISE, 0);
 end;
 
+procedure TActorEvaluator.AddFunc(aname: string; afunc: TObjFunc; anump: integer);
+begin
+  if anump = 0 then
+    SC_DeclareActorEvaluatorSingleToken(aname);
+  Inherited;
+end;
+
+procedure TActorEvaluator.AddFunc(aname: string; afunc: TExtFunc; anump: integer);
+begin
+  if anump = 0 then
+    SC_DeclareActorEvaluatorSingleToken(aname);
+  Inherited;
+end;
+
 // Ramdom functions
 function TActorEvaluator.PF_rand(p: TDStrings): string;
 begin
   result := ftoa(P_Random / 255);
 end;
+
+{$IFNDEF HEXEN}
+function TActorEvaluator.PF_sysrand(p: TDStrings): string;
+var
+  f1, f2: float;
+begin
+  if p.Count = 0 then
+    result := itoa(Sys_Random)
+  else if p.Count = 1 then
+  begin
+    f1 := atof(p[0]);
+    result := itoa(Sys_Random * round(f1) div 256)
+  end
+  else
+  begin
+    f1 := atof(p[0]);
+    f2 := atof(p[1]);
+    result := itoa(round(f1) + Sys_Random * (round(f2) - round(f1) + 1) div 256);
+  end;
+end;
+{$ENDIF}
 
 function TActorEvaluator.PF_random(p: TDStrings): string;
 var
@@ -468,20 +515,44 @@ end;
 
 var
   actorevaluator: TActorEvaluator;
+  actorevaluatorsingletokens: TDStringList;
 
 procedure SC_InitActorEvaluator;
 begin
+  actorevaluatorsingletokens := TDStringList.Create;
   actorevaluator := TActorEvaluator.Create;
 end;
 
 procedure SC_ShutDownActorEvaluator;
 begin
   actorevaluator.Free;
+  actorevaluatorsingletokens.Free;
 end;
 
 function SC_EvaluateActorExpression(const actor: Pmobj_t; const aexpr: string): string;
 begin
-  Result := actorevaluator.EvaluateActor(actor, aexpr);
+  try
+    Result := actorevaluator.EvaluateActor(actor, aexpr);
+  except
+    result := aexpr;
+  end;
+end;
+
+procedure SC_DeclareActorEvaluatorSingleToken(const token: string);
+var
+  check: string;
+begin
+  check := strupper(token);
+  if actorevaluatorsingletokens.IndexOf(check) < 0 then
+    actorevaluatorsingletokens.Add(check);
+end;
+
+function SC_IsActorEvaluatorSingleToken(const token: string): boolean;
+var
+  check: string;
+begin
+  check := strupper(token);
+  result := actorevaluatorsingletokens.IndexOf(check) >= 0;
 end;
 
 end.

@@ -330,7 +330,9 @@ uses
   r_renderstyle in 'Base\r_renderstyle.pas',
   vx_voxelsprite in 'Base\vx_voxelsprite.pas',
   w_wadwriter in 'Base\w_wadwriter.pas',
-  m_sha1 in 'Base\m_sha1.pas';
+  m_sha1 in 'Base\m_sha1.pas',
+  sc_evaluate_actor in 'Base\sc_evaluate_actor.pas',
+  sc_evaluate in 'Base\sc_evaluate.pas';
 
 var
   Saved8087CW: Word;

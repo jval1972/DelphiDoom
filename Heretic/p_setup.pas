@@ -1181,9 +1181,10 @@ begin
   totalsecret := 0;
 
   isgamefreezed := false;
-  
+
+  sysrndseed := I_Random;
   if (not preparingdemoplayback) then
-    rnd_monster_seed := I_Random;
+    rnd_monster_seed := sysrndseed;
 
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
@@ -1320,6 +1321,7 @@ begin
 {$IFNDEF OPENGL}
   R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
 {$ENDIF}
+
   P_SlopesSetup;// JVAL: Slopes
 
   P_SetupSectorAffectees;

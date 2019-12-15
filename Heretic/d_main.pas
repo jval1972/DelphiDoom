@@ -1524,13 +1524,13 @@ begin
 
   p := M_CheckParm('-fullscreen');
   if (p <> 0) and (p <= myargc - 1) then
-    fullscreen := FULLSCREEN_SHARED;
+    fullscreen := {$IFDEF OPENGL}true{$ELSE}FULLSCREEN_SHARED{$ENDIF};
 
   p := M_CheckParm('-nofullscreen');
   if p = 0 then
     p := M_CheckParm('-windowed');
   if (p <> 0) and (p <= myargc - 1) then
-    fullscreen := FULLSCREEN_OFF;
+    fullscreen := {$IFDEF OPENGL}false{$ELSE}FULLSCREEN_OFF{$ENDIF};
 
   p := M_CheckParm('-zaxisshift');
   if (p <> 0) and (p <= myargc - 1) then

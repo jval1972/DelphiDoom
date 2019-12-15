@@ -78,8 +78,8 @@ type
     function GetFloat(index: integer): single; virtual;
     procedure PutFloat(index: integer; const value: single); virtual;
     function GetFixed(index: integer): fixed_t; virtual;
+    function GetBool(index: integer): boolean; virtual;
     function GetString(index: integer): string; virtual;
-    function GetDeclaration(index: integer): string; virtual;
   public
     constructor Create(const tx: string); virtual;
     destructor Destroy; override;
@@ -89,8 +89,9 @@ type
     property IntVal[index: integer]: integer read GetInteger write PutInteger;
     property FloatVal[index: integer]: single read GetFloat write PutFloat;
     property FixedVal[index: integer]: fixed_t read GetFixed;
+    property BoolVal[index: integer]: boolean read GetBool;
     property StrVal[index: integer]: string read GetString;
-    property Declaration[index: integer]: string read GetDeclaration;
+    property Declaration: string read fdeclaration;
     property Actor: pointer read fActor write fActor;
   end;
 
@@ -207,7 +208,10 @@ begin
         end
         else
         begin
-          AddParam(GLBF_EVALUATE, lst[i]);
+          if (lstparam.Count = 1) and not SC_IsActorEvaluatorSingleToken(lstparam[0]) then
+            AddParam(0, lstparam[0])
+          else
+            AddParam(GLBF_EVALUATE, lst[i]);
         end;
 
       end;
@@ -561,6 +565,14 @@ begin
     result := 0;
 end;
 
+function TCustomParamList.GetBool(index: integer): boolean;
+var
+  ret: string;
+begin
+  ret := SC_EvaluateActorExpression(fActor, fList[index].s_param);
+  result := ret = 'TRUE';
+end;
+
 function TCustomParamList.GetString(index: integer): string;
 var
   parm: Pmobjcustomparam_t;
@@ -607,11 +619,6 @@ begin
   end
   else
     result := '';
-end;
-
-function TCustomParamList.GetDeclaration(index: integer): string;
-begin
-  result := fdeclaration;
 end;
 
 end.

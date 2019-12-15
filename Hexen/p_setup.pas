@@ -1231,7 +1231,7 @@ begin
   S_Start;
 
   MT_WaitTasks;
-  
+
   Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
 {$IFDEF OPENGL}
@@ -1348,6 +1348,7 @@ begin
 {$IFNDEF OPENGL}
   R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
 {$ENDIF}
+
   P_SlopesSetup;// JVAL: Slopes
 
   P_SetupSectorAffectees;

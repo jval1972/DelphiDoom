@@ -645,13 +645,13 @@ end;
 procedure A_JumpIf(actor: Pmobj_t);
 var
   offset: integer;
-  boolret: string;
+  boolret: boolean;
 begin
   if not P_CheckStateParams(actor, 2) then
     exit;
 
-  boolret := actor.state.params.StrVal[0];
-  if boolret = 'TRUE' then
+  boolret := actor.state.params.BoolVal[0];
+  if boolret then
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
     if @states[offset] <> actor.state then

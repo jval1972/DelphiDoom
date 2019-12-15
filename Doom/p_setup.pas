@@ -1687,8 +1687,9 @@ begin
 
   isgamefreezed := false;
 
+  sysrndseed := I_Random;
   if not preparingdemoplayback then
-    rnd_monster_seed := I_Random;
+    rnd_monster_seed := sysrndseed;
 
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
