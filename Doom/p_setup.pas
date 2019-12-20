@@ -1687,9 +1687,8 @@ begin
 
   isgamefreezed := false;
 
-  sysrndseed := I_Random;
   if not preparingdemoplayback then
-    rnd_monster_seed := sysrndseed;
+    sysrndseed := I_Random;
 
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
@@ -1732,7 +1731,7 @@ begin
   printf(#13#10'-------------'#13#10);
   printf('Loading %s'#13#10, [lumpname]);
   if spawnrandommonsters then
-    printf(' Random monsters seed=%d'#13#10, [rnd_monster_seed]);
+    printf(' Random monsters seed=%d'#13#10, [sysrndseed]);
 
   UDMF_Check(lumpname);
   ND_NodesCheck(lumpname);

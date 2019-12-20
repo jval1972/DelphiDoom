@@ -2268,7 +2268,7 @@ begin
   {$IFDEF OPENGL}
   sprintf(stmp, '%s (%dx%dx32)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT]);
   {$ELSE}
-  sprintf(stmp, '%s (%dx%dx%s)', [detailStrings[detailLevel], WINDOWWIDTH, WINDOWHEIGHT, colordepths[videomode = vm32bit]]);
+  sprintf(stmp, '%s (%dx%dx%s)', [detailStrings[detailLevel], SCREENWIDTH, SCREENHEIGHT, colordepths[videomode = vm32bit]]);
   {$ENDIF}
   M_WriteWhiteText4(ppos.x, ppos.y, stmp);
 end;

@@ -283,6 +283,9 @@ var
 procedure R_SetRenderingFunctions;
 {$ENDIF}
 
+var
+  rendervalidcount: integer = 0; // Don't bother reseting this // version 205
+
 implementation
 
 uses
@@ -310,6 +313,7 @@ uses
   r_things,
   {$IFNDEF OPENGL}
   r_things_sortvissprites,
+  r_dynlights,
   {$ENDIF}
   r_plane,
   r_sky,
@@ -352,6 +356,7 @@ uses
   r_draw_additive,
   r_draw_subtractive,
   r_depthbuffer,  // JVAL: 3d Floors
+  r_zbuffer, // JVAL: version 205
   v_video,
 {$ENDIF}
   r_subsectors,
@@ -1571,9 +1576,14 @@ begin
   R_InitFlatsCache8;
   printf(#13#10 + 'R_InitFlatsCache32');
   R_InitFlatsCache32;
-  printf(#13#10 + 'R_InitDepthBuffer'#13#10); // JVAL: 3d Floors
+  printf(#13#10 + 'R_InitDepthBuffer'); // JVAL: 3d Floors
   R_InitDepthBuffer;
+  printf(#13#10 + 'R_InitZBuffer'); // JVAL: version 205
+  R_InitZBuffer;
+  printf(#13#10 + 'R_InitDynamicLights');
+  R_InitDynamicLights;
 {$ENDIF}
+  printf(#13#10);
 
   framecount := 0;
 
@@ -1635,10 +1645,14 @@ begin
   R_ShutDownFlatsCache32;
   printf(#13#10 + 'R_VoxelsDone');
   R_VoxelsDone;
-  printf(#13#10 + 'R_ShutDownDepthBuffer'#13#10); // JVAL: 3d Floors
+  printf(#13#10 + 'R_ShutDownDepthBuffer'); // JVAL: 3d Floors
   R_ShutDownDepthBuffer;
+  printf(#13#10 + 'R_ShutDownZBuffer'); // JVAL: version 205
+  R_ShutDownZBuffer;
+  printf(#13#10 + 'R_DynamicLightsDone');
+  R_DynamicLightsDone;
 {$ENDIF}
-  printf(#13#10 + 'W_ShutDownSprites'#13#10); // JVAL: Images as sprites
+  printf(#13#10 + 'W_ShutDownSprites'); // JVAL: Images as sprites
   W_ShutDownSprites; // JVAL: Images as sprites
   printf(#13#10);
 
@@ -1832,7 +1846,7 @@ end;
 var
   task_clearplanes: integer = -1;
 
-procedure R_RenderPlayerView8_MultiThread(player: Pplayer_t);
+procedure R_DoRenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_SetupFrame(player);
@@ -1885,7 +1899,7 @@ begin
   MT_ExecutePendingTask(task_clearplanes);
 end;
 
-procedure R_RenderPlayerView32_MultiThread(player: Pplayer_t);
+procedure R_DoRenderPlayerView32_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_CalcHiResTables_MultiThread;
@@ -1940,20 +1954,8 @@ begin
 end;
 {$ENDIF}
 
-procedure R_RenderPlayerView(player: Pplayer_t);
+procedure R_DoRenderPlayerView32_SingleThread(player: Pplayer_t);
 begin
-{$IFNDEF OPENGL}
-  MT_WaitTask(task_clearplanes);
-  if usemultithread then
-  begin
-    if (videomode = vm8bit) then
-      R_RenderPlayerView8_MultiThread(player)
-    else
-      R_RenderPlayerView32_MultiThread(player);
-    Exit;
-  end;
-{$ENDIF}
-
 {$IFNDEF OPENGL}
   R_Fake3DPrepare(player);
   R_CalcHiResTables_SingleThread;
@@ -2020,7 +2022,30 @@ begin
 {$IFNDEF OPENGL}
   task_clearplanes := MT_ScheduleTask(@R_InitializeVisplanes);
   MT_ExecutePendingTask(task_clearplanes);
-{$ENDIF}  
+{$ENDIF}
+end;
+
+procedure R_RenderPlayerView(player: Pplayer_t);
+begin
+  // new render validcount
+  Inc(rendervalidcount);
+
+{$IFNDEF OPENGL}
+  MT_WaitTask(task_clearplanes);
+  R_SetDrawSegFunctions;  // version 205
+  if usemultithread then
+  begin
+    if (videomode = vm8bit) then
+      R_DoRenderPlayerView8_MultiThread(player)
+    else
+      R_DoRenderPlayerView32_MultiThread(player);
+  end
+  else
+{$ENDIF}
+    R_DoRenderPlayerView32_SingleThread(player);
+{$IFNDEF OPENGL}
+  R_StopZBuffer;
+{$ENDIF}
 end;
 
 procedure R_Ticker;

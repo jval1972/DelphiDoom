@@ -223,6 +223,7 @@ uses
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Base\r_intrpl.pas',
   r_lights in 'Base\r_lights.pas',
+  r_dynlights in 'Base\r_dynlights.pas',
   r_main in 'Doom\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Doom\r_plane.pas',
@@ -349,7 +350,10 @@ uses
   w_wadwriter in 'Base\w_wadwriter.pas',
   sc_evaluate in 'Base\sc_evaluate.pas',
   sc_evaluate_actor in 'Base\sc_evaluate_actor.pas',
-  sc_globals in 'Base\sc_globals.pas';
+  sc_globals in 'Base\sc_globals.pas',
+  r_zbuffer in 'Base\r_zbuffer.pas',
+  r_softlights in 'Base\r_softlights.pas',
+  r_vislight in 'Base\r_vislight.pas';
 
 var
   Saved8087CW: Word;

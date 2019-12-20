@@ -237,6 +237,9 @@ begin
           {$ELSE}
           wallcolfunc;
           {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
+          {$ENDIF}
           dc_yl := r.ceilingheight[1];
           dc_yh := r.floorheight[1];
           dc_lightlevel := r.lightlevel[1];
@@ -248,6 +251,9 @@ begin
             R_StoreWallColumn32(@midwalls32b);
           {$ELSE}
           wallcolfunc;
+          {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
           {$ENDIF}
         end
         else
@@ -268,6 +274,9 @@ begin
       R_StoreWallColumn32(@midwalls32);
       {$ELSE}
       wallcolfunc;
+      {$ENDIF}
+      {$IFDEF USEZBUFFER}
+      R_DrawColumnToZBuffer;
       {$ENDIF}
 {$IFDEF FLOORS3DVIS}
       end;
@@ -317,6 +326,9 @@ begin
               {$ELSE}
               wallcolfunc;
               {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
+              {$ENDIF}
               dc_yl := r.ceilingheight[1];
               dc_yh := r.floorheight[1];
               dc_lightlevel := r.lightlevel[1];
@@ -328,6 +340,9 @@ begin
                 R_StoreWallColumn32(@upperwalls32b);
               {$ELSE}
               wallcolfunc;
+              {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
               {$ENDIF}
             end
             else
@@ -348,6 +363,9 @@ begin
           R_StoreWallColumn32(@upperwalls32);
           {$ELSE}
           wallcolfunc;
+          {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
           {$ENDIF}
     {$IFDEF FLOORS3DVIS}
           end;
@@ -421,6 +439,9 @@ begin
               {$ELSE}
               wallcolfunc;
               {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
+              {$ENDIF}
               dc_yl := r.ceilingheight[1];
               dc_yh := r.floorheight[1];
               dc_lightlevel := r.lightlevel[1];
@@ -432,6 +453,9 @@ begin
                 R_StoreWallColumn32(@lowerwalls32b);
               {$ELSE}
               wallcolfunc;
+              {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
               {$ENDIF}
             end
             else
@@ -451,6 +475,9 @@ begin
           R_StoreWallColumn32(@lowerwalls32);
           {$ELSE}
           wallcolfunc;
+          {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
           {$ENDIF}
     {$IFDEF FLOORS3DVIS}
           end;

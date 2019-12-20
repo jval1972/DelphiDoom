@@ -34,6 +34,7 @@ unit r_segs2;
 interface
 
 uses
+  d_delphi,
   m_fixed,
   r_defs;
 
@@ -133,10 +134,24 @@ procedure R_GetDrawsegsForVissprite(const fvis: Pvissprite_t; var fdrawsegs: Pdr
 
 procedure R_GetDrawsegsForRange(x1, x2: integer; var fdrawsegs: Pdrawsegsbuffer_t; var fcnt: integer);
 
+type
+  drawsegfunc_t = procedure(const pds: Pdrawseg_t);
+
+var
+  f_RenderSegLoop_dbl_3dFloors_Vis: drawsegfunc_t;
+  f_RenderSegLoop_dbl_Vis: drawsegfunc_t;
+  f_RenderSegLoop_dbl_3dFloors: drawsegfunc_t;
+  f_RenderSegLoop_dbl: PProcedure;
+  f_RenderSegLoop_3dFloors_Vis: drawsegfunc_t;
+  f_RenderSegLoop_Vis: drawsegfunc_t;
+  f_RenderSegLoop_3dFloors: drawsegfunc_t;
+  f_RenderSegLoop: PProcedure;
+
+procedure R_SetDrawSegFunctions;
+
 implementation
 
 uses
-  d_delphi,
   doomdef,
   p_setup,
   r_bsp,
@@ -152,6 +167,7 @@ uses
   r_wall32,
   r_3dfloors,
   r_range,
+  r_zbuffer,
 {$IFDEF DEBUG}
   r_debug,
 {$ENDIF}
@@ -170,6 +186,7 @@ procedure R_RenderSegLoop8;
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized;
@@ -177,6 +194,7 @@ procedure R_RenderSegLoop8Optimized;
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32;
@@ -184,6 +202,7 @@ procedure R_RenderSegLoop32;
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized;
@@ -191,6 +210,7 @@ procedure R_RenderSegLoop32Optimized;
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop8_dbl;
@@ -198,6 +218,7 @@ procedure R_RenderSegLoop8_dbl;
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized_dbl;
@@ -205,6 +226,7 @@ procedure R_RenderSegLoop8Optimized_dbl;
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32_dbl;
@@ -212,6 +234,7 @@ procedure R_RenderSegLoop32_dbl;
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized_dbl;
@@ -219,6 +242,7 @@ procedure R_RenderSegLoop32Optimized_dbl;
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop8_3dFloors(const pds: Pdrawseg_t);
@@ -226,6 +250,7 @@ procedure R_RenderSegLoop8_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized_3dFloors(const pds: Pdrawseg_t);
@@ -233,6 +258,7 @@ procedure R_RenderSegLoop8Optimized_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32_3dFloors(const pds: Pdrawseg_t);
@@ -240,6 +266,7 @@ procedure R_RenderSegLoop32_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized_3dFloors(const pds: Pdrawseg_t);
@@ -247,6 +274,7 @@ procedure R_RenderSegLoop32Optimized_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop8_dbl_3dFloors(const pds: Pdrawseg_t);
@@ -254,6 +282,7 @@ procedure R_RenderSegLoop8_dbl_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized_dbl_3dFloors(const pds: Pdrawseg_t);
@@ -261,6 +290,7 @@ procedure R_RenderSegLoop8Optimized_dbl_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32_dbl_3dFloors(const pds: Pdrawseg_t);
@@ -268,6 +298,7 @@ procedure R_RenderSegLoop32_dbl_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized_dbl_3dFloors(const pds: Pdrawseg_t);
@@ -275,6 +306,7 @@ procedure R_RenderSegLoop32Optimized_dbl_3dFloors(const pds: Pdrawseg_t);
 {$UNDEF FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -283,6 +315,7 @@ procedure R_RenderSegLoop8_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized_Vis(const pds: Pdrawseg_t);
@@ -290,6 +323,7 @@ procedure R_RenderSegLoop8Optimized_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32_Vis(const pds: Pdrawseg_t);
@@ -297,6 +331,7 @@ procedure R_RenderSegLoop32_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized_Vis(const pds: Pdrawseg_t);
@@ -304,6 +339,7 @@ procedure R_RenderSegLoop32Optimized_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop8_dbl_Vis(const pds: Pdrawseg_t);
@@ -311,6 +347,7 @@ procedure R_RenderSegLoop8_dbl_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized_dbl_Vis(const pds: Pdrawseg_t);
@@ -318,6 +355,7 @@ procedure R_RenderSegLoop8Optimized_dbl_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32_dbl_Vis(const pds: Pdrawseg_t);
@@ -325,6 +363,7 @@ procedure R_RenderSegLoop32_dbl_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized_dbl_Vis(const pds: Pdrawseg_t);
@@ -332,6 +371,7 @@ procedure R_RenderSegLoop32Optimized_dbl_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop8_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -339,6 +379,7 @@ procedure R_RenderSegLoop8_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -346,6 +387,7 @@ procedure R_RenderSegLoop8Optimized_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -353,6 +395,7 @@ procedure R_RenderSegLoop32_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -360,6 +403,7 @@ procedure R_RenderSegLoop32Optimized_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$UNDEF USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop8_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -367,6 +411,7 @@ procedure R_RenderSegLoop8_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop8Optimized_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -374,6 +419,7 @@ procedure R_RenderSegLoop8Optimized_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop8.inc}
 
 procedure R_RenderSegLoop32_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -381,6 +427,7 @@ procedure R_RenderSegLoop32_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$UNDEF RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
 
 procedure R_RenderSegLoop32Optimized_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
@@ -388,7 +435,375 @@ procedure R_RenderSegLoop32Optimized_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
 {$DEFINE FLOORS3DVIS}
 {$DEFINE RENDERSEGOPTIMIZED}
 {$DEFINE USEDOUBLE}
+{$UNDEF USEZBUFFER}
 {$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop8_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop8_dbl_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_dbl_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_dbl_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_dbl_Z;
+{$UNDEF FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop8_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop8_dbl_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_dbl_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_dbl_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_dbl_3dFloors_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$UNDEF FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+////////////////////////////////////////////////////////////////////////////////
+procedure R_RenderSegLoop8_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop8_dbl_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_dbl_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_dbl_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_dbl_Vis_Z(const pds: Pdrawseg_t);
+{$UNDEF FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop8_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$UNDEF USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop8_dbl_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop8Optimized_dbl_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop8.inc}
+
+procedure R_RenderSegLoop32_dbl_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$UNDEF RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_RenderSegLoop32Optimized_dbl_3dFloors_Vis_Z(const pds: Pdrawseg_t);
+{$DEFINE FLOORS3D}
+{$DEFINE FLOORS3DVIS}
+{$DEFINE RENDERSEGOPTIMIZED}
+{$DEFINE USEDOUBLE}
+{$DEFINE USEZBUFFER}
+{$I R_RenderSegLoop32.inc}
+
+procedure R_SetDrawSegFunctions;
+begin
+  if videomode = vm32bit then
+  begin
+    if optimizedcolumnrendering then
+    begin
+      if zbufferactive then
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop32Optimized_dbl_3dFloors_Vis_Z;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop32Optimized_dbl_Vis_Z;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop32Optimized_dbl_3dFloors_Z;
+        f_RenderSegLoop_dbl := R_RenderSegLoop32Optimized_dbl_Z;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop32Optimized_3dFloors_Vis_Z;
+        f_RenderSegLoop_Vis := R_RenderSegLoop32Optimized_Vis_Z;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop32Optimized_3dFloors_Z;
+        f_RenderSegLoop := R_RenderSegLoop32Optimized_Z;
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop32Optimized_dbl_3dFloors_Vis;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop32Optimized_dbl_Vis;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop32Optimized_dbl_3dFloors;
+        f_RenderSegLoop_dbl := R_RenderSegLoop32Optimized_dbl;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop32Optimized_3dFloors_Vis;
+        f_RenderSegLoop_Vis := R_RenderSegLoop32Optimized_Vis;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop32Optimized_3dFloors;
+        f_RenderSegLoop := R_RenderSegLoop32Optimized;
+      end;
+    end
+    else
+    begin
+      if zbufferactive then
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop32_dbl_3dFloors_Vis_Z;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop32_dbl_Vis_Z;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop32_dbl_3dFloors_Z;
+        f_RenderSegLoop_dbl := R_RenderSegLoop32_dbl_Z;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop32_3dFloors_Vis_Z;
+        f_RenderSegLoop_Vis := R_RenderSegLoop32_Vis_Z;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop32_3dFloors_Z;
+        f_RenderSegLoop := R_RenderSegLoop32_Z;
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop32_dbl_3dFloors_Vis;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop32_dbl_Vis;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop32_dbl_3dFloors;
+        f_RenderSegLoop_dbl := R_RenderSegLoop32_dbl;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop32_3dFloors_Vis;
+        f_RenderSegLoop_Vis := R_RenderSegLoop32_Vis;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop32_3dFloors;
+        f_RenderSegLoop := R_RenderSegLoop32;
+      end;
+    end;
+  end
+  else
+  begin
+    if optimizedcolumnrendering then
+    begin
+      if zbufferactive then
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop8Optimized_dbl_3dFloors_Vis_Z;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop8Optimized_dbl_Vis_Z;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop8Optimized_dbl_3dFloors_Z;
+        f_RenderSegLoop_dbl := R_RenderSegLoop8Optimized_dbl_Z;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop8Optimized_3dFloors_Vis_Z;
+        f_RenderSegLoop_Vis := R_RenderSegLoop8Optimized_Vis_Z;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop8Optimized_3dFloors_Z;
+        f_RenderSegLoop := R_RenderSegLoop8Optimized_Z;
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop8Optimized_dbl_3dFloors_Vis;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop8Optimized_dbl_Vis;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop8Optimized_dbl_3dFloors;
+        f_RenderSegLoop_dbl := R_RenderSegLoop8Optimized_dbl;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop8Optimized_3dFloors_Vis;
+        f_RenderSegLoop_Vis := R_RenderSegLoop8Optimized_Vis;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop8Optimized_3dFloors;
+        f_RenderSegLoop := R_RenderSegLoop8Optimized;
+      end
+    end
+    else
+    begin
+      if zbufferactive then
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop8_dbl_3dFloors_Vis_Z;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop8_dbl_Vis_Z;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop8_dbl_3dFloors_Z;
+        f_RenderSegLoop_dbl := R_RenderSegLoop8_dbl_Z;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop8_3dFloors_Vis_Z;
+        f_RenderSegLoop_Vis := R_RenderSegLoop8_Vis_Z;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop8_3dFloors_Z;
+        f_RenderSegLoop := R_RenderSegLoop8_Z;
+      end
+      else
+      begin
+        f_RenderSegLoop_dbl_3dFloors_Vis := R_RenderSegLoop8_dbl_3dFloors_Vis;
+        f_RenderSegLoop_dbl_Vis := R_RenderSegLoop8_dbl_Vis;
+        f_RenderSegLoop_dbl_3dFloors := R_RenderSegLoop8_dbl_3dFloors;
+        f_RenderSegLoop_dbl := R_RenderSegLoop8_dbl;
+        f_RenderSegLoop_3dFloors_Vis := R_RenderSegLoop8_3dFloors_Vis;
+        f_RenderSegLoop_Vis := R_RenderSegLoop8_Vis;
+        f_RenderSegLoop_3dFloors := R_RenderSegLoop8_3dFloors;
+        f_RenderSegLoop := R_RenderSegLoop8;
+      end;
+    end;
+  end;
+end;
 
 procedure R_PrecalcSegs;
 var

@@ -135,6 +135,9 @@ uses
   r_3dfloors, // JVAL: 3d Floors
   r_depthbuffer, // JVAL: 3d Floors
   r_things_sortvissprites,
+  r_dynlights,
+  r_vislight,
+  r_softlights,
 {$ENDIF}
   r_camera,
   r_renderstyle,
@@ -2063,6 +2066,17 @@ begin
 
 end;
 
+procedure R_MarkLights;
+var
+  i: integer;
+begin
+  numdlitems := 0;
+  vislight_p := 0;
+  for i := 0 to vissprite_p - 1 do
+    R_MarkDLights(vissprites[i].mo);
+  R_AddAdditionalLights;
+end;
+
 //
 // R_DrawMasked
 //
@@ -2071,60 +2085,28 @@ var
   pds: Pdrawseg_t;
   i: integer;
 begin
+  if videomode = vm32bit then
+  begin
+    R_MarkLights;
+    R_CalcLights;
+  end;
   if vissprite_p > 0 then
   begin
     // draw all vissprites back to front
     if uselightboost and (videomode = vm32bit) then
     begin
       // 32bit color
-      if depthbufferactive or false then
+      for i := 0 to vissprite_p - 1 do
       begin
-        // Front to back opaque
-        for i := vissprite_p - 1 downto 0 do
-          if vissprites[i].renderflags and VSF_TRANSPARENCY = 0 then
-          begin
-            R_DrawSprite(vissprites[i]);
-          end;
-        // Back to front transparent, also lights
-        for i := 0 to vissprite_p - 1 do
-        begin
-          if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
-            R_DrawSpriteLight(vissprites[i]);
-          if vissprites[i].renderflags and VSF_TRANSPARENCY <> 0 then
-          begin
-            R_DrawSprite(vissprites[i]);
-          end;
-        end;
-      end
-      else
-      begin
-        for i := 0 to vissprite_p - 1 do
-        begin
-          if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
-            R_DrawSpriteLight(vissprites[i]);
-          R_DrawSprite(vissprites[i]);
-        end;
+        if vissprites[i].mobjflags_ex and MF_EX_LIGHT <> 0 then
+          R_DrawSpriteLight(vissprites[i]);
+        R_DrawSprite(vissprites[i]);
       end;
     end
     else
     begin
-      // 8bit color
-      if depthbufferactive or false then
-      begin
-        // Front to back opaque
-        for i := vissprite_p - 1 downto 0 do
-          if vissprites[i].renderflags and VSF_TRANSPARENCY = 0 then
-            R_DrawSprite(vissprites[i]);
-        // Back to front transparent
-        for i := 0 to vissprite_p - 1 do
-          if vissprites[i].renderflags and VSF_TRANSPARENCY <> 0 then
-            R_DrawSprite(vissprites[i]);
-      end
-      else
-      begin
-        for i := 0 to vissprite_p - 1 do
-          R_DrawSprite(vissprites[i]);
-      end;
+      for i := 0 to vissprite_p - 1 do
+        R_DrawSprite(vissprites[i]);
     end;
   end;
 

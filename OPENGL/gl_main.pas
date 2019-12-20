@@ -76,6 +76,10 @@ var
 
 procedure DoomMain;
 
+var
+  NATIVEWIDTH: integer;
+  NATIVEHEIGHT: integer;
+
 implementation
 
 uses
@@ -789,7 +793,7 @@ begin
     // Try to change screen mode to fullscreen
     if ChangeDisplaySettings(dmScreenSettings, CDS_FULLSCREEN) = DISP_CHANGE_FAILED then
     begin
-      I_Error('I_InitGraphics(): Unable to switch to fullscreen!');
+      I_Error('GL_InitGraphics(): Unable to switch to fullscreen!');
       fullscreen := False;
     end;
   end;
@@ -818,7 +822,7 @@ begin
   if hMainWnd = 0 then
   begin
     glKillWnd;                // Undo all the settings we've changed
-    I_Error('I_InitGraphics(): Unable to create window!');
+    I_Error('GL_InitGraphics(): Unable to create window!');
     Exit;
   end;
 
@@ -827,7 +831,7 @@ begin
   if (h_DC = 0) then
   begin
     glKillWnd;
-    I_Error('I_InitGraphics(): Unable to get a device context!');
+    I_Error('GL_InitGraphics(): Unable to get a device context!');
     exit;
   end;
 
@@ -869,7 +873,7 @@ begin
   if PixelFormat = 0 then
   begin
     glKillWnd;
-    I_Error('I_InitGraphics(): Unable to find a suitable pixel format');
+    I_Error('GL_InitGraphics(): Unable to find a suitable pixel format');
     exit;
   end;
 
@@ -877,7 +881,7 @@ begin
   if not SetPixelFormat(h_DC, PixelFormat, @pfd) then
   begin
     glKillWnd;
-    I_Error('I_InitGraphics(): Unable to set the pixel format');
+    I_Error('GL_InitGraphics(): Unable to set the pixel format');
     exit;
   end;
 
@@ -886,7 +890,7 @@ begin
   if h_RC = 0 then
   begin
     glKillWnd;
-    I_Error('I_InitGraphics(): Unable to create an OpenGL rendering context');
+    I_Error('GL_InitGraphics(): Unable to create an OpenGL rendering context');
     exit;
   end;
 
@@ -894,7 +898,7 @@ begin
   if not wglMakeCurrent(h_DC, h_RC) then
   begin
     glKillWnd;
-    I_Error('I_InitGraphics(): Unable to activate OpenGL rendering context');
+    I_Error('GL_InitGraphics(): Unable to activate OpenGL rendering context');
     exit;
   end;
   // Read And Assign Extentions
@@ -955,11 +959,13 @@ begin
 
     // Try to change screen mode to fullscreen
     if ChangeDisplaySettings(dmScreenSettings, CDS_FULLSCREEN) = DISP_CHANGE_FAILED then
-      I_Warning('I_ChangeFullScreen(): Can not change to fullscreen mode'#13#10)
+      I_Warning('GL_ChangeFullScreen(): Can not change to fullscreen mode'#13#10);
   end
   else
     ChangeDisplaySettings(devmode(nil^), 0);
+  I_RestoreWindowPos;
 end;
+
 
 function GL_SetDisplayMode(const newwidth, newheight: integer): boolean;
 var
@@ -1033,6 +1039,10 @@ end;
 procedure DoomMain;
 begin
   I_SetDPIAwareness;
+
+  NATIVEWIDTH := I_ScreenWidth;
+  NATIVEHEIGHT := I_ScreenHeight;
+
   D_DoomMain;
 end;
 

@@ -20,7 +20,7 @@
 //  02111-1307, USA.
 //
 //  DESCRIPTION:
-//    Dynamic lights for OpenGL rendering (why not in software mode??)
+//    Dynamic lights (OpenGL & software rendering)
 //    LIGHTDEF lump parsing, light animation
 //
 //------------------------------------------------------------------------------
@@ -30,12 +30,15 @@
 
 {$I Doom32.inc}
 
-unit gl_dlights;
+unit r_dynlights;
 
 interface
 
 uses
   d_delphi,
+  {$IFNDEF OPENGL}
+  r_vislight,
+  {$ENDIF}
   m_fixed;
 
 const
@@ -53,7 +56,7 @@ type
 
   GLDRenderLight = record
     r, g, b: float;     // Color
-    radious: float;     // radious
+    radius: float;      // radius
     x, y, z: float;     // Offset
     shadow: boolean;    // Shadow
   end;
@@ -84,15 +87,15 @@ type
   GLDLightArray = array[0..$FFFF] of GLDLight;
   PGLDLightArray = ^GLDLightArray;
 
-procedure gld_InitDynamicLights;
+procedure R_InitDynamicLights;
 
-procedure gld_DynamicLightsDone;
+procedure R_DynamicLightsDone;
 
-function gld_AddDynamicLight(const l: GLDLight): integer;
+function R_AddDynamicLight(const l: GLDLight): integer;
 
-function gld_FindDynamicLight(const check: string): integer;
+function R_FindDynamicLight(const check: string): integer;
 
-function gld_GetDynamicLight(const index: integer): PGLDRenderLight;
+function R_GetDynamicLight(const index: integer): PGLDRenderLight;
 
 var
   lightdeflumppresent: boolean = false;
@@ -101,7 +104,11 @@ type
   dlsortitem_t = record
     l: PGLDRenderLight;
     squaredist: single;
-    x, y, z: float;
+    x, y, z: {$IFDEF OPENGL}float{$ELSE}fixed_t{$ENDIF};
+    {$IFNDEF OPENGL}
+    radius: fixed_t;
+    vis: Pvislight_t;
+    {$ENDIF}
   end;
   Pdlsortitem_t = ^dlsortitem_t;
   dlsortitem_tArray = array[0..$FFFF] of dlsortitem_t;
@@ -122,7 +129,9 @@ uses
   doomdef,
   m_stack,
   m_rnd,
+  {$IFDEF OPENGL}
   gl_defs,
+  {$ENDIF}
   p_tick,
   w_wad,
   info,
@@ -249,13 +258,13 @@ begin
                6:  // Size
                 begin
                   sc.MustGetInteger;
-                  l.size1 := sc._Integer / MAP_COEFF;
+                  l.size1 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                   l.size2 := l.size1;
                 end;
                7:  // Secondary Size
                 begin
                   sc.MustGetInteger;
-                  l.size2 := sc._Integer / MAP_COEFF;
+                  l.size2 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                 end;
                8:  // Interval
                 begin
@@ -290,23 +299,23 @@ begin
               12:  // Offset
                 begin
                   sc.MustGetInteger;
-                  l.offsetx1 := sc._Integer / MAP_COEFF;
+                  l.offsetx1 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                   l.offsetx2 := l.offsetx1;
                   sc.MustGetInteger;
-                  l.offsety1 := sc._Integer / MAP_COEFF;
+                  l.offsety1 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                   l.offsety2 := l.offsety1;
                   sc.MustGetInteger;
-                  l.offsetz1 := sc._Integer / MAP_COEFF;
+                  l.offsetz1 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                   l.offsetz2 := l.offsetz1;
                 end;
               13:  // Offset2
                 begin
                   sc.MustGetInteger;
-                  l.offsetx2 := sc._Integer / MAP_COEFF;
+                  l.offsetx2 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                   sc.MustGetInteger;
-                  l.offsety2 := sc._Integer / MAP_COEFF;
+                  l.offsety2 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                   sc.MustGetInteger;
-                  l.offsetz2 := sc._Integer / MAP_COEFF;
+                  l.offsetz2 := sc._Integer{$IFDEF OPENGL} / MAP_COEFF{$ENDIF};
                 end;
               14:
                 begin
@@ -314,7 +323,7 @@ begin
                 end;
             else
               begin
-                gld_AddDynamicLight(l);
+                R_AddDynamicLight(l);
                 sc.UnGet;
                 break;
               end;
@@ -359,7 +368,7 @@ begin
 
         if token3 = 'LIGHT' then
         begin
-          lidx := gld_FindDynamicLight(token4);
+          lidx := R_FindDynamicLight(token4);
           if lidx >= 0 then
           begin
             if Length(token2) >= 4 then
@@ -453,7 +462,7 @@ begin
 // JVAL: 2011/05 Now check inside PAK/PK3 files for LIGHTDEF entries
   i := PAK_StringIterator(LIGHTSLUMPNAME, SC_ParceDynamicLight);
   i := i + PAK_StringIterator(LIGHTSLUMPNAME + '.txt', SC_ParceDynamicLight);
-  i := PAK_StringIterator(GLDEFSLUMPNAME, SC_ParceDynamicLight);
+  i := i + PAK_StringIterator(GLDEFSLUMPNAME, SC_ParceDynamicLight);
   i := i + PAK_StringIterator(GLDEFSLUMPNAME + '.txt', SC_ParceDynamicLight);
   lightdeflumppresent := lightdeflumppresent or (i > 0);
 end;
@@ -464,16 +473,18 @@ var
   realnumdlights: integer;
   dlightslist: PGLDLightArray;
 
-procedure gld_InitDynamicLights;
+procedure R_InitDynamicLights;
 begin
   numdlights := 0;
   realnumdlights := 0;
   dlightslist := nil;
+  {$IFDEF OPENGL}
   printf('SC_ParceDynamicLights: Parsing LIGHTDEF lumps.'#13#10);
+  {$ENDIF}
   SC_ParceDynamicLights;
 end;
 
-procedure gld_DynamicLightsDone;
+procedure R_DynamicLightsDone;
 begin
   memfree(pointer(dlightslist), realnumdlights * SizeOf(GLDLight));
   numdlights := 0;
@@ -484,7 +495,7 @@ begin
   realdlitems := 0;
 end;
 
-procedure gld_GrowDynlightsArray;
+procedure R_GrowDynlightsArray;
 begin
   if numdlights >= realnumdlights then
   begin
@@ -502,11 +513,11 @@ begin
   end;
 end;
 
-function gld_AddDynamicLight(const l: GLDLight): integer;
+function R_AddDynamicLight(const l: GLDLight): integer;
 var
   i: integer;
 begin
-  gld_GrowDynlightsArray;
+  R_GrowDynlightsArray;
   result := numdlights;
   dlightslist[result] := l;
   for i := 1 to DLSTRLEN do
@@ -514,7 +525,7 @@ begin
   inc(numdlights);
 end;
 
-function gld_FindDynamicLight(const check: string): integer;
+function R_FindDynamicLight(const check: string): integer;
 var
   i: integer;
   tmp: string;
@@ -531,11 +542,11 @@ begin
 end;
 
 //
-// gld_GetDynamicLight
+// R_GetDynamicLight
 // JVAL: Retrieving rendering information for lights
 //       Dynamic lights animations
 //
-function gld_GetDynamicLight(const index: integer): PGLDRenderLight;
+function R_GetDynamicLight(const index: integer): PGLDRenderLight;
 var
   l: PGLDLight;
   frac: integer;
@@ -575,7 +586,7 @@ begin
       result.r := l.r1;
       result.g := l.g1;
       result.b := l.b1;
-      result.radious := l.size1;
+      result.radius := l.size1;
       _CalcOffset(result, true);
     end
     else if l.validcount <> leveltime then
@@ -632,19 +643,19 @@ begin
       if l.chance > 0 then
       begin
         if C_Random(lightrnd) < l.chance then
-          result.radious := l.size1
+          result.radius := l.size1
         else
-          result.radious := l.size2;
+          result.radius := l.size2;
       end
       else if l.interval > 0 then
       begin
         if Odd(FixedDiv(l.randomseed + leveltime * FRACUNIT, l.interval)) then
-          result.radious := l.size1
-        else                               
-          result.radious := l.size2;
+          result.radius := l.size1
+        else
+          result.radius := l.size2;
       end
       else
-        result.radious := l.size1;
+        result.radius := l.size1;
 
       _CalcOffset(result, l.validcount < 0);
       l.validcount := leveltime div TICRATE;
@@ -696,18 +707,18 @@ begin
         frac := FixedDiv(l.randomseed + leveltime * FRACUNIT, l.interval) mod l.interval;
         frac1 := frac / l.interval;
         frac2 := 1.0 - frac1;
-        result.radious := l.size1 * frac1 + l.size2 * frac2;
+        result.radius := l.size1 * frac1 + l.size2 * frac2;
       end
       // chance should be present in pulse light but just in case
       else if l.chance > 0 then
       begin
         if C_Random(lightrnd) < l.chance then
-          result.radious := l.size1
+          result.radius := l.size1
         else
-          result.radious := l.size2;
+          result.radius := l.size2;
       end
       else
-        result.radious := l.size1;
+        result.radius := l.size1;
 
       _CalcOffset(result, l.validcount < 0);
       l.validcount := leveltime;

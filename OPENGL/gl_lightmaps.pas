@@ -73,7 +73,7 @@ uses
   p_tick,
   p_3dfloors,
   gl_defs,
-  gl_dlights;
+  r_dynlights;
 
 type
   lightmapbuffer_t = array[0..LIGHTMAPBUFFERSIZE - 1] of byte;
@@ -449,7 +449,7 @@ begin
          (pdlsz >= fz1) and (pdlsz <= fz2) then
       begin
         l := pdls.l;
-        checkradious := l.radious;
+        checkradious := l.radius;
         if checkradious <  MINLIGHTMAPRADIOUS then
           checkradious := MINLIGHTMAPRADIOUS;
         squarecheck := checkradious * checkradious;

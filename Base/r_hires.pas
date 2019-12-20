@@ -96,6 +96,8 @@ function R_ColorBoost(const c: LongWord; const lfactor: fixed_t): LongWord;
 function R_InverseLight(const c: LongWord): LongWord;
 function R_FuzzLight(const c: LongWord): LongWord;
 
+function R_ColorLightAdd(const c1, r, g, b: LongWord): LongWord; register;
+
 {$IFNDEF OPENGL}
 procedure R_CalcHiResTables_SingleThread;
 procedure R_CalcHiResTables_MultiThread;
@@ -714,6 +716,25 @@ begin
   g := g1 shr 3 * 7;
   b := b1 shr 3 * 7;
   result := r + g shl 8 + b shl 16;
+end;
+
+function R_ColorLightAdd(const c1, r, g, b: LongWord): LongWord; register;
+var
+  r1, g1, b1: LongWord;
+begin
+  b1 := c1 and $ff;
+  if b > 0 then
+    b1 := b1 + ((255 - b1) * b) div 256;
+
+  g1 := (c1 shr 8) and $ff;
+  if g > 0 then
+    g1 := g1 + ((255 - g1) * g) div 256;
+
+  r1 := (c1 shr 16) and $ff;
+  if r > 0 then
+    r1 := r1 + ((255 - r1) * r) div 256;
+
+  result := b1 + g1 shl 8 + r1 shl 16;
 end;
 
 {$IFNDEF OPENGL}

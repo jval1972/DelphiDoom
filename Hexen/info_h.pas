@@ -3216,8 +3216,8 @@ type
     misc1: integer;
     misc2: integer;
     params: TCustomParamList;
-{$IFDEF OPENGL}
     dlights: TDNumberList;
+{$IFDEF OPENGL}
     models: TDNumberList;
 {$ENDIF}
     voxels: TDNumberList;

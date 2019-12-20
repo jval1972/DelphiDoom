@@ -249,7 +249,7 @@ uses
   t_material in 'TEXLIB\t_material.pas',
   gl_shadows in 'OPENGL\gl_shadows.pas',
   dglOpenGL in 'OPENGL\dglOpenGL.pas',
-  gl_dlights in 'OPENGL\gl_dlights.pas',
+  r_dynlights in 'Base\r_dynlights.pas',
   sc_tokens in 'Base\sc_tokens.pas',
   i_tmp in 'Base\i_tmp.pas',
   i_exec in 'Base\i_exec.pas',

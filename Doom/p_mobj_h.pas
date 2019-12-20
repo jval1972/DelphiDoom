@@ -441,6 +441,11 @@ type
 
     dropitem: integer;
 
+    // version 205
+    lightvalidcount: integer;
+    scale: integer;
+    pushfactor: integer;
+    gravity: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

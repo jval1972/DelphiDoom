@@ -38,7 +38,7 @@ interface
 
 uses
   m_fixed,
-  gl_dlights;
+  r_dynlights;
 
 var
   gl_drawshadows: boolean = true;
@@ -75,7 +75,7 @@ begin
     shadows[i].r := 0.0;
     shadows[i].g := 0.0;
     shadows[i].b := 0.0;
-    shadows[i].radious := (1 + i) * SHADOWSTEP / MAP_COEFF;
+    shadows[i].radius := (1 + i) * SHADOWSTEP / MAP_COEFF;
     shadows[i].x := 0.0;
     shadows[i].y := 0.0;
     shadows[i].z := 0.0;

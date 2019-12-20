@@ -751,7 +751,8 @@ begin
   begin
     if pds.midsec <> nil then
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop_dbl_3dFloors_Vis(pds);  // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized_dbl_3dFloors_Vis(pds)
@@ -764,11 +765,12 @@ begin
           R_RenderSegLoop8Optimized_dbl_3dFloors_Vis(pds)
         else
           R_RenderSegLoop8_dbl_3dFloors_Vis(pds);
-      end;
+      end;}
     end
     else
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop_dbl_Vis(pds);  // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized_dbl_Vis(pds)
@@ -781,14 +783,15 @@ begin
           R_RenderSegLoop8Optimized_dbl_Vis(pds)
         else
           R_RenderSegLoop8_dbl_Vis(pds);
-      end;
+      end;}
     end;
   end
   else
   begin
     if pds.midsec <> nil then
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop_dbl_3dFloors(pds);  // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized_dbl_3dFloors(pds)
@@ -801,11 +804,12 @@ begin
           R_RenderSegLoop8Optimized_dbl_3dFloors(pds)
         else
           R_RenderSegLoop8_dbl_3dFloors(pds);
-      end;
+      end;}
     end
     else
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop_dbl;  // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized_dbl
@@ -818,7 +822,7 @@ begin
           R_RenderSegLoop8Optimized_dbl
         else
           R_RenderSegLoop8_dbl;
-      end;
+      end;}
     end;
   end;
 
@@ -896,7 +900,7 @@ begin
     R_StoreSlopeRange(start, stop); // JVAL: Slopes
     Exit;
   end;
-  
+
   pds := R_NewDrawSeg;
   if pds = nil then
     exit;
@@ -1299,7 +1303,8 @@ begin
   begin
     if (pds.midsec <> nil) then
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop_3dFloors_Vis(pds); // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized_3dFloors_Vis(pds)
@@ -1312,11 +1317,12 @@ begin
           R_RenderSegLoop8Optimized_3dFloors_Vis(pds)
         else
           R_RenderSegLoop8_3dFloors_Vis(pds);
-      end;
+      end;}
     end
     else
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop_Vis(pds); // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized_Vis(pds)
@@ -1329,14 +1335,15 @@ begin
           R_RenderSegLoop8Optimized_Vis(pds)
         else
           R_RenderSegLoop8_Vis(pds);
-      end;
+      end;}
     end;
   end
   else
   begin
     if (pds.midsec <> nil) then
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop_3dFloors(pds); // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized_3dFloors(pds)
@@ -1349,11 +1356,12 @@ begin
           R_RenderSegLoop8Optimized_3dFloors(pds)
         else
           R_RenderSegLoop8_3dFloors(pds);
-      end;
+      end;}
     end
     else
     begin
-      if videomode = vm32bit then
+      f_RenderSegLoop; // version 205
+{      if videomode = vm32bit then
       begin
         if optimizedcolumnrendering then
           R_RenderSegLoop32Optimized
@@ -1366,7 +1374,7 @@ begin
           R_RenderSegLoop8Optimized
         else
           R_RenderSegLoop8;
-      end;
+      end;}
     end;
   end;
 

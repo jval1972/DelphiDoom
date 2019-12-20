@@ -232,6 +232,7 @@ uses
   r_hires in 'Base\r_hires.pas',
   r_intrpl in 'Base\r_intrpl.pas',
   r_lights in 'Base\r_lights.pas',
+  r_dynlights in 'Base\r_dynlights.pas',
   r_main in 'Doom\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Doom\r_plane.pas',
@@ -358,7 +359,10 @@ uses
   w_wadwriter in 'Base\w_wadwriter.pas',
   m_sha1 in 'Base\m_sha1.pas',
   sc_evaluate_actor in 'Base\sc_evaluate_actor.pas',
-  sc_evaluate in 'Base\sc_evaluate.pas';
+  sc_evaluate in 'Base\sc_evaluate.pas',
+  r_softlights in 'Base\r_softlights.pas',
+  r_zbuffer in 'Base\r_zbuffer.pas',
+  r_vislight in 'Base\r_vislight.pas';
 
 exports
   dd_compile_doom,

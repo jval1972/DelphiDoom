@@ -43,9 +43,6 @@ procedure Info_ShutDownRandom;
 
 function Info_IsMonster(_type: integer): boolean;
 
-var
-  rnd_monster_seed: integer = 0;
-
 implementation
 
 uses
@@ -53,7 +50,8 @@ uses
   doomdef,
   info,
   m_rnd,
-  p_setup, p_mobj_h;
+  p_setup,
+  p_mobj_h;
 
 type
   randompool_t = record
@@ -123,7 +121,7 @@ begin
   while (idx < NUMMONSTERSCATEGORIES) and (check >= rnd_monsters[idx].check) do
     inc(idx);
 
-  for i := 0 to rnd_monster_seed - 1 do
+  for i := 0 to sysrndseed - 1 do
     N_Random;
 
   result := rnd_monsters[idx].list[N_Random mod rnd_monsters[idx].list.Count];

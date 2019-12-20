@@ -151,6 +151,7 @@ uses
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
   r_patch,
+  r_zbuffer,
 {$ENDIF}
   z_zone;
 
@@ -283,6 +284,10 @@ begin
       db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
     spandepthbufferproc;
   end;
+
+  // JVAL: version 205
+  if zbufferactive then
+    R_DrawSpanToZBuffer;
 end;
 {$ENDIF}
 

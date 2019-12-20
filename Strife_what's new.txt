@@ -86,7 +86,7 @@ Function parameters in ACTORDEF evaluate expressions using C style operators.
      SIN COS TAN ASIN ACOS ATAN SINH COSH TANH ATAN2 VECTORANGLE
   // Flow
      IF(bool condition; whentrue; whenfalse) IFF (alias for IF)
-  // Ramdom functions
+  // Random functions
      RAND RANDOM RANDOM2 FLOATRANDOM FRANDOM (alias for FLOATRANDOM) RANDOMPICK FRANDOMPICK SYSRAND(uses random seed from sytem's clock)
   // Actor position and movement
      X Y Z MOMX VELX MOMY VELY MOMZ VELZ FLOORZ CEILINGZ ANGLE
@@ -100,6 +100,7 @@ Function parameters in ACTORDEF evaluate expressions using C style operators.
      SPAWN SEE MELEE MISSILE PAIN DEATH XDEATH HEAL CRASH INTERACT (Doom and Strife branch only) RAISE
 Added "freeze" console command, freezes the game, stop all thinkers, stop all scripts. Allow only the players to move. It has no effect while demo playback/record.
 Added A_JumpIf ACTORDEF function.
+Dynamic lights in software rendering (using GLDEFS).
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

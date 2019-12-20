@@ -72,6 +72,11 @@ uses
   d_delphi,
   doomdef,
   r_hires,
+  {$IFDEF OPENGL}
+  gl_main,
+  {$ELSE}
+  i_main,
+  {$ENDIF}
   i_system;
 
 procedure SortDisplayModes;
@@ -229,8 +234,8 @@ var
 begin
   if mode = FULLSCREEN_SHARED then
   begin
-    WINDOWWIDTH := I_ScreenWidth;
-    WINDOWHEIGHT := I_ScreenHeight;
+    WINDOWWIDTH := NATIVEWIDTH;
+    WINDOWHEIGHT := NATIVEHEIGHT;
     exit;
   end;
 

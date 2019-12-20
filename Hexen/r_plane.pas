@@ -158,6 +158,7 @@ uses
   r_3dfloors, // JVAL: 3d Floors
   r_slopes, // JVAL: Slopes
   r_patch,
+  r_zbuffer,
 {$ENDIF}
   z_zone,
   w_wad;
@@ -291,6 +292,10 @@ begin
       db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
     spandepthbufferproc;
   end;
+
+  // JVAL: version 205
+  if zbufferactive then
+    R_DrawSpanToZBuffer;
 end;
 {$ENDIF}
 
@@ -507,9 +512,9 @@ begin
   result.height := height;
   result.picnum := picnum;
   result.lightlevel := lightlevel;
-  result.special := special;
   result.minx := viewwidth;
   result.maxx := -1;
+  result.special := special;
   result.renderflags := flags;
   result.slopeSID := slopeSID;  // JVAL: Slopes
   {$IFNDEF OPENGL}

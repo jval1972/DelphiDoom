@@ -118,7 +118,7 @@ uses
   gl_sky,
   gl_lights,
   gl_types,
-  gl_dlights,
+  r_dynlights,
   gl_models,
   gl_voxels,
   vx_base,
@@ -594,7 +594,7 @@ begin
 
   gld_InitLightTable;
   gld_CalculateSky(100000.0);
-  gld_InitDynamicLights;
+  R_InitDynamicLights;
   gld_InitDynamicShadows;
   gld_InitModels;
   gld_InitVoxels;
@@ -3443,7 +3443,7 @@ begin
 
   for i := 0 to sprite.dlights.Count - 1 do
   begin
-    l := gld_GetDynamicLight(sprite.dlights.Numbers[i]);
+    l := R_GetDynamicLight(sprite.dlights.Numbers[i]);
     if numdlitems >= realdlitems then
     begin
       olddlitems := realdlitems;
@@ -4071,7 +4071,7 @@ begin
   glTranslatef(pdls.x, pdls.y, pdls.z);
   glRotatef(inv_yaw, 0.0, 1.0, 0.0);
 
-  sz := pdls.l.radious;
+  sz := pdls.l.radius;
 //  if GL_CheckVisibility(pdls.x, pdls.y, pdls.z, 2 * sz) then
   begin
     glBegin(GL_TRIANGLE_FAN);
@@ -4640,7 +4640,7 @@ begin
   if gl_initialized then
   begin
     gld_SkyDone;
-    gld_DynamicLightsDone;
+    R_DynamicLightsDone;
     gld_DynamicShadowsDone;
     gld_ModelsDone;
     gld_VoxelsDone;

@@ -192,6 +192,9 @@ begin
           {$ELSE}
           wallcolfunc;
           {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
+          {$ENDIF}
           dc_yl := r.ceilingheight[1];
           dc_yh := r.floorheight[1];
           dc_colormap := PByteArray(r.lightlevel[1]);
@@ -203,6 +206,9 @@ begin
             R_StoreWallColumn8(@midwalls8b);
           {$ELSE}
           wallcolfunc;
+          {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
           {$ENDIF}
         end
         else
@@ -223,6 +229,9 @@ begin
       R_StoreWallColumn8(@midwalls8);
       {$ELSE}
       wallcolfunc;
+      {$ENDIF}
+      {$IFDEF USEZBUFFER}
+      R_DrawColumnToZBuffer;
       {$ENDIF}
 {$IFDEF FLOORS3DVIS}
       end;
@@ -272,6 +281,9 @@ begin
               {$ELSE}
               wallcolfunc;
               {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
+              {$ENDIF}
               dc_yl := r.ceilingheight[1];
               dc_yh := r.floorheight[1];
               dc_colormap := PByteArray(r.lightlevel[1]);
@@ -283,6 +295,9 @@ begin
                 R_StoreWallColumn8(@upperwalls8b);
               {$ELSE}
               wallcolfunc;
+              {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
               {$ENDIF}
             end
             else
@@ -303,6 +318,9 @@ begin
           R_StoreWallColumn8(@upperwalls8);
           {$ELSE}
           wallcolfunc;
+          {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
           {$ENDIF}
     {$IFDEF FLOORS3DVIS}
           end;
@@ -355,7 +373,7 @@ begin
         begin
           dc_texturemid := rw_bottomtexturemid;
           dc_source := R_GetColumn(bottomtexture, texturecolumn);
-	  
+
     {$IFDEF FLOORS3DVIS}
           if pds.midvis <> nil then
           begin
@@ -376,6 +394,9 @@ begin
               {$ELSE}
               wallcolfunc;
               {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
+              {$ENDIF}
               dc_yl := r.ceilingheight[1];
               dc_yh := r.floorheight[1];
               dc_colormap := PByteArray(r.lightlevel[1]);
@@ -387,6 +408,9 @@ begin
                 R_StoreWallColumn8(@lowerwalls8b);
               {$ELSE}
               wallcolfunc;
+              {$ENDIF}
+              {$IFDEF USEZBUFFER}
+              R_DrawColumnToZBuffer;
               {$ENDIF}
             end
             else
@@ -406,6 +430,9 @@ begin
           R_StoreWallColumn8(@lowerwalls8);
           {$ELSE}
           wallcolfunc;
+          {$ENDIF}
+          {$IFDEF USEZBUFFER}
+          R_DrawColumnToZBuffer;
           {$ENDIF}
     {$IFDEF FLOORS3DVIS}
           end;

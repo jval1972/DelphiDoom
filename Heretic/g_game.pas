@@ -2749,7 +2749,7 @@ begin
   demo_p[0] := intval(spawnrandommonsters);
   demo_p := @demo_p[1];
 
-  demo_p[0] := rnd_monster_seed;
+  demo_p[0] := sysrndseed;
   demo_p := @demo_p[1];
 
   demo_p[0] := consoleplayer;
@@ -2926,7 +2926,7 @@ begin
   demo_p := @demo_p[1];
   if demoversion >= VERSION113 then
   begin
-    rnd_monster_seed := demo_p[0];
+    sysrndseed := demo_p[0];
     demo_p := @demo_p[1];
   end;
 
