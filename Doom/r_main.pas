@@ -329,6 +329,7 @@ uses
   {$IFNDEF OPENGL}
   r_things_sortvissprites,
   r_dynlights,
+  r_softlights,
   {$ENDIF}
   r_plane,
   r_sky,
@@ -1633,7 +1634,7 @@ begin
   printf(#13#10 + 'R_InitPrecalc');
   R_InitPrecalc;
 {$IFNDEF OPENGL}
-  printf(#13#10 + 'R_InitVoxels'#13#10);
+  printf(#13#10 + 'R_InitVoxels');
   R_InitVoxels;
   printf(#13#10 + 'R_InitWallsCache8');
   R_InitWallsCache8;
@@ -1683,6 +1684,8 @@ begin
   printf(#13#10 + 'R_ShutDownLightBoost');
   R_ShutDownLightBoost;
 {$IFNDEF OPENGL}
+  printf(#13#10 + 'R_ShutDownLightTexture');
+  R_ShutDownLightTexture;
   printf(#13#10 + 'R_ShutDownFake3D');
   R_ShutDownFake3D;
   printf(#13#10 + 'R_ShutDown32Cache');
@@ -1963,7 +1966,6 @@ end;
 
 var
   task_clearplanes: integer = -1;
-  task_setupdrawseglists: integer = -1;
 
 procedure R_DoRenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
@@ -1991,8 +1993,6 @@ begin
   R_RenderMultiThreadWalls8;
 
   R_SetUpDrawSegLists;
-//  task_setupdrawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
-//  MT_ExecutePendingTask(task_setupdrawseglists);
 
   R_DrawPlanes;
 
@@ -2003,8 +2003,6 @@ begin
   R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
 
   R_RenderMultiThreadFFloors8;
-
-//  MT_WaitTask(task_setupdrawseglists);
 
   R_DrawMasked_MultiThread;
 
@@ -2049,8 +2047,6 @@ begin
   R_RenderMultiThreadWalls32;
 
   R_SetUpDrawSegLists;
-//  task_setupdrawseglists := MT_ScheduleTask(@R_SetUpDrawSegLists);
-//  MT_ExecutePendingTask(task_setupdrawseglists);
 
   R_DrawPlanes;
 
@@ -2061,8 +2057,6 @@ begin
   R_DrawFFloorsMultiThread;  // JVAL: 3d Floors
 
   R_RenderMultiThreadFFloors32;
-
-//  MT_WaitTask(task_setupdrawseglists);
 
   R_DrawMasked_MultiThread;
 
@@ -2161,6 +2155,7 @@ begin
 
 {$IFNDEF OPENGL}
   MT_WaitTask(task_clearplanes);
+  zbufferactive := r_uselightmaps;
   R_SetDrawSegFunctions;  // version 205
   if usemultithread then
   begin
@@ -2173,7 +2168,8 @@ begin
 {$ENDIF}
     R_DoRenderPlayerView32_SingleThread(player);
 {$IFNDEF OPENGL}
-  R_StopZBuffer;
+  if zbufferactive then
+    R_StopZBuffer;
 {$ENDIF}
 end;
 

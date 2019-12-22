@@ -147,6 +147,7 @@ uses
   r_grow,
   r_defs,
   r_data,
+  r_softlights,
 {$ENDIF}
   r_lights;
 
@@ -1215,6 +1216,7 @@ procedure R_InitHiRes;
 begin
   R_InitLightBoost;
 {$IFNDEF OPENGL}
+  R_InitLightTexture;
   R_InitSpanTables;
 {$ENDIF}
 end;

@@ -62,6 +62,7 @@ uses
   r_wall32,
   r_scale,
   r_voxels,
+  r_softlights,
 {$ENDIF}
   e_endoom,
   m_menu,
@@ -106,6 +107,9 @@ var
   r_drawvoxels: boolean;
   showfullhdlogo: boolean = false;
   soft_fullscreen: integer = 0;
+  r_uselightmaps: boolean = true;
+  lightmapcolorintensity: integer = 128;
+  lightwidthfactor: integer = 5;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -148,7 +152,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}180{$ELSE}182{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}183{$ELSE}185{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -480,6 +484,30 @@ const
      defaultivalue: 0;
      defaultbvalue: true;
      _type: tBoolean),
+
+    (name: 'r_uselightmaps';
+     location: @r_uselightmaps;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'lightmapcolorintensity';
+     location: @lightmapcolorintensity;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 64;
+     defaultbvalue: true;
+     _type: tInteger),
+
+    (name: 'lightwidthfactor';
+     location: @lightwidthfactor;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 5;
+     defaultbvalue: true;
+     _type: tInteger),
 
      // JVAL: Slopes
     (name: 'preciseslopedrawing';

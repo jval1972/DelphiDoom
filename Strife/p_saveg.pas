@@ -727,10 +727,20 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION122 then
+          if savegameversion >= VERSION205 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
+          end
+          else if savegameversion >= VERSION122 then
+          begin
+            memcpy(mobj, save_p, SizeOf(mobj_t204));
+            incp(pointer(save_p), SizeOf(mobj_t204));
+
+            mobj.lightvalidcount := 0;
+            mobj.scale := FRACUNIT;
+            mobj.pushfactor := FRACUNIT div 4;
+            mobj.gravity := FRACUNIT;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -738,6 +748,11 @@ begin
             incp(pointer(save_p), SizeOf(mobj_t121));
 
             mobj.dropitem := 0;
+
+            mobj.lightvalidcount := 0;
+            mobj.scale := FRACUNIT;
+            mobj.pushfactor := FRACUNIT div 4;
+            mobj.gravity := FRACUNIT;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -755,6 +770,11 @@ begin
             mobj.intrplcnt := 0;
 
             mobj.dropitem := 0;
+
+            mobj.lightvalidcount := 0;
+            mobj.scale := FRACUNIT;
+            mobj.pushfactor := FRACUNIT div 4;
+            mobj.gravity := FRACUNIT;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);

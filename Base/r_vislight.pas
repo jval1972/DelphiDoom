@@ -21,10 +21,7 @@
 //  02111-1307, USA.
 //
 // DESCRIPTION:
-//  System specific interface stuff.
-//  Rendering main loop and setup functions,
-//  utility functions (BSP, geometry, trigonometry).
-//  See tables.c, too.
+//  vislight_t struct
 //
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -76,7 +73,7 @@ var
   vislights: array[0..MAXVISLIGHTS - 1] of vislight_t;
 
 function R_NewVisLight: Pvislight_t;
-  
+
 implementation
 
 function R_NewVisLight: Pvislight_t;

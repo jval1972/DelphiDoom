@@ -54,6 +54,8 @@ type
 
 function FixedMul(const a, b: fixed_t): fixed_t;
 
+function FixedMulDiv256(const a, b: fixed_t): fixed_t;
+
 function FixedMulEx(const a, b: fixed_t): fixed_t;
 
 function FixedMul88(const a, b: fixed_t): fixed_t;
@@ -109,6 +111,12 @@ function FixedMul(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
   shrd eax, edx, 16
+end;
+
+function FixedMulDiv256(const a, b: fixed_t): fixed_t;
+asm
+  imul b
+  shrd eax, edx, 24
 end;
 
 function FixedMulEx(const a, b: fixed_t): fixed_t;

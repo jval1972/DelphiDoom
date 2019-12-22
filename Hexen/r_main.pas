@@ -324,6 +324,7 @@ uses
   {$IFNDEF OPENGL}
   r_things_sortvissprites,
   r_dynlights,
+  r_softlights,
   {$ENDIF}
   r_plane,
   r_sky,
@@ -1697,6 +1698,8 @@ begin
   printf(#13#10 + 'R_ShutDownLightBoost');
   R_ShutDownLightBoost;
 {$IFNDEF OPENGL}
+  printf(#13#10 + 'R_ShutDownLightTexture');
+  R_ShutDownLightTexture;
   printf(#13#10 + 'R_ShutDownFake3D');
   R_ShutDownFake3D;
   printf(#13#10 + 'R_ShutDown32Cache');
@@ -2130,6 +2133,7 @@ begin
 
 {$IFNDEF OPENGL}
   MT_WaitTask(task_clearplanes);
+  zbufferactive := r_uselightmaps;
   R_SetDrawSegFunctions;  // version 205
   if usemultithread then
   begin
@@ -2142,7 +2146,8 @@ begin
 {$ENDIF}
     R_DoRenderPlayerView32_SingleThread(player);
 {$IFNDEF OPENGL}
-  R_StopZBuffer;
+  if zbufferactive then
+    R_StopZBuffer;
 {$ENDIF}
 end;
 

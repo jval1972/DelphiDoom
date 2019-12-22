@@ -149,6 +149,9 @@ procedure MT_WaitTask(const id: integer);
 
 procedure MT_WaitTasks;
 
+// JVAL: Execute code threads
+const
+  NUMEXECTHREADS = 64;
 
 implementation
 
@@ -165,10 +168,6 @@ const
 var
   numgpthreads: integer;
   gp_threads: array[0..MAXGPTHREADS - 1] of TDThread;
-
-// JVAL: Execute code threads
-const
-  NUMEXECTHREADS = 16;
 
 var
   exec_threads: array[0..NUMEXECTHREADS - 1] of TDThread;

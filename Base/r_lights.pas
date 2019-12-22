@@ -53,15 +53,6 @@ var
   lightboost: PLongWordArray = nil;
   uselightboost: boolean;
 
-{$IFNDEF OPENGL}
-const
-  LIGHTTEXTURESIZE = 128;
-
-var
-  lightexturelookup: array[0..LIGHTTEXTURESIZE - 1] of lpost_t;
-  lighttexture: PLongWordArray = nil;
-{$ENDIF}
-
 procedure R_InitLightBoost;
 
 procedure R_ShutDownLightBoost;
@@ -109,44 +100,12 @@ begin
         lightboost[i * LIGHTBOOSTSIZE + j] := $10000;
     end;
   end;
-
-{$IFNDEF OPENGL}
-  if lighttexture = nil then
-    lighttexture := PLongWordArray(malloc(LIGHTTEXTURESIZE * LIGHTTEXTURESIZE * SizeOf(LongWord)));
-  for i := 0 to LIGHTTEXTURESIZE - 1 do
-  begin
-    lightexturelookup[i].topdelta := MAXINT;
-    lightexturelookup[i].length := 0;
-    for j := 0 to LIGHTTEXTURESIZE - 1 do
-    begin
-      dist := sqrt(sqr(i - (LIGHTTEXTURESIZE shr 1)) + sqr(j - (LIGHTTEXTURESIZE shr 1)));
-      if dist <= (LIGHTTEXTURESIZE shr 1) then
-      begin
-        inc(lightexturelookup[i].length);
-        c := round(dist * 4);
-        if c > 255 then
-          c := 0
-        else
-          c := 255 - c;
-        lighttexture[i * LIGHTTEXTURESIZE + j] := c * 255;
-        if j < lightexturelookup[i].topdelta then
-          lightexturelookup[i].topdelta := j;
-      end
-      else
-        lighttexture[i * LIGHTTEXTURESIZE + j] := 0;
-    end;
-  end;
-{$ENDIF}
 end;
 
 procedure R_ShutDownLightBoost;
 begin
   if lightboost <> nil then
     memfree(pointer(lightboost), LIGHTBOOSTSIZE * LIGHTBOOSTSIZE * SizeOf(LongWord));
-{$IFNDEF OPENGL}
-  if lighttexture <> nil then
-    memfree(pointer(lighttexture), LIGHTTEXTURESIZE * LIGHTTEXTURESIZE * SizeOf(LongWord));
-{$ENDIF}
 end;
 
 procedure R_CmdLightBoostFactor(const parm1: string = '');

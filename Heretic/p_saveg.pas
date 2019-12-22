@@ -561,10 +561,20 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION115 then
+          if savegameversion >= VERSION205 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
+          end
+          else if savegameversion >= VERSION115 then
+          begin
+            memcpy(mobj, save_p, SizeOf(mobj_t204));
+            incp(pointer(save_p), SizeOf(mobj_t204));
+
+            mobj.lightvalidcount := 0;
+            mobj.scale := FRACUNIT;
+            mobj.pushfactor := FRACUNIT div 4;
+            mobj.gravity := FRACUNIT;
           end
           else if savegameversion = VERSION114 then
           begin
@@ -573,6 +583,10 @@ begin
 
             mobj.dropitem := 0;
 
+            mobj.lightvalidcount := 0;
+            mobj.scale := FRACUNIT;
+            mobj.pushfactor := FRACUNIT div 4;
+            mobj.gravity := FRACUNIT;
           end
           else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
           begin
@@ -593,6 +607,10 @@ begin
 
             mobj.dropitem := 0;
 
+            mobj.lightvalidcount := 0;
+            mobj.scale := FRACUNIT;
+            mobj.pushfactor := FRACUNIT div 4;
+            mobj.gravity := FRACUNIT;
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -660,6 +678,11 @@ begin
             mobj.customparams := nil;
 
             mobj.dropitem := 0;
+
+            mobj.lightvalidcount := 0;
+            mobj.scale := FRACUNIT;
+            mobj.pushfactor := FRACUNIT div 4;
+            mobj.gravity := FRACUNIT;
 
             Z_Free(mobj111);
           end

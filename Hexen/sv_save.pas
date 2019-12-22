@@ -1194,6 +1194,11 @@ begin
       mobj.customparams := nil;
 
       mobj.dropitem := 0;
+
+      mobj.lightvalidcount := 0;
+      mobj.scale := FRACUNIT;
+      mobj.pushfactor := FRACUNIT div 4;
+      mobj.gravity := FRACUNIT;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1201,6 +1206,21 @@ begin
       incp(saveptr, SizeOf(mobj_t141));
 
       mobj.dropitem := 0;
+
+      mobj.lightvalidcount := 0;
+      mobj.scale := FRACUNIT;
+      mobj.pushfactor := FRACUNIT div 4;
+      mobj.gravity := FRACUNIT;
+    end
+    else if LOADVERSION <= VERSION204 then
+    begin
+      memcpy(mobj, saveptr, SizeOf(mobj_t204));
+      incp(saveptr, SizeOf(mobj_t204));
+
+      mobj.lightvalidcount := 0;
+      mobj.scale := FRACUNIT;
+      mobj.pushfactor := FRACUNIT div 4;
+      mobj.gravity := FRACUNIT;
     end
     else
     begin
@@ -1920,6 +1940,8 @@ begin
     LOADVERSION := VERSION203
   else if vstring = HXS_VERSION_TEXT_204 then
     LOADVERSION := VERSION204
+  else if vstring = HXS_VERSION_TEXT_205 then
+    LOADVERSION := VERSION205
   else
   begin // Bad version
     I_Warning('SV_LoadGame(): Game is from unsupported version'#13#10);

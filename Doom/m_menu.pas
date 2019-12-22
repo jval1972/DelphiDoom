@@ -4390,11 +4390,11 @@ begin
 //OptionsDisplay32bitMenu
   pmi := @OptionsDisplay32bitMenu[0];
   pmi.status := 1;
-  pmi.name := '!Light effects';
+  pmi.name := '!Glow light effects';
   pmi.cmd := 'uselightboost';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @uselightboost;
-  pmi.alphaKey := 'e';
+  pmi.alphaKey := 'g';
 
   inc(pmi);
   pmi.status := 1;

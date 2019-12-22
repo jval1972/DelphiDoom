@@ -57,12 +57,23 @@ var
   curtrans8table: Ptrans8table_t = nil;
   curadd8table: Ptrans8table_t = nil;
   cursubtract8table: Ptrans8table_t = nil;
+  colorlighttrans8table: Ptrans8table_t = nil;
 
 function R_GetTransparency8table(const factor: fixed_t = FRACUNIT div 2): Ptrans8table_t;
 
 function R_GetAdditive8table(const factor: fixed_t = FRACUNIT div 2): Ptrans8table_t;
 
 function R_GetSubtractive8table(const factor: fixed_t = FRACUNIT div 2): Ptrans8table_t;
+
+function R_FastApproxColorIndex(const c: LongWord): byte; overload;
+
+function R_FastApproxColorIndex(const r, g, b: byte): byte; overload;
+
+const
+  FASTTABLESHIFT = 4;
+  FASTTABLEBIT = 1 shl FASTTABLESHIFT;
+  FASTTABLECHANNEL = 256 div FASTTABLEBIT;
+  FASTTABLESIZE = FASTTABLECHANNEL * FASTTABLECHANNEL * FASTTABLECHANNEL;
 
 implementation
 
@@ -71,6 +82,9 @@ uses
   v_data,
   v_video,
   z_zone;
+
+var
+  approxcolorindexarray: array[0..FASTTABLESIZE - 1] of byte;
 
 procedure R_InitTransparency8Tables;
 var
@@ -120,6 +134,18 @@ begin
   end;
 
   averagetrans8table := trans8tables[NUMTRANS8TABLES div 2];
+
+  ptrans8 := @approxcolorindexarray[0];
+  for r := 0 to FASTTABLECHANNEL - 1 do
+    for g := 0 to FASTTABLECHANNEL - 1 do
+      for b := 0 to FASTTABLECHANNEL - 1 do
+      begin
+        ptrans8^ := V_FindAproxColorIndex(@palL,
+                          r shl 20 + g shl 12 + b shl 4 +
+                          (FASTTABLEBIT div 2) shl 16 + (FASTTABLEBIT div 2) shl 8 + (FASTTABLEBIT div 2)
+                    ) and $FF;
+        inc(ptrans8);
+      end;
 
   for i := 0 to NUMTRANS8TABLES do
   begin
@@ -179,6 +205,22 @@ begin
     end;
   end;
 
+  colorlighttrans8table := malloc(SizeOf(trans8table_t));
+  ptrans8 := @colorlighttrans8table[0];
+  for j := 0 to 255 do
+  begin
+    c1 := palL[j];
+    r := (c1 shr 16) and $ff;
+    g := (c1 shr 8) and $ff;
+    b := c1 and $ff;
+    for k := 0 to 255 do
+    begin
+      c := R_ColorLightAdd(palL[k], r, g, b);
+      ptrans8^ := V_FindAproxColorIndex(@palL, c) and $FF;
+      inc(ptrans8);
+    end;
+  end;
+
   trans8tablescalced := true;
 end;
 
@@ -193,9 +235,12 @@ begin
     memfree(pointer(subtractive8tables[i]), SizeOf(trans8table_t));
   end;
 
+  memfree(pointer(colorlighttrans8table), SizeOf(trans8table_t));
+
   averagetrans8table := nil;
 
   trans8tablescalced := false;
+
 end;
 
 function R_GetTransparency8table(const factor: fixed_t = FRACUNIT div 2): Ptrans8table_t;
@@ -235,6 +280,26 @@ begin
     result := subtractive8tables[NUMTRANS8TABLES]
   else
     result := subtractive8tables[idx];
+end;
+
+function R_FastApproxColorIndex(const c: LongWord): byte; overload;
+var
+  r, g, b: LongWord;
+begin
+  b := (c shr 4) and $F;
+  g := (c shr 12) and $F;
+  r := (c shr 20) and $F;
+  result := approxcolorindexarray[r shl 8 + g shl 4 + b];
+end;
+
+function R_FastApproxColorIndex(const r, g, b: byte): byte; overload;
+var
+  r1, g1, b1: LongWord;
+begin
+  b1 := b shr 4;
+  g1 := g shr 4;
+  r1 := r shr 4;
+  result := approxcolorindexarray[r1 shl 8 + g1 shl 4 + b1];
 end;
 
 end.

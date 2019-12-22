@@ -41,10 +41,12 @@ procedure R_MarkDLights(const mo: Pmobj_t);
 
 procedure R_AddAdditionalLights;
 
-procedure R_CalcLights;
+procedure R_DrawLightsSingleThread;
+
+procedure R_DrawLightsMultiThread;
 
 var
-  lightmapcolorintensity: integer = 64;
+  lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
 
 const
@@ -52,8 +54,15 @@ const
   DEFLIGHTWIDTHFACTOR = 5;
   MAXLIGHTWIDTHFACTOR = 10;
   MINLMCOLORSENSITIVITY = 32;
-  DEFLMCOLORSENSITIVITY = 64;
-  MAXLMCOLORSENSITIVITY = 160;
+  DEFLMCOLORSENSITIVITY = 128;
+  MAXLMCOLORSENSITIVITY = 255;
+
+var
+  r_uselightmaps: boolean = true;
+
+procedure R_InitLightTexture;
+
+procedure R_ShutDownLightTexture;
 
 implementation
 
@@ -61,6 +70,7 @@ uses
   d_delphi,
   doomdef,
   m_fixed,
+  mt_utils,
   p_local,
   p_setup,
   p_maputl,
@@ -70,9 +80,67 @@ uses
   r_lights,
   r_main,
   r_defs,
+  r_trans8,
   r_zbuffer,
   r_hires,
-  tables;
+  tables,
+  v_video;
+
+const
+  LIGHTTEXTURESIZE = 128;
+
+var
+  lightexturelookup: array[0..LIGHTTEXTURESIZE - 1] of lpost_t;
+  lighttexture: PLongWordArray = nil;
+
+//
+// R_InitLightTexture
+//
+procedure R_InitLightTexture;
+var
+  i, j: integer;
+  dist: double;
+  c: LongWord;
+begin
+  if lighttexture = nil then
+    lighttexture := PLongWordArray(malloc(LIGHTTEXTURESIZE * LIGHTTEXTURESIZE * SizeOf(LongWord)));
+  for i := 0 to LIGHTTEXTURESIZE - 1 do
+  begin
+    lightexturelookup[i].topdelta := MAXINT;
+    lightexturelookup[i].length := 0;
+    for j := 0 to LIGHTTEXTURESIZE - 1 do
+    begin
+      dist := sqrt(sqr(i - (LIGHTTEXTURESIZE shr 1)) + sqr(j - (LIGHTTEXTURESIZE shr 1)));
+      if dist <= (LIGHTTEXTURESIZE shr 1) then
+      begin
+        inc(lightexturelookup[i].length);
+        c := round(dist * 4);
+        if c > 255 then
+          c := 0
+        else
+          c := 255 - c;
+        lighttexture[i * LIGHTTEXTURESIZE + j] := c * lightmapcolorintensity;
+        if j < lightexturelookup[i].topdelta then
+          lightexturelookup[i].topdelta := j;
+      end
+      else
+        lighttexture[i * LIGHTTEXTURESIZE + j] := 0;
+    end;
+  end;
+end;
+
+//
+// R_ShutDownLightTexture
+//
+procedure R_ShutDownLightTexture;
+begin
+  if lighttexture <> nil then
+    memfree(pointer(lighttexture), LIGHTTEXTURESIZE * LIGHTTEXTURESIZE * SizeOf(LongWord));
+end;
+
+const
+  MAXLIGHTDISTANCE = 2048;
+  MAXSQRLIGHTDISTANCE = MAXLIGHTDISTANCE * MAXLIGHTDISTANCE;
 
 procedure R_MarkDLights(const mo: Pmobj_t);
 var
@@ -110,11 +178,14 @@ begin
     dy := ydist - l.z;
     dz := zdist - l.y;
     psl.squaredist := dx * dx + dy * dy + dz * dz;
-    psl.x := mo.x + trunc(FRACUNIT * l.x);
-    psl.y := mo.y + trunc(FRACUNIT * l.z);
-    psl.z := mo.z + trunc(FRACUNIT * l.y);
-    psl.radius := trunc(l.radius * FRACUNIT);
-    inc(numdlitems);
+    if psl.squaredist < MAXSQRLIGHTDISTANCE then
+    begin
+      psl.x := mo.x + trunc(FRACUNIT * l.x);
+      psl.y := mo.y + trunc(FRACUNIT * l.z);
+      psl.z := mo.z + trunc(FRACUNIT * l.y);
+      psl.radius := trunc(l.radius * FRACUNIT);
+      inc(numdlitems);
+    end;
   end;
 end;
 
@@ -295,242 +366,6 @@ begin
   result.color32 := color;
 end;
 
-type
-  lightparams_t = record
-    lightsourcex: fixed_t;
-    lightsourcey: fixed_t;
-    r, g, b: byte;
-    dl_iscale: fixed_t;
-    dl_scale: fixed_t;
-    dl_texturemid: fixed_t;
-    dl_x: integer;
-    dl_yl: integer;
-    dl_yh: integer;
-    db_min: LongWord;
-    db_max: LongWord;
-    db_dmin: LongWord;
-    db_dmax: LongWord;
-    dl_fracstep: fixed_t;
-    dl_source32: PLongWordArray;
-  end;
-  Plightparams_t = ^lightparams_t;
-
-var
-  lcolumn: lightparams_t;
-
-procedure R_DrawColumnLightmap(const parms: Plightparams_t);
-var
-  count, y: integer;
-  frac: fixed_t;
-  fracstep: fixed_t;
-  db: Pzbufferitem_t;
-  depth: LongWord;
-  dbmin, dbmax: LongWord;
-  dbdmin, dbdmax: LongWord;
-  factor: fixed_t;
-  dfactor: fixed_t;
-  scale: fixed_t;
-//  li: Plightmapitem_t;
-  dls: fixed_t;
-  seg: Pseg_t;
-  rendertype: LongWord;
-  skip: boolean;
-  sameseg: boolean;
-  destl: PLongWord;
-begin
-//  if xcolumnsteplm[parms.dl_x] <= 0 then
-//    exit;
-
-  count := parms.dl_yh - parms.dl_yl;
-
-  if count < 0 then
-    exit;
-
-  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
-  fracstep := parms.dl_fracstep;
-
-  dbmin := parms.db_min;
-  dbmax := parms.db_max;
-  dbdmin := parms.db_dmin;
-  dbdmax := parms.db_dmax;
-  scale := parms.dl_scale;
-  seg := nil;
-  rendertype := 0;
-  dfactor := 0;
-  skip := false;
-  sameseg := false;
-
-//  if parms.dl_yl < lm_spartspan then
-//    lm_spartspan := parms.dl_yl;
-//  if parms.dl_yh > lm_stopspan then
-//    lm_stopspan := parms.dl_yh;
-
-  destl := @((ylookupl[parms.dl_yl]^)[columnofs[parms.dl_x]]);
-  for y := parms.dl_yl to parms.dl_yh do
-  begin
-//    if y mod LM_YACCURACY = LM_YMOD then
-    begin
-      dls := parms.dl_source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
-      if dls <> 0 then
-      begin
-        db := R_ZBufferAt(parms.dl_x, y);
-        if ((seg <> db.seg) {or (rendertype <> db.rendertype)}) and (db.depth >= dbmin) and (db.depth <= dbmax) then
-        begin
-          sameseg := (seg = db.seg) and (seg <> nil);
-          seg := db.seg;
-          if seg <> nil then
-            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
-          else
-            skip := false;
-//          rendertype := db.rendertype;
-//          if rendertype = RIT_SPRITE then
-//            skip := true // we do not cast lights to sprites (why ?)
-//          else if seg <> nil then
-//          begin
-//            if rendertype = RIT_MASKEDWALL then
-//              skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg) <> R_PointOnSegSide(viewx, viewy, seg)
-//            else
-//              skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg);
-//          end
-//          else
-//            skip := false; // we always draw light on spans, wrong! - eg Light source below floor should not cast light
-        end;
-
-
-        if not skip then
-        begin
-          depth := db.depth;
-          if (depth >= dbmin) and (depth <= dbmax) then
-          begin
-            if not sameseg then
-            begin
-              dfactor := depth - scale;
-              if dfactor < 0 then
-                dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
-              else
-                dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
-            end;
-            if dfactor > 0 then
-            begin
-              if dfactor > FRACUNIT then
-                dfactor := FRACUNIT;
-              factor := FixedMul(dls, dfactor);
-       destl^ := R_ColorLightAdd(destl^, FixedMul(parms.r, factor), FixedMul(parms.g, factor), FixedMul(parms.b, factor));
-//              factor := FixedMul(dls, dfactor);
-//       destl^ := R_ColorLightAdd(destl^, parms.r * factor, parms.g * factor, parms.b * factor);
-{              li := R_LightmapBufferAt(parms.dl_x, y);
-              factor := FixedMul(dls, dfactor);
-              li.r := li.r + (parms.r * factor) shr LM_STORESHIFT;
-              li.g := li.g + (parms.g * factor) shr LM_STORESHIFT;
-              li.b := li.b + (parms.b * factor) shr LM_STORESHIFT;
-              inc(li.numitems);}
-            end;
-          end;
-        end;
-      end;
-    end;
-    inc(destl, SCREENWIDTH);
-    inc(frac, fracstep);
-  end;
-end;
-
-
-procedure R_DrawVisLight(const psl: Pdlsortitem_t);
-var
-  frac: fixed_t;
-  fracstep: fixed_t;
-  vis: Pvislight_t;
-  w: float;
-  spryscale: fixed_t;
-  ltopscreen: fixed_t;
-  texturecolumn: integer;
-  ltopdelta: integer;
-  llength: integer;
-  topscreen: int64;
-  bottomscreen: int64;
-begin
-  vis := psl.vis;
-  w := 2 * psl.l.radius * lightwidthfactor / DEFLIGHTWIDTHFACTOR;
-  frac := trunc(vis.startfrac * LIGHTTEXTURESIZE / w);
-  fracstep := trunc(vis.xiscale * LIGHTTEXTURESIZE / w);
-  spryscale := trunc(vis.scale * w / LIGHTTEXTURESIZE);
-  lcolumn.lightsourcex := psl.x;
-  lcolumn.lightsourcey := psl.y;
-  lcolumn.dl_iscale := FixedDivEx(FRACUNIT, spryscale);
-  lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, trunc(vis.scale * w / LIGHTTEXTURESIZE));
-  lcolumn.dl_scale := vis.scale;
-  ltopscreen := centeryfrac - FixedMul(vis.texturemid, vis.scale);
-
-  lcolumn.db_min := vis.dbmin;
-  lcolumn.db_max := vis.dbmax;
-  lcolumn.db_dmin := vis.dbdmin;
-  lcolumn.db_dmax := vis.dbdmax;
-
-  lcolumn.r := (vis.color32 shr 16) and $FF;
-  lcolumn.g := (vis.color32 shr 8) and $FF;
-  lcolumn.b := vis.color32 and $FF;
-
-  lcolumn.dl_x := vis.x1;
-
-{  R_ZSetCriticalX(vis.x1 - 1, true);
-  R_ZSetCriticalX(vis.x1, true);
-  R_ZSetCriticalX(vis.x2, true);
-  R_ZSetCriticalX(vis.x2 + 1, true);}
-
-  while lcolumn.dl_x <= vis.x2 do
-  begin
-    texturecolumn := (LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1);
-    ltopdelta := lightexturelookup[texturecolumn].topdelta;
-    llength := lightexturelookup[texturecolumn].length;
-    lcolumn.dl_source32 := @lighttexture[texturecolumn * LIGHTTEXTURESIZE + ltopdelta];
-    topscreen := ltopscreen + int64(spryscale) * int64(ltopdelta);
-    bottomscreen := topscreen + int64(spryscale) * int64(llength);
-
-    lcolumn.dl_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-    lcolumn.dl_yh := FixedInt64(bottomscreen - 1);
-    lcolumn.dl_texturemid := (centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
-
-    if lcolumn.dl_yh >= viewheight then
-      lcolumn.dl_yh := viewheight - 1;
-    if lcolumn.dl_yl < 0 then
-      lcolumn.dl_yl := 0;
-
-      R_DrawColumnLightmap(@lcolumn);
-{    if lcolumn.dl_yl <= lcolumn.dl_yh then
-      R_AddRenderTask(lightcolfunc, RF_LIGHT, @lcolumn);}
-
-    frac := frac + fracstep;
-    inc(lcolumn.dl_x);
-  end;
-end;
-
-function f2b(const ff: float): byte;
-var
-  ii: integer;
-begin
-  ii := trunc(ff * 256);
-  if ii <= 0 then
-    result := 0
-  else if ii >= 255 then
-    result := 255
-  else
-    result := ii;
-end;
-
-procedure R_CalcLight(const psl: Pdlsortitem_t);
-var
-  c: LongWord;
-begin
-  if fixedcolormapnum = INVERSECOLORMAP then
-    c := $FFFFFF
-  else
-    c := f2b(psl.l.b) + f2b(psl.l.g) shl 8 + f2b(psl.l.r) shl 16;
-  psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c);
-  if psl.vis = nil then
-    exit;
-  R_DrawVisLight(psl);
-end;
-
 //
 //  R_SortDlights()
 //  JVAL: Sort the dynamic lights according to square distance of view
@@ -573,13 +408,380 @@ begin
     qsort(0, numdlitems - 1);
 end;
 
-procedure R_CalcLights;
+type
+  lightparams_t = record
+    lightsourcex: fixed_t;
+    lightsourcey: fixed_t;
+    r, g, b: byte;
+    dl_iscale: fixed_t;
+    dl_scale: fixed_t;
+    dl_texturemid: fixed_t;
+    dl_x: integer;
+    dl_yl: integer;
+    dl_yh: integer;
+    db_min: LongWord;
+    db_max: LongWord;
+    db_dmin: LongWord;
+    db_dmax: LongWord;
+    dl_fracstep: fixed_t;
+    dl_source32: PLongWordArray;
+  end;
+  Plightparams_t = ^lightparams_t;
+
+const
+  MAXLIGHTTHREADS = NUMEXECTHREADS;
+
+var
+  lcolumns: array[0..MAXLIGHTTHREADS - 1] of lightparams_t;
+
+type
+  drawcolumnlightmap_t = procedure(const parms: Plightparams_t);
+
+var
+  drawcolumnlightmap: drawcolumnlightmap_t;
+
+procedure R_DrawColumnLightmap8(const parms: Plightparams_t);
+var
+  count, x, y: integer;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  db: Pzbufferitem_t;
+  depth: LongWord;
+  dbmin, dbmax: LongWord;
+  dbdmin, dbdmax: LongWord;
+  factor: fixed_t;
+  dfactor: fixed_t;
+  scale: fixed_t;
+  dls: fixed_t;
+  seg: Pseg_t;
+  skip: boolean;
+  sameseg: boolean;
+  destb: PByte;
+  source32: PLongWordArray;
+  pitch: integer;
+begin
+  count := parms.dl_yh - parms.dl_yl;
+
+  if count < 0 then
+    exit;
+
+  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  fracstep := parms.dl_fracstep;
+
+  dbmin := parms.db_min;
+  dbmax := parms.db_max;
+  dbdmin := parms.db_dmin;
+  dbdmax := parms.db_dmax;
+  x := parms.dl_x;
+  scale := parms.dl_scale;
+  seg := nil;
+  dfactor := 0;
+  skip := false;
+  sameseg := false;
+  source32 := parms.dl_source32;
+
+  destb := @((ylookup[parms.dl_yl]^)[columnofs[x]]);
+  pitch := SCREENWIDTH;
+  for y := parms.dl_yl to parms.dl_yh do
+  begin
+    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
+    if dls <> 0 then
+    begin
+      db := R_ZBufferAt(x, y);
+      depth := db.depth;
+      if (depth >= dbmin) and (depth <= dbmax) then
+      begin
+        if seg <> db.seg then
+        begin
+          sameseg := (seg = db.seg) and (seg <> nil);
+          seg := db.seg;
+          if seg <> nil then
+            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
+          else
+            skip := false;
+        end;
+
+        if not skip then
+        begin
+          if not sameseg then
+          begin
+            dfactor := depth - scale;
+            if dfactor < 0 then
+              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
+            else
+              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
+          end;
+
+          if dfactor > 0 then
+          begin
+            factor := FixedMul(dls, dfactor);
+
+            if factor > 0 then
+              destb^ := colorlighttrans8table[destb^ * 256 + R_FastApproxColorIndex(FixedMul(parms.r, factor), FixedMul(parms.g, factor), FixedMul(parms.b, factor))];
+          end;
+        end;
+      end;
+    end;
+    inc(destb, pitch);
+    inc(frac, fracstep);
+  end;
+end;
+
+procedure R_DrawColumnLightmap32(const parms: Plightparams_t);
+var
+  count, x, y: integer;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  db: Pzbufferitem_t;
+  depth: LongWord;
+  dbmin, dbmax: LongWord;
+  dbdmin, dbdmax: LongWord;
+  factor: fixed_t;
+  dfactor: fixed_t;
+  scale: fixed_t;
+  dls: fixed_t;
+  seg: Pseg_t;
+  skip: boolean;
+  sameseg: boolean;
+  destb: PByte;
+  source32: PLongWordArray;
+  pitch: integer;
+begin
+  count := parms.dl_yh - parms.dl_yl;
+
+  if count < 0 then
+    exit;
+
+  frac := parms.dl_texturemid + (parms.dl_yl - centery) * parms.dl_iscale;
+  fracstep := parms.dl_fracstep;
+
+  dbmin := parms.db_min;
+  dbmax := parms.db_max;
+  dbdmin := parms.db_dmin;
+  dbdmax := parms.db_dmax;
+  x := parms.dl_x;
+  scale := parms.dl_scale;
+  seg := nil;
+  dfactor := 0;
+  skip := false;
+  sameseg := false;
+  source32 := parms.dl_source32;
+
+  destb := @((ylookupl[parms.dl_yl]^)[columnofs[x]]);
+  pitch := SCREENWIDTH * SizeOf(LongWord);
+  for y := parms.dl_yl to parms.dl_yh do
+  begin
+    dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
+    if dls <> 0 then
+    begin
+      db := R_ZBufferAt(x, y);
+      depth := db.depth;
+      if (depth >= dbmin) and (depth <= dbmax) then
+      begin
+        if seg <> db.seg then
+        begin
+          sameseg := (seg = db.seg) and (seg <> nil);
+          seg := db.seg;
+          if seg <> nil then
+            skip := R_PointOnSegSide(parms.lightsourcex, parms.lightsourcey, seg)
+          else
+            skip := false;
+        end;
+
+        if not skip then
+        begin
+          if not sameseg then
+          begin
+            dfactor := depth - scale;
+            if dfactor < 0 then
+              dfactor := FRACUNIT - FixedDiv(-dfactor, dbdmin)
+            else
+              dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
+          end;
+          
+          if dfactor > 0 then
+          begin
+            factor := FixedMulDiv256(dls, dfactor);
+
+            if factor > 0 then
+            begin
+              if parms.b > 0 then
+                destb^ := destb^ + ((255 - destb^) * parms.b * factor) shr 16;
+              inc(destb);
+
+              if parms.g > 0 then
+                destb^ := destb^ + ((255 - destb^) * parms.g * factor) shr 16;
+
+              if parms.r > 0 then
+              begin
+                inc(destb);
+                destb^ := destb^ + ((255 - destb^) * parms.r * factor) shr 16;
+                dec(destb, 2);
+              end
+              else
+                dec(destb);
+            end;
+
+          end;
+        end;
+      end;
+    end;
+    inc(destb, pitch);
+    inc(frac, fracstep);
+  end;
+end;
+
+procedure R_DrawVisLight(const psl: Pdlsortitem_t; const threadid, numlthreads: integer);
+var
+  frac: fixed_t;
+  fracstep: fixed_t;
+  vis: Pvislight_t;
+  w: float;
+  spryscale: fixed_t;
+  ltopscreen: fixed_t;
+  texturecolumn: integer;
+  ltopdelta: integer;
+  llength: integer;
+  topscreen: int64;
+  bottomscreen: int64;
+  lcolumn: Plightparams_t;
+begin
+  vis := psl.vis;
+  w := 2 * psl.l.radius * lightwidthfactor / DEFLIGHTWIDTHFACTOR;
+  frac := trunc(vis.startfrac * LIGHTTEXTURESIZE / w);
+  fracstep := trunc(vis.xiscale * LIGHTTEXTURESIZE / w);
+  spryscale := trunc(vis.scale * w / LIGHTTEXTURESIZE);
+  lcolumn := @lcolumns[threadid];
+  lcolumn.lightsourcex := psl.x;
+  lcolumn.lightsourcey := psl.y;
+  lcolumn.dl_iscale := FixedDivEx(FRACUNIT, spryscale);
+  lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, trunc(vis.scale * w / LIGHTTEXTURESIZE));
+  lcolumn.dl_scale := vis.scale;
+  ltopscreen := centeryfrac - FixedMul(vis.texturemid, vis.scale);
+
+  lcolumn.db_min := vis.dbmin;
+  lcolumn.db_max := vis.dbmax;
+  lcolumn.db_dmin := vis.dbdmin;
+  lcolumn.db_dmax := vis.dbdmax;
+
+  lcolumn.r := (vis.color32 shr 16) and $FF;
+  lcolumn.g := (vis.color32 shr 8) and $FF;
+  lcolumn.b := vis.color32 and $FF;
+
+  lcolumn.dl_x := vis.x1;
+
+  while lcolumn.dl_x <= vis.x2 do
+  begin
+    if lcolumn.dl_x mod numlthreads = threadid then
+    begin
+      texturecolumn := (LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1);
+      ltopdelta := lightexturelookup[texturecolumn].topdelta;
+      llength := lightexturelookup[texturecolumn].length;
+      lcolumn.dl_source32 := @lighttexture[texturecolumn * LIGHTTEXTURESIZE + ltopdelta];
+      topscreen := ltopscreen + int64(spryscale) * int64(ltopdelta);
+      bottomscreen := topscreen + int64(spryscale) * int64(llength);
+
+      lcolumn.dl_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+      lcolumn.dl_yh := FixedInt64(bottomscreen - 1);
+      lcolumn.dl_texturemid := (centery - lcolumn.dl_yl) * lcolumn.dl_iscale;
+
+      if lcolumn.dl_yh >= viewheight then
+        lcolumn.dl_yh := viewheight - 1;
+      if lcolumn.dl_yl < 0 then
+        lcolumn.dl_yl := 0;
+
+      drawcolumnlightmap(lcolumn);
+    end;
+    frac := frac + fracstep;
+    inc(lcolumn.dl_x);
+  end;
+end;
+
+var
+  old_lightmapcolorintensity: integer = -1;
+  old_lightwidthfactor: integer = -1;
+
+procedure R_SetUpLightEffects;
+begin
+  lightmapcolorintensity := ibetween(lightmapcolorintensity, MINLMCOLORSENSITIVITY, MAXLMCOLORSENSITIVITY);
+  lightwidthfactor := ibetween(lightwidthfactor, MINLIGHTWIDTHFACTOR, MAXLIGHTWIDTHFACTOR);
+  if old_lightmapcolorintensity <> lightmapcolorintensity then
+  begin
+    old_lightmapcolorintensity := lightmapcolorintensity;
+    R_InitLightTexture;
+  end;
+  if videomode = vm32bit then
+    drawcolumnlightmap := R_DrawColumnLightmap32
+  else
+    drawcolumnlightmap := R_DrawColumnLightmap8;
+end;
+
+function f2b(const ff: float): byte;
+var
+  ii: integer;
+begin
+  ii := trunc(ff * 256);
+  if ii <= 0 then
+    result := 0
+  else if ii >= 255 then
+    result := 255
+  else
+    result := ii;
+end;
+
+procedure R_DrawLightSingleThread(const psl: Pdlsortitem_t);
+var
+  c: LongWord;
+begin
+  if fixedcolormapnum = INVERSECOLORMAP then
+    c := $FFFFFF
+  else
+    c := f2b(psl.l.b) + f2b(psl.l.g) shl 8 + f2b(psl.l.r) shl 16;
+  psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c);
+  if psl.vis = nil then
+    exit;
+  R_DrawVisLight(psl, 0, 1);
+end;
+
+procedure R_DrawLightsSingleThread;
 var
   i: integer;
 begin
+  R_SetUpLightEffects;
   R_SortDlights;
   for i := 0 to numdlitems - 1 do
-    R_CalcLight(@dlbuffer[i]);
+    R_DrawLightSingleThread(@dlbuffer[i]);
+end;
+
+procedure R_DrawLightMultiThread(const psl: Pdlsortitem_t; const threadid, numlthreads: integer);
+var
+  c: LongWord;
+begin
+  if fixedcolormapnum = INVERSECOLORMAP then
+    c := $FFFFFF
+  else
+    c := f2b(psl.l.b) + f2b(psl.l.g) shl 8 + f2b(psl.l.r) shl 16;
+  psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c);
+  if psl.vis = nil then
+    exit;
+  R_DrawVisLight(psl, threadid, numlthreads);
+end;
+
+function _DrawLightsMultiThread_thr(p: iterator_p): integer; stdcall;
+var
+  i: integer;
+begin
+  for i := 0 to numdlitems - 1 do
+    R_DrawLightMultiThread(@dlbuffer[i], p.idx, p.numidxs);
+  result := 0;
+end;
+
+procedure R_DrawLightsMultiThread;
+begin
+  R_SetUpLightEffects;
+  R_SortDlights;
+  MT_Iterate(@_DrawLightsMultiThread_thr, nil);
 end;
 
 end.
+

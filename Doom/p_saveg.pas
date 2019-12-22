@@ -667,6 +667,11 @@ begin
 
     mobj.dropitem := 0;
 
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+
     Z_Free(mobj113);
     result := true
   end
@@ -729,6 +734,11 @@ begin
     mobj.intrplcnt := 0;
 
     mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
 
     Z_Free(mobj114);
     result := true
@@ -793,6 +803,11 @@ begin
 
     mobj.dropitem := 0;
 
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+
     Z_Free(mobj115);
     result := true
   end
@@ -855,6 +870,11 @@ begin
     mobj.intrplcnt := 0;
 
     mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
 
     Z_Free(mobj117);
     result := true
@@ -919,6 +939,11 @@ begin
 
     mobj.dropitem := 0;
 
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+
     Z_Free(mobj118);
     result := true;
   end
@@ -936,7 +961,13 @@ begin
     mobj.prevangle := mobj.angle;
     mobj.nextangle := mobj.angle;
     mobj.intrplcnt := 0;
+
     mobj.dropitem := 0;
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
 
     result := true;
   end
@@ -946,6 +977,22 @@ begin
     incp(pointer(save_p), SizeOf(mobj_t121));
 
     mobj.dropitem := 0;
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
+
+    result := true;
+  end
+  else if (savegameversion = VERSION122) or (savegameversion = VERSION203) or (savegameversion = VERSION204) then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t204));
+    incp(pointer(save_p), SizeOf(mobj_t204));
+
+    mobj.lightvalidcount := 0;
+    mobj.scale := FRACUNIT;
+    mobj.pushfactor := FRACUNIT div 4;
+    mobj.gravity := FRACUNIT;
 
     result := true;
   end
@@ -992,7 +1039,7 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION121 then
+          if savegameversion >= VERSION205 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));

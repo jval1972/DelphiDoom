@@ -2085,10 +2085,13 @@ var
   pds: Pdrawseg_t;
   i: integer;
 begin
-  if videomode = vm32bit then
+  if r_uselightmaps then
   begin
     R_MarkLights;
-    R_CalcLights;
+    if usemultithread then
+      R_DrawLightsMultiThread
+    else
+      R_DrawLightsSingleThread;
   end;
   if vissprite_p > 0 then
   begin

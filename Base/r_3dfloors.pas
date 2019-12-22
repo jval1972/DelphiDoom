@@ -290,16 +290,16 @@ begin
         if not forcecolormaps then
         begin
           if spryscale_dbl > 256 * FRACUNIT then
-            index := (_SHR(Round(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
+            index := (_SHR(trunc(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
           else
-            index := (_SHR(Round(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) * 320) div SCREENWIDTH;
+            index := (_SHR(trunc(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) * 320) div SCREENWIDTH;
           if index >= HLL_MAXLIGHTSCALE then
             index := HLL_MAXLIGHTSCALE - 1
           else if index < 0 then
             index := 0;
           dc_lightlevel := scalelightlevels[dc_llindex, index];
         end;
-        index := _SHR(Round(spryscale_dbl), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
+        index := _SHR(trunc(spryscale_dbl), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
 
         if index >=  MAXLIGHTSCALE then
           index := MAXLIGHTSCALE - 1
@@ -322,7 +322,7 @@ begin
       end
       else
       begin
-        dc_iscale := Round($100000000 / spryscale_dbl);
+        dc_iscale := trunc($100000000 / spryscale_dbl);
         if dc_iscale > MAXINT div 2 then
           dc_iscale := MAXINT div 2
         else if dc_iscale < -MAXINT div 2 then
@@ -337,8 +337,8 @@ begin
       end;
 
       texturecolumn := maskedtexturecol[dc_x] shr DC_HIRESBITS;
-      dc_yl := Round((sprtopscreen_dbl + FRACUNIT) / FRACUNIT);
-      dc_yh := Round((sprtopscreen_dbl + roverscale_dbl) / FRACUNIT);
+      dc_yl := trunc((sprtopscreen_dbl + FRACUNIT) / FRACUNIT);
+      dc_yh := trunc((sprtopscreen_dbl + roverscale_dbl) / FRACUNIT);
       if dc_yh >= mfloorclip[dc_x] then
         dc_yh := mfloorclip[dc_x] - 1;
       if dc_yl <= mceilingclip[dc_x] then
@@ -471,9 +471,9 @@ begin
         if not forcecolormaps then
         begin
           if spryscale_dbl > 256 * FRACUNIT then
-            index := (_SHR(Round(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
+            index := (_SHR(trunc(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
           else
-            index := (_SHR(Round(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) * 320) div SCREENWIDTH;
+            index := (_SHR(trunc(spryscale_dbl), HLL_LIGHTSCALESHIFT + 2) * 320) div SCREENWIDTH;
           if index >= HLL_MAXLIGHTSCALE then
             index := HLL_MAXLIGHTSCALE - 1
           else if index < 0 then
@@ -481,7 +481,7 @@ begin
           dc_lightlevel := scalelightlevels[dc_llindex, index];
           dc_lightlevel2 := scalelightlevels[dc_llindex2, index];
         end;
-        index := _SHR(Round(spryscale_dbl), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
+        index := _SHR(trunc(spryscale_dbl), LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
 
         if index >=  MAXLIGHTSCALE then
           index := MAXLIGHTSCALE - 1
@@ -508,7 +508,7 @@ begin
       end
       else
       begin
-        dc_iscale := Round($100000000 / spryscale_dbl);
+        dc_iscale := trunc($100000000 / spryscale_dbl);
         if dc_iscale > MAXINT div 2 then
           dc_iscale := MAXINT div 2
         else if dc_iscale < -MAXINT div 2 then
@@ -523,8 +523,8 @@ begin
       end;
 
       texturecolumn := maskedtexturecol[dc_x] shr DC_HIRESBITS;
-      dc_yl := Round((sprtopscreen_dbl + FRACUNIT) / FRACUNIT);
-      dc_yh := Round((sprtopscreen_dbl + roverscale_dbl[0]) / FRACUNIT);
+      dc_yl := trunc((sprtopscreen_dbl + FRACUNIT) / FRACUNIT);
+      dc_yh := trunc((sprtopscreen_dbl + roverscale_dbl[0]) / FRACUNIT);
       if dc_yh >= mfloorclip[dc_x] then
         dc_yh := mfloorclip[dc_x] - 1;
       if dc_yl <= mceilingclip[dc_x] then
@@ -553,8 +553,8 @@ begin
         dc_colormap32 := dc_colormap322;
       end;
       sprtopscreen_dbl := centeryfrac - texscale_dbl[1];
-      dc_yl := Round((sprtopscreen_dbl + FRACUNIT) / FRACUNIT);
-      dc_yh := Round((sprtopscreen_dbl + roverscale_dbl[1]) / FRACUNIT);
+      dc_yl := trunc((sprtopscreen_dbl + FRACUNIT) / FRACUNIT);
+      dc_yh := trunc((sprtopscreen_dbl + roverscale_dbl[1]) / FRACUNIT);
       if dc_yh >= mfloorclip[dc_x] then
         dc_yh := mfloorclip[dc_x] - 1;
       if dc_yl <= mceilingclip[dc_x] then
@@ -1054,17 +1054,17 @@ begin
   SetLength(clipI, 1);
   SetLength(clipI[0], 4);
   clipI[0][0] := R_MakeClipperPoint(
-    viewx + Round(cos((viewangle + fovhangle + ANG1) * ANGLE_T_TO_RAD) * MINZ),
-    viewy + Round(sin((viewangle + fovhangle + ANG1) * ANGLE_T_TO_RAD) * MINZ));
+    viewx + trunc(cos((viewangle + fovhangle + ANG1) * ANGLE_T_TO_RAD) * MINZ),
+    viewy + trunc(sin((viewangle + fovhangle + ANG1) * ANGLE_T_TO_RAD) * MINZ));
   clipI[0][1] := R_MakeClipperPoint(
-    viewx + Round(cos((viewangle - fovhangle - ANG1) * ANGLE_T_TO_RAD) * MINZ),
-    viewy + Round(sin((viewangle - fovhangle - ANG1) * ANGLE_T_TO_RAD) * MINZ));
+    viewx + trunc(cos((viewangle - fovhangle - ANG1) * ANGLE_T_TO_RAD) * MINZ),
+    viewy + trunc(sin((viewangle - fovhangle - ANG1) * ANGLE_T_TO_RAD) * MINZ));
   clipI[0][2] := R_MakeClipperPoint(
-    viewx + Round(cos((viewangle - fovhangle) * ANGLE_T_TO_RAD) * MAXZ),
-    viewy + Round(sin((viewangle - fovhangle) * ANGLE_T_TO_RAD) * MAXZ));
+    viewx + trunc(cos((viewangle - fovhangle) * ANGLE_T_TO_RAD) * MAXZ),
+    viewy + trunc(sin((viewangle - fovhangle) * ANGLE_T_TO_RAD) * MAXZ));
   clipI[0][3] := R_MakeClipperPoint(
-    viewx + Round(cos((viewangle + fovhangle) * ANGLE_T_TO_RAD) * MAXZ),
-    viewy + Round(sin((viewangle + fovhangle) * ANGLE_T_TO_RAD) * MAXZ));
+    viewx + trunc(cos((viewangle + fovhangle) * ANGLE_T_TO_RAD) * MAXZ),
+    viewy + trunc(sin((viewangle + fovhangle) * ANGLE_T_TO_RAD) * MAXZ));
 
   with TClipper.Create do
   try
