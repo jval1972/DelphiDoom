@@ -44,7 +44,7 @@ uses
 
 procedure G_DeathMatchSpawnPlayer(playernum: integer);
 
-procedure G_InitNew(skill:skill_t; episode: integer; map: integer);
+procedure G_InitNew(skill: skill_t; episode: integer; map: integer);
 
 // Can be called by the startup code or M_Responder.
 // A normal game starts at map 1,
@@ -274,6 +274,7 @@ uses
   p_mobj,
   p_inter,
   p_map,
+  p_levelinfo,
   ps_main,
   in_stuff,
   hu_stuff,
@@ -2218,6 +2219,8 @@ begin
   if setsizeneeded then
     R_ExecuteSetViewSize;
 
+  P_LevelInfoChangeMusic;
+    
   // draw the pattern into the back screen
 {$IFNDEF OPENGL}
   R_FillBackScreen;
@@ -2466,6 +2469,7 @@ end;
 procedure G_InitNew(skill: skill_t; episode, map: integer);
 var
   i: integer;
+  levelinf: Plevelinfo_t;
 begin
   if paused then
   begin
@@ -2506,6 +2510,10 @@ begin
         episode := 3;
     end;
   end;
+
+  levelinf := P_GetLevelInfo(P_GetMapName(episode, map));
+  levelinf.musname := stringtochar8('');
+  levelinf.skyflat := stringtochar8('');
 
   R_ResetInterpolationBuffer;
 

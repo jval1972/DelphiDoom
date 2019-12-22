@@ -126,6 +126,8 @@ var
 const
   MIN_NUMCHANNELS = 8;
 
+function S_DefaultMusicForMap(const map: integer): integer;
+  
 implementation
 
 uses
@@ -337,6 +339,15 @@ begin
   S_FreeRandomSoundLists;
 end;
 
+function S_DefaultMusicForMap(const map: integer): integer;
+begin
+  // [STRIFE] Some interesting math here ;)
+  if map <= 31 then
+    result := map + 1
+  else
+    result := map - 30;
+end;
+
 //
 // Per level startup code.
 // Kills playing sounds at start of level,
@@ -356,13 +367,9 @@ begin
   // start new music for the level
   mus_paused := false;
 
-  // [STRIFE] Some interesting math here ;)
-  if gamemap <= 31 then
-    mnum := 1
-  else
-    mnum := -30;
+  mnum := S_DefaultMusicForMap(gamemap);
 
-  S_ChangeMusic(gamemap + mnum, true);
+  S_ChangeMusic(mnum, true);
 end;
 
 procedure S_StartSoundAtVolume(origin_p: pointer; sfx_id: integer; volume: integer);
@@ -893,7 +900,7 @@ var
   music: Pmusicinfo_t;
 begin
   if (musicnum <= Ord(mus_None)) or
-     (musicnum >= Ord(NUMMUSIC)) then
+     (musicnum >= nummusic) then
     I_Error('S_ChangeMusic(): Bad music number %d', [musicnum]);
 
   music := @S_music[musicnum];

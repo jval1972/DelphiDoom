@@ -170,6 +170,7 @@ uses
   p_3dfloors,
   p_slopes,   // JVAL: Slopes
   p_affectees,
+  p_musinfo,
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
@@ -1385,6 +1386,7 @@ begin
   P_InitSwitchList;
   P_InitPicAnims;
   R_InitSprites(sprnames);
+  P_InitMusInfo;
   C_AddCmd('suicide', @P_CmdSuicide);
   C_AddCmd('doadjustmissingtextures', @P_AdjustMissingTextures);
 end;

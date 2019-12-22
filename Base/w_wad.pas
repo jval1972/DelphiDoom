@@ -921,7 +921,7 @@ begin
   len := Length(name);
   if len > 8 then // JVAL: Original an I_Error ocurred. Now we call I_DevError
   begin
-    I_DevError('W_CheckNumForName(): name string has more than 8 characters: %s'#13#10, [name]);
+    I_Warning('W_CheckNumForName(): name string has more than 8 characters: %s'#13#10, [name]);
     len := 8;
   end;
 

@@ -287,6 +287,7 @@ uses
   p_map,
   p_user,
   p_acs,
+  p_levelinfo,
   ps_main,
   in_stuff,
   hu_stuff,
@@ -2117,6 +2118,7 @@ begin
     SV_UpdateRebornSlot;
   end;
   SB_SetClassData;
+  P_LevelInfoChangeMusic;
   borderneedsrefresh := true;
 end;
 
@@ -2232,6 +2234,7 @@ end;
 procedure G_InitNew(skill: skill_t; episode, map: integer);
 var
   i: integer;
+  levelinf: Plevelinfo_t;
 begin
   if paused then
   begin
@@ -2249,6 +2252,10 @@ begin
     map := 1
   else if map > 99 then
     map := 99;
+
+  levelinf := P_GetLevelInfo(P_GetMapName(map));
+  levelinf.musname := stringtochar8('');
+  levelinf.skyflat := stringtochar8('');
 
   R_ResetInterpolationBuffer;
 

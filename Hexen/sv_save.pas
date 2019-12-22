@@ -100,6 +100,7 @@ uses
   p_enemy,
   p_map,
   p_params,
+  p_levelinfo,
   po_man,
   ps_main,
   psi_globals,
@@ -834,8 +835,14 @@ var
   sec: Psector_t;
   li: Pline_t;
   si: Pside_t;
+  levelinf: Plevelinfo_t;
 begin
   StreamOutLong(ASEG_WORLD);
+
+  levelinf := P_GetLevelInfo(P_GetMapName(gamemap));
+  StreamOutChar8t(levelinf.musname);
+  StreamOutChar8t(levelinf.skyflat);
+
   sec := @sectors[0];
   for i := 0 to numsectors - 1 do
   begin
@@ -897,8 +904,17 @@ var
   sec: Psector_t;
   li: Pline_t;
   si: Pside_t;
+  levelinf: Plevelinfo_t;
 begin
   AssertSegment(ASEG_WORLD);
+
+  if LOADVERSION >= VERSION205 then
+  begin
+    levelinf := P_GetLevelInfo(P_GetMapName(gamemap));
+    levelinf.musname := GET_CHAR8T;
+    levelinf.skyflat := GET_CHAR8T;
+  end;
+
   sec := @sectors[0];
   for i := 0 to numsectors - 1 do
   begin

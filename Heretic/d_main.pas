@@ -2057,12 +2057,12 @@ begin
 
   SUC_Progress(69);
 
-  printf('R_Init: Init HERETIC refresh daemon.');
+  printf('R_Init: Init HERETIC refresh daemon.'#13#10);
   R_Init;
 
   SUC_Progress(80);
 
-  printf(#13#10 + 'P_Init: Init Playloop state.'#13#10);
+  printf('P_Init: Init Playloop state.'#13#10);
   P_Init;
 
   SUC_Progress(81);

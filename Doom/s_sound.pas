@@ -108,6 +108,8 @@ var
 const
   MIN_NUMCHANNELS = 8;
 
+function S_DefaultMusicForMap(const episode, map: integer): integer;
+
 implementation
 
 uses
@@ -314,6 +316,39 @@ begin
   S_FreeRandomSoundLists;
 end;
 
+function S_DefaultMusicForMap(const episode, map: integer): integer;
+begin
+  if gamemode = commercial then
+  begin
+    if map = 99 then
+      result := Ord(mus_runnin)
+    else
+      result := Ord(mus_runnin) + map - 1;
+  end
+  else
+  begin
+    // JVAL: Use DEH files to specify new sounds for E4
+    if episode < 5 then
+      result := Ord(mus_e1m1) + (episode - 1) * 9 + map - 1
+    else  // JVAL Game episode > 4 ????
+    begin
+      case map of
+        1: result := Ord(mus_e3m4); // American   e4m1
+        2: result := Ord(mus_e3m2); // Romero     e4m2
+        3: result := Ord(mus_e3m3); // Shawn      e4m3
+        4: result := Ord(mus_e1m5); // American   e4m4
+        5: result := Ord(mus_e2m7); // Tim        e4m5
+        6: result := Ord(mus_e2m4); // Romero     e4m6
+        7: result := Ord(mus_e2m6); // J.Anderson e4m7 CHIRON.WAD
+        8: result := Ord(mus_e2m5); // Shawn      e4m8
+        9: result := Ord(mus_e1m9); // Tim        e4m9
+      else
+        result := Ord(mus_e1m1); // JVAL ?????
+      end;
+    end;
+  end;
+end;
+
 //
 // Per level startup code.
 // Kills playing sounds at start of level,
@@ -333,35 +368,7 @@ begin
   // start new music for the level
   mus_paused := false;
 
-  if gamemode = commercial then
-  begin
-    if gamemap = 99 then
-      mnum := Ord(mus_runnin)
-    else
-      mnum := Ord(mus_runnin) + gamemap - 1;
-  end
-  else
-  begin
-    // JVAL: Use DEH files to specify new sounds for E4
-    if gameepisode < 5 then
-      mnum := Ord(mus_e1m1) + (gameepisode - 1) * 9 + gamemap - 1
-    else  // JVAL Game episode > 4 ????
-    begin
-      case gamemap of
-        1: mnum := Ord(mus_e3m4); // American   e4m1
-        2: mnum := Ord(mus_e3m2); // Romero     e4m2
-        3: mnum := Ord(mus_e3m3); // Shawn      e4m3
-        4: mnum := Ord(mus_e1m5); // American   e4m4
-        5: mnum := Ord(mus_e2m7); // Tim        e4m5
-        6: mnum := Ord(mus_e2m4); // Romero     e4m6
-        7: mnum := Ord(mus_e2m6); // J.Anderson e4m7 CHIRON.WAD
-        8: mnum := Ord(mus_e2m5); // Shawn      e4m8
-        9: mnum := Ord(mus_e1m9); // Tim        e4m9
-      else
-        mnum := Ord(mus_e1m1); // JVAL ?????
-      end;
-    end;
-  end;
+  mnum := S_DefaultMusicForMap(gameepisode, gamemap);
 
   S_ChangeMusic(mnum, true);
 end;
@@ -756,7 +763,7 @@ var
   music: Pmusicinfo_t;
 begin
   if (musicnum <= Ord(mus_None)) or
-     (musicnum >= Ord(NUMMUSIC)) then
+     (musicnum >= nummusic) then
     I_Error('S_ChangeMusic(): Bad music number %d', [musicnum]);
 
   music := @S_music[musicnum];

@@ -1596,63 +1596,62 @@ end;
 procedure R_Init;
 begin
 {$IFNDEF OPENGL}
-  printf(#13#10 + 'R_Init32Cache');
+  printf('R_Init32Cache'#13#10);
   R_Init32Cache;
-  printf(#13#10 + 'R_InitFake3D');
+  printf('R_InitFake3D'#13#10);
   R_InitFake3D;
 {$ENDIF}
-  printf(#13#10 + 'R_InitAspect');
+  printf('R_InitAspect'#13#10);
   R_InitAspect;
-  printf(#13#10 + 'R_InitData');
+  printf('R_InitData'#13#10);
   R_InitData;
-  printf(#13#10 + 'R_InitCustomColormaps');
+  printf('R_InitCustomColormaps'#13#10);
   R_InitCustomColormaps;
 {$IFNDEF OPENGL}
-  printf(#13#10 + 'R_InitRippleEffects');
+  printf('R_InitRippleEffects'#13#10);
   R_InitRippleEffects;
 {$ENDIF}
-  printf(#13#10 + 'R_InitInterpolations');
+  printf('R_InitInterpolations'#13#10);
   R_InitInterpolations;
-  printf(#13#10 + 'R_InitPointToAngle');
+  printf('R_InitPointToAngle'#13#10);
   R_InitPointToAngle;
-  printf(#13#10 + 'R_InitTables');
+  printf('R_InitTables'#13#10);
   R_InitTables;
-  printf(#13#10 + 'R_SetViewSize');
+  printf('R_SetViewSize'#13#10);
   // viewwidth / viewheight / detailLevel are set by the defaults
   R_SetViewSize;
-  printf(#13#10 + 'R_InitPlanes');
+  printf('R_InitPlanes'#13#10);
   R_InitPlanes;
-  printf(#13#10 + 'R_InitLightTables');
+  printf('R_InitLightTables'#13#10);
   R_InitLightTables;
-  printf(#13#10 + 'R_InitSkyMap');
+  printf('R_InitSkyMap'#13#10);
   R_InitSkyMap;
-  printf(#13#10 + 'R_InitTranslationsTables');
+  printf('R_InitTranslationsTables'#13#10);
   R_InitTranslationTables;
 {$IFNDEF OPENGL}
-  printf(#13#10 + 'R_InitTransparency8Tables');
+  printf('R_InitTransparency8Tables'#13#10);
   R_InitTransparency8Tables;
 {$ENDIF}
-  printf(#13#10 + 'R_InitPrecalc');
+  printf('R_InitPrecalc'#13#10);
   R_InitPrecalc;
 {$IFNDEF OPENGL}
-  printf(#13#10 + 'R_InitVoxels');
+  printf('R_InitVoxels'#13#10);
   R_InitVoxels;
-  printf(#13#10 + 'R_InitWallsCache8');
+  printf('R_InitWallsCache8'#13#10);
   R_InitWallsCache8;
-  printf(#13#10 + 'R_InitWallsCache32');
+  printf('R_InitWallsCache32'#13#10);
   R_InitWallsCache32;
-  printf(#13#10 + 'R_InitFlatsCache8');
+  printf('R_InitFlatsCache8'#13#10);
   R_InitFlatsCache8;
-  printf(#13#10 + 'R_InitFlatsCache32');
+  printf('R_InitFlatsCache32'#13#10);
   R_InitFlatsCache32;
-  printf(#13#10 + 'R_InitDepthBuffer'); // JVAL: 3d Floors
+  printf('R_InitDepthBuffer'#13#10); // JVAL: 3d Floors
   R_InitDepthBuffer;
-  printf(#13#10 + 'R_InitZBuffer'); // JVAL: version 205
+  printf('R_InitZBuffer'#13#10); // JVAL: version 205
   R_InitZBuffer;
-  printf(#13#10 + 'R_InitDynamicLights');
+  printf('R_InitDynamicLights'#13#10);
   R_InitDynamicLights;
 {$ENDIF}
-  printf(#13#10);
 
   framecount := 0;
 

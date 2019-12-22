@@ -332,7 +332,9 @@ uses
   w_wadwriter in 'Base\w_wadwriter.pas',
   m_sha1 in 'Base\m_sha1.pas',
   sc_evaluate_actor in 'Base\sc_evaluate_actor.pas',
-  sc_evaluate in 'Base\sc_evaluate.pas';
+  sc_evaluate in 'Base\sc_evaluate.pas',
+  p_musinfo in 'Base\p_musinfo.pas',
+  p_levelinfo in 'Base\p_levelinfo.pas';
 
 var
   Saved8087CW: Word;

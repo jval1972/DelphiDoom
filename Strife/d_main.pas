@@ -2298,14 +2298,14 @@ begin
   SUC_Progress(69);
   {$ENDIF}
 
-  printf('R_Init: Init STRIFE refresh daemon.');
+  printf('R_Init: Init STRIFE refresh daemon.'#13#10);
   R_Init;
 
   {$IFNDEF FPC}
   SUC_Progress(80);
   {$ENDIF}
 
-  printf(#13#10 + 'P_Init: Init Playloop state.'#13#10);
+  printf('P_Init: Init Playloop state.'#13#10);
   P_Init;
 
   {$IFNDEF FPC}

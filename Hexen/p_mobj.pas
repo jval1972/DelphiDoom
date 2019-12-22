@@ -175,7 +175,9 @@ uses
   p_slopes, // JVAL: Slopes
   po_man,
   p_spec,
+  p_params,
   p_ladder,
+  p_musinfo,
   r_defs,
   r_sky,
   r_main,
@@ -212,7 +214,6 @@ begin
     begin
       if mobj.flags_ex and MF_EX_DONOTREMOVE = 0 then // JVAL Do not remove missile
       begin
-//        mobj.state := nil;
         mobj.state := @states[Ord(S_NULL)];
         P_RemoveMobj(mobj);
       end;
@@ -260,7 +261,6 @@ var
 begin
   if state = S_NULL then
   begin // Remove mobj
-    //mobj.state := nil;
     mobj.state := @states[Ord(S_NULL)];
     P_RemoveMobj(mobj);
     result := false;
@@ -516,6 +516,7 @@ begin
   wasonslope := oldsector.renderflags and SRF_SLOPED <> 0;
 
   player := mo.player;
+
   if mo.momx > MAXMOVE then
     mo.momx := MAXMOVE
   else if mo.momx < -MAXMOVE then
@@ -911,9 +912,6 @@ begin
     pl.deltaviewheight := _SHR3(PVIEWHEIGHT - pl.viewheight);
   end;
 
-//
-// adjust height
-//
   // adjust height
   if laddertics > 0 then
   begin
@@ -1736,6 +1734,7 @@ var
   ss: Psubsector_t; // JVAL: 3d floors
   msec: Psector_t;  // JVAL: 3d floors
   isfloatbob: boolean;  // JVAL: 3d floors
+  musinfoparam: integer;
 begin
   // Count deathmatch start positions
   if mthing._type = 11 then
@@ -1834,13 +1833,21 @@ begin
       exit;
   end;
 
-  // find which type to spawn
+  musinfoparam := -1;
+  if (mthing._type >= MUSICCHANGER_LO) and (mthing._type <= MUSICCHANGER_HI) then
+  begin
+    musinfoparam := mthing._type - MUSICCHANGER_LO;
+    mthing._type := MUSICCHANGER;
+  end;
 
+  // find which type to spawn
   i := Info_GetMobjNumForDoomNum(mthing._type);
   if i < 0 then
-    I_Error('P_SpawnMapThing(): Unknown type %d at (%d, %d)',
+  begin
+    I_Warning('P_SpawnMapThing(): Unknown type %d at (%d, %d)'#13#10,
       [mthing._type, mthing.x, mthing.y]);
-
+    exit;
+  end;
   // don't spawn keycards and players in deathmatch
   if (deathmatch <> 0) and ((mobjinfo[i].flags and MF_NOTDMATCH) <> 0) then
     exit;
@@ -1866,9 +1873,7 @@ begin
   else if isfloatbob then
     z := mthing.height * FRACUNIT
   else
-  begin
     z := ONFLOORZ;
-  end;
 
 // JVAL: 3d floors
   ss := R_PointInSubsector(x, y);
@@ -1904,6 +1909,8 @@ begin
   end;
 
   mobj := P_SpawnMobj(x, y, z, i, mthing);
+  mobj.spawnpoint := mthing^;
+
   if z = ONFLOORZ then
     mobj.z := mobj.z + mthing.height * FRACUNIT
   else if z = ONCEILINGZ then
@@ -1921,6 +1928,9 @@ begin
     mobj.health := P_Random;
     mobj.special1 := mthing.height * FRACUNIT;
   end;
+
+  if musinfoparam >= 0 then
+    P_SetMobjCustomParam(mobj, S_MUSINFO_PARAM, musinfoparam);
 
   if mobj.tics > 0 then
     mobj.tics := 1 + (P_Random mod mobj.tics);

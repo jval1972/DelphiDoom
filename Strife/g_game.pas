@@ -298,6 +298,7 @@ uses
   p_inter,
   p_map,
   p_dialog,
+  p_levelinfo,
   ps_main,
   hu_stuff,
   st_stuff,
@@ -1837,6 +1838,8 @@ begin
   if setsizeneeded then
     R_ExecuteSetViewSize;
 
+  P_LevelInfoChangeMusic;
+    
   // draw the pattern into the back screen
 {$IFNDEF OPENGL}
   R_FillBackScreen;
@@ -2110,6 +2113,7 @@ end;
 procedure G_InitNew(skill: skill_t; map: integer);
 var
   i: integer;
+  levelinf: Plevelinfo_t;
 begin
   if paused then
   begin
@@ -2119,7 +2123,6 @@ begin
 
   if skill > sk_nightmare then
     skill := sk_nightmare;
-
 
   if gamemode = shareware then
   begin
@@ -2134,6 +2137,10 @@ begin
 
   if map < 1 then
     map := 1;
+
+  levelinf := P_GetLevelInfo(P_GetMapName(map));
+  levelinf.musname := stringtochar8('');
+  levelinf.skyflat := stringtochar8('');
 
   R_ResetInterpolationBuffer;
 

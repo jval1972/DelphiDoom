@@ -201,6 +201,7 @@ uses
   p_3dfloors,
   p_slopes,   // JVAL: Slopes
   p_affectees,
+  p_musinfo,
   po_man,
   ps_main,    // JVAL: Script Events
   r_data,
@@ -1918,6 +1919,7 @@ begin
   P_InitFTAnims; // Init flat and texture animations
   P_InitLava;
   R_InitSprites(sprnames);
+  P_InitMusInfo;
   C_AddCmd('suicide', @P_CmdSuicide);
   C_AddCmd('doadjustmissingtextures', @P_AdjustMissingTextures);
 end;

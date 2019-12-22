@@ -546,7 +546,6 @@ var
     offs: integer;
     bright: boolean;
     stmp: string;
-    finished: boolean;
     p: integer;
     alias: string;
     savealias: string;
@@ -2108,7 +2107,7 @@ begin
             if str1 <> '0' then
             begin
               mapid := atoi(str1, -1);
-              if (mapid > 0) and (mapid < Ord(NUMMUSIC)) then
+              if (mapid > 0) and (mapid < nummusic) then
                 S_music[mapid].name := str2;
             end;
           end

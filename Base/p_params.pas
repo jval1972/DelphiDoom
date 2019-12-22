@@ -47,7 +47,7 @@ function P_SetMobjCustomParam(const actor1: pointer; const name: string; const v
 
 function P_GetMobjCustomParam(const actor1: pointer; const name: string): Pmobjcustomparam_t;
 
-function P_GetMobjCustomParamValue(const actor1: pointer; const name: string): integer;
+function P_GetMobjCustomParamValue(const actor1: pointer; const name: string; const def: integer = 0): integer;
 
 implementation
 
@@ -106,7 +106,7 @@ begin
   result := nil; // JVAL: unneeded 
 end;
 
-function P_GetMobjCustomParamValue(const actor1: pointer; const name: string): integer;
+function P_GetMobjCustomParamValue(const actor1: pointer; const name: string; const def: integer = 0): integer;
 var
   parm: Pmobjcustomparam_t;
   actor: Pmobj_t;
@@ -116,7 +116,7 @@ begin
   if parm <> nil then
     result := parm.value
   else
-    result := 0;
+    result := def;
 end;
 
 end.

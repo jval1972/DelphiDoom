@@ -57,7 +57,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 248;
+  DEHNUMACTIONS = 249;
 
 type
   deh_action_t = record
@@ -128,6 +128,7 @@ uses
   p_common,
   p_pspr,
   p_inter,
+  p_musinfo,
   r_renderstyle,
   sounds,
   sc_params,
@@ -889,7 +890,7 @@ begin
 
       if not foundtext then
       begin
-        for j := 1 to Ord(NUMMUSIC) - 1 do // First music is dummy
+        for j := 1 to nummusic - 1 do // First music is dummy
         begin
           stmp := DEH_StringValue(S_music[j].name);
           if stmp = token1 then
@@ -1371,11 +1372,11 @@ begin
         token2 := firstword(token2);
 
         music_idx := atoi(token1, -1);
-        if (music_idx >= 1) and (music_idx < Ord(NUMMUSIC)) then
+        if (music_idx >= 1) and (music_idx < nummusic) then
           S_music[music_idx].name := token2
         else
         begin
-          for j := 1 to Ord(NUMMUSIC) - 1 do // First music is dummy
+          for j := 1 to nummusic - 1 do // First music is dummy
           begin
             stmp := strupper(S_music[j].name);
             if stmp = token1 then
@@ -1806,7 +1807,7 @@ begin
   result.Add('# Music');
   result.Add('');
   result.Add('[MUSIC]');
-  for i := 1 to Ord(NUMMUSIC) - 1 do
+  for i := 1 to nummusic - 1 do
   begin
     if S_music[i].mapname <> '' then
       result.Add('%d = %s %s(Map: %s)', [i, S_music[i].name, StringOfChar(' ', 6 - Length(S_music[i].name)), S_music[i].mapname])
@@ -2800,6 +2801,10 @@ begin
   deh_actions[247].action.acp1 := @A_JumpIf;
   deh_actions[247].name := strupper('JumpIf');
   {$IFDEF DLL}deh_actions[247].decl := 'A_JumpIf(propability: boolean, offset: integer)';{$ENDIF}
+  deh_actions[248].action.acp1 := @A_MusicChanger;
+  deh_actions[248].name := strupper('MusicChanger');
+  {$IFDEF DLL}deh_actions[248].decl := 'A_MusicChanger';{$ENDIF}
+
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

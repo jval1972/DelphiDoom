@@ -138,6 +138,8 @@ procedure S_GetChannelInfo(s: Psoundinfo_t);
 
 function S_GetSoundPlayingInfo(mobj: Pmobj_t; sound_id: integer): boolean;
 
+function S_DefaultMusicForMap(const map: integer): integer;
+
 implementation
 
 uses
@@ -354,6 +356,11 @@ begin
   S_FreeRandomSoundLists;
 end;
 
+function S_DefaultMusicForMap(const map: integer): integer;
+begin
+  result := Ord(mus_map01) + map - 1;
+end;
+
 //
 // Per level startup code.
 // Kills playing sounds at start of level,
@@ -373,7 +380,7 @@ begin
   // start new music for the level
   mus_paused := false;
 
-  mnum := Ord(mus_map01) + gamemap - 1;
+  mnum := S_DefaultMusicForMap(gamemap);
 
   S_ChangeMusic(mnum, true);
 
@@ -701,7 +708,7 @@ var
   music: Pmusicinfo_t;
 begin
   if (musicnum <= Ord(mus_None)) or
-     (musicnum >= Ord(NUMMUSIC)) then
+     (musicnum >= nummusic) then
     I_Error('S_ChangeMusic(): Bad music number %d', [musicnum]);
 
   music := @S_music[musicnum];

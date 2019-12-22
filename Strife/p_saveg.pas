@@ -112,6 +112,7 @@ uses
   p_lights,
   p_scroll,
   p_params,
+  p_levelinfo,
   ps_main,
   psi_globals,
   psi_overlay,
@@ -344,8 +345,15 @@ var
   li: Pline_t;
   si: Pside_t;
   put: PSmallIntArray;
+  levelinf: Plevelinfo_t;
 begin
   put := PSmallIntArray(save_p);
+
+  levelinf := P_GetLevelInfo(P_GetMapName(gamemap));
+  Pchar8_t(put)^ := levelinf.musname;
+  put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+  Pchar8_t(put)^ := levelinf.skyflat;
+  put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
 
   // do sectors
   i := 0;
@@ -449,8 +457,18 @@ var
   li: Pline_t;
   si: Pside_t;
   get: PSmallIntArray;
+  levelinf: Plevelinfo_t;
 begin
   get := PSmallIntArray(save_p);
+
+  if savegameversion >= VERSION205 then
+  begin
+    levelinf := P_GetLevelInfo(P_GetMapName(gamemap));
+    levelinf.musname := Pchar8_t(get)^;
+    get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
+    levelinf.skyflat := Pchar8_t(get)^;
+    get := @get[SizeOf(char8_t) div SizeOf(SmallInt)];
+  end;
 
   // do sectors
   i := 0;

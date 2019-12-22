@@ -132,6 +132,7 @@ uses
   p_slopes, // JVAL: Slopes
   p_params,
   p_ladder,
+  p_musinfo,
   r_defs,
   r_sky,
   r_main,
@@ -1149,6 +1150,7 @@ var
   z: fixed_t;
   ss: Psubsector_t; // JVAL: 3d floors
   msec: Psector_t;  // JVAL: 3d floors
+  musinfoparam: integer;
 begin
   mthing.options := mthing.options and spawnmask;
 
@@ -1220,12 +1222,22 @@ begin
     exit;
   end;
 
-  // find which type to spawn
+  musinfoparam := -1;
+  if (mthing._type >= MUSICCHANGER_LO) and (mthing._type <= MUSICCHANGER_HI) then
+  begin
+    musinfoparam := mthing._type - MUSICCHANGER_LO;
+    mthing._type := MUSICCHANGER;
+  end;
 
+  // find which type to spawn
   i := Info_GetMobjNumForDoomNum(mthing._type);
   if i < 0 then
-    I_Error('P_SpawnMapThing(): Unknown type %d at (%d, %d)',
+  begin
+    I_Warning('P_SpawnMapThing(): Unknown type %d at (%d, %d)'#13#10,
       [mthing._type, mthing.x, mthing.y]);
+    result := nil;
+    exit;
+  end;
 
   // don't spawn keycards and players in deathmatch
   if (deathmatch <> 0) and (mobjinfo[i].flags and MF_NOTDMATCH <> 0) then
@@ -1281,6 +1293,9 @@ begin
 
   result := P_SpawnMobj(x, y, z, i, mthing);
   result.spawnpoint := mthing^;
+
+  if musinfoparam >= 0 then
+    P_SetMobjCustomParam(result, S_MUSINFO_PARAM, musinfoparam);
 
   if result.tics > 0 then
     result.tics := 1 + (P_Random mod result.tics);

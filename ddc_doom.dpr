@@ -362,7 +362,9 @@ uses
   sc_evaluate in 'Base\sc_evaluate.pas',
   r_softlights in 'Base\r_softlights.pas',
   r_zbuffer in 'Base\r_zbuffer.pas',
-  r_vislight in 'Base\r_vislight.pas';
+  r_vislight in 'Base\r_vislight.pas',
+  p_musinfo in 'Base\p_musinfo.pas',
+  p_levelinfo in 'Base\p_levelinfo.pas';
 
 exports
   dd_compile_doom,

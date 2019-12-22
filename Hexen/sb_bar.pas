@@ -1912,7 +1912,7 @@ begin
 
         musnum := Ord(mus_map01) + (Ord(buf[1]) - Ord('0')) * 10 + Ord(buf[2]) - Ord('0') - 1;
 
-        if (musnum > 0) and (musnum < Ord(NUMMUSIC)) then
+        if (musnum > 0) and (musnum < nummusic) then
           S_ChangeMusic(musnum, true)
         else
           CPlayer._message := STSTR_NOMUS;

@@ -102,6 +102,8 @@ Added A_JumpIf ACTORDEF function.
 Dynamic lights in software rendering (using GLDEFS).
 Indivitual entries in the defaults file for OpenGL & software screen size.
 Added r_uselightmaps, lightmapcolorintensity and lightwidthfactor console variables.
+If an unknown map thing is detected it will not exit with I_Error, it will generate a warning instead.
+Support for MUSINFO lump. 
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------
