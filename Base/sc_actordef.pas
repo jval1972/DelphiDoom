@@ -149,6 +149,8 @@ end;
 
 type
   TActordefScriptEngine = class(TScriptEngine)
+  private
+    procedure AddFlagAliases;
   public
     function MatchFlag(const flag: string): boolean;
     {$IFDEF HERETIC_OR_HEXEN}
@@ -158,26 +160,44 @@ type
     function MatchFlag2Ex(const flag2_ex: string): boolean;
   end;
 
+procedure TActordefScriptEngine.AddFlagAliases;
+begin
+  AddAlias('CANPASS', 'PASSMOBJ');
+  AddAlias('+CANPASS', 'PASSMOBJ');
+  AddAlias('-CANPASS', '-PASSMOBJ');
+  AddAlias('DONTSPLASH', 'NOHITFLOOR');
+  AddAlias('+DONTSPLASH', 'NOHITFLOOR');
+  AddAlias('-DONTSPLASH', '-NOHITFLOOR');
+end;
+
 function TActordefScriptEngine.MatchFlag(const flag: string): boolean;
 begin
+  AddFlagAliases;
   result := MatchString(flag) or MatchString('+' + flag) or MatchString('MF_' + flag);
+  ClearAliases;
 end;
 
 {$IFDEF HERETIC_OR_HEXEN}
 function TActordefScriptEngine.MatchFlag2(const flag: string): boolean;
 begin
+  AddFlagAliases;
   result := MatchString(flag) or MatchString('+' + flag) or MatchString('MF_' + flag) or MatchString('MF2_' + flag);
+  ClearAliases;
 end;
 {$ENDIF}
 
 function TActordefScriptEngine.MatchFlagEx(const flag_ex: string): boolean;
 begin
+  AddFlagAliases;
   result := MatchString(flag_ex) or MatchString('+' + flag_ex) or MatchString('MF_' + flag_ex) or MatchString('MF_EX_' + flag_ex);
+  ClearAliases;
 end;
 
 function TActordefScriptEngine.MatchFlag2Ex(const flag2_ex: string): boolean;
 begin
+  AddFlagAliases;
   result := MatchString(flag2_ex) or MatchString('+' + flag2_ex) or MatchString('MF2_' + flag2_ex) or MatchString('MF2_EX_' + flag2_ex);
+  ClearAliases;
 end;
 
 const
@@ -215,10 +235,6 @@ var
       flag := mobj_flags[i];
       if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlag(flag) then
       begin
         mobj.flags := mobj.flags + flag + ' ';
@@ -284,10 +300,6 @@ var
       flag := mobj_flags[i];
       if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlag('-' + flag) then
       begin
         mobj.flags := RemoveFlag(mobj.flags, flag);
@@ -312,10 +324,6 @@ var
         flag := Copy(flag, 5, length(flag) - 4)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlag2(flag) then
       begin
         mobj.flags2 := mobj.flags2 + flag + ' ';
@@ -352,10 +360,6 @@ var
         flag := Copy(flag, 5, length(flag) - 4)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlag2('-' + flag) then
       begin
         mobj.flags2 := RemoveFlag(mobj.flags2, flag);
@@ -380,10 +384,6 @@ var
         flag := Copy(flag, 7, length(flag) - 6)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlagEx(flag) then
       begin
         mobj.flags_ex := mobj.flags_ex + flag + ' ';
@@ -420,10 +420,6 @@ var
         flag := Copy(flag, 7, length(flag) - 6)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlagEx('-' + flag) then
       begin
         mobj.flags_ex := RemoveFlag(mobj.flags_ex, flag);
@@ -451,10 +447,6 @@ var
         flag := Copy(flag, 5, length(flag) - 4)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlag2Ex(flag) then
       begin
         mobj.flags2_ex := mobj.flags2_ex + flag + ' ';
@@ -495,10 +487,6 @@ var
         flag := Copy(flag, 5, length(flag) - 4)
       else if Pos('MF_', flag) = 1 then
         flag := Copy(flag, 4, length(flag) - 3);
-      {$IFNDEF STRIFE}
-      if (flag = 'CANPASS') or (flag = '+CANPASS') then
-        flag := 'PASSMOBJ';
-      {$ENDIF}
       if sc.MatchFlag2Ex('-' + flag) then
       begin
         mobj.flags2_ex := RemoveFlag(mobj.flags2_ex, flag);

@@ -118,6 +118,9 @@ var
 
 function R_NewDrawSeg: Pdrawseg_t;
 
+var
+  r_fakecontrast: boolean = false;
+
 implementation
 
 uses
@@ -194,10 +197,13 @@ begin
 
   lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-{  if curline.v1.y = curline.v2.y then
-    dec(lightnum)
-  else if curline.v1.x = curline.v2.x then
-    inc(lightnum);}
+  if r_fakecontrast then
+  begin
+    if curline.v1.y = curline.v2.y then
+      dec(lightnum)
+    else if curline.v1.x = curline.v2.x then
+      inc(lightnum);
+  end;
 
   if lightnum < 0 then
     lightnum := 0

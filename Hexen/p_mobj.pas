@@ -1846,7 +1846,9 @@ begin
   begin
     I_Warning('P_SpawnMapThing(): Unknown type %d at (%d, %d)'#13#10,
       [mthing._type, mthing.x, mthing.y]);
-    exit;
+    i := Info_GetMobjNumForName('UNKNOWN');
+    if i < 0 then
+      exit;
   end;
   // don't spawn keycards and players in deathmatch
   if (deathmatch <> 0) and ((mobjinfo[i].flags and MF_NOTDMATCH) <> 0) then
@@ -2198,6 +2200,13 @@ var
   smallsplash: boolean;
   ss: Psubsector_t;
 begin
+  // don't splash if has MF2_EX_NOHITFLOOR flag
+  if thing.flags2_ex and MF2_EX_NOHITFLOOR <> 0 then
+  begin
+    result := FLOOR_SOLID;
+    exit;
+  end;
+
   ss := thing.subsector;
   if thing.floorz <> ss.sector.floorheight then
   begin // don't splash if landing on the edge above water/lava/etc....

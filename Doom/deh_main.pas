@@ -120,6 +120,7 @@ uses
   info,
   info_common,
   m_argv,
+  m_fixed,
   ps_main,
   p_mobj,
   p_mobj_h,
@@ -379,6 +380,7 @@ var
   mobj_no: integer;
   mobj_idx: integer;
   mobj_val: integer;
+  mobj_fval: float;
 
   mobj_flag: integer;
   mobj_setflag: integer;
@@ -672,7 +674,17 @@ begin
           42: mobjinfo[mobj_no].missileheight := mobj_val;
           43: mobjinfo[mobj_no].vspeed := mobj_val;
           44: mobjinfo[mobj_no].pushfactor := mobj_val;
-          45: mobjinfo[mobj_no].scale := mobj_val;
+          45: begin
+                if (Pos('.', token2) > 0) or (Pos(',', token2) > 0) then
+                begin
+                  mobj_fval := atof(token2, -1);
+                  mobjinfo[mobj_no].scale := round(FRACUNIT * mobj_fval);
+                end
+                else
+                  mobjinfo[mobj_no].scale := mobj_val;
+                if mobjinfo[mobj_no].scale > 64 * FRACUNIT then
+                  mobjinfo[mobj_no].scale := mobjinfo[mobj_no].scale div FRACUNIT;
+              end;
         end;
       end;
 
@@ -1204,6 +1216,8 @@ begin
           6: p_maxarmor := misc_val;
           7: p_greenarmorclass := misc_val;
           8: p_bluearmorclass := misc_val;
+          9: p_initialbullets := misc_val;
+         10: p_bfgcells := misc_val;
         end;
       end;
 
@@ -1768,6 +1782,8 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[6]), p_maxarmor]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[7]), p_greenarmorclass]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[8]), p_bluearmorclass]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[9]), p_initialbullets]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[10]), p_bfgcells]);
 
   result.Add('');
 
@@ -3126,6 +3142,8 @@ begin
   misc_tokens.Add('MAX ARMOR');           // p_maxarmor
   misc_tokens.Add('GREEN ARMOR CLASS');   // p_greenarmorclass
   misc_tokens.Add('BLUE ARMOR CLASS');    // p_bluearmorclass
+  misc_tokens.Add('INITIAL BULLETS');     // p_initialbullets
+  misc_tokens.Add('BFG CELLS/SHOT');      // p_bfgcells
 
 
   C_AddCmd('DEH_ParseFile, BEX_ParseFile', @DEH_ParseFile);

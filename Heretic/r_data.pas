@@ -614,7 +614,10 @@ begin
       patchlookup[i] := W_CheckNumForName(pname);
     end;
     if patchlookup[i] = -1 then
+    begin
       I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
+      patchlookup[i] := W_CheckNumForName('NULLA0');
+    end;
   end;
   Z_Free(names);
 

@@ -79,6 +79,8 @@ uses
   r_camera,
   r_data,
   r_draw,
+  r_segs,
+  r_dynlights,
   s_sound,
   t_main,
   t_png,
@@ -150,7 +152,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 180;
+  NUMDEFAULTS = 182;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -483,9 +485,25 @@ const
      defaultbvalue: true;
      _type: tInteger),
 
+    (name: 'gldefs_as_lightdef';
+     location: @gldefs_as_lightdef;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
      // JVAL: Slopes
     (name: 'preciseslopedrawing';
      location: @preciseslopedrawing;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '0.00';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'r_fakecontrast';
+     location: @r_fakecontrast;
      setable: DFS_ALWAYS;
      defaultsvalue: '0.00';
      defaultivalue: 0;
@@ -1044,7 +1062,6 @@ const
 
      // JVAL Look LEFT/RIGHT
     (name: 'key_lookright';
-
      location: @key_lookright;
      setable: DFS_NEVER;
      defaultsvalue: '';
@@ -1076,7 +1093,6 @@ const
      defaultsvalue: '';
      defaultivalue: Ord('[');
      defaultbvalue: false;
-
      _type: tInteger),
 
 
@@ -1086,7 +1102,6 @@ const
      defaultsvalue: '';
      defaultivalue: Ord(']');
      defaultbvalue: false;
-
      _type: tInteger),
 
 
@@ -1096,7 +1111,6 @@ const
      defaultsvalue: '';
      defaultivalue: KEY_ENTER;
      defaultbvalue: false;
-
      _type: tInteger),
 
 

@@ -88,6 +88,7 @@ uses
 {$ENDIF}
   r_camera,
   r_draw,
+  r_dynlights,
   s_sound,
   t_main,
   t_png,
@@ -160,7 +161,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 196;
+  NUMDEFAULTS = 197;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -500,6 +501,14 @@ const
      defaultivalue: 5;
      defaultbvalue: true;
      _type: tInteger),
+
+    (name: 'gldefs_as_lightdef';
+     location: @gldefs_as_lightdef;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
 
      // JVAL: Slopes
     (name: 'preciseslopedrawing';

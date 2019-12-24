@@ -882,7 +882,7 @@ begin
     if not demoplayback and not demorecording then
       if I_GetTime div ticdup - entertic >= 10 then
       begin
-      	{$IFNDEF HEXEN}
+	{$IFNDEF HEXEN}
         E_Ticker;
         {$ENDIF}
         M_Ticker;

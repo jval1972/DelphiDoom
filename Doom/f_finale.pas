@@ -652,15 +652,17 @@ var
   dest: PByte;
   desttop: PByte;
   count: integer;
+  delta, prevdelta: integer;
 begin
   column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
+  delta := 0;
   desttop := PByte(integer(screens[SCN_TMP]) + x);
-
   // step through the posts in a column
   while column.topdelta <> $ff do
   begin
     source := PByte(integer(column) + 3);
-    dest := PByte(integer(desttop) + column.topdelta * 320);
+    delta := delta + column.topdelta;
+    dest := PByte(integer(desttop) + delta * 320);
     count := column.length;
 
     while count > 0 do
@@ -670,7 +672,10 @@ begin
       inc(dest, 320);
       dec(count);
     end;
+    prevdelta := column.topdelta;
     column := Pcolumn_t(integer(column) + column.length + 4);
+    if column.topdelta > prevdelta then
+      delta := 0;
   end;
 end;
 

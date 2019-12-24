@@ -124,6 +124,7 @@ uses
   info,
   info_common,
   m_argv,
+  m_fixed,
   ps_main,
   p_mobj,
   p_mobj_h,
@@ -397,6 +398,7 @@ var
   mobj_no: integer;
   mobj_idx: integer;
   mobj_val: integer;
+  mobj_fval: float;
 
   mobj_flag: integer;
   mobj_setflag: integer;
@@ -700,7 +702,17 @@ begin
               end;
           44: mobjinfo[mobj_no].vspeed := mobj_val;
           45: mobjinfo[mobj_no].pushfactor := mobj_val;
-          46: mobjinfo[mobj_no].scale := mobj_val;
+          46: begin
+                if (Pos('.', token2) > 0) or (Pos(',', token2) > 0) then
+                begin
+                  mobj_fval := atof(token2, -1);
+                  mobjinfo[mobj_no].scale := round(FRACUNIT * mobj_fval);
+                end
+                else
+                  mobjinfo[mobj_no].scale := mobj_val;
+                if mobjinfo[mobj_no].scale > 64 * FRACUNIT then
+                  mobjinfo[mobj_no].scale := mobjinfo[mobj_no].scale div FRACUNIT;
+              end;
         end;
       end;
 

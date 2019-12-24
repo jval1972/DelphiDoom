@@ -152,6 +152,7 @@ uses
   r_intrpl,
 {$IFNDEF OPENGL}
   r_fake3d,
+  r_softlights,
 {$ENDIF}
   r_camera,
   r_draw,
@@ -903,6 +904,9 @@ type
   optionsdisplayadvanced_e = (
     od_aspect,
     od_camera,
+{$IFNDEF OPENGL}
+    od_lightmap,
+{$ENDIF}
     od_interpolate,
 {$IFNDEF OPENGL}
     od_usefake3d,
@@ -954,6 +958,25 @@ type
 var
   OptionsDisplayCameraMenu: array[0..Ord(optdispcamera_end) - 1] of menuitem_t;
   OptionsDisplayCameraDef: menu_t;
+
+{$IFNDEF OPENGL}
+type
+  optionslightmap_e = (
+    ol_uselightmaps,
+    ol_colorintensity,
+    ol_filler1,
+    ol_filler2,
+    ol_lightwidthfactor,
+    ol_filler3,
+    ol_filler4,
+    od_resettodefaults,
+    ol_lightmap_end
+  );
+
+var
+  OptionsLightmapMenu: array[0..Ord(ol_lightmap_end) - 1] of menuitem_t;
+  OptionsLightmapDef: menu_t;
+{$ENDIF}
 
 // DISPLAY 32 BIT RENDERING MENU
 type
@@ -1992,6 +2015,13 @@ begin
   M_SetupNextMenu(@OptionsDisplayCameraDef);
 end;
 
+{$IFNDEF OPENGL}
+procedure M_OptionsDisplayLightmap(choice: integer);
+begin
+  M_SetupNextMenu(@OptionsLightmapDef);
+end;
+{$ENDIF}
+
 procedure M_ChangeCameraXY(choice: integer);
 begin
   case choice of
@@ -2378,6 +2408,57 @@ begin
   M_DrawThermo(
     OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * (Ord(odc_chasecameraz) + 1), 21, (chasecamera_viewz - CHASECAMERA_Z_MIN) div 4, (CHASECAMERA_Z_MAX - CHASECAMERA_Z_MIN) div 4 + 1);
 end;
+
+{$IFNDEF OPENGL}
+var
+  lightmapcolorintensityidx: integer = DEFLMCOLORSENSITIVITY div 8;
+
+procedure M_ChangeLightmapColorIntensity(choice: integer);
+begin
+  case choice of
+    0: if lightmapcolorintensityidx > 0 then
+         dec(lightmapcolorintensityidx);
+    1: if lightmapcolorintensityidx < (MAXLMCOLORSENSITIVITY - MINLMCOLORSENSITIVITY) div 8 then
+         inc(lightmapcolorintensityidx);
+  end;
+  lightmapcolorintensity := MINLMCOLORSENSITIVITY + lightmapcolorintensityidx * 8;
+end;
+
+procedure M_ChangeLightmapLightWidthFactor(choice: integer);
+begin
+  case choice of
+    0: if lightwidthfactor > MINLIGHTWIDTHFACTOR then
+         dec(lightwidthfactor);
+    1: if lightwidthfactor < MAXLIGHTWIDTHFACTOR then
+         inc(lightwidthfactor);
+  end;
+end;
+
+procedure M_LightmapDefaults(choice: integer);
+begin
+  lightmapcolorintensity := DEFLMCOLORSENSITIVITY;
+  lightwidthfactor := DEFLIGHTWIDTHFACTOR;
+end;
+
+procedure M_DrawOptionsLightmap;
+var
+  ppos: menupos_t;
+begin
+  M_DrawDisplayOptions;
+
+  lightmapcolorintensityidx := (lightmapcolorintensity - 32) div 8;
+
+  ppos := M_WriteText4(OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * Ord(ol_colorintensity), 'Color intensity: ');
+  M_WriteWhiteText4(ppos.x, ppos.y, itoa((lightmapcolorintensity * 100) div DEFLMCOLORSENSITIVITY) + '%');
+  M_DrawThermo(
+    OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * (Ord(ol_colorintensity) + 1), 21, lightmapcolorintensityidx, (MAXLMCOLORSENSITIVITY - MINLMCOLORSENSITIVITY) div 8 + 1);
+
+  ppos := M_WriteText4(OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * Ord(ol_lightwidthfactor), 'Distance from source: ');
+  M_WriteWhiteText4(ppos.x, ppos.y, itoa((lightwidthfactor * 100) div DEFLIGHTWIDTHFACTOR) + '%');
+  M_DrawThermo(
+    OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * (Ord(ol_lightwidthfactor) + 1), 21, lightwidthfactor, MAXLIGHTWIDTHFACTOR + 1);
+end;
+{$ENDIF}
 
 procedure M_DrawOptionsDisplay32bit;
 var
@@ -4252,6 +4333,17 @@ begin
   pmi.routine := @M_OptionCameraShift;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'c';
+
+  {$IFNDEF OPENGL}
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Lightmap...';
+  pmi.cmd := '';
+  pmi.routine := @M_OptionsDisplayLightmap;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'l';
+  {$ENDIF}
+
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Uncapped framerate';
@@ -4461,6 +4553,86 @@ begin
   OptionsDisplayCameraDef.itemheight := LINEHEIGHT2;
   OptionsDisplayCameraDef.texturebk := true;
 
+{$IFNDEF OPENGL}
+////////////////////////////////////////////////////////////////////////////////
+//OptionsLightmapMenu
+  pmi := @OptionsLightmapMenu[0];
+
+  pmi.status := 1;
+  pmi.name := '!Light effects';
+  pmi.cmd := 'r_uselightmaps';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @r_uselightmaps;
+  pmi.alphaKey := 'l';
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '!Color intensity';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeLightmapColorIntensity;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'c';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 2;
+  pmi.name := '!Distance from source';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeLightmapLightWidthFactor;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'd';
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := -1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := nil;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Reset to default...';
+  pmi.cmd := '';
+  pmi.routine := @M_LightmapDefaults;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'r';
+
+////////////////////////////////////////////////////////////////////////////////
+//OptionsLightmapDef
+  OptionsLightmapDef.numitems := Ord(ol_lightmap_end); // # of menu items
+  OptionsLightmapDef.prevMenu := @OptionsDisplayAdvancedDef; // previous menu
+  OptionsLightmapDef.menuitems := Pmenuitem_tArray(@OptionsLightmapMenu);  // menu items
+  OptionsLightmapDef.drawproc := @M_DrawOptionsLightmap;  // draw routine
+  OptionsLightmapDef.x := 32;
+  OptionsLightmapDef.y := 68; // x,y of menu
+  OptionsLightmapDef.lastOn := 0; // last item user was on in menu
+  OptionsLightmapDef.itemheight := LINEHEIGHT2;
+  OptionsLightmapDef.texturebk := true;
+{$ENDIF}
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplay32bitMenu
   pmi := @OptionsDisplay32bitMenu[0];

@@ -54,7 +54,7 @@ Fixed music volume control. Now changing the music volume does not affect the sx
 Fixed non working plats & ceilings (thanks to slayermbm - https://www.doomworld.com/forum/topic/98789-fpcdoom-1124117-updated-dec-2-2019/?do=findComment&comment=2050845)
 Added showfullhdlogo console variable. When set to true and current display mode is 1920x1080 displays the FullDH logo on TITLE screen. Default is FALSE.
 File system will process WAD files inside pk3/zip/pak files.
-Will parse GLDEFS lumps/pk3 entries for dynamic light definitions (alongside with LIGHTDEF). Currently works in OpenGL version only.
+Will parse GLDEFS lumps/pk3 entries for dynamic light definitions (alongside with LIGHTDEF) if the gldefs_as_lightdef console variable is set to true.
 Added scale ACTOR field in ACTORDEF lumps. 
 Corrected enemies that continued shooting at you, even when out of sight - reported by slayermbm (https://www.doomworld.com/forum/topic/92113-delphidoom-204720-updated-oct-12-2019/?do=findComment&comment=2051252)
 Key bindings for weapon change as suggested by Khorus.
@@ -98,8 +98,14 @@ Added A_JumpIf ACTORDEF function.
 Dynamic lights in software rendering (using GLDEFS).
 Indivitual entries in the defaults file for OpenGL & software screen size.
 Added r_uselightmaps, lightmapcolorintensity and lightwidthfactor console variables.
-If an unknown map thing is detected it will not exit with I_Error, it will generate a warning instead.
+If an unknown map thing is detected it will not exit with I_Error, it will generate a warning instead and will spawn a questionmark.
 Support for MUSINFO lump. 
+Added r_fakecontrast console variable. When true it will add contrast to perpendicular lines. Default is false. 
+Added MF2_EX_NOHITFLOOR mobj flag.
+Added DONTSPLASH alias for NOHITFLOOR flag.
+Added -noactordef command line parameter, when you run with this parameter it will not parse ACTORDEF lumps.
+Will recognize hexendem.wad as the demo/shareware version of Hexen.
+Support for tall patches.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

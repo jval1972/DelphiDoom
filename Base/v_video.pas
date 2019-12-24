@@ -2301,6 +2301,7 @@ var
   cury: integer;
   swidth: integer;
   sheight: integer;
+  delta, prevdelta: integer;
 begin
   swidth := V_GetScreenWidth(scrn);
   if not V_NeedsPreserve(scrn, SCN_320x200, preserve) then
@@ -2317,12 +2318,13 @@ begin
     while col < w do
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-
+      delta := 0;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
-        dest := PByte(integer(desttop) + column.topdelta * swidth);
+        delta := delta + column.topdelta;
+        dest := PByte(integer(desttop) + delta * swidth);
         count := column.length;
 
         while count > 0 do
@@ -2332,7 +2334,10 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
+        prevdelta := column.topdelta;
         column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0;
       end;
       inc(col);
       inc(desttop);
@@ -2369,13 +2374,14 @@ begin
       while col < pw do
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[LongWord(fracx) shr FRACBITS]);
-
+        delta := 0;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
           source := PByte(integer(column) + 3);
           vs := v_translation[source^];
-          dest := PByte(integer(desttop) + ((column.topdelta * sheight) div 200) * swidth);
+          delta := delta + column.topdelta;
+          dest := PByte(integer(desttop) + ((delta * sheight) div 200) * swidth);
           count := column.length;
           fracy := 0;
           lasty := 0;
@@ -2394,7 +2400,10 @@ begin
               dec(count);
             end;
           end;
+          prevdelta := column.topdelta;
           column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0;
         end;
         inc(col);
         inc(desttop);
@@ -2425,6 +2434,7 @@ var
   swidth: integer;
   sheight: integer;
   vs: LongWord;
+  delta, prevdelta: integer;
 begin
   swidth := V_GetScreenWidth(SCN_FG);
   x := x - patch.leftoffset;
@@ -2442,12 +2452,13 @@ begin
     while col < w do
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-
+      delta := 0;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
-        dest := @desttop[column.topdelta * swidth];
+        delta := delta + column.topdelta;
+        dest := @desttop[delta * swidth];
         count := column.length;
 
         while count > 0 do
@@ -2457,7 +2468,10 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
+        prevdelta := column.topdelta;
         column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0;
       end;
       inc(col);
       desttop := @desttop[1];
@@ -2491,13 +2505,14 @@ begin
       while col < pw do
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
-
+        delta := 0;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
           source := PByte(integer(column) + 3);
           vs := videopal[source^];
-          dest := @desttop[((column.topdelta * sheight div 200) * swidth)];
+          delta := delta + column.topdelta;
+          dest := @desttop[((delta * sheight div 200) * swidth)];
           count := column.length;
           fracy := 0;
           lasty := 0;
@@ -2516,7 +2531,10 @@ begin
               dec(count);
             end;
           end;
+          prevdelta := column.topdelta;
           column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0;
         end;
         inc(col);
         desttop := @desttop[1];
@@ -2581,6 +2599,7 @@ var
   swidth: integer;
   sheight: integer;
   trans: Ptrans8table_t;
+  delta, prevdelta: integer;
 begin
   trans := R_GetTransparency8table;
   swidth := V_GetScreenWidth(scrn);
@@ -2598,12 +2617,13 @@ begin
     while col < w do
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-
+      delta := 0;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
-        dest := PByte(integer(desttop) + column.topdelta * swidth);
+        delta := delta + column.topdelta;
+        dest := PByte(integer(desttop) + delta * swidth);
         count := column.length;
 
         while count > 0 do
@@ -2613,7 +2633,10 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
+        prevdelta := column.topdelta;
         column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0;
       end;
       inc(col);
       inc(desttop);
@@ -2650,13 +2673,14 @@ begin
       while col < pw do
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[LongWord(fracx) shr FRACBITS]);
-
+        delta := 0;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
           source := PByte(integer(column) + 3);
           vs := v_translation[source^];
-          dest := PByte(integer(desttop) + ((column.topdelta * sheight) div 200) * swidth);
+          delta := delta + column.topdelta;
+          dest := PByte(integer(desttop) + ((delta * sheight) div 200) * swidth);
           count := column.length;
           fracy := 0;
           lasty := 0;
@@ -2675,7 +2699,10 @@ begin
               dec(count);
             end;
           end;
+          prevdelta := column.topdelta;
           column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0;
         end;
         inc(col);
         inc(desttop);
@@ -2709,6 +2736,7 @@ var
   swidth: integer;
   sheight: integer;
   trans: Ptrans8table_t;
+  delta, prevdelta: integer;
 begin
   trans := R_GetTransparency8table;
   swidth := V_GetScreenWidth(scrn);
@@ -2728,11 +2756,13 @@ begin
       if col mod numidxs = idx then
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
+        delta := 0;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
           source := PByte(integer(column) + 3);
-          dest := PByte(integer(desttop) + column.topdelta * swidth);
+          delta := delta + column.topdelta;
+          dest := PByte(integer(desttop) + delta * swidth);
           count := column.length;
 
           while count > 0 do
@@ -2742,7 +2772,10 @@ begin
             inc(dest, swidth);
             dec(count);
           end;
+          prevdelta := column.topdelta;
           column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0;
         end;
       end;
       inc(col);
@@ -2782,13 +2815,14 @@ begin
         if col mod numidxs = idx then
         begin
           column := Pcolumn_t(integer(patch) + patch.columnofs[LongWord(fracx) shr FRACBITS]);
-
+          delta := 0;
         // step through the posts in a column
           while column.topdelta <> $ff do
           begin
             source := PByte(integer(column) + 3);
             vs := v_translation[source^];
-            dest := PByte(integer(desttop) + ((column.topdelta * sheight) div 200) * swidth);
+            delta := delta + column.topdelta;
+            dest := PByte(integer(desttop) + ((delta * sheight) div 200) * swidth);
             count := column.length;
             fracy := 0;
             lasty := 0;
@@ -2807,7 +2841,10 @@ begin
                 dec(count);
               end;
             end;
+            prevdelta := column.topdelta;
             column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0;
           end;
         end;
         inc(col);
@@ -2843,6 +2880,7 @@ var
   swidth: integer;
   sheight: integer;
   vs: LongWord;
+  delta, prevdelta: integer;
 begin
   swidth := V_GetScreenWidth(SCN_FG);
   x := x - patch.leftoffset;
@@ -2860,12 +2898,13 @@ begin
     while col < w do
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-
+      delta := 0;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
-        dest := @desttop[column.topdelta * swidth];
+        delta := delta + column.topdelta;
+        dest := @desttop[delta * swidth];
         count := column.length;
 
         while count > 0 do
@@ -2879,7 +2918,10 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
+        prevdelta := column.topdelta;
         column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0;
       end;
       inc(col);
       desttop := @desttop[1];
@@ -2913,13 +2955,14 @@ begin
       while col < pw do
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
-
+        delta := 0;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
           source := PByte(integer(column) + 3);
           vs := videopal[source^];
-          dest := @desttop[((column.topdelta * sheight div 200) * swidth)];
+          delta := delta + column.topdelta;
+          dest := @desttop[((delta * sheight div 200) * swidth)];
           count := column.length;
           fracy := 0;
           lasty := 0;
@@ -2942,7 +2985,10 @@ begin
               dec(count);
             end;
           end;
+          prevdelta := column.topdelta;
           column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0;
         end;
         inc(col);
         desttop := @desttop[1];
@@ -2979,6 +3025,7 @@ var
   swidth: integer;
   sheight: integer;
   vs: LongWord;
+  delta, prevdelta: integer;
 begin
   swidth := V_GetScreenWidth(SCN_FG);
   x := x - patch.leftoffset;
@@ -2998,12 +3045,13 @@ begin
       if col mod numidxs = idx then
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-
+        delta := 0;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
           source := PByte(integer(column) + 3);
-          dest := @desttop[column.topdelta * swidth];
+          delta := delta + column.topdelta;
+          dest := @desttop[delta * swidth];
           count := column.length;
 
           while count > 0 do
@@ -3017,7 +3065,10 @@ begin
             inc(dest, swidth);
             dec(count);
           end;
+          prevdelta := column.topdelta;
           column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0;
         end;
       end;
       inc(col);
@@ -3054,13 +3105,14 @@ begin
         if col mod numidxs = idx then
         begin
           column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
-
+          delta := 0;
         // step through the posts in a column
           while column.topdelta <> $ff do
           begin
             source := PByte(integer(column) + 3);
             vs := videopal[source^];
-            dest := @desttop[((column.topdelta * sheight div 200) * swidth)];
+            delta := delta + column.topdelta;
+            dest := @desttop[((delta * sheight div 200) * swidth)];
             count := column.length;
             fracy := 0;
             lasty := 0;
@@ -3083,7 +3135,10 @@ begin
                 dec(count);
               end;
             end;
+            prevdelta := column.topdelta;
             column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0;
           end;
         end;
         inc(col);
@@ -3181,6 +3236,7 @@ var
   cury: integer;
   swidth: integer;
   sheight: integer;
+  delta, prevdelta: integer;
 begin
   if fraczoom = FRACUNIT then
   begin
@@ -3221,15 +3277,16 @@ begin
     while col < pw do
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[fracx shr FRACBITS]);
-
+      delta := 0;
       // step through the posts in a column
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
+        delta := delta + column.topdelta;
         if preserve then
-          dest := PByte(integer(desttop) + ((column.topdelta * sheight) * fraczoom div FRACUNIT div 200) * swidth)
+          dest := PByte(integer(desttop) + ((delta * sheight) * fraczoom div FRACUNIT div 200) * swidth)
         else
-          dest := PByte(integer(desttop) + (column.topdelta * fraczoom div FRACUNIT) * swidth);
+          dest := PByte(integer(desttop) + (delta * fraczoom div FRACUNIT) * swidth);
         count := column.length;
         fracy := 0;
         lasty := 0;
@@ -3247,7 +3304,10 @@ begin
             dec(count);
           end;
         end;
+        prevdelta := column.topdelta;
         column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0;
       end;
       inc(desttop);
       inc(col);
@@ -3276,6 +3336,7 @@ var
   cury: integer;
   swidth: integer;
   sheight: integer;
+  delta, prevdelta: integer;
 begin
   if fraczoom = FRACUNIT then
   begin
@@ -3316,15 +3377,16 @@ begin
     while col < pw do
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
-
+      delta := 0;
       // step through the posts in a column
       while column.topdelta <> $ff do
       begin
         source := PByte(integer(column) + 3);
+        delta := delta + column.topdelta;
         if preserve then
-          dest := @desttop[((column.topdelta * sheight) * fraczoom div FRACUNIT div 200) * swidth]
+          dest := @desttop[((delta * sheight) * fraczoom div FRACUNIT div 200) * swidth]
         else
-          dest := @desttop[(column.topdelta * fraczoom div FRACUNIT) * swidth];
+          dest := @desttop[(delta * fraczoom div FRACUNIT) * swidth];
         count := column.length;
         fracy := 0;
         lasty := 0;
@@ -3342,7 +3404,10 @@ begin
             dec(count);
           end;
         end;
+        prevdelta := column.topdelta;
         column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0;
       end;
       desttop := @desttop[1];
       inc(col);
@@ -3375,6 +3440,7 @@ var
   dest: PByte;
   source: PByte;
   w: integer;
+  delta, prevdelta: integer;
 begin
   y := y - patch.topoffset;
   x := x - patch.leftoffset;
@@ -3388,12 +3454,13 @@ begin
   while col < w do
   begin
     column := Pcolumn_t(integer(patch) + patch.columnofs[w - 1 - col]);
-
+    delta := 0;
   // step through the posts in a column
     while column.topdelta <> $ff do
     begin
       source := PByte(integer(column) + 3);
-      dest := PByte(integer(desttop) + column.topdelta * 320);
+      delta := delta + column.topdelta;
+      dest := PByte(integer(desttop) + delta * 320);
       count := column.length;
 
       while count > 0 do
@@ -3403,7 +3470,10 @@ begin
         inc(dest, 320);
         dec(count);
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
     inc(col);
     inc(desttop);
@@ -3412,6 +3482,11 @@ end;
 
 {$IFDEF DOOM_OR_STRIFE}
 procedure V_PageDrawer(const pagename: string);
+var
+  p: Ppatch_t;
+  bigpatch: boolean;
+  oldscreen, newscreen: PByteArray;
+  oldw, oldh: integer;
 begin
   if {$IFNDEF OPENGL}(videomode = vm32bit) and{$ENDIF} useexternaltextures then
     if T_DrawFullScreenPatch(pagename, screen32) then
@@ -3419,8 +3494,34 @@ begin
       V_FullScreenStretch;
       exit;
     end;
-  V_DrawPatch(0, 0, SCN_TMP, pagename, false);
-  V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+  p := W_CacheLumpName(pagename, PU_STATIC);
+  bigpatch := (p.width > 320) or (p.height > 200);
+  if bigpatch then
+  begin
+    oldscreen := screens[SCN_TMP];
+    oldw := screendimentions[SCN_TMP].width;
+    oldh := screendimentions[SCN_TMP].height;
+    screendimentions[SCN_TMP].width := p.width;
+    screendimentions[SCN_TMP].height := p.height;
+
+    newscreen := mallocz(p.width * p.height);
+    screens[SCN_TMP] := newscreen;
+
+    V_DrawPatch(0, 0, SCN_TMP, p, false);
+    V_CopyRect(0, 0, SCN_TMP, p.width, p.height, 0, 0, SCN_FG, true);
+
+    screens[SCN_TMP] := oldscreen;
+    screendimentions[SCN_TMP].width := oldw;
+    screendimentions[SCN_TMP].height := oldh;
+    memfree(pointer(newscreen), p.width * p.height);
+
+    Z_ChangeTag(p, PU_CACHE);
+  end
+  else
+  begin
+    V_DrawPatch(0, 0, SCN_TMP, p, false);
+    V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+  end;
   V_FullScreenStretch;
 end;
 {$ELSE}

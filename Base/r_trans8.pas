@@ -75,6 +75,9 @@ const
   FASTTABLECHANNEL = 256 div FASTTABLEBIT;
   FASTTABLESIZE = FASTTABLECHANNEL * FASTTABLECHANNEL * FASTTABLECHANNEL;
 
+var
+  approxcolorindexarray: array[0..FASTTABLESIZE - 1] of byte;
+
 implementation
 
 uses
@@ -82,9 +85,6 @@ uses
   v_data,
   v_video,
   z_zone;
-
-var
-  approxcolorindexarray: array[0..FASTTABLESIZE - 1] of byte;
 
 procedure R_InitTransparency8Tables;
 var
@@ -141,8 +141,8 @@ begin
       for b := 0 to FASTTABLECHANNEL - 1 do
       begin
         ptrans8^ := V_FindAproxColorIndex(@palL,
-                          r shl 20 + g shl 12 + b shl 4 +
-                          (FASTTABLEBIT div 2) shl 16 + (FASTTABLEBIT div 2) shl 8 + (FASTTABLEBIT div 2)
+                          r shl 20 + g shl 12 + b shl 4 {+
+                          (FASTTABLEBIT div 2) shl 16 + (FASTTABLEBIT div 2) shl 8 + (FASTTABLEBIT div 2)}
                     ) and $FF;
         inc(ptrans8);
       end;

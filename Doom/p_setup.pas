@@ -148,6 +148,7 @@ uses
   c_cmds,
   doomtype,
   d_player,
+  d_main,
   d_think,
   z_zone,
   m_bbox,
@@ -1852,6 +1853,9 @@ begin
 
   bodyqueslot := 0;
   deathmatch_p := 0;
+
+  if devparm then
+    printf('P_LoadThings()'#13#10);
   P_LoadThings(lumpnum + Ord(ML_THINGS));
 
   // if deathmatch, randomly spawn the active players
@@ -1870,9 +1874,13 @@ begin
   iquetail := 0;
 
   // set up world state
+  if devparm then
+    printf('P_SpawnSpecials()'#13#10);
   P_SpawnSpecials;
 
   {$IFNDEF OPENGL}
+  if devparm then
+    printf('R_Clear32Cache()'#13#10);
   R_Clear32Cache;
   {$ENDIF}
   // preload graphics
@@ -1880,11 +1888,17 @@ begin
   // Precache if we have external textures
   if precache or externalpakspresent then
   begin
+    if devparm then
+      printf('R_PrecacheLevel()'#13#10);
     R_PrecacheLevel;
+    if devparm then
+      printf('S_PrecacheSounds()'#13#10);
     S_PrecacheSounds;
   end;
 
 {$IFDEF OPENGL}
+    if devparm then
+      printf('gld_PreprocessLevel()'#13#10);
   gld_PreprocessLevel; // JVAL OPENGL
 {$ENDIF}
 

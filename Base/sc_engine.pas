@@ -61,6 +61,7 @@ type
     ScriptSize: integer;
     AlreadyGot: boolean;
     ignonelist: TDStringList;
+    faliases: TDStringList;
   protected
     function fToken: string;
   public
@@ -89,6 +90,8 @@ type
     function MatchPosString(const str: string): boolean;
     function MustMatchString(strs: TDStringList): integer;
     function Compare(const txt: string): boolean;
+    procedure AddAlias(const src, dest: string);
+    procedure ClearAliases;
     property _Integer: integer read sc_Integer;
     property _Float: float read sc_Float;
     property _String: string read fToken;
@@ -127,6 +130,7 @@ constructor TScriptEngine.Create(const tx: string);
 begin
   Inherited Create;
   ignonelist := TDStringList.Create;
+  faliases := TDStringList.Create;
   fBracketLevel := 0;
   fParenthesisLevel := 0;
   fNewLine := false;
@@ -138,6 +142,7 @@ destructor TScriptEngine.Destroy;
 begin
   Clear;
   ignonelist.Free;
+  faliases.Free;
   Inherited;
 end;
 
@@ -147,8 +152,13 @@ begin
 end;
 
 function TScriptEngine.fToken: string;
+var
+  idx: integer;
 begin
   result := StringVal(sc_String);
+  idx := faliases.IndexOfName(strupper(result));
+  if idx >= 0 then
+    result := faliases.ValuesIdx[idx];
 end;
 
 procedure TScriptEngine.Clear;
@@ -375,7 +385,17 @@ end;
 
 function TScriptEngine.Compare(const txt: string): boolean;
 begin
-  result := strupper(txt) = strupper(StringVal(sc_String));
+  result := strupper(txt) = strupper(fToken);
+end;
+
+procedure TScriptEngine.AddAlias(const src, dest: string);
+begin
+  faliases.Add(strupper(src + '=' + dest));
+end;
+
+procedure TScriptEngine.ClearAliases;
+begin
+  faliases.Clear;
 end;
 
 function TScriptEngine.GetString: boolean;

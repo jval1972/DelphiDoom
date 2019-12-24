@@ -249,6 +249,8 @@ var
 // DOOM II Par Times
   cpars: array[0..31] of integer;
 
+var
+  p_initialbullets: integer = 50;
 
 implementation
 
@@ -1550,7 +1552,7 @@ begin
   p.pendingweapon := wp_pistol;
   p.weaponowned[Ord(wp_fist)] := 1;
   p.weaponowned[Ord(wp_pistol)] := 1;
-  p.ammo[Ord(am_clip)] := 50;
+  p.ammo[Ord(am_clip)] := p_initialbullets;
 
   for i := 0 to Ord(NUMAMMO) - 1 do
     p.maxammo[i] := maxammo[i];

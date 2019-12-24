@@ -471,7 +471,7 @@ begin
 
   stretch := stallhack and fixstallhack and (WINDOWHEIGHT = SCREENHEIGHT);
   if not stretch then
-    stretch := (WINDOWWIDTH <> SCREENWIDTH) or (WINDOWHEIGHT <> SCREENHEIGHT);
+    stretch := (WINDOWWIDTH <> SCREENWIDTH) or (WINDOWHEIGHT <> SCREENHEIGHT) or (fullscreen <> FULLSCREEN_EXCLUSIVE);
 
   if stretch then
   begin

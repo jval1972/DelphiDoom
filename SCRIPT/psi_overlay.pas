@@ -340,6 +340,7 @@ var
   source: PByte;
   count: Integer;
   astart, aend: Integer;
+  delta, prevdelta: Integer;
 begin
   fx := x - patch.leftoffset;
   fy := y - patch.topoffset;
@@ -353,12 +354,13 @@ begin
   while col < w do
   begin
     column := Pcolumn_t(Integer(patch) + patch.columnofs[col]);
-
+    delta := 0;
     // step through the posts in a column
     while column.topdelta <> $ff do
     begin
       source := PByte(Integer(column) + 3);
-      dest := @desttop[column.topdelta * OVERLAYWIDTH];
+      delta := delta + column.topdelta;
+      dest := @desttop[delta * OVERLAYWIDTH];
       count := column.length;
 
       astart := pDiff(dest, @foverlayscreen[0], 1);
@@ -376,7 +378,10 @@ begin
         end;
         NotifyDrawSize(astart, aend);
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(Integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
     Inc(col);
     Inc(fx);

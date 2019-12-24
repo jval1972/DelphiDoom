@@ -55,7 +55,7 @@ const
   MAXLIGHTWIDTHFACTOR = 10;
   MINLMCOLORSENSITIVITY = 32;
   DEFLMCOLORSENSITIVITY = 128;
-  MAXLMCOLORSENSITIVITY = 255;
+  MAXLMCOLORSENSITIVITY = 256;
 
 var
   r_uselightmaps: boolean = true;
@@ -84,7 +84,8 @@ uses
   r_zbuffer,
   r_hires,
   tables,
-  v_video;
+  v_video,
+  z_zone;
 
 const
   LIGHTTEXTURESIZE = 128;
@@ -100,7 +101,7 @@ procedure R_InitLightTexture;
 var
   i, j: integer;
   dist: double;
-  c: LongWord;
+  c: integer;
 begin
   if lighttexture = nil then
     lighttexture := PLongWordArray(malloc(LIGHTTEXTURESIZE * LIGHTTEXTURESIZE * SizeOf(LongWord)));
@@ -222,7 +223,8 @@ const
   DEPTHBUFFER_NEAR = $3FFF * FRACUNIT;
   DEPTHBUFFER_FAR = 256;
 
-function R_GetVisLightProjection(const x, y, z: fixed_t; const radius: fixed_t; const color: LongWord): Pvislight_t;
+function R_GetVisLightProjection(const x, y, z: fixed_t; const radius: fixed_t;
+  const color: LongWord): Pvislight_t;
 var
   tr_x: fixed_t;
   tr_y: fixed_t;
@@ -280,6 +282,7 @@ begin
 
   // OK, we have a valid vislight
   result := R_NewVisLight;
+
   // store information in a vissprite
   result.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   result.gx := x;
@@ -459,6 +462,7 @@ var
   destb: PByte;
   source32: PLongWordArray;
   pitch: integer;
+  r1, g1, b1: LongWord;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -514,10 +518,20 @@ begin
 
           if dfactor > 0 then
           begin
-            factor := FixedMul(dls, dfactor);
+{           factor := FixedMul(dls, dfactor);
+            if factor > 0 then
+              destb^ := colorlighttrans8table[destb^ * 256 + R_FastApproxColorIndex(FixedMul(parms.r, factor), FixedMul(parms.g, factor), FixedMul(parms.b, factor))];}
+
+            factor := FixedMulDiv16(dls, dfactor);
 
             if factor > 0 then
-              destb^ := colorlighttrans8table[destb^ * 256 + R_FastApproxColorIndex(FixedMul(parms.r, factor), FixedMul(parms.g, factor), FixedMul(parms.b, factor))];
+            begin
+              r1 := FixedMulShl8(parms.r, factor);
+              g1 := FixedMulShl4(parms.g, factor);
+              b1 := FixedMul(parms.b, factor);
+              destb^ := colorlighttrans8table[destb^ * 256 + approxcolorindexarray[r1 + g1 + b1]];
+            end;
+            
           end;
         end;
       end;
@@ -525,6 +539,32 @@ begin
     inc(destb, pitch);
     inc(frac, fracstep);
   end;
+end;
+
+type
+  precalc32op1_t = array[0..255] of integer;
+  precalc32op1_p = ^precalc32op1_t;
+
+var
+  precalc32op1A: array[0..255] of precalc32op1_p;
+  precalc32op1_calced: boolean = false;
+
+procedure calc_precalc32op1;
+var
+  i, j: integer;
+begin
+  if precalc32op1_calced then
+    exit;
+
+  precalc32op1A[0] := nil;
+  for j := 1 to 255 do
+  begin
+    precalc32op1A[j] := Z_Malloc(SizeOf(precalc32op1_t), PU_STATIC, nil);
+    for i := 0 to 255 do
+      precalc32op1A[j][i] := (255 - i) * j;
+  end;
+
+  precalc32op1_calced := true;
 end;
 
 procedure R_DrawColumnLightmap32(const parms: Plightparams_t);
@@ -546,6 +586,7 @@ var
   destb: PByte;
   source32: PLongWordArray;
   pitch: integer;
+  tbl_r, tbl_g, tbl_b: precalc32op1_p;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -566,6 +607,10 @@ begin
   skip := false;
   sameseg := false;
   source32 := parms.dl_source32;
+
+  tbl_r := precalc32op1A[parms.r];
+  tbl_g := precalc32op1A[parms.g];
+  tbl_b := precalc32op1A[parms.b];
 
   destb := @((ylookupl[parms.dl_yl]^)[columnofs[x]]);
   pitch := SCREENWIDTH * SizeOf(LongWord);
@@ -598,24 +643,30 @@ begin
             else
               dfactor := FRACUNIT - FixedDiv(dfactor, dbdmax);
           end;
-          
+
           if dfactor > 0 then
           begin
             factor := FixedMulDiv256(dls, dfactor);
 
             if factor > 0 then
             begin
-              if parms.b > 0 then
-                destb^ := destb^ + ((255 - destb^) * parms.b * factor) shr 16;
+              //if parms.b > 0 then
+                //destb^ := destb^ + ((255 - destb^) * parms.b * factor) shr 16;
+              if tbl_b <> nil then
+                destb^ := destb^ + (tbl_b[destb^] * factor) shr 16;
               inc(destb);
 
-              if parms.g > 0 then
-                destb^ := destb^ + ((255 - destb^) * parms.g * factor) shr 16;
+              //if parms.g > 0 then
+                //destb^ := destb^ + ((255 - destb^) * parms.g * factor) shr 16;
+              if tbl_g <> nil then
+                destb^ := destb^ + (tbl_g[destb^] * factor) shr 16;
 
-              if parms.r > 0 then
+              //if parms.r > 0 then
+              if tbl_r <> nil then
               begin
                 inc(destb);
-                destb^ := destb^ + ((255 - destb^) * parms.r * factor) shr 16;
+                //destb^ := destb^ + ((255 - destb^) * parms.r * factor) shr 16;
+                destb^ := destb^ + (tbl_r[destb^] * factor) shr 16;
                 dec(destb, 2);
               end
               else
@@ -711,7 +762,10 @@ begin
     R_InitLightTexture;
   end;
   if videomode = vm32bit then
-    drawcolumnlightmap := R_DrawColumnLightmap32
+  begin
+    calc_precalc32op1;
+    drawcolumnlightmap := R_DrawColumnLightmap32;
+  end
   else
     drawcolumnlightmap := R_DrawColumnLightmap8;
 end;
@@ -729,18 +783,35 @@ begin
     result := ii;
 end;
 
-procedure R_DrawLightSingleThread(const psl: Pdlsortitem_t);
+procedure R_GetVisLightProjections;
 var
+  i: integer;
+  psl: Pdlsortitem_t;
   c: LongWord;
 begin
   if fixedcolormapnum = INVERSECOLORMAP then
-    c := $FFFFFF
+  begin
+    for i := numdlitems - 1 downto 0 do
+    begin
+      psl := @dlbuffer[i];
+      psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, $FFFFFF);
+    end;
+  end
   else
-    c := f2b(psl.l.b) + f2b(psl.l.g) shl 8 + f2b(psl.l.r) shl 16;
-  psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c);
+  begin
+    for i := numdlitems - 1 downto 0 do
+    begin
+      psl := @dlbuffer[i];
+      c := f2b(psl.l.b) + f2b(psl.l.g) shl 8 + f2b(psl.l.r) shl 16;
+      psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c);
+    end;
+  end;
+end;
+
+procedure R_DrawLightSingleThread(const psl: Pdlsortitem_t);
+begin
   if psl.vis = nil then
-    exit;
-  R_DrawVisLight(psl, 0, 1);
+    R_DrawVisLight(psl, 0, 1);
 end;
 
 procedure R_DrawLightsSingleThread;
@@ -749,22 +820,15 @@ var
 begin
   R_SetUpLightEffects;
   R_SortDlights;
+  R_GetVisLightProjections;
   for i := 0 to numdlitems - 1 do
     R_DrawLightSingleThread(@dlbuffer[i]);
 end;
 
 procedure R_DrawLightMultiThread(const psl: Pdlsortitem_t; const threadid, numlthreads: integer);
-var
-  c: LongWord;
 begin
-  if fixedcolormapnum = INVERSECOLORMAP then
-    c := $FFFFFF
-  else
-    c := f2b(psl.l.b) + f2b(psl.l.g) shl 8 + f2b(psl.l.r) shl 16;
-  psl.vis := R_GetVisLightProjection(psl.x, psl.y, psl.z, psl.radius * lightwidthfactor div DEFLIGHTWIDTHFACTOR, c);
-  if psl.vis = nil then
-    exit;
-  R_DrawVisLight(psl, threadid, numlthreads);
+  if psl.vis <> nil then
+    R_DrawVisLight(psl, threadid, numlthreads);
 end;
 
 function _DrawLightsMultiThread_thr(p: iterator_p): integer; stdcall;
@@ -780,6 +844,7 @@ procedure R_DrawLightsMultiThread;
 begin
   R_SetUpLightEffects;
   R_SortDlights;
+  R_GetVisLightProjections;
   MT_Iterate(@_DrawLightsMultiThread_thr, nil);
 end;
 

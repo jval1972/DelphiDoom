@@ -110,6 +110,7 @@ uses
   info,
   info_common,
   m_argv,
+  m_fixed,
   a_action,
   ps_main,
   p_mobj,
@@ -374,6 +375,7 @@ var
   mobj_no: integer;
   mobj_idx: integer;
   mobj_val: integer;
+  mobj_fval: float;
 
   mobj_flag: integer;
   mobj_setflag: integer;
@@ -691,7 +693,17 @@ begin
           40: mobjinfo[mobj_no].crashstate := mobj_val;
           41: mobjinfo[mobj_no].vspeed := mobj_val;
           42: mobjinfo[mobj_no].pushfactor := mobj_val;
-          43: mobjinfo[mobj_no].scale := mobj_val;
+          43: begin
+                if (Pos('.', token2) > 0) or (Pos(',', token2) > 0) then
+                begin
+                  mobj_fval := atof(token2, -1);
+                  mobjinfo[mobj_no].scale := round(FRACUNIT * mobj_fval);
+                end
+                else
+                  mobjinfo[mobj_no].scale := mobj_val;
+                if mobjinfo[mobj_no].scale > 64 * FRACUNIT then
+                  mobjinfo[mobj_no].scale := mobjinfo[mobj_no].scale div FRACUNIT;
+              end;
         end;
       end;
 
@@ -2000,7 +2012,9 @@ begin
   mobj_flags2_ex.Add('MF2_EX_FULLVOLATTACK');
   mobj_flags2_ex.Add('MF2_EX_DONOTRENDERSHADOW');
   mobj_flags2_ex.Add('MF2_EX_SEEINVISIBLE');
+  // JVAL version 205
   mobj_flags2_ex.Add('MF2_EX_MISSILEHURTSPECIES');
+  mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // .sprite

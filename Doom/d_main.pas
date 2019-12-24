@@ -1870,19 +1870,11 @@ begin
   if (p <> 0) and (p <= myargc - 1) then
     usejoystick := true;
 
-  {$IFNDEF OPENGL}
-//  SCREENWIDTH := WINDOWWIDTH;
-  {$ENDIF}
-
   p := M_CheckParm('-screenwidth');
   if (p <> 0) and (p < myargc - 1) then
     SCREENWIDTH := atoi(myargv[p + 1]);
   if SCREENWIDTH > MAXWIDTH then
     SCREENWIDTH := MAXWIDTH;
-
-  {$IFNDEF OPENGL}
-//  SCREENHEIGHT := WINDOWHEIGHT;
-  {$ENDIF}
 
   p := M_CheckParm('-screenheight');
   if (p <> 0) and (p < myargc - 1) then
@@ -1992,8 +1984,6 @@ begin
 
   p := M_CheckParm('-autoscreenshot');
   autoscreenshot := p > 0;
-
-//  I_RestoreWindowPos;
 
   {$IFNDEF FPC}
   SUC_Progress(25);
@@ -2150,8 +2140,17 @@ begin
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
-  printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
-  SC_ParseActordefLumps;
+
+  {$IFNDEF FPC}
+  SUC_Progress(43);
+  {$ENDIF}
+
+  p := M_CheckParm('-noactordef');
+  if p <= 0 then
+  begin
+    printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
+    SC_ParseActordefLumps;
+  end;
 
   {$IFNDEF FPC}
   SUC_Progress(45);

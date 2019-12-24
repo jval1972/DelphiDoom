@@ -1028,12 +1028,14 @@ var
 
 procedure IdentifyVersion;
 var
+  hexendemwad: string;
   hexen1wad: string;
   hexenwad: string;
   p: integer;
 begin
   // Shareware
   hexen1wad := D_FileInDoomPath('hexen1.wad');
+  hexendemwad := D_FileInDoomPath('hexendem.wad');
 
   // Registered
   hexenwad := D_FileInDoomPath('hexen.wad');
@@ -1076,6 +1078,13 @@ begin
   begin
     gamemode := shareware;
     D_AddFile(hexen1wad);
+    exit;
+  end;
+
+  if fexists(hexendemwad) then
+  begin
+    gamemode := shareware;
+    D_AddFile(hexendemwad);
     exit;
   end;
 
@@ -1883,8 +1892,15 @@ begin
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
-  printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
-  SC_ParseActordefLumps;
+
+  SUC_Progress(43);
+
+  p := M_CheckParm('-noactordef');
+  if p <= 0 then
+  begin
+    printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
+    SC_ParseActordefLumps;
+  end;
 
   SUC_Progress(45);
 

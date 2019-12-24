@@ -101,6 +101,11 @@ procedure P_MovePsprites(player: Pplayer_t);
 
 procedure P_BulletSlope(mo: Pmobj_t);
 
+var
+// plasma cells for a bfg attack
+  p_bfgcells: integer = 40;
+
+
 implementation
 
 uses
@@ -141,10 +146,6 @@ const
 const
   LOWERSPEED = 6 * FRACUNIT;
   RAISESPEED = 6 * FRACUNIT;
-
-const
-// plasma cells for a bfg attack
-  BFGCELLS = 40;
 
 //
 // P_SetPsprite
@@ -252,7 +253,7 @@ begin
 
   // Minimal amount for one shot varies.
   if player.readyweapon = wp_bfg then
-    count := BFGCELLS
+    count := p_bfgcells
   else if player.readyweapon = wp_supershotgun then
     count := 2 // Double barrel.
   else
@@ -291,7 +292,7 @@ begin
             (player.ammo[Ord(am_misl)] <> 0) then
       player.pendingweapon := wp_missile
     else if (player.weaponowned[Ord(wp_bfg)] <> 0) and
-            (player.ammo[Ord(am_cell)] > BFGCELLS) and
+            (player.ammo[Ord(am_cell)] > p_bfgcells) and
             (gamemode <> shareware) then
       player.pendingweapon := wp_bfg
     else
@@ -579,7 +580,7 @@ end;
 procedure A_FireBFG(player: Pplayer_t; psp: Ppspdef_t);
 begin
   player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] :=
-    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - BFGCELLS;
+    player.ammo[Ord(weaponinfo[Ord(player.readyweapon)].ammo)] - p_bfgcells;
   P_SpawnPlayerMissile(player.mo, Ord(MT_BFG));
 end;
 

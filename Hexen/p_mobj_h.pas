@@ -365,6 +365,8 @@ const
   MF2_EX_SEEINVISIBLE = $4000;
   // Missile hurts same species
   MF2_EX_MISSILEHURTSPECIES = $8000;
+  // No P_HitFloor call
+  MF2_EX_NOHITFLOOR = $10000;
 
 type
 // Map Object definition.

@@ -101,6 +101,7 @@ var
   dest: PLongWord;
   source: PByte;
   w: integer;
+  delta, prevdelta: integer;
 begin
   if patch = nil then
   begin
@@ -121,12 +122,13 @@ begin
   while col < w do
   begin
     column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-
+    delta := 0;
     // step through the posts in a column
     while column.topdelta <> $ff do
     begin
       source := PByte(integer(column) + 3);
-      dest := @desttop[column.topdelta * w];
+      delta := delta + column.topdelta;
+      dest := @desttop[delta * w];
       count := column.length;
 
       while count > 0 do
@@ -136,7 +138,10 @@ begin
         inc(dest, w);
         dec(count);
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
     inc(col);
     desttop := @desttop[1];
@@ -166,6 +171,7 @@ var
   w, h: integer;
   mx: integer;
   cnt: integer;
+  delta, prevdelta: integer;
 begin
   result := true;
 
@@ -192,12 +198,13 @@ begin
         break;
 
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
-
       if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + N - 3) then
       begin
         result := false;
         break;
       end;
+
+      delta := 0;
 
       // step through the posts in a column
       cnt := 0;
@@ -206,14 +213,18 @@ begin
         if not result then
           break;
 
-        dest := desttop + (column.topdelta + column.length - 1) * w;
+        delta := delta + column.topdelta;
+        dest := desttop + (delta + column.length - 1) * w;
         if dest >= mx then
         begin
           result := false;
           break;
         end;
 
+        prevdelta := column.topdelta;
         column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0;
 
         if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + N - 3) then
           if col < w - 1 then
@@ -242,5 +253,4 @@ begin
 end;
 
 end.
-
 

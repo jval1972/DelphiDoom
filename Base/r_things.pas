@@ -184,11 +184,11 @@ begin
   begin
     // the lump should be used for all rotations
     if sprtemp[frame].rotate = 0 then
-      I_Warning('R_InitSprites(): Sprite %s frame %s has multip rot=0 lump'#13#10,
+      I_DevWarning('R_InitSprites(): Sprite %s frame %s has multip rot=0 lump'#13#10,
         [spritename, Chr(Ord('A') + frame)]);
 
     if sprtemp[frame].rotate in [1..3] then // JVAL: Up to 32 sprite rotations
-      I_Warning('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
+      I_DevWarning('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
         [spritename, Chr(Ord('A') + frame)]);
 
     sprtemp[frame].rotate := 0;
@@ -486,11 +486,14 @@ var
   bottomscreen: int64;
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
+  delta, prevdelta: integer;
 begin
   basetexturemid := dc_texturemid;
 
   fc_x := mfloorclip[dc_x];
   cc_x := mceilingclip[dc_x];
+
+  delta := 0;
 
   if baseclip <> -1 then
   begin
@@ -498,7 +501,8 @@ begin
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      delta := delta + column.topdelta;
+      topscreen := sprtopscreen + int64(spryscale * delta);
       bottomscreen := topscreen + int64(spryscale * column.length);
 
       dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
@@ -515,7 +519,7 @@ begin
       if dc_yl <= dc_yh then
       begin
         dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        dc_texturemid := basetexturemid - (delta * FRACUNIT);
         // Drawn by either R_DrawColumn
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
@@ -530,7 +534,10 @@ begin
         else
           colfunc;
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
   end
   else
@@ -539,7 +546,8 @@ begin
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      delta := delta + column.topdelta;
+      topscreen := sprtopscreen + int64(spryscale * delta);
       bottomscreen := topscreen + int64(spryscale * column.length);
 
       dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
@@ -553,7 +561,7 @@ begin
       if dc_yl <= dc_yh then
       begin
         dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        dc_texturemid := basetexturemid - (delta * FRACUNIT);
         // Drawn by either R_DrawColumn
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
@@ -568,7 +576,10 @@ begin
         else
           colfunc;
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
   end;
 
@@ -621,6 +632,7 @@ var
   bottomscreen: int64;
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
+  delta, prevdelta: integer;
 begin
   basetexturemid := dc_texturemid;
 
@@ -629,11 +641,13 @@ begin
 
   if baseclip <> -1 then
   begin
+    delta := 0;
     while column.topdelta <> $ff do
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      delta := delta + column.topdelta;
+      topscreen := sprtopscreen + int64(spryscale * delta);
       bottomscreen := topscreen + int64(spryscale * column.length);
 
       dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
@@ -650,7 +664,7 @@ begin
       if dc_yl <= dc_yh then
       begin
         dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        dc_texturemid := basetexturemid - (delta * FRACUNIT);
         // Drawn by either R_DrawColumn
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
@@ -662,11 +676,13 @@ begin
   end
   else
   begin
+    delta := 0;
     while column.topdelta <> $ff do
     begin
       // calculate unclipped screen coordinates
       // for post
-      topscreen := sprtopscreen + int64(spryscale * column.topdelta);
+      delta := delta + column.topdelta;
+      topscreen := sprtopscreen + int64(spryscale * delta);
       bottomscreen := topscreen + int64(spryscale * column.length);
 
       dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
@@ -680,14 +696,17 @@ begin
       if dc_yl <= dc_yh then
       begin
         dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (column.topdelta * FRACUNIT);
+        dc_texturemid := basetexturemid - (delta * FRACUNIT);
         // Drawn by either R_DrawColumn
         //  or (SHADOW) R_DrawFuzzColumn
         //  or R_DrawColumnAverage
         //  or R_DrawTranslatedColumn
         batchcolfunc;
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
   end;
 
@@ -2085,14 +2104,6 @@ var
   pds: Pdrawseg_t;
   i: integer;
 begin
-  if r_uselightmaps then
-  begin
-    R_MarkLights;
-    if usemultithread then
-      R_DrawLightsMultiThread
-    else
-      R_DrawLightsSingleThread;
-  end;
   if vissprite_p > 0 then
   begin
     // draw all vissprites back to front
@@ -2130,12 +2141,22 @@ end;
 procedure R_DrawMasked_SingleThread;
 begin
   R_SortVisSprites;
+  if r_uselightmaps then
+  begin
+    R_MarkLights;
+    R_DrawLightsSingleThread;
+  end;
   R_DoDrawMasked;
 end;
 
 procedure R_DrawMasked_MultiThread;
 begin
   R_WaitSortVisSpritesMT;
+  if r_uselightmaps then
+  begin
+    R_MarkLights;
+    R_DrawLightsMultiThread
+  end;
   R_DoDrawMasked;
 end;
 {$ENDIF}

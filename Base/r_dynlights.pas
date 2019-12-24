@@ -122,6 +122,9 @@ var
 const
   DLIGHTSDRAWRANGE = 2048 * FRACUNIT;
 
+var
+  gldefs_as_lightdef: boolean = false;
+
 implementation
 
 uses
@@ -452,18 +455,26 @@ begin
       SC_ParceDynamicLight(W_TextLumpNum(i));
     end;
 
-  for i := 0 to W_NumLumps - 1 do
-    if char8tostring(W_GetNameForNum(i)) = GLDEFSLUMPNAME then
-    begin
-      lightdeflumppresent := true;
-      SC_ParceDynamicLight(W_TextLumpNum(i));
-    end;
+  if gldefs_as_lightdef then
+  begin
+    for i := 0 to W_NumLumps - 1 do
+      if char8tostring(W_GetNameForNum(i)) = GLDEFSLUMPNAME then
+      begin
+        lightdeflumppresent := true;
+        SC_ParceDynamicLight(W_TextLumpNum(i));
+      end;
+  end;
 
 // JVAL: 2011/05 Now check inside PAK/PK3 files for LIGHTDEF entries
   i := PAK_StringIterator(LIGHTSLUMPNAME, SC_ParceDynamicLight);
   i := i + PAK_StringIterator(LIGHTSLUMPNAME + '.txt', SC_ParceDynamicLight);
-  i := i + PAK_StringIterator(GLDEFSLUMPNAME, SC_ParceDynamicLight);
-  i := i + PAK_StringIterator(GLDEFSLUMPNAME + '.txt', SC_ParceDynamicLight);
+
+  if gldefs_as_lightdef then
+  begin
+    i := i + PAK_StringIterator(GLDEFSLUMPNAME, SC_ParceDynamicLight);
+    i := i + PAK_StringIterator(GLDEFSLUMPNAME + '.txt', SC_ParceDynamicLight);
+  end;
+
   lightdeflumppresent := lightdeflumppresent or (i > 0);
 end;
 

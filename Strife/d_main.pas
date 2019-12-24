@@ -2062,8 +2062,17 @@ begin
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
-  printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
-  SC_ParseActordefLumps;
+
+  {$IFNDEF FPC}
+  SUC_Progress(43);
+  {$ENDIF}
+
+  p := M_CheckParm('-noactordef');
+  if p <= 0 then
+  begin
+    printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
+    SC_ParseActordefLumps;
+  end;
 
   {$IFNDEF FPC}
   SUC_Progress(45);

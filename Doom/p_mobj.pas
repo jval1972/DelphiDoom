@@ -1235,8 +1235,12 @@ begin
   begin
     I_Warning('P_SpawnMapThing(): Unknown type %d at (%d, %d)'#13#10,
       [mthing._type, mthing.x, mthing.y]);
-    result := nil;
-    exit;
+    i := Info_GetMobjNumForName('UNKNOWN');
+    if i < 0 then
+    begin
+      result := nil;
+      exit;
+    end;
   end;
 
   // don't spawn keycards and players in deathmatch

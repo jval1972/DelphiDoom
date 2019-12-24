@@ -841,11 +841,20 @@ var
   lump: integer;
   flip: boolean;
   patch: Ppatch_t;
+  castname: string;
 begin
   // erase the entire screen to a background
   V_DrawPatch(0, 0, SCN_TMP, D_Help0Lump, false);
-                                                          
-  F_CastPrint(mobjinfo[Ord(castorder[castnum]._type)].name2);
+
+  castname := mobjinfo[Ord(castorder[castnum]._type)].name2;
+  if castname = '' then
+  begin
+    castname := mobjinfo[Ord(castorder[castnum]._type)].name;
+    if Pos('MT_', castname) = 1 then
+      Delete(castname, 1, 3);
+  end;
+
+  F_CastPrint(castname);
 
   // draw the current frame in the middle of the screen
   sprdef := @sprites[caststate.sprite];    
@@ -874,15 +883,18 @@ var
   dest: PByte;
   desttop: PByte;
   count: integer;
+  delta, prevdelta: integer;
 begin
   column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
   desttop := PByte(integer(screens[SCN_TMP]) + x);
 
+  delta := 0;
   // step through the posts in a column
   while column.topdelta <> $ff do
   begin
     source := PByte(integer(column) + 3);
-    dest := PByte(integer(desttop) + column.topdelta * 320);
+    delta := delta + column.topdelta;
+    dest := PByte(integer(desttop) + delta * 320);
     count := column.length;
 
     while count > 0 do
@@ -892,7 +904,10 @@ begin
       inc(dest, 320);
       dec(count);
     end;
+    prevdelta := column.topdelta;
     column := Pcolumn_t(integer(column) + column.length + 4);
+    if column.topdelta > prevdelta then
+      delta := 0;
   end;
 end;
 
