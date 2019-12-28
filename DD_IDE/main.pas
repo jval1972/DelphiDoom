@@ -7,7 +7,7 @@ uses
   Dialogs, ExtCtrls, Buttons, ComCtrls, Menus, ActnList, ImgList, ide_project,
   frm_projectmanager, AppEvnts, StdActns, StdCtrls, Clipbrd,
   frm_unitfunctions, frm_constants, frm_variables, frm_classes, frm_types,
-  frm_actordef;
+  frm_actordef, frm_mobjinfo;
 
 type
   TForm1 = class(TForm)
@@ -118,6 +118,8 @@ type
     Frame_Types1: TFrame_Types;
     TabSheet6: TTabSheet;
     Frame_Actordef1: TFrame_Actordef;
+    TabSheet7: TTabSheet;
+    Frame_Mobjinfo1: TFrame_Mobjinfo;
     procedure ActionAboutExecute(Sender: TObject);
     procedure ActionNewProjectExecute(Sender: TObject);
     procedure ActionOpenProjectExecute(Sender: TObject);
@@ -875,6 +877,7 @@ begin
     Frame_Classes1.UpdateGameControls(LowerCase(newgame));
     Frame_Types1.UpdateGameControls(LowerCase(newgame));
     Frame_Actordef1.UpdateGameControls(LowerCase(newgame));
+    Frame_Mobjinfo1.UpdateGameControls(LowerCase(newgame));
   finally
     Screen.Cursor := crDefault;
   end;
@@ -954,7 +957,6 @@ procedure TForm1.Frame_ProjectManager1GameTypeComboBoxChange(
   Sender: TObject);
 begin
   Frame_ProjectManager1.GameTypeComboBoxChange(Sender);
-
 end;
 
 end.

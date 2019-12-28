@@ -51,10 +51,12 @@ uses
 
 function P_GetMobjGravity(const mo: Pmobj_t): fixed_t;
 begin
-  if G_PlayingEngineVersion < VERSION204 then
-    result := GRAVITY
+  if G_PlayingEngineVersion > VERSION204 then
+    result := FixedMul(Psubsector_t(mo.subsector).sector.gravity, mo.gravity)
+  else if G_PlayingEngineVersion = VERSION204 then
+    result := Psubsector_t(mo.subsector).sector.gravity
   else
-    result := Psubsector_t(mo.subsector).sector.gravity;
+    result := GRAVITY;
 end;
 
 function P_GetSectorGravity(const sec: Psector_t): fixed_t;

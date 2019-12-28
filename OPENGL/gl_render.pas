@@ -1134,7 +1134,7 @@ type
     gltexture: PGLTexture;
     flags: integer;
     alpha: float;
-    dlights: TDNumberList;
+    dlights: T2DNumberList;
     models: TDNumberList;
     voxels: TDNumberList;
     mo: Pmobj_t;
@@ -3442,27 +3442,28 @@ begin
   zdist := camera.position[2] - sprite.z;
 
   for i := 0 to sprite.dlights.Count - 1 do
-  begin
-    l := R_GetDynamicLight(sprite.dlights.Numbers[i]);
-    if numdlitems >= realdlitems then
+    if sprite.dlights[i].num1 = sprite.mo._type then
     begin
-      olddlitems := realdlitems;
-      realdlitems := numdlitems + 32;
-      realloc(pointer(dlbuffer), olddlitems * SizeOf(dlsortitem_t), realdlitems * SizeOf(dlsortitem_t));
-    end;
+      l := R_GetDynamicLight(sprite.dlights[i].num2);
+      if numdlitems >= realdlitems then
+      begin
+        olddlitems := realdlitems;
+        realdlitems := numdlitems + 32;
+        realloc(pointer(dlbuffer), olddlitems * SizeOf(dlsortitem_t), realdlitems * SizeOf(dlsortitem_t));
+      end;
 
-    psl := @dlbuffer[numdlitems];
-    psl.l := l;
+      psl := @dlbuffer[numdlitems];
+      psl.l := l;
 //    Psubsector_t(sprite.mo.subsector).sector.floorheight
-    dx := xdist - l.x;
-    dy := ydist - l.y;
-    dz := zdist - l.z;
-    psl.squaredist := dx * dx + dy * dy + dz * dz;
-    psl.x := sprite.x + l.x;
-    psl.y := sprite.y + l.y;
-    psl.z := sprite.z + l.z;
-    inc(numdlitems);
-  end;
+      dx := xdist - l.x;
+      dy := ydist - l.y;
+      dz := zdist - l.z;
+      psl.squaredist := dx * dx + dy * dy + dz * dz;
+      psl.x := sprite.x + l.x;
+      psl.y := sprite.y + l.y;
+      psl.z := sprite.z + l.z;
+      inc(numdlitems);
+    end;
 end;
 
 (*****************
@@ -3552,6 +3553,7 @@ begin
       gld_StaticLightAlpha(sprite.light, sprite.alpha);
       glAlphaFunc(GL_GEQUAL, 0.01);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+//      glBlendFunc(GL_SRC_COLOR, GL_ONE);
       restoreblend := true;
     end
     else if sprite.flags and GLS_SUBTRACTIVE <> 0 then
@@ -3973,6 +3975,7 @@ begin
       gld_StaticLightAlpha(sprite.light, sprite.alpha);
       glAlphaFunc(GL_GEQUAL, 0.01);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+//      glBlendFunc(GL_SRC_COLOR, GL_ONE);
     end
     else if sprite.flags and GLS_SUBTRACTIVE <> 0 then
     begin

@@ -1,8 +1,8 @@
 object Form1: TForm1
   Left = 60
   Top = 88
-  Width = 928
-  Height = 591
+  Width = 1088
+  Height = 650
   Caption = 'DelphiDOOM Script IDE'
   Color = clBtnFace
   Constraints.MinHeight = 480
@@ -4306,17 +4306,17 @@ object Form1: TForm1
   PixelsPerInch = 96
   TextHeight = 13
   object LibrarySplitter: TSplitter
-    Left = 611
+    Left = 771
     Top = 39
     Width = 5
-    Height = 359
+    Height = 418
     Align = alRight
     Beveled = True
   end
   object Splitter2: TSplitter
     Left = 0
-    Top = 398
-    Width = 912
+    Top = 457
+    Width = 1072
     Height = 5
     Cursor = crVSplit
     Align = alBottom
@@ -4326,14 +4326,14 @@ object Form1: TForm1
     Left = 296
     Top = 39
     Width = 5
-    Height = 359
+    Height = 418
     Beveled = True
   end
   object LibraryPanel: TPanel
-    Left = 616
+    Left = 776
     Top = 39
     Width = 296
-    Height = 359
+    Height = 418
     Align = alRight
     Caption = ' '
     TabOrder = 0
@@ -4342,8 +4342,8 @@ object Form1: TForm1
       Left = 1
       Top = 1
       Width = 294
-      Height = 357
-      ActivePage = TabSheet6
+      Height = 416
+      ActivePage = TabSheet7
       Align = alClient
       MultiLine = True
       TabOrder = 0
@@ -4353,7 +4353,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 286
-          Height = 311
+          Height = 370
           Align = alClient
           TabOrder = 0
           inherited Splitter1: TSplitter
@@ -4364,11 +4364,11 @@ object Form1: TForm1
           end
           inherited EditorPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
           end
           inherited DetailPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
             inherited DeclPanel: TPanel
               Width = 284
             end
@@ -4388,7 +4388,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 286
-          Height = 311
+          Height = 370
           Align = alClient
           TabOrder = 0
           inherited Splitter1: TSplitter
@@ -4399,11 +4399,11 @@ object Form1: TForm1
           end
           inherited EditorPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
           end
           inherited DetailPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
             inherited DeclPanel: TPanel
               Width = 284
             end
@@ -4423,7 +4423,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 286
-          Height = 311
+          Height = 370
           Align = alClient
           TabOrder = 0
           inherited Splitter1: TSplitter
@@ -4434,11 +4434,11 @@ object Form1: TForm1
           end
           inherited EditorPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
           end
           inherited DetailPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
             inherited DeclPanel: TPanel
               Width = 284
             end
@@ -4458,7 +4458,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 286
-          Height = 311
+          Height = 370
           Align = alClient
           TabOrder = 0
           inherited Splitter1: TSplitter
@@ -4469,11 +4469,11 @@ object Form1: TForm1
           end
           inherited EditorPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
           end
           inherited DetailPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
             inherited DeclPanel: TPanel
               Width = 284
             end
@@ -4493,7 +4493,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 286
-          Height = 311
+          Height = 370
           Align = alClient
           TabOrder = 0
           inherited Splitter1: TSplitter
@@ -4504,11 +4504,11 @@ object Form1: TForm1
           end
           inherited EditorPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
           end
           inherited DetailPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
             inherited DeclPanel: TPanel
               Width = 284
             end
@@ -4528,7 +4528,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 286
-          Height = 311
+          Height = 370
           Align = alClient
           TabOrder = 0
           inherited Splitter1: TSplitter
@@ -4539,11 +4539,11 @@ object Form1: TForm1
           end
           inherited EditorPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
           end
           inherited DetailPanel: TPanel
             Width = 286
-            Height = 80
+            Height = 139
             inherited DeclPanel: TPanel
               Width = 284
             end
@@ -4556,12 +4556,53 @@ object Form1: TForm1
           end
         end
       end
+      object TabSheet7: TTabSheet
+        Caption = 'Mobjinfo'
+        ImageIndex = 6
+        inline Frame_Mobjinfo1: TFrame_Mobjinfo
+          Left = 0
+          Top = 0
+          Width = 286
+          Height = 370
+          Align = alClient
+          TabOrder = 0
+          inherited Splitter1: TSplitter
+            Top = 87
+            Width = 286
+          end
+          inherited ToolbarPanel: TPanel
+            Width = 286
+          end
+          inherited EditorPanel: TPanel
+            Width = 286
+            Height = 51
+          end
+          inherited DetailPanel: TPanel
+            Top = 90
+            Width = 286
+            inherited HintPanel: TPanel
+              Width = 284
+            end
+            inherited ListView1: TListView
+              Width = 284
+            end
+          end
+          inherited Panel1: TPanel
+            Width = 286
+            Height = 51
+            inherited TreeView1: TTreeView
+              Width = 284
+              Height = 49
+            end
+          end
+        end
+      end
     end
   end
   object Panel10: TPanel
     Left = 0
-    Top = 403
-    Width = 912
+    Top = 462
+    Width = 1072
     Height = 110
     Align = alBottom
     Caption = ' '
@@ -4569,7 +4610,7 @@ object Form1: TForm1
     object BottomPageControl: TPageControl
       Left = 1
       Top = 1
-      Width = 910
+      Width = 1070
       Height = 108
       ActivePage = OutputTabSheet
       Align = alClient
@@ -4580,7 +4621,7 @@ object Form1: TForm1
         object MessagesListBox: TListBox
           Left = 0
           Top = 0
-          Width = 902
+          Width = 1062
           Height = 82
           Align = alClient
           Color = clInfoBk
@@ -4594,8 +4635,8 @@ object Form1: TForm1
   object PageControl1: TPageControl
     Left = 301
     Top = 39
-    Width = 310
-    Height = 359
+    Width = 470
+    Height = 418
     Align = alClient
     TabOrder = 2
     OnDragDrop = PageControl1DragDrop
@@ -4606,7 +4647,7 @@ object Form1: TForm1
     Left = 0
     Top = 39
     Width = 296
-    Height = 359
+    Height = 418
     Align = alLeft
     BevelOuter = bvNone
     Caption = ' '
@@ -4615,7 +4656,7 @@ object Form1: TForm1
       Left = 0
       Top = 0
       Width = 296
-      Height = 359
+      Height = 418
       ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
@@ -4625,7 +4666,7 @@ object Form1: TForm1
           Left = 0
           Top = 0
           Width = 288
-          Height = 331
+          Height = 390
           Align = alClient
           Color = clWindow
           ParentColor = False
@@ -4711,7 +4752,7 @@ object Form1: TForm1
           end
           inherited TreeView1: TTreeView
             Width = 288
-            Height = 295
+            Height = 354
             OnDblClick = Frame_ProjectManager1TreeView1DblClick
             OnEdited = Frame_ProjectManager1TreeView1Edited
             OnEditing = Frame_ProjectManager1TreeView1Editing
@@ -4723,7 +4764,7 @@ object Form1: TForm1
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 912
+    Width = 1072
     Height = 39
     Align = alTop
     Caption = ' '
@@ -5380,7 +5421,7 @@ object Form1: TForm1
     object Bevel1: TBevel
       Left = 1
       Top = 1
-      Width = 910
+      Width = 1070
       Height = 2
       Align = alTop
       Shape = bsTopLine
@@ -5815,7 +5856,7 @@ object Form1: TForm1
       TabOrder = 1
     end
     object Panel2: TPanel
-      Left = 784
+      Left = 944
       Top = 3
       Width = 127
       Height = 35
@@ -5938,8 +5979,8 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 513
-    Width = 912
+    Top = 572
+    Width = 1072
     Height = 19
     Panels = <
       item

@@ -366,7 +366,8 @@ uses
   r_zbuffer in 'Base\r_zbuffer.pas',
   r_vislight in 'Base\r_vislight.pas',
   p_musinfo in 'Base\p_musinfo.pas',
-  p_levelinfo in 'Base\p_levelinfo.pas';
+  p_levelinfo in 'Base\p_levelinfo.pas',
+  deh_base in 'Base\deh_base.pas';
 
 exports
   dd_compile_hexen,
@@ -378,7 +379,10 @@ exports
   dd_getdisassembly_hexen,
   dd_gettypes_hexen,
   dd_getevents_hexen,
-  dd_getactordeffunctions_hexen;
+  dd_getactordeffunctions_hexen,
+  dd_getmobjinfocsv_hexen,
+  dd_getstatescsv_hexen,
+  dd_getspritescsv_hexen;
 
 begin
 

@@ -54,12 +54,18 @@ function dll_getevents(const game: string): string;
 
 function dll_getactordeffunctions(const game: string): TStringList;
 
+function dll_getmobjinfodeclarations(const game: string): TStringList;
+
+function dll_getstatesdeclarations(const game: string): TStringList;
+
+function dll_getspritenames(const game: string): TStringList;
+
 implementation
 
 uses
   Windows,
   SysUtils;
-  
+
 type
   dllcompilefunc_t =
     function (
@@ -415,6 +421,187 @@ end;
 function dll_getactordeffunctions(const game: string): TStringList;
 begin
   Result := dll_getpcharfunc(game, 'dd_getactordeffunctions_');
+end;
+
+function stripquotes(const s: string): string;
+begin
+  if Length(s) < 2 then
+  begin
+    Result := s;
+    Exit;
+  end;
+  if (s[1] = '"') and (s[Length(s)] = '"') then
+    Result := Copy(s, 2, Length(s) - 2)
+  else
+    Result := s;
+end;
+
+function csvlinetolist(const s: string): TStringList;
+var
+  i: integer;
+  token: string;
+begin
+  Result := TStringList.Create;
+  token := '';
+  for i := 1 to Length(s) do
+  begin
+    if s[i] = ';' then
+    begin
+      Result.Add(stripquotes(token));
+      token := '';
+    end
+    else
+      token := token + s[i];
+  end;
+  token := stripquotes(token);
+  if token <> '' then
+    Result.Add(token);
+end;
+
+function csvexpandfracunit(const s: string): string;
+var
+  check: string;
+  num: integer;
+begin
+  num := StrToIntDef(s, -1);
+  if num < 65536 then
+  begin
+    Result := s;
+    Exit;
+  end;
+
+  check := IntToStr(num);
+  if check <> s then
+  begin
+    Result := s;
+    Exit;
+  end;
+
+  if num mod 65536 <> 0 then
+  begin
+    Result := s;
+    Exit;
+  end;
+
+  if num = 65536 then
+    Result := 'FRACUNIT'
+  else
+    Result := IntToStr(num div 65536) + ' * FRACUNIT';
+end;
+
+function dll_getmobjinfodeclarations(const game: string): TStringList;
+var
+  mlst: TStringList;
+  i, j: integer;
+  declu: TStringList;
+  mheader: TStringList;
+  mline: TStringList;
+begin
+  mlst := dll_getpcharfunc(game, 'dd_getmobjinfocsv_');
+  if mlst = nil then
+  begin
+    Result := nil;
+    Exit;
+  end;
+  if mlst.Count = 0 then
+  begin
+    mlst.Free;
+    Result := nil;
+    Exit;
+  end;
+
+  Result := TStringList.Create;
+  mheader := csvlinetolist(mlst.Strings[0]);
+
+  for i := 1 to mlst.Count - 1 do
+  begin
+    mline := csvlinetolist(mlst.Strings[i]);
+    if mline.Count = mheader.Count then
+    begin
+      declu := TStringList.Create;
+      for j := 0 to mline.Count - 1 do
+        declu.Add(mheader[j] + ': ' + csvexpandfracunit(mline[j]));
+      Result.AddObject(mline[1], declu);
+    end;
+    mline.Free;
+  end;
+  mlst.Free;
+  mheader.Free;
+end;
+
+function dll_getstatesdeclarations(const game: string): TStringList;
+var
+  slst: TStringList;
+  i, j: integer;
+  declu: TStringList;
+  sheader: TStringList;
+  sline: TStringList;
+begin
+  slst := dll_getpcharfunc(game, 'dd_getstatescsv_');
+  if slst = nil then
+  begin
+    Result := nil;
+    Exit;
+  end;
+  if slst.Count = 0 then
+  begin
+    slst.Free;
+    Result := nil;
+    Exit;
+  end;
+
+  Result := TStringList.Create;
+  sheader := csvlinetolist(slst.Strings[0]);
+
+  for i := 1 to slst.Count - 1 do
+  begin
+    sline := csvlinetolist(slst.Strings[i]);
+    if sline.Count = sheader.Count then
+    begin
+      declu := TStringList.Create;
+      for j := 0 to sline.Count - 1 do
+        declu.Add(sheader[j] + ': ' + sline[j]);
+      Result.AddObject('State #' + sline[0], declu);
+    end;
+    sline.Free;
+  end;
+  slst.Free;
+  sheader.Free;
+end;
+
+function dll_getspritenames(const game: string): TStringList;
+var
+  sprlst: TStringList;
+  i: integer;
+  sprheader: TStringList;
+  sprline: TStringList;
+begin
+  sprlst := dll_getpcharfunc(game, 'dd_getspritescsv_');
+  if sprlst = nil then
+  begin
+    Result := nil;
+    Exit;
+  end;
+  if sprlst.Count = 0 then
+  begin
+    sprlst.Free;
+    Result := nil;
+    Exit;
+  end;
+
+  Result := TStringList.Create;
+  sprheader := csvlinetolist(sprlst.Strings[0]);
+
+  for i := 1 to sprlst.Count - 1 do
+  begin
+    sprline := csvlinetolist(sprlst.Strings[i]);
+    if sprline.Count = sprheader.Count then
+      if sprline.Count = 2 then
+        Result.Add(sprline.Strings[1]);
+    sprline.Free;
+  end;
+  sprlst.Free;
+  sprheader.Free;
 end;
 
 end.

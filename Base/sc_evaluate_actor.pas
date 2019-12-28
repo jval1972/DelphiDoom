@@ -91,6 +91,9 @@ type
     function PF_fastchasetics(p: TDStrings): string;
     function PF_key(p: TDStrings): string;
     function PF_floorclip(p: TDStrings): string;
+    function PF_gravity(p: TDStrings): string;
+    function PF_pushfactor(p: TDStrings): string;
+    function PF_scale(p: TDStrings): string;
     // Pascalscript map & world variables
     function PF_MAPSTR(p: TDStrings): string;
     function PF_WORLDSTR(p: TDStrings): string;
@@ -162,6 +165,9 @@ begin
   AddFunc('FASTCHASETICS', PF_fastchasetics, 0);
   AddFunc('KEY', PF_key, 0);
   AddFunc('FLOORCLIP', PF_floorclip, 0);
+  AddFunc('GRAVITY', PF_gravity, 0);
+  AddFunc('PUSHFACTOR', PF_pushfactor, 0);
+  AddFunc('SCALE', PF_scale, 0);
   // Pascalscript map & world variables
   AddFunc('MAPSTR', PF_MAPSTR, 1);
   AddFunc('WORLDSTR', PF_WORLDSTR, 1);
@@ -386,8 +392,23 @@ begin
   else
     result := '0.0';
 {$ELSE}
-  result := ftoa(factor.floorclip);
+  result := ftoa(factor.floorclip / FRACUNIT);
 {$ENDIF}
+end;
+
+function TActorEvaluator.PF_gravity(p: TDStrings): string;
+begin
+  result := ftoa(factor.gravity / FRACUNIT);
+end;
+
+function TActorEvaluator.PF_pushfactor(p: TDStrings): string;
+begin
+  result := ftoa(factor.pushfactor / FRACUNIT);
+end;
+
+function TActorEvaluator.PF_scale(p: TDStrings): string;
+begin
+  result := ftoa(factor.scale / FRACUNIT);
 end;
 
 // Pascalscript map & world variables

@@ -681,6 +681,9 @@ type
 {$IFNDEF OPENGL}
     od_lightmap,
 {$ENDIF}
+{$IFNDEF OPENGL}
+    od_bltasync,
+{$ENDIF}
     od_usetransparentsprites,
 {$IFNDEF OPENGL}
     od_diher8bittransparency,
@@ -742,6 +745,7 @@ var
 type
   optionslightmap_e = (
     ol_uselightmaps,
+    ol_lightmapfunc,
     ol_colorintensity,
     ol_filler1,
     ol_filler2,
@@ -2328,6 +2332,11 @@ begin
   lightmapcolorintensity := MINLMCOLORSENSITIVITY + lightmapcolorintensityidx * 8;
 end;
 
+procedure M_ChangeLightmapFadeoutFunc(choice: integer);
+begin
+  r_lightmapfadeoutfunc :=  (r_lightmapfadeoutfunc + 1) mod NUMLIGHTMAPFADEOUTFUNCS;
+end;
+
 procedure M_ChangeLightmapLightWidthFactor(choice: integer);
 begin
   case choice of
@@ -2342,7 +2351,12 @@ procedure M_LightmapDefaults(choice: integer);
 begin
   lightmapcolorintensity := DEFLMCOLORSENSITIVITY;
   lightwidthfactor := DEFLIGHTWIDTHFACTOR;
+  r_lightmapfadeoutfunc := 0;
 end;
+
+const
+  strlightmapfadefunc: array[0..NUMLIGHTMAPFADEOUTFUNCS - 1] of string =
+    ('LINEAR', 'CURVED', 'PERSIST', 'COSINE', 'SIGMOID');
 
 procedure M_DrawOptionsLightmap;
 var
@@ -2351,7 +2365,11 @@ begin
   M_DrawDisplayOptions;
   V_DrawPatch(20, 48, SCN_TMP, 'MENU_LIG', false);
 
+  r_lightmapfadeoutfunc := ibetween(r_lightmapfadeoutfunc, 0, NUMLIGHTMAPFADEOUTFUNCS - 1);
   lightmapcolorintensityidx := (lightmapcolorintensity - 32) div 8;
+
+  ppos := M_WriteText(OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * Ord(ol_lightmapfunc), 'Fadeout function: ');
+  M_WriteWhiteText(ppos.x, ppos.y, strlightmapfadefunc[r_lightmapfadeoutfunc]);
 
   ppos := M_WriteText(OptionsLightmapDef.x, OptionsLightmapDef.y + OptionsLightmapDef.itemheight * Ord(ol_colorintensity), 'Color intensity: ');
   M_WriteWhiteText(ppos.x, ppos.y, itoa((lightmapcolorintensity * 100) div DEFLMCOLORSENSITIVITY) + '%');
@@ -4243,6 +4261,16 @@ begin
   pmi.alphaKey := 'l';
   {$ENDIF}
 
+  {$IFNDEF OPENGL}
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Asynchronous DirectX blit';
+  pmi.cmd := 'r_bltasync';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @r_bltasync;
+  pmi.alphaKey := 'a';
+  {$ENDIF}
+
   inc(pmi);
   pmi.status := 1;
   pmi.name := '!Transparent sprites';
@@ -4489,6 +4517,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @r_uselightmaps;
   pmi.alphaKey := 'l';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Fadeout function';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeLightmapFadeoutFunc;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'f';
 
   inc(pmi);
   pmi.status := 2;

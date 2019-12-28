@@ -883,6 +883,11 @@ begin
   mobj.flags_ex := info.flags_ex;
 // JVAL: Set MF2_EX_JUSTAPPEARED flag
   mobj.flags2_ex := info.flags2_ex or MF2_EX_JUSTAPPEARED;
+  mobj.flags3_ex := info.flags3_ex;
+  mobj.flags4_ex := info.flags4_ex;
+  mobj.scale := info.scale;
+  mobj.gravity := info.gravity;
+  mobj.pushfactor := info.pushfactor;
   mobj.renderstyle := info.renderstyle;
   mobj.alpha := info.alpha;
   if mobj.flags_ex and MF_EX_FLOATBOB <> 0 then

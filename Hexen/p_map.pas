@@ -327,6 +327,7 @@ begin
     R_SetInterpolateSkipTicks(1);
 
   thing.flags := thing.flags or MF_JUSTAPPEARED;
+  thing.intrplcnt := 0;
 
   result := true;
 end;
@@ -941,7 +942,7 @@ begin
       if (thing.flags2 and MF2_PUSHABLE <> 0) and
          (tmthing.flags2 and MF2_CANNOTPUSH = 0) then
       begin // Push thing
-        pushfactor := thing.info.pushfactor;
+        pushfactor := thing.pushfactor;
         if pushfactor <= 0 then
         begin
           thing.momx := thing.momx + _SHR2(tmthing.momx);
@@ -981,7 +982,7 @@ begin
 
   if (thing.flags2 and MF2_PUSHABLE <> 0) and (tmthing.flags2 and MF2_CANNOTPUSH = 0) then
   begin // Push thing
-    pushfactor := thing.info.pushfactor;
+    pushfactor := thing.pushfactor;
     if pushfactor <= 0 then
     begin
       thing.momx := thing.momx + _SHR2(tmthing.momx);

@@ -39,15 +39,7 @@ uses
   d_delphi,
   d_think;
 
-function DEH_ParseLumpName(const lumpname: string): boolean;
-
-procedure DEH_ParseLumpNum(const lump: integer);
-
-procedure DEH_ParseFile(const filename: string);
-
-procedure DEH_Parse(const deh_tx: string); overload;
-
-procedure DEH_Parse(const s: TDStringList); overload;
+procedure DEH_Parse(const s: TDStringList); 
 
 function DEH_CurrentSettings: TDStringList;
 
@@ -56,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 280;
+  DEHNUMACTIONS = 283;
 
 type
   deh_action_t = record
@@ -101,6 +93,7 @@ implementation
 uses
   c_cmds,
   doomdef,
+  deh_base,
   d_main,
   h_strings,
   e_endoom,
@@ -133,134 +126,7 @@ uses
   w_pak,
   z_zone;
 
-function DEH_NextLine(const s: TDStringList; var str: string; var counter: integer; const skipblanc: boolean = true): boolean;
-var
-  trimmed: string;
-begin
-  result := counter < s.Count;
-  if not result then
-    exit;
-
-  str := s[counter];
-  trimmed := strtrim(str);
-  if skipblanc then
-    str := trimmed;
-  inc(counter);
-  if skipblanc and (str = '') then
-  begin
-    result := DEH_NextLine(s, str, counter);
-    exit;
-  end;
-  if Pos('#', trimmed) = 1 then
-  begin
-    result := DEH_NextLine(s, str, counter);
-    exit;
-  end;
-  if Pos('//', trimmed) = 1 then // JVAL: Allow // as comments also
-  begin
-    result := DEH_NextLine(s, str, counter);
-    exit;
-  end;
-  str := strupper(str);
-end;
-
-procedure DEH_Parse(const deh_tx: string);
-var
-  s: TDStringList;
-begin
-  s := TDStringList.Create;
-  try
-    s.Text := deh_tx;
-    DEH_Parse(s);
-  finally
-    s.Free;
-  end;
-end;
-
-function DEH_ParseLumpName(const lumpname: string): boolean;
-var
-  lump: integer;
-begin
-  lump := W_CheckNumForName(lumpname);
-  if lump >= 0 then
-  begin
-    DEH_ParseLumpNum(lump);
-    result := true;
-  end
-  else
-    result := false;
-end;
-
-procedure DEH_ParseLumpNum(const lump: integer);
-begin
-  if lump < 0 then
-    exit;
-
-  DEH_Parse(W_TextLumpNum(lump));
-end;
-
-procedure DEH_ParseFile(const filename: string);
-var
-  fname: string;
-  fnames: TDStringList;
-  s: TDStringList;
-  i: integer;
-  done: boolean;
-  strm: TPakStream;
-begin
-  if filename = '' then
-  begin
-    I_Warning('DEH_ParseFile(): Please specify the dehacked file to parse'#13#10);
-    exit;
-  end;
-
-  fnames := TDStringList.Create;
-  s := TDStringList.Create;
-  try
-    if Pos('.', filename) = 0 then
-    begin
-      fnames.Add('%s.%s', [filename, 'deh']);
-      fnames.Add('%s.%s', [filename, 'bex']);
-    end
-    else
-      fnames.Add(filename);
-
-    for i := fnames.Count - 1 downto 0 do
-      if M_SaveFileName(fnames[i]) <> fnames[i] then
-        fnames.Add(M_SaveFileName(fnames[i]));
-
-    fname := '';
-    done := false;
-    for i := 0 to fnames.Count - 1 do
-    begin
-      strm := TPakStream.Create(fnames[i], pm_short, '', FOLDER_DEHACKED);
-      strm.OnBeginBusy := I_BeginDiskBusy;
-      if strm.IOResult = 0 then
-        done := s.LoadFromStream(strm) and (strm.IOResult = 0);
-      strm.Free;
-      if done then
-      begin
-        fname := fnames[i];
-        break;
-      end;
-    end;
-
-    if not done then
-    begin
-      I_Warning('DEH_ParseFile(): %s not found'#13#10, [filename]);
-      exit;
-    end;
-
-    printf(' parsing file %s'#13#10, [fname]);
-    DEH_Parse(s);
-
-  finally
-    s.Free;
-    fnames.Free;
-  end;
-end;
-
-procedure DEH_AddString(deh_strings: Pdeh_strings_t; _string: PString; const name: string);
+procedure DEH_AddString(deh_strings: Pdeh_strings_t; pstr: PString; const name: string);
 begin
   if deh_strings.numstrings = deh_strings.realnumstrings then
   begin
@@ -271,88 +137,9 @@ begin
       deh_strings.realnumstrings * SizeOf(deh_string_t));
   end;
 
-  deh_strings._array[deh_strings.numstrings].pstr := _string;
+  deh_strings._array[deh_strings.numstrings].pstr := pstr;
   deh_strings._array[deh_strings.numstrings].name := name;
   inc(deh_strings.numstrings);
-end;
-
-function DEH_StringToCString(const s: string): string;
-var
-  i, len: integer;
-begin
-  result := '';
-  if s = '' then
-  begin
-    exit;
-  end;
-
-  len := Length(s);
-  for i := 1 to len do
-  begin
-    if s[i] <> #13 then
-    begin
-      if s[i] = #10 then
-        result := result + '\n'
-      else
-        result := result + s[i];
-    end;
-  end;
-end;
-
-function DEH_CStringToString(const s: string): string;
-var
-  i, len: integer;
-begin
-  result := '';
-  if s = '' then
-  begin
-    exit;
-  end;
-
-  result := s[1];
-
-  len := Length(s);
-  for i := 2 to len do
-  begin
-    if s[i] = 'N' then
-    begin
-      if (Length(result) > 0) and (result[Length(result)] = '\') then
-      begin
-        result[Length(result)] := #13;
-        result := result + #10
-      end
-      else
-        result := result + 'N'
-    end
-    else if s[i] = 'R' then
-    begin
-      if (Length(result) > 0) and (result[Length(result)] = '\') then
-        SetLength(result, Length(result) - 1)
-      else
-        result := result + 'R';
-    end
-    else if s[i] = #10 then
-    begin
-      if (Length(result) > 0) and (result[Length(result)] <> #13) then
-        result := result + #13#10
-      else
-        result := result + #10;
-    end
-    else
-      result := result + s[i];
-  end;
-end;
-
-function DEH_StringValue(const s: string): string;
-var
-  i: integer;
-begin
-  result := '';
-  for i := 1 to Length(s) do
-  begin
-    if toupper(s[i]) in ['A'..'Z', '1'..'9', '0'] then
-      result := result + toupper(s[i]);
-  end;
 end;
 
 var
@@ -690,18 +477,9 @@ begin
               end;
           40: mobjinfo[mobj_no].crashstate := mobj_val;
           41: mobjinfo[mobj_no].vspeed := mobj_val;
-          42: mobjinfo[mobj_no].pushfactor := mobj_val;
-          43: begin
-                if (Pos('.', token2) > 0) or (Pos(',', token2) > 0) then
-                begin
-                  mobj_fval := atof(token2, -1);
-                  mobjinfo[mobj_no].scale := round(FRACUNIT * mobj_fval);
-                end
-                else
-                  mobjinfo[mobj_no].scale := mobj_val;
-                if mobjinfo[mobj_no].scale > 64 * FRACUNIT then
-                  mobjinfo[mobj_no].scale := mobjinfo[mobj_no].scale div FRACUNIT;
-              end;
+          42: mobjinfo[mobj_no].pushfactor := DEH_FixedOrFloat(token2, 64);
+          43: mobjinfo[mobj_no].scale := DEH_FixedOrFloat(token2, 64);
+          44: mobjinfo[mobj_no].gravity := DEH_FixedOrFloat(token2, 64);
         end;
       end;
 
@@ -862,6 +640,7 @@ begin
 
                 end;
               end;
+           8: Info_AddStateOwner(@states[state_no], Info_GetMobjNumForName(token2));
         end;
       end;
     end
@@ -1486,92 +1265,6 @@ begin
 
 end;
 
-function DEH_MobjInfoCSV: TDStringList;
-var
-  i, idx1, idx2: integer;
-  s1, s2, headstr, datstr: string;
-  cs: TDStringList;
-begin
-  if not deh_initialized then
-    DEH_Init;
-
-  cs := DEH_CurrentSettings;
-  idx1 := cs.IndexOf('# Things');
-  idx2 := cs.IndexOf('# States');
-
-  headstr := '';
-  for i := idx1 + 1 to idx2 + 1 do
-    if strtrim(cs.Strings[i]) <> '' then
-      if Pos('#', strtrim(cs.Strings[i])) <> 1 then
-        if Pos('//', strtrim(cs.Strings[i])) < 1 then
-        begin
-          if Pos('THING ', strtrim(strupper(cs.Strings[i]))) = 1 then
-          begin
-            if headstr = '' then
-              headstr := '"id"'
-            else
-              break;
-          end
-          else if headstr <> '' then
-          begin
-            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
-            headstr := headstr + ';' + '"' + strtrim(s1) + '"';
-          end;
-        end;
-
-  result := TDStringList.Create;
-  result.Add(headstr);
-
-  datstr := '';
-  for i := idx1 + 1 to idx2 - 1 do
-  begin
-    if strtrim(cs.Strings[i]) <> '' then
-      if Pos('#', strtrim(cs.Strings[i])) <> 1 then
-        if Pos('//', strtrim(cs.Strings[i])) < 1 then
-          if Pos('THING ', strtrim(strupper(cs.Strings[i]))) < 1 then
-          begin
-            splitstring(strtrim(cs.Strings[i]), s1, s2, '=');
-            datstr := datstr + ';' + '"' + strtrim(s2) + '"';
-          end
-          else
-          begin
-            if datstr <> '' then
-              result.Add(datstr);
-            datstr := '"' + itoa(result.Count - 1) + '"';
-          end;
-  end;
-  if datstr <> '' then
-    result.Add(datstr);
-  cs.Free;
-end;
-
-procedure DEH_SaveMobjInfoCSV(const fname: string);
-var
-  s: TDSTringList;
-  fname1: string;
-begin
-  if fname = '' then
-  begin
-    printf('Please specify the filename to save current MobjInfo'#13#10);
-    exit;
-  end;
-
-  if Pos('.', fname) = 0 then
-    fname1 := fname + '.csv'
-  else
-    fname1 := fname;
-
-  fname1 := M_SaveFileName(fname1);
-
-  s := DEH_MobjInfoCSV;
-  try
-    s.SaveToFile(fname1);
-    printf('MobjInfo saved to %s'#13#10, [fname1]);
-  finally
-    s.Free;
-  end;
-end;
-
 function DEH_CurrentSettings: TDStringList;
 var
   i, j: integer;
@@ -1710,6 +1403,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[41]), mobjinfo[i].vspeed]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[42]), mobjinfo[i].pushfactor]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[43]), mobjinfo[i].scale]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[44]), mobjinfo[i].gravity]);
 
     result.Add('');
   end;
@@ -1872,55 +1566,6 @@ begin
   result.Add(StringOfChar('#', 80));
 end;
 
-procedure DEH_PrintCurrentSettings;
-var
-  s: TDSTringList;
-  i: integer;
-begin
-  s := DEH_CurrentSettings;
-  try
-    for i := 0 to s.Count - 1 do
-      printf('%s'#13#10, [s[i]]);
-  finally
-    s.Free;
-  end;
-end;
-
-procedure DEH_SaveCurrentSettings(const fname: string);
-var
-  s: TDSTringList;
-  fname1: string;
-begin
-  if fname = '' then
-  begin
-    printf('Please specify the filename to save current DEHACKED settings'#13#10);
-    exit;
-  end;
-
-  if Pos('.', fname) = 0 then
-    fname1 := fname + '.bex'
-  else
-    fname1 := fname;
-
-  fname1 := M_SaveFileName(fname1);
-
-  s := DEH_CurrentSettings;
-  try
-    s.SaveToFile(fname1);
-    printf('DEHACKED settings saved to %s'#13#10, [fname1]);
-  finally
-    s.Free;
-  end;
-end;
-
-procedure DEH_PrintActions;
-var
-  i: integer;
-begin
-  for i := 0 to DEHNUMACTIONS - 1 do
-    printf('A_%s'#13#10, [deh_actions[i].name]);
-end;
-
 //
 // DEH_Init
 //
@@ -1981,6 +1626,7 @@ begin
   mobj_tokens.Add('VSPEED');             // .vspeed                   // 41
   mobj_tokens.Add('PUSHFACTOR');         // .pushfactor               // 42
   mobj_tokens.Add('SCALE');              // .scale                    // 43
+  mobj_tokens.Add('GRAVITY');            // .gravity                  // 44
 
 
   mobj_flags := TDTextList.Create;
@@ -2097,14 +1743,15 @@ begin
   mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
 
   state_tokens := TDTextList.Create;
-  state_tokens.Add('SPRITE NUMBER');    // .sprite
-  state_tokens.Add('SPRITE SUBNUMBER'); // .frame
-  state_tokens.Add('DURATION');         // .tics
-  state_tokens.Add('NEXT FRAME');       // .nextstate
-  state_tokens.Add('CODEP FRAME');      // .action
-  state_tokens.Add('UNKNOWN 1');        // .misc1
-  state_tokens.Add('UNKNOWN 2');        // .misc2
-  state_tokens.Add('FLAGS_EX');         // .flags_ex (DelphiDoom)
+  state_tokens.Add('SPRITE NUMBER');    // 0 //.sprite
+  state_tokens.Add('SPRITE SUBNUMBER'); // 1 //.frame
+  state_tokens.Add('DURATION');         // 2 //.tics
+  state_tokens.Add('NEXT FRAME');       // 3 //.nextstate
+  state_tokens.Add('CODEP FRAME');      // 4 //.action
+  state_tokens.Add('UNKNOWN 1');        // 5 //.misc1
+  state_tokens.Add('UNKNOWN 2');        // 6 //.misc2
+  state_tokens.Add('FLAGS_EX');         // 7 //.flags_ex (DelphiDoom)
+  state_tokens.Add('OWNER');            // 8 //.Add an owner (DelphiDoom)
 
   deh_actions[0].action.acp1 := @A_AccTeleGlitter;
   deh_actions[0].name := strupper('AccTeleGlitter');
@@ -2946,6 +2593,15 @@ begin
   deh_actions[279].action.acp1 := @A_MusicChanger;
   deh_actions[279].name := strupper('MusicChanger');
   {$IFDEF DLL}deh_actions[279].decl := 'A_MusicChanger';{$ENDIF}
+  deh_actions[280].action.acp1 := @A_SetPushFactor;
+  deh_actions[280].name := strupper('SetPushFactor');
+  {$IFDEF DLL}deh_actions[280].decl := 'A_SetPushFactor(f: float)';{$ENDIF}
+  deh_actions[281].action.acp1 := @A_SetScale;
+  deh_actions[281].name := strupper('SetScale');
+  {$IFDEF DLL}deh_actions[281].decl := 'A_SetScale(s: float)';{$ENDIF}
+  deh_actions[282].action.acp1 := @A_SetGravity;
+  deh_actions[282].name := strupper('SetGravity');
+  {$IFDEF DLL}deh_actions[282].decl := 'A_SetGravity(g: float)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
@@ -3208,6 +2864,8 @@ begin
   C_AddCmd('DEH_PrintCurrentSettings, DEH_PrintSettings, BEX_PrintCurrentSettings, BEX_PrintSettings', @DEH_PrintCurrentSettings);
   C_AddCmd('DEH_SaveCurrentSettings, DEH_SaveToFile, BEX_SaveCurrentSettings, BEX_SaveToFile', @DEH_SaveCurrentSettings);
   C_AddCmd('DEH_SaveMobjInfoCSV, BEX_SaveMobjInfoCSV', @DEH_SaveMobjInfoCSV);
+  C_AddCmd('DEH_SaveStatesCSV, BEX_SaveStatesCSV', @DEH_SaveStatesCSV);
+  C_AddCmd('DEH_SaveSpritesCSV, BEX_SaveSpritesCSV', @DEH_SaveSpritesCSV);
   C_AddCmd('DEH_PrintActions, DEH_ShowActions, BEX_PrintActions, BEX_ShowActions', @DEH_PrintActions);
 end;
 

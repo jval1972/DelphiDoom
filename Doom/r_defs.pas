@@ -439,6 +439,7 @@ type
 {$IFNDEF OPENGL}
     midvis: Pvisplane3d_t;
     midsiderange: midsiderange_t;
+    notmaskedseg: boolean;
 {$ENDIF}
   end;
   Pdrawseg_t = ^drawseg_t;

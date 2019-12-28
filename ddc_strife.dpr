@@ -367,7 +367,8 @@ uses
   r_zbuffer in 'Base\r_zbuffer.pas',
   r_vislight in 'Base\r_vislight.pas',
   p_musinfo in 'Base\p_musinfo.pas',
-  p_levelinfo in 'Base\p_levelinfo.pas';
+  p_levelinfo in 'Base\p_levelinfo.pas',
+  deh_base in 'Base\deh_base.pas';
 
 exports
   dd_compile_strife,
@@ -379,7 +380,10 @@ exports
   dd_getdisassembly_strife,
   dd_gettypes_strife,
   dd_getevents_strife,
-  dd_getactordeffunctions_strife;
+  dd_getactordeffunctions_strife,
+  dd_getmobjinfocsv_strife,
+  dd_getstatescsv_strife,
+  dd_getspritescsv_strife;
 
 begin
 

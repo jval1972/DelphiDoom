@@ -255,6 +255,7 @@ begin
     R_SetInterpolateSkipTicks(1);
 
   thing.flags := thing.flags or MF_JUSTAPPEARED;
+  thing.intrplcnt := 0;
 
   result := true;
 end;
@@ -613,7 +614,7 @@ begin
       if (thing.flags2 and MF2_PUSHABLE <> 0) and
          (tmthing.flags2 and MF2_CANNOTPUSH = 0) then
       begin // Push thing
-        pushfactor := thing.info.pushfactor;
+        pushfactor := thing.pushfactor;
         if pushfactor <= 0 then
         begin
           thing.momx := thing.momx + tmthing.momx div 4;
@@ -646,7 +647,7 @@ begin
 
   if (thing.flags2 and MF2_PUSHABLE <> 0) and (tmthing.flags2 and MF2_CANNOTPUSH = 0) then
   begin // Push thing
-    pushfactor := thing.info.pushfactor;
+    pushfactor := thing.pushfactor;
     if pushfactor <= 0 then
     begin
       thing.momx := thing.momx + tmthing.momx div 4;
@@ -711,9 +712,6 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
-  midsec: Psector_t; // JVAL: 3d floors
-  delta1, delta2, rr: integer;
-  thingtop: integer;
 begin
   tmthing := thing;
   tmflags := thing.flags;
@@ -737,22 +735,6 @@ begin
   tmdropoffz := P_3dFloorHeight(newsubsec.sector, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
   tmceilingz := P_3dCeilingHeight(newsubsec.sector, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
-
-{  if newsubsec.sector.midsec >= 0 then  // JVAL: 3d floors
-  begin
-    thingtop := thing.z + thing.height;
-    midsec := @sectors[newsubsec.sector.midsec];
-    rr := (midsec.floorheight + midsec.ceilingheight) div 2;
-    delta1 := abs(thing.z - rr);
-    delta2 := abs(thingtop - rr);
-    if (midsec.ceilingheight > tmfloorz) and (delta1 < delta2) then
-    begin
-      tmdropoffz := midsec.ceilingheight;
-      tmfloorz := tmdropoffz;
-    end;
-    if (midsec.floorheight < tmceilingz) and (delta1 >= delta2) then
-      tmceilingz := midsec.floorheight;
-  end;}
 
   inc(validcount);
   numspechit := 0;

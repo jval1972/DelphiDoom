@@ -1273,10 +1273,12 @@ begin
   if voxelsize < zsiz then
     voxelsize := zsiz;
   if voxelsize < 256 then
+    inc(voxelsize);
+{  if voxelsize < 256 then
   begin
     inc(voxelsize, 2);
     voxelsize := voxelsize and not 1;
-  end;
+  end;}
 
   idx := SizeOf(kvxbuffer_t);
   voxelbuffer := @vx_membuffer[idx];

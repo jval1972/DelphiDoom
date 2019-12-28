@@ -164,7 +164,7 @@ var
   sc: TScriptEngine;
   tokens: TTokenList;
   slist: TDStringList;
-  i, j: integer;
+  i, j, k: integer;
   l: GLDLight;
   token: string;
   token1, token2, token3, token4: string;
@@ -175,6 +175,10 @@ var
   frame: integer;
   sprite: integer;
   foundstate: boolean;
+  mobjno: integer;
+  mobjname: string;
+  N: TDNumberList;
+  curstates: TDNumberList;
 begin
   tokens := TTokenList.Create;
   tokens.Add('POINTLIGHT');
@@ -347,6 +351,10 @@ begin
 
   tokens.Free;
 
+  mobjno := -1;
+  mobjname := '';
+  curstates := TDNumberList.Create;
+
   // JVAL: Simplified parsing for frames keyword
   if objectsfound then
   begin
@@ -356,7 +364,29 @@ begin
     for i := 0 to slist.Count - 1 do
     begin
       stmp := strupper(strtrim(slist.Strings[i]));
-      if firstword(stmp) = 'FRAME' then
+      if firstword(stmp) = 'OBJECT' then
+      begin
+        sc.SetText(stmp);
+        sc.MustGetString;
+        token1 := sc._String;
+        sc.MustGetString;
+        mobjname := sc._String;
+        if mobjname = '-1' then
+        begin
+          mobjno := -1;
+          mobjname := '';
+        end
+        else
+        begin
+          mobjno := Info_GetMobjNumForName(mobjname);
+          if mobjno < 0 then
+          begin
+            I_Warning('SC_ParceDynamicLight(): Unknown object "%s" at line %d'#13#10, [mobjname, i]);
+            mobjname := '';
+          end;
+        end;
+      end
+      else if firstword(stmp) = 'FRAME' then
       begin
         sc.SetText(stmp);
 
@@ -382,36 +412,67 @@ begin
               sprite := Info_CheckSpriteNumForName(token);
               if sprite >= 0 then
               begin
+                foundstate := false;
+                N := Info_GetStatesForMobjInfo(mobjno);
+
                 if Length(token2) > 4 then
                 begin
                   frame := Ord(token2[5]) - Ord('A');
-                  foundstate := false;
                   for j := 0 to numstates - 1 do
-                    if (states[j].sprite = sprite) and
-                       ((states[j].frame and FF_FRAMEMASK) = frame) then
-                    begin
-                      if states[j].dlights = nil then
-                        states[j].dlights := TDNumberList.Create;
-                      states[j].dlights.Add(lidx);
-                      foundstate := true;
-                    end;
-                  if not foundstate then
-                    I_Warning('SC_ParceDynamicLight(): Can not determine light owner, line %d: "%s",'#13#10, [i + 1, stmp]);
+                    if (N.Count = 0) or (N.IndexOf(j) >= 0) then
+                      if (states[j].sprite = sprite) and
+                         ((states[j].frame and FF_FRAMEMASK) = frame) then
+                      begin
+                        if states[j].dlights = nil then
+                        begin
+                          states[j].dlights := T2DNumberList.Create;
+                          curstates.Add(j);
+                        end
+                        else if curstates.IndexOf(j) < 0 then
+                        begin
+                          if mobjno >= 0 then
+                            for k := states[j].dlights.Count - 1 downto 0 do
+                              if states[j].dlights[k].num1 = mobjno then
+                                states[j].dlights.Delete(k);
+                          curstates.Add(j);
+                        end;
 
+                        states[j].dlights.Add(mobjno, lidx);
+                        foundstate := true;
+                      end;
                 end
                 else
                 begin
-                  foundstate := false;
                   for j := 0 to numstates - 1 do
-                    if states[j].sprite = sprite then
-                    begin
-                      if states[j].dlights = nil then
-                        states[j].dlights := TDNumberList.Create;
-                      states[j].dlights.Add(lidx);
-                      foundstate := true;
-                    end;
-                  if not foundstate then
-                    I_DevError('SC_ParceDynamicLight(): Can not determine light owner, line %d: "%s",'#13#10, [i + 1, stmp]);
+                    if (N.Count = 0) or (N.IndexOf(j) >= 0) then
+                      if states[j].sprite = sprite then
+                      begin
+                        if states[j].dlights = nil then
+                        begin
+                          states[j].dlights := T2DNumberList.Create;
+                          curstates.Add(j);
+                        end
+                        else if curstates.IndexOf(j) < 0 then
+                        begin
+                          if mobjno >= 0 then
+                            for k := states[j].dlights.Count - 1 downto 0 do
+                              if states[j].dlights[k].num1 = mobjno then
+                                states[j].dlights.Delete(k);
+                          curstates.Add(j);
+                        end;
+
+                        states[j].dlights.Add(mobjno, lidx);
+                        foundstate := true;
+                      end;
+                end;
+
+                N.Free;
+                if not foundstate then
+                begin
+                  if mobjno < 0 then
+                    I_Warning('SC_ParceDynamicLight(): Can not determine light owner, line %d: "%s",'#13#10, [i + 1, stmp])
+                  else
+                    I_Warning('SC_ParceDynamicLight(): Can not determine light for object "%s", line %d: "%s",'#13#10, [mobjname, i + 1, stmp]);
                 end;
               end
               else
@@ -431,6 +492,7 @@ begin
 
   end;
 
+  curstates.Free;
   sc.Free;
 end;
 

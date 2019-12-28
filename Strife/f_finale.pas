@@ -209,7 +209,7 @@ var
 begin
   // erase the entire screen to a tiled background
 
-  V_DrawPatch(0, 0, SCN_TMP, D_Help0Lump, false);
+  V_DrawPatchFullScreenTMP320x200(D_Help0Lump);
 
   // draw some of the text onto the screen
   cx := 20;
@@ -577,7 +577,7 @@ begin
   if gameversion <> exe_strife_1_31 then // See above. This was removed in 1.31.
   begin
     patch := W_CacheLumpNum(D_Panel0Lump, PU_STATIC);
-    V_DrawPatch(0, 0, SCN_TMP, patch, false);
+    V_DrawPatchFullScreenTMP320x200(patch);
     Z_ChangeTag(patch, PU_CACHE);
   end;
 end;
@@ -844,7 +844,7 @@ var
   castname: string;
 begin
   // erase the entire screen to a background
-  V_DrawPatch(0, 0, SCN_TMP, D_Help0Lump, false);
+  V_DrawPatchFullScreenTMP320x200(D_Help0Lump);
 
   castname := mobjinfo[Ord(castorder[castnum]._type)].name2;
   if castname = '' then
@@ -1001,7 +1001,7 @@ begin
       begin
         // Draw slideshow panel
         patch := W_CacheLumpName(slideshow_panel, PU_STATIC);
-        V_DrawPatch(0, 0, SCN_TMP, patch, false);
+        V_DrawPatchFullScreenTMP320x200(patch);
         Z_ChangeTag(patch, PU_CACHE);
         V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
         V_FullScreenStretch;
@@ -1012,7 +1012,7 @@ begin
         begin
           // draw credits
           patch := W_CacheLumpName(DEH_GetString('CREDIT'), PU_STATIC);
-          V_DrawPatch(0, 0, SCN_TMP, patch, false);
+          V_DrawPatchFullScreenTMP320x200(patch);
           Z_ChangeTag(patch, PU_CACHE);
           V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
           V_FullScreenStretch;

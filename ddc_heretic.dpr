@@ -360,7 +360,8 @@ uses
   r_zbuffer in 'Base\r_zbuffer.pas',
   r_vislight in 'Base\r_vislight.pas',
   p_musinfo in 'Base\p_musinfo.pas',
-  p_levelinfo in 'Base\p_levelinfo.pas';
+  p_levelinfo in 'Base\p_levelinfo.pas',
+  deh_base in 'Base\deh_base.pas';
 
 exports
   dd_compile_heretic,
@@ -372,7 +373,10 @@ exports
   dd_getdisassembly_heretic,
   dd_gettypes_heretic,
   dd_getevents_heretic,
-  dd_getactordeffunctions_heretic;
+  dd_getactordeffunctions_heretic,
+  dd_getmobjinfocsv_heretic,
+  dd_getstatescsv_heretic,
+  dd_getspritescsv_heretic;
 
 begin
 

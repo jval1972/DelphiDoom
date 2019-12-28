@@ -75,6 +75,9 @@ uses
   sounds;
 
 const
+  DEFPUSHFACTOR = FRACUNIT div 4;
+
+const
   DO_states: array[0..Ord(DO_NUMSTATES) - 1] of state_t = (
    (
     sprite: Ord(SPR_IMPX);    // sprite
@@ -12147,4362 +12150,5482 @@ const // Doom Original Sprite Names
 const // Doom Original mobjinfo
   DO_mobjinfo: array[0..Ord(DO_NUMMOBJTYPES) - 1] of mobjinfo_t = (
    (    // MT_MISC0
-    doomednum: 81;                // doomednum
-    spawnstate: Ord(S_ITEM_PTN1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);  // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Crystal Vial';                                         // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 81;                                                // doomednum
+    spawnstate: Ord(S_ITEM_PTN1_1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ITEMSHIELD1
-    doomednum: 85;                // doomednum
-    spawnstate: Ord(S_ITEM_SHLD1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Silver Shield';                                        // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 85;                                                // doomednum
+    spawnstate: Ord(S_ITEM_SHLD1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ITEMSHIELD2
-    doomednum: 31;                // doomednum
-    spawnstate: Ord(S_ITEM_SHD2_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Enchanted Shield';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 31;                                                // doomednum
+    spawnstate: Ord(S_ITEM_SHD2_1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC1
-    doomednum: 8;                 // doomednum
-    spawnstate: Ord(S_ITEM_BAGH1);     // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Bag Of Holding';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 8;                                                 // doomednum
+    spawnstate: Ord(S_ITEM_BAGH1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC2
-    doomednum: 35;                // doomednum
-    spawnstate: Ord(S_ITEM_SPMP1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Map Scroll';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 35;                                                // doomednum
+    spawnstate: Ord(S_ITEM_SPMP1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ARTIINVISIBILITY
-    doomednum: 75;                // doomednum
-    spawnstate: Ord(S_ARTI_INVS1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_SHADOW or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;          // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'Shadowsphere';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 75;                                                // doomednum
+    spawnstate: Ord(S_ARTI_INVS1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_SHADOW or MF_COUNTITEM;               // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC3
-    doomednum: 82;                // doomednum
-    spawnstate: Ord(S_ARTI_PTN2_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Quartz Flask';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 82;                                                // doomednum
+    spawnstate: Ord(S_ARTI_PTN2_1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ARTIFLY
-    doomednum: 83;                // doomednum
-    spawnstate: Ord(S_ARTI_SOAR1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Wings Of Wrath';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 83;                                                // doomednum
+    spawnstate: Ord(S_ARTI_SOAR1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ARTIINVULNERABILITY
-    doomednum: 84;                // doomednum
-    spawnstate: Ord(S_ARTI_INVU1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Ring of Invulnerability';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 84;                                                // doomednum
+    spawnstate: Ord(S_ARTI_INVU1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ARTITOMEOFPOWER
-    doomednum: 86;                // doomednum
-    spawnstate: Ord(S_ARTI_PWBK1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Tome of Power';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 86;                                                // doomednum
+    spawnstate: Ord(S_ARTI_PWBK1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ARTIEGG
-    doomednum: 30;                // doomednum
-    spawnstate: Ord(S_ARTI_EGGC1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Morph Ovum';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 30;                                                // doomednum
+    spawnstate: Ord(S_ARTI_EGGC1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_EGGFX
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_EGGFX1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_EGGFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 18 * FRACUNIT;         // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_EGGFX';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_EGGFX1);                                    // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_EGGFXI1_1);                                 // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 18 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ARTISUPERHEAL
-    doomednum: 32;                // doomednum
-    spawnstate: Ord(S_ARTI_SPHL1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Mystic Urn';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 32;                                                // doomednum
+    spawnstate: Ord(S_ARTI_SPHL1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC4
-    doomednum: 33;                // doomednum
-    spawnstate: Ord(S_ARTI_TRCH1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Torch';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 33;                                                // doomednum
+    spawnstate: Ord(S_ARTI_TRCH1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC5
-    doomednum: 34;                // doomednum
-    spawnstate: Ord(S_ARTI_FBMB1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Time Bomb Of The Ancients';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 34;                                                // doomednum
+    spawnstate: Ord(S_ARTI_FBMB1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_FIREBOMB
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_FIREBOMB1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_phohit);  // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_FIREBOMB';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_FIREBOMB1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_phohit);                                  // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOGRAVITY or MF_SHADOW;                             // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_ARTITELEPORT
-    doomednum: 36;                // doomednum
-    spawnstate: Ord(S_ARTI_ATLP1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_COUNTITEM;    // flags
-    flags2: MF2_FLOATBOB;         // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Chaos Device';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 36;                                                // doomednum
+    spawnstate: Ord(S_ARTI_ATLP1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
+    flags2: MF2_FLOATBOB;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_POD
-    doomednum: 2035;              // doomednum
-    spawnstate: Ord(S_POD_WAIT1); // spawnstate
-    spawnhealth: 45;              // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_POD_PAIN1);  // painstate
-    painchance: 255;              // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_POD_DIE1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_podexp);  // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 54 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'Gasbag';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2035;                                              // doomednum
+    spawnstate: Ord(S_POD_WAIT1);                                 // spawnstate
+    spawnhealth: 45;                                              // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_POD_PAIN1);                                  // painstate
+    painchance: 255;                                              // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_POD_DIE1);                                  // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_podexp);                                  // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 54 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_SOLID or MF_NOBLOOD or MF_SHOOTABLE or MF_DROPOFF;    // flags
     flags2: MF2_WINDTHRUST or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;   // flags2
-    scale: FRACUNIT;              // scale
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_PODGOO
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_PODGOO1);   // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_PODGOOX);   // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 2 * FRACUNIT;         // radius
-    height: 4 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_PODGOO';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_PODGOO1);                                   // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_PODGOOX);                                   // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 2 * FRACUNIT;                                         // radius
+    height: 4 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_PODGENERATOR
-    doomednum: 43;                // doomednum
-    spawnstate: Ord(S_PODGENERATOR);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Gasbag Generator';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 43;                                                // doomednum
+    spawnstate: Ord(S_PODGENERATOR);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SPLASH
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SPLASH1);   // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SPLASHX);   // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 2 * FRACUNIT;         // radius
-    height: 4 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_SPLASH';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SPLASH1);                                   // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SPLASHX);                                   // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 2 * FRACUNIT;                                         // radius
+    height: 4 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SPLASHBASE
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SPLASHBASE1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_SPLASHBASE';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SPLASHBASE1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_LAVASPLASH
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_LAVASPLASH1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_LAVASPLASH';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_LAVASPLASH1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_LAVASMOKE
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_LAVASMOKE1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_LAVASMOKE';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_LAVASMOKE1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SLUDGECHUNK
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SLUDGECHUNK1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SLUDGECHUNKX);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 2 * FRACUNIT;         // radius
-    height: 4 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_SLUDGECHUNK';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SLUDGECHUNK1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SLUDGECHUNKX);                              // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 2 * FRACUNIT;                                         // radius
+    height: 4 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
+    flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SLUDGESPLASH
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SLUDGESPLASH1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_SLUDGESPLASH';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SLUDGESPLASH1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SKULLHANG70
-    doomednum: 17;                // doomednum
-    spawnstate: Ord(S_SKULLHANG70_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 70 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Hanging Skull';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 17;                                                // doomednum
+    spawnstate: Ord(S_SKULLHANG70_1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 70 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SKULLHANG60
-    doomednum: 24;                // doomednum
-    spawnstate: Ord(S_SKULLHANG60_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 60 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Hanging Skull 2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 24;                                                // doomednum
+    spawnstate: Ord(S_SKULLHANG60_1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 60 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SKULLHANG45
-    doomednum: 25;                // doomednum
-    spawnstate: Ord(S_SKULLHANG45_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 45 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Hanging Skull 3';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 25;                                                // doomednum
+    spawnstate: Ord(S_SKULLHANG45_1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 45 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SKULLHANG35
-    doomednum: 26;                // doomednum
-    spawnstate: Ord(S_SKULLHANG35_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 35 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Hanging Skull 4';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 26;                                                // doomednum
+    spawnstate: Ord(S_SKULLHANG35_1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 35 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CHANDELIER
-    doomednum: 28;                // doomednum
-    spawnstate: Ord(S_CHANDELIER1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 60 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Chandelier';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 28;                                                // doomednum
+    spawnstate: Ord(S_CHANDELIER1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 60 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SERPTORCH
-    doomednum: 27;                // doomednum
-    spawnstate: Ord(S_SERPTORCH1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 54 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Serpent Torch';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 27;                                                // doomednum
+    spawnstate: Ord(S_SERPTORCH1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 54 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SMALLPILLAR
-    doomednum: 29;                // doomednum
-    spawnstate: Ord(S_SMALLPILLAR);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 34 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Small Pillar';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 29;                                                // doomednum
+    spawnstate: Ord(S_SMALLPILLAR);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 34 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_STALAGMITESMALL
-    doomednum: 37;                // doomednum
-    spawnstate: Ord(S_STALAGMITESMALL);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 32 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Small Stalagmite';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 37;                                                // doomednum
+    spawnstate: Ord(S_STALAGMITESMALL);                           // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 32 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_STALAGMITELARGE
-    doomednum: 38;                // doomednum
-    spawnstate: Ord(S_STALAGMITELARGE);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 64 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Large Stalagmite';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 38;                                                // doomednum
+    spawnstate: Ord(S_STALAGMITELARGE);                           // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_STALACTITESMALL
-    doomednum: 39;                // doomednum
-    spawnstate: Ord(S_STALACTITESMALL);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 36 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Small Stalactite';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 39;                                                // doomednum
+    spawnstate: Ord(S_STALACTITESMALL);                           // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 36 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_STALACTITELARGE
-    doomednum: 40;                // doomednum
-    spawnstate: Ord(S_STALACTITELARGE);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 68 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Large Stalactite';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 40;                                                // doomednum
+    spawnstate: Ord(S_STALACTITELARGE);                           // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 68 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC6
-    doomednum: 76;                // doomednum
-    spawnstate: Ord(S_FIREBRAZIER1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 44 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Fire Brazier';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 76;                                                // doomednum
+    spawnstate: Ord(S_FIREBRAZIER1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 44 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BARREL
-    doomednum: 44;                // doomednum
-    spawnstate: Ord(S_BARREL);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 32 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Barrel';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 44;                                                // doomednum
+    spawnstate: Ord(S_BARREL);                                    // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 32 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC7
-    doomednum: 47;                // doomednum
-    spawnstate: Ord(S_BRPILLAR);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 14 * FRACUNIT;        // radius
-    height: 128 * FRACUNIT;       // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Brown Pillar';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 47;                                                // doomednum
+    spawnstate: Ord(S_BRPILLAR);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 14 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                       // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC8
-    doomednum: 48;                // doomednum
-    spawnstate: Ord(S_MOSS1);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 23 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Moss';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 48;                                                // doomednum
+    spawnstate: Ord(S_MOSS1);                                     // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 23 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC9
-    doomednum: 49;                // doomednum
-    spawnstate: Ord(S_MOSS2);     // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 27 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Moss 2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 49;                                                // doomednum
+    spawnstate: Ord(S_MOSS2);                                     // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 27 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC10
-    doomednum: 50;                // doomednum
-    spawnstate: Ord(S_WALLTORCH1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOGRAVITY;          // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Wall Torch';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 50;                                                // doomednum
+    spawnstate: Ord(S_WALLTORCH1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOGRAVITY;                                          // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC11
-    doomednum: 51;                // doomednum
-    spawnstate: Ord(S_HANGINGCORPSE);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 104 * FRACUNIT;       // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Hanging Corpse';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 51;                                                // doomednum
+    spawnstate: Ord(S_HANGINGCORPSE);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 104 * FRACUNIT;                                       // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_KEYGIZMOBLUE
-    doomednum: 94;                // doomednum
-    spawnstate: Ord(S_KEYGIZMO1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 50 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Blue Key Marker';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 94;                                                // doomednum
+    spawnstate: Ord(S_KEYGIZMO1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 50 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_KEYGIZMOGREEN
-    doomednum: 95;                // doomednum
-    spawnstate: Ord(S_KEYGIZMO1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 50 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Green Key Marker';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 95;                                                // doomednum
+    spawnstate: Ord(S_KEYGIZMO1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 50 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_KEYGIZMOYELLOW
-    doomednum: 96;                // doomednum
-    spawnstate: Ord(S_KEYGIZMO1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 50 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Yellow Key Marker';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 96;                                                // doomednum
+    spawnstate: Ord(S_KEYGIZMO1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 50 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_KEYGIZMOFLOAT
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_KGZ_START); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_KEYGIZMOFLOAT';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_KGZ_START);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID or MF_NOGRAVITY;                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC12
-    doomednum: 87;                // doomednum
-    spawnstate: Ord(S_VOLCANO1);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 20 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SOLID;              // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Volcano';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 87;                                                // doomednum
+    spawnstate: Ord(S_VOLCANO1);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 20 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SOLID;                                              // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_VOLCANOBLAST
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_VOLCANOBALL1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_VOLCANOBALLX1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_volhit);  // deathsound
-    speed: 2 * FRACUNIT;          // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_VOLCANOBLAST';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_VOLCANOBALL1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_VOLCANOBALLX1);                             // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_volhit);                                  // deathsound
+    speed: 2 * FRACUNIT;                                          // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_VOLCANOTBLAST
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_VOLCANOTBALL1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_VOLCANOTBALLX1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 2 * FRACUNIT;          // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_VOLCANOTBLAST';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_VOLCANOTBALL1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_VOLCANOTBALLX1);                            // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 2 * FRACUNIT;                                          // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_TELEGLITGEN
-    doomednum: 74;                // doomednum
-    spawnstate: Ord(S_TELEGLITGEN1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Teleport Glitter';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 74;                                                // doomednum
+    spawnstate: Ord(S_TELEGLITGEN1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;          // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_TELEGLITGEN2
-    doomednum: 52;                // doomednum
-    spawnstate: Ord(S_TELEGLITGEN2);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Teleport Glitter Exit';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 52;                                                // doomednum
+    spawnstate: Ord(S_TELEGLITGEN2);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;          // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_TELEGLITTER
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_TELEGLITTER1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_TELEGLITTER';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_TELEGLITTER1_1);                            // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_TELEGLITTER2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_TELEGLITTER2_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_TELEGLITTER2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_TELEGLITTER2_1);                            // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_TFOG
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_TFOG1);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_TFOG';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_TFOG1);                                     // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_TELEPORTMAN
-    doomednum: 14;                // doomednum
-    spawnstate: Ord(S_NULL);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Teleport Landing';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 14;                                                // doomednum
+    spawnstate: Ord(S_NULL);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_STAFFPUFF
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_STAFFPUFF1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_stfhit);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_STAFFPUFF';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_STAFFPUFF1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_stfhit);                                 // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_STAFFPUFF2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_STAFFPUFF2_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_stfpow);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_STAFFPUFF2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_STAFFPUFF2_1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_stfpow);                                 // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BEAKPUFF
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_STAFFPUFF1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_chicatk);// attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_BEAKPUFF';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_STAFFPUFF1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_chicatk);                                // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC13
-    doomednum: 2005;              // doomednum
-    spawnstate: Ord(S_WGNT);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Gauntlets Of The Necromancer';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2005;                                              // doomednum
+    spawnstate: Ord(S_WGNT);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_GAUNTLETPUFF1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_GAUNTLETPUFF1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_GAUNTLETPUFF1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_GAUNTLETPUFF1_1);                           // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_GAUNTLETPUFF2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_GAUNTLETPUFF2_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_GAUNTLETPUFF2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_GAUNTLETPUFF2_1);                           // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC14
-    doomednum: 53;                // doomednum
-    spawnstate: Ord(S_BLSR);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Dragon Claw';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 53;                                                // doomednum
+    spawnstate: Ord(S_BLSR);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BLASTERFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BLASTERFX1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_BLASTERFXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_blshit);  // deathsound
-    speed: 184 * FRACUNIT;        // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_BLASTERFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BLASTERFX1_1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_BLASTERFXI1_1);                             // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_blshit);                                  // deathsound
+    speed: 184 * FRACUNIT;                                        // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BLASTERSMOKE
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BLASTERSMOKE1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_BLASTERSMOKE';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BLASTERSMOKE1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_RIPPER
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_RIPPER1);   // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_RIPPERX1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_hrnhit);  // deathsound
-    speed: 14 * FRACUNIT;         // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_RIPPER';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_RIPPER1);                                   // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_RIPPERX1);                                  // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_hrnhit);                                  // deathsound
+    speed: 14 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_RIP;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_RIP;                            // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BLASTERPUFF1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BLASTERPUFF1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_BLASTERPUFF1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BLASTERPUFF1_1);                            // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BLASTERPUFF2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BLASTERPUFF2_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_BLASTERPUFF2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BLASTERPUFF2_1);                            // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_WMACE
-    doomednum: 2002;              // doomednum
-    spawnstate: Ord(S_WMCE);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Firemace';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2002;                                              // doomednum
+    spawnstate: Ord(S_WMCE);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
-   (    // MT_MACEFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MACEFX1_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_lobsht);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MACEFXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 20 * FRACUNIT;         // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+
+   (    //
+    name: 'MT_MACEFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MACEFX1_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_lobsht);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MACEFXI1_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MACEFX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MACEFX2_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MACEFXI2_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 6;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
+    name: 'MT_MACEFX2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MACEFX2_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MACEFXI2_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 6;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MACEFX3
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MACEFX3_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MACEFXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 7 * FRACUNIT;          // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 4;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
+    name: 'MT_MACEFX3';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MACEFX3_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MACEFXI1_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 7 * FRACUNIT;                                          // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 4;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MACEFX4
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MACEFX4_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MACEFXI4_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 7 * FRACUNIT;          // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 18;                   // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
+    name: 'MT_MACEFX4';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MACEFX4_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MACEFXI4_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 7 * FRACUNIT;                                          // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 18;                                                   // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_TELESTOMP;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_WSKULLROD
-    doomednum: 2004;              // doomednum
-    spawnstate: Ord(S_WSKL);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Hellstaff';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2004;                                              // doomednum
+    spawnstate: Ord(S_WSKL);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_HORNRODFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_HRODFX1_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_hrnsht);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_HRODFXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_hrnhit);  // deathsound
-    speed: 22 * FRACUNIT;         // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 3;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_HORNRODFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_HRODFX1_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_hrnsht);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_HRODFXI1_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_hrnhit);                                  // deathsound
+    speed: 22 * FRACUNIT;                                         // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 3;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_HORNRODFX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_HRODFX2_1); // spawnstate
-    spawnhealth: 4*35;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_hrnsht);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_HRODFXI2_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_ramphit); // deathsound
-    speed: 22 * FRACUNIT;         // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 10;                   // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_HORNRODFX2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_HRODFX2_1);                                 // spawnstate
+    spawnhealth: 4*35;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_hrnsht);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_HRODFXI2_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_ramphit);                                 // deathsound
+    speed: 22 * FRACUNIT;                                         // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 10;                                                   // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_RAINPLR1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_RAINPLR1_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_RAINPLR1X_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 12 * FRACUNIT;         // speed
-    radius: 5 * FRACUNIT;         // radius
-    height: 12 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 5;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_RAINPLR1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_RAINPLR1_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_RAINPLR1X_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 12 * FRACUNIT;                                         // speed
+    radius: 5 * FRACUNIT;                                         // radius
+    height: 12 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 5;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_RAINPLR2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_RAINPLR2_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_RAINPLR2X_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 12 * FRACUNIT;         // speed
-    radius: 5 * FRACUNIT;         // radius
-    height: 12 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 5;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_RAINPLR2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_RAINPLR2_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_RAINPLR2X_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 12 * FRACUNIT;                                         // speed
+    radius: 5 * FRACUNIT;                                         // radius
+    height: 12 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 5;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_RAINPLR3
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_RAINPLR3_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_RAINPLR3X_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 12 * FRACUNIT;         // speed
-    radius: 5 * FRACUNIT;         // radius
-    height: 12 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 5;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_RAINPLR3';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_RAINPLR3_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_RAINPLR3X_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 12 * FRACUNIT;                                         // speed
+    radius: 5 * FRACUNIT;                                         // radius
+    height: 12 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 5;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_RAINPLR4
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_RAINPLR4_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_RAINPLR4X_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 12 * FRACUNIT;         // speed
-    radius: 5 * FRACUNIT;         // radius
-    height: 12 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 5;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_RAINPLR4';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_RAINPLR4_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_RAINPLR4X_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 12 * FRACUNIT;                                         // speed
+    radius: 5 * FRACUNIT;                                         // radius
+    height: 12 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 5;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_GOLDWANDFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_GWANDFX1_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_GWANDFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_gldhit);  // deathsound
-    speed: 22 * FRACUNIT;         // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_GOLDWANDFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_GWANDFX1_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_GWANDFXI1_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_gldhit);                                  // deathsound
+    speed: 22 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_GOLDWANDFX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_GWANDFX2_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_GWANDFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 18 * FRACUNIT;         // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_GOLDWANDFX2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_GWANDFX2_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_GWANDFXI1_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 18 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_GOLDWANDPUFF1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_GWANDPUFF1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_GOLDWANDPUFF1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_GWANDPUFF1_1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_GOLDWANDPUFF2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_GWANDFXI1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_GOLDWANDPUFF2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_GWANDFXI1_1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_WPHOENIXROD
-    doomednum: 2003;              // doomednum
-    spawnstate: Ord(S_WPHX);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Phoenix Rod';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2003;                                              // doomednum
+    spawnstate: Ord(S_WPHX);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_PHOENIXFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_PHOENIXFX1_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_phosht);     // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_PHOENIXFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_phohit);  // deathsound
-    speed: 20 * FRACUNIT;         // speed
-    radius: 11 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 20;                   // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_PHOENIXFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_PHOENIXFX1_1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_phosht);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_PHOENIXFXI1_1);                             // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_phohit);                                  // deathsound
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 11 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 20;                                                   // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_THRUGHOST or MF2_NOTELEPORT;                      // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_PHOENIXPUFF
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_PHOENIXPUFF1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_PHOENIXPUFF';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_PHOENIXPUFF1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_PHOENIXFX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_PHOENIXFX2_1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_PHOENIXFXI2_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 6 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_PHOENIXFX2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_PHOENIXFX2_1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_PHOENIXFXI2_1);                             // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 6 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MISC15
-    doomednum: 2001;              // doomednum
-    spawnstate: Ord(S_WBOW);      // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Ethereal Crossbow';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2001;                                              // doomednum
+    spawnstate: Ord(S_WBOW);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CRBOWFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_CRBOWFX1);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_bowsht);     // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_CRBOWFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_hrnhit);  // deathsound
-    speed: 30 * FRACUNIT;         // speed
-    radius: 11 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 10;                   // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_CRBOWFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_CRBOWFX1);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_bowsht);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_CRBOWFXI1_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_hrnhit);                                  // deathsound
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 11 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 10;                                                   // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CRBOWFX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_CRBOWFX2);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_bowsht);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_CRBOWFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_hrnhit);  // deathsound
-    speed: 32 * FRACUNIT;         // speed
-    radius: 11 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 6;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_CRBOWFX2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_CRBOWFX2);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_bowsht);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_CRBOWFXI1_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_hrnhit);                                  // deathsound
+    speed: 32 * FRACUNIT;                                         // speed
+    radius: 11 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 6;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CRBOWFX3
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_CRBOWFX3);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_CRBOWFXI3_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_hrnhit);  // deathsound
-    speed: 20 * FRACUNIT;         // speed
-    radius: 11 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_CRBOWFX3';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_CRBOWFX3);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_CRBOWFXI3_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_hrnhit);                                  // deathsound
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 11 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_THRUGHOST or MF2_NOTELEPORT;    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CRBOWFX4
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_CRBOWFX4_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: MF2_LOGRAV;           // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_CRBOWFX4';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_CRBOWFX4_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: MF2_LOGRAV;                                           // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BLOOD
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BLOOD1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0;                    // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_BLOOD';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BLOOD1);                                    // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: 0;                                                    // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BLOODSPLATTER
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BLOODSPLATTER1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_BLOODSPLATTERX);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 2 * FRACUNIT;         // radius
-    height: 4 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW; // flags2_ex
-    scale: FRACUNIT;              // scale
+    name: 'MT_BLOODSPLATTER';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BLOODSPLATTER1);                            // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_BLOODSPLATTERX);                            // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 2 * FRACUNIT;                                         // radius
+    height: 4 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
+    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_PLAYER
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_PLAY);      // spawnstate
-    spawnhealth: 100;             // spawnhealth
-    seestate: Ord(S_PLAY_RUN1);   // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 0;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_PLAY_PAIN);  // painstate
-    painchance: 255;              // painchance
-    painsound: Ord(sfx_plrpai);   // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_PLAY_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_PLAY_DIE1); // deathstate
-    xdeathstate: Ord(S_PLAY_XDIE1); // xdeathstate
-    deathsound: Ord(sfx_plrdth);  // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 56 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_PLAYER';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_PLAY);                                      // spawnstate
+    spawnhealth: 100;                                             // spawnhealth
+    seestate: Ord(S_PLAY_RUN1);                                   // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 0;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_PLAY_PAIN);                                  // painstate
+    painchance: 255;                                              // painchance
+    painsound: Ord(sfx_plrpai);                                   // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_PLAY_ATK1);                               // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_PLAY_DIE1);                                 // deathstate
+    xdeathstate: Ord(S_PLAY_XDIE1);                               // xdeathstate
+    deathsound: Ord(sfx_plrdth);                                  // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;    // flags
     flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;   // flags2
-    scale: FRACUNIT;              // scale
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BLOODYSKULL
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BLOODYSKULL1);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 4 * FRACUNIT;         // radius
-    height: 4 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_DROPOFF; // flags
-    flags2: MF2_LOGRAV or MF2_CANNOTPUSH; // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_BLOODYSKULL';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BLOODYSKULL1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 4 * FRACUNIT;                                         // radius
+    height: 4 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_DROPOFF;                           // flags
+    flags2: MF2_LOGRAV or MF2_CANNOTPUSH;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CHICPLAYER
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_CHICPLAY);  // spawnstate
-    spawnhealth: 100;             // spawnhealth
-    seestate: Ord(S_CHICPLAY_RUN1); // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 0;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_CHICPLAY_PAIN);  // painstate
-    painchance: 255;              // painchance
-    painsound: Ord(sfx_chicpai);  // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_CHICPLAY_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_CHICKEN_DIE1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_chicdth); // deathsound
-    speed: 0;                     // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 24 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_CHICPLAYER';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_CHICPLAY);                                  // spawnstate
+    spawnhealth: 100;                                             // spawnhealth
+    seestate: Ord(S_CHICPLAY_RUN1);                               // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 0;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_CHICPLAY_PAIN);                              // painstate
+    painchance: 255;                                              // painchance
+    painsound: Ord(sfx_chicpai);                                  // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_CHICPLAY_ATK1);                           // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_CHICKEN_DIE1);                              // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_chicdth);                                 // deathsound
+    speed: 0;                                                     // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 24 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOTDMATCH;    // flags
     flags2: MF2_WINDTHRUST or MF2_SLIDE or MF2_PASSMOBJ or MF2_FOOTCLIP or MF2_LOGRAV or MF2_TELESTOMP;   // flags2
-    scale: FRACUNIT;              // scale
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CHICKEN
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_CHICKEN_LOOK1); // spawnstate
-    spawnhealth: 10;              // spawnhealth
-    seestate: Ord(S_CHICKEN_WALK1);// seestate
-    seesound: Ord(sfx_chicpai);   // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_chicatk);// attacksound
-    painstate: Ord(S_CHICKEN_PAIN1);  // painstate
-    painchance: 200;              // painchance
-    painsound: Ord(sfx_chicpai);  // painsound
-    meleestate: Ord(S_CHICKEN_ATK1);  // meleestate
-    missilestate: 0;              // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_CHICKEN_DIE1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_chicdth); // deathsound
-    speed: 4;                     // speed
-    radius: 9 * FRACUNIT;         // radius
-    height: 22 * FRACUNIT;        // height
-    mass: 40;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_chicact);// activesound
+    name: 'MT_CHICKEN';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_CHICKEN_LOOK1);                             // spawnstate
+    spawnhealth: 10;                                              // spawnhealth
+    seestate: Ord(S_CHICKEN_WALK1);                               // seestate
+    seesound: Ord(sfx_chicpai);                                   // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_chicatk);                                // attacksound
+    painstate: Ord(S_CHICKEN_PAIN1);                              // painstate
+    painchance: 200;                                              // painchance
+    painsound: Ord(sfx_chicpai);                                  // painsound
+    meleestate: Ord(S_CHICKEN_ATK1);                              // meleestate
+    missilestate: 0;                                              // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_CHICKEN_DIE1);                              // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_chicdth);                                 // deathsound
+    speed: 4;                                                     // speed
+    radius: 9 * FRACUNIT;                                         // radius
+    height: 22 * FRACUNIT;                                        // height
+    mass: 40;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_chicact);                                // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
-    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_PASSMOBJ;       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_FEATHER
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_FEATHER1);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_FEATHERX);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 2 * FRACUNIT;         // radius
-    height: 4 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;    // flags
+    name: 'MT_FEATHER';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_FEATHER1);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_FEATHERX);                                  // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 2 * FRACUNIT;                                         // radius
+    height: 4 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH or MF2_WINDTHRUST;   // flags2
-    scale: FRACUNIT;              // scale
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MUMMY
-    doomednum: 68;                // doomednum
-    spawnstate: Ord(S_MUMMY_LOOK1); // spawnstate
-    spawnhealth: 80;              // spawnhealth
-    seestate: Ord(S_MUMMY_WALK1); // seestate
-    seesound: Ord(sfx_mumsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_mumat1); // attacksound
-    painstate: Ord(S_MUMMY_PAIN1);// painstate
-    painchance: 128;              // painchance
-    painsound: Ord(sfx_mumpai);   // painsound
-    meleestate: Ord(S_MUMMY_ATK1);// meleestate
-    missilestate: 0;              // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MUMMY_DIE1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_mumdth);  // deathsound
-    speed: 12;                    // speed
-    radius: 22 * FRACUNIT;        // radius
-    height: 62 * FRACUNIT;        // height
-    mass: 75;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_mumact); // activesound
-    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Golem';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 68;                                                // doomednum
+    spawnstate: Ord(S_MUMMY_LOOK1);                               // spawnstate
+    spawnhealth: 80;                                              // spawnhealth
+    seestate: Ord(S_MUMMY_WALK1);                                 // seestate
+    seesound: Ord(sfx_mumsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_mumat1);                                 // attacksound
+    painstate: Ord(S_MUMMY_PAIN1);                                // painstate
+    painchance: 128;                                              // painchance
+    painsound: Ord(sfx_mumpai);                                   // painsound
+    meleestate: Ord(S_MUMMY_ATK1);                                // meleestate
+    missilestate: 0;                                              // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MUMMY_DIE1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_mumdth);                                  // deathsound
+    speed: 12;                                                    // speed
+    radius: 22 * FRACUNIT;                                        // radius
+    height: 62 * FRACUNIT;                                        // height
+    mass: 75;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_mumact);                                 // activesound
+    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MUMMYLEADER
-    doomednum: 45;                // doomednum
-    spawnstate: Ord(S_MUMMY_LOOK1); // spawnstate
-    spawnhealth: 100;             // spawnhealth
-    seestate: Ord(S_MUMMY_WALK1); // seestate
-    seesound: Ord(sfx_mumsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_mumat1); // attacksound
-    painstate: Ord(S_MUMMY_PAIN1);// painstate
-    painchance: 64;               // painchance
-    painsound: Ord(sfx_mumpai);   // painsound
-    meleestate: Ord(S_MUMMY_ATK1);// meleestate
-    missilestate: Ord(S_MUMMYL_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MUMMY_DIE1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_mumdth);  // deathsound
-    speed: 12;                    // speed
-    radius: 22 * FRACUNIT;        // radius
-    height: 62 * FRACUNIT;        // height
-    mass: 75;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_mumact); // activesound
-    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Nitrogolem';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 45;                                                // doomednum
+    spawnstate: Ord(S_MUMMY_LOOK1);                               // spawnstate
+    spawnhealth: 100;                                             // spawnhealth
+    seestate: Ord(S_MUMMY_WALK1);                                 // seestate
+    seesound: Ord(sfx_mumsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_mumat1);                                 // attacksound
+    painstate: Ord(S_MUMMY_PAIN1);                                // painstate
+    painchance: 64;                                               // painchance
+    painsound: Ord(sfx_mumpai);                                   // painsound
+    meleestate: Ord(S_MUMMY_ATK1);                                // meleestate
+    missilestate: Ord(S_MUMMYL_ATK1);                             // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MUMMY_DIE1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_mumdth);                                  // deathsound
+    speed: 12;                                                    // speed
+    radius: 22 * FRACUNIT;                                        // radius
+    height: 62 * FRACUNIT;                                        // height
+    mass: 75;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_mumact);                                 // activesound
+    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MUMMYGHOST
-    doomednum: 69;                // doomednum
-    spawnstate: Ord(S_MUMMY_LOOK1); // spawnstate
-    spawnhealth: 80;              // spawnhealth
-    seestate: Ord(S_MUMMY_WALK1); // seestate
-    seesound: Ord(sfx_mumsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_mumat1); // attacksound
-    painstate: Ord(S_MUMMY_PAIN1);// painstate
-    painchance: 128;              // painchance
-    painsound: Ord(sfx_mumpai);   // painsound
-    meleestate: Ord(S_MUMMY_ATK1);// meleestate
-    missilestate: 0;              // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MUMMY_DIE1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_mumdth);  // deathsound
-    speed: 12;                    // speed
-    radius: 22 * FRACUNIT;        // radius
-    height: 62 * FRACUNIT;        // height
-    mass: 75;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_mumact); // activesound
+    name: 'Golem Ghost';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 69;                                                // doomednum
+    spawnstate: Ord(S_MUMMY_LOOK1);                               // spawnstate
+    spawnhealth: 80;                                              // spawnhealth
+    seestate: Ord(S_MUMMY_WALK1);                                 // seestate
+    seesound: Ord(sfx_mumsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_mumat1);                                 // attacksound
+    painstate: Ord(S_MUMMY_PAIN1);                                // painstate
+    painchance: 128;                                              // painchance
+    painsound: Ord(sfx_mumpai);                                   // painsound
+    meleestate: Ord(S_MUMMY_ATK1);                                // meleestate
+    missilestate: 0;                                              // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MUMMY_DIE1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_mumdth);                                  // deathsound
+    speed: 12;                                                    // speed
+    radius: 22 * FRACUNIT;                                        // radius
+    height: 62 * FRACUNIT;                                        // height
+    mass: 75;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_mumact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MUMMYLEADERGHOST
-    doomednum: 46;                // doomednum
-    spawnstate: Ord(S_MUMMY_LOOK1); // spawnstate
-    spawnhealth: 100;             // spawnhealth
-    seestate: Ord(S_MUMMY_WALK1); // seestate
-    seesound: Ord(sfx_mumsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_mumat1); // attacksound
-    painstate: Ord(S_MUMMY_PAIN1);// painstate
-    painchance: 64;               // painchance
-    painsound: Ord(sfx_mumpai);   // painsound
-    meleestate: Ord(S_MUMMY_ATK1);// meleestate
-    missilestate: Ord(S_MUMMYL_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MUMMY_DIE1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_mumdth);  // deathsound
-    speed: 12;                    // speed
-    radius: 22 * FRACUNIT;        // radius
-    height: 62 * FRACUNIT;        // height
-    mass: 75;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_mumact); // activesound
+    name: 'Nitrogolem Ghost';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 46;                                                // doomednum
+    spawnstate: Ord(S_MUMMY_LOOK1);                               // spawnstate
+    spawnhealth: 100;                                             // spawnhealth
+    seestate: Ord(S_MUMMY_WALK1);                                 // seestate
+    seesound: Ord(sfx_mumsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_mumat1);                                 // attacksound
+    painstate: Ord(S_MUMMY_PAIN1);                                // painstate
+    painchance: 64;                                               // painchance
+    painsound: Ord(sfx_mumpai);                                   // painsound
+    meleestate: Ord(S_MUMMY_ATK1);                                // meleestate
+    missilestate: Ord(S_MUMMYL_ATK1);                             // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MUMMY_DIE1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_mumdth);                                  // deathsound
+    speed: 12;                                                    // speed
+    radius: 22 * FRACUNIT;                                        // radius
+    height: 62 * FRACUNIT;                                        // height
+    mass: 75;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_mumact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MUMMYSOUL
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MUMMY_SOUL1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_MUMMYSOUL';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MUMMY_SOUL1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MUMMYFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MUMMYFX1_1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MUMMYFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 9 * FRACUNIT;          // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 14 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 4;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_MUMMYFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MUMMYFX1_1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MUMMYFXI1_1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 9 * FRACUNIT;                                          // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 14 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 4;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BEAST
-    doomednum: 70;                // doomednum
-    spawnstate: Ord(S_BEAST_LOOK1); // spawnstate
-    spawnhealth: 220;             // spawnhealth
-    seestate: Ord(S_BEAST_WALK1); // seestate
-    seesound: Ord(sfx_bstsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_bstatk); // attacksound
-    painstate: Ord(S_BEAST_PAIN1);// painstate
-    painchance: 100;              // painchance
-    painsound: Ord(sfx_bstpai);   // painsound
-    meleestate: 0;                // meleestate
-    missilestate: Ord(S_BEAST_ATK1);  // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_BEAST_DIE1);// deathstate
-    xdeathstate: Ord(S_BEAST_XDIE1);// xdeathstate
-    deathsound: Ord(sfx_bstdth);  // deathsound
-    speed: 14;                    // speed
-    radius: 32 * FRACUNIT;        // radius
-    height: 74 * FRACUNIT;        // height
-    mass: 200;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_bstact); // activesound
-    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Weredragon';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 70;                                                // doomednum
+    spawnstate: Ord(S_BEAST_LOOK1);                               // spawnstate
+    spawnhealth: 220;                                             // spawnhealth
+    seestate: Ord(S_BEAST_WALK1);                                 // seestate
+    seesound: Ord(sfx_bstsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_bstatk);                                 // attacksound
+    painstate: Ord(S_BEAST_PAIN1);                                // painstate
+    painchance: 100;                                              // painchance
+    painsound: Ord(sfx_bstpai);                                   // painsound
+    meleestate: 0;                                                // meleestate
+    missilestate: Ord(S_BEAST_ATK1);                              // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_BEAST_DIE1);                                // deathstate
+    xdeathstate: Ord(S_BEAST_XDIE1);                              // xdeathstate
+    deathsound: Ord(sfx_bstdth);                                  // deathsound
+    speed: 14;                                                    // speed
+    radius: 32 * FRACUNIT;                                        // radius
+    height: 74 * FRACUNIT;                                        // height
+    mass: 200;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_bstact);                                 // activesound
+    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BEASTBALL
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BEASTBALL1);// spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_BEASTBALLX1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 12 * FRACUNIT;         // speed
-    radius: 9 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 4;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_BEASTBALL';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BEASTBALL1);                                // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_BEASTBALLX1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 12 * FRACUNIT;                                         // speed
+    radius: 9 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 4;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BURNBALL
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BURNBALL1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_BEASTBALLX1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 6 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_BURNBALL';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BURNBALL1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_BEASTBALLX1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 6 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BURNBALLFB
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_BURNBALLFB1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_BEASTBALLX1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 6 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_BURNBALLFB';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_BURNBALLFB1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_BEASTBALLX1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 6 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_PUFFY
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_PUFFY1);     // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_PUFFY1);    // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 6 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_PUFFY';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_PUFFY1);                                    // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_PUFFY1);                                    // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 6 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SNAKE
-    doomednum: 92;                // doomednum
-    spawnstate: Ord(S_SNAKE_LOOK1); // spawnstate
-    spawnhealth: 280;             // spawnhealth
-    seestate: Ord(S_SNAKE_WALK1); // seestate
-    seesound: Ord(sfx_snksit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_snkatk); // attacksound
-    painstate: Ord(S_SNAKE_PAIN1);// painstate
-    painchance: 48;               // painchance
-    painsound: Ord(sfx_snkpai);   // painsound
-    meleestate: 0;                // meleestate
-    missilestate: Ord(S_SNAKE_ATK1);  // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SNAKE_DIE1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_snkdth);  // deathsound
-    speed: 10;                    // speed
-    radius: 22 * FRACUNIT;        // radius
-    height: 70 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_snkact); // activesound
-    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Ophidian';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 92;                                                // doomednum
+    spawnstate: Ord(S_SNAKE_LOOK1);                               // spawnstate
+    spawnhealth: 280;                                             // spawnhealth
+    seestate: Ord(S_SNAKE_WALK1);                                 // seestate
+    seesound: Ord(sfx_snksit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_snkatk);                                 // attacksound
+    painstate: Ord(S_SNAKE_PAIN1);                                // painstate
+    painchance: 48;                                               // painchance
+    painsound: Ord(sfx_snkpai);                                   // painsound
+    meleestate: 0;                                                // meleestate
+    missilestate: Ord(S_SNAKE_ATK1);                              // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SNAKE_DIE1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_snkdth);                                  // deathsound
+    speed: 10;                                                    // speed
+    radius: 22 * FRACUNIT;                                        // radius
+    height: 70 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_snkact);                                 // activesound
+    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SNAKEPRO_A
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SNAKEPRO_A1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SNAKEPRO_AX1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 14 * FRACUNIT;         // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_SNAKEPRO_A';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SNAKEPRO_A1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SNAKEPRO_AX1);                              // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 14 * FRACUNIT;                                         // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SNAKEPRO_B
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SNAKEPRO_B1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SNAKEPRO_BX1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 14 * FRACUNIT;         // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 3;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_SNAKEPRO_B';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SNAKEPRO_B1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SNAKEPRO_BX1);                              // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 14 * FRACUNIT;                                         // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 3;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_HEAD
-    doomednum: 6;                 // doomednum
-    spawnstate: Ord(S_HEAD_LOOK); // spawnstate
-    spawnhealth: 700;             // spawnhealth
-    seestate: Ord(S_HEAD_FLOAT);  // seestate
-    seesound: Ord(sfx_hedsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_hedat1); // attacksound
-    painstate: Ord(S_HEAD_PAIN1); // painstate
-    painchance: 32;               // painchance
-    painsound: Ord(sfx_hedpai);   // painsound
-    meleestate: 0;                // meleestate
-    missilestate: Ord(S_HEAD_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_HEAD_DIE1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_heddth);  // deathsound
-    speed: 6;                     // speed
-    radius: 40 * FRACUNIT;        // radius
-    height: 72 * FRACUNIT;        // height
-    mass: 325;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_hedact); // activesound
+    name: 'Iron Lich';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 6;                                                 // doomednum
+    spawnstate: Ord(S_HEAD_LOOK);                                 // spawnstate
+    spawnhealth: 700;                                             // spawnhealth
+    seestate: Ord(S_HEAD_FLOAT);                                  // seestate
+    seesound: Ord(sfx_hedsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_hedat1);                                 // attacksound
+    painstate: Ord(S_HEAD_PAIN1);                                 // painstate
+    painchance: 32;                                               // painchance
+    painsound: Ord(sfx_hedpai);                                   // painsound
+    meleestate: 0;                                                // meleestate
+    missilestate: Ord(S_HEAD_ATK1);                               // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_HEAD_DIE1);                                 // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_heddth);                                  // deathsound
+    speed: 6;                                                     // speed
+    radius: 40 * FRACUNIT;                                        // radius
+    height: 72 * FRACUNIT;                                        // height
+    mass: 325;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_hedact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;    // flags
-    flags2: MF2_PASSMOBJ;         // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_PASSMOBJ;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_HEADFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_HEADFX1_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_HEADFXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 13 * FRACUNIT;         // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_HEADFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_HEADFX1_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_HEADFXI1_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 13 * FRACUNIT;                                         // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_THRUGHOST;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_THRUGHOST;                      // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_HEADFX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_HEADFX2_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_HEADFXI2_1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 8 * FRACUNIT;          // speed
-    radius: 12 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 3;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_HEADFX2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_HEADFX2_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_HEADFXI2_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 8 * FRACUNIT;                                          // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 3;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_HEADFX3
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_HEADFX3_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_HEADFXI3_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 14 * FRACUNIT;        // radius
-    height: 12 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 5;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_HEADFX3';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_HEADFX3_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_HEADFXI3_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 14 * FRACUNIT;                                        // radius
+    height: 12 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 5;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_WHIRLWIND
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_HEADFX4_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_HEADFXI4_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 74 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_WHIRLWIND';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_HEADFX4_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_HEADFXI4_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 74 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_SHADOW;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CLINK
-    doomednum: 90;                // doomednum
-    spawnstate: Ord(S_CLINK_LOOK1);    // spawnstate
-    spawnhealth: 150;             // spawnhealth
-    seestate: Ord(S_CLINK_WALK1); // seestate
-    seesound: Ord(sfx_clksit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_clkatk); // attacksound
-    painstate: Ord(S_CLINK_PAIN1);// painstate
-    painchance: 32;               // painchance
-    painsound: Ord(sfx_clkpai);   // painsound
-    meleestate: Ord(S_CLINK_ATK1);// meleestate
-    missilestate: 0;              // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_CLINK_DIE1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_clkdth);  // deathsound
-    speed: 14;                    // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 64 * FRACUNIT;        // height
-    mass: 75;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_clkact); // activesound
+    name: 'Sabreclaw';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 90;                                                // doomednum
+    spawnstate: Ord(S_CLINK_LOOK1);                               // spawnstate
+    spawnhealth: 150;                                             // spawnhealth
+    seestate: Ord(S_CLINK_WALK1);                                 // seestate
+    seesound: Ord(sfx_clksit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_clkatk);                                 // attacksound
+    painstate: Ord(S_CLINK_PAIN1);                                // painstate
+    painchance: 32;                                               // painchance
+    painsound: Ord(sfx_clkpai);                                   // painsound
+    meleestate: Ord(S_CLINK_ATK1);                                // meleestate
+    missilestate: 0;                                              // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_CLINK_DIE1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_clkdth);                                  // deathsound
+    speed: 14;                                                    // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
+    mass: 75;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_clkact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_WIZARD
-    doomednum: 15;                // doomednum
-    spawnstate: Ord(S_WIZARD_LOOK1);    // spawnstate
-    spawnhealth: 180;             // spawnhealth
-    seestate: Ord(S_WIZARD_WALK1);// seestate
-    seesound: Ord(sfx_wizsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_wizatk); // attacksound
-    painstate: Ord(S_WIZARD_PAIN1); // painstate
-    painchance: 64;               // painchance
-    painsound: Ord(sfx_wizpai);   // painsound
-    meleestate: 0;                // meleestate
-    missilestate: Ord(S_WIZARD_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_WIZARD_DIE1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_wizdth);  // deathsound
-    speed: 12;                    // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 68 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_wizact); // activesound
+    name: 'Disciple Of D''Sparil';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 15;                                                // doomednum
+    spawnstate: Ord(S_WIZARD_LOOK1);                              // spawnstate
+    spawnhealth: 180;                                             // spawnhealth
+    seestate: Ord(S_WIZARD_WALK1);                                // seestate
+    seesound: Ord(sfx_wizsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_wizatk);                                 // attacksound
+    painstate: Ord(S_WIZARD_PAIN1);                               // painstate
+    painchance: 64;                                               // painchance
+    painsound: Ord(sfx_wizpai);                                   // painsound
+    meleestate: 0;                                                // meleestate
+    missilestate: Ord(S_WIZARD_ATK1);                             // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_WIZARD_DIE1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_wizdth);                                  // deathsound
+    speed: 12;                                                    // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 68 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_wizact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_FLOAT or MF_NOGRAVITY;    // flags
-    flags2: MF2_PASSMOBJ;         // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_PASSMOBJ;                                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_WIZFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_WIZFX1_1);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_WIZFXI1_1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 18 * FRACUNIT;         // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 3;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_WIZFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_WIZFX1_1);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_WIZFXI1_1);                                 // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 18 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 3;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_IMP
-    doomednum: 66;                // doomednum
-    spawnstate: Ord(S_IMP_LOOK1); // spawnstate
-    spawnhealth: 40;              // spawnhealth
-    seestate: Ord(S_IMP_FLY1);    // seestate
-    seesound: Ord(sfx_impsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_impat1); // attacksound
-    painstate: Ord(S_IMP_PAIN1);  // painstate
-    painchance: 200;              // painchance
-    painsound: Ord(sfx_imppai);   // painsound
-    meleestate: Ord(S_IMP_MEATK1);// meleestate
-    missilestate: Ord(S_IMP_MSATK1_1);  // missilestate
-    crashstate: Ord(S_IMP_CRASH1);// crashstate
-    deathstate: Ord(S_IMP_DIE1);  // deathstate
-    xdeathstate: Ord(S_IMP_XDIE1);// xdeathstate
-    deathsound: Ord(sfx_impdth);  // deathsound
-    speed: 10;                    // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 36 * FRACUNIT;        // height
-    mass: 50;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_impact); // activesound
+    name: 'Gargoyle';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 66;                                                // doomednum
+    spawnstate: Ord(S_IMP_LOOK1);                                 // spawnstate
+    spawnhealth: 40;                                              // spawnhealth
+    seestate: Ord(S_IMP_FLY1);                                    // seestate
+    seesound: Ord(sfx_impsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_impat1);                                 // attacksound
+    painstate: Ord(S_IMP_PAIN1);                                  // painstate
+    painchance: 200;                                              // painchance
+    painsound: Ord(sfx_imppai);                                   // painsound
+    meleestate: Ord(S_IMP_MEATK1);                                // meleestate
+    missilestate: Ord(S_IMP_MSATK1_1);                            // missilestate
+    crashstate: Ord(S_IMP_CRASH1);                                // crashstate
+    deathstate: Ord(S_IMP_DIE1);                                  // deathstate
+    xdeathstate: Ord(S_IMP_XDIE1);                                // xdeathstate
+    deathsound: Ord(sfx_impdth);                                  // deathsound
+    speed: 10;                                                    // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 36 * FRACUNIT;                                        // height
+    mass: 50;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_impact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_FLOAT or MF_NOGRAVITY or MF_COUNTKILL;    // flags
-    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_IMPLEADER
-    doomednum: 5;                 // doomednum
-    spawnstate: Ord(S_IMP_LOOK1); // spawnstate
-    spawnhealth: 80;              // spawnhealth
-    seestate: Ord(S_IMP_FLY1);    // seestate
-    seesound: Ord(sfx_impsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_impat2); // attacksound
-    painstate: Ord(S_IMP_PAIN1);  // painstate
-    painchance: 200;              // painchance
-    painsound: Ord(sfx_imppai);   // painsound
-    meleestate: 0;                // meleestate
-    missilestate: Ord(S_IMP_MSATK2_1);// missilestate
-    crashstate: Ord(S_IMP_CRASH1);// crashstate
-    deathstate: Ord(S_IMP_DIE1);  // deathstate
-    xdeathstate: Ord(S_IMP_XDIE1);// xdeathstate
-    deathsound: Ord(sfx_impdth);  // deathsound
-    speed: 10;                    // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 36 * FRACUNIT;        // height
-    mass: 50;                     // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_impact); // activesound
+    name: 'Fire Gargoyle';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 5;                                                 // doomednum
+    spawnstate: Ord(S_IMP_LOOK1);                                 // spawnstate
+    spawnhealth: 80;                                              // spawnhealth
+    seestate: Ord(S_IMP_FLY1);                                    // seestate
+    seesound: Ord(sfx_impsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_impat2);                                 // attacksound
+    painstate: Ord(S_IMP_PAIN1);                                  // painstate
+    painchance: 200;                                              // painchance
+    painsound: Ord(sfx_imppai);                                   // painsound
+    meleestate: 0;                                                // meleestate
+    missilestate: Ord(S_IMP_MSATK2_1);                            // missilestate
+    crashstate: Ord(S_IMP_CRASH1);                                // crashstate
+    deathstate: Ord(S_IMP_DIE1);                                  // deathstate
+    xdeathstate: Ord(S_IMP_XDIE1);                                // xdeathstate
+    deathsound: Ord(sfx_impdth);                                  // deathsound
+    speed: 10;                                                    // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 36 * FRACUNIT;                                        // height
+    mass: 50;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_impact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_FLOAT or MF_NOGRAVITY or MF_COUNTKILL;    // flags
-    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_IMPCHUNK1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_IMP_CHUNKA1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_IMPCHUNK1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_IMP_CHUNKA1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_IMPCHUNK2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_IMP_CHUNKB1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_IMPCHUNK2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_IMP_CHUNKB1);                               // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_IMPBALL
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_IMPFX1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_IMPFXI1);   // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 10 * FRACUNIT;         // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_IMPBALL';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_IMPFX1);                                    // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_IMPFXI1);                                   // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 10 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_KNIGHT
-    doomednum: 64;                // doomednum
-    spawnstate: Ord(S_KNIGHT_STND1);  // spawnstate
-    spawnhealth: 200;             // spawnhealth
-    seestate: Ord(S_KNIGHT_WALK1);// seestate
-    seesound: Ord(sfx_kgtsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_kgtatk); // attacksound
-    painstate: Ord(S_KNIGHT_PAIN1); // painstate
-    painchance: 100;              // painchance
-    painsound: Ord(sfx_kgtpai);   // painsound
-    meleestate: Ord(S_KNIGHT_ATK1); // meleestate
-    missilestate: Ord(S_KNIGHT_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_KNIGHT_DIE1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_kgtdth);  // deathsound
-    speed: 12;                    // speed
-    radius: 24 * FRACUNIT;        // radius
-    height: 78 * FRACUNIT;        // height
-    mass: 150;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_kgtact); // activesound
-    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Undead Warrior';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 64;                                                // doomednum
+    spawnstate: Ord(S_KNIGHT_STND1);                              // spawnstate
+    spawnhealth: 200;                                             // spawnhealth
+    seestate: Ord(S_KNIGHT_WALK1);                                // seestate
+    seesound: Ord(sfx_kgtsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_kgtatk);                                 // attacksound
+    painstate: Ord(S_KNIGHT_PAIN1);                               // painstate
+    painchance: 100;                                              // painchance
+    painsound: Ord(sfx_kgtpai);                                   // painsound
+    meleestate: Ord(S_KNIGHT_ATK1);                               // meleestate
+    missilestate: Ord(S_KNIGHT_ATK1);                             // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_KNIGHT_DIE1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_kgtdth);                                  // deathsound
+    speed: 12;                                                    // speed
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 78 * FRACUNIT;                                        // height
+    mass: 150;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_kgtact);                                 // activesound
+    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_KNIGHTGHOST
-    doomednum: 65;                // doomednum
-    spawnstate: Ord(S_KNIGHT_STND1);  // spawnstate
-    spawnhealth: 200;             // spawnhealth
-    seestate: Ord(S_KNIGHT_WALK1);// seestate
-    seesound: Ord(sfx_kgtsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_kgtatk); // attacksound
-    painstate: Ord(S_KNIGHT_PAIN1); // painstate
-    painchance: 100;              // painchance
-    painsound: Ord(sfx_kgtpai);   // painsound
-    meleestate: Ord(S_KNIGHT_ATK1); // meleestate
-    missilestate: Ord(S_KNIGHT_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_KNIGHT_DIE1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_kgtdth);  // deathsound
-    speed: 12;                    // speed
-    radius: 24 * FRACUNIT;        // radius
-    height: 78 * FRACUNIT;        // height
-    mass: 150;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_kgtact); // activesound
+    name: 'Undead Warrior Ghost';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 65;                                                // doomednum
+    spawnstate: Ord(S_KNIGHT_STND1);                              // spawnstate
+    spawnhealth: 200;                                             // spawnhealth
+    seestate: Ord(S_KNIGHT_WALK1);                                // seestate
+    seesound: Ord(sfx_kgtsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_kgtatk);                                 // attacksound
+    painstate: Ord(S_KNIGHT_PAIN1);                               // painstate
+    painchance: 100;                                              // painchance
+    painsound: Ord(sfx_kgtpai);                                   // painsound
+    meleestate: Ord(S_KNIGHT_ATK1);                               // meleestate
+    missilestate: Ord(S_KNIGHT_ATK1);                             // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_KNIGHT_DIE1);                               // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_kgtdth);                                  // deathsound
+    speed: 12;                                                    // speed
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 78 * FRACUNIT;                                        // height
+    mass: 150;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_kgtact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_KNIGHTAXE
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SPINAXE1);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SPINAXEX1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_hrnhit);  // deathsound
-    speed: 9 * FRACUNIT;          // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 2;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_KNIGHTAXE';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SPINAXE1);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SPINAXEX1);                                 // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_hrnhit);                                  // deathsound
+    speed: 9 * FRACUNIT;                                          // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 2;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT or MF2_THRUGHOST;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT or MF2_THRUGHOST;    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_REDAXE
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_REDAXE1);   // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_REDAXEX1);  // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_hrnhit);  // deathsound
-    speed: 9 * FRACUNIT;          // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 8 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 7;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_REDAXE';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_REDAXE1);                                   // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_REDAXEX1);                                  // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_hrnhit);                                  // deathsound
+    speed: 9 * FRACUNIT;                                          // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 7;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_THRUGHOST;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_THRUGHOST;                      // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SORCERER1
-    doomednum: 7;                 // doomednum
-    spawnstate: Ord(S_SRCR1_LOOK1); // spawnstate
-    spawnhealth: 2000;            // spawnhealth
-    seestate: Ord(S_SRCR1_WALK1); // seestate
-    seesound: Ord(sfx_sbtsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_sbtatk); // attacksound
-    painstate: Ord(S_SRCR1_PAIN1);// painstate
-    painchance: 56;               // painchance
-    painsound: Ord(sfx_sbtpai);   // painsound
-    meleestate: 0;                // meleestate
-    missilestate: Ord(S_SRCR1_ATK1);  // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SRCR1_DIE1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_sbtdth);  // deathsound
-    speed: 16;                    // speed
-    radius: 28 * FRACUNIT;        // radius
-    height: 100 * FRACUNIT;       // height
-    mass: 800;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_sbtact); // activesound
-    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'D''Sparil';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 7;                                                 // doomednum
+    spawnstate: Ord(S_SRCR1_LOOK1);                               // spawnstate
+    spawnhealth: 2000;                                            // spawnhealth
+    seestate: Ord(S_SRCR1_WALK1);                                 // seestate
+    seesound: Ord(sfx_sbtsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_sbtatk);                                 // attacksound
+    painstate: Ord(S_SRCR1_PAIN1);                                // painstate
+    painchance: 56;                                               // painchance
+    painsound: Ord(sfx_sbtpai);                                   // painsound
+    meleestate: 0;                                                // meleestate
+    missilestate: Ord(S_SRCR1_ATK1);                              // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SRCR1_DIE1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_sbtdth);                                  // deathsound
+    speed: 16;                                                    // speed
+    radius: 28 * FRACUNIT;                                        // radius
+    height: 100 * FRACUNIT;                                       // height
+    mass: 800;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_sbtact);                                 // activesound
+    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;             // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SRCRFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SRCRFX1_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SRCRFXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 20 * FRACUNIT;         // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 10 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 10;                   // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_SRCRFX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SRCRFX1_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SRCRFXI1_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 10 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 10;                                                   // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SORCERER2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SOR2_LOOK1);// spawnstate
-    spawnhealth: 3500;            // spawnhealth
-    seestate: Ord(S_SOR2_WALK1);  // seestate
-    seesound: Ord(sfx_sorsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_soratk); // attacksound
-    painstate: Ord(S_SOR2_PAIN1); // painstate
-    painchance: 32;               // painchance
-    painsound: Ord(sfx_sorpai);   // painsound
-    meleestate: 0;                // meleestate
-    missilestate: Ord(S_SOR2_ATK1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SOR2_DIE1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 14;                    // speed
-    radius: 16 * FRACUNIT;        // radius
-    height: 70 * FRACUNIT;        // height
-    mass: 300;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_soract); // activesound
+    name: 'MT_SORCERER2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SOR2_LOOK1);                                // spawnstate
+    spawnhealth: 3500;                                            // spawnhealth
+    seestate: Ord(S_SOR2_WALK1);                                  // seestate
+    seesound: Ord(sfx_sorsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_soratk);                                 // attacksound
+    painstate: Ord(S_SOR2_PAIN1);                                 // painstate
+    painchance: 32;                                               // painchance
+    painsound: Ord(sfx_sorpai);                                   // painsound
+    meleestate: 0;                                                // meleestate
+    missilestate: Ord(S_SOR2_ATK1);                               // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SOR2_DIE1);                                 // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 14;                                                    // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 70 * FRACUNIT;                                        // height
+    mass: 300;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_soract);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;             // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SOR2FX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SOR2FX1_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SOR2FXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 20 * FRACUNIT;         // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 1;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_SOR2FX1';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SOR2FX1_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SOR2FXI1_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 1;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SOR2FXSPARK
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SOR2FXSPARK1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_SOR2FXSPARK';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SOR2FXSPARK1);                              // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SOR2FX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SOR2FX2_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_SOR2FXI2_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 6 * FRACUNIT;          // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 10;                   // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_SOR2FX2';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SOR2FX2_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_SOR2FXI2_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 6 * FRACUNIT;                                          // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 10;                                                   // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT;       // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT;                                       // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SOR2TELEFADE
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_SOR2TELEFADE1);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP;         // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'MT_SOR2TELEFADE';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_SOR2TELEFADE1);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MINOTAUR
-    doomednum: 9;                 // doomednum
-    spawnstate: Ord(S_MNTR_LOOK1);// spawnstate
-    spawnhealth: 3000;            // spawnhealth
-    seestate: Ord(S_MNTR_WALK1);  // seestate
-    seesound: Ord(sfx_minsit);    // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_minat1); // attacksound
-    painstate: Ord(S_MNTR_PAIN1); // painstate
-    painchance: 25;               // painchance
-    painsound: Ord(sfx_minpai);   // painsound
-    meleestate: Ord(S_MNTR_ATK1_1); // meleestate
-    missilestate: Ord(S_MNTR_ATK2_1); // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MNTR_DIE1); // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_mindth);  // deathsound
-    speed: 16;                    // speed
-    radius: 28 * FRACUNIT;        // radius
-    height: 100 * FRACUNIT;       // height
-    mass: 800;                    // mass
-    damage: 7;                    // damage
-    activesound: Ord(sfx_minact); // activesound
+    name: 'Maulotaur';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 9;                                                 // doomednum
+    spawnstate: Ord(S_MNTR_LOOK1);                                // spawnstate
+    spawnhealth: 3000;                                            // spawnhealth
+    seestate: Ord(S_MNTR_WALK1);                                  // seestate
+    seesound: Ord(sfx_minsit);                                    // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_minat1);                                 // attacksound
+    painstate: Ord(S_MNTR_PAIN1);                                 // painstate
+    painchance: 25;                                               // painchance
+    painsound: Ord(sfx_minpai);                                   // painsound
+    meleestate: Ord(S_MNTR_ATK1_1);                               // meleestate
+    missilestate: Ord(S_MNTR_ATK2_1);                             // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MNTR_DIE1);                                 // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_mindth);                                  // deathsound
+    speed: 16;                                                    // speed
+    radius: 28 * FRACUNIT;                                        // radius
+    height: 100 * FRACUNIT;                                       // height
+    mass: 800;                                                    // mass
+    damage: 7;                                                    // damage
+    activesound: Ord(sfx_minact);                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
-    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;             // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MNTRFX1
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MNTRFX1_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MNTRFXI1_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: 0;                // deathsound
-    speed: 20 * FRACUNIT;         // speed
-    radius: 10 * FRACUNIT;        // radius
-    height: 6 * FRACUNIT;         // height
-    mass: 100;                    // mass
-    damage: 3;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'Flaming Pellets ranged attack';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MNTRFX1_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MNTRFXI1_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: 0;                                                // deathsound
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 6 * FRACUNIT;                                         // height
+    mass: 100;                                                    // mass
+    damage: 3;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MNTRFX2
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MNTRFX2_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MNTRFXI2_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_phohit);  // deathsound
-    speed: 14 * FRACUNIT;         // speed
-    radius: 5 * FRACUNIT;         // radius
-    height: 12 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 4;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'Ground Flame ranged attack';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MNTRFX2_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MNTRFXI2_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_phohit);                                  // deathsound
+    speed: 14 * FRACUNIT;                                         // speed
+    radius: 5 * FRACUNIT;                                         // radius
+    height: 12 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 4;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_MNTRFX3
-    doomednum: -1;                // doomednum
-    spawnstate: Ord(S_MNTRFX3_1); // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: 0;                  // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_MNTRFXI2_1);// deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_phohit);  // deathsound
-    speed: 0;                     // speed
-    radius: 8 * FRACUNIT;         // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 4;                    // damage
-    activesound: Ord(sfx_None);   // activesound
+    name: 'MT_MNTRFX3';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_MNTRFX3_1);                                 // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: 0;                                                  // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_MNTRFXI2_1);                                // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_phohit);                                  // deathsound
+    speed: 0;                                                     // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 4;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
-    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;   // flags2
-    scale: FRACUNIT;              // scale
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AKYY
-    doomednum: 73;                // doomednum
-    spawnstate: Ord(S_AKYY1);     // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_NOTDMATCH;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Green Key';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 73;                                                // doomednum
+    spawnstate: Ord(S_AKYY1);                                     // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_NOTDMATCH;                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_BKYY
-    doomednum: 79;                // doomednum
-    spawnstate: Ord(S_BKYY1);     // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_NOTDMATCH;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Blue Key';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 79;                                                // doomednum
+    spawnstate: Ord(S_BKYY1);                                     // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_NOTDMATCH;                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_CKEY
-    doomednum: 80;                // doomednum
-    spawnstate: Ord(S_CKYY1);     // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL or MF_NOTDMATCH;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Yellow Key';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 80;                                                // doomednum
+    spawnstate: Ord(S_CKYY1);                                     // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL or MF_NOTDMATCH;                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMGWNDWIMPY
-    doomednum: 10;                // doomednum
-    spawnstate: Ord(S_AMG1);      // spawnstate
-    spawnhealth: AMMO_GWND_WIMPY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Wand Crystal';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 10;                                                // doomednum
+    spawnstate: Ord(S_AMG1);                                      // spawnstate
+    spawnhealth: AMMO_GWND_WIMPY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMGWNDHEFTY
-    doomednum: 12;                // doomednum
-    spawnstate: Ord(S_AMG2_1);    // spawnstate
-    spawnhealth: AMMO_GWND_HEFTY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Crystal Geode';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 12;                                                // doomednum
+    spawnstate: Ord(S_AMG2_1);                                    // spawnstate
+    spawnhealth: AMMO_GWND_HEFTY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMMACEWIMPY
-    doomednum: 13;                // doomednum
-    spawnstate: Ord(S_AMM1);      // spawnstate
-    spawnhealth: AMMO_MACE_WIMPY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Mace Spheres';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 13;                                                // doomednum
+    spawnstate: Ord(S_AMM1);                                      // spawnstate
+    spawnhealth: AMMO_MACE_WIMPY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMMACEHEFTY
-    doomednum: 16;                // doomednum
-    spawnstate: Ord(S_AMM2);      // spawnstate
-    spawnhealth: AMMO_MACE_HEFTY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Pile Of Mace Spheres';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 16;                                                // doomednum
+    spawnstate: Ord(S_AMM2);                                      // spawnstate
+    spawnhealth: AMMO_MACE_HEFTY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMCBOWWIMPY
-    doomednum: 18;                // doomednum
-    spawnstate: Ord(S_AMC1);      // spawnstate
-    spawnhealth: AMMO_CBOW_WIMPY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Ethereal Arrows';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 18;                                                // doomednum
+    spawnstate: Ord(S_AMC1);                                      // spawnstate
+    spawnhealth: AMMO_CBOW_WIMPY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMCBOWHEFTY
-    doomednum: 19;                // doomednum
-    spawnstate: Ord(S_AMC2_1);    // spawnstate
-    spawnhealth: AMMO_CBOW_HEFTY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Quiver Of Ethereal Arrows';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 19;                                                // doomednum
+    spawnstate: Ord(S_AMC2_1);                                    // spawnstate
+    spawnhealth: AMMO_CBOW_HEFTY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMSKRDWIMPY
-    doomednum: 20;                // doomednum
-    spawnstate: Ord(S_AMS1_1);    // spawnstate
-    spawnhealth: AMMO_SKRD_WIMPY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Lesser Runes';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 20;                                                // doomednum
+    spawnstate: Ord(S_AMS1_1);                                    // spawnstate
+    spawnhealth: AMMO_SKRD_WIMPY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMSKRDHEFTY
-    doomednum: 21;                // doomednum
-    spawnstate: Ord(S_AMS2_1);    // spawnstate
-    spawnhealth: AMMO_SKRD_HEFTY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Greater Runes';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 21;                                                // doomednum
+    spawnstate: Ord(S_AMS2_1);                                    // spawnstate
+    spawnhealth: AMMO_SKRD_HEFTY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMPHRDWIMPY
-    doomednum: 22;                // doomednum
-    spawnstate: Ord(S_AMP1_1);    // spawnstate
-    spawnhealth: AMMO_PHRD_WIMPY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Flame Orb';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 22;                                                // doomednum
+    spawnstate: Ord(S_AMP1_1);                                    // spawnstate
+    spawnhealth: AMMO_PHRD_WIMPY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMPHRDHEFTY
-    doomednum: 23;                // doomednum
-    spawnstate: Ord(S_AMP2_1);    // spawnstate
-    spawnhealth: AMMO_PHRD_HEFTY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Inferno Orb';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 23;                                                // doomednum
+    spawnstate: Ord(S_AMP2_1);                                    // spawnstate
+    spawnhealth: AMMO_PHRD_HEFTY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMBLSRWIMPY
-    doomednum: 54;                // doomednum
-    spawnstate: Ord(S_AMB1_1);    // spawnstate
-    spawnhealth: AMMO_BLSR_WIMPY;    // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Claw Orb';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 54;                                                // doomednum
+    spawnstate: Ord(S_AMB1_1);                                    // spawnstate
+    spawnhealth: AMMO_BLSR_WIMPY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_AMBLSRHEFTY
-    doomednum: 55;                // doomednum
-    spawnstate: Ord(S_AMB2_1);    // spawnstate
-    spawnhealth: AMMO_BLSR_HEFTY; // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_SPECIAL;            // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Energy Orb';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 55;                                                // doomednum
+    spawnstate: Ord(S_AMB2_1);                                    // spawnstate
+    spawnhealth: AMMO_BLSR_HEFTY;                                 // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_SPECIAL;                                            // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SOUNDWIND
-    doomednum: 42;                // doomednum
-    spawnstate: Ord(S_SND_WIND);  // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);      // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Wind';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 42;                                                // doomednum
+    spawnstate: Ord(S_SND_WIND);                                  // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    ),
+
    (    // MT_SOUNDWATERFALL
-    doomednum: 41;                // doomednum
-    spawnstate: Ord(S_SND_WATERFALL);    // spawnstate
-    spawnhealth: 1000;            // spawnhealth
-    seestate: Ord(S_NULL);        // seestate
-    seesound: Ord(sfx_None);       // seesound
-    reactiontime: 8;              // reactiontime
-    attacksound: Ord(sfx_None);   // attacksound
-    painstate: Ord(S_NULL);       // painstate
-    painchance: 0;                // painchance
-    painsound: Ord(sfx_None);     // painsound
-    meleestate: Ord(S_NULL);      // meleestate
-    missilestate: Ord(S_NULL);    // missilestate
-    crashstate: Ord(S_NULL);      // crashstate
-    deathstate: Ord(S_NULL);      // deathstate
-    xdeathstate: Ord(S_NULL);     // xdeathstate
-    deathsound: Ord(sfx_None);    // deathsound
-    speed: 0;                     // speed
-    radius: 20 * FRACUNIT;        // radius
-    height: 16 * FRACUNIT;        // height
-    mass: 100;                    // mass
-    damage: 0;                    // damage
-    activesound: Ord(sfx_None);   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOSECTOR;    // flags
-    flags2: 0;                    // flags2
-    scale: FRACUNIT;              // scale
+    name: 'Waterfall';
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 41;                                                // doomednum
+    spawnstate: Ord(S_SND_WATERFALL);                             // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    crashstate: Ord(S_NULL);                                      // crashstate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
+    flags2: 0;                                                    // flags2
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
    )
+
   );
 
 procedure Info_Init(const usethinkers: boolean);

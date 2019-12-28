@@ -175,13 +175,58 @@ procedure dd_getactordeffunctions_strife(
 {$ENDIF}
   var _out: PChar; var _outsize: Integer); stdcall;
 
+{$IFDEF DOOM}
+procedure dd_getmobjinfocsv_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getmobjinfocsv_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getmobjinfocsv_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getmobjinfocsv_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+
+{$IFDEF DOOM}
+procedure dd_getstatescsv_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getstatescsv_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getstatescsv_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getstatescsv_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+
+{$IFDEF DOOM}
+procedure dd_getspritescsv_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getspritescsv_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getspritescsv_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getspritescsv_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+
 implementation
 
 uses
   Classes,
   SysUtils,
   d_delphi,
+  deh_base,
   deh_main,
+  info,
+  info_common,
   sc_actordef,
   sc_states,
   ps_events,
@@ -831,6 +876,96 @@ begin
   finally
     DEH_ShutDown;
   end;
+end;
+
+{$IFDEF DOOM}
+procedure dd_getmobjinfocsv_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getmobjinfocsv_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getmobjinfocsv_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getmobjinfocsv_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+var
+  csvstr: string;
+  lst: TDStringList;
+begin
+  Info_Init(true);
+  DEH_Init;
+  try
+    lst := DEH_MobjInfoCSV;
+    csvstr := lst.Text;
+    lst.Free;
+    DD_CopyStringToPChar(csvstr, _out, _outsize);
+  finally
+    DEH_ShutDown;
+  end;
+  Info_ShutDown;
+end;
+
+{$IFDEF DOOM}
+procedure dd_getstatescsv_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getstatescsv_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getstatescsv_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getstatescsv_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+var
+  csvstr: string;
+  lst: TDStringList;
+begin
+  Info_Init(true);
+  DEH_Init;
+  try
+    lst := DEH_StatesCSV;
+    csvstr := lst.Text;
+    lst.Free;
+    DD_CopyStringToPChar(csvstr, _out, _outsize);
+  finally
+    DEH_ShutDown;
+  end;
+  Info_ShutDown;
+end;
+
+{$IFDEF DOOM}
+procedure dd_getspritescsv_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getspritescsv_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getspritescsv_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getspritescsv_strife(
+{$ENDIF}
+  var _out: PChar; var _outsize: Integer); stdcall;
+var
+  csvstr: string;
+  lst: TDStringList;
+begin
+  Info_Init(true);
+  DEH_Init;
+  try
+    lst := DEH_SpritesCSV;
+    csvstr := lst.Text;
+    lst.Free;
+    DD_CopyStringToPChar(csvstr, _out, _outsize);
+  finally
+    DEH_ShutDown;
+  end;
+  Info_ShutDown;
 end;
 
 end.

@@ -99,7 +99,7 @@ Function parameters in ACTORDEF evaluate expressions using C style operators.
      SPAWN SEE MELEE MISSILE PAIN DEATH XDEATH HEAL CRASH INTERACT (Doom and Strife branch only) RAISE
 Added "freeze" console command, freezes the game, stop all thinkers, stop all scripts. Allow only the players to move. It has no effect while demo playback/record.
 Added A_JumpIf ACTORDEF function.
-Dynamic lights in software rendering (using GLDEFS).
+Dynamic lights in software rendering (using LIGHTDEF lump).
 Indivitual entries in the defaults file for OpenGL & software screen size.
 Added r_uselightmaps, lightmapcolorintensity and lightwidthfactor console variables.
 If an unknown map thing is detected it will not exit with I_Error, it will generate a warning instead and will spawn a questionmark.
@@ -109,6 +109,25 @@ Added -noactordef command line parameter, when you run with this parameter it wi
 Support for fullscreen patches with resolution greater than 320x200.
 Support for tall patches.
 Added 'INITIAL BULLETS' and 'BFG CELLS/SHOT' dehacked fields.
+PUSHFACTOR, SCALE and GRAVITY fields for actor instances. 
+ PascalScript new functions:
+  - PS_GetActorPushFactor & PS_SetActorPushFactor
+  - PS_GetActorScale & PS_SetActorScale
+  - PS_GetActorGravity & PS_SetActorGravity
+ ACTORDEF evaluates in function parameters the fields pushfactor, scale and gravity.
+ ACTORDEF new functions:
+  - A_SetPushFactor
+  - A_SetScale
+  - A_SetGravity
+Added r_lightmapfadeoutfunc console variable, change the fadeout function of software dynamic lights (linear, curved, persist, cosine and sigmoid). Can be set from the menu (Options/Display/Advanced/Lightmap).
+Added r_bltasync console variable, when true (default) it will blit the frame to the DirectDrawBuffer asynchronously (software renderer). Can be configured from the Menu (Options/Display/Advanced)
+Added DEH_SaveStatesCSV and BEX_SaveStatesCSV console commands, save states information to a csv file.
+Added DEH_SaveSpritesCSV and BEX_SaveSpritesCSV console commands, save sprite names to a csv file.
+Light definitions inside LIGHTDEF lump will overwrite previous light declarations.
+Added r_generatespritesfromvoxels console variable. When true (default) it will generate sprites for voxels without a corresponding sprite.
+Added allowvanillademos console variable, when true (default) will play vanilla demos. 
+Added VANILLA_DEMO_OFF directive. It can be placed in ACTORDEF, MODELDEF, VOXELDEF?, LIGHTDEF & SNDINFO lumps and will prevent the engine to play vanilla demos. The setting is not preserved in defaults file and the modders should use this if their mod breaks vanilla demo compatibility.
+Fixed uncapped framerate glitch in teleporting monsters.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

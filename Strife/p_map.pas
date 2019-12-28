@@ -283,6 +283,7 @@ begin
     R_SetInterpolateSkipTicks(1);
 
   thing.flags2_ex := thing.flags2_ex or MF2_EX_JUSTAPPEARED;
+  thing.intrplcnt := 0;
 
   result := true;
 end;
@@ -626,7 +627,7 @@ begin
   // JVAL: Pushable things
   if (thing.flags2_ex and MF2_EX_PUSHABLE <> 0) and (tmthing.flags2_ex and MF2_EX_CANNOTPUSH = 0) then
   begin // Push thing
-    pushfactor := thing.info.pushfactor;
+    pushfactor := thing.pushfactor;
     if pushfactor <= 0 then
     begin
       thing.momx := thing.momx + tmthing.momx div 4;

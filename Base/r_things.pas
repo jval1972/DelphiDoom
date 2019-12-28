@@ -1247,7 +1247,7 @@ begin
     end;
   end;
 
-  infoscale := thing.info.scale;
+  infoscale := thing.scale;
   soffset := FixedMul(spriteoffset[lump], infoscale);
   tx := tx - soffset;
   x1 := FixedInt(centerxfrac + FixedMul(tx, xscale));
@@ -1326,12 +1326,7 @@ begin
   {$IFDEF HERETIC_OR_HEXEN}
   vis.mobjflags2 := thing.flags2;
   {$ENDIF}
-  {$IFDEF DOOM_OR_HERETIC}
-  vis.mobjflags_ex := thing.flags_ex or thing.state.flags_ex; // JVAL: extended flags passed to vis
-  {$ENDIF}
-  {$IFDEF STRIFE}
-  vis.mobjflags_ex := thing.flags_ex; // JVAL: extended flags passed to vis
-  {$ENDIF}
+  vis.mobjflags_ex := thing.flags_ex{$IFNDEF STRIFE} or thing.state.flags_ex{$ENDIF}; // JVAL: extended flags passed to vis
   vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
   vis.mo := thing;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
@@ -1776,6 +1771,7 @@ begin
   memsetsi(@cliptop[spr.x1], - 2, size);
 
   R_GetDrawsegsForVissprite(spr, fdrawsegs, fds_p);
+
   // Scan drawsegs from end to start for obscuring segs.
   // The first drawseg that has a greater scale
   //  is the clip seg.

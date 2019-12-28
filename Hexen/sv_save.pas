@@ -1215,6 +1215,8 @@ begin
       mobj.scale := FRACUNIT;
       mobj.pushfactor := FRACUNIT div 4;
       mobj.gravity := FRACUNIT;
+      mobj.flags3_ex := 0;
+      mobj.flags4_ex := 0;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1227,6 +1229,8 @@ begin
       mobj.scale := FRACUNIT;
       mobj.pushfactor := FRACUNIT div 4;
       mobj.gravity := FRACUNIT;
+      mobj.flags3_ex := 0;
+      mobj.flags4_ex := 0;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1237,6 +1241,8 @@ begin
       mobj.scale := FRACUNIT;
       mobj.pushfactor := FRACUNIT div 4;
       mobj.gravity := FRACUNIT;
+      mobj.flags3_ex := 0;
+      mobj.flags4_ex := 0;
     end
     else
     begin

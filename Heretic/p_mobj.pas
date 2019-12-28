@@ -991,6 +991,11 @@ begin
   mobj.flags2 := info.flags2;
   mobj.flags_ex := info.flags_ex;
   mobj.flags2_ex := info.flags2_ex;
+  mobj.flags3_ex := info.flags3_ex;
+  mobj.flags4_ex := info.flags4_ex;
+  mobj.scale := info.scale;
+  mobj.gravity := info.gravity;
+  mobj.pushfactor := info.pushfactor;
   mobj.damage := info.damage;
   mobj.renderstyle := info.renderstyle;
   mobj.alpha := info.alpha;

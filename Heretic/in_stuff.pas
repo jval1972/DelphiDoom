@@ -1022,7 +1022,7 @@ begin
       begin
         if gameepisode < 4 then
         begin
-          V_DrawPatch(0, 0, SCN_TMP, patchINTERPIC, false);
+          V_DrawPatchFullScreenTMP320x200(patchINTERPIC);
           IN_DrawOldLevel;
         end;
       end;
@@ -1030,14 +1030,14 @@ begin
       begin
         if gameepisode < 4 then
         begin
-          V_DrawPatch(0, 0, SCN_TMP, patchINTERPIC, false);
+          V_DrawPatchFullScreenTMP320x200(patchINTERPIC);
           IN_DrawYAH;
         end;
       end;
     3: // waiting before going to the next level
       begin
         if gameepisode < 4 then
-          V_DrawPatch(0, 0, SCN_TMP, patchINTERPIC, false);
+          V_DrawPatchFullScreenTMP320x200(patchINTERPIC);
       end;
    else
      I_Error('IN_Drawer(): Intermission state (%d) out of range.', [interstate]);

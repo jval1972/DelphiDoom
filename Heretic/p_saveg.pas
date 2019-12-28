@@ -593,6 +593,8 @@ begin
             mobj.scale := FRACUNIT;
             mobj.pushfactor := FRACUNIT div 4;
             mobj.gravity := FRACUNIT;
+            mobj.flags3_ex := 0;
+            mobj.flags4_ex := 0;
           end
           else if savegameversion = VERSION114 then
           begin
@@ -605,6 +607,8 @@ begin
             mobj.scale := FRACUNIT;
             mobj.pushfactor := FRACUNIT div 4;
             mobj.gravity := FRACUNIT;
+            mobj.flags3_ex := 0;
+            mobj.flags4_ex := 0;
           end
           else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
           begin
@@ -629,6 +633,8 @@ begin
             mobj.scale := FRACUNIT;
             mobj.pushfactor := FRACUNIT div 4;
             mobj.gravity := FRACUNIT;
+            mobj.flags3_ex := 0;
+            mobj.flags4_ex := 0;
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -701,6 +707,8 @@ begin
             mobj.scale := FRACUNIT;
             mobj.pushfactor := FRACUNIT div 4;
             mobj.gravity := FRACUNIT;
+            mobj.flags3_ex := 0;
+            mobj.flags4_ex := 0;
 
             Z_Free(mobj111);
           end

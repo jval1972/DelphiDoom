@@ -38,6 +38,8 @@ interface
 uses
   d_delphi;
 
+procedure SC_ParseSndInfoLumps;
+
 procedure SC_ParseActordefLumps;
 
 procedure SC_ParseActordefLump(const in_text: string);
@@ -52,6 +54,7 @@ implementation
 
 uses
   d_main,
+  deh_base,
   deh_main,
   m_fixed,
   i_system,
@@ -1042,7 +1045,10 @@ var
     res := '';
 
     if mobj.replacesid >= 0 then
-      AddRes('Thing ' + itoa(mobj.replacesid + 1)) // JVAL DEH patches start Think numbers from 1
+    begin
+      AddRes('Thing ' + itoa(mobj.replacesid + 1)); // JVAL DEH patches start Think numbers from 1
+      Info_AddMobjNameAlias(mobj.name, Info_GetMobjName(mobj.replacesid));
+    end
     else
       AddRes('NewThing ' + mobj.name);
     if mobj.inheritsfrom <> '' then
@@ -1073,6 +1079,7 @@ var
     AddMobjStateRes(mobj.interactstate, 'Interact');
     {$ENDIF}
     AddRes('Death Sound = ' + SC_SoundAlias(mobj.deathsound));
+    ismissile := Pos('MF_MISSILE', mobj.flags) > 0;
     if ismissile then
       if mobj.speed < 2048 then // JVAL fix me
         mobj.speed := mobj.speed * FRACUNIT;
@@ -1106,6 +1113,7 @@ var
     AddRes('missileheight = ' + itoa(mobj.missileheight));
     {$ENDIF}
     AddRes('Scale = ' + itoa(round(mobj.scale * FRACUNIT)));
+    AddRes('gravity = ' + itoa(round(mobj.gravity * FRACUNIT)));
     AddRes('');
 
     if numstates > 0 then
@@ -1142,6 +1150,7 @@ var
         {$IFNDEF STRIFE}
         AddRes('Flags_ex = 0');
         {$ENDIF}
+        AddRes('Owner = ' + mobj.name);
         AddRes('');
       end;
       AddRes('');
@@ -1157,7 +1166,7 @@ var
       printf(res);
       printf('--------'#13#10);
     end;
-    DEH_Parse(res);
+    DEH_ParseText(res);
   end;
 
   procedure DoParseInlineScript(const typ: psscripttype_t);
@@ -1236,7 +1245,7 @@ var
   begin
     lst := sc.GetTokensEOL;
     for i := 0 to lst.Count - 1 do
-      DEH_Parse(PAK_ReadFileAsString(lst.Strings[i]));
+      DEH_ParseText(PAK_ReadFileAsString(lst.Strings[i]));
     lst.Free;
   end;
 
@@ -1247,7 +1256,7 @@ var
   begin
     lst := sc.GetTokensEOL;
     for i := 0 to lst.Count - 1 do
-      DEH_Parse(PAK_ReadAllFilesAsString(lst.Strings[i]));
+      DEH_ParseText(PAK_ReadAllFilesAsString(lst.Strings[i]));
     lst.Free;
   end;
 
@@ -1453,6 +1462,8 @@ begin
       mobj.name2 := '';
       {$ENDIF}
       mobj.scale := 1.0;
+      mobj.pushfactor := 0.25; {DEFPUSHFACTOR / FRACUNIT;}
+      mobj.gravity := 1.0;
       mobj.replacesid := -1;
       ismissile := false;
       FillChar(m_states, SizeOf(m_states), 0);
@@ -1601,7 +1612,7 @@ begin
       foundstates := false;
       repeat
         {$IFDEF STRIFE}
-        if sc.MatchString('name') then
+        if sc.MatchString('name') or sc.MatchString('strifename') then
         begin
           sc.GetString;
           mobj.name2 := sc._String;
@@ -1747,6 +1758,16 @@ begin
         begin
           sc.GetFloat;
           mobj.scale := sc._float;
+          if mobj.scale > 64 then
+            mobj.scale := mobj.scale / FRACUNIT;
+          sc.GetString;
+        end
+        else if sc.MatchString('gravity') then
+        begin
+          sc.GetFloat;
+          mobj.gravity := sc._float;
+          if mobj.gravity > 64 then
+            mobj.gravity := mobj.gravity / FRACUNIT;
           sc.GetString;
         end
         else if sc.MatchString('speed') then
@@ -2036,20 +2057,15 @@ begin
   SC_DoRetrieveSndInfo(SC_Preprocess(in_text, false));
 end;
 
-
-procedure SC_ParseActordefLumps;
+procedure SC_ParseSndInfoLumps;
 var
-  i: integer;
+  i, p: integer;
   s: TDStringList;
-  stmp: string;
-  str1, str2: string;
-  p: integer;
+  str1, str2, stmp: string;
   {$IFDEF HEXEN}
   j, mapid: integer;
   {$ENDIF}
-  lumplist: TDNumberList;
 begin
-  SC_ParseStatedefLump;
 // JVAL
 // Retrive sndinfo lumps for sound alias list
   sound_tx := '';
@@ -2116,6 +2132,14 @@ begin
   finally
     s.Free;
   end;
+end;
+
+procedure SC_ParseActordefLumps;
+var
+  i: integer;
+  lumplist: TDNumberList;
+begin
+  SC_ParseStatedefLump;
 
   {$IFNDEF FPC}
   SUC_Disable;

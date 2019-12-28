@@ -31,6 +31,7 @@ unit info_common;
 interface
 
 uses
+  d_delphi,
   info_h;
 
 function Info_GetMobjNumForDoomNum(const dn: integer): integer;
@@ -63,10 +64,15 @@ function Info_GetInheritance(const imo: Pmobjinfo_t): integer;
 
 function Info_AddMobjNameAlias(const alias1: string; const alias2: string): boolean;
 
+function Info_GetStatesForMobjInfo(const mobjno: integer): TDNumberList;
+
+procedure Info_AddStateOwner(const st: Pstate_t; const moidx: integer);
+
+procedure Info_InitStateOwners;
+
 implementation
 
 uses
-  d_delphi,
   i_system,
   info;
 
@@ -399,6 +405,8 @@ begin
   begin
     if states[i].params <> nil then
       FreeAndNil(states[i].params);
+    if states[i].owners <> nil then
+      FreeAndNil(states[i].owners);
     if states[i].dlights <> nil then
       FreeAndNil(states[i].dlights);
 {$IFDEF OPENGL}
@@ -445,6 +453,87 @@ begin
   if result = -1 then
     result :=  (integer(imo) - integer(@mobjinfo[0])) div SizeOf(mobjinfo_t);
 
+end;
+
+function Info_GetStatesForMobjInfo(const mobjno: integer): TDNumberList;
+var
+  N: TDNumberList;
+  st: integer;
+
+  procedure _AddStates(stnum: integer);
+  var
+    i: integer;
+  begin
+    for i := 0 to numstates - 1 do
+    begin
+      if N.IndexOf(stnum) >= 0 then
+        exit
+      else
+      begin
+        if stnum <= 0 then
+          exit;
+        N.Add(stnum);
+        stnum := Ord(states[stnum].nextstate);
+        if stnum <= 0 then
+          exit;
+      end;
+    end;
+  end;
+
+begin
+  N := TDNumberList.Create;
+  if mobjno < 0 then
+  begin
+    result := N;
+    exit;
+  end;
+
+  _AddStates(mobjinfo[mobjno].spawnstate);
+  _AddStates(mobjinfo[mobjno].seestate);
+  _AddStates(mobjinfo[mobjno].painstate);
+  _AddStates(mobjinfo[mobjno].meleestate);
+  _AddStates(mobjinfo[mobjno].missilestate);
+  _AddStates(mobjinfo[mobjno].deathstate);
+  _AddStates(mobjinfo[mobjno].xdeathstate);
+  _AddStates(mobjinfo[mobjno].raisestate);
+  _AddStates(mobjinfo[mobjno].healstate);
+  _AddStates(mobjinfo[mobjno].crashstate);
+  {$IFDEF DOOM_OR_STRIFE}
+  _AddStates(mobjinfo[mobjno].interactstate);
+  {$ENDIF}
+
+  for st := 0 to numstates - 1 do
+    if states[st].owners <> nil then
+      if N.IndexOf(st) < 0 then
+        if states[st].owners.IndexOf(mobjno) >= 0 then
+          N.Add(st);
+
+  result := N;
+end;
+
+procedure Info_AddStateOwner(const st: Pstate_t; const moidx: integer);
+begin
+  if (moidx < 0) or (moidx >= nummobjtypes) then
+    exit;
+
+  if st.owners = nil then
+    st.owners := TDNumberList.Create;
+  if st.owners.IndexOf(moidx) < 0 then
+    st.owners.Add(moidx);
+end;
+
+procedure Info_InitStateOwners;
+var
+  N: TDNumberList;
+  i, j: integer;
+begin
+  for i := 0 to nummobjtypes - 1 do
+  begin
+    N := Info_GetStatesForMobjInfo(i);
+    for j := 0 to N.Count - 1 do
+      Info_AddStateOwner(@states[N.Numbers[j]], i);
+    N.Free;
+  end;
 end;
 
 end.

@@ -137,6 +137,12 @@ procedure V_DrawPatchZoomed(x, y: integer; scrn: integer; patch: Ppatch_t; prese
 
 procedure V_DrawPatchFlipped(x, y: integer; scrn: integer; patch: Ppatch_t);
 
+procedure V_DrawPatchFullScreenTMP320x200(p: Ppatch_t); overload;
+
+procedure V_DrawPatchFullScreenTMP320x200(const pname: string); overload;
+
+procedure V_DrawPatchFullScreenTMP320x200(const lump: integer); overload;
+
 procedure V_PageDrawer(const pagename: string);
 
 // Draw a linear block of pixels into the view buffer.
@@ -2231,7 +2237,7 @@ begin
     {$IFDEF HEXEN}
     I_DevError('V_CopyRawDataToScreen(): Lump "%s" has invalid size: %d (does not have 320x200 size).'#13#10, [lumpname, len]);
     {$ELSE}
-    V_DrawPatch(0, 0, SCN_TMP, lumpname, false);
+    V_DrawPatchFullScreenTMP320x200(lumpname);
     V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, scrn, true);
     exit;
     {$ENDIF}
@@ -3480,6 +3486,82 @@ begin
   end;
 end;
 
+procedure V_ScaleBuffer8(var FData: pointer; const FWidth, FHeight: integer; const AWidth, AHeight: integer);
+var
+  xs, ys, xi, yi, x, y: integer;
+  newimage: pointer;
+  edi, esi: PByteArray;
+begin
+  if (AWidth = FWidth) and (AHeight = FHeight) then
+    exit;
+
+  xi := (FWidth shl 16) div AWidth;
+  yi := (FHeight shl 16) div AHeight;
+  newimage := malloc(AWidth * AHeight);
+  edi := newimage;
+  ys := 0;
+  for y := 0 to AHeight - 1 do
+  begin
+    esi := @PByteArray(FData)[(ys shr 16) * fWidth];
+    xs := 0;
+    for x := 0 to AWidth - 1 do
+    begin
+      edi[x] := esi[xs shr 16];
+      xs := xs + xi;
+    end;
+    edi := @edi[AWidth];
+    ys := ys + yi;
+  end;
+  memfree(FData, FWidth * FHeight);
+  FData := newimage;
+end;
+
+procedure V_DrawPatchFullScreenTMP320x200(p: Ppatch_t);
+var
+  oldscreen, newscreen: PByteArray;
+begin
+  if (p.width = 320) and (p.height = 200) then
+  begin
+    V_DrawPatch8(0, 0, SCN_TMP, p, false);
+    exit;
+  end;
+
+  oldscreen := screens[SCN_TMP];
+  screendimentions[SCN_TMP].width := p.width;
+  screendimentions[SCN_TMP].height := p.height;
+
+  newscreen := mallocz(p.width * p.height);
+  screens[SCN_TMP] := newscreen;
+
+  V_DrawPatch(0, 0, SCN_TMP, p, false);
+
+  V_ScaleBuffer8(pointer(screens[SCN_TMP]), p.width, p.height, 320, 200);
+  memcpy(oldscreen, screens[SCN_TMP], 320 * 200);
+
+  memfree(pointer(screens[SCN_TMP]), 320 * 200);
+  screens[SCN_TMP] := oldscreen;
+  screendimentions[SCN_TMP].width := 320;
+  screendimentions[SCN_TMP].height := 200;
+end;
+
+procedure V_DrawPatchFullScreenTMP320x200(const pname: string); overload;
+var
+  p: Ppatch_t;
+begin
+  p := W_CacheLumpName(pname, PU_STATIC);
+  V_DrawPatchFullScreenTMP320x200(p);
+  Z_ChangeTag(p, PU_CACHE);
+end;
+
+procedure V_DrawPatchFullScreenTMP320x200(const lump: integer); overload;
+var
+  p: Ppatch_t;
+begin
+  p := W_CacheLumpNum(lump, PU_STATIC);
+  V_DrawPatchFullScreenTMP320x200(p);
+  Z_ChangeTag(p, PU_CACHE);
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 procedure V_PageDrawer(const pagename: string);
 var
@@ -3508,20 +3590,27 @@ begin
     screens[SCN_TMP] := newscreen;
 
     V_DrawPatch(0, 0, SCN_TMP, p, false);
-    V_CopyRect(0, 0, SCN_TMP, p.width, p.height, 0, 0, SCN_FG, true);
 
+    if (p.width > SCREENWIDTH) or (p.height > SCREENHEIGHT) then
+    begin
+      V_ScaleBuffer8(pointer(screens[SCN_TMP]), p.width, p.height, SCREENWIDTH, SCREENHEIGHT);
+      screendimentions[SCN_TMP].width := SCREENWIDTH;
+      screendimentions[SCN_TMP].height := SCREENHEIGHT;
+    end;
+
+    V_CopyRect(0, 0, SCN_TMP, screendimentions[SCN_TMP].width, screendimentions[SCN_TMP].height, 0, 0, SCN_FG, true);
+
+    memfree(pointer(screens[SCN_TMP]), screendimentions[SCN_TMP].width * screendimentions[SCN_TMP].height);
     screens[SCN_TMP] := oldscreen;
     screendimentions[SCN_TMP].width := oldw;
     screendimentions[SCN_TMP].height := oldh;
-    memfree(pointer(newscreen), p.width * p.height);
-
-    Z_ChangeTag(p, PU_CACHE);
   end
   else
   begin
     V_DrawPatch(0, 0, SCN_TMP, p, false);
     V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
   end;
+  Z_ChangeTag(p, PU_CACHE);
   V_FullScreenStretch;
 end;
 {$ELSE}

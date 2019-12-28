@@ -298,6 +298,12 @@ procedure A_ScaleVelocity(actor: Pmobj_t);
 
 procedure A_ChangeVelocity(actor: Pmobj_t);
 
+procedure A_SetPushFactor(actor: Pmobj_t);
+
+procedure A_SetScale(actor: Pmobj_t);
+
+procedure A_SetGravity(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3135,6 +3141,31 @@ begin
     actor.momz := actor.momz + vz;
   end;
 end;
+
+procedure A_SetPushFactor(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.pushfactor := actor.state.params.FixedVal[0];
+end;
+
+procedure A_SetScale(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.scale := actor.state.params.FixedVal[0];
+end;
+
+procedure A_SetGravity(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.gravity := actor.state.params.FixedVal[0];
+end;
+
 
 end.
 

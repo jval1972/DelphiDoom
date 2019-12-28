@@ -620,7 +620,7 @@ var
   patch: Ppatch_t;
 begin
   // erase the entire screen to a background
-  V_DrawPatch(0, 0, SCN_TMP, bgcastcall, false);
+  V_DrawPatchFullScreenTMP320x200(bgcastcall);
 
   F_CastPrint(castorder[castnum].name);
 

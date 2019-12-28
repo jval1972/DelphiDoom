@@ -41,6 +41,9 @@ implementation
 uses
   d_delphi,
   i_system,
+  {$IFDEF DOOM}
+  g_game,
+  {$ENDIF}
   sc_engine,
   w_pak;
 
@@ -120,6 +123,10 @@ var
           end;
         end;
       end
+      {$IFDEF DOOM}
+      else if (strupper(strtrim(str)) = 'VANILLA_DEMO_OFF') or (strupper(strtrim(str)) = '#VANILLA_DEMO_OFF') or (strupper(strtrim(str)) = '{$VANILLA_DEMO_OFF}') then
+        vanilla_demo_off := true
+      {$ENDIF}
       else
         result := result + str1 + #13#10;
     end;

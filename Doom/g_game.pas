@@ -251,6 +251,8 @@ var
 
 var
   p_initialbullets: integer = 50;
+  allowvanillademos: boolean = true;
+  vanilla_demo_off: boolean = false;
 
 implementation
 
@@ -2854,8 +2856,13 @@ begin
     demoversion := demobuffer[0];
     olddemo := (demoversion <= 110) and (demoversion >= 109);
     if olddemo then
-      I_Warning('G_DoPlayDemo(): Playing demo from partial compatible version = %d.%d'#13#10,
-        [demo_p[0] div 100, demo_p[0] mod 100])
+    begin
+      if allowvanillademos and not vanilla_demo_off then
+        I_Warning('G_DoPlayDemo(): Playing demo from partial compatible version = %d.%d'#13#10,
+          [demo_p[0] div 100, demo_p[0] mod 100])
+      else
+        exit;
+    end
     else if demo_p[0] <> VERSION then
     begin
       I_Warning('G_DoPlayDemo(): Demo is from an unsupported game version = %d.%d'#13#10,

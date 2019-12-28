@@ -410,7 +410,7 @@ var
 
 procedure WI_slamBackground;
 begin
-  V_DrawPatch(0, 0, SCN_TMP, wibackground, false);
+  V_DrawPatchFullScreenTMP320x200(wibackground);
 end;
 
 // The ticker is used to detect keys

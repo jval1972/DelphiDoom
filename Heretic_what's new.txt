@@ -105,6 +105,23 @@ Added MF2_EX_NOHITFLOOR mobj flag.
 Added DONTSPLASH alias for NOHITFLOOR flag.
 Added -noactordef command line parameter, when you run with this parameter it will not parse ACTORDEF lumps.
 Support for tall patches.
+PUSHFACTOR, SCALE and GRAVITY fields for actor instances. 
+ PascalScript new functions:
+  - PS_GetActorPushFactor & PS_SetActorPushFactor
+  - PS_GetActorScale & PS_SetActorScale
+  - PS_GetActorGravity & PS_SetActorGravity
+ ACTORDEF evaluates in function parameters the fields pushfactor, scale and gravity.
+ ACTORDEF new functions:
+  - A_SetPushFactor
+  - A_SetScale
+  - A_SetGravity
+Added r_lightmapfadeoutfunc console variable, change the fadeout function of software dynamic lights (linear, curved, persist and cosine). Can be set from the menu (Options/Display/Advanced/Lightmap).
+Added r_bltasync console variable, when true (default) it will blit the frame to the DirectDrawBuffer asynchronously (software renderer). Can be configured from the Menu (Options/Display/Advanced)
+Added DEH_SaveStatesCSV and BEX_SaveStatesCSV console commands, save states information to a csv file.
+Added DEH_SaveSpritesCSV and BEX_SaveSpritesCSV console commands, save sprite names to a csv file.
+Light definitions inside LIGHTDEF lump will overwrite previous light declarations.
+Added r_generatespritesfromvoxels console variable. When true (default) it will generate sprites for voxels without a corresponding sprite.
+Fixed uncapped framerate glitch in teleporting monsters.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

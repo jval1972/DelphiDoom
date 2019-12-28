@@ -689,6 +689,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     Z_Free(mobj113);
     result := true
@@ -757,6 +759,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     Z_Free(mobj114);
     result := true
@@ -825,6 +829,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     Z_Free(mobj115);
     result := true
@@ -893,6 +899,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     Z_Free(mobj117);
     result := true
@@ -961,6 +969,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     Z_Free(mobj118);
     result := true;
@@ -986,6 +996,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     result := true;
   end
@@ -999,6 +1011,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     result := true;
   end
@@ -1011,6 +1025,8 @@ begin
     mobj.scale := FRACUNIT;
     mobj.pushfactor := FRACUNIT div 4;
     mobj.gravity := FRACUNIT;
+    mobj.flags3_ex := 0;
+    mobj.flags4_ex := 0;
 
     result := true;
   end

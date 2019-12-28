@@ -59,6 +59,15 @@ const
 
 var
   r_uselightmaps: boolean = true;
+  r_lightmapfadeoutfunc: integer = 0;
+
+const
+  LIGHTMAPFADEOUT_LINEAR = 0;
+  LIGHTMAPFADEOUT_CURVED = 1;
+  LIGHTMAPFADEOUT_PERSIST = 2;
+  LIGHTMAPFADEOUT_COSINE = 3;
+  LIGHTMAPFADEOUT_SIGMOID = 4;
+  NUMLIGHTMAPFADEOUTFUNCS = 5;
 
 procedure R_InitLightTexture;
 
@@ -68,6 +77,7 @@ implementation
 
 uses
   d_delphi,
+  Math,
   doomdef,
   m_fixed,
   mt_utils,
@@ -102,6 +112,20 @@ var
   i, j: integer;
   dist: double;
   c: integer;
+
+  function _sigmoid(const x: integer): integer;
+  var
+    f: single;
+  begin
+    if x <= 70 then
+      result := round(x / 4)
+    else
+    begin
+      f := (x - 128) / 128 * 4.9065;
+      result := ibetween(127 + trunc(164 * arctan(tanh(f / 2))+0.778), -255, 255);
+    end;
+  end;
+
 begin
   if lighttexture = nil then
     lighttexture := PLongWordArray(malloc(LIGHTTEXTURESIZE * LIGHTTEXTURESIZE * SizeOf(LongWord)));
@@ -115,11 +139,19 @@ begin
       if dist <= (LIGHTTEXTURESIZE shr 1) then
       begin
         inc(lightexturelookup[i].length);
-        c := round(dist * 4);
+        c := round(dist * 512 / LIGHTTEXTURESIZE);
         if c > 255 then
           c := 0
+        else if r_lightmapfadeoutfunc = LIGHTMAPFADEOUT_LINEAR then
+          c := 255 - c
+        else if r_lightmapfadeoutfunc = LIGHTMAPFADEOUT_CURVED then
+          c := ibetween(round(255 - c * sqrt(c) / 16), 0, 255)
+        else if r_lightmapfadeoutfunc = LIGHTMAPFADEOUT_PERSIST then
+          c := ibetween(round(255 - c * c / 256), 0, 255)
+        else if r_lightmapfadeoutfunc = LIGHTMAPFADEOUT_SIGMOID then
+          c := _sigmoid(255 - c)
         else
-          c := 255 - c;
+          c := ibetween(round(255 * cos(c / 256 * pi / 2)), 0, 255);
         lighttexture[i * LIGHTTEXTURESIZE + j] := c * lightmapcolorintensity;
         if j < lightexturelookup[i].topdelta then
           lightexturelookup[i].topdelta := j;
@@ -150,12 +182,12 @@ var
   dx, dy, dz: single;
   xdist, ydist, zdist: single;
   psl: Pdlsortitem_t;
-  dlights: TDNumberList;
+  dlights: T2DNumberList;
 begin
+  if mo.lightvalidcount = rendervalidcount then
+    exit;
   dlights := mo.state.dlights;
   if dlights = nil then
-    exit;
-  if mo.lightvalidcount = rendervalidcount then
     exit;
   mo.lightvalidcount := rendervalidcount;
 
@@ -164,30 +196,31 @@ begin
   zdist := (viewz - mo.z) / FRACUNIT;
 
   for i := 0 to dlights.Count - 1 do
-  begin
-    l := R_GetDynamicLight(dlights.Numbers[i]);
-    if numdlitems >= realdlitems then
+    if (dlights.Numbers[i].num1 = mo._type) or (dlights.Numbers[i].num1 = -1) then
     begin
-      realloc(pointer(dlbuffer), realdlitems * SizeOf(dlsortitem_t), (realdlitems + 32) * SizeOf(dlsortitem_t));
-      realdlitems := realdlitems + 32;
-    end;
+      l := R_GetDynamicLight(dlights.Numbers[i].num2);
+      if numdlitems >= realdlitems then
+      begin
+        realloc(pointer(dlbuffer), realdlitems * SizeOf(dlsortitem_t), (realdlitems + 32) * SizeOf(dlsortitem_t));
+        realdlitems := realdlitems + 32;
+      end;
 
-    psl := @dlbuffer[numdlitems];
-    psl.l := l;
-    // Convert offset coordinates from LIGHTDEF lump
-    dx := xdist - l.x;
-    dy := ydist - l.z;
-    dz := zdist - l.y;
-    psl.squaredist := dx * dx + dy * dy + dz * dz;
-    if psl.squaredist < MAXSQRLIGHTDISTANCE then
-    begin
-      psl.x := mo.x + trunc(FRACUNIT * l.x);
-      psl.y := mo.y + trunc(FRACUNIT * l.z);
-      psl.z := mo.z + trunc(FRACUNIT * l.y);
-      psl.radius := trunc(l.radius * FRACUNIT);
-      inc(numdlitems);
+      psl := @dlbuffer[numdlitems];
+      psl.l := l;
+      // Convert offset coordinates from LIGHTDEF lump
+      dx := xdist - l.x;
+      dy := ydist - l.z;
+      dz := zdist - l.y;
+      psl.squaredist := dx * dx + dy * dy + dz * dz;
+      if psl.squaredist < MAXSQRLIGHTDISTANCE then
+      begin
+        psl.x := mo.x + trunc(FRACUNIT * l.x);
+        psl.y := mo.y + trunc(FRACUNIT * l.z);
+        psl.z := mo.z + trunc(FRACUNIT * l.y);
+        psl.radius := trunc(l.radius * FRACUNIT);
+        inc(numdlitems);
+      end;
     end;
-  end;
 end;
 
 function RIT_AddAdditionalLights(mo: Pmobj_t): boolean;
@@ -751,14 +784,17 @@ end;
 var
   old_lightmapcolorintensity: integer = -1;
   old_lightwidthfactor: integer = -1;
+  old_lightmapfadeoutfunc: integer = -1;
 
 procedure R_SetUpLightEffects;
 begin
   lightmapcolorintensity := ibetween(lightmapcolorintensity, MINLMCOLORSENSITIVITY, MAXLMCOLORSENSITIVITY);
   lightwidthfactor := ibetween(lightwidthfactor, MINLIGHTWIDTHFACTOR, MAXLIGHTWIDTHFACTOR);
-  if old_lightmapcolorintensity <> lightmapcolorintensity then
+  r_lightmapfadeoutfunc := ibetween(r_lightmapfadeoutfunc, 0, NUMLIGHTMAPFADEOUTFUNCS - 1);
+  if (old_lightmapcolorintensity <> lightmapcolorintensity) or (old_lightmapfadeoutfunc <> r_lightmapfadeoutfunc) then
   begin
     old_lightmapcolorintensity := lightmapcolorintensity;
+    old_lightmapfadeoutfunc := r_lightmapfadeoutfunc;
     R_InitLightTexture;
   end;
   if videomode = vm32bit then
@@ -810,7 +846,7 @@ end;
 
 procedure R_DrawLightSingleThread(const psl: Pdlsortitem_t);
 begin
-  if psl.vis = nil then
+  if psl.vis <> nil then
     R_DrawVisLight(psl, 0, 1);
 end;
 

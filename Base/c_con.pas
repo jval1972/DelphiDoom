@@ -875,13 +875,13 @@ end;
 procedure C_DrawConsoleBackground;
 begin
 {$IFDEF DOOM}
-  V_DrawPatch(0, 0, SCN_TMP, pg_TITLE, false);
+  V_DrawPatchFullScreenTMP320x200(pg_TITLE);
 {$ENDIF}
 {$IFDEF HERETIC_OR_HEXEN}
   V_CopyRawDataToScreen(SCN_TMP, 'TITLE');
 {$ENDIF}
 {$IFDEF STRIFE}
-  V_DrawPatch(0, 0, SCN_TMP, char8tostring(W_GetNameForNum(D_Help0Lump)), false);
+  V_DrawPatchFullScreenTMP320x200(char8tostring(W_GetNameForNum(D_Help0Lump)));
 {$ENDIF}
 
 // A little bit darker background...

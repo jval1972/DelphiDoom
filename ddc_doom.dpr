@@ -364,7 +364,8 @@ uses
   r_zbuffer in 'Base\r_zbuffer.pas',
   r_vislight in 'Base\r_vislight.pas',
   p_musinfo in 'Base\p_musinfo.pas',
-  p_levelinfo in 'Base\p_levelinfo.pas';
+  p_levelinfo in 'Base\p_levelinfo.pas',
+  deh_base in 'Base\deh_base.pas';
 
 exports
   dd_compile_doom,
@@ -376,7 +377,10 @@ exports
   dd_getdisassembly_doom,
   dd_gettypes_doom,
   dd_getevents_doom,
-  dd_getactordeffunctions_doom;
+  dd_getactordeffunctions_doom,
+  dd_getmobjinfocsv_doom,
+  dd_getstatescsv_doom,
+  dd_getspritescsv_doom;
 
 begin
 

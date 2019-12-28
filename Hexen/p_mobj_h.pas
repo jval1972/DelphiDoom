@@ -194,7 +194,7 @@ const
   // Hmm ???.
   MF_TRANSSHIFT = 26;
 
-  MF_JUSTAPPEARED = $10000000;
+  MF_JUSTAPPEARED = $40000000;
 
 const
   MF2_LOGRAV = $00000001;           // alternate gravity setting
@@ -496,6 +496,8 @@ type
     scale: integer;
     pushfactor: integer;
     gravity: integer;
+    flags3_ex: integer;   // JVAL extended flags (MF3_EX_????)
+    flags4_ex: integer;   // JVAL extended flags (MF3_EX_????)
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

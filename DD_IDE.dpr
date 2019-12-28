@@ -80,7 +80,8 @@ uses
   frm_classes in 'DD_IDE\frm_classes.pas' {Frame_Classes: TFrame},
   frm_types in 'DD_IDE\frm_types.pas' {Frame_Types: TFrame},
   SynHighlighterDDScript in 'DD_IDE\SynEdit\SynHighlighterDDScript.pas',
-  frm_actordef in 'DD_IDE\frm_actordef.pas' {Frame_Actordef: TFrame};
+  frm_actordef in 'DD_IDE\frm_actordef.pas' {Frame_Actordef: TFrame},
+  frm_mobjinfo in 'DD_IDE\frm_mobjinfo.pas' {Frame_Mobjinfo: TFrame};
 
 {$R *.res}
 

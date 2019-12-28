@@ -655,7 +655,7 @@ var
   lump_p: Plumpinfo_t;
   i: integer;
   handle: TDStream;
-  length: integer;
+  len: integer;
   fileinfo: Pfilelump_tArray;
   idx: integer;
   rtlinf: rtlinfo_t;
@@ -713,10 +713,10 @@ begin
 
   handle.Read(header, SizeOf(header));
   lumpcount := header.numlumps;
-  length := lumpcount * SizeOf(filelump_t);
-  fileinfo := malloc(length);
+  len := lumpcount * SizeOf(filelump_t);
+  fileinfo := malloc(len);
   handle.Seek(header.infotableofs, sFromBeginning);
-  handle.Read(fileinfo^, length);
+  handle.Read(fileinfo^, len);
 
   if (rtlinf.startlump >= 0) and (rtlinf.numlumps = lumpcount) then
   begin
@@ -788,6 +788,7 @@ begin
   end;
 
   W_InitLumpHash;
+  memfree(pointer(fileinfo), len);
 
 end;
 

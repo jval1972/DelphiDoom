@@ -129,6 +129,7 @@ implementation
 
 uses
   d_delphi,
+  deh_base,
   deh_main,
   doomstat,
   d_ticcmd,
@@ -1818,6 +1819,11 @@ begin
 
   SUC_Progress(31);
 
+  printf('Info_InitStateOwners(): Initialize State Owners.'#13#10);
+  Info_InitStateOwners;
+
+  SUC_Progress(32);
+
   for p := 1 to myargc do
     if (strupper(fext(myargv[p])) = '.WAD') or (strupper(fext(myargv[p])) = '.OUT') then
       D_AddFile(D_FileInDoomPath(myargv[p]));
@@ -1870,6 +1876,11 @@ begin
 
   SUC_Progress(43);
   
+  printf('SC_ParseSndInfoLumps: Parsing SNDINFO lumps.'#13#10);
+  SC_ParseSndInfoLumps;
+
+  SUC_Progress(44);
+
   p := M_CheckParm('-noactordef');
   if p <= 0 then
   begin

@@ -111,6 +111,15 @@ function PS_CheckActorFlag(const key: LongWord; const flag: LongWord): Boolean;
 procedure PS_SetActorFlag(const key: LongWord; const flag: LongWord);
 procedure PS_UnSetActorFlag(const key: LongWord; const flag: LongWord);
 
+function PS_GetActorScale(const key: LongWord): Integer;
+procedure PS_SetActorScale(const key: LongWord; const value: Integer);
+
+function PS_GetActorPushFactor(const key: LongWord): Integer;
+procedure PS_SetActorPushFactor(const key: LongWord; const value: Integer);
+
+function PS_GetActorGravity(const key: LongWord): Integer;
+procedure PS_SetActorGravity(const key: LongWord; const value: Integer);
+
 function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
@@ -520,6 +529,8 @@ function PS_GetMobjInfoVSpeed(const typ: integer): integer;
 function PS_GetMobjInfoPushFactor(const typ: integer): integer;
 
 function PS_GetMobjInfoScale(const typ: integer): integer;
+
+function PS_GetMobjInfoGravity(const typ: integer): integer;
 
 function PS_GetMobjInfoRadius(const typ: integer): integer;
 
@@ -1348,6 +1359,76 @@ begin
     Exit;
 
   flgresult.flags^ := flgresult.flags^ and not flgresult.flag;
+end;
+
+
+function PS_GetActorScale(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.scale;
+end;
+
+procedure PS_SetActorScale(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.scale := value;
+end;
+
+function PS_GetActorPushFactor(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.pushfactor;
+end;
+
+procedure PS_SetActorPushFactor(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.pushfactor := value;
+end;
+
+function PS_GetActorGravity(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.gravity;
+end;
+
+procedure PS_SetActorGravity(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.gravity := value;
 end;
 
 function PS_GetActorName(const key: LongWord): string;
@@ -2497,6 +2578,36 @@ end;
 procedure TRTLActorCustomDropItem_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorCustomDropItem(LongWord(Self));
+end;
+
+procedure TRTLActorPushFactor_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorPushFactor(LongWord(Self), T);
+end;
+
+procedure TRTLActorPushFactor_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorPushFactor(LongWord(Self));
+end;
+
+procedure TRTLActorScale_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorScale(LongWord(Self), T);
+end;
+
+procedure TRTLActorScale_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorScale(LongWord(Self));
+end;
+
+procedure TRTLActorGravity_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorGravity(LongWord(Self), T);
+end;
+
+procedure TRTLActorGravity_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorGravity(LongWord(Self));
 end;
 
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
@@ -4679,6 +4790,16 @@ begin
   Result := mobjinfo[typ].scale;
 end;
 
+function PS_GetMobjInfoGravity(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].gravity;
+end;
+
 function PS_GetMobjInfoRadius(const typ: integer): integer;
 begin
   if (typ < 0) or (typ >= nummobjtypes) then
@@ -5043,6 +5164,11 @@ begin
   T := PS_GetMobjInfoScale(Integer(Self) - 1);
 end;
 
+procedure TRTLMobjInfoItemGravity_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoGravity(Integer(Self) - 1);
+end;
+
 procedure TRTLMobjInfoItemRadius_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoRadius(Integer(Self) - 1);
@@ -5398,6 +5524,7 @@ begin
   cmobjinfoitem.RegisterProperty('VSpeed', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('PushFactor', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('Scale', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('Gravity', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -5458,6 +5585,9 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorMass_R, nil, 'Mass');
   ractor.RegisterPropertyHelper(@TRTLActorHeight_R, @TRTLActorHeight_W, 'Height');
   ractor.RegisterPropertyHelper(@TRTLActorCustomDropItem_R, @TRTLActorCustomDropItem_W, 'CustomDropItem');
+  ractor.RegisterPropertyHelper(@TRTLActorPushFactor_R, @TRTLActorPushFactor_W, 'PushFactor');
+  ractor.RegisterPropertyHelper(@TRTLActorScale_R, @TRTLActorScale_W, 'Scale');
+  ractor.RegisterPropertyHelper(@TRTLActorGravity_R, @TRTLActorGravity_W, 'Gravity');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');
@@ -5591,6 +5721,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemVSpeed_R, nil, 'VSpeed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemPushFactor_R, nil, 'PushFactor');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemScale_R, nil, 'Scale');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGravity_R, nil, 'Gravity');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemRadius_R, nil, 'Radius');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHeight_R, nil, 'Height');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMass_R, nil, 'Mass');

@@ -35,6 +35,9 @@ interface
 
 procedure VX_VoxelToSprite;
 
+var
+  r_generatespritesfromvoxels: boolean = true;
+
 implementation
 
 uses
@@ -48,11 +51,661 @@ uses
   {$ELSE}
   r_voxels,
   {$ENDIF}
+  r_defs,
   sc_engine,
+  v_video,
   w_folders,
   w_pak,
   w_wad,
   w_wadwriter;
+
+////////////////////////////////////////////////////////////////////////////////
+// TVoxelImageLoader
+const
+  MAXVOXELSIZE3D = 256;
+
+type
+  voxelbuffer3d_t = array[0..MAXVOXELSIZE3D - 1, 0..MAXVOXELSIZE3D - 1, 0..MAXVOXELSIZE3D - 1] of LongWord;
+  voxelbuffer3d_p = ^voxelbuffer3d_t;
+
+  voxelbuffer2d_t = array[0..MAXVOXELSIZE3D - 1, 0..MAXVOXELSIZE3D - 1] of LongWord;
+  voxelbuffer2d_p = ^voxelbuffer2d_t;
+
+type
+  TVoxelImageLoader = class
+  private
+    fvoxelbuffer: voxelbuffer3d_p;
+    fvoxelsize: integer;
+  protected
+    procedure Clear;
+  public
+    constructor Create; virtual;
+    destructor Destroy; override;
+    function LoadDDVOX(const vname: string): boolean;
+    function LoadKVX(const vname: string): boolean;
+    function LoadVOX(const vname: string): boolean;
+    function LoadDDMESH(const vname: string): boolean;
+    procedure CreateDoomPatch(out p: pointer; out size: integer);
+  end;
+
+constructor TVoxelImageLoader.Create;
+begin
+  fvoxelbuffer := mallocz(SizeOf(voxelbuffer3d_t));
+  fvoxelsize := 0;
+end;
+
+destructor TVoxelImageLoader.Destroy;
+begin
+  memfree(pointer(fvoxelbuffer), SizeOf(voxelbuffer3d_t));
+end;
+
+procedure TVoxelImageLoader.Clear;
+begin
+  ZeroMemory(fvoxelbuffer, SizeOf(voxelbuffer3d_t));
+end;
+
+function SwapRGB(const c: LongWord): LongWord;
+var
+  r, g, b: byte;
+begin
+  r := c shr 16;
+  g := c shr 8;
+  b := c;
+  result := b shl 16 + g shl 8 + r;
+end;
+
+function TVoxelImageLoader.LoadDDVOX(const vname: string): boolean;
+var
+  buf: TDStringList;
+  sc: TScriptEngine;
+  xx, yy, zz: integer;
+  strm: TPakStream;
+begin
+  strm := TPakStream.Create(vname, pm_prefered, gamedirectories, FOLDER_VOXELS);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  Clear;
+
+  buf := TDStringList.Create;
+  buf.LoadFromStream(strm);
+  strm.Free;
+  sc := TScriptEngine.Create(buf.Text);
+  buf.free;
+
+  sc.MustGetInteger;
+  fvoxelsize := sc._Integer;
+
+  xx := 0;
+  yy := 0;
+  zz := 0;
+  while sc.GetString do
+  begin
+    if sc.MatchString('skip') then
+    begin
+      sc.MustGetInteger;
+      inc(zz, sc._Integer);
+    end
+    else
+    begin
+      sc.UnGet;
+      sc.MustGetInteger;
+      fvoxelbuffer[xx, yy, zz] := SwapRGB(sc._Integer);
+      inc(zz);
+    end;
+    if zz = fvoxelsize then
+    begin
+      zz := 0;
+      inc(yy);
+      if yy = fvoxelsize then
+      begin
+        yy := 0;
+        inc(xx);
+        if xx = fvoxelsize then
+          Break;
+      end;
+    end;
+  end;
+
+  sc.Free;
+
+  result := true;
+end;
+
+const
+  MAXKVXSIZE = 256;
+
+type
+  kvxbuffer_t = array[0..MAXKVXSIZE - 1, 0..MAXKVXSIZE - 1, 0..MAXKVXSIZE - 1] of word;
+  kvxbuffer_p = ^kvxbuffer_t;
+
+type
+  kvxslab_t = record
+    ztop: byte;     // starting z coordinate of top of slab
+    zleng: byte;    // # of bytes in the color array - slab height
+    backfacecull: byte;  // low 6 bits tell which of 6 faces are exposed
+    col: array[0..255] of byte;// color data from top to bottom
+  end;
+  kvxslab_p = ^kvxslab_t;
+
+function TVoxelImageLoader.LoadKVX(const vname: string): boolean;
+var
+  strm: TDStream;
+  pal: array[0..255] of LongWord;
+  i: integer;
+  x1, y1, z1: integer;
+  r, g, b: byte;
+  buf: PByteArray;
+  numbytes: integer;
+  xsiz, ysiz, zsiz, xpivot, ypivot, zpivot: integer;
+  xoffset: PIntegerArray;
+  xyoffset: PSmallIntPArray;
+  voxdata: PByteArray;
+  xx, yy, zz: integer;
+  slab: kvxslab_p;
+  kvxbuffer: kvxbuffer_p;
+  voxdatasize: integer;
+  offs: integer;
+  endptr: PByte;
+  maxpal: integer;
+  cc: integer;
+  palfactor: double;
+  lump: integer;
+  len: integer;
+  s1, s2, s3: string;
+begin
+  strm := TPakStream.Create(vname, pm_prefered, gamedirectories, FOLDER_VOXELS);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    strm := TPakStream.Create(vname, pm_directory, '', FOLDER_VOXELS);
+  end;
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    s1 := fname(vname);
+    splitstring(s1, s2, s3, '.');
+    lump := W_CheckNumForName(s2, TYPE_VOXEL);
+    if lump < 0 then
+    begin
+      result := false;
+      Exit;
+    end;
+    len := W_LumpLength(lump);
+    buf := malloc(len);
+    W_ReadLump(lump, buf);
+    strm := TDMemoryStream.Create;
+    strm.Write(buf^, len);
+    strm.Seek(0, sFromBeginning);
+    memfree(pointer(buf), len);
+  end;
+
+  if strm.Size < 768 + 28 then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  Clear;
+
+  strm.Seek(768, sFromEnd);
+  maxpal := 0;
+  for i := 0 to 255 do
+  begin
+    strm.Read(r, SizeOf(Byte));
+    if r > maxpal then
+      maxpal := r;
+    strm.Read(g, SizeOf(Byte));
+    if g > maxpal then
+      maxpal := g;
+    strm.Read(b, SizeOf(Byte));
+    if b > maxpal then
+      maxpal := b;
+    pal[i] := r shl 16 + g shl 8 + b;
+    if pal[i] = 0 then
+      pal[i] := $01;
+  end;
+  if (maxpal < 255) and (maxpal > 0) then
+  begin
+    palfactor := 255 / maxpal;
+    if palfactor > 4.0 then
+      palfactor := 4.0;
+    for i := 0 to 255 do
+    begin
+      r := pal[i] shr 16;
+      g := pal[i] shr 8;
+      b := pal[i];
+      cc := round(palfactor * r);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      r := cc;
+      cc := round(palfactor * g);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      g := cc;
+      cc := round(palfactor * b);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      b := cc;
+      pal[i] := r shl 16 + g shl 8 + b;
+    end;
+  end;
+
+  strm.Seek(0, sFromBeginning);
+  strm.Read(numbytes, SizeOf(Integer));
+  strm.Read(xsiz, SizeOf(Integer));
+  strm.Read(ysiz, SizeOf(Integer));
+  strm.Read(zsiz, SizeOf(Integer));
+  strm.Read(xpivot, SizeOf(Integer));
+  strm.Read(ypivot, SizeOf(Integer));
+  strm.Read(zpivot, SizeOf(Integer));
+  xoffset := malloc((xsiz + 1) * SizeOf(Integer));
+  xyoffset := malloc(xsiz * SizeOf(PSmallIntArray));
+  for i := 0 to xsiz - 1 do
+    xyoffset[i] := malloc((ysiz + 1) * SizeOf(SmallInt));
+  strm.Read(xoffset^, (xsiz + 1) * SizeOf(Integer));
+  for i := 0 to xsiz - 1 do
+    strm.Read(xyoffset[i]^, (ysiz + 1) * SizeOf(SmallInt));
+  offs := xoffset[0];
+  voxdatasize := numbytes - 24 - (xsiz + 1) * 4 - xsiz * (ysiz + 1) * 2;
+  voxdata := malloc(voxdatasize);
+  strm.Read(voxdata^, voxdatasize);
+  strm.Free;
+
+  kvxbuffer := malloc(SizeOf(kvxbuffer_t));
+
+  for xx := 0 to xsiz - 1 do
+    for yy := 0 to ysiz - 1 do
+      for zz := 0 to zsiz - 1 do
+        kvxbuffer[xx, yy, zz] := $FFFF;
+
+  for xx := 0 to xsiz - 1 do
+  begin
+    for yy := 0 to ysiz - 1 do
+    begin
+      endptr := @voxdata[xoffset[xx] + xyoffset[xx][yy + 1] - offs];
+      slab := @voxdata[xoffset[xx] + xyoffset[xx][yy] - offs];
+      while integer(slab) < integer(endptr) do
+      begin
+        for zz := slab.ztop to slab.zleng + slab.ztop - 1 do
+          kvxbuffer[xx, yy, zz] := slab.col[zz - slab.ztop];
+        slab := kvxslab_p(integer(slab) + slab.zleng + 3);
+      end;
+    end;
+  end;
+
+  fvoxelsize := xsiz;
+  if fvoxelsize < ysiz then
+    fvoxelsize := ysiz;
+  if fvoxelsize < zsiz then
+    fvoxelsize := zsiz;
+  if fvoxelsize < 256 then
+  begin
+    inc(fvoxelsize, 2);
+    fvoxelsize := fvoxelsize and not 1;
+  end;
+
+  x1 := fvoxelsize div 2 - xpivot div 256;
+  y1 := fvoxelsize div 2 - ypivot div 256;
+  z1 := fvoxelsize - zpivot div 256; // JVAL: Align down
+  if x1 < 0 then
+    x1 := 0;
+  if y1 < 0 then
+    y1 := 0;
+  if z1 < 0 then
+    z1 := 0;
+  while x1 + xsiz >= fvoxelsize do
+      dec(x1);
+  while y1 + ysiz >= fvoxelsize do
+      dec(y1);
+  while z1 + zsiz >= fvoxelsize do
+      dec(z1);
+
+  x1 := fvoxelsize div 2 - xpivot div 256;
+  y1 := fvoxelsize div 2 - ypivot div 256;
+  z1 := fvoxelsize - zpivot div 256; // JVAL: Align down
+
+  for xx := x1 to x1 + xsiz - 1 do
+    for yy := y1 to y1 + ysiz - 1 do
+      for zz := z1 to z1 + zsiz - 1 do
+        if kvxbuffer[xx - x1, yy - y1, zz - z1] <> $FFFF then
+          fvoxelbuffer[xx, zz, fvoxelsize - yy - 1] := pal[kvxbuffer[xx - x1, yy - y1, zz - z1]];
+
+  memfree(pointer(kvxbuffer), SizeOf(kvxbuffer_t));
+
+  for i := 0 to xsiz - 1 do
+    memfree(pointer(xyoffset[i]), (ysiz + 1) * SizeOf(SmallInt));
+  memfree(pointer(xoffset), (xsiz + 1) * SizeOf(Integer));
+  memfree(pointer(xyoffset), xsiz * SizeOf(PSmallIntArray));
+  memfree(pointer(voxdata), voxdatasize);
+
+  result := true;
+end;
+
+function TVoxelImageLoader.LoadVOX(const vname: string): boolean;
+var
+  strm: TDStream;
+  pal: array[0..255] of LongWord;
+  i: integer;
+  r, g, b: byte;
+  xsiz, ysiz, zsiz: integer;
+  voxdatasize: integer;
+  voxdata: PByteArray;
+  xx, yy, zz: integer;
+  x1, y1, z1: integer;
+  s: string;
+  maxpal: integer;
+  cc: integer;
+  palfactor: double;
+begin
+  strm := TPakStream.Create(vname, pm_prefered, gamedirectories, FOLDER_VOXELS);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  if strm.Size < 768 + 12 then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  Clear;
+
+  strm.Seek(768, sFromEnd);
+  maxpal := 0;
+  for i := 0 to 255 do
+  begin
+    strm.Read(r, SizeOf(Byte));
+    if r > maxpal then
+      maxpal := r;
+    strm.Read(g, SizeOf(Byte));
+    if g > maxpal then
+      maxpal := g;
+    strm.Read(b, SizeOf(Byte));
+    if b > maxpal then
+      maxpal := b;
+    pal[i] := r shl 16 + g shl 8 + b;
+    if pal[i] = 0 then
+      pal[i] := $01;
+  end;
+  if (maxpal < 255) and (maxpal > 0) then
+  begin
+    palfactor := 255 / maxpal;
+    if palfactor > 4.0 then
+      palfactor := 4.0;
+    for i := 0 to 255 do
+    begin
+      r := pal[i] shr 16;
+      g := pal[i] shr 8;
+      b := pal[i];
+      cc := round(palfactor * r);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      r := cc;
+      cc := round(palfactor * g);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      g := cc;
+      cc := round(palfactor * b);
+      if cc < 0 then
+        cc := 0
+      else if cc > 255 then
+        cc := 255;
+      b := cc;
+      pal[i] := r shl 16 + g shl 8 + b;
+    end;
+  end;
+
+  strm.Seek(0, sFromBeginning);
+  strm.Read(xsiz, SizeOf(Integer));
+  strm.Read(ysiz, SizeOf(Integer));
+  strm.Read(zsiz, SizeOf(Integer));
+
+  if (xsiz <= 0) or (xsiz > 256) or
+     (ysiz <= 0) or (ysiz > 256) or
+     (zsiz <= 0) or (zsiz > 256) then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  fvoxelsize := xsiz;
+  if fvoxelsize < ysiz then
+    fvoxelsize := ysiz;
+  if fvoxelsize < zsiz then
+    fvoxelsize := zsiz;
+
+  voxdatasize := xsiz * ysiz * zsiz;
+  GetMem(voxdata, voxdatasize);
+  strm.Read(voxdata^, voxdatasize);
+  strm.Free;
+
+  x1 := (fvoxelsize - xsiz) div 2;
+  y1 := (fvoxelsize - ysiz) div 2;
+  z1 := (fvoxelsize - zsiz) div 2;
+
+  i := 0;
+  for xx := x1 to x1 + xsiz - 1 do
+    for yy := y1 to y1 + ysiz - 1 do
+      for zz := z1 to z1 + zsiz - 1 do
+      begin
+        if voxdata[i] <> 255 then
+          fvoxelbuffer[xx, zz, fvoxelsize - yy - 1] := pal[voxdata[i]];
+        inc(i);
+      end;
+
+  memfree(pointer(voxdata), voxdatasize);
+
+  result := true;
+end;
+
+type
+  ddmeshitem_t = packed record
+    x, y, z: byte;
+    color: LongWord;
+  end;
+  ddmeshitem_p = ^ddmeshitem_t;
+  ddmeshitem_a = array[0..$FFF] of ddmeshitem_t;
+  ddmeshitem_pa = ^ddmeshitem_a;
+
+function TVoxelImageLoader.LoadDDMESH(const vname: string): boolean;
+var
+  strm: TPakStream;
+  i: integer;
+  HDR: LongWord;
+  version: integer;
+  numquads: integer;
+  fnumvoxels: Integer;
+  buf: ddmeshitem_pa;
+  item: ddmeshitem_p;
+begin
+  strm := TPakStream.Create(vname, pm_prefered, gamedirectories, FOLDER_VOXELS);
+  if strm.IOResult <> 0 then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  strm.Read(HDR, SizeOf(LongWord));
+  if HDR <> Ord('D') + Ord('D') shl 8 + Ord('M') shl 16 + Ord('S') shl 24 then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  strm.Read(version, SizeOf(integer));
+  if version <> 1 then
+  begin
+    strm.Free;
+    result := false;
+    Exit;
+  end;
+
+  Clear;
+
+  strm.Read(fvoxelsize, SizeOf(integer));
+
+  strm.Read(numquads, SizeOf(integer));
+
+  // Skip OpenGL data
+  strm.Seek(16 + numquads * (4 * 3 * SizeOf(Integer) + SizeOf(LongWord)), sFromBeginning);
+
+  strm.Read(fnumvoxels, SizeOf(integer));
+
+  buf := malloc(fnumvoxels * SizeOf(ddmeshitem_t));
+
+  strm.Read(buf^, fnumvoxels * SizeOf(ddmeshitem_t));
+  strm.Free;
+
+  item := @buf[0];
+  for i := 0 to fnumvoxels - 1 do
+  begin
+    fvoxelbuffer[item.x, item.y, item.z] := SwapRGB(item.color);
+    Inc(item);
+  end;
+
+  memfree(pointer(buf), fnumvoxels * SizeOf(ddmeshitem_t));
+
+  result := true;
+end;
+
+type
+  patchheader_t = packed record
+    width: smallint; // bounding box size
+    height: smallint;
+    leftoffset: smallint; // pixels to the left of origin
+    topoffset: smallint;  // pixels below the origin
+  end;
+
+procedure TVoxelImageLoader.CreateDoomPatch(out p: pointer; out size: integer);
+var
+  x, y, z: integer;
+  c: LongWord;
+  img: voxelbuffer2d_p;
+  m, fs: TDMemoryStream;
+  patch: patchheader_t;
+  column: column_t;
+  columnofs: TDNumberList;
+  columndata: TDByteList;
+  i: integer;
+
+  procedure flashcolumnend;
+  begin
+    column.topdelta := 255;
+    column.length := 0;
+    m.Write(column, SizeOf(column_t));
+  end;
+
+  procedure flashcolumndata;
+  var
+    bb: byte;
+  begin
+    if columndata.Count > 0 then
+    begin
+      column.topdelta := y - columndata.Count;
+      column.length := columndata.Count;
+      m.Write(column, SizeOf(column_t));
+      bb := 0;
+      m.Write(bb, SizeOf(bb));
+      m.Write(columndata.List^, columndata.Count);
+      m.Write(bb, SizeOf(bb));
+      columndata.FastClear;
+    end;
+  end;
+
+begin
+  img := mallocz(SizeOf(voxelbuffer2d_t));
+
+  for x := 0 to fvoxelsize - 1 do
+    for y := 0 to fvoxelsize - 1 do
+    begin
+      c := 0;
+      for z := 0 to fvoxelsize - 1 do
+        if fvoxelbuffer[x, y, z] <> 0 then
+        begin
+          c := fvoxelbuffer[x, y, z];
+          Break;
+        end;
+      img[x, y] := c;
+    end;
+
+  if Odd(fvoxelsize) then
+    inc(fvoxelsize);
+
+  m := TDMemoryStream.Create;
+  fs := TDMemoryStream.Create;
+  columnofs := TDNumberList.Create;
+  columndata := TDByteList.Create;
+  try
+    patch.width := fvoxelsize;
+    patch.height := fvoxelsize;
+    patch.leftoffset := fvoxelsize div 2;
+    patch.topoffset := fvoxelsize;
+    fs.Write(patch, SizeOf(patchheader_t));
+
+    for x := 0 to fvoxelsize - 1 do
+    begin
+      columnofs.Add(m.Position + SizeOf(patchheader_t) + fvoxelsize * SizeOf(integer));
+      columndata.FastClear;
+      for y := 0 to fvoxelsize - 1 do
+      begin
+        c := img[x, y];
+        if c and $FFFFFF = 0 then
+        begin
+          flashcolumndata;
+          continue;
+        end;
+        columndata.Add(V_FindAproxColorIndex(default_palette, c))
+      end;
+      flashcolumndata;
+      flashcolumnend;
+    end;
+
+    for i := 0 to columnofs.Count - 1 do
+    begin
+      x := columnofs.Numbers[i];
+      fs.Write(x, SizeOf(integer));
+    end;
+
+    size := fs.Size + m.Size;
+    p := malloc(size);
+
+    memcpy(p, fs.Memory, fs.Size);
+    memcpy(pointer(integer(p) + fs.Size), m.Memory, m.Size);
+
+  finally
+    m.Free;
+    columnofs.Free;
+    columndata.Free;
+    fs.Free;
+    memfree(pointer(img), SizeOf(voxelbuffer2d_t));
+  end;
+
+end;
+
+////////////////////////////////////////////////////////////////////////////////
 
 var
   vx_names: TDStringList = nil;
@@ -150,7 +803,7 @@ begin
     if Pos(toupper(s[i]), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') > 0 then
       result := result + toupper(s[i])
     else
-      result := result + h[Ord(s[i]) div 16] + h[Ord(s[i]) mod 16];
+      result := result + h[Ord(s[i]) div 16 + 1] + h[Ord(s[i]) mod 16 + 1];
   end;
 end;
 
@@ -160,9 +813,19 @@ var
   wadfilename: string;
   i: integer;
   mem: TDMemoryStream;
+  vil: TVoxelImageLoader;
+  ext: string;
+  ret: boolean;
+  p: pointer;
+  size: integer;
 begin
   vx_names := TDStringList.Create;
   PAK_FileNameIterator(@VX_AddFileName);
+
+  if r_generatespritesfromvoxels then
+    vil := TVoxelImageLoader.Create
+  else
+    vil := nil;
 
   if vx_names.Count > 0 then
   begin
@@ -170,8 +833,36 @@ begin
 
     wad.AddSeparator('SS_START');
 
-    for i := 0 to vx_names.Count - 1 do
-      wad.AddData(firstword(vx_names.Strings[i], '.') + '0', @LUMP0, SizeOf(LUMP0));
+    if vil = nil then
+    begin
+      for i := 0 to vx_names.Count - 1 do
+        wad.AddData(firstword(vx_names.Strings[i], '.') + '0', @LUMP0, SizeOf(LUMP0));
+    end
+    else
+    begin
+      for i := 0 to vx_names.Count - 1 do
+      begin
+        ext := strupper(fext(vx_names.Strings[i]));
+        if ext = '.DDVOX' then
+          ret := vil.LoadDDVOX(vx_names.Strings[i])
+        else if ext = '.DDMESH' then
+          ret := vil.LoadDDMESH(vx_names.Strings[i])
+        else if ext = '.KVX' then
+          ret := vil.LoadKVX(vx_names.Strings[i])
+        else if ext = '.VOX' then
+          ret := vil.LoadVOX(vx_names.Strings[i])
+        else
+          ret := vil.LoadKVX(vx_names.Strings[i]);
+        if ret then
+        begin
+          vil.CreateDoomPatch(p, size);
+          wad.AddData(firstword(vx_names.Strings[i], '.') + '0', p, size);
+          memfree(p, size);
+        end
+        else
+          wad.AddData(firstword(vx_names.Strings[i], '.') + '0', @LUMP0, SizeOf(LUMP0));
+      end;
+    end;
 
     wad.AddSeparator('SS_END');
 
@@ -195,6 +886,9 @@ begin
     I_DeclareTempFile(wadfilename);
   end;
 
+  if vil <> nil then
+    vil.Free;
+    
   vx_names.Free;
 end;
 

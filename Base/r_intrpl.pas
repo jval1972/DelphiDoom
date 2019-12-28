@@ -378,7 +378,12 @@ begin
   while (th <> nil) and (th <> @thinkercap) do
   begin
     if @th._function.acp1 = @P_MobjThinker then
-      R_AddInterpolationItem(th, imobj);
+    {$IFDEF STRIFE}
+      if Pmobj_t(th).flags2_ex and MF2_EX_JUSTAPPEARED = 0 then
+    {$ELSE}
+      if Pmobj_t(th).flags and MF_JUSTAPPEARED = 0 then
+    {$ENDIF}
+        R_AddInterpolationItem(th, imobj);
     th := th.next;
   end;
   {$IFDEF DEBUG}
@@ -515,6 +520,9 @@ begin
   result := 0;
 end;
 
+var
+  frametime: integer = 0;
+
 function R_Interpolate: boolean;
 var
   i: integer;
@@ -531,7 +539,8 @@ begin
 
   fractime := I_GetFracTime;
   ticfrac := fractime - interpolationstoretime;
-  ticfrac := round(ticfrac / interpolationcount);
+  ticfrac := round(ticfrac / interpolationcount) + frametime;
+  frametime := fractime;
   {$IFDEF DEBUG}
   I_DevWarning('R_Interpolate(): fractime = %5.3f, gametic = %d'#13#10, [fractime / FRACUNIT, gametic]);
   {$ENDIF}
@@ -593,6 +602,7 @@ begin
     end;
 
   end;
+  frametime := I_GetFracTime - frametime;
 end;
 
 procedure R_InterpolateTicker;
@@ -604,6 +614,7 @@ end;
 procedure R_SetInterpolateSkipTicks(const ticks: integer);
 begin
   skipinterpolationticks := ticks;
+  frametime := 0;
 end;
 
 end.

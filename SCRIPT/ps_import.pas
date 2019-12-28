@@ -216,6 +216,12 @@ begin
   baseproclist.Add('function GetActorCustomDropItem(const key: LongWord): integer;', @PS_GetActorCustomDropItem);
   baseproclist.Add('procedure SetActorCustomDropItem(const key: LongWord; const value: integer);', @PS_SetActorCustomDropItem);
   baseproclist.Add('procedure SetActorDefaultDropItem(const key: LongWord);', @PS_SetActorDefaultDropItem);
+  baseproclist.Add('function GetActorPushFactor(const key: LongWord): integer;', @PS_GetActorPushFactor);
+  baseproclist.Add('procedure SetActorPushFactor(const key: LongWord; const value: integer);', @PS_SetActorPushFactor);
+  baseproclist.Add('function GetActorScale(const key: LongWord): integer;', @PS_GetActorScale);
+  baseproclist.Add('procedure SetActorScale(const key: LongWord; const value: integer);', @PS_SetActorScale);
+  baseproclist.Add('function GetActorGravity(const key: LongWord): integer;', @PS_GetActorGravity);
+  baseproclist.Add('procedure SetActorGravity(const key: LongWord; const value: integer);', @PS_SetActorGravity);
   baseproclist.Add('function GetActorCustomParam(const key: LongWord; const parm: string): integer;', @PS_GetActorCustomParam);
   baseproclist.Add('procedure SetActorCustomParam(const key: LongWord; const parm: string; const value: integer);', @PS_SetActorCustomParam);
   baseproclist.Add('function CheckActorFlag(const key: LongWord; const flag: LongWord): boolean;', @PS_CheckActorFlag);

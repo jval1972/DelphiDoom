@@ -355,7 +355,8 @@ uses
   r_softlights in 'Base\r_softlights.pas',
   r_vislight in 'Base\r_vislight.pas',
   p_musinfo in 'Base\p_musinfo.pas',
-  p_levelinfo in 'Base\p_levelinfo.pas';
+  p_levelinfo in 'Base\p_levelinfo.pas',
+  deh_base in 'Base\deh_base.pas';
 
 var
   Saved8087CW: Word;

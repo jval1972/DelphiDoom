@@ -329,7 +329,8 @@ uses
   sc_evaluate_actor in 'Base\sc_evaluate_actor.pas',
   sc_evaluate in 'Base\sc_evaluate.pas',
   p_musinfo in 'Base\p_musinfo.pas',
-  p_levelinfo in 'Base\p_levelinfo.pas';
+  p_levelinfo in 'Base\p_levelinfo.pas',
+  deh_base in 'Base\deh_base.pas';
 
 var
   Saved8087CW: Word;

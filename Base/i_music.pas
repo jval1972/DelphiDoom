@@ -63,6 +63,7 @@ procedure I_ProcessMusic;
 
 const
   MP3MAGIC = $1A33504D; //"MP3"<EOF>
+  ID3MAGIC = 70468681; // "ID3"#4
 
 type
   mp3header_t = packed record

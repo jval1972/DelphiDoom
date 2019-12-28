@@ -61,6 +61,7 @@ procedure I_SetPalette64;
 
 var
   fixstallhack: boolean = true;
+  r_bltasync: boolean = true;
 
 implementation
 
@@ -96,10 +97,6 @@ var
 procedure I_RestoreWindowPos(const mode: integer);
 begin
   SetWindowPos(hMainWnd, HWND_TOP, 0, 0, WINDOWWIDTH, WINDOWHEIGHT, SWP_SHOWWINDOW)
-{  if mode in [FULLSCREEN_EXCLUSIVE, FULLSCREEN_OFF] then
-    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, SCREENWIDTH, SCREENHEIGHT, SWP_SHOWWINDOW)
-  else
-    SetWindowPos(hMainWnd, HWND_TOP, 0, 0, I_ScreenWidth, I_ScreenHeight, SWP_SHOWWINDOW);}
 end;
 
 procedure I_DisableAltTab;
@@ -325,6 +322,7 @@ var
   parms1, parms2: finishupdateparms_t;
   stretch: boolean;
   p1, p2, p3, p4, p5, p6, p7, p8: finishupdate8param_t;
+  surfacelost: boolean;
 begin
   if (hMainWnd = 0) or (screens[SCN_FG] = nil) or (screen32 = nil) then
     exit;
@@ -469,9 +467,9 @@ begin
   srcrect.Right := SCREENWIDTH;
   srcrect.Bottom := SCREENHEIGHT;
 
-  stretch := stallhack and fixstallhack and (WINDOWHEIGHT = SCREENHEIGHT);
-  if not stretch then
-    stretch := (WINDOWWIDTH <> SCREENWIDTH) or (WINDOWHEIGHT <> SCREENHEIGHT) or (fullscreen <> FULLSCREEN_EXCLUSIVE);
+//  stretch := stallhack and fixstallhack and (WINDOWHEIGHT = SCREENHEIGHT);
+//  if not stretch then
+    stretch := (WINDOWWIDTH <> SCREENWIDTH) or (WINDOWHEIGHT <> SCREENHEIGHT);// or (fullscreen <> FULLSCREEN_EXCLUSIVE);
 
   if stretch then
   begin
@@ -480,13 +478,23 @@ begin
     destrect.Right := WINDOWWIDTH;
     destrect.Bottom := WINDOWHEIGHT;
 
-    if g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY, PDDBltFX(0)^) = DDERR_SURFACELOST then
+    if r_bltasync then
+      surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_ASYNC, PDDBltFX(0)^) = DDERR_SURFACELOST
+    else
+      surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_WAIT, PDDBltFX(0)^) = DDERR_SURFACELOST;
+
+    if surfacelost then
       g_pDDSPrimary.Restore;
 
   end
   else
   begin
-    if g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST then
+    if r_bltasync then
+      surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST
+    else
+      surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_WAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST;
+
+    if surfacelost then
       g_pDDSPrimary.Restore;
   end;
 

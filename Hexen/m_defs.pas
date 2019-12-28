@@ -85,6 +85,7 @@ uses
   t_main,
   t_png,
   m_sshot_jpg,
+  vx_voxelsprite,
   v_video;
 
 
@@ -109,8 +110,10 @@ var
   showfullhdlogo: boolean = false;
   soft_fullscreen: integer = 0;
   r_uselightmaps: boolean = true;
+  r_lightmapfadeoutfunc: integer = 0;
   lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
+  r_bltasync: boolean = true;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -152,7 +155,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 182;
+  NUMDEFAULTS = 185;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -469,11 +472,19 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+    (name: 'r_lightmapfadeoutfunc';
+     location: @r_lightmapfadeoutfunc;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tInteger),
+
     (name: 'lightmapcolorintensity';
      location: @lightmapcolorintensity;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 64;
+     defaultivalue: 128;
      defaultbvalue: true;
      _type: tInteger),
 
@@ -491,6 +502,14 @@ const
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'r_bltasync';
+     location: @r_bltasync;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
      _type: tBoolean),
 
      // JVAL: Slopes
@@ -709,6 +728,14 @@ const
      defaultivalue: 0;
      defaultbvalue: true;
      _type: tInteger),
+
+    (name: 'r_generatespritesfromvoxels';
+     location: @r_generatespritesfromvoxels;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
 
     (name: 'Automap';
      location: nil;

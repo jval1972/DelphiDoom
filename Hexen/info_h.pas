@@ -3216,7 +3216,8 @@ type
     misc1: integer;
     misc2: integer;
     params: TCustomParamList;
-    dlights: TDNumberList;
+    owners: TDNumberList;
+    dlights: T2DNumberList;
 {$IFDEF OPENGL}
     models: TDNumberList;
 {$ENDIF}
@@ -3632,7 +3633,7 @@ type
   );
 
 const
-  MOBJINFONAMESIZE = 20;
+  MOBJINFONAMESIZE = 30;
 
 type
   mobjinfo_t = record
@@ -3680,6 +3681,9 @@ type
     vspeed: integer;  // Initial vertical speed
     pushfactor: integer; // How much can be pushed? 1..FRACUNIT
     scale: integer;
+    gravity: integer;
+    flags3_ex: integer;
+    flags4_ex: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;
