@@ -15640,7 +15640,7 @@ const
     frame: 32768;                 // frame
     tics: 2;                      // tics
     action: (acp1: nil);          // action (A_LightningRemove), will be set after
-    nextstate: S_LIGHTNING_C_X2;   // nextstate
+    nextstate: S_LIGHTNING_C_X2;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15662,7 +15662,7 @@ const
     frame: 32770;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X4;   // nextstate
+    nextstate: S_LIGHTNING_C_X4;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15673,7 +15673,7 @@ const
     frame: 32771;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X5;   // nextstate
+    nextstate: S_LIGHTNING_C_X5;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15684,7 +15684,7 @@ const
     frame: 32772;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X6;   // nextstate
+    nextstate: S_LIGHTNING_C_X6;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15695,7 +15695,7 @@ const
     frame: 32778;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X7;   // nextstate
+    nextstate: S_LIGHTNING_C_X7;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15706,7 +15706,7 @@ const
     frame: 32779;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X8;   // nextstate
+    nextstate: S_LIGHTNING_C_X8;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15717,7 +15717,7 @@ const
     frame: 32780;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X9;   // nextstate
+    nextstate: S_LIGHTNING_C_X9;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15728,7 +15728,7 @@ const
     frame: 4;                     // frame
     tics: 35;                     // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X10;   // nextstate
+    nextstate: S_LIGHTNING_C_X10; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15739,7 +15739,7 @@ const
     frame: 32781;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X11;   // nextstate
+    nextstate: S_LIGHTNING_C_X11; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15750,7 +15750,7 @@ const
     frame: 32782;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X12;   // nextstate
+    nextstate: S_LIGHTNING_C_X12; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15761,7 +15761,7 @@ const
     frame: 32783;                 // frame
     tics: 4;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X13;   // nextstate
+    nextstate: S_LIGHTNING_C_X13; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15772,7 +15772,7 @@ const
     frame: 32784;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X14;   // nextstate
+    nextstate: S_LIGHTNING_C_X14; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15783,7 +15783,7 @@ const
     frame: 32783;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X15;   // nextstate
+    nextstate: S_LIGHTNING_C_X15; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15794,7 +15794,7 @@ const
     frame: 32784;                 // frame
     tics: 4;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X16;   // nextstate
+    nextstate: S_LIGHTNING_C_X16; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15805,7 +15805,7 @@ const
     frame: 32783;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X17;   // nextstate
+    nextstate: S_LIGHTNING_C_X17; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15816,7 +15816,7 @@ const
     frame: 32782;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X18;   // nextstate
+    nextstate: S_LIGHTNING_C_X18; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15827,7 +15827,7 @@ const
     frame: 32783;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_C_X19;   // nextstate
+    nextstate: S_LIGHTNING_C_X19; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15893,7 +15893,7 @@ const
     frame: 32773;                 // frame
     tics: 2;                      // tics
     action: (acp1: nil);          // action (A_LightningRemove), will be set after
-    nextstate: S_LIGHTNING_F_X2;   // nextstate
+    nextstate: S_LIGHTNING_F_X2;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15904,7 +15904,7 @@ const
     frame: 32774;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X3;   // nextstate
+    nextstate: S_LIGHTNING_F_X3;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15915,7 +15915,7 @@ const
     frame: 32775;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X4;   // nextstate
+    nextstate: S_LIGHTNING_F_X4;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15926,7 +15926,7 @@ const
     frame: 32776;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X5;   // nextstate
+    nextstate: S_LIGHTNING_F_X5;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15937,7 +15937,7 @@ const
     frame: 32777;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X6;   // nextstate
+    nextstate: S_LIGHTNING_F_X6;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15948,7 +15948,7 @@ const
     frame: 32778;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X7;   // nextstate
+    nextstate: S_LIGHTNING_F_X7;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15959,7 +15959,7 @@ const
     frame: 32779;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X8;   // nextstate
+    nextstate: S_LIGHTNING_F_X8;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15970,7 +15970,7 @@ const
     frame: 32780;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X9;   // nextstate
+    nextstate: S_LIGHTNING_F_X9;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15981,7 +15981,7 @@ const
     frame: 4;                     // frame
     tics: 20;                     // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X10;   // nextstate
+    nextstate: S_LIGHTNING_F_X10; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -15992,7 +15992,7 @@ const
     frame: 32781;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X11;   // nextstate
+    nextstate: S_LIGHTNING_F_X11; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16003,7 +16003,7 @@ const
     frame: 32782;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X12;   // nextstate
+    nextstate: S_LIGHTNING_F_X12; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16014,7 +16014,7 @@ const
     frame: 32783;                 // frame
     tics: 4;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X13;   // nextstate
+    nextstate: S_LIGHTNING_F_X13; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16025,7 +16025,7 @@ const
     frame: 32784;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X14;   // nextstate
+    nextstate: S_LIGHTNING_F_X14; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16036,7 +16036,7 @@ const
     frame: 32783;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X15;   // nextstate
+    nextstate: S_LIGHTNING_F_X15; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16047,7 +16047,7 @@ const
     frame: 32784;                 // frame
     tics: 4;                      // tics
     action: (acp1: nil);          // action (A_LastZap), will be set after
-    nextstate: S_LIGHTNING_F_X16;   // nextstate
+    nextstate: S_LIGHTNING_F_X16; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16058,7 +16058,7 @@ const
     frame: 32783;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X17;   // nextstate
+    nextstate: S_LIGHTNING_F_X17; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16069,7 +16069,7 @@ const
     frame: 32782;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X18;   // nextstate
+    nextstate: S_LIGHTNING_F_X18; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16080,7 +16080,7 @@ const
     frame: 32783;                 // frame
     tics: 3;                      // tics
     action: (acp1: nil);          // action (NULL), will be set after
-    nextstate: S_LIGHTNING_F_X19;   // nextstate
+    nextstate: S_LIGHTNING_F_X19; // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16102,7 +16102,7 @@ const
     frame: 32776;                 // frame
     tics: 2;                      // tics
     action: (acp1: nil);          // action (A_ZapMimic), will be set after
-    nextstate: S_LIGHTNING_ZAP2;   // nextstate
+    nextstate: S_LIGHTNING_ZAP2;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16113,7 +16113,7 @@ const
     frame: 32777;                 // frame
     tics: 2;                      // tics
     action: (acp1: nil);          // action (A_ZapMimic), will be set after
-    nextstate: S_LIGHTNING_ZAP3;   // nextstate
+    nextstate: S_LIGHTNING_ZAP3;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16124,7 +16124,7 @@ const
     frame: 32778;                 // frame
     tics: 2;                      // tics
     action: (acp1: nil);          // action (A_ZapMimic), will be set after
-    nextstate: S_LIGHTNING_ZAP4;   // nextstate
+    nextstate: S_LIGHTNING_ZAP4;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16135,7 +16135,7 @@ const
     frame: 32779;                 // frame
     tics: 2;                      // tics
     action: (acp1: nil);          // action (A_ZapMimic), will be set after
-    nextstate: S_LIGHTNING_ZAP5;   // nextstate
+    nextstate: S_LIGHTNING_ZAP5;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex
@@ -16146,7 +16146,7 @@ const
     frame: 32780;                 // frame
     tics: 2;                      // tics
     action: (acp1: nil);          // action (A_ZapMimic), will be set after
-    nextstate: S_LIGHTNING_ZAP1;   // nextstate
+    nextstate: S_LIGHTNING_ZAP1;  // nextstate
     misc1: 0;                     // misc1
     misc2: 0;                     // misc2
     flags_ex: 0;                  // flags_ex

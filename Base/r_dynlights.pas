@@ -418,52 +418,71 @@ begin
                 if Length(token2) > 4 then
                 begin
                   frame := Ord(token2[5]) - Ord('A');
-                  for j := 0 to numstates - 1 do
-                    if (N.Count = 0) or (N.IndexOf(j) >= 0) then
-                      if (states[j].sprite = sprite) and
-                         ((states[j].frame and FF_FRAMEMASK) = frame) then
-                      begin
-                        if states[j].dlights = nil then
+
+                  while true do
+                  begin
+                    for j := 0 to numstates - 1 do
+                      if (N.Count = 0) or (N.IndexOf(j) >= 0) then
+                        if (states[j].sprite = sprite) and
+                           ((states[j].frame and FF_FRAMEMASK) = frame) then
                         begin
-                          states[j].dlights := T2DNumberList.Create;
-                          curstates.Add(j);
-                        end
-                        else if curstates.IndexOf(j) < 0 then
-                        begin
-                          if mobjno >= 0 then
-                            for k := states[j].dlights.Count - 1 downto 0 do
-                              if states[j].dlights[k].num1 = mobjno then
-                                states[j].dlights.Delete(k);
-                          curstates.Add(j);
+                          if states[j].dlights = nil then
+                          begin
+                            states[j].dlights := T2DNumberList.Create;
+                            curstates.Add(j);
+                          end
+                          else if curstates.IndexOf(j) < 0 then
+                          begin
+                            if mobjno >= 0 then
+                              for k := states[j].dlights.Count - 1 downto 0 do
+                                if states[j].dlights[k].num1 = mobjno then
+                                  states[j].dlights.Delete(k);
+                            curstates.Add(j);
+                          end;
+
+                          states[j].dlights.Add(mobjno, lidx);
+                          foundstate := true;
                         end;
 
-                        states[j].dlights.Add(mobjno, lidx);
-                        foundstate := true;
-                      end;
+                    if foundstate then
+                      break;
+                    if N.Count = 0 then
+                      break;
+                    N.FastClear;
+                  end;
                 end
                 else
                 begin
-                  for j := 0 to numstates - 1 do
-                    if (N.Count = 0) or (N.IndexOf(j) >= 0) then
-                      if states[j].sprite = sprite then
-                      begin
-                        if states[j].dlights = nil then
+                  while true do
+                  begin
+                    for j := 0 to numstates - 1 do
+                      if (N.Count = 0) or (N.IndexOf(j) >= 0) then
+                        if states[j].sprite = sprite then
                         begin
-                          states[j].dlights := T2DNumberList.Create;
-                          curstates.Add(j);
-                        end
-                        else if curstates.IndexOf(j) < 0 then
-                        begin
-                          if mobjno >= 0 then
-                            for k := states[j].dlights.Count - 1 downto 0 do
-                              if states[j].dlights[k].num1 = mobjno then
-                                states[j].dlights.Delete(k);
-                          curstates.Add(j);
+                          if states[j].dlights = nil then
+                          begin
+                            states[j].dlights := T2DNumberList.Create;
+                            curstates.Add(j);
+                          end
+                          else if curstates.IndexOf(j) < 0 then
+                          begin
+                            if mobjno >= 0 then
+                              for k := states[j].dlights.Count - 1 downto 0 do
+                                if states[j].dlights[k].num1 = mobjno then
+                                  states[j].dlights.Delete(k);
+                            curstates.Add(j);
+                          end;
+
+                          states[j].dlights.Add(mobjno, lidx);
+                          foundstate := true;
                         end;
 
-                        states[j].dlights.Add(mobjno, lidx);
-                        foundstate := true;
-                      end;
+                    if foundstate then
+                      break;
+                    if N.Count = 0 then
+                      break;
+                    N.FastClear;
+                  end;
                 end;
 
                 N.Free;

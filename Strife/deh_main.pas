@@ -2503,15 +2503,15 @@ begin
   deh_actions[291].action.acp1 := @A_MusicChanger;
   deh_actions[291].name := strupper('MusicChanger');
   {$IFDEF DLL}deh_actions[291].decl := 'A_MusicChanger';{$ENDIF}
-  deh_actions[291].action.acp1 := @A_SetPushFactor;
-  deh_actions[291].name := strupper('SetPushFactor');
-  {$IFDEF DLL}deh_actions[291].decl := 'A_SetPushFactor(f: float)';{$ENDIF}
-  deh_actions[292].action.acp1 := @A_SetScale;
-  deh_actions[292].name := strupper('SetScale');
-  {$IFDEF DLL}deh_actions[292].decl := 'A_SetScale(s: float)';{$ENDIF}
-  deh_actions[293].action.acp1 := @A_SetGravity;
-  deh_actions[293].name := strupper('SetGravity');
-  {$IFDEF DLL}deh_actions[293].decl := 'A_SetGravity(g: float)';{$ENDIF}
+  deh_actions[292].action.acp1 := @A_SetPushFactor;
+  deh_actions[292].name := strupper('SetPushFactor');
+  {$IFDEF DLL}deh_actions[292].decl := 'A_SetPushFactor(f: float)';{$ENDIF}
+  deh_actions[293].action.acp1 := @A_SetScale;
+  deh_actions[293].name := strupper('SetScale');
+  {$IFDEF DLL}deh_actions[293].decl := 'A_SetScale(s: float)';{$ENDIF}
+  deh_actions[294].action.acp1 := @A_SetGravity;
+  deh_actions[294].name := strupper('SetGravity');
+  {$IFDEF DLL}deh_actions[294].decl := 'A_SetGravity(g: float)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

@@ -152,6 +152,7 @@ uses
   r_camera,
   r_draw,
   t_main,
+  vx_voxelsprite,
   v_data,
   v_video,
   hu_stuff,
@@ -823,6 +824,9 @@ type
   optionsopenglvoxels_e = (
     od_glv_drawvoxels,
     od_glv_optimize,
+    {$IFDEF DEBUG}
+    od_glv_pritesfromvoxels,
+    {$ENDIF}
     optglvoxels_end
   );
 
@@ -4853,6 +4857,16 @@ begin
   pmi.routine := @M_ChangeVoxelOptimization;
   pmi.pBoolVal := nil;
   pmi.alphaKey := 'v';
+
+  {$IFDEF DEBUG}
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Generate sprites from voxels';
+  pmi.cmd := 'r_generatespritesfromvoxels';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @r_generatespritesfromvoxels;
+  pmi.alphaKey := 'g';
+  {$ENDIF}
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayOpenGLVoxelsDef

@@ -81,7 +81,9 @@ uses
   frm_types in 'DD_IDE\frm_types.pas' {Frame_Types: TFrame},
   SynHighlighterDDScript in 'DD_IDE\SynEdit\SynHighlighterDDScript.pas',
   frm_actordef in 'DD_IDE\frm_actordef.pas' {Frame_Actordef: TFrame},
-  frm_mobjinfo in 'DD_IDE\frm_mobjinfo.pas' {Frame_Mobjinfo: TFrame};
+  frm_mobjinfo in 'DD_IDE\frm_mobjinfo.pas' {Frame_Mobjinfo: TFrame},
+  frm_states in 'DD_IDE\frm_states.pas' {Frame_States: TFrame},
+  frm_sprites in 'DD_IDE\frm_sprites.pas' {Frame_Sprites: TFrame};
 
 {$R *.res}
 

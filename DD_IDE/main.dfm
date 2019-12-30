@@ -4343,7 +4343,7 @@ object Form1: TForm1
       Top = 1
       Width = 294
       Height = 416
-      ActivePage = TabSheet7
+      ActivePage = TabSheet9
       Align = alClient
       MultiLine = True
       TabOrder = 0
@@ -4560,6 +4560,88 @@ object Form1: TForm1
         Caption = 'Mobjinfo'
         ImageIndex = 6
         inline Frame_Mobjinfo1: TFrame_Mobjinfo
+          Left = 0
+          Top = 0
+          Width = 286
+          Height = 370
+          Align = alClient
+          TabOrder = 0
+          inherited Splitter1: TSplitter
+            Top = 87
+            Width = 286
+          end
+          inherited ToolbarPanel: TPanel
+            Width = 286
+          end
+          inherited EditorPanel: TPanel
+            Width = 286
+            Height = 51
+          end
+          inherited DetailPanel: TPanel
+            Top = 90
+            Width = 286
+            inherited HintPanel: TPanel
+              Width = 284
+            end
+            inherited ListView1: TListView
+              Width = 284
+            end
+          end
+          inherited Panel1: TPanel
+            Width = 286
+            Height = 51
+            inherited TreeView1: TTreeView
+              Width = 284
+              Height = 49
+            end
+          end
+        end
+      end
+      object TabSheet8: TTabSheet
+        Caption = 'States'
+        ImageIndex = 7
+        inline Frame_States1: TFrame_States
+          Left = 0
+          Top = 0
+          Width = 286
+          Height = 370
+          Align = alClient
+          TabOrder = 0
+          inherited Splitter1: TSplitter
+            Top = 87
+            Width = 286
+          end
+          inherited ToolbarPanel: TPanel
+            Width = 286
+          end
+          inherited EditorPanel: TPanel
+            Width = 286
+            Height = 51
+          end
+          inherited DetailPanel: TPanel
+            Top = 90
+            Width = 286
+            inherited HintPanel: TPanel
+              Width = 284
+            end
+            inherited ListView1: TListView
+              Width = 284
+            end
+          end
+          inherited Panel1: TPanel
+            Width = 286
+            Height = 51
+            inherited TreeView1: TTreeView
+              Width = 284
+              Height = 49
+            end
+          end
+        end
+      end
+      object TabSheet9: TTabSheet
+        Caption = 'Sprites'
+        ImageIndex = 8
+        inline Frame_Sprites1: TFrame_Sprites
           Left = 0
           Top = 0
           Width = 286

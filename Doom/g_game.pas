@@ -2861,7 +2861,11 @@ begin
         I_Warning('G_DoPlayDemo(): Playing demo from partial compatible version = %d.%d'#13#10,
           [demo_p[0] div 100, demo_p[0] mod 100])
       else
+      begin
+        if vanilla_demo_off then
+          printf('  vanilla demo playback has been disabled'#13#10);
         exit;
+      end;
     end
     else if demo_p[0] <> VERSION then
     begin

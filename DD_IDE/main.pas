@@ -7,7 +7,7 @@ uses
   Dialogs, ExtCtrls, Buttons, ComCtrls, Menus, ActnList, ImgList, ide_project,
   frm_projectmanager, AppEvnts, StdActns, StdCtrls, Clipbrd,
   frm_unitfunctions, frm_constants, frm_variables, frm_classes, frm_types,
-  frm_actordef, frm_mobjinfo;
+  frm_actordef, frm_mobjinfo, frm_states, frm_sprites;
 
 type
   TForm1 = class(TForm)
@@ -120,6 +120,10 @@ type
     Frame_Actordef1: TFrame_Actordef;
     TabSheet7: TTabSheet;
     Frame_Mobjinfo1: TFrame_Mobjinfo;
+    TabSheet8: TTabSheet;
+    Frame_States1: TFrame_States;
+    TabSheet9: TTabSheet;
+    Frame_Sprites1: TFrame_Sprites;
     procedure ActionAboutExecute(Sender: TObject);
     procedure ActionNewProjectExecute(Sender: TObject);
     procedure ActionOpenProjectExecute(Sender: TObject);
@@ -878,6 +882,8 @@ begin
     Frame_Types1.UpdateGameControls(LowerCase(newgame));
     Frame_Actordef1.UpdateGameControls(LowerCase(newgame));
     Frame_Mobjinfo1.UpdateGameControls(LowerCase(newgame));
+    Frame_States1.UpdateGameControls(LowerCase(newgame));
+    Frame_Sprites1.UpdateGameControls(LowerCase(newgame));
   finally
     Screen.Cursor := crDefault;
   end;

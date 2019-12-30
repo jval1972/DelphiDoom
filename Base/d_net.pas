@@ -889,20 +889,43 @@ begin
         exit;
       end;
 
-    if interpolate and (gamestate = GS_LEVEL) and (oldgamestate = Ord(GS_LEVEL)) then
+    if (gamestate = GS_LEVEL) and (oldgamestate = Ord(GS_LEVEL)) then
     begin
-      if not didinterpolations then
+      if interpolate then
+      begin
+        if not didinterpolations then
+        begin
+          R_StoreInterpolationData(entertime, counts * ticdup);
+        end;
+        if R_Interpolate then
+        begin
+          didinterpolations := true;
+          D_Display;
+          firstinterpolation := false;
+        end;
+      end
+      else if interpolateoncapped and firstinterpolation then
       begin
         R_StoreInterpolationData(entertime, counts * ticdup);
-      end;
-      if R_Interpolate then
-      begin
-        didinterpolations := true;
-        D_Display;
-        firstinterpolation := false;
+        if R_Interpolate then
+        begin
+          didinterpolations := true;
+          D_Display;
+          firstinterpolation := false;
+        end;
       end;
     end;
   until lowtic >= gametic div ticdup + counts;
+
+{  if not interpolate then
+  begin
+    R_StoreInterpolationData(entertime, counts * ticdup);
+    if R_Interpolate then
+    begin
+      didinterpolations := true;
+      D_Display;
+    end;
+  end;}
 
   if didinterpolations then
     R_RestoreInterpolationData;

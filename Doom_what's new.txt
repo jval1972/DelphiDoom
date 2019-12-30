@@ -128,6 +128,7 @@ Added r_generatespritesfromvoxels console variable. When true (default) it will 
 Added allowvanillademos console variable, when true (default) will play vanilla demos. 
 Added VANILLA_DEMO_OFF directive. It can be placed in ACTORDEF, MODELDEF, VOXELDEF?, LIGHTDEF & SNDINFO lumps and will prevent the engine to play vanilla demos. The setting is not preserved in defaults file and the modders should use this if their mod breaks vanilla demo compatibility.
 Fixed uncapped framerate glitch in teleporting monsters.
+LIGHTDEF lumps now define lights in a per actor basis and not in a per sprite bases. 
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

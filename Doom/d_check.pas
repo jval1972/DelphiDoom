@@ -21,10 +21,7 @@
 //  02111-1307, USA.
 //
 //  DESCRIPTION (d_main.h):
-//   System specific interface stuff.
-//
-//  DESCRIPTION:
-//   Custom game detection
+//   Identify known wads
 //
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -117,12 +114,6 @@ begin
   begin
     gameversion := exe_chex;
     customgame := cg_chex2;
-    exit;
-  end;
-  if sname = 'HACX.WAD' then
-  begin
-    gameversion := exe_hacx;
-    customgame := cg_hacx;
     exit;
   end;
   // JVAL: Hacx Support

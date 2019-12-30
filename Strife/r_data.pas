@@ -587,6 +587,9 @@ var
   directory: PIntegerArray;
   pname: string;
 begin
+  {$IFNDEF OPENGL}
+  R_InitFixedColumn;
+  {$ENDIF}
   // Load the patch names from pnames.lmp.
   ZeroMemory(@name, SizeOf(char8_t));
   names := W_CacheLumpName('PNAMES', PU_STATIC);
@@ -619,11 +622,11 @@ begin
     begin
       I_DevWarning('R_InitTextures(): Can not find patch "%s" inside patch or sprite markers, retrying...'#13#10, [pname]);
       patchlookup[i] := W_CheckNumForName(pname);
+      if patchlookup[i] = -1 then
+      // JVAL: Display warning only if not teaser
+        if teaser = 0 then
+          I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
     end;
-    if patchlookup[i] = -1 then
-    // JVAL: Display warning only if not teaser
-      if teaser = 0 then
-        I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
   end;
   Z_Free(names);
 
@@ -823,11 +826,11 @@ begin
     begin
       I_DevWarning('R_InitTextures(): Can not find patch "%s" inside patch or sprite markers, retrying...'#13#10, [pname]);
       patchlookup[i] := W_CheckNumForName(pname);
+      if patchlookup[i] = -1 then
+      // JVAL: Display warning only if not teaser
+        if teaser = 0 then
+          I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
     end;
-    if patchlookup[i] = -1 then
-    // JVAL: Display warning only if not teaser
-      if teaser = 0 then
-        I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
   end;
   Z_Free(names);
 

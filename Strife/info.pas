@@ -12773,8 +12773,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 2*FRACUNIT;                                           // radius
-    height: 1*FRACUNIT;                                           // height
+    radius: 2 * FRACUNIT;                                         // radius
+    height: 1 * FRACUNIT;                                         // height
     mass: 10000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -12824,8 +12824,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_RGIB_00);                                  // xdeathstate
     deathsound: Ord(sfx_pldeth);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 18*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 18 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -12875,8 +12875,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 5000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -12926,8 +12926,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 5000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_ambppl);                                 // activesound
@@ -12978,8 +12978,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 5000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -13030,8 +13030,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -13082,8 +13082,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 4;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13133,8 +13133,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 5;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13184,8 +13184,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 5;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13235,8 +13235,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13287,8 +13287,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13339,8 +13339,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13391,8 +13391,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13443,8 +13443,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13495,8 +13495,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13546,8 +13546,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13597,8 +13597,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13648,8 +13648,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13699,8 +13699,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13750,8 +13750,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13801,8 +13801,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13852,8 +13852,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13903,8 +13903,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -13954,8 +13954,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -14005,8 +14005,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -14056,8 +14056,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -14107,8 +14107,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -14158,8 +14158,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_00);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -14209,8 +14209,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14260,8 +14260,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14311,8 +14311,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_telept);                                 // activesound
@@ -14362,8 +14362,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 192*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 192 * FRACUNIT;                                        // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14413,8 +14413,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 192*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 192 * FRACUNIT;                                        // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14464,8 +14464,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 192*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 192 * FRACUNIT;                                        // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14515,8 +14515,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14566,8 +14566,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14617,8 +14617,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14668,8 +14668,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_static);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 6*FRACUNIT;                                           // radius
-    height: 6*FRACUNIT;                                           // height
+    radius: 6 * FRACUNIT;                                         // radius
+    height: 6 * FRACUNIT;                                         // height
     mass: 50000;                                                  // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_chant);                                  // activesound
@@ -14719,8 +14719,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_BEGR_22);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 3;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14770,8 +14770,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_BEGR_22);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 3;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14821,8 +14821,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_BEGR_22);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 3;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14872,8 +14872,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_BEGR_22);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 3;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14923,8 +14923,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_BEGR_22);                                  // xdeathstate
     deathsound: Ord(sfx_psdtha);                                  // deathsound
     speed: 3;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -14974,8 +14974,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_RGIB_08);                                  // xdeathstate
     deathsound: Ord(sfx_rebdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15025,8 +15025,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_RGIB_08);                                  // xdeathstate
     deathsound: Ord(sfx_rebdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15076,8 +15076,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_RGIB_08);                                  // xdeathstate
     deathsound: Ord(sfx_rebdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15127,8 +15127,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_RGIB_08);                                  // xdeathstate
     deathsound: Ord(sfx_rebdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15178,8 +15178,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_RGIB_08);                                  // xdeathstate
     deathsound: Ord(sfx_rebdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15229,8 +15229,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_RGIB_08);                                  // xdeathstate
     deathsound: Ord(sfx_rebdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15280,8 +15280,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15331,8 +15331,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_LEAD_20);                                  // xdeathstate
     deathsound: Ord(sfx_slop);                                    // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rebact);                                 // activesound
@@ -15382,8 +15382,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -15433,8 +15433,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_ROB1_26);                                  // xdeathstate
     deathsound: Ord(sfx_revdth);                                  // deathsound
     speed: 12;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 60*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 60 * FRACUNIT;                                        // height
     mass: 500;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_revact);                                 // activesound
@@ -15484,8 +15484,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac1);                                 // activesound
@@ -15535,8 +15535,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac2);                                 // activesound
@@ -15586,8 +15586,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac3);                                 // activesound
@@ -15637,8 +15637,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac1);                                 // activesound
@@ -15688,8 +15688,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac2);                                 // activesound
@@ -15739,8 +15739,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac3);                                 // activesound
@@ -15790,8 +15790,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac3);                                 // activesound
@@ -15841,8 +15841,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac3);                                 // activesound
@@ -15892,8 +15892,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_GIBS_10);                                  // xdeathstate
     deathsound: Ord(sfx_agrdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_agrac2);                                 // activesound
@@ -15943,8 +15943,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_pgrdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 60*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 60 * FRACUNIT;                                        // height
     mass: 500;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_pgract);                                 // activesound
@@ -15994,8 +15994,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_rb2dth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 40*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 40 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 400;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rb2act);                                 // activesound
@@ -16045,8 +16045,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_pgrdth);                                  // deathsound
     speed: 8;                                                     // speed
-    radius: 40*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 40 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 500;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_rb2act);                                 // activesound
@@ -16096,8 +16096,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 15*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 15 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16147,8 +16147,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_slop);                                    // deathsound
     speed: 10;                                                    // speed
-    radius: 15*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 15 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_tend);                                   // activesound
@@ -16200,8 +16200,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_alndth);                                  // deathsound
     speed: 12;                                                    // speed
-    radius: 64*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 64 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_alnact);                                 // activesound
@@ -16253,8 +16253,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16304,8 +16304,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16355,8 +16355,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_alndth);                                  // deathsound
     speed: 12;                                                    // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_alnact);                                 // activesound
@@ -16408,8 +16408,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_alndth);                                  // deathsound
     speed: 12;                                                    // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_alnact);                                 // activesound
@@ -16461,8 +16461,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_alndth);                                  // deathsound
     speed: 12;                                                    // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_alnact);                                 // activesound
@@ -16514,8 +16514,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_alndth);                                  // deathsound
     speed: 12;                                                    // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_alnact);                                 // activesound
@@ -16567,8 +16567,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_mnaldt);                                  // deathsound
     speed: 13;                                                    // speed
-    radius: 130*FRACUNIT;                                         // radius
-    height: 200*FRACUNIT;                                         // height
+    radius: 130 * FRACUNIT;                                        // radius
+    height: 200 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_alnact);                                 // activesound
@@ -16620,8 +16620,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_alndth);                                  // deathsound
     speed: 14;                                                    // speed
-    radius: 130*FRACUNIT;                                         // radius
-    height: 200*FRACUNIT;                                         // height
+    radius: 130 * FRACUNIT;                                        // radius
+    height: 200 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_alnact);                                 // activesound
@@ -16673,8 +16673,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 84*FRACUNIT;                                          // radius
-    height: 47*FRACUNIT;                                          // height
+    radius: 84 * FRACUNIT;                                        // radius
+    height: 47 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16724,8 +16724,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 25*FRACUNIT;                                          // radius
-    height: 91*FRACUNIT;                                          // height
+    radius: 25 * FRACUNIT;                                        // radius
+    height: 91 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16774,9 +16774,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 30*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 70;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16826,9 +16826,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 30*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 20;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16878,9 +16878,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 30*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 70;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16930,9 +16930,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 30*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 20;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -16982,9 +16982,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 30*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 10;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17035,8 +17035,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17085,9 +17085,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_02);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 18*FRACUNIT;                                           // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    speed: 18 * FRACUNIT;                                         // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 130;                                                  // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17137,9 +17137,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_02);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 18*FRACUNIT;                                           // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    speed: 18 * FRACUNIT;                                         // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 30;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17189,9 +17189,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_06);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 22*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 24*FRACUNIT;                                          // height
+    speed: 22 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 24 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 100;                                                  // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17241,9 +17241,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_06);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 22*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 24*FRACUNIT;                                          // height
+    speed: 22 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 24 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 50;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17293,9 +17293,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_01);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 18*FRACUNIT;                                           // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 18 * FRACUNIT;                                         // speed
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17344,9 +17344,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_01);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 28*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 28 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 120;                                                  // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17396,9 +17396,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_01);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sglhit);                                  // deathsound
-    speed: 28*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 28 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 60;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17449,8 +17449,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_sntdth);                                  // deathsound
     speed: 7;                                                     // speed
-    radius: 23*FRACUNIT;                                          // radius
-    height: 53*FRACUNIT;                                          // height
+    radius: 23 * FRACUNIT;                                        // radius
+    height: 53 * FRACUNIT;                                        // height
     mass: 300;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_sntact);                                 // activesound
@@ -17502,8 +17502,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_spidth);                                  // deathsound
     speed: 16;                                                    // speed
-    radius: 31*FRACUNIT;                                          // radius
-    height: 25*FRACUNIT;                                          // height
+    radius: 31 * FRACUNIT;                                        // radius
+    height: 25 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_spisit);                                 // activesound
@@ -17554,8 +17554,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_inqdth);                                  // deathsound
     speed: 12;                                                    // speed
-    radius: 40*FRACUNIT;                                          // radius
-    height: 110*FRACUNIT;                                         // height
+    radius: 40 * FRACUNIT;                                        // radius
+    height: 110 * FRACUNIT;                                        // height
     mass: 1000;                                                   // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_inqact);                                 // activesound
@@ -17606,8 +17606,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 25;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17657,8 +17657,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_rb2dth);                                  // deathsound
     speed: 26;                                                    // speed
-    radius: 45*FRACUNIT;                                          // radius
-    height: 60*FRACUNIT;                                          // height
+    radius: 45 * FRACUNIT;                                        // radius
+    height: 60 * FRACUNIT;                                        // height
     mass: 800;                                                    // mass
     damage: 4;                                                    // damage
     activesound: Ord(sfx_progac);                                 // activesound
@@ -17709,8 +17709,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17759,9 +17759,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_CCLW_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 20*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 14*FRACUNIT;                                          // height
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 14 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 2;                                                    // damage
     activesound: Ord(sfx_swish);                                  // activesound
@@ -17811,8 +17811,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17861,9 +17861,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_MISL_01);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_mislht);                                  // deathsound
-    speed: 20*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 14*FRACUNIT;                                          // height
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 14 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 10;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17912,9 +17912,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_MISL_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_mislht);                                  // deathsound
-    speed: 20*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 14*FRACUNIT;                                          // height
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 14 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 7;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -17963,9 +17963,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_MISL_01);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_mislht);                                  // deathsound
-    speed: 20*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 14*FRACUNIT;                                          // height
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 14 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 10;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18014,9 +18014,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_ZAP1_01);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_firxpl);                                  // deathsound
-    speed: 30*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 10*FRACUNIT;                                          // height
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 10 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 10;                                                   // damage
     activesound: Ord(sfx_swish);                                  // activesound
@@ -18065,9 +18065,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_AROW_01);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 30*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 10*FRACUNIT;                                          // height
+    speed: 30 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 10 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 500;                                                  // damage
     activesound: Ord(sfx_swish);                                  // activesound
@@ -18116,9 +18116,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_POW1_09);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 40*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 8*FRACUNIT;                                           // height
+    speed: 40 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18167,9 +18167,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_POW1_05);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 40*FRACUNIT;                                           // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 8*FRACUNIT;                                           // height
+    speed: 40 * FRACUNIT;                                         // speed
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
     mass: 100;                                                    // mass
     damage: 1;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18218,9 +18218,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_BNG4_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
-    speed: 15*FRACUNIT;                                           // speed
-    radius: 13*FRACUNIT;                                          // radius
-    height: 13*FRACUNIT;                                          // height
+    speed: 15 * FRACUNIT;                                         // speed
+    radius: 13 * FRACUNIT;                                        // radius
+    height: 13 * FRACUNIT;                                        // height
     mass: 20;                                                     // mass
     damage: 1;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18269,9 +18269,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_BNG3_08);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
-    speed: 15*FRACUNIT;                                           // speed
-    radius: 13*FRACUNIT;                                          // radius
-    height: 13*FRACUNIT;                                          // height
+    speed: 15 * FRACUNIT;                                         // speed
+    radius: 13 * FRACUNIT;                                        // radius
+    height: 13 * FRACUNIT;                                        // height
     mass: 20;                                                     // mass
     damage: 1;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18320,9 +18320,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_BNG2_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
-    speed: 25*FRACUNIT;                                           // speed
-    radius: 13*FRACUNIT;                                          // radius
-    height: 13*FRACUNIT;                                          // height
+    speed: 25 * FRACUNIT;                                         // speed
+    radius: 13 * FRACUNIT;                                        // radius
+    height: 13 * FRACUNIT;                                        // height
     mass: 15;                                                     // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18372,8 +18372,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18422,9 +18422,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_THIT_00);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
-    speed: 20*FRACUNIT;                                           // speed
-    radius: 13*FRACUNIT;                                          // radius
-    height: 8*FRACUNIT;                                           // height
+    speed: 20 * FRACUNIT;                                         // speed
+    radius: 13 * FRACUNIT;                                        // radius
+    height: 8 * FRACUNIT;                                         // height
     mass: 100;                                                    // mass
     damage: 1;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18473,9 +18473,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_TWAV_02);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 35*FRACUNIT;                                           // speed
-    radius: 13*FRACUNIT;                                          // radius
-    height: 13*FRACUNIT;                                          // height
+    speed: 35 * FRACUNIT;                                         // speed
+    radius: 13 * FRACUNIT;                                        // radius
+    height: 13 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 10;                                                   // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18524,9 +18524,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_FRBL_03);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 15*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 11*FRACUNIT;                                          // height
+    speed: 15 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 11 * FRACUNIT;                                        // height
     mass: 10;                                                     // mass
     damage: 4;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18575,9 +18575,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_FRBL_03);                                   // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 35*FRACUNIT;                                           // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 11*FRACUNIT;                                          // height
+    speed: 35 * FRACUNIT;                                         // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 11 * FRACUNIT;                                        // height
     mass: 50;                                                     // mass
     damage: 1;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18627,8 +18627,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18678,8 +18678,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18729,8 +18729,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18780,8 +18780,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18831,8 +18831,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18882,8 +18882,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18933,8 +18933,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -18984,8 +18984,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19036,8 +19036,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_mislht);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 10000000;                                               // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19088,8 +19088,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
     speed: 16;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 76*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 76 * FRACUNIT;                                        // height
     mass: 10000000;                                               // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19139,8 +19139,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
     speed: 27;                                                    // speed
-    radius: 26*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 26 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100000;                                                 // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19191,8 +19191,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 20;                                                     // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19242,8 +19242,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 15;                                                     // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19293,8 +19293,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 5;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19344,8 +19344,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 10;                                                     // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19396,8 +19396,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 3;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19447,8 +19447,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 5;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19498,8 +19498,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19549,8 +19549,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19600,8 +19600,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19651,8 +19651,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19702,8 +19702,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19753,8 +19753,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19804,8 +19804,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 11;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19855,8 +19855,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 12;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19906,8 +19906,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -19957,8 +19957,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20008,8 +20008,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20059,8 +20059,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20110,8 +20110,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20161,8 +20161,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20212,8 +20212,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20263,8 +20263,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20314,8 +20314,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20365,8 +20365,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20416,8 +20416,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20467,8 +20467,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20518,8 +20518,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20569,8 +20569,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20620,8 +20620,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 28;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20671,8 +20671,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20722,8 +20722,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20773,8 +20773,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20824,8 +20824,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20875,8 +20875,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20926,8 +20926,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -20977,8 +20977,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 2;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21028,8 +21028,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 5;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21079,8 +21079,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 15;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21130,8 +21130,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21181,8 +21181,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21232,8 +21232,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 1;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21283,8 +21283,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 3;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21334,8 +21334,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 5;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21385,8 +21385,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 2147483647;                                             // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21436,8 +21436,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21487,8 +21487,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21538,8 +21538,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21589,8 +21589,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 3;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21640,8 +21640,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 1;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21691,8 +21691,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 2;                                                     // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21742,8 +21742,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 9;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21793,8 +21793,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21844,8 +21844,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21895,8 +21895,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21946,8 +21946,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -21997,8 +21997,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22048,8 +22048,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22099,8 +22099,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22150,8 +22150,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22201,8 +22201,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22252,8 +22252,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22303,8 +22303,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22354,8 +22354,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22405,8 +22405,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22456,8 +22456,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22507,8 +22507,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22558,8 +22558,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22609,8 +22609,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22660,8 +22660,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22711,8 +22711,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22762,8 +22762,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22813,8 +22813,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22864,8 +22864,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22915,8 +22915,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -22966,8 +22966,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23017,8 +23017,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23068,8 +23068,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_explod);                                  // deathsound
     speed: 14;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 99999999;                                               // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_reactr);                                 // activesound
@@ -23120,8 +23120,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_ratact);                                  // deathsound
     speed: 13;                                                    // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_ratact);                                 // activesound
@@ -23171,8 +23171,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_wbrldt);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 32*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 32 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23222,8 +23222,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_barexp);                                  // deathsound
     speed: 0;                                                     // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 32*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 32 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23273,8 +23273,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 72*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 72 * FRACUNIT;                                        // height
     mass: 9999999;                                                // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23324,8 +23324,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 4*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 4 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23375,8 +23375,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 4*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 4 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23426,8 +23426,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 4*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 4 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23477,8 +23477,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23528,8 +23528,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23579,8 +23579,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23630,8 +23630,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 80*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 80 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23681,8 +23681,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23732,8 +23732,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 192*FRACUNIT;                                         // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 192 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23783,8 +23783,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 192*FRACUNIT;                                         // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 192 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_amaln2);                                 // activesound
@@ -23834,8 +23834,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 54*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 54 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23885,8 +23885,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23936,8 +23936,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -23987,8 +23987,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24038,8 +24038,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24089,8 +24089,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 25*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 25 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24140,8 +24140,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24191,8 +24191,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24242,8 +24242,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_wdrip);                                  // activesound
@@ -24293,8 +24293,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_wfall);                                  // activesound
@@ -24344,8 +24344,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 1*FRACUNIT;                                           // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 1 * FRACUNIT;                                         // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24395,8 +24395,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_wsplsh);                                 // activesound
@@ -24446,8 +24446,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24497,8 +24497,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24548,8 +24548,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24599,8 +24599,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24650,8 +24650,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24701,8 +24701,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24752,8 +24752,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24803,8 +24803,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24854,8 +24854,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24905,8 +24905,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -24956,8 +24956,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 48*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 48 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25007,8 +25007,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_smfire);                                 // activesound
@@ -25058,8 +25058,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 32*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 32 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_smfire);                                 // activesound
@@ -25109,8 +25109,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 0*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 0 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_smfire);                                 // activesound
@@ -25160,8 +25160,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 0*FRACUNIT;                                           // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 0 * FRACUNIT;                                         // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25211,8 +25211,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 93*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 93 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25262,8 +25262,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 3*FRACUNIT;                                           // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 3 * FRACUNIT;                                         // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25313,8 +25313,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25364,8 +25364,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25415,8 +25415,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 4*FRACUNIT;                                           // radius
-    height: 72*FRACUNIT;                                          // height
+    radius: 4 * FRACUNIT;                                         // radius
+    height: 72 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25466,8 +25466,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 3*FRACUNIT;                                           // radius
-    height: 80*FRACUNIT;                                          // height
+    radius: 3 * FRACUNIT;                                         // radius
+    height: 80 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25517,8 +25517,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 3*FRACUNIT;                                           // radius
-    height: 80*FRACUNIT;                                          // height
+    radius: 3 * FRACUNIT;                                         // radius
+    height: 80 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25568,8 +25568,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25619,8 +25619,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25670,8 +25670,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25721,8 +25721,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25772,8 +25772,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_wriver);                                 // activesound
@@ -25823,8 +25823,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25874,8 +25874,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25925,8 +25925,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -25976,8 +25976,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26027,8 +26027,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26078,8 +26078,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26129,8 +26129,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26180,8 +26180,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26231,8 +26231,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26282,8 +26282,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 72*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 72 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_smfire);                                 // activesound
@@ -26333,8 +26333,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 10*FRACUNIT;                                          // radius
-    height: 80*FRACUNIT;                                          // height
+    radius: 10 * FRACUNIT;                                        // radius
+    height: 80 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_smfire);                                 // activesound
@@ -26384,8 +26384,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 15*FRACUNIT;                                          // radius
-    height: 109*FRACUNIT;                                         // height
+    radius: 15 * FRACUNIT;                                        // radius
+    height: 109 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26435,8 +26435,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 15*FRACUNIT;                                          // radius
-    height: 109*FRACUNIT;                                         // height
+    radius: 15 * FRACUNIT;                                        // radius
+    height: 109 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26486,8 +26486,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 15*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 15 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26537,8 +26537,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 15*FRACUNIT;                                          // radius
-    height: 80*FRACUNIT;                                          // height
+    radius: 15 * FRACUNIT;                                        // radius
+    height: 80 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26588,8 +26588,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 15*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    radius: 15 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26639,8 +26639,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26690,8 +26690,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26741,8 +26741,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26792,8 +26792,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 12*FRACUNIT;                                          // radius
-    height: 24*FRACUNIT;                                          // height
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 24 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26843,8 +26843,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 12*FRACUNIT;                                          // radius
-    height: 32*FRACUNIT;                                          // height
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 32 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26894,8 +26894,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 6*FRACUNIT;                                           // radius
-    height: 24*FRACUNIT;                                          // height
+    radius: 6 * FRACUNIT;                                         // radius
+    height: 24 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26945,8 +26945,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -26996,8 +26996,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27047,8 +27047,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 32*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 32 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27098,8 +27098,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 11*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 11 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27149,8 +27149,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 8*FRACUNIT;                                           // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27200,8 +27200,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 40*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 40 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27251,8 +27251,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 12*FRACUNIT;                                          // radius
-    height: 24*FRACUNIT;                                          // height
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 24 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27302,8 +27302,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 24*FRACUNIT;                                          // radius
-    height: 96*FRACUNIT;                                          // height
+    radius: 24 * FRACUNIT;                                        // radius
+    height: 96 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27353,8 +27353,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27404,8 +27404,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27455,8 +27455,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27506,8 +27506,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 6;                                                     // speed
-    radius: 17*FRACUNIT;                                          // radius
-    height: 64*FRACUNIT;                                          // height
+    radius: 17 * FRACUNIT;                                        // radius
+    height: 64 * FRACUNIT;                                        // height
     mass: 999999;                                                 // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27557,9 +27557,9 @@ const // Doom Original mobjinfo
     deathstate: Ord(S_NULL);                                      // deathstate
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 512*FRACUNIT;                                          // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    speed: 512 * FRACUNIT;                                        // speed
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 1;                                                      // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27609,8 +27609,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_amaln5);                                 // activesound
@@ -27660,8 +27660,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 72*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 72 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_amaln6);                                 // activesound
@@ -27711,8 +27711,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 72*FRACUNIT;                                          // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 72 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_amaln4);                                 // activesound
@@ -27762,8 +27762,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 16*FRACUNIT;                                          // radius
-    height: 128*FRACUNIT;                                         // height
+    radius: 16 * FRACUNIT;                                        // radius
+    height: 128 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_amaln3);                                 // activesound
@@ -27813,8 +27813,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 32*FRACUNIT;                                          // radius
-    height: 56*FRACUNIT;                                          // height
+    radius: 32 * FRACUNIT;                                        // radius
+    height: 56 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_amaln1);                                 // activesound
@@ -27864,8 +27864,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27915,8 +27915,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -27966,8 +27966,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28017,8 +28017,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28068,8 +28068,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28119,8 +28119,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28170,8 +28170,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28221,8 +28221,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28272,8 +28272,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28323,8 +28323,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 10;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28374,8 +28374,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28425,8 +28425,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28476,8 +28476,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28527,8 +28527,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28578,8 +28578,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28629,8 +28629,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28680,8 +28680,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 18;                                                    // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28731,8 +28731,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28782,8 +28782,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28833,8 +28833,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28884,8 +28884,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28935,8 +28935,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -28986,8 +28986,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29037,8 +29037,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29088,8 +29088,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29139,8 +29139,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29190,8 +29190,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29241,8 +29241,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29292,8 +29292,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29343,8 +29343,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29394,8 +29394,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29445,8 +29445,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29496,8 +29496,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29547,8 +29547,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29598,8 +29598,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29649,8 +29649,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29700,8 +29700,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29751,8 +29751,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29802,8 +29802,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29853,8 +29853,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29904,8 +29904,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -29955,8 +29955,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -30006,8 +30006,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -30057,8 +30057,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -30108,8 +30108,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -30159,8 +30159,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -30210,8 +30210,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -30261,8 +30261,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound
@@ -30312,8 +30312,8 @@ const // Doom Original mobjinfo
     xdeathstate: Ord(S_NULL);                                     // xdeathstate
     deathsound: Ord(sfx_None);                                    // deathsound
     speed: 0;                                                     // speed
-    radius: 20*FRACUNIT;                                          // radius
-    height: 16*FRACUNIT;                                          // height
+    radius: 20 * FRACUNIT;                                        // radius
+    height: 16 * FRACUNIT;                                        // height
     mass: 100;                                                    // mass
     damage: 0;                                                    // damage
     activesound: Ord(sfx_None);                                   // activesound

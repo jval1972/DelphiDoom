@@ -40,6 +40,8 @@ function dll_compile(const game: string; const code: string; var pcode: string; 
 
 function dll_getuntisfuncdeclarations(const game: string): TStringList;
 
+function dll_getpcharfunc(const game: string; const funcpr: string): TStringList;
+
 function dll_getconstants(const game: string): TStringList;
 
 function dll_getvariables(const game: string): TStringList;
@@ -54,11 +56,17 @@ function dll_getevents(const game: string): string;
 
 function dll_getactordeffunctions(const game: string): TStringList;
 
+function csvlinetolist(const s: string): TStringList;
+
 function dll_getmobjinfodeclarations(const game: string): TStringList;
 
 function dll_getstatesdeclarations(const game: string): TStringList;
 
 function dll_getspritenames(const game: string): TStringList;
+
+function dll_getstatesdeclarations2(const game: string): TStringList;
+
+function getcolumnfromcsv(const csv: TStringList; const cname: string): TStringList;
 
 implementation
 
@@ -602,6 +610,89 @@ begin
   end;
   sprlst.Free;
   sprheader.Free;
+end;
+
+function dll_getstatesdeclarations2(const game: string): TStringList;
+var
+  slst: TStringList;
+  i, j: integer;
+  declu: TStringList;
+  sheader: TStringList;
+  sline: TStringList;
+begin
+  slst := dll_getpcharfunc(game, 'dd_getstatescsv_');
+  if slst = nil then
+  begin
+    Result := nil;
+    Exit;
+  end;
+  if slst.Count = 0 then
+  begin
+    slst.Free;
+    Result := nil;
+    Exit;
+  end;
+
+  Result := TStringList.Create;
+  sheader := csvlinetolist(slst.Strings[0]);
+
+  for i := 1 to slst.Count - 1 do
+  begin
+    sline := csvlinetolist(slst.Strings[i]);
+    if sline.Count = sheader.Count then
+    begin
+      declu := TStringList.Create;
+      for j := 0 to sline.Count - 1 do
+        declu.Add(sheader[j] + ': ' + sline[j]);
+      Result.AddObject(sline[0], declu);
+    end;
+    sline.Free;
+  end;
+  slst.Free;
+  sheader.Free;
+end;
+
+function getcolumnfromcsv(const csv: TStringList; const cname: string): TStringList;
+var
+  i, idx: integer;
+  sheader: TStringList;
+  lst: TStringList;
+begin
+  Result := TStringList.Create;
+
+  if csv = nil then
+    Exit;
+
+  if csv.Count = 0 then
+    Exit;
+
+  sheader := csvlinetolist(csv.Strings[0]);
+
+  if sheader = nil then
+    Exit;
+
+  idx := -1;
+  for i := 0 to sheader.Count - 1 do
+    if UpperCase(cname) = UpperCase(sheader.Strings[i]) then
+    begin
+      idx := i;
+      Break;
+    end;
+
+  sheader.Free;
+
+  if idx = -1 then
+    Exit;
+
+  for i := 1 to csv.Count - 1 do
+  begin
+    lst := csvlinetolist(csv.Strings[i]);
+    if idx < lst.Count then
+      Result.Add(lst.Strings[idx])
+    else
+      Result.Add('');
+    lst.Free;
+  end;
 end;
 
 end.

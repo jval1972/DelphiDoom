@@ -624,11 +624,11 @@ begin
     begin
       I_DevWarning('R_InitTextures(): Can not find patch "%s" inside patch or sprite markers, retrying...'#13#10, [pname]);
       patchlookup[i] := W_CheckNumForName(pname);
-    end;
-    if patchlookup[i] = -1 then
-    begin
-      I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
-      patchlookup[i] := W_CheckNumForName('NULLA0');
+      if patchlookup[i] = -1 then
+      begin
+        I_Warning('R_InitTextures(): Can not find patch "%s"'#13#10, [pname]);
+        patchlookup[i] := W_CheckNumForName('NULLA0');
+      end;
     end;
   end;
   Z_Free(names);

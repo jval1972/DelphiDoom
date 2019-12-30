@@ -86,7 +86,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_NULL
 
    (
@@ -96,7 +97,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FREETARGMOBJ
 
    (
@@ -106,7 +108,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ITEM_PTN1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ITEM_PTN1_1
 
    (
@@ -116,7 +119,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ITEM_PTN1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ITEM_PTN1_2
 
    (
@@ -126,7 +130,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ITEM_PTN1_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ITEM_PTN1_3
 
    (
@@ -136,7 +141,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ITEM_SHLD1
 
    (
@@ -146,7 +152,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ITEM_SHD2_1
 
    (
@@ -156,7 +163,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ITEM_BAGH1
 
    (
@@ -166,7 +174,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ITEM_SPMP1
 
    (
@@ -176,7 +185,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL1
 
    (
@@ -186,7 +196,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL2
 
    (
@@ -196,7 +207,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL3
 
    (
@@ -206,7 +218,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL4
 
    (
@@ -216,7 +229,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL5
 
    (
@@ -226,7 +240,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL6
 
    (
@@ -236,7 +251,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL7
 
    (
@@ -246,7 +262,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL8
 
    (
@@ -256,7 +273,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL9
 
    (
@@ -266,7 +284,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HIDESPECIAL11;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL10
 
    (
@@ -276,7 +295,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HIDESPECIAL11
 
    (
@@ -286,7 +306,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI1
 
    (
@@ -296,7 +317,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI2
 
    (
@@ -306,7 +328,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI3
 
    (
@@ -316,7 +339,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI4
 
    (
@@ -326,7 +350,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI5
 
    (
@@ -336,7 +361,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI6
 
    (
@@ -346,7 +372,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI7
 
    (
@@ -356,7 +383,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI8
 
    (
@@ -366,7 +394,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI9
 
    (
@@ -376,7 +405,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI11;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI10
 
    (
@@ -386,7 +416,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI12;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI11
 
    (
@@ -396,7 +427,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI13;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI12
 
    (
@@ -406,7 +438,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI14;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI13
 
    (
@@ -416,7 +449,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI15;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI14
 
    (
@@ -426,7 +460,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI16;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI15
 
    (
@@ -436,7 +471,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI17;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI16
 
    (
@@ -446,7 +482,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI18;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI17
 
    (
@@ -456,7 +493,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI19;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI18
 
    (
@@ -466,7 +504,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI20;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI19
 
    (
@@ -476,7 +515,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DORMANTARTI21;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI20
 
    (
@@ -486,7 +526,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DORMANTARTI21
 
    (
@@ -496,7 +537,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI1
 
    (
@@ -506,7 +548,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI2
 
    (
@@ -516,7 +559,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI3
 
    (
@@ -526,7 +570,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI4
 
    (
@@ -536,7 +581,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI5
 
    (
@@ -546,7 +592,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI6
 
    (
@@ -556,7 +603,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI7
 
    (
@@ -566,7 +614,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI9;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI8
 
    (
@@ -576,7 +625,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_DEADARTI10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI9
 
    (
@@ -586,7 +636,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_DEADARTI10
 
    (
@@ -596,7 +647,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_INVS1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_INVS1
 
    (
@@ -606,7 +658,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_PTN2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_PTN2_1
 
    (
@@ -616,7 +669,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_PTN2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_PTN2_2
 
    (
@@ -626,7 +680,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_PTN2_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_PTN2_3
 
    (
@@ -636,7 +691,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_SOAR2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_SOAR1
 
    (
@@ -646,7 +702,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_SOAR3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_SOAR2
 
    (
@@ -656,7 +713,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_SOAR4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_SOAR3
 
    (
@@ -666,7 +724,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_SOAR1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_SOAR4
 
    (
@@ -676,7 +735,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_INVU2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_INVU1
 
    (
@@ -686,7 +746,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_INVU3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_INVU2
 
    (
@@ -696,7 +757,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_INVU4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_INVU3
 
    (
@@ -706,7 +768,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_INVU1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_INVU4
 
    (
@@ -716,7 +779,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_PWBK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_PWBK1
 
    (
@@ -726,7 +790,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_EGGC2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_EGGC1
 
    (
@@ -736,7 +801,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_EGGC3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_EGGC2
 
    (
@@ -746,7 +812,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_EGGC4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_EGGC3
 
    (
@@ -756,7 +823,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_EGGC1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_EGGC4
 
    (
@@ -766,7 +834,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFX2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFX1
 
    (
@@ -776,7 +845,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFX3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFX2
 
    (
@@ -786,7 +856,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFX4;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFX3
 
    (
@@ -796,7 +867,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFX5;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFX4
 
    (
@@ -806,7 +878,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFX1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFX5
 
    (
@@ -816,7 +889,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFXI1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFXI1_1
 
    (
@@ -826,7 +900,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFXI1_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFXI1_2
 
    (
@@ -836,7 +911,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_EGGFXI1_4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFXI1_3
 
    (
@@ -846,7 +922,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_EGGFXI1_4
 
    (
@@ -856,7 +933,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_SPHL1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_SPHL1
 
    (
@@ -866,7 +944,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_TRCH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_TRCH1
 
    (
@@ -876,7 +955,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_TRCH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_TRCH2
 
    (
@@ -886,7 +966,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_TRCH1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_TRCH3
 
    (
@@ -896,7 +977,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_FBMB1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_FBMB1
 
    (
@@ -906,7 +988,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB1
 
    (
@@ -916,7 +999,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB2
 
    (
@@ -926,7 +1010,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB3
 
    (
@@ -936,7 +1021,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB4
 
    (
@@ -946,7 +1032,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB5
 
    (
@@ -956,7 +1043,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB6
 
    (
@@ -966,7 +1054,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB7
 
    (
@@ -976,7 +1065,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB9;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB8
 
    (
@@ -986,7 +1076,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB9
 
    (
@@ -996,7 +1087,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBOMB11;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB10
 
    (
@@ -1006,7 +1098,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBOMB11
 
    (
@@ -1016,7 +1109,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_ATLP2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_ATLP1
 
    (
@@ -1026,7 +1120,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_ATLP3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_ATLP2
 
    (
@@ -1036,7 +1131,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_ATLP4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_ATLP3
 
    (
@@ -1046,7 +1142,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_ARTI_ATLP1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_ARTI_ATLP4
 
    (
@@ -1056,7 +1153,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_WAIT1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_WAIT1
 
    (
@@ -1066,7 +1164,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_WAIT1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_PAIN1
 
    (
@@ -1076,7 +1175,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_DIE2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_DIE1
 
    (
@@ -1086,7 +1186,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_DIE3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_DIE2
 
    (
@@ -1096,7 +1197,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_DIE4;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_DIE3
 
    (
@@ -1106,7 +1208,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FREETARGMOBJ;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_DIE4
 
    (
@@ -1116,7 +1219,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_GROW2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW1
 
    (
@@ -1126,7 +1230,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_GROW3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW2
 
    (
@@ -1136,7 +1241,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_GROW4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW3
 
    (
@@ -1146,7 +1252,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_GROW5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW4
 
    (
@@ -1156,7 +1263,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_GROW6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW5
 
    (
@@ -1166,7 +1274,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_GROW7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW6
 
    (
@@ -1176,7 +1285,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_GROW8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW7
 
    (
@@ -1186,7 +1296,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_POD_WAIT1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_POD_GROW8
 
    (
@@ -1196,7 +1307,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODGOO2;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PODGOO1
 
    (
@@ -1206,7 +1318,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODGOO1;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PODGOO2
 
    (
@@ -1216,7 +1329,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PODGOOX
 
    (
@@ -1226,7 +1340,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PODGENERATOR;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PODGENERATOR
 
    (
@@ -1236,7 +1351,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASH2;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASH1
 
    (
@@ -1246,7 +1362,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASH3;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASH2
 
    (
@@ -1256,7 +1373,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASH4;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASH3
 
    (
@@ -1266,7 +1384,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASH4
 
    (
@@ -1276,7 +1395,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHX
 
    (
@@ -1286,7 +1406,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASHBASE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHBASE1
 
    (
@@ -1296,7 +1417,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASHBASE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHBASE2
 
    (
@@ -1306,7 +1428,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASHBASE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHBASE3
 
    (
@@ -1316,7 +1439,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASHBASE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHBASE4
 
    (
@@ -1326,7 +1450,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASHBASE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHBASE5
 
    (
@@ -1336,7 +1461,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPLASHBASE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHBASE6
 
    (
@@ -1346,7 +1472,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPLASHBASE7
 
    (
@@ -1356,7 +1483,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASPLASH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASPLASH1
 
    (
@@ -1366,7 +1494,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASPLASH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASPLASH2
 
    (
@@ -1376,7 +1505,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASPLASH4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASPLASH3
 
    (
@@ -1386,7 +1516,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASPLASH5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASPLASH4
 
    (
@@ -1396,7 +1527,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASPLASH6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASPLASH5
 
    (
@@ -1406,7 +1538,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASPLASH6
 
    (
@@ -1416,7 +1549,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASMOKE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASMOKE1
 
    (
@@ -1426,7 +1560,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASMOKE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASMOKE2
 
    (
@@ -1436,7 +1571,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASMOKE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASMOKE3
 
    (
@@ -1446,7 +1582,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_LAVASMOKE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASMOKE4
 
    (
@@ -1456,7 +1593,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LAVASMOKE5
 
    (
@@ -1466,7 +1604,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SLUDGECHUNK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGECHUNK1
 
    (
@@ -1476,7 +1615,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SLUDGECHUNK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGECHUNK2
 
    (
@@ -1486,7 +1626,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SLUDGECHUNK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGECHUNK3
 
    (
@@ -1496,7 +1637,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGECHUNK4
 
    (
@@ -1506,7 +1648,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGECHUNKX
 
    (
@@ -1516,7 +1659,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SLUDGESPLASH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGESPLASH1
 
    (
@@ -1526,7 +1670,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SLUDGESPLASH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGESPLASH2
 
    (
@@ -1536,7 +1681,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SLUDGESPLASH4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGESPLASH3
 
    (
@@ -1546,7 +1692,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SLUDGESPLASH4
 
    (
@@ -1556,7 +1703,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SKULLHANG70_1
 
    (
@@ -1566,7 +1714,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SKULLHANG60_1
 
    (
@@ -1576,7 +1725,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SKULLHANG45_1
 
    (
@@ -1586,7 +1736,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SKULLHANG35_1
 
    (
@@ -1596,7 +1747,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHANDELIER2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHANDELIER1
 
    (
@@ -1606,7 +1758,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHANDELIER3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHANDELIER2
 
    (
@@ -1616,7 +1769,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHANDELIER1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHANDELIER3
 
    (
@@ -1626,7 +1780,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SERPTORCH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SERPTORCH1
 
    (
@@ -1636,7 +1791,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SERPTORCH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SERPTORCH2
 
    (
@@ -1646,7 +1802,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SERPTORCH1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SERPTORCH3
 
    (
@@ -1656,7 +1813,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SMALLPILLAR
 
    (
@@ -1666,7 +1824,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STALAGMITESMALL
 
    (
@@ -1676,7 +1835,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STALAGMITELARGE
 
    (
@@ -1686,7 +1846,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STALACTITESMALL
 
    (
@@ -1696,7 +1857,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STALACTITELARGE
 
    (
@@ -1706,7 +1868,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER1
 
    (
@@ -1716,7 +1879,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER2
 
    (
@@ -1726,7 +1890,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER3
 
    (
@@ -1736,7 +1901,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER4
 
    (
@@ -1746,7 +1912,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER5
 
    (
@@ -1756,7 +1923,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER6
 
    (
@@ -1766,7 +1934,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER7
 
    (
@@ -1776,7 +1945,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FIREBRAZIER1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FIREBRAZIER8
 
    (
@@ -1786,7 +1956,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BARREL
 
    (
@@ -1796,7 +1967,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BRPILLAR
 
    (
@@ -1806,7 +1978,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MOSS1
 
    (
@@ -1816,7 +1989,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MOSS2
 
    (
@@ -1826,7 +2000,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WALLTORCH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WALLTORCH1
 
    (
@@ -1836,7 +2011,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WALLTORCH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WALLTORCH2
 
    (
@@ -1846,7 +2022,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WALLTORCH1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WALLTORCH3
 
    (
@@ -1856,7 +2033,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HANGINGCORPSE
 
    (
@@ -1866,7 +2044,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KEYGIZMO2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KEYGIZMO1
 
    (
@@ -1876,7 +2055,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KEYGIZMO3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KEYGIZMO2
 
    (
@@ -1886,7 +2066,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KEYGIZMO3
 
    (
@@ -1896,7 +2077,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KGZ_START;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KGZ_START
 
    (
@@ -1906,7 +2088,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KGZ_BLUEFLOAT1
 
    (
@@ -1916,7 +2099,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KGZ_GREENFLOAT1
 
    (
@@ -1926,7 +2110,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KGZ_YELLOWFLOAT1
 
    (
@@ -1936,7 +2121,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO1
 
    (
@@ -1946,7 +2132,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO2
 
    (
@@ -1956,7 +2143,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO4;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO3
 
    (
@@ -1966,7 +2154,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO5;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO4
 
    (
@@ -1976,7 +2165,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO6;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO5
 
    (
@@ -1986,7 +2176,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO7;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO6
 
    (
@@ -1996,7 +2187,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO8;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO7
 
    (
@@ -2006,7 +2198,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO9;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO8
 
    (
@@ -2016,7 +2209,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANO2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANO9
 
    (
@@ -2026,7 +2220,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOBALL2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALL1
 
    (
@@ -2036,7 +2231,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOBALL1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALL2
 
    (
@@ -2046,7 +2242,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOBALLX2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALLX1
 
    (
@@ -2056,7 +2253,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOBALLX3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALLX2
 
    (
@@ -2066,7 +2264,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOBALLX4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALLX3
 
    (
@@ -2076,7 +2275,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOBALLX5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALLX4
 
    (
@@ -2086,7 +2286,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOBALLX6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALLX5
 
    (
@@ -2096,7 +2297,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOBALLX6
 
    (
@@ -2106,7 +2308,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALL2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALL1
 
    (
@@ -2116,7 +2319,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALL1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALL2
 
    (
@@ -2126,7 +2330,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALLX2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALLX1
 
    (
@@ -2136,7 +2341,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALLX3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALLX2
 
    (
@@ -2146,7 +2352,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALLX4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALLX3
 
    (
@@ -2156,7 +2363,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALLX5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALLX4
 
    (
@@ -2166,7 +2374,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALLX6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALLX5
 
    (
@@ -2176,7 +2385,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_VOLCANOTBALLX7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALLX6
 
    (
@@ -2186,7 +2396,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_VOLCANOTBALLX7
 
    (
@@ -2196,7 +2407,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITGEN1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITGEN1
 
    (
@@ -2206,7 +2418,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITGEN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITGEN2
 
    (
@@ -2216,7 +2429,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER1_1
 
    (
@@ -2226,7 +2440,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER1_2
 
    (
@@ -2236,7 +2451,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER1_3
 
    (
@@ -2246,7 +2462,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER1_4
 
    (
@@ -2256,7 +2473,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER1_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER1_5
 
    (
@@ -2266,7 +2484,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER2_1
 
    (
@@ -2276,7 +2495,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER2_2
 
    (
@@ -2286,7 +2506,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER2_3
 
    (
@@ -2296,7 +2517,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER2_4
 
    (
@@ -2306,7 +2528,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TELEGLITTER2_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TELEGLITTER2_5
 
    (
@@ -2316,7 +2539,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG2;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG1
 
    (
@@ -2326,7 +2550,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG3;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG2
 
    (
@@ -2336,7 +2561,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG4;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG3
 
    (
@@ -2346,7 +2572,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG5;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG4
 
    (
@@ -2356,7 +2583,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG6;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG5
 
    (
@@ -2366,7 +2594,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG7;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG6
 
    (
@@ -2376,7 +2605,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG8;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG7
 
    (
@@ -2386,7 +2616,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG9;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG8
 
    (
@@ -2396,7 +2627,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG10;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG9
 
    (
@@ -2406,7 +2638,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG11;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG10
 
    (
@@ -2416,7 +2649,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG12;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG11
 
    (
@@ -2426,7 +2660,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_TFOG13;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG12
 
    (
@@ -2436,7 +2671,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_TFOG13
 
    (
@@ -2446,7 +2682,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_LIGHTDONE
 
    (
@@ -2456,7 +2693,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFREADY
 
    (
@@ -2466,7 +2704,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFDOWN;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFDOWN
 
    (
@@ -2476,7 +2715,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFUP;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFUP
 
    (
@@ -2486,7 +2726,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFREADY2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFREADY2_1
 
    (
@@ -2496,7 +2737,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFREADY2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFREADY2_2
 
    (
@@ -2506,7 +2748,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFREADY2_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFREADY2_3
 
    (
@@ -2516,7 +2759,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFDOWN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFDOWN2
 
    (
@@ -2526,7 +2770,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFUP2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFUP2
 
    (
@@ -2536,7 +2781,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFATK1_1
 
    (
@@ -2546,7 +2792,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFATK1_2
 
    (
@@ -2556,7 +2803,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFATK1_3
 
    (
@@ -2566,7 +2814,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFATK2_1
 
    (
@@ -2576,7 +2825,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFATK2_2
 
    (
@@ -2586,7 +2836,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFREADY2_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFATK2_3
 
    (
@@ -2596,7 +2847,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF1
 
    (
@@ -2606,7 +2858,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF2
 
    (
@@ -2616,7 +2869,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF3
 
    (
@@ -2626,7 +2880,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF4
 
    (
@@ -2636,7 +2891,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF2_1
 
    (
@@ -2646,7 +2902,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF2_2
 
    (
@@ -2656,7 +2913,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF2_3
 
    (
@@ -2666,7 +2924,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF2_4
 
    (
@@ -2676,7 +2935,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_STAFFPUFF2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF2_5
 
    (
@@ -2686,7 +2946,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_STAFFPUFF2_6
 
    (
@@ -2696,7 +2957,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAKREADY;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAKREADY
 
    (
@@ -2706,7 +2968,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAKDOWN;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAKDOWN
 
    (
@@ -2716,7 +2979,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAKUP;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAKUP
 
    (
@@ -2726,7 +2990,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAKREADY;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAKATK1_1
 
    (
@@ -2736,7 +3001,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAKREADY;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAKATK2_1
 
    (
@@ -2746,7 +3012,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WGNT
 
    (
@@ -2756,7 +3023,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETREADY
 
    (
@@ -2766,7 +3034,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETDOWN;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETDOWN
 
    (
@@ -2776,7 +3045,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETUP;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETUP
 
    (
@@ -2786,7 +3056,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETREADY2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETREADY2_1
 
    (
@@ -2796,7 +3067,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETREADY2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETREADY2_2
 
    (
@@ -2806,7 +3078,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETREADY2_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETREADY2_3
 
    (
@@ -2816,7 +3089,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETDOWN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETDOWN2
 
    (
@@ -2826,7 +3100,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETUP2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETUP2
 
    (
@@ -2836,7 +3111,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK1_1
 
    (
@@ -2846,7 +3122,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK1_2
 
    (
@@ -2856,7 +3133,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK1_3
 
    (
@@ -2866,7 +3144,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK1_4
 
    (
@@ -2876,7 +3155,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK1_5
 
    (
@@ -2886,7 +3166,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK1_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK1_6
 
    (
@@ -2896,7 +3177,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK1_7
 
    (
@@ -2906,7 +3188,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK2_1
 
    (
@@ -2916,7 +3199,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK2_2
 
    (
@@ -2926,7 +3210,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK2_3
 
    (
@@ -2936,7 +3221,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK2_4
 
    (
@@ -2946,7 +3232,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK2_5
 
    (
@@ -2956,7 +3243,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETATK2_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK2_6
 
    (
@@ -2966,7 +3254,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETREADY2_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETATK2_7
 
    (
@@ -2976,7 +3265,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETPUFF1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF1_1
 
    (
@@ -2986,7 +3276,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETPUFF1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF1_2
 
    (
@@ -2996,7 +3287,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETPUFF1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF1_3
 
    (
@@ -3006,7 +3298,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF1_4
 
    (
@@ -3016,7 +3309,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETPUFF2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF2_1
 
    (
@@ -3026,7 +3320,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETPUFF2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF2_2
 
    (
@@ -3036,7 +3331,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GAUNTLETPUFF2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF2_3
 
    (
@@ -3046,7 +3342,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GAUNTLETPUFF2_4
 
    (
@@ -3056,7 +3353,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLSR
 
    (
@@ -3066,7 +3364,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERREADY
 
    (
@@ -3076,7 +3375,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERDOWN;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERDOWN
 
    (
@@ -3086,7 +3386,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERUP;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERUP
 
    (
@@ -3096,7 +3397,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK1_1
 
    (
@@ -3106,7 +3408,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK1_2
 
    (
@@ -3116,7 +3419,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK1_3
 
    (
@@ -3126,7 +3430,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK1_4
 
    (
@@ -3136,7 +3441,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK1_5
 
    (
@@ -3146,7 +3452,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK1_6
 
    (
@@ -3156,7 +3463,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK2_1
 
    (
@@ -3166,7 +3474,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK2_2
 
    (
@@ -3176,7 +3485,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK2_3
 
    (
@@ -3186,7 +3496,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK2_4
 
    (
@@ -3196,7 +3507,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERATK2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK2_5
 
    (
@@ -3206,7 +3518,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERATK2_6
 
    (
@@ -3216,7 +3529,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERFX1_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFX1_1
 
    (
@@ -3226,7 +3540,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFXI1_1
 
    (
@@ -3236,7 +3551,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFXI1_2
 
    (
@@ -3246,7 +3562,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFXI1_3
 
    (
@@ -3256,7 +3573,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERFXI1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFXI1_4
 
    (
@@ -3266,7 +3584,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERFXI1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFXI1_5
 
    (
@@ -3276,7 +3595,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERFXI1_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFXI1_6
 
    (
@@ -3286,7 +3606,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERFXI1_7
 
    (
@@ -3296,7 +3617,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERSMOKE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERSMOKE1
 
    (
@@ -3306,7 +3628,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERSMOKE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERSMOKE2
 
    (
@@ -3316,7 +3639,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERSMOKE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERSMOKE3
 
    (
@@ -3326,7 +3650,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERSMOKE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERSMOKE4
 
    (
@@ -3336,7 +3661,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERSMOKE5
 
    (
@@ -3346,7 +3672,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIPPER2;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RIPPER1
 
    (
@@ -3356,7 +3683,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIPPER1;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RIPPER2
 
    (
@@ -3366,7 +3694,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIPPERX2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RIPPERX1
 
    (
@@ -3376,7 +3705,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIPPERX3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RIPPERX2
 
    (
@@ -3386,7 +3716,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIPPERX4;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RIPPERX3
 
    (
@@ -3396,7 +3727,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RIPPERX5;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RIPPERX4
 
    (
@@ -3406,7 +3738,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RIPPERX5
 
    (
@@ -3416,7 +3749,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF1_1
 
    (
@@ -3426,7 +3760,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF1_2
 
    (
@@ -3436,7 +3771,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF1_3
 
    (
@@ -3446,7 +3782,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF1_4
 
    (
@@ -3456,7 +3793,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF1_5
 
    (
@@ -3466,7 +3804,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF2_1
 
    (
@@ -3476,7 +3815,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF2_2
 
    (
@@ -3486,7 +3826,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF2_3
 
    (
@@ -3496,7 +3837,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF2_4
 
    (
@@ -3506,7 +3848,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF2_5
 
    (
@@ -3516,7 +3859,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLASTERPUFF2_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF2_6
 
    (
@@ -3526,7 +3870,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLASTERPUFF2_7
 
    (
@@ -3536,7 +3881,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WMCE
 
    (
@@ -3546,7 +3892,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEREADY;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEREADY
 
    (
@@ -3556,7 +3903,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEDOWN;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEDOWN
 
    (
@@ -3566,7 +3914,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEUP;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEUP
 
    (
@@ -3576,7 +3925,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_1
 
    (
@@ -3586,7 +3936,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_2
 
    (
@@ -3596,7 +3947,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_3
 
    (
@@ -3606,7 +3958,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_4
 
    (
@@ -3616,7 +3969,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_5
 
    (
@@ -3626,7 +3980,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_6
 
    (
@@ -3636,7 +3991,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_7
 
    (
@@ -3646,7 +4002,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_8
 
    (
@@ -3656,7 +4013,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK1_10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_9
 
    (
@@ -3666,7 +4024,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEREADY;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK1_10
 
    (
@@ -3676,7 +4035,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK2_1
 
    (
@@ -3686,7 +4046,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK2_2
 
    (
@@ -3696,7 +4057,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEATK2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK2_3
 
    (
@@ -3706,7 +4068,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEREADY;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEATK2_4
 
    (
@@ -3716,7 +4079,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFX1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFX1_1
 
    (
@@ -3726,7 +4090,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFX1_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFX1_2
 
    (
@@ -3736,7 +4101,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFXI1_1
 
    (
@@ -3746,7 +4112,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFXI1_2
 
    (
@@ -3756,7 +4123,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFXI1_3
 
    (
@@ -3766,7 +4134,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFXI1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFXI1_4
 
    (
@@ -3776,7 +4145,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFXI1_5
 
    (
@@ -3786,7 +4156,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFX2_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFX2_1
 
    (
@@ -3796,7 +4167,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFX2_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFX2_2
 
    (
@@ -3806,7 +4178,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFXI2_1
 
    (
@@ -3816,7 +4189,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFX3_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFX3_1
 
    (
@@ -3826,7 +4200,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFX3_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFX3_2
 
    (
@@ -3836,7 +4211,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFX4_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFX4_1
 
    (
@@ -3846,7 +4222,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MACEFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MACEFXI4_1
 
    (
@@ -3856,7 +4233,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WSKL
 
    (
@@ -3866,7 +4244,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODREADY
 
    (
@@ -3876,7 +4255,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODDOWN;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODDOWN
 
    (
@@ -3886,7 +4266,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODUP;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODUP
 
    (
@@ -3896,7 +4277,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK1_1
 
    (
@@ -3906,7 +4288,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK1_2
 
    (
@@ -3916,7 +4299,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK1_3
 
    (
@@ -3926,7 +4310,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_1
 
    (
@@ -3936,7 +4321,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_2
 
    (
@@ -3946,7 +4332,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_3
 
    (
@@ -3956,7 +4343,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_4
 
    (
@@ -3966,7 +4354,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_5
 
    (
@@ -3976,7 +4365,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_6
 
    (
@@ -3986,7 +4376,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_7
 
    (
@@ -3996,7 +4387,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODATK2_9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_8
 
    (
@@ -4006,7 +4398,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HORNRODREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HORNRODATK2_9
 
    (
@@ -4016,7 +4409,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFX1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFX1_1
 
    (
@@ -4026,7 +4420,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFX1_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFX1_2
 
    (
@@ -4036,7 +4431,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI1_1
 
    (
@@ -4046,7 +4442,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI1_2
 
    (
@@ -4056,7 +4453,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI1_3
 
    (
@@ -4066,7 +4464,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI1_4
 
    (
@@ -4076,7 +4475,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI1_5
 
    (
@@ -4086,7 +4486,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI1_6
 
    (
@@ -4096,7 +4497,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFX2_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFX2_1
 
    (
@@ -4106,7 +4508,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFX2_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFX2_2
 
    (
@@ -4116,7 +4519,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFX2_4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFX2_3
 
    (
@@ -4126,7 +4530,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFX2_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFX2_4
 
    (
@@ -4136,7 +4541,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_1
 
    (
@@ -4146,7 +4552,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_2
 
    (
@@ -4156,7 +4563,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_3
 
    (
@@ -4166,7 +4574,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_4
 
    (
@@ -4176,7 +4585,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_5
 
    (
@@ -4186,7 +4596,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_6
 
    (
@@ -4196,7 +4607,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_7
 
    (
@@ -4206,7 +4618,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HRODFXI2_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HRODFXI2_8
 
    (
@@ -4216,7 +4629,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR1_1
 
    (
@@ -4226,7 +4640,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR2_1
 
    (
@@ -4236,7 +4651,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR3_1
 
    (
@@ -4246,7 +4662,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR4_1
 
    (
@@ -4256,7 +4673,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR1X_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR1X_1
 
    (
@@ -4266,7 +4684,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR1X_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR1X_2
 
    (
@@ -4276,7 +4695,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR1X_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR1X_3
 
    (
@@ -4286,7 +4706,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR1X_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR1X_4
 
    (
@@ -4296,7 +4717,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR1X_5
 
    (
@@ -4306,7 +4728,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR2X_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR2X_1
 
    (
@@ -4316,7 +4739,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR2X_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR2X_2
 
    (
@@ -4326,7 +4750,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR2X_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR2X_3
 
    (
@@ -4336,7 +4761,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR2X_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR2X_4
 
    (
@@ -4346,7 +4772,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR2X_5
 
    (
@@ -4356,7 +4783,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR3X_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR3X_1
 
    (
@@ -4366,7 +4794,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR3X_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR3X_2
 
    (
@@ -4376,7 +4805,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR3X_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR3X_3
 
    (
@@ -4386,7 +4816,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR3X_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR3X_4
 
    (
@@ -4396,7 +4827,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR3X_5
 
    (
@@ -4406,7 +4838,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR4X_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR4X_1
 
    (
@@ -4416,7 +4849,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR4X_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR4X_2
 
    (
@@ -4426,7 +4860,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR4X_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR4X_3
 
    (
@@ -4436,7 +4871,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINPLR4X_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR4X_4
 
    (
@@ -4446,7 +4882,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINPLR4X_5
 
    (
@@ -4456,7 +4893,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR1_1
 
    (
@@ -4466,7 +4904,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR2_1
 
    (
@@ -4476,7 +4915,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR3_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR3_1
 
    (
@@ -4486,7 +4926,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR4_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR4_1
 
    (
@@ -4496,7 +4937,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR1_2
 
    (
@@ -4506,7 +4948,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR2_2
 
    (
@@ -4516,7 +4959,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR3_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR3_2
 
    (
@@ -4526,7 +4970,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_RAINAIRXPLR4_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR4_2
 
    (
@@ -4536,7 +4981,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR1_3
 
    (
@@ -4546,7 +4992,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR2_3
 
    (
@@ -4556,7 +5003,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR3_3
 
    (
@@ -4566,7 +5014,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_RAINAIRXPLR4_3
 
    (
@@ -4576,7 +5025,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDREADY
 
    (
@@ -4586,7 +5036,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDDOWN;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDDOWN
 
    (
@@ -4596,7 +5047,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDUP;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDUP
 
    (
@@ -4606,7 +5058,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK1_1
 
    (
@@ -4616,7 +5069,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK1_2
 
    (
@@ -4626,7 +5080,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDATK1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK1_3
 
    (
@@ -4636,7 +5091,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK1_4
 
    (
@@ -4646,7 +5102,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK2_1
 
    (
@@ -4656,7 +5113,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK2_2
 
    (
@@ -4666,7 +5124,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDATK2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK2_3
 
    (
@@ -4676,7 +5135,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GOLDWANDREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GOLDWANDATK2_4
 
    (
@@ -4686,7 +5146,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDFX1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFX1_1
 
    (
@@ -4696,7 +5157,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDFX1_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFX1_2
 
    (
@@ -4706,7 +5168,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFXI1_1
 
    (
@@ -4716,7 +5179,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFXI1_2
 
    (
@@ -4726,7 +5190,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFXI1_3
 
    (
@@ -4736,7 +5201,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFXI1_4
 
    (
@@ -4746,7 +5212,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDFX2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFX2_1
 
    (
@@ -4756,7 +5223,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDFX2_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDFX2_2
 
    (
@@ -4766,7 +5234,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDPUFF1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDPUFF1_1
 
    (
@@ -4776,7 +5245,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDPUFF1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDPUFF1_2
 
    (
@@ -4786,7 +5256,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDPUFF1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDPUFF1_3
 
    (
@@ -4796,7 +5267,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_GWANDPUFF1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDPUFF1_4
 
    (
@@ -4806,7 +5278,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_GWANDPUFF1_5
 
    (
@@ -4816,7 +5289,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WPHX
 
    (
@@ -4826,7 +5300,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXREADY
 
    (
@@ -4836,7 +5311,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXDOWN;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXDOWN
 
    (
@@ -4846,7 +5322,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXUP;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXUP
 
    (
@@ -4856,7 +5333,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK1_1
 
    (
@@ -4866,7 +5344,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK1_2
 
    (
@@ -4876,7 +5355,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXATK1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK1_3
 
    (
@@ -4886,7 +5366,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXATK1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK1_4
 
    (
@@ -4896,7 +5377,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK1_5
 
    (
@@ -4906,7 +5388,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK2_1
 
    (
@@ -4916,7 +5399,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK2_2
 
    (
@@ -4926,7 +5410,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXATK2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK2_3
 
    (
@@ -4936,7 +5421,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXREADY;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXATK2_4
 
    (
@@ -4946,7 +5432,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX1_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX1_1
 
    (
@@ -4956,7 +5443,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_1
 
    (
@@ -4966,7 +5454,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_2
 
    (
@@ -4976,7 +5465,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_3
 
    (
@@ -4986,7 +5476,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_4
 
    (
@@ -4996,7 +5487,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_5
 
    (
@@ -5006,7 +5498,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI1_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_6
 
    (
@@ -5016,7 +5509,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI1_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_7
 
    (
@@ -5026,7 +5520,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI1_8
 
    (
@@ -5036,7 +5531,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXPUFF2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXPUFF1
 
    (
@@ -5046,7 +5542,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXPUFF3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXPUFF2
 
    (
@@ -5056,7 +5553,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXPUFF4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXPUFF3
 
    (
@@ -5066,7 +5564,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXPUFF5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXPUFF4
 
    (
@@ -5076,7 +5575,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXPUFF5
 
    (
@@ -5086,7 +5586,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_1
 
    (
@@ -5096,7 +5597,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_2
 
    (
@@ -5106,7 +5608,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_3
 
    (
@@ -5116,7 +5619,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_4
 
    (
@@ -5126,7 +5630,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_5
 
    (
@@ -5136,7 +5641,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_6
 
    (
@@ -5146,7 +5652,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_7
 
    (
@@ -5156,7 +5663,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_8
 
    (
@@ -5166,7 +5674,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFX2_10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_9
 
    (
@@ -5176,7 +5685,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFX2_10
 
    (
@@ -5186,7 +5696,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI2_1
 
    (
@@ -5196,7 +5707,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI2_2
 
    (
@@ -5206,7 +5718,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI2_3
 
    (
@@ -5216,7 +5729,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PHOENIXFXI2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI2_4
 
    (
@@ -5226,7 +5740,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PHOENIXFXI2_5
 
    (
@@ -5236,7 +5751,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WBOW
 
    (
@@ -5246,7 +5762,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW1
 
    (
@@ -5256,7 +5773,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW2
 
    (
@@ -5266,7 +5784,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW4;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW3
 
    (
@@ -5276,7 +5795,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW5;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW4
 
    (
@@ -5286,7 +5806,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW6;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW5
 
    (
@@ -5296,7 +5817,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW7;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW6
 
    (
@@ -5306,7 +5828,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW8;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW7
 
    (
@@ -5316,7 +5839,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW9;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW8
 
    (
@@ -5326,7 +5850,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW10;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW9
 
    (
@@ -5336,7 +5861,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW11;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW10
 
    (
@@ -5346,7 +5872,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW12;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW11
 
    (
@@ -5356,7 +5883,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW13;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW12
 
    (
@@ -5366,7 +5894,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW14;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW13
 
    (
@@ -5376,7 +5905,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW15;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW14
 
    (
@@ -5386,7 +5916,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW16;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW15
 
    (
@@ -5396,7 +5927,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW17;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW16
 
    (
@@ -5406,7 +5938,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW18;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW17
 
    (
@@ -5416,7 +5949,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOW18
 
    (
@@ -5426,7 +5960,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWDOWN;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWDOWN
 
    (
@@ -5436,7 +5971,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWUP;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWUP
 
    (
@@ -5446,7 +5982,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_1
 
    (
@@ -5456,7 +5993,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_2
 
    (
@@ -5466,7 +6004,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_3
 
    (
@@ -5476,7 +6015,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_4
 
    (
@@ -5486,7 +6026,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_5
 
    (
@@ -5496,7 +6037,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK1_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_6
 
    (
@@ -5506,7 +6048,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK1_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_7
 
    (
@@ -5516,7 +6059,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK1_8
 
    (
@@ -5526,7 +6070,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_1
 
    (
@@ -5536,7 +6081,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_2
 
    (
@@ -5546,7 +6092,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_3
 
    (
@@ -5556,7 +6103,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_4
 
    (
@@ -5566,7 +6114,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK2_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_5
 
    (
@@ -5576,7 +6125,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK2_7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_6
 
    (
@@ -5586,7 +6136,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWATK2_8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_7
 
    (
@@ -5596,7 +6147,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOW1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWATK2_8
 
    (
@@ -5606,7 +6158,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFX1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFX1
 
    (
@@ -5616,7 +6169,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFXI1_1
 
    (
@@ -5626,7 +6180,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFXI1_2
 
    (
@@ -5636,7 +6191,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFXI1_3
 
    (
@@ -5646,7 +6202,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFX2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFX2
 
    (
@@ -5656,7 +6213,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFX3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFX3
 
    (
@@ -5666,7 +6224,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFXI3_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFXI3_1
 
    (
@@ -5676,7 +6235,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFXI3_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFXI3_2
 
    (
@@ -5686,7 +6246,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFXI3_3
 
    (
@@ -5696,7 +6257,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CRBOWFX4_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFX4_1
 
    (
@@ -5706,7 +6268,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CRBOWFX4_2
 
    (
@@ -5716,7 +6279,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOOD2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOOD1
 
    (
@@ -5726,7 +6290,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOOD3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOOD2
 
    (
@@ -5736,7 +6301,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOOD3
 
    (
@@ -5746,7 +6312,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODSPLATTER2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODSPLATTER1
 
    (
@@ -5756,7 +6323,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODSPLATTER3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODSPLATTER2
 
    (
@@ -5766,7 +6334,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODSPLATTER3
 
    (
@@ -5776,7 +6345,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODSPLATTERX
 
    (
@@ -5786,7 +6356,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY
 
    (
@@ -5796,7 +6367,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_RUN2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_RUN1
 
    (
@@ -5806,7 +6378,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_RUN3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_RUN2
 
    (
@@ -5816,7 +6389,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_RUN4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_RUN3
 
    (
@@ -5826,7 +6400,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_RUN1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_RUN4
 
    (
@@ -5836,7 +6411,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_ATK1
 
    (
@@ -5846,7 +6422,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_ATK1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_ATK2
 
    (
@@ -5856,7 +6433,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_PAIN
 
    (
@@ -5866,7 +6444,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_PAIN2
 
    (
@@ -5876,7 +6455,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE1
 
    (
@@ -5886,7 +6466,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE2
 
    (
@@ -5896,7 +6477,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE3
 
    (
@@ -5906,7 +6488,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE4
 
    (
@@ -5916,7 +6499,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE5
 
    (
@@ -5926,7 +6510,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE6
 
    (
@@ -5936,7 +6521,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE7
 
    (
@@ -5946,7 +6532,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_DIE9;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE8
 
    (
@@ -5956,7 +6543,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_DIE9
 
    (
@@ -5966,7 +6554,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE1
 
    (
@@ -5976,7 +6565,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE2
 
    (
@@ -5986,7 +6576,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE3
 
    (
@@ -5996,7 +6587,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE4
 
    (
@@ -6006,7 +6598,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE5
 
    (
@@ -6016,7 +6609,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE6
 
    (
@@ -6026,7 +6620,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE7
 
    (
@@ -6036,7 +6631,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_XDIE9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE8
 
    (
@@ -6046,7 +6642,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_XDIE9
 
    (
@@ -6056,7 +6653,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH1
 
    (
@@ -6066,7 +6664,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH2
 
    (
@@ -6076,7 +6675,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH3
 
    (
@@ -6086,7 +6686,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH4
 
    (
@@ -6096,7 +6697,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH5
 
    (
@@ -6106,7 +6708,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH6
 
    (
@@ -6116,7 +6719,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH7
 
    (
@@ -6126,7 +6730,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH8
 
    (
@@ -6136,7 +6741,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH9
 
    (
@@ -6146,7 +6752,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH11;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH10
 
    (
@@ -6156,7 +6763,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH12;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH11
 
    (
@@ -6166,7 +6774,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH13;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH12
 
    (
@@ -6176,7 +6785,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH14;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH13
 
    (
@@ -6186,7 +6796,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH15;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH14
 
    (
@@ -6196,7 +6807,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH16;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH15
 
    (
@@ -6206,7 +6818,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH17;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH16
 
    (
@@ -6216,7 +6829,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH18;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH17
 
    (
@@ -6226,7 +6840,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH19;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH18
 
    (
@@ -6236,7 +6851,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PLAY_FDTH19;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH19
 
    (
@@ -6246,7 +6862,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PLAY_FDTH20
 
    (
@@ -6256,7 +6873,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODYSKULL2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODYSKULL1
 
    (
@@ -6266,7 +6884,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODYSKULL3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODYSKULL2
 
    (
@@ -6276,7 +6895,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODYSKULL4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODYSKULL3
 
    (
@@ -6286,7 +6906,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODYSKULL5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODYSKULL4
 
    (
@@ -6296,7 +6917,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODYSKULL1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODYSKULL5
 
    (
@@ -6306,7 +6928,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BLOODYSKULLX1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODYSKULLX1
 
    (
@@ -6316,7 +6939,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLOODYSKULLX2
 
    (
@@ -6326,7 +6950,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY
 
    (
@@ -6336,7 +6961,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICPLAY_RUN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY_RUN1
 
    (
@@ -6346,7 +6972,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICPLAY_RUN3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY_RUN2
 
    (
@@ -6356,7 +6983,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICPLAY_RUN4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY_RUN3
 
    (
@@ -6366,7 +6994,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICPLAY_RUN1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY_RUN4
 
    (
@@ -6376,7 +7005,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICPLAY;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY_ATK1
 
    (
@@ -6386,7 +7016,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICPLAY_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY_PAIN
 
    (
@@ -6396,7 +7027,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICPLAY;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICPLAY_PAIN2
 
    (
@@ -6406,7 +7038,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_LOOK1
 
    (
@@ -6416,7 +7049,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_LOOK2
 
    (
@@ -6426,7 +7060,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_WALK1
 
    (
@@ -6436,7 +7071,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_WALK2
 
    (
@@ -6446,7 +7082,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_PAIN1
 
    (
@@ -6456,7 +7093,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_PAIN2
 
    (
@@ -6466,7 +7104,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_ATK1
 
    (
@@ -6476,7 +7115,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_ATK2
 
    (
@@ -6486,7 +7126,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE1
 
    (
@@ -6496,7 +7137,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE2
 
    (
@@ -6506,7 +7148,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE3
 
    (
@@ -6516,7 +7159,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE4
 
    (
@@ -6526,7 +7170,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE5
 
    (
@@ -6536,7 +7181,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE6
 
    (
@@ -6546,7 +7192,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CHICKEN_DIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE7
 
    (
@@ -6556,7 +7203,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CHICKEN_DIE8
 
    (
@@ -6566,7 +7214,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER1
 
    (
@@ -6576,7 +7225,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER2
 
    (
@@ -6586,7 +7236,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER4;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER3
 
    (
@@ -6596,7 +7247,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER5;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER4
 
    (
@@ -6606,7 +7258,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER6;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER5
 
    (
@@ -6616,7 +7269,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER7;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER6
 
    (
@@ -6626,7 +7280,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER8;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER7
 
    (
@@ -6636,7 +7291,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_FEATHER1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHER8
 
    (
@@ -6646,7 +7302,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_FEATHERX
 
    (
@@ -6656,7 +7313,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_LOOK1
 
    (
@@ -6666,7 +7324,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_LOOK2
 
    (
@@ -6676,7 +7335,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_WALK1
 
    (
@@ -6686,7 +7346,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_WALK2
 
    (
@@ -6696,7 +7357,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_WALK3
 
    (
@@ -6706,7 +7368,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_WALK4
 
    (
@@ -6716,7 +7379,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_ATK1
 
    (
@@ -6726,7 +7390,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_ATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_ATK2
 
    (
@@ -6736,7 +7401,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_ATK3
 
    (
@@ -6746,7 +7412,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYL_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYL_ATK1
 
    (
@@ -6756,7 +7423,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYL_ATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYL_ATK2
 
    (
@@ -6766,7 +7434,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYL_ATK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYL_ATK3
 
    (
@@ -6776,7 +7445,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYL_ATK5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYL_ATK4
 
    (
@@ -6786,7 +7456,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYL_ATK6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYL_ATK5
 
    (
@@ -6796,7 +7467,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYL_ATK6
 
    (
@@ -6806,7 +7478,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_PAIN1
 
    (
@@ -6816,7 +7489,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_PAIN2
 
    (
@@ -6826,7 +7500,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE1
 
    (
@@ -6836,7 +7511,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE2
 
    (
@@ -6846,7 +7522,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE3
 
    (
@@ -6856,7 +7533,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE4
 
    (
@@ -6866,7 +7544,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE5
 
    (
@@ -6876,7 +7555,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE6
 
    (
@@ -6886,7 +7566,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_DIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE7
 
    (
@@ -6896,7 +7577,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_DIE8
 
    (
@@ -6906,7 +7588,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_SOUL2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_SOUL1
 
    (
@@ -6916,7 +7599,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_SOUL3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_SOUL2
 
    (
@@ -6926,7 +7610,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_SOUL4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_SOUL3
 
    (
@@ -6936,7 +7621,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_SOUL5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_SOUL4
 
    (
@@ -6946,7 +7632,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_SOUL6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_SOUL5
 
    (
@@ -6956,7 +7643,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMY_SOUL7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_SOUL6
 
    (
@@ -6966,7 +7654,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMY_SOUL7
 
    (
@@ -6976,7 +7665,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYFX1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFX1_1
 
    (
@@ -6986,7 +7676,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYFX1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFX1_2
 
    (
@@ -6996,7 +7687,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYFX1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFX1_3
 
    (
@@ -7006,7 +7698,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYFX1_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFX1_4
 
    (
@@ -7016,7 +7709,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFXI1_1
 
    (
@@ -7026,7 +7720,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFXI1_2
 
    (
@@ -7036,7 +7731,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MUMMYFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFXI1_3
 
    (
@@ -7046,7 +7742,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MUMMYFXI1_4
 
    (
@@ -7056,7 +7753,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_LOOK1
 
    (
@@ -7066,7 +7764,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_LOOK2
 
    (
@@ -7076,7 +7775,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_WALK1
 
    (
@@ -7086,7 +7786,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_WALK2
 
    (
@@ -7096,7 +7797,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_WALK3
 
    (
@@ -7106,7 +7808,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_WALK4
 
    (
@@ -7116,7 +7819,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_WALK5
 
    (
@@ -7126,7 +7830,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_WALK6
 
    (
@@ -7136,7 +7841,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_ATK1
 
    (
@@ -7146,7 +7852,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_ATK2
 
    (
@@ -7156,7 +7863,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_PAIN1
 
    (
@@ -7166,7 +7874,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_PAIN2
 
    (
@@ -7176,7 +7885,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE1
 
    (
@@ -7186,7 +7896,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE2
 
    (
@@ -7196,7 +7907,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE3
 
    (
@@ -7206,7 +7918,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE4
 
    (
@@ -7216,7 +7929,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE5
 
    (
@@ -7226,7 +7940,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE6
 
    (
@@ -7236,7 +7951,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE7
 
    (
@@ -7246,7 +7962,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_DIE9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE8
 
    (
@@ -7256,7 +7973,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_DIE9
 
    (
@@ -7266,7 +7984,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_XDIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE1
 
    (
@@ -7276,7 +7995,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_XDIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE2
 
    (
@@ -7286,7 +8006,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_XDIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE3
 
    (
@@ -7296,7 +8017,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_XDIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE4
 
    (
@@ -7306,7 +8028,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_XDIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE5
 
    (
@@ -7316,7 +8039,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_XDIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE6
 
    (
@@ -7326,7 +8050,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEAST_XDIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE7
 
    (
@@ -7336,7 +8061,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEAST_XDIE8
 
    (
@@ -7346,7 +8072,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALL2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALL1
 
    (
@@ -7356,7 +8083,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALL3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALL2
 
    (
@@ -7366,7 +8094,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALL4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALL3
 
    (
@@ -7376,7 +8105,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALL5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALL4
 
    (
@@ -7386,7 +8116,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALL6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALL5
 
    (
@@ -7396,7 +8127,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALL1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALL6
 
    (
@@ -7406,7 +8138,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALLX2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALLX1
 
    (
@@ -7416,7 +8149,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALLX3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALLX2
 
    (
@@ -7426,7 +8160,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALLX4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALLX3
 
    (
@@ -7436,7 +8171,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BEASTBALLX5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALLX4
 
    (
@@ -7446,7 +8182,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BEASTBALLX5
 
    (
@@ -7456,7 +8193,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALL2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL1
 
    (
@@ -7466,7 +8204,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALL3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL2
 
    (
@@ -7476,7 +8215,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALL4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL3
 
    (
@@ -7486,7 +8226,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALL5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL4
 
    (
@@ -7496,7 +8237,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALL6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL5
 
    (
@@ -7506,7 +8248,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALL7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL6
 
    (
@@ -7516,7 +8259,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALL8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL7
 
    (
@@ -7526,7 +8270,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALL8
 
    (
@@ -7536,7 +8281,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALLFB2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB1
 
    (
@@ -7546,7 +8292,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALLFB3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB2
 
    (
@@ -7556,7 +8303,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALLFB4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB3
 
    (
@@ -7566,7 +8314,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALLFB5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB4
 
    (
@@ -7576,7 +8325,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALLFB6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB5
 
    (
@@ -7586,7 +8336,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALLFB7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB6
 
    (
@@ -7596,7 +8347,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BURNBALLFB8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB7
 
    (
@@ -7606,7 +8358,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BURNBALLFB8
 
    (
@@ -7616,7 +8369,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFFY2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PUFFY1
 
    (
@@ -7626,7 +8380,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFFY3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PUFFY2
 
    (
@@ -7636,7 +8391,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFFY4;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PUFFY3
 
    (
@@ -7646,7 +8402,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_PUFFY5;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PUFFY4
 
    (
@@ -7656,7 +8413,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_PUFFY5
 
    (
@@ -7666,7 +8424,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_LOOK1
 
    (
@@ -7676,7 +8435,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_LOOK2
 
    (
@@ -7686,7 +8446,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_WALK1
 
    (
@@ -7696,7 +8457,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_WALK2
 
    (
@@ -7706,7 +8468,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_WALK3
 
    (
@@ -7716,7 +8479,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_WALK4
 
    (
@@ -7726,7 +8490,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK1
 
    (
@@ -7736,7 +8501,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK2
 
    (
@@ -7746,7 +8512,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK3
 
    (
@@ -7756,7 +8523,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK4
 
    (
@@ -7766,7 +8534,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK5
 
    (
@@ -7776,7 +8545,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK6
 
    (
@@ -7786,7 +8556,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK7
 
    (
@@ -7796,7 +8567,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_ATK9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK8
 
    (
@@ -7806,7 +8578,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_ATK9
 
    (
@@ -7816,7 +8589,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_PAIN1
 
    (
@@ -7826,7 +8600,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_PAIN2
 
    (
@@ -7836,7 +8611,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE1
 
    (
@@ -7846,7 +8622,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE2
 
    (
@@ -7856,7 +8633,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE3
 
    (
@@ -7866,7 +8644,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE4
 
    (
@@ -7876,7 +8655,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE5
 
    (
@@ -7886,7 +8666,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE6
 
    (
@@ -7896,7 +8677,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE7
 
    (
@@ -7906,7 +8688,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE8
 
    (
@@ -7916,7 +8699,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKE_DIE10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE9
 
    (
@@ -7926,7 +8710,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKE_DIE10
 
    (
@@ -7936,7 +8721,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_A2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_A1
 
    (
@@ -7946,7 +8732,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_A3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_A2
 
    (
@@ -7956,7 +8743,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_A4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_A3
 
    (
@@ -7966,7 +8754,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_A1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_A4
 
    (
@@ -7976,7 +8765,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_AX2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_AX1
 
    (
@@ -7986,7 +8776,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_AX3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_AX2
 
    (
@@ -7996,7 +8787,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_AX4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_AX3
 
    (
@@ -8006,7 +8798,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_AX5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_AX4
 
    (
@@ -8016,7 +8809,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_AX5
 
    (
@@ -8026,7 +8820,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_B2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_B1
 
    (
@@ -8036,7 +8831,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_B1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_B2
 
    (
@@ -8046,7 +8842,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_BX2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_BX1
 
    (
@@ -8056,7 +8853,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_BX3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_BX2
 
    (
@@ -8066,7 +8864,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SNAKEPRO_BX4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_BX3
 
    (
@@ -8076,7 +8875,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SNAKEPRO_BX4
 
    (
@@ -8086,7 +8886,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_LOOK;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_LOOK
 
    (
@@ -8096,7 +8897,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_FLOAT;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_FLOAT
 
    (
@@ -8106,7 +8908,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_ATK2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_ATK1
 
    (
@@ -8116,7 +8919,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_FLOAT;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_ATK2
 
    (
@@ -8126,7 +8930,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_PAIN1
 
    (
@@ -8136,7 +8941,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_FLOAT;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_PAIN2
 
    (
@@ -8146,7 +8952,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_DIE2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_DIE1
 
    (
@@ -8156,7 +8963,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_DIE3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_DIE2
 
    (
@@ -8166,7 +8974,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_DIE4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_DIE3
 
    (
@@ -8176,7 +8985,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_DIE5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_DIE4
 
    (
@@ -8186,7 +8996,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_DIE6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_DIE5
 
    (
@@ -8196,7 +9007,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEAD_DIE7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_DIE6
 
    (
@@ -8206,7 +9018,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEAD_DIE7
 
    (
@@ -8216,7 +9029,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX1_1
 
    (
@@ -8226,7 +9040,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX1_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX1_2
 
    (
@@ -8236,7 +9051,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX1_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX1_3
 
    (
@@ -8246,7 +9062,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI1_1
 
    (
@@ -8256,7 +9073,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI1_2
 
    (
@@ -8266,7 +9084,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI1_3
 
    (
@@ -8276,7 +9095,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI1_4
 
    (
@@ -8286,7 +9106,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX2_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX2_1
 
    (
@@ -8296,7 +9117,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX2_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX2_2
 
    (
@@ -8306,7 +9128,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX2_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX2_3
 
    (
@@ -8316,7 +9139,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI2_1
 
    (
@@ -8326,7 +9150,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI2_2
 
    (
@@ -8336,7 +9161,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI2_3
 
    (
@@ -8346,7 +9172,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI2_4
 
    (
@@ -8356,7 +9183,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX3_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX3_1
 
    (
@@ -8366,7 +9194,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX3_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX3_2
 
    (
@@ -8376,7 +9205,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX3_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX3_3
 
    (
@@ -8386,7 +9216,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX3_5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX3_4
 
    (
@@ -8396,7 +9227,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX3_6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX3_5
 
    (
@@ -8406,7 +9238,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX3_4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX3_6
 
    (
@@ -8416,7 +9249,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI3_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI3_1
 
    (
@@ -8426,7 +9260,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI3_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI3_2
 
    (
@@ -8436,7 +9271,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI3_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI3_3
 
    (
@@ -8446,7 +9282,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI3_4
 
    (
@@ -8456,7 +9293,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX4_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX4_1
 
    (
@@ -8466,7 +9304,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX4_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX4_2
 
    (
@@ -8476,7 +9315,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX4_4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX4_3
 
    (
@@ -8486,7 +9326,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX4_5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX4_4
 
    (
@@ -8496,7 +9337,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX4_6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX4_5
 
    (
@@ -8506,7 +9348,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX4_7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX4_6
 
    (
@@ -8516,7 +9359,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFX4_5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFX4_7
 
    (
@@ -8526,7 +9370,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI4_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI4_1
 
    (
@@ -8536,7 +9381,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI4_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI4_2
 
    (
@@ -8546,7 +9392,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_HEADFXI4_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI4_3
 
    (
@@ -8556,7 +9403,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_HEADFXI4_4
 
    (
@@ -8566,7 +9414,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_LOOK1
 
    (
@@ -8576,7 +9425,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_LOOK2
 
    (
@@ -8586,7 +9436,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_WALK1
 
    (
@@ -8596,7 +9447,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_WALK2
 
    (
@@ -8606,7 +9458,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_WALK3
 
    (
@@ -8616,7 +9469,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_WALK4
 
    (
@@ -8626,7 +9480,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_ATK1
 
    (
@@ -8636,7 +9491,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_ATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_ATK2
 
    (
@@ -8646,7 +9502,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_ATK3
 
    (
@@ -8656,7 +9513,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_PAIN1
 
    (
@@ -8666,7 +9524,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_PAIN2
 
    (
@@ -8676,7 +9535,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_DIE1
 
    (
@@ -8686,7 +9546,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_DIE2
 
    (
@@ -8696,7 +9557,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_DIE3
 
    (
@@ -8706,7 +9568,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_DIE4
 
    (
@@ -8716,7 +9579,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_DIE5
 
    (
@@ -8726,7 +9590,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CLINK_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_DIE6
 
    (
@@ -8736,7 +9601,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CLINK_DIE7
 
    (
@@ -8746,7 +9612,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_LOOK1
 
    (
@@ -8756,7 +9623,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_LOOK2
 
    (
@@ -8766,7 +9634,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK1
 
    (
@@ -8776,7 +9645,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK2
 
    (
@@ -8786,7 +9656,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK3
 
    (
@@ -8796,7 +9667,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK4
 
    (
@@ -8806,7 +9678,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK5
 
    (
@@ -8816,7 +9689,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK6
 
    (
@@ -8826,7 +9700,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK7
 
    (
@@ -8836,7 +9711,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_WALK8
 
    (
@@ -8846,7 +9722,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK1
 
    (
@@ -8856,7 +9733,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK2
 
    (
@@ -8866,7 +9744,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK3
 
    (
@@ -8876,7 +9755,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK4
 
    (
@@ -8886,7 +9766,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK5
 
    (
@@ -8896,7 +9777,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK6
 
    (
@@ -8906,7 +9788,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK7
 
    (
@@ -8916,7 +9799,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_ATK9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK8
 
    (
@@ -8926,7 +9810,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_ATK9
 
    (
@@ -8936,7 +9821,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_PAIN1
 
    (
@@ -8946,7 +9832,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_PAIN2
 
    (
@@ -8956,7 +9843,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE1
 
    (
@@ -8966,7 +9854,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE2
 
    (
@@ -8976,7 +9865,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE3
 
    (
@@ -8986,7 +9876,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE4
 
    (
@@ -8996,7 +9887,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE5
 
    (
@@ -9006,7 +9898,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE6
 
    (
@@ -9016,7 +9909,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZARD_DIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE7
 
    (
@@ -9026,7 +9920,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZARD_DIE8
 
    (
@@ -9036,7 +9931,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZFX1_2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZFX1_1
 
    (
@@ -9046,7 +9942,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZFX1_1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZFX1_2
 
    (
@@ -9056,7 +9953,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZFXI1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZFXI1_1
 
    (
@@ -9066,7 +9964,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZFXI1_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZFXI1_2
 
    (
@@ -9076,7 +9975,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZFXI1_4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZFXI1_3
 
    (
@@ -9086,7 +9986,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_WIZFXI1_5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZFXI1_4
 
    (
@@ -9096,7 +9997,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_WIZFXI1_5
 
    (
@@ -9106,7 +10008,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_LOOK2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_LOOK1
 
    (
@@ -9116,7 +10019,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_LOOK3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_LOOK2
 
    (
@@ -9126,7 +10030,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_LOOK4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_LOOK3
 
    (
@@ -9136,7 +10041,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_LOOK1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_LOOK4
 
    (
@@ -9146,7 +10052,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY1
 
    (
@@ -9156,7 +10063,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY2
 
    (
@@ -9166,7 +10074,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY4;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY3
 
    (
@@ -9176,7 +10085,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY5;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY4
 
    (
@@ -9186,7 +10096,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY6;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY5
 
    (
@@ -9196,7 +10107,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY7;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY6
 
    (
@@ -9206,7 +10118,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY8;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY7
 
    (
@@ -9216,7 +10129,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_FLY8
 
    (
@@ -9226,7 +10140,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MEATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MEATK1
 
    (
@@ -9236,7 +10151,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MEATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MEATK2
 
    (
@@ -9246,7 +10162,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MEATK3
 
    (
@@ -9256,7 +10173,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK1_1
 
    (
@@ -9266,7 +10184,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK1_2
 
    (
@@ -9276,7 +10195,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK1_3
 
    (
@@ -9286,7 +10206,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK1_4
 
    (
@@ -9296,7 +10217,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK1_5
 
    (
@@ -9306,7 +10228,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK1_6
 
    (
@@ -9316,7 +10239,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK2_1
 
    (
@@ -9326,7 +10250,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_MSATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK2_2
 
    (
@@ -9336,7 +10261,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_MSATK2_3
 
    (
@@ -9346,7 +10272,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_PAIN2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_PAIN1
 
    (
@@ -9356,7 +10283,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_FLY1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_PAIN2
 
    (
@@ -9366,7 +10294,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_DIE2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_DIE1
 
    (
@@ -9376,7 +10305,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_DIE2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_DIE2
 
    (
@@ -9386,7 +10316,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_XDIE2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XDIE1
 
    (
@@ -9396,7 +10327,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_XDIE3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XDIE2
 
    (
@@ -9406,7 +10338,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_XDIE4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XDIE3
 
    (
@@ -9416,7 +10349,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_XDIE5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XDIE4
 
    (
@@ -9426,7 +10360,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_XDIE5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XDIE5
 
    (
@@ -9436,7 +10371,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_CRASH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CRASH1
 
    (
@@ -9446,7 +10382,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_CRASH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CRASH2
 
    (
@@ -9456,7 +10393,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_CRASH4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CRASH3
 
    (
@@ -9466,7 +10404,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CRASH4
 
    (
@@ -9476,7 +10415,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_XCRASH2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XCRASH1
 
    (
@@ -9486,7 +10426,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_XCRASH3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XCRASH2
 
    (
@@ -9496,7 +10437,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_XCRASH3
 
    (
@@ -9506,7 +10448,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_CHUNKA2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CHUNKA1
 
    (
@@ -9516,7 +10459,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_CHUNKA3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CHUNKA2
 
    (
@@ -9526,7 +10470,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CHUNKA3
 
    (
@@ -9536,7 +10481,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_CHUNKB2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CHUNKB1
 
    (
@@ -9546,7 +10492,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMP_CHUNKB3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CHUNKB2
 
    (
@@ -9556,7 +10503,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMP_CHUNKB3
 
    (
@@ -9566,7 +10514,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMPFX2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMPFX1
 
    (
@@ -9576,7 +10525,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMPFX3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMPFX2
 
    (
@@ -9586,7 +10536,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMPFX1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMPFX3
 
    (
@@ -9596,7 +10547,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMPFXI2;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMPFXI1
 
    (
@@ -9606,7 +10558,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMPFXI3;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMPFXI2
 
    (
@@ -9616,7 +10569,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_IMPFXI4;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMPFXI3
 
    (
@@ -9626,7 +10580,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_IMPFXI4
 
    (
@@ -9636,7 +10591,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_STND2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_STND1
 
    (
@@ -9646,7 +10602,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_STND1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_STND2
 
    (
@@ -9656,7 +10613,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_WALK1
 
    (
@@ -9666,7 +10624,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_WALK2
 
    (
@@ -9676,7 +10635,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_WALK3
 
    (
@@ -9686,7 +10646,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_WALK4
 
    (
@@ -9696,7 +10657,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_ATK1
 
    (
@@ -9706,7 +10668,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_ATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_ATK2
 
    (
@@ -9716,7 +10679,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_ATK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_ATK3
 
    (
@@ -9726,7 +10690,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_ATK5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_ATK4
 
    (
@@ -9736,7 +10701,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_ATK6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_ATK5
 
    (
@@ -9746,7 +10712,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_ATK6
 
    (
@@ -9756,7 +10723,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_PAIN1
 
    (
@@ -9766,7 +10734,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_PAIN2
 
    (
@@ -9776,7 +10745,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_DIE1
 
    (
@@ -9786,7 +10756,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_DIE2
 
    (
@@ -9796,7 +10767,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_DIE3
 
    (
@@ -9806,7 +10778,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_DIE4
 
    (
@@ -9816,7 +10789,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_DIE5
 
    (
@@ -9826,7 +10800,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_KNIGHT_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_DIE6
 
    (
@@ -9836,7 +10811,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_KNIGHT_DIE7
 
    (
@@ -9846,7 +10822,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPINAXE2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPINAXE1
 
    (
@@ -9856,7 +10833,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPINAXE3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPINAXE2
 
    (
@@ -9866,7 +10844,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPINAXE1;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPINAXE3
 
    (
@@ -9876,7 +10855,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPINAXEX2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPINAXEX1
 
    (
@@ -9886,7 +10866,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SPINAXEX3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPINAXEX2
 
    (
@@ -9896,7 +10877,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SPINAXEX3
 
    (
@@ -9906,7 +10888,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_REDAXE2;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_REDAXE1
 
    (
@@ -9916,7 +10899,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_REDAXE1;     // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_REDAXE2
 
    (
@@ -9926,7 +10910,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_REDAXEX2;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_REDAXEX1
 
    (
@@ -9936,7 +10921,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_REDAXEX3;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_REDAXEX2
 
    (
@@ -9946,7 +10932,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_REDAXEX3
 
    (
@@ -9956,7 +10943,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_LOOK1
 
    (
@@ -9966,7 +10954,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_LOOK2
 
    (
@@ -9976,7 +10965,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_WALK1
 
    (
@@ -9986,7 +10976,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_WALK2
 
    (
@@ -9996,7 +10987,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_WALK3
 
    (
@@ -10006,7 +10998,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_WALK4
 
    (
@@ -10016,7 +11009,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_PAIN1
 
    (
@@ -10026,7 +11020,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_ATK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_ATK1
 
    (
@@ -10036,7 +11031,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_ATK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_ATK2
 
    (
@@ -10046,7 +11042,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_ATK3
 
    (
@@ -10056,7 +11053,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_ATK5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_ATK4
 
    (
@@ -10066,7 +11064,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_ATK6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_ATK5
 
    (
@@ -10076,7 +11075,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_ATK7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_ATK6
 
    (
@@ -10086,7 +11086,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_ATK7
 
    (
@@ -10096,7 +11097,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE1
 
    (
@@ -10106,7 +11108,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE2
 
    (
@@ -10116,7 +11119,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE3
 
    (
@@ -10126,7 +11130,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE4
 
    (
@@ -10136,7 +11141,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE5
 
    (
@@ -10146,7 +11152,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE6
 
    (
@@ -10156,7 +11163,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE8;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE7
 
    (
@@ -10166,7 +11174,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE9;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE8
 
    (
@@ -10176,7 +11185,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE9
 
    (
@@ -10186,7 +11196,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE11;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE10
 
    (
@@ -10196,7 +11207,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE12;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE11
 
    (
@@ -10206,7 +11218,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE13;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE12
 
    (
@@ -10216,7 +11229,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE14;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE13
 
    (
@@ -10226,7 +11240,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE15;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE14
 
    (
@@ -10236,7 +11251,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE16;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE15
 
    (
@@ -10246,7 +11262,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCR1_DIE17;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE16
 
    (
@@ -10256,7 +11273,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCR1_DIE17
 
    (
@@ -10266,7 +11284,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCRFX1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFX1_1
 
    (
@@ -10276,7 +11295,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCRFX1_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFX1_2
 
    (
@@ -10286,7 +11306,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCRFX1_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFX1_3
 
    (
@@ -10296,7 +11317,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCRFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFXI1_1
 
    (
@@ -10306,7 +11328,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCRFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFXI1_2
 
    (
@@ -10316,7 +11339,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCRFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFXI1_3
 
    (
@@ -10326,7 +11350,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SRCRFXI1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFXI1_4
 
    (
@@ -10336,7 +11361,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SRCRFXI1_5
 
    (
@@ -10346,7 +11372,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_RISE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_RISE1
 
    (
@@ -10356,7 +11383,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_RISE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_RISE2
 
    (
@@ -10366,7 +11394,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_RISE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_RISE3
 
    (
@@ -10376,7 +11405,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_RISE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_RISE4
 
    (
@@ -10386,7 +11416,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_RISE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_RISE5
 
    (
@@ -10396,7 +11427,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_RISE7;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_RISE6
 
    (
@@ -10406,7 +11438,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_RISE7
 
    (
@@ -10416,7 +11449,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_LOOK1
 
    (
@@ -10426,7 +11460,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_LOOK2
 
    (
@@ -10436,7 +11471,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_WALK1
 
    (
@@ -10446,7 +11482,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_WALK2
 
    (
@@ -10456,7 +11493,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_WALK3
 
    (
@@ -10466,7 +11504,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_WALK4
 
    (
@@ -10476,7 +11515,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_PAIN1
 
    (
@@ -10486,7 +11526,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_PAIN2
 
    (
@@ -10496,7 +11537,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_ATK2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_ATK1
 
    (
@@ -10506,7 +11548,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_ATK3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_ATK2
 
    (
@@ -10516,7 +11559,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_ATK3
 
    (
@@ -10526,7 +11570,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_TELE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_TELE1
 
    (
@@ -10536,7 +11581,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_TELE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_TELE2
 
    (
@@ -10546,7 +11592,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_TELE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_TELE3
 
    (
@@ -10556,7 +11603,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_TELE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_TELE4
 
    (
@@ -10566,7 +11614,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_TELE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_TELE5
 
    (
@@ -10576,7 +11625,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_TELE6
 
    (
@@ -10586,7 +11636,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE1
 
    (
@@ -10596,7 +11647,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE2
 
    (
@@ -10606,7 +11658,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE3
 
    (
@@ -10616,7 +11669,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE4
 
    (
@@ -10626,7 +11680,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE5
 
    (
@@ -10636,7 +11691,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE6
 
    (
@@ -10646,7 +11702,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE7
 
    (
@@ -10656,7 +11713,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE9;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE8
 
    (
@@ -10666,7 +11724,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE9
 
    (
@@ -10676,7 +11735,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE11;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE10
 
    (
@@ -10686,7 +11746,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE12;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE11
 
    (
@@ -10696,7 +11757,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE13;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE12
 
    (
@@ -10706,7 +11768,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE14;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE13
 
    (
@@ -10716,7 +11779,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2_DIE15;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE14
 
    (
@@ -10726,7 +11790,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2_DIE15
 
    (
@@ -10736,7 +11801,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FX1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FX1_1
 
    (
@@ -10746,7 +11812,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FX1_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FX1_2
 
    (
@@ -10756,7 +11823,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FX1_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FX1_3
 
    (
@@ -10766,7 +11834,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI1_1
 
    (
@@ -10776,7 +11845,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI1_2
 
    (
@@ -10786,7 +11856,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI1_3
 
    (
@@ -10796,7 +11867,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI1_4
 
    (
@@ -10806,7 +11878,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI1_5
 
    (
@@ -10816,7 +11889,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI1_6
 
    (
@@ -10826,7 +11900,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXSPARK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXSPARK1
 
    (
@@ -10836,7 +11911,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXSPARK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXSPARK2
 
    (
@@ -10846,7 +11922,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXSPARK3
 
    (
@@ -10856,7 +11933,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FX2_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FX2_1
 
    (
@@ -10866,7 +11944,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FX2_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FX2_2
 
    (
@@ -10876,7 +11955,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FX2_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FX2_3
 
    (
@@ -10886,7 +11966,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI2_1
 
    (
@@ -10896,7 +11977,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI2_2
 
    (
@@ -10906,7 +11988,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI2_3
 
    (
@@ -10916,7 +11999,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2FXI2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI2_4
 
    (
@@ -10926,7 +12010,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2FXI2_5
 
    (
@@ -10936,7 +12021,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2TELEFADE2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2TELEFADE1
 
    (
@@ -10946,7 +12032,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2TELEFADE3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2TELEFADE2
 
    (
@@ -10956,7 +12043,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2TELEFADE4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2TELEFADE3
 
    (
@@ -10966,7 +12054,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2TELEFADE5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2TELEFADE4
 
    (
@@ -10976,7 +12065,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SOR2TELEFADE6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2TELEFADE5
 
    (
@@ -10986,7 +12076,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SOR2TELEFADE6
 
    (
@@ -10996,7 +12087,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_LOOK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_LOOK1
 
    (
@@ -11006,7 +12098,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_LOOK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_LOOK2
 
    (
@@ -11016,7 +12109,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_WALK1
 
    (
@@ -11026,7 +12120,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_WALK2
 
    (
@@ -11036,7 +12131,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_WALK3
 
    (
@@ -11046,7 +12142,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_WALK4
 
    (
@@ -11056,7 +12153,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK1_1
 
    (
@@ -11066,7 +12164,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK1_2
 
    (
@@ -11076,7 +12175,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK1_3
 
    (
@@ -11086,7 +12186,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK2_1
 
    (
@@ -11096,7 +12197,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK2_2
 
    (
@@ -11106,7 +12208,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK2_3
 
    (
@@ -11116,7 +12219,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK3_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK3_1
 
    (
@@ -11126,7 +12230,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK3_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK3_2
 
    (
@@ -11136,7 +12241,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK3_3
 
    (
@@ -11146,7 +12252,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK3_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK3_4
 
    (
@@ -11156,7 +12263,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_ATK4_1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_ATK4_1
 
    (
@@ -11166,7 +12274,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_PAIN2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_PAIN1
 
    (
@@ -11176,7 +12285,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_WALK1;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_PAIN2
 
    (
@@ -11186,7 +12296,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE1
 
    (
@@ -11196,7 +12307,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE2
 
    (
@@ -11206,7 +12318,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE3
 
    (
@@ -11216,7 +12329,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE4
 
    (
@@ -11226,7 +12340,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE5
 
    (
@@ -11236,7 +12351,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE6
 
    (
@@ -11246,7 +12362,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE7
 
    (
@@ -11256,7 +12373,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE9;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE8
 
    (
@@ -11266,7 +12384,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE10;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE9
 
    (
@@ -11276,7 +12395,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE11;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE10
 
    (
@@ -11286,7 +12406,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE12;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE11
 
    (
@@ -11296,7 +12417,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE13;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE12
 
    (
@@ -11306,7 +12428,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE14;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE13
 
    (
@@ -11316,7 +12439,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTR_DIE15;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE14
 
    (
@@ -11326,7 +12450,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTR_DIE15
 
    (
@@ -11336,7 +12461,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX1_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX1_1
 
    (
@@ -11346,7 +12472,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX1_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX1_2
 
    (
@@ -11356,7 +12483,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI1_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI1_1
 
    (
@@ -11366,7 +12494,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI1_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI1_2
 
    (
@@ -11376,7 +12505,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI1_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI1_3
 
    (
@@ -11386,7 +12516,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI1_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI1_4
 
    (
@@ -11396,7 +12527,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI1_6;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI1_5
 
    (
@@ -11406,7 +12538,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI1_6
 
    (
@@ -11416,7 +12549,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX2_1;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX2_1
 
    (
@@ -11426,7 +12560,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI2_2;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI2_1
 
    (
@@ -11436,7 +12571,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI2_3;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI2_2
 
    (
@@ -11446,7 +12582,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI2_4;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI2_3
 
    (
@@ -11456,7 +12593,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFXI2_5;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI2_4
 
    (
@@ -11466,7 +12604,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFXI2_5
 
    (
@@ -11476,7 +12615,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_2;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_1
 
    (
@@ -11486,7 +12626,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_3;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_2
 
    (
@@ -11496,7 +12637,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_4;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_3
 
    (
@@ -11506,7 +12648,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_5;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_4
 
    (
@@ -11516,7 +12659,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_6;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_5
 
    (
@@ -11526,7 +12670,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_7;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_6
 
    (
@@ -11536,7 +12681,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_8;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_7
 
    (
@@ -11546,7 +12692,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_MNTRFX3_9;   // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_8
 
    (
@@ -11556,7 +12703,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_MNTRFX3_9
 
    (
@@ -11566,7 +12714,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY2;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY1
 
    (
@@ -11576,7 +12725,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY3;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY2
 
    (
@@ -11586,7 +12736,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY4;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY3
 
    (
@@ -11596,7 +12747,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY5;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY4
 
    (
@@ -11606,7 +12758,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY6;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY5
 
    (
@@ -11616,7 +12769,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY7;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY6
 
    (
@@ -11626,7 +12780,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY8;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY7
 
    (
@@ -11636,7 +12791,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY9;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY8
 
    (
@@ -11646,7 +12802,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY10;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY9
 
    (
@@ -11656,7 +12813,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AKYY1;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AKYY10
 
    (
@@ -11666,7 +12824,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY2;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY1
 
    (
@@ -11676,7 +12835,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY3;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY2
 
    (
@@ -11686,7 +12846,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY4;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY3
 
    (
@@ -11696,7 +12857,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY5;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY4
 
    (
@@ -11706,7 +12868,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY6;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY5
 
    (
@@ -11716,7 +12879,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY7;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY6
 
    (
@@ -11726,7 +12890,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY8;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY7
 
    (
@@ -11736,7 +12901,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY9;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY8
 
    (
@@ -11746,7 +12912,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY10;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY9
 
    (
@@ -11756,7 +12923,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_BKYY1;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_BKYY10
 
    (
@@ -11766,7 +12934,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY2;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY1
 
    (
@@ -11776,7 +12945,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY3;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY2
 
    (
@@ -11786,7 +12956,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY4;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY3
 
    (
@@ -11796,7 +12967,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY5;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY4
 
    (
@@ -11806,7 +12978,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY6;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY5
 
    (
@@ -11816,7 +12989,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY7;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY6
 
    (
@@ -11826,7 +13000,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY8;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY7
 
    (
@@ -11836,7 +13011,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY9;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY8
 
    (
@@ -11846,7 +13022,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_CKYY1;       // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_CKYY9
 
    (
@@ -11856,7 +13033,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMG1
 
    (
@@ -11866,7 +13044,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMG2_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMG2_1
 
    (
@@ -11876,7 +13055,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMG2_3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMG2_2
 
    (
@@ -11886,7 +13066,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMG2_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMG2_3
 
    (
@@ -11896,7 +13077,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMM1
 
    (
@@ -11906,7 +13088,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMM2
 
    (
@@ -11916,7 +13099,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMC1
 
    (
@@ -11926,7 +13110,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMC2_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMC2_1
 
    (
@@ -11936,7 +13121,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMC2_3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMC2_2
 
    (
@@ -11946,7 +13132,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMC2_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMC2_3
 
    (
@@ -11956,7 +13143,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMS1_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMS1_1
 
    (
@@ -11966,7 +13154,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMS1_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMS1_2
 
    (
@@ -11976,7 +13165,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMS2_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMS2_1
 
    (
@@ -11986,7 +13176,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMS2_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMS2_2
 
    (
@@ -11996,7 +13187,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMP1_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMP1_1
 
    (
@@ -12006,7 +13198,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMP1_3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMP1_2
 
    (
@@ -12016,7 +13209,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMP1_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMP1_3
 
    (
@@ -12026,7 +13220,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMP2_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMP2_1
 
    (
@@ -12036,7 +13231,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMP2_3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMP2_2
 
    (
@@ -12046,7 +13242,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMP2_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMP2_3
 
    (
@@ -12056,7 +13253,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMB1_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMB1_1
 
    (
@@ -12066,7 +13264,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMB1_3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMB1_2
 
    (
@@ -12076,7 +13275,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMB1_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMB1_3
 
    (
@@ -12086,7 +13286,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMB2_2;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMB2_1
 
    (
@@ -12096,7 +13297,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMB2_3;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMB2_2
 
    (
@@ -12106,7 +13308,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_AMB2_1;      // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_AMB2_3
 
    (
@@ -12116,7 +13319,8 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SND_WIND;    // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // misc2
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
    ),                         // S_SND_WIND
 
    (
@@ -12126,8 +13330,10 @@ const
     action: (acp1: nil);      // action, will be set after
     nextstate: S_SND_WATERFALL;  // nextstate
     misc1: 0;                 // misc1
-    misc2: 0                  // S_SND_WATERFALL  // misc2
-   )
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   )                          // S_SND_WATERFALL
+
   );
 
 const // Doom Original Sprite Names

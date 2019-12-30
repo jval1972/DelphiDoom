@@ -73,9 +73,11 @@ procedure DEH_SaveSpritesCSV(const fname: string);
 implementation
 
 uses
+  TypInfo,
   deh_main,
   i_system,
   info,
+  info_h,
   m_argv,
   w_folders,
   w_pak,
@@ -442,6 +444,15 @@ var
   i, j, idx1, idx2: integer;
   s1, s2, headstr, datstr: string;
   cs: TDStringList;
+
+  function _statename(const x: integer): string;
+  begin
+    if x < Ord(DO_NUMSTATES) then
+      result := strupper(GetENumName(TypeInfo(statenum_t), x))
+    else
+      result := 'S_STATE_' + itoa(x);
+  end;
+
 begin
   DEH_Init;
 
@@ -450,7 +461,7 @@ begin
   idx2 := cs.IndexOf('# Weapons');
 
   headstr := '';
-  for i := idx1 + 1 to idx2 + 1 do
+  for i := idx1 + 1 to idx2 - 1 do
     if strtrim(cs.Strings[i]) <> '' then
       if Pos('#', strtrim(cs.Strings[i])) <> 1 then
         if Pos('//', strtrim(cs.Strings[i])) < 1 then
@@ -458,7 +469,7 @@ begin
           if Pos('FRAME ', strtrim(strupper(cs.Strings[i]))) = 1 then
           begin
             if headstr = '' then
-              headstr := '"id"'
+              headstr := '"Name";"id"'
             else
               break;
           end
@@ -471,6 +482,11 @@ begin
 
   result := TDStringList.Create;
   result.Add(headstr);
+  {$IFNDEF STRIFE}
+  result.Add('"S_NULL";"0";"0";"0";"-1";"0";"NULL";"0";"0";"0"');
+  {$ELSE}
+  result.Add('"S_NULL";"0";"0";"0";"-1";"0";"NULL";"0";"0"');
+  {$ENDIF}
 
   datstr := '';
   for i := idx1 + 1 to idx2 - 1 do
@@ -489,12 +505,12 @@ begin
           else
           begin
             if datstr <> '' then
-              result.Add(datstr);
-            datstr := '"' + itoa(result.Count) + '"';
+              result.Add('"' + _statename(result.Count - 1) + '";' + datstr);
+            datstr := '"' + itoa(result.Count - 1) + '"';
           end;
   end;
   if datstr <> '' then
-    result.Add(datstr);
+    result.Add('"' + _statename(result.Count - 1) + '";' + datstr);
   cs.Free;
 end;
 

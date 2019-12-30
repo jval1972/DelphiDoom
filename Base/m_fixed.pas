@@ -119,27 +119,27 @@ asm
   shrd eax, edx, 16
 end;
 
-function FixedMulShl4(const a, b: fixed_t): fixed_t;
+function FixedMulShl4(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
   shrd eax, edx, 16
   shl eax, 4
 end;
 
-function FixedMulShl8(const a, b: fixed_t): fixed_t;
+function FixedMulShl8(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
   shrd eax, edx, 16
   shl eax, 8
 end;
 
-function FixedMulDiv16(const a, b: fixed_t): fixed_t;
+function FixedMulDiv16(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
   shrd eax, edx, 20
 end;
 
-function FixedMulDiv256(const a, b: fixed_t): fixed_t;
+function FixedMulDiv256(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
   shrd eax, edx, 24

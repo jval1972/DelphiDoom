@@ -551,10 +551,6 @@ begin
 
           if dfactor > 0 then
           begin
-{           factor := FixedMul(dls, dfactor);
-            if factor > 0 then
-              destb^ := colorlighttrans8table[destb^ * 256 + R_FastApproxColorIndex(FixedMul(parms.r, factor), FixedMul(parms.g, factor), FixedMul(parms.b, factor))];}
-
             factor := FixedMulDiv16(dls, dfactor);
 
             if factor > 0 then
@@ -683,22 +679,16 @@ begin
 
             if factor > 0 then
             begin
-              //if parms.b > 0 then
-                //destb^ := destb^ + ((255 - destb^) * parms.b * factor) shr 16;
               if tbl_b <> nil then
                 destb^ := destb^ + (tbl_b[destb^] * factor) shr 16;
               inc(destb);
 
-              //if parms.g > 0 then
-                //destb^ := destb^ + ((255 - destb^) * parms.g * factor) shr 16;
               if tbl_g <> nil then
                 destb^ := destb^ + (tbl_g[destb^] * factor) shr 16;
 
-              //if parms.r > 0 then
               if tbl_r <> nil then
               begin
                 inc(destb);
-                //destb^ := destb^ + ((255 - destb^) * parms.r * factor) shr 16;
                 destb^ := destb^ + (tbl_r[destb^] * factor) shr 16;
                 dec(destb, 2);
               end

@@ -53,6 +53,7 @@ procedure R_SetInterpolateSkipTicks(const ticks: integer);
 
 var
   interpolate: boolean;
+  interpolateoncapped: boolean = false;
   didinterpolations: boolean;
   ticfrac: fixed_t;
 

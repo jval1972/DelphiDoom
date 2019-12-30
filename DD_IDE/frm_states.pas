@@ -1,4 +1,4 @@
-unit frm_mobjinfo;
+unit frm_states;
 
 interface
 
@@ -7,7 +7,7 @@ uses
   Dialogs, ImgList, ComCtrls, StdCtrls, Buttons, ExtCtrls;
 
 type
-  TFrame_Mobjinfo = class(TFrame)
+  TFrame_States = class(TFrame)
     ToolbarPanel: TPanel;
     EditorPanel: TPanel;
     Splitter1: TSplitter;
@@ -27,13 +27,11 @@ type
     procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
   private
     { Private declarations }
-    minfo: TStringList;
     sinfo: TStringList;
     sprnames: TStringList;
     statenames: TStringList;
     fgame: string;
     sortcolumn: integer;
-    procedure ClearMinfo;
     procedure ClearSinfo;
   protected
     procedure CreateParams(var Params: TCreateParams); override;
@@ -53,50 +51,34 @@ implementation
 {$R *.dfm}
 
 uses
-  ddc_base,
-  ide_utils;
+  ddc_base, ide_utils;
 
-constructor TFrame_Mobjinfo.Create(AOwner: TComponent);
+constructor TFrame_States.Create(AOwner: TComponent);
 begin
   inherited;
 
   fgame := '';
 
-  minfo := nil;
   sinfo := nil;
   sprnames := nil;
   statenames := nil;
 end;
 
-procedure TFrame_Mobjinfo.CreateParams(var Params: TCreateParams);
+procedure TFrame_States.CreateParams(var Params: TCreateParams);
 begin
   sortcolumn := 0;
   Inherited;
 end;
 
-destructor TFrame_Mobjinfo.Destroy;
+destructor TFrame_States.Destroy;
 begin
-  ClearMinfo;
   ClearSinfo;
   sprnames.Free;
   statenames.Free;
   inherited;
 end;
 
-procedure TFrame_Mobjinfo.ClearMinfo;
-var
-  i: integer;
-begin
-  if minfo <> nil then
-  begin
-    for i := 0 to minfo.Count - 1 do
-      minfo.Objects[i].Free;
-    minfo.Free;
-    minfo := nil;
-  end;
-end;
-
-procedure TFrame_Mobjinfo.ClearSinfo;
+procedure TFrame_States.ClearSinfo;
 var
   i: integer;
 begin
@@ -109,7 +91,7 @@ begin
   end;
 end;
 
-procedure TFrame_Mobjinfo.FocusAndSelectFirstItem;
+procedure TFrame_States.FocusAndSelectFirstItem;
 var
   i: integer;
 begin
@@ -122,7 +104,7 @@ begin
   end;
 end;
 
-procedure TFrame_Mobjinfo.FocusAndSelectFirstListItem;
+procedure TFrame_States.FocusAndSelectFirstListItem;
 begin
   if ListView1.Items.Count > 0 then
   begin
@@ -131,7 +113,7 @@ begin
   end;
 end;
 
-procedure TFrame_Mobjinfo.UpdateGameControls(const game: string);
+procedure TFrame_States.UpdateGameControls(const game: string);
 var
   lst: TStringList;
 begin
@@ -140,13 +122,9 @@ begin
 
   fgame := LowerCase(game);
 
-  ClearMinfo;
-  minfo := dll_getmobjinfodeclarations(fgame);
-
   ClearSinfo;
-  sinfo := dll_getstatesdeclarations(fgame);
-
   sprnames.Free;
+  sinfo := dll_getstatesdeclarations2(fgame);
   sprnames := dll_getspritenames(fgame);
 
   statenames.Free;
@@ -154,124 +132,71 @@ begin
   statenames := getcolumnfromcsv(lst, 'Name');
   lst.Free;
 
-  if minfo <> nil then
+  if sinfo <> nil then
     FillTreeView;
 
   FillListView;
 end;
 
-function _MinfoItemsCompare(List: TStringList; Index1, Index2: Integer): Integer;
-var
-  s1, s2: string;
-  x1, x2: integer;
-begin
-  s1 := LowerCase(List.Strings[Index1]);
-  s2 := LowerCase(List.Strings[Index2]);
-
-  if Pos('inheritsfrom', s1) = 1 then
-    x1 := 10
-  else if Pos('id #:', s1) = 1 then
-    x1 := 11
-  else if Pos('id:', s1) = 1 then
-    x1 := 12
-  else if Pos('name', s1) = 1 then
-    x1 := 20
-  else if Pos('frame', s1) >= 1 then
-    x1 := 30
-  else if Pos('bits:', s1) >= 1 then
-    x1 := 31
-  else if Pos('bits2:', s1) >= 1 then
-    x1 := 32
-  else if Pos('flags_ex:', s1) >= 1 then
-    x1 := 33
-  else if Pos('flags2_ex:', s1) >= 1 then
-    x1 := 34
-  else if Pos('flags3_ex:', s1) >= 1 then
-    x1 := 35
-  else if Pos('flags4_ex:', s1) >= 1 then
-    x1 := 36
-  else if Pos('sound', s1) >= 1 then
-    x1 := 40
-  else
-    x1 := 50;
-
-  if Pos('inheritsfrom', s2) = 1 then
-    x2 := 10
-  else if Pos('id #:', s2) = 1 then
-    x2 := 11
-  else if Pos('id:', s2) = 1 then
-    x2 := 12
-  else if Pos('name', s2) = 1 then
-    x2 := 20
-  else if Pos('frame', s2) >= 1 then
-    x2 := 30
-  else if Pos('bits:', s2) >= 1 then
-    x2 := 31
-  else if Pos('bits2:', s2) >= 1 then
-    x2 := 32
-  else if Pos('flags_ex:', s2) >= 1 then
-    x2 := 33
-  else if Pos('flags2_ex:', s2) >= 1 then
-    x2 := 34
-  else if Pos('flags3_ex:', s2) >= 1 then
-    x2 := 35
-  else if Pos('flags4_ex:', s2) >= 1 then
-    x2 := 36
-  else if Pos('sound', s2) >= 1 then
-    x2 := 40
-  else
-    x2 := 50;
-
-  Result := x1 - x2;
-  if Result = 0 then
-  begin
-    if s1 < s2 then
-      Result := -1
-    else if s1 > s2 then
-      Result := 1;
-  end;
-end;
-
-procedure TFrame_Mobjinfo.FillTreeView;
+procedure TFrame_States.FillTreeView;
 
   procedure AddTreeItem(const id: integer);
   var
     Item: TTreeNode;
     i: integer;
     lst: TStringList;
-    stnum: integer;
-    sn, sv: string;
+    fieldname, fieldvalue: string;
+    spr, stnum: integer;
+    brightstr: string;
   begin
     if id = 0 then
-      Item := TreeView1.Items.AddFirst(nil, minfo.Strings[id])
+      Item := TreeView1.Items.AddFirst(nil, sinfo.Strings[id])
     else
-      Item := TreeView1.Items.AddChild(nil, minfo.Strings[id]);
-    lst := minfo.Objects[id] as TStringList;
+      Item := TreeView1.Items.AddChild(nil, sinfo.Strings[id]);
+    lst := sinfo.Objects[id] as TStringList;
     if lst <> nil then
-    begin
-      lst.CustomSort(_MinfoItemsCompare);
       for i := 0 to lst.Count - 1 do
       begin
-        splitstring(lst.Strings[i], sn, sv, ':');
-        if Pos(' FRAME:', UpperCase(sn + ':')) > 0 then
+        splitstring(lst.Strings[i], fieldname, fieldvalue, ':');
+
+        if fieldname = 'Sprite Number' then
         begin
-          stnum := StrToIntDef(Trim(sv), -1);
-          if (stnum >= 0) and (stnum < statenames.Count - 1) then
-            TreeView1.Items.AddChild(Item, sn + ': ' + statenames.Strings[stnum])
+          spr := StrToInt(fieldvalue);
+          if (spr >= 0) and (spr < sprnames.Count) then
+            fieldvalue := sprnames.Strings[spr]
           else
-            TreeView1.Items.AddChild(Item, lst.Strings[i]);
+            fieldvalue := 'Unknown sprite number #' + fieldvalue;
         end
-        else
-          TreeView1.Items.AddChild(Item, lst.Strings[i]);
+        else if fieldname = 'Sprite Subnumber' then
+        begin
+          spr := StrToInt(fieldvalue);
+          if spr and 32768 <> 0 then
+          begin
+            spr := spr and 32767;
+            brightstr := ' BRIGHT'
+          end
+          else
+            brightstr := '';
+          if spr in [0..28] then
+            fieldvalue := Chr(Ord('A') + spr) + brightstr
+          else
+            fieldvalue := 'Unknown sprite subnumber #' + fieldvalue;
+        end
+        else if fieldname = 'Next Frame' then
+        begin
+          stnum := StrToIntDef(fieldvalue, -1);
+          if (stnum >= 0) and (stnum < statenames.Count - 1) then
+            fieldvalue := statenames.Strings[stnum];
+        end;
+        TreeView1.Items.AddChild(Item, fieldname + ': ' + fieldvalue);
       end;
-    end;
   end;
 
 var
   i: integer;
   srch: string;
 begin
-  if minfo = nil then
+  if sinfo = nil then
     Exit;
 
   TreeView1.Items.BeginUpdate;
@@ -280,22 +205,21 @@ begin
 
     srch := LowerCase(Trim(SearchEdit.Text));
 
-    for i := 0 to minfo.Count - 1 do
+    for i := 0 to sinfo.Count - 1 do
     begin
       if Length(srch) = 0 then
         AddTreeItem(i)
-      else if Pos(srch, LowerCase(minfo.Strings[i])) > 0 then
+      else if Pos(srch, LowerCase(sinfo.Strings[i])) > 0 then
         AddTreeItem(i);
     end;
 
   finally
-    TreeView1.Items.AlphaSort;
     TreeView1.Items.EndUpdate;
     FocusAndSelectFirstItem;
   end;
 end;
 
-procedure TFrame_Mobjinfo.FillListView;
+procedure TFrame_States.FillListView;
 
   procedure AddListItem(const idx: integer; const fieldname, fieldvalue: string);
   var
@@ -356,11 +280,14 @@ begin
     if it <> nil then
     begin
       splitstring(it.Text, n, v, ':');
-      if Pos(' FRAME:', UpperCase(n + ':')) > 0 then
+      if (n = 'Next Frame') or ((v = '') and (statenames.IndexOf(n) >= 0)) then
       begin
         stnum := StrToIntDef(v, -1);
-        if (stnum < 0) or (stnum >= sinfo.Count) then
-          stnum := statenames.IndexOf(v);
+        if (stnum < 0) or (stnum > sinfo.Count) then
+          if v = '' then
+            stnum := statenames.IndexOf(n)
+          else
+            stnum := statenames.IndexOf(v);
         if (stnum >= 0) and (stnum < sinfo.Count) then
         begin
           lst := sinfo.Objects[stnum] as TStringList;
@@ -375,34 +302,36 @@ begin
     end;
 
   finally
+//    ListView1.AlphaSort;
     ListView1.Items.EndUpdate;
+//    FocusAndSelectFirstItem;
   end;
 end;
 
-procedure TFrame_Mobjinfo.SearchEditChange(Sender: TObject);
+procedure TFrame_States.SearchEditChange(Sender: TObject);
 begin
   FillTreeView;
   ClearFilterSpeedButton.Visible := SearchEdit.Text <> '';
 end;
 
-procedure TFrame_Mobjinfo.ClearFilterSpeedButtonClick(
+procedure TFrame_States.ClearFilterSpeedButtonClick(
   Sender: TObject);
 begin
   SearchEdit.Clear;
 end;
 
-procedure TFrame_Mobjinfo.HintPanelResize(Sender: TObject);
+procedure TFrame_States.HintPanelResize(Sender: TObject);
 begin
   HintEdit.Width := HintPanel.Width - 16;
 end;
 
-procedure TFrame_Mobjinfo.TreeView1Editing(Sender: TObject; Node: TTreeNode;
+procedure TFrame_States.TreeView1Editing(Sender: TObject; Node: TTreeNode;
   var AllowEdit: Boolean);
 begin
   AllowEdit := False;
 end;
 
-procedure TFrame_Mobjinfo.TreeView1Change(Sender: TObject; Node: TTreeNode);
+procedure TFrame_States.TreeView1Change(Sender: TObject; Node: TTreeNode);
 var
   it: TTreeNode;
 begin

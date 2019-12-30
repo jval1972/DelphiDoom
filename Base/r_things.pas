@@ -1235,16 +1235,14 @@ begin
       flip := sprframe.flip[rot];
     end;
   else
+    if funny_rotations.IndexOf(thing.info.name) < 0 then
     begin
-      if funny_rotations.IndexOf(thing.info.name) < 0 then
-      begin
-        funny_rotations.Add(thing.info.name);
-        I_Warning('R_ProjectSprite(): Sprite for "%s" has funny rotations.'#13#10, [thing.info.name]);
-      end;
-      // use single rotation for all views
-      lump := sprframe.lump[0];
-      flip := sprframe.flip[0];
+      funny_rotations.Add(thing.info.name);
+      I_Warning('R_ProjectSprite(): Sprite for "%s" has funny rotations.'#13#10, [thing.info.name]);
     end;
+    // use single rotation for all views
+    lump := sprframe.lump[0];
+    flip := sprframe.flip[0];
   end;
 
   infoscale := thing.scale;
