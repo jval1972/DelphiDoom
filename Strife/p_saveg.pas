@@ -761,6 +761,7 @@ begin
             mobj.gravity := FRACUNIT;
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
+            mobj.rendervalidcount := 0;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -775,6 +776,7 @@ begin
             mobj.gravity := FRACUNIT;
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
+            mobj.rendervalidcount := 0;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -799,6 +801,7 @@ begin
             mobj.gravity := FRACUNIT;
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
+            mobj.rendervalidcount := 0;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);

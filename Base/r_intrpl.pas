@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -74,6 +74,7 @@ uses
   p_mobj_h,
   p_pspr_h,
   r_defs,
+  r_main,
   tables;
 
 type
@@ -130,6 +131,26 @@ begin
   CmdInterpolate;
 end;
 
+procedure CmdInterpolateOncapped(const parm: string = '');
+var
+  newval: boolean;
+begin
+  if parm = '' then
+  begin
+    printf('Current setting: interpolateoncapped = %s.'#13#10, [truefalseStrings[interpolateoncapped]]);
+    exit;
+  end;
+
+  newval := C_BoolEval(parm, interpolateoncapped);
+  if newval <> interpolateoncapped then
+  begin
+    interpolateoncapped := newval;
+    R_SetInterpolateSkipTicks(1);
+  end;
+
+  CmdInterpolateOncapped;
+end;
+
 procedure R_InitInterpolations;
 begin
   istruct.numitems := 0;
@@ -138,6 +159,7 @@ begin
   MT_ZeroMemory(@imobjs, SizeOf(imobjs));
   numismobjs := 0;
   C_AddCmd('interpolate, interpolation, setinterpolation, r_interpolate', @CmdInterpolate);
+  C_AddCmd('interpolateoncapped, r_interpolateoncapped', @CmdInterpolateOncapped);
 end;
 
 procedure R_ResetInterpolationBuffer;
@@ -384,6 +406,8 @@ begin
     {$ELSE}
       if Pmobj_t(th).flags and MF_JUSTAPPEARED = 0 then
     {$ENDIF}
+    // JVAL: 20200105 - Interpolate only mobjs that the renderer touched
+      if Pmobj_t(th).rendervalidcount = rendervalidcount then
         R_AddInterpolationItem(th, imobj);
     th := th.next;
   end;

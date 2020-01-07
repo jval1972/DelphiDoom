@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -145,8 +145,8 @@ implementation
 
 uses
   c_cmds,
-  d_player,
   doomtype,
+  d_player,
   z_zone,
   m_bbox,
   g_game,
@@ -167,7 +167,7 @@ uses
   p_bridge,
   p_pspr,
   p_udmf,
-  p_3dfloors,
+  p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
   p_affectees,
   p_musinfo,
@@ -1122,7 +1122,7 @@ var
   v_id: integer;
   dx2, dy2, dxy, s: int64;
   x0, y0, x1, y1: integer;
-begin                        
+begin
   hit := mallocz(numvertexes);  // Hitlist for vertices
   for i := 0 to numsegs - 1 do  // Go through each seg
   begin
@@ -1183,7 +1183,7 @@ begin
 
   isgamefreezed := false;
 
-  if (not preparingdemoplayback) then
+  if not preparingdemoplayback then
     sysrndseed := I_Random;
 
   wminfo.maxfrags := 0;
@@ -1319,6 +1319,7 @@ begin
   P_RemoveSlimeTrails;
 
 {$IFNDEF OPENGL}
+  R_CalcSectors; // JVAL 20200105 - Check the map boundaries
   R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
 {$ENDIF}
 
@@ -1332,7 +1333,7 @@ begin
   P_CalcSubSectorsBridge;
 
   R_PrecalcPointInSubSector;
-  
+
   bodyqueslot := 0;
   deathmatch_p := 0;
   P_InitAmbientSound;

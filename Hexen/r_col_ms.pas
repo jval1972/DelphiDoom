@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,7 +60,6 @@ var
   fracstep: fixed_t;
   fraclimit: fixed_t;
   swidth: integer;
-
   r1, g1, b1: byte;
   c: LongWord;
   lfactor: integer;
@@ -104,7 +103,6 @@ var
   fracstep: fixed_t;
   fraclimit: fixed_t;
   swidth: integer;
-
   r1, g1, b1: byte;
   c, c1, r, g, b: LongWord;
   lfactor: integer;
@@ -146,7 +144,6 @@ var
   fraclimit: fixed_t;
   spot: integer;
   swidth: integer;
-
   r1, g1, b1: byte;
   c: LongWord;
   lfactor: integer;
@@ -198,7 +195,6 @@ var
   cfrac2: fixed_t;
   spot: integer;
   swidth: integer;
-
 // For inline color averaging
   r1, g1, b1: byte;
   r2, g2, b2: byte;
@@ -243,5 +239,4 @@ begin
 end;
 
 end.
-
 

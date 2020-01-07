@@ -1223,6 +1223,7 @@ begin
 
   repeat
     inc(hitcount);
+
     if hitcount = 3 then
     begin
       stairstep;
@@ -1729,7 +1730,7 @@ begin
 
   // can't shoot outside view angles
   topslope := (100 * FRACUNIT) div 160;
-  bottomslope := -(100 * FRACUNIT) div 160;
+  bottomslope := -topslope; // JVAL
 
   attackrange := distance;
   linetarget := nil;
@@ -2246,6 +2247,7 @@ begin
       end;
     until n = nil;
   end;
+
 end;
 
 function P_ChangeSector(sector: Psector_t; crunch: boolean): boolean;
@@ -2266,6 +2268,7 @@ begin
   result := nofit;
 end;
 
+
 // JVAL Allow jumps in sectors with sky ceiling.... (7/8/2007)
 function P_SectorJumpOverhead(const s: Psector_t): integer;
 begin
@@ -2279,7 +2282,11 @@ begin
   if s.ceilingpic = skyflatnum then
     if not G_NeedsCompatibilityMode then
     begin
-      result := 128 * FRACUNIT;
+      // JVAL: 20200107 - No just overhead for version > 205
+      if G_PlayingEngineVersion <= VERSION204 then
+        result := 128 * FRACUNIT
+      else
+        result := 0;
       exit;
     end;
   result := 0;
@@ -2305,6 +2312,9 @@ begin
       result := nextnode;
       exit;
     end;
+    // Prevent infinite loop
+    if node.m_tnext = nextnode then
+      node.m_tnext := nil;
     node := node.m_tnext;
   end;
 

@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodeCPUID;
 
 {***** BEGIN LICENSE BLOCK *****

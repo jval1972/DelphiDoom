@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -107,6 +107,7 @@ var
 
 const
   MIN_NUMCHANNELS = 8;
+  MAX_NUMCHANNELS = 32;
 
 function S_DefaultMusicForMap(const episode, map: integer): integer;
 
@@ -149,7 +150,6 @@ const
 // when to clip out sounds
 // Does not fit the large outdoor areas.
   S_CLIPPING_DIST = 1200 * $10000;
-//  S_CLIPPING_DIST = 2000 * $10000;
 
 // Distance tp origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
@@ -289,6 +289,9 @@ begin
   // simultaneously) within zone memory.
   if numChannels < MIN_NUMCHANNELS then
     numChannels := MIN_NUMCHANNELS; // JVAL: Set the minimum number of channels
+
+  if numChannels > MAX_NUMCHANNELS then
+    numChannels := MAX_NUMCHANNELS; // JVAL: Set the maximum number of channels
 
   channels := Z_Malloc(numChannels * SizeOf(channel_t), PU_STATIC, nil);
 
@@ -559,7 +562,7 @@ begin
     c := @channels[cnum];
     sfx := c.sfxinfo;
 
-    if c.sfxinfo <> nil then
+    if sfx <> nil then
     begin
       if I_SoundIsPlaying(c.handle) then
       begin
@@ -623,7 +626,7 @@ procedure S_SetSfxVolume(volume: integer);
 begin
   if (volume < 0) or (volume > 15) then
   begin
-    I_DevError('S_SetSfxVolume(): Attempt to set sfx volume at %d', [volume]);
+    I_Warning('S_SetSfxVolume(): Attempt to set sfx volume at %d', [volume]);
     snd_SfxVolume := 15;
   end
   else
@@ -1009,9 +1012,6 @@ begin
       S_sfx[i].lumpnum := I_GetSfxLumpNum(@S_sfx[i]);
       if S_sfx[i].lumpnum >= 0 then
       begin
-        // JVAL
-        // avoid, cause serious mess-up with sounds
-        // W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
         W_CacheLumpNum(S_sfx[i].lumpnum, PU_SOUND);
         sndmem := sndmem + W_LumpLength(S_sfx[i].lumpnum);
       end;

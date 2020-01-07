@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -233,12 +233,13 @@ begin
 
   lightnum := _SHR(ds.midsiderange.lightlevel[0], LIGHTSEGSHIFT) + extralight;
 
-  {$IFNDEF HEXEN}
-  if curline.v1.y = curline.v2.y then
-    dec(lightnum)
-  else if curline.v1.x = curline.v2.x then
-    inc(lightnum);
-  {$ENDIF}
+  if r_fakecontrast then
+  begin
+    if curline.v1.y = curline.v2.y then
+      dec(lightnum)
+    else if curline.v1.x = curline.v2.x then
+      inc(lightnum);
+  end;
 
   if lightnum < 0 then
     lightnum := 0
@@ -396,15 +397,18 @@ begin
   lightnum[0] := _SHR(ds.midsiderange.lightlevel[0], LIGHTSEGSHIFT) + extralight;
   lightnum[1] := _SHR(ds.midsiderange.lightlevel[1], LIGHTSEGSHIFT) + extralight;
 
-  if curline.v1.y = curline.v2.y then
+  if r_fakecontrast then
   begin
-    dec(lightnum[0]);
-    dec(lightnum[1]);
-  end
-  else if curline.v1.x = curline.v2.x then
-  begin
-    inc(lightnum[0]);
-    inc(lightnum[1]);
+    if curline.v1.y = curline.v2.y then
+    begin
+      dec(lightnum[0]);
+      dec(lightnum[1]);
+    end
+    else if curline.v1.x = curline.v2.x then
+    begin
+      inc(lightnum[0]);
+      inc(lightnum[1]);
+    end;
   end;
 
   if lightnum[0] < 0 then
@@ -613,12 +617,13 @@ begin
 
   lightnum := _SHR(ds.midsiderange.lightlevel[0], LIGHTSEGSHIFT) + extralight;
 
-  {$IFNDEF HEXEN}
-  if curline.v1.y = curline.v2.y then
-    dec(lightnum)
-  else if curline.v1.x = curline.v2.x then
-    inc(lightnum);
-  {$ENDIF}
+  if r_fakecontrast then
+  begin
+    if curline.v1.y = curline.v2.y then
+      dec(lightnum)
+    else if curline.v1.x = curline.v2.x then
+      inc(lightnum);
+  end;
 
   if lightnum < 0 then
     lightnum := 0
@@ -760,17 +765,20 @@ begin
   lightnum[0] := _SHR(ds.midsiderange.lightlevel[0], LIGHTSEGSHIFT) + extralight;
   lightnum[1] := _SHR(ds.midsiderange.lightlevel[1], LIGHTSEGSHIFT) + extralight;
 
-  if curline.v1.y = curline.v2.y then
+  if r_fakecontrast then
   begin
-    dec(lightnum[0]);
-    dec(lightnum[1]);
-  end
-  else if curline.v1.x = curline.v2.x then
-  begin
-    inc(lightnum[0]);
-    inc(lightnum[1]);
+    if curline.v1.y = curline.v2.y then
+    begin
+      dec(lightnum[0]);
+      dec(lightnum[1]);
+    end
+    else if curline.v1.x = curline.v2.x then
+    begin
+      inc(lightnum[0]);
+      inc(lightnum[1]);
+    end;
   end;
-
+  
   if lightnum[0] < 0 then
     lightnum[0] := 0
   else if lightnum[0] >= LIGHTLEVELS then

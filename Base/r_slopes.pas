@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -666,12 +666,13 @@ begin
   begin
     lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-    {$IFNDEF HEXEN}
-    if curline.v1.y = curline.v2.y then
-      dec(lightnum)
-    else if curline.v1.x = curline.v2.x then
-      inc(lightnum);
-    {$ENDIF}
+    if r_fakecontrast then
+    begin
+      if curline.v1.y = curline.v2.y then
+        dec(lightnum)
+      else if curline.v1.x = curline.v2.x then
+        inc(lightnum);
+    end;
 
     if lightnum < 0 then
       lightnum := 0
@@ -684,10 +685,14 @@ begin
     if frontsector.midsec >= 0 then
     begin
       lightnum2 := _SHR(sectors[frontsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
-      if curline.v1.y = curline.v2.y then
-        dec(lightnum2)
-      else if curline.v1.x = curline.v2.x then
-        inc(lightnum2);
+      
+      if r_fakecontrast then
+      begin
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+      end;
 
       if lightnum2 < 0 then
         lightnum2 := 0
@@ -704,10 +709,14 @@ begin
     if pds.midsec <> nil then
     begin
       lightnum2 := _SHR(pds.midsec.lightlevel, LIGHTSEGSHIFT) + extralight;
-      if curline.v1.y = curline.v2.y then
-        dec(lightnum2)
-      else if curline.v1.x = curline.v2.x then
-        inc(lightnum2);
+
+      if r_fakecontrast then
+      begin
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+      end;
 
       if lightnum2 < 0 then
         lightnum2 := 0
@@ -729,10 +738,14 @@ begin
       end
       else
         lightnum2 := _SHR(Psector_t(pds.midvis).lightlevel, LIGHTSEGSHIFT) + extralight;
-      if curline.v1.y = curline.v2.y then
-        dec(lightnum2)
-      else if curline.v1.x = curline.v2.x then
-        inc(lightnum2);
+
+      if r_fakecontrast then
+      begin
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum2)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum2);
+      end;
 
       if lightnum2 < 0 then
         lightnum2 := 0
@@ -966,7 +979,18 @@ begin
   if markfloor then
   begin
     if floorplane <> nil then
-      floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1)
+    begin
+      // cph 2003/04/18  - ceilingplane and floorplane might be the same
+      // visplane (e.g. if both skies); R_CheckPlane doesn't know about
+      // modifications to the plane that might happen in parallel with the check
+      // being made, so we have to override it and split them anyway if that is
+      // a possibility, otherwise the floor marking would overwrite the ceiling
+      // marking, resulting in HOM.
+      if markceiling and (ceilingplane = floorplane) then
+        floorplane := R_DupPlane(floorplane, rw_x, rw_stopx - 1)
+      else
+        floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
+    end
     else
       markfloor := false;
   end;

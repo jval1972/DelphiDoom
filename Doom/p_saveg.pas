@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -691,6 +691,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     Z_Free(mobj113);
     result := true
@@ -761,6 +762,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     Z_Free(mobj114);
     result := true
@@ -831,6 +833,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     Z_Free(mobj115);
     result := true
@@ -901,6 +904,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     Z_Free(mobj117);
     result := true
@@ -971,6 +975,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     Z_Free(mobj118);
     result := true;
@@ -998,6 +1003,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     result := true;
   end
@@ -1013,6 +1019,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     result := true;
   end
@@ -1027,6 +1034,7 @@ begin
     mobj.gravity := FRACUNIT;
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
+    mobj.rendervalidcount := 0;
 
     result := true;
   end

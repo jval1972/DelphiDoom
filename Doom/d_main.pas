@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -758,7 +758,7 @@ begin
         else
           pagetic := (TICRATE * 170) div 35;
         gamestate := GS_DEMOSCREEN;
-        pagename := pg_TITLE;
+        pagename := decide(customgame = cg_bfg2, pg_DMENUPIC, pg_TITLE);
         if gamemode = commercial then
           S_StartMusic(Ord(mus_dm2ttl))
         else
@@ -784,7 +784,7 @@ begin
         if gamemode = commercial then
         begin
           pagetic := TICRATE * 11;
-          pagename := pg_TITLE;
+          pagename := decide(customgame = cg_bfg2, pg_DMENUPIC, pg_TITLE); 
           S_StartMusic(Ord(mus_dm2ttl));
         end
         else
@@ -1048,6 +1048,8 @@ var
   doomwad: string;
   doomuwad: string;
   doom2wad: string;
+  doombfgwad: string;
+  doom2bfgwad: string;
 
   doom2fwad: string;
   plutoniawad: string;
@@ -1081,6 +1083,12 @@ begin
   // tnt pack
   sprintf(tntwad, '%s\tnt.wad', [doomwaddir]);
 
+
+  // Doom BFG
+  sprintf(doombfgwad, '%s\doombfg.wad', [doomwaddir]);
+
+  // Doom2 BFG
+  sprintf(doom2bfgwad, '%s\doom2bfg.wad', [doomwaddir]);
 
   // French stuff.
   sprintf(doom2fwad, '%s\doom2f.wad', [doomwaddir]);
@@ -1142,6 +1150,15 @@ begin
 
   for p := 1 to 2 do
   begin
+    if fexists(doom2bfgwad) then
+    begin
+      gamemode := commercial;
+      gamemission := doom2;
+      customgame := cg_bfg2;
+      D_AddFile(doom2bfgwad);
+      exit;
+    end;
+
     if fexists(doom2fwad) then
     begin
       gamemode := commercial;
@@ -1178,6 +1195,14 @@ begin
       exit;
     end;
 
+    if fexists(doombfgwad) then
+    begin
+      gamemode := retail;
+      gamemission := doom;
+      D_AddFile(doomuwad);
+      exit;
+    end;
+
     if fexists(doomuwad) then
     begin
       gamemode := indetermined; // Will check if retail or register mode later
@@ -1201,6 +1226,7 @@ begin
       D_AddFile(doom1wad);
       exit;
     end;
+
 
     if p = 1 then
     begin
@@ -2297,6 +2323,8 @@ begin
        SUC_SetGameMode('Chex Quest 2')
     else if customgame = cg_freedoom then
        SUC_SetGameMode('FREEDOOM')
+    else if customgame = cg_bfg2 then
+       SUC_SetGameMode('DOOM2: BFG Edition')
     else if customgame = cg_hacx then
        SUC_SetGameMode('HACX')
     else if (gamemission = doom) and (gamemode = retail) then

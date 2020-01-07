@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -58,6 +58,7 @@ var
   curadd8table: Ptrans8table_t = nil;
   cursubtract8table: Ptrans8table_t = nil;
   colorlighttrans8table: Ptrans8table_t = nil;
+  colorlighttrans8table256: Ptrans8table_t = nil;
 
 function R_GetTransparency8table(const factor: fixed_t = FRACUNIT div 2): Ptrans8table_t;
 
@@ -77,6 +78,7 @@ const
 
 var
   approxcolorindexarray: array[0..FASTTABLESIZE - 1] of byte;
+  approxcolorindexarray256: array[0..FASTTABLESIZE - 1] of integer;
 
 implementation
 
@@ -97,6 +99,7 @@ var
   c: LongWord;
   c1: LongWord;
   ptrans8: PByte;
+  pi: PInteger;
   r, g, b: LongWord;
 begin
   if trans8tablescalced then
@@ -141,10 +144,20 @@ begin
       for b := 0 to FASTTABLECHANNEL - 1 do
       begin
         ptrans8^ := V_FindAproxColorIndex(@palL,
-                          r shl 20 + g shl 12 + b shl 4 {+
-                          (FASTTABLEBIT div 2) shl 16 + (FASTTABLEBIT div 2) shl 8 + (FASTTABLEBIT div 2)}
+                          r shl 20 + g shl 12 + b shl 4
                     ) and $FF;
         inc(ptrans8);
+      end;
+
+  pi := @approxcolorindexarray256[0];
+  for r := 0 to FASTTABLECHANNEL - 1 do
+    for g := 0 to FASTTABLECHANNEL - 1 do
+      for b := 0 to FASTTABLECHANNEL - 1 do
+      begin
+        pi^ := 256 * (V_FindAproxColorIndex(@palL,
+                          r shl 20 + g shl 12 + b shl 4
+                      ) and $FF);
+        inc(pi);
       end;
 
   for i := 0 to NUMTRANS8TABLES do
@@ -221,6 +234,22 @@ begin
     end;
   end;
 
+  colorlighttrans8table256 := malloc(SizeOf(trans8table_t));
+  ptrans8 := @colorlighttrans8table256[0];
+  for j := 0 to 255 do
+  begin
+    for k := 0 to 255 do
+    begin
+      c1 := palL[k];
+      r := (c1 shr 16) and $ff;
+      g := (c1 shr 8) and $ff;
+      b := c1 and $ff;
+      c := R_ColorLightAdd(palL[j], r, g, b);
+      ptrans8^ := V_FindAproxColorIndex(@palL, c) and $FF;
+      inc(ptrans8);
+    end;
+  end;
+
   trans8tablescalced := true;
 end;
 
@@ -236,6 +265,7 @@ begin
   end;
 
   memfree(pointer(colorlighttrans8table), SizeOf(trans8table_t));
+  memfree(pointer(colorlighttrans8table256), SizeOf(trans8table_t));
 
   averagetrans8table := nil;
 

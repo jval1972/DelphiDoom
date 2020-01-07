@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -41,7 +41,6 @@ uses
   doomdata,
   m_fixed,
   p_mobj_h,
-  nd_main,
   r_defs;
 
 function P_GetMapName(const episode, map: integer): string;
@@ -156,6 +155,7 @@ uses
   i_system,
   w_wad,
   info,
+  info_h,
   p_local,
   p_mobj,
   p_tick,
@@ -173,7 +173,6 @@ uses
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
-  r_subsectors,
   info_rnd,
   m_rnd,
   mt_utils,
@@ -183,11 +182,12 @@ uses
   r_segs2,
 {$ENDIF}
   r_intrpl,
-  info_h,
 {$IFDEF OPENGL}
   gl_render,  // JVAL OPENGL
   r_main,
 {$ENDIF}
+  r_subsectors,
+  nd_main,
   s_sound,
   doomstat;
 
@@ -1837,6 +1837,7 @@ begin
   P_RemoveSlimeTrails;    // killough 10/98: remove slime trails from wad
 
 {$IFNDEF OPENGL}
+  R_CalcSectors; // JVAL 20200105 - Check the map boundaries
   R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
 {$ENDIF}
 

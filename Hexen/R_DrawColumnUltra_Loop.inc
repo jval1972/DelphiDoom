@@ -24,7 +24,6 @@
         destl^ := r + r shl 8 + r shl 16;
 
 {$ELSE}
-
         factor1 := ((FRACUNIT - 1 - cfrac2) * lfactor) shr FRACBITS;
         factor2 := (cfrac2 * lfactor) shr FRACBITS;
 

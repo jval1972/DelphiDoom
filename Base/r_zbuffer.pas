@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -84,6 +84,9 @@ implementation
 
 uses
   d_delphi,
+  {$IFDEF DEBUG}
+  i_system,
+  {$ENDIF}
   m_fixed,
   r_bsp,
   r_draw,
@@ -107,6 +110,17 @@ procedure R_DrawSpanToZBuffer;
 var
   item: Pzbufferitem_t;
 begin
+{$IFDEF DEBUG}
+  if not IsIntegerInRange(ds_y, 0, viewheight - 1) then
+    I_Warning('R_DrawSpanToZBuffer(): ds_y=%d not in range [0..viewheight(=%d) - 1]'#13#10, [ds_y, viewheight]);
+  if not IsIntegerInRange(ds_x1, 0, viewwidth - 1) then
+    I_Warning('R_DrawSpanToZBuffer(): ds_x1=%d not in range [0..viewwidth(=%d) - 1]'#13#10, [ds_x1, viewwidth]);
+  if not IsIntegerInRange(ds_x2, 0, viewwidth - 1) then
+    I_Warning('R_DrawSpanToZBuffer(): ds_x2=%d not in range [0..viewwidth(=%d) - 1]'#13#10, [ds_x2, viewwidth]);
+  if ds_x2 < ds_x1 then
+    I_Warning('R_DrawSpanToZBuffer(): ds_x2=%d < ds_x1=%d'#13#10, [ds_x2, ds_x1]);
+{$ENDIF}
+
   item := R_NewZBufferItem(@Zspans[ds_y]);
 
   if ds_y = centery then
@@ -124,6 +138,17 @@ procedure R_DrawColumnToZBuffer;
 var
   item: Pzbufferitem_t;
 begin
+{$IFDEF DEBUG}
+  if not IsIntegerInRange(dc_x, 0, viewwidth - 1) then
+    I_Warning('R_DrawColumnToZBuffer(): ds_x=%d not in range [0..viewwidth(=%d) - 1]'#13#10, [dc_x, viewwidth]);
+  if not IsIntegerInRange(dc_yl, 0, viewheight - 1) then
+    I_Warning('R_DrawColumnToZBuffer(): ds_yl=%d not in range [0..viewheight(=%d) - 1]'#13#10, [dc_yl, viewheight]);
+  if not IsIntegerInRange(dc_yh, 0, viewwidth - 1) then
+    I_Warning('R_DrawColumnToZBuffer(): ds_yh=%d not in range [0..viewheight(=%d) - 1]'#13#10, [dc_yh, viewheight]);
+  if dc_yh < dc_yl then
+    I_Warning('R_DrawSpanToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
+{$ENDIF}
+
   item := R_NewZBufferItem(@Zcolumns[dc_x]);
 
   item.depth := trunc((FRACUNIT / dc_iscale) * FRACUNIT);

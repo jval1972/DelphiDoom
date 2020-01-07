@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -68,6 +68,7 @@ function R_FindPlane(height: fixed_t; picnum: integer; lightlevel: integer;
   {$IFNDEF OPENGL}slope: Pvisslope_t; {$ENDIF} slopeSID: integer = -1): Pvisplane_t;
 
 {$IFNDEF OPENGL}
+function R_DupPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 {$ENDIF}
 
@@ -393,6 +394,7 @@ begin
       Z_Malloc((SCREENWIDTH + 2) * SizeOf(visindex_t), PU_LEVEL, nil));
     // Clear visplane
     memset(@visplanes[lastvisplane].top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
+    memset(@visplanes[lastvisplane].bottom[-1], 0, (2 + SCREENWIDTH) * SizeOf(visindex_t));
     {$ENDIF}
     maxvisplane := lastvisplane;
   end;
@@ -534,10 +536,43 @@ begin
 
 end;
 
+{$IFNDEF OPENGL}
+//
+// R_DupPlane
+//
+function R_DupPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
+var
+  pll: Pvisplane_t;
+begin
+  // make a new visplane
+  if lastvisplane = MAXVISPLANES then
+    I_Error('R_CheckPlane(): no more visplanes');
+
+  pll := @visplanes[lastvisplane];
+  pll.height := pl.height;
+  pll.picnum := pl.picnum;
+  pll.lightlevel := pl.lightlevel;
+  pll.special := pl.special;
+  pll.renderflags := pl.renderflags;
+  pll.slopeSID := pl.slopeSID;  // JVAL: Slopes
+  {$IFNDEF OPENGL}
+  pll.slope := pl.slope;        // JVAL: Slopes
+  {$ENDIF}
+
+  pl := pll;
+
+  R_NewVisPlane;
+  visplanehash[R_VisplaneHash(pl.height, pl.picnum, pl.lightlevel,
+    pl.special, pl.renderflags, pl.slopeSID)] := lastvisplane;
+
+  pl.minx := start;
+  pl.maxx := stop;
+
+  result := pl;
+end;
 //
 // R_CheckPlane
 //
-{$IFNDEF OPENGL}
 function R_CheckPlane(pl: Pvisplane_t; start: integer; stop: integer): Pvisplane_t;
 var
   intrl: integer;
@@ -545,7 +580,6 @@ var
   unionl: integer;
   unionh: integer;
   x: integer;
-  pll: Pvisplane_t;
 begin
   if start < pl.minx then
   begin
@@ -588,32 +622,7 @@ begin
     exit;
   end;
 
-  // make a new visplane
-
-  if lastvisplane = MAXVISPLANES then
-    I_Error('R_CheckPlane(): no more visplanes');
-
-  pll := @visplanes[lastvisplane];
-  pll.height := pl.height;
-  pll.picnum := pl.picnum;
-  pll.lightlevel := pl.lightlevel;
-  pll.special := pl.special;
-  pll.renderflags := pl.renderflags;
-  pll.slopeSID := pl.slopeSID;  // JVAL: Slopes
-  {$IFNDEF OPENGL}
-  pll.slope := pl.slope;        // JVAL: Slopes
-  {$ENDIF}
-
-  pl := pll;
-
-  R_NewVisPlane;
-  visplanehash[R_VisplaneHash(pl.height, pl.picnum, pl.lightlevel,
-    pl.special, pl.renderflags, pl.slopeSID)] := lastvisplane;
-
-  pl.minx := start;
-  pl.maxx := stop;
-
-  result := pl;
+  result := R_DupPlane(pl, start, stop);
 end;
 {$ENDIF}
 
@@ -796,7 +805,7 @@ begin
       begin
         dc_yl := pl.top[x];
         dc_yh := pl.bottom[x];
-        if dc_yl < dc_yh then
+        if dc_yl <= dc_yh then
         begin
           angle := (viewangle + xtoviewangle[x] + offset) div ANGLETOSKYUNIT;
           dc_texturemod := 0;
@@ -872,7 +881,7 @@ begin
       dc_yl := pl.top[x];
       dc_yh := pl.bottom[x];
 
-      if dc_yl < dc_yh then
+      if dc_yl <= dc_yh then
       begin
         angle := (viewangle + xtoviewangle[x] + offset) div ANGLETOSKYUNIT;
         if detaillevel <= DL_NORMAL then
@@ -951,7 +960,10 @@ var
   i: integer;
 begin
   for i := 0 to lastvisplane - 1 do
+  begin
     memset(@visplanes[i].top[-1], iVISEND, (2 + SCREENWIDTH) * SizeOf(visindex_t));
+    memset(@visplanes[i].bottom[-1], 0, (2 + SCREENWIDTH) * SizeOf(visindex_t));
+  end;
 end;
 {$ENDIF}
 

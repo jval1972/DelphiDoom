@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -250,6 +250,7 @@ var
   pos: integer;
   playpal: PByteArray;
   ss: integer;
+  delta, prevdelta: integer;
 begin
   if (gltexture = nil) or (patch = nil) then
     exit;
@@ -267,15 +268,18 @@ begin
     xe := xe + gltexture.realtexwidth - (xe + originx);
   for x := xs to xe - 1 do
   begin
+    delta := 0;
     column := Pcolumn_t(integer(patch) + patch.columnofs[x]);
     while column.topdelta <> 255 do
     begin
-      y := (column.topdelta + originy);
+      delta := delta + column.topdelta;
+      y := (delta + originy);
       js := 0;
       je := column.length;
       if (js + y >= gltexture.realtexheight) or (je + y <= 0) then
       begin
         column := Pcolumn_t(integer(column) + column.length + 4);
+        delta := 0;
         continue;
       end;
       if js + y < 0 then
@@ -309,7 +313,10 @@ begin
           pos := pos + 4 * gltexture.buffer_width;
         end;
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
   end;
   Z_ChangeTag(playpal, PU_CACHE);
@@ -327,6 +334,7 @@ var
   playpal: PByteArray;
   trans: PByteArray;
   ss: integer;
+  delta, prevdelta: integer;
 begin
   if cm = Ord(CR_LIMIT) then
   begin
@@ -354,15 +362,18 @@ begin
     xe := xe + gltexture.realtexwidth - (xe + originx);
   for x := xs to xe - 1 do
   begin
+    delta := 0;
     column := Pcolumn_t(integer(patch) + patch.columnofs[x]);
     while column.topdelta <> 255 do
     begin
-      y := (column.topdelta + originy);
+      delta := delta + column.topdelta;
+      y := (delta + originy);
       js := 0;
       je := column.length;
       if (js + y >= gltexture.realtexheight) or (je + y <= 0) then
       begin
         column := Pcolumn_t(integer(column) + column.length + 4);
+        delta := 0;
         continue;
       end;
       if js + y < 0 then
@@ -396,7 +407,10 @@ begin
           pos := pos + 4 * gltexture.buffer_width;
         end;
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
   end;
   Z_ChangeTag(playpal, PU_CACHE);
@@ -453,6 +467,7 @@ var
   js,je: integer;
   column: Pcolumn_t;
   pos: integer;
+  delta, prevdelta: integer;
 begin
   xs := 0;
   xe := patch.width;
@@ -466,15 +481,18 @@ begin
     xe := xe + gltexture.realtexwidth - (xe + originx);
   for x := xs to xe - 1 do
   begin
+    delta := 0;
     column := Pcolumn_t(integer(patch) + patch.columnofs[x]);
     while column.topdelta <> 255 do
     begin
-      y := (column.topdelta + originy);
+      delta := delta + column.topdelta;
+      y := (delta + originy);
       js := 0;
       je := column.length;
       if (js + y >= gltexture.realtexheight) or (je + y <= 0) then
       begin
         column := Pcolumn_t(integer(column) + column.length + 4);
+        delta := 0;
         continue;
       end;
       if js + y < 0 then
@@ -489,7 +507,10 @@ begin
         inc(j);
         pos := pos + gltexture.realtexwidth;
       end;
+      prevdelta := column.topdelta;
       column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0;
     end;
   end;
 end;

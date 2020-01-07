@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -80,20 +80,20 @@ function P_ThingHeightClip(thing: Pmobj_t): boolean;
 
 procedure P_HitSlideLine(ld: Pline_t);
 
-function PTR_SlideTraverse(_in: Pintercept_t): boolean;
+function PTR_SlideTraverse(intr: Pintercept_t): boolean;
 
 procedure P_SlideMove(mo: Pmobj_t);
 
-function PTR_AimTraverse(_in: Pintercept_t): boolean;
+function PTR_AimTraverse(intr: Pintercept_t): boolean;
 
-function PTR_ShootTraverse(_in: Pintercept_t): boolean;
+function PTR_ShootTraverse(intr: Pintercept_t): boolean;
 
 function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
 
 procedure P_LineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t;
   slope: fixed_t; damage: integer);
 
-function PTR_UseTraverse(_in: Pintercept_t): boolean;
+function PTR_UseTraverse(intr: Pintercept_t): boolean;
 
 procedure P_UseLines(player: Pplayer_t);
 
@@ -108,11 +108,11 @@ function PIT_ChangeSector(thing: Pmobj_t): boolean;
 
 function P_ChangeSector(sector: Psector_t; crunch: boolean): boolean;
 
-function PTR_PuzzleItemTraverse(_in: Pintercept_t): boolean;
+function PTR_PuzzleItemTraverse(intr: Pintercept_t): boolean;
 
 function P_UsePuzzleItem(player: Pplayer_t; itemType: integer): boolean;
 
-function PTR_BounceTraverse(_in: Pintercept_t): boolean;
+function PTR_BounceTraverse(intr: Pintercept_t): boolean;
 
 procedure P_BounceWall(mo: Pmobj_t);
 
@@ -1715,7 +1715,7 @@ end;
 //
 //==============================================================================
 
-function PTR_SlideTraverse(_in: Pintercept_t): boolean;
+function PTR_SlideTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
 
@@ -1723,20 +1723,20 @@ var
   begin
     // the line does block movement,
     // see if it is closer than best so far
-    if _in.frac < bestslidefrac then
+    if intr.frac < bestslidefrac then
     begin
       secondslidefrac := bestslidefrac;
       secondslideline := bestslideline;
-      bestslidefrac := _in.frac;
+      bestslidefrac := intr.frac;
       bestslideline := li;
     end;
   end;
 
 begin
-  if not _in.isaline then
+  if not intr.isaline then
     I_Error('PTR_SlideTraverse(): not a line?');
 
-  li := _in.d.line;
+  li := intr.d.line;
 
   if li.flags and ML_TWOSIDED = 0 then
   begin
@@ -1922,7 +1922,7 @@ var
 //
 //==============================================================================
 
-function PTR_AimTraverse(_in: Pintercept_t): boolean;
+function PTR_AimTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
   th: Pmobj_t;
@@ -1931,9 +1931,9 @@ var
   thingbottomslope: fixed_t;
   dist: fixed_t;
 begin
-  if _in.isaline then
+  if intr.isaline then
   begin
-    li := _in.d.line;
+    li := intr.d.line;
 
     if li.flags and ML_TWOSIDED = 0 then
     begin
@@ -1952,7 +1952,7 @@ begin
       exit;
     end;
 
-    dist := FixedMul(attackrange, _in.frac);
+    dist := FixedMul(attackrange, intr.frac);
 
     if li.frontsector.floorheight <> li.backsector.floorheight then
     begin
@@ -1979,7 +1979,7 @@ begin
   end;
 
   // shoot a thing
-  th := _in.d.thing;
+  th := intr.d.thing;
   if th = shootthing then
   begin
     result := true;  // can't shoot self
@@ -1999,7 +1999,7 @@ begin
   end;
 
   // check angles to see if the thing can be aimed at
-  dist := FixedMul(attackrange, _in.frac);
+  dist := FixedMul(attackrange, intr.frac);
   thingtopslope := FixedDiv(th.z + th.height - shootz, dist);
 
   if thingtopslope < bottomslope then
@@ -2036,7 +2036,7 @@ end;
 //
 //==============================================================================
 
-function PTR_ShootTraverse(_in: Pintercept_t): boolean;
+function PTR_ShootTraverse(intr: Pintercept_t): boolean;
 var
   x: fixed_t;
   y: fixed_t;
@@ -2101,7 +2101,7 @@ var
 
     // hit line
     // position a bit closer
-    frac := _in.frac - FixedDiv(4 * FRACUNIT, attackrange);
+    frac := intr.frac - FixedDiv(4 * FRACUNIT, attackrange);
     x := trace.x + FixedMul(trace.dx, frac);
     y := trace.y + FixedMul(trace.dy, frac);
     z := shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
@@ -2145,9 +2145,9 @@ var
   end;
 
 begin
-  if _in.isaline then
+  if intr.isaline then
   begin
-    li := _in.d.line;
+    li := intr.d.line;
 
     if li.flags and ML_TRIGGERSCRIPTS <> 0 then
       if shootthing.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
@@ -2165,7 +2165,7 @@ begin
     // crosses a two sided line
     P_LineOpening(li, false);
 
-    dist := FixedMul(attackrange, _in.frac);
+    dist := FixedMul(attackrange, intr.frac);
 
     if li.frontsector.floorheight <> li.backsector.floorheight then
     begin
@@ -2193,7 +2193,7 @@ begin
   end;
 
   // shoot a thing
-  th := _in.d.thing;
+  th := intr.d.thing;
   if th = shootthing then
   begin
     result := true; // can't shoot self
@@ -2207,7 +2207,7 @@ begin
   end;
 
   // check angles to see if the thing can be aimed at
-  dist := FixedMul(attackrange, _in.frac);
+  dist := FixedMul(attackrange, intr.frac);
   thingtopslope := FixedDiv(th.z + th.height - shootz, dist);
 
   if thingtopslope < aimslope then
@@ -2244,7 +2244,7 @@ begin
 
   // hit thing
   // position a bit closer
-  frac := _in.frac - FixedDiv(10 * FRACUNIT, attackrange);
+  frac := intr.frac - FixedDiv(10 * FRACUNIT, attackrange);
 
   x := trace.x + FixedMul(trace.dx, frac);
   y := trace.y + FixedMul(trace.dy, frac);
@@ -2253,14 +2253,14 @@ begin
   P_SpawnPuff(x, y, z);
   if la_damage <> 0 then
   begin
-    if (_in.d.thing.flags and MF_NOBLOOD = 0) and
-       (_in.d.thing.flags2 and MF2_INVULNERABLE = 0) and
-       (_in.d.thing.flags_ex and MF_EX_INVULNERABLE = 0) then
+    if (intr.d.thing.flags and MF_NOBLOOD = 0) and
+       (intr.d.thing.flags2 and MF2_INVULNERABLE = 0) and
+       (intr.d.thing.flags_ex and MF_EX_INVULNERABLE = 0) then
     begin
       if (PuffType = MT_AXEPUFF) or (PuffType = MT_AXEPUFF_GLOW) then
-        P_BloodSplatter2(x, y, z, _in.d.thing);
+        P_BloodSplatter2(x, y, z, intr.d.thing);
       if P_Random < 192 then
-        P_BloodSplatter(x, y, z, _in.d.thing);
+        P_BloodSplatter(x, y, z, intr.d.thing);
     end;
 
     if PuffType = MT_FLAMEPUFF2 then
@@ -2363,18 +2363,18 @@ end;
 var
   usething: Pmobj_t;
 
-function PTR_UseTraverse(_in: Pintercept_t): boolean;
+function PTR_UseTraverse(intr: Pintercept_t): boolean;
 var
   sound: integer;
   pheight: fixed_t;
 begin
-  if _in.d.line.flags and ML_TRIGGERSCRIPTS <> 0 then
+  if intr.d.line.flags and ML_TRIGGERSCRIPTS <> 0 then
     if usething.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
-      PS_EventUseLine(usething, pDiff(_in.d.line, lines, SizeOf(line_t)), P_PointOnLineSide(usething.x, usething.y, _in.d.line));
+      PS_EventUseLine(usething, pDiff(intr.d.line, lines, SizeOf(line_t)), P_PointOnLineSide(usething.x, usething.y, intr.d.line));
 
-  if _in.d.line.special = 0 then
+  if intr.d.line.special = 0 then
   begin
-    P_LineOpening(_in.d.line, true);
+    P_LineOpening(intr.d.line, true);
     if openrange <= 0 then
     begin
       if usething.player <> nil then
@@ -2421,13 +2421,13 @@ begin
     exit;
   end;
 
-  if P_PointOnLineSide(usething.x, usething.y, _in.d.line) = 1 then
+  if P_PointOnLineSide(usething.x, usething.y, intr.d.line) = 1 then
   begin
     result := false;  // don't use back sides
     exit;
   end;
 
-  P_ActivateLine(_in.d.line, usething, 0, SPAC_USE);
+  P_ActivateLine(intr.d.line, usething, 0, SPAC_USE);
 
   result := false;  // can't use for than one special line in a row
 end;
@@ -2773,16 +2773,16 @@ var
   PuzzleItemType: integer;
   PuzzleActivated: boolean;
 
-function PTR_PuzzleItemTraverse(_in: Pintercept_t): boolean;
+function PTR_PuzzleItemTraverse(intr: Pintercept_t): boolean;
 var
   mobj: Pmobj_t;
   sound: integer;
 begin
-  if _in.isaline then
+  if intr.isaline then
   begin // Check line
-    if _in.d.line.special <> USE_PUZZLE_ITEM_SPECIAL then
+    if intr.d.line.special <> USE_PUZZLE_ITEM_SPECIAL then
     begin
-      P_LineOpening(_in.d.line, true);
+      P_LineOpening(intr.d.line, true);
       if openrange <= 0 then
       begin
         sound := Ord(SFX_NONE);
@@ -2806,27 +2806,27 @@ begin
       exit;
     end;
 
-    if P_PointOnLineSide(PuzzleItemUser.x, PuzzleItemUser.y, _in.d.line) = 1 then
+    if P_PointOnLineSide(PuzzleItemUser.x, PuzzleItemUser.y, intr.d.line) = 1 then
     begin // Don't use back sides
       result := false;
       exit;
     end;
 
-    if PuzzleItemType <> _in.d.line.arg1 then
+    if PuzzleItemType <> intr.d.line.arg1 then
     begin // Item type doesn't match
       result := false;
       exit;
     end;
 
-    P_StartACS(_in.d.line.arg2, 0, @_in.d.line.arg3, PuzzleItemUser, _in.d.line, 0);
-    _in.d.line.special := 0;
+    P_StartACS(intr.d.line.arg2, 0, @intr.d.line.arg3, PuzzleItemUser, intr.d.line, 0);
+    intr.d.line.special := 0;
     PuzzleActivated := true;
     result := false; // Stop searching
     exit;
   end;
 
   // Check thing
-  mobj := _in.d.thing;
+  mobj := intr.d.thing;
   if mobj.special <> USE_PUZZLE_ITEM_SPECIAL then
   begin // Wrong special
     result := true;
@@ -2876,27 +2876,27 @@ end;
 //
 //============================================================================
 
-function PTR_BounceTraverse(_in: Pintercept_t): boolean;
+function PTR_BounceTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
 
   // the line does block movement, see if it is closer than best so far
   procedure bounceblocking;
   begin
-    if _in.frac < bestslidefrac then
+    if intr.frac < bestslidefrac then
     begin
       secondslidefrac := bestslidefrac;
       secondslideline := bestslideline;
-      bestslidefrac := _in.frac;
+      bestslidefrac := intr.frac;
       bestslideline := li;
     end;
   end;
 
 begin
-  if not _in.isaline then
+  if not intr.isaline then
     I_Error('PTR_BounceTraverse(): not a line?');
 
-  li := _in.d.line;
+  li := intr.d.line;
   if li.flags and ML_TWOSIDED = 0 then
   begin
     if P_PointOnLineSide(slidemo.x, slidemo.y, li) <> 0 then
@@ -2998,8 +2998,16 @@ begin
       if p.powers[Ord(pw_flight)] <> 0 then
         exit;
     if not G_NeedsCompatibilityMode then
-      result := 128 * FRACUNIT;
+    begin
+      // JVAL: 20200107 - No just overhead for version > 205
+      if G_PlayingEngineVersion <= VERSION204 then
+        result := 128 * FRACUNIT
+      else
+        result := 0;
+      exit;
+    end;
   end;
+  result := 0;
 end;
 
 //----------------------------------------------------------------------------

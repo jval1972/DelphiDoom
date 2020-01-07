@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -2493,7 +2493,7 @@ begin
   for i := 0 to 8 do
     DEH_AddString(@deh_strings, @mapnames2[i], 'HUSTR_' + IntToStrZFill(2, i + 1));
 
-  for i := 9 to 31 do
+  for i := 9 to 32 do // Doom2 BFG
     DEH_AddString(@deh_strings, @mapnames2[i], 'HUSTR_' + itoa(i + 1));
 
   for i := 0 to 8 do
@@ -2539,6 +2539,7 @@ begin
   DEH_AddString(@deh_strings, @pg_VICTORY2, 'PAGE_VICTORY2');
   DEH_AddString(@deh_strings, @pg_ENDPIC, 'PAGE_ENDPIC');
   DEH_AddString(@deh_strings, @pg_TITLE, 'PAGE_TITLE');
+  DEH_AddString(@deh_strings, @pg_DMENUPIC, 'PAGE_TITLE_BFG2');
 
   DEH_AddString(@deh_strings, @bgflatE1, 'BGFLATE1');
   DEH_AddString(@deh_strings, @bgflatE2, 'BGFLATE2');

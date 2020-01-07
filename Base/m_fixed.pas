@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -108,6 +108,8 @@ function FloatDiv(const a, b: fixedfloat_t): fixedfloat_t;
 
 function FloatMul(const a, b: fixedfloat_t): fixedfloat_t;
 
+function FixedMod(const a, b: fixed_t): fixed_t;
+
 implementation
 
 uses
@@ -196,12 +198,7 @@ end;
 function FixedDiv_Positive(const a, b: fixed_t): fixed_t;
 begin
   if (a shr 14) >= b then
-  begin
-    if a xor b < 0 then
-      result := MININT
-    else
-      result := MAXINT;
-  end
+    result := MAXINT
   else
     result := FixedDiv2(a, b);
 end;
@@ -241,7 +238,7 @@ begin
     ad := a / FRACUNIT;
     bd := b / FRACUNIT;
     ret := (ad / bd) * FRACUNIT;
-    ret := round(ret);
+    ret := Round(ret);
     if ret < MININT then
       result := MININT
     else if ret > MAXINT then
@@ -353,6 +350,22 @@ end;
 function FloatMul(const a, b: fixedfloat_t): fixedfloat_t;
 begin
   result := a / FRACUNIT * b;
+end;
+
+// CPhipps -
+// FixedMod - returns a % b, guaranteeing 0<=a<b
+// (notice that the C standard for % does not guarantee this)
+//
+function FixedMod(const a, b: fixed_t): fixed_t;
+begin
+  if b and (b - 1) <> 0 then
+  begin
+    result := a mod b;
+    if result < 0 then
+      result := result + b;
+  end
+  else
+    result := a and (b - 1);
 end;
 
 end.

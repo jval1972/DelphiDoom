@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -59,6 +59,7 @@ var
   sidedef: Pside_t;
   linedef: Pline_t;
   drawsegs: array[0..MAXDRAWSEGS - 1] of Pdrawseg_t;
+  doorclosed: boolean;
 
 implementation
 
@@ -367,6 +368,31 @@ begin
   end;
   result := false;
 end;
+{$ELSE}
+// killough 1/18/98 -- This function is used to fix the automap bug which
+// showed lines behind closed doors simply because the door had a dropoff.
+//
+// It assumes that Doom has already ruled out a door being closed because
+// of front-back closure (e.g. front floor is taller than back ceiling).
+
+function R_DoorClosed: boolean;
+begin
+  result :=
+
+    // if door is closed because back is shut:
+    (backsector.ceilingheight <= backsector.floorheight) and
+
+    // preserve a kind of transparent door/lift special effect:
+    ((backsector.ceilingheight >= frontsector.ceilingheight) or
+     (curline.sidedef.toptexture <> 0)) and
+
+    ((backsector.floorheight <= frontsector.floorheight) or
+     (curline.sidedef.bottomtexture <> 0)) and
+
+    // properly render skies (consider door "open" if both ceilings are sky):
+    ((backsector.ceilingpic <> skyflatnum) or
+     (frontsector.ceilingpic <> skyflatnum));
+end;
 {$ENDIF}
 
 //
@@ -477,6 +503,8 @@ begin
     exit;
   end;
 
+  doorclosed := false;       // killough 4/16/98
+
   // JVAL: Slopes
   if (backsector.renderflags and SRF_SLOPED <> 0) or
      (frontsector.renderflags and SRF_SLOPED <> 0) then
@@ -488,6 +516,15 @@ begin
   // Closed door.
   if (backsector.ceilingheight <= frontsector.floorheight) or
      (backsector.floorheight >= frontsector.ceilingheight) then
+  begin
+    R_ClipSolidWallSegment(x1, x2 - 1);
+    exit;
+  end;
+
+  // This fixes the automap floor height bug -- killough 1/18/98:
+  // killough 4/7/98: optimize: save result in doorclosed for use in r_segs.c
+  doorclosed := R_DoorClosed;
+  if doorclosed then
   begin
     R_ClipSolidWallSegment(x1, x2 - 1);
     exit;

@@ -477,6 +477,7 @@ type
     gravity: integer;
     flags3_ex: LongWord;  // JVAL extended flags (MF3_EX_????)
     flags4_ex: LongWord;  // JVAL extended flags (MF4_EX_????)
+    rendervalidcount: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

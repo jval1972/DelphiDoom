@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodePatch;
 
 (* ***** BEGIN LICENSE BLOCK *****

@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -36,6 +36,7 @@ interface
 {$IFDEF DEBUG}
 uses
   d_delphi,
+  r_visplanes,
   r_defs;
 
 procedure R_DebugCheckVisPlane(const pl: Pvisplane_t);
@@ -58,10 +59,16 @@ begin
   begin
     if pl.top[i] > viewheight then
       if pl.top[i] <> VISEND then
+      begin
         I_Warning('R_DebugCheckVisPlane(): Invalid visplane'#13#10);
+        exit;
+      end;
     if pl.bottom[i] > viewheight then
       if pl.bottom[i] <> VISEND then
+      begin
         I_Warning('R_DebugCheckVisPlane(): Invalid visplane'#13#10);
+        exit;
+      end;
   end;
 end;
 
@@ -83,8 +90,10 @@ begin
 
   for i := a1 to a2 do
     if tbl[i] > viewheight then
-        I_Warning('R_CheckClipTable(): Invalid cliptable'#13#10);
-
+    begin
+      I_Warning('R_CheckClipTable(): Invalid cliptable'#13#10);
+      exit;
+    end;
 end;
 
 procedure R_CheckClipItem(const x: PSmallInt);

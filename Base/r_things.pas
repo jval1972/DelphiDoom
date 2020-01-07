@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -92,6 +92,8 @@ const
 
 function R_NewVisSprite: Pvissprite_t;
 
+procedure R_ProjectAdditionalThings;
+
 var
   spritelights: PBytePArray;
 
@@ -113,15 +115,20 @@ uses
   i_system,
 {$IFDEF OPENGL}
   gl_render, // JVAL OPENGL
+  gl_voxels,
+  gl_models,
 {$ENDIF}
   p_mobj_h,
   p_pspr,
   p_pspr_h,
+  p_local,
+  p_maputl,
   r_data,
   r_draw,
   r_main,
   p_setup,
 {$IFNDEF OPENGL}
+  r_sprite,
   r_segs,
   r_segs2,
   r_column,
@@ -480,6 +487,9 @@ end;
 // Masked means: partly transparent, i.e. stored
 //  in posts/runs of opaque pixels.
 //
+type
+  R_DrawMaskedColumn_t = procedure (column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+
 procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
@@ -487,6 +497,7 @@ var
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
   delta, prevdelta: integer;
+  dodepthbuffer: boolean;
 begin
   basetexturemid := dc_texturemid;
 
@@ -495,94 +506,52 @@ begin
 
   delta := 0;
 
-  if baseclip <> -1 then
+  if baseclip = -1 then
+    baseclip := viewheight - 1;
+
+  dodepthbuffer := depthbufferactive;// and (renderflags and VSF_DONTCLIP3DFLOOR = 0);
+  while column.topdelta <> $ff do
   begin
-    while column.topdelta <> $ff do
+    // calculate unclipped screen coordinates
+    // for post
+    delta := delta + column.topdelta;
+    topscreen := sprtopscreen + int64(spryscale * delta);
+    bottomscreen := topscreen + int64(spryscale * column.length);
+
+    dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    dc_yh := FixedInt64(bottomscreen - 1);
+
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
+    if dc_yl <= cc_x then
+      dc_yl := cc_x + 1;
+
+    if dc_yh >= baseclip then
+      dc_yh := baseclip;
+
+    if dc_yl <= dc_yh then
     begin
-      // calculate unclipped screen coordinates
-      // for post
-      delta := delta + column.topdelta;
-      topscreen := sprtopscreen + int64(spryscale * delta);
-      bottomscreen := topscreen + int64(spryscale * column.length);
-
-      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt64(bottomscreen - 1);
-
-      if dc_yh >= fc_x then
-        dc_yh := fc_x - 1;
-      if dc_yl <= cc_x then
-        dc_yl := cc_x + 1;
-
-      if dc_yh >= baseclip then
-        dc_yh := baseclip;
-
-      if dc_yl <= dc_yh then
+      dc_source := PByteArray(integer(column) + 3);
+      dc_texturemid := basetexturemid - (delta * FRACUNIT);
+      // Drawn by either R_DrawColumn
+      //  or (SHADOW) R_DrawFuzzColumn
+      //  or R_DrawColumnAverage
+      //  or R_DrawTranslatedColumn
+      if dodepthbuffer then // JVAL: 3d Floors
       begin
-        dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (delta * FRACUNIT);
-        // Drawn by either R_DrawColumn
-        //  or (SHADOW) R_DrawFuzzColumn
-        //  or R_DrawColumnAverage
-        //  or R_DrawTranslatedColumn
-        if depthbufferactive then                   // JVAL: 3d Floors
-        begin
-          if renderflags and VSF_TRANSPARENCY <> 0 then
-            R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
-          else
-            R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
-        end
+        if renderflags and VSF_TRANSPARENCY <> 0 then
+          R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
         else
-          colfunc;
-      end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
+          R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
+      end
+      else
+        colfunc;
     end;
-  end
-  else
-  begin
-    while column.topdelta <> $ff do
-    begin
-      // calculate unclipped screen coordinates
-      // for post
-      delta := delta + column.topdelta;
-      topscreen := sprtopscreen + int64(spryscale * delta);
-      bottomscreen := topscreen + int64(spryscale * column.length);
-
-      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt64(bottomscreen - 1);
-
-      if dc_yh >= fc_x then
-        dc_yh := fc_x - 1;
-      if dc_yl <= cc_x then
-        dc_yl := cc_x + 1;
-
-      if dc_yl <= dc_yh then
-      begin
-        dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (delta * FRACUNIT);
-        // Drawn by either R_DrawColumn
-        //  or (SHADOW) R_DrawFuzzColumn
-        //  or R_DrawColumnAverage
-        //  or R_DrawTranslatedColumn
-        if depthbufferactive then                   // JVAL: 3d Floors
-        begin
-          if renderflags and VSF_TRANSPARENCY <> 0 then
-            R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
-          else
-            R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
-        end
-        else
-          colfunc;
-      end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
-    end;
+    prevdelta := column.topdelta;
+    column := Pcolumn_t(integer(column) + column.length + 4);
+    if column.topdelta > prevdelta then
+      delta := 0;
   end;
-
   dc_texturemid := basetexturemid;
 end;
 
@@ -626,6 +595,9 @@ begin
 end;
 
 // JVAL: batch column drawing
+type
+  DrawMaskedColumn_Batch_t = procedure (column: Pcolumn_t; baseclip: integer = -1);
+
 procedure R_DrawMaskedColumn_Batch(column: Pcolumn_t; baseclip: integer = -1);
 var
   topscreen: int64;
@@ -639,75 +611,195 @@ begin
   fc_x := mfloorclip[dc_x];
   cc_x := mceilingclip[dc_x];
 
-  if baseclip <> -1 then
+  delta := 0;
+
+  if baseclip = -1 then
+    baseclip := viewheight - 1;
+
+  while column.topdelta <> $ff do
   begin
-    delta := 0;
-    while column.topdelta <> $ff do
+    // calculate unclipped screen coordinates
+    // for post
+    delta := delta + column.topdelta;
+    topscreen := sprtopscreen + int64(spryscale * delta);
+    bottomscreen := topscreen + int64(spryscale * column.length);
+
+    dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    dc_yh := FixedInt64(bottomscreen - 1);
+
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
+    if dc_yl <= cc_x then
+      dc_yl := cc_x + 1;
+
+    if dc_yh >= baseclip then
+      dc_yh := baseclip;
+
+    if dc_yl <= dc_yh then
     begin
-      // calculate unclipped screen coordinates
-      // for post
-      delta := delta + column.topdelta;
-      topscreen := sprtopscreen + int64(spryscale * delta);
-      bottomscreen := topscreen + int64(spryscale * column.length);
-
-      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt64(bottomscreen - 1);
-
-      if dc_yh >= fc_x then
-        dc_yh := fc_x - 1;
-      if dc_yl <= cc_x then
-        dc_yl := cc_x + 1;
-
-      if dc_yh >= baseclip then
-        dc_yh := baseclip;
-
-      if dc_yl <= dc_yh then
-      begin
-        dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (delta * FRACUNIT);
-        // Drawn by either R_DrawColumn
-        //  or (SHADOW) R_DrawFuzzColumn
-        //  or R_DrawColumnAverage
-        //  or R_DrawTranslatedColumn
-        batchcolfunc;
-      end;
-      column := Pcolumn_t(integer(column) + column.length + 4);
+      dc_source := PByteArray(integer(column) + 3);
+      dc_texturemid := basetexturemid - (delta * FRACUNIT);
+      // Drawn by either R_DrawColumn
+      //  or (SHADOW) R_DrawFuzzColumn
+      //  or R_DrawColumnAverage
+      //  or R_DrawTranslatedColumn
+      batchcolfunc;
     end;
-  end
-  else
+    prevdelta := column.topdelta;
+    column := Pcolumn_t(integer(column) + column.length + 4);
+    if column.topdelta > prevdelta then
+      delta := 0;
+  end;
+
+  dc_texturemid := basetexturemid;
+end;
+
+var
+  spritefunc_mt: spritefunc_t;
+  batchspritefunc_mt: spritefunc_t;
+
+procedure R_FillSpriteInfo_MT(const parms: Pspriterenderinfo_t);
+begin
+  parms.dc_x := dc_x;
+  parms.dc_yh := dc_yh;
+  parms.dc_yl := dc_yl;
+  parms.dc_iscale := dc_iscale;
+  parms.dc_texturemid := dc_texturemid;
+  parms.dc_source := dc_source;
+  parms.dc_alpha := dc_alpha;
+  parms.num_batch_columns := num_batch_columns;
+  parms.dc_colormap32 := dc_colormap32;
+  parms.proc := spritefunc_mt;
+end;
+
+procedure R_FillSpriteInfo_BatchMT(const parms: Pspriterenderinfo_t);
+begin
+  parms.dc_x := dc_x;
+  parms.dc_yh := dc_yh;
+  parms.dc_yl := dc_yl;
+  parms.dc_iscale := dc_iscale;
+  parms.dc_texturemid := dc_texturemid;
+  parms.dc_source := dc_source;
+  parms.dc_alpha := dc_alpha;
+  parms.num_batch_columns := num_batch_columns;
+  parms.dc_colormap32 := dc_colormap32;
+  parms.proc := batchspritefunc_mt;
+end;
+
+procedure R_DrawMaskedColumn_BatchMT(column: Pcolumn_t; baseclip: integer = -1);
+var
+  topscreen: int64;
+  bottomscreen: int64;
+  basetexturemid: fixed_t;
+  fc_x, cc_x: integer;
+  delta, prevdelta: integer;
+begin
+  basetexturemid := dc_texturemid;
+
+  fc_x := mfloorclip[dc_x];
+  cc_x := mceilingclip[dc_x];
+
+  delta := 0;
+
+  if baseclip = -1 then
+    baseclip := viewheight - 1;
+
+  while column.topdelta <> $ff do
   begin
-    delta := 0;
-    while column.topdelta <> $ff do
+    // calculate unclipped screen coordinates
+    // for post
+    delta := delta + column.topdelta;
+    topscreen := sprtopscreen + int64(spryscale * delta);
+    bottomscreen := topscreen + int64(spryscale * column.length);
+
+    dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    dc_yh := FixedInt64(bottomscreen - 1);
+
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
+    if dc_yl <= cc_x then
+      dc_yl := cc_x + 1;
+
+    if dc_yh >= baseclip then
+      dc_yh := baseclip;
+
+    if dc_yl <= dc_yh then
     begin
-      // calculate unclipped screen coordinates
-      // for post
-      delta := delta + column.topdelta;
-      topscreen := sprtopscreen + int64(spryscale * delta);
-      bottomscreen := topscreen + int64(spryscale * column.length);
+      dc_source := PByteArray(integer(column) + 3);
+      dc_texturemid := basetexturemid - (delta * FRACUNIT);
 
-      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt64(bottomscreen - 1);
-
-      if dc_yh >= fc_x then
-        dc_yh := fc_x - 1;
-      if dc_yl <= cc_x then
-        dc_yl := cc_x + 1;
-
-      if dc_yl <= dc_yh then
-      begin
-        dc_source := PByteArray(integer(column) + 3);
-        dc_texturemid := basetexturemid - (delta * FRACUNIT);
-        // Drawn by either R_DrawColumn
-        //  or (SHADOW) R_DrawFuzzColumn
-        //  or R_DrawColumnAverage
-        //  or R_DrawTranslatedColumn
-        batchcolfunc;
-      end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
+      R_FillSpriteInfo_BatchMT(R_SpriteAddMTInfo);
     end;
+    prevdelta := column.topdelta;
+    column := Pcolumn_t(integer(column) + column.length + 4);
+    if column.topdelta > prevdelta then
+      delta := 0;
+  end;
+
+  dc_texturemid := basetexturemid;
+end;
+
+procedure R_DrawMaskedColumnMT(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+var
+  topscreen: int64;
+  bottomscreen: int64;
+  basetexturemid: fixed_t;
+  fc_x, cc_x: integer;
+  delta, prevdelta: integer;
+  dodepthbuffer: boolean;
+begin
+  basetexturemid := dc_texturemid;
+
+  fc_x := mfloorclip[dc_x];
+  cc_x := mceilingclip[dc_x];
+
+  delta := 0;
+
+  if baseclip = -1 then
+    baseclip := viewheight - 1;
+
+  dodepthbuffer := depthbufferactive;// and (renderflags and VSF_DONTCLIP3DFLOOR = 0);
+  while column.topdelta <> $ff do
+  begin
+    // calculate unclipped screen coordinates
+    // for post
+    delta := delta + column.topdelta;
+    topscreen := sprtopscreen + int64(spryscale * delta);
+    bottomscreen := topscreen + int64(spryscale * column.length);
+
+    dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    dc_yh := FixedInt64(bottomscreen - 1);
+
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
+    if dc_yl <= cc_x then
+      dc_yl := cc_x + 1;
+
+    if dc_yh >= baseclip then
+      dc_yh := baseclip;
+
+    if dc_yl <= dc_yh then
+    begin
+      dc_source := PByteArray(integer(column) + 3);
+      dc_texturemid := basetexturemid - (delta * FRACUNIT);
+      // Drawn by either R_DrawColumn
+      //  or (SHADOW) R_DrawFuzzColumn
+      //  or R_DrawColumnAverage
+      //  or R_DrawTranslatedColumn
+      if dodepthbuffer then // JVAL: 3d Floors
+      begin
+        if renderflags and VSF_TRANSPARENCY <> 0 then
+          R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
+        else
+          R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
+      end
+      else
+        R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
+    end;
+    prevdelta := column.topdelta;
+    column := Pcolumn_t(integer(column) + column.length + 4);
+    if column.topdelta > prevdelta then
+      delta := 0;
   end;
 
   dc_texturemid := basetexturemid;
@@ -716,6 +808,9 @@ end;
 // R_DrawVisSprite
 //  mfloorclip and mceilingclip should also be set.
 //
+const
+  MIN_SPRITE_SIZE_MT = 64;
+
 procedure R_DrawVisSprite(vis: Pvissprite_t; const playerweapon: boolean = false);
 var
   column: Pcolumn_t;
@@ -730,10 +825,16 @@ var
   last_fc_x: smallint;
   last_cc_x: smallint;
   save_dc_x: integer;
+  dmcproc: R_DrawMaskedColumn_t;
+  dmcproc_batch: DrawMaskedColumn_Batch_t;
+  do_mt: boolean;
 begin
   patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
   dc_colormap := vis.colormap;
+
+  spritefunc_mt := nil;
+  batchspritefunc_mt := nil;
 
   if videomode = vm32bit then
   begin
@@ -809,21 +910,27 @@ begin
     curtrans8table := R_GetTransparency8table(dc_alpha);
     {$ENDIF}
     colfunc := alphacolfunc;
+    spritefunc_mt := alphacolfunc_mt;
     batchcolfunc := batchtalphacolfunc;
+    batchspritefunc_mt := batchtalphacolfunc_mt;
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_add) then
   begin
     dc_alpha := vis.mo.alpha;
     curadd8table := R_GetAdditive8table(dc_alpha);
     colfunc := addcolfunc;
+    spritefunc_mt := addcolfunc_mt;
     batchcolfunc := batchaddcolfunc;
+    batchspritefunc_mt := batchaddcolfunc_mt;
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_subtract) then
   begin
     dc_alpha := vis.mo.alpha;
     cursubtract8table := R_GetSubtractive8table(dc_alpha);
     colfunc := subtractcolfunc;
+    spritefunc_mt := subtractcolfunc_mt;
     batchcolfunc := batchsubtractcolfunc;
+    batchspritefunc_mt := batchsubtractcolfunc_mt;
   end
   else if usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0) then
   begin
@@ -833,7 +940,9 @@ begin
   else
   begin
     colfunc := maskedcolfunc;
+    spritefunc_mt := maskedcolfunc_mt;
     batchcolfunc := basebatchcolfunc;
+    batchspritefunc_mt := basebatchcolfunc_mt;
   end;
 
   dc_iscale := FixedDivEx(FRACUNIT, vis.scale);
@@ -845,26 +954,38 @@ begin
   if (vis.footclip <> 0) and (not playerweapon) then
     baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
   else
-    baseclip := -1;
+    baseclip := viewheight - 1;
 
 // JVAL: batch column drawing
   xiscale := vis.xiscale;
   dc_x := vis.x1;
 
-  if depthbufferactive or (xiscale > FRACUNIT div 2) or (xiscale < -FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
+  do_mt := (vis.x2 - vis.x1 > MIN_SPRITE_SIZE_MT) and usemultithread;
+
+  if do_mt and Assigned(spritefunc_mt) then
+    dmcproc := @R_DrawMaskedColumnMT
+  else
+    dmcproc := @R_DrawMaskedColumn;
+
+  if ({(vis.renderflags and VSF_DONTCLIP3DFLOOR = 0) and }depthbufferactive) or (xiscale > FRACUNIT div 2) or (xiscale < -FRACUNIT div 2) or (not optimizedthingsrendering) or (not Assigned(batchcolfunc)) then
   begin
     while dc_x <= vis.x2 do
     begin
       texturecolumn := LongWord(frac) shr FRACBITS;
 
       column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-      R_DrawMaskedColumn(column, baseclip, vis.renderflags);
+      dmcproc(column, baseclip, vis.renderflags);
       frac := frac + xiscale;
       inc(dc_x);
     end;
+    R_SpriteRenderMT;
   end
   else
   begin
+    if do_mt and Assigned(batchspritefunc_mt) then
+      dmcproc_batch := @R_DrawMaskedColumn_BatchMT
+    else
+      dmcproc_batch := @R_DrawMaskedColumn_Batch;
     last_dc_x := dc_x;
     last_texturecolumn := LongWord(frac) shr FRACBITS;
     last_fc_x := mfloorclip[last_dc_x];
@@ -886,9 +1007,9 @@ begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
         dc_x := save_dc_x;
         if num_batch_columns > 1 then
-          R_DrawMaskedColumn_Batch(column, baseclip)
+          dmcproc_batch(column, baseclip)
         else
-          R_DrawMaskedColumn(column, baseclip, vis.renderflags);
+          dmcproc(column, baseclip, vis.renderflags);
         dc_x := last_dc_x;
       end;
       frac := frac + xiscale;
@@ -900,10 +1021,11 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[last_texturecolumn]);
       dc_x := last_dc_x;
       if num_batch_columns > 1 then
-        R_DrawMaskedColumn_Batch(column, baseclip)
+        dmcproc_batch(column, baseclip)
       else
-        R_DrawMaskedColumn(column, baseclip, vis.renderflags);
+        dmcproc(column, baseclip, vis.renderflags);
     end;
+    R_SpriteRenderMT;
   end;
 
   Z_ChangeTag(patch, PU_CACHE);
@@ -1112,6 +1234,7 @@ var
   ang: angle_t;
 {$IFDEF OPENGL}
   checksides: boolean;
+  modelflag: integer;
 {$ELSE}
   index: integer;
   iscale: fixed_t;
@@ -1126,12 +1249,18 @@ var
   midn: integer;  // JVAL: 3d floors
   sprlights: PBytePArray; // JVAL: 3d floors
   scaledtop: fixed_t;
+//  donclip3dfloor: boolean;
 {$ENDIF}
   soffset, swidth: fixed_t;
   infoscale: fixed_t;
 begin
   if (thing.player = viewplayer) and not chasecamera then
     exit;
+
+  if thing.rendervalidcount = rendervalidcount then
+    exit;
+
+  thing.rendervalidcount := rendervalidcount;
 
   // Never make a vissprite when MF2_DONTDRAW is flagged.
   {$IFDEF HERETIC_OR_HEXEN}
@@ -1160,17 +1289,24 @@ begin
 
   // thing is behind view plane?
 {$IFDEF OPENGL}
+  if ((thing.state.voxels <> nil) and gl_drawvoxels) or ((thing.state.models <> nil) and gl_drawmodels) then
+    modelflag := 1
+  else
+    modelflag := 0;
   checksides := (absviewpitch < 35) and (thing.state.dlights = nil) and
    (thing.state.models = nil) and (thing.state.voxels = nil);
 
   if checksides then
 {$ENDIF}
-    if tz < MINZ {$IFNDEF OPENGL} - 128 * FRACUNIT * voxelflag {$ENDIF} then
+    if tz < MINZ - 128 * FRACUNIT * {$IFDEF OPENGL}modelflag {$ELSE} voxelflag {$ENDIF} then
       exit;
 
   xscale := FixedDiv(projection, tz);
-  if xscale <= 0 then
-    exit;
+  {$IFDEF OPENGL}
+  if modelflag = 0 then
+  {$ENDIF}
+    if xscale <= 0 then
+      exit;
 
   gxt := -FixedMul(tr_x, viewsin);
   gyt := FixedMul(tr_y, viewcos);
@@ -1256,6 +1392,7 @@ begin
   // off the right side?
 {$IFDEF OPENGL}
   if checksides then
+    if modelflag = 0 then
 {$ELSE}
   if voxelflag = 0 then
 {$ENDIF}
@@ -1272,12 +1409,16 @@ begin
   // off the left side
 {$IFDEF OPENGL}
   if checksides then
+    if modelflag = 0 then
 {$ELSE}
   if voxelflag = 0 then
 {$ENDIF}
     if x2 < 0 then
       exit;
 
+{$IFDEF OPENGL}
+  if modelflag = 0 then
+{$ENDIF}
   if x2 < x1 then
     exit; // SOS
 {$IFNDEF OPENGL}
@@ -1341,7 +1482,7 @@ begin
   // foot clipping
   {$IFDEF HERETIC}
   if (thing.flags2 and MF2_FEETARECLIPPED <> 0) and (thing.z <=
-    Psubsector_t(thing.subsector).sector.floorheight) then
+    Psubsector_t(thing.subsector).sector.floorheight) then  // SOS 3d floors
     vis.footclip := 10 * FRACUNIT
   else
     vis.footclip := 0;
@@ -1369,6 +1510,7 @@ begin
   iscale := FixedDiv(FRACUNIT, xscale);
 
   // JVAL: 3d Floors
+//  donclip3dfloor := false;
   sprlights := spritelights;
   if hasExtrafloors then
   begin
@@ -1391,6 +1533,10 @@ begin
            vis.drawn := true;
       if vis.gz < mid.floorheight then
         sprlights := spritelights2;
+//      if thing.ceilingz < mid.ceilingheight then
+//        donclip3dfloor := viewz < mid.floorheight
+//      else if thing.floorz > mid.floorheight then
+//        donclip3dfloor := viewz > mid.ceilingheight;
     end;
   end;
 
@@ -1453,6 +1599,8 @@ begin
      (usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle in [mrs_translucent, mrs_add, mrs_subtract])) or
      (usetransparentsprites and (vis.mobjflags_ex and MF_EX_TRANSPARENT <> 0)) then
     vis.renderflags := VSF_TRANSPARENCY;
+//  if donclip3dfloor then
+//    vis.renderflags := vis.renderflags or VSF_DONTCLIP3DFLOOR;
 
 {$ENDIF}
 
@@ -1602,7 +1750,7 @@ begin
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
 
-  vis.texturemid := (BASEYCENTER * FRACUNIT) + FRACUNIT div 2 - (psp.sy - spritetopoffset[lump]);
+  vis.texturemid := (BASEYCENTER * FRACUNIT){ + FRACUNIT div 2} - (psp.sy - spritetopoffset[lump]);
 {$IFDEF HERETIC}
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - PSpriteSY[Ord(viewplayer.readyweapon)];
@@ -2154,6 +2302,36 @@ begin
   R_DoDrawMasked;
 end;
 {$ENDIF}
+
+function RIT_ProjectAdditionalThing(mo: Pmobj_t): boolean;
+begin
+  if (mo.state.voxels <> nil) {$IFDEF OPENGL} or (mo.state.models <> nil) {$ENDIF} then
+    R_ProjectSprite(mo);
+  // keep checking
+  result := true;
+end;
+
+const
+  MAXMODELRADIUS = 384 * FRACUNIT;
+
+procedure R_ProjectAdditionalThings;
+var
+  x: integer;
+  y: integer;
+  xl: integer;
+  xh: integer;
+  yl: integer;
+  yh: integer;
+begin
+  yh := MapBlockInt(viewy + MAXMODELRADIUS - bmaporgy);
+  yl := MapBlockInt(viewy - MAXMODELRADIUS - bmaporgy);
+  xh := MapBlockInt(viewx + MAXMODELRADIUS - bmaporgx);
+  xl := MapBlockInt(viewx - MAXMODELRADIUS - bmaporgx);
+
+  for y := yl to yh do
+    for x := xl to xh do
+      P_BlockThingsIterator(x, y, RIT_ProjectAdditionalThing);
+end;
 
 procedure R_DrawPlayer;
 var

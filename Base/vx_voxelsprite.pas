@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -818,6 +818,14 @@ var
   ret: boolean;
   p: pointer;
   size: integer;
+
+  function _vxsprname(const vxn: string): string;
+  begin
+    result := firstword(vx_names.Strings[i], '.');
+    if Length(result) = 5 then
+      result := result + '0';
+  end;
+
 begin
   vx_names := TDStringList.Create;
   PAK_FileNameIterator(@VX_AddFileName);
@@ -836,7 +844,7 @@ begin
     if vil = nil then
     begin
       for i := 0 to vx_names.Count - 1 do
-        wad.AddData(firstword(vx_names.Strings[i], '.') + '0', @LUMP0, SizeOf(LUMP0));
+        wad.AddData(_vxsprname(vx_names.Strings[i]), @LUMP0, SizeOf(LUMP0));
     end
     else
     begin
@@ -856,11 +864,11 @@ begin
         if ret then
         begin
           vil.CreateDoomPatch(p, size);
-          wad.AddData(firstword(vx_names.Strings[i], '.') + '0', p, size);
+          wad.AddData(_vxsprname(vx_names.Strings[i]), p, size);
           memfree(p, size);
         end
         else
-          wad.AddData(firstword(vx_names.Strings[i], '.') + '0', @LUMP0, SizeOf(LUMP0));
+          wad.AddData(_vxsprname(vx_names.Strings[i]), @LUMP0, SizeOf(LUMP0));
       end;
     end;
 

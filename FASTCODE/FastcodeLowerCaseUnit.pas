@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodeLowerCaseUnit;
 
 (* ***** BEGIN LICENSE BLOCK *****

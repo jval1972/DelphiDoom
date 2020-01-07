@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -499,10 +499,10 @@ var
   lump: integer;
   ofs: integer;
 begin
-  if tex = 125 then
-  col := col and texturewidthmask[tex]
-  else
-  col := col and texturewidthmask[tex];
+// JVAL: 20200105 - Use texture width is not requiered to be power of 2
+  col := col mod texturewidth[tex];
+  if col < 0 then
+    col := col + texturewidth[tex];
   lump := texturecolumnlump[tex][col];
   ofs := texturecolumnofs[tex][col];
 
@@ -667,7 +667,7 @@ begin
   texturecolumnofs := mallocz(numtextures * SizeOf(PIntegerArray));
   texturecomposite := mallocz(numtextures * SizeOf(PByteArray));
   texturecompositesize := mallocz(numtextures * SizeOf(integer));
-  texturewidthmask := mallocz(numtextures * SizeOf(integer));
+  texturewidth := mallocz(numtextures * SizeOf(integer));
   textureheight := mallocz(numtextures * SizeOf(fixed_t));
 
   for i := 0 to numtextures - 1 do
@@ -734,11 +734,7 @@ begin
     texturecolumnlump[i] := malloc(texture.width * SizeOf(texturecolumnlump[0][0]));
     texturecolumnofs[i] := malloc(texture.width * SizeOf(texturecolumnofs[0][0]));
 
-    j := 1;
-    while j * 2 <= texture.width do
-      j := j * 2;
-
-    texturewidthmask[i] := j - 1;
+    texturewidth[i] := texture.width;
     textureheight[i] := texture.height * FRACUNIT;
 
     incp(pointer(directory), SizeOf(integer));
@@ -896,7 +892,7 @@ begin
   memfree(pointer(texturecolumnofs), numtextures * SizeOf(PIntegerArray));
   memfree(pointer(texturecomposite), numtextures * SizeOf(PByteArray));
   memfree(pointer(texturecompositesize), numtextures * SizeOf(integer));
-  memfree(pointer(texturewidthmask), numtextures * SizeOf(integer));
+  memfree(pointer(texturewidth), numtextures * SizeOf(integer));
   memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
   memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
 
@@ -936,7 +932,7 @@ begin
   memfree(pointer(texturecolumnofs), numtextures * SizeOf(PIntegerArray));
   memfree(pointer(texturecomposite), numtextures * SizeOf(PByteArray));
   memfree(pointer(texturecompositesize), numtextures * SizeOf(integer));
-  memfree(pointer(texturewidthmask), numtextures * SizeOf(integer));
+  memfree(pointer(texturewidth), numtextures * SizeOf(integer));
   memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
   memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
 

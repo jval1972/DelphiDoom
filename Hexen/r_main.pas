@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -44,6 +44,9 @@ uses
   m_fixed,
   tables,
   r_data,
+  {$IFNDEF OPENGL}
+  r_sprite,
+  {$ENDIF}
   r_defs;
 
 const
@@ -134,6 +137,7 @@ function R_FullStOn: boolean;
 function R_StOff: boolean;
 
 var
+  {$IFNDEF OPENGL}
   basebatchcolfunc: PProcedure;
   batchcolfunc: PProcedure;
   batchlightcolfunc: PProcedure;
@@ -147,6 +151,18 @@ var
   batchtalphacolfunc: PProcedure;
   batchaddcolfunc: PProcedure;
   batchsubtractcolfunc: PProcedure;
+
+  // JVAL: Multithreading sprite funcs
+  basebatchcolfunc_mt: spritefunc_t;
+  batchcolfunc_mt: spritefunc_t;
+  batchtalphacolfunc_mt: spritefunc_t;
+  batchaddcolfunc_mt: spritefunc_t;
+  batchsubtractcolfunc_mt: spritefunc_t;
+  maskedcolfunc_mt: spritefunc_t;
+  colfunc_mt: spritefunc_t;
+  alphacolfunc_mt: spritefunc_t;
+  addcolfunc_mt: spritefunc_t;
+  subtractcolfunc_mt: spritefunc_t;
 
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
@@ -181,6 +197,7 @@ var
   slopefuncMT: PPointerParmProcedure;
   baseslopefuncMT: PPointerParmProcedure;
   rippleslopefuncMT: PPointerParmProcedure;
+  {$ENDIF}
 
   centerxfrac: fixed_t;
   centeryfrac: fixed_t;
@@ -257,7 +274,7 @@ var
   linecount: integer;
   loopcount: integer;
 
-  viewangleoffset: angle_t = 0; // never a value assigned to this variable!
+  viewangleoffset: angle_t = 0; // Net drone angle
 
   setsizeneeded: boolean;
 
@@ -328,7 +345,9 @@ uses
   {$ENDIF}
   r_plane,
   r_sky,
+{$IFNDEF OPENGL}
   r_segs,
+{$ENDIF}  
   r_hires,
   r_camera,
   r_precalc,
@@ -897,8 +916,33 @@ begin
         batchtranscolfunc := R_DrawTranslatedColumn_Batch;
         batchtaveragecolfunc := nil;
         batchtalphacolfunc := nil;
-        batchtaveragecolfunc := nil;
-        batchtalphacolfunc := nil;
+
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          batchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
 
         colfunc := R_DrawColumnLowest;
         wallcolfunc := R_DrawColumnLowest;
@@ -965,8 +1009,33 @@ begin
         batchtranscolfunc := R_DrawTranslatedColumn_Batch;
         batchtaveragecolfunc := nil;
         batchtalphacolfunc := nil;
-        batchtaveragecolfunc := nil;
-        batchtalphacolfunc := nil;
+
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          batchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
 
         colfunc := R_DrawColumnLow;
         wallcolfunc := R_DrawColumnLow;
@@ -1034,6 +1103,33 @@ begin
         batchtaveragecolfunc := nil;
         batchtalphacolfunc := nil;
 
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnMedium_BatchMT;
+          batchcolfunc_mt := R_DrawColumnMedium_BatchMT;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
+
         colfunc := R_DrawColumnMedium;
         wallcolfunc := R_DrawColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
@@ -1099,6 +1195,33 @@ begin
         batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
         batchaddcolfunc := R_DrawColumnAddHi_Batch;
         batchsubtractcolfunc := R_DrawColumnSubtractHi_Batch;
+
+        if usemultithread and not LevelUseFog then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
+          maskedcolfunc_mt := R_DrawMaskedColumnNormalMT;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
 
         if LevelUseFog then
         begin
@@ -1189,6 +1312,33 @@ begin
         batchaddcolfunc := R_DrawColumnAddHi_Batch;
         batchsubtractcolfunc := R_DrawColumnSubtractHi_Batch;
 
+        if usemultithread and not LevelUseFog then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
+
         if LevelUseFog then
         begin
           basebatchcolfunc := nil;
@@ -1277,6 +1427,33 @@ begin
         batchtalphacolfunc := R_DrawColumnAlphaHi_Batch;
         batchaddcolfunc := R_DrawColumnAddHi_Batch;
         batchsubtractcolfunc := R_DrawColumnSubtractHi_Batch;
+
+        if usemultithread and not LevelUseFog then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
 
         if LevelUseFog then
         begin
@@ -1499,7 +1676,6 @@ begin
           scalelightlevels[i][j] := FRACUNIT - levelhi;
       end;
     end;
-
 
 end;
 
@@ -1739,7 +1915,6 @@ begin
   printf(#13#10 + 'W_ShutDownSprites'); // JVAL: Images as sprites
   W_ShutDownSprites; // JVAL: Images as sprites
   printf(#13#10);
-
 end;
 
 //
@@ -1967,6 +2142,8 @@ begin
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
 
+  R_ProjectAdditionalThings;
+
   R_SortVisSpritesMT;
 
   R_RenderMultiThreadWalls8;
@@ -2020,6 +2197,8 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
+
+  R_ProjectAdditionalThings;
 
   R_SortVisSpritesMT;
 
@@ -2087,6 +2266,8 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
+
+  R_ProjectAdditionalThings;
 
   // Check for new console commands.
   NetUpdate;

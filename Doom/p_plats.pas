@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -55,6 +55,7 @@ procedure P_RemoveActivePlat(plat: Pplat_t);
 implementation
 
 uses
+  d_delphi,
   i_system,
   doomdef,
   g_game,
@@ -277,7 +278,7 @@ begin
       toggleUpDn: //jff 3/14/98 add new type to support instant toggle
         begin
           plat.speed := PLATSPEED;  //not used
-          plat.wait := 35 * PLATWAIT; //not used
+          plat.wait := TICRATE * PLATWAIT; //not used
           plat.crush := true; //jff 3/14/98 crush anything in the way
 
           // set up toggling between ceiling, floor inclusive
@@ -303,7 +304,10 @@ begin
       (plt.tag = tag) and
       (plt.status = in_stasis) then
     begin
-      plt.status := plt.oldstatus;
+      if plt._type = toggleUpDn then //jff 3/14/98 reactivate toggle type
+        plt.status := plat_e(decide(plt.oldstatus = up, Ord(down), Ord(up)))
+      else
+        plt.status := plt.oldstatus;
       plt.thinker._function.acp1 := @T_PlatRaise;
     end;
   end;

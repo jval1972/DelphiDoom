@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -341,6 +341,10 @@ uses
   v_data,
   v_video;
 
+const
+  AM_MIN_SCALE = 2048;
+// player radius
+  PLAYERRADIUS = 16 * FRACUNIT;
 
 procedure CmdAllowautomapoverlay(const parm: string);
 begin
@@ -479,9 +483,10 @@ end;
 // sets global variables controlling zoom range.
 //
 procedure AM_findMinMaxBoundaries;
-var i: integer;
-    a, b: fixed_t;
-    pvi: Pvertex_t;
+var
+  i: integer;
+  a, b: fixed_t;
+  pvi: Pvertex_t;
 begin
   min_x := MAXINT;
   min_y := MAXINT;
@@ -517,6 +522,9 @@ begin
     min_scale_mtof := a
   else
     min_scale_mtof := b;
+    
+  if min_scale_mtof < AM_MIN_SCALE then
+    min_scale_mtof := AM_MIN_SCALE;
 
   max_scale_mtof := FixedDiv(f_h * FRACUNIT, 10 * PLAYERRADIUS);
 end;
@@ -1436,7 +1444,12 @@ var
   i: integer;
   l: mline_t;
   pl: Pline_t;
+  plrx, plry: fixed_t;
+  plra: angle_t;
 begin
+  plrx := plr.mo.x;
+  plry := plr.mo.y;
+  plra := ANG90 - plr.mo.angle;
   pl := @lines[0];
   for i := 0 to numlines - 1 do
   begin
@@ -1447,8 +1460,8 @@ begin
 
     if allowautomaprotate then
     begin
-      AM_rotate(@l.a.x, @l.a.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
-      AM_rotate(@l.b.x, @l.b.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+      AM_rotate(@l.a.x, @l.a.y, plra, plrx, plry);
+      AM_rotate(@l.b.x, @l.b.y, plra, plrx, plry);
     end;
 
     if (am_cheating <> 0) or (pl.flags and ML_MAPPED <> 0) then
@@ -1631,7 +1644,12 @@ var
   i: integer;
   t: Pmobj_t;
   x, y: fixed_t;
+  plrx, plry: fixed_t;
+  plra: angle_t;
 begin
+  plrx := plr.mo.x;
+  plry := plr.mo.y;
+  plra := ANG90 - plr.mo.angle;
   for i := 0 to numsectors - 1 do
   begin
     t := sectors[i].thinglist;
@@ -1641,7 +1659,7 @@ begin
       y := t.y;
 
       if allowautomaprotate then
-        AM_rotate(@x, @y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+        AM_rotate(@x, @y, plra, plrx, plry);
 
       AM_drawLineCharacter
         (@thintriangle_guy, NUMTHINTRIANGLEGUYLINES,
@@ -1740,6 +1758,7 @@ var
   pl: Pmline_t;
 begin
   AM_InitTextured;
+
   pl := @player_arrow[0];
   pl.a.x := -((8 * PLAYERRADIUS) div 7) + ((8 * PLAYERRADIUS) div 7) div 4;
   pl.a.y := 0;

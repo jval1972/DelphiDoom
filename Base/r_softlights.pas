@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,7 +25,6 @@
 //    LIGHTDEF lump parsing, light animation
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -122,7 +122,7 @@ var
     else
     begin
       f := (x - 128) / 128 * 4.9065;
-      result := ibetween(127 + trunc(164 * arctan(tanh(f / 2))+0.778), -255, 255);
+      result := ibetween(127 + trunc(164 * arctan(tanh(f / 2)) + 0.778), -255, 255);
     end;
   end;
 
@@ -496,6 +496,7 @@ var
   source32: PLongWordArray;
   pitch: integer;
   r1, g1, b1: LongWord;
+  r, g, b: LongWord;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -509,6 +510,9 @@ begin
   dbmax := parms.db_max;
   dbdmin := parms.db_dmin;
   dbdmax := parms.db_dmax;
+  r := parms.r;
+  g := parms.g;
+  b := parms.b;
   x := parms.dl_x;
   scale := parms.dl_scale;
   seg := nil;
@@ -555,12 +559,12 @@ begin
 
             if factor > 0 then
             begin
-              r1 := FixedMulShl8(parms.r, factor);
-              g1 := FixedMulShl4(parms.g, factor);
-              b1 := FixedMul(parms.b, factor);
+              r1 := FixedMulShl8(r, factor);
+              g1 := FixedMulShl4(g, factor);
+              b1 := FixedMul(b, factor);
               destb^ := colorlighttrans8table[destb^ * 256 + approxcolorindexarray[r1 + g1 + b1]];
             end;
-            
+
           end;
         end;
       end;

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -79,7 +79,9 @@ uses
   r_camera,
   r_data,
   r_draw,
+{$IFNDEF OPENGL}
   r_segs,
+{$ENDIF}
   r_dynlights,
   s_sound,
   t_main,
@@ -114,6 +116,7 @@ var
   lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
   r_bltasync: boolean = true;
+  r_fakecontrast: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -155,7 +158,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 185;
+  NUMDEFAULTS = 186;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -218,6 +221,14 @@ const
 
     (name: 'interpolate';
      location: @interpolate;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'interpolateoncapped';
+     location: @interpolateoncapped;
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: 1;
@@ -1590,7 +1601,7 @@ const
      location: @zonesize;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
-     defaultivalue: 8;
+     defaultivalue: 32;
      defaultbvalue: false;
      _type: tInteger),
 

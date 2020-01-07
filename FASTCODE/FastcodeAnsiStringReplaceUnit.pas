@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodeAnsiStringReplaceUnit;
 
 (* ***** BEGIN LICENSE BLOCK *****

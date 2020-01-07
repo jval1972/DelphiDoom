@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -630,6 +630,7 @@ begin
     m_type := m_mp3;
     I_PlayMP3(Pmp3header_t(data).Stream);
   end
+  else if PLongWordArray(data)[0] = ID3MAGIC then
   else if I_MusToMidi(PByteArray(data), song.midievents) then
   begin
     setmusvolume := -1; // Force music update

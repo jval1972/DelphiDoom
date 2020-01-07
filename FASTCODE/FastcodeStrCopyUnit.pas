@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodeStrCopyUnit;
 
 (* ***** BEGIN LICENSE BLOCK *****

@@ -129,12 +129,21 @@ Added allowvanillademos console variable, when true (default) will play vanilla 
 Added VANILLA_DEMO_OFF directive. It can be placed in ACTORDEF, MODELDEF, VOXELDEF?, LIGHTDEF & SNDINFO lumps and will prevent the engine to play vanilla demos. The setting is not preserved in defaults file and the modders should use this if their mod breaks vanilla demo compatibility.
 Fixed uncapped framerate glitch in teleporting monsters.
 LIGHTDEF lumps now define lights in a per actor basis and not in a per sprite bases. 
+Fixed clipping problems on voxels and models in OpenGL mode.
+Support for Doom2 BFG Edition.
+Added r_fakecontrast console variable. When true (default) it will add contrast to perpendicular lines.
+Speed optimizations to the upcapped framerate subsystem by processing only the mobjs that the renderer touched.
+Texture width is not requiered to be power of 2 (software rendering).
+Corrected issues with tall textures in OpenGL rendering.
+Added interpolateoncapped console variable. It will smooth display in capped framerate. Default is true.
+Fixed glitch in sky drawing, it was ignoring visplanes with 1 px height.
+Fixed some glitches with high walls in software rendering.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------
 Now recornizes kvx voxels inside the VX_START/VX_END namespace.
 Added vox_exportlightmap console command (OpenGL version only). Exports the current lightmap into a ddvox voxel.
-Limit OpenGL framerate to monitor refresh rate is now preserved and executed right from defaults.
+Limit OpenGL framerate to monitor refresh rate is now preserved and executed correctly from defaults.
 Lower memory utilization for OpenGL renderer (visplane declaration does not include the unneeded for the gl renderer visindex arrays).
 Added 'CANPASS' alias for 'PASSMOBJ' flag in ACTORDEF definitions.
 Added support for slab6 VOX voxels.

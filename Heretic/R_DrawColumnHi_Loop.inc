@@ -14,7 +14,7 @@
 
       c := dc_source32[spot];
 {$IFDEF MASKEDCOLUMN}
-      if c <> 0 then 
+      if c <> 0 then
       begin
 {$ENDIF}
 {$IFDEF INVERSECOLORMAPS}

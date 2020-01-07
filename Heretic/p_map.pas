@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1258,7 +1258,7 @@ end;
 //
 // PTR_SlideTraverse
 //
-function PTR_SlideTraverse(_in: Pintercept_t): boolean;
+function PTR_SlideTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
 
@@ -1266,20 +1266,20 @@ var
   begin
     // the line does block movement,
     // see if it is closer than best so far
-    if _in.frac < bestslidefrac then
+    if intr.frac < bestslidefrac then
     begin
       secondslidefrac := bestslidefrac;
       secondslideline := bestslideline;
-      bestslidefrac := _in.frac;
+      bestslidefrac := intr.frac;
       bestslideline := li;
     end;
   end;
 
 begin
-  if not _in.isaline then
+  if not intr.isaline then
     I_Error('PTR_SlideTraverse(): not a line?');
 
-  li := _in.d.line;
+  li := intr.d.line;
 
   if li.flags and ML_TWOSIDED = 0 then
   begin
@@ -1353,6 +1353,7 @@ begin
 
   repeat
     inc(hitcount);
+
     if hitcount = 3 then
     begin
       stairstep;
@@ -1458,7 +1459,7 @@ var
 // PTR_AimTraverse
 // Sets linetaget and aimslope when a target is aimed at.
 //
-function PTR_AimTraverse(_in: Pintercept_t): boolean;
+function PTR_AimTraverse(intr: Pintercept_t): boolean;
 var
   li: Pline_t;
   th: Pmobj_t;
@@ -1467,9 +1468,9 @@ var
   thingbottomslope: fixed_t;
   dist: fixed_t;
 begin
-  if _in.isaline then
+  if intr.isaline then
   begin
-    li := _in.d.line;
+    li := intr.d.line;
 
     if li.flags and ML_TWOSIDED = 0 then
     begin
@@ -1494,7 +1495,7 @@ begin
       exit;
     end;
 
-    dist := FixedMul(attackrange, _in.frac);
+    dist := FixedMul(attackrange, intr.frac);
 
     if li.frontsector.floorheight <> li.backsector.floorheight then
     begin
@@ -1521,7 +1522,7 @@ begin
   end;
 
   // shoot a thing
-  th := _in.d.thing;
+  th := intr.d.thing;
   if th = shootthing then
   begin
     result := true;  // can't shoot self
@@ -1535,7 +1536,7 @@ begin
   end;
 
   // check angles to see if the thing can be aimed at
-  dist := FixedMul(attackrange, _in.frac);
+  dist := FixedMul(attackrange, intr.frac);
   thingtopslope := FixedDiv(th.z + th.height - shootz, dist);
 
   if thingtopslope < bottomslope then
@@ -1568,7 +1569,7 @@ end;
 //
 // PTR_ShootTraverse
 //
-function PTR_ShootTraverse(_in: Pintercept_t): boolean;
+function PTR_ShootTraverse(intr: Pintercept_t): boolean;
 var
   x: fixed_t;
   y: fixed_t;
@@ -1633,7 +1634,7 @@ var
 
     // hit line
     // position a bit closer
-    frac := _in.frac - FixedDiv(4 * FRACUNIT, attackrange);
+    frac := intr.frac - FixedDiv(4 * FRACUNIT, attackrange);
     x := trace.x + FixedMul(trace.dx, frac);
     y := trace.y + FixedMul(trace.dy, frac);
     z := shootz + FixedMul(aimslope, FixedMul(frac, attackrange));
@@ -1677,9 +1678,9 @@ var
   end;
 
 begin
-  if _in.isaline then
+  if intr.isaline then
   begin
-    li := _in.d.line;
+    li := intr.d.line;
 
     if li.flags and ML_TRIGGERSCRIPTS <> 0 then
       if shootthing.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
@@ -1703,7 +1704,7 @@ begin
       exit;
     end;
 
-    dist := FixedMul(attackrange, _in.frac);
+    dist := FixedMul(attackrange, intr.frac);
 
     if li.frontsector.floorheight <> li.backsector.floorheight then
     begin
@@ -1731,7 +1732,7 @@ begin
   end;
 
   // shoot a thing
-  th := _in.d.thing;
+  th := intr.d.thing;
   if th = shootthing then
   begin
     result := true; // can't shoot self
@@ -1745,7 +1746,7 @@ begin
   end;
 
   // check angles to see if the thing can be aimed at
-  dist := FixedMul(attackrange, _in.frac);
+  dist := FixedMul(attackrange, intr.frac);
   thingtopslope := FixedDiv(th.z + th.height - shootz, dist);
 
   if thingtopslope < aimslope then
@@ -1782,7 +1783,7 @@ begin
 
   // hit thing
   // position a bit closer
-  frac := _in.frac - FixedDiv(10 * FRACUNIT, attackrange);
+  frac := intr.frac - FixedDiv(10 * FRACUNIT, attackrange);
 
   x := trace.x + FixedMul(trace.dx, frac);
   y := trace.y + FixedMul(trace.dy, frac);
@@ -1790,7 +1791,7 @@ begin
 
   // Spawn bullet puffs or blood spots,
   // depending on target type.
-  if _in.d.thing.flags and MF_NOBLOOD <> 0 then
+  if intr.d.thing.flags and MF_NOBLOOD <> 0 then
     P_SpawnPuff(x, y, z)
   else
     P_SpawnBlood(x, y, z, la_damage);
@@ -1872,13 +1873,13 @@ end;
 var
   usething: Pmobj_t;
 
-function PTR_UseTraverse(_in: Pintercept_t): boolean;
+function PTR_UseTraverse(intr: Pintercept_t): boolean;
 var
   side: integer;
   li: Pline_t;
 begin
-  side := P_PointOnLineSide(usething.x, usething.y, _in.d.line);
-  li := _in.d.line;
+  side := P_PointOnLineSide(usething.x, usething.y, intr.d.line);
+  li := intr.d.line;
 
   if li.flags and ML_TRIGGERSCRIPTS <> 0 then
     if usething.flags2_ex and MF2_EX_DONTRUNSCRIPTS = 0 then
@@ -1899,7 +1900,7 @@ begin
     exit;
   end;
 
-  P_UseSpecialLine(usething, _in.d.line, side);
+  P_UseSpecialLine(usething, intr.d.line, side);
 
   // can't use for than one special line in a row
   result := false;
@@ -2189,6 +2190,7 @@ begin
   result := nofit;
 end;
 
+
 // JVAL Allow jumps in sectors with sky ceiling.... (7/8/2007)
 function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t): integer;
 begin
@@ -2199,15 +2201,22 @@ begin
     Exit;
   end;
 
-  result := 0;
   if s.ceilingpic = skyflatnum then
   begin
     if p <> nil then
       if p.powers[Ord(pw_flight)] <> 0 then
         exit;
     if not G_NeedsCompatibilityMode then
-      result := 128 * FRACUNIT;
+    begin
+      // JVAL: 20200107 - No just overhead for version > 205
+      if G_PlayingEngineVersion <= VERSION204 then
+        result := 128 * FRACUNIT
+      else
+        result := 0;
+      exit;
+    end;
   end;
+  result := 0;
 end;
 
 //----------------------------------------------------------------------------
@@ -2242,3 +2251,4 @@ begin
 end;
 
 end.
+

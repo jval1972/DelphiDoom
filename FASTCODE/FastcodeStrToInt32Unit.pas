@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodeStrToInt32Unit;
 
 (* ***** BEGIN LICENSE BLOCK *****

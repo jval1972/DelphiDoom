@@ -14,14 +14,14 @@
 
       c := dc_source32[spot];
 {$IFDEF MASKEDCOLUMN}
-      if c <> 0 then 
+      if c <> 0 then
       begin
 {$ENDIF}
 {$IFDEF INVERSECOLORMAPS}
-  r1 := c;
-  g1 := c shr 8;
-  b1 := c shr 16;
-  destl^ := precal32_ic[r1 + g1 + b1];
+        r1 := c;
+        g1 := c shr 8;
+        b1 := c shr 16;
+        destl^ := precal32_ic[r1 + g1 + b1];
 {$ELSE}
       {$I R_ColorLight.inc}
 {$ENDIF}

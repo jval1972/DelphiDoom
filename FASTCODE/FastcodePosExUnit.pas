@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodePosExUnit;
 
 (* ***** BEGIN LICENSE BLOCK *****

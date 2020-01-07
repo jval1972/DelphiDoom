@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -54,7 +54,7 @@ type
   end;
 
 const
-  NUMWADDETECTITEMS = 11;
+  NUMWADDETECTITEMS = 12;
   wdtbl: array[0..NUMWADDETECTITEMS - 1] of waddetect_t = (
     (crc32: '723e60f9'; numlumps: 2194; size: 11159840; version: exe_doom_1_9; customgame: cg_none),  // registered
     (crc32: 'bf0eaac0'; numlumps: 2306; size: 12408292; version: exe_ultimate; customgame: cg_none),  // Ultimate
@@ -62,6 +62,7 @@ const
     (crc32: '5efa677e'; numlumps: 2312; size: 12487824; version: exe_ultimate; customgame: cg_none),  // Ultimate BFG
     (crc32: '162b696a'; numlumps: 1264; size:  4196020; version: exe_ultimate; customgame: cg_none),  // shareware 1.9
     (crc32: 'ec8725db'; numlumps: 2919; size: 14604584; version: exe_doom_1_9; customgame: cg_none),  // Doom2 1.9
+    (crc32: '927a778a'; numlumps: 2935; size: 14691821; version: exe_doom_1_9; customgame: cg_bfg2),  // Doom2 BFG
     (crc32: '903dcc27'; numlumps: 3101; size: 18195736; version: exe_final2;   customgame: cg_none),  // TNT
     (crc32: 'd4bb05c0'; numlumps: 3106; size: 18654796; version: exe_final2;   customgame: cg_none),  // TNT
     (crc32: '7f572c1f'; numlumps: 3101; size: 18222568; version: exe_final2;   customgame: cg_none),  // TNT

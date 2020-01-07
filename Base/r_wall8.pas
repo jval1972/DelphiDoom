@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1557,6 +1557,8 @@ var
   walls: Pbatchwallrenderinfo8_t;
 begin
   walls := @wallcache[idx^];
+  if walls.numwalls = 0 then
+    exit;
 
   case walls.numwalls of
     MAXBATCHWALLS:
@@ -1649,9 +1651,19 @@ procedure R_StoreWallColumn8(const idx: PInteger);
 var
   w: Pwallrenderinfo8_t;
   walls: Pbatchwallrenderinfo8_t;
+  nwalls: integer;
 begin
   walls := @wallcache[idx^];
-  w := @walls.walls[walls.numwalls];
+  nwalls := walls.numwalls;
+  if nwalls > 0 then
+    if walls.walls[nwalls - 1].dc_x + 1 <> dc_x then
+    begin
+      R_FlashWallColumns8(idx);
+      walls := @wallcache[idx^];
+      nwalls := 0;
+    end;
+
+  w := @walls.walls[nwalls];
   w.dc_source := dc_source;
   w.dc_colormap := dc_colormap;
   w.dc_yh := dc_yh;

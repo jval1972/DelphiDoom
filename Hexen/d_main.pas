@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -445,7 +445,6 @@ begin
       R_FillBackScreen;         // draw the pattern into the back screen
     end;
 {$ENDIF}
-
   // see if the border needs to be updated to the screen
     if amstate <> am_only then
     begin
@@ -583,17 +582,14 @@ begin
   begin
     if (amstate <> am_only) and (gametic <> 0) then
     begin
-      R_FillBackScreen;         // draw the pattern into the back screen
+      R_FillBackScreen; // draw the pattern into the back screen
       D_RenderPlayerView(@players[displayplayer]);
     end;
   end;
-  //if firstinterpolation then
-  begin
-    if gamestate = GS_LEVEL then
-      if amstate = am_overlay then
-        AM_Drawer;
-    D_DisplayHU;
-  end;
+  if gamestate = GS_LEVEL then
+    if amstate = am_overlay then
+      AM_Drawer;
+  D_DisplayHU;
   D_FinishUpdate; // page flip or blit buffer
 end;
 {$ENDIF}
@@ -840,7 +836,6 @@ begin
   end;
 end;
 
-
 procedure D_WadsAutoLoad(fnames: string);
 var
   s1, s2: string;
@@ -943,7 +938,7 @@ begin
       end;
       if tmp <> '' then
         paths.Add(tmp);
-    end;    
+    end;
   end;
 
   if additionalwadpaths <> '' then
@@ -1091,6 +1086,7 @@ begin
 
   printf('Game mode indeterminate.'#13#10);
   gamemode := indetermined;
+
 end;
 
 //

@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -498,7 +498,10 @@ var
   lump: integer;
   ofs: integer;
 begin
-  col := col and texturewidthmask[tex];
+// JVAL: 20200105 - Texture width is not requiered to be power of 2
+  col := col mod texturewidth[tex];
+  if col < 0 then
+    col := col + texturewidth[tex];
   lump := texturecolumnlump[tex][col];
   ofs := texturecolumnofs[tex][col];
 
@@ -663,7 +666,7 @@ begin
   texturecolumnofs := Z_Malloc(numtextures * SizeOf(PIntegerArray), PU_STATIC, nil);
   texturecomposite := Z_Malloc(numtextures * SizeOf(PByteArray), PU_STATIC, nil);
   texturecompositesize := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
-  texturewidthmask := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
+  texturewidth := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
   textureheight := Z_Malloc(numtextures * SizeOf(fixed_t), PU_STATIC, nil);
 
   for i := 0 to numtextures - 1 do
@@ -720,11 +723,7 @@ begin
     texturecolumnlump[i] := Z_Malloc(texture.width * SizeOf(texturecolumnlump[0][0]), PU_STATIC, nil);
     texturecolumnofs[i] := Z_Malloc(texture.width * SizeOf(texturecolumnofs[0][0]), PU_STATIC, nil);
 
-    j := 1;
-    while j * 2 <= texture.width do
-      j := j * 2;
-
-    texturewidthmask[i] := j - 1;
+    texturewidth[i] := texture.width;
     textureheight[i] := texture.height * FRACUNIT;
 
     incp(pointer(directory), SizeOf(integer));

@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -91,7 +91,7 @@ var
   mapnames: array[0..44] of string;
 
 // DOOM 2 map names.
-  mapnames2: array[0..31] of string;
+  mapnames2: array[0..32] of string;
 
 // Plutonia WAD map names.
   mapnamesp: array[0..31] of string;
@@ -973,6 +973,7 @@ initialization
   mapnames2[29] := HUSTR_30;
   mapnames2[30] := HUSTR_31;
   mapnames2[31] := HUSTR_32;
+  mapnames2[32] := HUSTR_33;
 
 ////////////////////////////////////////////////////////////////////////////////
 

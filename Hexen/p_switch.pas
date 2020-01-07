@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -33,7 +33,8 @@ interface
 
 uses
   r_defs,
-  p_mobj_h, p_spec;
+  p_mobj_h,
+  p_spec;
 
 procedure P_InitSwitchList;
 
@@ -48,8 +49,17 @@ uses
   d_delphi,
   doomdata,
   m_fixed,
-  p_local, p_setup, p_lights, p_plats, p_doors, p_ceilng, p_floor,
-  i_system, doomdef, g_game, s_sound,
+  p_local,
+  p_setup,
+  p_lights,
+  p_plats,
+  p_doors,
+  p_ceilng,
+  p_floor,
+  i_system,
+  doomdef,
+  g_game,
+  s_sound,
   r_data,
 // Data
   sounds,

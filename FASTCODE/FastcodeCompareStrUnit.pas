@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodeCompareStrUnit;
 
 (* ***** BEGIN LICENSE BLOCK *****

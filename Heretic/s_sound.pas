@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -21,8 +21,8 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
-// DESCRIPTION:
-//  The not so system specific sound interface.
+//  DESCRIPTION:
+//    The not so system specific sound interface.
 //
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
@@ -147,18 +147,18 @@ uses
   i_sound,
   i_music,
   i_mp3,
+  info_h,
   m_fixed,
   m_rnd,
   m_misc,
   p_mobj,
+  p_tick,
   p_local,
   p_maputl,
-  p_tick,
-  info_h,
   sounds,
   z_zone,
-  w_wad,
   w_folders,
+  w_wad,
   w_pak,
   doomdef,
   r_main,
@@ -175,7 +175,6 @@ const
 // when to clip out sounds
 // Does not fit the large outdoor areas.
   S_CLIPPING_DIST = 1200 * $10000;
-//  S_CLIPPING_DIST = 2000 * $10000;
 
 // Distance tp origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
@@ -220,8 +219,6 @@ var
 // music currently being played
   mus_playing: Pmusicinfo_t = nil;
   looping_playing: boolean;
-
-  nextcleanup: integer;
 
 //
 // Internals.
@@ -290,7 +287,7 @@ begin
     S_CmdMidiTempo;
   end
   else
-    printf('Specify an integer number in (1..255)'#13#10);
+    printf('Specify an integer number in [1..255]'#13#10);
 
 end;
 
@@ -303,7 +300,7 @@ procedure S_Init(sfxVolume: integer; musicVolume: integer);
 var
   i: integer;
 begin
-  printf('S_Init: default sfx volume %d' + #13#10, [sfxVolume]);
+  printf('S_Init: default sfx volume %d'#13#10, [sfxVolume]);
 
   // Whatever these did with DMX, these are rather dummies now.
   I_SetChannels;
@@ -321,7 +318,7 @@ begin
   if numChannels > MAX_NUMCHANNELS then
     numChannels := MAX_NUMCHANNELS; // JVAL: Set the maximum number of channels
 
-  channels := Pchannel_tArray(Z_Malloc(numChannels * SizeOf(channel_t), PU_STATIC, nil));
+  channels := Z_Malloc(numChannels * SizeOf(channel_t), PU_STATIC, nil);
 
   // Free all channels for use
   for i := 0 to numChannels - 1 do
@@ -390,10 +387,8 @@ begin
   mus_paused := false;
 
   mnum := S_DefaultMusicForMap(gameepisode, gamemap);
-  
-  S_ChangeMusic(mnum, true);
 
-  nextcleanup := 15;
+  S_ChangeMusic(mnum, true);
 end;
 
 procedure S_StartSoundAtVolume(origin_p: pointer; sfx_id: integer; volume: integer);
@@ -561,7 +556,7 @@ begin
     c := @channels[cnum];
     sfx := c.sfxinfo;
 
-    if c.sfxinfo <> nil then
+    if sfx <> nil then
     begin
       if I_SoundIsPlaying(c.handle) then
       begin
@@ -625,7 +620,7 @@ procedure S_SetSfxVolume(volume: integer);
 begin
   if (volume < 0) or (volume > 127) then
   begin
-    I_DevError('S_SetSfxVolume(): Attempt to set sfx volume at %d', [volume]);
+    I_Warning('S_SetSfxVolume(): Attempt to set sfx volume at %d', [volume]);
     snd_SfxVolume := 64;
   end
   else
@@ -1003,9 +998,7 @@ begin
       S_sfx[i].lumpnum := I_GetSfxLumpNum(@S_sfx[i]);
       if S_sfx[i].lumpnum >= 0 then
       begin
-        // JVAL
-        // avoid, cause serious mess-up with sounds
-        // W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
+        W_CacheLumpNum(S_sfx[i].lumpnum, PU_SOUND);
         sndmem := sndmem + W_LumpLength(S_sfx[i].lumpnum);
       end;
     end;

@@ -50,6 +50,9 @@ uses
   m_fixed,
   tables,
   r_data,
+  {$IFNDEF OPENGL}
+  r_sprite,
+  {$ENDIF}
   r_defs;
 
 const
@@ -135,6 +138,7 @@ procedure R_SetViewAngleOffset(const angle: angle_t);
 function R_FullStOn: boolean;
 
 var
+  {$IFNDEF OPENGL}
   basebatchcolfunc: PProcedure;
   batchcolfunc: PProcedure;
   batchfuzzcolfunc1: PProcedure;
@@ -151,6 +155,18 @@ var
   batchtalphacolfunc: PProcedure;
   batchaddcolfunc: PProcedure;
   batchsubtractcolfunc: PProcedure;
+
+  // JVAL: Multithreading sprite funcs
+  basebatchcolfunc_mt: spritefunc_t;
+  batchcolfunc_mt: spritefunc_t;
+  batchtalphacolfunc_mt: spritefunc_t;
+  batchaddcolfunc_mt: spritefunc_t;
+  batchsubtractcolfunc_mt: spritefunc_t;
+  maskedcolfunc_mt: spritefunc_t;
+  colfunc_mt: spritefunc_t;
+  alphacolfunc_mt: spritefunc_t;
+  addcolfunc_mt: spritefunc_t;
+  subtractcolfunc_mt: spritefunc_t;
 
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
@@ -187,6 +203,7 @@ var
   slopefuncMT: PPointerParmProcedure;
   baseslopefuncMT: PPointerParmProcedure;
   rippleslopefuncMT: PPointerParmProcedure;
+  {$ENDIF}
 
   centerxfrac: fixed_t;
   centeryfrac: fixed_t;
@@ -278,7 +295,7 @@ var
   linecount: integer;
   loopcount: integer;
 
-  viewangleoffset: angle_t = 0; // never a value assigned to this variable!
+  viewangleoffset: angle_t = 0; // Net drone angle
 
   setsizeneeded: boolean;
 
@@ -343,7 +360,9 @@ uses
   {$ENDIF}
   r_plane,
   r_sky,
+{$IFNDEF OPENGL}
   r_segs,
+{$ENDIF}
   r_hires,
   r_camera,
   r_precalc,
@@ -912,6 +931,36 @@ begin
         fuzztranscolfunc := R_DrawFuzzColumnTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnTL_Batch;
 
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          batchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          if diher8bittransparency then
+            batchtalphacolfunc_mt := nil
+          else
+            batchtalphacolfunc_mt := R_DrawColumnAlphaMedium_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
+
         colfunc := R_DrawColumnLowest;
         wallcolfunc := R_DrawColumnLowest;
         transcolfunc := R_DrawTranslatedColumn;
@@ -990,7 +1039,37 @@ begin
 
         fuzztranscolfunc := R_DrawFuzzColumnTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnTL_Batch;
-        
+
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          batchcolfunc_mt := R_DrawColumnLow_BatchMT;
+          if diher8bittransparency then
+            batchtalphacolfunc_mt := nil
+          else
+            batchtalphacolfunc_mt := R_DrawColumnAlphaMedium_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
+
         colfunc := R_DrawColumnLow;
         wallcolfunc := R_DrawColumnLow;
         transcolfunc := R_DrawTranslatedColumn;
@@ -1069,7 +1148,37 @@ begin
 
         fuzztranscolfunc := R_DrawFuzzColumnTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnTL_Batch;
-        
+
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnMedium_BatchMT;
+          batchcolfunc_mt := R_DrawColumnMedium_BatchMT;
+          if diher8bittransparency then
+            batchtalphacolfunc_mt := nil
+          else
+            batchtalphacolfunc_mt := R_DrawColumnAlphaMedium_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddMedium_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractMedium_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
+
         colfunc := R_DrawColumnMedium;
         wallcolfunc := R_DrawColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
@@ -1150,6 +1259,33 @@ begin
         batchaddcolfunc := R_DrawColumnAddHi_Batch;
         batchsubtractcolfunc := R_DrawColumnSubtractHi_Batch;
 
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
+          maskedcolfunc_mt := R_DrawMaskedColumnNormalMT;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
+
         fuzztranscolfunc := R_DrawFuzzColumnHiTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnHiTL_Batch;
 
@@ -1221,6 +1357,33 @@ begin
         fuzztranscolfunc := R_DrawFuzzColumnHiTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnHiTL_Batch;
         
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
+
         colfunc := R_DrawColumnHi;
         wallcolfunc := R_DrawColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
@@ -1249,7 +1412,7 @@ begin
         end
         else
         begin
-          spanfunc := R_DrawSpanNormal; //R_DrawSpanHi;
+          spanfunc := R_DrawSpanNormal;
           basespanfunc := R_DrawSpanNormal;
           ripplespanfunc := R_DrawSpanNormal_Ripple;
           slopefunc := R_DrawSpanNormal;  // JVAL: Slopes
@@ -1288,6 +1451,33 @@ begin
 
         fuzztranscolfunc := R_DrawFuzzColumnHiTL;
         batchfuzztranscolfunc := R_DrawFuzzColumnHiTL_Batch;
+
+        if usemultithread then
+        begin
+          basebatchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchcolfunc_mt := R_DrawColumnHi_BatchMT;
+          batchtalphacolfunc_mt := R_DrawColumnAlphaHi_BatchMT;
+          batchaddcolfunc_mt := R_DrawColumnAddHi_BatchMT;
+          batchsubtractcolfunc_mt := R_DrawColumnSubtractHi_BatchMT;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end
+        else
+        begin
+          basebatchcolfunc_mt := nil;
+          batchcolfunc_mt := nil;
+          batchtalphacolfunc_mt := nil;
+          batchaddcolfunc_mt := nil;
+          batchsubtractcolfunc_mt := nil;
+          maskedcolfunc_mt := nil;
+          colfunc_mt := nil;
+          alphacolfunc_mt := nil;
+          addcolfunc_mt := nil;
+          subtractcolfunc_mt := nil;
+        end;
 
         colfunc := R_DrawColumnUltra;
         wallcolfunc := R_DrawColumnUltra;
@@ -1987,6 +2177,8 @@ begin
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
 
+  R_ProjectAdditionalThings;
+
   R_SortVisSpritesMT;
 
   R_RenderMultiThreadWalls8;
@@ -2040,6 +2232,8 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
+
+  R_ProjectAdditionalThings;
 
   R_SortVisSpritesMT;
 
@@ -2109,6 +2303,8 @@ begin
 
   // The head node is the last node output.
   R_RenderBSPNode(numnodes - 1);
+
+  R_ProjectAdditionalThings;
 
   // Check for new console commands.
   NetUpdate;

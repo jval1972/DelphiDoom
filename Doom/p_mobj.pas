@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -281,6 +281,15 @@ begin
 
   repeat
     if (xmove > MAXMOVE div 2) or (ymove > MAXMOVE div 2) then
+    begin
+    // JVAL 20180107
+    // Please do not change, the div and the _SHR1, problem with demo compatibility..
+      ptryx := mo.x + xmove div 2;
+      ptryy := mo.y + ymove div 2;
+      xmove := _SHR1(xmove);
+      ymove := _SHR1(ymove);
+    end
+    else if (G_PlayingEngineVersion >= VERSION205) and ((xmove < -MAXMOVE div 2) or (ymove < -MAXMOVE div 2)) then
     begin
     // JVAL 20180107
     // Please do not change, the div and the _SHR1, problem with demo compatibility..

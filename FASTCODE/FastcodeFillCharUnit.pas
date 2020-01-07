@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit FastcodeFillCharUnit;
 
 (* ***** BEGIN LICENSE BLOCK *****

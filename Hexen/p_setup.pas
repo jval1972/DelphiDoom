@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -174,10 +174,9 @@ implementation
 
 uses
   c_cmds,
-  d_player,
   doomtype,
+  d_player,
   m_argv,
-  mt_utils,
   z_zone,
   m_bbox,
   g_game,
@@ -190,15 +189,15 @@ uses
   p_tick,
   p_spec,
   p_switch,
+  p_inter,
   p_adjust,
   p_bridge,
-  p_inter,
   p_enemy,
   p_pspr,
   p_acs,
   p_anim,
   p_udmf,
-  p_3dfloors,
+  p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
   p_affectees,
   p_musinfo,
@@ -206,6 +205,7 @@ uses
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
+  mt_utils,
 {$IFNDEF OPENGL}
   r_cache_main,
   r_segs2,
@@ -1214,7 +1214,7 @@ begin
   totalsecret := 0;
 
   isgamefreezed := false;
-  
+
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
   for i := 0 to MAXPLAYERS - 1 do
@@ -1347,6 +1347,7 @@ begin
   P_RemoveSlimeTrails;
 
 {$IFNDEF OPENGL}
+  R_CalcSectors; // JVAL 20200105 - Check the map boundaries
   R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
 {$ENDIF}
 

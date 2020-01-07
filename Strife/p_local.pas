@@ -64,9 +64,6 @@ const
   MAPBMASK = MAPBLOCKSIZE - 1;
   MAPBTOFRAC = MAPBLOCKSHIFT - FRACBITS;
 
-// player radius for movement checking
-  PLAYERRADIUS = 16 * FRACUNIT;
-
 // MAXRADIUS is for precalculated sector block boxes
 // the spider demon is larger,
 // but we do not have any moving sectors nearby

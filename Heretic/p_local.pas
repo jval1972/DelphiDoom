@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -57,9 +57,6 @@ const
   MAPBLOCKSHIFT = FRACBITS + 7;
   MAPBMASK = MAPBLOCKSIZE - 1;
   MAPBTOFRAC = MAPBLOCKSHIFT - FRACBITS;
-
-// player radius for movement checking
-  PLAYERRADIUS = 16 * FRACUNIT;
 
 // MAXRADIUS is for precalculated sector block boxes
 // the spider demon is larger,

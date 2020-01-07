@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1217,6 +1217,7 @@ begin
       mobj.gravity := FRACUNIT;
       mobj.flags3_ex := 0;
       mobj.flags4_ex := 0;
+      mobj.rendervalidcount := 0;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1231,6 +1232,7 @@ begin
       mobj.gravity := FRACUNIT;
       mobj.flags3_ex := 0;
       mobj.flags4_ex := 0;
+      mobj.rendervalidcount := 0;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1243,6 +1245,7 @@ begin
       mobj.gravity := FRACUNIT;
       mobj.flags3_ex := 0;
       mobj.flags4_ex := 0;
+      mobj.rendervalidcount := 0;
     end
     else
     begin

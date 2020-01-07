@@ -1,3 +1,5 @@
+{$I FastCodeOptions.inc}
+
 unit AnsiStringReplaceJOHIA32Unit12;
 
 interface

@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1335,7 +1335,6 @@ var
   voxelsize: integer;
   xx, yy, zz: integer;
   x1, y1, z1: integer;
-  s: string;
   maxpal: integer;
   cc: integer;
   palfactor: double;
@@ -1645,7 +1644,7 @@ begin
     tz := FixedMul(tr_x, viewcos) + FixedMul(tr_y, viewsin);
 
     // thing is behind view plane?
-    if tz < MINZ {- clms.range} then
+    if tz < MINZ{ - 2 * clms.range} then
       exit;
 
     // scale y
@@ -1765,7 +1764,7 @@ begin
 
 
       tz := FixedMul(a_x[0], viewcos) + FixedMul(a_y[0], viewsin);
-      if (tz < MINZ) then
+      if tz < MINZ then
         Continue;
       scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[0], viewsin) - FixedMul(a_y[0], viewcos);
@@ -1774,7 +1773,7 @@ begin
       scaley0 := FixedDiv2(vprojectiony, tz);
 
       tz := FixedMul(a_x[1], viewcos) + FixedMul(a_y[1], viewsin);
-      if (tz < MINZ) then
+      if tz < MINZ then
         Continue;
       scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[1], viewsin) - FixedMul(a_y[1], viewcos);
@@ -1786,7 +1785,7 @@ begin
       scaley1 := FixedDiv2(vprojectiony, tz);
 
       tz := FixedMul(a_x[2], viewcos) + FixedMul(a_y[2], viewsin);
-      if (tz < MINZ) then
+      if tz < MINZ then
         Continue;
       scale := FixedDiv2(vprojection, tz);
       tx := FixedMul(a_x[2], viewsin) - FixedMul(a_y[2], viewcos);
@@ -1809,7 +1808,7 @@ begin
         right := Xup;
       scaley3 := FixedDiv2(vprojectiony, tz);
 
-//--------------------------------------------------------      
+//--------------------------------------------------------
 {      left := left + centerx;
       if left >= arightx then
         Continue;
@@ -2318,7 +2317,7 @@ begin
   vx_simpleclip := true;
   vx_ceilingclip := mceilingclip[vis.vx1];
   vx_floorclip := mfloorclip[vis.vx1];
-  for x := vis.vx1 to vis.vx2 do
+  for x := vis.vx1 + 1 to vis.vx2 do
   begin
     if mceilingclip[x] <> vx_ceilingclip then
     begin

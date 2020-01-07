@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -117,6 +117,9 @@ var
 
 function R_NewDrawSeg: Pdrawseg_t;
 
+var
+  r_fakecontrast: boolean;
+
 implementation
 
 uses
@@ -143,6 +146,9 @@ uses
   r_wall32,
   r_scale,
   r_segs2,
+{$IFDEF STRIFE}
+  r_col_fz,
+{$ENDIF}
   r_patch,
 {$ENDIF}
 {$IFDEF DEBUG}
@@ -167,7 +173,10 @@ var
   use32bittexture: boolean;
   mc2height: integer;
   texturecolumn: integer;
+  t: double;
+{$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t;
+{$ENDIF}
 begin
   R_DisableFixedColumn;
   // Calculate light table.
@@ -184,26 +193,50 @@ begin
   if use32bittexture then
   begin
     mc2height := textures[texnum].height;
+    {$IFNDEF HEXEN}
     if curline.linedef.renderflags and LRF_TRANSPARENT <> 0 then
       colfunc := averagecolfunc
+    {$IFDEF STRIFE}
+    // villsa [STRIFE] render as transparent (25% or 75%?)
+    else if curline.linedef.flags and ML_TRANSPARENT2 <> 0 then
+      colfunc := @R_DrawFuzzColumn2Hi32
+    else if curline.linedef.flags and ML_TRANSPARENT1 <> 0 then
+      colfunc := @R_DrawFuzzColumn1Hi32
+    {$ENDIF}
     else
+    {$ENDIF}
       colfunc := maskedcolfunc2;
   end
   else
   begin
     mc2height := 0;
+    {$IFNDEF HEXEN}
     if curline.linedef.renderflags and LRF_TRANSPARENT <> 0 then
       colfunc := averagecolfunc
+    {$IFDEF STRIFE}
+    else if curline.linedef.flags and ML_TRANSPARENT2 <> 0 then
+      colfunc := fuzzcolfunc2
+    else if curline.linedef.flags and ML_TRANSPARENT1 <> 0 then
+      colfunc := fuzzcolfunc1
+    {$ENDIF}
     else
+    {$ENDIF}
       colfunc := maskedcolfunc;
   end;
 
-  lightnum := _SHR(R_FakeFlat(frontsector, @tempsec, nil, nil, False).lightlevel, LIGHTSEGSHIFT) + extralight;
+  lightnum := _SHR(
+        {$IFDEF DOOM_OR_STRIFE}R_FakeFlat(frontsector, @tempsec, nil, nil, False).lightlevel
+        {$ELSE}frontsector.lightlevel
+        {$ENDIF}, 
+        LIGHTSEGSHIFT) + extralight;
 
-  if curline.v1.y = curline.v2.y then
-    dec(lightnum)
-  else if curline.v1.x = curline.v2.x then
-    inc(lightnum);
+  if r_fakecontrast then
+  begin
+    if curline.v1.y = curline.v2.y then
+      dec(lightnum)
+    else if curline.v1.x = curline.v2.x then
+      inc(lightnum);
+  end;
 
   if lightnum < 0 then
     lightnum := 0
@@ -216,8 +249,16 @@ begin
 
   maskedtexturecol := ds.maskedtexturecol;
 
-  rw_scalestep := ds.scalestep;
-  spryscale := ds.scale1 + (x1 - ds.x1) * rw_scalestep;
+  if ds.use_double then
+  begin
+    rw_scalestep_dbl := ds.scalestep_dbl;
+    spryscale := trunc(ds.scale_dbl + (x1 - ds.x1) * rw_scalestep_dbl);
+  end
+  else
+  begin
+    rw_scalestep := ds.scalestep;
+    spryscale := ds.scale1 + (x1 - ds.x1) * rw_scalestep;
+  end;
   mfloorclip := ds.sprbottomclip;
   mceilingclip := ds.sprtopclip;
 
@@ -261,7 +302,13 @@ begin
     begin
       if fixedcolormap = nil then
       begin
+        {$IFDEF HEXEN}
+        if videomode = vm32bit then
+        begin
+          if not forcecolormaps or LevelUseFog then
+        {$ELSE}
         if not forcecolormaps then
+        {$ENDIF}
         begin
           if spryscale > 256 * FRACUNIT then
             index := (_SHR(spryscale, HLL_LIGHTSCALESHIFT + 2) div SCREENWIDTH) * 320
@@ -273,6 +320,9 @@ begin
             index := 0;
           dc_lightlevel := scalelightlevels[dc_llindex, index];
         end;
+        {$IFDEF HEXEN}
+        end;
+        {$ENDIF}
         index := _SHR(spryscale, LIGHTSCALESHIFT) * 320 div SCREENWIDTH;
 
         if index >=  MAXLIGHTSCALE then
@@ -285,7 +335,36 @@ begin
           dc_colormap32 := R_GetColormap32(dc_colormap);
       end;
 
-      sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
+      // killough 3/2/98:
+      //
+      // This calculation used to overflow and cause crashes in Doom:
+      //
+      // sprtopscreen = centeryfrac - FixedMul(dcvars.texturemid, spryscale);
+      //
+      // This code fixes it, by using double-precision intermediate
+      // arithmetic and by skipping the drawing of 2s normals whose
+      // mapping to screen coordinates is totally out of range:
+     //t -> int64 (boom)
+ {     t := int64(centeryfrac) * FRACUNIT - int64(dc_texturemid) * int64(spryscale);
+      if (t + int64(textureheight[texnum]) * int64(spryscale) < 0) or (t > int64(SCREENHEIGHT) * FRACUNIT * 2) then
+        continue;
+      sprtopscreen := FixedInt64(t); }
+
+     //t -> double (delphidoom)
+      t := (centeryfrac / FRACUNIT) - (dc_texturemid / FRACUNIT) * (spryscale / FRACUNIT);
+      if (t + (textureheight[texnum] / FRACUNIT) * (spryscale / FRACUNIT) < 0) or (t > SCREENHEIGHT * 2) then
+      begin
+        if ds.use_double then
+          spryscale := Trunc(ds.scale_dbl + (dc_x - ds.x1) * rw_scalestep_dbl)
+        else
+          spryscale := spryscale + rw_scalestep;
+        continue;
+      end;
+      sprtopscreen := trunc(t * FRACUNIT);
+
+{     original Doom code
+      sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale); }
+
       dc_iscale := LongWord($ffffffff) div LongWord(spryscale);
 
       texturecolumn := maskedtexturecol[dc_x] shr DC_HIRESBITS;
@@ -305,7 +384,10 @@ begin
 
       maskedtexturecol[dc_x] := MAXSHORT;
     end;
-    spryscale := spryscale + rw_scalestep;
+    if ds.use_double then
+      spryscale := Trunc(ds.scale_dbl + (dc_x - ds.x1) * rw_scalestep_dbl)
+    else
+      spryscale := spryscale + rw_scalestep;
   end;
   R_EnableFixedColumn;
 end;
@@ -325,7 +407,9 @@ var
 
 var
   rndsmap: integer = -1;
+{$IFNDEF STRIFE}
   rndsepi: integer = -1;
+{$ENDIF}
 
 function R_NewDrawSeg: Pdrawseg_t;
 var
@@ -334,10 +418,12 @@ begin
   // don't overflow and crash
   if ds_p = MAXDRAWSEGS then
   begin
-    if (rndsmap <> gamemap) or (rndsepi <> gameepisode) then
+    if (rndsmap <> gamemap) {$IFNDEF STRIFE}or (rndsepi <> gameepisode){$ENDIF} then
       I_Warning('R_NewDrawSeg(): ds_p = MAXDRAWSEGS'#13#10);
     rndsmap := gamemap;
+    {$IFNDEF STRIFE}
     rndsepi := gameepisode;
+    {$ENDIF}
     result := nil;
     exit;
   end;
@@ -428,7 +514,7 @@ begin
       // top of texture at top
       rw_midtexturemid := worldtop;
     end;
-    rw_midtexturemid := rw_midtexturemid + sidedef.rowoffset;
+    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset, textureheight[midtexture]);
 
     pds.silhouette := SIL_BOTH;
     pds.sprtopclip := @screenheightarray;
@@ -523,29 +609,36 @@ begin
       markfloor := (worldlow <> worldbottom) or
                    (backsector.floorpic <> frontsector.floorpic) or
                    (backsector.lightlevel <> frontsector.lightlevel) or
+                   {$IFDEF DOOM_OR_STRIFE}
                    // killough 3/7/98: Add checks for (x,y) offsets
                    (backsector.floor_xoffs <> frontsector.floor_xoffs) or
                    (backsector.floor_yoffs <> frontsector.floor_yoffs) or
                    // killough 4/15/98: prevent 2s normals
                    // from bleeding through deep water
                    (frontsector.heightsec <> -1) or
-                   ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                    // killough 4/17/98: draw floors if different light levels
                    (backsector.floorlightsec <> frontsector.floorlightsec) or
+                   {$ENDIF}
+                   {$IFDEF HEXEN}
+                   (backsector.special <> frontsector.special) or
+                   {$ENDIF}
+                   ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                    (backsector.renderflags <> frontsector.renderflags);
 
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
                      (backsector.lightlevel <> frontsector.lightlevel) or
+                     {$IFDEF DOOM_OR_STRIFE}
                      // killough 3/7/98: Add checks for (x,y) offsets
                      (backsector.ceiling_xoffs <> frontsector.ceiling_xoffs) or
                      (backsector.ceiling_yoffs <> frontsector.ceiling_yoffs) or
                      // killough 4/15/98: prevent 2s normals
                      // from bleeding through fake ceilings
                      ((frontsector.heightsec <> -1) and (frontsector.ceilingpic <> skyflatnum)) or
-                     ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                      // killough 4/17/98: draw ceilings if different light levels
                      (backsector.ceilinglightsec <> frontsector.ceilinglightsec) or
+                     {$ENDIF}
+                     ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                      (backsector.renderflags <> frontsector.renderflags);
     end;
 
@@ -581,8 +674,8 @@ begin
       else // top of texture at top
         rw_bottomtexturemid := worldlow;
     end;
-    rw_toptexturemid := rw_toptexturemid + sidedef.rowoffset;
-    rw_bottomtexturemid := rw_bottomtexturemid + sidedef.rowoffset;
+    rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset, textureheight[toptexture]);
+    rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset, textureheight[bottomtexture]);
 
     // JVAL: 3d Floors
     R_StoreThickSideRange(pds, frontsector, backsector);
@@ -619,10 +712,13 @@ begin
     begin
       lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-      if curline.v1.y = curline.v2.y then
-        dec(lightnum)
-      else if curline.v1.x = curline.v2.x then
-        inc(lightnum);
+      if r_fakecontrast then
+      begin
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum);
+      end;
 
       if lightnum < 0 then
         lightnum := 0
@@ -700,9 +796,10 @@ begin
   //  of the view plane, it is definitely invisible
   //  and doesn't need to be marked.
 
-
+  {$IFDEF DOOM_OR_STRIFE}
   // killough 3/7/98: add deep water check
   if frontsector.heightsec = -1 then
+  {$ENDIF}
   begin
     if frontsector.floorheight >= viewz then
     begin
@@ -774,7 +871,18 @@ begin
   if markfloor then
   begin
     if floorplane <> nil then
-      floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1)
+    begin
+      // cph 2003/04/18  - ceilingplane and floorplane might be the same
+      // visplane (e.g. if both skies); R_CheckPlane doesn't know about
+      // modifications to the plane that might happen in parallel with the check
+      // being made, so we have to override it and split them anyway if that is
+      // a possibility, otherwise the floor marking would overwrite the ceiling
+      // marking, resulting in HOM.
+      if markceiling and (ceilingplane = floorplane) then
+        floorplane := R_DupPlane(floorplane, rw_x, rw_stopx - 1)
+      else
+        floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
+    end
     else
       markfloor := false;
   end;
@@ -956,7 +1064,7 @@ begin
       // top of texture at top
       rw_midtexturemid := worldtop;
     end;
-    rw_midtexturemid := rw_midtexturemid + sidedef.rowoffset;
+    rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset, textureheight[midtexture]);
 
     pds.silhouette := SIL_BOTH;
     pds.sprtopclip := @screenheightarray;
@@ -1051,29 +1159,36 @@ begin
       markfloor := (worldlow <> worldbottom) or
                    (backsector.floorpic <> frontsector.floorpic) or
                    (backsector.lightlevel <> frontsector.lightlevel) or
+                   {$IFDEF DOOM_OR_STRIFE}
                    // killough 3/7/98: Add checks for (x,y) offsets
                    (backsector.floor_xoffs <> frontsector.floor_xoffs) or
                    (backsector.floor_yoffs <> frontsector.floor_yoffs) or
                    // killough 4/15/98: prevent 2s normals
                    // from bleeding through deep water
                    (frontsector.heightsec <> -1) or
-                   ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                    // killough 4/17/98: draw floors if different light levels
                    (backsector.floorlightsec <> frontsector.floorlightsec) or
+                   {$ENDIF}
+                   {$IFDEF HEXEN}
+                   (backsector.special <> frontsector.special) or
+                   {$ENDIF}
+                   ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                    (backsector.renderflags <> frontsector.renderflags);
 
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
                      (backsector.lightlevel <> frontsector.lightlevel) or
+                     {$IFDEF DOOM_OR_STRIFE}
                      // killough 3/7/98: Add checks for (x,y) offsets
                      (backsector.ceiling_xoffs <> frontsector.ceiling_xoffs) or
                      (backsector.ceiling_yoffs <> frontsector.ceiling_yoffs) or
                      // killough 4/15/98: prevent 2s normals
                      // from bleeding through fake ceilings
                      ((frontsector.heightsec <> -1) and (frontsector.ceilingpic <> skyflatnum)) or
-                     ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                      // killough 4/17/98: draw ceilings if different light levels
                      (backsector.ceilinglightsec <> frontsector.ceilinglightsec) or
+                     {$ENDIF}
+                     ((frontsector.midsec <> backsector.midsec) and (frontsector.tag <> backsector.tag)) or // JVAL: 3d floors
                      (backsector.renderflags <> frontsector.renderflags);
     end;
 
@@ -1109,8 +1224,8 @@ begin
       else // top of texture at top
         rw_bottomtexturemid := worldlow;
     end;
-    rw_toptexturemid := rw_toptexturemid + sidedef.rowoffset;
-    rw_bottomtexturemid := rw_bottomtexturemid + sidedef.rowoffset;
+    rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset, textureheight[toptexture]);
+    rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset, textureheight[bottomtexture]);
 
     // JVAL: 3d Floors
     R_StoreThickSideRange(pds, frontsector, backsector);
@@ -1147,10 +1262,13 @@ begin
     begin
       lightnum := _SHR(frontsector.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-      if curline.v1.y = curline.v2.y then
-        dec(lightnum)
-      else if curline.v1.x = curline.v2.x then
-        inc(lightnum);
+      if r_fakecontrast then
+      begin
+        if curline.v1.y = curline.v2.y then
+          dec(lightnum)
+        else if curline.v1.x = curline.v2.x then
+          inc(lightnum);
+      end;
 
       if lightnum < 0 then
         lightnum := 0
@@ -1232,7 +1350,9 @@ begin
 
 
   // killough 3/7/98: add deep water check
+  {$IFDEF DOOM_OR_STRIFE}
   if frontsector.heightsec = -1 then
+  {$ENDIF}
   begin
     if frontsector.floorheight >= viewz then
     begin
@@ -1290,7 +1410,18 @@ begin
   if markfloor then
   begin
     if floorplane <> nil then
-      floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1)
+    begin
+      // cph 2003/04/18  - ceilingplane and floorplane might be the same
+      // visplane (e.g. if both skies); R_CheckPlane doesn't know about
+      // modifications to the plane that might happen in parallel with the check
+      // being made, so we have to override it and split them anyway if that is
+      // a possibility, otherwise the floor marking would overwrite the ceiling
+      // marking, resulting in HOM.
+      if markceiling and (ceilingplane = floorplane) then
+        floorplane := R_DupPlane(floorplane, rw_x, rw_stopx - 1)
+      else
+        floorplane := R_CheckPlane(floorplane, rw_x, rw_stopx - 1);
+    end
     else
       markfloor := false;
   end;

@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -61,9 +61,10 @@ const
 
 var
   pointinsubsector: pointinsubsector_p;
-  p_in_ss_width: integer;
-  p_in_ss_height: integer;
-  p_in_ss_minx, p_in_ss_miny, p_in_ss_maxx, p_in_ss_maxy: fixed_t;
+  // JVAL: 20200106 - Variables made int64, prevent overflow on big maps (eg Lost Civilization - MAP04)
+  p_in_ss_width: int64;
+  p_in_ss_height: int64;
+  p_in_ss_minx, p_in_ss_miny, p_in_ss_maxx, p_in_ss_maxy: int64;
   p_in_ss_size: integer = -1;
 
 procedure R_PrecalcPointInSubSector;

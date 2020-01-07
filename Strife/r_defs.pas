@@ -678,7 +678,7 @@ type
 var
   numspritelumps: integer;
 
-  texturewidthmask: PIntegerArray;
+  texturewidth: PIntegerArray;
 
   texturecolumnlump: PSmallIntPArray;
   texturecolumnofs: PIntegerPArray; // PWordPArray; //64k

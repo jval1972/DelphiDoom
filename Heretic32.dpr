@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -22,7 +22,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -227,7 +226,7 @@ uses
   r_main in 'Heretic\r_main.pas',
   r_mmx in 'Base\r_mmx.pas',
   r_plane in 'Heretic\r_plane.pas',
-  r_segs in 'Heretic\r_segs.pas',
+  r_segs in 'Base\r_segs.pas',
   r_sky in 'Heretic\r_sky.pas',
   r_span in 'Base\r_span.pas',
   r_span32 in 'Base\r_span32.pas',
@@ -351,7 +350,8 @@ uses
   r_vislight in 'Base\r_vislight.pas',
   p_musinfo in 'Base\p_musinfo.pas',
   p_levelinfo in 'Base\p_levelinfo.pas',
-  deh_base in 'Base\deh_base.pas';
+  deh_base in 'Base\deh_base.pas',
+  r_sprite in 'Base\r_sprite.pas';
 
 var
   Saved8087CW: Word;

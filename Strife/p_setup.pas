@@ -165,6 +165,7 @@ uses
   i_system,
   w_wad,
   info,
+  info_h,
   p_local,
   p_mobj,
   p_tick,
@@ -175,7 +176,7 @@ uses
   p_adjust,
   p_bridge,
   p_udmf,
-  p_3dfloors,
+  p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
   p_affectees,
   p_musinfo,
@@ -191,7 +192,6 @@ uses
   r_segs2,
 {$ENDIF}
   r_intrpl,
-  info_h,
 {$IFDEF OPENGL}
   gl_render,  // JVAL OPENGL
   r_main,
@@ -1598,7 +1598,7 @@ begin
   totalsecret := 0;
 
   isgamefreezed := false;
-  
+
   if not preparingdemoplayback then
     sysrndseed := I_Random;
 
@@ -1734,6 +1734,7 @@ begin
   P_RemoveSlimeTrails;    // killough 10/98: remove slime trails from wad
 
 {$IFNDEF OPENGL}
+  R_CalcSectors; // JVAL 20200105 - Check the map boundaries
   R_PrecalcSegs; // https://www.doomworld.com/forum/topic/70288-dynamic-wiggletall-sector-fix-for-fixed-point-software-renderer/?do=findComment&comment=1340433
 {$ENDIF}
 

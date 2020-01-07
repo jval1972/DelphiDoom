@@ -55,6 +55,13 @@ begin
       end;
       // SoM: this should be set here
       // jval: Also prevent problems in multithreading rendering
+{$IFDEF TALL_WALL}
+  if bottom > viewheight then
+    pceilingclip^ := viewheight
+  else if bottom < 0 then
+    pceilingclip^ := 0
+  else
+{$ENDIF}
       pceilingclip^ := bottom;
       {***************
       if top <= 0 then
@@ -91,7 +98,14 @@ begin
       end;
       // SoM: this should be set here to prevent overdraw
       // jval: Also prevents problems in multithreading rendering
-      pfloorclip^ := top;
+{$IFDEF TALL_WALL}
+      if top > 32767 then
+        pfloorclip^ := -1
+      else if top < -1 then
+        pfloorclip^ := -1
+      else
+{$ENDIF}
+        pfloorclip^ := top;
       {***************
       if bottom <= viewheight then
         pfloorclip^ := yh;
@@ -184,28 +198,21 @@ begin
 
       dc_x := rwx;
       {$IFDEF USEDOUBLE}
-      if (rw_scale_dbl < 4) and (rw_scale_dbl > -4) then
+      if rw_scale_dbl > 0 then
       begin
-        if rw_scale_dbl > 0 then
-          dc_iscale := MAXINT div 2
-        else
-          dc_iscale := - MAXINT div 2
+        if rw_scale_dbl < MIN_RW_SCALE then
+          rw_scale_dbl := MIN_RW_SCALE
+        else if rw_scale_dbl > MAX_RW_SCALE then
+          rw_scale_dbl := MAX_RW_SCALE;
       end
       else
       begin
-        dc_iscale := round($100000000 / rw_scale_dbl);
-        if dc_iscale > MAXINT div 2 then
-          dc_iscale := MAXINT div 2
-        else if dc_iscale < -MAXINT div 2 then
-          dc_iscale := -MAXINT div 2
+        if rw_scale_dbl > -MIN_RW_SCALE then
+          rw_scale_dbl := -MIN_RW_SCALE
+        else if rw_scale_dbl < -MAX_RW_SCALE then
+          rw_scale_dbl := -MAX_RW_SCALE;
       end;
-      if (dc_iscale < 4) and (dc_iscale > -4) then
-      begin
-        if dc_iscale > 0 then
-          dc_iscale := 4
-        else
-          dc_iscale := -4
-      end;
+      dc_iscale := round($100000000 / rw_scale_dbl);
       {$ELSE}
       dc_iscale := LongWord($ffffffff) div LongWord(rw_scale);
       {$ENDIF}
@@ -269,15 +276,24 @@ begin
 {$ENDIF}
       dc_yl := yl;
       dc_yh := yh;
-
-      {$IFDEF RENDERSEGOPTIMIZED}
-      R_StoreWallColumn32(@midwalls32);
-      {$ELSE}
-      wallcolfunc;
-      {$ENDIF}
-      {$IFDEF USEZBUFFER}
-      R_DrawColumnToZBuffer;
-      {$ENDIF}
+// JVAL: 20200105 - Avoid erroneous yh, yl on on drawsegs with double arithmetic
+{$IFDEF USEDOUBLE}
+      if dc_yh < 0 then
+        dc_yh := 0;
+      if dc_yl <= dc_yh then
+      begin
+{$ENDIF}
+        {$IFDEF RENDERSEGOPTIMIZED}
+        R_StoreWallColumn32(@midwalls32);
+        {$ELSE}
+        wallcolfunc;
+        {$ENDIF}
+        {$IFDEF USEZBUFFER}
+        R_DrawColumnToZBuffer;
+        {$ENDIF}
+{$IFDEF USEDOUBLE}
+      end;
+{$ENDIF}
 {$IFDEF FLOORS3DVIS}
       end;
 {$ENDIF}
@@ -371,6 +387,13 @@ begin
           end;
     {$ENDIF}
 
+{$IFDEF TALL_WALL}
+    if mid > viewheight then
+      pceilingclip^ := viewheight
+    else if mid < 0 then
+      pceilingclip^ := 0
+    else
+{$ENDIF}    
           pceilingclip^ := mid;
           {$IFDEF DEBUG}
           R_CheckClipItem(pceilingclip);
@@ -379,6 +402,13 @@ begin
         end
         else
         begin
+{$IFDEF TALL_WALL}
+    if yl - 1 > viewheight then
+      pceilingclip^ := viewheight
+    else if yl < 1 then
+      pceilingclip^ := 0
+    else
+{$ENDIF}    
           pceilingclip^ := yl - 1;
           {$IFDEF DEBUG}
           R_CheckClipItem(pceilingclip);
@@ -391,6 +421,13 @@ begin
         // no top wall
         if markceiling then
         begin
+{$IFDEF TALL_WALL}
+    if yl - 1 > viewheight then
+      pceilingclip^ := viewheight
+    else if yl < 1 then
+      pceilingclip^ := 0
+    else
+{$ENDIF}    
           pceilingclip^ := yl - 1;
           {$IFDEF DEBUG}
           R_CheckClipItem(pceilingclip);
@@ -482,6 +519,13 @@ begin
     {$IFDEF FLOORS3DVIS}
           end;
     {$ENDIF}
+{$IFDEF TALL_WALL}
+      if mid > 32767 then
+        pfloorclip^ := -1
+      else if mid < -1 then
+        pfloorclip^ := -1
+      else
+{$ENDIF}      
           pfloorclip^ := mid;
           {$IFDEF DEBUG}
           R_CheckClipItem(pfloorclip);
@@ -490,6 +534,13 @@ begin
         end
         else
         begin
+{$IFDEF TALL_WALL}
+      if yh + 1 > 32767 then
+        pfloorclip^ := -1
+      else if yh + 1 < -1 then
+        pfloorclip^ := -1
+      else
+{$ENDIF}
           pfloorclip^ := yh + 1;
           {$IFDEF DEBUG}
           R_CheckClipItem(pfloorclip);
@@ -502,6 +553,13 @@ begin
         // no bottom wall
         if markfloor then
         begin
+{$IFDEF TALL_WALL}
+      if yh + 1 > 32767 then
+        pfloorclip^ := -1
+      else if yh + 1 < -1 then
+        pfloorclip^ := -1
+      else
+{$ENDIF}      
           pfloorclip^ := yh + 1;
           {$IFDEF DEBUG}
           R_CheckClipItem(pfloorclip);

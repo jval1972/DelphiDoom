@@ -2,7 +2,8 @@
 //
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 1993-1996 by id Software, Inc.
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -20,7 +21,6 @@
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
-//  E-Mail: jimmyvalavanis@yahoo.gr
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
@@ -2024,17 +2024,20 @@ end;
  *               *
  *****************)
 
+const
+  SMALLDELTA = 0.001;
+
 procedure CALC_Y_VALUES(w: PGLWall; var lineheight: float; floor_height, ceiling_height: integer);
 begin
-  w.ytop := ceiling_height / MAP_SCALE + 0.001;
-  w.ybottom := floor_height / MAP_SCALE - 0.001;
+  w.ytop := ceiling_height / MAP_SCALE + SMALLDELTA;
+  w.ybottom := floor_height / MAP_SCALE - SMALLDELTA;
   lineheight := abs((ceiling_height - floor_height) / FRACUNIT);
 end;
 
 procedure CALC_Y_VALUES2(w: PGLWall; var lineheight: float; floor_height, ceiling_height: integer);
 begin
-  w.ytop := ceiling_height / MAP_SCALE + 0.001;
-  w.ybottom := floor_height / MAP_SCALE - 0.001;
+  w.ytop := ceiling_height / MAP_SCALE + SMALLDELTA;
+  w.ybottom := floor_height / MAP_SCALE - SMALLDELTA;
   lineheight := (ceiling_height - floor_height) / FRACUNIT;
 end;
 
@@ -2475,7 +2478,7 @@ begin
   end;
 end;
 
-procedure gld_AddFlatEx(sectornum: integer; pic, zheight: integer; isfloor: Boolean; ripple: boolean);
+procedure gld_AddFlat_Extra(sectornum: integer; pic, zheight: integer; isfloor: Boolean; ripple: boolean);
 var
   {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t; // needed for R_FakeFlat
@@ -2548,7 +2551,7 @@ begin
 end;
 
 // For mid textures (3d Floors)
-procedure gld_AddFlatEx2(sectornum: integer; pic, zheight: integer; ripple: boolean; light: integer);
+procedure gld_AddFlat_3dFloor(sectornum: integer; pic, zheight: integer; ripple: boolean; light: integer);
 var
   {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t; // needed for R_FakeFlat
@@ -2917,7 +2920,7 @@ begin
         else if (backsector <> nil) and (seg.linedef.renderflags and LRF_ISOLATED = 0) and
                 (frontsector.ceilingpic <> skyflatnum) and (backsector.ceilingpic <> skyflatnum) then
         begin
-          //gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.ceilingpic, seg.frontsector.floorheight); // here
+//          gld_AddFlat_Extra(seg.frontsector.iSectorID, seg.backsector.ceilingpic, seg.frontsector.floorheight, true, false); // here SOS SOS JVAL 20200105
         end;
       end;
     end;
@@ -3012,7 +3015,7 @@ bottomtexture:
          (backsector.floorheight > frontsector.floorheight) and
          (texturetranslation[seg.sidedef.bottomtexture] = NO_TEXTURE) then
       begin
-        //gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.backsector.floorheight); // here
+        //gld_AddFlat_Extra(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.backsector.floorheight); // here
       end
       else
       begin
@@ -3031,7 +3034,7 @@ bottomtexture:
         else if (backsector <> nil) and (seg.linedef.renderflags and LRF_ISOLATED = 0) and
                 (frontsector.ceilingpic <> skyflatnum) and (backsector.ceilingpic <> skyflatnum) then
         begin
-          gld_AddFlatEx(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.frontsector.floorheight, False, seg.frontsector.renderflags and SRF_RIPPLE_CEILING <> 0);
+          gld_AddFlat_Extra(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.frontsector.floorheight, False, seg.frontsector.renderflags and SRF_RIPPLE_CEILING <> 0);
         end;
       end;
     end;
@@ -3379,9 +3382,9 @@ begin
     begin
       msec := @sectors[sectors[secID].midsec];
       if viewz < msec.floorheight then
-        gld_AddFlatEx2(secID, msec.floorpic, msec.floorheight, msec.renderflags and SRF_RIPPLE_FLOOR <> 0, msec.lightlevel);
+        gld_AddFlat_3dFloor(secID, msec.floorpic, msec.floorheight, msec.renderflags and SRF_RIPPLE_FLOOR <> 0, msec.lightlevel);
       if viewz > msec.ceilingheight then
-        gld_AddFlatEx2(secID, msec.ceilingpic, msec.ceilingheight, msec.renderflags and SRF_RIPPLE_CEILING <> 0, sectors[secID].lightlevel);
+        gld_AddFlat_3dFloor(secID, msec.ceilingpic, msec.ceilingheight, msec.renderflags and SRF_RIPPLE_CEILING <> 0, sectors[secID].lightlevel);
     end;
 
     // set rendered true
@@ -3553,7 +3556,6 @@ begin
       gld_StaticLightAlpha(sprite.light, sprite.alpha);
       glAlphaFunc(GL_GEQUAL, 0.01);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-//      glBlendFunc(GL_SRC_COLOR, GL_ONE);
       restoreblend := true;
     end
     else if sprite.flags and GLS_SUBTRACTIVE <> 0 then
@@ -3975,7 +3977,6 @@ begin
       gld_StaticLightAlpha(sprite.light, sprite.alpha);
       glAlphaFunc(GL_GEQUAL, 0.01);
       glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-//      glBlendFunc(GL_SRC_COLOR, GL_ONE);
     end
     else if sprite.flags and GLS_SUBTRACTIVE <> 0 then
     begin
@@ -4326,11 +4327,7 @@ end;
  *****************)
 
 procedure gld_StartFog;
-{$IFDEF DOOM_OR_STRIFE}
-var
-  FogColor: array[0..3] of TGLfloat; // JVAL: set blue fog color if underwater
-{$ENDIF}
-{$IFDEF HEXEN}
+{$IFNDEF HERETIC}
 var
   FogColor: array[0..3] of TGLfloat; // JVAL: set blue fog color if underwater
 {$ENDIF}

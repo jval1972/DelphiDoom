@@ -88,6 +88,9 @@ uses
 {$ENDIF}
   r_camera,
   r_draw,
+{$IFNDEF OPENGL}
+  r_segs,
+{$ENDIF}  
   r_dynlights,
   s_sound,
   t_main,
@@ -122,6 +125,7 @@ var
   lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
   r_bltasync: boolean = true;
+  r_fakecontrast: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -164,7 +168,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 200;
+  NUMDEFAULTS = 202;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -227,6 +231,14 @@ const
 
     (name: 'interpolate';
      location: @interpolate;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'interpolateoncapped';
+     location: @interpolateoncapped;
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: 1;
@@ -536,6 +548,14 @@ const
      defaultsvalue: '0.00';
      defaultivalue: 0;
      defaultbvalue: false;
+     _type: tBoolean),
+
+    (name: 'r_fakecontrast';
+     location: @r_fakecontrast;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '0.00';
+     defaultivalue: 0;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'OpenGL';

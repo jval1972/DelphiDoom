@@ -125,6 +125,7 @@ var
 
 const
   MIN_NUMCHANNELS = 8;
+  MAX_NUMCHANNELS = 32;
 
 function S_DefaultMusicForMap(const map: integer): integer;
   
@@ -149,8 +150,8 @@ uses
   p_tick,
   sounds,
   z_zone,
-  w_wad,
   w_folders,
+  w_wad,
   w_pak,
   doomdef,
   r_main,
@@ -167,7 +168,6 @@ const
 // when to clip out sounds
 // Does not fit the large outdoor areas.
   S_CLIPPING_DIST = 1200 * $10000;
-//  S_CLIPPING_DIST = 2000 * $10000;
 
 // Distance tp origin when sounds should be maxed out.
 // This should relate to movement clipping resolution
@@ -293,10 +293,10 @@ procedure S_Init(sfxVolume: integer; musicVolume: integer; voiceVolume: integer)
 var
   i: integer;
 begin
-  printf('S_Init:');
-  printf('  default sfx volume %d' + #13#10, [sfxVolume]);
-  printf('  default voice volume %d' + #13#10, [voiceVolume]);
-  printf('  default music volume %d' + #13#10, [musicVolume]);
+  printf('S_Init:'#13#10);
+  printf('  default sfx volume %d'#13#10, [sfxVolume]);
+  printf('  default voice volume %d'#13#10, [voiceVolume]);
+  printf('  default music volume %d'#13#10, [musicVolume]);
 
   // Whatever these did with DMX, these are rather dummies now.
   I_SetChannels;
@@ -312,6 +312,9 @@ begin
   // simultaneously) within zone memory.
   if numChannels < MIN_NUMCHANNELS then
     numChannels := MIN_NUMCHANNELS; // JVAL: Set the minimum number of channels
+
+  if numChannels > MAX_NUMCHANNELS then
+    numChannels := MAX_NUMCHANNELS; // JVAL: Set the maximum number of channels
 
   channels := Z_Malloc(numChannels * SizeOf(channel_t), PU_STATIC, nil);
 
@@ -614,21 +617,6 @@ begin
   S_StartSoundAtVolume(nil, id, snd_voiceVolume);
 end;
 
-{procedure S_StartVoice(origin: pointer; sfx_id: integer);
-begin
-  if disable_voices then
-    exit;
-  S_StartVoiceAtVolume(origin, sfx_id, snd_voiceVolume);
-end;
-
-procedure S_StartVoice(origin: pointer; const sndname: string);
-begin
-  if disable_voices then
-    exit;
-  S_StartSoundAtVolume(origin, S_GetSoundNumForName(sndname), snd_voiceVolume);
-end;}
-
-
 procedure S_StopSound(origin: pointer);
 var
   cnum: integer;
@@ -685,7 +673,7 @@ begin
     c := @channels[cnum];
     sfx := c.sfxinfo;
 
-    if c.sfxinfo <> nil then
+    if sfx <> nil then
     begin
       if I_SoundIsPlaying(c.handle) then
       begin
@@ -749,7 +737,7 @@ procedure S_SetSfxVolume(volume: integer);
 begin
   if (volume < 0) or (volume > 127) then
   begin
-    I_DevError('S_SetSfxVolume(): Attempt to set sfx volume at %d', [volume]);
+    I_Warning('S_SetSfxVolume(): Attempt to set sfx volume at %d', [volume]);
     snd_SfxVolume := 64;
   end
   else
@@ -760,7 +748,7 @@ procedure S_SetVoiceVolume(volume: integer);
 begin
   if (volume < 0) or (volume > 127) then
   begin
-    I_DevError('S_SetVoiceVolume(): Attempt to set voice volume at %d', [volume]);
+    I_Warning('S_SetVoiceVolume(): Attempt to set voice volume at %d', [volume]);
     snd_VoiceVolume := 64;
   end
   else
@@ -1148,9 +1136,7 @@ begin
       S_sfx[i].lumpnum := I_GetSfxLumpNum(@S_sfx[i]);
       if S_sfx[i].lumpnum >= 0 then
       begin
-        // JVAL
-        // avoid, cause serious mess-up with sounds
-        // W_CacheLumpNum(S_sfx[i].lumpnum, PU_CACHE);
+        W_CacheLumpNum(S_sfx[i].lumpnum, PU_SOUND);
         sndmem := sndmem + W_LumpLength(S_sfx[i].lumpnum);
       end;
     end;

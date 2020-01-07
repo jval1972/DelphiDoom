@@ -13,7 +13,7 @@
         r2 := c2;
         g2 := c2 shr 8;
         b2 := c2 shr 16;
-        
+
 {$IFDEF INVERSECOLORMAPS}
         factor1 := FRACUNIT - 1 - cfrac2;
 
