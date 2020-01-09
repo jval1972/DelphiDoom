@@ -78,7 +78,6 @@ const
 
 var
   approxcolorindexarray: array[0..FASTTABLESIZE - 1] of byte;
-  approxcolorindexarray256: array[0..FASTTABLESIZE - 1] of integer;
 
 implementation
 
@@ -99,7 +98,6 @@ var
   c: LongWord;
   c1: LongWord;
   ptrans8: PByte;
-  pi: PInteger;
   r, g, b: LongWord;
 begin
   if trans8tablescalced then
@@ -144,20 +142,12 @@ begin
       for b := 0 to FASTTABLECHANNEL - 1 do
       begin
         ptrans8^ := V_FindAproxColorIndex(@palL,
-                          r shl 20 + g shl 12 + b shl 4
+                          r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT {+
+                          ((1 shl FASTTABLESHIFT) shr 1) shl 16 +
+                          ((1 shl FASTTABLESHIFT) shr 1) shl 8 +
+                          ((1 shl FASTTABLESHIFT) shr 1)}
                     ) and $FF;
         inc(ptrans8);
-      end;
-
-  pi := @approxcolorindexarray256[0];
-  for r := 0 to FASTTABLECHANNEL - 1 do
-    for g := 0 to FASTTABLECHANNEL - 1 do
-      for b := 0 to FASTTABLECHANNEL - 1 do
-      begin
-        pi^ := 256 * (V_FindAproxColorIndex(@palL,
-                          r shl 20 + g shl 12 + b shl 4
-                      ) and $FF);
-        inc(pi);
       end;
 
   for i := 0 to NUMTRANS8TABLES do

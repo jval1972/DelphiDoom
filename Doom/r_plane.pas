@@ -130,6 +130,9 @@ procedure R_InitializeVisplanes;
 procedure R_ClearVisPlanes;
 {$ENDIF}
 
+const
+  PL_SKYFLAT = $80000000;
+
 implementation
 
 uses
@@ -142,6 +145,7 @@ uses
   r_debug,
 {$ENDIF}
 {$IFNDEF OPENGL}
+  p_setup,
   r_batchsky,
   r_ripple,
   r_span,
@@ -432,7 +436,7 @@ var
   hash: LongWord;
   p: LongWord;
 begin
-  if picnum = skyflatnum then
+  if (picnum = skyflatnum) or (picnum and PL_SKYFLAT <> 0) then
   begin
     if floor_or_ceiling then
       height := 1  // all skies map together
@@ -702,12 +706,19 @@ var
   x: integer;
   stop: integer;
   angle: integer;
+  customskyflat: boolean;
+  skytexture1: integer;
+  l: Pline_t;
+  s: Pside_t;
+  deltaangle: angle_t;
+  flip: boolean;
 begin
   if pl.minx > pl.maxx then
     exit; // JVAL: 3d Floors
 
   // sky flat
-  if pl.picnum = skyflatnum then
+  customskyflat := pl.picnum and PL_SKYFLAT <> 0;
+  if (pl.picnum = skyflatnum) or customskyflat then
   begin
     R_DisableFixedColumn;
 
@@ -716,7 +727,36 @@ begin
     else
       dc_iscale := FRACUNIT * 200 div viewheight;
 
-    dc_texturemid := skytexturemid;
+    if customskyflat then
+    begin
+      // Sky Linedef
+      l := @lines[pl.picnum and not PL_SKYFLAT];
+
+      // Sky transferred from first sidedef
+      s := @sides[l.sidenum[0]];
+
+      // Texture comes from upper texture of reference sidedef
+      skytexture1 := texturetranslation[s.toptexture];
+
+      // Horizontal offset is turned into an angle offset,
+      // to allow sky rotation as well as careful positioning.
+      // However, the offset is scaled very small, so that it
+      // allows a long-period of sky rotation.
+      deltaangle := s.textureoffset;
+
+      // Vertical offset allows careful sky positioning.
+      dc_texturemid := skytexturemid + s.rowoffset;// - 28 * FRACUNIT;
+
+      flip := l.special = 271;
+    end
+    else
+    begin
+      skytexture1 := skytexture;
+      dc_texturemid := skytexturemid;
+      deltaangle := 0;
+      flip := false;
+    end;
+
     if optimizedcolumnrendering then
     begin
       if videomode = vm32bit then
@@ -728,7 +768,10 @@ begin
 
           if dc_yl <= dc_yh then
           begin
-            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+            if flip then
+              angle := (ANGLE_MAX - deltaangle - viewangle - xtoviewangle[x]) div ANGLETOSKYUNIT
+            else
+              angle := (deltaangle + viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
             if detaillevel = DL_NORMAL then
             begin
               dc_texturemod := 0;
@@ -736,11 +779,14 @@ begin
             end
             else
             begin
-              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              if flip then
+                dc_texturemod := (((ANGLE_MAX - deltaangle - viewangle - xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT
+              else
+                dc_texturemod := (((deltaangle + viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
               dc_mod := dc_texturemod;
             end;
             dc_x := x;
-            R_ReadDC32Cache(skytexture, angle);
+            R_ReadDC32Cache(skytexture1, angle);
           // JVAL
           //  Store columns to buffer
             R_StoreSkyColumn32;
@@ -757,9 +803,12 @@ begin
 
           if dc_yl <= dc_yh then
           begin
-            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+            if flip then
+              angle := (ANGLE_MAX - deltaangle - viewangle - xtoviewangle[x]) div ANGLETOSKYUNIT
+            else
+              angle := (deltaangle + viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
             dc_x := x;
-            dc_source := R_GetColumn(skytexture, angle);
+            dc_source := R_GetColumn(skytexture1, angle);
             // JVAL
             //  Store columns to buffer
             R_StoreSkyColumn8;
@@ -777,7 +826,10 @@ begin
 
         if dc_yl <= dc_yh then
         begin
-          angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+          if flip then
+            angle := (ANGLE_MAX - deltaangle - viewangle - xtoviewangle[x]) div ANGLETOSKYUNIT
+          else
+            angle := (deltaangle + viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
           if detaillevel <= DL_NORMAL then
           begin
             dc_texturemod := 0;
@@ -785,11 +837,14 @@ begin
           end
           else
           begin
-            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            if flip then
+              dc_texturemod := (((ANGLE_MAX - deltaangle - deltaangle - viewangle - xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT
+            else
+              dc_texturemod := (((deltaangle + deltaangle + viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
             dc_mod := dc_texturemod;
           end;
           dc_x := x;
-          R_GetDCs(skytexture, angle);
+          R_GetDCs(skytexture1, angle);
           // Sky is allways drawn full bright,
           //  i.e. colormaps[0] is used.
           //  Because of this hack, sky is not affected

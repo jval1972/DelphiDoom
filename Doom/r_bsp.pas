@@ -900,6 +900,22 @@ begin
 {$ENDIF}
 end;
 
+function R_SectorFloorFlat(const sec: Psector_t): integer;
+begin
+  result := sec.floorpic;
+  if result = skyflatnum then
+    if sec.sky and PL_SKYFLAT <> 0 then
+      result := sec.sky;
+end;
+
+function R_SectorCeilingFlat(const sec: Psector_t): integer;
+begin
+  result := sec.ceilingpic;
+  if result = skyflatnum then
+    if sec.sky and PL_SKYFLAT <> 0 then
+      result := sec.sky;
+end;
+
 //
 // R_Subsector
 // Determine floor/ceiling planes.
@@ -946,7 +962,7 @@ begin
   begin
     if frontsector.renderflags and SRF_SLOPEFLOOR <> 0 then // JVAL: Slopes
       floorplane := R_FindPlane(frontsector.floorheight,
-                                frontsector.floorpic,
+                                R_SectorFloorFlat(frontsector),
                                 floorlightlevel,
                                 frontsector.floor_xoffs,
                                 frontsector.floor_yoffs,
@@ -958,7 +974,7 @@ begin
                                 frontsector.iSectorID)  // JVAL: Slopes
     else
       floorplane := R_FindPlane(frontsector.floorheight,
-                                frontsector.floorpic,
+                                R_SectorFloorFlat(frontsector),
                                 floorlightlevel,
                                 frontsector.floor_xoffs,
                                 frontsector.floor_yoffs,
@@ -978,7 +994,7 @@ begin
   begin
     if frontsector.renderflags and SRF_SLOPECEILING <> 0 then // JVAL: Slopes
       ceilingplane := R_FindPlane(frontsector.ceilingheight,
-                                  frontsector.ceilingpic,
+                                  R_SectorCeilingFlat(frontsector),
                                   ceilinglightlevel,
                                   frontsector.ceiling_xoffs,
                                   frontsector.ceiling_yoffs,
@@ -990,7 +1006,7 @@ begin
                                   frontsector.iSectorID)  // JVAL: Slopes
     else
       ceilingplane := R_FindPlane(frontsector.ceilingheight,
-                                  frontsector.ceilingpic,
+                                  R_SectorCeilingFlat(frontsector),
                                   ceilinglightlevel,
                                   frontsector.ceiling_xoffs,
                                   frontsector.ceiling_yoffs,

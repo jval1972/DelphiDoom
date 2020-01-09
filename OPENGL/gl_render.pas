@@ -98,6 +98,7 @@ uses
   doomdef,
   am_map,
   {$IFDEF DOOM}
+  r_plane,
   st_stuff,
   {$ENDIF}
   {$IFDEF DOOM_OR_STRIFE}
@@ -2156,12 +2157,27 @@ begin
   end;
 end;
 
+{$IFDEF DOOM}
+function gld_GetSkyTexture(const w: PGLWall): integer;
+begin
+  result := skytexture;
+  if w.glseg.frontsector.sky and PL_SKYFLAT <> 0 then
+    result := sides[lines[frontsector.sky and not PL_SKYFLAT].sidenum[0]].toptexture;
+end;
+function gld_GetSkyTextureFlag(const w: PGLWall): integer;
+begin
+  result := GLDWF_SKY;
+  if w.glseg.frontsector.sky and PL_SKYFLAT <> 0 then
+    if lines[frontsector.sky and not PL_SKYFLAT].special = 271 then
+      result := GLDWF_SKYFLIP;
+end;
+{$ENDIF}
 procedure ADDSKYTEXTURE(wall: PGLWall);
 begin
-  wall.gltexture := gld_RegisterTexture(skytexture, false);
+  wall.gltexture := gld_RegisterTexture({$IFDEF DOOM}gld_GetSkyTexture(wall){$ELSE}skytexture{$ENDIF}, false);
   wall.skyyaw := -2.0 * ((yaw + 90.0) / 90.0);
   wall.skyymid := 200.0 / 319.5;
-  wall.flag := GLDWF_SKY;
+  wall.flag := {$IFDEF DOOOM}gld_GetSkyTextureFlag(wall){$ELSE}GLDWF_SKY{$ENDIF};
   dodrawsky := true;
 end;
 
@@ -2172,7 +2188,7 @@ begin
     gld_drawinfo.max_walls := gld_drawinfo.max_walls + 128;
     gld_drawinfo.walls := Z_Realloc(gld_drawinfo.walls, gld_drawinfo.max_walls * SizeOf(GLWall), PU_LEVEL, nil);
   end;
-  wall.blend := not ((wall.flag in [GLDWF_SKY, GLDWF_TOP, GLDWF_M1S, GLDWF_BOT]) or (wall.alpha > 0.999));
+  wall.blend := not ((wall.flag in [GLDWF_SKY, GLDWF_SKYFLIP, GLDWF_TOP, GLDWF_M1S, GLDWF_BOT]) or (wall.alpha > 0.999));
   gld_AddDrawItem(GLDIT_WALL, gld_drawinfo.num_walls);
   gld_drawinfo.walls[gld_drawinfo.num_walls] := wall^;
   inc(gld_drawinfo.num_walls);
@@ -2298,7 +2314,7 @@ begin
     glMatrixMode(GL_TEXTURE);
     glPushMatrix;
     if wall.flag = GLDWF_SKYFLIP then
-      glScalef(-128.0 / wall.gltexture.buffer_width / 2, 200.0 / 320.0 * 2.0, 1.0)
+      glScalef(-128.0 / wall.gltexture.buffer_width, 200.0 / 320.0 * 2.0, 1.0)
     else
       glScalef(128.0 / wall.gltexture.buffer_width, 200.0 / 320.0 * 2.0, 1.0);
     glTranslatef(wall.skyyaw, wall.skyymid, 0.0);
@@ -4604,11 +4620,39 @@ begin
 
 end;
 
+{$IFDEF DOOM}
+procedure gld_SkyTextureHack;
+var
+  i: integer;
+  s, l: integer;
+begin
+  for i := 0 to numsectors - 1 do
+    if sectors[i].sky and PL_SKYFLAT <> 0 then
+    begin
+      l := sectors[i].sky and not PL_SKYFLAT;
+      if l >= 0 then
+        if l < numlines then
+        begin
+          s := lines[l].sidenum[0];
+          if s >= 0 then
+            if s < numsides then
+            begin
+              skytexture := sides[s].toptexture;
+              exit;
+            end;
+        end;
+    end;
+end;
+{$ENDIF}
+
 procedure gld_PreprocessLevel;
 begin
   // preload graphics
   // JVAL
   // Precache if we have external textures
+  {$IFDEF DOOM}
+  gld_SkyTextureHack;
+  {$ENDIF}
   if precache or externalpakspresent then
     gld_Precache;
   gld_PreprocessSectors;

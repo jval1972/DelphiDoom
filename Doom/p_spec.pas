@@ -566,6 +566,7 @@ uses
   w_wad,
   r_data,
   r_main,
+  r_plane,
   {$IFNDEF OPENGL}
   r_ripple,
   {$ENDIF}
@@ -3282,6 +3283,14 @@ begin
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].ceilinglightsec := sec;
+        end;
+
+      271,  // Regular sky
+      272:  // Same, only flipped
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].sky := i or PL_SKYFLAT;
         end;
       // JVAL: ripple effect to tagged sectors floor
       279:

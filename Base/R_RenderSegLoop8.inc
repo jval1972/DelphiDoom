@@ -59,7 +59,7 @@ begin
   if bottom > viewheight then
     pceilingclip^ := viewheight
   else if bottom < 0 then
-    pceilingclip^ := 0
+    pceilingclip^ := -1
   else
 {$ENDIF}
       pceilingclip^ := bottom;
@@ -346,7 +346,7 @@ begin
     if mid > viewheight then
       pceilingclip^ := viewheight
     else if mid < 0 then
-      pceilingclip^ := 0
+      pceilingclip^ := -1
     else
 {$ENDIF}    
           pceilingclip^ := mid;
@@ -361,7 +361,7 @@ begin
     if yl - 1 > viewheight then
       pceilingclip^ := viewheight
     else if yl < 1 then
-      pceilingclip^ := 0
+      pceilingclip^ := -1
     else
 {$ENDIF}    
           pceilingclip^ := yl - 1;
@@ -380,7 +380,7 @@ begin
     if yl - 1 > viewheight then
       pceilingclip^ := viewheight
     else if yl < 1 then
-      pceilingclip^ := 0
+      pceilingclip^ := -1
     else
 {$ENDIF}    
           pceilingclip^ := yl - 1;

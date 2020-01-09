@@ -559,8 +559,8 @@ begin
 
             if factor > 0 then
             begin
-              r1 := FixedMulShl8(r, factor);
-              g1 := FixedMulShl4(g, factor);
+              r1 := FixedMulShl10(r, factor);
+              g1 := FixedMulShl5(g, factor);
               b1 := FixedMul(b, factor);
               destb^ := colorlighttrans8table[destb^ * 256 + approxcolorindexarray[r1 + g1 + b1]];
             end;

@@ -54,9 +54,19 @@ type
 
 function FixedMul(const a, b: fixed_t): fixed_t;
 
+function FixedMulShl3(const a, b: fixed_t): fixed_t;
+
 function FixedMulShl4(const a, b: fixed_t): fixed_t;
 
+function FixedMulShl5(const a, b: fixed_t): fixed_t;
+
 function FixedMulShl8(const a, b: fixed_t): fixed_t;
+
+function FixedMulShl10(const a, b: fixed_t): fixed_t;
+
+function FixedMulShl14(const a, b: fixed_t): fixed_t;
+
+function FixedMulDiv8(const a, b: fixed_t): fixed_t;
 
 function FixedMulDiv16(const a, b: fixed_t): fixed_t;
 
@@ -121,6 +131,13 @@ asm
   shrd eax, edx, 16
 end;
 
+function FixedMulShl3(const a, b: fixed_t): fixed_t; assembler;
+asm
+  imul b
+  shrd eax, edx, 16
+  shl eax, 3
+end;
+
 function FixedMulShl4(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
@@ -128,11 +145,38 @@ asm
   shl eax, 4
 end;
 
+function FixedMulShl5(const a, b: fixed_t): fixed_t; assembler;
+asm
+  imul b
+  shrd eax, edx, 16
+  shl eax, 5
+end;
+
 function FixedMulShl8(const a, b: fixed_t): fixed_t; assembler;
 asm
   imul b
   shrd eax, edx, 16
   shl eax, 8
+end;
+
+function FixedMulShl10(const a, b: fixed_t): fixed_t; assembler;
+asm
+  imul b
+  shrd eax, edx, 16
+  shl eax, 10
+end;
+
+function FixedMulShl14(const a, b: fixed_t): fixed_t; assembler;
+asm
+  imul b
+  shrd eax, edx, 16
+  shl eax, 14
+end;
+
+function FixedMulDiv8(const a, b: fixed_t): fixed_t; assembler;
+asm
+  imul b
+  shrd eax, edx, 19
 end;
 
 function FixedMulDiv16(const a, b: fixed_t): fixed_t; assembler;

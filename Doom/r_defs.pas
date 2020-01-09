@@ -190,6 +190,8 @@ type
     saffectees: PIntegerArray;
     // JVAL: sector gravity (VERSION 204)
     gravity: fixed_t;
+    // JVAL: Lines 272, 272 (MBF) - Change sky (VERSION 205)
+    sky: integer;
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;

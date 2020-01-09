@@ -1517,8 +1517,8 @@ begin
       if P_FindSlidingDoorType(secline) < 0 then
         continue;
 
-     sec.renderflags := sec.renderflags or SRF_NO_INTERPOLATE;
-     EV_SlidingDoor(secline, thing);
+      sec.renderflags := sec.renderflags or SRF_NO_INTERPOLATE;
+      EV_SlidingDoor(secline, thing);
       result := 1;
     end;
   end;
