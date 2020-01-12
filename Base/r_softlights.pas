@@ -476,6 +476,32 @@ type
 var
   drawcolumnlightmap: drawcolumnlightmap_t;
 
+type
+  precalc32op1_t = array[0..255] of integer;
+  precalc32op1_p = ^precalc32op1_t;
+
+var
+  precalc32op1A: array[0..255] of precalc32op1_p;
+  precalc32op1_calced: boolean = false;
+
+procedure calc_precalc32op1;
+var
+  i, j: integer;
+begin
+  if precalc32op1_calced then
+    exit;
+
+  precalc32op1A[0] := nil;
+  for j := 1 to 255 do
+  begin
+    precalc32op1A[j] := Z_Malloc(SizeOf(precalc32op1_t), PU_STATIC, nil);
+    for i := 0 to 255 do
+      precalc32op1A[j][i] := (255 - i) * j;
+  end;
+
+  precalc32op1_calced := true;
+end;
+
 procedure R_DrawColumnLightmap8(const parms: Plightparams_t);
 var
   count, x, y: integer;
@@ -492,11 +518,14 @@ var
   seg: Pseg_t;
   skip: boolean;
   sameseg: boolean;
-  destb: PByte;
+  dest: PByte;
   source32: PLongWordArray;
   pitch: integer;
   r1, g1, b1: LongWord;
   r, g, b: LongWord;
+  c: LongWord;
+  rr, gg, bb: integer;
+  tbl_r, tbl_g, tbl_b: precalc32op1_p;
 begin
   count := parms.dl_yh - parms.dl_yl;
 
@@ -521,7 +550,11 @@ begin
   sameseg := false;
   source32 := parms.dl_source32;
 
-  destb := @((ylookup[parms.dl_yl]^)[columnofs[x]]);
+  tbl_r := precalc32op1A[parms.r];
+  tbl_g := precalc32op1A[parms.g];
+  tbl_b := precalc32op1A[parms.b];
+
+  dest := @((ylookup[parms.dl_yl]^)[columnofs[x]]);
   pitch := SCREENWIDTH;
   for y := parms.dl_yl to parms.dl_yh do
   begin
@@ -555,49 +588,52 @@ begin
 
           if dfactor > 0 then
           begin
-            factor := FixedMulDiv16(dls, dfactor);
+            factor := FixedMulDiv256(dls, dfactor);
 
             if factor > 0 then
             begin
-              r1 := FixedMulShl10(r, factor);
-              g1 := FixedMulShl5(g, factor);
-              b1 := FixedMul(b, factor);
-              destb^ := colorlighttrans8table[destb^ * 256 + approxcolorindexarray[r1 + g1 + b1]];
+              {$IFDEF DOOM_OR_STRIFE}
+              c := cvideopal[dest^];
+              {$ELSE}
+              c := curpal[dest^];
+              {$ENDIF}
+
+              rr := (c shr 16) and $FF;
+              if tbl_r <> nil then
+                rr := rr + (tbl_r[rr] * factor) shr 16;
+              rr := rr shr FASTTABLESHIFT;
+
+              gg := (c shr 8) and $FF;
+              if tbl_g <> nil then
+                gg := gg + (tbl_g[gg] * factor) shr 16;
+              gg := gg shr FASTTABLESHIFT;
+
+              bb := (c) and $FF;
+              if tbl_b <> nil then
+                bb := bb + (tbl_b[bb] * factor) shr 16;
+              bb := bb shr FASTTABLESHIFT;
+
+              dest^ := approxcolorindexarray[rr shl (16 - FASTTABLESHIFT - FASTTABLESHIFT) + gg shl (8 - FASTTABLESHIFT) + bb];
             end;
+
+
+        {  Slower code:
+            factor := FixedMul(dls, dfactor);
+            if factor > 0 then
+            begin
+              r1 := FixedMul(r, factor);
+              g1 := FixedMul(g, factor);
+              b1 := FixedMul(b, factor);
+              dest^ := R_FastApproxColorIndex(R_ColorLightAdd(curpal[dest^], r1, g1, b1));
+            end; }
 
           end;
         end;
       end;
     end;
-    inc(destb, pitch);
+    inc(dest, pitch);
     inc(frac, fracstep);
   end;
-end;
-
-type
-  precalc32op1_t = array[0..255] of integer;
-  precalc32op1_p = ^precalc32op1_t;
-
-var
-  precalc32op1A: array[0..255] of precalc32op1_p;
-  precalc32op1_calced: boolean = false;
-
-procedure calc_precalc32op1;
-var
-  i, j: integer;
-begin
-  if precalc32op1_calced then
-    exit;
-
-  precalc32op1A[0] := nil;
-  for j := 1 to 255 do
-  begin
-    precalc32op1A[j] := Z_Malloc(SizeOf(precalc32op1_t), PU_STATIC, nil);
-    for i := 0 to 255 do
-      precalc32op1A[j][i] := (255 - i) * j;
-  end;
-
-  precalc32op1_calced := true;
 end;
 
 procedure R_DrawColumnLightmap32(const parms: Plightparams_t);
@@ -791,11 +827,9 @@ begin
     old_lightmapfadeoutfunc := r_lightmapfadeoutfunc;
     R_InitLightTexture;
   end;
+  calc_precalc32op1;
   if videomode = vm32bit then
-  begin
-    calc_precalc32op1;
-    drawcolumnlightmap := R_DrawColumnLightmap32;
-  end
+    drawcolumnlightmap := R_DrawColumnLightmap32
   else
     drawcolumnlightmap := R_DrawColumnLightmap8;
 end;

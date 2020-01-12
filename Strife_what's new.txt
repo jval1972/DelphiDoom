@@ -136,6 +136,9 @@ Corrected issues with tall textures in OpenGL rendering.
 Added interpolateoncapped console variable. It will smooth display in capped framerate. Default is true.
 Fixed glitch in sky drawing, it was ignoring visplanes with 1 px height.
 Fixed some glitches with high walls in software rendering.
+Dehacked strings will change sprite names. Strings must have length of 4 characters.
+If an unknown texture is found in SWITCHES lump will not exit with I_Error, it will generate a warning message instead.
+Masked textures can have columns without patches.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

@@ -132,8 +132,8 @@ begin
 end;
 
 const
-  MINSCALE = -FRACUNIT * (FRACUNIT / 4);
-  MAXSCALE = FRACUNIT * (FRACUNIT / 4);
+  MINSCALE = 16;
+  MAXSCALE = 2048 * FRACUNIT;
 
 function R_ScaleFromGlobalAngle_DBL(const visangle: angle_t): double;
 var

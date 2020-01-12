@@ -1,9 +1,8 @@
 //------------------------------------------------------------------------------
 //
-//  DelphiHeretic: A modified and improved Heretic port for Windows
-//  based on original Linux Doom as published by "id Software", on
-//  Heretic source as published by "Raven" software and DelphiDoom
-//  as published by Jim Valavanis.
+//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  based on original Linux Doom as published by "id Software"
+//  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
@@ -27,7 +26,7 @@
 
 {$I Doom32.inc}
 
-unit r_column;
+unit r_tallcolumn;
 
 interface
 
@@ -37,43 +36,23 @@ uses
   r_main;
 
 // Column drawers
-procedure R_DrawColumnLowest;
-procedure R_DrawColumnLow;
-procedure R_DrawColumnMedium;
-procedure R_DrawColumnHi;
-procedure R_DrawColumnUltra;
-
-procedure R_DrawColumnBase32;
+procedure R_DrawTallColumnLowest;
+procedure R_DrawTallColumnLow;
+procedure R_DrawTallColumnMedium;
+procedure R_DrawTallColumnHi;
+procedure R_DrawTallColumnUltra;
+{$IFDEF HEXEN}
+procedure R_DrawTallColumnHi_Fog;
+procedure R_DrawTallColumnUltra_Fog;
+{$ENDIF}
+procedure R_DrawTallColumnBase32;
 
 var
 //
-// R_DrawColumn
+// R_DrawTallColumn
 // Source is the top of the column to scale.
 //
-  dc_colormap: PByteArray;
-  dc_colormap32: PLongWordArray;
-  dc_lightlevel: fixed_t;
-  dc_llindex: integer;
-
-  dc_iscale: fixed_t;
-  dc_texturemid: fixed_t;
-  dc_x: integer;
-  dc_yl: integer;
-  dc_yh: integer;
-  dc_mod: integer; // JVAL for hi resolution
-  dc_texturemod: integer; // JVAL for external textures
-  dc_texturefactorbits: integer; // JVAL for hi resolution
-  dc_palcolor: LongWord;
-  dc_alpha: fixed_t;
-
-const
-  MAXTEXTUREFACTORBITS = 3; // JVAL: Allow hi resolution textures x 8 
-
-var
-// first pixel in a column (possibly virtual)
-  dc_source: PByteArray;
-// JVAL for hi resolution
-  dc_source32: PLongWordArray;
+  dc_height: LongWord;
 
 implementation
 
@@ -81,19 +60,13 @@ uses
   doomdef,
   doomtype,
   r_precalc,
+  r_column,
   r_data,
   r_draw,
   r_hires,
   v_video;
 
-//
-// A column is a vertical slice/span from a wall texture that,
-//  given the DOOM style restrictions on the view orientation,
-//  will always have constant z depth.
-// Thus a special case loop for very fast rendering can
-//  be used. It has also been used with Wolfenstein 3D.
-//
-procedure R_DrawColumnLowest;
+procedure R_DrawTallColumnLowest;
 var
   count: integer;
   i: integer;
@@ -119,7 +92,7 @@ begin
 
   for i := 0 to count - 1 do
   begin
-    buf.byte1 := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    buf.byte1 := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) mod dc_height]];
     buf.byte2 := buf.byte1;
 
     PWord(dest)^ := Word(buf);
@@ -137,7 +110,7 @@ begin
   count := (dc_yh - dc_yl) mod 3;
   for i := 0 to count do
   begin
-    buf.byte1 := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    buf.byte1 := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) mod dc_height]];
     buf.byte2 := buf.byte1;
     PWord(dest)^ := Word(buf);
     inc(dest, swidth);
@@ -146,7 +119,7 @@ begin
   end;
 end;
 
-procedure R_DrawColumnLow;
+procedure R_DrawTallColumnLow;
 var
   count: integer;
   i: integer;
@@ -169,7 +142,7 @@ begin
 
   for i := 0 to count - 1 do
   begin
-    bdest := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    bdest := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) mod dc_height]];
 
     dest^ := bdest;
     inc(dest, swidth);
@@ -186,14 +159,14 @@ begin
   count := (dc_yh - dc_yl) mod 3;
   for i := 0 to count do
   begin
-    dest^ := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_source[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
 
     inc(frac, dc_iscale);
   end;
 end;
 
-procedure R_DrawColumnMedium;
+procedure R_DrawTallColumnMedium;
 var
   count: integer;
   dest: PByte;
@@ -231,67 +204,67 @@ begin
   begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
 
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
     inc(dest, swidth);
     inc(frac, fracstep);
   end;
@@ -300,14 +273,14 @@ begin
   begin
   // Re-map color indices from wall texture column
   //  using a lighting/special effects LUT.
-    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) and 127]];
+    dest^ := dc_colormap[dc_local[(LongWord(frac) shr FRACBITS) mod dc_height]];
 
     inc(dest, swidth);
     inc(frac, fracstep);
   end;
 end;
 
-procedure R_DrawColumnBase32;
+procedure R_DrawTallColumnBase32;
 var
   count: integer;
   i: integer;
@@ -327,7 +300,7 @@ begin
   frac := dc_texturemid + (dc_yl - centery) * fracstep;
   for i := 0 to count do
   begin
-    spot := (LongWord(frac) shr FRACBITS) and 127;
+    spot := (LongWord(frac) shr FRACBITS) mod dc_height;
     destl^ := dc_colormap32[dc_source[spot]];
 
     inc(destl, SCREENWIDTH);
@@ -335,25 +308,26 @@ begin
   end;
 end;
 
-procedure R_DrawColumnHi;
+procedure R_DrawTallColumnHi;
 var
   count: integer;
   destl: PLongWord;
   frac: fixed_t;
   fracstep: fixed_t;
   fraclimit: fixed_t;
+  fraclimit2: fixed_t;
   spot: integer;
   swidth: integer;
 
   r1, g1, b1: byte;
-  c, c1, r, g, b: LongWord;
+  c: LongWord;
   lfactor: integer;
   lspot: integer;
   ldest: LongWord;
-  and_mask: integer;
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
   bf_b: PIntegerArray;
+  mod_height: LongWord;
 begin
   count := dc_yh - dc_yl;
 
@@ -369,10 +343,10 @@ begin
   begin
     fracstep := fracstep * (1 shl dc_texturefactorbits);
     frac := frac * (1 shl dc_texturefactorbits);
-    and_mask := 128 * (1 shl dc_texturefactorbits) - 1;
+    mod_height := dc_height * (1 shl dc_texturefactorbits);
   end
   else
-    and_mask := 127;
+    mod_height := dc_height;
 
   swidth := SCREENWIDTH32PITCH;
   lfactor := dc_lightlevel;
@@ -382,16 +356,18 @@ begin
     begin
       R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
       {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF FOG}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I R_DrawTallColumnHi.inc}
     end
     else
     begin
       {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF FOG}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I R_DrawTallColumnHi.inc}
     end;
   end
   else
@@ -402,21 +378,23 @@ begin
     begin
       R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
       {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF FOG}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I R_DrawTallColumnHi.inc}
     end
     else
     begin
       {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF FOG}
       {$UNDEF MASKEDCOLUMN}
       {$DEFINE SMALLSTEPOPTIMIZER}
-      {$I R_DrawColumnHi.inc}
+      {$I R_DrawTallColumnHi.inc}
     end;
   end;
 end;
 
-procedure R_DrawColumnUltra;
+procedure R_DrawTallColumnUltra;
 var
   count: integer;
   destl: PLongWord;
@@ -434,10 +412,10 @@ var
   factor1: fixed_t;
   factor2: fixed_t;
   lfactor: integer;
-  and_mask: integer;
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
   bf_b: PIntegerArray;
+  mod_height: LongWord;
 begin
 
   count := dc_yh - dc_yl;
@@ -454,10 +432,10 @@ begin
   begin
     fracstep := fracstep * (1 shl dc_texturefactorbits);
     frac := frac * (1 shl dc_texturefactorbits);
-    and_mask := 128 * (1 shl dc_texturefactorbits) - 1;
+    mod_height := dc_height * (1 shl dc_texturefactorbits);
   end
   else
-    and_mask := 127;
+    mod_height := dc_height;
 
   swidth := SCREENWIDTH32PITCH;
   lfactor := dc_lightlevel;
@@ -465,16 +443,167 @@ begin
   begin
     R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
     {$UNDEF INVERSECOLORMAPS}
+    {$UNDEF FOG}
     {$UNDEF MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$I R_DrawTallColumnUltra.inc}
+  end
+  else
+  begin
+    {$DEFINE INVERSECOLORMAPS}
+    {$UNDEF FOG}
+    {$UNDEF MASKEDCOLUMN}
+    {$I R_DrawTallColumnUltra.inc}
+  end;
+end;
+
+{$IFDEF HEXEN}
+procedure R_DrawTallColumnHi_Fog;
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  spot: integer;
+  swidth: integer;
+
+  r1, g1, b1: byte;
+  c, c1, r, g, b: LongWord;
+  lfactor: integer;
+  lspot: integer;
+  ldest: LongWord;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
+  mod_height: LongWord;
+begin
+  count := dc_yh - dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
+
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+
+  if dc_texturefactorbits > 0 then
+  begin
+    fracstep := fracstep * (1 shl dc_texturefactorbits);
+    frac := frac * (1 shl dc_texturefactorbits);
+    mod_height := dc_height * (1 shl dc_texturefactorbits);
+  end
+  else
+    mod_height := dc_height;
+
+  swidth := SCREENWIDTH32PITCH;
+  lfactor := dc_lightlevel;
+  if fracstep > 2 * FRACUNIT div 5 then
+  begin
+    if lfactor >= 0 then
+    begin
+      R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$UNDEF SMALLSTEPOPTIMIZER}
+      {$I R_DrawTallColumnHi.inc}
+    end
+    else
+    begin
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$UNDEF SMALLSTEPOPTIMIZER}
+      {$I R_DrawTallColumnHi.inc}
+    end;
+  end
+  else
+  begin
+    lspot := MININT;
+    ldest := 0;
+    if lfactor >= 0 then
+    begin
+      R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      {$UNDEF INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      {$I R_DrawTallColumnHi.inc}
+    end
+    else
+    begin
+      {$DEFINE INVERSECOLORMAPS}
+      {$UNDEF MASKEDCOLUMN}
+      {$DEFINE FOG}
+      {$DEFINE SMALLSTEPOPTIMIZER}
+      {$I R_DrawTallColumnHi.inc}
+    end;
+  end;
+end;
+
+procedure R_DrawTallColumnUltra_Fog;
+var
+  count: integer;
+  destl: PLongWord;
+  frac: fixed_t;
+  fracstep: fixed_t;
+  fraclimit: fixed_t;
+  cfrac2: fixed_t;
+  spot: integer;
+  swidth: integer;
+
+// For inline color averaging
+  r1, g1, b1: byte;
+  r2, g2, b2: byte;
+  c, c1, c2, r, g, b: LongWord;
+  factor1: fixed_t;
+  factor2: fixed_t;
+  lfactor: integer;
+  bf_r: PIntegerArray;
+  bf_g: PIntegerArray;
+  bf_b: PIntegerArray;
+  mod_height: LongWord;
+begin
+
+  count := dc_yh - dc_yl;
+
+  if count < 0 then
+    exit;
+
+  destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
+
+  fracstep := dc_iscale;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
+
+  if dc_texturefactorbits > 0 then
+  begin
+    fracstep := fracstep * (1 shl dc_texturefactorbits);
+    frac := frac * (1 shl dc_texturefactorbits);
+    mod_height := dc_height * (1 shl dc_texturefactorbits);
+  end
+  else
+    mod_height := dc_height;
+
+  swidth := SCREENWIDTH32PITCH;
+  lfactor := dc_lightlevel;
+  if lfactor >= 0 then
+  begin
+    R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    {$UNDEF INVERSECOLORMAPS}
+    {$UNDEF MASKEDCOLUMN}
+    {$DEFINE FOG}
+    {$I R_DrawTallColumnUltra.inc}
   end
   else
   begin
     {$DEFINE INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
-    {$I R_DrawColumnUltra.inc}
+    {$DEFINE FOG}
+    {$I R_DrawTallColumnUltra.inc}
   end;
 end;
+{$ENDIF}
 
 end.
 

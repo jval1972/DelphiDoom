@@ -1113,15 +1113,15 @@ begin
       pds.sprtopclip := @screenheightarray;
       pds.tsilheight := MININT;
       pds.silhouette := pds.silhouette or SIL_TOP;
-    end;
+    end;           
 
-      // killough 1/17/98: this test is required if the fix
-      // for the automap bug (r_bsp.c) is used, or else some
-      // sprites will be displayed behind closed doors. That
-      // fix prevents lines behind closed doors with dropoffs
-      // from being displayed on the automap.
-      //
-      // killough 4/7/98: make doorclosed external variable
+    // killough 1/17/98: this test is required if the fix
+    // for the automap bug (r_bsp.c) is used, or else some
+    // sprites will be displayed behind closed doors. That
+    // fix prevents lines behind closed doors with dropoffs
+    // from being displayed on the automap.
+    //
+    // killough 4/7/98: make doorclosed external variable
 
     if doorclosed or (backsector.ceilingheight <= frontsector.floorheight) then
     begin

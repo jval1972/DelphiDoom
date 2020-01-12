@@ -44,7 +44,9 @@ uses
   w_wad;
 
 // Retrieve column data for span blitting.
+{$IFNDEF OPENGL}
 function R_GetColumn(const tex: integer; col: integer): PByteArray;
+{$ENDIF}
 
 {$IFNDEF OPENGL}
 // Retrieve ds_sources
@@ -82,6 +84,8 @@ var
 
 // needed for texture pegging
   textureheight: Pfixed_tArray;
+// JVAL: 20200112 - For tall textures
+  texturecolumnheight: PIntegerArray;
   texturecompositesize: PIntegerArray;
 
   firstspritelump: integer;
@@ -145,6 +149,7 @@ uses
   r_hires,
 {$IFNDEF OPENGL}
   r_column,
+  r_tallcolumn,
   r_span,
   r_cache_walls,
   r_cache_flats,
@@ -458,7 +463,10 @@ begin
     for x := 0 to texture.width - 1 do
     begin
       if patchcount[x] <= 0 then
-        I_DevWarning('R_GenerateLookup(): column without a patch (%s, column=%d)'#13#10, [char8tostring(texture.name), x])
+      begin
+        I_DevWarning('R_GenerateLookup(): column (%d) without a patch (%s, column=%d)'#13#10, [x, char8tostring(texture.name), x]);
+        collump[x] := -2;
+      end
       else
       begin
         // Use the cached block.
@@ -477,7 +485,10 @@ begin
     for x := 0 to texture.width - 1 do
     begin
       if patchcount[x] = 0 then
-        I_DevWarning('R_GenerateLookup(): column without a patch (%s)'#13#10, [char8tostring(texture.name)])
+      begin
+        I_DevWarning('R_GenerateLookup(): column (%d) without a patch (%s)'#13#10, [x, char8tostring(texture.name)]);
+        collump[x] := -2;
+      end
       else if patchcount[x] > 1 then
       begin
         // Use the cached block.
@@ -504,29 +515,56 @@ end;
 //
 // R_GetColumn
 //
+{$IFNDEF OPENGL}
+type
+  blancpost_t = packed record
+    topdelta: byte;
+    length: byte;
+    pad: byte;
+    data: byte;
+  end;
+
+const
+  blancpost: blancpost_t = (
+    topdelta: $ff;
+    length: 0;
+    pad: 0;
+    data: 0
+  );
+
 function R_GetColumn(const tex: integer; col: integer): PByteArray;
 var
   lump: integer;
   ofs: integer;
 begin
-// JVAL: 20200105 - Use texture width is not requiered to be power of 2
+// JVAL: 20200105 - Texture width is not requiered to be power of 2
   col := col mod texturewidth[tex];
   if col < 0 then
     col := col + texturewidth[tex];
   lump := texturecolumnlump[tex][col];
   ofs := texturecolumnofs[tex][col];
 
+// JVAL: 20200112 - For tall textures
+  dc_height := texturecolumnheight[tex];
+
+  if lump = -2 then
+  begin
+    result := @blancpost.data;
+    exit;
+  end;
+
   if lump > 0 then
   begin
-    result := {$IFNDEF OPENGL}R_GetFixedColumn({$ENDIF}PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs){$IFNDEF OPENGL}, tex, col){$ENDIF};
+    result := R_GetFixedColumn(PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs), tex, col);
     exit;
   end;
 
   if texturecomposite[tex] = nil then
     R_GenerateComposite(tex);
 
-  result := {$IFNDEF OPENGL}R_GetFixedColumn({$ENDIF}PByteArray(integer(texturecomposite[tex]) + ofs){$IFNDEF OPENGL}, tex, col){$ENDIF};
+  result := R_GetFixedColumn(PByteArray(integer(texturecomposite[tex]) + ofs), tex, col);
 end;
+{$ENDIF}
 
 {$IFNDEF OPENGL}
 procedure R_GetDSs(const flat: integer);
@@ -558,6 +596,7 @@ begin
     R_ReadDC32Cache(tex, col);
 end;
 {$ENDIF}
+
 //
 // R_InitTextures
 // Initializes the texture list
@@ -683,6 +722,8 @@ begin
   texturecompositesize := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
   texturewidth := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
   textureheight := Z_Malloc(numtextures * SizeOf(fixed_t), PU_STATIC, nil);
+// JVAL: 20200112 - For tall textures
+  texturecolumnheight := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
 
   for i := 0 to numtextures - 1 do
   begin
@@ -721,7 +762,20 @@ begin
     texture.texture32 := nil;
     {$ENDIF}
 
-    memcpy(@texture.name, @mtexture.name, SizeOf(texture.name));
+    j := 0;
+    while j < 8 do
+    begin
+      if mtexture.name[j] = #0 then
+        break;
+      texture.name[j] := toupper(mtexture.name[j]);
+      inc(j);
+    end;
+    while j < 8 do
+    begin
+      texture.name[j] := #0;
+      inc(j);
+    end;
+
     mpatch := @mtexture.patches[0];
     patch := @texture.patches[0];
 
@@ -740,6 +794,10 @@ begin
 
     texturewidth[i] := texture.width;
     textureheight[i] := texture.height * FRACUNIT;
+    // JVAL: 20200112 - For tall textures
+    texturecolumnheight[i] := texture.height;
+    if texturecolumnheight[i] < 128 then
+      texturecolumnheight[i] := 128;
 
     incp(pointer(directory), SizeOf(integer));
   end;
@@ -793,6 +851,7 @@ begin
     {$IFNDEF OPENGL}
     flat.flat32 := nil;
     {$ENDIF}
+    // JVAL: 9 December 2007, Added terrain types
     flat.terraintype := P_TerrainTypeForName(flat.name);
     flats[i] := flat;
   end;
@@ -813,6 +872,7 @@ var
   lumpname: string;
 begin
   VX_VoxelToSprite;
+
   firstspritelump := 0;
   for i := 0 to W_NumLumps - 1 do
   begin
@@ -960,64 +1020,6 @@ begin
 {$ENDIF}
 end;
 
-
-function R_NameForSideTexture(const sn: SmallInt): char8_t;
-begin
-  ZeroMemory(@result, SizeOf(Result));
-  Result[0] := '-';
-
-  if sn < 0 then
-    exit;
-
-  if sn >= numtextures then
-    exit;
-
-  Result := textures[sn].name;
-end;
-
-
-function R_SafeTextureNumForName(const name: string): integer;
-var
-  i: integer;
-  s: string;
-  check: name8_t;
-begin
-  if name = '' then
-  begin
-    I_Warning('R_SafeTextureNumForName(): Texture name is null.'#13#10);
-    result := -1;
-    exit;
-  end;
-
-  // "NoTexture" marker.
-  if name[1] = '-' then
-  begin
-    result := -1;
-    exit;
-  end;
-
-  s := strupper(name);
-  check.s := stringtochar8(s);
-  result := M_HashIndex(s);
-  if result >= 0 then
-    if result < numtextures then
-      if name8_t(textures[result].name).x[0] = check.x[0] then
-        if name8_t(textures[result].name).x[1] = check.x[1] then
-          exit;
-
-  for i := 0 to numtextures - 1 do
-    if name8_t(textures[i].name).x[0] = check.x[0] then
-      if name8_t(textures[i].name).x[1] = check.x[1] then
-      begin
-        result := i;
-        M_HashUpdate(s, result);
-        exit;
-      end;
-
-  I_Warning('R_SafeTextureNumForName(): %s not found.'#13#10, [name]);
-  result := -1;
-end;
-
 //
 // R_FlatNumForName
 // Retrieval, get a flat number for a flat name.
@@ -1063,13 +1065,14 @@ begin
     inc(numflats);
     flats := Z_ReAlloc(flats, numflats * SizeOf(pointer), PU_STATIC, nil);
 
-    flats[result] := Pflat_t(Z_Malloc(SizeOf(flat_t), PU_STATIC, nil));
+    flats[result] := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
     flats[result].name := W_GetNameForNum(i);
     flats[result].translation := result;
     flats[result].lump := i;
     {$IFNDEF OPENGL}
     flats[result].flat32 := nil;
     {$ENDIF}
+    // JVAL: 9 December 2007, Added terrain types
     flats[result].terraintype := P_TerrainTypeForName(flats[result].name);
     M_HashUpdate(s, result);
   end;
@@ -1139,6 +1142,7 @@ var
   s: string;
   check: name8_t;
 begin
+  // "NoTexture" marker.
   if name = '' then
   begin
     result := -1;
@@ -1173,6 +1177,48 @@ begin
   result := -1;
 end;
 
+function R_SafeTextureNumForName(const name: string): integer;
+var
+  i: integer;
+  s: string;
+  check: name8_t;
+begin
+  if name = '' then
+  begin
+    I_Warning('R_SafeTextureNumForName(): Texture name is null.'#13#10);
+    result := -1;
+    exit;
+  end;
+
+  // "NoTexture" marker.
+  if name[1] = '-' then
+  begin
+    result := -1;
+    exit;
+  end;
+
+  s := strupper(name);
+  check.s := stringtochar8(s);
+  result := M_HashIndex(s);
+  if result >= 0 then
+    if result < numtextures then
+      if name8_t(textures[result].name).x[0] = check.x[0] then
+        if name8_t(textures[result].name).x[1] = check.x[1] then
+          exit;
+
+  for i := 0 to numtextures - 1 do
+    if name8_t(textures[i].name).x[0] = check.x[0] then
+      if name8_t(textures[i].name).x[1] = check.x[1] then
+      begin
+        result := i;
+        M_HashUpdate(s, result);
+        exit;
+      end;
+
+  I_Warning('R_SafeTextureNumForName(): %s not found.'#13#10, [name]);
+  result := -1;
+end;
+
 //
 // R_TextureNumForName
 // Calls R_CheckTextureNumForName,
@@ -1185,6 +1231,22 @@ begin
   if result = -1 then
     I_Error('R_TextureNumForName(): %s not found!', [name]);
 end;
+
+function R_NameForSideTexture(const sn: SmallInt): char8_t;
+begin
+  ZeroMemory(@result, SizeOf(Result));
+  Result[0] := '-';
+
+  if sn < 0 then
+    exit;
+
+  if sn >= numtextures then
+    exit;
+
+  Result := textures[sn].name;
+end;
+
+
 
 function R_CacheFlat(const lump: integer; const tag: integer): pointer;
 begin

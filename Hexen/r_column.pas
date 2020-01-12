@@ -452,7 +452,7 @@ begin
   destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
 
   fracstep := dc_iscale;
-  frac := dc_texturemid + (dc_yl - centery) * fracstep;// - FRACUNIT div 2;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
 
   if dc_texturefactorbits > 0 then
   begin

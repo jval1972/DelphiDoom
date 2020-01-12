@@ -50,7 +50,9 @@ uses
   w_wad;
 
 // Retrieve column data for span blitting.
+{$IFNDEF OPENGL}
 function R_GetColumn(const tex: integer; col: integer): PByteArray;
+{$ENDIF}
 
 {$IFNDEF OPENGL}
 // Retrieve ds_sources
@@ -92,6 +94,8 @@ var
 
 // needed for texture pegging
   textureheight: Pfixed_tArray;
+// JVAL: 20200112 - For tall textures
+  texturecolumnheight: PIntegerArray;
   texturecompositesize: PIntegerArray;
 
   firstspritelump: integer;
@@ -145,6 +149,7 @@ uses
   r_colormaps,
 {$IFNDEF OPENGL}
   r_column,
+  r_tallcolumn,
   r_span,
   r_cache_walls,
   r_cache_flats,
@@ -457,7 +462,10 @@ begin
     for x := 0 to texture.width - 1 do
     begin
       if patchcount[x] <= 0 then
-        I_DevWarning('R_GenerateLookup(): column without a patch (%s, column=%d)'#13#10, [char8tostring(texture.name), x])
+      begin
+        I_DevWarning('R_GenerateLookup(): column (%d) without a patch (%s, column=%d)'#13#10, [x, char8tostring(texture.name), x]);
+        collump[x] := -2;
+      end
       else
       begin
         // Use the cached block.
@@ -476,7 +484,10 @@ begin
     for x := 0 to texture.width - 1 do
     begin
       if patchcount[x] = 0 then
-        I_DevWarning('R_GenerateLookup(): column without a patch (%s)'#13#10, [char8tostring(texture.name)])
+      begin
+        I_DevWarning('R_GenerateLookup(): column (%d) without a patch (%s)'#13#10, [x, char8tostring(texture.name)]);
+        collump[x] := -2;
+      end
       else if patchcount[x] > 1 then
       begin
         // Use the cached block.
@@ -503,29 +514,56 @@ end;
 //
 // R_GetColumn
 //
+{$IFNDEF OPENGL}
+type
+  blancpost_t = packed record
+    topdelta: byte;
+    length: byte;
+    pad: byte;
+    data: byte;
+  end;
+
+const
+  blancpost: blancpost_t = (
+    topdelta: $ff;
+    length: 0;
+    pad: 0;
+    data: 0
+  );
+
 function R_GetColumn(const tex: integer; col: integer): PByteArray;
 var
   lump: integer;
   ofs: integer;
 begin
-// JVAL: 20200105 - Use texture width is not requiered to be power of 2
+// JVAL: 20200105 - Texture width is not requiered to be power of 2
   col := col mod texturewidth[tex];
   if col < 0 then
     col := col + texturewidth[tex];
   lump := texturecolumnlump[tex][col];
   ofs := texturecolumnofs[tex][col];
 
+// JVAL: 20200112 - For tall textures
+  dc_height := texturecolumnheight[tex];
+
+  if lump = -2 then
+  begin
+    result := @blancpost.data;
+    exit;
+  end;
+
   if lump > 0 then
   begin
-    result := {$IFNDEF OPENGL}R_GetFixedColumn({$ENDIF}PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs){$IFNDEF OPENGL}, tex, col){$ENDIF};
+    result := R_GetFixedColumn(PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs), tex, col);
     exit;
   end;
 
   if texturecomposite[tex] = nil then
     R_GenerateComposite(tex);
 
-  result := {$IFNDEF OPENGL}R_GetFixedColumn({$ENDIF}PByteArray(integer(texturecomposite[tex]) + ofs){$IFNDEF OPENGL}, tex, col){$ENDIF};
+  result := R_GetFixedColumn(PByteArray(integer(texturecomposite[tex]) + ofs), tex, col);
 end;
+{$ENDIF}
 
 {$IFNDEF OPENGL}
 procedure R_GetDSs(const flat: integer);
@@ -863,6 +901,8 @@ begin
   texturecompositesize := mallocz(numtextures * SizeOf(integer));
   texturewidth := mallocz(numtextures * SizeOf(integer));
   textureheight := mallocz(numtextures * SizeOf(fixed_t));
+// JVAL: 20200112 - For tall textures
+  texturecolumnheight := mallocz(numtextures * SizeOf(integer));
 
   for i := 0 to numtextures - 1 do
   begin
@@ -923,6 +963,10 @@ begin
 
     texturewidth[i] := texture.width;
     textureheight[i] := texture.height * FRACUNIT;
+    // JVAL: 20200112 - For tall textures
+    texturecolumnheight[i] := texture.height;
+    if texturecolumnheight[i] < 128 then
+      texturecolumnheight[i] := 128;
 
     incp(pointer(directory), SizeOf(integer));
   end;
@@ -997,6 +1041,7 @@ var
   lumpname: string;
 begin
   VX_VoxelToSprite;
+
   firstspritelump := 0;
   for i := 0 to W_NumLumps - 1 do
   begin
@@ -1078,6 +1123,8 @@ begin
   memfree(pointer(texturecompositesize), numtextures * SizeOf(integer));
   memfree(pointer(texturewidth), numtextures * SizeOf(integer));
   memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
+// JVAL: 20200112 - For tall textures
+  memfree(pointer(texturecolumnheight), numtextures * SizeOf(integer));
   memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
 
 // flats
@@ -1118,6 +1165,8 @@ begin
   memfree(pointer(texturecompositesize), numtextures * SizeOf(integer));
   memfree(pointer(texturewidth), numtextures * SizeOf(integer));
   memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
+// JVAL: 20200112 - For tall textures
+  memfree(pointer(texturecolumnheight), numtextures * SizeOf(integer));
   memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
 
 // flats
@@ -1159,10 +1208,11 @@ begin
     inc(dest);
     src := PByteArray(integer(src) + 3);
   end;
-  Z_ChangeTag(palette, PU_CACHE);
 
   aprox_black := V_FindAproxColorIndex(@cpal, $0, 1, 255);
   aprox_red := V_FindAproxColorIndex(@cpal, $FF0000, 1, 255);
+
+  Z_ChangeTag(palette, PU_CACHE);
 
   // Load in the light tables,
   //  256 byte align tables.
@@ -1250,7 +1300,7 @@ begin
     // JVAL: 9 December 2007, Added terrain types
     flats[result].terraintype := P_TerrainTypeForName(flats[result].name);
     M_HashUpdate(s, result);
-  end
+  end;
 end;
 
 function R_SafeFlatNumForName(const name: string): integer;
@@ -1351,6 +1401,7 @@ begin
     exit;
   end;
 
+  // "NoTexture" marker.
   if name[1] = '-' then
   begin
     result := 0;

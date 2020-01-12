@@ -316,7 +316,8 @@ begin
       exit;
     end;
 
-    if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+    // killough 8/9/98: monster-blockers don't affect friends
+    if ((tmthing.player = nil) or (tmthing.flags2_ex and MF2_EX_FRIEND <> 0)) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin
       result := false;  // block monsters only
       exit;
@@ -404,7 +405,8 @@ begin
       exit;
     end;
 
-    if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
+    // killough 8/9/98: monster-blockers don't affect friends
+    if ((tmthing.player = nil) or (tmthing.flags2_ex and MF2_EX_FRIEND <> 0)) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin
       result := false;  // block monsters only
       exit;
@@ -1021,7 +1023,7 @@ begin
 
     // JVAL: Version 204
     if G_PlayingEngineVersion >= VERSION204 then
-      if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
+      if (thing.flags2_ex and (MF2_EX_JUMPDOWN or MF2_EX_FRIEND) <> 0) and (N_Random > 20) then
         dropoffmargin := 144 * FRACUNIT;
 
     if ((thing.flags and (MF_DROPOFF or MF_FLOAT)) = 0) and

@@ -884,11 +884,13 @@ var
   desttop: PByte;
   count: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
   desttop := PByte(integer(screens[SCN_TMP]) + x);
 
   delta := 0;
+  tallpatch := false;
   // step through the posts in a column
   while column.topdelta <> $ff do
   begin
@@ -904,10 +906,17 @@ begin
       inc(dest, 320);
       dec(count);
     end;
-    prevdelta := column.topdelta;
-    column := Pcolumn_t(integer(column) + column.length + 4);
-    if column.topdelta > prevdelta then
-      delta := 0;
+    if not tallpatch then
+    begin
+      prevdelta := column.topdelta;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      column := Pcolumn_t(integer(column) + column.length + 4);
   end;
 end;
 

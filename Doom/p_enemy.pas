@@ -310,6 +310,46 @@ begin
 end;
 
 //
+// P_BothFriends
+//
+// JVAL: New function
+//
+function P_BothFriends(mo1, mo2: Pmobj_t): boolean;
+var
+  f1, f2: boolean;
+begin
+  if (mo1 = nil) or (mo2 = nil) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  f1 := (mo1.player <> nil) or (mo1.flags2_ex and MF2_EX_FRIEND <> 0);
+  if not f1 then
+  begin
+    result := false;
+    exit;
+  end;
+
+  f2 := (mo2.player <> nil) or (mo2.flags2_ex and MF2_EX_FRIEND <> 0);
+  if not f2 then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if deathmatch <> 0 then
+    if mo1.player <> nil then
+      if mo2.player <> nil then
+      begin
+        result := false;
+        exit;
+      end;
+
+  result := true;
+end;
+
+//
 // P_CheckMeleeRange
 //
 function P_CheckMeleeRange(actor: Pmobj_t): boolean;
@@ -317,13 +357,20 @@ var
   pl: Pmobj_t;
   dist: fixed_t;
 begin
-  if actor.target = nil then
+  pl := actor.target;
+  if pl = nil then
   begin
     result := false;
     exit;
   end;
 
-  pl := actor.target;
+  // Friendly monsters do not attack each other
+  if P_BothFriends(pl, actor) then
+  begin
+    result := false;
+    exit;
+  end;
+
   dist := P_AproxDistance(pl.x - actor.x, pl.y - actor.y);
 
   if dist >= MELEERANGE - 20 * FRACUNIT + pl.info.radius then
@@ -360,6 +407,13 @@ begin
   if actor.reactiontime <> 0 then
   begin
     result := false; // do not attack yet
+    exit;
+  end;
+
+  // Friendly monsters do not attack each other
+  if P_BothFriends(actor, actor.target) then
+  begin
+    result := false;
     exit;
   end;
 
@@ -658,11 +712,12 @@ var
   think: Pthinker_t;
   inher: integer;
 begin
-  if not P_CheckSight(players[0].mo, actor) then
-  begin // Player can't see monster
-    result := false;
-    exit;
-  end;
+  if actor.flags2_ex and MF2_EX_FRIEND = 0 then
+    if not P_CheckSight(players[0].mo, actor) then
+    begin // Player can't see monster
+      result := false;
+      exit;
+    end;
 
   count := 0;
   think := thinkercap.next;
@@ -678,6 +733,12 @@ begin
 
     if (mo.flags and MF_COUNTKILL = 0) or (mo = actor) or (mo.health <= 0) then
     begin // Not a valid monster
+      think := think.next;
+      continue;
+    end;
+
+    if P_BothFriends(mo, actor) then
+    begin // Friendly monsters do not hurt each other
       think := think.next;
       continue;
     end;
@@ -803,6 +864,13 @@ begin
   result := false;
 end;
 
+function P_LookForTargets(actor: Pmobj_t; allaround: boolean): boolean;
+begin
+  if actor.flags2_ex and MF2_EX_FRIEND <> 0 then
+    result := P_LookForMonsters(actor)
+  else
+    result := P_LookForPlayers(actor, allaround);
+end;
 
 //
 // A_KeenDie
@@ -868,7 +936,7 @@ begin
 
   if not seeyou then
   begin
-    if not P_LookForPlayers(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
+    if not P_LookForTargets(actor, actor.flags_ex and MF_EX_LOOKALLAROUND <> 0) then
       exit;
   end;
 
@@ -949,7 +1017,7 @@ begin
      (actor.target.flags and MF_SHOOTABLE = 0) then
   begin
     // look for a new target
-    if P_LookForPlayers(actor, true) then
+    if P_LookForTargets(actor, true) then
       exit; // got a new target
 
     P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
@@ -994,7 +1062,7 @@ begin
     (actor.threshold = 0) and
     (not P_CheckSight(actor, actor.target)) then
   begin
-    if P_LookForPlayers(actor, true) then
+    if P_LookForTargets(actor, true) then
       exit;  // got a new target
   end;
 
@@ -1478,8 +1546,24 @@ begin
           info := corpsehit.info;
 
           P_SetMobjState(corpsehit, statenum_t(info.raisestate));
-          corpsehit.height := _SHL(corpsehit.height, 2);
+
+          if G_PlayingEngineVersion >= VERSION205 then
+          begin
+            corpsehit.height := info.height; // fix Ghost bug
+            corpsehit.radius := info.radius; // fix Ghost bug
+          end
+          else
+            corpsehit.height := _SHL(corpsehit.height, 2);
           corpsehit.flags := info.flags;
+          corpsehit.flags_ex := info.flags_ex;
+          corpsehit.flags2_ex := info.flags2_ex;
+          // Inherit friend flag
+          if actor.flags2_ex and MF2_EX_FRIEND = 0 then
+            corpsehit.flags2_ex := corpsehit.flags2_ex and not MF2_EX_FRIEND
+          else
+            corpsehit.flags2_ex := corpsehit.flags2_ex or MF2_EX_FRIEND;
+          corpsehit.flags3_ex := info.flags3_ex;
+          corpsehit.flags4_ex := info.flags4_ex;
           corpsehit.health := info.spawnhealth;
           corpsehit.target := nil;
           exit;
@@ -1796,6 +1880,12 @@ begin
     exit;
   end;
 
+  // killough 7/20/98: PEs shoot lost souls with the same friendliness
+  if actor.flags2_ex and MF2_EX_FRIEND = 0 then
+    newmobj.flags2_ex := newmobj.flags2_ex and not MF2_EX_FRIEND
+  else
+    newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
+
   newmobj.target := actor.target;
   A_SkullAttack(newmobj);
 end;
@@ -1865,14 +1955,28 @@ end;
 //
 procedure A_Explode(thingy: Pmobj_t);
 begin
-  if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
-    P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
-  else if thingy.state.params <> nil then
-    P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
+  if G_PlayingEngineVersion >= VERSION205 then
+  begin
+    if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+      P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
+    else if thingy.state.params <> nil then
+      P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
+    else
+      P_RadiusAttack(thingy, thingy.target, 128);
+    if thingy.z <= thingy.floorz then
+      P_HitFloor(thingy);
+  end
   else
   begin
-    P_RadiusAttack(thingy, thingy.target, 128);
-    P_HitFloor(thingy);
+    if thingy.info.flags_ex and MF_EX_CUSTOMEXPLODE <> 0 then
+      P_RadiusAttackEx(thingy, thingy.target, thingy.info.explosiondamage, thingy.info.explosionradius)
+    else if thingy.state.params <> nil then
+      P_RadiusAttackEx(thingy, thingy.target, thingy.state.params.IntVal[0], thingy.state.params.IntVal[1])
+    else
+    begin
+      P_RadiusAttack(thingy, thingy.target, 128);
+      P_HitFloor(thingy);
+    end;
   end;
 end;
 
@@ -2173,6 +2277,12 @@ begin
   if newmobj = nil then
     exit;
 
+  // killough 7/18/98: brain friendliness is transferred
+  if mo.flags2_ex and MF2_EX_FRIEND = 0 then
+    newmobj.flags2_ex := newmobj.flags2_ex and not MF2_EX_FRIEND
+  else
+    newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
+
   newmobj.target := targ;
   newmobj.reactiontime := ((targ.y - mo.y) div newmobj.momy) div newmobj.state.tics;
 
@@ -2232,7 +2342,16 @@ begin
     _type := MT_BRUISER;
 
   newmobj := P_SpawnMobj(targ.x, targ.y, targ.z, Ord(_type));
-  if P_LookForPlayers(newmobj, true) then
+  if newmobj = nil then
+    exit;
+
+  // killough 7/18/98: brain friendliness is transferred
+  if mo.flags2_ex and MF2_EX_FRIEND = 0 then
+    newmobj.flags2_ex := newmobj.flags2_ex and not MF2_EX_FRIEND
+  else
+    newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
+
+  if P_LookForTargets(newmobj, true) then
     P_SetMobjState(newmobj, statenum_t(newmobj.info.seestate));
 
   // telefrag anything in this spot

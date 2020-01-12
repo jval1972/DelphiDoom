@@ -2308,6 +2308,7 @@ var
   swidth: integer;
   sheight: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   swidth := V_GetScreenWidth(scrn);
   if not V_NeedsPreserve(scrn, SCN_320x200, preserve) then
@@ -2325,6 +2326,7 @@ begin
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
       delta := 0;
+      tallpatch := false;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
@@ -2340,10 +2342,17 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
-        prevdelta := column.topdelta;
-        column := Pcolumn_t(integer(column) + column.length + 4);
-        if column.topdelta > prevdelta then
-          delta := 0;
+        if not tallpatch then
+        begin
+          prevdelta := column.topdelta;
+          column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0
+          else
+            tallpatch := true;
+        end
+        else
+          column := Pcolumn_t(integer(column) + column.length + 4);
       end;
       inc(col);
       inc(desttop);
@@ -2381,6 +2390,7 @@ begin
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[LongWord(fracx) shr FRACBITS]);
         delta := 0;
+        tallpatch := false;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
@@ -2406,10 +2416,17 @@ begin
               dec(count);
             end;
           end;
-          prevdelta := column.topdelta;
-          column := Pcolumn_t(integer(column) + column.length + 4);
-          if column.topdelta > prevdelta then
-            delta := 0;
+          if not tallpatch then
+          begin
+            prevdelta := column.topdelta;
+            column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0
+            else
+              tallpatch := true;
+          end
+          else
+            column := Pcolumn_t(integer(column) + column.length + 4);
         end;
         inc(col);
         inc(desttop);
@@ -2441,6 +2458,7 @@ var
   sheight: integer;
   vs: LongWord;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   swidth := V_GetScreenWidth(SCN_FG);
   x := x - patch.leftoffset;
@@ -2459,6 +2477,7 @@ begin
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
       delta := 0;
+      tallpatch := false;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
@@ -2474,10 +2493,17 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
-        prevdelta := column.topdelta;
-        column := Pcolumn_t(integer(column) + column.length + 4);
-        if column.topdelta > prevdelta then
-          delta := 0;
+        if not tallpatch then
+        begin
+          prevdelta := column.topdelta;
+          column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0
+          else
+            tallpatch := true;
+        end
+        else
+          column := Pcolumn_t(integer(column) + column.length + 4);
       end;
       inc(col);
       desttop := @desttop[1];
@@ -2512,6 +2538,7 @@ begin
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
         delta := 0;
+        tallpatch := false;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
@@ -2537,10 +2564,17 @@ begin
               dec(count);
             end;
           end;
-          prevdelta := column.topdelta;
-          column := Pcolumn_t(integer(column) + column.length + 4);
-          if column.topdelta > prevdelta then
-            delta := 0;
+          if not tallpatch then
+          begin
+            prevdelta := column.topdelta;
+            column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0
+            else
+              tallpatch := true;
+          end
+          else
+            column := Pcolumn_t(integer(column) + column.length + 4);
         end;
         inc(col);
         desttop := @desttop[1];
@@ -2606,6 +2640,7 @@ var
   sheight: integer;
   trans: Ptrans8table_t;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   trans := R_GetTransparency8table;
   swidth := V_GetScreenWidth(scrn);
@@ -2624,6 +2659,7 @@ begin
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
       delta := 0;
+      tallpatch := false;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
@@ -2639,10 +2675,17 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
-        prevdelta := column.topdelta;
-        column := Pcolumn_t(integer(column) + column.length + 4);
-        if column.topdelta > prevdelta then
-          delta := 0;
+        if not tallpatch then
+        begin
+          prevdelta := column.topdelta;
+          column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0
+          else
+            tallpatch := true;
+        end
+        else
+          column := Pcolumn_t(integer(column) + column.length + 4);
       end;
       inc(col);
       inc(desttop);
@@ -2680,6 +2723,7 @@ begin
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[LongWord(fracx) shr FRACBITS]);
         delta := 0;
+        tallpatch := false;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
@@ -2705,10 +2749,17 @@ begin
               dec(count);
             end;
           end;
-          prevdelta := column.topdelta;
-          column := Pcolumn_t(integer(column) + column.length + 4);
-          if column.topdelta > prevdelta then
-            delta := 0;
+          if not tallpatch then
+          begin
+            prevdelta := column.topdelta;
+            column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0
+            else
+              tallpatch := true;
+          end
+          else
+            column := Pcolumn_t(integer(column) + column.length + 4);
         end;
         inc(col);
         inc(desttop);
@@ -2743,6 +2794,7 @@ var
   sheight: integer;
   trans: Ptrans8table_t;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   trans := R_GetTransparency8table;
   swidth := V_GetScreenWidth(scrn);
@@ -2763,6 +2815,7 @@ begin
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
         delta := 0;
+        tallpatch := false;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
@@ -2778,10 +2831,17 @@ begin
             inc(dest, swidth);
             dec(count);
           end;
-          prevdelta := column.topdelta;
-          column := Pcolumn_t(integer(column) + column.length + 4);
-          if column.topdelta > prevdelta then
-            delta := 0;
+          if not tallpatch then
+          begin
+            prevdelta := column.topdelta;
+            column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0
+            else
+              tallpatch := true;
+          end
+          else
+            column := Pcolumn_t(integer(column) + column.length + 4);
         end;
       end;
       inc(col);
@@ -2822,6 +2882,7 @@ begin
         begin
           column := Pcolumn_t(integer(patch) + patch.columnofs[LongWord(fracx) shr FRACBITS]);
           delta := 0;
+          tallpatch := false;
         // step through the posts in a column
           while column.topdelta <> $ff do
           begin
@@ -2847,10 +2908,17 @@ begin
                 dec(count);
               end;
             end;
-            prevdelta := column.topdelta;
-            column := Pcolumn_t(integer(column) + column.length + 4);
-            if column.topdelta > prevdelta then
-              delta := 0;
+            if not tallpatch then
+            begin
+              prevdelta := column.topdelta;
+              column := Pcolumn_t(integer(column) + column.length + 4);
+              if column.topdelta > prevdelta then
+                delta := 0
+              else
+                tallpatch := true;
+            end
+            else
+              column := Pcolumn_t(integer(column) + column.length + 4);
           end;
         end;
         inc(col);
@@ -2887,6 +2955,7 @@ var
   sheight: integer;
   vs: LongWord;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   swidth := V_GetScreenWidth(SCN_FG);
   x := x - patch.leftoffset;
@@ -2905,6 +2974,7 @@ begin
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
       delta := 0;
+      tallpatch := false;
     // step through the posts in a column
       while column.topdelta <> $ff do
       begin
@@ -2924,10 +2994,17 @@ begin
           inc(dest, swidth);
           dec(count);
         end;
-        prevdelta := column.topdelta;
-        column := Pcolumn_t(integer(column) + column.length + 4);
-        if column.topdelta > prevdelta then
-          delta := 0;
+        if not tallpatch then
+        begin
+          prevdelta := column.topdelta;
+          column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0
+          else
+            tallpatch := true;
+        end
+        else
+          column := Pcolumn_t(integer(column) + column.length + 4);
       end;
       inc(col);
       desttop := @desttop[1];
@@ -2962,6 +3039,7 @@ begin
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
         delta := 0;
+        tallpatch := false;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
@@ -2991,10 +3069,17 @@ begin
               dec(count);
             end;
           end;
-          prevdelta := column.topdelta;
-          column := Pcolumn_t(integer(column) + column.length + 4);
-          if column.topdelta > prevdelta then
-            delta := 0;
+          if not tallpatch then
+          begin
+            prevdelta := column.topdelta;
+            column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0
+            else
+              tallpatch := true;
+          end
+          else
+            column := Pcolumn_t(integer(column) + column.length + 4);
         end;
         inc(col);
         desttop := @desttop[1];
@@ -3032,6 +3117,7 @@ var
   sheight: integer;
   vs: LongWord;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   swidth := V_GetScreenWidth(SCN_FG);
   x := x - patch.leftoffset;
@@ -3052,6 +3138,7 @@ begin
       begin
         column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
         delta := 0;
+        tallpatch := false;
       // step through the posts in a column
         while column.topdelta <> $ff do
         begin
@@ -3071,10 +3158,17 @@ begin
             inc(dest, swidth);
             dec(count);
           end;
-          prevdelta := column.topdelta;
-          column := Pcolumn_t(integer(column) + column.length + 4);
-          if column.topdelta > prevdelta then
-            delta := 0;
+          if not tallpatch then
+          begin
+            prevdelta := column.topdelta;
+            column := Pcolumn_t(integer(column) + column.length + 4);
+            if column.topdelta > prevdelta then
+              delta := 0
+            else
+              tallpatch := true;
+          end
+          else
+            column := Pcolumn_t(integer(column) + column.length + 4);
         end;
       end;
       inc(col);
@@ -3112,6 +3206,7 @@ begin
         begin
           column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
           delta := 0;
+          tallpatch := false;
         // step through the posts in a column
           while column.topdelta <> $ff do
           begin
@@ -3141,10 +3236,17 @@ begin
                 dec(count);
               end;
             end;
-            prevdelta := column.topdelta;
-            column := Pcolumn_t(integer(column) + column.length + 4);
-            if column.topdelta > prevdelta then
-              delta := 0;
+            if not tallpatch then
+            begin
+              prevdelta := column.topdelta;
+              column := Pcolumn_t(integer(column) + column.length + 4);
+              if column.topdelta > prevdelta then
+                delta := 0
+              else
+                tallpatch := true;
+            end
+            else
+              column := Pcolumn_t(integer(column) + column.length + 4);
           end;
         end;
         inc(col);
@@ -3243,6 +3345,7 @@ var
   swidth: integer;
   sheight: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   if fraczoom = FRACUNIT then
   begin
@@ -3284,6 +3387,7 @@ begin
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[fracx shr FRACBITS]);
       delta := 0;
+      tallpatch := false;
       // step through the posts in a column
       while column.topdelta <> $ff do
       begin
@@ -3310,10 +3414,17 @@ begin
             dec(count);
           end;
         end;
-        prevdelta := column.topdelta;
-        column := Pcolumn_t(integer(column) + column.length + 4);
-        if column.topdelta > prevdelta then
-          delta := 0;
+        if not tallpatch then
+        begin
+          prevdelta := column.topdelta;
+          column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0
+          else
+            tallpatch := true;
+        end
+        else
+          column := Pcolumn_t(integer(column) + column.length + 4);
       end;
       inc(desttop);
       inc(col);
@@ -3343,6 +3454,7 @@ var
   swidth: integer;
   sheight: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   if fraczoom = FRACUNIT then
   begin
@@ -3384,6 +3496,7 @@ begin
     begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[fracx div FRACUNIT]);
       delta := 0;
+      tallpatch := false;
       // step through the posts in a column
       while column.topdelta <> $ff do
       begin
@@ -3410,10 +3523,17 @@ begin
             dec(count);
           end;
         end;
-        prevdelta := column.topdelta;
-        column := Pcolumn_t(integer(column) + column.length + 4);
-        if column.topdelta > prevdelta then
-          delta := 0;
+        if not tallpatch then
+        begin
+          prevdelta := column.topdelta;
+          column := Pcolumn_t(integer(column) + column.length + 4);
+          if column.topdelta > prevdelta then
+            delta := 0
+          else
+            tallpatch := true;
+        end
+        else
+          column := Pcolumn_t(integer(column) + column.length + 4);
       end;
       desttop := @desttop[1];
       inc(col);
@@ -3447,6 +3567,7 @@ var
   source: PByte;
   w: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   y := y - patch.topoffset;
   x := x - patch.leftoffset;
@@ -3461,6 +3582,7 @@ begin
   begin
     column := Pcolumn_t(integer(patch) + patch.columnofs[w - 1 - col]);
     delta := 0;
+    tallpatch := false;
   // step through the posts in a column
     while column.topdelta <> $ff do
     begin
@@ -3476,10 +3598,17 @@ begin
         inc(dest, 320);
         dec(count);
       end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
+      if not tallpatch then
+      begin
+        prevdelta := column.topdelta;
+        column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0
+        else
+          tallpatch := true;
+      end
+      else
+        column := Pcolumn_t(integer(column) + column.length + 4);
     end;
     inc(col);
     inc(desttop);
@@ -3811,7 +3940,7 @@ begin
 {$IFDEF DOOM_OR_STRIFE}
   videopal[0] := videopal[0] and $FFFFFF;
 {$ENDIF}
-  recalctablesneeded := true;
+  recalctables32needed := true;
   needsbackscreen := true; // force background redraw
 {$IFNDEF OPENGL}
 {$IFDEF DOOM_OR_STRIFE}
@@ -3855,7 +3984,7 @@ begin
   end;
 
   cvideopal[0] := cvideopal[0] and $FFFFFF;
-  recalctablesneeded := true;
+  recalctables32needed := true;
 
   Z_ChangeTag(p, PU_CACHE);
 end;

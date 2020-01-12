@@ -308,6 +308,13 @@ type
     sfx_burn,
     // JVAL 20 October 2009, for nukage and sludge terrain
     sfx_sgloop,
+    // killough 11/98: dog sounds
+    sfx_dgsit,
+    sfx_dgatk,
+    sfx_dgact,
+    sfx_dgdth,
+    sfx_dgpain,
+
     DO_NUMSFX
   );
 
@@ -1536,6 +1543,13 @@ const
     (name: 'gloop';  singularity: false; priority:  60; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
     (name: 'burn';   singularity: false; priority:  60; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
     (name: 'sgloop'; singularity: false; priority:  60; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
+
+    // killough 11/98: dog sounds
+    (name: 'dgsit';  singularity: false; priority:  98; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
+    (name: 'dgatk';  singularity: false; priority:  70; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
+    (name: 'dgact';  singularity: false; priority: 120; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
+    (name: 'dgdth';  singularity: false; priority:  70; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
+    (name: 'dgpain'; singularity: false; priority:  96; link: nil; pitch: -1; volume: -1; data: nil; usefulness: 0; lumpnum: 0; randomsoundlist: nil),
 
     (name: ''),
     (name: ''),

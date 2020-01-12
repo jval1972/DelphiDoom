@@ -64,9 +64,6 @@ var
   dc_iscale: fixed_t;
   dc_texturemid: fixed_t;
   dc_x: integer;
-  dc_xl: integer;
-  dc_xh: integer;
-  dc_y: integer;
   dc_yl: integer;
   dc_yh: integer;
   dc_mod: integer; // JVAL for hi resolution
@@ -486,7 +483,7 @@ begin
   destl := @((ylookupl[dc_yl]^)[columnofs[dc_x]]);
 
   fracstep := dc_iscale;
-  frac := dc_texturemid + (dc_yl - centery) * fracstep - FRACUNIT div 2;
+  frac := dc_texturemid + (dc_yl - centery) * fracstep;
 
   if dc_texturefactorbits > 0 then
   begin

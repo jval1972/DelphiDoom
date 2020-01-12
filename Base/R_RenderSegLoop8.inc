@@ -54,7 +54,7 @@ begin
         {$ENDIF}
       end;
       // SoM: this should be set here
-      // jval: Also prevent problems in multithreading rendering
+      // JVAL: Also prevent problems in multithreading rendering
 {$IFDEF TALL_WALL}
   if bottom > viewheight then
     pceilingclip^ := viewheight
@@ -152,20 +152,10 @@ begin
 
       dc_x := rwx;
       {$IFDEF USEDOUBLE}
-      if rw_scale_dbl > 0 then
-      begin
-        if rw_scale_dbl < MIN_RW_SCALE then
-          rw_scale_dbl := MIN_RW_SCALE
-        else if rw_scale_dbl > MAX_RW_SCALE then
-          rw_scale_dbl := MAX_RW_SCALE;
-      end
-      else
-      begin
-        if rw_scale_dbl > -MIN_RW_SCALE then
-          rw_scale_dbl := -MIN_RW_SCALE
-        else if rw_scale_dbl < -MAX_RW_SCALE then
-          rw_scale_dbl := -MAX_RW_SCALE;
-      end;
+      if rw_scale_dbl < MIN_RW_SCALE then
+        rw_scale_dbl := MIN_RW_SCALE
+      else if rw_scale_dbl > MAX_RW_SCALE then
+        rw_scale_dbl := MAX_RW_SCALE;
       dc_iscale := round($100000000 / rw_scale_dbl);
       {$ELSE}
       dc_iscale := LongWord($ffffffff) div LongWord(rw_scale);

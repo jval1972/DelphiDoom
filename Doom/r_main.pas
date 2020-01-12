@@ -162,6 +162,8 @@ var
 
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
+  basewallcolfunc: PProcedure;
+  tallwallcolfunc: PProcedure;
   skycolfunc: PProcedure;
   transcolfunc: PProcedure;
   averagecolfunc: PProcedure;
@@ -380,6 +382,7 @@ uses
   r_span,
   r_span32,
   r_column,
+  r_tallcolumn,
   r_batchcolumn,
   r_col_l,
   r_col_ms,
@@ -887,7 +890,9 @@ begin
   if (setblocks <> screenblocks) or (setdetail <> detailLevel) then
   begin
     if setdetail <> detailLevel then
-      recalctablesneeded := true;
+    begin
+      recalctables32needed := true;
+    end;
     setsizeneeded := true;
     setblocks := screenblocks;
     setdetail := detailLevel;
@@ -949,6 +954,8 @@ begin
 
         colfunc := R_DrawColumnLowest;
         wallcolfunc := R_DrawColumnLowest;
+        basewallcolfunc := R_DrawColumnLowest;
+        tallwallcolfunc := R_DrawTallColumnLowest;
         transcolfunc := R_DrawTranslatedColumn;
         if diher8bittransparency then
         begin
@@ -1053,6 +1060,8 @@ begin
 
         colfunc := R_DrawColumnLow;
         wallcolfunc := R_DrawColumnLow;
+        basewallcolfunc := R_DrawColumnLow;
+        tallwallcolfunc := R_DrawTallColumnLow;
         transcolfunc := R_DrawTranslatedColumn;
         if diher8bittransparency then
         begin
@@ -1157,6 +1166,8 @@ begin
 
         colfunc := R_DrawColumnMedium;
         wallcolfunc := R_DrawColumnMedium;
+        basewallcolfunc := R_DrawColumnMedium;
+        tallwallcolfunc := R_DrawTallColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
         if diher8bittransparency then
         begin
@@ -1265,6 +1276,8 @@ begin
 
         colfunc := R_DrawColumnHi;
         wallcolfunc := R_DrawColumnHi;
+        basewallcolfunc := R_DrawColumnHi;
+        tallwallcolfunc := R_DrawTallColumnHi;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
@@ -1361,6 +1374,8 @@ begin
 
         colfunc := R_DrawColumnHi;
         wallcolfunc := R_DrawColumnUltra;
+        basewallcolfunc := R_DrawColumnUltra;
+        tallwallcolfunc := R_DrawTallColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
@@ -1457,6 +1472,8 @@ begin
 
         colfunc := R_DrawColumnUltra;
         wallcolfunc := R_DrawColumnUltra;
+        basewallcolfunc := R_DrawColumnUltra;
+        tallwallcolfunc := R_DrawTallColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageUltra;
         addcolfunc := R_DrawColumnAddHi;
@@ -2063,7 +2080,7 @@ begin
       V_CalcColorMapPalette;
      {$ENDIF}
       lastcm := cm;
-      recalctablesneeded := true;
+      recalctables32needed := true;
     end;
   end
   else
@@ -2078,7 +2095,7 @@ begin
       V_CalcColorMapPalette;
      {$ENDIF}
       lastcm := cm;
-      recalctablesneeded := true;
+      recalctables32needed := true;
     end;
   end;
 
@@ -2160,6 +2177,7 @@ procedure R_DoRenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_SetupFrame(player);
+  R_Calc8bitTables;
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -2268,7 +2286,7 @@ begin
 end;
 {$ENDIF}
 
-procedure R_DoRenderPlayerView32_SingleThread(player: Pplayer_t);
+procedure R_DoRenderPlayerView_SingleThread(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
   R_Fake3DPrepare(player);
@@ -2276,6 +2294,7 @@ begin
   R_SetupFrame(player);
 
 {$IFNDEF OPENGL}
+  R_Calc8bitTables;
   R_CalcHiResTables_SingleThread;
 {$ENDIF}
 
@@ -2361,7 +2380,7 @@ begin
   end
   else
 {$ENDIF}
-    R_DoRenderPlayerView32_SingleThread(player);
+    R_DoRenderPlayerView_SingleThread(player);
 {$IFNDEF OPENGL}
   if zbufferactive then
     R_StopZBuffer;

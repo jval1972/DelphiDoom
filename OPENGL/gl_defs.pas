@@ -43,6 +43,7 @@ type
     GLDT_PATCH,
     GLDT_TEXTURE,
     GLDT_FLAT,
+    GLDT_SKY,
     GLDT_LIGHT
   );
 

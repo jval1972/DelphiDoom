@@ -663,6 +663,12 @@ begin
   if mthing.options and MTF_AMBUSH <> 0 then
     mo.flags := mo.flags or MF_AMBUSH;
 
+  // killough 11/98: transfer friendliness from deceased
+  if mobj.flags2_ex and MF2_EX_FRIEND = 0 then
+    mo.flags2_ex := mo.flags2_ex and not MF2_EX_FRIEND
+  else
+    mo.flags2_ex := mo.flags2_ex or MF2_EX_FRIEND;
+
   mo.reactiontime := 18;
 
   // remove the old monster,
@@ -1194,12 +1200,27 @@ begin
   if mthing._type <= 4 then
   begin
     // save spots for respawning in network games
-    playerstarts[mthing._type - 1] := mthing^;
-    if deathmatch = 0 then
-      result := P_SpawnPlayer(mthing)
+    if (not netgame) and (mthing._type > 1) and (mthing._type <= dogs + 1) then
+    begin
+      // use secretcount to avoid multiple dogs in case of multiple starts
+      players[mthing._type - 1].secretcount := 1;
+      mthing._type := mobjinfo[Ord(MT_DOGS)].doomednum;
+      if mthing._type <= 0 then
+      begin
+        result := nil;
+        exit;
+      end;
+      mthing.options := mthing.options or MTF_FRIEND;
+    end
     else
-      result := nil;
-    exit;
+    begin
+      playerstarts[mthing._type - 1] := mthing^;
+      if deathmatch = 0 then
+        result := P_SpawnPlayer(mthing)
+      else
+        result := nil;
+      exit;
+    end;
   end;
 
   // check for apropriate skill level
@@ -1311,6 +1332,9 @@ begin
 
   result := P_SpawnMobj(x, y, z, i, mthing);
   result.spawnpoint := mthing^;
+
+  if mthing.options and MTF_FRIEND <> 0 then
+    result.flags2_ex := result.flags2_ex or MF2_EX_FRIEND;
 
   if musinfoparam >= 0 then
     P_SetMobjCustomParam(result, S_MUSINFO_PARAM, musinfoparam);

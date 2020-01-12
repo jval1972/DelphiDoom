@@ -341,6 +341,7 @@ var
   count: Integer;
   astart, aend: Integer;
   delta, prevdelta: Integer;
+  tallpatch: Boolean;
 begin
   fx := x - patch.leftoffset;
   fy := y - patch.topoffset;
@@ -355,6 +356,7 @@ begin
   begin
     column := Pcolumn_t(Integer(patch) + patch.columnofs[col]);
     delta := 0;
+    tallpatch := false;
     // step through the posts in a column
     while column.topdelta <> $ff do
     begin
@@ -378,10 +380,17 @@ begin
         end;
         NotifyDrawSize(astart, aend);
       end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(Integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
+      if not tallpatch then
+      begin
+        prevdelta := column.topdelta;
+        column := Pcolumn_t(Integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0
+        else
+          tallpatch := true;
+      end
+      else
+        column := Pcolumn_t(Integer(column) + column.length + 4);
     end;
     Inc(col);
     Inc(fx);

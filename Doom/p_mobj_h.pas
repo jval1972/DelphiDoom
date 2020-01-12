@@ -319,6 +319,8 @@ const
   MF2_EX_SEEINVISIBLE = $4000000;
   // Missile hurt species
   MF2_EX_MISSILEHURTSPECIES = $8000000;
+  // Friendly monsters
+  MF2_EX_FRIEND = $10000000;
 
 type
 // Map Object definition.
@@ -366,14 +368,14 @@ type
     validcount: integer;
 
     _type: integer;
-    info: Pmobjinfo_t; // &mobjinfo[mobj->type]
+    info: Pmobjinfo_t;  // &mobjinfo[mobj->type]
 
-    tics: integer; // state tic counter
+    tics: integer;      // state tic counter
     state: Pstate_t;
     prevstate: Pstate_t;
     flags: integer;
     flags_ex: integer;  // JVAL extended flags (MF_EX_????)
-    flags2_ex: integer;  // JVAL extended flags (MF_EX_????)
+    flags2_ex: integer; // JVAL extended flags (MF_EX_????)
     renderstyle: mobjrenderstyle_t;
     alpha: fixed_t;
     bob: integer;
@@ -381,7 +383,7 @@ type
     health: integer;
 
     // Movement direction, movement generation (zig-zagging).
-    movedir: integer; // 0-7
+    movedir: integer;   // 0-7
     movecount: integer; // when 0, select a new dir
 
     // Thing being chased/attacked (or NULL),
@@ -398,7 +400,7 @@ type
 
     // Additional info record for player avatars only.
     // Only valid if type == MT_PLAYER
-    player: pointer; //Pplayer_t;
+    player: pointer;  // Pplayer_t;
 
     // Player number last looked for.
     lastlook: integer;

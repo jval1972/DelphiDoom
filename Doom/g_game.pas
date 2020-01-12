@@ -254,6 +254,10 @@ var
   allowvanillademos: boolean = true;
   vanilla_demo_off: boolean = false;
 
+var
+  dogs, default_dogs: integer;                // killough 7/19/98: Marine's best friend :)
+  dog_jumping, default_dog_jumping: integer;  // killough 10/98
+
 implementation
 
 uses
@@ -2718,6 +2722,13 @@ begin
   demo_p[0] := sysrndseed;
   demo_p := @demo_p[1];
 
+  // JVAL: Version 205 - Dogs
+  demo_p[0] := dogs;
+  demo_p := @demo_p[1];
+
+  demo_p[0] := dog_jumping;
+  demo_p := @demo_p[1];
+
   demo_p[0] := consoleplayer;
   demo_p := @demo_p[1];
 
@@ -2828,6 +2839,7 @@ var
   lump: integer;
   len: integer;
   oldspawnrandommonsters: boolean;
+  olddogs, olddog_jumping: integer;
 begin
   gameaction := ga_nothing;
   if externaldemo then
@@ -2926,6 +2938,22 @@ begin
     spawnrandommonsters := false;
   end;
 
+  // JVAL: Version 205 - Dogs
+  olddogs := dogs;
+  olddog_jumping := dog_jumping;
+  if demoversion >= VERSION205 then
+  begin
+    dogs := demo_p[0];
+    demo_p := @demo_p[1];
+    dog_jumping := demo_p[0];
+    demo_p := @demo_p[1];
+  end
+  else
+  begin
+    dogs := 0;
+    dog_jumping := 0;
+  end;
+
   consoleplayer := demo_p[0];
   demo_p := @demo_p[1];
 
@@ -2947,6 +2975,8 @@ begin
   G_InitNew(skill, episode, map);
   preparingdemoplayback := false;
   spawnrandommonsters := oldspawnrandommonsters;  // Back to default
+  dogs := olddogs;
+  dog_jumping := olddog_jumping;
   precache := true;
   demostarttic := gametic; // [crispy] fix revenant internal demo bug
   usergame := false;

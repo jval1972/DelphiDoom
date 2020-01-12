@@ -873,7 +873,9 @@ begin
   if (setblocks <> screenblocks) or (setdetail <> detailLevel) then
   begin
     if setdetail <> detailLevel then
-      recalctablesneeded := true;
+    begin
+      recalctables32needed := true;
+    end;
     setsizeneeded := true;
     setblocks := screenblocks;
     setdetail := detailLevel;
@@ -2031,6 +2033,7 @@ procedure R_DoRenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_SetupFrame(player);
+  R_Calc8bitTables;
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -2139,10 +2142,11 @@ begin
 end;
 {$ENDIF}
 
-procedure R_DoRenderPlayerView32_SingleThread(player: Pplayer_t);
+procedure R_DoRenderPlayerView_SingleThread(player: Pplayer_t);
 begin
 {$IFNDEF OPENGL}
   R_Fake3DPrepare(player);
+  R_Calc8bitTables;
   R_CalcHiResTables_SingleThread;
 {$ENDIF}
 
@@ -2230,7 +2234,7 @@ begin
   end
   else
 {$ENDIF}
-    R_DoRenderPlayerView32_SingleThread(player);
+    R_DoRenderPlayerView_SingleThread(player);
 {$IFNDEF OPENGL}
   if zbufferactive then
     R_StopZBuffer;

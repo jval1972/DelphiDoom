@@ -251,6 +251,7 @@ var
   playpal: PByteArray;
   ss: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   if (gltexture = nil) or (patch = nil) then
     exit;
@@ -269,6 +270,7 @@ begin
   for x := xs to xe - 1 do
   begin
     delta := 0;
+    tallpatch := false;
     column := Pcolumn_t(integer(patch) + patch.columnofs[x]);
     while column.topdelta <> 255 do
     begin
@@ -313,10 +315,17 @@ begin
           pos := pos + 4 * gltexture.buffer_width;
         end;
       end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
+      if not tallpatch then
+      begin
+        prevdelta := column.topdelta;
+        column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0
+        else
+          tallpatch := true;
+      end
+      else
+        column := Pcolumn_t(integer(column) + column.length + 4);
     end;
   end;
   Z_ChangeTag(playpal, PU_CACHE);
@@ -335,6 +344,7 @@ var
   trans: PByteArray;
   ss: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   if cm = Ord(CR_LIMIT) then
   begin
@@ -363,6 +373,7 @@ begin
   for x := xs to xe - 1 do
   begin
     delta := 0;
+    tallpatch := false;
     column := Pcolumn_t(integer(patch) + patch.columnofs[x]);
     while column.topdelta <> 255 do
     begin
@@ -407,10 +418,17 @@ begin
           pos := pos + 4 * gltexture.buffer_width;
         end;
       end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
+      if not tallpatch then
+      begin
+        prevdelta := column.topdelta;
+        column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0
+        else
+          tallpatch := true;
+      end
+      else
+        column := Pcolumn_t(integer(column) + column.length + 4);
     end;
   end;
   Z_ChangeTag(playpal, PU_CACHE);
@@ -468,6 +486,7 @@ var
   column: Pcolumn_t;
   pos: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   xs := 0;
   xe := patch.width;
@@ -482,6 +501,7 @@ begin
   for x := xs to xe - 1 do
   begin
     delta := 0;
+    tallpatch := false;
     column := Pcolumn_t(integer(patch) + patch.columnofs[x]);
     while column.topdelta <> 255 do
     begin
@@ -507,10 +527,17 @@ begin
         inc(j);
         pos := pos + gltexture.realtexwidth;
       end;
-      prevdelta := column.topdelta;
-      column := Pcolumn_t(integer(column) + column.length + 4);
-      if column.topdelta > prevdelta then
-        delta := 0;
+      if not tallpatch then
+      begin
+        prevdelta := column.topdelta;
+        column := Pcolumn_t(integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0
+        else
+          tallpatch := true;
+      end
+      else
+        column := Pcolumn_t(integer(column) + column.length + 4);
     end;
   end;
 end;
@@ -534,7 +561,7 @@ begin
   end;
 
   // JVAL: Flats are never transparent
-  if gltexture.textype = GLDT_FLAT then
+  if gltexture.textype in [GLDT_FLAT, GLDT_SKY] then
   begin
     result := false;
     exit;
@@ -545,7 +572,7 @@ begin
   begin
     result := false;
     exit;
-  end;               
+  end;
 
 
   bufsize := gltexture.realtexwidth * gltexture.realtexheight;
@@ -851,7 +878,7 @@ begin
 
   t.ConvertTo32bit;
   t.SwapRGB;
-  if gltexture.textype = GLDT_FLAT then
+  if gltexture.textype in [GLDT_FLAT, GLDT_SKY] then
   begin
     t.RemoveTransparency;
   end
@@ -1054,12 +1081,13 @@ begin
     exit;
   end;
   if gltexture.textype <> GLDT_TEXTURE then
-  begin
-    glBindTexture(GL_TEXTURE_2D, 0);
-    last_gltexture := nil;
-    last_cm := -1;
-    exit;
-  end;
+    if gltexture.textype <> GLDT_SKY then
+    begin
+      glBindTexture(GL_TEXTURE_2D, 0);
+      last_gltexture := nil;
+      last_cm := -1;
+      exit;
+    end;
   if gltexture.glTexID[Ord(CR_DEFAULT)] <> 0 then
   begin
     glBindTexture(GL_TEXTURE_2D, gltexture.glTexID[Ord(CR_DEFAULT)]);

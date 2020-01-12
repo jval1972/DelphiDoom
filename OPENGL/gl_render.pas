@@ -2175,6 +2175,7 @@ end;
 procedure ADDSKYTEXTURE(wall: PGLWall);
 begin
   wall.gltexture := gld_RegisterTexture({$IFDEF DOOM}gld_GetSkyTexture(wall){$ELSE}skytexture{$ENDIF}, false);
+  wall.gltexture.textype := GLDT_SKY;
   wall.skyyaw := -2.0 * ((yaw + 90.0) / 90.0);
   wall.skyymid := 200.0 / 319.5;
   wall.flag := {$IFDEF DOOOM}gld_GetSkyTextureFlag(wall){$ELSE}GLDWF_SKY{$ENDIF};

@@ -57,9 +57,6 @@ var
   dc_iscale: fixed_t;
   dc_texturemid: fixed_t;
   dc_x: integer;
-  dc_xl: integer;
-  dc_xh: integer;
-  dc_y: integer;
   dc_yl: integer;
   dc_yh: integer;
   dc_mod: integer; // JVAL for hi resolution

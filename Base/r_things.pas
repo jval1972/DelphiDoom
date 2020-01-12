@@ -497,6 +497,7 @@ var
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
   dodepthbuffer: boolean;
 begin
   basetexturemid := dc_texturemid;
@@ -505,6 +506,7 @@ begin
   cc_x := mceilingclip[dc_x];
 
   delta := 0;
+  tallpatch := false;
 
   if baseclip = -1 then
     baseclip := viewheight - 1;
@@ -519,10 +521,14 @@ begin
     bottomscreen := topscreen + int64(spryscale * column.length);
 
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    if dc_yl >= fc_x then
+      break;
+
     dc_yh := FixedInt64(bottomscreen - 1);
 
     if dc_yh >= fc_x then
       dc_yh := fc_x - 1;
+
     if dc_yl <= cc_x then
       dc_yl := cc_x + 1;
 
@@ -547,10 +553,17 @@ begin
       else
         colfunc;
     end;
-    prevdelta := column.topdelta;
-    column := Pcolumn_t(integer(column) + column.length + 4);
-    if column.topdelta > prevdelta then
-      delta := 0;
+    if not tallpatch then
+    begin
+      prevdelta := column.topdelta;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      column := Pcolumn_t(integer(column) + column.length + 4);
   end;
   dc_texturemid := basetexturemid;
 end;
@@ -605,6 +618,7 @@ var
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   basetexturemid := dc_texturemid;
 
@@ -612,6 +626,7 @@ begin
   cc_x := mceilingclip[dc_x];
 
   delta := 0;
+  tallpatch := false;
 
   if baseclip = -1 then
     baseclip := viewheight - 1;
@@ -625,6 +640,9 @@ begin
     bottomscreen := topscreen + int64(spryscale * column.length);
 
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    if dc_yl >= fc_x then
+      break;
+
     dc_yh := FixedInt64(bottomscreen - 1);
 
     if dc_yh >= fc_x then
@@ -645,10 +663,17 @@ begin
       //  or R_DrawTranslatedColumn
       batchcolfunc;
     end;
-    prevdelta := column.topdelta;
-    column := Pcolumn_t(integer(column) + column.length + 4);
-    if column.topdelta > prevdelta then
-      delta := 0;
+    if not tallpatch then
+    begin
+      prevdelta := column.topdelta;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      column := Pcolumn_t(integer(column) + column.length + 4);
   end;
 
   dc_texturemid := basetexturemid;
@@ -693,6 +718,7 @@ var
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
   basetexturemid := dc_texturemid;
 
@@ -700,6 +726,7 @@ begin
   cc_x := mceilingclip[dc_x];
 
   delta := 0;
+  tallpatch := false;
 
   if baseclip = -1 then
     baseclip := viewheight - 1;
@@ -713,6 +740,9 @@ begin
     bottomscreen := topscreen + int64(spryscale * column.length);
 
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    if dc_yl >= fc_x then
+      break;
+
     dc_yh := FixedInt64(bottomscreen - 1);
 
     if dc_yh >= fc_x then
@@ -730,10 +760,17 @@ begin
 
       R_FillSpriteInfo_BatchMT(R_SpriteAddMTInfo);
     end;
-    prevdelta := column.topdelta;
-    column := Pcolumn_t(integer(column) + column.length + 4);
-    if column.topdelta > prevdelta then
-      delta := 0;
+    if not tallpatch then
+    begin
+      prevdelta := column.topdelta;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      column := Pcolumn_t(integer(column) + column.length + 4);
   end;
 
   dc_texturemid := basetexturemid;
@@ -746,6 +783,7 @@ var
   basetexturemid: fixed_t;
   fc_x, cc_x: integer;
   delta, prevdelta: integer;
+  tallpatch: boolean;
   dodepthbuffer: boolean;
 begin
   basetexturemid := dc_texturemid;
@@ -754,6 +792,7 @@ begin
   cc_x := mceilingclip[dc_x];
 
   delta := 0;
+  tallpatch := false;
 
   if baseclip = -1 then
     baseclip := viewheight - 1;
@@ -768,6 +807,9 @@ begin
     bottomscreen := topscreen + int64(spryscale * column.length);
 
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+    if dc_yl >= fc_x then
+      break;
+
     dc_yh := FixedInt64(bottomscreen - 1);
 
     if dc_yh >= fc_x then
@@ -796,10 +838,17 @@ begin
       else
         R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
     end;
-    prevdelta := column.topdelta;
-    column := Pcolumn_t(integer(column) + column.length + 4);
-    if column.topdelta > prevdelta then
-      delta := 0;
+    if not tallpatch then
+    begin
+      prevdelta := column.topdelta;
+      column := Pcolumn_t(integer(column) + column.length + 4);
+      if column.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      column := Pcolumn_t(integer(column) + column.length + 4);
   end;
 
   dc_texturemid := basetexturemid;
@@ -1051,7 +1100,7 @@ var
   last_floorclip, last_ceilingclip: SmallInt;
   checkcolumn: integer;
   ltopdelta: integer;
-  llength: integer;                       
+  llength: integer;
 begin
   patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 

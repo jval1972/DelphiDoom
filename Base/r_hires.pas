@@ -115,7 +115,7 @@ type
 
 var
   hirestable: hirestable_t;
-  recalctablesneeded: boolean = true;
+  recalctables32needed: boolean = true;
 
 procedure R_InitHiRes;
 
@@ -754,7 +754,7 @@ var
   vplc: LongWord;
   cf2: array[0..255] of integer;
 begin
-  if not recalctablesneeded then
+  if not recalctables32needed then
     exit;
 
   if videomode = vm8bit then
@@ -932,7 +932,7 @@ begin
     end;
   end;
 
-  recalctablesneeded := false;
+  recalctables32needed := false;
 end;
 
 function R_CalcHiResTables_thr1x8(foo: pointer): integer; stdcall;
@@ -1179,7 +1179,7 @@ var
   k: integer;
   A: array[1..DC_HIRESFACTOR - 1] of integer;
 begin
-  if not recalctablesneeded then
+  if not recalctables32needed then
     exit;
 
   if videomode = vm8bit then
@@ -1208,7 +1208,7 @@ begin
       @R_CalcHiResTables_thr4x4, nil
     );
 
-  recalctablesneeded := false;
+  recalctables32needed := false;
 end;
 {$ENDIF}
 

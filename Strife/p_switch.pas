@@ -213,6 +213,7 @@ var
   lump: integer;
   len: integer;
   wad_switchlist: Pwad_switchlist_tArray;
+  tex1, tex2: integer;
 begin
 
   if isregistered then
@@ -256,10 +257,19 @@ begin
   begin
     if alphSwitchList[i].episode <= episode then
     begin
-      switchlist[index] := R_TextureNumForName(alphSwitchList[i].name1);
-      inc(index);
-      switchlist[index] := R_TextureNumForName(alphSwitchList[i].name2);
-      inc(index);
+      tex1 := R_CheckTextureNumForName(alphSwitchList[i].name1);
+      if tex1 < 0 then
+        I_Warning('P_InitSwitchList(): Unknown texture "%s"'#13#10, [alphSwitchList[i].name1]);
+      tex2 := R_CheckTextureNumForName(alphSwitchList[i].name2);
+      if tex2 < 0 then
+        I_Warning('P_InitSwitchList(): Unknown texture "%s"'#13#10, [alphSwitchList[i].name2]);
+      if (tex1 >= 0) and (tex2 >= 0) then
+      begin
+        switchlist[index] := tex1;
+        inc(index);
+        switchlist[index] := tex2;
+        inc(index);
+      end;
     end;
     inc(i);
   end;
@@ -1916,5 +1926,6 @@ begin
 
   result := true;
 end;
+
 
 end.

@@ -82,6 +82,8 @@ type
 
     SPR_TNT1,
 
+    SPR_DOGS,
+
     DO_NUMSPRITES
   );
 
@@ -380,6 +382,33 @@ type
 
     S_TNT1,
 
+    S_DOGS_STND,  // killough 7/19/98: Marine's best friend :)
+    S_DOGS_STND2,
+    S_DOGS_RUN1,
+    S_DOGS_RUN2,
+    S_DOGS_RUN3,
+    S_DOGS_RUN4,
+    S_DOGS_RUN5,
+    S_DOGS_RUN6,
+    S_DOGS_RUN7,
+    S_DOGS_RUN8,
+    S_DOGS_ATK1,
+    S_DOGS_ATK2,
+    S_DOGS_ATK3,
+    S_DOGS_PAIN,
+    S_DOGS_PAIN2,
+    S_DOGS_DIE1,
+    S_DOGS_DIE2,
+    S_DOGS_DIE3,
+    S_DOGS_DIE4,
+    S_DOGS_DIE5,
+    S_DOGS_DIE6,
+    S_DOGS_RAISE1,
+    S_DOGS_RAISE2,
+    S_DOGS_RAISE3,
+    S_DOGS_RAISE4,
+    S_DOGS_RAISE5,
+    S_DOGS_RAISE6,
 
     DO_NUMSTATES
   );
@@ -465,6 +494,8 @@ type
 
     MT_PUSH,
     MT_PULL,
+
+    MT_DOGS,
 
     DO_NUMMOBJTYPES
   );

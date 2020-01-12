@@ -11187,7 +11187,7 @@ const
     nextstate: S_NULL;        // nextstate
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
-    flags_ex: 0;
+    flags_ex: 0;              // flags_ex
    ),                         // S_BLUEBLOOD3
 
    (
@@ -11199,8 +11199,304 @@ const
     misc1: 0;                 // misc1
     misc2: 0;                 // misc2
     flags_ex: 0;
-   )                         // S_TNT1
+   ),                         // S_TNT1
 
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 0;                 // frame
+    tics: 10;                 // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_STND2;  // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;
+   ),                         // S_DOGS_STND
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 1;                 // frame
+    tics: 10;                 // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_STND;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_STND2
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 0;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN2;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN1
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 0;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN3;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN2
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 1;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN4;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN3
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 1;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN5;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN4
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 2;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN6;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN5
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 2;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN7;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN6
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 3;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN8;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN7
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 3;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN1;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RUN8
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 4;                 // frame
+    tics: 8;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_ATK2;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_ATK1
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 5;                 // frame
+    tics: 8;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_ATK3;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_ATK2
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 6;                 // frame
+    tics: 8;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN1;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_ATK3
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 7;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_PAIN2;  // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_PAIN
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 7;                 // frame
+    tics: 2;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN1;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_PAIN2
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 8;                 // frame
+    tics: 8;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_DIE2;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_DIE1
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 9;                 // frame
+    tics: 8;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_DIE3;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_DIE2
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 10;                // frame
+    tics: 4;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_DIE4;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_DIE3
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 11;                // frame
+    tics: 4;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_DIE5;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_DIE4
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 12;                // frame
+    tics: 4;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_DIE6;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_DIE5
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 13;                // frame
+    tics: -1;                 // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_NULL;        // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_DIE6
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 13;                // frame
+    tics: 5;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RAISE2; // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RAISE1
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 12;                // frame
+    tics: 5;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RAISE3; // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RAISE2
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 11;                // frame
+    tics: 5;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RAISE4; // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RAISE3
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 10;                // frame
+    tics: 5;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RAISE5; // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RAISE4
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 9;                 // frame
+    tics: 5;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RAISE6; // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   ),                         // S_DOGS_RAISE5
+
+   (
+    sprite: Ord(SPR_DOGS);    // sprite
+    frame: 8;                 // frame
+    tics: 5;                  // tics
+    action: (acp1: nil);      // action, will be set after
+    nextstate: S_DOGS_RUN1;   // nextstate
+    misc1: 0;                 // misc1
+    misc2: 0;                 // misc2
+    flags_ex: 0;              // flags_ex
+   )                          // S_DOGS_RAISE6
 
 
   );
@@ -11221,7 +11517,7 @@ const // Doom Original Sprite Names
     'COL3', 'COL4', 'CAND', 'CBRA', 'COL6', 'TRE1', 'TRE2', 'ELEC', 'CEYE', 'FSKU',
     'COL5', 'TBLU', 'TGRN', 'TRED', 'SMBT', 'SMGT', 'SMRT', 'HDB1', 'HDB2', 'HDB3',
     'HDB4', 'HDB5', 'HDB6', 'POB1', 'POB2', 'BRS1', 'TLMP', 'TLP2',
-    'SPSH', 'LVAS', 'SLDG', 'SLDN', 'DD01', 'DD02', 'TNT1', ''
+    'SPSH', 'LVAS', 'SLDG', 'SLDN', 'DD01', 'DD02', 'TNT1', 'DOGS', ''
   );
 
 const // Doom Original mobjinfo
@@ -17139,6 +17435,40 @@ const // Doom Original mobjinfo
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
     flags4_ex: 0;                                                 // flags4_ex
+  ),
+
+  (   // MT_DOGS
+    name: 'Dog';                                                  // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 888;                                               // doomednum
+    spawnstate: Ord(S_DOGS_STND);                                 // spawnstate
+    spawnhealth: 500;                                             // spawnhealth
+    seestate: Ord(S_DOGS_RUN1);                                   // seestate
+    seesound: Ord(sfx_dgsit);                                     // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_dgatk);                                  // attacksound
+    painstate: Ord(S_DOGS_PAIN);                                  // painstate
+    painchance: 180;                                              // painchance
+    painsound: Ord(sfx_dgpain);                                   // painsound
+    meleestate: Ord(S_DOGS_ATK1);                                 // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    deathstate: Ord(S_DOGS_DIE1);                                 // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_dgdth);                                   // deathsound
+    speed: 10;                                                    // speed
+    radius: 12 * FRACUNIT;                                        // radius
+    height: 28 * FRACUNIT;                                        // height
+    mass: 100;                                                    // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_dgact);                                  // activesound
+    flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
+    flags2_ex: MF2_EX_JUMPDOWN;                                   // flags2_ex 
+    raisestate: Ord(S_DOGS_RAISE1);                               // raisestate
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
   )
 
   );
@@ -17629,6 +17959,22 @@ begin
   states[Ord(S_BEXP2)].action.acp1 := @A_Scream; // S_BEXP2
   states[Ord(S_BEXP3)].action.acp1 := @A_FadeOut20;
   states[Ord(S_BEXP4)].action.acp1 := @A_Explode; // S_BEXP4
+  states[Ord(S_DOGS_STND)].action.acp1 := @A_Look; // S_DOGS_STND
+  states[Ord(S_DOGS_STND2)].action.acp1 := @A_Look; // S_DOGS_STND2
+  states[Ord(S_DOGS_RUN1)].action.acp1 := @A_Chase; // S_DOGS_RUN1
+  states[Ord(S_DOGS_RUN2)].action.acp1 := @A_Chase; // S_DOGS_RUN2
+  states[Ord(S_DOGS_RUN3)].action.acp1 := @A_Chase; // S_DOGS_RUN3
+  states[Ord(S_DOGS_RUN4)].action.acp1 := @A_Chase; // S_DOGS_RUN4
+  states[Ord(S_DOGS_RUN5)].action.acp1 := @A_Chase; // S_DOGS_RUN5
+  states[Ord(S_DOGS_RUN6)].action.acp1 := @A_Chase; // S_DOGS_RUN6
+  states[Ord(S_DOGS_RUN7)].action.acp1 := @A_Chase; // S_DOGS_RUN7
+  states[Ord(S_DOGS_RUN8)].action.acp1 := @A_Chase; // S_DOGS_RUN8
+  states[Ord(S_DOGS_ATK1)].action.acp1 := @A_FaceTarget; // S_DOGS_ATK1
+  states[Ord(S_DOGS_ATK2)].action.acp1 := @A_FaceTarget; // S_DOGS_ATK2
+  states[Ord(S_DOGS_ATK3)].action.acp1 := @A_SargAttack; // S_DOGS_ATK3
+  states[Ord(S_DOGS_PAIN2)].action.acp1 := @A_Pain; // S_DOGS_PAIN2
+  states[Ord(S_DOGS_DIE2)].action.acp1 := @A_Scream; // S_DOGS_DIE2
+  states[Ord(S_DOGS_DIE4)].action.acp1 := @A_Fall; // S_DOGS_DIE4
 end;
 
 end.

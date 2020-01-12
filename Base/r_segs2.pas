@@ -38,70 +38,6 @@ uses
   m_fixed,
   r_defs;
 
-procedure R_RenderSegLoop8;
-
-procedure R_RenderSegLoop8Optimized;
-
-procedure R_RenderSegLoop32;
-
-procedure R_RenderSegLoop32Optimized;
-
-procedure R_RenderSegLoop8_dbl;
-
-procedure R_RenderSegLoop8Optimized_dbl;
-
-procedure R_RenderSegLoop32_dbl;
-
-procedure R_RenderSegLoop32Optimized_dbl;
-
-procedure R_RenderSegLoop8_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8Optimized_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32Optimized_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8_dbl_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8Optimized_dbl_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32_dbl_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32Optimized_dbl_3dFloors(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8Optimized_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32Optimized_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8_dbl_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8Optimized_dbl_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32_dbl_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32Optimized_dbl_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8_3dFloors_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8Optimized_3dFloors_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32_3dFloors_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32Optimized_3dFloors_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop8Optimized_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
-
-procedure R_RenderSegLoop32Optimized_dbl_3dFloors_Vis(const pds: Pdrawseg_t);
-
 var
   rw_scale_dbl: double;
   rw_scalestep_dbl: double;
@@ -177,8 +113,9 @@ uses
   tables;
 
 const
-  MIN_RW_SCALE = 64; // 4;
-  MAX_RW_SCALE = 256 * FRACUNIT; // MAXINT div 2
+// JVAL: Changing the rw_scale limits require 64 bit arithmetic in some column drawers
+  MIN_RW_SCALE = 64;
+  MAX_RW_SCALE = 256 * FRACUNIT;
 
 //
 // R_RenderSegLoop

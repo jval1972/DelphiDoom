@@ -701,6 +701,26 @@ begin
             break;
           end
         end;
+
+        if not foundtext and (len1 = 4) and (len2 = 4) then
+        begin
+          for j := 0 to numsprites - 1 do // First music is dummy
+          begin
+            stmp := Chr(sprnames[j] and $FF) +
+                    Chr(sprnames[j] shr 8 and $FF) +
+                    Chr(sprnames[j] shr 16 and $FF) +
+                    Chr(sprnames[j] shr 24 and $FF);
+            if stmp = token1 then
+            begin
+              sprnames[j] := Ord(token2[1]) +
+                             Ord(token2[2]) shl 8 +
+                             Ord(token2[3]) shl 16 +
+                             Ord(token2[4]) shl 24;
+              foundtext := true;
+              break;
+            end;
+          end;
+        end;
       end;
 
       if not foundtext then
@@ -1705,6 +1725,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_DONOTRENDERSHADOW');
   mobj_flags2_ex.Add('MF2_EX_SEEINVISIBLE');
   mobj_flags2_ex.Add('MF2_EX_MISSILEHURTSPECIES');
+  mobj_flags2_ex.Add('MF2_EX_FRIEND');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // 0 //.sprite

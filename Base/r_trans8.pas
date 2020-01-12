@@ -58,7 +58,6 @@ var
   curadd8table: Ptrans8table_t = nil;
   cursubtract8table: Ptrans8table_t = nil;
   colorlighttrans8table: Ptrans8table_t = nil;
-  colorlighttrans8table256: Ptrans8table_t = nil;
 
 function R_GetTransparency8table(const factor: fixed_t = FRACUNIT div 2): Ptrans8table_t;
 
@@ -78,6 +77,9 @@ const
 
 var
   approxcolorindexarray: array[0..FASTTABLESIZE - 1] of byte;
+
+procedure R_Calc8bitTables;
+
 
 implementation
 
@@ -142,10 +144,10 @@ begin
       for b := 0 to FASTTABLECHANNEL - 1 do
       begin
         ptrans8^ := V_FindAproxColorIndex(@palL,
-                          r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT {+
+                          r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
                           ((1 shl FASTTABLESHIFT) shr 1) shl 16 +
                           ((1 shl FASTTABLESHIFT) shr 1) shl 8 +
-                          ((1 shl FASTTABLESHIFT) shr 1)}
+                          ((1 shl FASTTABLESHIFT) shr 1)
                     ) and $FF;
         inc(ptrans8);
       end;
@@ -209,36 +211,6 @@ begin
   end;
 
   colorlighttrans8table := malloc(SizeOf(trans8table_t));
-  ptrans8 := @colorlighttrans8table[0];
-  for j := 0 to 255 do
-  begin
-    c1 := palL[j];
-    r := (c1 shr 16) and $ff;
-    g := (c1 shr 8) and $ff;
-    b := c1 and $ff;
-    for k := 0 to 255 do
-    begin
-      c := R_ColorLightAdd(palL[k], r, g, b);
-      ptrans8^ := V_FindAproxColorIndex(@palL, c) and $FF;
-      inc(ptrans8);
-    end;
-  end;
-
-  colorlighttrans8table256 := malloc(SizeOf(trans8table_t));
-  ptrans8 := @colorlighttrans8table256[0];
-  for j := 0 to 255 do
-  begin
-    for k := 0 to 255 do
-    begin
-      c1 := palL[k];
-      r := (c1 shr 16) and $ff;
-      g := (c1 shr 8) and $ff;
-      b := c1 and $ff;
-      c := R_ColorLightAdd(palL[j], r, g, b);
-      ptrans8^ := V_FindAproxColorIndex(@palL, c) and $FF;
-      inc(ptrans8);
-    end;
-  end;
 
   trans8tablescalced := true;
 end;
@@ -255,7 +227,6 @@ begin
   end;
 
   memfree(pointer(colorlighttrans8table), SizeOf(trans8table_t));
-  memfree(pointer(colorlighttrans8table256), SizeOf(trans8table_t));
 
   averagetrans8table := nil;
 
@@ -306,20 +277,86 @@ function R_FastApproxColorIndex(const c: LongWord): byte; overload;
 var
   r, g, b: LongWord;
 begin
-  b := (c shr 4) and $F;
-  g := (c shr 12) and $F;
-  r := (c shr 20) and $F;
-  result := approxcolorindexarray[r shl 8 + g shl 4 + b];
+  b := (c shr FASTTABLESHIFT) and $F;
+  g := (c shr (FASTTABLESHIFT + 8)) and $F;
+  r := (c shr (FASTTABLESHIFT + 16)) and $F;
+  result := approxcolorindexarray[r shl (16 - FASTTABLESHIFT - FASTTABLESHIFT) + g shl (8 - FASTTABLESHIFT) + b];
 end;
 
 function R_FastApproxColorIndex(const r, g, b: byte): byte; overload;
 var
   r1, g1, b1: LongWord;
 begin
-  b1 := b shr 4;
-  g1 := g shr 4;
-  r1 := r shr 4;
-  result := approxcolorindexarray[r1 shl 8 + g1 shl 4 + b1];
+  b1 := b shr FASTTABLESHIFT;
+  g1 := g shr FASTTABLESHIFT;
+  r1 := r shr FASTTABLESHIFT;
+  result := approxcolorindexarray[r1 shl (16 - FASTTABLESHIFT - FASTTABLESHIFT) + g1 shl (8 - FASTTABLESHIFT) + b1];
+end;
+
+var
+  last8pal: array[0..255] of LongWord;
+
+procedure R_Calc8bitTables;
+var
+  i, j, k: integer;
+  c, c1: LongWord;
+  ptrans8: PByte;
+  r, g, b: LongWord;
+  pal: PLongWordArray;
+  changed: integer;
+begin
+  if videomode = vm32bit then
+    exit;
+
+  {$IFDEF DOOM_OR_STRIFE}
+  pal := @cvideopal;
+  {$ELSE}
+  pal := @videopal;
+  {$ENDIF}
+
+  changed := -1;
+  for i := 0 to 255 do
+    if pal[i] <> last8pal[i] then
+    begin
+      changed := i;
+      break;
+    end;
+
+  if changed < 0 then
+    exit;
+
+  for i := changed to 255 do
+    last8pal[i] := pal[i];
+
+  ptrans8 := @approxcolorindexarray[0];
+  for r := 0 to FASTTABLECHANNEL - 1 do
+    for g := 0 to FASTTABLECHANNEL - 1 do
+      for b := 0 to FASTTABLECHANNEL - 1 do
+      begin
+        ptrans8^ := V_FindAproxColorIndex(pal,
+                          r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
+                          ((1 shl FASTTABLESHIFT) shr 1) shl 16 +
+                          ((1 shl FASTTABLESHIFT) shr 1) shl 8 +
+                          ((1 shl FASTTABLESHIFT) shr 1)
+                    ) and $FF;
+        inc(ptrans8);
+      end;
+
+  ptrans8 := @colorlighttrans8table[0];
+  for j := 0 to 255 do
+  begin
+    c1 := pal[j];
+    r := (c1 shr 16) and $ff;
+    g := (c1 shr 8) and $ff;
+    b := c1 and $ff;
+    for k := 0 to 255 do
+    begin
+      c := R_ColorLightAdd(pal[k], r, g, b);
+      ptrans8^ := V_FindAproxColorIndex(pal, c);
+      inc(ptrans8);
+    end;
+  end;
 end;
 
 end.
+
