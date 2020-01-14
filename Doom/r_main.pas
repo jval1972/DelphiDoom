@@ -2172,12 +2172,15 @@ end;
 
 var
   task_clearplanes: integer = -1;
+  task_8bitlights: integer = -1;
 
 procedure R_DoRenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_SetupFrame(player);
-  R_Calc8bitTables;
+  task_8bitlights := MT_ScheduleTask(@R_Calc8bitTables);
+  MT_ExecutePendingTask(task_8bitlights);
+//  R_Calc8bitTables;
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -2213,6 +2216,7 @@ begin
 
   R_RenderMultiThreadFFloors8;
 
+  MT_WaitTask(task_8bitlights);
   R_DrawMasked_MultiThread;
 
   // Check for new console commands.

@@ -57,7 +57,6 @@ var
   curtrans8table: Ptrans8table_t = nil;
   curadd8table: Ptrans8table_t = nil;
   cursubtract8table: Ptrans8table_t = nil;
-  colorlighttrans8table: Ptrans8table_t = nil;
 
 function R_GetTransparency8table(const factor: fixed_t = FRACUNIT div 2): Ptrans8table_t;
 
@@ -145,9 +144,7 @@ begin
       begin
         ptrans8^ := V_FindAproxColorIndex(@palL,
                           r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
-                          ((1 shl FASTTABLESHIFT) shr 1) shl 16 +
-                          ((1 shl FASTTABLESHIFT) shr 1) shl 8 +
-                          ((1 shl FASTTABLESHIFT) shr 1)
+                          (((1 shl FASTTABLESHIFT) shr 1) shl 16 + ((1 shl FASTTABLESHIFT) shr 1) shl 8 + ((1 shl FASTTABLESHIFT) shr 1))
                     ) and $FF;
         inc(ptrans8);
       end;
@@ -210,8 +207,6 @@ begin
     end;
   end;
 
-  colorlighttrans8table := malloc(SizeOf(trans8table_t));
-
   trans8tablescalced := true;
 end;
 
@@ -225,8 +220,6 @@ begin
     memfree(pointer(additive8tables[i]), SizeOf(trans8table_t));
     memfree(pointer(subtractive8tables[i]), SizeOf(trans8table_t));
   end;
-
-  memfree(pointer(colorlighttrans8table), SizeOf(trans8table_t));
 
   averagetrans8table := nil;
 
@@ -298,8 +291,7 @@ var
 
 procedure R_Calc8bitTables;
 var
-  i, j, k: integer;
-  c, c1: LongWord;
+  i: integer;
   ptrans8: PByte;
   r, g, b: LongWord;
   pal: PLongWordArray;
@@ -335,27 +327,10 @@ begin
       begin
         ptrans8^ := V_FindAproxColorIndex(pal,
                           r shl (16 + FASTTABLESHIFT) + g shl (8 + FASTTABLESHIFT) + b shl FASTTABLESHIFT +
-                          ((1 shl FASTTABLESHIFT) shr 1) shl 16 +
-                          ((1 shl FASTTABLESHIFT) shr 1) shl 8 +
-                          ((1 shl FASTTABLESHIFT) shr 1)
+                          (((1 shl FASTTABLESHIFT) shr 1) shl 16 + ((1 shl FASTTABLESHIFT) shr 1) shl 8 + ((1 shl FASTTABLESHIFT) shr 1))
                     ) and $FF;
         inc(ptrans8);
       end;
-
-  ptrans8 := @colorlighttrans8table[0];
-  for j := 0 to 255 do
-  begin
-    c1 := pal[j];
-    r := (c1 shr 16) and $ff;
-    g := (c1 shr 8) and $ff;
-    b := c1 and $ff;
-    for k := 0 to 255 do
-    begin
-      c := R_ColorLightAdd(pal[k], r, g, b);
-      ptrans8^ := V_FindAproxColorIndex(pal, c);
-      inc(ptrans8);
-    end;
-  end;
 end;
 
 end.

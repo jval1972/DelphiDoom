@@ -874,7 +874,9 @@ begin
   planezlight := @zlight[light];
   ds_llzindex := light;
 
-  pl.top[pl.maxx + 1] := VISEND;
+  stop := pl.maxx + 1;
+
+  pl.top[stop] := VISEND;
   pl.top[pl.minx - 1] := VISEND;
   xoffs := pl.xoffs;
   yoffs := pl.yoffs;
@@ -891,8 +893,6 @@ begin
     ds_ripple := nil;
     spanfuncMT := basespanfuncMT;
   end;
-
-  stop := pl.maxx + 1;
 
   for x := pl.minx to stop do
   begin

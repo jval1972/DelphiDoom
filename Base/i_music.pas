@@ -754,6 +754,12 @@ var
   i: integer;
   rc: MMRESULT;
 begin
+  if m_type = m_midi then
+  begin
+    I_ProcessMidi;
+    exit;
+  end;
+
   if m_type <> m_mus then
     exit;
 

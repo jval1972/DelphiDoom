@@ -49,6 +49,8 @@ procedure I_ShutDownMidi;
 
 procedure I_SetMusicVolumeMidi(volume: integer);
 
+procedure I_ProcessMidi;
+
 const
   MThd = $6468544D; // Start of file
   MTrk = $6B72544D; // Start of track
@@ -1752,10 +1754,22 @@ begin
   memfree(pointer(MidiData), MidiDataSize);
 end;
 
+var
+  ws_volume: integer;
+
 procedure I_SetMusicVolumeMidi(volume: integer);
 begin
   if midi <> nil then
-    midi.volume := (midivolumecontrol[GetIntegerInRange(volume, 0, 15)]);
+  begin
+    ws_volume := (midivolumecontrol[GetIntegerInRange(volume, 0, 15)]);
+    midi.volume := ws_volume;
+  end;
+end;
+
+procedure I_ProcessMidi;
+begin
+  if midi <> nil then
+    midi.volume := ws_volume;
 end;
 
 end.
