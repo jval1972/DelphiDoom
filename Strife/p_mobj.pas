@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -804,22 +804,16 @@ begin
     // you can cycle through multiple states in a tic
     if mobj.tics = 0 then
       if not P_SetMobjState(mobj, mobj.state.nextstate) then
-      begin
         exit; // freed itself
-      end;
   end
   else
   begin
     // check for nightmare respawn
     if mobj.flags and MF_COUNTKILL = 0 then
-    begin
       exit;
-    end;
 
     if not respawnmonsters then
-    begin
       exit;
-    end;
 
     mobj.movecount := mobj.movecount + 1;
 
@@ -830,14 +824,10 @@ begin
     end;
 
     if leveltime and 31 <> 0 then
-    begin
       exit;
-    end;
 
     if P_Random > 4 then
-    begin
       exit;
-    end;
 
     // haleyjd [STRIFE]: NOTDMATCH things don't respawn
     if mobj.flags and MF_NOTDMATCH <> 0 then
@@ -1359,6 +1349,7 @@ begin
       exit;
     end;
   end;
+
   // don't spawn keycards and players in deathmatch
   if (deathmatch <> 0) and (mobjinfo[i].flags and MF_NOTDMATCH <> 0) then
   begin
@@ -2071,6 +2062,7 @@ begin
     z := thing.floorz
   else
     z := ONFLOORZ;
+
   case P_GetThingFloorType(thing) of
     FLOOR_WATER:
       begin
@@ -2135,7 +2127,7 @@ begin
   end;
 end;
 
-procedure CmdSpwanMobj(const parm1, parm2: string);
+procedure CmdSpawnMobj(const parm1, parm2: string);
 var
   sc: TScriptEngine;
   x, y, z: fixed_t;
@@ -2199,7 +2191,7 @@ end;
 procedure MObj_Init;
 begin
   mobjlist := TMobjList.Create;
-  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpwanMobj);
+  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpawnMobj);
 end;
 
 procedure MObj_ShutDown;

@@ -168,6 +168,9 @@ type
 {$IFDEF OPENGL}
     no_toptextures: boolean;
     no_bottomtextures: boolean;
+{$ELSE}
+    cachedheight: integer;
+    scaleindex: integer;
 {$ENDIF}
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;

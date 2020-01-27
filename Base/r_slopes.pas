@@ -651,6 +651,8 @@ begin
     R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop], overflow);
   pds.use_double := overflow;
 
+  R_WiggleFix(frontsector);
+
   rw_offset := R_CalcSegOffset(curline);
 
   if LongWord(rw_normalangle - rw_angle1) < ANG180 then
@@ -685,7 +687,7 @@ begin
     if frontsector.midsec >= 0 then
     begin
       lightnum2 := _SHR(sectors[frontsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
-      
+
       if r_fakecontrast then
       begin
         if curline.v1.y = curline.v2.y then
@@ -808,7 +810,7 @@ begin
     pixhighstep_dbl := - (rw_scalestep_dbl / FRACUNIT) * (sc2 / WORLDUNIT) +
         (rw_scale_dbl / FRACUNIT) * ((sc1 - sc2) / WORLDUNIT) / (rw_stopx - rw_x);
 
-    pixhigh := (centeryfrac div WORLDUNIT) - FixedMul(sc1 div WORLDUNIT, rw_scale);
+    pixhigh := (int64(centeryfrac) div WORLDUNIT) - int64(sc1 div WORLDUNIT) * int64(rw_scale) div FRACUNIT;
     pixhighstep := -FixedMul(rw_scalestep, sc2 div WORLDUNIT) +
         Round(FixedMul(rw_scale, (sc1 - sc2) div WORLDUNIT) / (rw_stopx - rw_x));
 
@@ -829,7 +831,7 @@ begin
     pixlowstep_dbl := -(rw_scalestep_dbl / FRACUNIT) * (sf2 / WORLDUNIT) +
         (rw_scale_dbl / FRACUNIT) * ((sf1 - sf2) / WORLDUNIT) / (rw_stopx - rw_x);
 
-    pixlow := (centeryfrac div WORLDUNIT) - FixedMul(sf1 div WORLDUNIT, rw_scale);
+    pixlow := (int64(centeryfrac) div WORLDUNIT) - int64(sf1 div WORLDUNIT) * int64(rw_scale) div FRACUNIT;
     pixlowstep := -FixedMul(rw_scalestep, sf2 div WORLDUNIT) +
         Round(FixedMul(rw_scale, (sf1 - sf2) div WORLDUNIT) / (rw_stopx - rw_x));
   end;
@@ -852,7 +854,7 @@ begin
   topstep_dbl := -(rw_scalestep_dbl / FRACUNIT) * (sc22 / WORLDUNIT) +
       (rw_scale_dbl / FRACUNIT) * ((sc11 - sc22) / WORLDUNIT) / (rw_stopx - rw_x);
 
-  topfrac := (centeryfrac div WORLDUNIT) - FixedMul(sc11 div WORLDUNIT, rw_scale);
+  topfrac := (int64(centeryfrac) div WORLDUNIT) - int64(sc11 div WORLDUNIT) * int64(rw_scale) div FRACUNIT;
   topstep := -FixedMul(rw_scalestep, sc22 div WORLDUNIT) +
       Round(FixedMul(rw_scale, (sc11 - sc22) div WORLDUNIT) / (rw_stopx - rw_x));
 
@@ -872,7 +874,7 @@ begin
   bottomstep_dbl := -(rw_scalestep_dbl / FRACUNIT) * (sf22 / WORLDUNIT) +
       (rw_scale_dbl / FRACUNIT) * ((sf11 - sf22) / WORLDUNIT) / (rw_stopx - rw_x);
 
-  bottomfrac := (centeryfrac div WORLDUNIT) - FixedMul(sf11 div WORLDUNIT, rw_scale);
+  bottomfrac := (int64(centeryfrac) div WORLDUNIT) - int64(sf11 div WORLDUNIT) * int64(rw_scale) div FRACUNIT;
   bottomstep := -FixedMul(rw_scalestep, sf22 div WORLDUNIT) +
       Round(FixedMul(rw_scale, (sf11 - sf22) div WORLDUNIT) / (rw_stopx - rw_x));
 

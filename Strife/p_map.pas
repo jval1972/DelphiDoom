@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -695,6 +695,7 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
+  r: fixed_t;
 begin
   tmthing := thing;
   tmflags := thing.flags;
@@ -702,10 +703,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   newsubsec := R_PointInSubsector(x, y);
 
@@ -796,6 +798,7 @@ var
   oldfloorz: fixed_t; // JVAL: Slopes
   oldonfloorz: boolean;
   dropoffmargin: fixed_t;
+  jumpupmargin: fixed_t;
 begin
   floatok := false;
   if not P_CheckPosition(thing, x, y) then
@@ -837,7 +840,13 @@ begin
           exit;
         end;
 
-    if  tmfloorz - thing.z > 24 * FRACUNIT then
+    jumpupmargin := 24 * FRACUNIT;
+    // JVAL: Version 205
+    if G_PlayingEngineVersion >= VERSION205 then
+      if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
+        jumpupmargin := 56 * FRACUNIT;
+
+    if  tmfloorz - thing.z > jumpupmargin then
     begin
       result := false;  // too big a step up
       exit;
@@ -2312,7 +2321,7 @@ begin
       result := nextnode;
       exit;
     end;
-    // Prevent infinite loop
+    // JVAL: 20200105 - Prevent infinite loop
     if node.m_tnext = nextnode then
       node.m_tnext := nil;
     node := node.m_tnext;

@@ -107,7 +107,7 @@ Support for MUSINFO lump.
 Added DONTSPLASH alias for NOHITFLOOR flag.
 Added -noactordef command line parameter, when you run with this parameter it will not parse ACTORDEF lumps.
 Support for fullscreen patches with resolution greater than 320x200.
-Support for tall patches.
+Support for tall sprites.
 Added 'INITIAL BULLETS' and 'BFG CELLS/SHOT' dehacked fields.
 PUSHFACTOR, SCALE and GRAVITY fields for actor instances. 
  PascalScript new functions:
@@ -146,6 +146,13 @@ Added dogs and dog_jumping console variables.
 Added MF2_EX_FRIEND flag (friendly monsters).
 Fixed ghost bug of ressurected bodies.
 Masked textures can have columns without patches.
+WASD keyboard preset uses the "E" key for jumping.
+Support for tall textures in software rendering.
+Added MF2_EX_JUMPUP flag. When set the actor will often (about 92% chance) decide to jump up (up to 56 units) to pursue target. Default for friendly monsters.
+Support for extended help screens (HELP01 thru HELP99). See also https://www.doomworld.com/forum/topic/111465-boom-extended-help-screens-an-undocumented-feature/
+Automap can now handle big maps without glitches.
+Speed optimizations to the OpenGL renderer.
+Fixed some glitches of the OpenGL rendering.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

@@ -1053,6 +1053,7 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
+  r: fixed_t;
 begin
   tmthing := thing;
   tmflags := thing.flags;
@@ -1060,10 +1061,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   newsubsec := R_PointInSubsector(x, y);
   ceilingline := nil;
@@ -1225,7 +1227,6 @@ end;
 var
   onmobj: Pmobj_t; //generic global onmobj...used for landing on pods/players
 
-
 //==============================================================================
 //
 // PIT_CheckOnmobjZ
@@ -1266,12 +1267,11 @@ begin
     exit;
   end;
 
-  if thing.flags and MF_SOLID <> 0 then
+  result := thing.flags and MF_SOLID = 0;
+  if not result then
     onmobj := thing;
 
-  result := thing.flags and MF_SOLID = 0;
 end;
-
 
 //=============================================================================
 //
@@ -1367,6 +1367,7 @@ var
   oldfloorz: fixed_t; // JVAL: Slopes
   oldonfloorz: boolean;
   dropoffmargin: fixed_t; // JVAL: Version 204
+  jumpupmargin: fixed_t;
 
   procedure pushline;
   var
@@ -1462,11 +1463,17 @@ begin
           exit;
         end;
 
+    jumpupmargin := 24 * FRACUNIT;
+    // JVAL: Version 205
+    if G_PlayingEngineVersion >= VERSION205 then
+      if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
+        jumpupmargin := 56 * FRACUNIT;
+
     if (thing.flags and MF_TELEPORT = 0) and
       // The Minotaur floor fire (MT_MNTRFX2) can step up any amount
        (thing._type <> Ord(MT_MNTRFX2)) and
        (thing._type <> Ord(MT_LIGHTNING_FLOOR)) and
-       (tmfloorz - thing.z > 24 * FRACUNIT) then
+       (tmfloorz - thing.z > jumpupmargin) then
     begin
       pushline;
       result := false;
@@ -1495,6 +1502,7 @@ begin
       result := false;
       exit;
     end;
+
   end;
 
   // the move is ok,

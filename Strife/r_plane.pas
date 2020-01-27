@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -287,10 +287,7 @@ begin
   // JVAL: 3d Floors
   if depthbufferactive then
   begin
-    if y = centery then
-      db_distance := 0
-    else
-      db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
+    db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
     spandepthbufferproc;
   end;
 
@@ -303,7 +300,7 @@ end;
 // JVAL: Visplane hash
 const
   VISPLANEHASHSIZE = MAXVISPLANES;
-  VISPLANEHASHOVER = 10;
+  VISPLANEHASHOVER = 16;
 
 var
   visplanehash: array[0..VISPLANEHASHSIZE + VISPLANEHASHOVER - 1] of LongWord;
@@ -315,7 +312,7 @@ var
 procedure R_ClearPlanes;
 {$IFNDEF OPENGL}
 type
-  two_smallints_t = record
+  two_smallints_t = packed record
     sm1, sm2: SmallInt;
   end;
 var
@@ -723,26 +720,29 @@ begin
         for x := pl.minx to pl.maxx do
         begin
           dc_yl := pl.top[x];
-          dc_yh := pl.bottom[x];
-
-          if dc_yl <= dc_yh then
+          if dc_yl < viewheight then
           begin
-            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-            if detaillevel = DL_NORMAL then
+            dc_yh := pl.bottom[x];
+
+            if dc_yl <= dc_yh then
             begin
-              dc_texturemod := 0;
-              dc_mod := 0;
-            end
-            else
-            begin
-              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-              dc_mod := dc_texturemod;
+              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+              if detaillevel = DL_NORMAL then
+              begin
+                dc_texturemod := 0;
+                dc_mod := 0;
+              end
+              else
+              begin
+                dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+                dc_mod := dc_texturemod;
+              end;
+              dc_x := x;
+              R_ReadDC32Cache(skytexture, angle);
+              // JVAL
+              //  Store columns to buffer
+              R_StoreSkyColumn32;
             end;
-            dc_x := x;
-            R_ReadDC32Cache(skytexture, angle);
-          // JVAL
-          //  Store columns to buffer
-            R_StoreSkyColumn32;
           end;
         end;
         R_FlashSkyColumns32;
@@ -752,16 +752,19 @@ begin
         for x := pl.minx to pl.maxx do
         begin
           dc_yl := pl.top[x];
-          dc_yh := pl.bottom[x];
-
-          if dc_yl <= dc_yh then
+          if dc_yl < viewheight then
           begin
-            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-            dc_x := x;
-            dc_source := R_GetColumn(skytexture, angle);
-            // JVAL
-            //  Store columns to buffer
-            R_StoreSkyColumn8;
+            dc_yh := pl.bottom[x];
+
+            if dc_yl <= dc_yh then
+            begin
+              angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+              dc_x := x;
+              dc_source := R_GetColumn(skytexture, angle);
+              // JVAL
+              //  Store columns to buffer
+              R_StoreSkyColumn8;
+            end;
           end;
         end;
         R_FlashSkyColumns8;
@@ -772,30 +775,33 @@ begin
       for x := pl.minx to pl.maxx do
       begin
         dc_yl := pl.top[x];
-        dc_yh := pl.bottom[x];
-
-        if dc_yl <= dc_yh then
+        if dc_yl < viewheight then
         begin
-          angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
-          if detaillevel <= DL_NORMAL then
+          dc_yh := pl.bottom[x];
+
+          if dc_yl <= dc_yh then
           begin
-            dc_texturemod := 0;
-            dc_mod := 0;
-          end
-          else
-          begin
-            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-            dc_mod := dc_texturemod;
+            angle := (viewangle + xtoviewangle[x]) div ANGLETOSKYUNIT;
+            if detaillevel <= DL_NORMAL then
+            begin
+              dc_texturemod := 0;
+              dc_mod := 0;
+            end
+            else
+            begin
+              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              dc_mod := dc_texturemod;
+            end;
+            dc_x := x;
+            R_GetDCs(skytexture, angle);
+            // Sky is allways drawn full bright,
+            //  i.e. colormaps[0] is used.
+            //  Because of this hack, sky is not affected
+            //  by INVUL inverse mapping.
+            // JVAL
+            //  call skycolfunc(), not colfunc(), does not use colormaps!
+            skycolfunc;
           end;
-          dc_x := x;
-          R_GetDCs(skytexture, angle);
-          // Sky is allways drawn full bright,
-          //  i.e. colormaps[0] is used.
-          //  Because of this hack, sky is not affected
-          //  by INVUL inverse mapping.
-          // JVAL
-          //  call skycolfunc(), not colfunc(), does not use colormaps!
-          skycolfunc;
         end;
       end;
     end;
@@ -818,7 +824,9 @@ begin
   planezlight := @zlight[light];
   ds_llzindex := light;
 
-  pl.top[pl.maxx + 1] := VISEND;
+  stop := pl.maxx + 1;
+
+  pl.top[stop] := VISEND;
   pl.top[pl.minx - 1] := VISEND;
   xoffs := pl.xoffs;
   yoffs := pl.yoffs;
@@ -835,8 +843,6 @@ begin
     ds_ripple := nil;
     spanfuncMT := basespanfuncMT;
   end;
-
-  stop := pl.maxx + 1;
 
   for x := pl.minx to stop do
   begin

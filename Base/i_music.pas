@@ -747,22 +747,13 @@ begin
   end;
 end;
 
-procedure I_ProcessMusic;
+procedure I_ProcessMusicMus;
 var
   header: Pmidiheader_t;
   length: integer;
   i: integer;
   rc: MMRESULT;
 begin
-  if m_type = m_midi then
-  begin
-    I_ProcessMidi;
-    exit;
-  end;
-
-  if m_type <> m_mus then
-    exit;
-
   if (snd_MusicVolume = 0) or (CurrentSong = nil) then
     exit;
 
@@ -811,6 +802,15 @@ begin
       if rc <> MMSYSERR_NOERROR then
         I_Error('I_ProcessMusic(): midiStreamOut failed, return value = %d', [rc]);
     end;
+  end;
+end;
+
+procedure I_ProcessMusic;
+begin
+  case m_type of
+    m_mus: I_ProcessMusicMus;
+    m_midi: I_ProcessMidi;
+    m_mp3: ; // nothing to do
   end;
 end;
 

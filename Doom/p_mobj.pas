@@ -717,7 +717,7 @@ begin
           mobj.flags2_ex := mobj.flags2_ex or MF2_EX_ONMOBJ;
           mobj.momz := 0;
         end;
-        if (mobj.player <> nil) and ((onmo.player <> nil) {or (onmo._type = Ord(MT_POD))}) then
+        if (mobj.player <> nil) and (onmo.player <> nil) then
         begin
           mobj.momx := onmo.momx;
           mobj.momy := onmo.momy;
@@ -738,9 +738,7 @@ begin
       P_ZMovement(mobj);
 
     if not Assigned(mobj.thinker._function.acv) then
-    begin
       exit; // mobj was removed
-    end;
   end;
 
 
@@ -753,22 +751,16 @@ begin
     // you can cycle through multiple states in a tic
     if mobj.tics = 0 then
       if not P_SetMobjState(mobj, mobj.state.nextstate) then
-      begin
         exit; // freed itself
-      end;
   end
   else
   begin
     // check for nightmare respawn
     if mobj.flags and MF_COUNTKILL = 0 then
-    begin
       exit;
-    end;
 
     if not respawnmonsters then
-    begin
       exit;
-    end;
 
     mobj.movecount := mobj.movecount + 1;
 
@@ -778,14 +770,10 @@ begin
     end;
 
     if leveltime and 31 <> 0 then
-    begin
       exit;
-    end;
 
     if P_Random > 4 then
-    begin
       exit;
-    end;
 
     P_NightmareRespawn(mobj);
   end;
@@ -1111,7 +1099,6 @@ begin
   if ss.sector.midsec >= 0 then
     if mthing.options and MTF_ONMIDSECTOR <> 0 then
       z := sectors[ss.sector.midsec].ceilingheight;
-
 
   result := P_SpawnMobj(x, y, z, Ord(MT_PLAYER), @mthing);
 
@@ -2060,3 +2047,4 @@ begin
 end;
 
 end.
+

@@ -28,7 +28,7 @@ begin
     {$IFDEF USEDOUBLE}
     yl := Trunc((topfrac_dbl + (HEIGHTUNIT - 1)) / HEIGHTUNIT);
     {$ELSE}
-    yl := (topfrac + (HEIGHTUNIT - 1)) div HEIGHTUNIT;
+    yl := (topfrac + (HEIGHTUNIT - 1)) shr HEIGHTBITS{ div HEIGHTUNIT};
     {$ENDIF}
     if yl > viewheight then
       yl := viewheight + 1;
@@ -76,7 +76,7 @@ begin
     {$IFDEF USEDOUBLE}
     yh := Trunc(bottomfrac_dbl / HEIGHTUNIT);
     {$ELSE}
-    yh := bottomfrac div HEIGHTUNIT;
+    yh := bottomfrac shr HEIGHTBITS{ div HEIGHTUNIT};
     {$ENDIF}
 
     if yh >= pfloorclip^ then
@@ -198,10 +198,10 @@ begin
 
       dc_x := rwx;
       {$IFDEF USEDOUBLE}
-      if rw_scale_dbl < MIN_RW_SCALE then
+{      if rw_scale_dbl < MIN_RW_SCALE then
         rw_scale_dbl := MIN_RW_SCALE
       else if rw_scale_dbl > MAX_RW_SCALE then
-        rw_scale_dbl := MAX_RW_SCALE;
+        rw_scale_dbl := MAX_RW_SCALE;}
       dc_iscale := round($100000000 / rw_scale_dbl);
       {$ELSE}
       dc_iscale := LongWord($ffffffff) div LongWord(rw_scale);
@@ -213,7 +213,7 @@ begin
     begin
       // single sided line
       dc_texturemid := rw_midtexturemid;
-
+      dc_height := rw_midtextureheight;
       R_ReadDC32Cache(midtexture, texturecolumn);
 {$IFDEF FLOORS3DVIS}
       if pds.midvis <> nil then
@@ -232,7 +232,7 @@ begin
           if totalclip then
             R_FlashWallColumns32(@midwalls32);
           {$ELSE}
-          wallcolfunc;
+          midwallcolfunc;
           {$ENDIF}
           {$IFDEF USEZBUFFER}
           R_DrawColumnToZBuffer;
@@ -247,7 +247,7 @@ begin
           else
             R_StoreWallColumn32(@midwalls32b);
           {$ELSE}
-          wallcolfunc;
+          midwallcolfunc;
           {$ENDIF}
           {$IFDEF USEZBUFFER}
           R_DrawColumnToZBuffer;
@@ -276,7 +276,7 @@ begin
         {$IFDEF RENDERSEGOPTIMIZED}
         R_StoreWallColumn32(@midwalls32);
         {$ELSE}
-        wallcolfunc;
+        midwallcolfunc;
         {$ENDIF}
         {$IFDEF USEZBUFFER}
         R_DrawColumnToZBuffer;
@@ -300,7 +300,7 @@ begin
         mid := Trunc(pixhigh_dbl / HEIGHTUNIT);
         pixhigh_dbl := pixhigh_dbl + pixhighstep_dbl;
 	{$ELSE}
-        mid := pixhigh div HEIGHTUNIT;
+        mid := pixhigh shr HEIGHTBITS{ div HEIGHTUNIT};
         pixhigh := pixhigh + pixhighstep;
 	{$ENDIF}
 
@@ -310,6 +310,7 @@ begin
         if mid >= yl then
         begin
           dc_texturemid := rw_toptexturemid;
+          dc_height := rw_toptextureheight;
           R_ReadDC32Cache(toptexture, texturecolumn);
 
     {$IFDEF FLOORS3DVIS}
@@ -330,7 +331,7 @@ begin
               if totalclip then
                 R_FlashWallColumns32(@upperwalls32);
               {$ELSE}
-              wallcolfunc;
+              topwallcolfunc;
               {$ENDIF}
               {$IFDEF USEZBUFFER}
               R_DrawColumnToZBuffer;
@@ -345,7 +346,7 @@ begin
               else
                 R_StoreWallColumn32(@upperwalls32b);
               {$ELSE}
-              wallcolfunc;
+              topwallcolfunc;
               {$ENDIF}
               {$IFDEF USEZBUFFER}
               R_DrawColumnToZBuffer;
@@ -368,7 +369,7 @@ begin
           {$IFDEF RENDERSEGOPTIMIZED}
           R_StoreWallColumn32(@upperwalls32);
           {$ELSE}
-          wallcolfunc;
+          topwallcolfunc;
           {$ENDIF}
           {$IFDEF USEZBUFFER}
           R_DrawColumnToZBuffer;
@@ -433,7 +434,7 @@ begin
         mid := Trunc((pixlow_dbl + HEIGHTUNIT - 1) / HEIGHTUNIT);
         pixlow_dbl := pixlow_dbl + pixlowstep_dbl;
 	{$ELSE}
-        mid := (pixlow + HEIGHTUNIT - 1) div HEIGHTUNIT;
+        mid := (pixlow + HEIGHTUNIT - 1) shr HEIGHTBITS{ div HEIGHTUNIT};
         pixlow := pixlow + pixlowstep;
 	{$ENDIF}
 
@@ -444,6 +445,7 @@ begin
         if mid <= yh then
         begin
           dc_texturemid := rw_bottomtexturemid;
+          dc_height := rw_bottomtextureheight;
           R_ReadDC32Cache(bottomtexture, texturecolumn);
 
     {$IFDEF FLOORS3DVIS}
@@ -464,7 +466,7 @@ begin
               if totalclip then
                 R_FlashWallColumns32(@lowerwalls32);
               {$ELSE}
-              wallcolfunc;
+              bottomwallcolfunc;
               {$ENDIF}
               {$IFDEF USEZBUFFER}
               R_DrawColumnToZBuffer;
@@ -479,7 +481,7 @@ begin
               else
                 R_StoreWallColumn32(@lowerwalls32b);
               {$ELSE}
-              wallcolfunc;
+              bottomwallcolfunc;
               {$ENDIF}
               {$IFDEF USEZBUFFER}
               R_DrawColumnToZBuffer;
@@ -501,7 +503,7 @@ begin
           {$IFDEF RENDERSEGOPTIMIZED}
           R_StoreWallColumn32(@lowerwalls32);
           {$ELSE}
-          wallcolfunc;
+          bottomwallcolfunc;
           {$ENDIF}
           {$IFDEF USEZBUFFER}
           R_DrawColumnToZBuffer;

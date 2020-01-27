@@ -420,7 +420,7 @@ begin
   else
     if mo.z > mo.floorz then
     begin
-      if G_PlayingEngineVersion <= 203 then
+      if G_PlayingEngineVersion <= VERSION203 then
         exit; // no friction when airborne
       if wasonfloorz and wasonslope and (oldsector = Psubsector_t(mo.subsector).sector) then
       begin
@@ -950,9 +950,7 @@ begin
       exit;
 
     if P_Random > 4 then
-    begin
       exit;
-    end;
 
     P_NightmareRespawn(mobj);
   end;
@@ -1161,6 +1159,8 @@ begin
 
   // stop any playing sound
   S_StopSound(mobj);
+
+  P_RemoveMobjCustomParams(mobj.customparams);
 
   // free block
   P_RemoveThinker(Pthinker_t(mobj));
@@ -1588,6 +1588,7 @@ end;
 function P_CheckMissileSpawn(th: Pmobj_t): boolean;
 begin
   th.tics := th.tics - (P_Random and 3);
+
   if th.tics < 1 then
     th.tics := 1;
 
@@ -2222,7 +2223,7 @@ begin
   mo.momy := mo.momy + FixedMul(move, finesine[angle]);
 end;
 
-procedure CmdSpwanMobj(const parm1, parm2: string);
+procedure CmdSpawnMobj(const parm1, parm2: string);
 var
   sc: TScriptEngine;
   x, y, z: fixed_t;
@@ -2286,7 +2287,7 @@ end;
 procedure MObj_Init;
 begin
   mobjlist := TMobjList.Create;
-  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpwanMobj);
+  C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpawnMobj);
 end;
 
 procedure MObj_ShutDown;
@@ -2317,3 +2318,4 @@ begin
 end;
 
 end.
+

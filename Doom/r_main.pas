@@ -2180,7 +2180,6 @@ begin
   R_SetupFrame(player);
   task_8bitlights := MT_ScheduleTask(@R_Calc8bitTables);
   MT_ExecutePendingTask(task_8bitlights);
-//  R_Calc8bitTables;
 
   // Clear buffers.
   R_ClearClipSegs;

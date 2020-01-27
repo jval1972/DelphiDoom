@@ -1681,6 +1681,7 @@ begin
   // JVAL version 205
   mobj_flags2_ex.Add('MF2_EX_MISSILEHURTSPECIES');
   mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
+  mobj_flags2_ex.Add('MF2_EX_JUMPUP');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // 0 //.sprite

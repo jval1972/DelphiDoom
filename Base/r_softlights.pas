@@ -117,12 +117,13 @@ var
   var
     f: single;
   begin
-    if x <= 70 then
-      result := round(x / 4)
+    if x <= 75 then
+      result := round(100 * x / 75)
     else
     begin
       f := (x - 128) / 128 * 4.9065;
       result := ibetween(127 + trunc(164 * arctan(tanh(f / 2)) + 0.778), -255, 255);
+      result := ibetween(round(sqrt(255 * 255 - sqr(255 - result))), 0, 255);
     end;
   end;
 
@@ -502,11 +503,34 @@ begin
   precalc32op1_calced := true;
 end;
 
+type
+  fastzbuf_t = record
+    db: Pzbufferitem_t;
+    next: integer;
+  end;
+  Pfastzbuf_t = ^fastzbuf_t;
+
+function R_FastZBufferAt(const x, y: integer; const pfdb: Pfastzbuf_t): Pzbufferitem_t;
+begin
+  if pfdb.next >= y then
+  begin
+    result := pfdb.db;
+    exit;
+  end;
+  result := R_ZBufferAt(x, y);
+  pfdb.db := result;
+  if result.seg <> nil then
+    pfdb.next := result.stop
+  else
+    pfdb.next := y;
+end;
+
 procedure R_DrawColumnLightmap8(const parms: Plightparams_t);
 var
   count, x, y: integer;
   frac: fixed_t;
   fracstep: fixed_t;
+  fastzbuf: fastzbuf_t;
   db: Pzbufferitem_t;
   depth: LongWord;
   dbmin, dbmax: LongWord;
@@ -556,12 +580,13 @@ begin
 
   dest := @((ylookup[parms.dl_yl]^)[columnofs[x]]);
   pitch := SCREENWIDTH;
+  fastzbuf.next := parms.dl_yl - 1;
   for y := parms.dl_yl to parms.dl_yh do
   begin
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
     if dls <> 0 then
     begin
-      db := R_ZBufferAt(x, y);
+      db := R_FastZBufferAt(x, y, @fastzbuf);
       depth := db.depth;
       if (depth >= dbmin) and (depth <= dbmax) then
       begin
@@ -641,6 +666,7 @@ var
   count, x, y: integer;
   frac: fixed_t;
   fracstep: fixed_t;
+  fastzbuf: fastzbuf_t;
   db: Pzbufferitem_t;
   depth: LongWord;
   dbmin, dbmax: LongWord;
@@ -683,12 +709,13 @@ begin
 
   destb := @((ylookupl[parms.dl_yl]^)[columnofs[x]]);
   pitch := SCREENWIDTH * SizeOf(LongWord);
+  fastzbuf.next := parms.dl_yl - 1;
   for y := parms.dl_yl to parms.dl_yh do
   begin
     dls := source32[(LongWord(frac) shr FRACBITS) and (LIGHTTEXTURESIZE - 1)];
     if dls <> 0 then
     begin
-      db := R_ZBufferAt(x, y);
+      db := R_FastZBufferAt(x, y, @fastzbuf);
       depth := db.depth;
       if (depth >= dbmin) and (depth <= dbmax) then
       begin
@@ -769,7 +796,7 @@ begin
   lcolumn.lightsourcex := psl.x;
   lcolumn.lightsourcey := psl.y;
   lcolumn.dl_iscale := FixedDivEx(FRACUNIT, spryscale);
-  lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, trunc(vis.scale * w / LIGHTTEXTURESIZE));
+  lcolumn.dl_fracstep := FixedDivEx(FRACUNIT, spryscale); //trunc(vis.scale * w / LIGHTTEXTURESIZE));
   lcolumn.dl_scale := vis.scale;
   ltopscreen := centeryfrac - FixedMul(vis.texturemid, vis.scale);
 

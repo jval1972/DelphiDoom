@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -170,6 +170,8 @@ var
 
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
+  basewallcolfunc: PProcedure;
+  tallwallcolfunc: PProcedure;
   skycolfunc: PProcedure;
   transcolfunc: PProcedure;
   fuzztranscolfunc: PProcedure;
@@ -390,6 +392,7 @@ uses
   r_span,
   r_span32,
   r_column,
+  r_tallcolumn,
   r_batchcolumn,
   r_col_l,
   r_col_ms,
@@ -965,6 +968,8 @@ begin
 
         colfunc := R_DrawColumnLowest;
         wallcolfunc := R_DrawColumnLowest;
+        basewallcolfunc := R_DrawColumnLowest;
+        tallwallcolfunc := R_DrawTallColumnLowest;
         transcolfunc := R_DrawTranslatedColumn;
         if diher8bittransparency then
         begin
@@ -1074,6 +1079,8 @@ begin
 
         colfunc := R_DrawColumnLow;
         wallcolfunc := R_DrawColumnLow;
+        basewallcolfunc := R_DrawColumnLow;
+        tallwallcolfunc := R_DrawTallColumnLow;
         transcolfunc := R_DrawTranslatedColumn;
         if diher8bittransparency then
         begin
@@ -1183,6 +1190,8 @@ begin
 
         colfunc := R_DrawColumnMedium;
         wallcolfunc := R_DrawColumnMedium;
+        basewallcolfunc := R_DrawColumnMedium;
+        tallwallcolfunc := R_DrawTallColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
         if diher8bittransparency then
         begin
@@ -1293,6 +1302,8 @@ begin
 
         colfunc := R_DrawColumnHi;
         wallcolfunc := R_DrawColumnHi;
+        basewallcolfunc := R_DrawColumnHi;
+        tallwallcolfunc := R_DrawTallColumnHi;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
@@ -1388,6 +1399,8 @@ begin
 
         colfunc := R_DrawColumnHi;
         wallcolfunc := R_DrawColumnUltra;
+        basewallcolfunc := R_DrawColumnUltra;
+        tallwallcolfunc := R_DrawTallColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
         alphacolfunc := R_DrawColumnAlphaHi;
@@ -1483,6 +1496,8 @@ begin
 
         colfunc := R_DrawColumnUltra;
         wallcolfunc := R_DrawColumnUltra;
+        basewallcolfunc := R_DrawColumnUltra;
+        tallwallcolfunc := R_DrawTallColumnUltra;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageUltra;
         addcolfunc := R_DrawColumnAddHi;
@@ -2157,12 +2172,14 @@ end;
 
 var
   task_clearplanes: integer = -1;
+  task_8bitlights: integer = -1;
 
 procedure R_DoRenderPlayerView8_MultiThread(player: Pplayer_t);
 begin
   R_Fake3DPrepare(player);
   R_SetupFrame(player);
-  R_Calc8bitTables;
+  task_8bitlights := MT_ScheduleTask(@R_Calc8bitTables);
+  MT_ExecutePendingTask(task_8bitlights);
 
   // Clear buffers.
   R_ClearClipSegs;
@@ -2198,6 +2215,7 @@ begin
 
   R_RenderMultiThreadFFloors8;
 
+  MT_WaitTask(task_8bitlights);
   R_DrawMasked_MultiThread;
 
   // Check for new console commands.

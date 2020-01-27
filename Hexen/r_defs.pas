@@ -152,7 +152,6 @@ type
     linecount: integer;
     lines: Pline_tPArray; // [linecount] size
 
-
     renderflags: LongWord;
     flags: LongWord;
 
@@ -173,6 +172,9 @@ type
 {$IFDEF OPENGL}
     no_toptextures: boolean;
     no_bottomtextures: boolean;
+{$ELSE}
+    cachedheight: integer;
+    scaleindex: integer;
 {$ENDIF}
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
@@ -515,7 +517,7 @@ type
 {$IFDEF OPENGL}
     flip: boolean;
 {$ENDIF}
-    infoscale: fixed_t;    
+    infoscale: fixed_t;
   end;
   visspritebuffer_t = array[0..$FFFF] of Pvissprite_t;
   visspritebuffer_p = ^visspritebuffer_t;

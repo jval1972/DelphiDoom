@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -337,6 +337,8 @@ const
   MF2_EX_SEEINVISIBLE = $1000000;
   // Missile hurts same species
   MF2_EX_MISSILEHURTSPECIES = $2000000;
+  // Actor can jump up
+  MF2_EX_JUMPUP = $4000000;
 
 type
 // Map Object definition.

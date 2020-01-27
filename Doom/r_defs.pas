@@ -192,6 +192,7 @@ type
     gravity: fixed_t;
     // JVAL: Lines 272, 272 (MBF) - Change sky (VERSION 205)
     sky: integer;
+    // [kb] For R_WiggleFix
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
@@ -203,10 +204,15 @@ type
     lowestceil_lightlevel: integer;
     no_toptextures: boolean;
     no_bottomtextures: boolean;
+{$ELSE}
+    cachedheight: integer;
+    scaleindex: integer;
 {$ENDIF}
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;
   Psector_tArray = ^sector_tArray;
+  sector_tPArray = packed array[0..$FFFF] of Psector_t;
+  Psector_tPArray = ^sector_tPArray;
 
   msecnode_t = record
     m_sector: Psector_t;  // a sector containing this object
@@ -442,7 +448,6 @@ type
 {$IFNDEF OPENGL}
     midvis: Pvisplane3d_t;
     midsiderange: midsiderange_t;
-    notmaskedseg: boolean;
 {$ENDIF}
   end;
   Pdrawseg_t = ^drawseg_t;

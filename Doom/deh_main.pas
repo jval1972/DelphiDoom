@@ -1723,9 +1723,11 @@ begin
   mobj_flags2_ex.Add('MF2_EX_FULLVOLPAIN');
   mobj_flags2_ex.Add('MF2_EX_FULLVOLATTACK');
   mobj_flags2_ex.Add('MF2_EX_DONOTRENDERSHADOW');
+  // JVAL: VERSION 205
   mobj_flags2_ex.Add('MF2_EX_SEEINVISIBLE');
   mobj_flags2_ex.Add('MF2_EX_MISSILEHURTSPECIES');
   mobj_flags2_ex.Add('MF2_EX_FRIEND');
+  mobj_flags2_ex.Add('MF2_EX_JUMPUP');
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // 0 //.sprite

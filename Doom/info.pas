@@ -17462,7 +17462,7 @@ const // Doom Original mobjinfo
     damage: 0;                                                    // damage
     activesound: Ord(sfx_dgact);                                  // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
-    flags2_ex: MF2_EX_JUMPDOWN;                                   // flags2_ex 
+    flags2_ex: MF2_EX_JUMPDOWN or MF2_EX_JUMPUP;                  // flags2_ex 
     raisestate: Ord(S_DOGS_RAISE1);                               // raisestate
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
     scale: FRACUNIT;                                              // scale

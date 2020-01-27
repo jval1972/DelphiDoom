@@ -124,11 +124,11 @@ uses
   p_mobj,
   p_spec,
   p_sight,
+  p_3dfloors, // JVAL: 3d Floors
   p_slopes, // JVAL: Slopes
-  p_3dfloors,
   p_switch,
   p_tick,
-  ps_main,
+  ps_main,  // JVAL: Script Events
   r_main,
   r_sky,
   r_intrpl,
@@ -149,6 +149,7 @@ function PIT_StompThing(thing: Pmobj_t): boolean;
 var
   blockdist: fixed_t;
 begin
+// Can't shoot it? Can't stomp it!
   if thing.flags and MF_SHOOTABLE = 0 then
   begin
     result := true;
@@ -351,7 +352,6 @@ begin
     spechit[numspechit] := ld;
     inc(numspechit);
 
-//    fprintf(stderr, 'numspechit = %d' + #13#10, [numspechit]);
   end;
 
   result := true;
@@ -440,7 +440,6 @@ begin
     spechit[numspechit] := ld;
     inc(numspechit);
 
-//    fprintf(stderr, 'numspechit = %d' + #13#10, [numspechit]);
   end;
 
   result := true;
@@ -712,6 +711,7 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
+  r: fixed_t;
 begin
   tmthing := thing;
   tmflags := thing.flags;
@@ -719,10 +719,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   newsubsec := R_PointInSubsector(x, y);
   ceilingline := nil;
@@ -1010,6 +1011,7 @@ var
   oldfloorz: fixed_t; // JVAL: Slopes
   oldonfloorz: boolean;
   dropoffmargin: fixed_t;
+  jumpupmargin: fixed_t;
 begin
   floatok := false;
   if not P_CheckPosition(thing, x, y) then
@@ -1045,8 +1047,14 @@ begin
           exit;
         end;
 
+    jumpupmargin := 24 * FRACUNIT;
+    // JVAL: Version 205
+    if G_PlayingEngineVersion >= VERSION205 then
+      if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
+        jumpupmargin := 56 * FRACUNIT;
+
     if (thing.flags and MF_TELEPORT = 0) and
-       (tmfloorz - thing.z > 24 * FRACUNIT) then
+       (tmfloorz - thing.z > jumpupmargin) then
     begin
       result := false;  // too big a step up
       exit;
@@ -1139,7 +1147,7 @@ begin
             PS_EventCrossLine(thing, pDiff(ld, lines, SizeOf(line_t)), oldside);
 
         if ld.special <> 0 then
-          P_CrossSpecialLine(pDiff(ld, @lines[0], SizeOf(ld^)), oldside, thing);
+          P_CrossSpecialLine(pDiff(ld, lines, SizeOf(line_t)), oldside, thing);
       end;
     end;
   end;
@@ -1480,7 +1488,7 @@ begin
 
     if li.backsector = nil then
     begin
-      result := false;
+      result := false; // stop
       exit;
     end;
 
@@ -1900,7 +1908,7 @@ begin
     exit;
   end;
 
-  P_UseSpecialLine(usething, intr.d.line, side);
+  P_UseSpecialLine(usething, li, side);
 
   // can't use for than one special line in a row
   result := false;
@@ -2205,7 +2213,10 @@ begin
   begin
     if p <> nil then
       if p.powers[Ord(pw_flight)] <> 0 then
+      begin
+        result := 0;
         exit;
+      end;
     if not G_NeedsCompatibilityMode then
     begin
       // JVAL: 20200107 - No just overhead for version > 205

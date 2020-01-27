@@ -52,13 +52,17 @@ procedure R_StoreSpanToDepthBufferMT; // Store span information for Multithread 
 
 procedure R_FlashSpansToDepthBufferMT; // Flash stored span information using multiple threads
 
-procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure);
+procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure); overload;
+
+procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 
 procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure); overload;
 
 procedure R_DrawBatchColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 
-procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure);
+procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure); overload;
+
+procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord); overload;
 
 procedure R_DrawBatchColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure); overload;
 
@@ -249,6 +253,11 @@ end;
 
 procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure);
 // db_distance := rw_scale/fracunit;
+begin
+  R_DrawColumnWithDepthBufferCheckWrite(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
+end;
+
+procedure R_DrawColumnWithDepthBufferCheckWrite(const cfunc: Pprocedure; const depth: LongWord); overload;
 var
   count: integer;
   i: integer;
@@ -270,7 +279,7 @@ begin
   destl := @((ylookupdb[curbuffer][dc_yl]^)[columnofs[dc_x]]);
 
   swidth := SCREENWIDTH;
-  db_distance := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  db_distance := depth;
   l := db_distance;
   start_y := old_yl;
   oldcheck := false;
@@ -377,6 +386,11 @@ begin
 end;
 
 procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure);
+begin
+  R_DrawColumnWithDepthBufferCheckOnly(cfunc, trunc((FRACUNIT / dc_iscale) * FRACUNIT));
+end;
+
+procedure R_DrawColumnWithDepthBufferCheckOnly(const cfunc: Pprocedure; const depth: LongWord);
 // db_distance := rw_scale/fracunit;
 var
   count: integer;
@@ -399,7 +413,7 @@ begin
   destl := @((ylookupdb[curbuffer][dc_yl]^)[columnofs[dc_x]]);
 
   swidth := SCREENWIDTH;
-  db_distance := trunc((FRACUNIT / dc_iscale) * FRACUNIT);
+  db_distance := depth;
   l := db_distance;
   start_y := old_yl;
   oldcheck := false;

@@ -1447,12 +1447,13 @@ begin
   // routines can't be called yet.  If the spawnstate has an action
   // routine, it will not be called.
   st := @states[info.spawnstate];
+
   mobj.state := st;
   mobj.tics := st.tics;
   mobj.sprite := st.sprite;
   mobj.frame := st.frame;
 
-  // set subsector and/or block links.
+  // set subsector and/or block links
   P_SetThingPosition(mobj);
 
   sec := Psubsector_t(mobj.subsector).sector;

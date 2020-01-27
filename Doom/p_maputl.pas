@@ -339,11 +339,13 @@ begin
   begin
     openbottom := front.floorheight;
     lowfloor := back.floorheight;
+    tmfloorpic := front.floorpic;
   end
   else
   begin
     openbottom := back.floorheight;
     lowfloor := front.floorheight;
+    tmfloorpic := back.floorpic;
   end;
 
   // JVAL: 3d Floors

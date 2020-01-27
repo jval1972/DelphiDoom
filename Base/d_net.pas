@@ -939,6 +939,7 @@ begin
       E_Ticker;
       {$ENDIF}
       M_Ticker;
+      interpolationstarttime := I_GetFracTime;
       C_Ticker;
       G_Ticker;
       inc(gametic);

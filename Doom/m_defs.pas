@@ -117,7 +117,6 @@ var
   lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
   r_bltasync: boolean = true;
-  r_fakecontrast: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -559,7 +558,7 @@ const
      _type: tBoolean),
 
     (name: 'r_fakecontrast';
-     location: @r_fakecontrast;
+     location: {$IFDEF OPENGL}@gl_fakecontrast{$ELSE}@r_fakecontrast{$ENDIF};
      setable: DFS_ALWAYS;
      defaultsvalue: '0.00';
      defaultivalue: 0;

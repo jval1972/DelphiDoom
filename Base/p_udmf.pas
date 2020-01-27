@@ -246,6 +246,14 @@ begin
           if token = 'FALSE' then
             pthing.options := pthing.options or MTF_DONOTTRIGGERSCRIPTS;
         end
+        {$IFDEF DOOM}
+        else if (token = 'FRIEND') then
+        begin
+          GetToken;
+          if token = 'TRUE' then
+            pthing.options := pthing.options or MTF_FRIEND;
+        end
+        {$ENDIF}
         {$IFDEF HEXEN}
         else if (token = 'SINGLE') then
         begin

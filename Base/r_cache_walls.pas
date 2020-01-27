@@ -107,6 +107,7 @@ uses
   r_defs,
   r_hires,
   r_column,
+  r_tallcolumn,
   r_sky,
   r_data,
   r_mmx,
@@ -281,8 +282,8 @@ begin
     if LongWord(t) > $1 then // if we have a hi resolution texture
     begin
       // JVAL
-      // Does not use [and (t.GetWidth - 1)] but [mod (t.GetWidth - 1)] because
-      // we don't require textures to have width as power of 2.
+      // Does not use [and (t.GetWidth - 1)] but [mod t.GetWidth] because
+      // we don't require textures to have width equals to a power of 2.
       if rcol < 0 then
         col := abs(rcol - ptex.width) mod ptex.width
       else
@@ -291,7 +292,7 @@ begin
       begin
       // JVAL: Handle hi resolution texture
         tfactor := 1 shl ptex.factorbits;
-        columnsize := 128 * tfactor;
+        columnsize := texturecolumnheight[rtex] * tfactor;
         mod_c := (dc_texturemod  * tfactor) shr DC_HIRESBITS;
         mod_d := dc_texturemod - mod_c * (1 shl (DC_HIRESBITS - ptex.factorbits));
         col := col * tfactor + mod_c;
@@ -300,7 +301,7 @@ begin
       else
       begin
         dc_texturemod := dc_mod;
-        columnsize := 128;
+        columnsize := texturecolumnheight[rtex];
       end;
       {$IFDEF HEXEN}
       if (rtex = SkyTexture) or (rtex = Sky2Texture) then
@@ -457,7 +458,7 @@ begin
 
     {$IFDEF HEXEN}
     if (rtex = SkyTexture) or (rtex = Sky2Texture) then
-    {$ELSE}    
+    {$ELSE}
     if rtex = skytexture then
     {$ENDIF}
       dc32cache[hash][index].dc32[columnsize] := dc32cache[hash][index].dc32[columnsize - 1]
@@ -495,6 +496,7 @@ var
   hash: integer;
   index: integer;
   dc_source2: PByteArray;
+  count: integer;
 begin
   // Cache read of the caclulated dc_source32, 98-99% propability not to recalc...
   hash := R_GetHash(rtex, rcol, dc_mod);
@@ -534,147 +536,182 @@ begin
     end;
 
     inc(c_cmiss); // Cache miss
+    R_GetColumn(rtex, rcol);
     {$IFDEF FPC}
-    pdc32 := R_Get_dc32(dc32cache[hash][index], 128);
+    pdc32 := R_Get_dc32(dc32cache[hash][index], dc_height);
     plw := @pdc32[0];
     {$ELSE}
-    plw := @R_Get_dc32(dc32cache[hash][index], 128)[0];
+    plw := @R_Get_dc32(dc32cache[hash][index], dc_height)[0];
     {$ENDIF}
     textures[rtex].factorbits := 0;
     if dc_mod = 0 then
     begin
       dc_source := R_GetColumn(rtex, rcol);
       src1 := @dc_source[0];
-      {$UNDEF LASTLOOP}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$I R_ReadDC32Cache_Loop1.inc}
-      {$DEFINE LASTLOOP}
-      {$I R_ReadDC32Cache_Loop1.inc}
+      if dc_height = 128 then
+      begin
+        {$UNDEF LASTLOOP}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$I R_ReadDC32Cache_Loop1.inc}
+        {$DEFINE LASTLOOP}
+        {$I R_ReadDC32Cache_Loop1.inc}
+      end
+      else
+      begin
+        count := dc_height;
+        while count >= 16 do
+        begin
+          {$UNDEF LASTLOOP}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          count := count - 16;
+        end;
+        while count > 0 do
+        begin
+          {$UNDEF LASTLOOP}
+          {$I R_ReadDC32Cache_Loop1.inc}
+          dec(count);
+        end;
+      end;
     end
     else
     begin
@@ -683,136 +720,170 @@ begin
       src1 := @dc_source[0];
       dc_source2 := R_GetColumn(rtex, rcol + 1);
       src2 := @dc_source2[0];
-      {$UNDEF LASTLOOP}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$I R_ReadDC32Cache_Loop2.inc}
-      {$DEFINE LASTLOOP}
-      {$I R_ReadDC32Cache_Loop2.inc}
+      if dc_height = 128 then
+      begin
+        {$UNDEF LASTLOOP}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$I R_ReadDC32Cache_Loop2.inc}
+        {$DEFINE LASTLOOP}
+        {$I R_ReadDC32Cache_Loop2.inc}
+      end
+      else
+      begin
+        count := dc_height;
+        while count >= 16 do
+        begin
+          {$UNDEF LASTLOOP}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          count := count - 16;
+        end;
+        while count > 0 do
+        begin
+          {$UNDEF LASTLOOP}
+          {$I R_ReadDC32Cache_Loop2.inc}
+          dec(count);
+        end;
+      end;
     end;
     {$IFNDEF HEXEN}
     if rtex = skytexture then

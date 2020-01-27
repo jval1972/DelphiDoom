@@ -39,6 +39,9 @@ function R_ScaleFromGlobalAngle_Fixed(const visangle: angle_t): fixed_t;
 function R_ScaleFromGlobalAngle_DBL(const visangle: angle_t): double;
 
 var
+  max_rwscale: integer = 64 * FRACUNIT;
+
+var
   precisescalefromglobalangle: Boolean = true;
 
 implementation
@@ -75,10 +78,11 @@ begin
   if den > FixedInt(num) then
   begin
     result := FixedDiv(num, den);
-  // JVAL: Change it to 256 * FRACUNIT ??  - original
-    if result > 64 * FRACUNIT then
+    // JVAL: Change it to 256 * FRACUNIT ??  - original
+    // [kb] use R_WiggleFix clamp
+    if result > max_rwscale then
     begin
-      result := 64 * FRACUNIT;
+      result := max_rwscale;
       overflow := precisescalefromglobalangle;
     end
     else if result < 256 then
@@ -91,7 +95,7 @@ begin
   end
   else
   begin
-    result := 64 * FRACUNIT;
+    result := max_rwscale;
     overflow := precisescalefromglobalangle;
   end;
 end;
@@ -116,9 +120,9 @@ begin
   begin
     result := FixedDiv(num, den);
   // JVAL: Change it to 256 * FRACUNIT ??  - original
-    if result > 64 * FRACUNIT then
+    if result > max_rwscale {64 * FRACUNIT} then
     begin
-      result := 64 * FRACUNIT;
+      result := max_rwscale{64 * FRACUNIT};
     end
     else if result < 256 then
     begin
@@ -127,13 +131,13 @@ begin
   end
   else
   begin
-    result := 64 * FRACUNIT;
+    result := max_rwscale{64 * FRACUNIT};
   end;
 end;
 
-const
-  MINSCALE = 16;
-  MAXSCALE = 2048 * FRACUNIT;
+//const
+//  MINSCALE = 16;
+//  MAXSCALE = 2048 * FRACUNIT;
 
 function R_ScaleFromGlobalAngle_DBL(const visangle: angle_t): double;
 var
@@ -151,17 +155,17 @@ begin
   if den = 0 then
   begin
     if num < 0 then
-      result := MINSCALE
+      result := 256 //MINSCALE
     else
-      result := MAXSCALE;
+      result := max_rwscale; //MAXSCALE;
   end
   else
   begin
     result := (num / den) * FRACUNIT;
-    if result < MINSCALE then
-      result := MINSCALE
-    else if result > MAXSCALE then
-      result := MAXSCALE
+    if result < 256 {MINSCALE} then
+      result := 256 {MINSCALE}
+    else if result > max_rwscale {MAXSCALE} then
+      result := max_rwscale {MAXSCALE};
   end;
 
 end;

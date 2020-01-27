@@ -321,6 +321,8 @@ const
   MF2_EX_MISSILEHURTSPECIES = $8000000;
   // Friendly monsters
   MF2_EX_FRIEND = $10000000;
+  // Actor can jump up
+  MF2_EX_JUMPUP = $20000000;
 
 type
 // Map Object definition.

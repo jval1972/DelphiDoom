@@ -95,6 +95,7 @@ uses
   p_setup,
   r_bsp,
   r_column,
+  r_tallcolumn,
   r_data,
   r_draw,
   r_segs,
@@ -112,10 +113,10 @@ uses
 {$ENDIF}
   tables;
 
-const
+//const
 // JVAL: Changing the rw_scale limits require 64 bit arithmetic in some column drawers
-  MIN_RW_SCALE = 64;
-  MAX_RW_SCALE = 256 * FRACUNIT;
+//  MIN_RW_SCALE = 64;
+//  MAX_RW_SCALE = 256 * FRACUNIT;
 
 //
 // R_RenderSegLoop

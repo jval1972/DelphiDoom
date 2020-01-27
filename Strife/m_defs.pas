@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -125,7 +125,6 @@ var
   lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
   r_bltasync: boolean = true;
-  r_fakecontrast: boolean;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
@@ -551,7 +550,7 @@ const
      _type: tBoolean),
 
     (name: 'r_fakecontrast';
-     location: @r_fakecontrast;
+     location: {$IFDEF OPENGL}@gl_fakecontrast{$ELSE}@r_fakecontrast{$ENDIF};
      setable: DFS_ALWAYS;
      defaultsvalue: '0.00';
      defaultivalue: 0;

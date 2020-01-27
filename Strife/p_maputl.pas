@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -346,11 +346,13 @@ begin
   begin
     openbottom := front.floorheight;
     lowfloor := back.floorheight;
+    tmfloorpic := front.floorpic;
   end
   else
   begin
     openbottom := back.floorheight;
     lowfloor := front.floorheight;
+    tmfloorpic := back.floorpic;
   end;
 
   // JVAL: 3d Floors
@@ -575,7 +577,7 @@ begin
     begin
       link := @blocklinks[thing.bpos];
       dec(link.size);
-      if link.size <= 0 then
+      if link.size = 0 then
       begin
         Z_Free(link.links);
         link.links := nil;
@@ -860,23 +862,25 @@ var
   dl: divline_t;
   frac: fixed_t;
   pinrc: Pintercept_t;
+  r: integer;
 begin
   tracepositive := (trace.dx xor trace.dy) > 0;
 
   // check a corner to corner crossection for hit
+  r := thing.radius;
   if tracepositive then
   begin
-    x1 := thing.x - thing.radius;
-    y1 := thing.y + thing.radius;
-    x2 := thing.x + thing.radius;
-    y2 := thing.y - thing.radius;
+    x1 := thing.x - r;
+    y1 := thing.y + r;
+    x2 := thing.x + r;
+    y2 := thing.y - r;
   end
   else
   begin
-    x1 := thing.x - thing.radius;
-    y1 := thing.y - thing.radius;
-    x2 := thing.x + thing.radius;
-    y2 := thing.y + thing.radius;
+    x1 := thing.x - r;
+    y1 := thing.y - r;
+    x2 := thing.x + r;
+    y2 := thing.y + r;
   end;
 
   s1 := P_PointOnDivlineSide(x1, y1, @trace);

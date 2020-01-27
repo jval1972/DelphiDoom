@@ -188,8 +188,8 @@ begin
 
     xx := tmpx;
   end;
-  yy := 63 - (yy div FRACUNIT) and 63;
-  xx := (xx div FRACUNIT) and 63;
+  yy := 63 - (yy div MAPUNIT) and 63;
+  xx := (xx div MAPUNIT) and 63;
 end;
 {$ENDIF}
 
@@ -339,22 +339,22 @@ var
   i: integer;
 begin
   v := lst[0].v1;
-  t[0].x:= v.x;
-  t[0].y := v.y;
+  t[0].x := v.x div FRACTOMAPUNIT;
+  t[0].y := v.y div FRACTOMAPUNIT;
 {$IFDEF OPENGL}
   du0 := -v.y;
   dv0 := v.x;
 {$ENDIF}
   v := lst[1].v1;
-  t[1].x := v.x;
-  t[1].y := v.y;
+  t[1].x := v.x div FRACTOMAPUNIT;
+  t[1].y := v.y div FRACTOMAPUNIT;
 {$IFDEF OPENGL}
   du1 := -v.y;
   dv1 := v.x;
 {$ENDIF}
   v := lst[2].v1;
-  t[2].x := v.x;
-  t[2].y := v.y;
+  t[2].x := v.x div FRACTOMAPUNIT;
+  t[2].y := v.y div FRACTOMAPUNIT;
 {$IFDEF OPENGL}
   du2 := -v.y;
   dv2 := v.x;
@@ -362,7 +362,7 @@ begin
   for i := 0 to 2 do
   begin
     if allowautomaprotate then
-      AM_rotate(@t[i].x, @t[i].y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+      AM_rotate(@t[i].x, @t[i].y, ANG90 - plr.mo.angle, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
     t[i].x := CXMTOF(t[i].x);
     t[i].y := CYMTOF(t[i].y);
   end;
@@ -669,8 +669,8 @@ var
 begin
   Inc(amvalidcount);
   pla := plr.mo.angle - ANG90;
-  plx := plr.mo.x;
-  ply := plr.mo.y;
+  plx := plr.mo.x div FRACTOMAPUNIT;
+  ply := plr.mo.y div FRACTOMAPUNIT;
   amsin := fixedsine[pla shr FRACBITS];
   amcos := fixedcosine[pla shr FRACBITS];
 

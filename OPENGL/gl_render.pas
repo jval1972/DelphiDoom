@@ -1070,8 +1070,10 @@ const
   GLDWF_MTS = 3;  // Thick Side
   GLDWF_M2S = 4;
   GLDWF_BOT = 5;
-  GLDWF_SKY = 6;
-  GLDWF_SKYFLIP = 7;
+  GLDWF_TOPFLUD = 6; //e6y: project the ceiling plane into the gap
+  GLDWF_BOTFLUD = 7; //e6y: project the floor plane into the gap
+  GLDWF_SKY = 8;
+  GLDWF_SKYFLIP = 9;
 
 type
   glwalltype_t = (glwbottom, glwtop, glwmid);
@@ -1177,6 +1179,13 @@ type
     num_drawitems: integer;
     max_drawitems: integer;
   end;
+
+type
+  gl_strip_coords_t = record
+    v: array[0..3] of array [0..2] of GLfloat;
+    t: array[0..3] of array [0..1] of GLfloat;
+  end;
+  Pgl_strip_coords_t = ^gl_strip_coords_t;
 
 var
   gld_drawinfo: GLDrawInfo;
@@ -1754,10 +1763,11 @@ var
   dodrawsky: boolean;
   didfirstscreensync: boolean = false;
 
+var
+  xCamera, yCamera, zCamera: float;
+
 procedure gld_StartDrawScene;
 var
-  ytr: float;
-  xCamera, yCamera: float;
   height: integer;
   syncret: boolean;
 begin
@@ -1812,7 +1822,7 @@ begin
   // Player coordinates
   xCamera := -viewx / MAP_SCALE;
   yCamera := viewy / MAP_SCALE;
-  ytr := viewz / MAP_SCALE;
+  zCamera := viewz / MAP_SCALE;
 
   yaw := 270.0 - (viewangle shr ANGLETOFINESHIFT) * 360.0 / FINEANGLES;
   inv_yaw := -90.0 + (viewangle shr ANGLETOFINESHIFT) * 360.0 / FINEANGLES;
@@ -1843,12 +1853,12 @@ begin
   glRotatef(roll,  0.0, 0.0, 1.0);
   glRotatef(pitch, 1.0, 0.0, 0.0);
   glRotatef(yaw,   0.0, 1.0, 0.0);
-  glTranslatef(-xCamera, -ytr, -yCamera);
+  glTranslatef(-xCamera, -zCamera, -yCamera);
   camera.rotation[0] := pitch;
   camera.rotation[1] := yaw;
   camera.rotation[2] := roll;
   camera.position[0] := xCamera;
-  camera.position[1] := ytr;
+  camera.position[1] := zCamera;
   camera.position[2] := yCamera;
 
   inc(rendermarker);
@@ -2162,8 +2172,9 @@ function gld_GetSkyTexture(const w: PGLWall): integer;
 begin
   result := skytexture;
   if w.glseg.frontsector.sky and PL_SKYFLAT <> 0 then
-    result := sides[lines[frontsector.sky and not PL_SKYFLAT].sidenum[0]].toptexture;
+    result := texturetranslation[sides[lines[frontsector.sky and not PL_SKYFLAT].sidenum[0]].toptexture];
 end;
+
 function gld_GetSkyTextureFlag(const w: PGLWall): integer;
 begin
   result := GLDWF_SKY;
@@ -2172,6 +2183,7 @@ begin
       result := GLDWF_SKYFLIP;
 end;
 {$ENDIF}
+
 procedure ADDSKYTEXTURE(wall: PGLWall);
 begin
   wall.gltexture := gld_RegisterTexture({$IFDEF DOOM}gld_GetSkyTexture(wall){$ELSE}skytexture{$ENDIF}, false);
@@ -2195,6 +2207,155 @@ begin
   inc(gld_drawinfo.num_walls);
 end;
 
+//==========================================================================
+//
+// Flood gaps with the back side's ceiling/floor texture
+// This requires a stencil because the projected plane interferes with
+// the depth buffer
+//
+//==========================================================================
+
+procedure gld_SetupFloodStencil(const wall: PGLWall);
+var
+  recursion: integer;
+begin
+  recursion := 0;
+
+  // Create stencil
+  glStencilFunc(GL_EQUAL, recursion, $FFFFFFFF);  // create stencil
+  glStencilOp(GL_KEEP, GL_KEEP, GL_INCR); // increment stencil of valid pixels
+  glColorMask(false, false, false, false); // don't write to the graphics buffer
+  glDisable(GL_TEXTURE_2D);
+  glColor3f(1, 1, 1);
+  glEnable(GL_DEPTH_TEST);
+  glDepthMask(true);
+
+  glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(wall.glseg.x1, wall.ytop, wall.glseg.z1);
+    glVertex3f(wall.glseg.x1, wall.ybottom, wall.glseg.z1);
+    glVertex3f(wall.glseg.x2, wall.ybottom, wall.glseg.z2);
+    glVertex3f(wall.glseg.x2, wall.ytop, wall.glseg.z2);
+  glEnd();
+
+  glStencilFunc(GL_EQUAL, recursion + 1, $FFFFFFFF); // draw sky into stencil
+  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);   // this stage doesn't modify the stencil
+
+  glColorMask(true, true, true, true); // don't write to the graphics buffer
+  glEnable(GL_TEXTURE_2D);
+//  glDisable(GL_DEPTH_TEST);
+  glDepthMask(false);
+end;
+
+procedure gld_ClearFloodStencil(const wall: PGLWall);
+var
+  recursion: integer;
+begin
+  recursion := 0;
+
+  glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+  glDisable(GL_TEXTURE_2D);
+  glColorMask(false, false, false, false); // don't write to the graphics buffer
+  glColor3f(1, 1, 1);
+
+  glBegin(GL_TRIANGLE_FAN);
+    glVertex3f(wall.glseg.x1, wall.ytop, wall.glseg.z1);
+    glVertex3f(wall.glseg.x1, wall.ybottom, wall.glseg.z1);
+    glVertex3f(wall.glseg.x2, wall.ybottom, wall.glseg.z2);
+    glVertex3f(wall.glseg.x2, wall.ytop, wall.glseg.z2);
+  glEnd();
+
+  // restore old stencil op.
+  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  glStencilFunc(GL_EQUAL, recursion, $FFFFFFFF);
+  glEnable(GL_TEXTURE_2D);
+  glColorMask(true, true, true, true);
+  glEnable(GL_DEPTH_TEST);
+  glDepthMask(true);
+end;
+
+//
+// Calculation of the coordinates of the gap
+//
+procedure gld_SetupFloodedPlaneCoords(const wall: PGLWall; const c: Pgl_strip_coords_t);
+var
+  prj_fac1, prj_fac2: float;
+  k: float;
+  ytop, ybottom, planez: float;
+begin
+  if wall.flag = GLDWF_TOPFLUD then
+  begin
+    ytop := wall.ybottom;
+    ybottom := wall.ytop;
+    planez := wall.ybottom;
+  end
+  else
+  begin
+    ytop := wall.ytop;
+    ybottom := wall.ybottom;
+    planez := wall.ytop;
+  end;
+
+  prj_fac1 := (ytop - zCamera) / (ytop - zCamera);
+  prj_fac2 := (ytop - zCamera) / (ybottom - zCamera);
+
+  c.v[0][0] := xCamera + prj_fac1 * (wall.glseg.x1 - xCamera);
+  c.v[0][1] := planez;
+  c.v[0][2] := yCamera + prj_fac1 * (wall.glseg.z1 - yCamera);
+
+  c.v[1][0] := xCamera + prj_fac2 * (wall.glseg.x1 - xCamera);
+  c.v[1][1] := planez;
+  c.v[1][2] := yCamera + prj_fac2 * (wall.glseg.z1 - yCamera);
+
+  c.v[2][0] := xCamera + prj_fac1 * (wall.glseg.x2 - xCamera);
+  c.v[2][1] := planez;
+  c.v[2][2] := yCamera + prj_fac1 * (wall.glseg.z2 - yCamera);
+
+  c.v[3][0] := xCamera + prj_fac2 * (wall.glseg.x2 - xCamera);
+  c.v[3][1] := planez;
+  c.v[3][2] := yCamera + prj_fac2 * (wall.glseg.z2 - yCamera);
+
+  k := 0.5;
+
+  c.t[0][0] := -c.v[0][0] / k;
+  c.t[0][1] := -c.v[0][2] / k;
+
+  c.t[1][0] := -c.v[1][0] / k;
+  c.t[1][1] := -c.v[1][2] / k;
+
+  c.t[2][0] := -c.v[2][0] / k;
+  c.t[2][1] := -c.v[2][2] / k;
+
+  c.t[3][0] := -c.v[3][0] / k;
+  c.t[3][1] := -c.v[3][2] / k;
+end;
+
+procedure gld_SetupFloodedPlaneLight(const wall: PGLWall);
+var
+  light: float;
+begin
+  if wall.glseg.backsector <> nil then
+  begin
+    light := gld_CalcLightLevel(wall.glseg.backsector.lightlevel + (extralight shr 5));
+    gld_StaticLightAlpha(light, wall.alpha);
+  end
+  else
+    gld_StaticLightAlpha(wall.light, wall.alpha);
+end;
+
+procedure gld_DrawTriangleStrip(const c: Pgl_strip_coords_t);
+begin
+  glBegin(GL_TRIANGLE_STRIP);
+    glTexCoord2f(c.t[0][0], c.t[0][1]);
+    glVertex3f(c.v[0][0], c.v[0][1], c.v[0][2]);
+    glTexCoord2f(c.t[1][0], c.t[1][1]);
+    glVertex3f(c.v[1][0], c.v[1][1], c.v[1][2]);
+    glTexCoord2f(c.t[2][0], c.t[2][1]);
+    glVertex3f(c.v[2][0], c.v[2][1], c.v[2][2]);
+    glTexCoord2f(c.t[3][0], c.t[3][1]);
+    glVertex3f(c.v[3][0], c.v[3][1], c.v[3][2]);
+  glEnd();
+end;
+
 procedure gld_DrawWall(wall: PGLWall; const fblend: boolean);
 var
   seg: PGLSeg;
@@ -2206,6 +2367,7 @@ var
   vm: float;
   A: array[0..3] of GLVertexUV;
   iA: integer;
+  c: gl_strip_coords_t;
 
   procedure ADD_A_COORD(const au, av: float);
   begin
@@ -2309,6 +2471,20 @@ begin
   if wall.blend <> fblend then
     exit;
 
+
+  if (wall.flag = GLDWF_TOPFLUD) or (wall.flag = GLDWF_BOTFLUD) then
+  begin
+    gld_BindFlat(wall.gltexture);
+
+    gld_SetupFloodStencil(wall);
+    gld_SetupFloodedPlaneCoords(wall, @c);
+    gld_SetupFloodedPlaneLight(wall);
+    gld_DrawTriangleStrip(@c);
+    gld_ClearFloodStencil(wall);
+
+    exit;
+  end;
+  
   gld_BindTexture(wall.gltexture);
   if wall.flag >= GLDWF_SKY then
   begin
@@ -2639,13 +2815,18 @@ var
 begin
   wall.glseg := @gl_segs[seg.iSegID];
 
-  if seg.linedef.dx = 0 then
-    rellight := 16 // 8
-  else if seg.linedef.dy = 0 then
-    rellight := -16 // -8
+  if gl_fakecontrast then
+  begin
+    if seg.linedef.dx = 0 then
+      rellight := 16 // 8
+    else if seg.linedef.dy = 0 then
+      rellight := -16 // -8
+    else
+      rellight := 0;
+  end
   else
     rellight := 0;
-
+  
   wall.light := gld_CalcLightLevel(ssec.lightlevel + rellight + (extralight shl 5));
   
   if ssec = seg.frontsector then
@@ -2748,10 +2929,15 @@ begin
   {$ENDIF}
   wall.glseg := @gl_segs[seg.iSegID];
 
-  if seg.linedef.dx = 0 then
-    rellight := 16 // 8
-  else if seg.linedef.dy = 0 then
-    rellight := -16 // -8
+  if gl_fakecontrast then
+  begin
+    if seg.linedef.dx = 0 then
+      rellight := 16 // 8
+    else if seg.linedef.dy = 0 then
+      rellight := -16 // -8
+    else
+      rellight := 0;
+  end
   else
     rellight := 0;
 
@@ -2830,7 +3016,7 @@ begin
       ADDWALL(@wall);
     end;
     temptex := gld_RegisterTexture(texturetranslation[seg.sidedef.midtexture], true);
-    if temptex <> nil then
+    if (temptex <> nil) and (frontsector.ceilingheight > frontsector.floorheight) then
     begin
       wall.gltexture := temptex;
       CALC_Y_VALUES(@wall, lineheight, frontsector.floorheight, frontsector.ceilingheight);
@@ -2889,7 +3075,10 @@ begin
           ((backsector.ceilingheight = backsector.floorheight) or (backsector.ceilingheight <= frontsector.floorheight)) and
            (backsector.ceilingpic = skyflatnum) then
       begin
-        wall.ybottom := backsector.floorheight / MAP_SCALE;
+        if seg.sidedef.rowoffset > 0 then
+          wall.ybottom := (backsector.floorheight + seg.sidedef.rowoffset) / MAP_SCALE
+        else
+          wall.ybottom := backsector.floorheight / MAP_SCALE;
         ADDSKYTEXTURE(@wall);
         ADDWALL(@wall);
       end
@@ -2917,6 +3106,7 @@ begin
         end;
       end;
     end;
+
     if (floor_height < ceiling_height) or
        (backsector.renderflags and SRF_SLOPED <> 0) or // JVAL: Slopes
        (frontsector.renderflags and SRF_SLOPED <> 0) then
@@ -2937,8 +3127,17 @@ begin
         else if (backsector <> nil) and (seg.linedef.renderflags and LRF_ISOLATED = 0) and
                 (frontsector.ceilingpic <> skyflatnum) and (backsector.ceilingpic <> skyflatnum) then
         begin
+          wall.ytop := ceiling_height / MAP_SCALE + SMALLDELTA;
+          wall.ybottom := floor_height / MAP_SCALE - SMALLDELTA;
+          temptex := gld_RegisterFlat(R_GetLumpForFlat(seg.backsector.ceilingpic), true);
+          if temptex <> nil then
+          begin
+            wall.flag := GLDWF_TOPFLUD;
+            wall.gltexture := temptex;
+            ADDWALL(@wall);
+          end;
 //          gld_AddFlat_Extra(seg.frontsector.iSectorID, seg.backsector.ceilingpic, seg.frontsector.floorheight, true, false); // here SOS SOS JVAL 20200105
-        end;
+        end
       end;
     end;
 
@@ -3032,7 +3231,19 @@ bottomtexture:
          (backsector.floorheight > frontsector.floorheight) and
          (texturetranslation[seg.sidedef.bottomtexture] = NO_TEXTURE) then
       begin
-        //gld_AddFlat_Extra(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.backsector.floorheight); // here
+        wall.ytop := ceiling_height / MAP_SCALE + SMALLDELTA;
+        wall.ybottom := floor_height / MAP_SCALE - SMALLDELTA;
+        if wall.ytop <= zCamera then
+        begin
+          temptex := gld_RegisterFlat(R_GetLumpForFlat(seg.backsector.floorpic), true);
+          if temptex <> nil then
+          begin
+            wall.flag := GLDWF_BOTFLUD;
+            wall.gltexture := temptex;
+            ADDWALL(@wall);
+          end;
+        end;
+        //gld_AddFlat_Extra(seg.frontsector.iSectorID, seg.backsector.floorpic, seg.backsector.floorheight, true, false); // here
       end
       else
       begin
@@ -4462,7 +4673,7 @@ var
 begin
   if zaxisshift then
   begin
-    wallrange := GLDWF_BOT;
+    wallrange := GLDWF_BOTFLUD;
     if not gl_stencilsky and dodrawsky then
     begin
       if pitch <= -35.0 then
@@ -4555,7 +4766,7 @@ begin
     end;
   end;
 
-  gld_DrawWalls(GLDWF_BOT, true);
+  gld_DrawWalls(GLDWF_BOTFLUD, true);
 
   if gl_uselightmaps then
     gld_DeActivateLightmap;

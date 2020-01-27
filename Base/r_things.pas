@@ -47,7 +47,8 @@ var
   maxvissprite: integer;
 
 {$IFNDEF OPENGL}
-procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+procedure R_DrawMaskedColumn(column: Pcolumn_t; const depthscale: fixed_t;
+  baseclip: integer = -1; const renderflags: LongWord = 0);
 procedure R_DrawMaskedColumn2(const mc2h: integer); // Use dc_source32
 {$ENDIF}
 
@@ -481,6 +482,23 @@ begin
 end;
 
 {$IFNDEF OPENGL}
+
+procedure R_MaskedAdjustY(var yl: integer; const yh: integer);
+var
+  testfrac: fixed_t;
+begin
+  testfrac := dc_texturemid + (yl - centery) * dc_iscale;
+  while true do
+  begin
+    if testfrac >= 0 then
+      exit;
+    inc(yl);
+    if yl > yh then
+      exit;
+    testfrac := testfrac + dc_iscale;
+  end;
+end;
+
 //
 // R_DrawMaskedColumn
 // Used for sprites and masked mid textures.
@@ -488,9 +506,10 @@ end;
 //  in posts/runs of opaque pixels.
 //
 type
-  R_DrawMaskedColumn_t = procedure (column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+  R_DrawMaskedColumn_t = procedure (column: Pcolumn_t; const depthscale: fixed_t; baseclip: integer = -1; const renderflags: LongWord = 0);
 
-procedure R_DrawMaskedColumn(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+procedure R_DrawMaskedColumn(column: Pcolumn_t; const depthscale: fixed_t;
+  baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -523,15 +542,12 @@ begin
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
     if dc_yl >= fc_x then
       break;
-
-    dc_yh := FixedInt64(bottomscreen - 1);
-
-    if dc_yh >= fc_x then
-      dc_yh := fc_x - 1;
-
     if dc_yl <= cc_x then
       dc_yl := cc_x + 1;
 
+    dc_yh := FixedInt64(bottomscreen - 1);
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
     if dc_yh >= baseclip then
       dc_yh := baseclip;
 
@@ -539,6 +555,7 @@ begin
     begin
       dc_source := PByteArray(integer(column) + 3);
       dc_texturemid := basetexturemid - (delta * FRACUNIT);
+      R_MaskedAdjustY(dc_yl, dc_yh);
       // Drawn by either R_DrawColumn
       //  or (SHADOW) R_DrawFuzzColumn
       //  or R_DrawColumnAverage
@@ -546,9 +563,9 @@ begin
       if dodepthbuffer then // JVAL: 3d Floors
       begin
         if renderflags and VSF_TRANSPARENCY <> 0 then
-          R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheckOnly(colfunc, depthscale) // JVAL: 3d Floors
         else
-          R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheckWrite(colfunc, depthscale) // JVAL: 3d Floors
       end
       else
         colfunc;
@@ -585,12 +602,12 @@ begin
   bottomscreen := topscreen + int64(spryscale * mc2h);
 
   dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-  dc_yh := FixedInt64(bottomscreen - 1);
-
-  if dc_yh >= fc_x then
-    dc_yh := fc_x - 1;
   if dc_yl <= cc_x then
     dc_yl := cc_x + 1;
+
+  dc_yh := FixedInt64(bottomscreen - 1);
+  if dc_yh >= fc_x then
+    dc_yh := fc_x - 1;
 
   if dc_yl <= dc_yh then
   begin
@@ -642,14 +659,12 @@ begin
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
     if dc_yl >= fc_x then
       break;
-
-    dc_yh := FixedInt64(bottomscreen - 1);
-
-    if dc_yh >= fc_x then
-      dc_yh := fc_x - 1;
     if dc_yl <= cc_x then
       dc_yl := cc_x + 1;
 
+    dc_yh := FixedInt64(bottomscreen - 1);
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
     if dc_yh >= baseclip then
       dc_yh := baseclip;
 
@@ -657,6 +672,7 @@ begin
     begin
       dc_source := PByteArray(integer(column) + 3);
       dc_texturemid := basetexturemid - (delta * FRACUNIT);
+      R_MaskedAdjustY(dc_yl, dc_yh);
       // Drawn by either R_DrawColumn
       //  or (SHADOW) R_DrawFuzzColumn
       //  or R_DrawColumnAverage
@@ -742,14 +758,12 @@ begin
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
     if dc_yl >= fc_x then
       break;
-
-    dc_yh := FixedInt64(bottomscreen - 1);
-
-    if dc_yh >= fc_x then
-      dc_yh := fc_x - 1;
     if dc_yl <= cc_x then
       dc_yl := cc_x + 1;
 
+    dc_yh := FixedInt64(bottomscreen - 1);
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
     if dc_yh >= baseclip then
       dc_yh := baseclip;
 
@@ -757,6 +771,7 @@ begin
     begin
       dc_source := PByteArray(integer(column) + 3);
       dc_texturemid := basetexturemid - (delta * FRACUNIT);
+      R_MaskedAdjustY(dc_yl, dc_yh);
 
       R_FillSpriteInfo_BatchMT(R_SpriteAddMTInfo);
     end;
@@ -776,7 +791,8 @@ begin
   dc_texturemid := basetexturemid;
 end;
 
-procedure R_DrawMaskedColumnMT(column: Pcolumn_t; baseclip: integer = -1; const renderflags: LongWord = 0);
+procedure R_DrawMaskedColumnMT(column: Pcolumn_t; const depthscale: fixed_t;
+  baseclip: integer = -1; const renderflags: LongWord = 0);
 var
   topscreen: int64;
   bottomscreen: int64;
@@ -809,14 +825,12 @@ begin
     dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
     if dc_yl >= fc_x then
       break;
-
-    dc_yh := FixedInt64(bottomscreen - 1);
-
-    if dc_yh >= fc_x then
-      dc_yh := fc_x - 1;
     if dc_yl <= cc_x then
       dc_yl := cc_x + 1;
 
+    dc_yh := FixedInt64(bottomscreen - 1);
+    if dc_yh >= fc_x then
+      dc_yh := fc_x - 1;
     if dc_yh >= baseclip then
       dc_yh := baseclip;
 
@@ -824,6 +838,7 @@ begin
     begin
       dc_source := PByteArray(integer(column) + 3);
       dc_texturemid := basetexturemid - (delta * FRACUNIT);
+      R_MaskedAdjustY(dc_yl, dc_yh);
       // Drawn by either R_DrawColumn
       //  or (SHADOW) R_DrawFuzzColumn
       //  or R_DrawColumnAverage
@@ -831,9 +846,9 @@ begin
       if dodepthbuffer then // JVAL: 3d Floors
       begin
         if renderflags and VSF_TRANSPARENCY <> 0 then
-          R_DrawColumnWithDepthBufferCheckOnly(colfunc) // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheckOnly(colfunc, depthscale) // JVAL: 3d Floors
         else
-          R_DrawColumnWithDepthBufferCheckWrite(colfunc) // JVAL: 3d Floors
+          R_DrawColumnWithDepthBufferCheckWrite(colfunc, depthscale) // JVAL: 3d Floors
       end
       else
         R_FillSpriteInfo_MT(R_SpriteAddMTInfo);
@@ -877,6 +892,7 @@ var
   dmcproc: R_DrawMaskedColumn_t;
   dmcproc_batch: DrawMaskedColumn_Batch_t;
   do_mt: boolean;
+  dbscale: fixed_t;
 begin
   patch := W_CacheSpriteNum(vis.patch + firstspritelump, PU_STATIC); // JVAL: Images as sprites
 
@@ -995,6 +1011,8 @@ begin
   end;
 
   dc_iscale := FixedDivEx(FRACUNIT, vis.scale);
+  dbscale := trunc((FRACUNIT / dc_iscale) * (FRACUNIT / vis.infoscale) * FRACUNIT);
+
   dc_texturemid := vis.texturemid;
   frac := vis.startfrac;
   spryscale := vis.scale;
@@ -1023,7 +1041,7 @@ begin
       texturecolumn := LongWord(frac) shr FRACBITS;
 
       column := Pcolumn_t(integer(patch) + patch.columnofs[texturecolumn]);
-      dmcproc(column, baseclip, vis.renderflags);
+      dmcproc(column, dbscale, baseclip, vis.renderflags);
       frac := frac + xiscale;
       inc(dc_x);
     end;
@@ -1058,7 +1076,7 @@ begin
         if num_batch_columns > 1 then
           dmcproc_batch(column, baseclip)
         else
-          dmcproc(column, baseclip, vis.renderflags);
+          dmcproc(column, dbscale, baseclip, vis.renderflags);
         dc_x := last_dc_x;
       end;
       frac := frac + xiscale;
@@ -1072,7 +1090,7 @@ begin
       if num_batch_columns > 1 then
         dmcproc_batch(column, baseclip)
       else
-        dmcproc(column, baseclip, vis.renderflags);
+        dmcproc(column, dbscale, baseclip, vis.renderflags);
     end;
     R_SpriteRenderMT;
   end;
@@ -1166,13 +1184,13 @@ begin
       bottomscreen := topscreen + int64(spryscale * llength);
 
       dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-      dc_yh := FixedInt64(bottomscreen - 1);
       dc_texturemid := (centery - dc_yl) * dc_iscale;
-
-      if dc_yh >= mfloorclip[dc_x] then
-        dc_yh := mfloorclip[dc_x] - 1;
       if dc_yl <= mceilingclip[dc_x] then
         dc_yl := mceilingclip[dc_x] + 1;
+
+      dc_yh := FixedInt64(bottomscreen - 1);
+      if dc_yh >= mfloorclip[dc_x] then
+        dc_yh := mfloorclip[dc_x] - 1;
 
       if frac < 256 * FRACUNIT then
         if dc_yl <= dc_yh then
@@ -1219,13 +1237,13 @@ begin
         bottomscreen := topscreen + int64(spryscale * llength);
 
         dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-        dc_yh := FixedInt64(bottomscreen - 1);
         dc_texturemid := (centery - dc_yl) * dc_iscale;
-
-        if dc_yh >= mfloorclip[dc_x] then
-          dc_yh := mfloorclip[dc_x] - 1;
         if dc_yl <= mceilingclip[dc_x] then
           dc_yl := mceilingclip[dc_x] + 1;
+
+        dc_yh := FixedInt64(bottomscreen - 1);
+        if dc_yh >= mfloorclip[dc_x] then
+          dc_yh := mfloorclip[dc_x] - 1;
 
         if frac < 256 * FRACUNIT then
           if dc_yl <= dc_yh then
@@ -1799,7 +1817,7 @@ begin
   vis.mobjflags2_ex := 0;
   vis.mo := viewplayer.mo;
 
-  vis.texturemid := (BASEYCENTER * FRACUNIT){ + FRACUNIT div 2} - (psp.sy - spritetopoffset[lump]);
+  vis.texturemid := (BASEYCENTER * FRACUNIT) {+ FRACUNIT div 2} - (psp.sy - spritetopoffset[lump]);
 {$IFDEF HERETIC}
   if screenblocks > 10 then
     vis.texturemid := vis.texturemid - PSpriteSY[Ord(viewplayer.readyweapon)];
@@ -1869,7 +1887,7 @@ begin
     // local light
 {$IFNDEF OPENGL}  // JVAL: 3d Floors
     vis.colormap := spritelights[MAXLIGHTSCALE - 1];
-{$ENDIF}    
+{$ENDIF}
 {$IFDEF OPENGL}
     lightlevel := Psubsector_t(vis.mo.subsector).sector.lightlevel + extralight shl LIGHTSEGSHIFT
 {$ENDIF}

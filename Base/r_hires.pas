@@ -123,6 +123,9 @@ procedure R_SetPalette(palette: integer);
 
 var
   pal_color: LongWord;
+{$IFNDEF OPENGL}
+  cur_pal_index: integer;
+{$ENDIF}
 
 implementation
 
@@ -1227,6 +1230,9 @@ var
   r_extra_green: LongWord;
   r_extra_blue: LongWord;
 begin
+{$IFNDEF OPENGL}
+  cur_pal_index := palette;
+{$ENDIF}  
   if palette > 0 then
   begin
     if palette <= 8 then

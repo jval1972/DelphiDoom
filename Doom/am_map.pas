@@ -113,6 +113,12 @@ const
 // moves 140 pixels in 1 second }
   F_PANINC = 4;
 
+const
+  MAPBITS = 12;
+  MAPUNIT = 1 shl MAPBITS;
+  FRACTOMAPBITS = FRACBITS - MAPBITS;
+  FRACTOMAPUNIT = 1 shl FRACTOMAPBITS;
+
 { how much zoom-in per tic }
 function M_ZOOMIN: integer;
 
@@ -330,7 +336,7 @@ uses
 const
   AM_MIN_SCALE = 2048;
 // player radius
-  PLAYERRADIUS = 16 * FRACUNIT;
+  PLAYERRADIUS = 16 * (1 shl MAPBITS);
 
 procedure CmdAllowautomapoverlay(const parm: string);
 begin
@@ -363,12 +369,12 @@ end;
 
 function CXMTOF(x : integer): integer;
 begin
-  result := f_x + MTOF(x - m_x);
+  result := f_x + MTOF(x) - MTOF(m_x);
 end;
 
 function CYMTOF(y : integer): integer;
 begin
-  result := f_y + (f_h - MTOF(y - m_y));
+  result := f_y + (f_h - MTOF(y) + MTOF(m_y));
 end;
 
 //
@@ -442,8 +448,8 @@ begin
   end
   else
   begin
-    m_x := plr.mo.x - m_w div 2;
-    m_y := plr.mo.y - m_h div 2;
+    m_x := (plr.mo.x div FRACTOMAPUNIT) - m_w div 2;
+    m_y := (plr.mo.y div FRACTOMAPUNIT) - m_h div 2;
   end;
 
   m_x2 := m_x + m_w;
@@ -495,6 +501,11 @@ begin
 
   end;
 
+  max_x := max_x div FRACTOMAPUNIT;
+  min_x := min_x div FRACTOMAPUNIT;
+  max_y := max_y div FRACTOMAPUNIT;
+  min_y := min_y div FRACTOMAPUNIT;
+
   max_w := max_x - min_x;
   max_h := max_y - min_y;
 
@@ -509,12 +520,7 @@ begin
   else
     min_scale_mtof := b;
 
-  if min_scale_mtof < AM_MIN_SCALE * SCREENWIDTH div MAXWIDTH then
-    min_scale_mtof := AM_MIN_SCALE * SCREENWIDTH div MAXWIDTH;
-
-  max_scale_mtof := FixedDiv(f_h * FRACUNIT, 10 * PLAYERRADIUS);
-  if max_scale_mtof < min_scale_mtof * 2 then
-    max_scale_mtof := min_scale_mtof * 2
+  max_scale_mtof := FixedDiv(f_h * FRACUNIT, 2 * PLAYERRADIUS);
 end;
 
 //
@@ -592,8 +598,8 @@ begin
       plr := @players[pnum];
       if plr.mo <> nil then
       begin
-        m_x := plr.mo.x - m_w div 2;
-        m_y := plr.mo.y - m_h div 2;
+        m_x := (plr.mo.x div FRACTOMAPUNIT) - m_w div 2;
+        m_y := (plr.mo.y div FRACTOMAPUNIT) - m_h div 2;
       end;
     end;
   end;
@@ -936,8 +942,8 @@ procedure AM_doFollowPlayer;
 begin
   if (f_oldloc.x <> plr.mo.x) or (f_oldloc.y <> plr.mo.y) then
   begin
-    m_x := FTOM(MTOF(plr.mo.x)) - m_w div 2;
-    m_y := FTOM(MTOF(plr.mo.y)) - m_h div 2;
+    m_x := FTOM(MTOF(plr.mo.x div FRACTOMAPUNIT)) - m_w div 2;
+    m_y := FTOM(MTOF(plr.mo.y div FRACTOMAPUNIT)) - m_h div 2;
     m_x2 := m_x + m_w;
     m_y2 := m_y + m_h;
     f_oldloc.x := plr.mo.x;
@@ -1190,6 +1196,7 @@ var
 
 begin
   // For debugging only
+  {$IFDEF DEBUG}
   if (fl.a.x < 0) or (fl.a.x >= f_w) or
      (fl.a.y < 0) or (fl.a.y >= f_h) or
      (fl.b.x < 0) or (fl.b.x >= f_w) or
@@ -1198,6 +1205,7 @@ begin
     I_Error('AM_drawFline(): fuck!');
     exit;
   end;
+  {$ENDIF}
 
   dx := fl.b.x - fl.a.x;
   ax := 2 * abs(dx);
@@ -1274,22 +1282,26 @@ var
   dw, dh: double;
   minlen, extx, exty: fixed_t;
   minx, miny: fixed_t;
+  rx, ry: fixed_t;
 begin
   dw := m_w;
   dh := m_h;
 
-  minlen := trunc(sqrt(dw * dw + dh * dh));
+  minlen := trunc(sqrt(2.0 * dw * dw + 2.0 * dh * dh));
   extx := (minlen - m_w) div 2;
   exty := (minlen - m_h) div 2;
 
   minx := m_x;
   miny := m_y;
 
+  rx := plr.mo.x div FRACTOMAPUNIT;
+  ry := plr.mo.y div FRACTOMAPUNIT;
+
   // Figure out start of vertical gridlines
   start := m_x - extx;
-  if ((start - bmaporgx) mod (MAPBLOCKUNITS * FRACUNIT)) <> 0 then
+  if ((start - bmaporgx div FRACTOMAPUNIT) mod (MAPBLOCKUNITS * FRACUNIT)) <> 0 then
     start := start {+ (MAPBLOCKUNITS * FRACUNIT)}
-          - ((start - bmaporgx) mod (MAPBLOCKUNITS * FRACUNIT));
+          - ((start - bmaporgx div FRACTOMAPUNIT) mod (MAPBLOCKUNITS * FRACUNIT));
   finish := minx + minlen - extx;
 
   // draw vertical gridlines
@@ -1303,12 +1315,12 @@ begin
 
     if allowautomaprotate then
     begin
-      AM_rotate(@ml.a.x, @ml.a.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
-      AM_rotate(@ml.b.x, @ml.b.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+      AM_rotate(@ml.a.x, @ml.a.y, ANG90 - plr.mo.angle, rx, ry);
+      AM_rotate(@ml.b.x, @ml.b.y, ANG90 - plr.mo.angle, rx, ry);
     end;
 
     AM_drawMline(@ml, color);
-    x := x + (MAPBLOCKUNITS * FRACUNIT);
+    x := x + (MAPBLOCKUNITS * MAPUNIT);
   end;
 
   // Figure out start of horizontal gridlines
@@ -1329,12 +1341,12 @@ begin
 
     if allowautomaprotate then
     begin
-      AM_rotate(@ml.a.x, @ml.a.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
-      AM_rotate(@ml.b.x, @ml.b.y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+      AM_rotate(@ml.a.x, @ml.a.y, ANG90 - plr.mo.angle, rx, ry);
+      AM_rotate(@ml.b.x, @ml.b.y, ANG90 - plr.mo.angle, rx, ry);
     end;
 
     AM_drawMline(@ml, color);
-    y := y + (MAPBLOCKUNITS * FRACUNIT);
+    y := y + (MAPBLOCKUNITS * MAPUNIT);
   end;
 end;
 
@@ -1387,16 +1399,16 @@ var
   plrx, plry: fixed_t;
   plra: angle_t;
 begin
-  plrx := plr.mo.x;
-  plry := plr.mo.y;
+  plrx := plr.mo.x div FRACTOMAPUNIT;
+  plry := plr.mo.y div FRACTOMAPUNIT;
   plra := ANG90 - plr.mo.angle;
   pl := @lines[0];
   for i := 0 to numlines - 1 do
   begin
-    l.a.x := pl.v1.x;
-    l.a.y := pl.v1.y;
-    l.b.x := pl.v2.x;
-    l.b.y := pl.v2.y;
+    l.a.x := pl.v1.x div FRACTOMAPUNIT;
+    l.a.y := pl.v1.y div FRACTOMAPUNIT;
+    l.b.x := pl.v2.x div FRACTOMAPUNIT;
+    l.b.y := pl.v2.y div FRACTOMAPUNIT;
 
     if allowautomaprotate then
     begin
@@ -1515,11 +1527,11 @@ begin
     if am_cheating <> 0 then
       AM_drawLineCharacter
         (@cheat_player_arrow, NUMCHEATPLYRLINES, 0,
-        plr.mo.angle, WHITE, plr.mo.x, plr.mo.y)
+        plr.mo.angle, WHITE, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT)
     else
       AM_drawLineCharacter
         (@player_arrow, NUMPLYRLINES, 0, plr.mo.angle,
-        WHITE, plr.mo.x, plr.mo.y);
+        WHITE, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
     exit;
   end;
 
@@ -1544,11 +1556,11 @@ begin
     y := p.mo.y;
 
     if allowautomaprotate then
-      AM_rotate(@x, @y, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+      AM_rotate(@x, @y, ANG90 - plr.mo.angle, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
 
     AM_drawLineCharacter
       (@player_arrow, NUMPLYRLINES, 0, p.mo.angle,
-       color, x, y);
+       color, x div FRACTOMAPUNIT, y div FRACTOMAPUNIT);
   end;
 end;
 
@@ -1560,16 +1572,16 @@ var
   plrx, plry: fixed_t;
   plra: angle_t;
 begin
-  plrx := plr.mo.x;
-  plry := plr.mo.y;
+  plrx := plr.mo.x div FRACTOMAPUNIT;
+  plry := plr.mo.y div FRACTOMAPUNIT;
   plra := ANG90 - plr.mo.angle;
   for i := 0 to numsectors - 1 do
   begin
     t := sectors[i].thinglist;
     while t <> nil do
     begin
-      x := t.x;
-      y := t.y;
+      x := t.x div FRACTOMAPUNIT;
+      y := t.y div FRACTOMAPUNIT;
 
       if allowautomaprotate then
         AM_rotate(@x, @y, plra, plrx, plry);
@@ -1596,7 +1608,7 @@ begin
       fy := markpoints[i].y;
 
       if allowautomaprotate then
-        AM_rotate(@fx, @fy, ANG90 - plr.mo.angle, plr.mo.x, plr.mo.y);
+        AM_rotate(@fx, @fy, ANG90 - plr.mo.angle, plr.mo.x div FRACTOMAPUNIT, plr.mo.y div FRACTOMAPUNIT);
 
       fx := CXMTOF(fx);
       fy := CYMTOF(fy);
@@ -1633,8 +1645,8 @@ begin
   begin
     m_w := FTOM(f_w);
     m_h := FTOM(f_h);
-    m_x := plr.mo.x - m_w div 2;
-    m_y := plr.mo.y - m_h div 2;
+    m_x := plr.mo.x div FRACTOMAPUNIT - m_w div 2;
+    m_y := plr.mo.y div FRACTOMAPUNIT - m_h div 2;
   end;
 
   if amstate = am_only then
@@ -1815,42 +1827,42 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 
   pl := @triangle_guy[0];
-  pl.a.x := round(-0.867 * FRACUNIT);
-  pl.a.y := round(-0.5 * FRACUNIT);
-  pl.b.x := round(0.867 * FRACUNIT);
-  pl.b.y := round(-0.5 * FRACUNIT);
+  pl.a.x := round(-0.867 * MAPUNIT);
+  pl.a.y := round(-0.5 * MAPUNIT);
+  pl.b.x := round(0.867 * MAPUNIT);
+  pl.b.y := round(-0.5 * MAPUNIT);
 
   inc(pl);
-  pl.a.x := round(0.867 * FRACUNIT);
-  pl.a.y := round(-0.5 * FRACUNIT);
+  pl.a.x := round(0.867 * MAPUNIT);
+  pl.a.y := round(-0.5 * MAPUNIT);
   pl.b.x := 0;
-  pl.b.y := FRACUNIT;
+  pl.b.y := MAPUNIT;
 
   inc(pl);
   pl.a.x := 0;
-  pl.a.y := FRACUNIT;
-  pl.b.x := round(-0.867 * FRACUNIT);
-  pl.b.y := round(-0.5 * FRACUNIT);
+  pl.a.y := MAPUNIT;
+  pl.b.x := round(-0.867 * MAPUNIT);
+  pl.b.y := round(-0.5 * MAPUNIT);
 
 ////////////////////////////////////////////////////////////////////////////////
 
   pl := @thintriangle_guy[0];
-  pl.a.x := round(-0.5 * FRACUNIT);
-  pl.a.y := round(-0.7 * FRACUNIT);
-  pl.b.x := FRACUNIT;
+  pl.a.x := round(-0.5 * MAPUNIT);
+  pl.a.y := round(-0.7 * MAPUNIT);
+  pl.b.x := MAPUNIT;
   pl.b.y := 0;
 
   inc(pl);
-  pl.a.x := FRACUNIT;
+  pl.a.x := MAPUNIT;
   pl.a.y := 0;
-  pl.b.x := round(-0.5 * FRACUNIT);
-  pl.b.y := round(0.7 * FRACUNIT);
+  pl.b.x := round(-0.5 * MAPUNIT);
+  pl.b.y := round(0.7 * MAPUNIT);
 
   inc(pl);
-  pl.a.x := round(-0.5 * FRACUNIT);
-  pl.a.y := round(0.7 * FRACUNIT);
-  pl.b.x := round(-0.5 * FRACUNIT);
-  pl.b.y := round(-0.7 * FRACUNIT);
+  pl.a.x := round(-0.5 * MAPUNIT);
+  pl.a.y := round(0.7 * MAPUNIT);
+  pl.b.x := round(-0.5 * MAPUNIT);
+  pl.b.y := round(-0.7 * MAPUNIT);
 
 ////////////////////////////////////////////////////////////////////////////////
   cheat_amap.sequence := get_cheatseq_string(cheat_amap_seq);

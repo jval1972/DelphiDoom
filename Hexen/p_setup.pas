@@ -665,6 +665,11 @@ begin
     ss.renderflags := 0;
     ss.flags := 0;
     ss.gravity := GRAVITY;  // JVAL: sector gravity (VERSION 204)
+{$IFNDEF OPENGL}
+    // [kb] For R_WiggleFix
+    ss.cachedheight := 0;
+    ss.scaleindex := 0;
+{$ENDIF}
     ss.iSectorID := i; // JVAL: 3d Floors
     inc(ms);
     inc(ss);

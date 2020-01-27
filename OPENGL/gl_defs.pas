@@ -127,7 +127,8 @@ const
 
 var
   gl_tex_format_string: string;
-  gl_tex_format: integer = GL_RGBA8; 
+  gl_tex_format: integer = GL_RGBA8;
+  gl_fakecontrast: boolean; 
 
 type
   tex_format_lookup_t = record

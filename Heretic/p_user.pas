@@ -254,6 +254,7 @@ begin
       player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
 
     player.oldviewz := oldviewz;
+
 //    player.viewz := player.mo.z + player.viewheight;  JVAL removed!
     exit;
   end;
@@ -618,6 +619,7 @@ begin
       player.mo.angle := player.mo.angle + ANG5
     else
       player.mo.angle := player.mo.angle - ANG5;
+
   end
   else if player.damagecount <> 0 then
     player.damagecount := player.damagecount - 1;

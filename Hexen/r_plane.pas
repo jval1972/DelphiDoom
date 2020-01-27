@@ -287,10 +287,7 @@ begin
   // JVAL: 3d Floors
   if depthbufferactive then
   begin
-    if y = centery then
-      db_distance := 0
-    else
-      db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
+    db_distance := Round(FRACUNIT / (planeheight / abs(centery - y)) * FRACUNIT);
     spandepthbufferproc;
   end;
 
@@ -303,7 +300,7 @@ end;
 // JVAL: Visplane hash
 const
   VISPLANEHASHSIZE = MAXVISPLANES;
-  VISPLANEHASHOVER = 10;
+  VISPLANEHASHOVER = 16;
 
 var
   visplanehash: array[0..VISPLANEHASHSIZE + VISPLANEHASHOVER - 1] of LongWord;
@@ -315,7 +312,7 @@ var
 procedure R_ClearPlanes;
 {$IFNDEF OPENGL}
 type
-  two_smallints_t = record
+  two_smallints_t = packed record
     sm1, sm2: SmallInt;
   end;
 var
@@ -804,58 +801,61 @@ begin
       for x := pl.minx to pl.maxx do
       begin
         dc_yl := pl.top[x];
-        dc_yh := pl.bottom[x];
-        if dc_yl <= dc_yh then
+        if dc_yl < viewheight then
         begin
-          angle := (viewangle + xtoviewangle[x] + offset) div ANGLETOSKYUNIT;
-          dc_texturemod := 0;
-          dc_mod := 0;
-          dc_x := x;
-          R_GetDCs(SkyTexture, angle);
-          if videomode = vm32bit then
+          dc_yh := pl.bottom[x];
+          if dc_yl <= dc_yh then
           begin
-            sksize := dc_columnsize;
-            memcpy(@tempsource, dc_source32, (dc_columnsize + 1) * 4)
-          end
-          else
-          begin
-            sksize := 200;
-            memcpy(@tempsource, dc_source, 200);
-          end;
-
-          angle := (viewangle + xtoviewangle[x] + offset2) div ANGLETOSKYUNIT;
-          if detaillevel > DL_NORMAL then
-          begin
-            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-            dc_mod := dc_texturemod;
-          end;
-          dc_x := x;
-          R_GetDCs(Sky2Texture, angle);
-
-          if videomode = vm32bit then
-          begin
-            destl := @tempsource[0];
-            for k := 0 to sksize do
+            angle := (viewangle + xtoviewangle[x] + offset) div ANGLETOSKYUNIT;
+            dc_texturemod := 0;
+            dc_mod := 0;
+            dc_x := x;
+            R_GetDCs(SkyTexture, angle);
+            if videomode = vm32bit then
             begin
-              if destl^ = 0 then
-                destl^ := dc_source32[k];
-              inc(destl);
+              sksize := dc_columnsize;
+              memcpy(@tempsource, dc_source32, (dc_columnsize + 1) * 4)
+            end
+            else
+            begin
+              sksize := 200;
+              memcpy(@tempsource, dc_source, 200);
             end;
-            dc_source32 := @tempsource;
-          end
-          else
-            begin
-            destb := @tempsource[0];
-            for k := 0 to 199 do
-            begin
-              if destb^ = 0 then
-                destb^ := dc_source[k];
-              inc(destb);
-            end;
-            dc_source := @tempsource;
-          end;
 
-          skycolfunc;
+            angle := (viewangle + xtoviewangle[x] + offset2) div ANGLETOSKYUNIT;
+            if detaillevel > DL_NORMAL then
+            begin
+              dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+              dc_mod := dc_texturemod;
+            end;
+            dc_x := x;
+            R_GetDCs(Sky2Texture, angle);
+
+            if videomode = vm32bit then
+            begin
+              destl := @tempsource[0];
+              for k := 0 to sksize do
+              begin
+                if destl^ = 0 then
+                  destl^ := dc_source32[k];
+                inc(destl);
+              end;
+              dc_source32 := @tempsource;
+            end
+            else
+              begin
+              destb := @tempsource[0];
+              for k := 0 to 199 do
+              begin
+                if destb^ = 0 then
+                  destb^ := dc_source[k];
+                inc(destb);
+              end;
+              dc_source := @tempsource;
+            end;
+
+            skycolfunc;
+          end;
         end;
       end;
       R_EnableFixedColumn;
@@ -879,30 +879,33 @@ begin
     for x := pl.minx to pl.maxx do
     begin
       dc_yl := pl.top[x];
-      dc_yh := pl.bottom[x];
-
-      if dc_yl <= dc_yh then
+      if dc_yl < viewheight then
       begin
-        angle := (viewangle + xtoviewangle[x] + offset) div ANGLETOSKYUNIT;
-        if detaillevel <= DL_NORMAL then
+        dc_yh := pl.bottom[x];
+
+        if dc_yl <= dc_yh then
         begin
-          dc_texturemod := 0;
-          dc_mod := 0;
-        end
-        else
-        begin
-          dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
-          dc_mod := dc_texturemod;
+          angle := (viewangle + xtoviewangle[x] + offset) div ANGLETOSKYUNIT;
+          if detaillevel <= DL_NORMAL then
+          begin
+            dc_texturemod := 0;
+            dc_mod := 0;
+          end
+          else
+          begin
+            dc_texturemod := (((viewangle + xtoviewangle[x]) mod ANGLETOSKYUNIT) * DC_HIRESFACTOR) div ANGLETOSKYUNIT;
+            dc_mod := dc_texturemod;
+          end;
+          dc_x := x;
+          R_GetDCs(skytex, angle);
+          // Sky is always drawn full bright,
+          //  i.e. colormaps[0] is used.
+          //  Because of this hack, sky is not affected
+          //  by INVUL inverse mapping.
+          // JVAL
+          //  call skycolfunc(), not colfunc(), does not use colormaps!
+          skycolfunc;
         end;
-        dc_x := x;
-        R_GetDCs(skytex, angle);
-        // Sky is always drawn full bright,
-        //  i.e. colormaps[0] is used.
-        //  Because of this hack, sky is not affected
-        //  by INVUL inverse mapping.
-        // JVAL
-        //  call skycolfunc(), not colfunc(), does not use colormaps!
-        skycolfunc;
       end;
     end;
     R_EnableFixedColumn;
@@ -926,7 +929,9 @@ begin
   planezlight := @zlight[light];
   ds_llzindex := light;
 
-  pl.top[pl.maxx + 1] := VISEND;
+  stop := pl.maxx + 1;
+
+  pl.top[stop] := VISEND;
   pl.top[pl.minx - 1] := VISEND;
 
   if pl.renderflags and SRF_RIPPLE <> 0 then
@@ -941,8 +946,6 @@ begin
     ds_ripple := nil;
     spanfuncMT := basespanfuncMT;
   end;
-
-  stop := pl.maxx + 1;
 
   for x := pl.minx to stop do
   begin

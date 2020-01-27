@@ -872,6 +872,23 @@ var
   ReadMenu2: array[0..0] of menuitem_t;
   ReadDef2: menu_t;
 
+//  https://www.doomworld.com/forum/topic/111465-boom-extended-help-screens-an-undocumented-feature/
+// JVAL 20200122 - Extended help screens
+var
+  extrahelpscreens: TDNumberList;
+  extrahelpscreens_idx: integer = -1;
+
+type
+  read_ext = (
+    rdthsemptyext,
+    readext_end
+  );
+
+var
+  ReadMenuExt: array[0..0] of menuitem_t;
+  ReadDefExt: menu_t;
+
+
 type
 //
 // SOUND MENU
@@ -917,6 +934,7 @@ type
     cmp_spawnrandommonsters,
     cmp_allowterrainsplashes,
     cmp_continueafterplayerdeath,
+    cmp_dogs,
     cmp_end
   );
 
@@ -1539,6 +1557,12 @@ begin
   end;
 end;
 
+procedure M_DrawReadThisExt;
+begin
+  inhelpscreens := true;
+  V_PageDrawer(char8tostring(W_GetNameForNum(extrahelpscreens.Numbers[extrahelpscreens_idx])));
+end;
+
 //
 // Change Sfx & Music volumes
 //
@@ -1553,11 +1577,25 @@ begin
     SoundVolDef.x, SoundVolDef.y + SoundVolDef.itemheight * (Ord(music_vol) + 1), 16, snd_MusicVolume);
 end;
 
+procedure M_ChangeDogs(choice: integer);
+begin
+  dogs := GetIntegerInRange(dogs, 0, MAXPLAYERS - 1);
+  inc(dogs);
+  if dogs >= MAXPLAYERS then
+    dogs := 0;
+end;
+
 procedure M_DrawCompatibility;
+var
+  ppos: menupos_t;
 begin
   V_DrawPatch(108, 15, SCN_TMP, 'M_OPTTTL', false);
   V_DrawPatch(20, 48, SCN_TMP, 'MENU_COM', false);
-end;
+
+  dogs := GetIntegerInRange(dogs, 0, MAXPLAYERS - 1);
+  ppos := M_WriteText(CompatibilityDef.x, CompatibilityDef.y + CompatibilityDef.itemheight * Ord(cmp_dogs), 'Dogs (Marine Best Friend): ');
+  M_WriteWhiteText(ppos.x, ppos.y, itoa(dogs));
+end; 
 
 const
   mkeyboardmodes: array[0..3] of string = ('ARROWS', 'WASD', 'ESDF', 'CUSTOM');
@@ -1600,7 +1638,7 @@ begin
     key_down := 115;
     key_strafeleft := 97;
     key_straferight := 100;
-    key_jump := 106;
+    key_jump := 101;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -1688,7 +1726,7 @@ begin
      (key_down = 115) and
      (key_strafeleft = 97) and
      (key_straferight = 100) and
-     (key_jump = 106) and
+     (key_jump = 101) and
      (key_fire = 157) and
      (key_use = 32) and
      (key_strafe = 184) and
@@ -2522,7 +2560,23 @@ end;
 
 procedure M_FinishReadThis(choice: integer);
 begin
-  M_SetupNextMenu(@MainDef);
+  if extrahelpscreens.Count > 0 then
+  begin
+    extrahelpscreens_idx := 0;
+    M_SetupNextMenu(@ReadDefExt);
+  end
+  else
+    M_SetupNextMenu(@MainDef);
+end;
+
+procedure M_FinishReadExtThis(choice: integer);
+begin
+  inc(extrahelpscreens_idx);
+  if extrahelpscreens_idx >= extrahelpscreens.Count then
+  begin
+    extrahelpscreens_idx := 0;
+    M_SetupNextMenu(@MainDef);
+  end;
 end;
 
 //
@@ -3209,7 +3263,13 @@ begin
     KEY_BACKSPACE:
       begin
         currentMenu.lastOn := itemOn;
-        if currentMenu.prevMenu <> nil then
+        // JVAL 20200122 - Extended help screens
+        if (currentMenu = @ReadDefExt) and (extrahelpscreens_idx > 0) then
+        begin
+          dec(extrahelpscreens_idx);
+          M_SwtchnSound;
+        end
+        else if currentMenu.prevMenu <> nil then
         begin
           currentMenu := currentMenu.prevMenu;
           itemOn := currentMenu.lastOn;
@@ -3580,6 +3640,9 @@ end;
 // M_Init
 //
 procedure M_Init;
+var
+  i: integer;
+  lump: integer;
 begin
   currentMenu := @MainDef;
   menuactive := false;
@@ -3626,6 +3689,16 @@ begin
       end;
   end;
 
+  // JVAL 20200122 - Extended help screens
+  extrahelpscreens := TDNumberList.Create;
+  for i := 1 to 99 do
+  begin
+    lump := W_CheckNumForName('HELP' + IntToStrzFill(2, i));
+    if lump >= 0 then
+      extrahelpscreens.Add(lump);
+  end;
+  extrahelpscreens_idx := 0;
+
   C_AddCmd('keyboardmode', @M_CmdKeyboardMode);
   C_AddCmd('exit, quit', @M_CmdQuit);
   C_AddCmd('halt', @I_Quit);
@@ -3660,6 +3733,7 @@ end;
 procedure M_ShutDownMenus;
 begin
   threadmenushader.Free;
+  extrahelpscreens.Free;
 end;
 
 procedure M_InitMenus;
@@ -3668,6 +3742,7 @@ var
   pmi: Pmenuitem_t;
 begin
   threadmenushader := TDThread.Create(@M_Thr_ShadeScreen);
+
 ////////////////////////////////////////////////////////////////////////////////
 //gammamsg
   gammamsg[0] := GAMMALVL0;
@@ -4965,6 +5040,29 @@ begin
   ReadDef2.itemheight := LINEHEIGHT;
   ReadDef2.texturebk := false;
 
+// JVAL 20200122 - Extended help screens
+////////////////////////////////////////////////////////////////////////////////
+//ReadMenuExt
+  pmi := @ReadMenuExt[0];
+  pmi.status := 1;
+  pmi.name := '';
+  pmi.cmd := '';
+  pmi.routine := @M_FinishReadExtThis;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := #0;
+
+////////////////////////////////////////////////////////////////////////////////
+//ReadDefExt
+  ReadDefExt.numitems := Ord(readext_end); // # of menu items
+  ReadDefExt.prevMenu := @ReadDef2; // previous menu
+  ReadDefExt.menuitems := Pmenuitem_tArray(@ReadMenuExt);  // menu items
+  ReadDefExt.drawproc := @M_DrawReadThisExt;  // draw routine
+  ReadDefExt.x := 330;
+  ReadDefExt.y := 165; // x,y of menu
+  ReadDefExt.lastOn := 0; // last item user was on in menu
+  ReadDefExt.itemheight := LINEHEIGHT;
+  ReadDefExt.texturebk := false;
+
 ////////////////////////////////////////////////////////////////////////////////
 //SoundMenu
   pmi := @SoundMenu[0];
@@ -5124,6 +5222,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @continueafterplayerdeath;
   pmi.alphaKey := 'f';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Dogs (Marine Best Friend)';
+  pmi.cmd := '';
+  pmi.routine := @M_ChangeDogs;
+  pmi.pBoolVal := nil;
+  pmi.alphaKey := 'd';
 
 
 ////////////////////////////////////////////////////////////////////////////////

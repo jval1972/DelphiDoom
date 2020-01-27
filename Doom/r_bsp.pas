@@ -573,10 +573,12 @@ end;
 //
 procedure R_AddLine(line: Pseg_t);
 var
+{$IFNDEF OPENGL}
   x1: integer;
   x2: integer;
   tspan: angle_t;
   clipangle2: angle_t;
+{$ENDIF}  
   angle1: angle_t;
   angle2: angle_t;
   span: angle_t;
@@ -584,8 +586,13 @@ begin
   curline := line;
 
   // OPTIMIZE: quickly reject orthogonal back sides.
+  {$IFDEF OPENGL}
+  angle1 := R_PointToAngle(line.v1.x, line.v1.y);
+  angle2 := R_PointToAngle(line.v2.x, line.v2.y);
+  {$ELSE}
   angle1 := R_PointToAngleEx(line.v1.x, line.v1.y);
   angle2 := R_PointToAngleEx(line.v2.x, line.v2.y);
+  {$ENDIF}
 
   // Clip to view edges.
   // OPTIMIZE: make constant out of 2*clipangle (FIELDOFVIEW).
@@ -610,61 +617,55 @@ begin
       gld_clipper_SafeAddClipRange(angle2, angle1);
   end;
 
-  if absviewpitch < 10 then
-  begin
-{$ELSE}
-    // Global angle needed by segcalc.
-    rw_angle1 := angle1;
-{$ENDIF}
-    angle1 := angle1 - viewangle;
-    angle2 := angle2 - viewangle;
-
-    tspan := angle1 + clipangle;
-    clipangle2 := 2 * clipangle;
-    if tspan > clipangle2 then
-    begin
-      tspan := tspan - clipangle2;
-
-      // Totally off the left edge?
-      if tspan >= span then
-        exit;
-
-      angle1 := clipangle;
-    end;
-
-    tspan := clipangle - angle2;
-    if tspan > clipangle2 then
-    begin
-      tspan := tspan - clipangle2;
-
-      // Totally off the left edge?
-      if tspan >= span then
-        exit;
-
-      angle2 := -clipangle;
-    end;
-
-    // The seg is in the view range,
-    // but not necessarily visible.
-    {$IFDEF FPC}
-    angle1 := _SHRW(angle1 + ANG90, ANGLETOFINESHIFT);
-    angle2 := _SHRW(angle2 + ANG90, ANGLETOFINESHIFT);
-    {$ELSE}
-    angle1 := (angle1 + ANG90) shr ANGLETOFINESHIFT;
-    angle2 := (angle2 + ANG90) shr ANGLETOFINESHIFT;
-    {$ENDIF}
-    x1 := viewangletox[angle1];
-    x2 := viewangletox[angle2];
-
-    // Does not cross a pixel?
-    if x1 >= x2 then
-      exit;
-
-{$IFDEF OPENGL}
-  end;
-
   gld_AddWall(line); // JVAL OPENGL
 {$ELSE}
+
+  // Global angle needed by segcalc.
+  rw_angle1 := angle1;
+  angle1 := angle1 - viewangle;
+  angle2 := angle2 - viewangle;
+
+  tspan := angle1 + clipangle;
+  clipangle2 := 2 * clipangle;
+  if tspan > clipangle2 then
+  begin
+    tspan := tspan - clipangle2;
+
+    // Totally off the left edge?
+    if tspan >= span then
+      exit;
+
+    angle1 := clipangle;
+  end;
+
+  tspan := clipangle - angle2;
+  if tspan > clipangle2 then
+  begin
+    tspan := tspan - clipangle2;
+
+    // Totally off the left edge?
+    if tspan >= span then
+      exit;
+
+    angle2 := -clipangle;
+  end;
+
+  // The seg is in the view range,
+  // but not necessarily visible.
+  {$IFDEF FPC}
+  angle1 := _SHRW(angle1 + ANG90, ANGLETOFINESHIFT);
+  angle2 := _SHRW(angle2 + ANG90, ANGLETOFINESHIFT);
+  {$ELSE}
+  angle1 := (angle1 + ANG90) shr ANGLETOFINESHIFT;
+  angle2 := (angle2 + ANG90) shr ANGLETOFINESHIFT;
+  {$ENDIF}
+  x1 := viewangletox[angle1];
+  x2 := viewangletox[angle2];
+
+  // Does not cross a pixel?
+  if x1 >= x2 then
+    exit;
+
   backsector := line.backsector;
 
   // Single sided line?
@@ -720,6 +721,7 @@ begin
      (backsector.floorpic = frontsector.floorpic) and
      (backsector.lightlevel = frontsector.lightlevel) and
      (curline.sidedef.midtexture = 0) and
+     // killough 3/7/98: Take flats offsets into account
      (backsector.floor_xoffs = frontsector.floor_xoffs) and
      (backsector.floor_yoffs = frontsector.floor_yoffs) and
      (backsector.ceiling_xoffs = frontsector.ceiling_xoffs) and
@@ -1051,6 +1053,7 @@ begin
               begin
                 dummyfloorplane.height := tmpsec.floorheight;
                 dummyfloorplane.lightlevel := tmpsec.lightlevel;
+                dummyfloorplane.picnum := tmpsec.floorpic;
               end;
           tmpsec := tmpline.frontsector;
           if tmpsec <> nil then
@@ -1059,6 +1062,7 @@ begin
               begin
                 dummyfloorplane.height := tmpsec.floorheight;
                 dummyfloorplane.lightlevel := tmpsec.lightlevel;
+                dummyfloorplane.picnum := tmpsec.floorpic;
               end;
         end;
         //e6y

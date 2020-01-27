@@ -86,6 +86,7 @@ var
   textureheight: Pfixed_tArray;
 // JVAL: 20200112 - For tall textures
   texturecolumnheight: PIntegerArray;
+  texturecolumnheightfrac: PIntegerArray;
   texturecompositesize: PIntegerArray;
 
   firstspritelump: integer;
@@ -214,11 +215,15 @@ procedure R_DrawColumnInCacheMultipatch(patch: Pcolumn_t; cache: PByteArray;
 var
   count: integer;
   position: integer;
+  delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
+  delta := 0;
+  tallpatch := false;
   while patch.topdelta <> $ff do
   begin
     count := patch.length;
-    position := originy + patch.topdelta;
+    position := originy + delta + patch.topdelta;
 
     if position < 0 then
     begin
@@ -235,7 +240,18 @@ begin
       memset(@marks[position], $ff, count);
     end;
 
-    patch := Pcolumn_t(integer(patch) + patch.length + 4);
+    if not tallpatch then
+    begin
+      prevdelta := patch.topdelta;
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
+      if patch.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
+
   end;
 end;
 
@@ -341,7 +357,7 @@ begin
 
     source := malloc(theight);  // temporary column
     for i := 0 to twidth - 1 do
-      if collump[i] < 0  then // process only multipatched columns
+      if collump[i] < 0 then // process only multipatched columns
       begin
         col := Pcolumn_t(@block[colofs[i] - 3]);  // cached column
         mark1 := @marks[i * theight];
@@ -366,7 +382,8 @@ begin
             break;
           end;
           col.topdelta := j;      // starting offset of post
-          while (j < theight) and (mark1[j] <> 0) do
+          // JVAL: 20200118 - Added check for walls with height >= 256
+          while (j < theight) and (mark1[j] <> 0) and (j - col.topdelta < 255) do
             inc(j);
           col.length := j - col.topdelta;
           // copy opaque cells from the temporary back into the column
@@ -375,8 +392,8 @@ begin
         end;
       end;
 
-    memfree(pointer(source), theight);         // free temporary column
-    memfree(pointer(marks), marksize);          // free transparency marks
+    memfree(pointer(source), theight);  // free temporary column
+    memfree(pointer(marks), marksize);  // free transparency marks
   end;
 
 
@@ -555,14 +572,14 @@ begin
 
   if lump > 0 then
   begin
-    result := R_GetFixedColumn(PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs), tex, col);
+    result := R_GetFixedColumn(PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs), tex, col, false);
     exit;
   end;
 
   if texturecomposite[tex] = nil then
     R_GenerateComposite(tex);
 
-  result := R_GetFixedColumn(PByteArray(integer(texturecomposite[tex]) + ofs), tex, col);
+  result := R_GetFixedColumn(PByteArray(integer(texturecomposite[tex]) + ofs), tex, col, true);
 end;
 {$ENDIF}
 
@@ -724,6 +741,7 @@ begin
   textureheight := Z_Malloc(numtextures * SizeOf(fixed_t), PU_STATIC, nil);
 // JVAL: 20200112 - For tall textures
   texturecolumnheight := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
+  texturecolumnheightfrac := Z_Malloc(numtextures * SizeOf(integer), PU_STATIC, nil);
 
   for i := 0 to numtextures - 1 do
   begin
@@ -798,6 +816,7 @@ begin
     texturecolumnheight[i] := texture.height;
     if texturecolumnheight[i] < 128 then
       texturecolumnheight[i] := 128;
+    texturecolumnheightfrac[i] := texturecolumnheight[i] * FRACUNIT;
 
     incp(pointer(directory), SizeOf(integer));
   end;

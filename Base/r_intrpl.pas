@@ -54,6 +54,7 @@ procedure R_SetInterpolateSkipTicks(const ticks: integer);
 var
   interpolate: boolean;
   interpolateoncapped: boolean = false;
+  interpolationstarttime: fixed_t = 0;
   didinterpolations: boolean;
   ticfrac: fixed_t;
 
@@ -307,7 +308,6 @@ begin
 end;
 
 var
-  interpolationstoretime: fixed_t = 0;
   interpolationcount: integer = 0;
   prevtic: fixed_t = 0;
 
@@ -330,9 +330,9 @@ begin
 
   {$IFDEF DEBUG}
   I_DevWarning('R_StoreInterpolationData(): - start - fractime = %5.3f, gametic = %d'#13#10, [I_GetFracTime / FRACUNIT, gametic]);
+  I_DevWarning('R_StoreInterpolationData(): - gametic = %d, tick = %d, time = %d'#13#10, [gametic, tick, I_GetTime]);
   {$ENDIF}
   prevtic := gametic;
-  interpolationstoretime := tick * FRACUNIT;
   interpolationcount := counts;
   istruct.numitems := 0;
   numismobjs := 0;
@@ -563,11 +563,12 @@ begin
   end;
 
   fractime := I_GetFracTime;
-  ticfrac := fractime - interpolationstoretime;
-  ticfrac := round(ticfrac / interpolationcount) + frametime;
+  ticfrac := fractime - interpolationstarttime; //interpolationstoretime;
+  //ticfrac := round(ticfrac / interpolationcount);// + frametime;
+//  I_Warning('ticfrac := %d'#13#10, [ticfrac]);
   frametime := fractime;
   {$IFDEF DEBUG}
-  I_DevWarning('R_Interpolate(): fractime = %5.3f, gametic = %d'#13#10, [fractime / FRACUNIT, gametic]);
+  I_Warning('R_Interpolate(): fractime = %5.3f, gametic = %d'#13#10, [fractime / FRACUNIT, gametic]);
   {$ENDIF}
   if ticfrac > FRACUNIT then
   begin
@@ -575,7 +576,7 @@ begin
   // frac > FRACUNIT should rarelly happen,
   // we don't calc, we just use the Xnext values for interpolation frame
     {$IFDEF DEBUG}
-    I_DevWarning('R_Interpolate(): ticfrac > FRACUNIT (%d), interpolationcount = %d'#13#10, [ticfrac, interpolationcount]);
+    I_Warning('R_Interpolate(): ticfrac > FRACUNIT (%d), interpolationcount = %d'#13#10, [ticfrac, interpolationcount]);
     {$ENDIF}
     result := false;
   end

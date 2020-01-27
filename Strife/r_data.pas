@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -76,10 +76,8 @@ procedure R_PrecacheLevel;
 // lookup by name. For animation?
 function R_FlatNumForName(const name: string): integer;
 function R_SafeFlatNumForName(const name: string): integer;
-
-function R_CacheFlat(const lump: integer; const tag: integer): pointer;
-
 function R_NewFlatNumForLump(const lump: integer): integer;
+function R_CacheFlat(const lump: integer; const tag: integer): pointer;
 
 // Called by P_Ticker for switches and animations,
 // returns the texture number for the texture name.
@@ -96,6 +94,7 @@ var
   textureheight: Pfixed_tArray;
 // JVAL: 20200112 - For tall textures
   texturecolumnheight: PIntegerArray;
+  texturecolumnheightfrac: PIntegerArray;
   texturecompositesize: PIntegerArray;
 
   firstspritelump: integer;
@@ -213,11 +212,15 @@ procedure R_DrawColumnInCacheMultipatch(patch: Pcolumn_t; cache: PByteArray;
 var
   count: integer;
   position: integer;
+  delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
+  delta := 0;
+  tallpatch := false;
   while patch.topdelta <> $ff do
   begin
     count := patch.length;
-    position := originy + patch.topdelta;
+    position := originy + delta + patch.topdelta;
 
     if position < 0 then
     begin
@@ -234,7 +237,18 @@ begin
       memset(@marks[position], $ff, count);
     end;
 
-    patch := Pcolumn_t(integer(patch) + patch.length + 4);
+    if not tallpatch then
+    begin
+      prevdelta := patch.topdelta;
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
+      if patch.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
+
   end;
 end;
 
@@ -340,7 +354,7 @@ begin
 
     source := malloc(theight);  // temporary column
     for i := 0 to twidth - 1 do
-      if collump[i] < 0  then // process only multipatched columns
+      if collump[i] < 0 then // process only multipatched columns
       begin
         col := Pcolumn_t(@block[colofs[i] - 3]);  // cached column
         mark1 := @marks[i * theight];
@@ -365,7 +379,8 @@ begin
             break;
           end;
           col.topdelta := j;      // starting offset of post
-          while (j < theight) and (mark1[j] <> 0) do
+          // JVAL: 20200118 - Added check for walls with height >= 256
+          while (j < theight) and (mark1[j] <> 0) and (j - col.topdelta < 255) do
             inc(j);
           col.length := j - col.topdelta;
           // copy opaque cells from the temporary back into the column
@@ -374,8 +389,8 @@ begin
         end;
       end;
 
-    memfree(pointer(source), theight);         // free temporary column
-    memfree(pointer(marks), marksize);          // free transparency marks
+    memfree(pointer(source), theight);  // free temporary column
+    memfree(pointer(marks), marksize);  // free transparency marks
   end;
 
 
@@ -554,14 +569,14 @@ begin
 
   if lump > 0 then
   begin
-    result := R_GetFixedColumn(PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs), tex, col);
+    result := R_GetFixedColumn(PByteArray(integer(W_CacheLumpNum(lump, PU_LEVEL)) + ofs), tex, col, false);
     exit;
   end;
 
   if texturecomposite[tex] = nil then
     R_GenerateComposite(tex);
 
-  result := R_GetFixedColumn(PByteArray(integer(texturecomposite[tex]) + ofs), tex, col);
+  result := R_GetFixedColumn(PByteArray(integer(texturecomposite[tex]) + ofs), tex, col, true);
 end;
 {$ENDIF}
 
@@ -715,6 +730,9 @@ begin
   texturecompositesize := mallocz(numtextures * SizeOf(integer));
   texturewidth := mallocz(numtextures * SizeOf(integer));
   textureheight := mallocz(numtextures * SizeOf(fixed_t));
+// JVAL: 20200112 - For tall textures
+  texturecolumnheight := mallocz(numtextures * SizeOf(integer));
+  texturecolumnheightfrac := mallocz(numtextures * SizeOf(integer));
 
   for i := 0 to numtextures - 1 do
   begin
@@ -781,6 +799,11 @@ begin
 
     texturewidth[i] := texture.width;
     textureheight[i] := texture.height * FRACUNIT;
+    // JVAL: 20200112 - For tall textures
+    texturecolumnheight[i] := texture.height;
+    if texturecolumnheight[i] < 128 then
+      texturecolumnheight[i] := 128;
+    texturecolumnheightfrac[i] := texturecolumnheight[i] * FRACUNIT;
 
     incp(pointer(directory), SizeOf(integer));
   end;
@@ -903,6 +926,7 @@ begin
   textureheight := mallocz(numtextures * SizeOf(fixed_t));
 // JVAL: 20200112 - For tall textures
   texturecolumnheight := mallocz(numtextures * SizeOf(integer));
+  texturecolumnheightfrac := mallocz(numtextures * SizeOf(integer));
 
   for i := 0 to numtextures - 1 do
   begin
@@ -967,6 +991,7 @@ begin
     texturecolumnheight[i] := texture.height;
     if texturecolumnheight[i] < 128 then
       texturecolumnheight[i] := 128;
+    texturecolumnheightfrac[i] := texturecolumnheight[i] * FRACUNIT;
 
     incp(pointer(directory), SizeOf(integer));
   end;
@@ -1125,6 +1150,7 @@ begin
   memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
 // JVAL: 20200112 - For tall textures
   memfree(pointer(texturecolumnheight), numtextures * SizeOf(integer));
+  memfree(pointer(texturecolumnheightfrac), numtextures * SizeOf(integer));
   memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
 
 // flats
@@ -1167,6 +1193,7 @@ begin
   memfree(pointer(textureheight), numtextures * SizeOf(fixed_t));
 // JVAL: 20200112 - For tall textures
   memfree(pointer(texturecolumnheight), numtextures * SizeOf(integer));
+  memfree(pointer(texturecolumnheightfrac), numtextures * SizeOf(integer));
   memfree(pointer(texturetranslation), (numtextures + 1) * SizeOf(integer));
 
 // flats
@@ -1264,7 +1291,7 @@ begin
     begin
       i := W_CheckNumForName('-NO-FLAT');
       if i = -1 then
-        I_Error('R_FlatNumForName(): %s not found', [name]);
+        I_Error('R_FlatNumForName(): %s not found!', [name]);
     end;
 
     s := strupper(name);
@@ -1504,7 +1531,7 @@ begin
   result := R_CheckTextureNumForName(name);
 
   if result = -1 then
-    I_Error('R_TextureNumForName(): %s not found', [name]);
+    I_Error('R_TextureNumForName(): %s not found!', [name]);
 end;
 
 function R_CacheFlat(const lump: integer; const tag: integer): pointer;

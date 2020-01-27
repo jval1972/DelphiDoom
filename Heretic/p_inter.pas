@@ -328,11 +328,7 @@ begin
     exit;
 
   if player = @players[consoleplayer] then
-  begin
     playerkeys := playerkeys or _SHL(1, Ord(key));
-    KeyPoints[Ord(key)].x := 0;
-    KeyPoints[Ord(key)].y := 0;
-  end;
 
   player.bonuscount := BONUSADD;
   player.keys[Ord(key)] := true;

@@ -63,11 +63,11 @@ var
 // regular wall
 //
 {$IFNDEF OPENGL}
-const
-  HEIGHTBITS = 12;
-  HEIGHTUNIT = 1 shl HEIGHTBITS;
-  WORLDBIT = 16 - HEIGHTBITS;
-  WORLDUNIT = 1 shl WORLDBIT;
+var
+  HEIGHTBITS: integer = 12;
+  HEIGHTUNIT: integer = 1 shl 12;
+  WORLDBITS: integer = 4;
+  WORLDUNIT: integer = 1 shl 4;
 
 var
   rw_x: integer;
@@ -85,15 +85,15 @@ var
   worldhigh: integer;
   worldlow: integer;
 
-  pixhigh: fixed_t;
-  pixlow: fixed_t;
+  pixhigh: int64; // R_WiggleFix
+  pixlow: int64; // R_WiggleFix
   pixhighstep: fixed_t;
   pixlowstep: fixed_t;
 
-  topfrac: fixed_t;
+  topfrac: int64; // R_WiggleFix
   topstep: fixed_t;
 
-  bottomfrac: fixed_t;
+  bottomfrac: int64; // R_WiggleFix
   bottomstep: fixed_t;
 {$ENDIF}
 
@@ -113,9 +113,21 @@ var
   toptexture: integer;
   bottomtexture: integer;
   midtexture: integer;
+
+  rw_toptextureheight: integer;
+  rw_bottomtextureheight: integer;
+  rw_midtextureheight: integer;
+
+  topwallcolfunc: PProcedure;
+  bottomwallcolfunc: PProcedure;
+  midwallcolfunc: PProcedure;
 {$ENDIF}
 
 function R_NewDrawSeg: Pdrawseg_t;
+
+{$IFNDEF OPENGL}
+procedure R_WiggleFix(sec: Psector_t);
+{$ENDIF}
 
 var
   r_fakecontrast: boolean;
@@ -158,6 +170,111 @@ uses
 
 
 {$IFNDEF OPENGL}
+
+
+//
+// R_FixWiggle()
+// Dynamic wall/texture rescaler, AKA "WiggleHack II"
+//  by Kurt "kb1" Baumgardner ("kb")
+//
+//  [kb] When the rendered view is positioned, such that the viewer is
+//   looking almost parallel down a wall, the result of the scale
+//   calculation in R_ScaleFromGlobalAngle becomes very large. And, the
+//   taller the wall, the larger that value becomes. If these large
+//   values were used as-is, subsequent calculations would overflow
+//   and crash the program.
+//
+//  Therefore, vanilla Doom clamps this scale calculation, preventing it
+//   from becoming larger than 0x400000 (64*FRACUNIT). This number was
+//   chosen carefully, to allow reasonably-tight angles, with reasonably
+//   tall sectors to be rendered, within the limits of the fixed-point
+//   math system being used. When the scale gets clamped, Doom cannot
+//   properly render the wall, causing an undesirable wall-bending
+//   effect that I call "floor wiggle".
+//
+//  Modern source ports offer higher video resolutions, which worsens
+//   the issue. And, Doom is simply not adjusted for the taller walls
+//   found in many PWADs.
+//
+//  WiggleHack II attempts to correct these issues, by dynamically
+//   adjusting the fixed-point math, and the maximum scale clamp,
+//   on a wall-by-wall basis. This has 2 effects:
+//
+//  1. Floor wiggle is greatly reduced and/or eliminated.
+//  2. Overflow is not longer possible, even in levels with maximum
+//     height sectors.
+//
+//  It is not perfect across all situations. Some floor wiggle can be
+//   seen, and some texture strips may be slight misaligned in extreme
+//   cases. These effects cannot be corrected without increasing the
+//   precision of various renderer variables, and, possibly, suffering
+//   a performance penalty.
+//   
+
+var
+  lastheight: integer = 0;
+
+type
+  wiggle_t = record
+    clamp: integer;
+    heightbits: integer;
+  end;
+
+var
+  scale_values: array[0..8] of wiggle_t = (
+    (clamp: 2048 * FRACUNIT; heightbits: 12),
+    (clamp: 1024 * FRACUNIT; heightbits: 12),
+    (clamp: 1024 * FRACUNIT; heightbits: 11),
+    (clamp:  512 * FRACUNIT; heightbits: 11),
+    (clamp:  512 * FRACUNIT; heightbits: 10),
+    (clamp:  256 * FRACUNIT; heightbits: 10),
+    (clamp:  256 * FRACUNIT; heightbits:  9),
+    (clamp:  128 * FRACUNIT; heightbits:  9),
+    (clamp:   64 * FRACUNIT; heightbits:  9)
+  );
+
+procedure R_WiggleFix(sec: Psector_t);
+var
+  height: integer;
+begin
+  height := (sec.ceilingheight - sec.floorheight) shr FRACBITS;
+
+  // disallow negative heights, force cache initialization
+  if height < 1 then
+    height := 1;
+
+  // early out?
+  if height <> lastheight then
+  begin
+    lastheight := height;
+
+    // initialize, or handle moving sector
+    if height <> sec.cachedheight then
+    begin
+      frontsector.cachedheight := height;
+      frontsector.scaleindex := 0;
+      height := height shr  7;
+      // calculate adjustment
+      while true do
+      begin
+        height := height shr 1;
+        if height <> 0 then
+          inc(frontsector.scaleindex)
+        else
+          break;
+      end;
+    end;
+
+    // fine-tune renderer for this wall
+    max_rwscale := scale_values[frontsector.scaleindex].clamp;
+    HEIGHTBITS := scale_values[frontsector.scaleindex].heightbits;
+    HEIGHTUNIT := 1 shl HEIGHTBITS;
+    WORLDBITS := 16 - HEIGHTBITS;
+    WORLDUNIT := 1 shl WORLDBITS;
+  end;
+end;
+
+
 // OPTIMIZE: closed two sided lines as single sided
 
 //
@@ -379,7 +496,7 @@ begin
       begin
         // draw the texture
         col := Pcolumn_t(integer(R_GetColumn(texnum, texturecolumn)) - 3);
-        R_DrawMaskedColumn(col);
+        R_DrawMaskedColumn(col, spryscale);
       end;
 
       maskedtexturecol[dc_x] := MAXSHORT;
@@ -488,6 +605,8 @@ begin
   worldtop := frontsector.ceilingheight - viewz;
   worldbottom := frontsector.floorheight - viewz;
 
+  R_WiggleFix(frontsector);
+
   midtexture := 0;
   toptexture := 0;
   bottomtexture := 0;
@@ -500,6 +619,11 @@ begin
   begin
     // single sided line
     midtexture := texturetranslation[sidedef.midtexture];
+    rw_midtextureheight := texturecolumnheight[midtexture];
+    if rw_midtextureheight = 128 then
+      midwallcolfunc  := basewallcolfunc
+    else
+      midwallcolfunc := tallwallcolfunc;
     // a single sided line is terminal, so it must mark ends
     markfloor := true;
     markceiling := true;
@@ -515,6 +639,7 @@ begin
       rw_midtexturemid := worldtop;
     end;
     rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset, textureheight[midtexture]);
+    rw_midtexturemid := FixedMod(rw_midtexturemid, texturecolumnheightfrac[midtexture]);
 
     pds.silhouette := SIL_BOTH;
     pds.sprtopclip := @screenheightarray;
@@ -551,7 +676,7 @@ begin
       pds.tsilheight := MININT;
     end;
 
-    if backsector.ceilingheight <= frontsector.floorheight then
+ {   if backsector.ceilingheight <= frontsector.floorheight then
     begin
       pds.sprbottomclip := @negonearray;
       pds.bsilheight := MAXINT;
@@ -563,7 +688,7 @@ begin
       pds.sprtopclip := @screenheightarray;
       pds.tsilheight := MININT;
       pds.silhouette := pds.silhouette or SIL_TOP;
-    end;
+    end;                                           }
 
       // killough 1/17/98: this test is required if the fix
       // for the automap bug (r_bsp.c) is used, or else some
@@ -597,7 +722,13 @@ begin
       worldtop := worldhigh;
     end;
 
-    if (backsector.ceilingheight <= frontsector.floorheight) or
+    // JVAL: 20200118
+    if curline.frontsector = curline.backsector then
+    begin
+      markfloor := false;
+      markceiling := false;
+    end
+    else if (backsector.ceilingheight <= frontsector.floorheight) or
        (backsector.floorheight >= frontsector.ceilingheight) then
     begin
       // closed door
@@ -646,6 +777,11 @@ begin
     begin
       // top texture
       toptexture := texturetranslation[sidedef.toptexture];
+      rw_toptextureheight := texturecolumnheight[toptexture];
+      if rw_toptextureheight = 128 then
+        topwallcolfunc  := basewallcolfunc
+      else
+        topwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGTOP <> 0 then
       begin
         // top of texture at top
@@ -664,7 +800,11 @@ begin
     begin
       // bottom texture
       bottomtexture := texturetranslation[sidedef.bottomtexture];
-
+      rw_bottomtextureheight := texturecolumnheight[bottomtexture];
+      if rw_bottomtextureheight = 128 then
+        bottomwallcolfunc  := basewallcolfunc
+      else
+        bottomwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGBOTTOM <> 0 then
       begin
         // bottom of texture at bottom
@@ -675,7 +815,9 @@ begin
         rw_bottomtexturemid := worldlow;
     end;
     rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset, textureheight[toptexture]);
+    rw_toptexturemid := FixedMod(rw_toptexturemid, texturecolumnheightfrac[toptexture]);
     rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset, textureheight[bottomtexture]);
+    rw_bottomtexturemid := FixedMod(rw_bottomtexturemid, texturecolumnheightfrac[bottomtexture]);
 
     // JVAL: 3d Floors
     R_StoreThickSideRange(pds, frontsector, backsector);
@@ -819,7 +961,9 @@ begin
   worldtop_dbl := worldtop / WORLDUNIT;
   worldbottom_dbl := worldbottom / WORLDUNIT;
   worldtop := worldtop div WORLDUNIT;
+//  worldtop := worldtop shr WORLDBITS;
   worldbottom := worldbottom div WORLDUNIT;
+//  worldbottom := worldbottom shr WORLDBITS;
 
   topstep_dbl := - rw_scalestep_dbl / FRACUNIT * worldtop_dbl;
 
@@ -840,11 +984,14 @@ begin
     worldhigh_dbl := worldhigh / WORLDUNIT;
     worldlow_dbl := worldlow / WORLDUNIT;
     worldhigh := worldhigh div WORLDUNIT;
+//    worldhigh := worldhigh shr WORLDBITS;
     worldlow := worldlow div WORLDUNIT;
+//    worldlow := worldlow shr WORLDBITS;
 
     if worldhigh_dbl < worldtop_dbl then
     begin
       pixhigh := (centeryfrac div WORLDUNIT) - FixedMul(worldhigh, rw_scale);
+//      pixhigh := (centeryfrac shr WORLDBITS) - FixedMul(worldhigh, rw_scale);
       pixhighstep := -FixedMul(rw_scalestep, worldhigh);
       pixhigh_dbl := (centeryfrac / WORLDUNIT) - worldhigh_dbl / FRACUNIT * rw_scale_dbl;
       pixhighstep_dbl := -rw_scalestep_dbl / FRACUNIT * worldhigh_dbl;
@@ -853,6 +1000,7 @@ begin
     if worldlow_dbl > worldbottom_dbl then
     begin
       pixlow := (centeryfrac div WORLDUNIT) - FixedMul(worldlow, rw_scale);
+//      pixlow := (centeryfrac shr WORLDBITS) - FixedMul(worldlow, rw_scale);
       pixlowstep := -FixedMul(rw_scalestep, worldlow);
       pixlow_dbl := (centeryfrac / WORLDUNIT) - worldlow_dbl / FRACUNIT * rw_scale_dbl;
       pixlowstep_dbl := -rw_scalestep_dbl / FRACUNIT * worldlow_dbl;
@@ -1038,6 +1186,8 @@ begin
   worldtop := frontsector.ceilingheight - viewz;
   worldbottom := frontsector.floorheight - viewz;
 
+  R_WiggleFix(frontsector);
+
   midtexture := 0;
   toptexture := 0;
   bottomtexture := 0;
@@ -1050,6 +1200,11 @@ begin
   begin
     // single sided line
     midtexture := texturetranslation[sidedef.midtexture];
+    rw_midtextureheight := texturecolumnheight[midtexture];
+    if rw_midtextureheight = 128 then
+      midwallcolfunc  := basewallcolfunc
+    else
+      midwallcolfunc := tallwallcolfunc;
     // a single sided line is terminal, so it must mark ends
     markfloor := true;
     markceiling := true;
@@ -1065,6 +1220,7 @@ begin
       rw_midtexturemid := worldtop;
     end;
     rw_midtexturemid := rw_midtexturemid + FixedMod(sidedef.rowoffset, textureheight[midtexture]);
+    rw_midtexturemid := FixedMod(rw_midtexturemid, texturecolumnheightfrac[midtexture]);
 
     pds.silhouette := SIL_BOTH;
     pds.sprtopclip := @screenheightarray;
@@ -1101,7 +1257,7 @@ begin
       pds.tsilheight := MININT;
     end;
 
-    if backsector.ceilingheight <= frontsector.floorheight then
+ {   if backsector.ceilingheight <= frontsector.floorheight then
     begin
       pds.sprbottomclip := @negonearray;
       pds.bsilheight := MAXINT;
@@ -1113,7 +1269,7 @@ begin
       pds.sprtopclip := @screenheightarray;
       pds.tsilheight := MININT;
       pds.silhouette := pds.silhouette or SIL_TOP;
-    end;           
+    end;                    }
 
     // killough 1/17/98: this test is required if the fix
     // for the automap bug (r_bsp.c) is used, or else some
@@ -1147,7 +1303,13 @@ begin
       worldtop := worldhigh;
     end;
 
-    if (backsector.ceilingheight <= frontsector.floorheight) or
+    // JVAL: 20200118
+    if curline.frontsector = curline.backsector then
+    begin
+      markfloor := false;
+      markceiling := false;
+    end
+    else if (backsector.ceilingheight <= frontsector.floorheight) or
        (backsector.floorheight >= frontsector.ceilingheight) then
     begin
       // closed door
@@ -1196,6 +1358,11 @@ begin
     begin
       // top texture
       toptexture := texturetranslation[sidedef.toptexture];
+      rw_toptextureheight := texturecolumnheight[toptexture];
+      if rw_toptextureheight = 128 then
+        topwallcolfunc  := basewallcolfunc
+      else
+        topwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGTOP <> 0 then
       begin
         // top of texture at top
@@ -1214,7 +1381,11 @@ begin
     begin
       // bottom texture
       bottomtexture := texturetranslation[sidedef.bottomtexture];
-
+      rw_bottomtextureheight := texturecolumnheight[bottomtexture];
+      if rw_bottomtextureheight = 128 then
+        bottomwallcolfunc  := basewallcolfunc
+      else
+        bottomwallcolfunc := tallwallcolfunc;
       if linedef.flags and ML_DONTPEGBOTTOM <> 0 then
       begin
         // bottom of texture at bottom
@@ -1225,7 +1396,9 @@ begin
         rw_bottomtexturemid := worldlow;
     end;
     rw_toptexturemid := rw_toptexturemid + FixedMod(sidedef.rowoffset, textureheight[toptexture]);
+    rw_toptexturemid := FixedMod(rw_toptexturemid, texturecolumnheightfrac[toptexture]);
     rw_bottomtexturemid := rw_bottomtexturemid + FixedMod(sidedef.rowoffset, textureheight[bottomtexture]);
+    rw_bottomtexturemid := FixedMod(rw_bottomtexturemid, texturecolumnheightfrac[bottomtexture]);
 
     // JVAL: 3d Floors
     R_StoreThickSideRange(pds, frontsector, backsector);
@@ -1370,30 +1543,34 @@ begin
 
   // calculate incremental stepping values for texture edges
   worldtop := worldtop div WORLDUNIT;
+//  worldtop := worldtop shr WORLDBITS;
   worldbottom := worldbottom div WORLDUNIT;
+//  worldbottom := worldbottom shr WORLDBITS;
 
   topstep := - FixedMul(rw_scalestep, worldtop);
 
-  topfrac := (centeryfrac div WORLDUNIT) - FixedMul(worldtop, rw_scale);
+  topfrac := (int64(centeryfrac) div WORLDUNIT) - (int64(worldtop) * int64(rw_scale)) shr FRACBITS; // R_WiggleFix
 
   bottomstep := - FixedMul(rw_scalestep, worldbottom);
 
-  bottomfrac := (centeryfrac div WORLDUNIT) - FixedMul(worldbottom, rw_scale);
+  bottomfrac := (int64(centeryfrac) div WORLDUNIT) - int64(worldbottom) * int64(rw_scale) shr FRACBITS;
 
   if backsector <> nil then
   begin
     worldhigh := worldhigh div WORLDUNIT;
+//    worldhigh := worldhigh shr WORLDBITS;
     worldlow := worldlow div WORLDUNIT;
+//    worldlow := worldlow shr WORLDBITS;
 
     if worldhigh < worldtop then
     begin
-      pixhigh := (centeryfrac div WORLDUNIT) - FixedMul(worldhigh, rw_scale);
+      pixhigh := (int64(centeryfrac) div WORLDUNIT) - int64(worldhigh) * int64(rw_scale) shr FRACBITS;  // R_WiggleFix
       pixhighstep := -FixedMul(rw_scalestep, worldhigh);
     end;
 
     if worldlow > worldbottom then
     begin
-      pixlow := (centeryfrac div WORLDUNIT) - FixedMul(worldlow, rw_scale);
+      pixlow := (int64(centeryfrac) div WORLDUNIT) - int64(worldlow) * int64(rw_scale) shr FRACBITS;  // R_WiggleFix
       pixlowstep := -FixedMul(rw_scalestep, worldlow);
     end;
   end;

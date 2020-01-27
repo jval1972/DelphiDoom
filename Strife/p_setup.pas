@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2019 by Jim Valavanis
+//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -658,6 +658,10 @@ begin
 {$IFDEF OPENGL}
     ss.floorlightlevel := ss.lightlevel;
     ss.ceilinglightlevel := ss.lightlevel;
+{$ELSE}
+    // [kb] For R_WiggleFix
+    ss.cachedheight := 0;
+    ss.scaleindex := 0;
 {$ENDIF}
     // killough 4/11/98 sector used to get ceiling lighting:
     ss.ceilinglightsec := -1;

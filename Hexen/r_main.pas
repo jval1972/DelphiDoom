@@ -166,6 +166,8 @@ var
 
   colfunc: PProcedure;
   wallcolfunc: PProcedure;
+  basewallcolfunc: PProcedure;
+  tallwallcolfunc: PProcedure;
   skycolfunc: PProcedure;
   transcolfunc: PProcedure;
   averagecolfunc: PProcedure;
@@ -376,6 +378,7 @@ uses
   r_span32,
   r_span32_fog,
   r_column,
+  r_tallcolumn,
   r_batchcolumn,
   r_col_l,
   r_col_ms,
@@ -948,6 +951,8 @@ begin
 
         colfunc := R_DrawColumnLowest;
         wallcolfunc := R_DrawColumnLowest;
+        basewallcolfunc := R_DrawColumnLowest;
+        tallwallcolfunc := R_DrawTallColumnLowest;
         transcolfunc := R_DrawTranslatedColumn;
         averagecolfunc := R_DrawColumnLowest;
         alphacolfunc := R_DrawColumnAlphaMedium;
@@ -1041,6 +1046,8 @@ begin
 
         colfunc := R_DrawColumnLow;
         wallcolfunc := R_DrawColumnLow;
+        basewallcolfunc := R_DrawColumnLow;
+        tallwallcolfunc := R_DrawTallColumnLow;
         transcolfunc := R_DrawTranslatedColumn;
         averagecolfunc := R_DrawColumnLow;
         alphacolfunc := R_DrawColumnAlphaMedium;
@@ -1134,6 +1141,8 @@ begin
 
         colfunc := R_DrawColumnMedium;
         wallcolfunc := R_DrawColumnMedium;
+        basewallcolfunc := R_DrawColumnMedium;
+        tallwallcolfunc := R_DrawTallColumnMedium;
         transcolfunc := R_DrawTranslatedColumn;
         averagecolfunc := R_DrawColumnMedium;
         alphacolfunc := R_DrawColumnAlphaMedium;
@@ -1231,6 +1240,8 @@ begin
           batchcolfunc := nil;
           colfunc := R_DrawColumnHi_Fog;
           wallcolfunc := R_DrawColumnHi_Fog;
+          basewallcolfunc := R_DrawColumnHi_Fog;
+          tallwallcolfunc := R_DrawTallColumnHi_Fog;
         end
         else
         begin
@@ -1238,6 +1249,8 @@ begin
           batchcolfunc := R_DrawColumnHi_Batch;
           colfunc := R_DrawColumnHi;
           wallcolfunc := R_DrawColumnHi;
+          basewallcolfunc := R_DrawColumnHi;
+          tallwallcolfunc := R_DrawTallColumnHi;
         end;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
@@ -1347,6 +1360,8 @@ begin
           batchcolfunc := nil;
           colfunc := R_DrawColumnHi_Fog;
           wallcolfunc := R_DrawColumnUltra_Fog;
+          basewallcolfunc := R_DrawColumnUltra_Fog;
+          tallwallcolfunc := R_DrawTallColumnUltra_Fog;
         end
         else
         begin
@@ -1354,6 +1369,8 @@ begin
           batchcolfunc := R_DrawColumnHi_Batch;
           colfunc := R_DrawColumnHi;
           wallcolfunc := R_DrawColumnUltra;
+          basewallcolfunc := R_DrawColumnUltra;
+          tallwallcolfunc := R_DrawTallColumnUltra;
         end;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageHi;
@@ -1463,6 +1480,8 @@ begin
           batchcolfunc := nil;
           colfunc := R_DrawColumnUltra_Fog;
           wallcolfunc := R_DrawColumnUltra_Fog;
+          basewallcolfunc := R_DrawColumnUltra_Fog;
+          tallwallcolfunc := R_DrawTallColumnUltra_Fog;
         end
         else
         begin
@@ -1470,6 +1489,8 @@ begin
           batchcolfunc := R_DrawColumnHi_Batch;
           colfunc := R_DrawColumnUltra;
           wallcolfunc := R_DrawColumnUltra;
+          basewallcolfunc := R_DrawColumnUltra;
+          tallwallcolfunc := R_DrawTallColumnUltra;
         end;
         transcolfunc := R_DrawTranslatedColumnHi;
         averagecolfunc := R_DrawColumnAverageUltra;

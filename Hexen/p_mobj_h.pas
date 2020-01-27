@@ -367,6 +367,8 @@ const
   MF2_EX_MISSILEHURTSPECIES = $8000;
   // No P_HitFloor call
   MF2_EX_NOHITFLOOR = $10000;
+  // Actor can jump up
+  MF2_EX_JUMPUP = $10000;
 
 type
 // Map Object definition.

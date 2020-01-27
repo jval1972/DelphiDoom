@@ -648,6 +648,10 @@ begin
 {$IFDEF OPENGL}
     ss.floorlightlevel := ss.lightlevel;
     ss.ceilinglightlevel := ss.lightlevel;
+{$ELSE}
+    // [kb] For R_WiggleFix
+    ss.cachedheight := 0;
+    ss.scaleindex := 0;
 {$ENDIF}
     // killough 4/11/98 sector used to get ceiling lighting:
     ss.ceilinglightsec := -1;

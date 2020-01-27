@@ -38,7 +38,7 @@ uses
 
 procedure R_InitFixedColumn;
 
-function R_GetFixedColumn(const src: PByteArray; const tex, col: integer): PByteArray;
+function R_GetFixedColumn(const src: PByteArray; const tex, col: integer; const multipatch: boolean): PByteArray;
 
 procedure R_EnableFixedColumn;
 
@@ -47,6 +47,7 @@ procedure R_DisableFixedColumn;
 implementation
 
 uses
+  r_defs,
   r_data,
   z_zone;
 
@@ -81,13 +82,13 @@ begin
   result := ((l * (l + 1)) div 2) and FIXEDCOLUMNMASK;
 end;
 
-function R_GetFixedColumn(const src: PByteArray; const tex, col: integer): PByteArray;
+function R_GetFixedColumn(const src: PByteArray; const tex, col: integer; const multipatch: boolean): PByteArray;
 var
   hash: LongWord;
   h1, h2: integer;
   item: Pfixedcolumnitem_t;
 
-  procedure _generatedata;
+  procedure _generatedata128;
   var
     i: integer;
   begin
@@ -95,6 +96,45 @@ var
     memcpy(item.data, src, h1);
     for i := h1 to h2 - 1 do
       item.data[i] := item.data[i - h1];
+  end;
+
+  procedure _generatedataTL;
+  var
+    i: integer;
+    col: Pcolumn_t;
+    delta, prevdelta: integer;
+    tallpatch: boolean;
+    p: integer;
+    srcTL: PByteArray;
+  begin
+    item.data := Z_Malloc(h2, PU_LEVEL, @item.data);
+    col := Pcolumn_t(integer(src) - 3);
+    delta := 0;
+    tallpatch := false;
+    while col.topdelta <> $FF do
+    begin
+      delta := delta + col.topdelta;
+      srcTL := PByteArray(integer(col) + 3);
+      for i := 0 to col.length - 1 do
+      begin
+        p := delta + i;
+        if p >= 0 then
+          if p < h2 then
+            item.data[p] := srcTL[i];
+      end;
+
+      if not tallpatch then
+      begin
+        prevdelta := col.topdelta;
+        col := Pcolumn_t(integer(col) + col.length + 4);
+        if col.topdelta > prevdelta then
+          delta := 0
+        else
+          tallpatch := true;
+      end
+      else
+        col := Pcolumn_t(integer(col) + col.length + 4);
+    end;
   end;
 
 begin
@@ -105,38 +145,72 @@ begin
   end;
 
   h1 := textures[tex].height;
-  if h1 mod 128 = 0 then
+  if h1 = 128 then
   begin
     result := src;
     exit;
   end;
 
-  h2 := h1 or 127 + 1;
-  hash := R_GetFixedColumnHash(tex, col);
-  item := fixedcolumns[hash];
-  while item <> nil do
+  if h1 < 128 then
   begin
-    if (item.tex = tex) and (item.column = col) and (item.size = h2) then
+    h2 := h1 or 127 + 1;
+    hash := R_GetFixedColumnHash(tex, col);
+    item := fixedcolumns[hash];
+    while item <> nil do
     begin
-      if item.data = nil then
-        _generatedata;
-      result := item.data;
-      exit;
+      if (item.tex = tex) and (item.column = col) and (item.size = h2) then
+      begin
+        if item.data = nil then
+          _generatedata128;
+        result := item.data;
+        exit;
+      end;
+      item := item.next;
     end;
-    item := item.next;
-  end;
 
-  item := Z_Malloc(SizeOf(fixedcolumnitem_t), PU_LEVEL, nil);
-  item.tex := tex;
-  item.column := col;
-  item.size := h2;
+    item := Z_Malloc(SizeOf(fixedcolumnitem_t), PU_LEVEL, nil);
+    item.tex := tex;
+    item.column := col;
+    item.size := h2;
 
-  _generatedata;
+    _generatedata128;
 
-  item.next := fixedcolumns[hash];
-  fixedcolumns[hash] := item;
+    item.next := fixedcolumns[hash];
+    fixedcolumns[hash] := item;
 
-  result := item.data;
+    result := item.data;
+  end
+  else if not multipatch then
+  begin
+    h2 := h1;
+    hash := R_GetFixedColumnHash(tex, col);
+    item := fixedcolumns[hash];
+    while item <> nil do
+    begin
+      if (item.tex = tex) and (item.column = col) and (item.size = h2) then
+      begin
+        if item.data = nil then
+          _generatedataTL;
+        result := item.data;
+        exit;
+      end;
+      item := item.next;
+    end;
+
+    item := Z_Malloc(SizeOf(fixedcolumnitem_t), PU_LEVEL, nil);
+    item.tex := tex;
+    item.column := col;
+    item.size := h2;
+
+    _generatedataTL;
+
+    item.next := fixedcolumns[hash];
+    fixedcolumns[hash] := item;
+
+    result := item.data;
+  end
+  else
+    result := src;
 end;
 
 procedure R_EnableFixedColumn;
