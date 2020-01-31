@@ -87,8 +87,10 @@ type
     {$IFDEF HEXEN}
     special: integer;
     {$ENDIF}
+    {$IFNDEF OPENGL}
     minx: integer;
     maxx: integer;
+    {$ENDIF}
     {$IFDEF DOOM_OR_STRIFE}
     xoffs: fixed_t;
     yoffs: fixed_t;

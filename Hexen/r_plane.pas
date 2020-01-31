@@ -456,8 +456,10 @@ begin
       result.height := height;
       result.picnum := picnum;
       result.lightlevel := lightlevel;
+      {$IFNDEF OPENGL}
       result.minx := viewwidth;
       result.maxx := -1;
+      {$ENDIF}
       result.special := special;
       result.renderflags := flags;
       result.slopeSID := slopeSID;  // JVAL: Slopes
@@ -511,8 +513,10 @@ begin
   result.height := height;
   result.picnum := picnum;
   result.lightlevel := lightlevel;
+  {$IFNDEF OPENGL}
   result.minx := viewwidth;
   result.maxx := -1;
+  {$ENDIF}
   result.special := special;
   result.renderflags := flags;
   result.slopeSID := slopeSID;  // JVAL: Slopes

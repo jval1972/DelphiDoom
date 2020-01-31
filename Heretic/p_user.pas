@@ -479,14 +479,13 @@ begin
         end;
 
         player.lookdir := player.lookdir16 div 16;
-      end
-
+      end;
     end;
   end;
 
   if not G_NeedsCompatibilityMode then
   begin
-// JVAL Look LEFT and RIGHT
+  // JVAL Look LEFT and RIGHT
     look2 := cmd.lookleftright;
     if look2 > 7 then
       look2 := look2 - 16;

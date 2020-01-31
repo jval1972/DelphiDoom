@@ -466,12 +466,7 @@ end;
 
 procedure AM_setSubSectorDrawFuncs;
 begin
-{$IFDEF OPENGL}
-//  if amstate = am_overlay then
-//    drawsegfunc := @AM_DrawSeg32Transparent
-//  else
-//    drawsegfunc := @AM_DrawSeg32;
-{$ELSE}
+{$IFNDEF OPENGL}
   if amstate = am_overlay then
   begin
     if videomode = vm32bit then

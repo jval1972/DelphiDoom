@@ -454,8 +454,10 @@ begin
       result.height := height;
       result.picnum := picnum;
       result.lightlevel := lightlevel;
+      {$IFNDEF OPENGL}
       result.minx := viewwidth;
       result.maxx := -1;
+      {$ENDIF}
       result.xoffs := xoffs;
       result.yoffs := yoffs;
       result.renderflags := flags;
@@ -512,8 +514,10 @@ begin
   result.height := height;
   result.picnum := picnum;
   result.lightlevel := lightlevel;
+  {$IFNDEF OPENGL}
   result.minx := viewwidth;
   result.maxx := -1;
+  {$ENDIF}
   result.xoffs := xoffs;
   result.yoffs := yoffs;
   result.renderflags := flags;

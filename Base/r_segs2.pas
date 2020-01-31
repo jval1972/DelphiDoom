@@ -113,11 +113,6 @@ uses
 {$ENDIF}
   tables;
 
-//const
-// JVAL: Changing the rw_scale limits require 64 bit arithmetic in some column drawers
-//  MIN_RW_SCALE = 64;
-//  MAX_RW_SCALE = 256 * FRACUNIT;
-
 //
 // R_RenderSegLoop
 // Draws zero, one, or two textures (and possibly a masked

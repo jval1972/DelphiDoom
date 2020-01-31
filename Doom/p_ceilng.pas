@@ -323,8 +323,7 @@ begin
           ceiling.crush := true;
           ceiling.topheight := sec.ceilingheight;
           ceiling.bottomheight := sec.floorheight;
-          if _type <> lowerToFloor then
-            ceiling.bottomheight := ceiling.bottomheight + 8 * FRACUNIT;
+          ceiling.bottomheight := ceiling.bottomheight + 8 * FRACUNIT;
           ceiling.direction := -1;
           ceiling.speed := CEILSPEED;
         end;

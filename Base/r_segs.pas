@@ -676,27 +676,13 @@ begin
       pds.tsilheight := MININT;
     end;
 
- {   if backsector.ceilingheight <= frontsector.floorheight then
-    begin
-      pds.sprbottomclip := @negonearray;
-      pds.bsilheight := MAXINT;
-      pds.silhouette := pds.silhouette or SIL_BOTTOM;
-    end;
-
-    if backsector.floorheight >= frontsector.ceilingheight then
-    begin
-      pds.sprtopclip := @screenheightarray;
-      pds.tsilheight := MININT;
-      pds.silhouette := pds.silhouette or SIL_TOP;
-    end;                                           }
-
-      // killough 1/17/98: this test is required if the fix
-      // for the automap bug (r_bsp.c) is used, or else some
-      // sprites will be displayed behind closed doors. That
-      // fix prevents lines behind closed doors with dropoffs
-      // from being displayed on the automap.
-      //
-      // killough 4/7/98: make doorclosed external variable
+    // killough 1/17/98: this test is required if the fix
+    // for the automap bug (r_bsp.c) is used, or else some
+    // sprites will be displayed behind closed doors. That
+    // fix prevents lines behind closed doors with dropoffs
+    // from being displayed on the automap.
+    //
+    // killough 4/7/98: make doorclosed external variable
 
     if doorclosed or (backsector.ceilingheight <= frontsector.floorheight) then
     begin
@@ -1257,20 +1243,6 @@ begin
       pds.tsilheight := MININT;
     end;
 
- {   if backsector.ceilingheight <= frontsector.floorheight then
-    begin
-      pds.sprbottomclip := @negonearray;
-      pds.bsilheight := MAXINT;
-      pds.silhouette := pds.silhouette or SIL_BOTTOM;
-    end;
-
-    if backsector.floorheight >= frontsector.ceilingheight then
-    begin
-      pds.sprtopclip := @screenheightarray;
-      pds.tsilheight := MININT;
-      pds.silhouette := pds.silhouette or SIL_TOP;
-    end;                    }
-
     // killough 1/17/98: this test is required if the fix
     // for the automap bug (r_bsp.c) is used, or else some
     // sprites will be displayed behind closed doors. That
@@ -1520,7 +1492,6 @@ begin
   // if a floor / ceiling plane is on the wrong side
   //  of the view plane, it is definitely invisible
   //  and doesn't need to be marked.
-
 
   // killough 3/7/98: add deep water check
   {$IFDEF DOOM_OR_STRIFE}

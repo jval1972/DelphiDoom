@@ -395,6 +395,14 @@ begin
         player.mo.momx := player.mo.momx * 15 div 16;
         player.mo.momy := player.mo.momy * 15 div 16;
       end;
+    end
+    else if (G_PlayingEngineVersion >= VERSION205) and (player.mo.flags2_ex and MF2_EX_ONMOBJ <> 0) then
+    begin
+      if (cmd.forwardmove = 0) and (cmd.sidemove = 0) then
+      begin
+        player.mo.momx := player.mo.momx * 15 div 16;
+        player.mo.momy := player.mo.momy * 15 div 16;
+      end;
     end;
   end;
 

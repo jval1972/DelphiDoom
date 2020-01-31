@@ -396,9 +396,11 @@ begin
 
   result := @visplanes[lastvisplane];
   {$IFDEF DEBUG}
+  {$IFNDEF OPENGL}
   result.minx := 0;
   result.maxx := viewwidth - 1;
   R_DebugCheckVisPlane(result);
+  {$ENDIF}
   {$ENDIF}
 
   inc(lastvisplane);
@@ -458,8 +460,10 @@ begin
       result.height := height;
       result.picnum := picnum;
       result.lightlevel := lightlevel;
+      {$IFNDEF OPENGL}
       result.minx := viewwidth;
       result.maxx := -1;
+      {$ENDIF}
       result.xoffs := xoffs;
       result.yoffs := yoffs;
       result.renderflags := flags;
@@ -516,8 +520,10 @@ begin
   result.height := height;
   result.picnum := picnum;
   result.lightlevel := lightlevel;
+  {$IFNDEF OPENGL}
   result.minx := viewwidth;
   result.maxx := -1;
+  {$ENDIF}
   result.xoffs := xoffs;
   result.yoffs := yoffs;
   result.renderflags := flags;

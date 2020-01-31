@@ -28,7 +28,7 @@ begin
     {$IFDEF USEDOUBLE}
     yl := Trunc((topfrac_dbl + (HEIGHTUNIT - 1)) / HEIGHTUNIT);
     {$ELSE}
-    yl := (topfrac + (HEIGHTUNIT - 1)) shr HEIGHTBITS{ div HEIGHTUNIT};
+    yl := (topfrac + (HEIGHTUNIT - 1)) shr HEIGHTBITS;
     {$ENDIF}
     if yl > viewheight then
       yl := viewheight + 1;
@@ -76,7 +76,7 @@ begin
     {$IFDEF USEDOUBLE}
     yh := Trunc(bottomfrac_dbl / HEIGHTUNIT);
     {$ELSE}
-    yh := bottomfrac shr HEIGHTBITS{ div HEIGHTUNIT};
+    yh := bottomfrac shr HEIGHTBITS;
     {$ENDIF}
 
     if yh >= pfloorclip^ then
@@ -198,10 +198,6 @@ begin
 
       dc_x := rwx;
       {$IFDEF USEDOUBLE}
-{      if rw_scale_dbl < MIN_RW_SCALE then
-        rw_scale_dbl := MIN_RW_SCALE
-      else if rw_scale_dbl > MAX_RW_SCALE then
-        rw_scale_dbl := MAX_RW_SCALE;}
       dc_iscale := round($100000000 / rw_scale_dbl);
       {$ELSE}
       dc_iscale := LongWord($ffffffff) div LongWord(rw_scale);
@@ -300,7 +296,7 @@ begin
         mid := Trunc(pixhigh_dbl / HEIGHTUNIT);
         pixhigh_dbl := pixhigh_dbl + pixhighstep_dbl;
 	{$ELSE}
-        mid := pixhigh shr HEIGHTBITS{ div HEIGHTUNIT};
+        mid := pixhigh shr HEIGHTBITS;
         pixhigh := pixhigh + pixhighstep;
 	{$ENDIF}
 
@@ -434,7 +430,7 @@ begin
         mid := Trunc((pixlow_dbl + HEIGHTUNIT - 1) / HEIGHTUNIT);
         pixlow_dbl := pixlow_dbl + pixlowstep_dbl;
 	{$ELSE}
-        mid := (pixlow + HEIGHTUNIT - 1) shr HEIGHTBITS{ div HEIGHTUNIT};
+        mid := (pixlow + HEIGHTUNIT - 1) shr HEIGHTBITS;
         pixlow := pixlow + pixlowstep;
 	{$ENDIF}
 

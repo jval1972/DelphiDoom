@@ -501,7 +501,6 @@ var
   light: integer;
   x: integer;
   stop: integer;
-//  sec: Psector_t;
 begin
   visslope := pl.slope;
   if visslope = nil then
@@ -516,8 +515,6 @@ begin
       Exit;
     end;
   end;
-
-//  sec := @sectors[pl.slopeSID];
 
   R_GetDSs(pl.picnum);
 
@@ -790,8 +787,6 @@ begin
       sc11 := sc1;
       sc22 := sc2;
     end;
-//    markceiling := (sc11 <> sc1) or (sc22 <> sc2);
-//    markfloor := true;
     side := intval(@sides[linedef.sidenum[0]] = sidedef);
     if linedef.clslopestep[side] <> 0.0 then
     begin
@@ -892,7 +887,6 @@ begin
     // single sided line
     midtexture := texturetranslation[sidedef.midtexture];
 
-//    rw_midtexturemid := frontsector.floorheight + textureheight[sidedef.midtexture] - viewz;
     rw_midtexturemid := frontsector.ceilingheight - textureheight[sidedef.midtexture] - viewz;
 
     rw_midtexturemid := rw_midtexturemid + sidedef.rowoffset;

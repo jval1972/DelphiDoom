@@ -200,8 +200,10 @@ type
     ceil_validcount: integer;
     highestfloor_height: integer;
     highestfloor_lightlevel: integer;
+    highestfloor_picnum: integer;
     lowestceil_height: integer;
     lowestceil_lightlevel: integer;
+    lowestceil_picnum: integer;
     no_toptextures: boolean;
     no_bottomtextures: boolean;
 {$ELSE}

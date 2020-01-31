@@ -867,7 +867,12 @@ end;
 function P_LookForTargets(actor: Pmobj_t; allaround: boolean): boolean;
 begin
   if actor.flags2_ex and MF2_EX_FRIEND <> 0 then
-    result := P_LookForMonsters(actor)
+  begin
+    result := P_LookForMonsters(actor);
+    if not result then
+      if P_Random < 200 then
+        result := P_LookForPlayers(actor, true);
+  end
   else
     result := P_LookForPlayers(actor, allaround);
 end;

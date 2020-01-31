@@ -623,6 +623,19 @@ begin
     exit;
   end;
 
+  // JVAL: 20200130 - MF2_EX_DONTBLOCKPLAYER flag - does not block players
+  if (thing.flags2_ex and MF2_EX_DONTBLOCKPLAYER <> 0) and (tmthing.player <> nil) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  if (tmthing.flags2_ex and MF2_EX_DONTBLOCKPLAYER <> 0) and (thing.player <> nil) then
+  begin
+    result := true;
+    exit;
+  end;
+
   blockdist := thing.radius + tmthing.radius;
 
   if (abs(thing.x - tmx) >= blockdist) or (abs(thing.y - tmy) >= blockdist) then

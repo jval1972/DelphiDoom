@@ -339,6 +339,8 @@ const
   MF2_EX_MISSILEHURTSPECIES = $2000000;
   // Actor can jump up
   MF2_EX_JUMPUP = $4000000;
+  // Does not block player
+  MF2_EX_DONTBLOCKPLAYER = $8000000;
 
 type
 // Map Object definition.

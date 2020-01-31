@@ -3582,6 +3582,7 @@ procedure gld_AddPlane(subsectornum: integer; floor, ceiling: Pvisplane_t);
 var
   subsector: Psubsector_t;
   secID: integer;
+  sec: Psector_t;
   msec: Psector_t; // JVAL: 3d floors
 begin
   // check if all arrays are allocated
@@ -3594,7 +3595,8 @@ begin
     exit;
   {$ENDIF}
 
-  secID := subsector.sector.iSectorID;
+  sec := subsector.sector;
+  secID := sec.iSectorID;
   if sectorrendered[secID] <> rendermarker then // if not already rendered
   begin
     // render the floor
@@ -3603,7 +3605,7 @@ begin
         gld_AddFlat(secID, false, floor);
     // render the ceiling
     if ceiling <> nil then
-      if (ceiling.height > viewz)  or (sectors[secID].renderflags and SRF_SLOPECEILING <> 0)  then
+      if (ceiling.height > viewz)  or (sectors[secID].renderflags and SRF_SLOPECEILING <> 0) then
         gld_AddFlat(secID, true, ceiling);
 
     if sectors[secID].midsec >= 0 then

@@ -474,6 +474,19 @@ begin
     exit;
   end;
 
+  // JVAL: 20200130 - MF2_EX_DONTBLOCKPLAYER flag - does not block players
+  if (thing.flags2_ex and MF2_EX_DONTBLOCKPLAYER <> 0) and (tmthing.player <> nil) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  if (tmthing.flags2_ex and MF2_EX_DONTBLOCKPLAYER <> 0) and (thing.player <> nil) then
+  begin
+    result := true;
+    exit;
+  end;
+
   blockdist := thing.radius + tmthing.radius;
 
   if (abs(thing.x - tmx) >= blockdist) or (abs(thing.y - tmy) >= blockdist) then
@@ -1019,7 +1032,7 @@ begin
     jumpupmargin := 24 * FRACUNIT;
     // JVAL: Version 205
     if G_PlayingEngineVersion >= VERSION205 then
-      if (thing.flags2_ex and (MF2_EX_JUMPUP or MF2_EX_FRIEND) <> 0) and (N_Random > 20) then
+      if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
         jumpupmargin := 56 * FRACUNIT;
 
     if (thing.flags and MF_TELEPORT = 0) and
@@ -1033,7 +1046,7 @@ begin
 
     // JVAL: Version 204
     if G_PlayingEngineVersion >= VERSION204 then
-      if (thing.flags2_ex and (MF2_EX_JUMPDOWN or MF2_EX_FRIEND) <> 0) and (N_Random > 20) then
+      if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
         dropoffmargin := 144 * FRACUNIT;
 
     if ((thing.flags and (MF_DROPOFF or MF_FLOAT)) = 0) and
