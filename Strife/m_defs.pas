@@ -167,7 +167,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 202;
+  NUMDEFAULTS = 203;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -234,6 +234,14 @@ const
      defaultsvalue: '';
      defaultivalue: 1;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'interpolateprecise';
+     location: @interpolateprecise;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'interpolateoncapped';

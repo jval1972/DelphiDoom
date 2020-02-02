@@ -53,6 +53,7 @@ procedure R_SetInterpolateSkipTicks(const ticks: integer);
 
 var
   interpolate: boolean;
+  interpolateprecise: boolean = true;
   interpolateoncapped: boolean = false;
   interpolationstarttime: fixed_t = 0;
   didinterpolations: boolean;
@@ -563,9 +564,9 @@ begin
   end;
 
   fractime := I_GetFracTime;
-  ticfrac := fractime - interpolationstarttime; //interpolationstoretime;
-  //ticfrac := round(ticfrac / interpolationcount);// + frametime;
-//  I_Warning('ticfrac := %d'#13#10, [ticfrac]);
+  ticfrac := fractime - interpolationstarttime;
+  if interpolateprecise then
+    ticfrac := ticfrac + frametime;
   frametime := fractime;
   {$IFDEF DEBUG}
   I_Warning('R_Interpolate(): fractime = %5.3f, gametic = %d'#13#10, [fractime / FRACUNIT, gametic]);

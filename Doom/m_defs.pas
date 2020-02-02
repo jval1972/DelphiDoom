@@ -159,7 +159,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}192{$ELSE}194{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}193{$ELSE}195{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -226,6 +226,14 @@ const
      defaultsvalue: '';
      defaultivalue: 1;
      defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'interpolateprecise';
+     location: @interpolateprecise;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'interpolateoncapped';

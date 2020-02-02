@@ -1,3 +1,11 @@
+Version 2.0.5 build 722 - (2/2/2020)
+-----------------------
+Fixes to uncapped framerate calculation, runs smoother.
+Change the interpolateoncapped console variable from the menu (Options/Display/Advanced/Interpolate on capped)
+Added interpolateprecise console variable. When true it will try to make more accurate interpolation in uncapped framerate by taking by accound the time needed to render the frame.
+
+Version 2.0.5 build 721 - (31/1/2020)
+-----------------------
 Added VSpeed and PushFactor fields to the mobjinfo PascalScript runtime class.
 New ACTORDEF functions:
   A_Recoil
@@ -153,6 +161,8 @@ Support for extended help screens (HELP01 thru HELP99). See also https://www.doo
 Automap can now handle big maps without glitches.
 Speed optimizations to the OpenGL renderer.
 Fixed some glitches of the OpenGL rendering.
+Added MF2_EX_DONTBLOCKPLAYER flag, when set a solid object does not block players.
+Fixes to 3d gameplay.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------
@@ -778,7 +788,7 @@ Replaced original memory manager with FastMM.
 Added lowgravity cheat (available trhu console only).
 Added -singletics command line parameter to prevent adaptiveness of internal clock.
 Added support for SNDINFO lump (sound aliases).
-Added support for functions with custom parameters inside DECORATE lump.
+Added support for functions with custom parameters inside ACTORDEF lumps.
 Added A_Stop function.
 Added A_Jump function.
 Added MF_EX_FLOORHUGGER flag.
@@ -805,7 +815,7 @@ Added A_FloatBob and A_NoFloatBob mobj functions.
 Added A_Missile and A_NoMissile mobj functions.
 Added MF_EX_DONOTREMOVE mobj flag.
 Added MF_EX_DONTHURTSHOOTER mobj flag.
-Added DEFAULTMISSILE and DEFAULTTRANSPARENT decorate keywords.
+Added DEFAULTMISSILE and DEFAULTTRANSPARENT ACTORDEF keywords.
 Added A_ComboAttack and A_BulletAttack mobj functions.
 Added MF_EX_LOOKALLAROUND, MF_EX_GHOST, MF_EX_THRUGHOST and MF2_EX_MEDIUMGRAVITY mobj flags.
 Added A_MediumGravity mobj function.

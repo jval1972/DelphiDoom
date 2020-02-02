@@ -1,3 +1,11 @@
+Version 2.0.5 build 722 - (2/2/2020)
+-----------------------
+Fixes to uncapped framerate calculation, runs smoother.
+Change the interpolateoncapped console variable from the menu (Options/Display/Advanced/Interpolate on capped)
+Added interpolateprecise console variable. When true it will try to make more accurate interpolation in uncapped framerate by taking by accound the time needed to render the frame.
+
+Version 2.0.5 build 721 - (31/1/2020)
+-----------------------
 Added VSpeed and PushFactor fields to the mobjinfo PascalScript runtime class.
 New ACTORDEF functions:
   A_Recoil
@@ -140,6 +148,7 @@ Support for extended help screens (HELP01 thru HELP99). Help screens must be in 
 Automap can now handle big maps without glitches.
 Speed optimizations to the OpenGL renderer.
 Fixed some glitches of the OpenGL rendering.
+Added MF2_EX_DONTBLOCKPLAYER flag, when set a solid object does not block players.
 
 Version 2.0.4 build 720 - (12/10/2019)
 -----------------------

@@ -690,6 +690,7 @@ type
     od_diher8bittransparency,
 {$ENDIF}
     od_interpolate,
+    od_interpolateoncapped,
 {$IFNDEF OPENGL}
     od_usefake3d,
 {$ENDIF}
@@ -4374,6 +4375,14 @@ begin
   pmi.cmd := 'interpolate';
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @interpolate;
+  pmi.alphaKey := 'u';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Interpolate on capped';
+  pmi.cmd := 'interpolateoncapped';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @interpolateoncapped;
   pmi.alphaKey := 'i';
 
 {$IFNDEF OPENGL}
