@@ -2013,10 +2013,65 @@ begin
   sc.Free;
 end;
 
+procedure CmdSummon(const parm1, parm2: string);
+var
+  sc: TScriptEngine;
+  x, y, z: fixed_t;
+  mobjno, dn: integer;
+  an, angle: angle_t;
+  parm: string;
+  mo: Pmobj_t;
+  dist: fixed_t;
+begin
+  parm := strtrim(parm1);
+  if parm = '' then
+  begin
+    printf('Usage:'#13#10' summon doomednum/doomname'#13#10);
+    exit;
+  end;
+
+  dn := atoi(parm, 0);
+  if dn >= 1 then
+    mobjno := Info_GetMobjNumForDoomNum(dn)
+  else
+    mobjno := Info_GetMobjNumForName(parm);
+
+  if (mobjno <= 0) or (mobjno >= nummobjtypes) then
+  begin
+    printf('Unknown mobj %s'#13#10, [parm]);
+    exit;
+  end;
+
+  if players[consoleplayer].mo = nil then
+    exit;
+
+  angle := players[consoleplayer].mo.angle;
+  an := angle shr ANGLETOFINESHIFT;
+  dist := mobjinfo[Ord(MT_PLAYER)].radius + mobjinfo[mobjno].radius + 32 * FRACUNIT;
+  x := players[consoleplayer].mo.x + FixedMul(dist, finecosine[an]);
+  y := players[consoleplayer].mo.y + FixedMul(dist, finesine[an]);
+  if mobjinfo[mobjno].flags and MF_SPAWNCEILING <> 0 then
+    z := ONCEILINGZ
+  else if mobjinfo[mobjno].flags_ex and MF_EX_SPAWNFLOAT <> 0 then
+    z := ONFLOATZ
+  else
+    z := ONFLOORZ;
+
+  mo := P_SpawnMobj(x, y, z, mobjno);
+  if mo <> nil then
+  begin
+    mo.angle := angle;
+    printf('summon: mobj %s spawned, key=%d'#13#10, [parm, mo.key]);
+  end
+  else
+    printf('summon: mobj %s can not be spawned'#13#10, [parm]);
+end;
+
 procedure MObj_Init;
 begin
   mobjlist := TMobjList.Create;
   C_AddCmd('spawnmobj, p_spawnmobj', @CmdSpawnMobj);
+  C_AddCmd('summon', @CmdSummon);
 end;
 
 procedure MObj_ShutDown;

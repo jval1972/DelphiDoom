@@ -93,6 +93,7 @@ uses
   r_sky,
   r_span,
   r_span32,
+  r_subsectors,
   r_things,
   r_utils,
   tables,
@@ -1147,22 +1148,27 @@ var
   slopeheight: fixed_t;
   {$ENDIF}
   tX, tY, tZ: Double;
+  splitfactor: integer;
 begin
+  if map_max_bound > 4096 then
+    splitfactor := 1
+  else
+    splitfactor := SLOPESPLITFACTOR;
   // JVAL: Get Points from segs
   // SPEEDUP -> TO BE MOVED IN P_SETUP, ALONG WITH TClipper contruction ?
   SetLength(subjI, 1);
-  SetLength(subjI[0], ssector.numlines * SLOPESPLITFACTOR);
+  SetLength(subjI[0], ssector.numlines * splitfactor);
   k := 0;
   seg := @segs[ssector.firstline];
   for j := 0 to ssector.numlines - 1 do
   begin
     subjI[0][k] := R_MakeClipperPoint(seg.v1);
     Inc(k);
-    for l := 1 to SLOPESPLITFACTOR - 1 do
+    for l := 1 to splitfactor - 1 do
     begin
       subjI[0][k] := R_MakeClipperPoint(
-        (seg.v1.x * (SLOPESPLITFACTOR - l) + seg.v2.x * l) div SLOPESPLITFACTOR,
-        (seg.v1.y * (SLOPESPLITFACTOR - l) + seg.v2.y * l) div SLOPESPLITFACTOR
+        (seg.v1.x * (splitfactor - l) + seg.v2.x * l) div splitfactor,
+        (seg.v1.y * (splitfactor - l) + seg.v2.y * l) div splitfactor
        );
       Inc(k);
     end;

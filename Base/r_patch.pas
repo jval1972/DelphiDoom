@@ -151,9 +151,9 @@ begin
     exit;
   end;
 
-  if h1 < 128 then
+  if h1 in [2, 4, 8, 16, 32, 64] then
   begin
-    h2 := h1 or 127 + 1;
+    h2 := 128;
     hash := R_GetFixedColumnHash(tex, col);
     item := fixedcolumns[hash];
     while item <> nil do

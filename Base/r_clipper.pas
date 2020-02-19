@@ -2887,7 +2887,8 @@ begin
       prevE := E.PrevInAEL;
   end;
 
-  if Assigned(prevE) and (prevE.OutIdx >= 0) then
+  if Assigned(prevE) and (prevE.OutIdx >= 0) and
+    (prevE.Top.Y < Pt.Y) and (E.Top.Y < Pt.Y) then
   begin
     X1 := TopX(prevE, Pt.Y);
     X2 := TopX(E, Pt.Y);
@@ -4513,7 +4514,7 @@ begin
   begin
     if (PP = PP.Prev) or (PP.Next = PP.Prev) then
     begin
-      Dispose(PP);
+      DisposePolyPts(PP);
       OutRec.Pts := nil;
       Exit;
     end;

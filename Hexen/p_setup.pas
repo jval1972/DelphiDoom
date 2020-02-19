@@ -21,6 +21,11 @@
 //  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
+//  DESCRIPTION:
+//   Setup a game, startup stuff.
+//   Do all the WAD I/O, get map description,
+//   set up initial state and misc. LUTs.
+//
 //------------------------------------------------------------------------------
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
@@ -38,15 +43,6 @@ uses
   m_fixed,
   p_mobj_h,
   r_defs;
-
-//-----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//   Setup a game, startup stuff.
-//  Do all the WAD I/O, get map description,
-//  set up initial state and misc. LUTs.
-//
-//-----------------------------------------------------------------------------
 
 function P_GetMapName(const map: integer): string;
 
@@ -176,8 +172,9 @@ uses
   c_cmds,
   doomtype,
   d_player,
-  m_argv,
+  d_main,
   z_zone,
+  m_argv,
   m_bbox,
   g_game,
   i_system,
@@ -909,7 +906,12 @@ begin
     if ld.sidenum[0] <> -1 then
       ld.frontsector := sides[ld.sidenum[0]].sector
     else
-      ld.frontsector := nil;
+    begin
+      if devparm then
+        printf('P_LoadLineDefs(): Line %d does not have front sidedef'#13#10, [i]);
+      ld.sidenum[0] := 0;
+      ld.frontsector := sides[0].sector;
+    end;
 
     if ld.sidenum[1] <> -1 then
       ld.backsector := sides[ld.sidenum[1]].sector
@@ -991,33 +993,33 @@ var
   total: integer;
   li: Pline_t;
   sector: Psector_t;
-  psd: Psubsector_t;
+  pss: Psubsector_t;
   seg: Pseg_t;
   bbox: array[0..3] of fixed_t;
   block: integer;
 begin
   // look up sector number for each subsector
-  psd := @subsectors[0];
+  pss := @subsectors[0];
   for i := 0 to numsubsectors - 1 do
   begin
-    seg := @segs[psd.firstline];
-    psd.sector := nil;
-    for j := 0 to psd.numlines - 1 do
+    seg := @segs[pss.firstline];
+    pss.sector := nil;
+    for j := 0 to pss.numlines - 1 do
     begin
       if seg.sidedef <> nil then
       begin
       {$IFDEF DEBUG}
         printf('subsector %5d (%8d), line %2d (%8d), sector %4d (%8d) '#13#10,
-          [i, integer(psd), j, integer(seg.sidedef), integer(seg.sidedef.sector), (integer(seg.sidedef.sector) - integer(sectors)) div SizeOf(sector_t)]);
+          [i, integer(pss), j, integer(seg.sidedef), integer(seg.sidedef.sector), (integer(seg.sidedef.sector) - integer(sectors)) div SizeOf(sector_t)]);
       {$ENDIF}
-        psd.sector := seg.sidedef.sector;
+        pss.sector := seg.sidedef.sector;
         break;
       end;
       inc(seg);
     end;
-    if psd.sector = nil then
+    if pss.sector = nil then
       I_Error('P_GroupLines(): Subsector %d is not part of a sector', [i]);
-    inc(psd);
+    inc(pss);
   end;
 
   // count number of lines in each sector
@@ -1027,7 +1029,14 @@ begin
     li := @lines[i];
     inc(total);
     if li.frontsector <> nil then
-      li.frontsector.linecount := li.frontsector.linecount + 1;
+      li.frontsector.linecount := li.frontsector.linecount + 1
+    else
+    begin
+      if li.backsector = nil then
+        I_Warning('P_GroupLines(): Line %d is missing frontsector & backsector'#13#10, [i])
+      else
+        I_Warning('P_GroupLines(): Line %d is missing frontsector'#13#10, [i]);
+    end;
 
     if (li.backsector <> nil) and (li.backsector <> li.frontsector) then
     begin

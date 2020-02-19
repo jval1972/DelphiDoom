@@ -150,6 +150,7 @@ uses
   d_main,
   d_think,
   z_zone,
+  m_argv,
   m_bbox,
   g_game,
   i_system,
@@ -927,7 +928,12 @@ begin
     if ld.sidenum[0] <> -1 then
       ld.frontsector := sides[ld.sidenum[0]].sector
     else
-      ld.frontsector := nil;
+    begin
+      if devparm then
+        printf('P_LoadLineDefs(): Line %d does not have front sidedef'#13#10, [i]);
+      ld.sidenum[0] := 0;
+      ld.frontsector := sides[0].sector;
+    end;
 
     if ld.sidenum[1] <> -1 then
       ld.backsector := sides[ld.sidenum[1]].sector
@@ -1374,7 +1380,7 @@ var
   wadblockmaplump: PSmallIntArray;
 begin
   count := W_LumpLength(lump) div 2; // Number of smallint values
-  if (count < 4) or (count >= $10000) then
+  if (M_CheckParm('-blockmap') > 0) or (count < 4) or (count >= $10000) then
   begin
     P_CreateBlockMap
   end
@@ -1463,7 +1469,14 @@ begin
     li := @lines[i];
     inc(total);
     if li.frontsector <> nil then
-      li.frontsector.linecount := li.frontsector.linecount + 1;
+      li.frontsector.linecount := li.frontsector.linecount + 1
+    else
+    begin
+      if li.backsector = nil then
+        I_Warning('P_GroupLines(): Line %d is missing frontsector & backsector'#13#10, [i])
+      else
+        I_Warning('P_GroupLines(): Line %d is missing frontsector'#13#10, [i]);
+    end;
 
     if (li.backsector <> nil) and (li.backsector <> li.frontsector) then
     begin

@@ -41,6 +41,9 @@ procedure R_PrecalcPointInSubSector;
 
 function R_PointInSubsectorPrecalc(const x: fixed_t; const y: fixed_t): Psubsector_t;
 
+var
+  map_max_bound: integer;
+
 implementation
 
 uses
@@ -73,6 +76,7 @@ var
   pv: Pvertex_t;
   ss1, ss2: Psubsector_t;
   hitcnt: integer;
+  tmp: integer;
 
   function R_PointInSubsector_Incl(const x: fixed_t; const y: fixed_t): Psubsector_t;
   var
@@ -108,6 +112,17 @@ begin
     else if pv.y > p_in_ss_maxy then
       p_in_ss_maxy := pv.y;
   end;
+
+  map_max_bound := abs(FixedInt64(p_in_ss_minx));
+  tmp := abs(FixedInt64(p_in_ss_maxx));
+  if tmp > map_max_bound then
+    map_max_bound := tmp;
+  tmp := abs(FixedInt64(p_in_ss_miny));
+  if tmp > map_max_bound then
+    map_max_bound := tmp;
+  tmp := abs(FixedInt64(p_in_ss_maxy));
+  if tmp > map_max_bound then
+    map_max_bound := tmp;
 
   p_in_ss_width := (p_in_ss_maxx - p_in_ss_minx) div POINTINSUBSECTORACCURACY + 1;
   p_in_ss_height := (p_in_ss_maxy - p_in_ss_miny) div POINTINSUBSECTORACCURACY + 1;

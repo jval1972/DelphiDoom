@@ -177,11 +177,15 @@ procedure R_DrawColumnInCache(patch: Pcolumn_t; cache: PByteArray;
 var
   count: integer;
   position: integer;
+  delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
+  delta := 0;
+  tallpatch := false;
   while patch.topdelta <> $ff do
   begin
     count := patch.length;
-    position := originy + patch.topdelta;
+    position := originy + delta + patch.topdelta;
 
     if position < 0 then
     begin
@@ -195,7 +199,17 @@ begin
     if count > 0 then
       memcpy(@cache[position], PByteArray(integer(patch) + 3), count);
 
-    patch := Pcolumn_t(integer(patch) + patch.length + 4);
+    if not tallpatch then
+    begin
+      prevdelta := patch.topdelta;
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
+      if patch.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
   end;
 end;
 

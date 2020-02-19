@@ -1,3 +1,10 @@
+Version 2.0.5 build 723 - (19/2/2020)
+-----------------------
+Added -blockmap command line parameter. When set it will force to generate blockmap while loading a map.
+Added check to avoid crash in linedefs without front side.
+Fixes to slope drawing in big maps (software renderer).
+Added summon console command.
+
 Version 2.0.5 build 722 - (2/2/2020)
 -----------------------
 Fixes to uncapped framerate calculation, runs smoother.
