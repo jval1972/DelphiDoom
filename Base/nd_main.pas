@@ -4842,28 +4842,29 @@ begin
     for i := 1 to {$IFDEF HEXEN}11{$ELSE}10{$ENDIF} do
     begin
       lname := strupper(char8tostring(W_GetNameForNum(lumpnum + i)));
-      if lname = 'THINGS' then
+      // JVAL: 20200222 - Fix bug of continous maps without all assets
+      if (has_things = -1) and (lname = 'THINGS') then
         has_things := i
-      else if lname = 'LINEDEFS' then
+      else if (has_lines = -1) and (lname = 'LINEDEFS') then
         has_lines := i
-      else if lname = 'SIDEDEFS' then
+      else if (has_sides = -1) and (lname = 'SIDEDEFS') then
         has_sides := i
-      else if lname = 'VERTEXES' then
+      else if (has_vertexes = -1) and (lname = 'VERTEXES') then
         has_vertexes := i
-      else if lname = 'SEGS' then
+      else if (has_segs = -1) and (lname = 'SEGS') then
         has_segs := i
-      else if lname = 'SSECTORS' then
+      else if (has_ssectors = -1) and (lname = 'SSECTORS') then
         has_ssectors := i
-      else if lname = 'NODES' then
+      else if (has_nodes = -1) and (lname = 'NODES') then
         has_nodes := i
-      else if lname = 'SECTORS' then
+      else if (has_sectors = -1) and (lname = 'SECTORS') then
         has_sectors := i
-      else if lname = 'REJECT' then
+      else if (has_reject = -1) and (lname = 'REJECT') then
         has_reject := i
-      else if lname = 'BLOCKMAP' then
+      else if (has_blockmap = -1) and (lname = 'BLOCKMAP') then
         has_blockmap := i
       {$IFDEF HEXEN}
-      else if lname = 'BEHAVIOR' then
+      else if (has_behavior = -1) and (lname = 'BEHAVIOR') then
         has_behavior := i{$ENDIF};
     end;
   end
@@ -4872,18 +4873,19 @@ begin
     for i := 1 to {$IFDEF HEXEN}6{$ELSE}5{$ENDIF} do
     begin
       lname := strupper(char8tostring(W_GetNameForNum(lumpnum + i)));
-      if lname = 'THINGS' then
+      // JVAL: 20200222 - Fix bug of continous maps without all assets
+      if (has_things = -1) and (lname = 'THINGS') then
         has_things := i
-      else if lname = 'LINEDEFS' then
+      else if (has_lines = -1) and (lname = 'LINEDEFS') then
         has_lines := i
-      else if lname = 'SIDEDEFS' then
+      else if (has_sides = -1) and (lname = 'SIDEDEFS') then
         has_sides := i
-      else if lname = 'VERTEXES' then
+      else if (has_vertexes = -1) and (lname = 'VERTEXES') then
         has_vertexes := i
-      else if lname = 'SECTORS' then
+      else if (has_sectors = -1) and (lname = 'SECTORS') then
         has_sectors := i
       {$IFDEF HEXEN}
-      else if lname = 'BEHAVIOR' then
+      else if (has_behavior = -1) and (lname = 'BEHAVIOR') then
         has_behavior := i{$ENDIF};
     end;
   end;

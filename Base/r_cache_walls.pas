@@ -471,6 +471,7 @@ begin
   dc_texturefactorbits := ptex.factorbits;
   dc32cache[hash][index].tic := gametic;
   dc_source32 := PLongWordArray(dc32cache[hash][index].dc32);
+  dc_height := texturecolumnheight[rtex];
 {$IFDEF HEXEN}
   dc_columnsize := dc32cache[hash][index].columnsize;
 {$ENDIF}
@@ -896,6 +897,7 @@ begin
   dc_texturefactorbits := 0;
   dc32cache[hash][index].tic := gametic;
   dc_source32 := PLongWordArray(dc32cache[hash][index].dc32);
+  dc_height := texturecolumnheight[rtex];
 end;
 
 procedure R_ReadDC32Cache(const rtex, rcol: integer);

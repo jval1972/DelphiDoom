@@ -879,7 +879,8 @@ begin
   if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
     item := target.dropitem;
 
-  if item = 0 then
+// JVAL: 20200301 - Fix P_SpawnDroppedMobj() bug
+  if item <= 0 then
     Exit;
 
   if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors

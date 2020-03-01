@@ -77,7 +77,7 @@ uses
   info;
 
 var
-  dnLookUp: PLongWordArray = nil; // JVAL: Doom Editor Number LookUp
+  dnLookUp: PIntegerArray = nil; // JVAL: Doom Editor Number LookUp
 
 const
   DNLOOKUPSIZE = $10000;
@@ -87,15 +87,9 @@ var
 
 
 procedure Info_InitDnLookUp;
-var
-  i: integer;
 begin
   if dnLookUp = nil then
-  begin
-    dnLookUp := malloc(DNLOOKUPSIZE * SizeOf(LongWord));
-    for i := 0 to DNLOOKUPSIZE - 1 do
-      dnLookUp[i] := $FFFFFFFF;
-  end;
+    dnLookUp := mallocz(DNLOOKUPSIZE * SizeOf(integer));
 
   if mobjinfo_aliases = nil then
     mobjinfo_aliases := TDStringList.Create;
@@ -103,7 +97,7 @@ end;
 
 procedure Info_ShutDownDnLookUp;
 begin
-  memfree(pointer(dnLookUp), DNLOOKUPSIZE * SizeOf(LongWord));
+  memfree(pointer(dnLookUp), DNLOOKUPSIZE * SizeOf(integer));
   mobjinfo_aliases.Free;
   mobjinfo_aliases := nil;
 end;
@@ -169,13 +163,16 @@ begin
   if dnLookUp <> nil then
   begin
     idx := dn mod DNLOOKUPSIZE;
-    idx := dnLookUp[idx];
-    if idx < nummobjtypes then
-      if mobjinfo[idx].doomednum = dn then
-      begin
-        result := idx;
-        Exit;
-      end;
+    if (idx >= 0) and (i < DNLOOKUPSIZE) then
+    begin
+      idx := dnLookUp[idx];
+      if (idx >= 0) and (idx < nummobjtypes) then
+        if mobjinfo[idx].doomednum = dn then
+        begin
+          result := idx;
+          Exit;
+        end;
+    end;
   end;
 
   for i := nummobjtypes - 1 downto 0 do
