@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 640x400 -iwad doom2.wad DD_VP_SkullPart1.wad -devparm
+RunParams=-nofullscreen -geom 640x400 TEST_LOST_SOUL.WAD
 HostApplication=
 Launcher=
 UseLauncher=0
