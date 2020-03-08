@@ -1722,7 +1722,7 @@ begin
   mobj_tokens.Add('SCALE');              // .scale                    // 45
   mobj_tokens.Add('GRAVITY');            // .gravity                  // 46
   mobj_tokens.Add('FLAGS3_EX');          // .flags3_ex (DelphiDoom)   // 47
-  mobj_tokens.Add('FLAGS4_EX');          // .flags4_ex (DelphiDoom)   // 47
+  mobj_tokens.Add('FLAGS4_EX');          // .flags4_ex (DelphiDoom)   // 48
 
 
   mobj_flags := TDTextList.Create;

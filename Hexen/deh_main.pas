@@ -78,6 +78,8 @@ var
   mobj_flags2: TDTextList;
   mobj_flags_ex: TDTextList;
   mobj_flags2_ex: TDTextList;
+  mobj_flags3_ex: TDTextList;
+  mobj_flags4_ex: TDTextList;
   state_tokens: TDTextList;
   weapon_tokens: TDTextList;
   sound_tokens: TDTextList;
@@ -482,6 +484,70 @@ begin
           42: mobjinfo[mobj_no].pushfactor := DEH_FixedOrFloat(token2, 64);
           43: mobjinfo[mobj_no].scale := DEH_FixedOrFloat(token2, 64);
           44: mobjinfo[mobj_no].gravity := DEH_FixedOrFloat(token2, 64);
+          45: begin
+                if mobj_val >= 0 then
+                  mobjinfo[mobj_no].flags3_ex := mobj_val  // DelphiDoom specific
+                else
+                begin
+                  mobj_setflag := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    mobj_flag := mobj_flags3_ex.IndexOf('MF3_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags3_ex.IndexOf('MF2_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags3_ex.IndexOf('MF_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags3_ex.IndexOf('MF_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags3_ex.IndexOf(token3);
+                    if mobj_flag >= 0 then
+                    begin
+                      if mobj_setflag = -1 then
+                        mobj_setflag := 0;
+                      mobj_flag := _SHL(1, mobj_flag);
+                      mobj_setflag := mobj_setflag or mobj_flag;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if mobj_setflag <> -1 then
+                    mobjinfo[mobj_no].flags3_ex := mobj_setflag;
+
+                end;
+              end;
+          46: begin
+                if mobj_val >= 0 then
+                  mobjinfo[mobj_no].flags4_ex := mobj_val  // DelphiDoom specific
+                else
+                begin
+                  mobj_setflag := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    mobj_flag := mobj_flags4_ex.IndexOf('MF4_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags4_ex.IndexOf('MF3_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags4_ex.IndexOf('MF2_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags4_ex.IndexOf('MF_EX_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags4_ex.IndexOf('MF_' + token3);
+                    if mobj_flag = -1 then
+                      mobj_flag := mobj_flags4_ex.IndexOf(token3);
+                    if mobj_flag >= 0 then
+                    begin
+                      if mobj_setflag = -1 then
+                        mobj_setflag := 0;
+                      mobj_flag := _SHL(1, mobj_flag);
+                      mobj_setflag := mobj_setflag or mobj_flag;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if mobj_setflag <> -1 then
+                    mobjinfo[mobj_no].flags4_ex := mobj_setflag;
+
+                end;
+              end;
         end;
       end;
 
@@ -1353,6 +1419,37 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[43]), mobjinfo[i].scale]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[44]), mobjinfo[i].gravity]);
 
+    str := '';
+    for j := 0 to mobj_flags3_ex.Count - 1 do
+    begin
+      if mobjinfo[i].flags3_ex and _SHL(1, j) <> 0 then
+      begin
+        if str <> '' then
+          str := str + ', ';
+        str := str + mobj_flags3_ex[j];
+      end;
+    end;
+    if str = '' then
+      result.Add('%s = 0', [capitalizedstring(mobj_tokens[45])])
+    else
+      result.Add('%s = %s', [capitalizedstring(mobj_tokens[45]), str]);
+
+    str := '';
+    for j := 0 to mobj_flags4_ex.Count - 1 do
+    begin
+      if mobjinfo[i].flags4_ex and _SHL(1, j) <> 0 then
+      begin
+        if str <> '' then
+          str := str + ', ';
+        str := str + mobj_flags4_ex[j];
+      end;
+    end;
+    if str = '' then
+      result.Add('%s = 0', [capitalizedstring(mobj_tokens[46])])
+    else
+      result.Add('%s = %s', [capitalizedstring(mobj_tokens[46]), str]);
+
+
     result.Add('');
   end;
 
@@ -1557,6 +1654,8 @@ begin
   mobj_tokens.Add('PUSHFACTOR');         // .pushfactor               // 42
   mobj_tokens.Add('SCALE');              // .scale                    // 43
   mobj_tokens.Add('GRAVITY');            // .gravity                  // 44
+  mobj_tokens.Add('FLAGS3_EX');          // .flags3_ex (DelphiDoom)   // 45
+  mobj_tokens.Add('FLAGS4_EX');          // .flags4_ex (DelphiDoom)   // 46
 
 
   mobj_flags := TDTextList.Create;
@@ -1683,6 +1782,13 @@ begin
   mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
   mobj_flags2_ex.Add('MF2_EX_JUMPUP');
   mobj_flags2_ex.Add('MF2_EX_DONTBLOCKPLAYER');
+
+  mobj_flags3_ex := TDTextList.Create;
+  mobj_flags3_ex.Add('MF3_EX_FLOORBOUNCE');
+  mobj_flags3_ex.Add('MF3_EX_CEILINGBOUNCE');
+  mobj_flags3_ex.Add('MF3_EX_WALLBOUNCE');
+
+  mobj_flags4_ex := TDTextList.Create;
 
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // 0 //.sprite
@@ -3122,6 +3228,8 @@ begin
   FreeAndNil(mobj_flags2);
   FreeAndNil(mobj_flags_ex);
   FreeAndNil(mobj_flags2_ex);
+  FreeAndNil(mobj_flags3_ex);
+  FreeAndNil(mobj_flags4_ex);
   FreeAndNil(state_tokens);
   FreeAndNil(weapon_tokens);
   FreeAndNil(sound_tokens);
