@@ -641,6 +641,22 @@ begin
       Inc(flgcount);
     end;
 
+    // mobj flags3_ex
+    flgcount := 128;
+    for i := 0 to mobj_flags3_ex.Count - 1 do
+    begin
+      Sender.AddConstant(mobj_flags3_ex[i], uT_longword).Value.tu32 := flgcount;
+      Inc(flgcount);
+    end;
+
+    // mobj flags3_ex
+    flgcount := 160;
+    for i := 0 to mobj_flags4_ex.Count - 1 do
+    begin
+      Sender.AddConstant(mobj_flags4_ex[i], uT_longword).Value.tu32 := flgcount;
+      Inc(flgcount);
+    end;
+
     // states
     lst := statenames.AllTokens;
     for i := 0 to lst.Count - 1 do

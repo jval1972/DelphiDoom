@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 252;
+  DEHNUMACTIONS = 258;
 
 type
   deh_action_t = record
@@ -2604,6 +2604,24 @@ begin
   deh_actions[251].action.acp1 := @A_SetGravity;
   deh_actions[251].name := strupper('SetGravity');
   {$IFDEF DLL}deh_actions[251].decl := 'A_SetGravity(g: float)';{$ENDIF}
+  deh_actions[252].action.acp1 := @A_SetFloorBounce;
+  deh_actions[252].name := strupper('SetFloorBounce');
+  {$IFDEF DLL}deh_actions[252].decl := 'A_SetFloorBounce()';{$ENDIF}
+  deh_actions[253].action.acp1 := @A_UnSetFloorBounce;
+  deh_actions[253].name := strupper('UnSetFloorBounce');
+  {$IFDEF DLL}deh_actions[253].decl := 'A_UnSetFloorBounce()';{$ENDIF}
+  deh_actions[254].action.acp1 := @A_SetCeilingBounce;
+  deh_actions[254].name := strupper('SetCeilingBounce');
+  {$IFDEF DLL}deh_actions[254].decl := 'A_SetCeilingBounce()';{$ENDIF}
+  deh_actions[255].action.acp1 := @A_UnSetCeilingBounce;
+  deh_actions[255].name := strupper('UnSetCeilingBounce');
+  {$IFDEF DLL}deh_actions[255].decl := 'A_UnSetCeilingBounce()';{$ENDIF}
+  deh_actions[256].action.acp1 := @A_SetWallBounce;
+  deh_actions[256].name := strupper('SetWallBounce');
+  {$IFDEF DLL}deh_actions[256].decl := 'A_SetWallBounce()';{$ENDIF}
+  deh_actions[257].action.acp1 := @A_UnSetWallBounce;
+  deh_actions[257].name := strupper('A_UnSetWallBounce');
+  {$IFDEF DLL}deh_actions[257].decl := 'A_UnSetWallBounce()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

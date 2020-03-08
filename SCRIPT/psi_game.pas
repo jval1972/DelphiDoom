@@ -1264,6 +1264,20 @@ begin
     Exit;
   end;
 
+  if flag < 160 then
+  begin
+    Result.flags := @mo.flags3_ex;
+    Result.flag := (1 shl (flag - 128));
+    Exit;
+  end;
+
+  if flag < 192 then
+  begin
+    Result.flags := @mo.flags4_ex;
+    Result.flag := (1 shl (flag - 160));
+    Exit;
+  end;
+
   Result.flags := nil;
   Result.flag := 0;
 end;
@@ -1300,6 +1314,20 @@ begin
   begin
     Result.flags := @inf.flags2_ex;
     Result.flag := (1 shl (flag - 96));
+    Exit;
+  end;
+
+  if flag < 160 then
+  begin
+    Result.flags := @inf.flags3_ex;
+    Result.flag := (1 shl (flag - 128));
+    Exit;
+  end;
+
+  if flag < 192 then
+  begin
+    Result.flags := @inf.flags4_ex;
+    Result.flag := (1 shl (flag - 160));
     Exit;
   end;
 

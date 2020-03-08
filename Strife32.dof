@@ -100,7 +100,7 @@ Conditionals=STRIFE;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 -iwad strife00.wad
+RunParams=-nofullscreen -geom 1920x1080 -noactordef -internalgamedef
 HostApplication=
 Launcher=
 UseLauncher=0

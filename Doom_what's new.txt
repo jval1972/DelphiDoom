@@ -1,9 +1,18 @@
+Version 2.0.5 build 724 - (8/3/2020)
+-----------------------
 Fixed bug that could crash the engine while spawning map things.
 Fixed texture cache bug that could crash the engine (texture height was set to zero).
 Fixed bug that could crash the engine when MAPS without nodes are stored in continous lumps inside WAD.
 Fixed bug while spawning dropped items.
 Fix SKULL attack when PASSOBJ flag is set
 Added FLOORBOUNCE, CEILINGBOUNCE and WALLBOUNCE mobj flags.
+Added new ACTORDEF functions to set the new bouncing flags:
+ -A_SetFloorBounce
+ -A_UnSetFloorBounce
+ -A_SetCeilingBounce
+ -A_UnSetCeilingBounce
+ -A_SetWallBounce
+ -A_UnSetWallBounce
 
 Version 2.0.5 build 723 - (19/2/2020)
 -----------------------

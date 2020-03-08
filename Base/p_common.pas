@@ -304,6 +304,18 @@ procedure A_SetScale(actor: Pmobj_t);
 
 procedure A_SetGravity(actor: Pmobj_t);
 
+procedure A_SetFloorBounce(actor: Pmobj_t);
+
+procedure A_UnSetFloorBounce(actor: Pmobj_t);
+
+procedure A_SetCeilingBounce(actor: Pmobj_t);
+
+procedure A_UnSetCeilingBounce(actor: Pmobj_t);
+
+procedure A_SetWallBounce(actor: Pmobj_t);
+
+procedure A_UnSetWallBounce(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3166,6 +3178,36 @@ begin
   actor.gravity := actor.state.params.FixedVal[0];
 end;
 
+
+procedure A_SetFloorBounce(actor: Pmobj_t);
+begin
+  actor.flags3_ex := actor.flags3_ex or MF3_EX_FLOORBOUNCE;
+end;
+
+procedure A_UnSetFloorBounce(actor: Pmobj_t);
+begin
+  actor.flags3_ex := actor.flags3_ex and not MF3_EX_FLOORBOUNCE;
+end;
+
+procedure A_SetCeilingBounce(actor: Pmobj_t);
+begin
+  actor.flags3_ex := actor.flags3_ex or MF3_EX_CEILINGBOUNCE;
+end;
+
+procedure A_UnSetCeilingBounce(actor: Pmobj_t);
+begin
+  actor.flags3_ex := actor.flags3_ex and not MF3_EX_CEILINGBOUNCE;
+end;
+
+procedure A_SetWallBounce(actor: Pmobj_t);
+begin
+  actor.flags3_ex := actor.flags3_ex or MF3_EX_WALLBOUNCE;
+end;
+
+procedure A_UnSetWallBounce(actor: Pmobj_t);
+begin
+  actor.flags3_ex := actor.flags3_ex and not MF3_EX_WALLBOUNCE;
+end;
 
 end.
 

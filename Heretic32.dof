@@ -100,7 +100,7 @@ Conditionals=HERETIC
 DebugSourceDirs=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 640x400 RDDVOX-0.38a_dw.zip
+RunParams=-nofullscreen -geom 640x400 -noactordef -internalgamedef
 HostApplication=
 Launcher=
 UseLauncher=0
