@@ -319,7 +319,7 @@ begin
           P_SlideMove(mo);
       end
       // villsa [STRIFE] check for bouncy missiles
-      else if mo.flags and MF_BOUNCE <> 0 then
+      else if (mo.flags and MF_BOUNCE <> 0) or (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) then
       begin
         mo.momx := mo.momx div 8;
         mo.momy := mo.momy div 8;
@@ -393,6 +393,9 @@ begin
   // villsa [STRIFE] replace skullfly flag with MF_BOUNCE
   if (mo.flags and (MF_MISSILE or MF_BOUNCE)) <> 0 then
     exit; // no friction for missiles ever
+
+  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
+    exit; // no friction for bouncing objects
 
   // haleyjd 20110224: [STRIFE] players experience friction even in the air,
   // although less than when on the ground. With this fix, the 1.2-and-up
@@ -530,7 +533,7 @@ begin
   begin
     // hit the floor
 
-    if mo.flags and MF_BOUNCE <> 0 then
+    if (mo.flags and MF_BOUNCE <> 0) and (mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0) then
     begin
       // villsa [STRIFE] affect reactiontime
       // momz is also shifted by 1
@@ -626,8 +629,13 @@ begin
 
     // hit the ceiling
     if mo.momz > 0 then
-      mo.momz := 0;
-
+    if mo.momz > 0 then
+    begin
+      if mo.flags3_ex and MF3_EX_CEILINGBOUNCE <> 0 then
+        mo.momz := -mo.momz div 2
+      else
+        mo.momz := 0;
+    end;
     mo.z := ceilz - mo.height;
 
     if (mo.flags and MF_MISSILE <> 0) and (mo.flags and (MF_NOCLIP or MF_BOUNCE) = 0) then

@@ -862,6 +862,7 @@ var
   i: integer;
 begin
   target.flags := target.flags and (not (MF_SHOOTABLE or MF_FLOAT or MF_BOUNCE));
+  target.flags3_ex := target.flags3_ex and (not MF3_EX_BOUNCE);
 
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
   target.height := FRACUNIT;  // villsa [STRIFE] set to fracunit instead of >>= 2

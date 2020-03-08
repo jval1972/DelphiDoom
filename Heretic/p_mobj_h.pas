@@ -332,6 +332,16 @@ const
   // Does not block player
   MF2_EX_DONTBLOCKPLAYER = $40000;
 
+const
+  // Bounce on floor
+  MF3_EX_FLOORBOUNCE = 1;
+  // Bounce on ceiling
+  MF3_EX_CEILINGBOUNCE = 2;
+  // Bounce on walls
+  MF3_EX_WALLBOUNCE = 4;
+  // All bounce flags
+  MF3_EX_BOUNCE = MF3_EX_FLOORBOUNCE or MF3_EX_CEILINGBOUNCE or MF3_EX_WALLBOUNCE;
+
 type
 // Map Object definition.
   Pmobj_t = ^mobj_t;
@@ -349,8 +359,8 @@ type
     sprev: Pmobj_t;
 
     //More drawing info: to determine current sprite.
-    angle: angle_t;       // orientation
-    viewangle: angle_t;   // JVAL Turn head direction
+    angle: angle_t;     // orientation
+    viewangle: angle_t; // JVAL Turn head direction
     sprite: integer;// used to find patch_t and flip value
     frame: integer; // might be ORed with FF_FULLBRIGHT
 
@@ -397,7 +407,7 @@ type
     health: integer;
 
     // Movement direction, movement generation (zig-zagging).
-    movedir: integer; // 0-7
+    movedir: integer;   // 0-7
     movecount: integer; // when 0, select a new dir
 
     // Thing being chased/attacked (or NULL),
@@ -414,7 +424,7 @@ type
 
     // Additional info record for player avatars only.
     // Only valid if type == MT_PLAYER
-    player: pointer; //Pplayer_t;
+    player: pointer;  // Pplayer_t;
 
     // Player number last looked for.
     lastlook: integer;
@@ -452,8 +462,8 @@ type
     scale: integer;
     pushfactor: integer;
     gravity: integer;
-    flags3_ex: integer;   // JVAL extended flags (MF3_EX_????)
-    flags4_ex: integer;   // JVAL extended flags (MF4_EX_????)
+    flags3_ex: integer;  // JVAL extended flags (MF3_EX_????)
+    flags4_ex: integer;  // JVAL extended flags (MF4_EX_????)
     rendervalidcount: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;

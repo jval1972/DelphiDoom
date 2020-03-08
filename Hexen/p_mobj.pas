@@ -584,7 +584,7 @@ begin
       end
       else if mo.flags and MF_MISSILE <> 0 then
       begin
-        if mo.flags2 and MF2_FLOORBOUNCE <> 0 then
+        if (mo.flags2 and MF2_FLOORBOUNCE <> 0) or (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) then
         begin
           if BlockingMobj <> nil then
           begin
@@ -713,6 +713,9 @@ begin
   begin // No friction for missiles
     exit;
   end;
+
+  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
+    exit; // no friction for bouncing objects
 
   if (mo.z > mo.floorz) and (mo.flags2 and MF2_FLY = 0) and (mo.flags2 and MF2_ONMOBJ = 0) then
   begin // No friction when falling
@@ -951,7 +954,7 @@ begin
     if mo.flags and MF_MISSILE <> 0 then
     begin
       mo.z := mo.floorz;
-      if mo.flags2 and MF2_FLOORBOUNCE <> 0 then
+      if (mo.flags2 and MF2_FLOORBOUNCE <> 0) and (mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0) then
       begin
         P_FloorBounceMissile(mo);
         exit;
@@ -1053,7 +1056,10 @@ begin
           // Doesn't get here
         end;
       end;
-      mo.momz := 0;
+      if mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0 then
+        mo.momz := -mo.momz div 2
+      else
+        mo.momz := 0;
     end;
 
     if mo.flags and MF_SKULLFLY <> 0 then
@@ -1094,7 +1100,12 @@ begin
   if mo.z + mo.height > mo.ceilingz then
   begin  // hit the ceiling
     if mo.momz > 0 then
-      mo.momz := 0;
+    begin
+      if mo.flags3_ex and MF3_EX_CEILINGBOUNCE <> 0 then
+        mo.momz := -mo.momz div 2
+      else
+        mo.momz := 0;
+    end;
     mo.z := mo.ceilingz - mo.height;
     if mo.flags2 and MF2_FLOORBOUNCE <> 0 then
     begin

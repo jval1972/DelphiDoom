@@ -374,6 +374,20 @@ begin
         if not P_LadderMove(mo) then
           P_SlideMove(mo);
       end
+      // JVAL: 20200308 - Bounce on walls
+      else if mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0 then
+      begin
+        mo.momx := mo.momx div 8;
+        mo.momy := mo.momy div 8;
+
+        if P_TryMove(mo, mo.x - xmove, ymove + mo.y) then
+          mo.momy := -mo.momy
+        else
+          mo.momx := -mo.momx;
+
+        xmove := 0;
+        ymove := 0;
+      end
       else if mo.flags and MF_MISSILE <> 0 then
       begin
         // explode a missile
@@ -415,6 +429,9 @@ begin
 
   if (mo.flags and (MF_MISSILE or MF_SKULLFLY)) <> 0 then
     exit; // no friction for missiles ever
+
+  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
+    exit; // no friction for bouncing objects
 
   if (player <> nil) and (player.laddertics > 0) then
   else
@@ -574,7 +591,7 @@ begin
     if mo.flags and MF_MISSILE <> 0 then
     begin
       mo.z := mo.floorz;
-      if mo.flags2 and MF2_FLOORBOUNCE <> 0 then
+      if (mo.flags2 and MF2_FLOORBOUNCE <> 0) or (mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0) then
       begin
         P_FloorBounceMissile(mo);
         exit;
@@ -603,7 +620,10 @@ begin
         S_StartSound(mo, Ord(sfx_plroof));
         player.centering := true; // JVAL: check
       end;
-      mo.momz := 0;
+      if mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0 then
+        mo.momz := -mo.momz div 2
+      else
+        mo.momz := 0;
     end;
 
     // Note (id):
@@ -678,7 +698,12 @@ begin
   begin
     // hit the ceiling
     if mo.momz > 0 then
-      mo.momz := 0;
+    begin
+      if mo.flags3_ex and MF3_EX_CEILINGBOUNCE <> 0 then
+        mo.momz := -mo.momz div 2
+      else
+        mo.momz := 0;
+    end;
 
     mo.z := ceilz - mo.height;
 
