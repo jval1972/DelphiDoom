@@ -161,6 +161,8 @@ type
     {$ENDIF}
     function MatchFlagEx(const flag_ex: string): boolean;
     function MatchFlag2Ex(const flag2_ex: string): boolean;
+    function MatchFlag3Ex(const flag3_ex: string): boolean;
+    function MatchFlag4Ex(const flag4_ex: string): boolean;
   end;
 
 procedure TActordefScriptEngine.AddFlagAliases;
@@ -200,6 +202,20 @@ function TActordefScriptEngine.MatchFlag2Ex(const flag2_ex: string): boolean;
 begin
   AddFlagAliases;
   result := MatchString(flag2_ex) or MatchString('+' + flag2_ex) or MatchString('MF2_' + flag2_ex) or MatchString('MF2_EX_' + flag2_ex);
+  ClearAliases;
+end;
+
+function TActordefScriptEngine.MatchFlag3Ex(const flag3_ex: string): boolean;
+begin
+  AddFlagAliases;
+  result := MatchString(flag3_ex) or MatchString('+' + flag3_ex) or MatchString('MF3_' + flag3_ex) or MatchString('MF3_EX_' + flag3_ex);
+  ClearAliases;
+end;
+
+function TActordefScriptEngine.MatchFlag4Ex(const flag4_ex: string): boolean;
+begin
+  AddFlagAliases;
+  result := MatchString(flag4_ex) or MatchString('+' + flag4_ex) or MatchString('MF4_' + flag4_ex) or MatchString('MF4_EX_' + flag4_ex);
   ClearAliases;
 end;
 
@@ -501,6 +517,153 @@ var
     result := false;
   end;
 
+  function MatchFlags3Ex: boolean;
+  var
+    i: integer;
+    flag: string;
+  begin
+    for i := 0 to mobj_flags3_ex.Count - 1 do
+    begin
+      flag := mobj_flags3_ex[i];
+      if Pos('MF3_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF2_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF_EX_', flag) = 1 then
+        flag := Copy(flag, 7, length(flag) - 6)
+      else if Pos('MF2_', flag) = 1 then
+        flag := Copy(flag, 5, length(flag) - 4)
+      else if Pos('MF_', flag) = 1 then
+        flag := Copy(flag, 4, length(flag) - 3);
+      if sc.MatchFlag3Ex(flag) then
+      begin
+        mobj.flags3_ex := mobj.flags3_ex + flag + ' ';
+        result := true;
+        exit;
+      end;
+    end;
+
+    result := false;
+  end;
+
+  function MatchFlags3Ex_Delete: boolean;
+  var
+    i: integer;
+    flag: string;
+    check: string;
+  begin
+    check := sc._String;
+    if Pos('-', check) <> 1 then
+    begin
+      result := false;
+      exit;
+    end;
+    if Pos('+', check) = 1 then
+    begin
+      result := false;
+      exit;
+    end;
+
+    for i := 0 to mobj_flags3_ex.Count - 1 do
+    begin
+      flag := mobj_flags3_ex[i];
+      if Pos('MF3_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF2_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF_EX_', flag) = 1 then
+        flag := Copy(flag, 7, length(flag) - 6)
+      else if Pos('MF2_', flag) = 1 then
+        flag := Copy(flag, 5, length(flag) - 4)
+      else if Pos('MF_', flag) = 1 then
+        flag := Copy(flag, 4, length(flag) - 3);
+      if sc.MatchFlag3Ex('-' + flag) then
+      begin
+        mobj.flags3_ex := RemoveFlag(mobj.flags3_ex, flag);
+        result := true;
+        exit;
+      end;
+    end;
+
+    result := false;
+  end;
+
+  function MatchFlags4Ex: boolean;
+  var
+    i: integer;
+    flag: string;
+  begin
+    for i := 0 to mobj_flags4_ex.Count - 1 do
+    begin
+      flag := mobj_flags4_ex[i];
+      if Pos('MF4_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF3_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF2_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF_EX_', flag) = 1 then
+        flag := Copy(flag, 7, length(flag) - 6)
+      else if Pos('MF2_', flag) = 1 then
+        flag := Copy(flag, 5, length(flag) - 4)
+      else if Pos('MF_', flag) = 1 then
+        flag := Copy(flag, 4, length(flag) - 3);
+      if sc.MatchFlag4Ex(flag) then
+      begin
+        mobj.flags4_ex := mobj.flags4_ex + flag + ' ';
+        result := true;
+        exit;
+      end;
+    end;
+
+    result := false;
+  end;
+
+  function MatchFlags4Ex_Delete: boolean;
+  var
+    i: integer;
+    flag: string;
+    check: string;
+  begin
+    check := sc._String;
+    if Pos('-', check) <> 1 then
+    begin
+      result := false;
+      exit;
+    end;
+    if Pos('+', check) = 1 then
+    begin
+      result := false;
+      exit;
+    end;
+
+    for i := 0 to mobj_flags4_ex.Count - 1 do
+    begin
+      flag := mobj_flags3_ex[i];
+      if Pos('MF4_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF3_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF2_EX_', flag) = 1 then
+        flag := Copy(flag, 8, length(flag) - 7)
+      else if Pos('MF_EX_', flag) = 1 then
+        flag := Copy(flag, 7, length(flag) - 6)
+      else if Pos('MF2_', flag) = 1 then
+        flag := Copy(flag, 5, length(flag) - 4)
+      else if Pos('MF_', flag) = 1 then
+        flag := Copy(flag, 4, length(flag) - 3);
+      if sc.MatchFlag4Ex('-' + flag) then
+      begin
+        mobj.flags4_ex := RemoveFlag(mobj.flags4_ex, flag);
+        result := true;
+        exit;
+      end;
+    end;
+
+    result := false;
+  end;
+
+  
   function statecheckPos(const st: string; var sgoto: string): boolean;
   var
     sgoto1: string;
@@ -1109,6 +1272,8 @@ var
       AddRes('Renderstyle = NORMAL');
     AddRes('Alpha = ' + itoa(mobj.alpha));
     AddRes('flags2_ex = ' + mobj.flags2_ex);
+    AddRes('flags3_ex = ' + mobj.flags3_ex);
+    AddRes('flags4_ex = ' + mobj.flags4_ex);
     {$IFDEF DOOM_OR_STRIFE}
     AddRes('missileheight = ' + itoa(mobj.missileheight));
     {$ENDIF}
@@ -1458,6 +1623,8 @@ begin
       {$ENDIF}
       mobj.flags_ex := '';
       mobj.flags2_ex := '';
+      mobj.flags3_ex := '';
+      mobj.flags4_ex := '';
       {$IFDEF STRIFE}
       mobj.name2 := '';
       {$ENDIF}
@@ -1533,6 +1700,12 @@ begin
           for i := 0 to 31 do
             if pinf.flags2_ex and _SHL(1, i) <> 0 then
               mobj.flags2_ex := mobj.flags2_ex + mobj_flags2_ex[i] + ' ';
+          for i := 0 to 31 do
+            if pinf.flags3_ex and _SHL(1, i) <> 0 then
+              mobj.flags3_ex := mobj.flags3_ex + mobj_flags3_ex[i] + ' ';
+          for i := 0 to 31 do
+            if pinf.flags4_ex and _SHL(1, i) <> 0 then
+              mobj.flags4_ex := mobj.flags4_ex + mobj_flags4_ex[i] + ' ';
           mobj.customsound1 := itoa(pinf.customsound1);
           mobj.customsound2 := itoa(pinf.customsound2);
           mobj.customsound3 := itoa(pinf.customsound3);
@@ -1688,6 +1861,10 @@ begin
           sc.GetString
         else if MatchFlags2Ex then
           sc.GetString
+        else if MatchFlags3Ex then
+          sc.GetString
+        else if MatchFlags4Ex then
+          sc.GetString
 
         else if MatchFlags_Delete then
           sc.GetString
@@ -1698,6 +1875,10 @@ begin
         else if MatchFlagsEx_Delete then
           sc.GetString
         else if MatchFlags2Ex_Delete then
+          sc.GetString
+        else if MatchFlags3Ex_Delete then
+          sc.GetString
+        else if MatchFlags4Ex_Delete then
           sc.GetString
 
         else if sc.MatchString('DEFAULTMISSILE') or sc.MatchString('+DEFAULTMISSILE') then // JVAL: DelphiDoom specific
@@ -1936,6 +2117,10 @@ begin
         mobj.flags_ex := '0';
       if strtrim(mobj.flags2_ex) = '' then
         mobj.flags2_ex := '0';
+      if strtrim(mobj.flags3_ex) = '' then
+        mobj.flags3_ex := '0';
+      if strtrim(mobj.flags4_ex) = '' then
+        mobj.flags4_ex := '0';
 
       numstates := 0;
 

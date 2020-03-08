@@ -163,7 +163,7 @@ begin
   if dnLookUp <> nil then
   begin
     idx := dn mod DNLOOKUPSIZE;
-    if (idx >= 0) and (i < DNLOOKUPSIZE) then
+    if (idx >= 0) and (idx < DNLOOKUPSIZE) then
     begin
       idx := dnLookUp[idx];
       if (idx >= 0) and (idx < nummobjtypes) then

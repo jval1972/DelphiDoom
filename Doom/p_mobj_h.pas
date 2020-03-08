@@ -326,6 +326,16 @@ const
   // Does not block player
   MF2_EX_DONTBLOCKPLAYER = $40000000;
 
+const
+  // Bounce on floor
+  MF3_EX_FLOORBOUNCE = 1;
+  // Bounce on ceiling
+  MF3_EX_CEILINGBOUNCE = 2;
+  // Bounce on walls
+  MF3_EX_WALLBOUNCE = 4;
+  // All bounce flags
+  MF3_EX_BOUNCE = MF3_EX_FLOORBOUNCE or MF3_EX_CEILINGBOUNCE or MF3_EX_WALLBOUNCE;
+
 type
 // Map Object definition.
   Pmobj_t = ^mobj_t;

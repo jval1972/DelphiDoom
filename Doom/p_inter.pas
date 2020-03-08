@@ -779,6 +779,7 @@ var
   item: integer;
 begin
   target.flags := target.flags and (not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY));
+  target.flags3_ex := target.flags3_ex and (not MF3_EX_BOUNCE);
 
   if target._type <> Ord(MT_SKULL) then
     target.flags := target.flags and (not MF_NOGRAVITY);

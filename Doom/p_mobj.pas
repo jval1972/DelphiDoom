@@ -322,6 +322,20 @@ begin
         if not P_LadderMove(mo) then
           P_SlideMove(mo); // try to slide along it
       end
+      // JVAL: 20200308 - Bounce on walls
+      else if mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0 then
+      begin
+        mo.momx := mo.momx div 8;
+        mo.momy := mo.momy div 8;
+
+        if P_TryMove(mo, mo.x - xmove, ymove + mo.y) then
+          mo.momy := -mo.momy
+        else
+          mo.momx := -mo.momx;
+
+        xmove := 0;
+        ymove := 0;
+      end
       else if mo.flags and MF_MISSILE <> 0 then
       begin
         // explode a missile
@@ -356,6 +370,9 @@ begin
 
   if (mo.flags and (MF_MISSILE or MF_SKULLFLY)) <> 0 then
     exit; // no friction for missiles ever
+
+  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
+    exit; // no friction for bouncing objects
 
   if (player <> nil) and (player.laddertics > 0) then
   else
@@ -478,6 +495,18 @@ begin
   begin
     // hit the floor
 
+    if mo.flags3_ex and MF3_EX_FLOORBOUNCE <> 0 then
+    begin
+      // villsa [STRIFE] affect reactiontime
+      // momz is also shifted by 1
+      mo.momz := -mo.momz div 2;
+      mo.reactiontime := mo.reactiontime div 2;
+
+      // villsa [STRIFE] get terrain type
+      if P_GetThingFloorType(mo) <> FLOOR_SOLID then
+        mo.flags3_ex := mo.flags3_ex and not MF3_EX_FLOORBOUNCE;
+    end;
+
     // Note (id):
     //  somebody left this after the setting momz to 0,
     //  kinda useless there.
@@ -580,11 +609,16 @@ begin
   begin
     // hit the ceiling
     if mo.momz > 0 then
-      mo.momz := 0;
+    begin
+      if mo.flags3_ex and MF3_EX_CEILINGBOUNCE <> 0 then
+        mo.momz := -mo.momz div 2
+      else
+        mo.momz := 0;
+    end;
 
     mo.z := ceilz - mo.height;
 
-    if mo.flags and MF_SKULLFLY <> 0 then
+    if mo.flags and MF_SKULLFLY <> 0 then // JVAL: 20200308 - SOS - This is wrong, the momz has been already set to zero!!
       mo.momz := -mo.momz; // the skull slammed into something
 
     if (mo.flags and MF_MISSILE <> 0) and (mo.flags and MF_NOCLIP = 0) then

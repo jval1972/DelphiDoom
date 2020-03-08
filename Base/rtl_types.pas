@@ -102,6 +102,8 @@ type
     {$ENDIF}
     flags_ex: string;
     flags2_ex: string;
+    flags3_ex: string;
+    flags4_ex: string;
     raisestate: integer;
     customsound1: string;
     customsound2: string;
