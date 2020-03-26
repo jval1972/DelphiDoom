@@ -2049,7 +2049,6 @@ end;
 
 procedure CmdSummon(const parm1, parm2: string);
 var
-  sc: TScriptEngine;
   x, y, z: fixed_t;
   mobjno, dn: integer;
   an, angle: angle_t;

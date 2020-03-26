@@ -663,7 +663,7 @@ var
     result := false;
   end;
 
-  
+
   function statecheckPos(const st: string; var sgoto: string): boolean;
   var
     sgoto1: string;

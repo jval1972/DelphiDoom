@@ -4384,7 +4384,7 @@ begin
   ffilename := afilename;
   f := TFile.Create(ffilename, fOpenReadOnly);
   f.Read(h, SizeOf(wadinfo_t));
-  if h.numlumps > 10 then
+  if (h.numlumps > 10) or (h.numlumps < 1) then
   begin
     f.Free;
     I_Error('TGWAFile.Create(): Standalone GWA constains %d lumps', [h.numlumps]);
