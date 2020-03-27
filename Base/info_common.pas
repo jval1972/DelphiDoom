@@ -56,7 +56,9 @@ function Info_GetMobjNumForName(const name: string): integer;
 
 procedure Info_SetMobjName(const mobj_no: integer; const name: string);
 
-function Info_GetMobjName(const mobj_no: integer): string;
+function Info_GetMobjName(const mobj_no: integer): string; overload;
+
+function Info_GetMobjName(const minfo: Pmobjinfo_t): string; overload;
 
 procedure Info_ShutDown;
 
@@ -383,6 +385,23 @@ var
 begin
   result := '';
   p := @mobjinfo[mobj_no].name[0];
+  for i := 0 to MOBJINFONAMESIZE - 1 do
+    if p^ = #0 then
+      exit
+    else
+    begin
+      result := result + p^;
+      inc(p);
+    end;
+end;
+
+function Info_GetMobjName(const minfo: Pmobjinfo_t): string; overload;
+var
+  i: integer;
+  p: PChar;
+begin
+  result := '';
+  p := @minfo.name[0];
   for i := 0 to MOBJINFONAMESIZE - 1 do
     if p^ = #0 then
       exit

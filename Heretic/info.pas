@@ -37,6 +37,7 @@ interface
 uses
   d_delphi,
   d_think,
+  m_fixed,
   info_h;
 
 type
@@ -59,12 +60,14 @@ var
 
 procedure Info_Init(const usethinkers: boolean);
 
+const
+  DEFPUSHFACTOR = FRACUNIT div 4;
+
 implementation
 
 uses
   doomdef,
   i_system,
-  m_fixed,
   p_enemy,
   p_pspr,
   p_mobj_h,
@@ -73,9 +76,6 @@ uses
   info_common,
   r_renderstyle,
   sounds;
-
-const
-  DEFPUSHFACTOR = FRACUNIT div 4;
 
 const
   DO_states: array[0..Ord(DO_NUMSTATES) - 1] of state_t = (

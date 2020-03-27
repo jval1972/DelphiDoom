@@ -36,7 +36,8 @@ unit sc_actordef;
 interface
 
 uses
-  d_delphi;
+  d_delphi,
+  info_h;
 
 procedure SC_ParseSndInfoLumps;
 
@@ -50,10 +51,14 @@ procedure SC_ShutDown;
 
 function SC_SoundAlias(const snd: string): string;
 
+function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
+
 implementation
 
 uses
+  doomdef,
   d_main,
+  c_cmds,
   deh_base,
   deh_main,
   m_fixed,
@@ -63,19 +68,17 @@ uses
   {$ENDIF}
   info,
   info_common,
-  info_h,
   r_renderstyle,
   rtl_types,
+  sounds,
   sc_engine,
   sc_states,
   sc_tokens,
   sc_thinker,
   sc_evaluate_actor,
   sc_utils,
+  p_pspr,
   ps_main,
-{$IFDEF HEXEN}
-  sounds,
-{$ENDIF}
   w_pak,
   w_wad;
 
@@ -1278,7 +1281,7 @@ var
     AddRes('missileheight = ' + itoa(mobj.missileheight));
     {$ENDIF}
     AddRes('Scale = ' + itoa(round(mobj.scale * FRACUNIT)));
-    AddRes('gravity = ' + itoa(round(mobj.gravity * FRACUNIT)));
+    AddRes('Gravity = ' + itoa(round(mobj.gravity * FRACUNIT)));
     AddRes('');
 
     if numstates > 0 then
@@ -2366,6 +2369,8 @@ begin
   soundaliases := TDStringList.Create;
   statenames := TTokenList.Create;
   SC_InitActorEvaluator;
+  C_AddCmd('DEH_PrintActordef', @DEH_PrintActordef);
+  C_AddCmd('DEH_SaveActordef', @DEH_SaveActordef);
 end;
 
 procedure SC_ShutDown;
@@ -2373,6 +2378,281 @@ begin
   soundaliases.Free;
   statenames.Free;
   SC_ShutDownActorEvaluator;
+end;
+
+function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
+var
+  ret: string;
+  plevel: integer;
+  i: integer;
+
+  procedure AddLn(const s: string);
+  var
+    blanks: string;
+    i: integer;
+  begin
+    if s = '}' then
+      dec(plevel);
+    blanks := '';
+    for i := 0 to plevel - 1 do
+      blanks := blanks + '  ';
+    if s = '{' then
+      inc(plevel);
+    ret := ret + blanks + s + #13#10;
+  end;
+
+  function OtherStateGoto(const st: integer): boolean;
+  begin
+    result := true;
+    if st = m.spawnstate then
+    begin
+      AddLn('Goto Spawn');
+      exit;
+    end;
+
+    if st = m.seestate then
+    begin
+      AddLn('Goto See');
+      exit;
+    end;
+
+    if st = m.meleestate then
+    begin
+      AddLn('Goto Melee');
+      exit;
+    end;
+
+    if st = m.missilestate then
+    begin
+      AddLn('Goto Missile');
+      exit;
+    end;
+
+    if st = m.painstate then
+    begin
+      AddLn('Goto Pain');
+      exit;
+    end;
+
+    if st = m.deathstate then
+    begin
+      AddLn('Goto Death');
+      exit;
+    end;
+
+    if st = m.xdeathstate then
+    begin
+      AddLn('Goto Xdeath');
+      exit;
+    end;
+
+    if st = m.raisestate then
+    begin
+      AddLn('Goto Raise');
+      exit;
+    end;
+
+    if st = m.healstate then
+    begin
+      AddLn('Goto Heal');
+      exit;
+    end;
+
+    if st = m.crashstate then
+    begin
+      AddLn('Goto Crash');
+      exit;
+    end;
+
+    {$IFDEF DOOM_OR_STRIFE}
+    if st = m.interactstate then
+    begin
+      AddLn('Goto Interact');
+      exit;
+    end;
+    {$ENDIF}
+
+    result := false;
+  end;
+
+  procedure AddState(const s: string; const st: integer);
+  var
+    sst: Pstate_t;
+    spr: string;
+    A: TDNumberList;
+    idx: integer;
+    act: string;
+  begin
+    if st <= 0 then
+      exit;
+
+    A := TDNumberList.Create;
+    A.Add(st);
+
+    sst := @states[st];
+
+    while true do
+    begin
+      if A.Count = 1 then
+      begin
+        AddLn(s + ':');
+        AddLn('{');
+      end;
+
+      spr :=
+        Chr(sprnames[sst.sprite] and $FF) +
+        Chr((sprnames[sst.sprite] shr 8) and $FF) +
+        Chr((sprnames[sst.sprite] shr 16) and $FF) +
+        Chr((sprnames[sst.sprite] shr 24) and $FF);
+
+      if not Assigned(sst.action.acv) then
+        act := ''
+      else
+      begin
+        act := DEH_ActionName(sst.action);
+        if act = 'NULL' then
+          act := ''
+        else
+          act := ' ' + act;
+      end;
+
+      AddLn(
+        spr + ' ' +
+        Chr(Ord('A') + sst.frame and FF_FRAMEMASK) + ' ' +
+        itoa(sst.tics) +
+        act +
+        decide(sst.frame and FF_FULLBRIGHT <> 0, ' BRIGHT', '')
+      );
+
+      if sst.tics < 0 then
+        break;
+      if Ord(sst.nextstate) <= 0 then
+      begin
+        AddLn('Stop');
+        break;
+      end;
+      idx := A.IndexOf(Ord(sst.nextstate));
+      if idx >= 0 then
+      begin
+        if idx = 0 then
+          AddLn('Loop')
+        else
+          AddLn('Goto ' + s + '+' + itoa(idx));
+        break;
+      end;
+      if OtherStateGoto(Ord(sst.nextstate)) then
+        break;
+      A.Add(Ord(sst.nextstate));
+      sst := @states[Ord(sst.nextstate)];
+    end;
+    AddLn('}');
+    A.Free;
+  end;
+
+begin
+  ret := '';
+  plevel := 0;
+
+  AddLn('ACTOR "' + Info_GetMobjName(m) + '"' + decide(m.doomednum > 0, ' ' + itoa(m.doomednum), ''));
+  AddLn('{');
+  if m.spawnhealth > 0 then
+    AddLn('Health ' + itoa(m.spawnhealth));
+  if m.inheritsfrom >= 0 then
+    AddLn('Inherits "' + Info_GetMobjName(@mobjinfo[m.inheritsfrom]) + '"');
+  AddLn('Width ' + itoa(m.radius div FRACUNIT));
+  AddLn('Height ' + itoa(m.height div FRACUNIT));
+  if m.vspeed <> 0 then
+    AddLn('Vspeed ' + ftoafmt('2.4', m.vspeed / FRACUNIT));
+  if m.pushfactor <> DEFPUSHFACTOR then
+    AddLn('Pushfactor ' + itoa(m.pushfactor));
+  if m.scale <> FRACUNIT then
+    AddLn('Scale ' + ftoafmt('2.4', m.scale / FRACUNIT));
+  if m.gravity <> FRACUNIT then
+    AddLn('Gravity ' + ftoafmt('2.4', m.gravity / FRACUNIT));
+  if m.speed <> 0 then
+    AddLn('Speed ' + itoa(m.speed));
+  if m.damage <> 0 then
+    AddLn('Damage ' + itoa(m.damage));
+  if m.painchance <> 0 then
+    AddLn('Painchance ' + itoa(m.painchance));
+  if m.mass <> 0 then
+    AddLn('Mass ' + itoa(m.mass));
+  if m.reactiontime <> 0 then
+    AddLn('Reactiontime ' + itoa(m.reactiontime));
+  if m.dropitem > 0 then
+    AddLn('Dropitem "' + Info_GetMobjName(@mobjinfo[m.dropitem]) + '"');
+  if m.missiletype > 0 then
+    AddLn('Missiletype "' + Info_GetMobjName(@mobjinfo[m.missiletype]) + '"');
+  if m.explosiondamage > 0 then
+    AddLn('Explosiondamage ' + itoa(m.explosiondamage));
+  if m.explosionradius > 0 then
+    AddLn('Explosionradius ' + itoa(m.explosionradius));
+  if m.meleedamage > 0 then
+    AddLn('Meleedamage ' + itoa(m.meleedamage));
+  if m.seesound > 0 then
+    AddLn('Seesound ' + S_GetSoundNameForNum(m.seesound));
+  if m.attacksound > 0 then
+    AddLn('Attacksound ' + S_GetSoundNameForNum(m.attacksound));
+  if m.painsound > 0 then
+    AddLn('Painsound ' + S_GetSoundNameForNum(m.painsound));
+  if m.deathsound > 0 then
+    AddLn('Deathsound ' + S_GetSoundNameForNum(m.deathsound));
+  if m.activesound > 0 then
+    AddLn('Activesound ' + S_GetSoundNameForNum(m.activesound));
+  if m.customsound1 > 0 then
+    AddLn('Customsound1 ' + S_GetSoundNameForNum(m.customsound1));
+  if m.customsound2 > 0 then
+    AddLn('Customsound2 ' + S_GetSoundNameForNum(m.customsound2));
+  if m.customsound3 > 0 then
+    AddLn('Customsound3 ' + S_GetSoundNameForNum(m.customsound3));
+  if m.meleesound > 0 then
+    AddLn('Meleesound ' + S_GetSoundNameForNum(m.meleesound));
+  {$IFDEF DOOM_OR_STRIFE}
+  if m.missileheight > 0 then
+    AddLn('Missileheight ' + S_GetSoundNameForNum(m.missileheight));
+  {$ENDIF}
+  if m.renderstyle <> mrs_normal then
+  begin
+    AddLn('Rendersyle ' + renderstyle_tokens[Ord(m.renderstyle)]);
+    if m.alpha > 0 then
+      AddLn('Alpha ' + ftoafmt('2.4', m.alpha / FRACUNIT));
+  end;
+  for i := 0 to mobj_flags.Count - 1 do
+    if m.flags and (1 shl i) <> 0 then
+      AddLn('+' + mobj_flags[i]);
+  for i := 0 to mobj_flags_ex.Count - 1 do
+    if m.flags_ex and (1 shl i) <> 0 then
+      AddLn('+' + mobj_flags_ex[i]);
+  for i := 0 to mobj_flags2_ex.Count - 1 do
+    if m.flags2_ex and (1 shl i) <> 0 then
+      AddLn('+' + mobj_flags2_ex[i]);
+  for i := 0 to mobj_flags3_ex.Count - 1 do
+    if m.flags3_ex and (1 shl i) <> 0 then
+      AddLn('+' + mobj_flags3_ex[i]);
+  for i := 0 to mobj_flags4_ex.Count - 1 do
+    if m.flags4_ex and (1 shl i) <> 0 then
+      AddLn('+' + mobj_flags4_ex[i]);
+
+  // States
+  AddLn('States');
+  AddLn('{');
+  AddState('Spawn', m.spawnstate);
+  AddState('See', m.seestate);
+  AddState('Melee', m.meleestate);
+  AddState('Missile', m.missilestate);
+  AddState('Pain', m.painstate);
+  AddState('Death', m.deathstate);
+  AddState('Xdeath', m.xdeathstate);
+  AddState('Raise', m.raisestate);
+  AddState('Heal', m.healstate);
+  AddState('Crash', m.crashstate);
+  {$IFDEF DOOM_OR_STRIFE}
+  AddState('Interact', m.interactstate);
+  {$ENDIF}
+  AddLn('}');
+  AddLn('}');
+  AddLn('');
+  result := ret;
 end;
 
 end.

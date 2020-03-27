@@ -32,6 +32,7 @@ interface
 
 uses
   d_delphi,
+  d_think,
   m_fixed;
 
 function DEH_NextLine(const s: TDStringList; var str: string; var counter: integer; const skipblanc: boolean = true): boolean;
@@ -54,6 +55,12 @@ procedure DEH_PrintCurrentSettings;
 
 procedure DEH_SaveCurrentSettings(const fname: string);
 
+function DEH_CurrentActordef: string;
+
+procedure DEH_PrintActordef;
+
+procedure DEH_SaveActordef(const fname: string);
+
 procedure DEH_PrintActions;
 
 function DEH_FixedOrFloat(const token: string; const tolerance: integer): fixed_t;
@@ -70,6 +77,8 @@ function DEH_SpritesCSV: TDStringList;
 
 procedure DEH_SaveSpritesCSV(const fname: string);
 
+function DEH_ActionName(action: actionf_t): string;
+
 implementation
 
 uses
@@ -79,6 +88,7 @@ uses
   info,
   info_h,
   m_argv,
+  sc_actordef,
   w_folders,
   w_pak,
   w_wad;
@@ -325,6 +335,58 @@ begin
   try
     s.SaveToFile(fname1);
     printf('DEHACKED settings saved to %s'#13#10, [fname1]);
+  finally
+    s.Free;
+  end;
+end;
+
+function DEH_CurrentActordef: string;
+var
+  m: integer;
+begin
+  result := '';
+  for m := 0 to nummobjtypes - 1 do
+    result := result + SC_GetActordefDeclaration(@mobjinfo[m]);
+end;
+
+procedure DEH_PrintActordef;
+var
+  s: TDSTringList;
+  i: integer;
+begin
+  s := TDSTringList.Create;
+  try
+    s.Text := DEH_CurrentActordef;
+    for i := 0 to s.Count - 1 do
+      printf('%s'#13#10, [s[i]]);
+  finally
+    s.Free;
+  end;
+end;
+
+procedure DEH_SaveActordef(const fname: string);
+var
+  s: TDSTringList;
+  fname1: string;
+begin
+  if fname = '' then
+  begin
+    printf('Please specify the filename to save current ACTORDEF settings'#13#10);
+    exit;
+  end;
+
+  if Pos('.', fname) = 0 then
+    fname1 := fname + '.txt'
+  else
+    fname1 := fname;
+
+  fname1 := M_SaveFileName(fname1);
+
+  s := TDSTringList.Create;
+  try
+    s.Text := DEH_CurrentActordef;
+    s.SaveToFile(fname1);
+    printf('ACTORDEF settings saved to %s'#13#10, [fname1]);
   finally
     s.Free;
   end;
@@ -582,6 +644,21 @@ begin
   finally
     s.Free;
   end;
+end;
+
+function DEH_ActionName(action: actionf_t): string;
+var
+  i: integer;
+begin
+  for i := 0 to DEHNUMACTIONS - 1 do
+  begin
+    if @deh_actions[i].action.acp1 = @action.acp1 then
+    begin
+      result := deh_actions[i].name;
+      Exit;
+    end;
+  end;
+  result := '';
 end;
 
 end.

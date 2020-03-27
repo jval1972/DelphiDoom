@@ -91,8 +91,6 @@ var
   deh_actions: array[0..DEHNUMACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
 
-function deh_actionname(action: actionf_t): string;
-
 implementation
 
 uses
@@ -2977,21 +2975,6 @@ begin
   FreeAndNil(misc_tokens);
 
   realloc(pointer(deh_strings._array), deh_strings.realnumstrings * SizeOf(deh_string_t), 0);
-end;
-
-function deh_actionname(action: actionf_t): string;
-var
-  i: integer;
-begin
-  for i := 0 to DEHNUMACTIONS - 1 do
-  begin
-    if @deh_actions[i].action.acp1 = @action.acp1 then
-    begin
-      result := deh_actions[i].name;
-      Exit;
-    end;
-  end;
-  result := '';
 end;
 
 end.
