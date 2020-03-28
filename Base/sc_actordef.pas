@@ -181,7 +181,11 @@ end;
 function TActordefScriptEngine.MatchFlag(const flag: string): boolean;
 begin
   AddFlagAliases;
-  result := MatchString(flag) or MatchString('+' + flag) or MatchString('MF_' + flag);
+  result :=
+    MatchString(flag) or
+    MatchString('+' + flag) or
+    MatchString('MF_' + flag) or
+    MatchString('+MF_' + flag);
   ClearAliases;
 end;
 
@@ -189,7 +193,13 @@ end;
 function TActordefScriptEngine.MatchFlag2(const flag: string): boolean;
 begin
   AddFlagAliases;
-  result := MatchString(flag) or MatchString('+' + flag) or MatchString('MF_' + flag) or MatchString('MF2_' + flag);
+  result :=
+    MatchString(flag) or
+    MatchString('+' + flag) or
+    MatchString('MF_' + flag) or
+    MatchString('MF2_' + flag) or
+    MatchString('+MF_' + flag) or
+    MatchString('+MF2_' + flag);
   ClearAliases;
 end;
 {$ENDIF}
@@ -197,28 +207,52 @@ end;
 function TActordefScriptEngine.MatchFlagEx(const flag_ex: string): boolean;
 begin
   AddFlagAliases;
-  result := MatchString(flag_ex) or MatchString('+' + flag_ex) or MatchString('MF_' + flag_ex) or MatchString('MF_EX_' + flag_ex);
+  result :=
+    MatchString(flag_ex) or
+    MatchString('+' + flag_ex) or
+    MatchString('MF_' + flag_ex) or
+    MatchString('MF_EX_' + flag_ex) or
+    MatchString('+MF_' + flag_ex) or
+    MatchString('+MF_EX_' + flag_ex);
   ClearAliases;
 end;
 
 function TActordefScriptEngine.MatchFlag2Ex(const flag2_ex: string): boolean;
 begin
   AddFlagAliases;
-  result := MatchString(flag2_ex) or MatchString('+' + flag2_ex) or MatchString('MF2_' + flag2_ex) or MatchString('MF2_EX_' + flag2_ex);
+  result :=
+    MatchString(flag2_ex) or
+    MatchString('+' + flag2_ex) or
+    MatchString('MF2_' + flag2_ex) or
+    MatchString('MF2_EX_' + flag2_ex) or
+    MatchString('+MF2_' + flag2_ex) or
+    MatchString('+MF2_EX_' + flag2_ex);
   ClearAliases;
 end;
 
 function TActordefScriptEngine.MatchFlag3Ex(const flag3_ex: string): boolean;
 begin
   AddFlagAliases;
-  result := MatchString(flag3_ex) or MatchString('+' + flag3_ex) or MatchString('MF3_' + flag3_ex) or MatchString('MF3_EX_' + flag3_ex);
+  result :=
+    MatchString(flag3_ex) or
+    MatchString('+' + flag3_ex) or
+    MatchString('MF3_' + flag3_ex) or
+    MatchString('MF3_EX_' + flag3_ex) or
+    MatchString('+MF3_' + flag3_ex) or
+    MatchString('+MF3_EX_' + flag3_ex);
   ClearAliases;
 end;
 
 function TActordefScriptEngine.MatchFlag4Ex(const flag4_ex: string): boolean;
 begin
   AddFlagAliases;
-  result := MatchString(flag4_ex) or MatchString('+' + flag4_ex) or MatchString('MF4_' + flag4_ex) or MatchString('MF4_EX_' + flag4_ex);
+  result :=
+    MatchString(flag4_ex) or
+    MatchString('+' + flag4_ex) or
+    MatchString('MF4_' + flag4_ex) or
+    MatchString('MF4_EX_' + flag4_ex) or
+    MatchString('+MF4_' + flag4_ex) or
+    MatchString('+MF4_EX_' + flag4_ex);
   ClearAliases;
 end;
 
