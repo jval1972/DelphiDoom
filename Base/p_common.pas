@@ -316,6 +316,8 @@ procedure A_SetWallBounce(actor: Pmobj_t);
 
 procedure A_UnSetWallBounce(actor: Pmobj_t);
 
+procedure A_GlowLight(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3207,6 +3209,47 @@ end;
 procedure A_UnSetWallBounce(actor: Pmobj_t);
 begin
   actor.flags3_ex := actor.flags3_ex and not MF3_EX_WALLBOUNCE;
+end;
+
+procedure A_GlowLight(actor: Pmobj_t);
+const
+  ACL_NONE = 0;
+  ACL_WHITE = 1;
+  ACL_RED = 2;
+  ACL_GREEN = 3;
+  ACL_BLUE = 4;
+  ACL_YELLOW = 5;
+var
+  scolor: string;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  if not actor.state.params.IsComputed[0] then
+  begin
+    scolor := strupper(strtrim(actor.state.params.StrVal[0]));
+    if scolor = 'WHITE' then
+      actor.state.params.IntVal[0] := ACL_WHITE
+    else if scolor = 'RED' then
+      actor.state.params.IntVal[0] := ACL_RED
+    else if scolor = 'GREEN' then
+      actor.state.params.IntVal[0] := ACL_GREEN
+    else if scolor = 'BLUE' then
+      actor.state.params.IntVal[0] := ACL_BLUE
+    else if scolor = 'YELLOW' then
+      actor.state.params.IntVal[0] := ACL_YELLOW
+    else
+      actor.state.params.IntVal[0] := ACL_NONE;
+  end;
+
+  actor.flags_ex := actor.flags_ex and not MF_EX_LIGHT;
+  case actor.state.params.IntVal[0] of
+    ACL_WHITE: actor.flags_ex := actor.flags_ex or MF_EX_WHITELIGHT;
+    ACL_RED: actor.flags_ex := actor.flags_ex or MF_EX_REDLIGHT;
+    ACL_GREEN: actor.flags_ex := actor.flags_ex or MF_EX_GREENLIGHT;
+    ACL_BLUE: actor.flags_ex := actor.flags_ex or MF_EX_BLUELIGHT;
+    ACL_YELLOW: actor.flags_ex := actor.flags_ex or MF_EX_YELLOWLIGHT;
+  end;
 end;
 
 end.

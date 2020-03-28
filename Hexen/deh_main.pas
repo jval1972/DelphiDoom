@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 392;
+  DEHNUMACTIONS = 393;
 
 type
   deh_action_t = record
@@ -2977,6 +2977,10 @@ begin
   deh_actions[391].action.acp1 := @A_UnSetWallBounce;
   deh_actions[391].name := strupper('A_UnSetWallBounce');
   {$IFDEF DLL}deh_actions[391].decl := 'A_UnSetWallBounce()';{$ENDIF}
+  deh_actions[392].action.acp1 := @A_GlowLight;
+  deh_actions[392].name := strupper('A_GlowLight');
+  {$IFDEF DLL}deh_actions[392].decl := 'A_GlowLight(color: string)';{$ENDIF}
+
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
