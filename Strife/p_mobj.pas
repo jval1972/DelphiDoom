@@ -273,16 +273,19 @@ begin
 
   player := mo.player;
 
-  if mo.momx > MAXMOVE then
-    mo.momx := MAXMOVE
-  else if mo.momx < -MAXMOVE then
-    mo.momx := -MAXMOVE;
+  if mo.flags3_ex and MF3_EX_NOMAXMOVE = 0 then
+  begin
+    if mo.momx > MAXMOVE then
+      mo.momx := MAXMOVE
+    else if mo.momx < -MAXMOVE then
+      mo.momx := -MAXMOVE;
 
-  if mo.momy > MAXMOVE then
-    mo.momy := MAXMOVE
-  else if mo.momy < -MAXMOVE then
-    mo.momy := -MAXMOVE;
-
+    if mo.momy > MAXMOVE then
+      mo.momy := MAXMOVE
+    else if mo.momy < -MAXMOVE then
+      mo.momy := -MAXMOVE;
+  end;
+  
   xmove := mo.momx;
   ymove := mo.momy;
 

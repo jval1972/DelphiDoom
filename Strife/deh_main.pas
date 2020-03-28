@@ -1742,6 +1742,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_FLOORBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_CEILINGBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_WALLBOUNCE');
+  mobj_flags3_ex.Add('MF3_EX_NOMAXMOVE');
 
   mobj_flags4_ex := TDTextList.Create;
 

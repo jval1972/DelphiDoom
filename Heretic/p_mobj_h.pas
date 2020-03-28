@@ -341,6 +341,8 @@ const
   MF3_EX_WALLBOUNCE = 4;
   // All bounce flags
   MF3_EX_BOUNCE = MF3_EX_FLOORBOUNCE or MF3_EX_CEILINGBOUNCE or MF3_EX_WALLBOUNCE;
+  // No max move
+  MF3_EX_NOMAXMOVE = 8;
 
 type
 // Map Object definition.
