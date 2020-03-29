@@ -2591,10 +2591,10 @@ begin
   {$IFDEF DLL}deh_actions[261].decl := 'A_LowGravity()';{$ENDIF}
   deh_actions[262].action.acp1 := @A_ThrustZ;
   deh_actions[262].name := strupper('ThrustZ');
-  {$IFDEF DLL}deh_actions[262].decl := 'A_ThrustZ(momz: float)';{$ENDIF}
+  {$IFDEF DLL}deh_actions[262].decl := 'A_ThrustZ(momz: float, ang: angle)';{$ENDIF}
   deh_actions[263].action.acp1 := @A_ThrustXY;
   deh_actions[263].name := strupper('ThrustXY');
-  {$IFDEF DLL}deh_actions[263].decl := 'A_ThrustXY(mom: float)';{$ENDIF}
+  {$IFDEF DLL}deh_actions[263].decl := 'A_ThrustXY(mom: float, ang: angle)';{$ENDIF}
   deh_actions[264].action.acp1 := @A_Turn;
   deh_actions[264].name := strupper('Turn');
   {$IFDEF DLL}deh_actions[264].decl := 'A_Turn(value: angle)';{$ENDIF}

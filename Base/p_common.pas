@@ -2439,7 +2439,7 @@ end;
 
 //
 // JVAL
-// A_ThrustXY(mom: float)
+// A_ThrustXY(mom: float; ang: angle)
 // Changes x, y momentum
 //
 procedure A_ThrustXY(actor: Pmobj_t);
@@ -2447,12 +2447,12 @@ var
   ang: angle_t;
   thrust: fixed_t;
 begin
-  if not P_CheckStateParams(actor, 1) then
+  if not P_CheckStateParams(actor) then
     exit;
 
   thrust := actor.state.params.FixedVal[0];
 
-  ang := actor.angle;
+  ang := actor.angle + round(actor.state.params.FloatVal[1] * ANG1);
   ang := ang shr ANGLETOFINESHIFT;
 
   actor.momx := actor.momx + FixedMul(thrust, finecosine[ang]);

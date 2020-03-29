@@ -2222,7 +2222,7 @@ begin
   {$IFDEF DLL}deh_actions[153].decl := 'A_ThrustZ(momz: float)';{$ENDIF}
   deh_actions[154].action.acp1 := @A_ThrustXY;
   deh_actions[154].name := strupper('ThrustXY');
-  {$IFDEF DLL}deh_actions[154].decl := 'A_ThrustXY(mom: float)';{$ENDIF}
+  {$IFDEF DLL}deh_actions[154].decl := 'A_ThrustXY(mom: float, ang: angle)';{$ENDIF}
   deh_actions[155].action.acp1 := @A_Turn;
   deh_actions[155].name := strupper('Turn');
   {$IFDEF DLL}deh_actions[155].decl := 'A_Turn(value: angle)';{$ENDIF}
