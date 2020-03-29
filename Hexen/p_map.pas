@@ -2687,6 +2687,13 @@ begin
     exit;
   end;
 
+  // JVAL: 20200329 - New flag, can not be crashed by sector
+  if thing.flags3_ex and MF3_EX_NOCRASH <> 0 then
+  begin
+    result := true;
+    exit;
+  end;
+  
   // crunch bodies to giblets
   if (thing.flags and MF_CORPSE <> 0) and (thing.health <= 0) then
   begin

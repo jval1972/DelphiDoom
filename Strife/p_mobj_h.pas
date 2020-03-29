@@ -353,6 +353,8 @@ const
   MF3_EX_BOUNCE = MF3_EX_FLOORBOUNCE or MF3_EX_CEILINGBOUNCE or MF3_EX_WALLBOUNCE;
   // No max move
   MF3_EX_NOMAXMOVE = 8;
+  // No Crush
+  MF3_EX_NOCRASH = 16;
 
 type
 // Map Object definition.
