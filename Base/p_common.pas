@@ -32,6 +32,7 @@ interface
 
 uses
   m_fixed,
+  info_h,
   p_mobj_h;
 
 const
@@ -348,6 +349,8 @@ const
 // Slip while descenting if sloped
   SF_SLIPSLOPEDESCENT = 2;
 
+function P_TicsFromState(const st: Pstate_t): integer;
+
 implementation
 
 uses
@@ -359,7 +362,6 @@ uses
   i_system,
   c_con,
   g_game,
-  info_h,
   info,
   info_common,
   p_enemy,
@@ -3250,6 +3252,28 @@ begin
     ACL_BLUE: actor.flags_ex := actor.flags_ex or MF_EX_BLUELIGHT;
     ACL_YELLOW: actor.flags_ex := actor.flags_ex or MF_EX_YELLOWLIGHT;
   end;
+end;
+
+function P_TicsFromState(const st: Pstate_t): integer;
+begin
+  if st.flags_ex and MF_EX_STATE_RANDOM_SELECT <> 0 then
+  begin
+    if P_Random < 128 then
+      result := st.tics
+    else
+      result := st.tics2;
+  end
+  else if st.flags_ex and MF_EX_STATE_RANDOM_RANGE <> 0 then
+  begin
+    if st.tics2 > st.tics then
+      result := st.tics + P_Random mod (st.tics2 - st.tics + 1)
+    else if st.tics2 < st.tics then
+      result := st.tics + P_Random mod (st.tics - st.tics2 + 1)
+    else
+      result := st.tics;
+  end
+  else
+    result := st.tics;
 end;
 
 end.

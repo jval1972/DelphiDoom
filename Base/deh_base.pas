@@ -544,11 +544,7 @@ begin
 
   result := TDStringList.Create;
   result.Add(headstr);
-  {$IFNDEF STRIFE}
-  result.Add('"S_NULL";"0";"0";"0";"-1";"0";"NULL";"0";"0";"0"');
-  {$ELSE}
-  result.Add('"S_NULL";"0";"0";"0";"-1";"0";"NULL";"0";"0"');
-  {$ENDIF}
+  result.Add('"S_NULL";"0";"0";"0";"0";"-1";"0";"NULL";"0";"0";"0"');
 
   datstr := '';
   for i := idx1 + 1 to idx2 - 1 do

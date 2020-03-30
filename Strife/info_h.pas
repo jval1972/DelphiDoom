@@ -1907,10 +1907,12 @@ type
     sprite: smallint;
     frame: integer;
     tics: smallint;
+    tics2: smallint;
 {$ELSE}
     sprite: integer;
     frame: integer;
     tics: integer;
+    tics2: integer;
 {$ENDIF}
     action: actionf_t;
     nextstate: statenum_t;
@@ -1926,6 +1928,7 @@ type
 {$IFNDEF OPENGL}
     voxelradius: integer;
 {$ENDIF}
+    flags_ex: integer;
   end;
   Pstate_t = ^state_t;
 

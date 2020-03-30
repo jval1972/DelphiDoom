@@ -56,6 +56,7 @@ function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
 implementation
 
 uses
+  TypInfo,
   doomdef,
   d_main,
   c_cmds,
@@ -78,6 +79,7 @@ uses
   sc_evaluate_actor,
   sc_utils,
   p_pspr,
+  p_mobj_h,
   ps_main,
   w_pak,
   w_wad;
@@ -731,6 +733,8 @@ var
     sprite: string;
     frames: string;
     tics: integer;
+    tics2: integer;
+    stateflags: integer;
     action: string;
     i: integer;
     gotostr: string;
@@ -919,8 +923,30 @@ var
     sprite := sc._string;
     sc.GetString;
     frames := sc._string;
-    sc.GetInteger;
-    tics := sc._integer;
+
+    stateflags := 0;
+    sc.GetString;
+    if sc.MatchString('RANDOMSELECT') then
+    begin
+      sc.GetInteger;
+      tics := sc._integer;
+      sc.GetInteger;
+      tics2 := sc._integer;
+      stateflags := stateflags or MF_EX_STATE_RANDOM_SELECT;
+    end
+    else if sc.MatchString('RANDOMRANGE') then
+    begin
+      sc.GetInteger;
+      tics := sc._integer;
+      sc.GetInteger;
+      tics2 := sc._integer;
+      stateflags := stateflags or MF_EX_STATE_RANDOM_RANGE;
+    end
+    else
+    begin
+      tics := atoi(sc._String);
+      tics2 := tics;
+    end;
 
     bright := false;
     action := '';
@@ -975,6 +1001,8 @@ var
         pm_state.sprite := sprite;
         pm_state.frame := Ord(frames[i]) - Ord('A');
         pm_state.tics := tics;
+        pm_state.tics2 := tics2;
+        pm_state.flags_ex := stateflags;
         pm_state.action := action;
         pm_state.nextstate := numstates + 1;
         pm_state.bright := bright;
@@ -1337,6 +1365,7 @@ var
         else
           AddRes('Sprite Subnumber = ' + itoa(m_states[cnt].frame));
         AddRes('Duration = ' + itoa(m_states[cnt].tics));
+        AddRes('Duration 2 = ' + itoa(m_states[cnt].tics2));
 
         if m_states[cnt].gotostr_needs_calc then
           AddRes('Next Frame = ' + ResolveGoto(m_states[cnt].gotostr_calc))
@@ -1350,7 +1379,7 @@ var
         AddRes('Unknown 1 = 0');
         AddRes('Unknown 2 = 0');
         {$IFNDEF STRIFE}
-        AddRes('Flags_ex = 0');
+        AddRes('Flags_ex = ' + itoa(m_states[cnt].flags_ex));
         {$ENDIF}
         AddRes('Owner = ' + mobj.name);
         AddRes('');
@@ -2418,7 +2447,7 @@ function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
 var
   ret: string;
   plevel: integer;
-  i: integer;
+  i, id: integer;
 
   procedure AddLn(const s: string);
   var
@@ -2586,6 +2615,10 @@ var
 begin
   ret := '';
   plevel := 0;
+
+  id := pDiff(m, mobjinfo, SizeOf(mobjinfo_t));
+  if IsIntegerInRange(id, 0, Ord(DO_NUMMOBJTYPES) - 1) then
+    Addln('// ' + strupper(GetENumName(TypeInfo(mobjtype_t), Ord(id))));
 
   AddLn('ACTOR "' + Info_GetMobjName(m) + '"' + decide(m.doomednum > 0, ' ' + itoa(m.doomednum), ''));
   AddLn('{');

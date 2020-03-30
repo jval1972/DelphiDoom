@@ -87,6 +87,7 @@ var
   mobj_flags3_ex: TDTextList;
   mobj_flags4_ex: TDTextList;
   state_tokens: TDTextList;
+  state_flags_ex: TDTextList;
   ammo_tokens: TDTextList;
   weapon_tokens: TDTextList;
   sound_tokens: TDTextList;
@@ -96,7 +97,7 @@ var
   deh_actions: array[0..DEHNUMACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
 
-function deh_actionname(action: actionf_t): string;
+function Deh_ActionName(action: actionf_t): string;
 
 function DEH_GetString(const s: string): string;
 
@@ -685,7 +686,35 @@ begin
             end;
            5: states[state_no].misc1 := state_val;
            6: states[state_no].misc2 := state_val;
+           7: begin
+                if state_val >= 0 then
+                  states[state_no].flags_ex := state_val  // DelphiDoom specific (lighting, transparency, etc)
+                else
+                begin
+                  state_setflag := -1;
+                  repeat
+                    splitstring(token2, token3, token4, [' ', '|', ',', '+']);
+                    state_flag := state_flags_ex.IndexOf('MF_EX_' + token3);
+                    if state_flag = -1 then
+                      state_flag := state_flags_ex.IndexOf('MF_' + token3);
+                    if state_flag = -1 then
+                      state_flag := state_flags_ex.IndexOf(token3);
+                    if state_flag >= 0 then
+                    begin
+                      if state_setflag = -1 then
+                        state_setflag := 0;
+                      state_flag := _SHL(1, state_flag);
+                      state_setflag := state_setflag or state_flag;
+                    end;
+                    token2 := token4;
+                  until token2 = '';
+                  if state_setflag <> -1 then
+                    states[state_no].flags_ex := state_setflag;
+
+                end;
+              end;
            8: Info_AddStateOwner(@states[state_no], Info_GetMobjNumForName(token2));
+           9: states[state_no].tics2 := state_val;
         end;
       end;
     end
@@ -1457,6 +1486,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(state_tokens[0]), Ord(states[i].sprite)]);
     result.Add('%s = %d', [capitalizedstring(state_tokens[1]), states[i].frame]);
     result.Add('%s = %d', [capitalizedstring(state_tokens[2]), states[i].tics]);
+    result.Add('%s = %d', [capitalizedstring(state_tokens[9]), states[i].tics2]);
     result.Add('%s = %d', [capitalizedstring(state_tokens[3]), Ord(states[i].nextstate)]);
 
     str := '';
@@ -1475,6 +1505,24 @@ begin
 
     result.Add('%s = %d', [capitalizedstring(state_tokens[5]), states[i].misc1]);
     result.Add('%s = %d', [capitalizedstring(state_tokens[6]), states[i].misc2]);
+
+    str := '';
+    for j := 0 to state_flags_ex.Count - 1 do
+    begin
+      if states[i].flags_ex and _SHL(1, j) <> 0 then
+      begin
+        if str <> '' then
+          str := str + ', ';
+        str := str + state_flags_ex[j];
+      end;
+    end;
+    if str = '' then
+      result.Add('%s = 0', [capitalizedstring(state_tokens[7])])
+    else
+      result.Add('%s = %s', [capitalizedstring(state_tokens[7]), str]);
+
+    if i = 1 then
+      result.Add('# Flags_ex declares transparency and light effects');
 
     result.Add('');
   end;
@@ -1747,6 +1795,17 @@ begin
 
   mobj_flags4_ex := TDTextList.Create;
 
+  // JVAL: 20200330 - State flags
+  state_flags_ex := TDTextList.Create;
+  state_flags_ex.Add('MF_EX_TRANSPARENT');
+  state_flags_ex.Add('MF_EX_WHITELIGHT');
+  state_flags_ex.Add('MF_EX_REDLIGHT');
+  state_flags_ex.Add('MF_EX_GREENLIGHT');
+  state_flags_ex.Add('MF_EX_BLUELIGHT');
+  state_flags_ex.Add('MF_EX_YELLOWLIGHT');
+  state_flags_ex.Add('MF_EX_STATE_RANDOM_SELECT');
+  state_flags_ex.Add('MF_EX_STATE_RANDOM_RANGE');
+
   state_tokens := TDTextList.Create;
   state_tokens.Add('SPRITE NUMBER');    // 0 //.sprite
   state_tokens.Add('SPRITE SUBNUMBER'); // 1 //.frame
@@ -1757,6 +1816,7 @@ begin
   state_tokens.Add('UNKNOWN 2');        // 6 //.misc2
   state_tokens.Add('FLAGS_EX');         // 7 //.flags_ex (DelphiDoom)
   state_tokens.Add('OWNER');            // 8 //.Add an owner (DelphiDoom)
+  state_tokens.Add('DURATION 2');       // 9 //.tics2
 
   deh_actions[0].action.acp1 := nil;
   deh_actions[0].name := 'NULL';
@@ -2920,6 +2980,7 @@ begin
   FreeAndNil(mobj_flags2_ex);
   FreeAndNil(mobj_flags3_ex);
   FreeAndNil(mobj_flags4_ex);
+  FreeAndNil(state_flags_ex);
   FreeAndNil(state_tokens);
   FreeAndNil(ammo_tokens);
   FreeAndNil(weapon_tokens);
@@ -2933,7 +2994,7 @@ begin
     stringhash[i].Free;
 end;
 
-function deh_actionname(action: actionf_t): string;
+function Deh_ActionName(action: actionf_t): string;
 var
   i: integer;
 begin

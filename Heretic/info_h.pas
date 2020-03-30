@@ -1288,10 +1288,12 @@ type
     sprite: smallint;
     frame: smallint;
     tics: smallint;
+    tics2: smallint;
 {$ELSE}
     sprite: integer;
     frame: integer;
     tics: integer;
+    tics2: integer;
 {$ENDIF}
     action: actionf_t;
     nextstate: statenum_t;

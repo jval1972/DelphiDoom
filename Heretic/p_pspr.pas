@@ -185,8 +185,18 @@ uses
 // and the Frame Sequence table.
   d_event,
   m_rnd,
-  p_local, p_plats, p_tick, p_mobj, p_enemy, p_map, p_inter, p_maputl,
-  r_main, r_draw, r_defs,
+  p_common,
+  p_local,
+  p_plats,
+  p_tick,
+  p_mobj,
+  p_enemy,
+  p_map,
+  p_inter,
+  p_maputl,
+  r_main,
+  r_draw,
+  r_defs,
   s_sound,
 // State.
   doomstat,
@@ -346,7 +356,7 @@ begin
 
     state := @states[Ord(stnum)];
     psp.state := state;
-    psp.tics := state.tics; // could be 0
+    psp.tics := P_TicsFromState(state); // could be 0
 
     // coordinate set
     if state.misc1 <> 0 then

@@ -1,8 +1,12 @@
+Version 2.0.5 build 725 - (30/3/2020)
+-----------------------
 Smoother interpolation in uncapped framerate.
 Added DEH_PrintActordef command, print current mobjinfo as ACTORDEF declaration.
 Added DEH_SaveActordef command, save current mobjinfo as ACTORDEF file definition.
 More flexible flags parsing in ACTORDEF lumps. Will recognize +MF_***, +MF_EX_*** etc syntax.
 Added MF3_EX_NOMAXMOVE mobj flag, when set it will not limit momx & momy to 30 map units per tic (original behaviour).
+Added angle extra parameter to A_ThrustXY ACTORDEF function
+States can have random tics in ACTORDEF lumps.
 
 Version 2.0.5 build 724 - (8/3/2020)
 -----------------------

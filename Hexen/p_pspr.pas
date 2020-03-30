@@ -275,9 +275,9 @@ begin
 
     state := @states[Ord(stnum)];
     psp.state := state;
-    psp.tics := state.tics; // could be 0
+    psp.tics := P_TicsFromState(state); // could be 0
 
-     // coordinate set
+    // coordinate set
     if state.misc1 <> 0 then
       psp.sx := state.misc1 * FRACUNIT;
 

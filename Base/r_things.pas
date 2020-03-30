@@ -1532,8 +1532,8 @@ begin
   {$IFDEF HERETIC_OR_HEXEN}
   vis.mobjflags2 := thing.flags2;
   {$ENDIF}
-  vis.mobjflags_ex := thing.flags_ex{$IFNDEF STRIFE} or thing.state.flags_ex{$ENDIF}; // JVAL: extended flags passed to vis
-  vis.mobjflags2_ex := thing.flags2_ex; // JVAL: extended flags passed to vis
+  vis.mobjflags_ex := thing.flags_ex or (thing.state.flags_ex and MF_EX_STATE_MASK); // JVAL: extended flags passed to vis
+  vis.mobjflags2_ex := thing.flags2_ex; // JVAL: ex/tended flags passed to vis
   vis.mo := thing;
   vis.scale := FixedDiv(projectiony, tz); // JVAL For correct aspect
   vis.infoscale := infoscale;

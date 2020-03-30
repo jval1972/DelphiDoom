@@ -183,7 +183,7 @@ begin
     st := @states[Ord(state)];
 
     mobj.state := st;
-    mobj.tics := st.tics;
+    mobj.tics := P_TicsFromState(st);
     mobj.sprite := st.sprite;
     mobj.frame := st.frame;
 
@@ -278,7 +278,7 @@ begin
     else if mo.momy < -MAXMOVE then
       mo.momy := -MAXMOVE;
   end;
-  
+
   xmove := mo.momx;
   ymove := mo.momy;
 
@@ -874,7 +874,7 @@ begin
   mobj.state := st;
   mobj.prevstate := st;
   mobj.validcount := validcount;
-  mobj.tics := st.tics;
+  mobj.tics := P_TicsFromState(st);
   mobj.sprite := st.sprite;
   mobj.frame := st.frame;
   mobj.touching_sectorlist := nil; // NULL head of sector list // phares 3/13/98
@@ -1689,6 +1689,7 @@ var
   z: fixed_t;
   slope: fixed_t;
   ver: integer;
+  speed: fixed_t;
 begin
   // see which target is to be aimed at
   an := source.angle;
@@ -1750,9 +1751,11 @@ begin
 
   th.target := source;
   th.angle := an;
-  th.momx := FixedMul(th.info.speed, finecosine[{$IFDEF FPC}_SHRW(an, ANGLETOFINESHIFT){$ELSE}an shr ANGLETOFINESHIFT{$ENDIF}]);
-  th.momy := FixedMul(th.info.speed, finesine[{$IFDEF FPC}_SHRW(an, ANGLETOFINESHIFT){$ELSE}an shr ANGLETOFINESHIFT{$ENDIF}]);
-  th.momz := FixedMul(th.info.speed, slope);
+  an := an shr ANGLETOFINESHIFT;
+  speed := th.info.speed;
+  th.momx := FixedMul(speed, finecosine[an]);
+  th.momy := FixedMul(speed, finesine[an]);
+  th.momz := FixedMul(speed, slope);
 
   P_CheckMissileSpawn(th);
 end;

@@ -34,9 +34,12 @@ unit p_doors;
 interface
 
 uses
-  z_zone, doomdef,
+  doomdef,
+  z_zone,
   m_fixed,
-  p_local, p_mobj_h, p_spec,
+  p_local,
+  p_mobj_h,
+  p_spec,
   r_defs,
   s_sound,
 // State.
