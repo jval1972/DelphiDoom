@@ -2545,11 +2545,11 @@ begin
   M_DrawDisplayOptions;
 
   chasecamera_viewxy := ibetween(chasecamera_viewxy, CHASECAMERA_XY_MIN, CHASECAMERA_XY_MAX);
-  ppos := M_WriteText(OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * Ord(odc_chasecameraxy), 'Chase Camera XY postion: ');
+  ppos := M_WriteText(OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * Ord(odc_chasecameraxy), 'Chase Camera XY position: ');
   M_WriteWhiteText(ppos.x, ppos.y, itoa(chasecamera_viewxy));
 
   chasecamera_viewz := ibetween(chasecamera_viewz, CHASECAMERA_Z_MIN, CHASECAMERA_Z_MAX);
-  ppos := M_WriteText(OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * Ord(odc_chasecameraz), 'Chase Camera Z postion: ');
+  ppos := M_WriteText(OptionsDisplayCameraDef.x, OptionsDisplayCameraDef.y + OptionsDisplayCameraDef.itemheight * Ord(odc_chasecameraz), 'Chase Camera Z position: ');
   M_WriteWhiteText(ppos.x, ppos.y, itoa(chasecamera_viewz));
 
   M_DrawThermo(
@@ -4652,7 +4652,7 @@ begin
 
   inc(pmi);
   pmi.status := 2;
-  pmi.name := '!Chase Camera XY postion';
+  pmi.name := '!Chase Camera XY position';
   pmi.cmd := '';
   pmi.routine := @M_ChangeCameraXY;
   pmi.pBoolVal := nil;
@@ -4676,7 +4676,7 @@ begin
 
   inc(pmi);
   pmi.status := 2;
-  pmi.name := '!Chase Camera Z postion';
+  pmi.name := '!Chase Camera Z position';
   pmi.cmd := '';
   pmi.routine := @M_ChangeCameraZ;
   pmi.pBoolVal := nil;
