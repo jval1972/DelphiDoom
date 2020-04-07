@@ -499,9 +499,10 @@ begin
   begin
     check := sec.lines[i];
     if check.flags and ML_TWOSIDED = 0 then
-    begin
       continue;
-    end;
+    // JVAL: 20200407 - Avoid false ML_TWOSIDED flag
+    if (check.sidenum[1] < 0) or (check.sidenum[0] < 0) then
+      continue;
 
     P_LineOpening(check, false);
     if openrange <= 0 then

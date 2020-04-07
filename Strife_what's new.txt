@@ -1,3 +1,8 @@
+Fixed ACTORDEF parsing fail with RANDOM function.
+Fixed typo in camera menu.
+Z-buffer warnings are displayed only in debug mode.
+Avoid crash in P_RecursiveSound when line has false ML_TWOSIDED flag.
+
 Version 2.0.5 build 725 - (30/3/2020)
 -----------------------
 Smoother interpolation in uncapped framerate.
