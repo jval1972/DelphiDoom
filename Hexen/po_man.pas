@@ -884,6 +884,7 @@ var
   ld: Pline_t;
   blocked: boolean;
   link: Pblocklinkitem_t;
+  r: fixed_t;
 begin
 
   ld := seg.linedef;
@@ -924,10 +925,11 @@ begin
         mobj := link.links[k];
         if (mobj.flags and MF_SOLID <> 0) or (mobj.player <> nil) then
         begin
-          tmbbox[BOXTOP] := mobj.y + mobj.radius;
-          tmbbox[BOXBOTTOM] := mobj.y - mobj.radius;
-          tmbbox[BOXLEFT] := mobj.x - mobj.radius;
-          tmbbox[BOXRIGHT] := mobj.x + mobj.radius;
+          r := mobj.radius;
+          tmbbox[BOXTOP] := mobj.y + r;
+          tmbbox[BOXBOTTOM] := mobj.y - r;
+          tmbbox[BOXLEFT] := mobj.x - r;
+          tmbbox[BOXRIGHT] := mobj.x + r;
 
           if (tmbbox[BOXRIGHT] <= ld.bbox[BOXLEFT]) or
              (tmbbox[BOXLEFT] >= ld.bbox[BOXRIGHT]) or

@@ -196,6 +196,7 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
+  r: fixed_t;
 begin
   // kill anything occupying the position
   tmthing := thing;
@@ -204,10 +205,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   newsubsec := R_PointInSubsector(x, y);
   ceilingline := nil;
@@ -947,6 +949,7 @@ var
   x: fixed_t;
   y: fixed_t;
   oldmo: mobj_t;
+  r: fixed_t;
 begin
   x := thing.x;
   y := thing.y;
@@ -958,10 +961,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   newsubsec := R_PointInSubsector(x, y);
   ceilingline := nil;

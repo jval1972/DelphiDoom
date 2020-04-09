@@ -222,6 +222,7 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
+  r: fixed_t;
 begin
   // kill anything occupying the position
   tmthing := thing;
@@ -230,10 +231,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   newsubsec := R_PointInSubsector(x, y);
   ceilingline := nil;
@@ -981,6 +983,7 @@ var
   x, y, z: fixed_t;
   xl, xh, yl, yh, bx, by: integer;
   newsubsec: Psubsector_t;
+  r: fixed_t;
 begin
   x := thing.x;
   y := thing.y;
@@ -993,10 +996,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   ceilingline := nil;
   newsubsec := thing.subsector;
@@ -2479,6 +2483,7 @@ var
   bx: integer;
   by: integer;
   node: Pmsecnode_t;
+  r: fixed_t;
 begin
   // First, clear out the existing m_thing fields. As each node is
   // added or verified as needed, m_thing will be set properly. When
@@ -2498,10 +2503,11 @@ begin
   tmx := x;
   tmy := y;
 
-  tmbbox[BOXTOP] := y + tmthing.radius;
-  tmbbox[BOXBOTTOM] := y - tmthing.radius;
-  tmbbox[BOXRIGHT] := x + tmthing.radius;
-  tmbbox[BOXLEFT] := x - tmthing.radius;
+  r := tmthing.radius;
+  tmbbox[BOXTOP] := y + r;
+  tmbbox[BOXBOTTOM] := y - r;
+  tmbbox[BOXRIGHT] := x + r;
+  tmbbox[BOXLEFT] := x - r;
 
   inc(validcount); // used to make sure we only process a line once
 
