@@ -3254,6 +3254,7 @@ begin
 
     if sector.special and SECRET_MASK <> 0 then
     begin
+      player._message := MSGSECRETSECTOR;
       sector.special := sector.special and not SECRET_MASK;
       if sector.special < 32 then // if all extended bits clear,
         sector.special := 0;    // sector is not special anymore
