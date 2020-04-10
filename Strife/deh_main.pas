@@ -54,7 +54,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 302;
+  DEHNUMACTIONS = 303;
 
 type
   deh_action_t = record
@@ -2724,7 +2724,9 @@ begin
   deh_actions[301].action.acp1 := @A_GlowLight;
   deh_actions[301].name := strupper('A_GlowLight');
   {$IFDEF DLL}deh_actions[301].decl := 'A_GlowLight(color: string)';{$ENDIF}
-
+  deh_actions[302].action.acp1 := @A_TraceNearestPlayer;
+  deh_actions[302].name := strupper('A_TraceNearestPlayer');
+  {$IFDEF DLL}deh_actions[302].decl := 'A_TraceNearestPlayer(pct: integer, [maxturn: angle_t])';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

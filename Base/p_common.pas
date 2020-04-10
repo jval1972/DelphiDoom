@@ -319,6 +319,8 @@ procedure A_UnSetWallBounce(actor: Pmobj_t);
 
 procedure A_GlowLight(actor: Pmobj_t);
 
+procedure A_TraceNearestPlayer(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -373,6 +375,7 @@ uses
   p_params,
   psi_globals,
   r_renderstyle,
+  r_main,
   sc_engine,
   sc_tokens,
   sc_states,
@@ -3274,6 +3277,97 @@ begin
   end
   else
     result := st.tics;
+end;
+
+const
+  DEFTRACEANGLE = 15 * ANG1;
+
+//
+// A_TraceNearestPlayer(pct: integer, [maxturn: angle])
+// pct -> propability
+procedure A_TraceNearestPlayer(actor: Pmobj_t);
+var
+  pct: integer;
+  exact: angle_t;
+  dist: fixed_t;
+  slope: fixed_t;
+  dest: Pmobj_t;
+  i: integer;
+  nearest: integer;
+  mindist: integer;
+  maxturn: angle_t;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  pct := actor.state.params.IntVal[0];
+  if pct < P_Random then
+    exit;
+
+  dest := nil;
+  nearest := MAXINT;
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      if players[i].mo <> nil then
+        if players[i].mo.height >= 0 then
+        begin
+          mindist := P_AproxDistance(players[i].mo.x - actor.x, players[i].mo.y - actor.y);
+          if mindist < nearest then
+          begin
+            nearest := mindist;
+            dest := players[i].mo;
+          end;
+        end;
+
+  if dest = nil then
+    exit;
+
+  // change angle
+  exact := R_PointToAngle2(actor.x, actor.y, dest.x, dest.y);
+
+  if actor.state.params.Count >= 2 then
+    maxturn := actor.state.params.IntVal[1] * ANG1
+  else
+    maxturn := DEFTRACEANGLE;
+
+  if exact <> actor.angle then
+  begin
+    if exact - actor.angle > ANG180 then
+    begin
+      actor.angle := actor.angle - maxturn;
+      if exact - actor.angle < ANG180 then
+        actor.angle := exact;
+    end
+    else
+    begin
+      actor.angle := actor.angle + maxturn;
+      if exact - actor.angle > ANG180 then
+        actor.angle := exact;
+    end;
+  end;
+
+  {$IFDEF FPC}
+  exact := _SHRW(actor.angle, ANGLETOFINESHIFT);
+  {$ELSE}
+  exact := actor.angle shr ANGLETOFINESHIFT;
+  {$ENDIF}
+  actor.momx := FixedMul(actor.info.speed, finecosine[exact]);
+  actor.momy := FixedMul(actor.info.speed, finesine[exact]);
+
+  // change slope
+  dist := P_AproxDistance(dest.x - actor.x, dest.y - actor.y);
+
+  dist := dist div actor.info.speed;
+
+  if dist < 1 then
+    dist := 1;
+  slope := (dest.z + 40 * FRACUNIT - actor.z) div dist;
+
+  if slope < actor.momz then
+    actor.momz := actor.momz - FRACUNIT div 8
+  else
+    actor.momz := actor.momz + FRACUNIT div 8;
 end;
 
 end.
