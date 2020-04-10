@@ -3310,7 +3310,7 @@ begin
   for i := 0 to MAXPLAYERS - 1 do
     if playeringame[i] then
       if players[i].mo <> nil then
-        if players[i].mo.height >= 0 then
+        if players[i].mo.health >= 0 then
         begin
           mindist := P_AproxDistance(players[i].mo.x - actor.x, players[i].mo.y - actor.y);
           if mindist < nearest then
