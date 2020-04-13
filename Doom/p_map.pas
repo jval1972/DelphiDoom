@@ -516,6 +516,14 @@ begin
     exit;
   end;
 
+  if G_PlayingEngineVersion >= VERSION205 then
+    if (thing.player <> nil) or (tmthing.player <> nil) then  // Only if a player is involved
+      if not P_ThingsInSameZ(thing, tmthing) then // JVAL: 20200413 -> Check z axis
+      begin
+        result := true;
+        exit;
+      end;
+
   // JVAL: 20200130 - MF2_EX_DONTBLOCKPLAYER flag - does not block players
   if (thing.flags2_ex and MF2_EX_DONTBLOCKPLAYER <> 0) and (tmthing.player <> nil) then
   begin

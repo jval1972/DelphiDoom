@@ -494,11 +494,50 @@ begin
     spechit[numspechit] := ld;
     inc(numspechit);
 
-//    fprintf(stderr, 'numspechit = %d' + #13#10, [numspechit]);
   end;
 
   result := true;
 end;
+
+//
+// JVAL: 20200308 - New function
+// P_ThingsInSameZ
+//
+function P_ThingsInSameZ(const A, B: Pmobj_t): boolean;
+var
+  Az1, Az2, Bz1, Bz2: fixed_t;
+begin
+  Az1 := A.z - A.height div 2;
+  if Az1 < A.floorz then
+    Az1 := A.floorz;
+  Az2 := Az1 + A.height;
+  if Az2 > A.ceilingz then
+  begin
+    Az2 := A.ceilingz;
+    Az1 := Az2 - A.height;
+    if Az1 < A.floorz then
+      Az1 := A.floorz;
+  end;
+
+  Bz1 := B.z - B.height div 2;
+  if Bz1 < B.floorz then
+    Bz1 := B.floorz;
+  Bz2 := Bz1 + B.height;
+  if Bz2 > B.ceilingz then
+  begin
+    Bz2 := B.ceilingz;
+    Bz1 := Bz2 - B.height;
+    if Bz1 < B.floorz then
+      Bz1 := B.floorz;
+  end;
+
+  result :=
+    IsIntegerInRange(Az1, Bz1, Bz2) or
+    IsIntegerInRange(Az2, Bz1, Bz2) or
+    IsIntegerInRange(Bz1, Az1, Az2) or
+    IsIntegerInRange(Bz2, Az1, Az2);
+end;
+
 //
 // PIT_CheckThing
 //
@@ -514,6 +553,14 @@ begin
     result := true;
     exit;
   end;
+
+  if G_PlayingEngineVersion >= VERSION205 then
+    if (thing.player <> nil) or (tmthing.player <> nil) then  // Only if a player is involved
+      if not P_ThingsInSameZ(thing, tmthing) then // JVAL: 20200413 -> Check z axis
+      begin
+        result := true;
+        exit;
+      end;
 
   // don't clip against self
   if thing = tmthing then
