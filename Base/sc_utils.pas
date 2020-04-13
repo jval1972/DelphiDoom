@@ -53,6 +53,8 @@ const
 var
   includes: TDStringList;
   depth: integer;
+  i: integer;
+  decoded_text: string;
 
   function SC_DoPreprocess(const in_text: string): string;
   var
@@ -136,7 +138,11 @@ var
 begin
   includes := TDStringList.Create;
   depth := 0;
-  result := SC_DoPreprocess(inp_text);
+  decoded_text := '';
+  for i := 1 to length(inp_text) do
+    if Ord(inp_text[i]) < 128 then
+      decoded_text := decoded_text + inp_text[i];
+  result := SC_DoPreprocess(decoded_text);
   includes.Free;
 end;
 
