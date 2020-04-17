@@ -956,7 +956,7 @@ begin
     mass := target.info.mass;
     if mass = 0 then
     begin
-      I_DevWarning('P_DamageMobj(): Target (%s) mass is zero', [target.info.name]);
+      I_DevWarning('P_DamageMobj(): Target (%s) mass is zero'#13#10, [target.info.name]);
       thrust := 0;
     end
     else
