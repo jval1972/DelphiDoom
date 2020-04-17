@@ -135,6 +135,7 @@ var
         result := result + str1 + #13#10;
     end;
     lst_in.Free;
+    dec(depth);
   end;
 
 begin
