@@ -217,6 +217,20 @@ procedure dd_getspritescsv_strife(
 {$ENDIF}
   var _out: PChar; var _outsize: Integer); stdcall;
 
+{$IFDEF DOOM}
+procedure dd_getactordef_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getactordef_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getactordef_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getactordef_strife(
+{$ENDIF}
+  var m: integer; var _out: PChar; var _outsize: Integer); stdcall;
+
 implementation
 
 uses
@@ -226,6 +240,7 @@ uses
   deh_base,
   deh_main,
   info,
+  info_h,
   info_common,
   sc_actordef,
   sc_states,
@@ -819,6 +834,7 @@ begin
     if not IFPS3DataToText(pcode, disasm) then
     begin
       _outsize := 0;
+      DD_ShutDownDoomEngine;
       Exit;
     end;
     DD_CopyStringToPChar(disasm, _out, _outsize);
@@ -966,6 +982,36 @@ begin
     DEH_ShutDown;
   end;
   Info_ShutDown;
+end;
+
+{$IFDEF DOOM}
+procedure dd_getactordef_doom(
+{$ENDIF}
+{$IFDEF HERETIC}
+procedure dd_getactordef_heretic(
+{$ENDIF}
+{$IFDEF HEXEN}
+procedure dd_getactordef_hexen(
+{$ENDIF}
+{$IFDEF STRIFE}
+procedure dd_getactordef_strife(
+{$ENDIF}
+  var m: integer; var _out: PChar; var _outsize: Integer); stdcall;
+var
+  actorstr: string;
+begin
+  Info_Init(true);
+  try
+    if IsIntegerInRange(m, 0, Ord(DO_NUMMOBJTYPES) - 1) then
+    begin
+      actorstr := SC_GetActordefDeclaration(@mobjinfo[m]);
+      DD_CopyStringToPChar(actorstr, _out, _outsize);
+    end
+    else
+      _outsize := 0;
+  finally
+    Info_ShutDown;
+  end;
 end;
 
 end.

@@ -377,7 +377,8 @@ exports
   dd_getactordeffunctions_heretic,
   dd_getmobjinfocsv_heretic,
   dd_getstatescsv_heretic,
-  dd_getspritescsv_heretic;
+  dd_getspritescsv_heretic,
+  dd_getactordef_heretic;
 
 begin
 

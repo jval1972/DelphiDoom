@@ -382,7 +382,8 @@ exports
   dd_getactordeffunctions_doom,
   dd_getmobjinfocsv_doom,
   dd_getstatescsv_doom,
-  dd_getspritescsv_doom;
+  dd_getspritescsv_doom,
+  dd_getactordef_doom;
 
 begin
 

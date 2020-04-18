@@ -387,7 +387,8 @@ exports
   dd_getactordeffunctions_strife,
   dd_getmobjinfocsv_strife,
   dd_getstatescsv_strife,
-  dd_getspritescsv_strife;
+  dd_getspritescsv_strife,
+  dd_getactordef_strife;
 
 begin
 

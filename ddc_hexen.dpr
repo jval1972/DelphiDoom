@@ -383,7 +383,8 @@ exports
   dd_getactordeffunctions_hexen,
   dd_getmobjinfocsv_hexen,
   dd_getstatescsv_hexen,
-  dd_getspritescsv_hexen;
+  dd_getspritescsv_hexen,
+  dd_getactordef_hexen;
 
 begin
 
