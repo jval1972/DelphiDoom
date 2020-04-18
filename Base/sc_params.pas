@@ -166,7 +166,7 @@ begin
             for j := 1 to lstparam.Count - 1 do
               ok := ok and StrIsFloat(lstparam[j]);
             if ok then
-              AddParam(GLBF_FRANDOM, 'FRANDOM ' + lstparam[1] + lstparam[2])
+              AddParam(GLBF_FRANDOM, 'FRANDOM ' + lstparam[1] + ' ' + lstparam[2])
             else
               AddParam(GLBF_EVALUATE, lst[i]);
           end
