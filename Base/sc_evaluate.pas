@@ -364,7 +364,7 @@ begin
     I_Error('TEvalFunction.Value(): No function assigned for %s()', [FName]);
   if (p.Count <> FNumParams) and (FNumParams > -1) then
   begin
-    I_Warning('TEvalFunction.Value(): Wrong number of parameters'#13#10);
+    I_Warning('TEvalFunction.Value(): Wrong number of parameters in function %s'#13#10, [FName]);
     result := '';
     exit;
   end;
