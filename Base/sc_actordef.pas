@@ -766,7 +766,24 @@ var
     end
     else if sc.MatchString('stop') then
     begin
-      m_states[numstates - 1].nextstate := -1; // S_NULL
+      if numstates > 0 then
+        m_states[numstates - 1].nextstate := -1; // S_NULL
+      exit;
+    end
+    else if sc.MatchString('ACTOR') or
+            sc.MatchString('ACTORALIAS') or
+            sc.MatchString('DEH_PARSE') or
+            sc.MatchString('DEH_PARSE_ALL') or
+            sc.MatchString('COMPILED') or
+            sc.MatchString('PRECOMPILED') or
+            sc.MatchString('EXTERNAL') or
+            sc.MatchString('SCRIPT') or
+            sc.MatchString('THINKER') or
+            sc.MatchString('GLOBAL') then
+    begin
+      if numstates > 0 then
+        m_states[numstates - 1].nextstate := -1; // S_NULL
+      sc.UnGet;
       exit;
     end
     else if sc.MatchString('goto') then
