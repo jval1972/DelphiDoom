@@ -5,6 +5,15 @@ Avoid crash in P_RecursiveSound when line has false ML_TWOSIDED flag.
 Added A_TraceNearestPlayer() ACTORDEF function.
 Ignore illegal characters from content definition lumps.
 True 3d collisions for players.
+Warning when include file not found in content definition lumps.
+Fixed include files depth detection.
+Zero mass warning fix.
+Added dd_getactordef_xxxx export functions in script DLL.
+I_Error in TEvalFunction.Value() function displays function name.
+Warning in TEvalFunction.Value() function displays function name.
+Fixed FRANDOM parameters parsing.
+ACTORDEF parsing improvements.
+The engine detects missing sprite frames and displays warning.
 
 Version 2.0.5 build 725 - (30/3/2020)
 -----------------------

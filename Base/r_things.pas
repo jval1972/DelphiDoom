@@ -426,6 +426,8 @@ end;
 
 var
   funny_rotations: TDStringList;
+  wrong_frames: TDStringList;
+
 //
 // R_InitSprites
 // Called at program start.
@@ -435,6 +437,7 @@ begin
   R_InitNegoArray;
 
   funny_rotations := TDStringList.Create;
+  wrong_frames := TDStringList.Create;
   R_InitSpriteDefs(namelist);
 {$IFNDEF OPENGL}
   R_InitSpriteSort;
@@ -479,6 +482,7 @@ begin
   R_ShutDownSpriteSort;
 {$ENDIF}
   funny_rotations.Free;
+  wrong_frames.Free;
 end;
 
 {$IFNDEF OPENGL}
@@ -1320,6 +1324,7 @@ var
 {$ENDIF}
   soffset, swidth: fixed_t;
   infoscale: fixed_t;
+  frm: integer;
 begin
   if (thing.player = viewplayer) and not chasecamera then
     exit;
@@ -1396,7 +1401,19 @@ begin
   end
   else
   begin
-    sprframe := @sprdef.spriteframes[thing.frame and FF_FRAMEMASK];
+    frm := thing.frame and FF_FRAMEMASK;
+    if IsIntegerInRange(frm, 0, sprdef.numframes) then
+      sprframe := @sprdef.spriteframes[frm]
+    else
+    begin
+      if wrong_frames.IndexOf(thing.info.name) < 0 then
+      begin
+        wrong_frames.Add(thing.info.name);
+        I_Warning('R_ProjectSprite(): Sprite for "%s" has is missing frame ' + Chr(Ord('A') + frm) + '.'#13#10, [thing.info.name]);
+      end;
+      sprdef := @sprites[Ord(SPR_TNT1)];
+      sprframe := @sprdef.spriteframes[0];
+    end;
   end;
 
   if sprframe = nil then
