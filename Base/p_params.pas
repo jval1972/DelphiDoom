@@ -43,11 +43,11 @@ type
 
 procedure P_RemoveMobjCustomParams(const parm: Pmobjcustomparam_t);
 
-function P_SetMobjCustomParam(const actor1: pointer; const name: string; const value: integer): Pmobjcustomparam_t;
+function P_SetMobjCustomParam(const actor1: pointer; const name1: string; const value: integer): Pmobjcustomparam_t;
 
-function P_GetMobjCustomParam(const actor1: pointer; const name: string): Pmobjcustomparam_t;
+function P_GetMobjCustomParam(const actor1: pointer; const name1: string): Pmobjcustomparam_t;
 
-function P_GetMobjCustomParamValue(const actor1: pointer; const name: string; const def: integer = 0): integer;
+function P_GetMobjCustomParamValue(const actor1: pointer; const name1: string; const def: integer = 0): integer;
 
 implementation
 
@@ -66,12 +66,14 @@ begin
   end;
 end;
 
-function P_SetMobjCustomParam(const actor1: pointer; const name: string; const value: integer): Pmobjcustomparam_t;
+function P_SetMobjCustomParam(const actor1: pointer; const name1: string; const value: integer): Pmobjcustomparam_t;
 var
   check: Pmobjcustomparam_t;
   actor: Pmobj_t;
+  name: string;
 begin
   actor := actor1;
+  name := RemoveQuotesFromString(name1);
   check := P_GetMobjCustomParam(actor, name);
   if check = nil then
   begin
@@ -89,12 +91,19 @@ begin
   end;
 end;
 
-function P_GetMobjCustomParam(const actor1: pointer; const name: string): Pmobjcustomparam_t;
+function P_GetMobjCustomParam(const actor1: pointer; const name1: string): Pmobjcustomparam_t;
 var
   check: string;
   actor: Pmobj_t;
+  name: string;
 begin
   actor := actor1;
+  if actor = nil then
+  begin
+    result := nil;
+    exit;
+  end;
+  name := RemoveQuotesFromString(name1);
   check := strupper(name);
   result := actor.customparams;
   while result <> nil do
@@ -103,15 +112,22 @@ begin
       Exit;
     result := result.next;
   end;
-  result := nil; // JVAL: unneeded 
+  result := nil; // JVAL: unneeded
 end;
 
-function P_GetMobjCustomParamValue(const actor1: pointer; const name: string; const def: integer = 0): integer;
+function P_GetMobjCustomParamValue(const actor1: pointer; const name1: string; const def: integer = 0): integer;
 var
   parm: Pmobjcustomparam_t;
   actor: Pmobj_t;
+  name: string;
 begin
   actor := actor1;
+  if actor = nil then
+  begin
+    result := def;
+    exit;
+  end;
+  name := RemoveQuotesFromString(name1);
   parm := P_GetMobjCustomParam(actor, name);
   if parm <> nil then
     result := parm.value
