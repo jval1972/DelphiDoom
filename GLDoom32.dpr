@@ -17,7 +17,7 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 //------------------------------------------------------------------------------
@@ -47,6 +47,7 @@ uses
   FastMM4Messages in 'FASTMM4\FastMM4Messages.pas',
   FastCode in 'FASTCODE\FastCode.pas',
   FastMove in 'FASTCODE\FastMove.pas',
+  SysUtils,
   AnsiStringReplaceJOHIA32Unit12 in 'FASTCODE\AnsiStringReplaceJOHIA32Unit12.pas',
   AnsiStringReplaceJOHPASUnit12 in 'FASTCODE\AnsiStringReplaceJOHPASUnit12.pas',
   FastcodeAnsiStringReplaceUnit in 'FASTCODE\FastcodeAnsiStringReplaceUnit.pas',
@@ -343,6 +344,9 @@ begin
   { Save the current FPU state and then disable FPU exceptions }
   Saved8087CW := Default8087CW;
   Set8087CW($133f); { Disable all fpu exceptions }
+
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
 
   try
     DoomMain;

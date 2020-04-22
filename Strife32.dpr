@@ -51,6 +51,7 @@ uses
   FastMM4Messages in 'FASTMM4\FastMM4Messages.pas',
   FastCode in 'FASTCODE\FastCode.pas',
   FastMove in 'FASTCODE\FastMove.pas',
+  SysUtils,
   AnsiStringReplaceJOHIA32Unit12 in 'FASTCODE\AnsiStringReplaceJOHIA32Unit12.pas',
   AnsiStringReplaceJOHPASUnit12 in 'FASTCODE\AnsiStringReplaceJOHPASUnit12.pas',
   FastcodeAnsiStringReplaceUnit in 'FASTCODE\FastcodeAnsiStringReplaceUnit.pas',
@@ -371,6 +372,9 @@ begin
   { Save the current FPU state and then disable FPU exceptions }
   Saved8087CW := Default8087CW;
   Set8087CW($133f); { Disable all fpu exceptions }
+
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
 
   try
     DoomMain;

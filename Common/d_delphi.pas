@@ -813,11 +813,17 @@ end;
 
 function ftoa(f: single): string;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   result := FloatToStr(f);
 end;
 
 function ftoafmt(const fmt: string; f: single): string;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   sprintf(result, '%' + fmt + 'f', [f]);
 end;
 
@@ -917,6 +923,9 @@ var
   i: integer;
   str: string;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   val(s, result, code);
   if code <> 0 then
   begin
@@ -949,6 +958,9 @@ var
   i: integer;
   str: string;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   val(s, result, code);
   if code <> 0 then
   begin

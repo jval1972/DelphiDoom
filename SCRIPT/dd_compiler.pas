@@ -255,6 +255,9 @@ uses
 
 procedure DD_InitDoomEngine;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   PS_InitProcLists;
   DEH_Init;
   SC_Init;

@@ -521,6 +521,9 @@ var
   i: longint;
   str: TbtString;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   Val(string(s), Result, i);
   if i <> 0 then
   begin
@@ -539,6 +542,9 @@ function IntToStr(I: {$IFNDEF PS_NOINT64}Int64{$ELSE}LongInt{$ENDIF}): TbtString
 var
   s: TbtString;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   Str(i, s);
   IntToStr := s;
 end;
@@ -548,6 +554,9 @@ function FloatToStr(E: Extended): TbtString;
 var
   s: TbtString;
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   Str(e:0:12, s);
   Result := s;
 end;
@@ -557,6 +566,9 @@ var
   e: Integer;
   Res: {$IFNDEF PS_NOINT64}Int64{$ELSE}LongInt{$ENDIF};
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   Val(string(S), Res, e);
   if e <> 0 then
     StrToInt := -1
@@ -570,6 +582,9 @@ var
   e: Integer;
   Res: {$IFNDEF PS_NOINT64}Int64{$ELSE}LongInt{$ENDIF};
 begin
+  ThousandSeparator := #0;
+  DecimalSeparator := '.';
+
   Val(string(S), Res, e);
   if e <> 0 then
     StrToIntDef := Def
