@@ -2001,6 +2001,12 @@ var
   parm, tmp: string;
   mo: Pmobj_t;
 begin
+  if (gamestate <> GS_LEVEL) or demoplayback or demorecording or netgame then
+  begin
+    printf('You can''t specify the command at this time.'#13#10);
+    exit;
+  end;
+
   parm := strtrim(parm1 + ' ' + parm2);
   if parm = '' then
   begin
@@ -2062,6 +2068,12 @@ var
   mo: Pmobj_t;
   dist: fixed_t;
 begin
+  if (gamestate <> GS_LEVEL) or demoplayback or demorecording or netgame then
+  begin
+    printf('You can''t specify the command at this time.'#13#10);
+    exit;
+  end;
+
   parm := strtrim(parm1);
   if parm = '' then
   begin
