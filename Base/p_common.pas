@@ -421,17 +421,25 @@ function P_CheckStateParams(actor: Pmobj_t; const numparms: integer = -1; const 
 begin
   if numparms = 0 then
   begin
-    I_Warning('P_CheckStateParams(): Expected params can not be 0'#13#10);
+    if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
+    begin
+      I_Warning('P_CheckStateParams(): Expected params can not be 0'#13#10);
+      actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
+    end;
     result := false;
     exit;
   end;
 
   if actor.state.params = nil then
   begin
-    I_Warning('P_CheckStateParams(): Parameter list is null');
-    if numparms > 0 then
-      I_Warning(', %d parameters expected', [numparms]);
-    I_Warning(#13#10);
+    if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
+    begin
+      I_Warning('P_CheckStateParams(): Parameter list is null');
+      if numparms > 0 then
+        I_Warning(', %d parameters expected', [numparms]);
+      I_Warning(#13#10);
+      actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
+    end;
     result := false;
     exit;
   end;
@@ -440,19 +448,31 @@ begin
   begin
     if (flags = 0) and (actor.state.params.Count <> numparms) then
     begin
-      I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+      if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
+      begin
+        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+        actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
+      end;
       result := false;
       exit;
     end
     else if (flags and CSP_AT_LEAST <> 0) and (actor.state.params.Count < numparms) then
     begin
-      I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at least %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+      if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
+      begin
+        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at least %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+        actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
+      end;
       result := false;
       exit;
     end
     else if (flags and CSP_AT_MOST <> 0) and (actor.state.params.Count > numparms) then
     begin
-      I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at most %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+      if actor.state.flags_ex and MF_EX_STATE_PARAMS_ERROR = 0 then
+      begin
+        I_Warning('P_CheckStateParams(): Parameter list has %d parameters, but at most %d parameters expected'#13#10, [actor.state.params.Count, numparms]);
+        actor.state.flags_ex := actor.state.flags_ex or MF_EX_STATE_PARAMS_ERROR;
+      end;
       result := false;
       exit;
     end;
