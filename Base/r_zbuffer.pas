@@ -62,6 +62,8 @@ var
 
 procedure R_DrawSpanToZBuffer;
 
+procedure R_DrawSlopeToZBuffer;
+
 procedure R_DrawColumnToZBuffer;
 
 // Returns the z buffer value at (x, y) or screen
@@ -127,6 +129,36 @@ begin
     item.depth := 0
   else
     item.depth := Round(FRACUNIT / (planeheight / abs(centery - ds_y)) * FRACUNIT);
+
+  item.seg := nil;
+
+  item.start := ds_x1;
+  item.stop := ds_x2;
+end;
+
+procedure R_DrawSlopeToZBuffer;
+var
+  item: Pzbufferitem_t;
+  ddy: integer;
+begin
+{$IFDEF DEBUG}
+  if not IsIntegerInRange(ds_y, 0, viewheight - 1) then
+    I_Warning('R_DrawSlopeToZBuffer(): ds_y=%d not in range [0..viewheight(=%d) - 1]'#13#10, [ds_y, viewheight]);
+  if not IsIntegerInRange(ds_x1, 0, viewwidth - 1) then
+    I_Warning('R_DrawSlopeToZBuffer(): ds_x1=%d not in range [0..viewwidth(=%d) - 1]'#13#10, [ds_x1, viewwidth]);
+  if not IsIntegerInRange(ds_x2, 0, viewwidth - 1) then
+    I_Warning('R_DrawSlopeToZBuffer(): ds_x2=%d not in range [0..viewwidth(=%d) - 1]'#13#10, [ds_x2, viewwidth]);
+  if ds_x2 < ds_x1 then
+    I_Warning('R_DrawSlopeToZBuffer(): ds_x2=%d < ds_x1=%d'#13#10, [ds_x2, ds_x1]);
+{$ENDIF}
+
+  item := R_NewZBufferItem(@Zspans[ds_y]);
+
+  ddy := abs(centery - ds_y);
+  if ddy < 4 then
+    item.depth := Round(FRACUNIT / (planeheight / 4) * FRACUNIT)
+  else
+    item.depth := Round(FRACUNIT / (planeheight / ddy) * FRACUNIT);
 
   item.seg := nil;
 

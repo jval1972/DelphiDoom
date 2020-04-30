@@ -16,6 +16,7 @@ ACTORDEF parsing improvements.
 The engine detects missing sprite frames and displays warning.
 Summon and Spawnmobj console commands refuze to work during demo playback/recording and when we have a net game.
 Avoid repeating I_Warning messages when a state has errors in parameter list.
+Lightmap cast light to slopes.
 
 Version 2.0.5 build 725 - (30/3/2020)
 -----------------------

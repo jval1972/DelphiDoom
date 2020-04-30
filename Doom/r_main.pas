@@ -473,8 +473,8 @@ begin
     exit;
   end;
 
-  dx := (x - node.x);
-  dy := (y - node.y);
+  dx := x - node.x;
+  dy := y - node.y;
 
   // Try to quickly decide by looking at sign bits.
   if ((node.dy xor node.dx xor dx xor dy) and $80000000) <> 0 then
@@ -1533,7 +1533,7 @@ procedure R_ExecuteSetViewSize;
 var
 {$IFNDEF OPENGL}
   cosadj: fixed_t;
-  dy: fixed_t;
+  dy, dy1: fixed_t;
 {$ENDIF}
   i: integer;
   j: integer;
@@ -1621,7 +1621,14 @@ begin
   for i := 0 to viewheight - 1 do
   begin
     dy := dy - FRACUNIT;
-    yslope[i] := FixedDiv(projectiony, abs(dy)); // JVAL for correct aspect
+    dy1 := abs(dy);
+    yslope[i] := FixedDiv(projectiony, dy1); // JVAL for correct aspect
+
+    // JVAL: 20200430 - For slope lightmap
+    if dy1 < 4 * FRACUNIT then
+      slyslope[i] := FixedDiv(projectiony, 4 * FRACUNIT)
+    else
+      slyslope[i] := yslope[i];
   end;
 
   for i := 0 to viewwidth - 1 do
@@ -1982,7 +1989,7 @@ var
 procedure R_SetupFrame(player: Pplayer_t);
 var
   i: integer;
-  cy{$IFNDEF OPENGL}, dy{$ENDIF}: fixed_t;
+  cy{$IFNDEF OPENGL}, dy, dy1{$ENDIF}: fixed_t;
   sblocks: integer;
   sec: Psector_t;
   cm: integer;
@@ -2027,7 +2034,14 @@ begin
       for i := 0 to viewheight - 1 do
       begin
         dy := dy + FRACUNIT;
-        yslope[i] := FixedDiv(projectiony, abs(dy));
+        dy1 := abs(dy);
+        yslope[i] := FixedDiv(projectiony, dy1);
+
+        // JVAL: 20200430 - For slope lightmap
+        if dy1 < 4 * FRACUNIT then
+          slyslope[i] := FixedDiv(projectiony, 4 * FRACUNIT)
+        else
+          slyslope[i] := yslope[i];
       end;
       {$ENDIF}
 

@@ -124,8 +124,8 @@ begin
     exit;
   end;
 
-  dx := (x - node.x);
-  dy := (y - node.y);
+  dx := x - node.x;
+  dy := y - node.y;
 
   left := FixedInt(node.dy) * FixedInt(dx);
   right := FixedInt(dy) * FixedInt(node.dx);

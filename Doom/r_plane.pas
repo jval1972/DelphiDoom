@@ -93,6 +93,7 @@ var
   lastopening: integer;
 
   yslope: array[0..MAXHEIGHT - 1] of fixed_t;
+  slyslope: array[0..MAXHEIGHT - 1] of fixed_t; // JVAL: 20200430 - For slope lightmap
   distscale: array[0..MAXWIDTH - 1] of fixed_t;
 {$ENDIF}
 
@@ -227,6 +228,7 @@ begin
     slope := (planeheight / abs(centery - y)) * planerelativeaspect;
     ds_xstep := round(dviewsin * slope);
     ds_ystep := round(dviewcos * slope);
+
     cachedxstep[y] := ds_xstep;
     cachedystep[y] := ds_ystep;
   end
