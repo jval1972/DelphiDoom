@@ -1,3 +1,5 @@
+Version 2.0.5 build 726 - (8/5/2020)
+-----------------------
 Fixed ACTORDEF parsing fail with RANDOM function.
 Fixed typo in camera menu.
 Z-buffer warnings are displayed only in debug mode.
@@ -18,6 +20,7 @@ The engine detects missing sprite frames and displays warning.
 Summon and Spawnmobj console commands refuze to work during demo playback/recording and when we have a net game.
 Avoid repeating I_Warning messages when a state has errors in parameter list.
 Lightmap cast light to slopes.
+Fixed interpolation problem: Didn't interpolated player position and angle.
 
 Version 2.0.5 build 725 - (30/3/2020)
 -----------------------
