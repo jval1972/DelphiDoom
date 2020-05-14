@@ -778,7 +778,8 @@ begin
     CST_UP,
     CST_RAISE:
       begin
-        if c = Ord('~') then
+        // JVAL: 20200514 - Default console key for English keyboards
+        if (c = Ord('~')) or (c = Ord('¬')) then
         begin
           if ev._type = ev_keydown then
           begin
