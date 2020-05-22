@@ -53,6 +53,8 @@ var
   vy1, vy2: integer;
   frac1, frac2: integer;
 begin
+  if player.quaketics = 0 then
+    exit;
   seed1 := player.quaketics div FRACUNIT;
   seed2 := seed1 + 1;
   frac1 := player.quaketics mod FRACUNIT;
