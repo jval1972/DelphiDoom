@@ -97,6 +97,8 @@ function PS_MergeExtendedArrays(const A1, A2: TDynamicExtendedArray): TDynamicEx
 
 function PS_IsPrime(const N: Int64): Boolean;
 
+function PS_RandomRange(const x1, x2: integer): integer;
+
 // --------------------------- CONSOLE -----------------------------------------
 
 procedure PS_ConsoleCommand(const parm: string);
@@ -116,6 +118,7 @@ uses
   i_io,
   i_system,
   m_defs,
+  m_rnd,
   p_tick,
   tables;
 
@@ -352,6 +355,17 @@ begin
       Test := Test + 6;
     end;
   end;
+end;
+
+function PS_RandomRange(const x1, x2: integer): integer;
+var
+  r1, r2: float;
+  rnd: integer;
+begin
+  rnd := P_Random;
+  r1 := (rnd * x1) / 255;
+  r2 := ((255 - rnd) * x2) / 255;
+  result := round(r1 + r2);
 end;
 
 procedure PS_ConsoleCommand(const parm: string);

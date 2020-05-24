@@ -176,6 +176,7 @@ begin
   baseproclist.Add('function MergeDoubleArrays(const A1, A2: TDoubleArray): TDoubleArray;', @PS_MergeDoubleArrays);
   baseproclist.Add('function MergeExtendedArrays(const A1, A2: TExtendedArray): TExtendedArray;', @PS_MergeExtendedArrays);
   baseproclist.Add('function IsPrime(const N: Int64): Boolean;', @PS_IsPrime);
+  baseproclist.Add('function RandomRange(const x1, x2: integer): integer;', @PS_RandomRange);
   units.AddObject(basename, baseproclist);
 
   basename := 'PS_GAME';
