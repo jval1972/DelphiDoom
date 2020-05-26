@@ -2244,7 +2244,7 @@ begin
     P_DamageMobj(thing, nil, nil, 10);
 
     if (thing.flags and MF_NOBLOOD <> 0) or
-  		 (thing.flags_ex and MF_EX_INVULNERABLE <> 0) then
+       (thing.flags_ex and MF_EX_INVULNERABLE <> 0) then
     begin
       result := true;
       exit;

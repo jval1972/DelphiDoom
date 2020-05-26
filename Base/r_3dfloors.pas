@@ -1323,7 +1323,7 @@ begin
       if vis.bottom[x1] < viewheight - 1 then
         Inc(vis.bottom[x1]);
     end;
-    
+
     top := ceilingclip[x1] + 1;
     bottom := floorclip[x1] - 1;
 

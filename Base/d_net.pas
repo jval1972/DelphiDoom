@@ -631,18 +631,18 @@ begin
         nomonsters := (netbuffer.retransmitfrom and $20) > 0;
         respawnparm := (netbuffer.retransmitfrom and $10) > 0;
         startmap := netbuffer.starttic{$IFNDEF STRIFE} and $3f{$ENDIF};
-	{$IFNDEF STRIFE}
+        {$IFNDEF STRIFE}
         startepisode := _SHR(netbuffer.starttic, 6);
-	{$ENDIF}
+        {$ENDIF}
 
         allowplayerjumps := netbuffer.flags and 1 <> 0;
         spawnrandommonsters := netbuffer.flags and 2 <> 0;
-	{$IFDEF DOOM_OR_STRIFE}
+        {$IFDEF DOOM_OR_STRIFE}
         allowterrainsplashes := netbuffer.flags and 4 <> 0;
-	{$ENDIF}
-	{$IFDEF DOOM}
+        {$ENDIF}
+        {$IFDEF DOOM}
         majorbossdeathendsdoom1level := netbuffer.flags and 8 <> 0;
-	{$ENDIF}
+        {$ENDIF}
 
         SUC_FinishedNetwork;
         exit;
@@ -674,14 +674,14 @@ begin
           netbuffer.flags := netbuffer.flags or 1;
         if spawnrandommonsters then
           netbuffer.flags := netbuffer.flags or 2;
-	{$IFDEF DOOM_OR_STRIFE}
+        {$IFDEF DOOM_OR_STRIFE}
         if allowterrainsplashes then
           netbuffer.flags := netbuffer.flags or 4;
-	{$ENDIF}
-	{$IFDEF DOOM}
+        {$ENDIF}
+        {$IFDEF DOOM}
         if majorbossdeathendsdoom1level then
           netbuffer.flags := netbuffer.flags or 8;
-	{$ENDIF}
+        {$ENDIF}
 
         HSendPacket(i, NCMD_SETUP);
       end;
@@ -882,7 +882,7 @@ begin
     if not demoplayback and not demorecording then
       if I_GetTime div ticdup - entertic >= 10 then
       begin
-	      {$IFNDEF HEXEN}
+        {$IFNDEF HEXEN}
         E_Ticker;
         {$ENDIF}
         M_Ticker;

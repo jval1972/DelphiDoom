@@ -292,13 +292,13 @@ begin
       if toptexture <> 0 then
       begin
         // top wall
-	{$IFDEF USEDOUBLE}
+  {$IFDEF USEDOUBLE}
         mid := Trunc(pixhigh_dbl / HEIGHTUNIT);
         pixhigh_dbl := pixhigh_dbl + pixhighstep_dbl;
-	{$ELSE}
+  {$ELSE}
         mid := pixhigh shr HEIGHTBITS;
         pixhigh := pixhigh + pixhighstep;
-	{$ENDIF}
+  {$ENDIF}
 
         if mid >= pfloorclip^ then
           mid := pfloorclip^ - 1;
@@ -426,13 +426,13 @@ begin
       if bottomtexture <> 0 then
       begin
         // bottom wall
-	{$IFDEF USEDOUBLE}
+  {$IFDEF USEDOUBLE}
         mid := Trunc((pixlow_dbl + HEIGHTUNIT - 1) / HEIGHTUNIT);
         pixlow_dbl := pixlow_dbl + pixlowstep_dbl;
-	{$ELSE}
+  {$ELSE}
         mid := (pixlow + HEIGHTUNIT - 1) shr HEIGHTBITS;
         pixlow := pixlow + pixlowstep;
-	{$ENDIF}
+  {$ENDIF}
 
         // no space above wall?
         if mid <= pceilingclip^ then

@@ -410,7 +410,7 @@ const
   SWAITTICS = 4;
 
 // how many diff. types of anims
-  MAXSLIDEDOORS =	8;       // villsa [STRIFE] changed from 5 to 8
+  MAXSLIDEDOORS = 8;       // villsa [STRIFE] changed from 5 to 8
 
 type
 //

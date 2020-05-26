@@ -1301,26 +1301,26 @@ begin
 
   for i := 0 to MAXSLIDEDOORS - 1 do
   begin
-	  slideFrames[i].frames[0] := R_CheckTextureNumForName(DEH_GetString(slideFrameNames[i].frame1));
+    slideFrames[i].frames[0] := R_CheckTextureNumForName(DEH_GetString(slideFrameNames[i].frame1));
     if slideFrames[i].frames[0] = -1 then
     begin
-  	  slideFrames[i].frames[1] := -1;
-  	  slideFrames[i].frames[2] := -1;
-  	  slideFrames[i].frames[3] := -1;
-  	  slideFrames[i].frames[4] := -1;
-  	  slideFrames[i].frames[5] := -1;
-  	  slideFrames[i].frames[6] := -1;
-  	  slideFrames[i].frames[7] := -1;
+      slideFrames[i].frames[1] := -1;
+      slideFrames[i].frames[2] := -1;
+      slideFrames[i].frames[3] := -1;
+      slideFrames[i].frames[4] := -1;
+      slideFrames[i].frames[5] := -1;
+      slideFrames[i].frames[6] := -1;
+      slideFrames[i].frames[7] := -1;
     end
     else
     begin
-  	  slideFrames[i].frames[1] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame2));
-  	  slideFrames[i].frames[2] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame3));
-  	  slideFrames[i].frames[3] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame4));
-  	  slideFrames[i].frames[4] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame5));
-  	  slideFrames[i].frames[5] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame6));
-  	  slideFrames[i].frames[6] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame7));
-  	  slideFrames[i].frames[7] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame8));
+      slideFrames[i].frames[1] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame2));
+      slideFrames[i].frames[2] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame3));
+      slideFrames[i].frames[3] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame4));
+      slideFrames[i].frames[4] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame5));
+      slideFrames[i].frames[5] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame6));
+      slideFrames[i].frames[6] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame7));
+      slideFrames[i].frames[7] := R_TextureNumForName(DEH_GetString(slideFrameNames[i].frame8));
     end;
   end;
 end;
@@ -1339,9 +1339,9 @@ var
   i: integer;
 begin
   for i := 0 to MAXSLIDEDOORS - 1 do
-	  if sides[line.sidenum[0]].toptexture = slideFrames[i].frames[0] then
+    if sides[line.sidenum[0]].toptexture = slideFrames[i].frames[0] then
     begin
-	    result := i;
+      result := i;
       exit;
     end;
 

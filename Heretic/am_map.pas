@@ -1647,7 +1647,7 @@ begin
         AM_drawLineCharacter(
           @keysquare, NUMKEYSQUARELINES,
           0, ANGLE_MAX - plra, GREENKEYCOLOR, x, y)
-			else if t._type = Ord(MT_BKYY) then
+      else if t._type = Ord(MT_BKYY) then
         AM_drawLineCharacter(
           @keysquare, NUMKEYSQUARELINES,
           0, ANGLE_MAX - plra, BLUEKEYCOLOR, x, y)

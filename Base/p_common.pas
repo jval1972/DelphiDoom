@@ -3163,8 +3163,8 @@ begin
     cosa := finecosine[an];
     vx1 := vx;
     vy1 := vy;
-		vx := FixedMul(vx1, cosa) - FixedMul(vy1, sina);
-		vy := FixedMul(vx1, sina) + FixedMul(vy1, cosa);
+    vx := FixedMul(vx1, cosa) - FixedMul(vy1, sina);
+    vy := FixedMul(vx1, sina) + FixedMul(vy1, cosa);
   end;
 
   if flags and 2 <> 0 then

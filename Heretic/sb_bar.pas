@@ -327,11 +327,11 @@ end;
 
 procedure SB_CmdCheatSoundFunc;
 begin
-	DebugSound := not DebugSound;
-	if DebugSound then
-		P_SetMessage(CPlayer, TXT_CHEATSOUNDON, true)
-	else
-		P_SetMessage(CPlayer, TXT_CHEATSOUNDOFF, true);
+  DebugSound := not DebugSound;
+  if DebugSound then
+    P_SetMessage(CPlayer, TXT_CHEATSOUNDON, true)
+  else
+    P_SetMessage(CPlayer, TXT_CHEATSOUNDOFF, true);
 end;
 
 procedure SB_GiveArtifacts(arti: artitype_t; num: integer);

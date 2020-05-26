@@ -1143,7 +1143,7 @@ begin
 
   // calculate scale at both ends and step
   rw_scale := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start], overflow);
-  if overflow then
+  if overflow or (precisescalefromglobalangle and (pds.midsec <> nil) and (rw_scale > 64 * FRACUNIT)) then
   begin
     R_StoreWallRange_DBL(pds, start, stop);
     exit;
@@ -1154,7 +1154,7 @@ begin
   if stop > start then
   begin
     pds.scale2 := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[stop], overflow);
-    if overflow then
+    if overflow or (precisescalefromglobalangle and (pds.midsec <> nil) and (pds.scale2 > 64 * FRACUNIT)) then
     begin
       R_StoreWallRange_DBL(pds, start, stop);
       exit;

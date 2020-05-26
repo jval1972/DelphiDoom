@@ -248,10 +248,10 @@ begin
       if toptexture <> 0 then
       begin
         // top wall
-	{$IFDEF USEDOUBLE}
+        {$IFDEF USEDOUBLE}
         mid := Trunc(pixhigh_dbl / HEIGHTUNIT);
         pixhigh_dbl := pixhigh_dbl + pixhighstep_dbl;
-	{$ELSE}
+        {$ELSE}
         mid := pixhigh shr HEIGHTBITS;
         pixhigh := pixhigh + pixhighstep;
         {$ENDIF}
@@ -351,7 +351,7 @@ begin
     else if yl < 1 then
       pceilingclip^ := -1
     else
-{$ENDIF}    
+{$ENDIF}
           pceilingclip^ := yl - 1;
           {$IFDEF DEBUG}
           R_CheckClipItem(pceilingclip);
@@ -382,10 +382,10 @@ begin
       if bottomtexture <> 0 then
       begin
         // bottom wall
-	{$IFDEF USEDOUBLE}
+        {$IFDEF USEDOUBLE}
         mid := Trunc((pixlow_dbl + HEIGHTUNIT - 1) / HEIGHTUNIT);
         pixlow_dbl := pixlow_dbl + pixlowstep_dbl;
-	{$ELSE}
+        {$ELSE}
         mid := (pixlow + HEIGHTUNIT - 1) shr HEIGHTBITS;
         pixlow := pixlow + pixlowstep;
         {$ENDIF}

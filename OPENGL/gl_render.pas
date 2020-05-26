@@ -371,8 +371,8 @@ begin
   begin
     gl_paletted_texture := ext_list.IndexOf('GL_EXT_PALETTED_TEXTURE') > -1;
     gld_ColorTableEXT := lp3DFXFUNC(wglGetProcAddress('glColorTableEXT'));
-   if not Assigned(gld_ColorTableEXT) then
-  	  gl_paletted_texture := false
+    if not Assigned(gld_ColorTableEXT) then
+      gl_paletted_texture := false
     else
       printf('using GL_EXT_paletted_texture'#13#10);
   end;

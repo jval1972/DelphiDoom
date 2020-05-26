@@ -85,7 +85,7 @@ begin
     exit;
   end;
 
-	if thing.flags2 and MF2_NOTELEPORT <> 0 then
+  if thing.flags2 and MF2_NOTELEPORT <> 0 then
   begin
     result := false;
     exit;
