@@ -479,7 +479,7 @@ begin
         done := true;
       end;
     end;
-    if (not ignore) and (fd - ad.startFrameDef < 2) then
+    if not ignore and (fd - ad.startFrameDef < 2) then
       I_Error('P_InitFTAnims(): AnimDef has framecount < 2.');
     if not ignore then
     begin
