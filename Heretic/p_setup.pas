@@ -54,6 +54,8 @@ procedure P_SetupLevel(episode, map, playermask: integer; skill: skill_t);
 // Called by startup code.
 procedure P_Init;
 
+procedure P_ShutDown;
+
 var
 // origin of block map
   bmaporgx: fixed_t;
@@ -172,6 +174,7 @@ uses
   p_slopes,   // JVAL: Slopes
   p_affectees,
   p_musinfo,
+  p_animdefs,
   ps_main,    // JVAL: Script Events
   r_data,
   r_things,
@@ -1357,6 +1360,8 @@ begin
   P_InitAmbientSound;
   P_InitMonsters;
   P_OpenWeapons;
+  if devparm then
+    printf('P_LoadThings()'#13#10);
   P_LoadThings(lumpnum + Ord(ML_THINGS));
   P_CloseWeapons;
 
@@ -1376,9 +1381,13 @@ begin
   iquetail := 0;
 
   // set up world state
+  if devparm then
+    printf('P_SpawnSpecials()'#13#10);
   P_SpawnSpecials;
 
   {$IFNDEF OPENGL}
+  if devparm then
+    printf('R_Clear32Cache()'#13#10);
   R_Clear32Cache;
   {$ENDIF}
   // preload graphics
@@ -1386,11 +1395,17 @@ begin
   // Precache if we have external textures
   if precache or externalpakspresent then
   begin
+    if devparm then
+      printf('R_PrecacheLevel()'#13#10);
     R_PrecacheLevel;
+    if devparm then
+      printf('S_PrecacheSounds()'#13#10);
     S_PrecacheSounds;
   end;
 
 {$IFDEF OPENGL}
+  if devparm then
+    printf('gld_PreprocessLevel()'#13#10);
   gld_PreprocessLevel; // JVAL OPENGL
 {$ENDIF}
 
@@ -1404,10 +1419,17 @@ procedure P_Init;
 begin
   P_InitSwitchList;
   P_InitPicAnims;
+  P_InitAnimations;
+  P_InitFTAnims; // Init flat and texture animations
   R_InitSprites(sprnames);
   P_InitMusInfo;
   C_AddCmd('suicide', @P_CmdSuicide);
   C_AddCmd('doadjustmissingtextures', @P_AdjustMissingTextures);
+end;
+
+procedure P_ShutDown;
+begin
+  P_ShutDownAnimations;
 end;
 
 end.
