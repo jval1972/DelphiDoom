@@ -70,6 +70,7 @@ uses
   d_player,
   g_game,
   m_menu,
+  p_animdefs,
   p_user,
   p_spec,
   p_mobj,
@@ -211,6 +212,7 @@ begin
   if not isgamefreezed then
   begin
     P_UpdateSpecials;
+    P_AnimateSurfaces;
     P_RespawnSpecials;
 
     // JVAL: Script Events

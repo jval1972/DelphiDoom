@@ -335,7 +335,8 @@ uses
   sc_evaluate in 'Base\sc_evaluate.pas',
   p_musinfo in 'Base\p_musinfo.pas',
   p_levelinfo in 'Base\p_levelinfo.pas',
-  deh_base in 'Base\deh_base.pas';
+  deh_base in 'Base\deh_base.pas',
+  p_animdefs in 'Base\p_animdefs.pas';
 
 var
   Saved8087CW: Word;

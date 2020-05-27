@@ -2647,6 +2647,8 @@ var
 begin
   printf('C_ShutDown: Shut down console.'#13#10);
   C_ShutDown;
+  printf('P_ShutDown: Shut down Playloop state.'#13#10);
+  P_ShutDown;
   printf('R_ShutDown: Shut down DOOM refresh daemon.');
   R_ShutDown;
   printf('Info_ShutDownRandom: Shut down randomizers.'#13#10);
