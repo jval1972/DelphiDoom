@@ -42,11 +42,12 @@ begin
   Writeln('  scriptname.ddscript  : The input script filename');
   Writeln('  scriptname.ddout     : The output compiled code filename');
   Writeln('Additional parameters:');
-  Writeln('  [-game]              : [DOOM/HERETIC/HEXEN/STRIFE]');
+  Writeln('  [-game]              : [DOOM/HERETIC/HEXEN/STRIFE/RADIX]');
   Writeln('  [-doom]              : Uses DOOM compiler');
   Writeln('  [-heretic]           : Uses HERETIC compiler');
   Writeln('  [-hexen]             : Uses HEXEN compiler');
   Writeln('  [-strife]            : Uses STRIFE compiler');
+  Writeln('  [-radix]             : Uses RADIX compiler');
   Writeln('  [-nooutput]          : do not generate output file');
   Writeln('  [-wait]              : wait for key when done');
   forcewait := True;
@@ -113,7 +114,8 @@ begin
       if (game <> 'heretic') then
         if (game <> 'hexen') then
           if (game <> 'strife') then
-            Writeln('WARNING: Unknown game "' + game + '"');
+            if (game <> 'radix') then
+              Writeln('WARNING: Unknown game "' + game + '"');
   end;
 
   p := CheckParam('-doom');
@@ -131,6 +133,10 @@ begin
   p := CheckParam('-strife');
   if p > 0 then
     game := 'strife';
+
+  p := CheckParam('-radix');
+  if p > 0 then
+    game := 'radix';
 
   code := '';
   try
@@ -188,5 +194,4 @@ begin
 end;
 
 end.
-
 

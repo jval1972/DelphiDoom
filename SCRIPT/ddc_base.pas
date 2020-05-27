@@ -34,7 +34,7 @@ uses
   Classes;
 
 const
-  DDCVERSION = 101;
+  DDCVERSION = 102;
 
 function dll_compile(const game: string; const code: string; var pcode: string; var msgs: string): Boolean;
 
