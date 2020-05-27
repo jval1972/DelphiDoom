@@ -363,7 +363,8 @@ uses
   p_levelinfo in 'Base\p_levelinfo.pas',
   deh_base in 'Base\deh_base.pas',
   r_sprite in 'Base\r_sprite.pas',
-  r_tallcolumn in 'Base\r_tallcolumn.pas';
+  r_tallcolumn in 'Base\r_tallcolumn.pas',
+  p_animdefs in 'Base\p_animdefs.pas';
 
 var
   Saved8087CW: Word;
