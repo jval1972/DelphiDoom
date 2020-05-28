@@ -3321,7 +3321,24 @@ begin
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].flags := sectors[s].flags or SF_SLIPSLOPEDESCENT;
         end;
-
+      291:  // JVAL: 20200521 - Offset floor texture to vector
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+          begin
+            sectors[s].floor_xoffs := lines[i].dx;
+            sectors[s].floor_yoffs := lines[i].dy;
+          end;
+        end;
+      292:  // JVAL: 20200521 - Offset ceiling texture to vector
+        begin
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+          begin
+            sectors[s].ceiling_xoffs := lines[i].dx;
+            sectors[s].ceiling_yoffs := lines[i].dy;
+          end;
+        end;
     end;
 end;
 
