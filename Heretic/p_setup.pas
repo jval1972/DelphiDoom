@@ -871,20 +871,25 @@ begin
     ld.sidenum[0] := smallintwarp1(mld.sidenum[0]);
     ld.sidenum[1] := smallintwarp1(mld.sidenum[1]);
 
-    if ld.sidenum[0] <> -1 then
+    if (ld.sidenum[0] >= 0) and (ld.sidenum[0] < numsides) then
       ld.frontsector := sides[ld.sidenum[0]].sector
     else
     begin
       if devparm then
-        printf('P_LoadLineDefs(): Line %d does not have front sidedef'#13#10, [i]);
+        printf('P_LoadLineDefs(): Line %d does has invalid front sidedef %d'#13#10, [i, ld.sidenum[0]]);
       ld.sidenum[0] := 0;
       ld.frontsector := sides[0].sector;
     end;
 
-    if ld.sidenum[1] <> -1 then
+    if (ld.sidenum[1] >= 0) and (ld.sidenum[1] < numsides) then
       ld.backsector := sides[ld.sidenum[1]].sector
     else
+    begin
       ld.backsector := nil;
+      if devparm then
+        if ld.sidenum[1] >= numsides then
+          printf('P_LoadLineDefs(): Line %d does has invalid back sidedef %d'#13#10, [i, ld.sidenum[0]]);
+    end;
 
     ld.renderflags := 0;
 
@@ -1390,6 +1395,7 @@ begin
     printf('R_Clear32Cache()'#13#10);
   R_Clear32Cache;
   {$ENDIF}
+
   // preload graphics
   // JVAL
   // Precache if we have external textures
@@ -1426,6 +1432,12 @@ begin
   C_AddCmd('suicide', @P_CmdSuicide);
   C_AddCmd('doadjustmissingtextures', @P_AdjustMissingTextures);
 end;
+
+//==========================================================================
+//
+// P_ShutDown
+//
+//==========================================================================
 
 procedure P_ShutDown;
 begin

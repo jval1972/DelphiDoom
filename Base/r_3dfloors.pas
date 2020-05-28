@@ -778,7 +778,7 @@ begin
       inc(lightnum[1]);
     end;
   end;
-  
+
   if lightnum[0] < 0 then
     lightnum[0] := 0
   else if lightnum[0] >= LIGHTLEVELS then

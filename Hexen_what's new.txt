@@ -2,6 +2,7 @@ Corrections to ACTORDEF export procedure.
 Run earthquake effect code only when needed.
 Fixes to 3d floors drawing in software rendering mode.
 RandomRange() function in PascalScript.
+Prevent crash in lines with invalid sides.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------
