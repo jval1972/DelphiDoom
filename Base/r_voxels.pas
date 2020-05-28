@@ -2044,6 +2044,8 @@ var
   fdrawsegs: Pdrawsegsbuffer_t;
 begin
   size := vis.vx2 - vis.vx1 + 1;
+  if size <= 0 then
+    exit;
   memsetsi(@clipbot[vis.vx1], -2, size);
   memsetsi(@cliptop[vis.vx1], -2, size);
 
