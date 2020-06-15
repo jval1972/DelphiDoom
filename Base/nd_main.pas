@@ -4270,7 +4270,7 @@ begin
   end;
 
   printf(#13#10'  gld_BuildNodes: Building GL-Friendly nodes for %s'#13#10, [wadfile]);
-  result := I_ExecProgram(prog + ' ' + wadfile + ' -q -xp -o ' + gwafile {$IFDEF HEXEN} + ' -hexen'{$ENDIF}, false);
+  result := I_ExecProgram(prog + ' "' + wadfile + '" -q -xp -o "' + gwafile + '"' {$IFDEF HEXEN} + ' -hexen'{$ENDIF}, false);
   printf(#13#10);
   if not result then
     I_Warning('gld_BuildNodes(): Failed to build GL-Friendly nodes for %s'#13#10, [wadfile]);
@@ -5080,7 +5080,7 @@ begin
 
     printf(#13#10'  ND_NodesCheck: Building GL-Friendly nodes for %s'#13#10, [lumpname]);
 
-    if not I_ExecProgram(prog + ' ' + outfilemap + ' -o ' + wadfilemap {$IFDEF HEXEN} + ' -hexen'{$ENDIF}, false) then
+    if not I_ExecProgram(prog + ' "' + outfilemap + '" -o ' + wadfilemap + '"' {$IFDEF HEXEN} + ' -hexen'{$ENDIF}, false) then
     begin
       printf(#13#10);
       I_Warning('ND_NodesCheck(): Failed to build GL-Friendly nodes for %s'#13#10, [outfilemap]);

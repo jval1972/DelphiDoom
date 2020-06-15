@@ -60,7 +60,7 @@ uses
 function R_MakeClipperPoint(v: Pvertex_t): TIntPoint; overload;
 begin
   result.X := (v.x - viewx) div POINTUNIT;
-  result.Y := (v.y - viewy)  div POINTUNIT;
+  result.Y := (v.y - viewy) div POINTUNIT;
 end;
 
 function R_MakeClipperPoint(const x1, y1: fixed_t): TIntPoint; overload;
