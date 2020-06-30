@@ -72,6 +72,7 @@ uses
   d_delphi,
   d_main,
   i_system,
+  i_music,
   i_io,
   Messages,
   MMSystem;
@@ -865,7 +866,7 @@ begin
   m_bInsertTempo := False;
   m_bBuffersPrepared := False;
   m_nCurrentBuffer := 0;
-  m_uMIDIDeviceID := MIDI_MAPPER;
+  m_uMIDIDeviceID := I_SelectDefaultMidiDevice;
   m_nEmptyBuffers := 0;
   m_bPaused := False;
   m_uCallbackStatus := 0;

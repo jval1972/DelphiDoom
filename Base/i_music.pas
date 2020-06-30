@@ -76,6 +76,8 @@ type
 var
   miditempo: integer = 160;  
 
+function I_SelectDefaultMidiDevice: LongWord;
+
 implementation
 
 uses
@@ -365,6 +367,16 @@ begin
   end;
 end;
 
+function I_SelectDefaultMidiDevice: LongWord;
+var
+  p: integer;
+begin
+  result := MIDI_MAPPER;
+  p := M_CheckParm('-mididevice');
+  if (p > 0) and (p < myargc) then
+    result := atoui(myargv[p + 1], MIDI_MAPPER);
+end;
+
 //
 // MUSIC API.
 //
@@ -381,7 +393,7 @@ begin
     exit;
 
   ZeroMemory(@midicaps, SizeOf(midicaps));
-  MidiDevice := MIDI_MAPPER;
+  MidiDevice := I_SelectDefaultMidiDevice;
 
   // First try midi mapper
   rc := midiOutGetDevCaps(MidiDevice, @midicaps, SizeOf(midicaps));
