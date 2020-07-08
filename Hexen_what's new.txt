@@ -5,6 +5,7 @@ RandomRange() function in PascalScript.
 Prevent crash in lines with invalid sides.
 Corrected issues with voxel clipping.
 Fixed problems when installed in a directory that it's name contained spaces.
+Added -mididevice command line parameter.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------

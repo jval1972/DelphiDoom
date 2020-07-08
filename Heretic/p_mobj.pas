@@ -1563,10 +1563,13 @@ begin
   if th.tics < 1 then
     th.tics := 1;
 
-  if (damage <= 12) and (damage >= 9) then
-    P_SetMobjState(th, S_BLOOD2)
-  else if damage < 9 then
-    P_SetMobjState(th, S_BLOOD3);
+  if th.flags3_ex and MF3_EX_BLOODIGNOREDAMAGE = 0 then
+  begin
+    if (damage <= 12) and (damage >= 9) then
+      P_SetMobjState(th, S_BLOOD2)
+    else if damage < 9 then
+      P_SetMobjState(th, S_BLOOD3);
+  end;
 end;
 
 //---------------------------------------------------------------------------

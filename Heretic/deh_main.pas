@@ -1872,6 +1872,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_WALLBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_NOMAXMOVE');
   mobj_flags3_ex.Add('MF3_EX_NOCRASH');
+  mobj_flags3_ex.Add('MF3_EX_BLOODIGNOREDAMAGE');
 
   mobj_flags4_ex := TDTextList.Create;
 

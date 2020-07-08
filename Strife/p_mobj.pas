@@ -1494,13 +1494,16 @@ begin
   th := P_SpawnMobj(x, y, z, Ord(MT_BLOOD_DEATH));
   th.momz := FRACUNIT * 2;
 
-  // villsa [STRIFE] different checks for damage range
-  if (damage >= 10) and (damage <= 13) then
-    P_SetMobjState(th, S_BLOD_00)
-  else if (damage >= 7) and (damage < 10) then
-    P_SetMobjState(th, S_BLOD_01)
-  else if damage < 7 then
-    P_SetMobjState(th, S_BLOD_02);
+  if th.flags3_ex and MF3_EX_BLOODIGNOREDAMAGE = 0 then
+  begin
+    // villsa [STRIFE] different checks for damage range
+    if (damage >= 10) and (damage <= 13) then
+      P_SetMobjState(th, S_BLOD_00)
+    else if (damage >= 7) and (damage < 10) then
+      P_SetMobjState(th, S_BLOD_01)
+    else if damage < 7 then
+      P_SetMobjState(th, S_BLOD_02);
+  end;
 end;
 
 procedure P_SpawnGreenBlood(x, y, z: fixed_t; damage: integer);
@@ -1515,10 +1518,13 @@ begin
   if th.tics < 1 then
     th.tics := 1;
 
-  if (damage <= 12) and (damage >= 9) then
-    P_SetMobjState(th, S_GREENBLOOD2)
-  else if damage < 9 then
-    P_SetMobjState(th, S_GREENBLOOD3);
+  if th.flags3_ex and MF3_EX_BLOODIGNOREDAMAGE = 0 then
+  begin
+    if (damage <= 12) and (damage >= 9) then
+      P_SetMobjState(th, S_GREENBLOOD2)
+    else if damage < 9 then
+      P_SetMobjState(th, S_GREENBLOOD3);
+  end;
 end;
 
 procedure P_SpawnBlueBlood(x, y, z: fixed_t; damage: integer);
@@ -1533,10 +1539,13 @@ begin
   if th.tics < 1 then
     th.tics := 1;
 
-  if (damage <= 12) and (damage >= 9) then
-    P_SetMobjState(th, S_BLUEBLOOD2)
-  else if damage < 9 then
-    P_SetMobjState(th, S_BLUEBLOOD3);
+  if th.flags3_ex and MF3_EX_BLOODIGNOREDAMAGE = 0 then
+  begin
+    if (damage <= 12) and (damage >= 9) then
+      P_SetMobjState(th, S_BLUEBLOOD2)
+    else if damage < 9 then
+      P_SetMobjState(th, S_BLUEBLOOD3);
+  end;
 end;
 
 

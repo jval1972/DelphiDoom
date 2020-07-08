@@ -352,6 +352,8 @@ const
   MF3_EX_NOMAXMOVE = 8;
   // No Crush
   MF3_EX_NOCRASH = 16;
+  // Blood do not check damage
+  MF3_EX_BLOODIGNOREDAMAGE = 32;
 
 type
 // Map Object definition.
