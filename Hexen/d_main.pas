@@ -194,6 +194,7 @@ uses
   s_sound,
   s_sndseq,
   sc_actordef,
+  sc_states,
   sv_save,
   t_main,
   v_data,
@@ -1907,7 +1908,9 @@ begin
   begin
     printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
     SC_ParseActordefLumps;
-  end;
+  end
+  else
+    SC_DefaultStatedefLump;
 
   SUC_Progress(45);
 

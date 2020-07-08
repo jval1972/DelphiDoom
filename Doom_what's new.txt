@@ -9,6 +9,7 @@ Corrected issues with voxel clipping.
 Fixed problems when installed in a directory that it's name contained spaces.
 Added -mididevice command line parameter.
 Added MF3_EX_BLOODIGNOREDAMAGE mobj flag.
+Dehacked export saves the state name as comment.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------

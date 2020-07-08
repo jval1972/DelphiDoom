@@ -46,6 +46,8 @@ var
 
 procedure SC_ParseStatedefLump;
 
+procedure SC_DefaultStatedefLump;
+
 function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;
 
 function P_GetStateFromNameWithOffsetCheck(const actor: Pmobj_t; const s: string): integer;
@@ -64,11 +66,18 @@ uses
 const
   STATEDEFLUMPNAME = 'STATEDEF';
 
+procedure SC_DefaultStatedefLump;
+var
+  st: statenum_t;
+begin
+  for st := statenum_t(0) to statenum_t(Ord(DO_NUMSTATES) - 1) do
+    statenames.Add(strupper(GetENumName(TypeInfo(statenum_t), Ord(st))));
+end;
+
 procedure SC_ParseStatedefLump;
 var
   i: integer;
   sc: TScriptEngine;
-  st: statenum_t;
   found: boolean;
 begin
   found := false;
@@ -85,8 +94,7 @@ begin
 
   // JVAL: Patch for stand alone script compiler
   if not found then
-    for st := statenum_t(0) to statenum_t(Ord(DO_NUMSTATES) - 1) do
-      statenames.Add(strupper(GetENumName(TypeInfo(statenum_t), Ord(st))));
+    SC_DefaultStatedefLump;
 end;
 
 function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;

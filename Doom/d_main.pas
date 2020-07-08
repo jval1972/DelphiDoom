@@ -189,6 +189,7 @@ uses
   sounds,
   s_sound,
   sc_actordef,
+  sc_states,
   t_main,
   v_data,
   v_video,
@@ -2191,7 +2192,9 @@ begin
   begin
     printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
     SC_ParseActordefLumps;
-  end;
+  end
+  else
+    SC_DefaultStatedefLump;
 
   {$IFNDEF FPC}
   SUC_Progress(45);
