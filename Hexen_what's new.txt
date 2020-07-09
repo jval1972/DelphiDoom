@@ -8,6 +8,7 @@ Fixed problems when installed in a directory that it's name contained spaces.
 Added -mididevice command line parameter.
 Dehacked export saves the state name as comment.
 Dehacked "NEXT FRAME" keyword will accept global state names as value.
+Custom ACTORDEF labels can be accessed with [mobjname]::[label] by dehacked fields and other actions involving state names.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------

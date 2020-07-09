@@ -10,6 +10,7 @@ Added -mididevice command line parameter.
 Added MF3_EX_BLOODIGNOREDAMAGE mobj flag.
 Dehacked export saves the state name as comment.
 Dehacked "NEXT FRAME" keyword will accept global state names as value.
+Custom ACTORDEF labels can be accessed with [mobjname]::[label] by dehacked fields and other actions involving state names.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------

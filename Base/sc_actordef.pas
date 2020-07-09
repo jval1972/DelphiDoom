@@ -1372,7 +1372,7 @@ var
       for cnt := 0 to numstates - 1 do
       begin
         if m_states[cnt].alias <> '' then
-          statenames.Add(stateprefix + itoa(cnt) + ', ' + m_states[cnt].alias)
+          statenames.Add(stateprefix + itoa(cnt) + ', ' + m_states[cnt].alias + ', ' + mobj.name + '::' + m_states[cnt].alias)
         else
           statenames.Add(stateprefix + itoa(cnt));
         AddRes('Frame NewFrame ' + itoa(cnt));
