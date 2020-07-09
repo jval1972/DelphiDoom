@@ -645,6 +645,8 @@ begin
                 state_val := atoi(secondword(token2));
                 states[state_no].nextstate := statenum_t(deh_initialstates + state_val)
               end
+              else if statenames.IndexOfToken(token2) >= 0 then
+                states[state_no].nextstate := statenum_t(statenames.IndexOfToken(token2))
               else if newstate then
                 states[state_no].nextstate := statenum_t(deh_initialstates + state_val)
               else
