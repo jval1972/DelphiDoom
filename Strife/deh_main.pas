@@ -600,12 +600,17 @@ begin
       else
       begin
         state_no := atoi(stmp, -1);
-        if (state_no < 0) or (state_no >= numstates) then
+        if state_no < 0 then
+          state_no := statenames.IndexOfToken(token2);
+        if state_no < 0 then
         begin
-          I_Warning('DEH_Parse(): Wrong state number = %s'#13#10, [stmp]);
+          I_Warning('DEH_Parse(): Wrong state number = %s'#13#10, [token2]);
           continue;
         end;
+        while numstates <= state_no do
+          Info_GetNewState;
       end;
+      SC_FillStateNames;
 
       while true do
       begin

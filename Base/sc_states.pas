@@ -52,6 +52,8 @@ function P_GetStateFromName(const actor: Pmobj_t; const s: string): integer;
 
 function P_GetStateFromNameWithOffsetCheck(const actor: Pmobj_t; const s: string): integer;
 
+procedure SC_FillStateNames;
+
 implementation
 
 uses
@@ -70,6 +72,8 @@ procedure SC_DefaultStatedefLump;
 var
   st: statenum_t;
 begin
+  if statenames = nil then
+    statenames := TTokenList.Create;
   for st := statenum_t(0) to statenum_t(Ord(DO_NUMSTATES) - 1) do
     statenames.Add(strupper(GetENumName(TypeInfo(statenum_t), Ord(st))));
 end;
@@ -79,6 +83,23 @@ var
   i: integer;
   sc: TScriptEngine;
   found: boolean;
+  x: integer;
+
+  procedure _newstatealias(const id: integer; const alias: string);
+  var
+    tid: integer;
+  begin
+    if statenames.Count > id then
+    begin
+      if strupper(statenames.Strings[id]) = strupper(alias) then
+        exit;
+      tid := statenames.IndexOfToken(alias);
+      if tid = id then
+        exit;
+    end;
+    statenames.Add(alias);
+  end;
+
 begin
   found := false;
   for i := 0 to W_NumLumps - 1 do
@@ -86,8 +107,13 @@ begin
     begin
       found := true;
       sc := TScriptEngine.Create(W_TextLumpNum(i));
+      x := 0;
       while sc.GetString do
-        statenames.Add(strupper(sc._String));
+      begin
+        _newstatealias(x, strupper(sc._String));
+        inc(x);
+      end;
+//        statenames.Add(strupper(sc._String));
       sc.Free;
       break;
     end;
@@ -250,6 +276,12 @@ begin
     Result := ((integer(actor.state) - integer(states)) div SizeOf(state_t)) + atoi(s)
   else
     Result := P_GetStateFromName(actor, s);
+end;
+
+procedure SC_FillStateNames;
+begin
+  while statenames.Count < numstates do
+    statenames.Add('S_' + itoa(statenames.Count));
 end;
 
 end.

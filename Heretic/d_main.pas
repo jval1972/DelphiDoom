@@ -1862,6 +1862,7 @@ begin
 
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
   DEH_Init;
+  SC_DefaultStatedefLump;
 
   if M_CheckParm('-internalgamedef') = 0 then
     if not DEH_ParseLumpName('GAMEDEF') then
@@ -1887,9 +1888,7 @@ begin
   begin
     printf('SC_ParseActordefLumps: Parsing ACTORDEF lumps.'#13#10);
     SC_ParseActordefLumps;
-  end
-  else
-    SC_DefaultStatedefLump;
+  end;
 
   SUC_Progress(45);
 

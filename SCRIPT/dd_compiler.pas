@@ -259,6 +259,7 @@ begin
   DecimalSeparator := '.';
 
   PS_InitProcLists;
+  SC_DefaultStatedefLump;
   DEH_Init;
   SC_Init;
   SC_ParseStatedefLump;
