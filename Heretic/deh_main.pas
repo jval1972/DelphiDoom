@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 291;
+  DEHNUMACTIONS = 292;
 
 type
   deh_action_t = record
@@ -2774,14 +2774,17 @@ begin
   deh_actions[287].name := strupper('SetWallBounce');
   {$IFDEF DLL}deh_actions[287].decl := 'A_SetWallBounce()';{$ENDIF}
   deh_actions[288].action.acp1 := @A_UnSetWallBounce;
-  deh_actions[288].name := strupper('A_UnSetWallBounce');
+  deh_actions[288].name := strupper('UnSetWallBounce');
   {$IFDEF DLL}deh_actions[288].decl := 'A_UnSetWallBounce()';{$ENDIF}
   deh_actions[289].action.acp1 := @A_GlowLight;
-  deh_actions[289].name := strupper('A_GlowLight');
+  deh_actions[289].name := strupper('GlowLight');
   {$IFDEF DLL}deh_actions[289].decl := 'A_GlowLight(color: string)';{$ENDIF}
   deh_actions[290].action.acp1 := @A_TraceNearestPlayer;
-  deh_actions[290].name := strupper('A_TraceNearestPlayer');
+  deh_actions[290].name := strupper('TraceNearestPlayer');
   {$IFDEF DLL}deh_actions[290].decl := 'A_TraceNearestPlayer(pct: integer, [maxturn: angle_t])';{$ENDIF}
+  deh_actions[291].action.acp1 := @A_ChangeFlag;
+  deh_actions[291].name := strupper('ChangeFlag');
+  {$IFDEF DLL}deh_actions[291].decl := 'A_ChangeFlag(flag: string, onoff: boolean)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

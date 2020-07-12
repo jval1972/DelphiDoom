@@ -321,6 +321,8 @@ procedure A_GlowLight(actor: Pmobj_t);
 
 procedure A_TraceNearestPlayer(actor: Pmobj_t);
 
+procedure A_ChangeFlag(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3388,6 +3390,101 @@ begin
     actor.momz := actor.momz - FRACUNIT div 8
   else
     actor.momz := actor.momz + FRACUNIT div 8;
+end;
+
+procedure A_ChangeFlag(actor: Pmobj_t);
+var
+  sflag: string;
+  change: boolean;
+  flg: LongWord;
+  idx: integer;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  sflag := strupper(actor.state.params.StrVal[0]);
+  change := actor.state.params.BoolVal[1];
+
+  idx := mobj_flags.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags.IndexOf('MF_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags := actor.flags or flg
+    else
+      actor.flags := actor.flags and not flg;
+    exit;
+  end;
+
+  {$IFDEF HERETIC_OR_HEXEN}
+  idx := mobj_flags2.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags2.IndexOf('MF2_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags2 := actor.flags2 or flg
+    else
+      actor.flags2 := actor.flags2 and not flg;
+    exit;
+  end;
+  {$ENDIF}
+
+  idx := mobj_flags_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags_ex.IndexOf('MF_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags_ex := actor.flags_ex or flg
+    else
+      actor.flags_ex := actor.flags_ex and not flg;
+    exit;
+  end;
+
+  idx := mobj_flags2_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags2_ex.IndexOf('MF2_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags2_ex := actor.flags2_ex or flg
+    else
+      actor.flags2_ex := actor.flags2_ex and not flg;
+    exit;
+  end;
+
+  idx := mobj_flags3_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags3_ex.IndexOf('MF3_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags3_ex := actor.flags3_ex or flg
+    else
+      actor.flags3_ex := actor.flags3_ex and not flg;
+    exit;
+  end;
+
+  idx := mobj_flags4_ex.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags4_ex.IndexOf('MF4_EX_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    if change then
+      actor.flags4_ex := actor.flags4_ex or flg
+    else
+      actor.flags4_ex := actor.flags4_ex and not flg;
+    exit;
+  end;
+
 end;
 
 end.
