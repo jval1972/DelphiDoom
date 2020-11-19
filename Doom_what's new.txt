@@ -13,6 +13,8 @@ Dehacked export saves the state name as comment.
 Dehacked "NEXT FRAME" keyword will accept global state names as value.
 Custom ACTORDEF labels can be accessed with [mobjname]::[label] by dehacked fields and other actions involving state names.
 Added A_ChangeFlag ACTORDEF function.
+Added PrintActordef console command alias for DEH_PrintActordef.
+Added SaveActordef console command alias for DEH_SaveActordef.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------
