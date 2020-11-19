@@ -2448,7 +2448,7 @@ procedure SC_Init;
 begin
   soundaliases := TDStringList.Create;
   SC_InitActorEvaluator;
-  C_AddCmd('DEH_PrintActordef', @DEH_PrintActordef);
+  C_AddCmd('DEH_PrintActordef, PrintActordef', @DEH_PrintActordef);
   C_AddCmd('DEH_SaveActordef', @DEH_SaveActordef);
 end;
 
