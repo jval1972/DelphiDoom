@@ -530,7 +530,7 @@ begin
     min_scale_mtof := a
   else
     min_scale_mtof := b;
-    
+
   max_scale_mtof := FixedDiv(f_h * FRACUNIT, 2 * PLAYERRADIUS);
 end;
 
