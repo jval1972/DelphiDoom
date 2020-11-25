@@ -1192,7 +1192,7 @@ begin
   begin
     for k := 1 to DC_HIRESFACTOR - 1 do
       A[k] := k;
-    MT_Execute(
+    MT_Execute8(
       @R_CalcHiResTables_thr1x8, nil,
       @R_CalcHiResTables_thr2x8, @A[1],
       @R_CalcHiResTables_thr2x8, @A[2],
@@ -1204,7 +1204,7 @@ begin
     );
   end
   else
-    MT_Execute(
+    MT_Execute4(
       @R_CalcHiResTables_thr1x4, nil,
       @R_CalcHiResTables_thr2x4, nil,
       @R_CalcHiResTables_thr3x4, nil,

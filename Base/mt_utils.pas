@@ -120,6 +120,67 @@ procedure MT_Execute(
   const func17: threadfunc_t = nil; const parms17: pointer = nil
   ); overload;
 
+procedure MT_Execute4(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer
+  );
+
+procedure MT_Execute6(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer
+  );
+
+procedure MT_Execute8(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer
+  );
+
+procedure MT_Execute12(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer;
+  const func9: threadfunc_t; const parms9: pointer;
+  const func10: threadfunc_t; const parms10: pointer;
+  const func11: threadfunc_t; const parms11: pointer;
+  const func12: threadfunc_t; const parms12: pointer
+  );
+
+procedure MT_Execute16(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer;
+  const func9: threadfunc_t; const parms9: pointer;
+  const func10: threadfunc_t; const parms10: pointer;
+  const func11: threadfunc_t; const parms11: pointer;
+  const func12: threadfunc_t; const parms12: pointer;
+  const func13: threadfunc_t; const parms13: pointer;
+  const func14: threadfunc_t; const parms14: pointer;
+  const func15: threadfunc_t; const parms15: pointer;
+  const func16: threadfunc_t; const parms16: pointer
+  );
+
 type
   mt_range_t = record
     start, finish: integer;
@@ -830,6 +891,204 @@ begin
     func1(parms1);
   for i := 0 to nt - 1 do
     exec_threads[i].Wait;
+  mt_execute_fetched := False;
+end;
+
+procedure MT_Execute4(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer
+  );
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  exec_threads[0].Activate(func2, parms2);
+  exec_threads[1].Activate(func3, parms3);
+  exec_threads[2].Activate(func4, parms4);
+  func1(parms1);
+
+  exec_threads[0].Wait;
+  exec_threads[1].Wait;
+  exec_threads[2].Wait;
+  
+  mt_execute_fetched := False;
+end;
+
+procedure MT_Execute6(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer
+  );
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  exec_threads[0].Activate(func2, parms2);
+  exec_threads[1].Activate(func3, parms3);
+  exec_threads[2].Activate(func4, parms4);
+  exec_threads[3].Activate(func5, parms5);
+  exec_threads[4].Activate(func6, parms6);
+  func1(parms1);
+
+  exec_threads[0].Wait;
+  exec_threads[1].Wait;
+  exec_threads[2].Wait;
+  exec_threads[3].Wait;
+  exec_threads[4].Wait;
+
+  mt_execute_fetched := False;
+end;
+
+procedure MT_Execute8(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer
+  );
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  exec_threads[0].Activate(func2, parms2);
+  exec_threads[1].Activate(func3, parms3);
+  exec_threads[2].Activate(func4, parms4);
+  exec_threads[3].Activate(func5, parms5);
+  exec_threads[4].Activate(func6, parms6);
+  exec_threads[5].Activate(func7, parms7);
+  exec_threads[6].Activate(func8, parms8);
+  func1(parms1);
+
+  exec_threads[0].Wait;
+  exec_threads[1].Wait;
+  exec_threads[2].Wait;
+  exec_threads[3].Wait;
+  exec_threads[4].Wait;
+  exec_threads[5].Wait;
+  exec_threads[6].Wait;
+
+  mt_execute_fetched := False;
+end;
+
+procedure MT_Execute12(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer;
+  const func9: threadfunc_t; const parms9: pointer;
+  const func10: threadfunc_t; const parms10: pointer;
+  const func11: threadfunc_t; const parms11: pointer;
+  const func12: threadfunc_t; const parms12: pointer
+  );
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  exec_threads[0].Activate(func2, parms2);
+  exec_threads[1].Activate(func3, parms3);
+  exec_threads[2].Activate(func4, parms4);
+  exec_threads[3].Activate(func5, parms5);
+  exec_threads[4].Activate(func6, parms6);
+  exec_threads[5].Activate(func7, parms7);
+  exec_threads[6].Activate(func8, parms8);
+  exec_threads[7].Activate(func9, parms9);
+  exec_threads[8].Activate(func10, parms10);
+  exec_threads[9].Activate(func11, parms11);
+  exec_threads[10].Activate(func12, parms12);
+  func1(parms1);
+
+  exec_threads[0].Wait;
+  exec_threads[1].Wait;
+  exec_threads[2].Wait;
+  exec_threads[3].Wait;
+  exec_threads[4].Wait;
+  exec_threads[5].Wait;
+  exec_threads[6].Wait;
+  exec_threads[7].Wait;
+  exec_threads[8].Wait;
+  exec_threads[9].Wait;
+  exec_threads[10].Wait;
+
+  mt_execute_fetched := False;
+end;
+
+procedure MT_Execute16(
+  const func1: threadfunc_t; const parms1: pointer;
+  const func2: threadfunc_t; const parms2: pointer;
+  const func3: threadfunc_t; const parms3: pointer;
+  const func4: threadfunc_t; const parms4: pointer;
+  const func5: threadfunc_t; const parms5: pointer;
+  const func6: threadfunc_t; const parms6: pointer;
+  const func7: threadfunc_t; const parms7: pointer;
+  const func8: threadfunc_t; const parms8: pointer;
+  const func9: threadfunc_t; const parms9: pointer;
+  const func10: threadfunc_t; const parms10: pointer;
+  const func11: threadfunc_t; const parms11: pointer;
+  const func12: threadfunc_t; const parms12: pointer;
+  const func13: threadfunc_t; const parms13: pointer;
+  const func14: threadfunc_t; const parms14: pointer;
+  const func15: threadfunc_t; const parms15: pointer;
+  const func16: threadfunc_t; const parms16: pointer
+  );
+begin
+  if mt_execute_fetched then
+    I_Error('MT_Execute(): Invalid recoursive call.'#13#10);
+
+  mt_execute_fetched := True;
+
+  exec_threads[0].Activate(func2, parms2);
+  exec_threads[1].Activate(func3, parms3);
+  exec_threads[2].Activate(func4, parms4);
+  exec_threads[3].Activate(func5, parms5);
+  exec_threads[4].Activate(func6, parms6);
+  exec_threads[5].Activate(func7, parms7);
+  exec_threads[6].Activate(func8, parms8);
+  exec_threads[7].Activate(func9, parms9);
+  exec_threads[8].Activate(func10, parms10);
+  exec_threads[9].Activate(func11, parms11);
+  exec_threads[10].Activate(func12, parms12);
+  exec_threads[11].Activate(func13, parms13);
+  exec_threads[12].Activate(func14, parms14);
+  exec_threads[13].Activate(func15, parms15);
+  exec_threads[14].Activate(func16, parms16);
+  func1(parms1);
+
+  exec_threads[0].Wait;
+  exec_threads[1].Wait;
+  exec_threads[2].Wait;
+  exec_threads[3].Wait;
+  exec_threads[4].Wait;
+  exec_threads[5].Wait;
+  exec_threads[6].Wait;
+  exec_threads[7].Wait;
+  exec_threads[8].Wait;
+  exec_threads[9].Wait;
+  exec_threads[10].Wait;
+  exec_threads[11].Wait;
+  exec_threads[12].Wait;
+  exec_threads[13].Wait;
+  exec_threads[14].Wait;
+
   mt_execute_fetched := False;
 end;
 

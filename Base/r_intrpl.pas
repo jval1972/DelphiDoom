@@ -496,7 +496,7 @@ begin
     r2.finish := r1.finish * 2;
     r3.start := r2.finish + 1;
     r3.finish := istruct.numitems - 1;
-    MT_Execute(
+    MT_Execute4(
       @R_RestoreInterpolationData_thr1, @r1,
       @R_RestoreInterpolationData_thr1, @r2,
       @R_RestoreInterpolationData_thr1, @r3,
@@ -594,7 +594,7 @@ begin
       r2.finish := r1.finish * 2;
       r3.start := r2.finish + 1;
       r3.finish := istruct.numitems - 1;
-      MT_Execute(
+      MT_Execute4(
         @R_DoInterpolate_thr1, @r1,
         @R_DoInterpolate_thr1, @r2,
         @R_DoInterpolate_thr1, @r3,

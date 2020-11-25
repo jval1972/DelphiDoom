@@ -14,6 +14,7 @@ Custom ACTORDEF labels can be accessed with [mobjname]::[label] by dehacked fiel
 Added A_ChangeFlag ACTORDEF function.
 Added PrintActordef console command alias for DEH_PrintActordef.
 Added SaveActordef console command alias for DEH_SaveActordef.
+Small improvements to multithreading tasks.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------
