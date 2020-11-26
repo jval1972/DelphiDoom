@@ -2606,7 +2606,7 @@ begin
 
   // Add the sector of the (x,y) point to sector_list.
 
-  sector_list := P_AddSecnode(Psubsector_t(thing.subsector).sector,thing,sector_list);
+  sector_list := P_AddSecnode(Psubsector_t(thing.subsector).sector, thing, sector_list);
 
   // Now delete any nodes that won't be used. These are the ones where
   // m_thing is still nil.
