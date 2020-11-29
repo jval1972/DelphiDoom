@@ -5080,7 +5080,7 @@ begin
 
     printf(#13#10'  ND_NodesCheck: Building GL-Friendly nodes for %s'#13#10, [lumpname]);
 
-    if not I_ExecProgram(prog + ' "' + outfilemap + '" -o ' + wadfilemap + '"' {$IFDEF HEXEN} + ' -hexen'{$ENDIF}, false) then
+    if not I_ExecProgram(prog + ' "' + outfilemap + '" -o "' + wadfilemap + '"' {$IFDEF HEXEN} + ' -hexen'{$ENDIF}, false) then
     begin
       printf(#13#10);
       I_Warning('ND_NodesCheck(): Failed to build GL-Friendly nodes for %s'#13#10, [outfilemap]);
