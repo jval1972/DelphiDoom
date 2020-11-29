@@ -168,8 +168,8 @@ uses
   p_mobj,
   p_spec,
   p_sight,
+  p_3dfloors, // JVAL: 3d Floors
   p_slopes, // JVAL: Slopes
-  p_3dfloors,
   p_switch,
   p_tick,
   p_acs,
@@ -218,6 +218,7 @@ function PIT_StompThing(thing: Pmobj_t): boolean;
 var
   blockdist: fixed_t;
 begin
+// Can't shoot it? Can't stomp it!
   if thing.flags and MF_SHOOTABLE = 0 then
   begin
     result := true;
@@ -1885,6 +1886,7 @@ begin
 
   repeat
     inc(hitcount);
+
     if hitcount = 3 then
     begin
       stairstep;
@@ -2007,6 +2009,12 @@ begin
     li := intr.d.line;
 
     if li.flags and ML_TWOSIDED = 0 then
+    begin
+      result := false; // stop
+      exit;
+    end;
+
+    if li.backsector = nil then
     begin
       result := false; // stop
       exit;
@@ -3120,3 +3128,4 @@ begin
 end;
 
 end.
+

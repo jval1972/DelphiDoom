@@ -141,8 +141,8 @@ uses
   p_mobj,
   p_spec,
   p_sight,
+  p_3dfloors, // JVAL: 3d Floors
   p_slopes, // JVAL: Slopes
-  p_3dfloors,
   p_switch,
   p_tick,
   p_terrain,
