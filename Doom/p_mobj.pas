@@ -363,7 +363,7 @@ begin
   until not ((xmove <> 0) or (ymove <> 0));
 
   // slow down
-  if (player <> nil) and  (player.cheats and CF_NOMOMENTUM <> 0) then
+  if (player <> nil) and (player.cheats and CF_NOMOMENTUM <> 0) then
   begin
     // debug option for no sliding at all
     mo.momx := 0;
@@ -1068,7 +1068,7 @@ begin
   // spawn a teleport fog at the new spot
   ss := R_PointInSubsector(x, y);
   mo := P_SpawnMobj(x, y, ss.sector.floorheight, Ord(MT_IFOG), mthing);  // JVAL: Slopes
-  S_StartSound(mo, Ord(sfx_itmbk));                     
+  S_StartSound(mo, Ord(sfx_itmbk));
 
   // find which type to spawn
   i := 0;

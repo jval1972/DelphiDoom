@@ -605,7 +605,7 @@ begin
   ss := R_PointInSubsector(thing.x, thing.y);
   thing.subsector := ss;
 
-  if (thing.flags and MF_NOSECTOR) = 0 then
+  if thing.flags and MF_NOSECTOR = 0 then
   begin
     // invisible things don't go into the sector links
     sec := ss.sector;

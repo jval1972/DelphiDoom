@@ -213,7 +213,7 @@ begin
 
   if not Assigned(cmd.command) then
     exit;
-    
+
   cmd.command(parm1, parm2);
   result := true;
 end;
