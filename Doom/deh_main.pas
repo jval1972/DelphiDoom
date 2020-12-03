@@ -205,11 +205,18 @@ var
   foundaction: boolean;
 
   deh_initialstates: integer;
+
+  code_ptrs: Pactionf_tArray;
 begin
   if not deh_initialized then
     DEH_Init;
 
   deh_initialstates := numstates;
+
+  // JVAL: 20201203 - Preserve initial actions
+  code_ptrs := mallocz(deh_initialstates * SizeOf(actionf_t));
+  for i := 0 to numstates - 1 do
+    code_ptrs[i] := states[i].action;
 
   i := 0;
   mustnextline := true;
@@ -844,7 +851,15 @@ begin
 
       state_val := atoi(token2, -1);
       if (state_val >= 0) and (state_val < numstates) then
-        states[state_no].action.acp1 := states[state_val].action.acp1;
+      begin
+        // JVAL: 20201203 - Preserve initial actions
+        if state_val < deh_initialstates then
+          states[state_no].action.acp1 := code_ptrs[state_val].acp1
+        else
+          states[state_no].action.acp1 := states[state_val].action.acp1;
+      end
+      else
+        I_Warning('DEH_Parse(): Invalid state number "%s" while parsing CODEP FRAME'#13#10, [token2]);
     end
 
 
@@ -1335,14 +1350,22 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     else if (token1 = 'SUBMITNEWSTATES') or (token1 = 'SUBMITNEWFRAMES') then // DelphiDoom specific
     begin
+    // JVAL: 20201203 - Preserve initial actions
+      realloc(pointer(code_ptrs), deh_initialstates * SizeOf(actionf_t), numstates * SizeOf(actionf_t));
+      for i := 0 to numstates - 1 do
+        code_ptrs[i] := states[i].action;
+
     ////////////////////////////////////////////////////////////////////////////
     // Resetting internal states counter ///////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
       deh_initialstates := numstates;
+
     end;
 
   end;
 
+  // JVAL: 20201203 - Preserve initial actions
+  memfree(pointer(code_ptrs), numstates * SizeOf(actionf_t));
 end;
 
 function DEH_CurrentSettings: TDStringList;
