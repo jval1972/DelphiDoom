@@ -16,6 +16,7 @@ Added PrintActordef console command alias for DEH_PrintActordef.
 Added SaveActordef console command alias for DEH_SaveActordef.
 Small improvements to multithreading tasks.
 Corrected dehacked parsing of the "CODEP FRAME" keyword.
+Prevent infinite loop for erronous A_Chase() placement.
 
 Version 2.0.5 build 726 - (8/5/2020)
 -----------------------
