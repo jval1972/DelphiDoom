@@ -3469,6 +3469,7 @@ begin
   {$IFNDEF HERETIC}
   if flat.hasoffset then
   begin
+    glMatrixMode(GL_TEXTURE);
     glPopMatrix;
     glMatrixMode(GL_MODELVIEW);
   end;
