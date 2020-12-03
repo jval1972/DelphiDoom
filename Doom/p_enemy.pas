@@ -1028,7 +1028,8 @@ begin
     if P_LookForTargets(actor, true) then
       exit; // got a new target
 
-    P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
+    if actor.state <> @states[actor.info.spawnstate] then
+      P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
     exit;
   end;
 

@@ -402,6 +402,7 @@ uses
   g_game,
   i_system,
   info_h,
+  info,
   m_fixed,
   m_rnd,
   a_action,
@@ -1197,7 +1198,8 @@ begin
     if P_LookForPlayers(actor, true) then
       exit; // got a new target
 
-    P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
+    if actor.state <> @states[actor.info.spawnstate] then
+      P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
     exit;
   end;
 
