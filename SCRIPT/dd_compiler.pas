@@ -260,6 +260,7 @@ begin
 
   PS_InitProcLists;
   SC_DefaultStatedefLump;
+  Info_Init(true);
   DEH_Init;
   SC_Init;
   SC_ParseStatedefLump;
@@ -269,6 +270,7 @@ procedure DD_ShutDownDoomEngine;
 begin
   SC_ShutDown;
   DEH_ShutDown;
+  Info_ShutDown;
   PS_ShutDownProcLists;
 end;
 
@@ -887,14 +889,14 @@ var
   afstr: string;
   i: integer;
 begin
-  DEH_Init;
+  DD_InitDoomEngine;
   try
     afstr := '';
     for i := 0 to DEHNUMACTIONS - 1 do
       afstr := afstr + deh_actions[i].decl + #13#10;
     DD_CopyStringToPChar(afstr, _out, _outsize);
   finally
-    DEH_ShutDown;
+    DD_ShutDownDoomEngine;
   end;
 end;
 
@@ -915,17 +917,15 @@ var
   csvstr: string;
   lst: TDStringList;
 begin
-  Info_Init(true);
-  DEH_Init;
+  DD_InitDoomEngine;
   try
     lst := DEH_MobjInfoCSV;
     csvstr := lst.Text;
     lst.Free;
     DD_CopyStringToPChar(csvstr, _out, _outsize);
   finally
-    DEH_ShutDown;
+    DD_ShutDownDoomEngine;
   end;
-  Info_ShutDown;
 end;
 
 {$IFDEF DOOM}
@@ -945,17 +945,15 @@ var
   csvstr: string;
   lst: TDStringList;
 begin
-  Info_Init(true);
-  DEH_Init;
+  DD_InitDoomEngine;
   try
     lst := DEH_StatesCSV;
     csvstr := lst.Text;
     lst.Free;
     DD_CopyStringToPChar(csvstr, _out, _outsize);
   finally
-    DEH_ShutDown;
+    DD_ShutDownDoomEngine;
   end;
-  Info_ShutDown;
 end;
 
 {$IFDEF DOOM}
@@ -975,17 +973,15 @@ var
   csvstr: string;
   lst: TDStringList;
 begin
-  Info_Init(true);
-  DEH_Init;
+  DD_InitDoomEngine;
   try
     lst := DEH_SpritesCSV;
     csvstr := lst.Text;
     lst.Free;
     DD_CopyStringToPChar(csvstr, _out, _outsize);
   finally
-    DEH_ShutDown;
+    DD_ShutDownDoomEngine;
   end;
-  Info_ShutDown;
 end;
 
 {$IFDEF DOOM}
