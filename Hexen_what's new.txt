@@ -1,3 +1,5 @@
+Version 2.0.5 build 727 - (4/12/2020)
+-----------------------
 Corrections to ACTORDEF export procedure.
 Run earthquake effect code only when needed.
 Fixes to 3d floors drawing in software rendering mode.
