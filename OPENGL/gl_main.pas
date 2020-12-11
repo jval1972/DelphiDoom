@@ -1027,7 +1027,7 @@ begin
   begin
     src := @p[i * SCREENWIDTH];
     dest := @p[(SCREENHEIGHT - i - 1) * SCREENWIDTH];
-    for j := 0 to SCREENWIDTH do
+    for j := 0 to SCREENWIDTH - 1 do
     begin
       buf := dest[j];
       dest[j] := src[j];

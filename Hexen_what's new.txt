@@ -1,3 +1,5 @@
+Fixed memory corruption problem in I_ReverseScreen().
+
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
 Corrections to ACTORDEF export procedure.
