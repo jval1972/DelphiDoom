@@ -1,3 +1,5 @@
+Fixed diskbuzy height calculation in OpenGL mode. (Could crash the engine in case of a missing diskbuzy patch from WAD)
+
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
 Corrections to ACTORDEF export procedure.
