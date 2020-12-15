@@ -304,7 +304,7 @@ end;
 
 procedure P_FixSlopedMobjs(const s: Psector_t);
 var
- mo: Pmobj_t;
+  mo: Pmobj_t;
 begin
   mo := s.thinglist;
   while mo <> nil do
