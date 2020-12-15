@@ -177,7 +177,27 @@ begin
     end;
   end;
 
-  for i := nummobjtypes - 1 downto 0 do
+  // JVAL 20201215
+  // Changed traverse order of mobjinfo table.
+  // For custom content [Ord(DO_NUMMOBJTYPES)..nummobjtypes - 1] the search is
+  // done backwards.
+  // For build-in content [0..Ord(DO_NUMMOBJTYPES) - 1] the search is done
+  // forward
+
+  // First Backward search for custom content
+  for i := nummobjtypes - 1 downto Ord(DO_NUMMOBJTYPES) do
+  begin
+    if mobjinfo[i].doomednum = dn then
+    begin
+      result := i;
+      if dnLookUp <> nil then
+        dnLookUp[dn mod DNLOOKUPSIZE] := i;
+      Exit;
+    end;
+  end;
+
+  // Forward search for build-in content
+  for i := 1 to Ord(DO_NUMMOBJTYPES) - 1 do
   begin
     if mobjinfo[i].doomednum = dn then
     begin
