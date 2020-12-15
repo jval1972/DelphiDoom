@@ -176,11 +176,15 @@ procedure R_DrawColumnInCache(patch: Pcolumn_t; cache: PByteArray;
 var
   count: integer;
   position: integer;
+  delta, prevdelta: integer;
+  tallpatch: boolean;
 begin
+  delta := 0;
+  tallpatch := false;
   while patch.topdelta <> $ff do
   begin
     count := patch.length;
-    position := originy + patch.topdelta;
+    position := originy + delta + patch.topdelta;
 
     if position < 0 then
     begin
@@ -194,7 +198,17 @@ begin
     if count > 0 then
       memcpy(@cache[position], PByteArray(integer(patch) + 3), count);
 
-    patch := Pcolumn_t(integer(patch) + patch.length + 4);
+    if not tallpatch then
+    begin
+      prevdelta := patch.topdelta;
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
+      if patch.topdelta > prevdelta then
+        delta := 0
+      else
+        tallpatch := true;
+    end
+    else
+      patch := Pcolumn_t(integer(patch) + patch.length + 4);
   end;
 end;
 
@@ -644,14 +658,14 @@ begin
   nummappatches := PInteger(names)^;
   name_p := PByteArray(integer(names) + 4);
 
-  patchlookup := Z_Malloc(nummappatches * SizeOf(integer), PU_STATIC, nil);
+  patchlookup := malloc(nummappatches * SizeOf(integer));
 
   for i := 0 to nummappatches - 1 do
   begin
     j := 0;
     while j < 8 do
     begin
-      name[j] := Chr(name_p[i * 8 + j]);
+      name[j] := toupper(Chr(name_p[i * 8 + j]));
       if name[j] = #0 then
       begin
         inc(j);
@@ -804,6 +818,8 @@ begin
 
     incp(pointer(directory), SizeOf(integer));
   end;
+
+  memfree(pointer(patchlookup), nummappatches * SizeOf(integer));
 
   Z_Free(maptex1);
   if maptex2 <> nil then
