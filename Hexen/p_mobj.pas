@@ -76,9 +76,9 @@ function P_SpawnMobj(x, y, z: fixed_t; _type: integer; const mthing: Pmapthing_t
 
 procedure P_RemoveMobj(mobj: Pmobj_t);
 
-procedure P_SpawnPlayer(mthing: Pmapthing_t);
+function P_SpawnPlayer(mthing: Pmapthing_t): Pmobj_t;
 
-procedure P_SpawnMapThing(mthing: Pmapthing_t);
+function P_SpawnMapThing(mthing: Pmapthing_t): Pmobj_t;
 
 procedure P_CreateTIDList;
 
@@ -1626,15 +1626,15 @@ end;
 //
 //==========================================================================
 
-procedure P_SpawnPlayer(mthing: Pmapthing_t);
+function P_SpawnPlayer(mthing: Pmapthing_t): Pmobj_t;
 var
   p: Pplayer_t;
   x: fixed_t;
   y: fixed_t;
   z: fixed_t;
-  mobj: Pmobj_t;
   ss: Psubsector_t;
 begin
+  result := nil;
   // not playing?
   if not playeringame[mthing._type - 1] then
     exit;
@@ -1670,15 +1670,15 @@ begin
 
   case p._class of
     PCLASS_FIGHTER:
-      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_FIGHTER), @mthing);
+      result := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_FIGHTER), @mthing);
     PCLASS_CLERIC:
-      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_CLERIC), @mthing);
+      result := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_CLERIC), @mthing);
     PCLASS_MAGE:
-      mobj := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_MAGE), @mthing);
+      result := P_SpawnMobj(x, y, z, Ord(MT_PLAYER_MAGE), @mthing);
   else
     begin
       I_Error('P_SpawnPlayer(): Unknown class type');
-      mobj := nil;
+      result := nil;
     end;
   end;
 
@@ -1689,21 +1689,21 @@ begin
     // Fighter's original gold color
     if mthing._type = 1 then
     begin
-      mobj.flags := mobj.flags or (2 shl MF_TRANSSHIFT);
+      result.flags := result.flags or (2 shl MF_TRANSSHIFT);
     end;
   end
   else if mthing._type > 1 then
   begin // Set color translation bits for player sprites
-    mobj.flags := mobj.flags or _SHL(mthing._type - 1, MF_TRANSSHIFT);
+    result.flags := result.flags or _SHL(mthing._type - 1, MF_TRANSSHIFT);
   end;
 
-  if mobj.flags2_ex and MF2_EX_PRECISESPAWNANGLE <> 0 then
-    mobj.angle := ANG1 * mthing.angle
+  if result.flags2_ex and MF2_EX_PRECISESPAWNANGLE <> 0 then
+    result.angle := ANG1 * mthing.angle
   else
-    mobj.angle := ANG45 * (mthing.angle div 45);
-  mobj.player := p;
-  mobj.health := p.health;
-  p.mo := mobj;
+    result.angle := ANG45 * (mthing.angle div 45);
+  result.player := p;
+  result.health := p.health;
+  p.mo := result;
   p.playerstate := PST_LIVE;
   p.refire := 0;
   P_ClearMessage(p);
@@ -1744,11 +1744,10 @@ const
     MTF_MAGE
   );
 
-procedure P_SpawnMapThing(mthing: Pmapthing_t);
+function P_SpawnMapThing(mthing: Pmapthing_t): Pmobj_t;
 var
   i: integer;
   spawnMask: integer;
-  mobj: Pmobj_t;
   x: fixed_t;
   y: fixed_t;
   z: fixed_t;
@@ -1757,6 +1756,8 @@ var
   isfloatbob: boolean;  // JVAL: 3d floors
   musinfoparam: integer;
 begin
+  result := nil;
+
   // Count deathmatch start positions
   if mthing._type = 11 then
   begin
@@ -1785,7 +1786,7 @@ begin
     // save spots for respawning in network games
     playerstarts[mthing.arg1, mthing._type - 1] := mthing^;
     if (deathmatch = 0) and (mthing.arg1 = 0) then
-      P_SpawnPlayer(mthing);
+      result := P_SpawnPlayer(mthing);
     exit;
   end;
 
@@ -1795,7 +1796,7 @@ begin
     mthing._type := 5 + mthing._type - 9100;  // Translate to 5 - 8
     playerstarts[mthing.arg1, mthing._type - 1] := mthing^;
     if (deathmatch = 0) and (mthing.arg1 = 0) then
-      P_SpawnPlayer(mthing);
+      result := P_SpawnPlayer(mthing);
     exit;
   end;
 
@@ -1931,56 +1932,56 @@ begin
       P_SpawnMobj(x, y, ONFLOORZ, Ord(MT_BLOODPOOL));
   end;
 
-  mobj := P_SpawnMobj(x, y, z, i, mthing);
-  mobj.spawnpoint := mthing^;
+  result := P_SpawnMobj(x, y, z, i, mthing);
+  result.spawnpoint := mthing^;
 
   if z = ONFLOORZ then
-    mobj.z := mobj.z + mthing.height * FRACUNIT
+    result.z := result.z + mthing.height * FRACUNIT
   else if z = ONCEILINGZ then
-    mobj.z := mobj.z - mthing.height * FRACUNIT;
+    result.z := result.z - mthing.height * FRACUNIT;
 
-  mobj.tid := mthing.tid;
-  mobj.special := mthing.special;
-  mobj.args[0] := mthing.arg1;
-  mobj.args[1] := mthing.arg2;
-  mobj.args[2] := mthing.arg3;
-  mobj.args[3] := mthing.arg4;
-  mobj.args[4] := mthing.arg5;
-  if (mobj.flags2 and MF2_FLOATBOB <> 0) or (mobj.flags_ex and MF_EX_FLOATBOB <> 0) then
+  result.tid := mthing.tid;
+  result.special := mthing.special;
+  result.args[0] := mthing.arg1;
+  result.args[1] := mthing.arg2;
+  result.args[2] := mthing.arg3;
+  result.args[3] := mthing.arg4;
+  result.args[4] := mthing.arg5;
+  if (result.flags2 and MF2_FLOATBOB <> 0) or (result.flags_ex and MF_EX_FLOATBOB <> 0) then
   begin // Seed random starting index for bobbing motion
-    mobj.health := P_Random;
-    mobj.special1 := mthing.height * FRACUNIT;
+    result.health := P_Random;
+    result.special1 := mthing.height * FRACUNIT;
   end;
 
   if musinfoparam >= 0 then
-    P_SetMobjCustomParam(mobj, S_MUSINFO_PARAM, musinfoparam);
+    P_SetMobjCustomParam(result, S_MUSINFO_PARAM, musinfoparam);
 
-  if mobj.tics > 0 then
-    mobj.tics := 1 + (P_Random mod mobj.tics);
+  if result.tics > 0 then
+    result.tics := 1 + (P_Random mod result.tics);
 
-  if mobj.flags and MF_COUNTKILL <> 0 then
+  if result.flags and MF_COUNTKILL <> 0 then
   begin
     // Quantize angle to 45 degree increments
-    mobj.angle := ANG45 * (mthing.angle div 45);
+    result.angle := ANG45 * (mthing.angle div 45);
   end
   else
   begin
     // Scale angle correctly (source is 0..359)
-    mobj.angle := _SHL((mthing.angle * 256) div 360, 24);
+    result.angle := _SHL((mthing.angle * 256) div 360, 24);
   end;
 
   if mthing.options and MTF_DONOTTRIGGERSCRIPTS <> 0 then
-    mobj.flags2_ex := mobj.flags2_ex or MF2_EX_DONTRUNSCRIPTS;
+    result.flags2_ex := result.flags2_ex or MF2_EX_DONTRUNSCRIPTS;
 
   if mthing.options and MTF_AMBUSH <> 0 then
-    mobj.flags := mobj.flags or MF_AMBUSH;
+    result.flags := result.flags or MF_AMBUSH;
 
   if mthing.options and MTF_DORMANT <> 0 then
   begin
-    mobj.flags2 := mobj.flags2 or MF2_DORMANT;
-    if mobj._type = Ord(MT_ICEGUY) then
-      P_SetMobjState(mobj, S_ICEGUY_DORMANT);
-    mobj.tics := -1;
+    result.flags2 := result.flags2 or MF2_DORMANT;
+    if result._type = Ord(MT_ICEGUY) then
+      P_SetMobjState(result, S_ICEGUY_DORMANT);
+    result.tics := -1;
   end;
 end;
 

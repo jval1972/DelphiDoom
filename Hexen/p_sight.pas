@@ -191,6 +191,7 @@ begin
           end;
 
         // store the line for later intersection testing
+          P_GrowIntercepts;
           intercepts[intercept_p].d.line := ld;
           inc(intercept_p);
           inc(segList);
@@ -237,7 +238,8 @@ begin
       exit;
     end;
 
-  // store the line for later intersection testing
+    P_GrowIntercepts;
+    // store the line for later intersection testing
     intercepts[intercept_p].d.line := ld;
     inc(intercept_p);
     inc(list);
