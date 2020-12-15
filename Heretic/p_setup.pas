@@ -819,15 +819,6 @@ begin
     inc(mt);
   end;
 
-  mt := Pmapthing_t(data);
-  for i := 0 to numthings - 1 do
-  begin
-    if P_GameValidThing(mt._type) then // Do spawn all other stuff.
-      P_SpawnMapThing(mt);
-
-    inc(mt);
-  end;
-
   Z_Free(data);
 end;
 

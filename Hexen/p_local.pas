@@ -122,6 +122,8 @@ type
     d: thingORline_t;
   end;
   Pintercept_t = ^intercept_t;
+  intercept_tArray = array[0..$FFFF] of intercept_t;
+  Pintercept_tArray = ^intercept_tArray;
 
 const
   MAXINTERCEPTS = 128;

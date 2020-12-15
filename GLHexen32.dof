@@ -100,7 +100,7 @@ Conditionals=HEXEN;OPENGL
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-fullhd -nofullscreen
+RunParams=-nofullscreen -geom 640x400 test17_hexen.wad
 HostApplication=
 Launcher=
 UseLauncher=0

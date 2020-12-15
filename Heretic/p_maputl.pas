@@ -76,6 +76,8 @@ var
 
   trace: divline_t;
 
+procedure P_InitIntercepts;
+
 implementation
 
 uses
@@ -588,7 +590,7 @@ begin
   ss := R_PointInSubsector(thing.x, thing.y);
   thing.subsector := ss;
 
-  if (thing.flags and MF_NOSECTOR) = 0 then
+  if thing.flags and MF_NOSECTOR = 0 then
   begin
     // invisible things don't go into the sector links
     sec := ss.sector;
@@ -713,10 +715,26 @@ end;
 // INTERCEPT ROUTINES
 //
 var
-  intercepts: array[0..MAXINTERCEPTS - 1] of intercept_t;
+  intercepts: Pintercept_tArray;
   intercept_p: integer;
+  numintercepts: integer = 0;
 
   earlyout: boolean;
+
+procedure P_InitIntercepts;
+begin
+  intercepts := Z_Malloc(MAXINTERCEPTS * SizeOf(intercept_t), PU_LEVEL, nil);
+  numintercepts := MAXINTERCEPTS;
+end;
+
+procedure P_GrowIntercepts;
+begin
+  if intercept_p >= numintercepts then
+  begin
+    numintercepts := numintercepts + 64;
+    intercepts := Z_ReAlloc(intercepts, numintercepts * SizeOf(intercept_t), PU_LEVEL, nil);
+  end;
+end;
 
 //
 // PIT_AddLineIntercepts.
@@ -734,6 +752,7 @@ var
   s2: integer;
   frac: fixed_t;
   dl: divline_t;
+  pinrc: Pintercept_t;
 begin
   // avoid precision problems with two routines
   if (trace.dx > FRACUNIT * 16) or (trace.dy > FRACUNIT * 16) or
@@ -771,9 +790,11 @@ begin
     exit;
   end;
 
-  intercepts[intercept_p].frac := frac;
-  intercepts[intercept_p].isaline := true;
-  intercepts[intercept_p].d.line := ld;
+  P_GrowIntercepts;
+  pinrc := @intercepts[intercept_p];
+  pinrc.frac := frac;
+  pinrc.isaline := true;
+  pinrc.d.line := ld;
   inc(intercept_p);
 
   result := true; // continue
@@ -793,7 +814,8 @@ var
   tracepositive: boolean;
   dl: divline_t;
   frac: fixed_t;
-  r: fixed_t;
+  pinrc: Pintercept_t;
+  r: integer;
 begin
   tracepositive := (trace.dx xor trace.dy) > 0;
 
@@ -836,9 +858,11 @@ begin
     exit;
   end;
 
-  intercepts[intercept_p].frac := frac;
-  intercepts[intercept_p].isaline := false;
-  intercepts[intercept_p].d.thing := thing;
+  P_GrowIntercepts;
+  pinrc := @intercepts[intercept_p];
+  pinrc.frac := frac;
+  pinrc.isaline := false;
+  pinrc.d.thing := thing;
   inc(intercept_p);
 
   result := true; // keep going

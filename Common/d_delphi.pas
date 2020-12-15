@@ -438,6 +438,28 @@ type
     property List: PFloatArray read fList;
   end;
 
+  TDPointerList = class
+  private
+    fList: PPointerArray;
+    fNumItems: integer;
+    fRealNumItems: integer;
+  protected
+    function Get(Index: Integer): pointer; virtual;
+    procedure Put(Index: Integer; const value: pointer); virtual;
+  public
+    constructor Create; virtual;
+    destructor Destroy; override;
+    function Add(const value: pointer): integer; overload; virtual;
+    procedure Add(const nlist: TDPointerList); overload; virtual;
+    function Delete(const Index: integer): boolean;
+    function IndexOf(const value: pointer): integer; virtual;
+    procedure Clear;
+    procedure FastClear;
+    property Count: integer read fNumItems;
+    property Pointers[Index: Integer]: pointer read Get write Put; default;
+    property List: PPointerArray read fList;
+  end;
+
 const
   NLHASHSIZE = 2048;
 
@@ -1587,7 +1609,7 @@ begin
   if result <> nil then
     ZeroMemory(result, size);
 end;
-                  
+
 procedure realloc(var p: pointer; const oldsize, newsize: integer);
 begin
   if newsize = 0 then
@@ -2511,6 +2533,107 @@ begin
   result := 0.0;
   for i := 0 to fNumItems - 1 do
     result := result + fList[i];
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+// TDPointerList
+constructor TDPointerList.Create;
+begin
+  fList := nil;
+  fNumItems := 0;
+  fRealNumItems := 0;
+end;
+
+destructor TDPointerList.Destroy;
+begin
+  Clear;
+end;
+
+function TDPointerList.Get(Index: Integer): pointer;
+begin
+  if (Index < 0) or (Index >= fNumItems) then
+    result := nil
+  else
+    result := fList[Index];
+end;
+
+procedure TDPointerList.Put(Index: Integer; const value: pointer);
+begin
+  fList[Index] := value;
+end;
+
+function TDPointerList.Add(const value: pointer): integer;
+var
+  newrealitems: integer;
+begin
+  if fNumItems >= fRealNumItems then
+  begin
+    if fRealNumItems < 8 then
+      newrealitems := 8
+    else if fRealNumItems < 32 then
+      newrealitems := 32
+    else if fRealNumItems < 128 then
+      newrealitems := fRealNumItems + 32
+    else
+      newrealitems := fRealNumItems + 64;
+    realloc(pointer(fList), fRealNumItems * SizeOf(pointer), newrealitems * SizeOf(pointer));
+    fRealNumItems := newrealitems;
+  end;
+  Put(fNumItems, value);
+  result := fNumItems;
+  inc(fNumItems);
+end;
+
+procedure TDPointerList.Add(const nlist: TDPointerList);
+var
+  i: integer;
+begin
+  for i := 0 to nlist.Count - 1 do
+    Add(nlist[i]);
+end;
+
+function TDPointerList.Delete(const Index: integer): boolean;
+var
+  i: integer;
+begin
+  if (Index < 0) or (Index >= fNumItems) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  for i := Index + 1 to fNumItems - 1 do
+    fList[i - 1] := fList[i];
+
+  dec(fNumItems);
+
+  result := true;
+end;
+
+function TDPointerList.IndexOf(const value: pointer): integer;
+var
+  i: integer;
+begin
+  for i := 0 to fNumItems - 1 do
+    if fList[i] = value then
+    begin
+      result := i;
+      exit;
+    end;
+  result := -1;
+end;
+
+procedure TDPointerList.Clear;
+begin
+  realloc(pointer(fList), fRealNumItems * SizeOf(pointer), 0);
+  fList := nil;
+  fNumItems := 0;
+  fRealNumItems := 0;
+end;
+
+procedure TDPointerList.FastClear;
+begin
+  fNumItems := 0;
 end;
 
 ////////////////////////////////////////////////////////////////////////////////

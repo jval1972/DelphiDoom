@@ -1137,10 +1137,10 @@ begin
 
     // JVAL: Found a flat outside F_START, F_END
     result := numflats;
+    realloc(pointer(flats), numflats * SizeOf(pointer), (numflats + 1) * SizeOf(pointer));
     inc(numflats);
-    flats := Z_ReAlloc(flats, numflats * SizeOf(pointer), PU_STATIC, nil);
 
-    flats[result] := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
+    flats[result] := malloc(SizeOf(flat_t));
     flats[result].name := W_GetNameForNum(i);
     flats[result].translation := result;
     flats[result].lump := i;
@@ -1190,10 +1190,10 @@ begin
 
     // JVAL: Found a flat outside F_START, F_END
     result := numflats;
+    realloc(pointer(flats), numflats * SizeOf(pointer), (numflats + 1) * SizeOf(pointer));
     inc(numflats);
-    flats := Z_ReAlloc(flats, numflats * SizeOf(pointer), PU_STATIC, nil);
 
-    flats[result] := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
+    flats[result] := malloc(SizeOf(flat_t));
     flats[result].name := W_GetNameForNum(i);
     flats[result].translation := result;
     flats[result].lump := i;
@@ -1213,14 +1213,14 @@ begin
   else
   begin
     if (lump < 0) or (lump >= W_NumLumps) then
-      I_Error('R_FlatNumForLump(): Invalid lump = %d', [lump]);
+      I_Error('R_NewFlatNumForLump(): Invalid lump = %d', [lump]);
 
     // JVAL: Found a flat outside F_START, F_END
     result := numflats;
+    realloc(pointer(flats), numflats * SizeOf(pointer), (numflats + 1) * SizeOf(pointer));
     inc(numflats);
-    flats := Z_ReAlloc(flats, numflats * SizeOf(pointer), PU_STATIC, nil);
 
-    flats[result] := Z_Malloc(SizeOf(flat_t), PU_STATIC, nil);
+    flats[result] := malloc(SizeOf(flat_t));
     flats[result].name := W_GetNameForNum(lump);
     flats[result].translation := result;
     flats[result].lump := lump;

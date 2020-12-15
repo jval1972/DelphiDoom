@@ -368,7 +368,8 @@ uses
   deh_base in 'Base\deh_base.pas',
   r_sprite in 'Base\r_sprite.pas',
   r_tallcolumn in 'Base\r_tallcolumn.pas',
-  p_animdefs in 'Base\p_animdefs.pas';
+  p_animdefs in 'Base\p_animdefs.pas',
+  p_easyslope in 'Base\p_easyslope.pas';
 
 exports
   dd_compile_doom,

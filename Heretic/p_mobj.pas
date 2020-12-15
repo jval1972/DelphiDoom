@@ -1297,10 +1297,9 @@ begin
     if mthing.options and MTF_ONMIDSECTOR <> 0 then
       z := sectors[ss.sector.midsec].ceilingheight;
 
-
   result := P_SpawnMobj(x, y, z, Ord(MT_PLAYER), @mthing);
 
-    // set color translations for player sprites
+  // set color translations for player sprites
   if mthing._type > 1 then
     result.flags := result.flags or _SHL(plnum, MF_TRANSSHIFT);
 
@@ -1391,7 +1390,7 @@ begin
   end;
 
   // check for apropriate skill level
-  if (not netgame) and ((mthing.options and 16) <> 0) then
+  if (not netgame) and (mthing.options and 16 <> 0) then
     exit;
 
   if gameskill = sk_baby then

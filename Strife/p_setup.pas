@@ -182,6 +182,7 @@ uses
   p_udmf,
   p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
+  p_easyslope,
   p_affectees,
   p_musinfo,
   p_animdefs,
@@ -770,6 +771,11 @@ begin
     result := false;
     exit;
   end;
+  if P_IsEasySlopeItem(doomdnum) then
+  begin
+    result := false;
+    exit;
+  end;
   result := true;
 end;
 
@@ -788,6 +794,19 @@ var
 begin
   data := W_CacheLumpNum(lump, PU_STATIC);
   numthings := W_LumpLength(lump) div SizeOf(mapthing_t);
+
+  P_EasySlopeInit;
+
+  mt := Pmapthing_t(data);
+  for i := 0 to numthings - 1 do
+  begin
+    if P_IsEasySlopeItem(mt._type) then // Do spawn easy slope items
+      P_SpawnEasySlopeThing(mt);
+
+    inc(mt);
+  end;
+
+  P_EasySlopeExecute;
 
   mt := Pmapthing_t(data);
   for i := 0 to numthings - 1 do
@@ -1777,6 +1796,7 @@ begin
 
   bodyqueslot := 0;
   deathmatch_p := 0;
+
   if devparm then
     printf('P_LoadThings()'#13#10);
   P_LoadThings(lumpnum + Ord(ML_THINGS));
