@@ -1,5 +1,6 @@
 Fixed diskbuzy height calculation in OpenGL mode. (Could crash the engine in case of a missing diskbuzy patch from WAD)
 Fixed memory corruption problem in I_ReverseScreen().
+Corrected lump name character case for runtime loading.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
