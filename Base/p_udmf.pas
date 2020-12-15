@@ -173,8 +173,8 @@ begin
       if (token <> strupper(_GAME)) and (token <> 'DELPHI' + strupper(_GAME)) and (token <> 'ZDOOMTRANSLATED') then
       begin
         I_Warning('TUDMFManager.LoadFromString(): Unknown namespace "%s"'#13#10, [sc._String]);
-        sc.Free;
-        exit;
+//        sc.Free;
+//        exit;
       end;
     end;
     if token = 'THING' then
@@ -738,7 +738,7 @@ begin
 
   infotable[0].filepos := f.Position;
   infotable[0].size := 0;
-  infotable[0].name := stringtochar8(amapname);
+  infotable[0].name := stringtochar8(strupper(amapname));
 
   infotable[1].filepos := f.Position;
   infotable[1].size := fnumthings * SizeOf(mapthing_t);

@@ -653,7 +653,7 @@ var
   header: wadinfo_t;
   lumpcount: integer;
   lump_p: Plumpinfo_t;
-  i: integer;
+  i, j: integer;
   handle: TDStream;
   len: integer;
   fileinfo: Pfilelump_tArray;
@@ -783,7 +783,8 @@ begin
 
     lump_p.position := fileinfo[i - start].filepos;
     lump_p.size := fileinfo[i - start].size;
-    lump_p.name := fileinfo[i - start].name;
+    for j := 0 to 7 do
+      lump_p.name[j] := toupper(fileinfo[i - start].name[j]);
     lump_p.flags := 0;
   end;
 
