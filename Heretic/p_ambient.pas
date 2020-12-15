@@ -44,7 +44,8 @@ uses
   doomdef,
   i_system,
   m_rnd,
-  s_sound, sounds;
+  s_sound,
+  sounds;
 
 const
   MAX_AMBIENT_SFX = 8; // Per level
