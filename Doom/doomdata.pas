@@ -68,8 +68,8 @@ type
   );
 
   mapvertex_t = record
-    x : smallint;
-    y : smallint;
+    x: smallint;
+    y: smallint;
   end;
   Pmapvertex_t = ^mapvertex_t;
   mapvertex_tArray = array[0..$FFFF] of mapvertex_t;
