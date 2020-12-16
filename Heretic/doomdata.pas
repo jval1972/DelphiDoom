@@ -150,6 +150,8 @@ const
 //JVAL: Script Events
 //line triggers
   ML_TRIGGERSCRIPTS = 512;
+//
+  ML_NOCLIP = 1024;  
 
 
 type

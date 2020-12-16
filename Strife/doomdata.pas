@@ -171,6 +171,8 @@ const
   ML_PASSUSE = 8192;
 //JVAL: Script Events
   ML_TRIGGERSCRIPTS = 16384;
+//
+  ML_NOCLIP = 32768;
 
 type
 // Sector definition, from editing.

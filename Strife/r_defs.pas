@@ -269,7 +269,7 @@ type
     dy: fixed_t;
 
     // Animation related.
-    flags: smallint;
+    flags: word;
     special: smallint;
     tag: smallint;
 

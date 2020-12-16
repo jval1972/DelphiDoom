@@ -376,6 +376,13 @@ begin
     exit;
   end;
 
+  // JVAL: VERSION 206 
+  if ld.flags and ML_NOCLIP <> 0 then
+  begin
+    result := true;
+    exit;
+  end;
+  
   if P_BoxOnLineSide(@tmbbox, ld) <> -1 then
   begin
     result := true;
@@ -416,7 +423,10 @@ begin
   end;
 
   // set openrange, opentop, openbottom
-  P_LineOpeningTM(ld, true);
+  if G_PlayingEngineVersion > VERSION205 then
+    P_LineOpeningTM206(ld, true)
+  else
+    P_LineOpeningTM(ld, true);
 
   // adjust floor / ceiling heights
   if opentop < tmceilingz then

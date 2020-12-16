@@ -378,6 +378,7 @@ var
   rover: Pvertex_t;
   VV: array[0..2] of Pvertex_t;
   fa, fb, fc, fd: float;
+  i: integer;
 begin
   if numslopeitems <= 0 then
     exit;
@@ -444,6 +445,10 @@ begin
         P_SlopesAlignPlane(@sectors[secid], nil, SRF_SLOPEFLOOR, false);
         sectors[secid].slopeline := sectors[secid].lines[0];
         sectors[secid].slopeline.renderflags := sectors[secid].slopeline.renderflags or LRF_SLOPED;
+        for i := 0 to sectors[secid].linecount - 1 do
+          if sectors[secid].lines[i].frontsector <> nil then
+            if sectors[secid].lines[i].backsector <> nil then
+              sectors[secid].lines[i].flags := sectors[secid].lines[i].flags or ML_NOCLIP;
       end;
     end;
     if slopeinfo[secid].numceilingcontrols > 0 then
@@ -468,6 +473,10 @@ begin
         P_SlopesAlignPlane(@sectors[secid], nil, SRF_SLOPECEILING, false);
         sectors[secid].slopeline := sectors[secid].lines[0];
         sectors[secid].slopeline.renderflags := sectors[secid].slopeline.renderflags or LRF_SLOPED;
+        for i := 0 to sectors[secid].linecount - 1 do
+          if sectors[secid].lines[i].frontsector <> nil then
+            if sectors[secid].lines[i].backsector <> nil then
+              sectors[secid].lines[i].flags := sectors[secid].lines[i].flags or ML_NOCLIP;
       end;
     end;
   end;

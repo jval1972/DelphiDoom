@@ -160,6 +160,8 @@ const
 
   ML_TRIGGERSCRIPTS = 16384;
 
+  ML_NOCLIP = 32768;
+
 const
 // Special activation types
   SPAC_CROSS = 0;   // when player crosses line

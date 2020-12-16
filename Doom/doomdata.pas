@@ -153,6 +153,8 @@ const
 //JVAL: Script Events
 //line triggers
   ML_TRIGGERSCRIPTS = 1024;
+//
+  ML_NOCLIP = 2048;
 
 type
 // Sector definition, from editing.

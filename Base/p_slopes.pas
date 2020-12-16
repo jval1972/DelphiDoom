@@ -52,6 +52,10 @@ procedure P_DynamicSlope(const sec: Psector_t);
 procedure P_SlopesAlignPlane(const sec: Psector_t; const line: Pline_t; const flag: LongWord;
   const calcpivotline: boolean = true);
 
+function P_ClosestFloorHeight(const sec: Psector_t; const line: Pline_t; const x, y: fixed_t): fixed_t;
+
+function P_ClosestCeilingHeight(const sec: Psector_t; const line: Pline_t; const x, y: fixed_t): fixed_t;
+
 const
   SLOPECOUNTDOWN = 4;
 
@@ -424,6 +428,95 @@ begin
     {$ENDIF}
   end;;
 end;
+
+procedure P_FindNearestPointOnLine(const x, y: fixed_t; const line: Pline_t; var xx, yy: fixed_t);
+const
+  NP_SCALE = 16;
+var
+  A, B, C, D: integer;
+  dot: int64;
+  len_sq: int64;
+  param: int64;
+  x1, x2, y1, y2: integer;
+  ix, iy: integer;
+begin
+  x1 := line.v1.x div NP_SCALE;
+  y1 := line.v1.y div NP_SCALE;
+  x2 := line.v2.x div NP_SCALE;
+  y2 := line.v2.y div NP_SCALE;
+  ix := x div NP_SCALE;
+  iy := y div NP_SCALE;
+
+  A := ix - x1;
+  B := iy - y1;
+  C := x2 - x1;
+  D := y2 - y1;
+
+  dot := (A * C) + (B * D);
+  len_sq := (C * C) + (D * D);
+  param := -1;
+  if len_sq <> 0 then
+    param := (dot * NP_SCALE) div int64(len_sq);
+
+  if param < 0 then
+  begin
+    xx := x1;
+    yy := y1;
+  end
+  else if param > FRACUNIT then
+  begin
+    xx := x2;
+    yy := y2;
+  end
+  else
+  begin
+    xx := x1 + (param * C) div NP_SCALE;
+    yy := y1 + (param * D) div NP_SCALE;
+  end;
+  xx := xx * NP_SCALE;
+  yy := yy * NP_SCALE;
+end;
+
+function P_ClosestFloorHeight(const sec: Psector_t; const line: Pline_t; const x, y: fixed_t): fixed_t;
+var
+  xx, yy: fixed_t;
+  tmpsec: Psector_t;
+begin
+  if sec.renderflags and SRF_SLOPEFLOOR <> 0 then
+  begin
+    tmpsec := R_PointInSubSector(x, y).sector;
+    if tmpsec = sec then
+      result := ZatPointFloor(sec, x, y)
+    else
+    begin
+      P_FindNearestPointOnLine(x, y, line, xx, yy);
+      result := ZatPointFloor(sec, xx, yy)
+    end;
+  end
+  else
+    result := sec.floorheight;
+end;
+
+function P_ClosestCeilingHeight(const sec: Psector_t; const line: Pline_t; const x, y: fixed_t): fixed_t;
+var
+  xx, yy: fixed_t;
+  tmpsec: Psector_t;
+begin
+  if sec.renderflags and SRF_SLOPECEILING <> 0 then
+  begin
+    tmpsec := R_PointInSubSector(x, y).sector;
+    if tmpsec = sec then
+      result := ZatPointCeiling(sec, x, y)
+    else
+    begin
+      P_FindNearestPointOnLine(x, y, line, xx, yy);
+      result := ZatPointCeiling(sec, xx, yy)
+    end;
+  end
+  else
+    result := sec.ceilingheight;
+end;
+
 
 end.
 

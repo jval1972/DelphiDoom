@@ -224,7 +224,7 @@ type
     dy: fixed_t;
 
     // Animation related.
-    flags: smallint;
+    flags: word;
     special: byte;
     arg1, arg2, arg3, arg4, arg5: byte;
 
