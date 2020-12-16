@@ -4,6 +4,8 @@ Fixes to tall texture patches.
 Removed limit on intecepts.
 Changed traverse order of mobjinfo table.
 Easyslope item to easily create slopes.
+When an invalid blockmap is detected will build a new one.
+Added -blockmap command line parameter. When set it will force to generate blockmap while loading a map.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
