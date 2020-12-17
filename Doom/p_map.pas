@@ -559,13 +559,6 @@ begin
   // JVAL: 3d Floors
   if G_PlayingEngineVersion >= VERSION122 then
   begin
-{    if Psubsector_t(tmthing.subsector).sector = Psubsector_t(thing.subsector).sector then
-      if tmthing.floorz <> thing.floorz then
-      begin
-        result := true;
-        exit;
-      end;
-                                                             }
     if (tmthing.player <> nil) or (thing.player <> nil) then
       if tmfloorz <> thing.floorz then
       begin
@@ -682,7 +675,7 @@ begin
     if thing.flags and MF_SHOOTABLE = 0 then
     begin
       // didn't do any damage
-      result := (thing.flags and MF_SOLID) = 0;
+      result := thing.flags and MF_SOLID = 0;
       exit;
     end;
 

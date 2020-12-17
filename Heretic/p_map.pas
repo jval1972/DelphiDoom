@@ -94,7 +94,7 @@ var
 
 // keep track of the line that lowers the ceiling,
 // so missiles don't explode against sky hack walls
-  ceilingline: Pline_t;                                    
+  ceilingline: Pline_t;
 
   attackrange: fixed_t;
 
@@ -371,6 +371,13 @@ begin
     exit;
   end;
 
+  // JVAL: VERSION 206 
+  if ld.flags and ML_NOCLIP <> 0 then
+  begin
+    result := true;
+    exit;
+  end;
+  
   if P_BoxOnLineSide(@tmbbox, ld) <> -1 then
   begin
     result := true;
@@ -410,7 +417,10 @@ begin
   end;
 
   // set openrange, opentop, openbottom
-  P_LineOpeningTM(ld, true);
+  if G_PlayingEngineVersion > VERSION205 then
+    P_LineOpeningTM206(ld, true)
+  else
+    P_LineOpeningTM(ld, true);
 
   // adjust floor / ceiling heights
   if opentop < tmceilingz then
@@ -542,13 +552,6 @@ begin
   // JVAL: 3d Floors
   if G_PlayingEngineVersion >= VERSION115 then
   begin
-{    if Psubsector_t(tmthing.subsector).sector = Psubsector_t(thing.subsector).sector then
-      if tmthing.floorz <> thing.floorz then
-      begin
-        result := true;
-        exit;
-      end;
-                                                             }
     if (tmthing.player <> nil) or (thing.player <> nil) then
       if tmfloorz <> thing.floorz then
       begin
@@ -658,7 +661,7 @@ begin
     if thing.flags and MF_SHOOTABLE = 0 then
     begin
       // didn't do any damage
-      result := (thing.flags and MF_SOLID) = 0;
+      result := thing.flags and MF_SOLID = 0;
       exit;
     end;
 
@@ -1767,14 +1770,14 @@ begin
       exit;
     end;
 
-    // crosses a two sided line
-    P_LineOpening(li, false);
-
     if li.backsector = nil then
     begin
       result := hitline(false);
       exit;
     end;
+
+    // crosses a two sided line
+    P_LineOpening(li, false);
 
     dist := FixedMul(attackrange, intr.frac);
 
