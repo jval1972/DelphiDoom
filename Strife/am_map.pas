@@ -306,6 +306,7 @@ var
   texturedautomap: boolean;
 
 procedure AM_rotate(x: Pfixed_t; y: Pfixed_t; a: angle_t; xpos, ypos: fixed_t);
+
 procedure AM_ShutDown;
 
 implementation
@@ -322,7 +323,7 @@ uses
 {$IFNDEF OPENGL}
   r_draw,
   r_hires,
-{$ELSE}  
+{$ELSE}
   gl_automap,
 {$ENDIF}
   v_data,
@@ -514,7 +515,7 @@ begin
     min_scale_mtof := a
   else
     min_scale_mtof := b;
-    
+
   max_scale_mtof := FixedDiv(f_h * FRACUNIT, 2 * PLAYERRADIUS);
 end;
 
