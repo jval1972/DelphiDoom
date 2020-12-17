@@ -106,7 +106,7 @@ uses
   d_delphi,
   doomdata,
   d_ticcmd,
-  d_event, 
+  d_event,
   d_think,
   info,
   {$IFDEF OPENGL}
@@ -373,7 +373,7 @@ begin
     if player.viewz < player.mo.floorz + 4 * FRACUNIT then
       player.viewz := player.mo.floorz + 4 * FRACUNIT;
   end
-  else 
+  else
     player.viewz := player.mo.z + player.viewheight + player.viewbob;
 
   if (player.mo.floorclip <> 0) and
