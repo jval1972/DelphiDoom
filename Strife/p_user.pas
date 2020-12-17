@@ -220,7 +220,8 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
-  if G_PlayingEngineVersion < VERSION122 then
+  if (G_PlayingEngineVersion < VERSION122) or
+     (G_PlayingEngineVersion > VERSION205) then
   begin
     P_CalcHeight(player);
     exit;

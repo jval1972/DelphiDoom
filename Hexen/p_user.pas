@@ -283,7 +283,8 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
-  if G_PlayingEngineVersion < VERSION142 then
+  if (G_PlayingEngineVersion < VERSION142) or
+     (G_PlayingEngineVersion > VERSION205) then
   begin
     P_CalcHeight(player);
     exit;
@@ -927,7 +928,6 @@ begin
     player.mo.flags := player.mo.flags and not MF_NOCLIP;
 
   cmd := @player.cmd;
-
   if player.mo.flags and MF_JUSTATTACKED <> 0 then
   begin // Gauntlets attack auto forward motion
     cmd.angleturn := 0;
@@ -2037,3 +2037,4 @@ begin
 end;
 
 end.
+
