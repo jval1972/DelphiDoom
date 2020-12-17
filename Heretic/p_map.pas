@@ -98,7 +98,7 @@ var
 
   attackrange: fixed_t;
 
-function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t): integer;
+function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;
 
@@ -2274,7 +2274,7 @@ end;
 
 
 // JVAL Allow jumps in sectors with sky ceiling.... (7/8/2007)
-function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t): integer;
+function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 begin
   // JVAL: 3d floors
   if s.midsec >= 0 then

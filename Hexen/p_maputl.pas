@@ -57,6 +57,8 @@ procedure P_LineOpening(linedef: Pline_t; check3dfloor: boolean);
 
 procedure P_LineOpeningTM(linedef: Pline_t; check3dfloor: boolean); // JVAL: Slopes
 
+procedure P_LineOpeningTM206(linedef: Pline_t; check3dfloor: boolean);  // JVAL: VERSION 206
+
 procedure P_UnsetThingPosition(thing: Pmobj_t);
 
 procedure P_SetThingPosition(thing: Pmobj_t);
@@ -349,9 +351,9 @@ begin
   back := linedef.backsector;
 
   if front.ceilingheight < back.ceilingheight then
-    opentop := front.ceilingheight + P_SectorJumpOverhead(front, nil)
+    opentop := front.ceilingheight + P_SectorJumpOverhead(front)
   else
-    opentop := back.ceilingheight + P_SectorJumpOverhead(back, nil);
+    opentop := back.ceilingheight + P_SectorJumpOverhead(back);
 
   if front.floorheight > back.floorheight then
   begin
@@ -463,9 +465,114 @@ begin
 
 
   if frontceilingheight < backceilingheight then
-    opentop := frontceilingheight + P_SectorJumpOverhead(front, nil)
+    opentop := frontceilingheight + P_SectorJumpOverhead(front)
   else
-    opentop := backceilingheight + P_SectorJumpOverhead(back, nil);
+    opentop := backceilingheight + P_SectorJumpOverhead(back);
+
+  if frontfloorheight > backfloorheight then
+  begin
+    openbottom := frontfloorheight;
+    lowfloor := backfloorheight;
+    tmfloorpic := front.floorpic;
+  end
+  else
+  begin
+    openbottom := backfloorheight;
+    lowfloor := frontfloorheight;
+    tmfloorpic := back.floorpic;
+  end;
+
+  // JVAL: 3d Floors
+  if check3dfloor then
+  begin
+    lowestceiling := opentop;
+    highestfloor := openbottom;
+    lowestfloor := lowfloor;
+    thingtop := tmthing.z + tmthing.height;
+    picfloor3d := tmfloorpic;
+    if front.midsec >= 0 then
+    begin
+      mid := @sectors[front.midsec];
+      rr := (mid.ceilingheight + mid.floorheight) div 2;
+      delta1 := abs(tmthing.z - rr);
+      delta2 := abs(thingtop - rr);
+      if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
+        lowestceiling := mid.floorheight;
+      if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
+      begin
+        highestfloor := mid.ceilingheight;
+        picfloor3d := mid.ceilingpic;
+      end
+      else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
+        lowestfloor := mid.ceilingheight;
+    end;
+    if back.midsec >= 0 then
+    begin
+      mid := @sectors[back.midsec];
+      rr := (mid.ceilingheight + mid.floorheight) div 2;
+      delta1 := abs(tmthing.z - rr);
+      delta2 := abs(thingtop - rr);
+      if (mid.floorheight < lowestceiling) and (delta1 >= delta2) then
+        lowestceiling := mid.floorheight;
+      if (mid.ceilingheight > highestfloor) and (delta1 < delta2) then
+      begin
+        highestfloor := mid.ceilingheight;
+        picfloor3d := mid.ceilingpic;
+      end
+      else if (mid.ceilingheight > lowestfloor) and (delta1 < delta2) then
+        lowestfloor := mid.ceilingheight;
+    end;
+    if highestfloor > openbottom then
+    begin
+      openbottom := highestfloor;
+      tmfloorpic := picfloor3d;
+    end;
+    if lowestceiling < opentop then
+      opentop := lowestceiling;
+    if lowestfloor > lowfloor then
+      lowfloor := lowestfloor;
+  end;
+
+  openrange := opentop - openbottom;
+end;
+
+// JVAL: VERSION 206
+procedure P_LineOpeningTM206(linedef: Pline_t; check3dfloor: boolean);
+var
+  front: Psector_t;
+  back: Psector_t;
+  mid: Psector_t;
+  lowestceiling: fixed_t;
+  highestfloor: fixed_t;
+  lowestfloor: fixed_t;
+  delta1, delta2, rr: fixed_t;
+  thingtop: fixed_t;
+  // JVAL: Slopes
+  frontfloorheight: fixed_t;
+  frontceilingheight: fixed_t;
+  backfloorheight: fixed_t;
+  backceilingheight: fixed_t;
+  picfloor3d: integer;
+begin
+  if linedef.sidenum[1] = -1 then
+  begin
+    // single sided line
+    openrange := 0;
+    exit;
+  end;
+
+  front := linedef.frontsector;
+  back := linedef.backsector;
+
+  frontfloorheight := P_ClosestFloorHeight(front, linedef, tmx, tmy);
+  frontceilingheight := P_ClosestCeilingHeight(front, linedef, tmx, tmy);
+  backfloorheight := P_ClosestFloorHeight(back, linedef, tmx, tmy);
+  backceilingheight := P_ClosestCeilingHeight(back, linedef, tmx, tmy);
+
+  if frontceilingheight < backceilingheight then
+    opentop := frontceilingheight + P_SectorJumpOverhead(front)
+  else
+    opentop := backceilingheight + P_SectorJumpOverhead(back);
 
   if frontfloorheight > backfloorheight then
   begin
@@ -606,7 +713,7 @@ begin
   ss := R_PointInSubsector(thing.x, thing.y);
   thing.subsector := ss;
 
-  if (thing.flags and MF_NOSECTOR) = 0 then
+  if thing.flags and MF_NOSECTOR = 0 then
   begin
     // invisible things don't go into the sector links
     sec := ss.sector;

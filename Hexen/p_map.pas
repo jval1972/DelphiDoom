@@ -116,7 +116,7 @@ function PTR_BounceTraverse(intr: Pintercept_t): boolean;
 
 procedure P_BounceWall(mo: Pmobj_t);
 
-function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t): integer;
+function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;
 
@@ -3077,7 +3077,7 @@ end;
 //
 //==========================================================================
 
-function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t): integer;
+function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 begin
   // JVAL: 3d floors
   if s.midsec >= 0 then

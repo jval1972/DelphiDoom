@@ -306,9 +306,9 @@ begin
     // possible occluder
     // because of ceiling height differences
     if front_ceilingheight < back_ceilingheight then
-      opentop := front_ceilingheight + P_SectorJumpOverhead(front, nil)
+      opentop := front_ceilingheight + P_SectorJumpOverhead(front)
     else
-      opentop := back_ceilingheight + P_SectorJumpOverhead(back, nil);
+      opentop := back_ceilingheight + P_SectorJumpOverhead(back);
 
     // because of ceiling height differences
     if front_floorheight > back_floorheight then
