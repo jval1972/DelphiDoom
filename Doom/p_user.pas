@@ -712,7 +712,7 @@ begin
     cmd.angleturn := 0;
     cmd.forwardmove := $c800 div 512;
     cmd.sidemove := 0;
-    player.mo.flags := player.mo.flags and (not MF_JUSTATTACKED);
+    player.mo.flags := player.mo.flags and not MF_JUSTATTACKED;
   end;
 
   if player.quaketics > 0 then
