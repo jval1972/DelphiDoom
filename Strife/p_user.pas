@@ -207,6 +207,7 @@ begin
 
 end;
 
+// JVAL: Slopes
 procedure P_SlopesCalcHeight(player: Pplayer_t);
 var
   angle: integer;

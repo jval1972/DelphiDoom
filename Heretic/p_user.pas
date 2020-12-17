@@ -213,6 +213,7 @@ begin
     player.viewz := player.mo.floorz + 4 * FRACUNIT;
 end;
 
+// JVAL: Slopes
 procedure P_SlopesCalcHeight(player: Pplayer_t);
 var
   angle: integer;

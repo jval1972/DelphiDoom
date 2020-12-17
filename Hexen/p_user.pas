@@ -270,6 +270,7 @@ begin
     player.viewz := player.mo.floorz + 4 * FRACUNIT;
 end;
 
+// JVAL: Slopes
 procedure P_SlopesCalcHeight(player: Pplayer_t);
 var
   angle: integer;
@@ -1120,9 +1121,7 @@ begin
     end;
   end
   else
-  begin
     player.usedown := false;
-  end;
 
   // Morph counter
   if player.morphTics > 0 then
@@ -1706,9 +1705,11 @@ begin
       else
         curpos := 6;
     end;
+
     player.readyArtifact := artitype_t(player.inventory[inv_ptr]._type);
   end;
 end;
+
 
 //----------------------------------------------------------------------------
 //
