@@ -35,6 +35,17 @@ interface
 
 procedure R_ParseFlatInfoLumps;
 
+function R_FlatSizeFromSize(const size: integer): integer;
+
+const
+  FS_64x64 = 0;
+  FS_128x128 = 1;
+  FS256x256 = 2;
+  FS512x512 = 3;
+  FS1024x1024 = 4;
+  FS2048x2048 = 5;
+  FS4096x4096 = 6;
+
 implementation
 
 uses
@@ -85,7 +96,7 @@ begin
         if token = 'SIZE' then
         begin
           sc.MustGetInteger;
-          flat.size := sc._Integer;
+          flat.size := R_FlatSizeFromSize(sc._Integer);
         end
         else
         begin
@@ -130,6 +141,24 @@ begin
 
   R_ParseFlatInfoText(fl_text);
   fl_text := '';
+end;
+
+function R_FlatSizeFromSize(const size: integer): integer;
+begin
+  if size = 128 then
+    Result := FS_128x128
+  else if size = 256 then
+    Result := FS256x256
+  else if size = 512 then
+    Result := FS512x512
+  else if size = 1024 then
+    Result := FS1024x1024
+  else if size = 2048 then
+    Result := FS2048x2048
+  else if size = 4096 then
+    Result := FS4096x4096
+  else
+    Result := FS_64x64;
 end;
 
 end.

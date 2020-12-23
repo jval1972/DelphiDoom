@@ -32,6 +32,7 @@
       spot := _SHR(yfrac, 7) and (261632) + _SHR(xfrac, FRACBITS) and 511;
 {$ENDIF}
 {$ENDIF}
+
 {$ELSE}
 {$IFDEF SCALE64x64}
 {$IFDEF RIPPLE}
