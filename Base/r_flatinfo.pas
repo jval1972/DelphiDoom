@@ -71,7 +71,7 @@ begin
         begin
           if token = char8tostring(flats[i].name) then
           begin
-            flat := @flats[i];
+            flat := flats[i];
             break;
           end;
         end;
