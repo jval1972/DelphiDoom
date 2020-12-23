@@ -37,15 +37,6 @@ procedure R_ParseFlatInfoLumps;
 
 function R_FlatSizeFromSize(const size: integer): integer;
 
-const
-  FS_64x64 = 0;
-  FS_128x128 = 1;
-  FS256x256 = 2;
-  FS512x512 = 3;
-  FS1024x1024 = 4;
-  FS2048x2048 = 5;
-  FS4096x4096 = 6;
-
 implementation
 
 uses
@@ -53,6 +44,7 @@ uses
   i_system,
   r_defs,
   r_data,
+  r_span,
   sc_engine,
   w_pak,
   w_wad;
@@ -146,7 +138,7 @@ end;
 function R_FlatSizeFromSize(const size: integer): integer;
 begin
   if size = 128 then
-    Result := FS_128x128
+    Result := FS128x128
   else if size = 256 then
     Result := FS256x256
   else if size = 512 then
@@ -158,7 +150,7 @@ begin
   else if size = 4096 then
     Result := FS4096x4096
   else
-    Result := FS_64x64;
+    Result := FS64x64;
 end;
 
 end.

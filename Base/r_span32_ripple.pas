@@ -26,38 +26,28 @@
 
 {$I Doom32.inc}
 
-unit r_span32;
+unit r_span32_ripple;
 
 interface
 
-uses
-  d_delphi,
-  m_fixed,
-  r_main;
-
-var
-  ds_lightlevel: fixed_t;
-  ds_llzindex: fixed_t; // Lightlevel index for z axis
-
-// start of a WxW tile image
-  ds_source32: PLongWordArray;
-
-procedure R_DrawSpanNormal;
+procedure R_DrawSpanNormal_Ripple;
 
 implementation
 
 uses
+  d_delphi,
+  m_fixed,
+  r_main,
   r_precalc,
+  r_ripple,
   r_span,
+  r_span32,
   r_draw,
   r_hires,
   r_grow,
   v_video;
 
-//
-// Draws the actual span (Normal resolution).
-//
-procedure R_DrawSpanNormal;
+procedure R_DrawSpanNormal_Ripple;
 var
   xfrac: fixed_t;
   yfrac: fixed_t;
@@ -74,30 +64,32 @@ var
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
   bf_b: PIntegerArray;
+  rpl: PIntegerArray;
 begin
   destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
 
+  // We do not check for zero spans here?
   count := ds_x2 - ds_x1;
   if count < 0 then
     exit;
 
+  rpl := ds_ripple;
   lfactor := ds_lightlevel;
-
   if lfactor >= 0 then // Use hi detail lightlevel
   begin
     R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
-    {$UNDEF RIPPLE}
+    {$DEFINE RIPPLE}
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF TRANSPARENTFLAT}
     {$I R_DrawSpanNormal.inc}
   end
   else // Use inversecolormap
   begin
-    {$UNDEF RIPPLE}
+    {$DEFINE RIPPLE}
     {$DEFINE INVERSECOLORMAPS}
     {$UNDEF TRANSPARENTFLAT}
     {$I R_DrawSpanNormal.inc}
-  end
+  end;
 end;
 
 end.

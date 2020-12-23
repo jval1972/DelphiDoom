@@ -73,6 +73,15 @@ const
 var
   ds_scale: dsscale_t;
 
+const
+  FS64x64 = 0;
+  FS128x128 = 1;
+  FS256x256 = 2;
+  FS512x512 = 3;
+  FS1024x1024 = 4;
+  FS2048x2048 = 5;
+  FS4096x4096 = 6;
+
 implementation
 
 uses

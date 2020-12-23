@@ -362,7 +362,9 @@ uses
   r_tallcolumn in 'Base\r_tallcolumn.pas',
   p_animdefs in 'Base\p_animdefs.pas',
   p_easyslope in 'Base\p_easyslope.pas',
-  r_flatinfo in 'Base\r_flatinfo.pas';
+  r_flatinfo in 'Base\r_flatinfo.pas',
+  r_span32_ripple in 'Base\r_span32_ripple.pas',
+  r_flat32_ripple in 'Base\r_flat32_ripple.pas';
 
 var
   Saved8087CW: Word;
