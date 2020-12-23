@@ -49,6 +49,7 @@ type
     ds_ystep: fixed_t;
     ds_ripple: PIntegerArray;
     ds_scale: dsscale_t;
+    ds_size: integer;
     func: PPointerParmProcedure;
   end;
   Pflatrenderinfo32_t = ^flatrenderinfo32_t;
@@ -121,6 +122,7 @@ begin
   flat.ds_ystep := ds_ystep;
   flat.ds_ripple := ds_ripple;
   flat.ds_scale := ds_scale;
+  flat.ds_size := ds_size;
   flat.func := spanfuncMT;
   inc(flatcachesize32);
 end;
@@ -698,6 +700,7 @@ begin
   ds_xstep := Pflatrenderinfo32_t(fi).ds_xstep;
   ds_ystep := Pflatrenderinfo32_t(fi).ds_ystep;
   ds_scale := Pflatrenderinfo32_t(fi).ds_scale;
+  ds_size := Pflatrenderinfo32_t(fi).ds_size;
 
   destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
 
@@ -757,6 +760,7 @@ begin
   ds_xstep := Pflatrenderinfo32_t(fi).ds_xstep;
   ds_ystep := Pflatrenderinfo32_t(fi).ds_ystep;
   ds_scale := Pflatrenderinfo32_t(fi).ds_scale;
+  ds_size := Pflatrenderinfo32_t(fi).ds_size;
 
   destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
 

@@ -361,7 +361,8 @@ uses
   r_sprite in 'Base\r_sprite.pas',
   r_tallcolumn in 'Base\r_tallcolumn.pas',
   p_animdefs in 'Base\p_animdefs.pas',
-  p_easyslope in 'Base\p_easyslope.pas';
+  p_easyslope in 'Base\p_easyslope.pas',
+  r_flatinfo in 'Base\r_flatinfo.pas';
 
 var
   Saved8087CW: Word;

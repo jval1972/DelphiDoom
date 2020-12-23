@@ -160,6 +160,7 @@ uses
   r_slopes, // JVAL: Slopes
   r_patch,
 {$ENDIF}
+  r_flatinfo,
   r_main,
   v_data,
   v_video,
@@ -610,6 +611,7 @@ begin
   end
   else
     R_ReadDS32Cache(flat);
+  ds_size := flats[flats[flat].translation].size;
 end;
 {$ENDIF}
 
@@ -889,7 +891,9 @@ begin
     // JVAL: 9 December 2007, Added terrain types
     flat.terraintype := P_TerrainTypeForName(flat.name);
     flats[i] := flat;
+    flats[i].size := 0;
   end;
+  R_ParseFlatInfoLumps;
 end;
 
 //

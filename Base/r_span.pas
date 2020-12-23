@@ -55,6 +55,8 @@ var
 
 // start of a 64*64 tile image
   ds_source: PByteArray;
+// Flat size
+  ds_size: integer;  
 
 
 type

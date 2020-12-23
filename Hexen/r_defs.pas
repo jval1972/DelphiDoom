@@ -647,6 +647,7 @@ type
     terraintype: integer; // JVAL: 9 December 2007, Added terrain types
     translation: integer;
     lump: integer;
+    size: integer;
   end;
   Pflat_t = ^flat_t;
   flatPArray = array[0..$FFFF] of Pflat_t;

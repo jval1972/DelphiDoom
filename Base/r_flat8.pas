@@ -49,6 +49,7 @@ type
     ds_ystep: fixed_t;
     ds_ripple: PIntegerArray;
     ds_scale: dsscale_t;
+    ds_size: integer;
     func: PPointerParmProcedure;
   end;
   Pflatrenderinfo8_t = ^flatrenderinfo8_t;
@@ -118,6 +119,7 @@ begin
   flat.ds_ystep := ds_ystep;
   flat.ds_ripple := ds_ripple;
   flat.ds_scale := ds_scale;
+  flat.ds_size := ds_size;
   flat.func := spanfuncMT;
   inc(flatcachesize8);
 end;
@@ -677,6 +679,7 @@ begin
   ds_xstep := Pflatrenderinfo8_t(fi).ds_xstep;
   ds_ystep := Pflatrenderinfo8_t(fi).ds_ystep;
   ds_scale := Pflatrenderinfo8_t(fi).ds_scale;
+  ds_size := Pflatrenderinfo8_t(fi).ds_size;
 
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
@@ -860,7 +863,8 @@ begin
   ds_xstep := Pflatrenderinfo8_t(fi).ds_xstep;
   ds_ystep := Pflatrenderinfo8_t(fi).ds_ystep;
   ds_scale := Pflatrenderinfo8_t(fi).ds_scale;
-
+  ds_size := Pflatrenderinfo8_t(fi).ds_size;
+  
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
   // We do not check for zero spans here?
@@ -901,6 +905,7 @@ begin
   ds_ystep := Pflatrenderinfo8_t(fi).ds_ystep;
   rpl := Pflatrenderinfo8_t(fi).ds_ripple;
   ds_scale := Pflatrenderinfo8_t(fi).ds_scale;
+  ds_size := Pflatrenderinfo8_t(fi).ds_size;
 
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
