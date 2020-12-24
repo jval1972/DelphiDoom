@@ -360,7 +360,11 @@ uses
   deh_base in 'Base\deh_base.pas',
   r_sprite in 'Base\r_sprite.pas',
   r_tallcolumn in 'Base\r_tallcolumn.pas',
-  p_easyslope in 'Base\p_easyslope.pas';
+  p_easyslope in 'Base\p_easyslope.pas',
+  r_flat32_ripple in 'Base\r_flat32_ripple.pas',
+  r_flatinfo in 'Base\r_flatinfo.pas',
+  r_span32_ripple in 'Base\r_span32_ripple.pas',
+  r_span32_fog_ripple in 'Hexen\r_span32_fog_ripple.pas';
 
 var
   Saved8087CW: Word;

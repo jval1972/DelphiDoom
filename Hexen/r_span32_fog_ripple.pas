@@ -27,11 +27,11 @@
 
 {$I Doom32.inc}
 
-unit r_span32_fog;
+unit r_span32_fog_ripple;
 
 interface
 
-procedure R_DrawSpanNormal_Fog;
+procedure R_DrawSpanNormal_Fog_Ripple;
 
 implementation
 {$DEFINE FOG}
@@ -40,6 +40,7 @@ uses
   d_delphi,
   m_fixed,
   r_precalc,
+  r_ripple,
   r_flatinfo,
   r_span,
   r_span32,
@@ -48,10 +49,7 @@ uses
   r_grow,
   v_video;
 
-//
-// Draws the actual span (Normal resolution).
-//
-procedure R_DrawSpanNormal_Fog;
+procedure R_DrawSpanNormal_Fog_Ripple;
 var
   xfrac: fixed_t;
   yfrac: fixed_t;
@@ -67,6 +65,7 @@ var
   bf_r: PIntegerArray;
   bf_g: PIntegerArray;
   bf_b: PIntegerArray;
+  rpl: PIntegerArray;
 begin
   destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
 
@@ -75,16 +74,17 @@ begin
   if count < 0 then
     exit;
 
+  rpl := ds_ripple;
   lfactor := ds_lightlevel;
   if lfactor >= 0 then // Use hi detail lightlevel
   begin
     R_GetFogPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
-    {$UNDEF RIPPLE}
+    {$DEFINE RIPPLE}
     {$I R_DrawSpanNormalFog.inc}
   end
   else // Use inversecolormap
   begin
-    {$UNDEF RIPPLE}
+    {$DEFINE RIPPLE}
     {$I R_DrawSpanNormalFog.inc}
   end;
 end;

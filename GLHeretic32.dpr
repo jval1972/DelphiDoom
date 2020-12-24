@@ -331,7 +331,8 @@ uses
   p_levelinfo in 'Base\p_levelinfo.pas',
   deh_base in 'Base\deh_base.pas',
   p_animdefs in 'Base\p_animdefs.pas',
-  p_easyslope in 'Base\p_easyslope.pas';
+  p_easyslope in 'Base\p_easyslope.pas',
+  r_flatinfo in 'Base\r_flatinfo.pas';
 
 var
   Saved8087CW: Word;
