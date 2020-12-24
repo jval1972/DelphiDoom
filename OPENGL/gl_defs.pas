@@ -57,6 +57,7 @@ type
     leftoffset, topoffset: integer;
     tex_width, tex_height: integer;
     realtexwidth, realtexheight: integer;
+    texturescale: single;
     buffer_width, buffer_height: integer;
     buffer_size: integer;
     heightscale: single;

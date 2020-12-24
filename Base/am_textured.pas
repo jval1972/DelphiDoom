@@ -193,7 +193,7 @@ begin
 end;
 {$ENDIF}
 
-procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump: integer; const aminx, amaxx: integer; const {$IFDEF OPENGL}lightlevel: integer{$ELSE}amcolormap: pointer{$ENDIF});
+procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump, flat: integer; const aminx, amaxx: integer; const {$IFDEF OPENGL}lightlevel: integer{$ELSE}amcolormap: pointer{$ENDIF});
 {$IFNDEF OPENGL}
 var
   data: PByteArray;
@@ -460,7 +460,8 @@ begin
     v2.x, v2.y, du1, dv1,
     v3.x, v3.y, du2, dv2,
     clight,
-    lump);
+    lump,
+    flat);
 {$ENDIF}
 end;
 
@@ -567,7 +568,7 @@ begin
         lst[1] := lst[2];
         lst[2] := seg;
 
-        AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
+        AM_DrawTexturedTriangle(lst, lump, ssector.sector.floorpic, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
       end;
     end;
 
@@ -636,7 +637,7 @@ begin
           Inc(seg);
           lst[1] := lst[2];
           lst[2] := seg;
-          AM_DrawTexturedTriangle(lst, lump, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
+          AM_DrawTexturedTriangle(lst, lump, ssector.sector.floorpic, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
         end;
       end;
 

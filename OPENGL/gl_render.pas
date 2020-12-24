@@ -689,7 +689,7 @@ var
   sbar: Integer;
 {$ENDIF}
 begin
-  gltexture := gld_RegisterFlat(W_GetNumForName(name), false);
+  gltexture := gld_RegisterFlat(W_GetNumForName(name), false, -1);
   gld_BindFlat(gltexture);
   if gltexture = nil then
     exit;
@@ -2712,7 +2712,7 @@ begin
 
   // get the texture. flattranslation is maintained by doom and
   // contains the number of the current animation frame
-  flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(pic), true);
+  flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(pic), true, pic);
   if flat.gltexture = nil then
     exit;
   // get the lightlevel
@@ -2772,7 +2772,7 @@ begin
 
   // get the texture. flattranslation is maintained by doom and
   // contains the number of the current animation frame
-  flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(pic), true);
+  flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(pic), true, pic);
   if flat.gltexture = nil then
     exit;
   // get the lightlevel
@@ -3129,7 +3129,7 @@ begin
         begin
           wall.ytop := ceiling_height / MAP_SCALE + SMALLDELTA;
           wall.ybottom := floor_height / MAP_SCALE - SMALLDELTA;
-          temptex := gld_RegisterFlat(R_GetLumpForFlat(seg.backsector.ceilingpic), true);
+          temptex := gld_RegisterFlat(R_GetLumpForFlat(seg.backsector.ceilingpic), true, seg.backsector.ceilingpic);
           if temptex <> nil then
           begin
             wall.flag := GLDWF_TOPFLUD;
@@ -3235,7 +3235,7 @@ bottomtexture:
         wall.ybottom := floor_height / MAP_SCALE - SMALLDELTA;
         if wall.ytop <= zCamera then
         begin
-          temptex := gld_RegisterFlat(R_GetLumpForFlat(seg.backsector.floorpic), true);
+          temptex := gld_RegisterFlat(R_GetLumpForFlat(seg.backsector.floorpic), true, seg.backsector.floorpic);
           if temptex <> nil then
           begin
             wall.flag := GLDWF_BOTFLUD;
@@ -3365,7 +3365,7 @@ begin
           glBegin(currentloop.mode);
           for i := currentloop.vertexindex to currentloop.vertexindex + currentloop.vertexcount - 1 do
           begin
-            glTexCoord2fv(@gld_texcoords[i]);
+            glTexCoord2f(gld_texcoords[i].u * flat.gltexture.texturescale, gld_texcoords[i].v * flat.gltexture.texturescale);
             glVertex3fv(@gld_vertexes[i]);
           end;
           glEnd;
@@ -3403,8 +3403,8 @@ begin
   begin
     glMatrixMode(GL_TEXTURE);
     glPushMatrix;
-    glTranslatef(flat.uoffs {$IFDEF HEXEN}* 64 / flat.gltexture.width{$ENDIF},
-                 flat.voffs {$IFDEF HEXEN}* 64 / flat.gltexture.height{$ENDIF},
+    glTranslatef(flat.uoffs * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.width{$ENDIF},
+                 flat.voffs * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.height{$ENDIF},
                  0.0);
   end;
   {$ENDIF}
@@ -3424,7 +3424,7 @@ begin
       glBegin(currentloop.mode);
       for i := currentloop.vertexindex to currentloop.vertexindex + currentloop.vertexcount - 1 do
       begin
-        glTexCoord2fv(@gld_texcoords[i]);
+        glTexCoord2f(gld_texcoords[i].u * flat.gltexture.texturescale, gld_texcoords[i].v * flat.gltexture.texturescale);
         glVertex3f(gld_vertexes[i].x, gld_FloorHeight(sec, gld_vertexes[i].x, gld_vertexes[i].z) - fz, gld_vertexes[i].z)
       end;
       glEnd;
@@ -3439,7 +3439,7 @@ begin
       glBegin(currentloop.mode);
       for i := currentloop.vertexindex to currentloop.vertexindex + currentloop.vertexcount - 1 do
       begin
-        glTexCoord2fv(@gld_texcoords[i]);
+        glTexCoord2f(gld_texcoords[i].u * flat.gltexture.texturescale, gld_texcoords[i].v * flat.gltexture.texturescale);
         glVertex3f(gld_vertexes[i].x, gld_CeilingHeight(sec, gld_vertexes[i].x, gld_vertexes[i].z) - fz, gld_vertexes[i].z)
       end;
       glEnd;
@@ -3516,7 +3516,7 @@ begin
       exit;
     // get the texture. flattranslation is maintained by doom and
     // contains the number of the current animation frame
-    flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(sector.ceilingpic), true);
+    flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(sector.ceilingpic), true, sector.ceilingpic);
     if flat.gltexture = nil then
       exit;
     // get the lightlevel from floorlightlevel
@@ -3540,7 +3540,7 @@ begin
       exit;
     // get the texture. flattranslation is maintained by doom and
     // contains the number of the current animation frame
-    flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(sector.floorpic), true);
+    flat.gltexture := gld_RegisterFlat(R_GetLumpForFlat(sector.floorpic), true, sector.floorpic);
     if flat.gltexture = nil then
       exit;
     // get the lightlevel from ceilinglightlevel

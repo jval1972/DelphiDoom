@@ -85,7 +85,7 @@ function gld_RegisterPatch(lump: integer; cm: integer; const unload: boolean = t
 
 procedure gld_BindPatch(gltexture: PGLTexture; cm: integer);
 
-function gld_RegisterFlat(lump: integer; mipmap: boolean): PGLTexture;
+function gld_RegisterFlat(lump: integer; mipmap: boolean; flat: integer): PGLTexture;
 
 procedure gld_BindFlat(gltexture: PGLTexture);
 
@@ -131,6 +131,7 @@ uses
   p_tick,
   r_data,
   r_draw,
+  r_flatinfo,
   r_sky,
   r_things,
   r_hires,
@@ -187,6 +188,7 @@ begin
   begin
     gld_GLTextures[texture_num] := mallocz(SizeOf(GLTexture));
     gld_GLTextures[texture_num].textype := GLDT_UNREGISTERED;
+    gld_GLTextures[texture_num].texturescale := 1.0;
   end;
   result := gld_GLTextures[texture_num];
 end;
@@ -207,6 +209,7 @@ begin
   begin
     gld_GLPatchTextures[lump] := mallocz(SizeOf(GLTexture));
     gld_GLPatchTextures[lump].textype := GLDT_UNREGISTERED;
+    gld_GLPatchTextures[lump].texturescale := 1.0;
   end;
   result := gld_GLPatchTextures[lump];
 end;
@@ -1264,7 +1267,7 @@ begin
   Z_ChangeTag(patch, PU_CACHE);
 end;
 
-function gld_RegisterFlat(lump: integer; mipmap: boolean): PGLTexture;
+function gld_RegisterFlat(lump: integer; mipmap: boolean; flat: integer): PGLTexture;
 var
   lumplen: integer;
 begin
@@ -1293,6 +1296,15 @@ begin
     result.topoffset := 0;
     result.tex_width := gld_GetTexDimension(result.realtexwidth);
     result.tex_height := gld_GetTexDimension(result.realtexheight);
+    if flat < 0 then
+      result.texturescale := 1.0
+    else
+    begin
+      if flats[flats[flat].translation].size = 0 then
+        result.texturescale := 1.0
+      else
+        result.texturescale := 64 / dsscalesize[flats[flats[flat].translation].size].flatsize;
+    end;
     if result.mipmap and use_mipmapping then
     begin
       result.width := result.tex_width;
@@ -1500,7 +1512,7 @@ begin
 
   for i := numflats - 1 downto 0 do
     if hitlist[i] then
-      gld_BindFlat(gld_RegisterFlat(flats[i].lump, true));
+      gld_BindFlat(gld_RegisterFlat(flats[i].lump, true, i));
 
   // Precache textures.
 

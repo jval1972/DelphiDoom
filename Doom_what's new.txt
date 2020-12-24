@@ -3,6 +3,7 @@ Fixed memory corruption problem in I_ReverseScreen().
 Corrected lump name character case for runtime loading.
 Changed traverse order of mobjinfo table.
 Easyslope item to easily create slopes.
+Support for flats up to 4096x4096 px.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

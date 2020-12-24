@@ -6,6 +6,7 @@ Changed traverse order of mobjinfo table.
 When an invalid blockmap is detected will build a new one.
 Added -blockmap command line parameter. When set it will force to generate blockmap while loading a map.
 Easyslope item to easily create slopes.
+Support for flats up to 4096x4096 px.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
