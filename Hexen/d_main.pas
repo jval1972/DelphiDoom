@@ -2150,7 +2150,7 @@ begin
   printf('C_Init: Initializing console.'#13#10);
   C_Init;
 
-  p := M_CheckParm('-keyboardmode');
+  p := M_CheckParm('');
   if (p > 0) and (p < myargc - 1) then
   begin
     inc(p);
@@ -2159,7 +2159,7 @@ begin
       M_SetKeyboardMode(0)
     else if (kparm = '1') or (kparm = 'WASD') then
       M_SetKeyboardMode(1)
-    else if (kparm = '1') or (kparm = 'ESDF') then
+    else if (kparm = '2') or (kparm = 'ESDF') then
       M_SetKeyboardMode(2);
   end;
 

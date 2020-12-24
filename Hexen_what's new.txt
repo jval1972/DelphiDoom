@@ -8,6 +8,7 @@ When an invalid blockmap is detected will build a new one.
 Added -blockmap command line parameter. When set it will force to generate blockmap while loading a map.
 Support for flats up to 4096x4096 px.
 Fixed bug in erronous width & height screen dimentions input when the -geom command line parameter is specified.
+Fixed bug that did't recornized the '-keyboardmode 2' command line parameter for ESDF movement.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
