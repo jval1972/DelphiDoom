@@ -36,7 +36,7 @@ interface
 uses
   d_delphi,
   m_fixed,
-  r_span;
+  r_flatinfo;
 
 type
   flatrenderinfo32_t = record
@@ -84,6 +84,7 @@ uses
   r_main,
   r_precalc,
   r_ripple,
+  r_span,
   r_span32;
 
 var

@@ -597,7 +597,7 @@ begin
   begin
     lump := R_GetLumpForFlat(flat);
     ds_source := W_CacheLumpNum(lump, PU_STATIC);
-    ds_scale := R_FlatScaleFromSize(W_LumpLength(lump));
+    ds_scale := R_FlatScaleFromSize(flat, W_LumpLength(lump));
   end
   else
     R_ReadDS32Cache(flat);

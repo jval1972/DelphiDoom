@@ -48,6 +48,7 @@ implementation
 
 uses
   r_precalc,
+  r_flatinfo,
   r_span,
   r_draw,
   r_hires,

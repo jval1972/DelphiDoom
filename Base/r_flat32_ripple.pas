@@ -44,6 +44,7 @@ uses
   r_main,
   r_precalc,
   r_ripple,
+  r_flatinfo,
   r_span,
   r_span32,
   r_flat32;

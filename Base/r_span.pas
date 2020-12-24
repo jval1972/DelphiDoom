@@ -56,36 +56,13 @@ var
 // start of a 64*64 tile image
   ds_source: PByteArray;
 // Flat size
-  ds_size: integer;  
-
-
-type
-  dsscale_t = (ds64x64, ds128x128, ds256x256, ds512x512, NUMDSSCALES);
-
-const
-  dsscalesize: array[0..Ord(NUMDSSCALES) - 1] of integer = (
-     64 *  64,
-    128 * 128,
-    256 * 256,
-    512 * 512
-  );
-
-var
-  ds_scale: dsscale_t;
-
-const
-  FS64x64 = 0;
-  FS128x128 = 1;
-  FS256x256 = 2;
-  FS512x512 = 3;
-  FS1024x1024 = 4;
-  FS2048x2048 = 5;
-  FS4096x4096 = 6;
+  ds_size: integer;
 
 implementation
 
 uses
   r_draw,
+  r_flatinfo,
   r_ripple;
 //
 // R_DrawSpan

@@ -37,6 +37,38 @@ procedure R_ParseFlatInfoLumps;
 
 function R_FlatSizeFromSize(const size: integer): integer;
 
+type
+  dsscale_t = (ds64x64, ds128x128, ds256x256, ds512x512, NUMDSSCALES);
+
+var
+  ds_scale: dsscale_t;
+
+const
+  FS64x64 = 0;
+  FS128x128 = 1;
+  FS256x256 = 2;
+  FS512x512 = 3;
+  FS1024x1024 = 4;
+  FS2048x2048 = 5;
+  FS4096x4096 = 6;
+
+type
+  dsscalesizeitem_t = record
+    memsize: integer;
+    flatsize: integer;
+  end;
+
+const
+  dsscalesize: array[FS64x64..FS4096x4096] of dsscalesizeitem_t = (
+    (memsize:   64 *   64; flatsize:   64),
+    (memsize:  128 *  128; flatsize:  128),
+    (memsize:  256 *  256; flatsize:  256),
+    (memsize:  512 *  512; flatsize:  512),
+    (memsize: 1024 * 1024; flatsize: 1024),
+    (memsize: 2048 * 2048; flatsize: 2048),
+    (memsize: 4096 * 4096; flatsize: 4096)
+  );
+
 implementation
 
 uses
@@ -44,7 +76,6 @@ uses
   i_system,
   r_defs,
   r_data,
-  r_span,
   sc_engine,
   w_pak,
   w_wad;
@@ -67,7 +98,7 @@ begin
         sc.MustGetString;
         token := strupper(sc._String);
         flat := nil;
-        for i := 0 to numflats - 1 do
+        for i := numflats - 1 downto 0 do
         begin
           if token = char8tostring(flats[i].name) then
           begin

@@ -53,7 +53,7 @@ implementation
 uses
   d_delphi,
   m_fixed,
-  r_span;
+  r_flatinfo;
 
 procedure R_GrowSpan64to128(const p: Pds32cacheinfo_t);
 var

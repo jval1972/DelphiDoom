@@ -91,6 +91,7 @@ uses
   r_segs,
   r_segs2,
   r_sky,
+  r_flatinfo,
   r_span,
   r_span32,
   r_subsectors,

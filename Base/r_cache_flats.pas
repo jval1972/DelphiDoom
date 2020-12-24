@@ -34,7 +34,7 @@ unit r_cache_flats;
 interface
 
 uses
-  r_span;
+  r_flatinfo;
 
 const
 // Flat cache
@@ -44,13 +44,14 @@ const
 procedure R_ReadDS32Cache(const flat: integer);
 
 type
-  ds32_t = array[0..512 * 512 - 1] of LongWord;
+  ds32_t = array[0..4096 * 4096 - 1] of LongWord;
   Pds32_t = ^ds32_t;
 
   ds32cacheinfo_t = record
-    ds32: array[0..Ord(NUMDSSCALES) - 1] of Pds32_t;
+    ds32: array[FS64x64..FS4096x4096] of Pds32_t;
     lump: integer;
     scale: dsscale_t;
+    size: integer;
   end;
   Pds32cacheinfo_t = ^ds32cacheinfo_t;
   ds32cacheinfo_tArray = array[0..FLAT32CACHESIZE - 1] of ds32cacheinfo_t;
@@ -58,7 +59,7 @@ type
 
 function R_Get_ds32(p: Pds32cacheinfo_t): Pds32_t;
 
-function R_FlatScaleFromSize(const size: integer): dsscale_t;
+function R_FlatScaleFromSize(const flat, size: integer): dsscale_t;
 
 procedure R_ClearDS32Cache;
 procedure R_ResetDS32Cache;
@@ -78,6 +79,7 @@ uses
   r_diher,
 {$ENDIF}
   r_data,
+  r_span,
   r_flat32,
   r_grow,
   r_span32,
@@ -153,32 +155,43 @@ begin
         flats[flats[flat].translation].flat32 := pointer($1) // Mark as missing
       else
       begin
-        if t.GetWidth <= 64 then
-          fsize := 64
-        else if t.GetWidth <= 128 then
-          fsize := 128
-        else if t.GetWidth <= 256 then
-          fsize := 256
+        if flats[flats[flat].translation].size > 0 then
+          fsize := dsscalesize[flats[flats[flat].translation].size].flatsize
         else
-          fsize := 512;
+        begin
+          if t.GetWidth <= 64 then
+            fsize := 64
+          else if t.GetWidth <= 128 then
+            fsize := 128
+          else if t.GetWidth <= 256 then
+            fsize := 256
+          else 
+            fsize := 512;
+        end;
         t.ScaleTo(fsize, fsize);
         flats[flats[flat].translation].flat32 := t;
       end;
     end;
 
+    pds.size := flats[flats[flat].translation].size;
     if useexternaltextures and (integer(t) > $1) then // if we have a hi resolution flat
     begin
       fsize := t.GetWidth;
-      if fsize = 512 then
-        pds.scale := ds512x512
-      else if fsize = 256 then
-        pds.scale := ds256x256
-      else if fsize = 128 then
-        pds.scale := ds128x128
+      if pds.size > 0 then
+        pds.scale := ds64x64
       else
-        pds.scale := ds64x64;
-      pds32 := R_Get_ds32(pds);
+      begin
+        if fsize = 512 then
+          pds.scale := ds512x512
+        else if fsize = 256 then
+          pds.scale := ds256x256
+        else if fsize = 128 then
+          pds.scale := ds128x128
+        else
+          pds.scale := ds64x64;
+      end;
       numpixels := fsize * fsize;
+      pds32 := R_Get_ds32(pds);
       curgamma := @gammatable[usegamma]; // To Adjust gamma
 
       if (t.GetBytesPerPixel = 1) {$IFDEF DOOM_OR_STRIFE} and (customcolormap = nil){$ENDIF} then
@@ -291,7 +304,11 @@ begin
     begin
       ds_source := W_CacheLumpNum(lump, PU_STATIC);
       lumplen := W_LumpLength(lump);
-      pds.scale := R_FlatScaleFromSize(lumplen);
+      pds.size := flats[flats[flat].translation].size;
+      if pds.size = 0 then
+        pds.scale := R_FlatScaleFromSize(flat, lumplen)
+      else
+        pds.scale := ds64x64;
 
       src1 := @ds_source[0];
       pds32 := R_Get_ds32(pds);
@@ -300,7 +317,7 @@ begin
         loops := 0
       else
 {$IFNDEF NO_INLINE_LOOPS}
-        loops := dsscalesize[Ord(pds.scale)] div 64;
+        loops := dsscalesize[MaxI(Ord(pds.scale), pds.size)].flatsize div 64;
       for i := 0 to loops - 1 do
       begin
         {$UNDEF LASTLOOP}
@@ -369,7 +386,7 @@ begin
         {$I R_ReadDC32Cache_Loop1.inc}
         {$I R_ReadDC32Cache_Loop1.inc}
 {$ELSE}
-        loops := dsscalesize[Ord(pds.scale)];
+        loops := dsscalesize[MaxI(Ord(pds.scale), pds.size)];
       for i := 0 to loops - 1 do
       begin
         {$UNDEF LASTLOOP}
@@ -378,23 +395,29 @@ begin
       end;
       Z_ChangeTag(ds_source, PU_CACHE);
     end;
-    if (detailLevel >= DL_NORMAL) and (pds.scale = ds64x64) then
+    if (detailLevel >= DL_NORMAL) and (pds.scale = ds64x64) and (pds.size = FS64x64) then
     begin
       if extremeflatfiltering then
       begin
-        if detailLevel = DL_ULTRARES then
-          R_GrowSpan64to512(pds)
-        else if detailLevel = DL_HIRES then
-          R_GrowSpan64to256(pds)
-        else
-          R_GrowSpan64to128(pds)
+        if pds.size = 0 then
+        begin
+          if detailLevel = DL_ULTRARES then
+            R_GrowSpan64to512(pds)
+          else if detailLevel = DL_HIRES then
+            R_GrowSpan64to256(pds)
+          else
+            R_GrowSpan64to128(pds);
+        end;
       end
       else
       begin
-        if detailLevel = DL_ULTRARES then
-          R_GrowSpan64to256(pds)
-        else if detailLevel = DL_HIRES then
-          R_GrowSpan64to128(pds)
+        if pds.size = 0 then
+        begin
+          if detailLevel = DL_ULTRARES then
+            R_GrowSpan64to256(pds)
+          else if detailLevel = DL_HIRES then
+            R_GrowSpan64to128(pds);
+        end;
       end;
       pds32 := R_Get_ds32(pds);
     end;
@@ -408,11 +431,11 @@ end;
 
 function R_Get_ds32(p: Pds32cacheinfo_t): Pds32_t;
 begin
-  result := p.ds32[Ord(p.scale)];
+  result := p.ds32[MaxI(Ord(p.scale), p.size)];
   if result = nil then
   begin
-    result := malloc(dsscalesize[Ord(p.scale)] * SizeOf(LongWord));
-    p.ds32[Ord(p.scale)] := result;
+    result := malloc(dsscalesize[MaxI(Ord(p.scale), p.size)].memsize * SizeOf(LongWord));
+    p.ds32[MaxI(Ord(p.scale), p.size)] := result;
   end;
 end;
 
@@ -439,26 +462,27 @@ begin
   for i := 0 to FLAT32CACHESIZE - 1 do
     if ds32cache[i] <> nil then
     begin
-      for j := 0 to Ord(NUMDSSCALES) - 1 do
+      for j := FS64x64 to FS4096x4096 do
         if ds32cache[i].ds32[j] <> nil then
-          memfree(pointer(ds32cache[i].ds32[j]), dsscalesize[j] * SizeOf(LongWord));
+          memfree(pointer(ds32cache[i].ds32[j]), dsscalesize[j].memsize * SizeOf(LongWord));
       memfree(pointer(ds32cache[i]), SizeOf(ds32cacheinfo_t));
     end
 end;
 
-function R_FlatScaleFromSize(const size: integer): dsscale_t;
+function R_FlatScaleFromSize(const flat, size: integer): dsscale_t;
 var
   i: integer;
 begin
   // JVAL
   // Determine hi-resolution flats inside wad
   // The lump size of a hi resolution flat must fit dsscalesize
-  for i := 0 to Ord(NUMDSSCALES) - 1 do
-    if size = dsscalesize[i] then
-    begin
-      result := dsscale_t(i);
-      exit;
-    end;
+  if flats[flats[flat].translation].size = 0 then
+    for i := FS64x64 to FS4096x4096 do
+      if size = dsscalesize[i].memsize then
+      begin
+        result := dsscale_t(i);
+        exit;
+      end;
   result := ds64x64;
 end;
 
