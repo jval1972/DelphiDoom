@@ -97,74 +97,153 @@ var
 begin
   dest := @((ylookup[ds_y]^)[columnofs[ds_x1]]);
 
-  if ds_scale = ds512x512 then
-  begin
-    _shift := 7;
-    _and1 := 261632;
-    _and2 := 511;
-    xfrac := ds_xfrac * 8;
-    yfrac := ds_yfrac * 8;
-    // Blocky mode, multiply by 3 (!!).
-    ds_xstep2 := ds_xstep * 24;
-    ds_ystep2 := ds_ystep * 24;
-  end
-  else if ds_scale = ds256x256 then
-  begin
-    _shift := 8;
-    _and1 := 65280;
-    _and2 := 255;
-    xfrac := ds_xfrac * 4;
-    yfrac := ds_yfrac * 4;
-    // Blocky mode, multiply by 3 (!!).
-    ds_xstep2 := ds_xstep * 12;
-    ds_ystep2 := ds_ystep * 12;
-  end
-  else if ds_scale = ds128x128 then
-  begin
-    _shift := 9;
-    _and1 := 16256;
-    _and2 := 127;
-    xfrac := ds_xfrac * 2;
-    yfrac := ds_yfrac * 2;
-    // Blocky mode, multiply by 3 (!!).
-    ds_xstep2 := ds_xstep * 6;
-    ds_ystep2 := ds_ystep * 6;
-  end
+  case ds_size of
+  FS64x64:
+    begin
+      if ds_scale = ds512x512 then
+      begin
+        _shift := 7;
+        _and1 := 261632;
+        _and2 := 511;
+        xfrac := ds_xfrac * 8;
+        yfrac := ds_yfrac * 8;
+        // Blocky mode, multiply by 3 (!!).
+        ds_xstep2 := ds_xstep * 24;
+        ds_ystep2 := ds_ystep * 24;
+      end
+      else if ds_scale = ds256x256 then
+      begin
+        _shift := 8;
+        _and1 := 65280;
+        _and2 := 255;
+        xfrac := ds_xfrac * 4;
+        yfrac := ds_yfrac * 4;
+        // Blocky mode, multiply by 3 (!!).
+        ds_xstep2 := ds_xstep * 12;
+        ds_ystep2 := ds_ystep * 12;
+      end
+      else if ds_scale = ds128x128 then
+      begin
+        _shift := 9;
+        _and1 := 16256;
+        _and2 := 127;
+        xfrac := ds_xfrac * 2;
+        yfrac := ds_yfrac * 2;
+        // Blocky mode, multiply by 3 (!!).
+        ds_xstep2 := ds_xstep * 6;
+        ds_ystep2 := ds_ystep * 6;
+      end
+      else
+      begin
+        _shift := 10;
+        _and1 := 4032;
+        _and2 := 63;
+        xfrac := ds_xfrac;
+        yfrac := ds_yfrac;
+        // Blocky mode, multiply by 3 (!!).
+        ds_xstep2 := ds_xstep * 3;
+        ds_ystep2 := ds_ystep * 3;
+      end;
+    end;
+  FS128x128:
+    begin
+      _shift := 9;
+      _and1 := 16256;
+      _and2 := 127;
+      xfrac := ds_xfrac;
+      yfrac := ds_yfrac;
+      // Blocky mode, multiply by 3 (!!).
+      ds_xstep2 := ds_xstep * 3;
+      ds_ystep2 := ds_ystep * 3;
+    end;
+  FS256x256:
+    begin
+      _shift := 8;
+      _and1 := 65280;
+      _and2 := 255;
+      xfrac := ds_xfrac;
+      yfrac := ds_yfrac;
+      // Blocky mode, multiply by 3 (!!).
+      ds_xstep2 := ds_xstep * 3;
+      ds_ystep2 := ds_ystep * 3;
+    end;
+  FS512x512:
+    begin
+      _shift := 7;
+      _and1 := 261632;
+      _and2 := 511;
+      xfrac := ds_xfrac;
+      yfrac := ds_yfrac;
+      // Blocky mode, multiply by 3 (!!).
+      ds_xstep2 := ds_xstep * 3;
+      ds_ystep2 := ds_ystep * 3;
+    end;
+  FS1024x1024:
+    begin
+      _shift := 6;
+      _and1 := 1047552;
+      _and2 := 1023;
+      xfrac := ds_xfrac;
+      yfrac := ds_yfrac;
+      // Blocky mode, multiply by 3 (!!).
+      ds_xstep2 := ds_xstep * 3;
+      ds_ystep2 := ds_ystep * 3;
+    end;
+  FS2048x2048:
+    begin
+      _shift := 5;
+      _and1 := 4192256;
+      _and2 := 2047;
+      xfrac := ds_xfrac;
+      yfrac := ds_yfrac;
+      // Blocky mode, multiply by 3 (!!).
+      ds_xstep2 := ds_xstep * 3;
+      ds_ystep2 := ds_ystep * 3;
+    end;
   else
-  begin
-    _shift := 10;
-    _and1 := 4032;
-    _and2 := 63;
-    xfrac := ds_xfrac;
-    yfrac := ds_yfrac;
-    // Blocky mode, multiply by 3 (!!).
-    ds_xstep2 := ds_xstep * 3;
-    ds_ystep2 := ds_ystep * 3;
+    begin
+      _shift := 4;
+      _and1 := 16773120;
+      _and2 := 4095;
+      xfrac := ds_xfrac;
+      yfrac := ds_yfrac;
+      // Blocky mode, multiply by 3 (!!).
+      ds_xstep2 := ds_xstep * 3;
+      ds_ystep2 := ds_ystep * 3;
+    end;
   end;
 
   if ds_ripple <> nil then
   begin
     rpl := ds_ripple;
 
-    if ds_scale = ds512x512 then
-    begin
-      rpl_shift := 19;
-      rpl_factor := 8;
-    end
-    else if ds_scale = ds256x256 then
-    begin
-      rpl_shift := 18;
-      rpl_factor := 4;
-    end
-    else if ds_scale = ds128x128 then
-    begin
-      rpl_shift := 17;
-      rpl_factor := 2;
-    end
+    case ds_size of
+    FS64x64:
+      if ds_scale = ds512x512 then
+      begin
+        rpl_shift := 19;
+        rpl_factor := 8;
+      end
+      else if ds_scale = ds256x256 then
+      begin
+        rpl_shift := 18;
+        rpl_factor := 4;
+      end
+      else if ds_scale = ds128x128 then
+      begin
+        rpl_shift := 17;
+        rpl_factor := 2;
+      end
+      else
+      begin
+        rpl_shift := 16;
+        rpl_factor := 1;
+      end;
     else
-    begin
-      rpl_shift := 16;
-      rpl_factor := 1;
+      begin
+        rpl_shift := 16;
+        rpl_factor := 1;
+      end;
     end;
 
 
