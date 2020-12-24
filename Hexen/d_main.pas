@@ -1671,9 +1671,13 @@ begin
     SCREENWIDTH := atoi(s1);
     if SCREENWIDTH > MAXWIDTH then
       SCREENWIDTH := MAXWIDTH;
+    if SCREENWIDTH < MINWIDTH then
+      SCREENWIDTH := MINWIDTH;
     SCREENHEIGHT := atoi(s2);
     if SCREENHEIGHT > MAXHEIGHT then
       SCREENHEIGHT := MAXHEIGHT;
+    if SCREENHEIGHT < MINHEIGHT then
+      SCREENHEIGHT := MINHEIGHT;
   end;
 
   p := M_CheckParm('-fullhd');
@@ -2072,7 +2076,6 @@ begin
   end;
   printf('MT_Init: Initializing multithreading utilities.'#13#10);
   MT_Init;
-
 
   SUC_Progress(69);
 
