@@ -657,6 +657,8 @@ var
   numtextures2: integer;
   numtextures3: integer;
   directory: PIntegerArray;
+  t2lump: integer;
+  t3lump: integer;
   pname: string;
 begin
   {$IFNDEF OPENGL}
@@ -705,17 +707,19 @@ begin
   // Load the map texture definitions from textures.lmp.
   // The data is contained in one or two lumps,
   //  TEXTURE1 for shareware, plus TEXTURE2 for commercial.
+  // JVAL: TEXTURE3 for more textures
   maptex1 := W_CacheLumpName('TEXTURE1', PU_STATIC);
   maptex := maptex1;
   numtextures1 := maptex[0];
   maxoff := W_LumpLength(W_GetNumForName('TEXTURE1'));
   directory := PintegerArray(integer(maptex) + SizeOf(integer));
 
-  if W_CheckNumForName('TEXTURE2') <> -1 then
+  t2lump := W_CheckNumForName('TEXTURE2');
+  if t2lump <> -1 then
   begin
-    maptex2 := W_CacheLumpName('TEXTURE2', PU_STATIC);
+    maptex2 := W_CacheLumpNum(t2lump, PU_STATIC);
     numtextures2 := maptex2[0];
-    maxoff2 := W_LumpLength(W_GetNumForName('TEXTURE2'));
+    maxoff2 := W_LumpLength(t2lump);
   end
   else
   begin
@@ -724,11 +728,12 @@ begin
     maxoff2 := 0;
   end;
 
-  if W_CheckNumForName('TEXTURE3') <> -1 then
+  t3lump := W_CheckNumForName('TEXTURE3');
+  if t3lump <> -1 then
   begin
-    maptex3 := W_CacheLumpName('TEXTURE3', PU_STATIC);
+    maptex3 := W_CacheLumpNum(t3lump, PU_STATIC);
     numtextures3 := maptex3[0];
-    maxoff3 := W_LumpLength(W_GetNumForName('TEXTURE3'));
+    maxoff3 := W_LumpLength(t3lump);
   end
   else
   begin
@@ -866,6 +871,7 @@ var
   numtextures1: integer;
   numtextures2: integer;
   directory: PIntegerArray;
+  t2lump: integer;
   pname: string;
 begin
   {$IFNDEF OPENGL}
@@ -920,11 +926,12 @@ begin
   maxoff := W_LumpLength(W_GetNumForName('TEXTURE1'));
   directory := PintegerArray(integer(maptex) + SizeOf(integer));
 
-  if W_CheckNumForName('TEXTURE2') <> -1 then
+  t2lump := W_CheckNumForName('TEXTURE2');
+  if t2lump <> -1 then
   begin
-    maptex2 := W_CacheLumpName('TEXTURE2', PU_STATIC);
+    maptex2 := W_CacheLumpNum(t2lump, PU_STATIC);
     numtextures2 := maptex2[0];
-    maxoff2 := W_LumpLength(W_GetNumForName('TEXTURE2'));
+    maxoff2 := W_LumpLength(t2lump);
   end
   else
   begin
@@ -1425,6 +1432,7 @@ begin
     {$ENDIF}
     // JVAL: 9 December 2007, Added terrain types
     flats[result].terraintype := P_TerrainTypeForName(flats[result].name);
+    flats[result].size := 0;
   end
 end;
 
