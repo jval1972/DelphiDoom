@@ -257,17 +257,20 @@ var
   angle: angle_t;
   distance: fixed_t;
   yslopey: fixed_t;
-  length: fixed_t;
+  len: fixed_t;
   index: LongWord;
   ncolornum: integer;
   x: integer;
-  Theta, rTheta: Double;
+  Theta, rTheta: integer;
   yidx: integer;
   screenDX: integer;
   zleft, zright: Double;
   xleft, xright: fixed_t;
 begin
   if y >= viewheight then
+    exit;
+
+  if x2 - x1 < 0 then
     exit;
 
   if usefake3d and zaxisshift then
@@ -287,10 +290,11 @@ begin
 
   xleft := visslope.screenleft[yidx];
   xright := visslope.screenright[yidx];
+
   screenDX := xright - xleft + 1;
 
-  if x2 - x1 < 0 then
-    exit;
+  zleft := zleft * screenDX;
+  zright := zright * screenDX;
 
   ds_y := y;
 
@@ -315,23 +319,24 @@ begin
   for x := x1 to x2 do
   begin
     if x = xleft then
-      distance := Abs(Round(zleft))
+      distance := Abs(Round(zleft / screenDX))
     else if x = xright then
-      distance := Abs(Round(zright))
+      distance := Abs(Round(zright / screenDX))
     else
     begin
-      Theta := (x - xleft) / screenDX;
-      rTheta := 1.0 - Theta;
+      Theta := x - xleft;
+      rTheta := screenDX - Theta;
 
       distance := Abs(Round(1.0 / (rTheta / zleft + Theta / zright)));
     end;
 
-    length := FixedMul(distance, distscale[x]);
-    angle := (viewangle + xtoviewangle[x]) shr ANGLETOFINESHIFT;
+    len := FixedMul(distance, distscale[x]);
 
-    ds_xfrac := viewx + FixedMul(finecosine[angle], length)
+    angle := (viewangle + xtoviewangle[x]) shr FRACBITS;
+
+    ds_xfrac := viewx + FixedMul(fixedcosine[angle], len)
     {$IFDEF DOOM_OR_STRIFE} + xoffs{$ENDIF} {$IFDEF HEXEN} + ds_xoffset{$ENDIF};
-    ds_yfrac := -viewy - FixedMul(finesine[angle], length)
+    ds_yfrac := -viewy - FixedMul(fixedsine[angle], len)
     {$IFDEF DOOM_OR_STRIFE} + yoffs{$ENDIF} {$IFDEF HEXEN} + ds_yoffset{$ENDIF};
 
     if fixedcolormap = nil then
@@ -389,11 +394,11 @@ var
   angle: angle_t;
   distance: fixed_t;
   yslopey: fixed_t;
-  length: fixed_t;
+  len: fixed_t;
   index: LongWord;
   ncolornum: integer;
   x: integer;
-  Theta, rTheta: Double;
+  Theta, rTheta: integer;
   yidx: integer;
   screenDX: integer;
   zleft, zright: Double;
@@ -405,6 +410,9 @@ var
   cnt: integer;
 begin
   if y >= viewheight then
+    exit;
+
+  if x2 - x1 < 0 then
     exit;
 
   if usefake3d and zaxisshift then
@@ -424,10 +432,11 @@ begin
 
   xleft := visslope.screenleft[yidx];
   xright := visslope.screenright[yidx];
+
   screenDX := xright - xleft + 1;
 
-  if x2 - x1 < 0 then
-    exit;
+  zleft := zleft * screenDX;
+  zright := zright * screenDX;
 
   ds_y := y;
 
@@ -458,32 +467,43 @@ begin
     if (x = x1) or (x = x2) or (x mod SLOPESRECALCSTEP = 0) then
     begin
       if x = xleft then
-        distance := Abs(Round(zleft))
+        distance := Abs(Round(zleft / ScreenDX))
       else if x = xright then
-        distance := Abs(Round(zright))
+        distance := Abs(Round(zright / ScreenDX))
       else
       begin
-        Theta := (x - xleft) / screenDX;
-        rTheta := 1.0 - Theta;
+        Theta := x - xleft;
+        rTheta := screenDX - Theta;
 
         distance := Abs(Round(1.0 / (rTheta / zleft + Theta / zright)));
       end;
 
-      length := FixedMul(distance, distscale[x]);
-      angle := (viewangle + xtoviewangle[x]) shr ANGLETOFINESHIFT;
+      len := FixedMul(distance, distscale[x]);
 
-      xfrac1 := viewx + FixedMul(finecosine[angle], length)
+      angle := (viewangle + xtoviewangle[x]) shr FRACBITS;
+
+      xfrac1 := viewx + FixedMul(fixedcosine[angle], len)
       {$IFDEF DOOM_OR_STRIFE} + xoffs{$ENDIF} {$IFDEF HEXEN} + ds_xoffset{$ENDIF};
-      yfrac1 := -viewy - FixedMul(finesine[angle], length)
+      yfrac1 := -viewy - FixedMul(fixedsine[angle], len)
       {$IFDEF DOOM_OR_STRIFE} + yoffs{$ENDIF} {$IFDEF HEXEN} + ds_yoffset{$ENDIF};
+
       if x = x1 then
       begin
         xfrac2 := xfrac1;
         yfrac2 := yfrac1;
+        ds_xstep := 0;
+        ds_ystep := 0;
+      end
+      else if cnt = SLOPESRECALCSTEP then
+      begin
+        ds_xstep := (xfrac1 - xfrac2) div SLOPESRECALCSTEP;
+        ds_ystep := (yfrac1 - yfrac2) div SLOPESRECALCSTEP;
+      end
+      else
+      begin
+        ds_xstep := (xfrac1 - xfrac2) div cnt;
+        ds_ystep := (yfrac1 - yfrac2) div cnt;
       end;
-
-      ds_xstep := (xfrac1 - xfrac2) div cnt;
-      ds_ystep := (yfrac1 - yfrac2) div cnt;
 
       if fixedcolormap = nil then
       begin
