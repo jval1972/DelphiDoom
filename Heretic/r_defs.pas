@@ -171,6 +171,9 @@ type
 {$ELSE}
     cachedheight: integer;
     scaleindex: integer;
+    // JVAL: 20201225 - Speed up maps with large number of slopes
+    floorvisslope: integer;
+    ceilingvisslope: integer;
 {$ENDIF}
   end;
   sector_tArray = packed array[0..$FFFF] of sector_t;

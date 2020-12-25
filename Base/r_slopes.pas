@@ -199,38 +199,49 @@ begin
   maxvisslope := -1;
 end;
 
-function R_FindVisSlope(const sectorID: Integer; const virtualfloor: Boolean): Pvisslope_t;
-var
-  i: integer;
-begin
-  Result := @visslopes[0];
-  for i := 0 to lastvisslope - 1 do
-  begin
-    if Result.sectorID = sectorID then
-      if Result.virtualfloor = virtualfloor then
-        exit;
-    inc(Result);
-  end;
-
-  Result := R_NewVisSlope;
-  Result.sectorID := sectorID;
-  Result.virtualfloor := virtualfloor;
-end;
-
 function R_FindExistingVisSlope(const sectorID: Integer; const virtualfloor: Boolean): Pvisslope_t;
 var
-  i: integer;
+  sec: Psector_t;
 begin
-  result := @visslopes[0];
-  for i := 0 to lastvisslope - 1 do
+  sec := @sectors[sectorID];
+  if virtualfloor then
   begin
-    if result.sectorID = sectorID then
-      if result.virtualfloor = virtualfloor then
-        exit;
-    inc(Result);
+    if (sec.floorvisslope >= 0) and (sec.floorvisslope < lastvisslope - 1) then
+      if (visslopes[sec.floorvisslope].sectorID = sectorID) and visslopes[sec.floorvisslope].virtualfloor then
+      begin
+        Result := @visslopes[sec.floorvisslope];
+        Exit;
+      end;
+  end
+  else
+  begin
+    if (sec.ceilingvisslope >= 0) and (sec.ceilingvisslope < lastvisslope - 1) then
+      if (visslopes[sec.ceilingvisslope].sectorID = sectorID) and not visslopes[sec.ceilingvisslope].virtualfloor then
+      begin
+        Result := @visslopes[sec.ceilingvisslope];
+        Exit;
+      end;
   end;
 
   Result := nil;
+end;
+
+function R_FindVisSlope(const sectorID: Integer; const virtualfloor: Boolean): Pvisslope_t;
+begin
+  Result := R_FindExistingVisSlope(sectorID, virtualfloor);
+
+  if Result = nil then
+  begin
+    Result := R_NewVisSlope;
+    Result.sectorID := sectorID;
+    Result.virtualfloor := virtualfloor;
+
+    // JVAL: 20201225 - Save vislope information in sector structure
+    if virtualfloor then
+      sectors[sectorID].floorvisslope := lastvisslope - 1
+    else
+      sectors[sectorID].ceilingvisslope := lastvisslope - 1;
+  end;
 end;
 
 var

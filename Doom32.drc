@@ -8,26 +8,26 @@
   resources were bound to the produced executable.
 */
 
-#define uPSC_dll_RPS_InvalidCallingConvention 65136
+#define r_clipper_rsOpenPath3 65136
 #define JConsts_sChangeJPGSize 65137
 #define JConsts_sJPEGError 65138
 #define JConsts_sJPEGImageFile 65139
 #define ExtCtrls_clNameWindowText 65152
 #define WinHelpViewer_hNoKeyword 65153
-#define r_clipper_rsDoMaxima 65154
-#define r_clipper_rsUpdateEdgeIntoAEL 65155
-#define r_clipper_rsInvalidInt 65156
-#define r_clipper_rsOpenPath 65157
-#define r_clipper_rsOpenPath3 65158
-#define uPSPreProcessor_RPS_TooManyNestedInclude 65159
-#define uPSPreProcessor_RPS_IncludeNotFound 65160
-#define uPSPreProcessor_RPS_DefineTooManyParameters 65161
-#define uPSPreProcessor_RPS_NoIfdefForEndif 65162
-#define uPSPreProcessor_RPS_NoIfdefForElse 65163
-#define uPSPreProcessor_RPS_ElseTwice 65164
-#define uPSPreProcessor_RPS_UnknownCompilerDirective 65165
-#define uPSPreProcessor_RPs_DefineNotClosed 65166
-#define uPSC_dll_RPS_Invalid_External 65167
+#define uPSPreProcessor_RPS_TooManyNestedInclude 65154
+#define uPSPreProcessor_RPS_IncludeNotFound 65155
+#define uPSPreProcessor_RPS_DefineTooManyParameters 65156
+#define uPSPreProcessor_RPS_NoIfdefForEndif 65157
+#define uPSPreProcessor_RPS_NoIfdefForElse 65158
+#define uPSPreProcessor_RPS_ElseTwice 65159
+#define uPSPreProcessor_RPS_UnknownCompilerDirective 65160
+#define uPSPreProcessor_RPs_DefineNotClosed 65161
+#define uPSC_dll_RPS_Invalid_External 65162
+#define uPSC_dll_RPS_InvalidCallingConvention 65163
+#define r_clipper_rsDoMaxima 65164
+#define r_clipper_rsUpdateEdgeIntoAEL 65165
+#define r_clipper_rsInvalidInt 65166
+#define r_clipper_rsOpenPath 65167
 #define ExtCtrls_clNameGrayText 65168
 #define ExtCtrls_clNameHighlight 65169
 #define ExtCtrls_clNameHighlightText 65170
@@ -398,17 +398,12 @@
 #define SysConst_SRangeError 65535
 STRINGTABLE
 BEGIN
-	uPSC_dll_RPS_InvalidCallingConvention,	"Invalid Calling Convention"
+	r_clipper_rsOpenPath3,	"Error: TPolyTree struct is needed for open path clipping."
 	JConsts_sChangeJPGSize,	"Cannot change the size of a JPEG image"
 	JConsts_sJPEGError,	"JPEG error #%d"
 	JConsts_sJPEGImageFile,	"JPEG Image File"
 	ExtCtrls_clNameWindowText,	"Window Text"
 	WinHelpViewer_hNoKeyword,	"No help keyword specified."
-	r_clipper_rsDoMaxima,	"DoMaxima error"
-	r_clipper_rsUpdateEdgeIntoAEL,	"UpdateEdgeIntoAEL error"
-	r_clipper_rsInvalidInt,	"Coordinate exceeds range bounds"
-	r_clipper_rsOpenPath,	"AddPath: Open paths must be subject."
-	r_clipper_rsOpenPath3,	"Error: TPolyTree struct is needed for open path clipping."
 	uPSPreProcessor_RPS_TooManyNestedInclude,	"Too many nested include files while processing '%s' from '%s'"
 	uPSPreProcessor_RPS_IncludeNotFound,	"Unable to find file '%s' used from '%s'"
 	uPSPreProcessor_RPS_DefineTooManyParameters,	"Too many parameters at %d:%d"
@@ -418,6 +413,11 @@ BEGIN
 	uPSPreProcessor_RPS_UnknownCompilerDirective,	"Unknown compiler directives at %d:%d"
 	uPSPreProcessor_RPs_DefineNotClosed,	"Define not closed"
 	uPSC_dll_RPS_Invalid_External,	"Invalid External"
+	uPSC_dll_RPS_InvalidCallingConvention,	"Invalid Calling Convention"
+	r_clipper_rsDoMaxima,	"DoMaxima error"
+	r_clipper_rsUpdateEdgeIntoAEL,	"UpdateEdgeIntoAEL error"
+	r_clipper_rsInvalidInt,	"Coordinate exceeds range bounds"
+	r_clipper_rsOpenPath,	"AddPath: Open paths must be subject."
 	ExtCtrls_clNameGrayText,	"Gray Text"
 	ExtCtrls_clNameHighlight,	"Highlight Background"
 	ExtCtrls_clNameHighlightText,	"Highlight Text"
