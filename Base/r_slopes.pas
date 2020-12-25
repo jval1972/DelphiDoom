@@ -206,7 +206,7 @@ begin
   sec := @sectors[sectorID];
   if virtualfloor then
   begin
-    if (sec.floorvisslope >= 0) and (sec.floorvisslope < lastvisslope - 1) then
+    if (sec.floorvisslope >= 0) and (sec.floorvisslope < lastvisslope) then
       if (visslopes[sec.floorvisslope].sectorID = sectorID) and visslopes[sec.floorvisslope].virtualfloor then
       begin
         Result := @visslopes[sec.floorvisslope];
@@ -215,7 +215,7 @@ begin
   end
   else
   begin
-    if (sec.ceilingvisslope >= 0) and (sec.ceilingvisslope < lastvisslope - 1) then
+    if (sec.ceilingvisslope >= 0) and (sec.ceilingvisslope < lastvisslope) then
       if (visslopes[sec.ceilingvisslope].sectorID = sectorID) and not visslopes[sec.ceilingvisslope].virtualfloor then
       begin
         Result := @visslopes[sec.ceilingvisslope];

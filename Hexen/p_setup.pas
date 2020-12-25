@@ -668,6 +668,9 @@ begin
     // [kb] For R_WiggleFix
     ss.cachedheight := 0;
     ss.scaleindex := 0;
+    // JVAL: 20201225 - Speed up maps with large number of slopes
+    ss.floorvisslope := -1;
+    ss.ceilingvisslope := -1;
 {$ENDIF}
     ss.iSectorID := i; // JVAL: 3d Floors
     inc(ms);

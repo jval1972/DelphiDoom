@@ -657,6 +657,9 @@ begin
     // [kb] For R_WiggleFix
     ss.cachedheight := 0;
     ss.scaleindex := 0;
+    // JVAL: 20201225 - Speed up maps with large number of slopes
+    ss.floorvisslope := -1;
+    ss.ceilingvisslope := -1;
 {$ENDIF}
     // killough 4/11/98 sector used to get ceiling lighting:
     ss.ceilinglightsec := -1;
