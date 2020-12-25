@@ -9,6 +9,7 @@ Added -blockmap command line parameter. When set it will force to generate block
 Support for flats up to 4096x4096 px.
 Fixed bug in erronous width & height screen dimentions input when the -geom command line parameter is specified.
 Fixed bug that did't recornized the '-keyboardmode 2' command line parameter for ESDF movement.
+Speed improvements in maps with high number of slopes.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
