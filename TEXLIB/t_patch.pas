@@ -210,6 +210,14 @@ begin
       column := Pcolumn_t(integer(patch) + patch.columnofs[col]);
       if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + N - 3) then
       begin
+        if column.topdelta <> $ff then
+        begin
+          result := false;
+          break;
+        end;
+      end;
+      if not IsIntegerInRange(integer(column), integer(patch), integer(patch) + N) then
+      begin
         result := false;
         break;
       end;
