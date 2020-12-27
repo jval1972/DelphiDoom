@@ -99,9 +99,13 @@ var
   bmapwidth: integer;
   bmapheight: integer; // size in mapblocks
   bmapsize: integer;
-  blockmap: PSmallIntArray; // int for larger maps
+  blockmap: PIntegerArray; // int for larger maps
 // offsets in blockmap are from here
-  blockmaplump: PSmallIntArray;
+  blockmaplump: PIntegerArray;
+
+  blockmapxneg: integer;
+  blockmapyneg: integer;
+
 // for thing chains
 type
   blocklinkitem_t = record
@@ -142,6 +146,9 @@ function P_GameValidThing(const doomdnum: integer): boolean;
 
 var
   useglnodesifavailable: boolean;
+
+var
+  largemap: boolean;
 
 implementation
 
@@ -213,6 +220,11 @@ var
   i: integer;
   ml: Pmapvertex_t;
   li: Pvertex_t;
+  minx: integer;
+  maxx: integer;
+  miny: integer;
+  maxy: integer;
+  dx, dy: integer;
 begin
   // Determine number of lumps:
   //  total lump length / vertex record length.
@@ -229,14 +241,33 @@ begin
   // Copy and convert vertex coordinates,
   // internal representation as fixed.
   li := @vertexes[0];
+
+  // JVAL: 20200414 -> Find map boundaries
+  minx := 100000;
+  maxx := -100000;
+  miny := 100000;
+  maxy := -100000;
   for i := 0 to numvertexes - 1 do
   begin
+    if ml.x > maxx then
+      maxx := ml.x;
+    if ml.x < minx then
+      minx := ml.x;
+    if ml.y > maxy then
+      maxy := ml.y;
+    if ml.y < miny then
+      miny := ml.y;
     li.x := ml.x * FRACUNIT;
     li.y := ml.y * FRACUNIT;
     li.amvalidcount := 0;
     inc(ml);
     inc(li);
   end;
+
+  dx := maxx - minx;
+  dy := maxy - miny;
+
+  largemap := (dx < -32767) or (dx > 32767) or (dy < -32767) or (dy > 32767);
 
   // Free buffer memory.
   Z_Free(data);
@@ -1299,6 +1330,18 @@ begin
     end;
   end;
 
+  // MAES: set blockmapxneg and blockmapyneg
+  // E.g. for a full 512x512 map, they should be both
+  // -1. For a 257*257, they should be both -255 etc.
+  if bmapwidth > 255 then
+    blockmapxneg := bmapwidth - 512
+  else
+    blockmapxneg := -257;
+  if bmapheight > 255 then
+    blockmapyneg := bmapheight - 512
+  else
+    blockmapyneg := -257;
+
   // free all temporary storage
 
   memfree(pointer(blocklists), NBlocks * SizeOf(Plinelist_t));
@@ -1316,7 +1359,7 @@ var
   wadblockmaplump: PSmallIntArray;
 begin
   count := W_LumpLength(lump) div 2; // Number of smallint values
-  if (M_CheckParm('-blockmap') > 0) or (count < 4) or (count >= $10000) then
+  if (M_CheckParm('-blockmap') > 0) or (count < 4) or (count >= $10000) or largemap then
   begin
     P_CreateBlockMap
   end
@@ -1457,26 +1500,34 @@ begin
       I_Error('P_GroupLines(): miscounted');
 
     // set the degenmobj_t to the middle of the bounding box
-    sector.soundorg.x := (bbox[BOXRIGHT] + bbox[BOXLEFT]) div 2;
-    sector.soundorg.y := (bbox[BOXTOP] + bbox[BOXBOTTOM]) div 2;
+    if largemap then
+    begin
+      sector.soundorg.x := bbox[BOXRIGHT] div 2 + bbox[BOXLEFT] div 2;
+      sector.soundorg.y := bbox[BOXTOP] div 2 + bbox[BOXBOTTOM] div 2;
+    end
+    else
+    begin
+      sector.soundorg.x := (bbox[BOXRIGHT] + bbox[BOXLEFT]) div 2;
+      sector.soundorg.y := (bbox[BOXTOP] + bbox[BOXBOTTOM]) div 2;
+    end;
 
     // adjust bounding box to map blocks
-    block := MapBlockInt(bbox[BOXTOP] - bmaporgy + MAXRADIUS);
+    block := MapBlockIntY(int64(bbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
     if block >= bmapheight then
       block  := bmapheight - 1;
     sector.blockbox[BOXTOP] := block;
 
-    block := MapBlockInt(bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
+    block := MapBlockIntY(int64(bbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
     if block < 0 then
       block  := 0;
     sector.blockbox[BOXBOTTOM] := block;
 
-    block := MapBlockInt(bbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
+    block := MapBlockIntX(int64(bbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
     if block >= bmapwidth then
       block := bmapwidth - 1;
     sector.blockbox[BOXRIGHT] := block;
 
-    block := MapBlockInt(bbox[BOXLEFT] - bmaporgx - MAXRADIUS);
+    block := MapBlockIntX(int64(bbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
     if block < 0 then
       block := 0;
     sector.blockbox[BOXLEFT] := block;
@@ -1617,6 +1668,7 @@ begin
 
   wminfo.maxfrags := 0;
   wminfo.partime := 180;
+
   for i := 0 to MAXPLAYERS - 1 do
   begin
     players[i].killcount := 0;
@@ -1631,13 +1683,13 @@ begin
   // Make sure all sounds are stopped before Z_FreeTags.
   S_Start;
 
-  MT_WaitTasks;
-
-  Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
-
 {$IFDEF OPENGL}
   gld_CleanMemory; // JVAL OPENGL
 {$ENDIF}
+
+  MT_WaitTasks;
+
+  Z_FreeTags(PU_LEVEL, PU_PURGELEVEL - 1);
 
   R_SetupLevel;
 
@@ -1649,7 +1701,6 @@ begin
 
   // find map name
   lumpname := P_GetMapName(episode, map);
-  gwaloaded := false;
 
   printf(#13#10'-------------'#13#10);
   printf('Loading %s (%s)'#13#10, [lumpname, P_GetMapTitle(episode, map)]);
@@ -1661,6 +1712,7 @@ begin
   PS_LinkScriptEvents(lumpname);  // JVAL: Script Events
 
   lumpnum := W_GetNumForName(lumpname);
+  gwaloaded := false;
 
 {$IFDEF OPENGL}
   if useglnodesifavailable and not G_NeedsCompatibilityMode then
@@ -1746,7 +1798,7 @@ begin
 
   P_3dFloorSetupSegs; // JVAL: 3d Floors
 
-  P_RemoveSlimeTrails;
+  P_RemoveSlimeTrails;    // killough 10/98: remove slime trails from wad
 
 {$IFNDEF OPENGL}
   R_CalcSectors; // JVAL 20200105 - Check the map boundaries

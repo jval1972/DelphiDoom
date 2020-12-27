@@ -1526,10 +1526,10 @@ begin
     viletryx := actor.x + actor.info.speed * xspeed[actor.movedir];
     viletryy := actor.y + actor.info.speed * yspeed[actor.movedir];
 
-    xl := MapBlockInt(viletryx - bmaporgx - MAXRADIUS * 2);
-    xh := MapBlockInt(viletryx - bmaporgx + MAXRADIUS * 2);
-    yl := MapBlockInt(viletryy - bmaporgy - MAXRADIUS * 2);
-    yh := MapBlockInt(viletryy - bmaporgy + MAXRADIUS * 2);
+    xl := MapBlockIntX(int64(viletryx) - int64(bmaporgx) - MAXRADIUS * 2);
+    xh := MapBlockIntX(int64(viletryx) - int64(bmaporgx) + MAXRADIUS * 2);
+    yl := MapBlockIntY(int64(viletryy) - int64(bmaporgy) - MAXRADIUS * 2);
+    yh := MapBlockIntY(int64(viletryy) - int64(bmaporgy) + MAXRADIUS * 2);
 
     for bx := xl to xh do
     begin

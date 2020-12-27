@@ -234,10 +234,10 @@ begin
   numspechit := 0;
 
   // stomp on any things contacted
-  xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS);
-  xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
-  yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
-  yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy + MAXRADIUS);
+  xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
+  xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
+  yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
+  yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
 
   for bx := xl to xh do
     for by := yl to yh do
@@ -796,10 +796,10 @@ begin
   // because mobj_ts are grouped into mapblocks
   // based on their origin point, and can overlap
   // into adjacent blocks by up to MAXRADIUS units.
-  xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS);
-  xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
-  yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
-  yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy + MAXRADIUS);
+  xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
+  xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
+  yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
+  yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
 
   for bx := xl to xh do
     for by := yl to yh do
@@ -810,10 +810,10 @@ begin
       end;
 
   // check lines
-  xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx);
-  xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx);
-  yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy);
-  yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy);
+  xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx));
+  xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx));
+  yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy));
+  yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy));
 
   // JVAL: Slopes
   if G_PlayingEngineVersion >= VERSION122 then
@@ -1024,10 +1024,10 @@ begin
 // into mapblocks based on their origin point, and can overlap into adjacent
 // blocks by up to MAXRADIUS units
 //
-  xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS);
-  xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
-  yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
-  yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy + MAXRADIUS);
+  xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
+  xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
+  yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
+  yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
 
   for bx := xl to xh do
     for by := yl to yh do
@@ -2160,10 +2160,10 @@ var
   dist: fixed_t;
 begin
   dist := (damage + MAXRADIUS) * FRACUNIT;
-  yh := MapBlockInt(spot.y + dist - bmaporgy);
-  yl := MapBlockInt(spot.y - dist - bmaporgy);
-  xh := MapBlockInt(spot.x + dist - bmaporgx);
-  xl := MapBlockInt(spot.x - dist - bmaporgx);
+  yh := MapBlockIntY(int64(spot.y) + int64(dist) - int64(bmaporgy));
+  yl := MapBlockIntY(int64(spot.y) - int64(dist) - int64(bmaporgy));
+  xh := MapBlockIntX(int64(spot.x) + int64(dist) - int64(bmaporgx));
+  xl := MapBlockIntX(int64(spot.x) - int64(dist) - int64(bmaporgx));
   bombspot := spot;
   bombsource := source;
   bombdamage := damage;
@@ -2188,10 +2188,10 @@ var
   dist: fixed_t;
 begin
   dist := distance * FRACUNIT;
-  yh := MapBlockInt(spot.y + dist - bmaporgy);
-  yl := MapBlockInt(spot.y - dist - bmaporgy);
-  xh := MapBlockInt(spot.x + dist - bmaporgx);
-  xl := MapBlockInt(spot.x - dist - bmaporgx);
+  yh := MapBlockIntY(int64(spot.y) + int64(dist) - int64(bmaporgy));
+  yl := MapBlockIntY(int64(spot.y) - int64(dist) - int64(bmaporgy));
+  xh := MapBlockIntX(int64(spot.x) + int64(dist) - int64(bmaporgx));
+  xl := MapBlockIntX(int64(spot.x) - int64(dist) - int64(bmaporgx));
   bombspot := spot;
   bombsource := source;
   bombdamage := damage;
@@ -2598,10 +2598,10 @@ begin
 
   inc(validcount); // used to make sure we only process a line once
 
-  xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx);
-  xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx);
-  yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy);
-  yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy);
+  xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx));
+  xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx));
+  yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy));
+  yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy));
 
   for bx := xl to xh do
     for by := yl to yh do

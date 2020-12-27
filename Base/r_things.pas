@@ -2418,10 +2418,10 @@ var
   yl: integer;
   yh: integer;
 begin
-  yh := MapBlockInt(viewy + MAXMODELRADIUS - bmaporgy);
-  yl := MapBlockInt(viewy - MAXMODELRADIUS - bmaporgy);
-  xh := MapBlockInt(viewx + MAXMODELRADIUS - bmaporgx);
-  xl := MapBlockInt(viewx - MAXMODELRADIUS - bmaporgx);
+  yh := MapBlockIntY(int64(viewy) + MAXMODELRADIUS - int64(bmaporgy));
+  yl := MapBlockIntY(int64(viewy) - MAXMODELRADIUS - int64(bmaporgy));
+  xh := MapBlockIntX(int64(viewx) + MAXMODELRADIUS - int64(bmaporgx));
+  xl := MapBlockIntX(int64(viewx) - MAXMODELRADIUS - int64(bmaporgx));
 
   for y := yl to yh do
     for x := xl to xh do
