@@ -272,7 +272,6 @@ var
 // fixed_t*    finecosine = &finesine[FINEANGLES/4]; // JVAL -> moved to tables.pas
 
 
-  sscount: integer;
   linecount: integer;
   loopcount: integer;
 
@@ -2143,7 +2142,6 @@ begin
 // JVAL: Widescreen support
   planerelativeaspect := 320 / 200 * SCREENHEIGHT / SCREENWIDTH * monitor_relative_aspect;
 {$ENDIF}
-  sscount := 0;
 
   fixedcolormapnum := player.fixedcolormap;
   if fixedcolormapnum <> 0 then

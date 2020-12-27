@@ -448,6 +448,7 @@ begin
 
   gld_AddWall(line, false, nil); // JVAL OPENGL
 {$ELSE}
+
   // Global angle needed by segcalc.
   rw_angle1 := angle1;
   angle1 := angle1 - viewangle;
@@ -743,7 +744,6 @@ var
   tmpline: Pline_t;
 {$ENDIF}
 begin
-  inc(sscount);
   sub := @subsectors[num];
 
   frontsector := sub.sector;
