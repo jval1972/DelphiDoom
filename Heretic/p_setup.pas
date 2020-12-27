@@ -106,6 +106,8 @@ var
   blockmapxneg: integer;
   blockmapyneg: integer;
 
+  internalblockmapformat: boolean;
+
 // for thing chains
 type
   blocklinkitem_t = record
@@ -1342,6 +1344,8 @@ begin
   else
     blockmapyneg := -257;
 
+  internalblockmapformat := true;
+
   // free all temporary storage
 
   memfree(pointer(blocklists), NBlocks * SizeOf(Plinelist_t));
@@ -1358,6 +1362,9 @@ var
   t: smallint;
   wadblockmaplump: PSmallIntArray;
 begin
+  blockmapxneg := -257;
+  blockmapyneg := -257;
+  internalblockmapformat := false;
   count := W_LumpLength(lump) div 2; // Number of smallint values
   if (M_CheckParm('-blockmap') > 0) or (count < 4) or (count >= $10000) or largemap then
   begin

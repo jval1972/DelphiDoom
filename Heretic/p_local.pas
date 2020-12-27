@@ -149,6 +149,8 @@ const
 const
   FOOTCLIPSIZE = 10 * FRACUNIT;
 
+function MapBlockInt(const x: integer): integer;
+
 function MapBlockIntX(const x: int64): integer;
 
 function MapBlockIntY(const y: int64): integer;
@@ -162,6 +164,11 @@ implementation
 uses
   m_rnd,
   p_setup;
+
+function MapBlockInt(const x: integer): integer; assembler;
+asm
+  sar eax, MAPBLOCKSHIFT
+end;
 
 function MapBlockIntX(const x: int64): integer;
 begin
