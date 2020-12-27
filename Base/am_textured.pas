@@ -55,6 +55,7 @@ uses
   r_hires,
   r_draw,
   r_trans8,
+  r_flatinfo,
 {$ELSE}
   r_precalc,
   gl_automap,
@@ -172,7 +173,7 @@ var
   f_mx: integer;
 
 {$IFNDEF OPENGL}
-procedure AM_DecodeUV(var xx, yy: integer);
+procedure AM_DecodeUV(var xx, yy: integer; const sz: integer);
 var
   tmpx: fixed_t;
 begin
@@ -188,8 +189,8 @@ begin
 
     xx := tmpx;
   end;
-  yy := 63 - (yy div MAPUNIT) and 63;
-  xx := (xx div MAPUNIT) and 63;
+  yy := sz - (yy div MAPUNIT) and sz;
+  xx := (xx div MAPUNIT) and sz;
 end;
 {$ENDIF}
 
@@ -197,6 +198,7 @@ procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump, flat: integer;
 {$IFNDEF OPENGL}
 var
   data: PByteArray;
+  flat_width: integer;
 
   procedure fillLeftFlatTriangle(v1, v2, v3: drawpoint_t);
   var
@@ -251,8 +253,8 @@ var
         begin
           du := xx;
           dv := yy;
-          AM_DecodeUV(du, dv);
-          drawsegfunc(i, j, data[du + dv * 64], amcolormap);
+          AM_DecodeUV(du, dv, flat_width - 1);
+          drawsegfunc(i, j, data[du + dv * flat_width], amcolormap);
           yy := yy - scale_ftom;
         end;
       end;
@@ -319,8 +321,8 @@ var
         begin
           du := xx;
           dv := yy;
-          AM_DecodeUV(du, dv);
-          drawsegfunc(i, j, data[du + dv * 64], amcolormap);
+          AM_DecodeUV(du, dv, flat_width - 1);
+          drawsegfunc(i, j, data[du + dv * flat_width], amcolormap);
           yy := yy - scale_ftom;
         end;
       end;
@@ -433,6 +435,11 @@ begin
   v3 := t[2];
 
 {$IFNDEF OPENGL}
+  if flats[flats[flat].translation].size <= 0 then
+     flat_width := 64
+  else
+     flat_width := dsscalesize[flats[flats[flat].translation].size].flatsize;
+
   data := W_CacheLumpNum(lump, PU_LEVEL);
 
   if v2.x = v3.x then
