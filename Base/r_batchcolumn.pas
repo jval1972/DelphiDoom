@@ -431,7 +431,7 @@ begin
       end;
       exit;
     end;
-    
+
     while frac <= fraclimit2 do
     begin
     // Re-map color indices from wall texture column
