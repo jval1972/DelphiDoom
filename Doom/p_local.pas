@@ -125,13 +125,34 @@ const
 
 function MapBlockInt(const x: integer): integer;
 
+function MapBlockIntX(const x: int64): integer;
+
+function MapBlockIntY(const y: int64): integer;
+
 function MapToFrac(const x: integer): integer;
 
 implementation
 
+uses
+  p_setup;
+
 function MapBlockInt(const x: integer): integer; assembler;
 asm
   sar eax, MAPBLOCKSHIFT
+end;
+
+function MapBlockIntX(const x: int64): integer;
+begin
+  result := x shr MAPBLOCKSHIFT;
+  if result <= blockmapxneg then
+    result := result and $1FF;
+end;
+
+function MapBlockIntY(const y: int64): integer;
+begin
+  result := y shr MAPBLOCKSHIFT;
+  if result <= blockmapyneg then
+    result := result and $1FF;
 end;
 
 function MapToFrac(const x: integer): integer; assembler;

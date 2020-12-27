@@ -243,10 +243,20 @@ var
   yl: integer;
   yh: integer;
 begin
-  yh := MapBlockInt(viewy + MAXLIGHTRADIUS - bmaporgy);
-  yl := MapBlockInt(viewy - MAXLIGHTRADIUS - bmaporgy);
-  xh := MapBlockInt(viewx + MAXLIGHTRADIUS - bmaporgx);
-  xl := MapBlockInt(viewx - MAXLIGHTRADIUS - bmaporgx);
+  if internalblockmapformat then
+  begin
+    yh := MapBlockIntY(int64(viewy) + MAXLIGHTRADIUS - int64(bmaporgy));
+    yl := MapBlockIntY(int64(viewy) - MAXLIGHTRADIUS - int64(bmaporgy));
+    xh := MapBlockIntX(int64(viewx) + MAXLIGHTRADIUS - int64(bmaporgx));
+    xl := MapBlockIntX(int64(viewx) - MAXLIGHTRADIUS - int64(bmaporgx));
+  end
+  else
+  begin
+    yh := MapBlockInt(viewy + MAXLIGHTRADIUS - bmaporgy);
+    yl := MapBlockInt(viewy - MAXLIGHTRADIUS - bmaporgy);
+    xh := MapBlockInt(viewx + MAXLIGHTRADIUS - bmaporgx);
+    xl := MapBlockInt(viewx - MAXLIGHTRADIUS - bmaporgx);
+  end;
 
   for y := yl to yh do
     for x := xl to xh do

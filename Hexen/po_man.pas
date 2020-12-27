@@ -821,10 +821,20 @@ begin
     end;
     inc(tempSeg);
   end;
-  po.bbox[BOXRIGHT] := MapBlockInt(rightX - bmaporgx);
-  po.bbox[BOXLEFT] := MapBlockInt(leftX - bmaporgx);
-  po.bbox[BOXTOP] := MapBlockInt(topY - bmaporgy);
-  po.bbox[BOXBOTTOM] := MapBlockInt(bottomY - bmaporgy);
+  if internalblockmapformat then
+  begin
+    po.bbox[BOXRIGHT] := MapBlockIntX(int64(rightX) - int64(bmaporgx));
+    po.bbox[BOXLEFT] := MapBlockIntX(int64(leftX) - int64(bmaporgx));
+    po.bbox[BOXTOP] := MapBlockIntY(int64(topY) - int64(bmaporgy));
+    po.bbox[BOXBOTTOM] := MapBlockIntY(int64(bottomY) - int64(bmaporgy));
+  end
+  else
+  begin
+    po.bbox[BOXRIGHT] := MapBlockInt(rightX - bmaporgx);
+    po.bbox[BOXLEFT] := MapBlockInt(leftX - bmaporgx);
+    po.bbox[BOXTOP] := MapBlockInt(topY - bmaporgy);
+    po.bbox[BOXBOTTOM] := MapBlockInt(bottomY - bmaporgy);
+  end;
   // add the polyobj to each blockmap section
   j := po.bbox[BOXBOTTOM] * bmapwidth;
   while j <= po.bbox[BOXTOP] * bmapwidth do
@@ -889,10 +899,20 @@ begin
 
   ld := seg.linedef;
 
-  top := MapBlockInt(ld.bbox[BOXTOP] - bmaporgy + MAXRADIUS);
-  bottom := MapBlockInt(ld.bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
-  left := MapBlockInt(ld.bbox[BOXLEFT] - bmaporgx - MAXRADIUS);
-  right := MapBlockInt(ld.bbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
+  if internalblockmapformat then
+  begin
+    top := MapBlockIntY(int64(ld.bbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
+    bottom := MapBlockIntY(int64(ld.bbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
+    left := MapBlockIntX(int64(ld.bbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
+    right := MapBlockIntX(int64(ld.bbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
+  end
+  else
+  begin
+    top := MapBlockInt(ld.bbox[BOXTOP] - bmaporgy + MAXRADIUS);
+    bottom := MapBlockInt(ld.bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
+    left := MapBlockInt(ld.bbox[BOXLEFT] - bmaporgx - MAXRADIUS);
+    right := MapBlockInt(ld.bbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
+  end;
 
   blocked := false;
 

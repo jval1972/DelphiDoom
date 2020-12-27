@@ -253,7 +253,7 @@ begin
     begin
       frontsector.cachedheight := height;
       frontsector.scaleindex := 0;
-      height := height shr  7;
+      height := height shr 7;
       // calculate adjustment
       while true do
       begin
@@ -1140,6 +1140,13 @@ begin
   pds.x1 := rw_x;
   pds.x2 := stop;
   rw_stopx := stop + 1;
+
+  // JVAL: 20200417 - Use double arithmetic for large segs 
+  if curline.map_length >= 1024 then
+  begin
+    R_StoreWallRange_DBL(pds, start, stop);
+    exit;
+  end;
 
   // calculate scale at both ends and step
   rw_scale := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start], overflow);

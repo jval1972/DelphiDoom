@@ -192,7 +192,6 @@ type
     gravity: fixed_t;
     // JVAL: Lines 272, 272 (MBF) - Change sky (VERSION 205)
     sky: integer;
-    // [kb] For R_WiggleFix
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
@@ -207,6 +206,7 @@ type
     no_toptextures: boolean;
     no_bottomtextures: boolean;
 {$ELSE}
+    // [kb] For R_WiggleFix
     cachedheight: integer;
     scaleindex: integer;
     // JVAL: 20201225 - Speed up maps with large number of slopes
@@ -310,7 +310,7 @@ const
   // Line rendering flags
   LRF_ISOLATED = 1;
   LRF_TRANSPARENT = 2;
-  LRF_SLOPED = 4;   // JVAL: Slopes
+  LRF_SLOPED = 4; // JVAL: Slopes
 
 const
   // Sector rendering flags
@@ -375,6 +375,7 @@ type
     length: single;
     iSegID: integer;
 {$ELSE}
+    map_length: integer;
     inv_length: double;      
 {$ENDIF}
     miniseg: boolean;

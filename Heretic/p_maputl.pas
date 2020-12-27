@@ -95,7 +95,7 @@ uses
 // P_AproxDistance
 // Gives an estimation of distance (not exact)
 //
-function P_AproxDistance(dx: fixed_t; dy: fixed_t): fixed_t;
+function P_AproxDistance32(dx: fixed_t; dy: fixed_t): fixed_t;
 begin
   dx := abs(dx);
   dy := abs(dy);
@@ -103,6 +103,31 @@ begin
     result := dx + dy - _SHR1(dx)
   else
     result := dx + dy - _SHR1(dy);
+end;
+
+function P_AproxDistance64(dx: fixed_t; dy: fixed_t): fixed_t;
+var
+  dx64, dy64: int64;
+  dist: int64;
+begin
+  dx64 := abs(dx);
+  dy64 := abs(dy);
+  if dx64 < dy64 then
+    dist := dy64 + dx64 div 2
+  else
+    dist := dx64 + dy64 div 2;
+  if dist > MAXINT then
+    result := MAXINT
+  else
+    result := dist;
+end;
+
+function P_AproxDistance(dx: fixed_t; dy: fixed_t): fixed_t;
+begin
+  if largemap then
+    result := P_AproxDistance64(dx, dy)
+  else
+    result := P_AproxDistance32(dx, dy);
 end;
 
 //
@@ -204,7 +229,7 @@ end;
 // P_PointOnDivlineSide
 // Returns 0 or 1.
 //
-function P_PointOnDivlineSide(x: fixed_t; y: fixed_t; line: Pdivline_t): integer;
+function P_PointOnDivlineSide32(x: fixed_t; y: fixed_t; line: Pdivline_t): integer;
 var
   dx: fixed_t;
   dy: fixed_t;
@@ -270,6 +295,70 @@ begin
     result := 1; // back side
 end;
 
+function P_PointOnDivlineSide64(x: fixed_t; y: fixed_t; line: Pdivline_t): integer;
+var
+  dx64: int64;
+  dy64: int64;
+  left64: int64;
+  right64: int64;
+begin
+  if line.dx = 0 then
+  begin
+    if x <= line.x then
+    begin
+      if line.dy > 0 then
+        result := 1
+      else
+        result := 0;
+    end
+    else
+    begin
+      if line.dy < 0 then
+        result := 1
+      else
+        result := 0;
+    end;
+    exit;
+  end;
+
+  if line.dy = 0 then
+  begin
+    if y <= line.y then
+    begin
+      if line.dx < 0 then
+        result := 1
+      else
+        result := 0;
+    end
+    else
+    begin
+      if line.dx > 0 then
+        result := 1
+      else
+        result := 0;
+    end;
+    exit;
+  end;
+
+  dx64 := int64(x) - int64(line.x);
+  dy64 := int64(y) - int64(line.y);
+
+  left64 := int64(line.dy) * (dx64 div 256);
+  right64 := (dy64 div 256) * int64(line.dx);
+
+  if right64 < left64 then
+    result := 0  // front side
+  else
+    result := 1; // back side
+end;
+
+function P_PointOnDivlineSide(x: fixed_t; y: fixed_t; line: Pdivline_t): integer;
+begin
+  if largemap then
+    result := P_PointOnDivlineSide64(x, y, line)
+  else
+    result := P_PointOnDivlineSide32(x, y, line);
+end;
 
 //
 // P_MakeDivline
@@ -715,8 +804,16 @@ begin
   if thing.flags and MF_NOBLOCKMAP = 0 then
   begin
     // inert things don't need to be in blockmap
-    blockx := MapBlockInt(thing.x - bmaporgx);
-    blocky := MapBlockInt(thing.y - bmaporgy);
+    if internalblockmapformat then
+    begin
+      blockx := MapBlockIntX(int64(thing.x) - int64(bmaporgx));
+      blocky := MapBlockIntY(int64(thing.y) - int64(bmaporgy));
+    end
+    else
+    begin
+      blockx := MapBlockInt(thing.x - bmaporgx);
+      blocky := MapBlockInt(thing.y - bmaporgy);
+    end;
     if (blockx >= 0) and (blockx < bmapwidth) and
        (blocky >= 0) and (blocky < bmapheight) then
     begin
@@ -763,7 +860,7 @@ end;
 //
 function P_BlockLinesIterator(x, y: integer; func: ltraverser_t): boolean;
 var
-  offset: PSmallInt;
+  offset: PInteger;
   ld: Pline_t;
 begin
   if (x < 0) or (y < 0) or (x >= bmapwidth) or (y >= bmapheight) then
@@ -1026,7 +1123,7 @@ end;
 // Returns true if the traverser function returns true
 // for all lines.
 //
-function P_PathTraverse(x1, y1, x2, y2: fixed_t; flags: integer;
+function P_PathTraverse32(x1, y1, x2, y2: fixed_t; flags: integer;
   trav: traverser_t): boolean;
 var
   xt1: fixed_t;
@@ -1155,6 +1252,157 @@ begin
 
   // go through the sorted list
   result := P_TraverseIntercepts(trav, FRACUNIT);
+end;
+
+function P_PathTraverse64(x1, y1, x2, y2: fixed_t; flags: integer;
+  trav: traverser_t): boolean;
+var
+  _x1, _x2, _y1, _y2: int64;
+  xt1: fixed_t;
+  yt1: fixed_t;
+  xt2: fixed_t;
+  yt2: fixed_t;
+  xstep: fixed_t;
+  ystep: fixed_t;
+  partial: fixed_t;
+  xintercept: fixed_t;
+  yintercept: fixed_t;
+  mapx: integer;
+  mapx1: integer;
+  mapy: integer;
+  mapy1: integer;
+  mapxstep: integer;
+  mapystep: integer;
+  count: integer;
+begin
+  earlyout := flags and PT_EARLYOUT <> 0;
+
+  inc(validcount);
+  intercept_p := 0;
+
+  if (x1 - bmaporgx) and (MAPBLOCKSIZE - 1) = 0 then
+    x1 := x1 + FRACUNIT; // don't side exactly on a line
+
+  if (y1 - bmaporgy) and (MAPBLOCKSIZE - 1) = 0 then
+    y1 := y1 + FRACUNIT; // don't side exactly on a line
+
+  trace.x := x1;
+  trace.y := y1;
+  trace.dx := x2 - x1;
+  trace.dy := y2 - y1;
+
+  _x1 := int64(x1) - bmaporgx;
+  _y1 := int64(y1) - bmaporgy;
+  xt1 := _x1 shr MAPBLOCKSHIFT;
+  yt1 := _y1 shr MAPBLOCKSHIFT;
+
+  mapx1 := _x1 shr MAPBTOFRAC;
+  mapy1 := _y1 shr MAPBTOFRAC;
+
+  _x2 := int64(x2) - bmaporgx;
+  _y2 := int64(y2) - bmaporgy;
+  xt2 := _x2 shr MAPBLOCKSHIFT;
+  yt2 := _y2 shr MAPBLOCKSHIFT;
+
+  x1 := x1 - bmaporgx;
+  y1 := y1 - bmaporgy;
+  x2 := x2 - bmaporgx;
+  y2 := y2 - bmaporgy;
+
+  if xt2 > xt1 then
+  begin
+    mapxstep := 1;
+    partial := FRACUNIT - (mapx1 and (FRACUNIT - 1));
+    ystep := FixedDiv(y2 - y1, abs(x2 - x1));
+  end
+  else if xt2 < xt1 then
+  begin
+    mapxstep := -1;
+    partial := mapx1 and (FRACUNIT - 1);
+    ystep := FixedDiv(y2 - y1, abs(x2 - x1));
+  end
+  else
+  begin
+    mapxstep := 0;
+    partial := FRACUNIT;
+    ystep := 256 * FRACUNIT;
+  end;
+
+  yintercept := MapToFrac(y1) + FixedMul(partial, ystep);
+
+  if yt2 > yt1 then
+  begin
+    mapystep := 1;
+    partial := FRACUNIT - (mapy1 and (FRACUNIT - 1));
+    xstep := FixedDiv(x2 - x1, abs(y2 - y1));
+  end
+  else if yt2 < yt1 then
+  begin
+    mapystep := -1;
+    partial := mapy1 and (FRACUNIT - 1);
+    xstep := FixedDiv(x2 - x1, abs(y2 - y1));
+  end
+  else
+  begin
+    mapystep := 0;
+    partial := FRACUNIT;
+    xstep := 256 * FRACUNIT;
+  end;
+
+  xintercept := MapToFrac(x1) + FixedMul(partial, xstep);
+
+  // Step through map blocks.
+  // Count is present to prevent a round off error
+  // from skipping the break.
+  mapx := xt1;
+  mapy := yt1;
+
+  for count := 0 to 63 do
+  begin
+    if flags and PT_ADDLINES <> 0 then
+    begin
+      if not P_BlockLinesIterator(mapx, mapy, PIT_AddLineIntercepts) then
+      begin
+        result := false; // early out
+        exit;
+      end;
+    end;
+
+    if flags and PT_ADDTHINGS <> 0 then
+    begin
+      if not P_BlockThingsIterator(mapx, mapy, PIT_AddThingIntercepts) then
+      begin
+        result := false;// early out
+        exit;
+      end;
+    end;
+
+    if (mapx = xt2) and (mapy = yt2) then
+      break;
+
+    if FixedInt(yintercept) = mapy then
+    begin
+      yintercept := yintercept + ystep;
+      mapx := mapx + mapxstep;
+    end
+    else if FixedInt(xintercept) = mapx then
+    begin
+      xintercept := xintercept + xstep;
+      mapy := mapy + mapystep;
+    end;
+  end;
+
+  // go through the sorted list
+  result := P_TraverseIntercepts(trav, FRACUNIT);
+end;
+
+function P_PathTraverse(x1, y1, x2, y2: fixed_t; flags: integer;
+  trav: traverser_t): boolean;
+begin
+  if largemap or internalblockmapformat then
+    result := P_PathTraverse64(x1, y1, x2, y2, flags, trav)
+  else
+    result := P_PathTraverse32(x1, y1, x2, y2, flags, trav)
 end;
 
 end.
