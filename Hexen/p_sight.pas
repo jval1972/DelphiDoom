@@ -40,7 +40,7 @@ uses
 
 function P_CheckSight(t1: Pmobj_t; t2: Pmobj_t): boolean;
 
-function P_SightPathTraverse (x1, y1, x2, y2: fixed_t): boolean;
+function P_SightPathTraverse(x1, y1, x2, y2: fixed_t): boolean;
 
 function P_CheckCameraSight(camx, camy, camz: fixed_t; mo: Pmobj_t): boolean;
 
@@ -54,6 +54,7 @@ implementation
 uses
   d_delphi,
   doomdef,
+  doomtype,
   g_game,
   g_demo,
   p_local,
@@ -318,7 +319,7 @@ end;
 //==================
 //
 
-function P_SightPathTraverse (x1, y1, x2, y2: fixed_t): boolean;
+function P_SightPathTraverse32(x1, y1, x2, y2: fixed_t): boolean;
 var
   xt1, yt1, xt2, yt2: fixed_t;
   xstep, ystep: fixed_t;
@@ -438,7 +439,150 @@ begin
   result := P_SightTraverseIntercepts;
 end;
 
+function P_SightPathTraverse64(x1, y1, x2, y2: fixed_t): boolean;
+var
+  _x1, _x2, _y1, _y2: int64;
+  xt1, yt1, xt2, yt2: fixed_t;
+  xstep, ystep: fixed_t;
+  partial: fixed_t;
+  xintercept, yintercept: fixed_t;
+  mapx, mapy, mapxstep, mapystep: integer;
+  count: integer;
+begin
+  inc(validcount);
+  intercept_p := 0;
 
+  if (x1 - bmaporgx) and (MAPBLOCKSIZE - 1) = 0 then
+    x1 := x1 + FRACUNIT;  // don't side exactly on a line
+  if (y1 - bmaporgy) and (MAPBLOCKSIZE - 1) = 0 then
+    y1 := y1 + FRACUNIT;  // don't side exactly on a line
+  trace.x := x1;
+  trace.y := y1;
+  trace.dx := x2 - x1;
+  trace.dy := y2 - y1;
+
+  _x1 := x1 - bmaporgx;
+  _y1 := y1 - bmaporgy;
+  if (_x1 < MININT) or (_x1 > MAXINT) or (_y1 < MININT) or (_y1 > MAXINT) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  x1 := _x1;
+  y1 := _y1;
+  xt1 := MapBlockIntX(x1);
+  yt1 := MapBlockIntY(y1);
+
+  _x2 := x2 - bmaporgx;
+  _y2 := y2 - bmaporgy;
+  if (_x2 < MININT) or (_x2 > MAXINT) or (_y2 < MININT) or (_y2 > MAXINT) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  x1 := _x1;
+  x2 := _x2;
+  xt2 := MapBlockIntX(x2);
+  yt2 := MapBlockIntY(y2);
+
+// points should never be out of bounds, but check once instead of
+// each block
+  if (xt1 < 0) or (yt1 < 0) or (xt1 >= bmapwidth) or (yt1 >= bmapheight) or
+     (xt2 < 0) or (yt2 < 0) or (xt2 >= bmapwidth) or (yt2 >= bmapheight) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if xt2 > xt1 then
+  begin
+    mapxstep := 1;
+    partial := FRACUNIT - MapToFrac(x1) and (FRACUNIT - 1);
+    ystep := FixedDiv(y2 - y1, abs(x2 - x1));
+  end
+  else if xt2 < xt1 then
+  begin
+    mapxstep := -1;
+    partial := MapToFrac(x1) and (FRACUNIT - 1);
+    ystep := FixedDiv(y2 - y1, abs(x2 - x1));
+  end
+  else
+  begin
+    mapxstep := 0;
+    partial := FRACUNIT;
+    ystep := 256 * FRACUNIT;
+  end;
+  yintercept := MapToFrac(y1) + FixedMul(partial, ystep);
+
+
+  if yt2 > yt1 then
+  begin
+    mapystep := 1;
+    partial := FRACUNIT - MapToFrac(y1) and (FRACUNIT - 1);
+    xstep := FixedDiv(x2 - x1, abs(y2 - y1));
+  end
+  else if yt2 < yt1 then
+  begin
+    mapystep := -1;
+    partial := MapToFrac(y1) and (FRACUNIT - 1);
+    xstep := FixedDiv(x2 - x1, abs(y2 - y1));
+  end
+  else
+  begin
+    mapystep := 0;
+    partial := FRACUNIT;
+    xstep := 256 * FRACUNIT;
+  end;
+  xintercept := MapToFrac(x1) + FixedMul(partial, xstep);
+
+
+//
+// step through map blocks
+// Count is present to prevent a round off error from skipping the break
+  mapx := xt1;
+  mapy := yt1;
+
+
+  for count := 0 to 63 do
+  begin
+    if not P_SightBlockLinesIterator(mapx, mapy) then
+    begin
+      result := false;   // early out
+      exit;
+    end;
+
+    if (mapx = xt2) and (mapy = yt2) then
+      break;
+
+    if FixedInt(yintercept) = mapy then
+    begin
+      yintercept := yintercept + ystep;
+      mapx := mapx + mapxstep;
+    end
+    else if FixedInt(xintercept) = mapx then
+    begin
+      xintercept := xintercept + xstep;
+      mapy := mapy + mapystep;
+    end;
+
+  end;
+
+
+//
+// couldn't early out, so go through the sorted list
+//
+  result := P_SightTraverseIntercepts;
+end;
+
+function P_SightPathTraverse(x1, y1, x2, y2: fixed_t): boolean;
+begin
+  if largemap or internalblockmapformat then
+    result := P_SightPathTraverse64(x1, y1, x2, y2)
+  else
+    result := P_SightPathTraverse32(x1, y1, x2, y2);
+end;
 
 //
 //=====================
@@ -458,8 +602,8 @@ var
   pnum: integer;
   bytenum: integer;
   bitnum: integer;
+  mid: Psector_t; // JVAL: 3d Floors
   midn: integer;
-  mid: Psector_t;
 begin
   // First check for trivial rejection.
 
