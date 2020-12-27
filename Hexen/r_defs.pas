@@ -173,6 +173,7 @@ type
     no_toptextures: boolean;
     no_bottomtextures: boolean;
 {$ELSE}
+    // [kb] For R_WiggleFix
     cachedheight: integer;
     scaleindex: integer;
     // JVAL: 20201225 - Speed up maps with large number of slopes
@@ -329,6 +330,7 @@ type
     length: single;
     iSegID: integer;
 {$ELSE}
+    map_length: integer;
     inv_length: double;      
 {$ENDIF}
     miniseg: boolean;

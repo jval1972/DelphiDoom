@@ -1530,6 +1530,7 @@ procedure R_PrecalcSegs;
 var
   i: integer;
   dx, dy: double;
+  len: double;
   li: Pseg_t;
 begin
   for i := 0 to numsegs - 1 do
@@ -1537,7 +1538,9 @@ begin
     li := @segs[i];
     dx := li.v2.x - li.v1.x;
     dy := li.v2.y - li.v1.y;
-    li.inv_length := 1 / sqrt(dx * dx + dy * dy);
+    len := sqrt(dx * dx + dy * dy);
+    li.map_length := round(len / FRACUNIT);
+    li.inv_length := 1 / len;
   end;
 end;
 

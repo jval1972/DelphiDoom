@@ -1141,6 +1141,13 @@ begin
   pds.x2 := stop;
   rw_stopx := stop + 1;
 
+  // JVAL: 20200417 - Use double arithmetic for large segs 
+  if curline.map_length >= 1024 then
+  begin
+    R_StoreWallRange_DBL(pds, start, stop);
+    exit;
+  end;
+
   // calculate scale at both ends and step
   rw_scale := R_ScaleFromGlobalAngle(viewangle + xtoviewangle[start], overflow);
   if overflow or (precisescalefromglobalangle and (pds.midsec <> nil) and (rw_scale > 64 * FRACUNIT)) then

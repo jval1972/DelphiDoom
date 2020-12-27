@@ -447,8 +447,8 @@ begin
   end;
 
   gld_AddWall(line); // JVAL OPENGL
-
 {$ELSE}
+
   // Global angle needed by segcalc.
   rw_angle1 := angle1;
   angle1 := angle1 - viewangle;
