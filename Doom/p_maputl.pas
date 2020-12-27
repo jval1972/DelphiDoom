@@ -844,8 +844,8 @@ begin
     end
     else
     begin
-      blockx := MapBlockInt(thing.x - int64(bmaporgx));
-      blocky := MapBlockInt(thing.y - int64(bmaporgy));
+      blockx := MapBlockInt(thing.x - bmaporgx);
+      blocky := MapBlockInt(thing.y - bmaporgy);
     end;
     if (blockx >= 0) and (blockx < bmapwidth) and
        (blocky >= 0) and (blocky < bmapheight) then
