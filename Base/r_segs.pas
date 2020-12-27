@@ -253,7 +253,7 @@ begin
     begin
       frontsector.cachedheight := height;
       frontsector.scaleindex := 0;
-      height := height shr  7;
+      height := height shr 7;
       // calculate adjustment
       while true do
       begin
