@@ -608,10 +608,10 @@ begin
     lump := R_GetLumpForFlat(flat);
     ds_source := W_CacheLumpNum(lump, PU_STATIC);
     ds_scale := R_FlatScaleFromSize(flat, W_LumpLength(lump));
+    ds_size := flats[flats[flat].translation].size;
   end
   else
     R_ReadDS32Cache(flat);
-  ds_size := flats[flats[flat].translation].size;
 end;
 {$ENDIF}
 

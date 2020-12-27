@@ -100,7 +100,7 @@ Conditionals=HEXEN;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Hexen\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 Example02_HEXEN.wad
+RunParams=-nofullscreen -geom 1920x1080 
 HostApplication=
 Launcher=
 UseLauncher=0

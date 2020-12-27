@@ -314,10 +314,10 @@ begin
       pds32 := R_Get_ds32(pds);
       plw := @pds32[0];
       if lumplen < $1000 then
-        loops := 0
+        loops := lumplen div 64
       else
 {$IFNDEF NO_INLINE_LOOPS}
-        loops := dsscalesize[MaxI(Ord(pds.scale), pds.size)].flatsize div 64;
+        loops := dsscalesize[MaxI(Ord(pds.scale), pds.size)].memsize div 64;
       for i := 0 to loops - 1 do
       begin
         {$UNDEF LASTLOOP}
@@ -426,6 +426,7 @@ begin
     pds32 := R_Get_ds32(pds);
   ds_source32 := PLongWordArray(pds32);
   ds_scale := pds.scale;
+  ds_size := pds.size;
   inc(c_stot);
 end;
 
