@@ -103,6 +103,8 @@ var
   blockmapxneg: integer;
   blockmapyneg: integer;
 
+  internalblockmapformat: boolean;
+
 // for thing chains
 type
   blocklinkitem_t = record
@@ -1437,6 +1439,8 @@ begin
   else
     blockmapyneg := -257;
 
+  internalblockmapformat := true;
+
   // free all temporary storage
 
   memfree(pointer(blocklists), NBlocks * SizeOf(Plinelist_t));
@@ -1453,6 +1457,9 @@ var
   t: smallint;
   wadblockmaplump: PSmallIntArray;
 begin
+  blockmapxneg := -257;
+  blockmapyneg := -257;
+  internalblockmapformat := false;
   count := W_LumpLength(lump) div 2; // Number of smallint values
   if (M_CheckParm('-blockmap') > 0) or (count < 4) or (count >= $10000) or largemap then
   begin
@@ -1607,22 +1614,34 @@ begin
     end;
 
     // adjust bounding box to map blocks
-    block := MapBlockIntY(int64(bbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
+    if internalblockmapformat then
+      block := MapBlockIntY(int64(bbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS)
+    else
+      block := MapBlockInt(bbox[BOXTOP] - bmaporgy + MAXRADIUS);
     if block >= bmapheight then
       block  := bmapheight - 1;
     sector.blockbox[BOXTOP] := block;
 
-    block := MapBlockIntY(int64(bbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
+    if internalblockmapformat then
+      block := MapBlockIntY(int64(bbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS)
+    else
+      block := MapBlockInt(bbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
     if block < 0 then
       block  := 0;
     sector.blockbox[BOXBOTTOM] := block;
 
-    block := MapBlockIntX(int64(bbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
+    if internalblockmapformat then
+      block := MapBlockIntX(int64(bbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS)
+    else
+      block := MapBlockInt(bbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
     if block >= bmapwidth then
       block := bmapwidth - 1;
     sector.blockbox[BOXRIGHT] := block;
 
-    block := MapBlockIntX(int64(bbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
+    if internalblockmapformat then
+      block := MapBlockIntX(int64(bbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS)
+    else
+      block := MapBlockInt(bbox[BOXLEFT] - bmaporgx - MAXRADIUS);
     if block < 0 then
       block := 0;
     sector.blockbox[BOXLEFT] := block;

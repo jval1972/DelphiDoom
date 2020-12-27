@@ -3658,10 +3658,20 @@ begin
     tmbbox[BOXRIGHT]  := p.x + radius;
     tmbbox[BOXLEFT]   := p.x - radius;
 
-    xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
-    xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
-    yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
-    yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
+    if internalblockmapformat then
+    begin
+      xl := MapBlockIntX(int64(tmbbox[BOXLEFT]) - int64(bmaporgx) - MAXRADIUS);
+      xh := MapBlockIntX(int64(tmbbox[BOXRIGHT]) - int64(bmaporgx) + MAXRADIUS);
+      yl := MapBlockIntY(int64(tmbbox[BOXBOTTOM]) - int64(bmaporgy) - MAXRADIUS);
+      yh := MapBlockIntY(int64(tmbbox[BOXTOP]) - int64(bmaporgy) + MAXRADIUS);
+    end
+    else
+    begin
+      xl := MapBlockInt(tmbbox[BOXLEFT] - bmaporgx - MAXRADIUS);
+      xh := MapBlockInt(tmbbox[BOXRIGHT] - bmaporgx + MAXRADIUS);
+      yl := MapBlockInt(tmbbox[BOXBOTTOM] - bmaporgy - MAXRADIUS);
+      yh := MapBlockInt(tmbbox[BOXTOP] - bmaporgy + MAXRADIUS);
+    end;
 
     bx := xl;
     while bx <= xh do

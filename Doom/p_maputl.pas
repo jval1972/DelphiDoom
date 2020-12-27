@@ -837,8 +837,16 @@ begin
   if thing.flags and MF_NOBLOCKMAP = 0 then
   begin
     // inert things don't need to be in blockmap
-    blockx := MapBlockIntX(int64(thing.x) - int64(bmaporgx));
-    blocky := MapBlockIntY(int64(thing.y) - int64(bmaporgy));
+    if internalblockmapformat then
+    begin
+      blockx := MapBlockIntX(int64(thing.x) - int64(bmaporgx));
+      blocky := MapBlockIntY(int64(thing.y) - int64(bmaporgy));
+    end
+    else
+    begin
+      blockx := MapBlockInt(thing.x - int64(bmaporgx));
+      blocky := MapBlockInt(thing.y - int64(bmaporgy));
+    end;
     if (blockx >= 0) and (blockx < bmapwidth) and
        (blocky >= 0) and (blocky < bmapheight) then
     begin
@@ -1184,13 +1192,13 @@ begin
 
   x1 := x1 - bmaporgx;
   y1 := y1 - bmaporgy;
-  xt1 := MapBlockIntX(x1);
-  yt1 := MapBlockIntY(y1);
+  xt1 := MapBlockInt(x1);
+  yt1 := MapBlockInt(y1);
 
   x2 := x2 - bmaporgx;
   y2 := y2 - bmaporgy;
-  xt2 := MapBlockIntX(x2);
-  yt2 := MapBlockIntY(y2);
+  xt2 := MapBlockInt(x2);
+  yt2 := MapBlockInt(y2);
 
   if xt2 > xt1 then
   begin
@@ -1424,7 +1432,7 @@ end;
 function P_PathTraverse(x1, y1, x2, y2: fixed_t; flags: integer;
   trav: traverser_t): boolean;
 begin
-  if largemap then
+  if largemap or internalblockmapformat then
     result := P_PathTraverse64(x1, y1, x2, y2, flags, trav)
   else
     result := P_PathTraverse32(x1, y1, x2, y2, flags, trav)
