@@ -10,6 +10,7 @@ Optimizations to slope rendering in sofware mode.
 Corrections to Doom patch detection algorithm.
 Now can theoretically handle maps up to 65536x65536 px.
 Fixed serious bug while deallocating thinkers.
+Fixed problem with dehacked file loading (-deh parameter).
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

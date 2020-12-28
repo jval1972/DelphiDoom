@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 green_mountains.wad -warp 1 1
+RunParams=-nofullscreen -geom 1920x1080 batman.wad -deh batman.deh
 HostApplication=
 Launcher=
 UseLauncher=0

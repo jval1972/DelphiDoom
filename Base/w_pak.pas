@@ -887,10 +887,10 @@ begin
   begin
     Delete(Name, 1, 1);
     p := Pos('\', Name);
+    if p = 1 then
+      Exit;
   end;
-  if p = 0 then
-    Exit;
-    
+
   Name := strtrim(Name);
   if Name = '' then
     Exit;
