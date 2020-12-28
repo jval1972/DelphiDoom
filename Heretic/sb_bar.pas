@@ -764,7 +764,7 @@ begin
   PatchINVLFGEM2 := W_CacheLumpName('INVGEML2', PU_STATIC);
   PatchINVRTGEM1 := W_CacheLumpName('INVGEMR1', PU_STATIC);
   PatchINVRTGEM2 := W_CacheLumpName('INVGEMR2', PU_STATIC);
-  PatchBLACKSQ    :=   W_CacheLumpName('BLACKSQ', PU_STATIC);
+  PatchBLACKSQ := W_CacheLumpName('BLACKSQ', PU_STATIC);
   PatchARMCLEAR := W_CacheLumpName('ARMCLEAR', PU_STATIC);
   PatchCHAINBACK := W_CacheLumpName('CHAINBAC', PU_STATIC);
 

@@ -560,7 +560,7 @@ begin
   glFogfv(GL_FOG_COLOR, @BlackFogColor);
   glFogf(GL_FOG_DENSITY, fog_density / 1000.0);
   glHint(GL_FOG_HINT, GL_NICEST);
-  glFogf(GL_FOG_START, 0.0);
+  glFogf(GL_FOG_START, 0.3);
   glFogf(GL_FOG_END, 1.0);
 
   glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
@@ -1459,7 +1459,7 @@ begin
   begin
     // We have arrived at a subsector. The divline list contains all
     // the partition lines that carve out the subsector.
-    ssidx := bspnode and (not NF_SUBSECTOR);
+    ssidx := bspnode and not NF_SUBSECTOR;
     if not sectorclosed[subsectors[ssidx].sector.iSectorID] then
       gld_FlatConvexCarver(ssidx, numdivlines, divlines);
     exit;
@@ -2462,7 +2462,7 @@ var
   end;
 
 begin
-  if (not gl_drawsky) and (wall.flag >= GLDWF_SKY) then
+  if not gl_drawsky and (wall.flag >= GLDWF_SKY) then
     exit;
 
   if wall.gltexture.index = 0 then
@@ -3415,7 +3415,7 @@ begin
     glPushMatrix;
     glMultMatrixf(@rippletexmatrix);
   end;
-  if (not flat.ceiling) and (sec.renderflags and SRF_SLOPEFLOOR <> 0) then
+  if not flat.ceiling and (sec.renderflags and SRF_SLOPEFLOOR <> 0) then
   begin
     // go through all loops of this sector
     for loopnum := 0 to glsec.loopcount - 1 do
