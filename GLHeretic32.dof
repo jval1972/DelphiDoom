@@ -100,7 +100,7 @@ Conditionals=OPENGL;HERETIC;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen
+RunParams=-nofullscreen -geom 640x400 -file huge_heretic.wad
 HostApplication=
 Launcher=
 UseLauncher=0

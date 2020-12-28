@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 green_mountains_trace.wad
+RunParams=-nofullscreen -geom 640x400 huge_map.wad
 HostApplication=
 Launcher=
 UseLauncher=0

@@ -8,6 +8,8 @@ Fixed bug in erronous width & height screen dimentions input when the -geom comm
 Speed improvements in maps with high number of slopes.
 Optimizations to slope rendering in sofware mode.
 Corrections to Doom patch detection algorithm.
+Now can theoretically handle maps up to 65536x65536 px.
+
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

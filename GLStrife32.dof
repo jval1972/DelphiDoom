@@ -100,7 +100,7 @@ Conditionals=OPENGL;STRIFE;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1366x768
+RunParams=-nofullscreen -geom 1366x768 -file huge_strife.wad
 HostApplication=
 Launcher=
 UseLauncher=0
