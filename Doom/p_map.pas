@@ -523,7 +523,7 @@ var
   pushfactor: fixed_t;
   doslam: boolean;
 begin
-  if (thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE)) = 0 then
+  if thing.flags and (MF_SOLID or MF_SPECIAL or MF_SHOOTABLE) = 0 then
   begin
     result := true;
     exit;
@@ -628,7 +628,7 @@ begin
       damage := ((P_Random mod 8) + 1) * tmthing.info.damage;
       P_DamageMobj(thing, tmthing, tmthing, damage);
 
-      tmthing.flags := tmthing.flags and (not MF_SKULLFLY);
+      tmthing.flags := tmthing.flags and not MF_SKULLFLY;
       tmthing.momx := 0;
       tmthing.momy := 0;
       tmthing.momz := 0;

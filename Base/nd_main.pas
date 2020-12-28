@@ -585,6 +585,7 @@ begin
   end;
 
   sglinf.Free;
+
   if not check then
     result := 0;
 end;
