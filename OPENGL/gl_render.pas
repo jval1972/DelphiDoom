@@ -540,11 +540,12 @@ begin
     canuselightmaps := (gld_max_texturesize3d >= LIGHTMAPSIZEX) and
                        (gld_max_texturesize3d >= LIGHTMAPSIZEY) and
                        (gld_max_texturesize3d >= LIGHTMAPSIZEZ);
-                       
+
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+  glShadeModel(GL_FLAT);
   glEnable(GL_TEXTURE_2D);
   glDepthFunc(GL_LEQUAL);
   glEnable(GL_ALPHA_TEST);
@@ -560,7 +561,7 @@ begin
   glFogfv(GL_FOG_COLOR, @BlackFogColor);
   glFogf(GL_FOG_DENSITY, fog_density / 1000.0);
   glHint(GL_FOG_HINT, GL_NICEST);
-  glFogf(GL_FOG_START, 0.3);
+  glFogf(GL_FOG_START, 0.0);
   glFogf(GL_FOG_END, 1.0);
 
   glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
