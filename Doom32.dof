@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 huge_map.wad
+RunParams=-nofullscreen -geom 1920x1080 green_mountains.wad -warp 1 1
 HostApplication=
 Launcher=
 UseLauncher=0
@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=5
-Build=727
+Build=728
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Doom to Delphi Total Conversion
-FileVersion=2.0.5.727
+FileVersion=2.0.5.728
 InternalName=Doom
 LegalCopyright=Copyright 2005 - 2020, Jim Valavanis
 LegalTrademarks=
