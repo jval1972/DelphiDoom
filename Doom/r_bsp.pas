@@ -157,6 +157,7 @@ begin
       tempsec.floorpic := ss.floorpic;
       tempsec.floor_xoffs := ss.floor_xoffs;
       tempsec.floor_yoffs := ss.floor_yoffs;
+      tempsec.floorangle := ss.floorangle; // JVAL: 20201229 - Texture angle
 
       if underwater then
       begin
@@ -166,12 +167,14 @@ begin
           tempsec.ceilingpic := tempsec.floorpic;
           tempsec.ceiling_xoffs := tempsec.floor_xoffs;
           tempsec.ceiling_yoffs := tempsec.floor_yoffs;
+          tempsec.ceilingangle := ss.floorangle; // JVAL: 20201229 - Texture angle
         end
         else
         begin
           tempsec.ceilingpic := ss.ceilingpic;
           tempsec.ceiling_xoffs := ss.ceiling_xoffs;
           tempsec.ceiling_yoffs := ss.ceiling_yoffs;
+          tempsec.ceilingangle := ss.ceilingangle; // JVAL: 20201229 - Texture angle
         end;
       end;
 
@@ -205,6 +208,7 @@ begin
         tempsec.ceilingpic := ss.ceilingpic;
         tempsec.ceiling_xoffs := ss.ceiling_xoffs;
         tempsec.ceiling_yoffs := ss.ceiling_yoffs;
+        tempsec.ceilingangle := ss.ceilingangle; // JVAL: 20201229 - Texture angle
 
         if ss.floorpic <> skyflatnum then
         begin
@@ -212,12 +216,14 @@ begin
           tempsec.floorpic := ss.floorpic;
           tempsec.floor_xoffs := ss.floor_xoffs;
           tempsec.floor_yoffs := ss.floor_yoffs;
+          tempsec.floorangle := ss.floorangle; // JVAL: 20201229 - Texture angle
         end
         else
         begin
           tempsec.floorpic := ss.ceilingpic;
           tempsec.floor_xoffs := ss.ceiling_xoffs;
           tempsec.floor_yoffs := ss.ceiling_yoffs;
+          tempsec.floorangle := ss.ceilingangle; // JVAL: 20201229 - Texture angle
         end;
 
         tempsec.lightlevel := ss.lightlevel;
@@ -720,6 +726,7 @@ begin
   if (backsector.ceilingpic = frontsector.ceilingpic) and
      (backsector.floorpic = frontsector.floorpic) and
      (backsector.lightlevel = frontsector.lightlevel) and
+     (backsector.floorangle = frontsector.floorangle) and
      (curline.sidedef.midtexture = 0) and
      // killough 3/7/98: Take flats offsets into account
      (backsector.floor_xoffs = frontsector.floor_xoffs) and
@@ -970,6 +977,7 @@ begin
                                 frontsector.floor_yoffs,
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
                                 true,
+                                frontsector.floorangle, // JVAL: 20200221 - Texture angle
                                 {$IFNDEF OPENGL}
                                 floorslope,
                                 {$ENDIF}
@@ -982,6 +990,7 @@ begin
                                 frontsector.floor_yoffs,
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
                                 true,
+                                frontsector.floorangle, // JVAL: 20200221 - Texture angle
                                 {$IFNDEF OPENGL}
                                 nil,
                                 {$ENDIF}
@@ -1002,6 +1011,7 @@ begin
                                   frontsector.ceiling_yoffs,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
                                   false,
+                                  frontsector.ceilingangle, // JVAL: 20200221 - Texture angle
                                   {$IFNDEF OPENGL}
                                   ceilingslope,
                                   {$ENDIF}
@@ -1014,6 +1024,7 @@ begin
                                   frontsector.ceiling_yoffs,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
                                   false,
+                                  frontsector.ceilingangle, // JVAL: 20200221 - Texture angle
                                   {$IFNDEF OPENGL}
                                   nil,
                                   {$ENDIF}

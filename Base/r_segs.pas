@@ -726,6 +726,7 @@ begin
       markfloor := (worldlow <> worldbottom) or
                    (backsector.floorpic <> frontsector.floorpic) or
                    (backsector.lightlevel <> frontsector.lightlevel) or
+                   (backsector.floorangle <> frontsector.floorangle) or
                    {$IFDEF DOOM_OR_STRIFE}
                    // killough 3/7/98: Add checks for (x,y) offsets
                    (backsector.floor_xoffs <> frontsector.floor_xoffs) or
@@ -745,6 +746,7 @@ begin
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
                      (backsector.lightlevel <> frontsector.lightlevel) or
+                     (backsector.ceilingangle <> frontsector.ceilingangle) or
                      {$IFDEF DOOM_OR_STRIFE}
                      // killough 3/7/98: Add checks for (x,y) offsets
                      (backsector.ceiling_xoffs <> frontsector.ceiling_xoffs) or
@@ -1300,6 +1302,7 @@ begin
       markfloor := (worldlow <> worldbottom) or
                    (backsector.floorpic <> frontsector.floorpic) or
                    (backsector.lightlevel <> frontsector.lightlevel) or
+                   (backsector.floorangle <> frontsector.floorangle) or
                    {$IFDEF DOOM_OR_STRIFE}
                    // killough 3/7/98: Add checks for (x,y) offsets
                    (backsector.floor_xoffs <> frontsector.floor_xoffs) or
@@ -1319,6 +1322,7 @@ begin
       markceiling := (worldhigh <> worldtop) or
                      (backsector.ceilingpic <> frontsector.ceilingpic) or
                      (backsector.lightlevel <> frontsector.lightlevel) or
+                     (backsector.ceilingangle <> frontsector.ceilingangle) or
                      {$IFDEF DOOM_OR_STRIFE}
                      // killough 3/7/98: Add checks for (x,y) offsets
                      (backsector.ceiling_xoffs <> frontsector.ceiling_xoffs) or

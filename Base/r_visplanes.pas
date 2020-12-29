@@ -36,7 +36,8 @@ interface
 uses
   d_delphi,
   doomdef,
-  m_fixed;
+  m_fixed,
+  tables;
 
 {$IFNDEF OPENGL}
 type
@@ -103,6 +104,7 @@ type
     {$ENDIF}
     renderflags: LongWord;
     slopeSID: integer;  // JVAL: Slopes
+    angle: angle_t;     // JVAL: 20200221 - Texture angle
     {$IFNDEF OPENGL}
     slope: Pvisslope_t; // JVAL: Slopes
     // leave pads for [minx-1] and [maxx+1]

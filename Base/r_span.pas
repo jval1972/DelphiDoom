@@ -33,6 +33,7 @@ interface
 uses
   d_delphi,
   m_fixed,
+  tables, // JVAL: 20200221 - Texture angle
   r_main;
 
 // Span blitting for rows, floor/ceiling.
@@ -52,6 +53,11 @@ var
   ds_yfrac: fixed_t;
   ds_xstep: fixed_t;
   ds_ystep: fixed_t;
+  ds_angle: angle_t;  // JVAL: 20200221 - Texture angle
+  ds_sine: float;     // JVAL: 20200225 - Texture angle
+  ds_cosine: float;   // JVAL: 20200225 - Texture angle
+  ds_viewsine: float;     // JVAL: 20200225 - Texture angle
+  ds_viewcosine: float;   // JVAL: 20200225 - Texture angle
 
 // start of a 64*64 tile image
   ds_source: PByteArray;

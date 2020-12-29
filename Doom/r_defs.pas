@@ -192,6 +192,8 @@ type
     gravity: fixed_t;
     // JVAL: Lines 272, 272 (MBF) - Change sky (VERSION 205)
     sky: integer;
+    floorangle: angle_t; // JVAL: 20200221 - Texture angle
+    ceilingangle: angle_t; // JVAL: 20200221 - Texture angle
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
@@ -323,6 +325,9 @@ const
   SRF_SLOPEFLOOR = 32; // JVAL: Slopes
   SRF_SLOPECEILING = 64; // JVAL: Slopes
   SRF_SLOPED = SRF_SLOPEFLOOR + SRF_SLOPECEILING; // JVAL: Slopes
+  SRF_ROTATE_FLOOR = 128; // JVAL: 20201229 - Texture angle
+  SRF_ROTATE_CEILING = 256; // JVAL: 20201229 - Texture angle
+  SRF_ROTATE = SRF_ROTATE_FLOOR or SRF_ROTATE_CEILING;  // JVAL: 20201229 - Texture angle
 
 const
   // Vissprite render flags

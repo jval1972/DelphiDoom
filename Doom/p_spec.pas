@@ -3111,6 +3111,7 @@ var
   i: integer;
   time: integer;
   s, sec: integer;
+  ang: angle_t;
 begin
   if W_CheckNumForName('texture2') < 0 then
     gameepisode := 1; // ???
@@ -3320,6 +3321,22 @@ begin
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
             sectors[s].flags := sectors[s].flags or SF_SLIPSLOPEDESCENT;
+        end;
+      // JVAL: 20200517 - Rotate sector floor
+      284:
+        begin
+          ang := R_PointToAngle2(lines[i].v1.x, lines[i].v1.y, lines[i].v2.x, lines[i].v2.y);
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].floorangle := ang;
+        end;
+      // JVAL: 20200517 - Rotate sector ceiling
+      285:
+        begin
+          ang := R_PointToAngle2(lines[i].v1.x, lines[i].v1.y, lines[i].v2.x, lines[i].v2.y);
+          s := -1;
+          while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+            sectors[s].ceilingangle := ang;
         end;
       291:  // JVAL: 20200521 - Offset floor texture to vector
         begin

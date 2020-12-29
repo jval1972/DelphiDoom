@@ -1190,6 +1190,15 @@ begin
     vis.yoffs := mid.floor_yoffs;
   end;
   {$ENDIF}
+
+  // JVAL: 20201229 - Texture angle
+  // If virtualfloor we take the angle from the mid ceiling
+  // If not virtualfloor we take the angle from the mid floor
+  if virtualfloor then
+    vis.angle := mid.ceilingangle
+  else
+    vis.angle := mid.floorangle;
+
   vis.renderflags := mid.renderflags or SRF_FFLOOR;
   if virtualfloor then
     vis.renderflags := mid.renderflags and not SRF_RIPPLE_FLOOR

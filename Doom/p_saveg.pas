@@ -138,7 +138,7 @@ begin
 
     dest := Pplayer_t(save_p);
     memcpy(dest, @players[i], SizeOf(player_t));
-    save_p := PByteArray(integer(save_p) + SizeOf(player_t));
+    incp(pointer(save_p), SizeOf(player_t));
     for j := 0 to Ord(NUMPSPRITES) - 1 do
       if dest.psprites[j].state <> nil then
         dest.psprites[j].state := Pstate_t(pDiff(dest.psprites[j].state, @states[0], SizeOf(dest.psprites[j].state^)));
@@ -316,6 +316,30 @@ begin
     PInteger(put)^ := sec.gravity;
     put := @put[2];
 
+    // JVAL: 20200221 - Texture angle
+    PLongWord(put)^ := sec.floorangle;
+    put := @put[2];
+    PLongWord(put)^ := sec.ceilingangle;
+    put := @put[2];
+
+    // JVAL: 20200522 - Slope values
+    Pfloat(put)^ := sec.fa;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fb;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fd;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fic;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.ca;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cb;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cd;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cic;
+    put := @put[SizeOf(float) div 2];
+
     PInteger(put)^ := sec.num_saffectees;
     put := @put[2];
     for j := 0 to sec.num_saffectees - 1 do
@@ -483,6 +507,33 @@ begin
     end
     else
       sec.gravity := GRAVITY;
+
+    // JVAL: 20200221 - Texture angle
+    if savegameversion > VERSION205 then
+    begin
+      sec.floorangle := PLongWord(get)^;
+      get := @get[2];
+      sec.ceilingangle := PLongWord(get)^;
+      get := @get[2];
+
+      // JVAL: 20200522 - Slope values
+      sec.fa := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fb := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fd := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fic := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.ca := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cb := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cd := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cic := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+    end;
 
     if savegameversion >= VERSION122 then
     begin
@@ -1582,6 +1633,7 @@ begin
           flicker := Z_Malloc(SizeOf(fireflicker_t), PU_LEVEL, nil);
           memcpy(flicker, save_p, SizeOf(fireflicker_t));
           incp(pointer(save_p), SizeOf(fireflicker_t));
+
           @flicker.thinker._function.acp1 := @T_FireFlicker;
           flicker.sector := @sectors[integer(flicker.sector)];
           P_AddThinker(@flicker.thinker);
