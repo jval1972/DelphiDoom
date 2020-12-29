@@ -196,6 +196,7 @@ var
 begin
   if numslopeitems < 3 then
     exit;
+
   slopeinfo := mallocz(numsectors * SizeOf(slopeitem_t));
 
   th := thinkercap.next;
@@ -493,7 +494,8 @@ end;
 function P_SpawnEasySlopeThing(mthing: Pmapthing_t): Pmobj_t;
 begin
   result := P_SpawnMapThing(mthing);
-  inc(numslopeitems);
+  if result then
+    inc(numslopeitems);
 end;
 
 end.
