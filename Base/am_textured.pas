@@ -192,13 +192,50 @@ begin
   yy := sz - (yy div MAPUNIT) and sz;
   xx := (xx div MAPUNIT) and sz;
 end;
+
+procedure AM_DecodeAngleUV(var xx, yy: integer; const sz: integer;
+  const fangx, fangy, fangsin, fangcos: fixed_t);
+var
+  tmpx: fixed_t;
+begin
+  if allowautomaprotate then
+  begin
+    tmpx := plx +
+      FixedMul(xx - plx, amcos) -
+      FixedMul(yy - ply, amsin);
+
+    yy := ply +
+      FixedMul(xx - plx, amsin) +
+      FixedMul(yy - ply, amcos);
+
+    xx := tmpx;
+  end;
+
+  tmpx := fangx +
+    FixedMul(xx - fangx, fangcos) -
+    FixedMul(yy - fangy, fangsin);
+
+  yy := fangy +
+    FixedMul(xx - fangx, fangsin) +
+    FixedMul(yy - fangy, fangcos);
+
+  xx := tmpx;
+
+  yy := sz - (yy div MAPUNIT) and sz;
+  xx := (xx div MAPUNIT) and sz;
+end;
 {$ENDIF}
 
-procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump, flat: integer; const aminx, amaxx: integer; const {$IFDEF OPENGL}lightlevel: integer{$ELSE}amcolormap: pointer{$ENDIF});
+procedure AM_DrawTexturedTriangle(const lst: seg_ap3; const lump: integer; const sec: Psector_t;
+  const aminx, amaxx: integer; const {$IFDEF OPENGL}lightlevel: integer{$ELSE}amcolormap: pointer{$ENDIF});
 {$IFNDEF OPENGL}
 var
   data: PByteArray;
   flat_width: integer;
+  flat: integer;
+  fang: angle_t;
+  fangx, fangy: fixed_t;
+  fangsin, fangcos: fixed_t;
 
   procedure fillLeftFlatTriangle(v1, v2, v3: drawpoint_t);
   var
@@ -253,7 +290,10 @@ var
         begin
           du := xx;
           dv := yy;
-          AM_DecodeUV(du, dv, flat_width - 1);
+          if fang <> 0 then
+            AM_DecodeAngleUV(du, dv, flat_width - 1, fangx, fangy, fangsin, fangcos)
+          else
+            AM_DecodeUV(du, dv, flat_width - 1);
           drawsegfunc(i, j, data[du + dv * flat_width], amcolormap);
           yy := yy - scale_ftom;
         end;
@@ -321,7 +361,10 @@ var
         begin
           du := xx;
           dv := yy;
-          AM_DecodeUV(du, dv, flat_width - 1);
+          if fang <> 0 then
+            AM_DecodeAngleUV(du, dv, flat_width - 1, fangx, fangy, fangsin, fangcos)
+          else
+            AM_DecodeUV(du, dv, flat_width - 1);
           drawsegfunc(i, j, data[du + dv * flat_width], amcolormap);
           yy := yy - scale_ftom;
         end;
@@ -435,10 +478,21 @@ begin
   v3 := t[2];
 
 {$IFNDEF OPENGL}
+  flat := sec.floorpic;
+
   if flats[flats[flat].translation].size <= 0 then
-     flat_width := 64
+    flat_width := 64
   else
-     flat_width := dsscalesize[flats[flats[flat].translation].size].flatsize;
+    flat_width := dsscalesize[flats[flats[flat].translation].size].flatsize;
+
+  fang := sec.floorangle;
+  if fang <> 0 then
+  begin
+    fangx := sec.flooranglex div FRACTOMAPUNIT;
+    fangy := sec.floorangley div FRACTOMAPUNIT;
+    fangsin := fixedsine[(ANGLE_MAX - fang) shr FRACBITS];
+    fangcos := fixedcosine[(ANGLE_MAX - fang) shr FRACBITS];
+  end;
 
   data := W_CacheLumpNum(lump, PU_LEVEL);
 
@@ -468,7 +522,8 @@ begin
     v3.x, v3.y, du2, dv2,
     clight,
     lump,
-    flat);
+    sec
+  );
 {$ENDIF}
 end;
 
@@ -575,7 +630,7 @@ begin
         lst[1] := lst[2];
         lst[2] := seg;
 
-        AM_DrawTexturedTriangle(lst, lump, ssector.sector.floorpic, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
+        AM_DrawTexturedTriangle(lst, lump, ssector.sector, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
       end;
     end;
 
@@ -644,7 +699,7 @@ begin
           Inc(seg);
           lst[1] := lst[2];
           lst[2] := seg;
-          AM_DrawTexturedTriangle(lst, lump, ssector.sector.floorpic, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
+          AM_DrawTexturedTriangle(lst, lump, ssector.sector, parms.minx, parms.maxx, {$IFDEF OPENGL}lightlevel{$ELSE}amcolormap{$ENDIF});
         end;
       end;
 

@@ -3328,7 +3328,11 @@ begin
           ang := R_PointToAngle2(lines[i].v1.x, lines[i].v1.y, lines[i].v2.x, lines[i].v2.y);
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+          begin
             sectors[s].floorangle := ang;
+            sectors[s].flooranglex := lines[i].v1.x;
+            sectors[s].floorangley := lines[i].v1.y;
+          end;
         end;
       // JVAL: 20200517 - Rotate sector ceiling
       285:
@@ -3336,7 +3340,11 @@ begin
           ang := R_PointToAngle2(lines[i].v1.x, lines[i].v1.y, lines[i].v2.x, lines[i].v2.y);
           s := -1;
           while P_FindSectorFromLineTag2(@lines[i], s) >= 0 do
+          begin
             sectors[s].ceilingangle := ang;
+            sectors[s].ceilinganglex := lines[i].v1.x;
+            sectors[s].ceilingangley := lines[i].v1.y;
+          end;
         end;
       291:  // JVAL: 20200521 - Offset floor texture to vector
         begin

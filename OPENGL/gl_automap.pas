@@ -33,6 +33,9 @@ unit gl_automap;
 
 interface
 
+uses
+  r_defs;
+
 procedure gld_InitAutomap;
 
 procedure gld_ShutDownAutomap;
@@ -47,7 +50,7 @@ procedure gld_AddAutomapTriangle(
   const x1, y1, u1, v1: integer;
   const x2, y2, u2, v2: integer;
   const x3, y3, u3, v3: integer;
-  const cc: LongWord; const lump, flat: integer);
+  const cc: LongWord; const lump: integer; const sec: Psector_t);
 
 procedure gld_DrawAutomap;
 
@@ -77,6 +80,9 @@ type
     u1, v1, u2, v2, u3, v3: float;
     lump: integer;
     flat: integer;
+    hasangle: boolean;
+    angle: float;
+    anglex, angley: float;
     r, g, b: float;
   end;
   Pglamrenderitem_t = ^glamrenderitem_t;
@@ -170,7 +176,7 @@ procedure gld_AddAutomapTriangle(
   const x1, y1, u1, v1: integer;
   const x2, y2, u2, v2: integer;
   const x3, y3, u3, v3: integer;
-  const cc: LongWord; const lump, flat: integer);
+  const cc: LongWord; const lump: integer; const sec: Psector_t);
 var
   l: Pglamrenderitem_t;
 begin
@@ -199,8 +205,16 @@ begin
   l.b := (cc and $FF) / 255;
 
   l.lump := lump;
-  l.flat := flat;
-  
+  l.flat := sec.floorpic;
+
+  l.hasangle := sec.floorangle <> 0;
+  if l.hasangle then
+  begin
+    l.angle := (sec.floorangle / $FFFFFFFF) * 360.0;
+    l.anglex := sec.flooranglex / FLATUVSCALE;
+    l.angley := sec.floorangley / FLATUVSCALE;
+  end;
+
   inc(numamitems);
 end;
 
@@ -248,11 +262,36 @@ begin
   tex := gld_RegisterFlat(l.lump, true, l.flat);
   gld_BindFlat(tex);
 
+  if l.hasangle then
+  begin
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix;
+    glTranslatef(
+      l.anglex * tex.texturescale {$IFDEF HEXEN}* 64 / tex.width{$ENDIF},
+      -l.angley * tex.texturescale {$IFDEF HEXEN}* 64 / tex.height{$ENDIF},
+      0.0);
+    glRotatef(l.angle, 0, 0, 1);
+    glTranslatef(
+      -l.anglex * tex.texturescale {$IFDEF HEXEN}* 64 / tex.width{$ENDIF},
+      l.angley * tex.texturescale {$IFDEF HEXEN}* 64 / tex.height{$ENDIF},
+      0.0);
+  end;
+
   glBegin(GL_TRIANGLES);
-    glTexCoord2f(l.v1 * tex.texturescale, l.u1 * tex.texturescale); glVertex2i(l.x1, l.y1);
-    glTexCoord2f(l.v2 * tex.texturescale, l.u2 * tex.texturescale); glVertex2i(l.x2, l.y2);
-    glTexCoord2f(l.v3 * tex.texturescale, l.u3 * tex.texturescale); glVertex2i(l.x3, l.y3);
+    glTexCoord2f(l.v1 * tex.texturescale {$IFDEF HEXEN}* 64 / tex.width{$ENDIF}, l.u1 * tex.texturescale {$IFDEF HEXEN}* 64 / tex.height{$ENDIF});
+    glVertex2i(l.x1, l.y1);
+    glTexCoord2f(l.v2 * tex.texturescale {$IFDEF HEXEN}* 64 / tex.width{$ENDIF}, l.u2 * tex.texturescale {$IFDEF HEXEN}* 64 / tex.height{$ENDIF});
+    glVertex2i(l.x2, l.y2);
+    glTexCoord2f(l.v3 * tex.texturescale {$IFDEF HEXEN}* 64 / tex.width{$ENDIF}, l.u3 * tex.texturescale {$IFDEF HEXEN}* 64 / tex.height{$ENDIF});
+    glVertex2i(l.x3, l.y3);
   glEnd;
+
+  if l.hasangle then
+  begin
+    glMatrixMode(GL_TEXTURE);
+    glPopMatrix;
+    glMatrixMode(GL_MODELVIEW);
+  end;
 
   glDisable(GL_TEXTURE_2D);
 end;

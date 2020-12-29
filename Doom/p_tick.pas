@@ -65,7 +65,7 @@ var
 implementation
 
 uses
-  doomdef,
+  doomdef,   p_setup, tables,
   c_con,
   d_player,
   g_game,
@@ -182,6 +182,7 @@ procedure P_Ticker;
 var
   i: integer;
 begin
+sectors[4].floorangle := sectors[4].floorangle + ang1;
   isgamesuspended := true;
   // run the tic
   if paused then

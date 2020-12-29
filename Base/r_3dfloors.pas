@@ -1195,9 +1195,17 @@ begin
   // If virtualfloor we take the angle from the mid ceiling
   // If not virtualfloor we take the angle from the mid floor
   if virtualfloor then
-    vis.angle := mid.ceilingangle
+  begin
+    vis.angle := mid.ceilingangle;
+    vis.anglex := mid.ceilinganglex;
+    vis.angley := mid.ceilingangley;
+  end
   else
+  begin
     vis.angle := mid.floorangle;
+    vis.anglex := mid.flooranglex;
+    vis.angley := mid.floorangley;
+  end;
 
   vis.renderflags := mid.renderflags or SRF_FFLOOR;
   if virtualfloor then

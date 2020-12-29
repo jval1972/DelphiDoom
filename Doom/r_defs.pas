@@ -193,7 +193,11 @@ type
     // JVAL: Lines 272, 272 (MBF) - Change sky (VERSION 205)
     sky: integer;
     floorangle: angle_t; // JVAL: 20200221 - Texture angle
+    flooranglex: fixed_t; // JVAL: 20201229 - Texture angle rover
+    floorangley: fixed_t; // JVAL: 20201229 - Texture angle rover
     ceilingangle: angle_t; // JVAL: 20200221 - Texture angle
+    ceilinganglex: fixed_t; // JVAL: 20201229 - Texture angle rover
+    ceilingangley: fixed_t; // JVAL: 20201229 - Texture angle rover
 {$IFDEF OPENGL}
     floorlightlevel: smallint;
     ceilinglightlevel: smallint;
