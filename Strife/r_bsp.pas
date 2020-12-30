@@ -164,6 +164,9 @@ begin
       tempsec.floorpic := ss.floorpic;
       tempsec.floor_xoffs := ss.floor_xoffs;
       tempsec.floor_yoffs := ss.floor_yoffs;
+      tempsec.floorangle := ss.floorangle; // JVAL: 20201229 - Texture angle
+      tempsec.flooranglex := ss.flooranglex; // JVAL: 20201229 - Texture angle rover
+      tempsec.floorangley := ss.floorangley; // JVAL: 20201229 - Texture angle rover
 
       if underwater then
       begin
@@ -173,12 +176,18 @@ begin
           tempsec.ceilingpic := tempsec.floorpic;
           tempsec.ceiling_xoffs := tempsec.floor_xoffs;
           tempsec.ceiling_yoffs := tempsec.floor_yoffs;
+          tempsec.ceilingangle := ss.floorangle; // JVAL: 20201229 - Texture angle
+          tempsec.ceilinganglex := ss.flooranglex; // JVAL: 20201229 - Texture angle rover
+          tempsec.ceilingangley := ss.floorangley; // JVAL: 20201229 - Texture angle rover
         end
         else
         begin
           tempsec.ceilingpic := ss.ceilingpic;
           tempsec.ceiling_xoffs := ss.ceiling_xoffs;
           tempsec.ceiling_yoffs := ss.ceiling_yoffs;
+          tempsec.ceilingangle := ss.ceilingangle; // JVAL: 20201229 - Texture angle
+          tempsec.ceilinganglex := ss.flooranglex; // JVAL: 20201229 - Texture angle rover
+          tempsec.ceilingangley := ss.floorangley; // JVAL: 20201229 - Texture angle rover
         end;
       end;
 
@@ -212,6 +221,9 @@ begin
         tempsec.ceilingpic := ss.ceilingpic;
         tempsec.ceiling_xoffs := ss.ceiling_xoffs;
         tempsec.ceiling_yoffs := ss.ceiling_yoffs;
+        tempsec.ceilingangle := ss.ceilingangle; // JVAL: 20201229 - Texture angle
+        tempsec.ceilinganglex := ss.ceilinganglex; // JVAL: 20201229 - Texture angle rover
+        tempsec.ceilingangley := ss.ceilingangley; // JVAL: 20201229 - Texture angle rover
 
         if ss.floorpic <> skyflatnum then
         begin
@@ -219,12 +231,18 @@ begin
           tempsec.floorpic := ss.floorpic;
           tempsec.floor_xoffs := ss.floor_xoffs;
           tempsec.floor_yoffs := ss.floor_yoffs;
+          tempsec.floorangle := ss.floorangle; // JVAL: 20201229 - Texture angle
+          tempsec.flooranglex := ss.flooranglex; // JVAL: 20201229 - Texture angle rover
+          tempsec.floorangley := ss.floorangley; // JVAL: 20201229 - Texture angle rover
         end
         else
         begin
           tempsec.floorpic := ss.ceilingpic;
           tempsec.floor_xoffs := ss.ceiling_xoffs;
           tempsec.floor_yoffs := ss.ceiling_yoffs;
+          tempsec.floorangle := ss.ceilingangle; // JVAL: 20201229 - Texture angle
+          tempsec.flooranglex := ss.ceilinganglex; // JVAL: 20201229 - Texture angle rover
+          tempsec.floorangley := ss.ceilingangley; // JVAL: 20201229 - Texture angle rover
         end;
 
         tempsec.lightlevel := ss.lightlevel;
@@ -727,6 +745,12 @@ begin
   if (backsector.ceilingpic = frontsector.ceilingpic) and
      (backsector.floorpic = frontsector.floorpic) and
      (backsector.lightlevel = frontsector.lightlevel) and
+     (backsector.floorangle = frontsector.floorangle) and
+     (backsector.flooranglex = frontsector.flooranglex) and
+     (backsector.floorangley = frontsector.floorangley) and
+     (backsector.ceilingangle = frontsector.ceilingangle) and
+     (backsector.ceilinganglex = frontsector.ceilinganglex) and
+     (backsector.ceilingangley = frontsector.ceilingangley) and
      (curline.sidedef.midtexture = 0) and
      (backsector.floor_xoffs = frontsector.floor_xoffs) and
      (backsector.floor_yoffs = frontsector.floor_yoffs) and
@@ -960,6 +984,9 @@ begin
                                 frontsector.floor_yoffs,
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
                                 true,
+                                frontsector.floorangle, // JVAL: 20200221 - Texture angle
+                                frontsector.flooranglex,// JVAL: 20201229 - Texture angle rover
+                                frontsector.floorangley,// JVAL: 20201229 - Texture angle rover
                                 {$IFNDEF OPENGL}
                                 floorslope,
                                 {$ENDIF}
@@ -972,6 +999,9 @@ begin
                                 frontsector.floor_yoffs,
                                 frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
                                 true,
+                                frontsector.floorangle, // JVAL: 20200221 - Texture angle
+                                frontsector.flooranglex,// JVAL: 20201229 - Texture angle rover
+                                frontsector.floorangley,// JVAL: 20201229 - Texture angle rover
                                 {$IFNDEF OPENGL}
                                 nil,
                                 {$ENDIF}
@@ -992,6 +1022,9 @@ begin
                                   frontsector.ceiling_yoffs,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
                                   false,
+                                  frontsector.ceilingangle, // JVAL: 20200221 - Texture angle
+                                  frontsector.ceilinganglex,// JVAL: 20201229 - Texture angle rover
+                                  frontsector.ceilingangley,// JVAL: 20201229 - Texture angle rover
                                   {$IFNDEF OPENGL}
                                   ceilingslope,
                                   {$ENDIF}
@@ -1004,6 +1037,9 @@ begin
                                   frontsector.ceiling_yoffs,
                                   frontsector.renderflags and not (SRF_RIPPLE_FLOOR or SRF_SLOPEFLOOR),
                                   false,
+                                  frontsector.ceilingangle, // JVAL: 20200221 - Texture angle
+                                  frontsector.ceilinganglex,// JVAL: 20201229 - Texture angle rover
+                                  frontsector.ceilingangley,// JVAL: 20201229 - Texture angle rover
                                   {$IFNDEF OPENGL}
                                   nil,
                                   {$ENDIF}
@@ -1013,7 +1049,8 @@ begin
     ceilingplane := nil;
 
 {$IFDEF OPENGL}
-  if (frontsector = sub.sector) and (frontsector.renderflags = 0) then
+  if (frontsector = sub.sector) and (frontsector.renderflags = 0) and
+     (frontsector.floorangle = 0) and (frontsector.ceilingangle = 0) then
   begin
     // if the sector has bottomtextures, then the floorheight will be set to the
     // highest surounding floorheight

@@ -85,9 +85,9 @@ implementation
 
 uses
   doomdef,
+  d_ticcmd,
   d_player,
   d_think,
-  d_ticcmd,
   g_game,
   m_fixed,
   m_misc,
@@ -397,6 +397,38 @@ begin
     PInteger(put)^ := sec.gravity;
     put := @put[2];
 
+    // JVAL: 20200221 - Texture angle
+    PLongWord(put)^ := sec.floorangle;
+    put := @put[2];
+    PInteger(put)^ := sec.flooranglex;
+    put := @put[2];
+    PInteger(put)^ := sec.floorangley;
+    put := @put[2];
+    PLongWord(put)^ := sec.ceilingangle;
+    put := @put[2];
+    PInteger(put)^ := sec.ceilinganglex;
+    put := @put[2];
+    PInteger(put)^ := sec.ceilingangley;
+    put := @put[2];
+
+    // JVAL: 20200522 - Slope values
+    Pfloat(put)^ := sec.fa;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fb;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fd;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fic;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.ca;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cb;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cd;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cic;
+    put := @put[SizeOf(float) div 2];
+
     PInteger(put)^ := sec.num_saffectees;
     put := @put[2];
     for j := 0 to sec.num_saffectees - 1 do
@@ -551,6 +583,50 @@ begin
     end
     else
       sec.gravity := GRAVITY;
+
+    // JVAL: 20200221 - Texture angle
+    if savegameversion > VERSION205 then
+    begin
+      sec.floorangle := PLongWord(get)^;
+      get := @get[2];
+      sec.flooranglex := PInteger(get)^;
+      get := @get[2];
+      sec.floorangley := PInteger(get)^;
+      get := @get[2];
+      sec.ceilingangle := PLongWord(get)^;
+      get := @get[2];
+      sec.ceilinganglex := PInteger(get)^;
+      get := @get[2];
+      sec.ceilingangley := PInteger(get)^;
+      get := @get[2];
+
+      // JVAL: 20200522 - Slope values
+      sec.fa := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fb := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fd := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fic := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.ca := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cb := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cd := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cic := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+    end
+    else
+    begin
+      sec.floorangle := 0;
+      sec.flooranglex := 0;
+      sec.floorangley := 0;
+      sec.ceilingangle := 0;
+      sec.ceilinganglex := 0;
+      sec.ceilingangley := 0;
+    end;
 
     if savegameversion >= VERSION122 then
     begin
