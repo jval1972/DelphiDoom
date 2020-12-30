@@ -533,8 +533,11 @@ begin
                  LongWord(height div FRACUNIT) +
                  LongWord(height and (FRACUNIT - 1));
   result := result + LongWord(slopeSID + 1) * 7;  // JVAL: Slopes
-  result := result + angle; // JVAL: 20200221 - Texture angle
-  result := result + LongWord(anglex) shl 1 + LongWord(angley) shl 2;
+  if angle <> 0 then
+  begin
+    result := result + angle; // JVAL: 20200221 - Texture angle
+    result := result + LongWord(anglex) shl 1 + LongWord(angley) shl 2;
+  end;
   result := result and (VISPLANEHASHSIZE - 1);
 end;
 
