@@ -917,6 +917,18 @@ begin
 
   PS_NewMap;
   P_SetupLevel(gamemap, 0, gameskill);
+
+  // JVAL: Prevent erroneous demos
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      if players[i].mo = nil then
+      begin
+        I_Warning('G_DoLoadLevel(): Null player actor, is player start missing?'#13#10);
+        gamestate := GS_DEMOSCREEN;
+        D_StartTitle;
+        exit;
+      end;
+
   displayplayer := consoleplayer;    // view the guy you are playing
   starttime := I_GetTime;
   gameaction := ga_nothing;
@@ -1029,11 +1041,14 @@ begin
           result := true;
           exit;
         end;
+
         if ev.data1 < NUMKEYS then
           gamekeydown[ev.data1] := true;
+
         result := true; // eat key down events
         exit;
       end;
+
     ev_keyup:
       begin
         if ev.data1 < NUMKEYS then
@@ -1041,6 +1056,7 @@ begin
         result := false; // always let key up events filter down
         exit;
       end;
+
     ev_mouse:
       begin
         if usemouse then
@@ -1062,6 +1078,7 @@ begin
         result := true;    // eat events
         exit;
       end;
+
     ev_joystick:
       begin
         if usejoystick then
