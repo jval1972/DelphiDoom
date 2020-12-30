@@ -2682,7 +2682,7 @@ begin
 end;
 
 procedure gld_AddFlat_Extra(sectornum: integer; pic, zheight: integer;
-  isfloor: Boolean; ripple: boolean; angle: angle_t; anglex, angley: fixed_t);
+  isfloor: boolean; ripple: boolean; angle: angle_t; anglex, angley: fixed_t);
 var
   {$IFDEF DOOM_OR_STRIFE}
   tempsec: sector_t; // needed for R_FakeFlat
@@ -3307,7 +3307,7 @@ bottomtexture:
           gld_AddFlat_Extra(
             seg.frontsector.iSectorID, seg.backsector.floorpic, seg.frontsector.floorheight,
             False, seg.frontsector.renderflags and SRF_RIPPLE_CEILING <> 0,
-            seg.backsector.floorangle,seg.backsector.flooranglex, seg.backsector.floorangley);
+            seg.backsector.floorangle, seg.backsector.flooranglex, seg.backsector.floorangley);
         end;
       end;
     end;
