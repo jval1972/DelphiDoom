@@ -200,6 +200,12 @@ begin
     result[i] := Chr(GET_BYTE);
 end;
 
+function GET_FLOAT: float;
+begin
+  result := Pfloat(saveptr)^;
+  saveptr := pointer(integer(saveptr) + SizeOf(float));
+end;
+
 //==========================================================================
 //
 // Saving to stream helpers
@@ -307,6 +313,17 @@ begin
   end;
 end;
 
+
+//==========================================================================
+//
+// StreamOutFloat
+//
+//==========================================================================
+
+procedure StreamOutFloat(val: float);
+begin
+  SavingFP.Write(val, SizeOf(float));
+end;
 
 const
   MAX_TARGET_PLAYERS = 512;
@@ -859,6 +876,25 @@ begin
     StreamOutLong(sec.midsec);
     StreamOutLong(sec.midline);
     StreamOutLong(sec.gravity);
+
+    // JVAL: 20200221 - Texture angle
+    StreamOutLongWord(sec.floorangle);
+    StreamOutLong(sec.flooranglex);
+    StreamOutLong(sec.floorangley);
+    StreamOutLongWord(sec.ceilingangle);
+    StreamOutLong(sec.ceilinganglex);
+    StreamOutLong(sec.ceilingangley);
+
+    // JVAL: 20200522 - Slope values
+    StreamOutFloat(sec.fa);
+    StreamOutFloat(sec.fb);
+    StreamOutFloat(sec.fd);
+    StreamOutFloat(sec.fic);
+    StreamOutFloat(sec.ca);
+    StreamOutFloat(sec.cb);
+    StreamOutFloat(sec.cd);
+    StreamOutFloat(sec.cic);
+
     StreamOutLong(sec.num_saffectees);
     for j := 0 to sec.num_saffectees - 1 do
       StreamOutLong(sec.saffectees[j]);
@@ -877,9 +913,8 @@ begin
     for j := 0 to 1 do
     begin
       if li.sidenum[j] = -1 then
-      begin
         continue;
-      end;
+
       si := @sides[li.sidenum[j]];
       StreamOutLong(si.textureoffset);
       StreamOutLong(si.rowoffset);
@@ -950,6 +985,35 @@ begin
       sec.gravity := GET_LONGWORD
     else
       sec.gravity := GRAVITY;
+    if LOADVERSION > VERSION205 then
+    begin
+      sec.floorangle := GET_LONGWORD;
+      sec.flooranglex := GET_LONG;
+      sec.floorangley := GET_LONG;
+      sec.ceilingangle := GET_LONGWORD;
+      sec.ceilinganglex := GET_LONG;
+      sec.ceilingangley := GET_LONG;
+
+      // JVAL: 20200522 - Slope values
+      sec.fa := GET_FLOAT;
+      sec.fb := GET_FLOAT;
+      sec.fd := GET_FLOAT;
+      sec.fic := GET_FLOAT;
+      sec.ca := GET_FLOAT;
+      sec.cb := GET_FLOAT;
+      sec.cd := GET_FLOAT;
+      sec.cic := GET_FLOAT;
+    end
+    else
+    begin
+      sec.floorangle := 0;
+      sec.flooranglex := 0;
+      sec.floorangley := 0;
+      sec.ceilingangle := 0;
+      sec.ceilinganglex := 0;
+      sec.ceilingangley := 0;
+    end;
+
     if LOADVERSION >= VERSION142 then
     begin
       sec.num_saffectees := GET_LONG;

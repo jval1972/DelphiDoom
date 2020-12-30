@@ -373,7 +373,8 @@ uses
   r_flatinfo in 'Base\r_flatinfo.pas',
   r_span32_ripple in 'Base\r_span32_ripple.pas',
   r_flat32_ripple in 'Base\r_flat32_ripple.pas',
-  r_span32_fog_ripple in 'Hexen\r_span32_fog_ripple.pas';
+  r_span32_fog_ripple in 'Hexen\r_span32_fog_ripple.pas',
+  p_easyangle in 'Base\p_easyangle.pas';
 
 exports
   dd_compile_hexen,
