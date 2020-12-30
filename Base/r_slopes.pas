@@ -562,7 +562,7 @@ var
   angle: fixed_t;
   distance: fixed_t;
   yslopey: fixed_t;
-  length: fixed_t;
+  len: fixed_t;
   index: LongWord;
   ncolornum: integer;
   x: integer;
@@ -660,12 +660,12 @@ begin
         distance := Abs(Round(1.0 / (rTheta / zleft + Theta / zright)));
       end;
 
-      length := FixedMul(distance, distscale[x]);
+      len := FixedMul(distance, distscale[x]);
       angle := (viewangle + xtoviewangle[x] - ds_angle) shr FRACBITS;
 
-      xfrac1 := tviewx + FixedMul(fixedcosine[angle], length)
+      xfrac1 := tviewx + FixedMul(fixedcosine[angle], len)
       {$IFDEF DOOM_OR_STRIFE} + xoffs{$ENDIF} {$IFDEF HEXEN} + ds_xoffset{$ENDIF};
-      yfrac1 := -tviewy - FixedMul(fixedsine[angle], length)
+      yfrac1 := -tviewy - FixedMul(fixedsine[angle], len)
       {$IFDEF DOOM_OR_STRIFE} + yoffs{$ENDIF} {$IFDEF HEXEN} + ds_yoffset{$ENDIF};
 
       if x = x1 then
