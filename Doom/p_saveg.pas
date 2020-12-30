@@ -81,8 +81,8 @@ uses
   m_fixed,
   info_h,
   info,
-  i_tmp,
   i_system,
+  i_tmp,
   p_3dfloors, // JVAL: 3d floors
   p_local,    // JVAL: sector gravity (VERSION 204)
   p_pspr_h,
@@ -285,10 +285,12 @@ begin
     put := @put[2];
     PInteger(put)^ := sec.ceilingheight;
     put := @put[2];
+
     Pchar8_t(put)^ := flats[sec.floorpic].name;
     put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
     Pchar8_t(put)^ := flats[sec.ceilingpic].name;
     put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+
     put[0] := sec.lightlevel;
     put := @put[1];
     put[0] := sec.special; // needed?
@@ -383,6 +385,7 @@ begin
       put := @put[2];
       PInteger(put)^ := si.rowoffset;
       put := @put[2];
+
       Pchar8_t(put)^ := R_NameForSideTexture(si.toptexture);
       put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
       Pchar8_t(put)^ := R_NameForSideTexture(si.bottomtexture);
@@ -507,6 +510,7 @@ begin
       sec.midsec := -1;
       sec.midline := -1;
     end;
+
     // JVAL: sector gravity (VERSION 204)
     if savegameversion >= VERSION204 then
     begin
@@ -549,6 +553,15 @@ begin
       get := @get[SizeOf(float) div 2];
       sec.cic := Pfloat(get)^;
       get := @get[SizeOf(float) div 2];
+    end
+    else
+    begin
+      sec.floorangle := 0;
+      sec.flooranglex := 0;
+      sec.floorangley := 0;
+      sec.ceilingangle := 0;
+      sec.ceilinganglex := 0;
+      sec.ceilingangley := 0;
     end;
 
     if savegameversion >= VERSION122 then
