@@ -1108,6 +1108,7 @@ type
     z: float; // the z position of the flat (height)
     angle: float;
     anglex, angley: float;
+    hasangle: boolean;
     gltexture: PGLTexture;
     {$IFNDEF HERETIC}
     uoffs, voffs: float; // the texture coordinates
@@ -2739,9 +2740,21 @@ begin
   flat.voffs := 0;
   {$ENDIF}
   flat.ripple := ripple;
-  flat.angle := (angle / $FFFFFFFF) * 360.0;
-  flat.anglex := anglex / FLATUVSCALE;
-  flat.angley := angley / FLATUVSCALE;
+
+  if angle <> 0 then
+  begin
+    flat.angle := (angle / ANGLE_MAX) * 360.0;
+    flat.anglex := anglex / FLATUVSCALE;
+    flat.angley := angley / FLATUVSCALE;
+    flat.hasangle := True;
+  end
+  else
+  begin
+    flat.angle := 0.0;
+    flat.anglex := 0.0;
+    flat.angley := 0.0;
+    flat.hasangle := False;
+  end;
 
   // get height from plane
   flat.z := zheight / MAP_SCALE;
@@ -2803,9 +2816,21 @@ begin
   flat.voffs := 0;
   {$ENDIF}
   flat.ripple := ripple;
-  flat.angle := (angle / $FFFFFFFF) * 360.0;
-  flat.anglex := anglex / FLATUVSCALE;
-  flat.angley := angley / FLATUVSCALE;
+
+  if angle <> 0 then
+  begin
+    flat.angle := (angle / ANGLE_MAX) * 360.0;
+    flat.anglex := anglex / FLATUVSCALE;
+    flat.angley := angley / FLATUVSCALE;
+    flat.hasangle := True;
+  end
+  else
+  begin
+    flat.angle := 0.0;
+    flat.anglex := 0.0;
+    flat.angley := 0.0;
+    flat.hasangle := False;
+  end;
 
   // get height from plane
   flat.z := zheight / MAP_SCALE;
@@ -3431,17 +3456,20 @@ begin
 
   glActiveTextureARB(GL_TEXTURE0_ARB);
 
-  glMatrixMode(GL_TEXTURE);
-  glPushMatrix;
-  glTranslatef(
-    flat.anglex * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.width{$ENDIF},
-    -flat.angley * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.height{$ENDIF},
-    0.0);
-  glRotatef(flat.angle, 0, 0, 1);
-  glTranslatef(
-    -flat.anglex * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.width{$ENDIF},
-    flat.angley * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.height{$ENDIF},
-    0.0);
+  if flat.hasangle then
+  begin
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix;
+    glTranslatef(
+      flat.anglex * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.width{$ENDIF},
+      -flat.angley * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.height{$ENDIF},
+      0.0);
+    glRotatef(flat.angle, 0, 0, 1);
+    glTranslatef(
+      -flat.anglex * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.width{$ENDIF},
+      flat.angley * flat.gltexture.texturescale {$IFDEF HEXEN}* 64 / flat.gltexture.height{$ENDIF},
+      0.0);
+  end;
 
   if flat.ripple then
   begin
@@ -3504,10 +3532,13 @@ begin
   end;
 
   glActiveTextureARB(GL_TEXTURE0_ARB);
-  glMatrixMode(GL_TEXTURE);
-  glPopMatrix;
-  glMatrixMode(GL_MODELVIEW);
-  glActiveTextureARB(GL_TEXTURE0_ARB);
+  if flat.hasangle then
+  begin
+    glMatrixMode(GL_TEXTURE);
+    glPopMatrix;
+    glMatrixMode(GL_MODELVIEW);
+    glActiveTextureARB(GL_TEXTURE0_ARB);
+  end;
 
   {$IFNDEF HERETIC}
   if flat.hasoffset then
@@ -3576,9 +3607,21 @@ begin
     flat.voffs := plane.yoffs / FLATUVSCALE;
     {$ENDIF}
     flat.ripple := plane.renderflags and SRF_RIPPLE_CEILING <> 0;
-    flat.angle := (plane.angle / $FFFFFFFF) * 360.0;
-    flat.anglex := plane.anglex / FLATUVSCALE;
-    flat.angley := plane.angley / FLATUVSCALE;
+
+    if plane.angle <> 0 then
+    begin
+      flat.angle := (plane.angle / ANGLE_MAX) * 360.0;
+      flat.anglex := plane.anglex / FLATUVSCALE;
+      flat.angley := plane.angley / FLATUVSCALE;
+      flat.hasangle := True;
+    end
+    else
+    begin
+      flat.angle := 0.0;
+      flat.anglex := 0.0;
+      flat.angley := 0.0;
+      flat.hasangle := False;
+    end;
   end
   else // if it is a floor ...
   begin
@@ -3610,9 +3653,21 @@ begin
     flat.voffs := plane.yoffs / FLATUVSCALE;
     {$ENDIF}
     flat.ripple := plane.renderflags and SRF_RIPPLE_FLOOR <> 0;
-    flat.angle := (plane.angle / $FFFFFFFF) * 360.0;
-    flat.anglex := plane.anglex / FLATUVSCALE;
-    flat.angley := plane.angley / FLATUVSCALE;
+
+    if plane.angle <> 0 then
+    begin
+      flat.angle := (plane.angle / ANGLE_MAX) * 360.0;
+      flat.anglex := plane.anglex / FLATUVSCALE;
+      flat.angley := plane.angley / FLATUVSCALE;
+      flat.hasangle := True;
+    end
+    else
+    begin
+      flat.angle := 0.0;
+      flat.anglex := 0.0;
+      flat.angley := 0.0;
+      flat.hasangle := False;
+    end;
   end;
 
   // get height from plane
