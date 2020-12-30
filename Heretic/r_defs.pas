@@ -165,6 +165,12 @@ type
     saffectees: PIntegerArray;
     // JVAL: sector gravity (VERSION 204)
     gravity: fixed_t;
+    floorangle: angle_t; // JVAL: 20200221 - Texture angle
+    flooranglex: fixed_t; // JVAL: 20201229 - Texture angle rover
+    floorangley: fixed_t; // JVAL: 20201229 - Texture angle rover
+    ceilingangle: angle_t; // JVAL: 20200221 - Texture angle
+    ceilinganglex: fixed_t; // JVAL: 20201229 - Texture angle rover
+    ceilingangley: fixed_t; // JVAL: 20201229 - Texture angle rover
 {$IFDEF OPENGL}
     no_toptextures: boolean;
     no_bottomtextures: boolean;

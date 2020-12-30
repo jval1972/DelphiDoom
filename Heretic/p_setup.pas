@@ -184,6 +184,7 @@ uses
   p_3dfloors, // JVAL: 3d Floors
   p_slopes,   // JVAL: Slopes
   p_easyslope,
+  p_easyangle, // JVAL: 20201229 - Easy floor and ceiling texture angle
   p_affectees,
   p_musinfo,
   p_animdefs,
@@ -697,6 +698,12 @@ begin
     ss.renderflags := 0;
     ss.flags := 0;
     ss.gravity := GRAVITY;  // JVAL: sector gravity (VERSION 204)
+    ss.floorangle := 0;     // JVAL: 20200221 - Texture angle
+    ss.flooranglex := 0;    // JVAL: 20201229 - Texture angle rover
+    ss.floorangley := 0;    // JVAL: 20201229 - Texture angle rover
+    ss.ceilingangle := 0;   // JVAL: 20200221 - Texture angle
+    ss.ceilinganglex := 0;  // JVAL: 20201229 - Texture angle rover
+    ss.ceilingangley := 0;  // JVAL: 20201229 - Texture angle rover
 {$IFNDEF OPENGL}
     // [kb] For R_WiggleFix
     ss.cachedheight := 0;
@@ -1855,6 +1862,10 @@ begin
   if devparm then
     printf('P_LoadThings()'#13#10);
   P_LoadThings(lumpnum + Ord(ML_THINGS));
+
+  // JVAL: 20201229 - Easy floor and ceiling texture angle
+  P_AdjustEasyAngle;
+
   P_CloseWeapons;
 
   // if deathmatch, randomly spawn the active players

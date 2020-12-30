@@ -100,7 +100,7 @@ Conditionals=HERETIC
 DebugSourceDirs=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 -file green_mountains_heretic.wad
+RunParams=-nofullscreen -geom 1920x1080 -file test_rotate_heretic.wad
 HostApplication=
 Launcher=
 UseLauncher=0

@@ -259,10 +259,12 @@ begin
     put := @put[2];
     PInteger(put)^ := sec.ceilingheight;
     put := @put[2];
+
     Pchar8_t(put)^ := flats[sec.floorpic].name;
     put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
     Pchar8_t(put)^ := flats[sec.ceilingpic].name;
     put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
+
     put[0] := sec.lightlevel;
     put := @put[1];
     put[0] := sec.special; // needed?
@@ -281,6 +283,38 @@ begin
     // JVAL: sector gravity (VERSION 204)
     PInteger(put)^ := sec.gravity;
     put := @put[2];
+
+    // JVAL: 20200221 - Texture angle
+    PLongWord(put)^ := sec.floorangle;
+    put := @put[2];
+    PInteger(put)^ := sec.flooranglex;
+    put := @put[2];
+    PInteger(put)^ := sec.floorangley;
+    put := @put[2];
+    PLongWord(put)^ := sec.ceilingangle;
+    put := @put[2];
+    PInteger(put)^ := sec.ceilinganglex;
+    put := @put[2];
+    PInteger(put)^ := sec.ceilingangley;
+    put := @put[2];
+
+    // JVAL: 20200522 - Slope values
+    Pfloat(put)^ := sec.fa;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fb;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fd;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.fic;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.ca;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cb;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cd;
+    put := @put[SizeOf(float) div 2];
+    Pfloat(put)^ := sec.cic;
+    put := @put[SizeOf(float) div 2];
 
     PInteger(put)^ := sec.num_saffectees;
     put := @put[2];
@@ -317,6 +351,7 @@ begin
       put := @put[2];
       PInteger(put)^ := si.rowoffset;
       put := @put[2];
+
       Pchar8_t(put)^ := R_NameForSideTexture(si.toptexture);
       put := @put[SizeOf(char8_t) div SizeOf(SmallInt)];
       Pchar8_t(put)^ := R_NameForSideTexture(si.bottomtexture);
@@ -413,6 +448,50 @@ begin
     else
       sec.gravity := GRAVITY;
 
+    // JVAL: 20200221 - Texture angle
+    if savegameversion > VERSION205 then
+    begin
+      sec.floorangle := PLongWord(get)^;
+      get := @get[2];
+      sec.flooranglex := PInteger(get)^;
+      get := @get[2];
+      sec.floorangley := PInteger(get)^;
+      get := @get[2];
+      sec.ceilingangle := PLongWord(get)^;
+      get := @get[2];
+      sec.ceilinganglex := PInteger(get)^;
+      get := @get[2];
+      sec.ceilingangley := PInteger(get)^;
+      get := @get[2];
+
+      // JVAL: 20200522 - Slope values
+      sec.fa := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fb := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fd := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.fic := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.ca := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cb := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cd := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+      sec.cic := Pfloat(get)^;
+      get := @get[SizeOf(float) div 2];
+    end
+    else
+    begin
+      sec.floorangle := 0;
+      sec.flooranglex := 0;
+      sec.floorangley := 0;
+      sec.ceilingangle := 0;
+      sec.ceilinganglex := 0;
+      sec.ceilingangley := 0;
+    end;
+
     if savegameversion >= VERSION115 then
     begin
       sec.num_saffectees := PInteger(get)^;
@@ -452,6 +531,7 @@ begin
       if li.sidenum[j] = -1 then
         continue;
       si := @sides[li.sidenum[j]];
+
       if savegameversion <= VERSION114 then
       begin
         si.textureoffset := get[0] * FRACUNIT;
