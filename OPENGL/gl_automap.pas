@@ -61,6 +61,7 @@ uses
   doomdef,
   d_delphi,
   m_fixed,
+  tables,
   gl_defs,
   gl_tex,
   gl_render,
@@ -210,7 +211,7 @@ begin
   l.hasangle := sec.floorangle <> 0;
   if l.hasangle then
   begin
-    l.angle := (sec.floorangle / $FFFFFFFF) * 360.0;
+    l.angle := (sec.floorangle / ANGLE_MAX) * 360.0;
     l.anglex := sec.flooranglex / FLATUVSCALE;
     l.angley := sec.floorangley / FLATUVSCALE;
   end;
