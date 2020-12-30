@@ -660,7 +660,7 @@ begin
   result.slopeSID := slopeSID;  // JVAL: Slopes
   result.angle := angle;  // JVAL: 20200221 - Texture angle
   result.anglex := anglex;  // JVAL: 20201229 - Texture angle rover
-  result.angley := anglex;  // JVAL: 20201229 - Texture angle rover
+  result.angley := angley;  // JVAL: 20201229 - Texture angle rover
   {$IFNDEF OPENGL}
   result.slope := slope;  // JVAL: Slopes
   {$ENDIF}
