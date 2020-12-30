@@ -1059,7 +1059,8 @@ begin
     ceilingplane := nil;
 
 {$IFDEF OPENGL}
-  if (frontsector = sub.sector) and (frontsector.renderflags = 0) then
+  if (frontsector = sub.sector) and (frontsector.renderflags = 0) and
+     (frontsector.floorangle = 0) and (frontsector.ceilingangle = 0) then
   begin
     // if the sector has bottomtextures, then the floorheight will be set to the
     // highest surounding floorheight
