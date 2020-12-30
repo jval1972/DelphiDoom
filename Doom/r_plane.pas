@@ -565,6 +565,8 @@ begin
     flags := flags and not SRF_SLOPED; // JVAL: Sloped surface do not have sky
     slopeSID := -1; // JVAL: Slopes
     angle := 0; // JVAL: 20200221 - Texture angle
+    anglex := 0; // JVAL: 20201230 - Texture angle
+    angley := 0; // JVAL: 20201230 - Texture angle
   end;
 
   hash := R_VisplaneHash(height, picnum, lightlevel, xoffs, yoffs, angle, anglex, angley, flags, slopeSID);
@@ -833,7 +835,7 @@ begin
       R_DoDrawPlane(pl)
     else
       R_DoDrawSlope(pl);  //JVAL: Slopes
-  end;  
+  end;
 end;
 
 procedure R_DoDrawPlane(const pl: Pvisplane_t); // JVAL: 3d Floors
