@@ -1319,8 +1319,8 @@ begin
     KEY_PAUSE: result := 'PAUSE';
     KEY_EQUALS: result := 'EQUALS';
     KEY_MINUS: result := 'MINUS';
-    KEY_RSHIFT: result := 'RSHIFT';
-    KEY_RCTRL: result := 'RCTRL';
+    KEY_RSHIFT: result := 'SHIFT';
+    KEY_RCTRL: result := 'CTRL';
     KEY_RALT: result := 'ALT';
     KEY_PAGEDOWN: result := 'PAGEDOWN';
     KEY_PAGEUP: result := 'PAGEUP';
@@ -1344,7 +1344,11 @@ begin
     exit;
   end;
 
-  if key = 18 then
+  if key = 16 then
+    key := KEY_RSHIFT
+  else if key = 17 then
+    key := KEY_RCTRL
+  else if key = 18 then
     key := KEY_RALT;
 
   result := key in [32..125,
