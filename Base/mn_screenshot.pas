@@ -104,7 +104,7 @@ begin
       xpos := GetIntegerInRange(xpos, 0, SCREENWIDTH - 1);
       c := xlinesource[xpos * 4 + 2] shl 16 + xlinesource[xpos * 4 + 1] shl 8 + xlinesource[xpos * 4];
       {$IFDEF OPENGL}
-      mn_screenshotbuffer[(MN_SCREENSHOTHEIGHT - 1 - y) * MN_SCREENSHOTWIDTH + x] := V_FindAproxColorIndex(@videopal, c, 1, 255);
+      mn_screenshotbuffer.data[(MN_SCREENSHOTHEIGHT - 1 - y) * MN_SCREENSHOTWIDTH + x] := V_FindAproxColorIndex(@videopal, c, 1, 255);
       {$ELSE}
       mn_screenshotbuffer.data[y * MN_SCREENSHOTWIDTH + x] := V_FindAproxColorIndex(@videopal, c, 1, 255);
       {$ENDIF}
