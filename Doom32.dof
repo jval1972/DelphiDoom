@@ -94,7 +94,7 @@ OutputDir=..\bin\Doom
 UnitOutputDir=..\dcu\Doom\soft
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=$(DELPHI)\Lib\Debug;.\doom;.\base
+SearchPath=.\doom;.\base
 Packages=vcl;rtl;dbrtl;inet;inetdb;dsnap;bdertl;vclx;vcldb;vcldbx;visualclx;visualdbclx;vclactnband;vclshlctrls;vclie;xmlrtl;inetdbbde;inetdbxpress;webdsnap;soaprtl;websnap;adortl;dbexpress;dsnapcon;dbxcds;ibxpress;teeui;teedb;tee;dss;indy;VclSmp;qrpt;teeqr;Rave50CLX;Rave50VCL;IntrawebDB_50_70;Intraweb_50_70;VclNewlyext
 Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
@@ -181,8 +181,8 @@ Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
 Count=4
-Item0=$(DELPHI)\Lib\Debug;.\doom;.\base
-Item1=.\doom;.\base
+Item0=.\doom;.\base
+Item1=$(DELPHI)\Lib\Debug;.\doom;.\base
 Item2=C:\Program Files\Borland\Delphi7\Lib
 Item3=$(DELPHI)\Lib\Debug;C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
