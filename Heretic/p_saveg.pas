@@ -67,6 +67,10 @@ procedure P_ArchiveOverlay;
 
 procedure P_UnArchiveOverlay;
 
+
+procedure P_ArchiveScreenShot;
+
+procedure P_UnArchiveScreenShot;
 var
   save_p: PByteArray;
   savegameversion: integer;
@@ -81,6 +85,7 @@ uses
   d_think,
   g_game,
   m_fixed,
+  mn_screenshot,
   info_h,
   info,
   i_system,
@@ -1239,4 +1244,22 @@ begin
   overlay.LoadFromBuffer(Pointer(save_p));
 end;
 
+procedure P_ArchiveScreenShot;
+var
+  i: integer;
+begin
+  for i := 0 to MNSCREENSHOT_MAGIC_SIZE - 1 do
+    save_p[i] := mn_screenshotbuffer.header[i];
+  for i := 0 to MN_SCREENSHOTSIZE - 1 do
+    save_p[MNSCREENSHOT_MAGIC_SIZE + i] := mn_screenshotbuffer.data[i];
+
+  incp(pointer(save_p), SizeOf(menuscreenbuffer_t));
+end;
+
+procedure P_UnArchiveScreenShot;
+begin
+  // Nothing to do, just inc the buffer
+  if savegameversion >= VERSION206 then
+    incp(pointer(save_p), SizeOf(menuscreenbuffer_t));
+end;
 end.

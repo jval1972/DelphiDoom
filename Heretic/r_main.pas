@@ -314,6 +314,7 @@ uses
   d_net,
   i_io,
   mt_utils,
+  mn_screenshot,
   m_bbox,
   m_menu,
   m_misc,
@@ -2329,6 +2330,8 @@ begin
   if zbufferactive then
     R_StopZBuffer;
 {$ENDIF}
+  if mn_makescreenshot then
+    MN_ScreenShotFromBlitBuffer;
 end;
 
 procedure R_Ticker;

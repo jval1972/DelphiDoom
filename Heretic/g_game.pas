@@ -242,6 +242,10 @@ var
 var
 // HERETIC Par Times
   pars: array[1..5, 1..9] of integer;
+const
+  SAVEGAMESIZE = $1000000; // Originally $2C000
+  SAVESTRINGSIZE = 24;
+  SAVEVERSIONSIZE = 16;
 
 implementation
 
@@ -295,9 +299,6 @@ uses
   r_intrpl,
   tables;
 
-const
-  SAVEGAMESIZE = $1000000; // Originally $2C000
-  SAVESTRINGSIZE = 24;
 
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t); forward;
@@ -2178,6 +2179,8 @@ begin
         savegameversion := 203
       else if vsaved = 'heretic 204' then
         savegameversion := 204
+      else if vsaved = 'heretic 205' then
+        savegameversion := 205
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
@@ -2187,6 +2190,8 @@ begin
     end;
 
   save_p := PByteArray(integer(save_p) + VERSIONSIZE);
+
+  P_UnArchiveScreenShot;
 
   gameskill := skill_t(save_p[0]);
   save_p := PByteArray(integer(save_p) + 1);
@@ -2292,6 +2297,7 @@ begin
 
   memcpy(save_p, @name2[1], VERSIONSIZE);
   save_p := PByteArray(integer(save_p) + VERSIONSIZE);
+  P_ArchiveScreenShot;
 
   save_p[0] := Ord(gameskill);
   save_p := PByteArray(integer(save_p) + 1);

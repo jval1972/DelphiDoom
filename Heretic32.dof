@@ -94,7 +94,7 @@ OutputDir=..\bin\Heretic
 UnitOutputDir=..\dcu\Heretic\Soft
 PackageDLLOutputDir=
 PackageDCPOutputDir=
-SearchPath=$(DELPHI)\Lib\Debug;C:\Program Files\Borland\Delphi7\Lib
+SearchPath=C:\Program Files\Borland\Delphi7\Lib
 Packages=vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP
 Conditionals=HERETIC
 DebugSourceDirs=D:\DelphiDoom_Release\1.1.4.582\Src\Heretic\
@@ -176,8 +176,8 @@ Count=1
 Item0=WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;
 [HistoryLists\hlSearchPath]
 Count=2
-Item0=$(DELPHI)\Lib\Debug;C:\Program Files\Borland\Delphi7\Lib
-Item1=C:\Program Files\Borland\Delphi7\Lib
+Item0=C:\Program Files\Borland\Delphi7\Lib
+Item1=$(DELPHI)\Lib\Debug;C:\Program Files\Borland\Delphi7\Lib
 [HistoryLists\hlUnitOutputDirectory]
 Count=15
 Item0=..\dcu\Heretic\Soft
