@@ -321,6 +321,7 @@ uses
   d_net,
   i_io,
   mt_utils,
+  mn_screenshot,
   g_game,
   m_bbox,
   m_menu,
@@ -348,7 +349,7 @@ uses
   r_sky,
 {$IFNDEF OPENGL}
   r_segs,
-{$ENDIF}  
+{$ENDIF}
   r_hires,
   r_camera,
   r_precalc,
@@ -2428,6 +2429,8 @@ begin
   if zbufferactive then
     R_StopZBuffer;
 {$ENDIF}
+  if mn_makescreenshot then
+    MN_ScreenShotFromBlitBuffer;
 end;
 
 procedure R_Ticker;

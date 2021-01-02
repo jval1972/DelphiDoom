@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -50,7 +50,8 @@ const
   VERSION203 = 203;
   VERSION204 = 204;
   VERSION205 = 205;
-  VERSION = VERSION205;
+  VERSION206 = 206;
+  VERSION = VERSION206;
   VERSIONSLOPES = VERSION142;
   HXS_VERSION_TEXT_140 = 'DelphiHexen Saved Game (HXS)';
   HXS_VERSION_TEXT_141 = 'DelphiHexen Saved Game (HXS) 141';
@@ -58,7 +59,8 @@ const
   HXS_VERSION_TEXT_203 = 'DelphiHexen Saved Game (HXS) 203';
   HXS_VERSION_TEXT_204 = 'DelphiHexen Saved Game (HXS) 204';
   HXS_VERSION_TEXT_205 = 'DelphiHexen Saved Game (HXS) 205';
-  HXS_VERSION_TEXT = HXS_VERSION_TEXT_205;
+  HXS_VERSION_TEXT_206 = 'DelphiHexen Saved Game (HXS) 206';
+  HXS_VERSION_TEXT = HXS_VERSION_TEXT_206;
 
 type
 // Game mode handling - identify IWAD version

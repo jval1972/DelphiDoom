@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,6 +45,10 @@ procedure SV_LoadGame(slot: integer);
 
 function SV_GetRebornSlot: integer;
 
+
+procedure P_ArchiveScreenShot;
+
+procedure P_UnArchiveScreenShot;
 var
   SAVEGAMENAME: string = '%s\hex%d00.hxs';
   SAVEGLOBALSNAME: string = '%s\HEX%d00.HXW';
@@ -70,15 +74,16 @@ uses
   d_think,
   d_player,
   d_main,
-  i_system,
-  i_tmp,
+  g_game,
+  m_fixed,
+  mn_screenshot,
   info_h,
   info,
-  m_fixed,
+  i_system,
+  i_tmp,
   tables,
   m_misc,
   m_argv,
-  g_game,
   a_action,
   p_3dfloors,
   p_local,
@@ -1897,6 +1902,8 @@ begin
   versionText := HXS_VERSION_TEXT;
   StreamOutString(versionText);
 
+  P_ArchiveScreenShot;
+
   // Place a header marker
   StreamOutLong(ASEG_GAME_HEADER);
 
@@ -2031,11 +2038,15 @@ begin
     LOADVERSION := VERSION204
   else if vstring = HXS_VERSION_TEXT_205 then
     LOADVERSION := VERSION205
+  else if vstring = HXS_VERSION_TEXT_206 then
+    LOADVERSION := VERSION206
   else
   begin // Bad version
     I_Warning('SV_LoadGame(): Game is from unsupported version'#13#10);
     exit;
   end;
+
+  P_UnArchiveScreenShot;
 
   AssertSegment(ASEG_GAME_HEADER);
 
@@ -2350,5 +2361,22 @@ begin
   end;
 end;
 
+
+procedure P_ArchiveScreenShot;
+var
+  i: integer;
+begin
+  for i := 0 to MNSCREENSHOT_MAGIC_SIZE - 1 do
+    StreamOutByte(mn_screenshotbuffer.header[i]);
+  for i := 0 to MN_SCREENSHOTSIZE - 1 do
+    StreamOutByte(mn_screenshotbuffer.data[i]);
+end;
+
+procedure P_UnArchiveScreenShot;
+begin
+  // Nothing to do, just inc the buffer
+  if LOADVERSION >= VERSION206 then
+    saveptr := pointer(integer(saveptr) + SizeOf(menuscreenbuffer_t));
+end;
 
 end.
