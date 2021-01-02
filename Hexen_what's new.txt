@@ -7,6 +7,7 @@ Easyslope item to easily create slopes.
 When an invalid blockmap is detected will build a new one.
 Added -blockmap command line parameter. When set it will force to generate blockmap while loading a map.
 Support for flats up to 4096x4096 px.
+FLATINFO lump with information regarding flat definitions.
 Fixed bug in erronous width & height screen dimentions input when the -geom command line parameter is specified.
 Fixed bug that did't recornized the '-keyboardmode 2' command line parameter for ESDF movement.
 Speed improvements in maps with high number of slopes.

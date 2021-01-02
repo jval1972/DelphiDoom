@@ -4,6 +4,7 @@ Corrected lump name character case for runtime loading.
 Changed traverse order of mobjinfo table.
 Easyslope item to easily create slopes.
 Support for flats up to 4096x4096 px.
+FLATINFO lump with information regarding flat definitions.
 Fixed bug in erronous width & height screen dimentions input when the -geom command line parameter is specified.
 Speed improvements in maps with high number of slopes.
 Optimizations to slope rendering in sofware mode.
