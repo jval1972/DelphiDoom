@@ -258,6 +258,11 @@ var
   dogs, default_dogs: integer;                // killough 7/19/98: Marine's best friend :)
   dog_jumping, default_dog_jumping: integer;  // killough 10/98
 
+const
+  SAVEGAMESIZE = $1000000; // Originally $2C000
+  SAVESTRINGSIZE = 24;
+  SAVEVERSIONSIZE = 16;
+
 implementation
 
 uses
@@ -310,10 +315,6 @@ uses
   r_main,
   r_intrpl,
   tables;
-
-const
-  SAVEGAMESIZE = $1000000; // Originally $2C000
-  SAVESTRINGSIZE = 24;
 
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t); forward;
@@ -1937,9 +1938,6 @@ begin
   gameaction := ga_loadgame;
 end;
 
-const
-  VERSIONSIZE = 16;
-
 procedure G_DoLoadGame;
 var
   len: integer;
@@ -2005,6 +2003,10 @@ begin
         savegameversion := VERSION203
       else if vsaved = 'version 204' then
         savegameversion := VERSION204
+      else if vsaved = 'version 204' then
+        savegameversion := VERSION204
+      else if vsaved = 'version 205' then
+        savegameversion := VERSION205
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
@@ -2014,7 +2016,9 @@ begin
       break;
     end;
 
-  save_p := PByteArray(integer(save_p) + VERSIONSIZE);
+  save_p := PByteArray(integer(save_p) + SAVEVERSIONSIZE);
+
+  P_UnArchiveScreenShot;
 
   gameskill := skill_t(save_p[0]);
   save_p := PByteArray(integer(save_p) + 1);
@@ -2112,11 +2116,12 @@ begin
 
   savegameversion := VERSION;
   sprintf(name2, 'version %d', [VERSION]);
-  while length(name2) < VERSIONSIZE do
+  while length(name2) < SAVEVERSIONSIZE do
     name2 := name2 + ' ';
 
-  memcpy(save_p, @name2[1], VERSIONSIZE);
-  save_p := PByteArray(integer(save_p) + VERSIONSIZE);
+  memcpy(save_p, @name2[1], SAVEVERSIONSIZE);
+  save_p := PByteArray(integer(save_p) + SAVEVERSIONSIZE);
+  P_ArchiveScreenShot;
 
   save_p[0] := Ord(gameskill);
   save_p := PByteArray(integer(save_p) + 1);
