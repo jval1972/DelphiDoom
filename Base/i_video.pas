@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -52,6 +52,8 @@ procedure I_ShutDownGraphics;
 procedure I_SetPalette(const palette: PByteArray);
 
 procedure IV_SetPalette(const palette: PByteArray);
+
+procedure I_BlitBuffer;
 
 procedure I_FinishUpdate;
 
@@ -314,15 +316,11 @@ begin
   end;
 end;
 
-procedure I_FinishUpdate;
+procedure I_BlitBuffer;
 var
-  srcrect: TRect;
-  destrect: TRect;
   h1: integer;
   parms1, parms2: finishupdateparms_t;
-  stretch: boolean;
   p1, p2, p3, p4, p5, p6, p7, p8: finishupdate8param_t;
-  surfacelost: boolean;
 begin
   if (hMainWnd = 0) or (screens[SCN_FG] = nil) or (screen32 = nil) then
     exit;
@@ -461,7 +459,17 @@ begin
       end;
     end;
   end;
+end;
 
+procedure I_FinishUpdate;
+var
+  srcrect: TRect;
+  destrect: TRect;
+  stretch: boolean;
+  surfacelost: boolean;
+begin
+  I_BlitBuffer;
+  
   srcrect.Left := 0;
   srcrect.Top := 0;
   srcrect.Right := SCREENWIDTH;

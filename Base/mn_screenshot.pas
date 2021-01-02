@@ -38,8 +38,17 @@ const
   MN_SCREENSHOTHEIGHT = 50;
   MN_SCREENSHOTSIZE = MN_SCREENSHOTWIDTH * MN_SCREENSHOTHEIGHT;
 
+  MNSCREENSHOT_MAGIC_SIZE = 14;
+  // MENUSCREENSHOT
+  MNSCREENSHOT_MAGIC: packed array[0..MNSCREENSHOT_MAGIC_SIZE - 1] of byte = (
+    $4D, $45, $4E, $55, $53, $43, $52, $45, $45, $4E, $53, $48, $4F, $54
+  );
+
 type
-  menuscreenbuffer_t = packed array[0..MN_SCREENSHOTSIZE - 1] of byte;
+  menuscreenbuffer_t = record
+    header: packed array[0..MNSCREENSHOT_MAGIC_SIZE - 1] of byte;
+    data: packed array[0..MN_SCREENSHOTSIZE - 1] of byte;
+  end;
   Pmenuscreenbuffer_t = ^menuscreenbuffer_t;
 
 var
@@ -49,6 +58,8 @@ var
 procedure MN_ScreenShotFromBlitBuffer;
 
 procedure MN_ScreenShotFromSaveGame(const path: string; const outbuff: Pmenuscreenbuffer_t);
+
+function MN_ValidScreenShot(const mnbuf: Pmenuscreenbuffer_t): boolean;
 
 implementation
 
@@ -65,7 +76,7 @@ uses
 
 procedure MN_ScreenShotFromBlitBuffer;
 var
-  x, y: integer;
+  i, x, y: integer;
   bufsize: integer;
   buf: PByteArray;
   xlinesource: PByteArray;
@@ -78,6 +89,9 @@ begin
   bufsize := SCREENWIDTH * SCREENHEIGHT * 4;
   buf := malloc(bufsize);
   I_ReadScreen32(buf);
+
+  for i := 0 to MNSCREENSHOT_MAGIC_SIZE - 1 do
+    mn_screenshotbuffer.header[i] := MNSCREENSHOT_MAGIC[i];
 
   for y := 0 to MN_SCREENSHOTHEIGHT - 1 do
   begin
@@ -92,7 +106,7 @@ begin
       {$IFDEF OPENGL}
       mn_screenshotbuffer[(MN_SCREENSHOTHEIGHT - 1 - y) * MN_SCREENSHOTWIDTH + x] := V_FindAproxColorIndex(@videopal, c, 1, 255);
       {$ELSE}
-      mn_screenshotbuffer[y * MN_SCREENSHOTWIDTH + x] := V_FindAproxColorIndex(@videopal, c, 1, 255);
+      mn_screenshotbuffer.data[y * MN_SCREENSHOTWIDTH + x] := V_FindAproxColorIndex(@videopal, c, 1, 255);
       {$ENDIF}
     end;
   end;
@@ -120,6 +134,19 @@ begin
 
   f.Read(outbuff^, SizeOf(menuscreenbuffer_t));
   f.Free;
+end;
+
+function MN_ValidScreenShot(const mnbuf: Pmenuscreenbuffer_t): boolean;
+var
+  i: integer;
+begin
+  for i := 0 to MNSCREENSHOT_MAGIC_SIZE - 1 do
+    if mnbuf.header[i] <> MNSCREENSHOT_MAGIC[i] then
+    begin
+      Result := False;
+      Exit;
+    end;
+  Result := True;
 end;
 
 end.
