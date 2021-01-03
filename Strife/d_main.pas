@@ -2353,8 +2353,12 @@ begin
   printf('M_CreateSaveDirs: Creating game save directories.'#13#10);
   M_CreateSaveDirs(M_SaveFileName(''));
 
+  {$IFNDEF FPC}
+  SUC_Progress(86);
+  {$ENDIF}
+  
   savepathtemp := M_SafeFilePath(M_SaveFileName(''), 'strfsav8.ssg');
-
+  printf('M_ClearTmp: Clear temporary save directory.'#13#10);
   M_ClearTmp;
 
   {$IFNDEF FPC}
