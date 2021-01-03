@@ -450,7 +450,7 @@ end;
 //  check point against partition plane.
 // Returns side 0 (front) or 1 (back).
 //
-function R_PointOnSide(const x: fixed_t; const y: fixed_t; const node: Pnode_t): boolean;
+function R_PointOnSide32(const x: fixed_t; const y: fixed_t; const node: Pnode_t): boolean;
 var
   dx: fixed_t;
   dy: fixed_t;
@@ -489,6 +489,48 @@ begin
   right := FixedIntMul(dy, node.dx);
 
   result := right >= left;
+end;
+
+function R_PointOnSide64(const x: fixed_t; const y: fixed_t; const node: Pnode_t): boolean;
+var
+  dx64: int64;
+  dy64: int64;
+  left64: int64;
+  right64: int64;
+begin
+  if node.dx = 0 then
+  begin
+    if x <= node.x then
+      result := node.dy > 0
+    else
+      result := node.dy < 0;
+    exit;
+  end;
+
+  if node.dy = 0 then
+  begin
+    if y <= node.y then
+      result := node.dx < 0
+    else
+      result := node.dx > 0;
+    exit;
+  end;
+
+  dx64 := int64(x) - int64(node.x);
+  dy64 := int64(y) - int64(node.y);
+
+  left64 := int64(node.dy div 256) * (dx64 div 256);
+  right64 := (dy64 div 256) * int64(node.dx div 256);
+
+  result := right64 >= left64;
+end;
+
+function R_PointOnSide(const x: fixed_t; const y: fixed_t; const node: Pnode_t): boolean;
+begin
+  if largemap then
+    result := R_PointOnSide64(x, y, node)
+  else
+    result := R_PointOnSide32(x, y, node);
 end;
 
 function R_PointOnSegSide32(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
