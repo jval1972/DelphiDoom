@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -58,8 +58,8 @@ type
     iparam1: Integer;
     iparam2: Integer;
     iparam3: Integer;
-    istart: Integer;
-    iend: Integer;
+    xparam2: Integer;
+    yparam2: Integer;
   end;
   Poverlaydrawer_t = ^overlaydrawer_t;
   overlaydrawer_tArray = array[0..$FFF] of overlaydrawer_t;
@@ -93,6 +93,7 @@ type
     procedure DrawPatch(const x, y: Integer; const patchlump: Integer); overload; virtual;
     procedure DrawPatch(const x, y: Integer; const patch: Ppatch_t); overload; virtual;
     procedure DrawPixel(const x, y: Integer; const red, green, blue: byte); virtual;
+    procedure DrawRect(const x1, y1, x2, y2: Integer; const red, green, blue: byte); virtual;
     procedure DrawText(const txt: string; const align: Integer;
       const x, y: Integer);
     procedure DrawDrawer(const i: Integer); virtual;
@@ -111,6 +112,8 @@ type
       const x, y: Integer);
     procedure AddPixel(const ticks: Integer; const red, green, blue: byte;
       const x, y: Integer);
+    procedure AddRect(const ticks: Integer; const red, green, blue: byte;
+      const x1, y1, x2, y2: Integer);
     procedure AddText(const ticks: Integer; const txt: string; const align: Integer;
       const x, y: Integer);
     procedure AddLeftText(const ticks: Integer; const txt: string;
@@ -144,6 +147,9 @@ procedure PS_OverlayDrawPatch(const ticks: Integer; const patchname: string;
 
 procedure PS_OverlayDrawPixel(const ticks: Integer; const red, green, blue: byte;
   const x, y: Integer);
+
+procedure PS_OverlayDrawRect(const ticks: Integer; const red, green, blue: byte;
+  const x1, y1, x2, y2: Integer);
 
 procedure PS_OverlayDrawText(const ticks: Integer; const txt: string; const align: Integer;
   const x, y: Integer);
@@ -412,6 +418,36 @@ begin
   end;
 end;
 
+procedure TOverlayDrawer.DrawRect(const x1, y1, x2, y2: Integer; const red, green, blue: byte);
+var
+  pos1: Integer;
+  pos2: Integer;
+  pb: PByte;
+  c: byte;
+  x, y: integer;
+  xx1, xx2, yy1, yy2: integer;
+begin
+  c := V_FindAproxColorIndex(@videopal, blue or (green shl 8) or (red shl 16));
+
+  xx1 := GetIntegerInRange(x1, 0, OVERLAYWIDTH - 1);
+  xx2 := GetIntegerInRange(x2, 0, OVERLAYWIDTH - 1);
+  yy1 := GetIntegerInRange(y1, 0, OVERLAYWIDTH - 1);
+  yy2 := GetIntegerInRange(y2, 0, OVERLAYWIDTH - 1);
+  for y := yy1 to yy2 do
+  begin
+    pos1 := BufferPosition(xx1, y);
+    pb := @foverlayscreen[pos1];
+    for x := xx1 to xx2 do
+    begin
+      pb^ := c;
+      inc(pb);
+    end;
+  end;
+  pos1 := BufferPosition(xx1, yy1);
+  pos2 := BufferPosition(xx2, yy2);
+  NotifyDrawSize(pos1, pos2);
+end;
+
 procedure TOverlayDrawer.DrawText(const txt: string; const align: Integer;
   const x, y: Integer);
 var
@@ -479,6 +515,7 @@ const
   OVR_DRAWTEXT = 1;
   OVR_DRAWPATCH = 2;
   OVR_DRAWPIXEL = 3;
+  OVR_DRAWRECT = 4;
 
 procedure TOverlayDrawer.DrawDrawer(const i: Integer);
 var
@@ -492,6 +529,8 @@ begin
       DrawPatch(dr.xparam, dr.yparam, dr.iparam1);
     OVR_DRAWPIXEL:
       DrawPixel(dr.xparam, dr.yparam, dr.iparam1, dr.iparam2, dr.iparam3);
+    OVR_DRAWRECT:
+      DrawRect(dr.xparam, dr.yparam, dr.xparam2, dr.yparam2, dr.iparam1, dr.iparam2, dr.iparam3);
   else
     begin
       I_Warning('TOverlayDrawer.DrawDrawer(): Unknown drawer type "%d"'#13#10, [dr.proc]);
@@ -503,9 +542,21 @@ end;
 procedure TOverlayDrawer.NotifyDrawSize(const astart, aend: Integer);
 begin
   if astart < fstart then
+  begin
     fstart := astart;
+    if fstart < 0 then
+      fstart := 0
+    else if fstart >= OVERLAYSIZE then
+      fstart := OVERLAYSIZE - 1;
+  end;
   if aend > fend then
+  begin
     fend := aend;
+    if fend < 0 then
+      fend := 0
+    else if fend >= OVERLAYSIZE then
+      fend := OVERLAYSIZE - 1;
+  end;
 end;
 
 function TOverlayDrawer.BufferPosition(const x, y: Integer): Integer;
@@ -564,6 +615,29 @@ begin
   pdrawer.tick := leveltime + ticks;
   pdrawer.xparam := x;
   pdrawer.yparam := y;
+  pdrawer.iparam1 := red;
+  pdrawer.iparam2 := green;
+  pdrawer.iparam3 := blue;
+end;
+
+procedure TOverlayDrawer.AddRect(const ticks: Integer; const red, green, blue: byte;
+  const x1, y1, x2, y2: Integer);
+var
+  pdrawer: Poverlaydrawer_t;
+begin
+  if ticks < 0 then
+    Exit;
+
+  Grow;
+  pdrawer := @fdrawers[fnumdrawers];
+  Inc(fnumdrawers);
+
+  pdrawer.proc := OVR_DRAWRECT;
+  pdrawer.tick := leveltime + ticks;
+  pdrawer.xparam := x1;
+  pdrawer.yparam := y1;
+  pdrawer.xparam2 := x2;
+  pdrawer.yparam2 := y2;
   pdrawer.iparam1 := red;
   pdrawer.iparam2 := green;
   pdrawer.iparam3 := blue;
@@ -1440,6 +1514,13 @@ begin
     overlay.AddPixel(ticks, red, green, blue, x, y);
 end;
 
+procedure PS_OverlayDrawRect(const ticks: Integer; const red, green, blue: byte;
+  const x1, y1, x2, y2: Integer);
+begin
+  if overlay <> nil then
+    overlay.AddRect(ticks, red, green, blue, x1, y1, x2, y2);
+end;
+
 procedure PS_OverlayDrawText(const ticks: Integer; const txt: string; const align: Integer;
   const x, y: Integer);
 begin
@@ -1478,6 +1559,7 @@ begin
     RegisterMethod('Procedure Clear');
     RegisterMethod('Procedure DrawPatch( const ticks : Integer; const patchname : string; const x, y : Integer)');
     RegisterMethod('Procedure DrawPixel( const ticks : Integer; const red, green, blue : byte; const x, y : Integer)');
+    RegisterMethod('Procedure DrawRect( const ticks : Integer; const red, green, blue : byte; const x1, y1, x2, y2 : Integer)');
     RegisterMethod('Procedure DrawText( const ticks : Integer; const txt : string; const align : Integer; const x, y : Integer)');
     RegisterMethod('Procedure DrawLeftText( const ticks : Integer; const txt : string; const x, y : Integer)');
     RegisterMethod('Procedure DrawRightText( const ticks : Integer; const txt : string; const x, y : Integer)');
@@ -1494,6 +1576,7 @@ begin
     RegisterVirtualMethod(@TOverlayDrawer.Clear, 'Clear');
     RegisterMethod(@TOverlayDrawer.AddPatch, 'DrawPatch');
     RegisterMethod(@TOverlayDrawer.AddPixel, 'DrawPixel');
+    RegisterMethod(@TOverlayDrawer.AddRect, 'DrawRect');
     RegisterMethod(@TOverlayDrawer.AddText, 'DrawText');
     RegisterMethod(@TOverlayDrawer.AddLeftText, 'DrawLeftText');
     RegisterMethod(@TOverlayDrawer.AddRightText, 'DrawRightText');

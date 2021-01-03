@@ -21,6 +21,7 @@ Floor and ceiling texture rotation.
 Displays a warning if no player start found.
 Screenshot in Save/Load menu.
 PascalScript can access keyboard, mouse keys and joystick keys. The feature is intentionally dormant in demo recording/playback and in netgame.
+Added Overlay.DrawRect & OverlayDrawRect PascalScript functions. params -> (const ticks: Integer; const red, green, blue: byte; const x1, y1, x2, y2: Integer)
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
