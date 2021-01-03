@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -374,6 +374,24 @@ procedure PS_SetSectorCeilingXOffset(const sec: Integer; const offs: Integer);
 function PS_GetSectorCeilingYOffset(const sec: Integer): Integer;
 procedure PS_SetSectorCeilingYOffset(const sec: Integer; const offs: Integer);
 {$ENDIF}
+
+function PS_GetSectorFloorAngle(const sec: Integer): LongWord;
+procedure PS_SetSectorFloorAngle(const sec: Integer; const ang: LongWord);
+
+function PS_GetSectorFloorAngleX(const sec: Integer): Integer;
+procedure PS_SetSectorFloorAngleX(const sec: Integer; const angx: Integer);
+
+function PS_GetSectorFloorAngleY(const sec: Integer): Integer;
+procedure PS_SetSectorFloorAngleY(const sec: Integer; const angy: Integer);
+
+function PS_GetSectorCeilingAngle(const sec: Integer): LongWord;
+procedure PS_SetSectorCeilingAngle(const sec: Integer; const ang: LongWord);
+
+function PS_GetSectorCeilingAngleX(const sec: Integer): Integer;
+procedure PS_SetSectorCeilingAngleX(const sec: Integer; const angx: Integer);
+
+function PS_GetSectorCeilingAngleY(const sec: Integer): Integer;
+procedure PS_SetSectorCeilingAngleY(const sec: Integer; const angy: Integer);
 
 function PS_GetSectorRippleFloor(const sec: Integer): Boolean;
 procedure PS_SetSectorRippleFloor(const sec: Integer; const rpl: Boolean);
@@ -3789,6 +3807,90 @@ begin
 end;
 {$ENDIF}
 
+function PS_GetSectorFloorAngle(const sec: Integer): LongWord;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].floorangle
+  else
+    Result := 0;
+end;
+
+procedure PS_SetSectorFloorAngle(const sec: Integer; const ang: LongWord);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].floorangle := ang;
+end;
+
+function PS_GetSectorFloorAngleX(const sec: Integer): Integer;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].ceilinganglex
+  else
+    Result := 0;
+end;
+
+procedure PS_SetSectorFloorAngleX(const sec: Integer; const angx: Integer);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].ceilinganglex := angx;
+end;
+
+function PS_GetSectorFloorAngleY(const sec: Integer): Integer;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].ceilingangley
+  else
+    Result := 0;
+end;
+
+procedure PS_SetSectorFloorAngleY(const sec: Integer; const angy: Integer);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].ceilingangley := angy;
+end;
+
+function PS_GetSectorCeilingAngle(const sec: Integer): LongWord;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].ceilingangle
+  else
+    Result := 0;
+end;
+
+procedure PS_SetSectorCeilingAngle(const sec: Integer; const ang: LongWord);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].ceilingangle := ang;
+end;
+
+function PS_GetSectorCeilingAngleX(const sec: Integer): Integer;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].ceilinganglex
+  else
+    Result := 0;
+end;
+
+procedure PS_SetSectorCeilingAngleX(const sec: Integer; const angx: Integer);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].ceilinganglex := angx;
+end;
+
+function PS_GetSectorCeilingAngleY(const sec: Integer): Integer;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].ceilingangley
+  else
+    Result := 0;
+end;
+
+procedure PS_SetSectorCeilingAngleY(const sec: Integer; const angy: Integer);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    sectors[sec].ceilingangley := angy;
+end;
+
 function PS_GetSectorRippleFloor(const sec: Integer): Boolean;
 begin
   if (sec >= 0) and (sec < numsectors) then
@@ -4092,6 +4194,66 @@ end;
 procedure TRTLSectorFloorHeight_R(Self: TRTLSector; var T: fixed_t);
 begin
   T := PS_GetSectorFloorHeight(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorFloorAngle_W(Self: TRTLSector; const T: LongWord);
+begin
+  PS_SetSectorFloorAngle(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorFloorAngle_R(Self: TRTLSector; var T: LongWord);
+begin
+  T := PS_GetSectorFloorAngle(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorFloorAngleX_W(Self: TRTLSector; const T: Integer);
+begin
+  PS_SetSectorFloorAngleX(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorFloorAngleX_R(Self: TRTLSector; var T: Integer);
+begin
+  T := PS_GetSectorFloorAngleX(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorFloorAngleY_W(Self: TRTLSector; const T: Integer);
+begin
+  PS_SetSectorFloorAngleY(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorFloorAngleY_R(Self: TRTLSector; var T: Integer);
+begin
+  T := PS_GetSectorFloorAngleY(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorCeilingAngle_W(Self: TRTLSector; const T: LongWord);
+begin
+  PS_SetSectorCeilingAngle(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorCeilingAngle_R(Self: TRTLSector; var T: LongWord);
+begin
+  T := PS_GetSectorCeilingAngle(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorCeilingAngleX_W(Self: TRTLSector; const T: Integer);
+begin
+  PS_SetSectorCeilingAngleX(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorCeilingAngleX_R(Self: TRTLSector; var T: Integer);
+begin
+  T := PS_GetSectorCeilingAngleX(Integer(Self) - 1);
+end;
+
+procedure TRTLSectorCeilingAngleY_W(Self: TRTLSector; const T: Integer);
+begin
+  PS_SetSectorCeilingAngleY(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorCeilingAngleY_R(Self: TRTLSector; var T: Integer);
+begin
+  T := PS_GetSectorCeilingAngleY(Integer(Self) - 1);
 end;
 
 procedure TRTLSectorRippleFloor_W(Self: TRTLSector; const T: Boolean);
@@ -5497,6 +5659,12 @@ begin
   csector.RegisterProperty('MidSector', '!TSector', iptR);
   csector.RegisterProperty('SlopeSector', '!TSector', iptR);
   csector.RegisterProperty('ID', 'Integer', iptR);
+  csector.RegisterProperty('FloorAngle', 'angle_t', iptRW);
+  csector.RegisterProperty('FloorAngleX', 'fixed_t', iptRW);
+  csector.RegisterProperty('FloorAngleY', 'fixed_t', iptRW);
+  csector.RegisterProperty('CeilingAngle', 'angle_t', iptRW);
+  csector.RegisterProperty('CeilingAngleX', 'fixed_t', iptRW);
+  csector.RegisterProperty('CeilingAngleY', 'fixed_t', iptRW);
   csector.RegisterProperty('RippleFloor', 'boolean', iptRW);
   csector.RegisterProperty('RippleCeiling', 'boolean', iptRW);
   csector.RegisterProperty('Interpolate', 'boolean', iptRW);
@@ -5715,6 +5883,12 @@ begin
   rsector.RegisterPropertyHelper(@TRTLSectorMidSector_R, nil, 'MidSector');
   rsector.RegisterPropertyHelper(@TRTLSectorSlopeSector_R, nil, 'SlopeSector');
   rsector.RegisterPropertyHelper(@TRTLSectorID_R, nil, 'ID');
+  rsector.RegisterPropertyHelper(@TRTLSectorFloorAngle_R, @TRTLSectorFloorAngle_W, 'FloorAngle');
+  rsector.RegisterPropertyHelper(@TRTLSectorFloorAngleX_R, @TRTLSectorFloorAngleX_W, 'FloorAngleX');
+  rsector.RegisterPropertyHelper(@TRTLSectorFloorAngleY_R, @TRTLSectorFloorAngleY_W, 'FloorAngleY');
+  rsector.RegisterPropertyHelper(@TRTLSectorCeilingAngle_R, @TRTLSectorCeilingAngle_W, 'CeilingAngle');
+  rsector.RegisterPropertyHelper(@TRTLSectorCeilingAngleX_R, @TRTLSectorCeilingAngleX_W, 'CeilingAngleX');
+  rsector.RegisterPropertyHelper(@TRTLSectorCeilingAngleY_R, @TRTLSectorCeilingAngleY_W, 'CeilingAngleY');
   rsector.RegisterPropertyHelper(@TRTLSectorRippleFloor_R, @TRTLSectorRippleFloor_W, 'RippleFloor');
   rsector.RegisterPropertyHelper(@TRTLSectorRippleCeiling_R, @TRTLSectorRippleCeiling_W, 'RippleCeiling');
   rsector.RegisterPropertyHelper(@TRTLSectorInterpolate_R, @TRTLSectorInterpolate_W, 'Interpolate');
