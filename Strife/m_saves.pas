@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -77,6 +77,8 @@ procedure M_SaveMisObj(const path: string);
 
 procedure M_SaveWorldVars(const path: string);
 
+procedure M_SaveSaveScreenShot(const path: string);
+
 procedure M_CreateSaveDirs(const savedir: string);
 
 procedure M_ClearSlotNum(const num: integer);
@@ -115,8 +117,7 @@ begin
 
     // haleyjd: use M_SafeFilePath, not sprintf
     filepath := M_SafeFilePath(path, files.Strings[i]);
-    if fexists(filepath) then
-      fdelete(filepath);
+    fdelete(filepath);
   end;
   files.Free;
 end;
@@ -181,8 +182,7 @@ begin
 
     // haleyjd: use M_SafeFilePath, not sprintf
     filepath := M_SafeFilePath(savepathtemp, files.Strings[i]);
-    if fexists(filepath) then
-      fdelete(filepath);
+    fdelete(filepath);
   end;
   files.Free;
 end;
@@ -212,8 +212,7 @@ begin
 
     // haleyjd: use M_SafeFilePath, not sprintf
     filepath := M_SafeFilePath(savepath, files.Strings[i]);
-    if fexists(filepath) then
-      fdelete(filepath);
+    fdelete(filepath);
   end;
   files.Free;
 end;
@@ -242,7 +241,7 @@ begin
 
     // haleyjd: use M_SafeFilePath, not sprintf
     srcfilename := M_SafeFilePath(savepathtemp, files.Strings[i]);
-    dstfilename := M_SafeFilePath(savepath,     files.Strings[i]);
+    dstfilename := M_SafeFilePath(savepath, files.Strings[i]);
     CopyFile2(srcfilename, dstfilename);
   end;
   files.Free;
@@ -333,6 +332,11 @@ end;
 procedure M_SaveWorldVars(const path: string);
 begin
   P_ArchiveWorldVariables(M_SafeFilePath(path, 'world_vars'));
+end;
+
+procedure M_SaveSaveScreenShot(const path: string);
+begin
+  P_ArchiveScreenShot(M_SafeFilePath(path, 'sshot'));
 end;
 
 //

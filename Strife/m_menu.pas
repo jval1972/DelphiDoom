@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -210,6 +210,7 @@ uses
   g_game,
   m_argv,
   m_misc,
+  mn_screenshot,
   mt_utils,
   i_system,
   i_threads,
@@ -305,6 +306,7 @@ const
 
 var
   savegamestrings: array[0..9] of string;
+  savegameshots: array[0..Ord(load_end) - 1] of menuscreenbuffer_t;
   endstring: string;
 
 // haleyjd 08/27/10: [STRIFE] skull* stuff changed to cursor* stuff
@@ -355,6 +357,7 @@ begin
   else
     messageRoutine := nil;
   messageNeedsInput := input;
+  mn_makescreenshot := true;
   menuactive := true;
 end;
 
@@ -1490,10 +1493,11 @@ var
   i, j, len: integer;
   buf: PByteArray;
   fname: string;
+  numread: integer;
 begin
   for i := 0 to Ord(load_end) - 1 do
   begin
-
+    ZeroMemory(@savegameshots[i], SizeOf(menuscreenbuffer_t));
     fname := M_SafeFilePath(M_SaveFileName(''), M_MakeStrifeSaveDir(i, '\name'));
     LoadMenu[i].status := 0;
     if fexists(fname) then
@@ -1508,6 +1512,18 @@ begin
           else
             savegamestrings[i] := savegamestrings[i] + Chr(buf[j]);
         LoadMenu[i].status := 1;
+
+        fname := M_SafeFilePath(M_SaveFileName(''), M_MakeStrifeSaveDir(i, '\sshot'));
+        if fexists(fname) then
+        begin
+          Z_Free(buf);
+          len := M_ReadFile(fname, pointer(buf));
+          if len = SizeOf(menuscreenbuffer_t) then
+            memcpy(@savegameshots[i], buf, SizeOf(menuscreenbuffer_t))
+          else
+            ZeroMemory(@savegameshots[i], SizeOf(menuscreenbuffer_t));
+        end;
+
       end;
       Z_Free(buf);
     end;
@@ -1533,6 +1549,49 @@ begin
 end;
 
 //
+// M_DrawSaveLoadScreenShot
+// JVAL: 20200303 - Draw Game Screenshot in Load/Save screens
+//
+procedure M_DrawSaveLoadScreenShot(const screenshot: Pmenuscreenbuffer_t; const mnpos: integer);
+const
+  SHOT_X = 320 - MN_SCREENSHOTWIDTH - 4;
+  SHOT_Y = 34 - MN_SCREENSHOTHEIGHT div 2 - 4;
+var
+  i, x, y, spos: integer;
+  b: byte;
+begin
+  if screenshot = nil then
+    exit;
+
+  if not MN_ValidScreenShot(screenshot) then
+  begin
+    for i := 0 to MN_SCREENSHOTSIZE - 1 do
+      screenshot.data[i] := aprox_black;
+  end
+  else
+  begin
+    for i := 0 to MN_SCREENSHOTSIZE - 1 do
+      if screenshot.data[i] = 0 then
+        screenshot.data[i] := aprox_black;
+  end;
+
+  V_DrawPatch(SHOT_X - 7, SHOT_Y + mnpos * Loaddef.itemheight + Loaddef.itemheight div 2 - 4, SCN_TMP, 'M_SSHOT', false);
+
+  // Draw screenshot starting at (SHOT_X,SHOT_Y) position
+  for y := 0 to MN_SCREENSHOTHEIGHT - 1 do
+  begin
+    spos := (y + SHOT_Y + mnpos * Loaddef.itemheight + Loaddef.itemheight div 2 - 1) * 320 + SHOT_X;
+    for x := 0 to MN_SCREENSHOTWIDTH - 1 do
+    begin
+      b := screenshot.data[y * MN_SCREENSHOTWIDTH + x];
+      if b <> 0 then
+        screens[SCN_TMP][spos] := b;
+      inc(spos);
+    end;
+  end;
+end;
+
+//
 // M_LoadGame & Cie.
 //
 procedure M_DrawLoad;
@@ -1545,6 +1604,8 @@ begin
   begin
     M_DrawSaveLoadBorder(LoadDef.x, LoadDef.y + 18 * i);
     M_WriteText(LoadDef.x, LoadDef.y + 18 * i, savegamestrings[i]);
+    if itemon = i then
+      M_DrawSaveLoadScreenShot(@savegameshots[i], i);
   end;
 end;
 
@@ -1593,6 +1654,8 @@ begin
   begin
     M_DrawSaveLoadBorder(LoadDef.x, LoadDef.y + 18 * i);
     M_WriteText(LoadDef.x, LoadDef.y + 18 * i, savegamestrings[i]);
+    if itemon = i then
+      M_DrawSaveLoadScreenShot(@mn_screenshotbuffer, i);
   end;
 
   if saveStringEnter <> 0 then
@@ -3487,6 +3550,7 @@ begin
   if menuactive then
     exit;
 
+  mn_makescreenshot := true;
   menuactive := true;
   menupause := true;
   currentMenu := @MainDef;// JDC
@@ -3518,7 +3582,7 @@ var
 procedure M_MenuShader;
 begin
   shademenubackground := shademenubackground mod 3;
-  if (not wipedisplay) and (shademenubackground >= 1) then
+  if not wipedisplay and (shademenubackground >= 1) then
   begin
     if usemultithread then
     begin
@@ -5732,7 +5796,7 @@ begin
   LoadDef.prevMenu := @MainDef; // previous menu
   LoadDef.menuitems := Pmenuitem_tArray(@LoadMenu);  // menu items
   LoadDef.drawproc := @M_DrawLoad;  // draw routine
-  LoadDef.x := 80;
+  LoadDef.x := 35;
   LoadDef.y := 34; // x,y of menu
   LoadDef.lastOn := 0; // last item user was on in menu
   LoadDef.itemheight := 18;
@@ -5758,7 +5822,7 @@ begin
   SaveDef.prevMenu := @MainDef; // previous menu
   SaveDef.menuitems := Pmenuitem_tArray(@SaveMenu);  // menu items
   SaveDef.drawproc := M_DrawSave;  // draw routine
-  SaveDef.x := 80;
+  SaveDef.x := 35;
   SaveDef.y := 34; // x,y of menu
   SaveDef.lastOn := 0; // last item user was on in menu
   SaveDef.itemheight := 18;

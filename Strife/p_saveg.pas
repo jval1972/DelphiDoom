@@ -77,6 +77,8 @@ procedure P_ArchiveOverlay;
 
 procedure P_UnArchiveOverlay;
 
+procedure P_ArchiveScreenShot(const fname: string);
+
 var
   save_p: PByteArray;
   savegameversion: integer;
@@ -91,6 +93,7 @@ uses
   g_game,
   m_fixed,
   m_misc,
+  mn_screenshot,
   info_h,
   info,
   i_system,
@@ -585,7 +588,7 @@ begin
       sec.gravity := GRAVITY;
 
     // JVAL: 20200221 - Texture angle
-    if savegameversion > VERSION205 then
+    if savegameversion >= VERSION206 then
     begin
       sec.floorangle := PLongWord(get)^;
       get := @get[2];
@@ -1478,6 +1481,11 @@ begin
     Exit;
 
   overlay.LoadFromBuffer(Pointer(save_p));
+end;
+
+procedure P_ArchiveScreenShot(const fname: string);
+begin
+  M_WriteFile(fname, @mn_screenshotbuffer, SizeOf(menuscreenbuffer_t));
 end;
 
 end.

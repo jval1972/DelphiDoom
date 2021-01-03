@@ -259,6 +259,10 @@ var
   sendsave: boolean;         // send a save event next tic
 
 function G_GetSaveName(name: string): string;
+const
+  SAVEGAMESIZE = $1000000; // Originally $2C000
+  SAVESTRINGSIZE = 24;
+  SAVEVERSIONSIZE = 16;
 
 implementation
 
@@ -345,9 +349,6 @@ var
     (weapon: wp_sigil      ; weapon_num: wp_sigil)
   );
 
-const
-  SAVEGAMESIZE = $1000000; // Originally $2C000
-  SAVESTRINGSIZE = 24;
 
 procedure G_ReadDemoTiccmd(cmd: Pticcmd_t); forward;
 procedure G_WriteDemoTiccmd(cmd: Pticcmd_t); forward;
@@ -1144,6 +1145,7 @@ begin
           M_SaveMoveMapToHere;
           M_SaveMisObj(savepath);
           M_SaveWorldVars(savepath);
+          M_SaveSaveScreenShot(savepath);
           G_DoSaveGame(savepath);
         end;
       ga_playdemo:
@@ -1792,6 +1794,8 @@ begin
         savegameversion := VERSION203
       else if vsaved = 'version 204' then
         savegameversion := VERSION204
+      else if vsaved = 'version 205' then
+        savegameversion := VERSION205
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);

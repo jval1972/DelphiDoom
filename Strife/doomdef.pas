@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -55,7 +55,8 @@ const
   VERSION203 = 203;
   VERSION204 = 204;
   VERSION205 = 205;
-  VERSION = VERSION205;
+  VERSION206 = 206;
+  VERSION = VERSION206;
 {$IFDEF OPENGL}
   VERSIONSLOPES = VERSION122;
 {$ENDIF}

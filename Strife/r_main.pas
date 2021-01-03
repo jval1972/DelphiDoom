@@ -2506,6 +2506,8 @@ begin
   if zbufferactive then
     R_StopZBuffer;
 {$ENDIF}
+  if mn_makescreenshot then
+    MN_ScreenShotFromBlitBuffer;
 end;
 
 procedure R_Ticker;
