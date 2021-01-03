@@ -3818,7 +3818,10 @@ end;
 procedure PS_SetSectorFloorAngle(const sec: Integer; const ang: LongWord);
 begin
   if (sec >= 0) and (sec < numsectors) then
+  begin
     sectors[sec].floorangle := ang;
+    sectors[sec].renderflags := sectors[sec].renderflags or SRF_INTERPOLATE_ROTATE;
+  end;
 end;
 
 function PS_GetSectorFloorAngleX(const sec: Integer): Integer;
@@ -3832,7 +3835,10 @@ end;
 procedure PS_SetSectorFloorAngleX(const sec: Integer; const angx: Integer);
 begin
   if (sec >= 0) and (sec < numsectors) then
+  begin
     sectors[sec].ceilinganglex := angx;
+    sectors[sec].renderflags := sectors[sec].renderflags or SRF_INTERPOLATE_ROTATE;
+  end;
 end;
 
 function PS_GetSectorFloorAngleY(const sec: Integer): Integer;
@@ -3846,7 +3852,10 @@ end;
 procedure PS_SetSectorFloorAngleY(const sec: Integer; const angy: Integer);
 begin
   if (sec >= 0) and (sec < numsectors) then
+  begin
     sectors[sec].ceilingangley := angy;
+    sectors[sec].renderflags := sectors[sec].renderflags or SRF_INTERPOLATE_ROTATE;
+  end;
 end;
 
 function PS_GetSectorCeilingAngle(const sec: Integer): LongWord;
@@ -3860,7 +3869,10 @@ end;
 procedure PS_SetSectorCeilingAngle(const sec: Integer; const ang: LongWord);
 begin
   if (sec >= 0) and (sec < numsectors) then
+  begin
     sectors[sec].ceilingangle := ang;
+    sectors[sec].renderflags := sectors[sec].renderflags or SRF_INTERPOLATE_ROTATE;
+  end;
 end;
 
 function PS_GetSectorCeilingAngleX(const sec: Integer): Integer;
@@ -3874,7 +3886,10 @@ end;
 procedure PS_SetSectorCeilingAngleX(const sec: Integer; const angx: Integer);
 begin
   if (sec >= 0) and (sec < numsectors) then
+  begin
     sectors[sec].ceilinganglex := angx;
+    sectors[sec].renderflags := sectors[sec].renderflags or SRF_INTERPOLATE_ROTATE;
+  end;
 end;
 
 function PS_GetSectorCeilingAngleY(const sec: Integer): Integer;
@@ -3888,7 +3903,10 @@ end;
 procedure PS_SetSectorCeilingAngleY(const sec: Integer; const angy: Integer);
 begin
   if (sec >= 0) and (sec < numsectors) then
+  begin
     sectors[sec].ceilingangley := angy;
+    sectors[sec].renderflags := sectors[sec].renderflags or SRF_INTERPOLATE_ROTATE;
+  end;
 end;
 
 function PS_GetSectorRippleFloor(const sec: Integer): Boolean;

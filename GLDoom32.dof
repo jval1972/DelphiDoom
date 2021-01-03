@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 640x400 
+RunParams=-nofullscreen -geom 640x400 F:\DelphiDoom_2.0.5.727\Examples\EXAMPLE_16_FLOOR_CEILING_ANGLES.wad
 HostApplication=
 Launcher=
 UseLauncher=0
