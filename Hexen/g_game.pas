@@ -32,6 +32,7 @@ unit g_game;
 interface
 
 uses
+  d_delphi,
   doomdef,
   m_fixed,
   d_event,
@@ -247,18 +248,19 @@ var
   starttime: integer;        // for comparative timing purposes
 
 const
-  NUMKEYS = 256;
+  SAVEGAMESIZE = $80000; // Originally $2C000
 
 const
-  SAVEGAMESIZE = $80000; // Originally $2C000
-  
+  NUMKEYS = 256;
+
 var
   gamekeydown: array[0..NUMKEYS - 1] of boolean;
+  mousebuttons: PBooleanArray;
+  joybuttons: PBooleanArray;
 
 implementation
 
 uses
-  d_delphi,
   c_cmds,
   z_zone,
   doomstat,
@@ -397,7 +399,6 @@ var
   lookheld2: integer; // JVAL Look RIGHT and LEFT
 
   mousearray: array[0..2] of boolean;
-  mousebuttons: PBooleanArray;
 
 // mouse values are used once
   mousex: integer = 0;
@@ -414,7 +415,6 @@ var
   joyxmove: integer;
   joyymove: integer;
   joyarray: array[0..NUMJOYBUTTONS - 1] of boolean;
-  joybuttons: PBooleanArray;
 
   savegameslot: integer;
   savedescription: string;

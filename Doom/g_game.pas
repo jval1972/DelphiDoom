@@ -31,6 +31,7 @@ unit g_game;
 interface
 
 uses
+  d_delphi,
   doomdef,
   m_fixed,
   d_event,
@@ -263,10 +264,17 @@ const
   SAVESTRINGSIZE = 24;
   SAVEVERSIONSIZE = 16;
 
+const
+  NUMKEYS = 256;
+
+var
+  gamekeydown: array[0..NUMKEYS - 1] of boolean;
+  mousebuttons: PBooleanArray;
+  joybuttons: PBooleanArray;
+
 implementation
 
 uses
-  d_delphi,
   c_cmds,
   z_zone,
   doomstat,
@@ -363,17 +371,14 @@ end;
 
 const
   SLOWTURNTICS = 6;
-  NUMKEYS = 256;
 
 var
-  gamekeydown: array[0..NUMKEYS - 1] of boolean;
   turnheld: integer;
 
   lookheld: integer;  // JVAL Look UP and DOWN
   lookheld2: integer; // JVAL Look RIGHT and LEFT
 
   mousearray: array[0..2] of boolean;
-  mousebuttons: PBooleanArray;
 
 // mouse values are used once
   mousex: integer = 0;
@@ -390,7 +395,6 @@ var
   joyxmove: integer;
   joyymove: integer;
   joyarray: array[0..NUMJOYBUTTONS - 1] of boolean;
-  joybuttons: PBooleanArray;
 
   savegameslot: integer;
   savedescription: string;
