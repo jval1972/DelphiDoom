@@ -1493,7 +1493,6 @@ var
   i, j, len: integer;
   buf: PByteArray;
   fname: string;
-  numread: integer;
 begin
   for i := 0 to Ord(load_end) - 1 do
   begin
