@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -371,10 +371,10 @@ begin
     exit;
   end;
 
-  if (mo.flags and (MF_MISSILE or MF_SKULLFLY)) <> 0 then
+  if mo.flags and (MF_MISSILE or MF_SKULLFLY) <> 0 then
     exit; // no friction for missiles ever
 
-  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
+  if mo.flags3_ex and MF3_EX_BOUNCE <> 0 then
     exit; // no friction for bouncing objects
 
   if (player <> nil) and (player.laddertics > 0) then
