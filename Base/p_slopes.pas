@@ -569,7 +569,7 @@ begin
     sec.renderflags := sec.renderflags and not SRF_SLOPEFLOOR;
     sec.renderflags := sec.renderflags and not SRF_INTERPOLATE_FLOORSLOPE;
     sec.floorheight := z1;
-    P_ChangeSector(sec, false);
+    P_ChangeSector(sec, true);
   end
   else
   begin
@@ -618,7 +618,7 @@ begin
     sec.renderflags := sec.renderflags and not SRF_SLOPECEILING;
     sec.renderflags := sec.renderflags and not SRF_INTERPOLATE_CEILINGSLOPE;
     sec.ceilingheight := z1;
-    P_ChangeSector(sec, false);
+    P_ChangeSector(sec, true);
   end
   else
   begin
