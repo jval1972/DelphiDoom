@@ -78,6 +78,7 @@ uses
   Math,
   doomdata,
   m_vectors,
+  p_gravity,
   p_map,
   p_setup,
   p_mobj_h,
@@ -329,13 +330,24 @@ end;
 procedure P_FixSlopedMobjs(const s: Psector_t);
 var
   mo: Pmobj_t;
+  grav: fixed_t;
 begin
   mo := s.thinglist;
   while mo <> nil do
   begin
+    if mo.flags and MF_NOGRAVITY <> 0 then
+      grav := 0
+    else
+      grav := FixedMul(P_GetSectorGravity(s), mo.gravity);
+
     mo.floorz := P_FloorHeight(s, mo.x, mo.y);
-    if  mo.z < mo.floorz then
-      mo.z := mo.floorz;
+    mo.ceilingz := P_CeilingHeight(s, mo.x, mo.y);
+
+    if mo.z - grav < mo.floorz then
+      mo.z := mo.floorz
+    else if (grav = 0) or (mo.z > mo.ceilingz) then
+      mo.z := mo.ceilingz;
+
     mo := mo.snext;
   end;
 end;
