@@ -78,6 +78,7 @@ uses
   Math,
   doomdata,
   m_vectors,
+  p_map,
   p_setup,
   p_mobj_h,
   p_spec,
@@ -566,7 +567,9 @@ begin
   if (z1 = z2) and (z2 = z3) then
   begin
     sec.renderflags := sec.renderflags and not SRF_SLOPEFLOOR;
+    sec.renderflags := sec.renderflags and not SRF_INTERPOLATE_FLOORSLOPE;
     sec.floorheight := z1;
+    P_ChangeSector(sec, false);
   end
   else
   begin
@@ -592,6 +595,7 @@ begin
     P_SlopesAlignPlane(sec, nil, SRF_SLOPEFLOOR, false);
     sec.slopeline := sec.lines[0];
     sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+    sec.renderflags := sec.renderflags or SRF_INTERPOLATE_FLOORSLOPE;
     P_FixSlopedMobjs(sec);
   end;
 end;
@@ -612,7 +616,9 @@ begin
   if (z1 = z2) and (z2 = z3) then
   begin
     sec.renderflags := sec.renderflags and not SRF_SLOPECEILING;
+    sec.renderflags := sec.renderflags and not SRF_INTERPOLATE_CEILINGSLOPE;
     sec.ceilingheight := z1;
+    P_ChangeSector(sec, false);
   end
   else
   begin
@@ -638,6 +644,7 @@ begin
     P_SlopesAlignPlane(sec, nil, SRF_SLOPECEILING, false);
     sec.slopeline := sec.lines[0];
     sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+    sec.renderflags := sec.renderflags or SRF_INTERPOLATE_CEILINGSLOPE;
     P_FixSlopedMobjs(sec);
   end;
 end;

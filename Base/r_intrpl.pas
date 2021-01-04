@@ -80,7 +80,7 @@ uses
   tables;
 
 type
-  itype = (iinteger, ismallint, ibyte, iangle, imobj);
+  itype = (iinteger, ismallint, ibyte, iangle, ifloat, imobj);
 
   // Interpolation item
   //  Holds information about the previous and next values and interpolation type
@@ -92,6 +92,7 @@ type
       ismallint: (siprev, sinext: smallint);
       ibyte: (bprev, bnext: byte);
       iangle: (aprev, anext: LongWord);
+      ifloat: (fprev, fnext: float);
   end;
   Piitem_t = ^iitem_t;
   iitem_tArray = array[0..$FFFF] of iitem_t;
@@ -250,6 +251,14 @@ begin
   end;
 end;
 
+procedure R_InterpolationCalcF(const pi: Piitem_t; const frac: fixed_t);
+begin
+  if pi.fnext = pi.fprev then
+    exit;
+
+  Pfloat(pi.address)^ := pi.fprev + (pi.fnext - pi.fprev) / FRACUNIT * frac;
+end;
+
 procedure R_AddInterpolationItem(const addr: pointer; const typ: itype);
 var
   newrealsize: integer;
@@ -303,6 +312,11 @@ begin
       begin
         pi.aprev := pi.anext;
         pi.anext := Pangle_t(addr)^;
+      end;
+    ifloat:
+      begin
+        pi.fprev := pi.fnext;
+        pi.fnext := Pfloat(addr)^;
       end;
   end;
   inc(istruct.numitems);
@@ -378,6 +392,20 @@ begin
         R_AddInterpolationItem(@sec.ceilinganglex, iinteger);
         R_AddInterpolationItem(@sec.ceilingangley, iinteger);
       end;
+      if sec.renderflags and SRF_INTERPOLATE_FLOORSLOPE <> 0 then
+      begin
+        R_AddInterpolationItem(@sec.fa, ifloat);
+        R_AddInterpolationItem(@sec.fb, ifloat);
+        R_AddInterpolationItem(@sec.fd, ifloat);
+        R_AddInterpolationItem(@sec.fic, ifloat);
+      end;
+      if sec.renderflags and SRF_INTERPOLATE_CEILINGSLOPE <> 0 then
+      begin
+        R_AddInterpolationItem(@sec.ca, ifloat);
+        R_AddInterpolationItem(@sec.cb, ifloat);
+        R_AddInterpolationItem(@sec.cd, ifloat);
+        R_AddInterpolationItem(@sec.cic, ifloat);
+      end;
     end;
     inc(sec);
   end;
@@ -443,6 +471,7 @@ begin
       ismallint: PSmallInt(pi.address)^ := pi.sinext;
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
+      ifloat: Pfloat(pi.address)^ := pi.fnext;
     end;
     inc(pi);
   end;
@@ -479,6 +508,7 @@ begin
       ismallint: PSmallInt(pi.address)^ := pi.sinext;
       ibyte: PByte(pi.address)^ := pi.bnext;
       iangle: Pangle_t(pi.address)^ := pi.anext;
+      ifloat: Pfloat(pi.address)^ := pi.fnext;
     end;
     inc(pi);
   end;
@@ -531,6 +561,7 @@ begin
         ismallint: R_InterpolationCalcSI(pi, ticfrac);
         ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
         iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
+        ifloat: R_InterpolationCalcF(pi, ticfrac);
       end;
     end;
     inc(pi);
@@ -622,6 +653,7 @@ begin
             ismallint: R_InterpolationCalcSI(pi, ticfrac);
             ibyte: PByte(pi.address)^ := R_InterpolationCalcB(pi.bprev, pi.bnext, ticfrac);
             iangle: PAngle_t(pi.address)^ := R_InterpolationCalcA(pi.aprev, pi.anext, ticfrac);
+            ifloat: R_InterpolationCalcF(pi, ticfrac);
           end;
         end;
         inc(pi);
