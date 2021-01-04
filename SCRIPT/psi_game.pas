@@ -848,6 +848,9 @@ uses
   d_player,
   d_event,
   d_think,
+  {$IFDEF HEXEN}
+  g_demo,
+  {$ENDIF}
   g_game,
   info_h,
   info,
