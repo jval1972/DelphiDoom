@@ -100,7 +100,7 @@ Conditionals=HEXEN;
 DebugSourceDirs=G:\DOOM\DelphiDoom\DelphiDoomSrc\Src\Hexen\;D:\DelphiDoom_Release\DelphiDoom_Src\Src\Hexen\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1366x768
+RunParams=-nofullscreen -geom 1366x768 -file test_rotate_hexen.wad
 HostApplication=
 Launcher=
 UseLauncher=0

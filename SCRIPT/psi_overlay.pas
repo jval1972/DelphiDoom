@@ -48,6 +48,7 @@ const
 type
   overlayindexes_t = array[0..OVERLAYSIZE - 1] of Integer;
   overlayindexes_p = ^overlayindexes_t;
+
 type
   overlaydrawer_t = record
     proc: Integer;
@@ -195,6 +196,7 @@ uses
   i_system,
   mt_utils,
   p_tick,
+  sc_engine,
   {$IFNDEF OPENGL}
   r_hires,
   {$ENDIF}
@@ -1451,6 +1453,53 @@ begin
   CmdOverlayDrawText(s1, s2, OVR_ALIGN_CENTER);
 end;
 
+procedure CmdOverlayDrawRect(const s1, s2: string);
+var
+  ticks: Integer;
+  x1, y1, x2, y2: Integer;
+  red, green, blue: byte;
+  sc: TScriptEngine;
+begin
+  if gamestate <> GS_LEVEL then
+  begin
+    printf('Overlay drawer is available only when playing the game'#13#10);
+    Exit;
+  end;
+
+  if (s1 = '') or (s2 = '') then
+  begin
+    printf('overlaydrawrect [ticks] [x1] [y1] [x2] [y2] [red] [green] [blue]'#13#10);
+    Exit;
+  end;
+
+  ticks := atoi(s1, -1);
+  if ticks < 0 then
+  begin
+    printf('Ticks must be a positive number'#13#10);
+    Exit;
+  end;
+
+  sc := TScriptEngine.Create(s2);
+
+  sc.MustGetInteger;
+  x1 := sc._Integer;
+  sc.MustGetInteger;
+  y1 := sc._Integer;
+  sc.MustGetInteger;
+  x2 := sc._Integer;
+  sc.MustGetInteger;
+  y2 := sc._Integer;
+  sc.MustGetInteger;
+  red := sc._Integer;
+  sc.MustGetInteger;
+  green := sc._Integer;
+  sc.MustGetInteger;
+  blue := sc._Integer;
+  sc.Free;
+
+  overlay.AddRect(ticks, red, green, blue, x1, y1, x2, y2);
+end;
+
 procedure PS_InitOverlay;
 begin
   overlay := TOverlayDrawer.Create;
@@ -1459,6 +1508,7 @@ begin
   C_AddCmd('overlaydrawtextright', @CmdOverlayDrawTextRight);
   C_AddCmd('overlaydrawtextcenter', @CmdOverlayDrawTextCenter);
   C_AddCmd('overlaydrawpixel, overlayputpixel', @CmdOverlayPutPixel);
+  C_AddCmd('overlaydrawrect', @CmdOverlayDrawRect);
 end;
 
 procedure PS_ShutDownOverlay;
