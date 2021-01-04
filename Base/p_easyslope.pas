@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -137,27 +137,6 @@ begin
   end;
 end;
 
-procedure calc_plane(
-  const x1, y1, z1: float;
-  const x2, y2, z2: float;
-  const x3, y3, z3: float;
-  out fa, fb, fc, fd: float);
-var
-  a1, b1, c1: float;
-  a2, b2, c2: float;
-begin
-  a1 := x2 - x1;
-  b1 := y2 - y1;
-  c1 := z2 - z1;
-  a2 := x3 - x1;
-  b2 := y3 - y1;
-  c2 := z3 - z1;
-  fa := b1 * c2 - b2 * c1;
-  fb := a2 * c1 - a1 * c2;
-  fc := a1 * b2 - b1 * a2;
-  fd := (- fa * x1 - fb * y1 - fc * z1);
-end;
-
 function calcz(const secid: integer; const mo: Pmobj_t; const default: fixed_t = 0): fixed_t;
 var
   sec: Psector_t;
@@ -234,7 +213,7 @@ begin
       VV[0] := P_FindClosestSectorPoint(secid, slopeinfo[secid].floorcontrols[0]);
       VV[1] := P_FindClosestSectorPoint(secid, slopeinfo[secid].floorcontrols[1]);
       VV[2] := P_FindClosestSectorPoint(secid, slopeinfo[secid].floorcontrols[2]);
-      calc_plane(
+      calc_slope_plane(
         VV[0].x / FRACUNIT, VV[0].y / FRACUNIT, calcz(secid, slopeinfo[secid].floorcontrols[0]) / FRACUNIT,
         VV[1].x / FRACUNIT, VV[1].y / FRACUNIT, calcz(secid, slopeinfo[secid].floorcontrols[1]) / FRACUNIT,
         VV[2].x / FRACUNIT, VV[2].y / FRACUNIT, calcz(secid, slopeinfo[secid].floorcontrols[2]) / FRACUNIT,
@@ -254,7 +233,7 @@ begin
       VV[0] := P_FindClosestSectorPoint(secid, slopeinfo[secid].ceilingcontrols[0]);
       VV[1] := P_FindClosestSectorPoint(secid, slopeinfo[secid].ceilingcontrols[1]);
       VV[2] := P_FindClosestSectorPoint(secid, slopeinfo[secid].ceilingcontrols[2]);
-      calc_plane(
+      calc_slope_plane(
         VV[0].x / FRACUNIT, VV[0].y / FRACUNIT, calcz(secid, slopeinfo[secid].ceilingcontrols[0]) / FRACUNIT,
         VV[1].x / FRACUNIT, VV[1].y / FRACUNIT, calcz(secid, slopeinfo[secid].ceilingcontrols[1]) / FRACUNIT,
         VV[2].x / FRACUNIT, VV[2].y / FRACUNIT, calcz(secid, slopeinfo[secid].ceilingcontrols[2]) / FRACUNIT,
@@ -432,7 +411,7 @@ begin
         VV[0] := slopeinfo[secid].floorvertexes[0];
         VV[1] := slopeinfo[secid].floorvertexes[1];
         VV[2] := slopeinfo[secid].floorvertexes[2];
-        calc_plane(
+        calc_slope_plane(
           VV[0].x / FRACUNIT, VV[0].y / FRACUNIT, calcz(secid, slopeinfo[secid].floorcontrols[0], sectors[secid].floorheight) / FRACUNIT,
           VV[1].x / FRACUNIT, VV[1].y / FRACUNIT, calcz(secid, slopeinfo[secid].floorcontrols[1], sectors[secid].floorheight) / FRACUNIT,
           VV[2].x / FRACUNIT, VV[2].y / FRACUNIT, calcz(secid, slopeinfo[secid].floorcontrols[2], sectors[secid].floorheight) / FRACUNIT,
@@ -460,7 +439,7 @@ begin
         VV[0] := slopeinfo[secid].ceilingvertexes[0];
         VV[1] := slopeinfo[secid].ceilingvertexes[1];
         VV[2] := slopeinfo[secid].ceilingvertexes[2];
-        calc_plane(
+        calc_slope_plane(
           VV[0].x / FRACUNIT, VV[0].y / FRACUNIT, calcz(secid, slopeinfo[secid].ceilingcontrols[0], sectors[secid].ceilingheight) / FRACUNIT,
           VV[1].x / FRACUNIT, VV[1].y / FRACUNIT, calcz(secid, slopeinfo[secid].ceilingcontrols[1], sectors[secid].ceilingheight) / FRACUNIT,
           VV[2].x / FRACUNIT, VV[2].y / FRACUNIT, calcz(secid, slopeinfo[secid].ceilingcontrols[2], sectors[secid].ceilingheight) / FRACUNIT,

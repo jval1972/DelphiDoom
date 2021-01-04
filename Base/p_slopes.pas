@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -34,6 +34,7 @@ unit p_slopes;
 interface
 
 uses
+  d_delphi,
   m_fixed,
   r_defs;
 
@@ -56,13 +57,24 @@ function P_ClosestFloorHeight(const sec: Psector_t; const line: Pline_t; const x
 
 function P_ClosestCeilingHeight(const sec: Psector_t; const line: Pline_t; const x, y: fixed_t): fixed_t;
 
+procedure calc_slope_plane(
+  const x1, y1, z1: float;
+  const x2, y2, z2: float;
+  const x3, y3, z3: float;
+  out fa, fb, fc, fd: float);
+
+procedure PS_SetFloorSlope(const secid: integer; const x1, y1, z1: fixed_t;
+  const x2, y2, z2: fixed_t; const x3, y3, z3: fixed_t);
+
+procedure PS_SetCeilingSlope(const secid: integer; const x1, y1, z1: fixed_t;
+  const x2, y2, z2: fixed_t; const x3, y3, z3: fixed_t);
+
 const
   SLOPECOUNTDOWN = 4;
 
 implementation
 
 uses
-  d_delphi,
   Math,
   doomdata,
   m_vectors,
@@ -517,6 +529,118 @@ begin
     result := sec.ceilingheight;
 end;
 
+procedure calc_slope_plane(
+  const x1, y1, z1: float;
+  const x2, y2, z2: float;
+  const x3, y3, z3: float;
+  out fa, fb, fc, fd: float);
+var
+  a1, b1, c1: float;
+  a2, b2, c2: float;
+begin
+  a1 := x2 - x1;
+  b1 := y2 - y1;
+  c1 := z2 - z1;
+  a2 := x3 - x1;
+  b2 := y3 - y1;
+  c2 := z3 - z1;
+  fa := b1 * c2 - b2 * c1;
+  fb := a2 * c1 - a1 * c2;
+  fc := a1 * b2 - b1 * a2;
+  fd := (- fa * x1 - fb * y1 - fc * z1);
+end;
+
+procedure PS_SetFloorSlope(const secid: integer; const x1, y1, z1: fixed_t;
+  const x2, y2, z2: fixed_t; const x3, y3, z3: fixed_t);
+var
+  fx1, fy1, fz1: float;
+  fx2, fy2, fz2: float;
+  fx3, fy3, fz3: float;
+  fa, fb, fc, fd: float;
+  sec: Psector_t;
+begin
+  if (secid < 0) or (secid >= numsectors) then
+    exit;
+
+  sec := @sectors[secid];
+  if (z1 = z2) and (z2 = z3) then
+  begin
+    sec.renderflags := sec.renderflags and not SRF_SLOPEFLOOR;
+    sec.floorheight := z1;
+  end
+  else
+  begin
+    fx1 := x1 / FRACUNIT;
+    fy1 := y1 / FRACUNIT;
+    fz1 := z1 / FRACUNIT;
+    fx2 := x2 / FRACUNIT;
+    fy2 := y2 / FRACUNIT;
+    fz2 := z2 / FRACUNIT;
+    fx3 := x3 / FRACUNIT;
+    fy3 := y3 / FRACUNIT;
+    fz3 := z3 / FRACUNIT;
+    calc_slope_plane(
+      fx1, fy1, fz1,
+      fx2, fy2, fz2,
+      fx3, fy3, fz3,
+      fa, fb, fc, fd);
+    sec.fa := fa;
+    sec.fb := fb;
+    sec.fic := 1 / fc;
+    sec.fd := fd;
+    sec.renderflags := sec.renderflags or SRF_SLOPEFLOOR;
+    P_SlopesAlignPlane(sec, nil, SRF_SLOPEFLOOR, false);
+    sec.slopeline := sec.lines[0];
+    sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+    P_FixSlopedMobjs(sec);
+  end;
+end;
+
+procedure PS_SetCeilingSlope(const secid: integer; const x1, y1, z1: fixed_t;
+  const x2, y2, z2: fixed_t; const x3, y3, z3: fixed_t);
+var
+  fx1, fy1, fz1: float;
+  fx2, fy2, fz2: float;
+  fx3, fy3, fz3: float;
+  ca, cb, cc, cd: float;
+  sec: Psector_t;
+begin
+  if (secid < 0) or (secid >= numsectors) then
+    exit;
+
+  sec := @sectors[secid];
+  if (z1 = z2) and (z2 = z3) then
+  begin
+    sec.renderflags := sec.renderflags and not SRF_SLOPECEILING;
+    sec.ceilingheight := z1;
+  end
+  else
+  begin
+    fx1 := x1 / FRACUNIT;
+    fy1 := y1 / FRACUNIT;
+    fz1 := z1 / FRACUNIT;
+    fx2 := x2 / FRACUNIT;
+    fy2 := y2 / FRACUNIT;
+    fz2 := z2 / FRACUNIT;
+    fx3 := x3 / FRACUNIT;
+    fy3 := y3 / FRACUNIT;
+    fz3 := z3 / FRACUNIT;
+    calc_slope_plane(
+      fx1, fy1, fz1,
+      fx2, fy2, fz2,
+      fx3, fy3, fz3,
+      ca, cb, cc, cd);
+    sec.ca := ca;
+    sec.cb := cb;
+    sec.cic := 1 / cc;
+    sec.cd := cd;
+    sec.renderflags := sec.renderflags or SRF_SLOPECEILING;
+    P_SlopesAlignPlane(sec, nil, SRF_SLOPECEILING, false);
+    sec.slopeline := sec.lines[0];
+    sec.slopeline.renderflags := sec.slopeline.renderflags or LRF_SLOPED;
+    P_FixSlopedMobjs(sec);
+  end;
+end;
 
 end.
 

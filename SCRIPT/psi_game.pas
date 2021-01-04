@@ -819,6 +819,8 @@ type
   public
     procedure PlaySound(const snd: string);
     procedure MoveZ(const dz: Integer);
+    procedure SetFloorSlope(const x1, y1, z1: Integer; const x2, y2, z2: Integer; const x3, y3, z3: Integer);
+    procedure SetCeilingSlope(const x1, y1, z1: Integer; const x2, y2, z2: Integer; const x3, y3, z3: Integer);
   end;
 
   TRTLSectors = class(TObject)
@@ -862,6 +864,7 @@ uses
   p_params,
   p_setup,
   p_sight,
+  p_slopes,
   p_tick,
   p_user,
   r_data,
@@ -4191,6 +4194,16 @@ begin
   PS_SectorMoveZ(Integer(self) - 1, dz);
 end;
 
+procedure TRTLSector.SetFloorSlope(const x1, y1, z1: Integer; const x2, y2, z2: Integer; const x3, y3, z3: Integer);
+begin
+  PS_SetFloorSlope(Integer(self) - 1, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+end;
+
+procedure TRTLSector.SetCeilingSlope(const x1, y1, z1: Integer; const x2, y2, z2: Integer; const x3, y3, z3: Integer);
+begin
+  PS_SetCeilingSlope(Integer(self) - 1, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+end;
+
 // ---------------------- TRTLSectors ------------------------------------------
 
 function TRTLSectors.GetSector(id: Integer): TRTLSector;
@@ -6281,6 +6294,8 @@ begin
   csector.RegisterProperty('Gravity', 'fixed_t', iptRW);
   csector.RegisterMethod('procedure PlaySound(const snd: string);');
   csector.RegisterMethod('procedure MoveZ(const dz: fixed_t);');
+  csector.RegisterMethod('procedure SetFloorSlope(const x1, y1, z1: fixed_t; const x2, y2, z2: fixed_t; const x3, y3, z3: fixed_t);');
+  csector.RegisterMethod('procedure SetCeilingSlope(const x1, y1, z1: fixed_t; const x2, y2, z2: fixed_t; const x3, y3, z3: fixed_t);');
 
   csectors.RegisterProperty('Sector', '!TSector Integer', iptR);
   csectors.SetDefaultPropery('Sector');
@@ -6505,6 +6520,8 @@ begin
   rsector.RegisterPropertyHelper(@TRTLSectorGravity_R, @TRTLSectorGravity_W, 'Gravity');
   rsector.RegisterMethod(@TRTLSector.PlaySound, 'PlaySound');
   rsector.RegisterMethod(@TRTLSector.MoveZ, 'MoveZ');
+  rsector.RegisterMethod(@TRTLSector.SetFloorSlope, 'SetFloorSlope');
+  rsector.RegisterMethod(@TRTLSector.SetCeilingSlope, 'SetCeilingSlope');
 
   rsectors.RegisterPropertyHelper(@TRTLSectorsSector_R, nil, 'Sector');
   rsectors.RegisterPropertyHelper(@TRTLSectorsCount_R, nil, 'Count');
