@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -653,7 +653,11 @@ begin
         // after hitting the ground (hard),
         // and utter appropriate sound.
         player.deltaviewheight := _SHR(mo.momz, 3);
-        S_StartSound(mo, Ord(sfx_plroof));
+        if leveltime > player.nextoof then
+        begin
+          S_StartSound(mo, Ord(sfx_plroof));
+          player.nextoof := leveltime + 4 * TICRATE;
+        end;
       end;
       mo.momz := 0;
     end;

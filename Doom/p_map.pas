@@ -433,9 +433,9 @@ begin
   end;
 
   // set openrange, opentop, openbottom
-  if G_PlayingEngineVersion >= VERSION205 then
+{  if G_PlayingEngineVersion >= VERSION205 then
     P_LineOpeningTM206(ld, true)
-  else
+  else}
     P_LineOpeningTM(ld, true);
 
   // adjust floor / ceiling heights

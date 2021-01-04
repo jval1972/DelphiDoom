@@ -553,7 +553,11 @@ begin
         // after hitting the ground (hard),
         // and utter appropriate sound.
         player.deltaviewheight := _SHR(mo.momz, 3);
-        S_StartSound(mo, Ord(sfx_oof));
+        if leveltime > player.nextoof then
+        begin
+          S_StartSound(mo, Ord(sfx_oof));
+          player.nextoof := leveltime + 4 * TICRATE;
+        end;
       end;
       mo.momz := 0;
     end;

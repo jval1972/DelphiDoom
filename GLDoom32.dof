@@ -100,7 +100,7 @@ Conditionals=OPENGL;DOOM;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 640x400 F:\DelphiDoom_2.0.5.727\Examples\EXAMPLE_17_DYNAMIC_SLOPES.wad
+RunParams=-nofullscreen -geom 640x400 green_mountains.wad
 HostApplication=
 Launcher=
 UseLauncher=0

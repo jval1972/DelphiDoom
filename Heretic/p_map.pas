@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -427,9 +427,9 @@ begin
   end;
 
   // set openrange, opentop, openbottom
-  if G_PlayingEngineVersion >= VERSION205 then
+{  if G_PlayingEngineVersion >= VERSION205 then
     P_LineOpeningTM206(ld, true)
-  else
+  else}
     P_LineOpeningTM(ld, true);
 
   // adjust floor / ceiling heights

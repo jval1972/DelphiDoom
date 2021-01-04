@@ -568,7 +568,11 @@ begin
         // damaging falls (moved outside the above if).
         Pplayer_t(mo.player).centerview := true;
 
-        S_StartSound(mo, Ord(sfx_oof));
+        if leveltime > player.nextoof then
+        begin
+          S_StartSound(mo, Ord(sfx_oof));
+          player.nextoof := leveltime + 4 * TICRATE;
+        end;
       end;
       mo.momz := 0;
     end;

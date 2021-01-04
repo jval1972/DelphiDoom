@@ -152,10 +152,10 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer115(pp: Pplayer_t): boolean;
+function P_UnArchiveOldPlayer205(pp: Pplayer_t): boolean;
 var
-  p1: player_t115;
-  p: Pplayer_t115;
+  p1: player_t205;
+  p: Pplayer_t205;
 begin
   p := @p1;
   if savegameversion <= VERSION110 then
@@ -170,6 +170,9 @@ begin
     p.oldviewz := p.viewz;
     p.teleporttics := 0;
     p.quaketics := 0;
+    pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
+    pp.cmd.lookupdown16 := (pp.cmd.lookfly and 15) * 256;
     result := true;
   end
   else if savegameversion <= VERSION114 then
@@ -182,12 +185,24 @@ begin
     p.oldviewz := p.viewz;
     p.teleporttics := 0;
     p.quaketics := 0;
+    pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
+    pp.cmd.lookupdown16 := (pp.cmd.lookfly and 15) * 256;
     result := true;
   end
   else if savegameversion <= VERSION115 then
   begin
     memcpy(pointer(p), save_p, SizeOf(player_t115));
     incp(pointer(save_p), SizeOf(player_t115));
+    pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
+    pp.cmd.lookupdown16 := (pp.cmd.lookfly and 15) * 256;
+    result := true;
+  end
+  else if savegameversion <= VERSION205 then
+  begin
+    memcpy(pointer(p), save_p, SizeOf(player_t205));
+    incp(pointer(save_p), SizeOf(player_t205));
     result := true;
   end
   else
@@ -196,10 +211,8 @@ begin
     exit;
   end;
 
-  memcpy(pointer(pp), pointer(p), SizeOf(player_t115));
-  pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
-  Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
-  pp.cmd.lookupdown16 := (pp.cmd.lookfly and 15) * 256;
+  memcpy(pointer(pp), pointer(p), SizeOf(player_t205));
+  pp.nextoof := 0;
 end;
 
 
@@ -220,7 +233,7 @@ begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
     end
-    else if not P_UnArchiveOldPlayer115(@players[i]) then
+    else if not P_UnArchiveOldPlayer205(@players[i]) then
       I_Error('P_UnArchivePlayers(): Unsupported saved game version: %d', [savegameversion]);
 
     // will be set when unarc thinker

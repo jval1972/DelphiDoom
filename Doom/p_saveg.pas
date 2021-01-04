@@ -153,10 +153,10 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer122(pp: Pplayer_t): boolean;
+function P_UnArchiveOldPlayer205(pp: Pplayer_t): boolean;
 var
-  p1: player_t122;
-  p: Pplayer_t122;
+  p1: player_t205;
+  p: Pplayer_t205;
 begin
   p := @p1;
   if savegameversion <= VERSION114 then
@@ -178,6 +178,9 @@ begin
     p.oldviewz := p.viewz;
     p.teleporttics := 0;
     p.quaketics := 0;
+    p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@p.cmd)^ := p.cmd202;
+    p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
     result := true;
   end
   else if savegameversion <= VERSION118 then
@@ -197,6 +200,9 @@ begin
     p.oldviewz := p.viewz;
     p.teleporttics := 0;
     p.quaketics := 0;
+    p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@p.cmd)^ := p.cmd202;
+    p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
     result := true;
   end
   else if savegameversion <= VERSION121 then
@@ -209,12 +215,24 @@ begin
     p.oldviewz := p.viewz;
     p.teleporttics := 0;
     p.quaketics := 0;
+    p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@p.cmd)^ := p.cmd202;
+    p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
     result := true;
   end
   else if savegameversion <= VERSION122 then
   begin
     memcpy(pointer(p), save_p, SizeOf(player_t122));
     incp(pointer(save_p), SizeOf(player_t122));
+    pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
+    pp.cmd.lookupdown16 := pp.cmd.lookupdown * 256;
+    result := true;
+  end
+  else if savegameversion <= VERSION205 then
+  begin
+    memcpy(pointer(p), save_p, SizeOf(player_t205));
+    incp(pointer(save_p), SizeOf(player_t205));
     result := true;
   end
   else
@@ -223,10 +241,8 @@ begin
     exit;
   end;
 
-  memcpy(pointer(pp), pointer(p), SizeOf(player_t122));
-  pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
-  Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
-  pp.cmd.lookupdown16 := pp.cmd.lookupdown * 256;
+  memcpy(pointer(pp), pointer(p), SizeOf(player_t205));
+  pp.nextoof := 0;  // JVAL: version 206
 end;
 
 procedure P_UnArchivePlayers;
@@ -241,12 +257,12 @@ begin
 
     PADSAVEP;
 
-    if savegameversion >= VERSION203 then
+    if savegameversion >= VERSION206 then
     begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
     end
-    else if not P_UnArchiveOldPlayer122(@players[i]) then
+    else if not P_UnArchiveOldPlayer205(@players[i]) then
       I_Error('P_UnArchivePlayers(): Unsupported saved game version: %d', [savegameversion]);
 
     // will be set when unarc thinker

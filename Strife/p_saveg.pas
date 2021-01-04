@@ -167,6 +167,7 @@ var
   i: integer;
   j: integer;
   p203: Pplayer_t203;
+  p205: Pplayer_t205;
 begin
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -175,11 +176,119 @@ begin
 
     PADSAVEP;
 
-    if savegameversion >= VERSION204 then
+    if savegameversion >= VERSION206 then
     begin
       if userload then
         memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
+    end
+    else if savegameversion >= VERSION204 then
+    begin
+      if userload then
+      begin
+        p205 := Pplayer_t205(save_p);
+
+        players[i].mo := p205.mo;
+        players[i].playerstate := p205.playerstate;
+        players[i].cmd202.forwardmove := p205.cmd202.forwardmove;
+        players[i].cmd202.sidemove := p205.cmd202.sidemove;
+        players[i].cmd202.angleturn := p205.cmd202.angleturn;
+        players[i].cmd202.consistancy := p205.cmd202.consistancy;
+        players[i].cmd202.chatchar := p205.cmd202.chatchar;
+        players[i].cmd202.buttons := p205.cmd202.buttons;
+        players[i].cmd202.buttons2 := p205.cmd202.buttons2;
+        players[i].cmd202.inventory := p205.cmd202.inventory;
+        players[i].cmd202.commands := p205.cmd202.commands;
+        players[i].cmd202.lookupdown := p205.cmd202.lookupdown;
+        players[i].cmd202.lookleftright := p205.cmd202.lookleftright;
+        players[i].cmd202.jump := p205.cmd202.jump;
+        players[i].viewz := p205.viewz;
+        players[i].viewheight := p205.viewheight;
+        players[i].deltaviewheight := p205.deltaviewheight;
+        players[i].bob := p205.bob;
+        players[i].lookdir := p205.lookdir;
+        players[i].centering := p205.centering;
+        players[i].lookdir2 := p205.lookdir2;
+        players[i].oldlook2 := p205.oldlook2;
+        players[i].forwarding := p205.forwarding;
+        players[i].oldjump := p205.oldjump;
+        players[i].health := p205.health;
+        players[i].armorpoints := p205.armorpoints;
+        players[i].armortype := p205.armortype;
+        for j := 0 to Ord(NUMPOWERS) - 1 do
+          players[i].powers[j] := p205.powers[j];
+        players[i].sigiltype := p205.sigiltype;
+        players[i].nukagecount := p205.nukagecount;
+        players[i].questflags := p205.questflags;
+        players[i].centerview := p205.centerview;
+        players[i].inventory := p205.inventory;
+        players[i].st_update := p205.st_update;
+        players[i].numinventory := p205.numinventory;
+        players[i].inventorycursor := p205.inventorycursor;
+        players[i].accuracy := p205.accuracy;
+        players[i].stamina := p205.stamina;
+        for j := 0 to Ord(NUMCARDS) - 1 do
+          players[i].cards[j] := p205.cards[j];
+        players[i].backpack := p205.backpack;
+        for j := 0 to MAXPLAYERS - 1 do
+          players[i].frags[j] := p205.frags[j];
+        players[i].readyweapon := p205.readyweapon;
+        players[i].pendingweapon := p205.pendingweapon;
+        for j := 0 to Ord(NUMWEAPONS) - 1 do
+          players[i].weaponowned[j] := p205.weaponowned[j];
+        for j := 0 to Ord(NUMAMMO) - 1 do
+        begin
+          players[i].ammo[j] := p205.ammo[j];
+          players[i].maxammo[j] := p205.maxammo[j];
+        end;
+        players[i].attackdown := p205.attackdown;
+        players[i].usedown := p205.usedown;
+        players[i].inventorydown := p205.inventorydown;
+        players[i].cheats := p205.cheats;
+        players[i].refire := p205.refire;
+        players[i].killcount := p205.killcount;
+        players[i]._message := p205._message;
+        players[i].damagecount := p205.damagecount;
+        players[i].bonuscount := p205.bonuscount;
+        players[i].attacker := p205.attacker;
+        players[i].extralight := p205.extralight;
+        players[i].fixedcolormap := p205.fixedcolormap;
+        players[i].colormap := p205.colormap;
+        for j := 0 to Ord(NUMPSPRITES) - 1 do
+          players[i].psprites[j] := p205.psprites[j];
+        players[i].attackerx := p205.attackerx;
+        players[i].attackery := p205.attackery;
+        players[i].lastbreath := p205.lastbreath;
+        players[i].hardbreathtics := p205.hardbreathtics;
+        players[i].angletargetx := p205.angletargetx;
+        players[i].angletargety := p205.angletargety;
+        players[i].angletargetticks := p205.angletargetticks;
+        players[i].allegiance := p205.allegiance;
+        for j := 0 to 39 do
+          players[i].mapstate[j] := p205.mapstate[j];
+        players[i].laddertics := p205.laddertics;
+        players[i].viewbob := p205.viewbob;
+        players[i].slopetics := p205.slopetics;
+        players[i].oldviewz := p205.oldviewz;
+        players[i].teleporttics := p205.teleporttics;
+        players[i].quaketics := p205.quaketics;
+        players[i].lookdir16 := p205.lookdir16;
+        players[i].cmd.forwardmove := p205.cmd.forwardmove;
+        players[i].cmd.sidemove := p205.cmd.sidemove;
+        players[i].cmd.angleturn := p205.cmd.angleturn;
+        players[i].cmd.consistancy := p205.cmd.consistancy;
+        players[i].cmd.chatchar := p205.cmd.chatchar;
+        players[i].cmd.buttons := p205.cmd.buttons;
+        players[i].cmd.buttons2 := p205.cmd.buttons2;
+        players[i].cmd.inventory := p205.cmd.inventory;
+        players[i].cmd.commands := p205.cmd.commands;
+        players[i].cmd.lookupdown := p205.cmd.lookupdown;
+        players[i].cmd.lookleftright := p205.cmd.lookleftright;
+        players[i].cmd.jump := p205.cmd.jump;
+        players[i].cmd.lookupdown16 := p205.cmd.lookupdown16;
+        players[i].nextoof := 0;
+      end;
+      incp(pointer(save_p), SizeOf(player_t205));
     end
     else if savegameversion = VERSION203 then
     begin
@@ -285,6 +394,7 @@ begin
         players[i].cmd.lookleftright := p203.cmd.lookleftright;
         players[i].cmd.jump := p203.cmd.jump;
         players[i].cmd.lookupdown16 := p203.cmd.lookupdown16;
+        players[i].nextoof := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t203));
     end
@@ -302,6 +412,7 @@ begin
         players[i].lookdir16 := players[i].lookdir * 16;
         Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
         players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
+        players[i].nextoof := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t122));
     end
@@ -319,6 +430,7 @@ begin
         players[i].lookdir16 := players[i].lookdir * 16;
         Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
         players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
+        players[i].nextoof := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
     end
