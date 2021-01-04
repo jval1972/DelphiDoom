@@ -2731,13 +2731,21 @@ begin
   // calculate texture offsets
   {$IFDEF DOOM_OR_STRIFE}
   flat.hasoffset := (sector.ceiling_xoffs <> 0) or (sector.ceiling_yoffs <> 0);
-  flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
-  flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
+  if flat.hasoffset then
+  begin
+    flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
+    flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
+  end
+  else
+  begin
+    flat.uoffs := 0.0;
+    flat.voffs := 0.0;
+  end;
   {$ENDIF}
   {$IFDEF HEXEN}
   flat.hasoffset := false;
-  flat.uoffs := 0;
-  flat.voffs := 0;
+  flat.uoffs := 0.0;
+  flat.voffs := 0.0;
   {$ENDIF}
   flat.ripple := ripple;
 
@@ -2807,13 +2815,21 @@ begin
   // calculate texture offsets
   {$IFDEF DOOM_OR_STRIFE}
   flat.hasoffset := (sector.ceiling_xoffs <> 0) or (sector.ceiling_yoffs <> 0);
-  flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
-  flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
+  if flat.hasoffset then
+  begin
+    flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
+    flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
+  end
+  else
+  begin
+    flat.uoffs := 0.0;
+    flat.voffs := 0.0;
+  end;
   {$ENDIF}
   {$IFDEF HEXEN}
   flat.hasoffset := false;
-  flat.uoffs := 0;
-  flat.voffs := 0;
+  flat.uoffs := 0.0;
+  flat.voffs := 0.0;
   {$ENDIF}
   flat.ripple := ripple;
 
@@ -3598,13 +3614,29 @@ begin
     // calculate texture offsets
     {$IFDEF DOOM_OR_STRIFE}
     flat.hasoffset := (sector.ceiling_xoffs <> 0) or (sector.ceiling_yoffs <> 0);
-    flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
-    flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
+    if flat.hasoffset then
+    begin
+      flat.uoffs := sector.ceiling_xoffs / FLATUVSCALE;
+      flat.voffs := sector.ceiling_yoffs / FLATUVSCALE;
+    end
+    else
+    begin
+      flat.uoffs := 0.0;
+      flat.voffs := 0.0;
+    end;
     {$ENDIF}
     {$IFDEF HEXEN}
     flat.hasoffset := (plane.xoffs <> 0) or (plane.yoffs <> 0);
-    flat.uoffs := plane.xoffs / FLATUVSCALE;
-    flat.voffs := plane.yoffs / FLATUVSCALE;
+    if flat.hasoffset then
+    begin
+      flat.uoffs := plane.xoffs / FLATUVSCALE;
+      flat.voffs := plane.yoffs / FLATUVSCALE;
+    end
+    else
+    begin
+      flat.uoffs := 0.0;
+      flat.voffs := 0.0;
+    end;
     {$ENDIF}
     flat.ripple := plane.renderflags and SRF_RIPPLE_CEILING <> 0;
 
@@ -3644,13 +3676,29 @@ begin
     // calculate texture offsets
     {$IFDEF DOOM_OR_STRIFE}
     flat.hasoffset := (sector.floor_xoffs <> 0) or (sector.floor_yoffs <> 0);
-    flat.uoffs := sector.floor_xoffs / FLATUVSCALE;
-    flat.voffs := sector.floor_yoffs / FLATUVSCALE;
+    if flat.hasoffset then
+    begin
+      flat.uoffs := sector.floor_xoffs / FLATUVSCALE;
+      flat.voffs := sector.floor_yoffs / FLATUVSCALE;
+    end
+    else
+    begin
+      flat.uoffs := 0.0;
+      flat.voffs := 0.0;
+    end;
     {$ENDIF}
     {$IFDEF HEXEN}
     flat.hasoffset := (plane.xoffs <> 0) or (plane.yoffs <> 0);
-    flat.uoffs := plane.xoffs / FLATUVSCALE;
-    flat.voffs := plane.yoffs / FLATUVSCALE;
+    if flat.hasoffset then
+    begin
+      flat.uoffs := plane.xoffs / FLATUVSCALE;
+      flat.voffs := plane.yoffs / FLATUVSCALE;
+    end
+    else
+    begin
+      flat.uoffs := 0.0;
+      flat.voffs := 0.0;
+    end;
     {$ENDIF}
     flat.ripple := plane.renderflags and SRF_RIPPLE_FLOOR <> 0;
 
