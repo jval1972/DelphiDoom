@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -85,6 +85,7 @@ type
     angle: float;
     anglex, angley: float;
     r, g, b: float;
+    sec: Psector_t;
   end;
   Pglamrenderitem_t = ^glamrenderitem_t;
   glamrenderitem_tArray = array[0..$FFF] of glamrenderitem_t;
@@ -207,6 +208,7 @@ begin
 
   l.lump := lump;
   l.flat := sec.floorpic;
+  l.sec := sec;
 
   l.hasangle := sec.floorangle <> 0;
   if l.hasangle then
@@ -255,6 +257,9 @@ end;
 procedure gld_DrawAMTriangle(const l: Pglamrenderitem_t);
 var
   tex: PGLTexture;
+{$IFDEF DOOM_OR_STRIFE}
+  xoffs, yoffs: float;
+{$ENDIF}
 begin
   glEnable(GL_TEXTURE_2D);
 
@@ -262,6 +267,17 @@ begin
 
   tex := gld_RegisterFlat(l.lump, true, l.flat);
   gld_BindFlat(tex);
+
+{$IFDEF DOOM_OR_STRIFE}
+  xoffs := l.sec.floor_xoffs * tex.texturescale / FLATUVSCALE;
+  yoffs := l.sec.floor_yoffs * tex.texturescale / FLATUVSCALE;
+  if (l.sec.floor_xoffs <> 0) or (l.sec.floor_yoffs <> 0) then
+  begin
+    glMatrixMode(GL_TEXTURE);
+    glPushMatrix;
+    glTranslatef(xoffs, yoffs, 0.0);
+  end;
+{$ENDIF}
 
   if l.hasangle then
   begin
@@ -293,6 +309,15 @@ begin
     glPopMatrix;
     glMatrixMode(GL_MODELVIEW);
   end;
+
+{$IFDEF DOOM_OR_STRIFE}
+  if (l.sec.floor_xoffs <> 0) or (l.sec.floor_yoffs <> 0) then
+  begin
+    glMatrixMode(GL_TEXTURE);
+    glPopMatrix;
+    glMatrixMode(GL_MODELVIEW);
+  end;
+{$ENDIF}
 
   glDisable(GL_TEXTURE_2D);
 end;

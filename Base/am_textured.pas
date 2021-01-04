@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -294,6 +294,12 @@ var
             AM_DecodeAngleUV(du, dv, flat_width - 1, fangx, fangy, fangsin, fangcos)
           else
             AM_DecodeUV(du, dv, flat_width - 1);
+          {$IFDEF DOOM_OR_STRIFE}
+          if sec.floor_xoffs <> 0 then
+            du := (du + (sec.floor_xoffs div FRACUNIT)) and (flat_width - 1);
+          if sec.floor_yoffs <> 0 then
+            dv := (dv + (sec.floor_yoffs div FRACUNIT)) and (flat_width - 1);
+          {$ENDIF}
           drawsegfunc(i, j, data[du + dv * flat_width], amcolormap);
           yy := yy - scale_ftom;
         end;
@@ -365,6 +371,12 @@ var
             AM_DecodeAngleUV(du, dv, flat_width - 1, fangx, fangy, fangsin, fangcos)
           else
             AM_DecodeUV(du, dv, flat_width - 1);
+          {$IFDEF DOOM_OR_STRIFE}
+          if sec.floor_xoffs <> 0 then
+            du := (du + (sec.floor_xoffs div FRACUNIT)) and (flat_width - 1);
+          if sec.floor_yoffs <> 0 then
+            dv := (dv + (sec.floor_yoffs div FRACUNIT)) and (flat_width - 1);
+          {$ENDIF}
           drawsegfunc(i, j, data[du + dv * flat_width], amcolormap);
           yy := yy - scale_ftom;
         end;
