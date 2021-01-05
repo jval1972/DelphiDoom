@@ -725,6 +725,7 @@ begin
                 end;
               end;
            8: Info_AddStateOwner(@states[state_no], Info_GetMobjNumForName(token2));
+           9: states[state_no].tics2 := state_val;
         end;
       end;
     end
