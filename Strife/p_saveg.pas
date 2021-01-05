@@ -936,7 +936,12 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION205 then
+          if savegameversion >= VERSION206 then
+          begin
+            memcpy(mobj, save_p, SizeOf(mobj_t));
+            incp(pointer(save_p), SizeOf(mobj_t));
+          end
+          else if savegameversion >= VERSION205 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
