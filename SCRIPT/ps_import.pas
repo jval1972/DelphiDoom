@@ -225,6 +225,16 @@ begin
   baseproclist.Add('procedure SetActorScale(const key: LongWord; const value: integer);', @PS_SetActorScale);
   baseproclist.Add('function GetActorGravity(const key: LongWord): integer;', @PS_GetActorGravity);
   baseproclist.Add('procedure SetActorGravity(const key: LongWord; const value: integer);', @PS_SetActorGravity);
+  baseproclist.Add('function GetActorArg1(const key: LongWord): integer;', @PS_GetActorArg1);
+  baseproclist.Add('procedure SetActorArg1(const key: LongWord; const value: integer);', @PS_SetActorArg1);
+  baseproclist.Add('function GetActorArg2(const key: LongWord): integer;', @PS_GetActorArg2);
+  baseproclist.Add('procedure SetActorArg2(const key: LongWord; const value: integer);', @PS_SetActorArg2);
+  baseproclist.Add('function GetActorArg3(const key: LongWord): integer;', @PS_GetActorArg3);
+  baseproclist.Add('procedure SetActorArg3(const key: LongWord; const value: integer);', @PS_SetActorArg3);
+  baseproclist.Add('function GetActorArg4(const key: LongWord): integer;', @PS_GetActorArg4);
+  baseproclist.Add('procedure SetActorArg4(const key: LongWord; const value: integer);', @PS_SetActorArg4);
+  baseproclist.Add('function GetActorArg5(const key: LongWord): integer;', @PS_GetActorArg5);
+  baseproclist.Add('procedure SetActorArg5(const key: LongWord; const value: integer);', @PS_SetActorArg5);
   baseproclist.Add('function GetActorCustomParam(const key: LongWord; const parm: string): integer;', @PS_GetActorCustomParam);
   baseproclist.Add('procedure SetActorCustomParam(const key: LongWord; const parm: string; const value: integer);', @PS_SetActorCustomParam);
   baseproclist.Add('function CheckActorFlag(const key: LongWord; const flag: LongWord): boolean;', @PS_CheckActorFlag);

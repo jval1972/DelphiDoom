@@ -121,6 +121,21 @@ procedure PS_SetActorPushFactor(const key: LongWord; const value: Integer);
 function PS_GetActorGravity(const key: LongWord): Integer;
 procedure PS_SetActorGravity(const key: LongWord; const value: Integer);
 
+function PS_GetActorArg1(const key: LongWord): Integer;
+procedure PS_SetActorArg1(const key: LongWord; const value: Integer);
+
+function PS_GetActorArg2(const key: LongWord): Integer;
+procedure PS_SetActorArg2(const key: LongWord; const value: Integer);
+
+function PS_GetActorArg3(const key: LongWord): Integer;
+procedure PS_SetActorArg3(const key: LongWord; const value: Integer);
+
+function PS_GetActorArg4(const key: LongWord): Integer;
+procedure PS_SetActorArg4(const key: LongWord; const value: Integer);
+
+function PS_GetActorArg5(const key: LongWord): Integer;
+procedure PS_SetActorArg5(const key: LongWord; const value: Integer);
+
 function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
@@ -1618,6 +1633,79 @@ begin
   mo.gravity := value;
 end;
 
+function _GetActorArg(const idx: integer; const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.args[idx];
+end;
+
+procedure _SetActorArg(const idx: integer; const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.args[idx] := value;
+end;
+
+function PS_GetActorArg1(const key: LongWord): Integer;
+begin
+  Result := _GetActorArg(0, key);
+end;
+
+procedure PS_SetActorArg1(const key: LongWord; const value: Integer);
+begin
+  _SetActorArg(0, key, value);
+end;
+
+function PS_GetActorArg2(const key: LongWord): Integer;
+begin
+  Result := _GetActorArg(1, key);
+end;
+
+procedure PS_SetActorArg2(const key: LongWord; const value: Integer);
+begin
+  _SetActorArg(1, key, value);
+end;
+
+function PS_GetActorArg3(const key: LongWord): Integer;
+begin
+  Result := _GetActorArg(2, key);
+end;
+
+procedure PS_SetActorArg3(const key: LongWord; const value: Integer);
+begin
+  _SetActorArg(2, key, value);
+end;
+
+function PS_GetActorArg4(const key: LongWord): Integer;
+begin
+  Result := _GetActorArg(3, key);
+end;
+
+procedure PS_SetActorArg4(const key: LongWord; const value: Integer);
+begin
+  _SetActorArg(3, key, value);
+end;
+
+function PS_GetActorArg5(const key: LongWord): Integer;
+begin
+  Result := _GetActorArg(4, key);
+end;
+
+procedure PS_SetActorArg5(const key: LongWord; const value: Integer);
+begin
+  _SetActorArg(4, key, value);
+end;
+
 function PS_GetActorName(const key: LongWord): string;
 var
   mo: Pmobj_t;
@@ -2800,6 +2888,56 @@ end;
 procedure TRTLActorGravity_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorGravity(LongWord(Self));
+end;
+
+procedure TRTLActorArg1_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorArg1(LongWord(Self), T);
+end;
+
+procedure TRTLActorArg1_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorArg1(LongWord(Self));
+end;
+
+procedure TRTLActorArg2_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorArg2(LongWord(Self), T);
+end;
+
+procedure TRTLActorArg2_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorArg2(LongWord(Self));
+end;
+
+procedure TRTLActorArg3_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorArg3(LongWord(Self), T);
+end;
+
+procedure TRTLActorArg3_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorArg3(LongWord(Self));
+end;
+
+procedure TRTLActorArg4_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorArg4(LongWord(Self), T);
+end;
+
+procedure TRTLActorArg4_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorArg4(LongWord(Self));
+end;
+
+procedure TRTLActorArg5_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorArg5(LongWord(Self), T);
+end;
+
+procedure TRTLActorArg5_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorArg5(LongWord(Self));
 end;
 
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
@@ -6195,6 +6333,12 @@ begin
   cactor.RegisterProperty('Health', 'Integer', iptRW);
   cactor.RegisterProperty('SpawnHealth', 'Integer', iptR);
   cactor.RegisterProperty('Mass', 'Integer', iptRW);
+  cactor.RegisterProperty('Gravity', 'fixed_t', iptRW);
+  cactor.RegisterProperty('Arg1', 'Integer', iptRW);
+  cactor.RegisterProperty('Arg2', 'Integer', iptRW);
+  cactor.RegisterProperty('Arg3', 'Integer', iptRW);
+  cactor.RegisterProperty('Arg4', 'Integer', iptRW);
+  cactor.RegisterProperty('Arg5', 'Integer', iptRW);
   cactor.RegisterProperty('Height', 'fixed_t', iptRW);
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
@@ -6428,6 +6572,11 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorPushFactor_R, @TRTLActorPushFactor_W, 'PushFactor');
   ractor.RegisterPropertyHelper(@TRTLActorScale_R, @TRTLActorScale_W, 'Scale');
   ractor.RegisterPropertyHelper(@TRTLActorGravity_R, @TRTLActorGravity_W, 'Gravity');
+  ractor.RegisterPropertyHelper(@TRTLActorArg1_R, @TRTLActorArg1_W, 'Arg1');
+  ractor.RegisterPropertyHelper(@TRTLActorArg2_R, @TRTLActorArg2_W, 'Arg2');
+  ractor.RegisterPropertyHelper(@TRTLActorArg3_R, @TRTLActorArg3_W, 'Arg3');
+  ractor.RegisterPropertyHelper(@TRTLActorArg4_R, @TRTLActorArg4_W, 'Arg4');
+  ractor.RegisterPropertyHelper(@TRTLActorArg5_R, @TRTLActorArg5_W, 'Arg5');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');
