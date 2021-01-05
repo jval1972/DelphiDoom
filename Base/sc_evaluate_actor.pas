@@ -95,6 +95,7 @@ type
     function PF_pushfactor(p: TDStrings): string;
     function PF_scale(p: TDStrings): string;
     function PF_mass(p: TDStrings): string;
+    function PF_special(p: TDStrings): string;
     function PF_arg1(p: TDStrings): string;
     function PF_arg2(p: TDStrings): string;
     function PF_arg3(p: TDStrings): string;
@@ -175,6 +176,7 @@ begin
   AddFunc('PUSHFACTOR', PF_pushfactor, 0);
   AddFunc('SCALE', PF_scale, 0);
   AddFunc('MASS', PF_mass, 0);
+  AddFunc('SPECIAL', PF_special, 0);
   AddFunc('ARG1', PF_arg1, 0);
   AddFunc('ARG2', PF_arg2, 0);
   AddFunc('ARG3', PF_arg3, 0);
@@ -426,6 +428,11 @@ end;
 function TActorEvaluator.PF_mass(p: TDStrings): string;
 begin
   result := itoa(factor.mass);
+end;
+
+function TActorEvaluator.PF_special(p: TDStrings): string;
+begin
+  result := itoa(factor.special);
 end;
 
 function TActorEvaluator.PF_arg1(p: TDStrings): string;
