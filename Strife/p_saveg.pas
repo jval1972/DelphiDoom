@@ -1002,6 +1002,10 @@ begin
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
 
+          mobj.validcount := 0;
+          mobj.lightvalidcount := 0;
+          mobj.rendervalidcount := 0;
+            
           if mobj.key < 2 then
             mobj.key := P_GenGlobalMobjKey;
           P_NotifyMobjKey(mobj);

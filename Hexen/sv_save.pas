@@ -465,6 +465,9 @@ end;
 procedure RestoreMobj(mobj: Pmobj_t);
 begin
   mobj.state := @states[integer(mobj.state)];
+  mobj.validcount := 0;
+  mobj.lightvalidcount := 0;
+  mobj.rendervalidcount := 0;
   if mobj.player <> nil then
   begin
     mobj.player := @players[integer(mobj.player) - 1];
