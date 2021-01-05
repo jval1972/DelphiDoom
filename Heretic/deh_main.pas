@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 292;
+  DEHNUMACTIONS = 294;
 
 type
   deh_action_t = record
@@ -2808,6 +2808,12 @@ begin
   deh_actions[291].action.acp1 := @A_ChangeFlag;
   deh_actions[291].name := strupper('ChangeFlag');
   {$IFDEF DLL}deh_actions[291].decl := 'A_ChangeFlag(flag: string, onoff: boolean)';{$ENDIF}
+  deh_actions[292].action.acp1 := @A_CheckFloor;
+  deh_actions[292].name := strupper('CheckFloor');
+  {$IFDEF DLL}deh_actions[292].decl := 'A_CheckFloor(offset: integer)';{$ENDIF}
+  deh_actions[293].action.acp1 := @A_CheckCeiling;
+  deh_actions[293].name := strupper('CheckCeiling');
+  {$IFDEF DLL}deh_actions[293].decl := 'A_CheckCeiling(offset: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

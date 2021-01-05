@@ -323,6 +323,10 @@ procedure A_TraceNearestPlayer(actor: Pmobj_t);
 
 procedure A_ChangeFlag(actor: Pmobj_t);
 
+procedure A_CheckFloor(actor: Pmobj_t);
+
+procedure A_CheckCeiling(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3485,6 +3489,36 @@ begin
     exit;
   end;
 
+end;
+
+procedure A_CheckFloor(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.z <= actor.floorz then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+procedure A_CheckCeiling(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.z >= actor.ceilingz then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
 end;
 
 end.

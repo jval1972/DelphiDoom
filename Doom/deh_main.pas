@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 261;
+  DEHNUMACTIONS = 263;
 
 type
   deh_action_t = record
@@ -2680,6 +2680,12 @@ begin
   deh_actions[260].action.acp1 := @A_ChangeFlag;
   deh_actions[260].name := strupper('ChangeFlag');
   {$IFDEF DLL}deh_actions[260].decl := 'A_ChangeFlag(flag: string, onoff: boolean)';{$ENDIF}
+  deh_actions[261].action.acp1 := @A_CheckFloor;
+  deh_actions[261].name := strupper('CheckFloor');
+  {$IFDEF DLL}deh_actions[261].decl := 'A_CheckFloor(offset: integer)';{$ENDIF}
+  deh_actions[262].action.acp1 := @A_CheckCeiling;
+  deh_actions[262].name := strupper('CheckCeiling');
+  {$IFDEF DLL}deh_actions[262].decl := 'A_CheckCeiling(offset: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
