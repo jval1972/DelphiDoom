@@ -953,7 +953,7 @@ begin
   begin
     ang := R_PointToAngle2(inflictor.x, inflictor.y, target.x, target.y);
 
-    mass := target.info.mass;
+    mass := target.mass;
     if mass = 0 then
     begin
       I_DevWarning('P_DamageMobj(): Target (%s) mass is zero'#13#10, [target.info.name]);

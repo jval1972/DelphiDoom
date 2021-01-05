@@ -800,6 +800,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
 
     Z_Free(mobj113);
     result := true
@@ -874,6 +875,13 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     Z_Free(mobj114);
     result := true
@@ -948,6 +956,13 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     Z_Free(mobj115);
     result := true
@@ -1000,9 +1015,6 @@ begin
     mobj.customparams := nil;
     mobj.floorclip := 0;
 
-    mobj.target := nil;
-    mobj.tracer := nil;
-
     mobj.prevx := mobj.x;
     mobj.prevy := mobj.y;
     mobj.prevz := mobj.z;
@@ -1025,6 +1037,13 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     Z_Free(mobj117);
     result := true
@@ -1099,6 +1118,13 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     Z_Free(mobj118);
     result := true;
@@ -1130,6 +1156,13 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     result := true;
   end
@@ -1146,6 +1179,16 @@ begin
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     result := true;
   end
@@ -1164,6 +1207,13 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     result := true;
   end
@@ -1173,6 +1223,13 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
 
     result := true;
   end

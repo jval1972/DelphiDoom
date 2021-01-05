@@ -1689,7 +1689,7 @@ begin
 
   S_StartSound(actor, Ord(sfx_barexp));
   P_DamageMobj(actor.target, actor, actor, 20);
-  actor.target.momz := 1000 * FRACUNIT div actor.target.info.mass;
+  actor.target.momz := 1000 * FRACUNIT div actor.target.mass;
 
   {$IFDEF FPC}
   an := _SHRW(actor.angle, ANGLETOFINESHIFT);
