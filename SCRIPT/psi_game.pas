@@ -96,6 +96,7 @@ procedure PS_SetActorHealth(const key: LongWord; const h: Integer);
 function PS_GetActorSpawnHealth(const key: LongWord): Integer;
 
 function PS_GetActorMass(const key: LongWord): Integer;
+procedure PS_SetActorMass(const key: LongWord; const m: Integer);
 
 function PS_GetActorHeight(const key: LongWord): Integer;
 procedure PS_SetActorHeight(const key: LongWord; const h: Integer);
@@ -1288,6 +1289,16 @@ begin
     Exit;
   end;
   Result := mo.mass;
+end;
+
+procedure PS_SetActorMass(const key: LongWord; const m: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.mass := m;
 end;
 
 function PS_GetActorHeight(const key: LongWord): Integer;
@@ -2721,19 +2732,24 @@ begin
   PS_SetActorHeight(LongWord(Self), T);
 end;
 
+procedure TRTLActorHeight_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorHeight(LongWord(Self));
+end;
+
 procedure TRTLActorSpawnHealth_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorSpawnHealth(LongWord(Self));
 end;
 
+procedure TRTLActorMass_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorMass(LongWord(Self), T);
+end;
+
 procedure TRTLActorMass_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorMass(LongWord(Self));
-end;
-
-procedure TRTLActorHeight_R(Self: TRTLActor; var T: Integer);
-begin
-  T := PS_GetActorHeight(LongWord(Self));
 end;
 
 procedure TRTLActorCustomParams_W(Self: TRTLActor; const T: Integer; const t1: string);
@@ -6178,7 +6194,7 @@ begin
   cactor.RegisterProperty('Sector', '!TSector', iptR);
   cactor.RegisterProperty('Health', 'Integer', iptRW);
   cactor.RegisterProperty('SpawnHealth', 'Integer', iptR);
-  cactor.RegisterProperty('Mass', 'Integer', iptR);
+  cactor.RegisterProperty('Mass', 'Integer', iptRW);
   cactor.RegisterProperty('Height', 'fixed_t', iptRW);
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
@@ -6406,7 +6422,7 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorSector_R, nil, 'Sector');
   ractor.RegisterPropertyHelper(@TRTLActorHealth_R, @TRTLActorHealth_W, 'Health');
   ractor.RegisterPropertyHelper(@TRTLActorSpawnHealth_R, nil, 'SpawnHealth');
-  ractor.RegisterPropertyHelper(@TRTLActorMass_R, nil, 'Mass');
+  ractor.RegisterPropertyHelper(@TRTLActorMass_R, @TRTLActorMass_W, 'Mass');
   ractor.RegisterPropertyHelper(@TRTLActorHeight_R, @TRTLActorHeight_W, 'Height');
   ractor.RegisterPropertyHelper(@TRTLActorCustomDropItem_R, @TRTLActorCustomDropItem_W, 'CustomDropItem');
   ractor.RegisterPropertyHelper(@TRTLActorPushFactor_R, @TRTLActorPushFactor_W, 'PushFactor');

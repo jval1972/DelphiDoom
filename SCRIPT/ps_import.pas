@@ -213,6 +213,7 @@ begin
   baseproclist.Add('procedure SetActorHealth(const key: LongWord; const h: integer);', @PS_SetActorHealth);
   baseproclist.Add('function GetActorSpawnHealth(const key: LongWord): integer;', @PS_GetActorSpawnHealth);
   baseproclist.Add('function GetActorMass(const key: LongWord): integer;', @PS_GetActorMass);
+  baseproclist.Add('procedure SetActorMass(const key: LongWord; const m: Integer);', @PS_SetActorMass);
   baseproclist.Add('function GetActorHeight(const key: LongWord): fixed_t;', @PS_GetActorHeight);
   baseproclist.Add('procedure SetActorHeight(const key: LongWord; const h: fixed_t);', @PS_SetActorHeight);
   baseproclist.Add('function GetActorCustomDropItem(const key: LongWord): integer;', @PS_GetActorCustomDropItem);
