@@ -1287,7 +1287,7 @@ begin
     Result := 0;
     Exit;
   end;
-  Result := mo.info.mass;
+  Result := mo.mass;
 end;
 
 function PS_GetActorHeight(const key: LongWord): Integer;
