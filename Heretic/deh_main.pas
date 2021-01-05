@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 295;
+  DEHNUMACTIONS = 297;
 
 type
   deh_action_t = record
@@ -2817,6 +2817,12 @@ begin
   deh_actions[294].action.acp1 := @A_StopSound;
   deh_actions[294].name := strupper('StopSound');
   {$IFDEF DLL}deh_actions[294].decl := 'A_StopSound()';{$ENDIF}
+  deh_actions[295].action.acp1 := @A_JumpIfTargetOutsideMeleeRange;
+  deh_actions[295].name := strupper('JumpIfTargetOutsideMeleeRange');
+  {$IFDEF DLL}deh_actions[295].decl := 'A_JumpIfTargetOutsideMeleeRange(offset: integer)';{$ENDIF}
+  deh_actions[296].action.acp1 := @A_JumpIfTargetInsideMeleeRange;
+  deh_actions[296].name := strupper('JumpIfTargetInsideMeleeRange');
+  {$IFDEF DLL}deh_actions[296].decl := 'A_JumpIfTargetInsideMeleeRange(offset: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

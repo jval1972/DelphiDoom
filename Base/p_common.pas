@@ -329,6 +329,10 @@ procedure A_CheckCeiling(actor: Pmobj_t);
 
 procedure A_StopSound(actor: Pmobj_t);
 
+procedure A_JumpIfTargetOutsideMeleeRange(actor: Pmobj_t);
+
+procedure A_JumpIfTargetInsideMeleeRange(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3526,6 +3530,36 @@ end;
 procedure A_StopSound(actor: Pmobj_t);
 begin
   S_StopSound(actor);
+end;
+
+procedure A_JumpIfTargetOutsideMeleeRange(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if not P_CheckMeleeRange(actor) then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+procedure A_JumpIfTargetInsideMeleeRange(actor: Pmobj_t);
+var
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if P_CheckMeleeRange(actor) then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
 end;
 
 end.
