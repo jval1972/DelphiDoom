@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -842,8 +842,8 @@ begin
   // JVAL: Only if not compatibility mode.
   begin
     P_DamageMobj(player.mo, nil, player.mo, damage);
-    if player.mo.info.mass > 0 then
-      thrust := (damage * (FRACUNIT div 8) * 100) div player.mo.info.mass
+    if player.mo.mass > 0 then
+      thrust := (damage * (FRACUNIT div 8) * 100) div player.mo.mass
     else
       thrust := (damage * (FRACUNIT div 8) * 100) div 500;
     P_Thrust(player, player.mo.angle + ANG180, thrust);

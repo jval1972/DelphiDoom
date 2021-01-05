@@ -945,6 +945,14 @@ begin
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
+
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else if savegameversion >= VERSION122 then
           begin
@@ -958,6 +966,14 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -973,6 +989,14 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -998,6 +1022,14 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
