@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -2110,7 +2110,7 @@ begin
      (inflictor.flags2 and MF2_NODMGTHRUST = 0) then
   begin
     ang := R_PointToAngle2(inflictor.x, inflictor.y, target.x, target.y);
-    mass := target.info.mass;
+    mass := target.mass;
     if (mass = 0) or (G_PlayingEngineVersion < VERSION204) then  // JVAL: 20180218 - VERSION 2.0.4.715 Change from (<> 0) to (= 0)
       thrust := 0
     else

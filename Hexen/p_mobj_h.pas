@@ -524,6 +524,9 @@ type
     flags3_ex: integer;  // JVAL extended flags (MF3_EX_????)
     flags4_ex: integer;  // JVAL extended flags (MF4_EX_????)
     rendervalidcount: integer;
+
+    // version 206
+    mass: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

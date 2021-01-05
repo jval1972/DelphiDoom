@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1453,6 +1453,7 @@ begin
   mobj.renderstyle := info.renderstyle;
   mobj.alpha := info.alpha;
   mobj.health := info.spawnhealth;
+  mobj.mass := info.mass;
   if gameskill <> sk_nightmare then
     mobj.reactiontime := info.reactiontime;
 
@@ -2257,7 +2258,7 @@ begin
 
   smallsplash := false;
   // Small splash for small masses
-  if thing.info.mass < 10 then
+  if thing.mass < 10 then
     smallsplash := true;
 
   case P_GetThingFloorType(thing) of

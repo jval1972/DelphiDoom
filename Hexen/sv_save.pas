@@ -1293,6 +1293,8 @@ begin
       mobj.flags3_ex := 0;
       mobj.flags4_ex := 0;
       mobj.rendervalidcount := 0;
+
+      mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1308,6 +1310,8 @@ begin
       mobj.flags3_ex := 0;
       mobj.flags4_ex := 0;
       mobj.rendervalidcount := 0;
+
+      mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1321,11 +1325,15 @@ begin
       mobj.flags3_ex := 0;
       mobj.flags4_ex := 0;
       mobj.rendervalidcount := 0;
+
+      mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     end
     else if LOADVERSION <= VERSION205 then
     begin
       memcpy(mobj, saveptr, SizeOf(mobj_t205));
       incp(saveptr, SizeOf(mobj_t205));
+
+      mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     end
     else
     begin

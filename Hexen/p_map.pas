@@ -457,7 +457,7 @@ begin
   if ld.backsector = nil then
   begin // One sided line
     if tmthing.flags2 and MF2_BLASTED <> 0 then
-      P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.info.mass, 5));
+      P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
     P_CheckForPushSpecial(ld, 0, tmthing);
     result := false;
     exit;
@@ -468,7 +468,7 @@ begin
     if ld.flags and ML_BLOCKING <> 0 then
     begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
-        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.info.mass, 5));
+        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
       P_CheckForPushSpecial(ld, 0, tmthing);
       result := false;  // explicitly blocking everything
       exit;
@@ -477,7 +477,7 @@ begin
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
-        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.info.mass, 5));
+        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
       result := false;  // block monsters only
       exit;
     end;
@@ -560,7 +560,7 @@ begin
   if ld.backsector = nil then
   begin // One sided line
     if tmthing.flags2 and MF2_BLASTED <> 0 then
-      P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.info.mass, 5));
+      P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
     P_CheckForPushSpecial(ld, 0, tmthing);
     result := false;
     exit;
@@ -571,7 +571,7 @@ begin
     if ld.flags and ML_BLOCKING <> 0 then
     begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
-        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.info.mass, 5));
+        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
       P_CheckForPushSpecial(ld, 0, tmthing);
       result := false;  // explicitly blocking everything
       exit;
@@ -580,7 +580,7 @@ begin
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
-        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.info.mass, 5));
+        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
       result := false;  // block monsters only
       exit;
     end;
@@ -855,9 +855,9 @@ begin
       thing.momy := thing.momy + tmthing.momy;
       if thing.momx + thing.momy > 3 * FRACUNIT then
       begin
-        damage := (tmthing.info.mass div 100) + 1;
+        damage := (tmthing.mass div 100) + 1;
         P_DamageMobj(thing, tmthing, tmthing, damage);
-        damage := (thing.info.mass div 100) + 1;
+        damage := (thing.mass div 100) + 1;
         P_DamageMobj(tmthing, thing, thing, _SHR2(damage));
       end;
       result := false;
@@ -898,7 +898,7 @@ begin
     begin
       if (thing.flags and MF_SHOOTABLE <> 0) and (thing <> tmthing.target) then
       begin
-        if thing.info.mass <> MAXINT then
+        if thing.mass <> MAXINT then
         begin
           thing.momx := thing.momx + _SHR(tmthing.momx, 4);
           thing.momy := thing.momy + _SHR(tmthing.momy, 4);
@@ -1493,7 +1493,7 @@ var
     if thing.flags and (MF_TELEPORT or MF_NOCLIP) = 0 then
     begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
-        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.info.mass, 5));
+        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
       numSpecHitTemp := numspechit;
       while numSpecHitTemp > 0 do
       begin
