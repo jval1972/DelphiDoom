@@ -703,8 +703,16 @@ begin
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t205));
             incp(pointer(save_p), SizeOf(mobj_t205));
+
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else if savegameversion >= VERSION115 then
           begin
@@ -718,8 +726,16 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else if savegameversion = VERSION114 then
           begin
@@ -735,8 +751,16 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
           begin
@@ -764,8 +788,16 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -841,8 +873,16 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+            mobj.args[0] := 0;
+            mobj.args[1] := 0;
+            mobj.args[2] := 0;
+            mobj.args[3] := 0;
+            mobj.args[4] := 0;
+            mobj.special := 0;
 
             Z_Free(mobj111);
           end
