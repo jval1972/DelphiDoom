@@ -695,6 +695,10 @@ begin
       mobj.state := Pstate_t(pDiff(mobj.state, @states[0], SizeOf(state_t)));
       mobj.prevstate := Pstate_t(pDiff(mobj.prevstate, @states[0], SizeOf(state_t)));
 
+      if mobj.tracer <> nil then
+        mobj.tracer := Pmobj_t(mobj.tracer.key);
+      if mobj.target <> nil then
+        mobj.target := Pmobj_t(mobj.target.key);
       if mobj.player <> nil then
         mobj.player := Pplayer_t(pDiff(mobj.player, @players[0], SizeOf(player_t)) + 1);
 
@@ -794,6 +798,9 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    mobj.target := nil;
+    mobj.tracer := nil;
+
     Z_Free(mobj113);
     result := true
   end
@@ -864,6 +871,9 @@ begin
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
 
     Z_Free(mobj114);
     result := true
@@ -936,6 +946,9 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    mobj.target := nil;
+    mobj.tracer := nil;
+
     Z_Free(mobj115);
     result := true
   end
@@ -987,6 +1000,9 @@ begin
     mobj.customparams := nil;
     mobj.floorclip := 0;
 
+    mobj.target := nil;
+    mobj.tracer := nil;
+
     mobj.prevx := mobj.x;
     mobj.prevy := mobj.y;
     mobj.prevz := mobj.z;
@@ -1006,6 +1022,9 @@ begin
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
 
     Z_Free(mobj117);
     result := true
@@ -1078,6 +1097,9 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    mobj.target := nil;
+    mobj.tracer := nil;
+
     Z_Free(mobj118);
     result := true;
   end
@@ -1105,6 +1127,9 @@ begin
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
 
     result := true;
   end
@@ -1136,6 +1161,18 @@ begin
     mobj.flags3_ex := 0;
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
+
+    mobj.target := nil;
+    mobj.tracer := nil;
+
+    result := true;
+  end
+  else if savegameversion = VERSION205 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t205));
+
+    mobj.target := nil;
+    mobj.tracer := nil;
 
     result := true;
   end
@@ -1175,14 +1212,31 @@ begin
     save_p := @save_p[1];
     case tclass of
       Ord(tc_end):
-        exit; // end of list
+        begin
+          // Retrieve target, tracer and master
+          currentthinker := thinkercap.next;
+          while currentthinker <> @thinkercap do
+          begin
+            next := currentthinker.next;
+
+            if @currentthinker._function.acp1 = @P_MobjThinker then
+            begin
+              Pmobj_t(currentthinker).target := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).target));
+              Pmobj_t(currentthinker).tracer := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).tracer));
+            end;
+
+            currentthinker := next;
+          end;
+
+          exit; // end of list
+        end;
 
       Ord(tc_mobj):
         begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION205 then
+          if savegameversion >= VERSION206 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
@@ -1197,8 +1251,6 @@ begin
           mobj.state := @states[integer(mobj.state)];
           mobj.prevstate := @states[integer(mobj.prevstate)];
           mobj.info := @mobjinfo[Ord(mobj._type)];
-          mobj.target := nil;
-          mobj.tracer := nil;
           mobj.touching_sectorlist := nil;
 
           if mobj.customparams <> nil then

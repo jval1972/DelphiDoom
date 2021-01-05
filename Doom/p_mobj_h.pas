@@ -1289,7 +1289,7 @@ type
 
   end;
 
-(* JVAL: 20219194 - Unused for now
+
   Pmobj_t205 = ^mobj_t205;
   mobj_t205 = record
     // List: thinker links.
@@ -1418,7 +1418,6 @@ type
     flags4_ex: integer;  // JVAL extended flags (MF4_EX_????)
     rendervalidcount: integer;
   end;
-*)
 
 var
   spawnrandommonsters: boolean = false;
