@@ -24,6 +24,7 @@ Floor texture offsets are displayed in textured automap.
 Added A_CheckFloor & A_CheckCeiling ACTORDEF functions.
 Added A_StopSound ACTORDEF function.
 Added A_JumpIfTargetOutsideMeleeRange & A_JumpIfTargetInsideMeleeRange ACTORDEF functions.
+Added A_JumpIfTracerCloser ACTORDEF function.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

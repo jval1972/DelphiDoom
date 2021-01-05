@@ -333,6 +333,8 @@ procedure A_JumpIfTargetOutsideMeleeRange(actor: Pmobj_t);
 
 procedure A_JumpIfTargetInsideMeleeRange(actor: Pmobj_t);
 
+procedure A_JumpIfTracerCloser(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3557,6 +3559,30 @@ begin
   if P_CheckMeleeRange(actor) then
   begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// A_JumpIfTracerCloser(distancetotarget: float, offset: integer)
+//
+procedure A_JumpIfTracerCloser(actor: Pmobj_t);
+var
+  dist: fixed_t;
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  // No tracer - no jump
+  if actor.tracer = nil then
+    exit;
+
+  dist := actor.state.params.FixedVal[0];
+  if P_AproxDistance(actor.x - actor.tracer.x, actor.y - actor.tracer.y) < dist then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
     if @states[offset] <> actor.state then
       P_SetMobjState(actor, statenum_t(offset));
   end;

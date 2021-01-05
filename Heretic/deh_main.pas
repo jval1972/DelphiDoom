@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 297;
+  DEHNUMACTIONS = 298;
 
 type
   deh_action_t = record
@@ -2823,6 +2823,9 @@ begin
   deh_actions[296].action.acp1 := @A_JumpIfTargetInsideMeleeRange;
   deh_actions[296].name := strupper('JumpIfTargetInsideMeleeRange');
   {$IFDEF DLL}deh_actions[296].decl := 'A_JumpIfTargetInsideMeleeRange(offset: integer)';{$ENDIF}
+  deh_actions[297].action.acp1 := @A_JumpIfTracerCloser;
+  deh_actions[297].name := strupper('JumpIfTracerCloser');
+  {$IFDEF DLL}deh_actions[297].decl := 'A_JumpIfTracerCloser(distancetotarget: float, offset: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
