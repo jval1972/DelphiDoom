@@ -225,6 +225,8 @@ begin
   baseproclist.Add('procedure SetActorScale(const key: LongWord; const value: integer);', @PS_SetActorScale);
   baseproclist.Add('function GetActorGravity(const key: LongWord): integer;', @PS_GetActorGravity);
   baseproclist.Add('procedure SetActorGravity(const key: LongWord; const value: integer);', @PS_SetActorGravity);
+  baseproclist.Add('function GetActorSpecial(const key: LongWord): Integer;', @PS_GetActorSpecial);
+  baseproclist.Add('procedure SetActorSpecial(const key: LongWord; const value: Integer);', @PS_SetActorSpecial);
   baseproclist.Add('function GetActorArg1(const key: LongWord): integer;', @PS_GetActorArg1);
   baseproclist.Add('procedure SetActorArg1(const key: LongWord; const value: integer);', @PS_SetActorArg1);
   baseproclist.Add('function GetActorArg2(const key: LongWord): integer;', @PS_GetActorArg2);

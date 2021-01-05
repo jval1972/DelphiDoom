@@ -121,6 +121,9 @@ procedure PS_SetActorPushFactor(const key: LongWord; const value: Integer);
 function PS_GetActorGravity(const key: LongWord): Integer;
 procedure PS_SetActorGravity(const key: LongWord; const value: Integer);
 
+function PS_GetActorSpecial(const key: LongWord): Integer;
+procedure PS_SetActorSpecial(const key: LongWord; const value: Integer);
+
 function PS_GetActorArg1(const key: LongWord): Integer;
 procedure PS_SetActorArg1(const key: LongWord; const value: Integer);
 
@@ -1656,6 +1659,29 @@ begin
   mo.args[idx] := value;
 end;
 
+function PS_GetActorSpecial(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.special;
+end;
+
+procedure PS_SetActorSpecial(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.special := value;
+end;
+
 function PS_GetActorArg1(const key: LongWord): Integer;
 begin
   Result := _GetActorArg(0, key);
@@ -2888,6 +2914,16 @@ end;
 procedure TRTLActorGravity_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorGravity(LongWord(Self));
+end;
+
+procedure TRTLActorSpecial_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorSpecial(LongWord(Self), T);
+end;
+
+procedure TRTLActorSpecial_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorSpecial(LongWord(Self));
 end;
 
 procedure TRTLActorArg1_W(Self: TRTLActor; const T: Integer);
@@ -6334,6 +6370,7 @@ begin
   cactor.RegisterProperty('SpawnHealth', 'Integer', iptR);
   cactor.RegisterProperty('Mass', 'Integer', iptRW);
   cactor.RegisterProperty('Gravity', 'fixed_t', iptRW);
+  cactor.RegisterProperty('Special', 'Integer', iptRW);
   cactor.RegisterProperty('Arg1', 'Integer', iptRW);
   cactor.RegisterProperty('Arg2', 'Integer', iptRW);
   cactor.RegisterProperty('Arg3', 'Integer', iptRW);
@@ -6572,6 +6609,7 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorPushFactor_R, @TRTLActorPushFactor_W, 'PushFactor');
   ractor.RegisterPropertyHelper(@TRTLActorScale_R, @TRTLActorScale_W, 'Scale');
   ractor.RegisterPropertyHelper(@TRTLActorGravity_R, @TRTLActorGravity_W, 'Gravity');
+  ractor.RegisterPropertyHelper(@TRTLActorSpecial_R, @TRTLActorSpecial_W, 'Special');
   ractor.RegisterPropertyHelper(@TRTLActorArg1_R, @TRTLActorArg1_W, 'Arg1');
   ractor.RegisterPropertyHelper(@TRTLActorArg2_R, @TRTLActorArg2_W, 'Arg2');
   ractor.RegisterPropertyHelper(@TRTLActorArg3_R, @TRTLActorArg3_W, 'Arg3');
