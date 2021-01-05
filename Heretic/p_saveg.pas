@@ -228,7 +228,7 @@ begin
 
     PADSAVEP;
 
-    if savegameversion >= VERSION203 then
+    if savegameversion >= VERSION206 then
     begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
@@ -670,17 +670,41 @@ begin
     save_p := @save_p[1];
     case tclass of
       Ord(tc_end):
-        exit; // end of list
+        begin
+          // Retrieve target, tracer and master
+          currentthinker := thinkercap.next;
+          while currentthinker <> @thinkercap do
+          begin
+            next := currentthinker.next;
+
+            if @currentthinker._function.acp1 = @P_MobjThinker then
+            begin
+              Pmobj_t(currentthinker).target := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).target));
+              Pmobj_t(currentthinker).tracer := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).tracer));
+            end;
+
+            currentthinker := next;
+          end;
+
+          exit; // end of list
+        end;
 
       Ord(tc_mobj):
         begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION205 then
+          if savegameversion >= VERSION206 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
+          end
+          else if savegameversion >= VERSION205 then
+          begin
+            memcpy(mobj, save_p, SizeOf(mobj_t205));
+            incp(pointer(save_p), SizeOf(mobj_t205));
+            mobj.target := nil;
+            mobj.tracer := nil;
           end
           else if savegameversion >= VERSION115 then
           begin
@@ -694,6 +718,8 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+            mobj.target := nil;
+            mobj.tracer := nil;
           end
           else if savegameversion = VERSION114 then
           begin
@@ -709,6 +735,8 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+            mobj.target := nil;
+            mobj.tracer := nil;
           end
           else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
           begin
@@ -736,6 +764,8 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+            mobj.target := nil;
+            mobj.tracer := nil;
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -811,6 +841,8 @@ begin
             mobj.flags3_ex := 0;
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
+            mobj.target := nil;
+            mobj.tracer := nil;
 
             Z_Free(mobj111);
           end
@@ -822,8 +854,7 @@ begin
           P_NotifyMobjKey(mobj);
 
           mobj.state := @states[integer(mobj.state)];
-          mobj.target := nil;
-          mobj.tracer := nil;
+          mobj.prevstate := @states[integer(mobj.prevstate)];
           if mobj.player <> nil then
           begin
             mobj.player := @players[integer(mobj.player) - 1];
