@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 294;
+  DEHNUMACTIONS = 295;
 
 type
   deh_action_t = record
@@ -2814,6 +2814,9 @@ begin
   deh_actions[293].action.acp1 := @A_CheckCeiling;
   deh_actions[293].name := strupper('CheckCeiling');
   {$IFDEF DLL}deh_actions[293].decl := 'A_CheckCeiling(offset: integer)';{$ENDIF}
+  deh_actions[294].action.acp1 := @A_StopSound;
+  deh_actions[294].name := strupper('StopSound');
+  {$IFDEF DLL}deh_actions[294].decl := 'A_StopSound()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

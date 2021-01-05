@@ -327,6 +327,8 @@ procedure A_CheckFloor(actor: Pmobj_t);
 
 procedure A_CheckCeiling(actor: Pmobj_t);
 
+procedure A_StopSound(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3519,6 +3521,11 @@ begin
     if @states[offset] <> actor.state then
       P_SetMobjState(actor, statenum_t(offset));
   end;
+end;
+
+procedure A_StopSound(actor: Pmobj_t);
+begin
+  S_StopSound(actor);
 end;
 
 end.

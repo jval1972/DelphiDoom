@@ -25,6 +25,7 @@ Added Overlay.DrawRect & OverlayDrawRect PascalScript functions. params -> (cons
 Added overlaydrawrect console command. Usage is overlaydrawrect [ticks] [x1] [y1] [x2] [y2] [red] [green] [blue].
 Dynamic slopes controled by PascalScript. (SetFloorSlope & SetCeilingSlope functions)
 Added A_CheckFloor & A_CheckCeiling ACTORDEF functions.
+Added A_StopSound ACTORDEF function.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
