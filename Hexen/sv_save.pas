@@ -475,6 +475,7 @@ begin
   mobj.floorz := P_3dFloorHeight(mobj);
   mobj.ceilingz := P_3dCeilingHeight(mobj);
   SetMobjPtr(PInteger(@mobj.target));
+  SetMobjPtr(PInteger(@mobj.tracer));
   case mobj._type of
     Ord(MT_KORAX_SPIRIT1),
     Ord(MT_KORAX_SPIRIT2),
@@ -990,7 +991,7 @@ begin
       sec.gravity := GET_LONGWORD
     else
       sec.gravity := GRAVITY;
-    if LOADVERSION > VERSION205 then
+    if LOADVERSION >= VERSION206 then
     begin
       sec.floorangle := GET_LONGWORD;
       sec.flooranglex := GET_LONG;
@@ -1119,10 +1120,12 @@ begin
   if corpse then
   begin
     mobj.target := Pmobj_t(MOBJ_NULL);
+    mobj.tracer := Pmobj_t(MOBJ_NULL);
   end
   else
   begin
     mobj.target := Pmobj_t(GetMobjNum(mobj.target));
+    mobj.tracer := Pmobj_t(GetMobjNum(mobj.tracer));
   end;
   case mobj._type of
     Ord(MT_KORAX_SPIRIT1),
@@ -1213,7 +1216,7 @@ begin
       thinker := thinker.next;
       continue;
     end;
-    if (Pmobj_t(thinker).player <> nil) and (not SavingPlayers) then
+    if (Pmobj_t(thinker).player <> nil) and not SavingPlayers then
     begin // Skipping player mobjs
       thinker := thinker.next;
       continue;
@@ -1315,6 +1318,11 @@ begin
       mobj.flags3_ex := 0;
       mobj.flags4_ex := 0;
       mobj.rendervalidcount := 0;
+    end
+    else if LOADVERSION <= VERSION205 then
+    begin
+      memcpy(mobj, saveptr, SizeOf(mobj_t205));
+      incp(saveptr, SizeOf(mobj_t205));
     end
     else
     begin
