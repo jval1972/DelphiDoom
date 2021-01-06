@@ -379,6 +379,8 @@ procedure A_RemoveTracer(actor: Pmobj_t);
 
 procedure A_Remove(actor: Pmobj_t);
 
+procedure A_SetFloatBobPhase(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4250,6 +4252,21 @@ begin
     exit;
 
   P_DoRemoveThing(mo, actor.state.params.IntVal[1]);
+end;
+
+//
+// A_SetFloatBobPhase(bob: integer)
+//
+procedure A_SetFloatBobPhase(actor: Pmobj_t);
+var
+  bob: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  bob := actor.state.params.IntVal[0];
+  if IsIntegerInRange(bob, 0, FLOATBOBSIZE - 1) then
+    actor.bob := bob;
 end;
 
 end.
