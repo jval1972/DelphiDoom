@@ -375,6 +375,8 @@ procedure A_KillTarget(actor: Pmobj_t);
 
 procedure A_RemoveTarget(actor: Pmobj_t);
 
+procedure A_RemoveTracer(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4220,6 +4222,24 @@ begin
     exit;
 
   P_DoRemoveThing(actor.target, actor.state.params.IntVal[0]);
+end;
+
+//
+// A_RemoveTarget(flags: integer);
+// JVAL: incomplete
+//
+procedure A_RemoveTracer(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  if actor.tracer = nil then
+    exit;
+
+  if actor.tracer.player <> nil then // No players
+    exit;
+
+  P_DoRemoveThing(actor.tracer, actor.state.params.IntVal[0]);
 end;
 
 end.
