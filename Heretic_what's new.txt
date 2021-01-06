@@ -31,6 +31,31 @@ Added A_JumpIfTracerCloser ACTORDEF function.
 Save target & tracer in saved games.
 Mass, args and special fields for mobjs.
 Added MF3_EX_NORENDERINTERPOLATION mobj flag. When set to true, the renderer does not interpolate the mobj.
+A lot of new ACTORDEF functions to improve ZDoom compatibility:
+  - A_SetMass(mass: integer)
+  - A_SetTargetMass(mass: integer)
+  - A_SetTracerMass(mass: integer)
+  - A_CheckSight(offset: integer)
+  - A_CheckSightOrRange(distance: float, offset: integer, [twodi: boolean=false])
+  - A_CheckRange(distance: float, offset: integer, [twodi: boolean=false])
+  - A_CountdownArg(arg: integer, offset: integer)
+  - A_SetArg(arg: integer, value: integer)
+  - A_SetSpecial(special: integer, [arg1, arg2, arg3, arg4, arg5: integer])
+  - A_CheckFlag(flag: string, offset: integer, [aaprt: AAPTR])
+  - A_SetAngle(angle: integer, [flags: integer], [aaprt: AAPTR])
+  - A_SetUserVar(varname: string, value: integer)
+  - A_SetUserArray(varname: string, index: integer, value: integer)
+  - A_SetTics(tics: integer)
+  - A_DropItem(spawntype: string, amount: integer, chance: integer)
+  - A_DamageSelf(actor: Pmobj_t)
+  - A_DamageTarget(const damage: integer)
+  - A_DamageTracer(const damage: integer)
+  - A_KillTarget
+  - A_KillTracer
+  - A_RemoveTarget([flags: integer])
+  - A_RemoveTracer([flags: integer])
+  - A_Remove(aaprt: AAPTR, [flags: integer])
+  - A_SetFloatBobPhase(bob: integer)
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
