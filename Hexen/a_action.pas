@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -647,7 +647,7 @@ begin
   mo := P_SpawnMobj(actor.x, actor.y, actor.z, Ord(MT_MINOTAUR));
   if mo <> nil then
   begin
-    if (not P_TestMobjLocation(mo)) or (actor.special1 = 0) then
+    if not P_TestMobjLocation(mo) or (actor.special1 = 0) then
     begin // Didn't fit - change back to artifact
       P_SetMobjState(mo, S_NULL);
       mo := P_SpawnMobj(actor.x, actor.y, actor.z, Ord(MT_SUMMONMAULATOR));
