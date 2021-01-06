@@ -373,6 +373,8 @@ procedure A_DamageTracer(actor: Pmobj_t);
 
 procedure A_KillTarget(actor: Pmobj_t);
 
+procedure A_RemoveTarget(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -414,6 +416,16 @@ const
   SIXF_TELEFRAG = 64;
   // 128 is used by Skulltag!
   SIXF_TRANSFERAMBUSHFLAG = 256;
+
+// P_DoRemoveThing
+const
+  RMVF_MISSILES = 0;
+  RMVF_NOMONSTERS = 1;
+  RMVF_MISC = 2;
+  RMVF_EVERYTHING = 4;
+  RMVF_EXFILTER = 8;
+  RMVF_EXSPECIES = 16;
+  RMVF_EITHER = 32;
 
 const
   SPF_FORCECLAMP = 1; // players always clamp
@@ -4174,8 +4186,40 @@ begin
   if actor.target = nil then
     exit;
 
-  P_DamageMobj(actor.target, acotr, actor, actor.target.health);
+  P_DamageMobj(actor.target, actor, actor, actor.target.health);
+end;
+
+function P_DoRemoveThing(const mo: Pmobj_t; const flags: integer): boolean;
+begin
+  result := true;
+  if flags and RMVF_EVERYTHING <> 0 then
+    P_RemoveMobj(mo)
+  else if (flags and RMVF_MISC <> 0) and not (Info_IsMonster(mo._type) and (mo.flags and MF_MISSILE <> 0)) then
+    P_RemoveMobj(mo)
+  else if (Info_IsMonster(mo._type) and (flags and RMVF_NOMONSTERS = 0) then
+    P_RemoveMobj(mo)
+  else if ((mo.flags and MF_MISSILE <> 0) and (flags and RMVF_MISSILES <> 0) then
+    P_RemoveMobj(mo)
+  else
+    result := false;
+end;
+
+//
+// A_RemoveTarget(flags: integer);
+// JVAL: incomplete
+//
+procedure A_RemoveTarget(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  if actor.target.player <> nil then // No players
+    exit;
+
+  P_DoRemoveThing(actor.target, actor.state.params.IntVal[0]);
 end;
 
 end.
-
