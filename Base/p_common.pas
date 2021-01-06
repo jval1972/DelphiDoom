@@ -369,6 +369,8 @@ procedure A_DamageSelf(actor: Pmobj_t);
 
 procedure A_DamageTarget(actor: Pmobj_t);
 
+procedure A_DamageTracer(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4140,6 +4142,25 @@ begin
   damage := actor.state.params.IntVal[0];
   P_DoDamage(actor.target, damage);
 end;
+
+//
+// A_DamageTracer(const damage: integer);
+// JVAL: incomplete
+//
+procedure A_DamageTracer(actor: Pmobj_t);
+var
+  damage: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  if actor.tracer = nil then
+    exit;
+
+  damage := actor.state.params.IntVal[0];
+  P_DoDamage(actor.tracer, damage);
+end;
+
 
 end.
 
