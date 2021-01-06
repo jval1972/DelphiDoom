@@ -339,6 +339,8 @@ procedure A_SetMass(actor: Pmobj_t);
 
 procedure A_SetTargetMass(actor: Pmobj_t);
 
+procedure A_SetTracerMass(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3615,6 +3617,20 @@ begin
     exit;
 
   actor.target.mass := actor.state.params.IntVal[0];
+end;
+
+//
+// A_SetTracerMass(mass: integer)
+//
+procedure A_SetTracerMass(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.tracer = nil then
+    exit;
+
+  actor.tracer.mass := actor.state.params.IntVal[0];
 end;
 
 
