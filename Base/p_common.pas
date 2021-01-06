@@ -361,6 +361,8 @@ procedure A_SetUserVar(actor: Pmobj_t);
 
 procedure A_SetUserArray(actor: Pmobj_t);
 
+procedure A_SetTics(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4016,7 +4018,6 @@ end;
 
 //
 // A_SetUserArray(varname: string; index: integer; value: integer)
-// Note: If the variable does not exist we create a new one with the name given.
 // Note #2: No bounds check, since the array is stored as a sparse array.
 // In ZDoom displays an error message.
 //
@@ -4027,8 +4028,18 @@ begin
   if not P_CheckStateParams(actor, 2) then
     exit;
 
-  sprintf(arr, '%s[%d]', [actor.state.params.StrVal[0], actor.state.params.IntVal[0]]);
   P_SetMobjCustomParam(actor, arr, actor.state.params.IntVal[2]);
+end;
+
+//
+// A_SetTics(tics: integer)
+//
+procedure A_SetTics(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.tics := actor.state.params.IntVal[0];
 end;
 
 end.
