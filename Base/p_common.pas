@@ -383,6 +383,18 @@ const
 // Slip while descenting if sloped
   SF_SLIPSLOPEDESCENT = 2;
 
+// A_SpawnItemEx Flags
+const
+  SIXF_TRANSFERTRANSLATION = 1;
+  SIXF_ABSOLUTEPOSITION = 2;
+  SIXF_ABSOLUTEANGLE = 4;
+  SIXF_ABSOLUTEMOMENTUM = 8;
+  SIXF_SETMASTER = 16;
+  SIXF_NOCHECKPOSITION = 32;
+  SIXF_TELEFRAG = 64;
+  // 128 is used by Skulltag!
+  SIXF_TRANSFERAMBUSHFLAG = 256;
+
 function P_TicsFromState(const st: Pstate_t): integer;
 
 implementation
@@ -2116,18 +2128,6 @@ begin
   if mo <> nil then
     mo.angle := actor.angle;
 end;
-
-// A_SpawnItemEx Flags
-const
-  SIXF_TRANSFERTRANSLATION = 1;
-  SIXF_ABSOLUTEPOSITION = 2;
-  SIXF_ABSOLUTEANGLE = 4;
-  SIXF_ABSOLUTEMOMENTUM = 8;
-  SIXF_SETMASTER = 16;
-  SIXF_NOCHECKPOSITION = 32;
-  SIXF_TELEFRAG = 64;
-  // 128 is used by Skulltag!
-  SIXF_TRANSFERAMBUSHFLAG = 256;
 
 //
 // A_SpawnItemEx(type, xofs, yofs, zofs, momx, momy, momz, Angle, flags, chance)

@@ -56,12 +56,15 @@ uses
   p_params,
   psi_globals,
   sc_evaluate,
+  sc_consts,
   m_rnd;
 
 type
   TActorEvaluator = class(TEvaluator)
   private
     factor: Pmobj_t;
+    flastvar: string;
+    flastvalue: string;
     // Random functions
     function PF_rand(p: TDStrings): string;
     {$IFNDEF HEXEN}
@@ -130,6 +133,8 @@ type
     function EvaluateActor(const actor: pmobj_t; const aexpr: string): string;
     procedure AddFunc(aname: string; afunc: TObjFunc; anump: integer); overload; override;
     procedure AddFunc(aname: string; afunc: TExtFunc; anump: integer); overload; override;
+    function OnFindVar(v: string): boolean;
+    function OnVarValue(v: string): string;
   end;
 
 
@@ -138,6 +143,10 @@ type
 constructor TActorEvaluator.Create;
 begin
   Inherited Create;
+  FindVar := OnFindVar;
+  VarValue := OnVarValue;
+  flastvar := '';
+  flastvalue := '';
   // Ramdom functions
   AddFunc('RAND', PF_rand, 0);
   {$IFNDEF HEXEN}
@@ -222,6 +231,30 @@ begin
   if anump = 0 then
     SC_DeclareActorEvaluatorSingleToken(aname);
   Inherited;
+end;
+
+function TActorEvaluator.OnFindVar(v: string): boolean;
+var
+  x: integer;
+begin
+  result := SC_GetConst(v, x);
+  if result then
+  begin
+    flastvar := v;
+    flastvalue := itoa(x);
+  end;
+end;
+
+function TActorEvaluator.OnVarValue(v: string): string;
+var
+  x: integer;
+begin
+  if v = flastvar then
+    result := flastvalue
+  else if SC_GetConst(v, x) then
+    result := itoa(x)
+  else
+    result := '0';
 end;
 
 // Ramdom functions

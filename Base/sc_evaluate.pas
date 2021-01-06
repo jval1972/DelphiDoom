@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -892,7 +892,7 @@ end;
 ////////////////////////////////////////////////////////////////////////////////
 procedure TEvaluator._err_incompatible_types(const callfunc: string; const s1, s2: string);
 begin
-  I_Warning('TEvaluator.' + callfunc + '(): Incomatible types ("%s", "%s)'#13#10, [s1, s2]);
+  I_Warning('TEvaluator.' + callfunc + '(): Incompatible types ("%s", "%s)'#13#10, [s1, s2]);
 end;
 
 function TEvaluator.OP_Add(v1, v2: string): string;

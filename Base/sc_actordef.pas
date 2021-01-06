@@ -72,6 +72,7 @@ uses
   r_renderstyle,
   rtl_types,
   sounds,
+  sc_consts,
   sc_engine,
   sc_states,
   sc_tokens,
@@ -2448,6 +2449,7 @@ procedure SC_Init;
 begin
   soundaliases := TDStringList.Create;
   SC_InitActorEvaluator;
+  SC_InitConsts;
   C_AddCmd('DEH_PrintActordef, PrintActordef', @DEH_PrintActordef);
   C_AddCmd('DEH_SaveActordef, SaveActordef', @DEH_SaveActordef);
 end;
@@ -2456,6 +2458,7 @@ procedure SC_ShutDown;
 begin
   soundaliases.Free;
   statenames.Free;
+  SC_ShutDownConsts;
   SC_ShutDownActorEvaluator;
 end;
 
