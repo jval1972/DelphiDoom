@@ -367,6 +367,8 @@ procedure A_DropItem(actor: Pmobj_t);
 
 procedure A_DamageSelf(actor: Pmobj_t);
 
+procedure A_DamageTarget(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4098,8 +4100,17 @@ begin
   mo.angle := actor.angle;
 end;
 
+procedure P_DoDamage(const mo: Pmobj_t; const damage: integer);
+begin
+  if damage > 0 then
+    P_DamageMobj(mo, nil, nil, damage)
+  else if damage < 0 then
+    P_SetHealth(mo, mo.health - damage);
+end;
+
 //
 // A_DamageSelf(const damage: integer);
+// JVAL: incomplete
 //
 procedure A_DamageSelf(actor: Pmobj_t);
 var
@@ -4109,10 +4120,25 @@ begin
     exit;
 
   damage := actor.state.params.IntVal[0];
-  if damage > 0 then
-    P_DamageMobj(actor, nil, nil, damage)
-  else if damage < 0 then
-    P_SetHealth(actor, actor.health - damage);
+  P_DoDamage(actor, damage);
+end;
+
+//
+// A_DamageTarget(const damage: integer);
+// JVAL: incomplete
+//
+procedure A_DamageTarget(actor: Pmobj_t);
+var
+  damage: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  damage := actor.state.params.IntVal[0];
+  P_DoDamage(actor.target, damage);
 end;
 
 end.
