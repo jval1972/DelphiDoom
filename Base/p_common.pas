@@ -335,6 +335,8 @@ procedure A_JumpIfTargetInsideMeleeRange(actor: Pmobj_t);
 
 procedure A_JumpIfTracerCloser(actor: Pmobj_t);
 
+procedure A_SetMass(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3587,6 +3589,18 @@ begin
       P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
+
+//
+// A_SetMass(mass: integer)
+//
+procedure A_SetMass(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.mass := actor.state.params.IntVal[0];
+end;
+
 
 end.
 
