@@ -575,7 +575,7 @@ var
 begin
   if (index >= 0) and (index < fNumItems) then
   begin
-    ret := SC_EvaluateActorExpression(fActor, fList[index].s_param)
+    ret := SC_EvaluateActorExpression(fActor, fList[index].s_param);
     result := ret = 'TRUE';
   end
   else
