@@ -364,6 +364,8 @@ const
   MF3_EX_NOCRASH = 16;
   // Blood do not check damage
   MF3_EX_BLOODIGNOREDAMAGE = 32;
+  // No render interpolation
+  MF3_EX_NORENDERINTERPOLATION = 64;
 
 type
 // Map Object definition.

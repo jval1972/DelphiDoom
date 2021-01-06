@@ -27,6 +27,7 @@ Added A_JumpIfTargetOutsideMeleeRange & A_JumpIfTargetInsideMeleeRange ACTORDEF 
 Added A_JumpIfTracerCloser ACTORDEF function.
 Save target & tracer in saved games.
 Mass, args and special fields for mobjs.
+Added MF3_EX_NORENDERINTERPOLATION mobj flag. When set to true, the renderer does not interpolate the mobj.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

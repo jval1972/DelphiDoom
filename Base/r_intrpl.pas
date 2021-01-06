@@ -448,7 +448,8 @@ begin
     {$ENDIF}
     // JVAL: 20200105 - Interpolate only mobjs that the renderer touched
       if (Pmobj_t(th).rendervalidcount = rendervalidcount) or (Pmobj_t(th).player <> nil) then
-        R_AddInterpolationItem(th, imobj);
+        if Pmobj_t(th).flags3_ex and MF3_EX_NORENDERINTERPOLATION = 0 then
+          R_AddInterpolationItem(th, imobj);
     th := th.next;
   end;
   {$IFDEF DEBUG}

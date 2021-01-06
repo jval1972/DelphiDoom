@@ -392,6 +392,8 @@ const
   MF3_EX_NOMAXMOVE = 8;
   // No Crush
   MF3_EX_NOCRASH = 16;
+  // No render interpolation
+  MF3_EX_NORENDERINTERPOLATION = 32;
 
 type
 // Map Object definition.
