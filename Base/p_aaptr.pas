@@ -171,8 +171,7 @@ begin
       {$IFDEF STRIFE}
       if origin.flags and MF_ALLY <> 0 then
       {$ELSE}
-      if origin.spawnpoint.flags and MTF_FRIEND then
-      //  if origin.flags3_ex and MF3_EX_FRIEND <> 0 then
+      if origin.flags2_ex and MF2_EX_FRIEND <> 0 then
       {$ENDIF}
         for i := 0 to MAXPLAYERS - 1 do
           if playeringame[i] then
