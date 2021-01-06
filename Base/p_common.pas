@@ -355,6 +355,8 @@ procedure A_SetSpecial(actor: Pmobj_t);
 
 procedure A_CheckFlag(actor: Pmobj_t);
 
+procedure A_SetAngle(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -396,6 +398,10 @@ const
   SIXF_TELEFRAG = 64;
   // 128 is used by Skulltag!
   SIXF_TRANSFERAMBUSHFLAG = 256;
+
+const
+  SPF_FORCECLAMP = 1; // players always clamp
+  SPF_INTERPOLATE = 2;
 
 function P_TicsFromState(const st: Pstate_t): integer;
 
@@ -3965,6 +3971,28 @@ begin
       P_SetMobjState(actor, statenum_t(offset));
 end;
 
+procedure A_SetAngle(actor: Pmobj_t);
+var
+  mo: Pmobj_t;
+  ang: angle_t;
+  flags: integer;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  mo := COPY_AAPTR(actor, actor.state.params.IntVal[2]);
+  if mo = nil then
+    exit;
+
+  ang := ANG1 * actor.state.params.IntVal[0];
+  flags := actor.state.params.IntVal[1];
+  if flags = SPF_FORCECLAMP then
+    mo.flags3_ex := mo.flags3_ex or MF3_EX_NORENDERINTERPOLATION
+  else if flags = SPF_INTERPOLATE then
+    mo.flags3_ex := mo.flags3_ex and not MF3_EX_NORENDERINTERPOLATION;
+
+  mo.angle := ang;
+end;
 
 end.
 
