@@ -4212,9 +4212,6 @@ end;
 //
 procedure A_RemoveTarget(actor: Pmobj_t);
 begin
-  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
-    exit;
-
   if actor.target = nil then
     exit;
 
@@ -4230,9 +4227,6 @@ end;
 //
 procedure A_RemoveTracer(actor: Pmobj_t);
 begin
-  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
-    exit;
-
   if actor.tracer = nil then
     exit;
 
