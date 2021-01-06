@@ -377,6 +377,8 @@ procedure A_RemoveTarget(actor: Pmobj_t);
 
 procedure A_RemoveTracer(actor: Pmobj_t);
 
+procedure A_Remove(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4182,8 +4184,6 @@ end;
 // JVAL: incomplete
 //
 procedure A_KillTarget(actor: Pmobj_t);
-var
-  damage: integer;
 begin
   if actor.target = nil then
     exit;
@@ -4198,16 +4198,13 @@ begin
     P_RemoveMobj(mo)
   else if (flags and RMVF_MISC <> 0) and not (Info_IsMonster(mo._type) and (mo.flags and MF_MISSILE <> 0)) then
     P_RemoveMobj(mo)
-  else if (Info_IsMonster(mo._type) and (flags and RMVF_NOMONSTERS = 0) then
     P_RemoveMobj(mo)
-  else if ((mo.flags and MF_MISSILE <> 0) and (flags and RMVF_MISSILES <> 0) then
     P_RemoveMobj(mo)
   else
     result := false;
 end;
 
 //
-// A_RemoveTarget(flags: integer);
 // JVAL: incomplete
 //
 procedure A_RemoveTarget(actor: Pmobj_t);
@@ -4222,7 +4219,6 @@ begin
 end;
 
 //
-// A_RemoveTarget(flags: integer);
 // JVAL: incomplete
 //
 procedure A_RemoveTracer(actor: Pmobj_t);
@@ -4234,6 +4230,21 @@ begin
     exit;
 
   P_DoRemoveThing(actor.tracer, actor.state.params.IntVal[0]);
+end;
+
+//
+// A_Remove(aaprt: AAPTR; [flags: integer]);
+// JVAL: incomplete
+//
+procedure A_Remove(actor: Pmobj_t);
+var
+  mo: Pmobj_t;
+begin
+  mo := COPY_AAPTR(actor, actor.state.params.IntVal[0]);
+  if mo = nil then
+    exit;
+
+  P_DoRemoveThing(mo, actor.state.params.IntVal[1]);
 end;
 
 end.
