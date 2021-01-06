@@ -351,6 +351,8 @@ procedure A_CountdownArg(actor: Pmobj_t);
 
 procedure A_SetArg(actor: Pmobj_t);
 
+procedure A_SetSpecial(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3825,6 +3827,39 @@ begin
 
   actor.args[arg] := actor.state.params.IntVal[1];
 end;
-  
+
+//
+// A_SetSpecial(special: integer; [arg1, arg2, arg3, arg4, arg5: integer]);
+//
+procedure A_SetSpecial(actor: Pmobj_t);
+var
+  cnt: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  actor.special := actor.state.params.IntVal[0];
+
+  cnt := actor.state.params.Count;
+  if cnt > 1 then
+  begin
+    actor.args[0] := actor.state.params.IntVal[1];
+    if cnt > 2 then
+    begin
+      actor.args[1] := actor.state.params.IntVal[2];
+      if cnt > 3 then
+      begin
+        actor.args[2] := actor.state.params.IntVal[3];
+        if cnt > 4 then
+        begin
+          actor.args[3] := actor.state.params.IntVal[4];
+          if cnt > 5 then
+            actor.args[4] := actor.state.params.IntVal[5];
+        end;
+      end;
+    end;
+  end;
+end;
+
 end.
 
