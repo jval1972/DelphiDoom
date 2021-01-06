@@ -371,6 +371,8 @@ procedure A_DamageTarget(actor: Pmobj_t);
 
 procedure A_DamageTracer(actor: Pmobj_t);
 
+procedure A_KillTarget(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4161,6 +4163,19 @@ begin
   P_DoDamage(actor.tracer, damage);
 end;
 
+//
+// A_KillTarget
+// JVAL: incomplete
+//
+procedure A_KillTarget(actor: Pmobj_t);
+var
+  damage: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  P_DamageMobj(actor.target, acotr, actor, actor.target.health);
+end;
 
 end.
 
