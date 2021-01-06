@@ -373,6 +373,8 @@ procedure A_DamageTracer(actor: Pmobj_t);
 
 procedure A_KillTarget(actor: Pmobj_t);
 
+procedure A_KillTracer(actor: Pmobj_t);
+
 procedure A_RemoveTarget(actor: Pmobj_t);
 
 procedure A_RemoveTracer(actor: Pmobj_t);
@@ -4014,7 +4016,6 @@ begin
 end;
 
 //
-// A_SetAngle(angle; integer: [flags: integer]; [aaprt: AAPTR]);
 //
 procedure A_SetAngle(actor: Pmobj_t);
 var
@@ -4194,6 +4195,18 @@ begin
   P_DamageMobj(actor.target, actor, actor, actor.target.health);
 end;
 
+//
+// A_KillTracer
+// JVAL: incomplete
+//
+procedure A_KillTracer(actor: Pmobj_t);
+begin
+  if actor.target = nil then
+    exit;
+
+  P_DamageMobj(actor.target, actor, actor, actor.target.health);
+end;
+
 function P_DoRemoveThing(const mo: Pmobj_t; const flags: integer): boolean;
 begin
   result := true;
@@ -4225,7 +4238,6 @@ begin
 end;
 
 //
-// A_RemoveTarget([flags: integer]);
 // JVAL: incomplete
 //
 procedure A_RemoveTracer(actor: Pmobj_t);
