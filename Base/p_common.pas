@@ -353,6 +353,8 @@ procedure A_SetArg(actor: Pmobj_t);
 
 procedure A_SetSpecial(actor: Pmobj_t);
 
+procedure A_CheckFlag(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -410,6 +412,7 @@ uses
   g_game,
   info,
   info_common,
+  p_aaptr,
   p_enemy,
   p_extra,
   p_mobj,
@@ -3515,7 +3518,6 @@ begin
       actor.flags4_ex := actor.flags4_ex and not flg;
     exit;
   end;
-
 end;
 
 procedure A_CheckFloor(actor: Pmobj_t);
@@ -3860,6 +3862,109 @@ begin
     end;
   end;
 end;
+
+//
+// A_CheckFlag(flag: string; offset: integer; [aaprt: AAPTR]);
+//
+procedure A_CheckFlag(actor: Pmobj_t);
+var
+  sflag: string;
+  dojump: boolean;
+  flg: LongWord;
+  idx: integer;
+  offset: integer;
+  mo: Pmobj_t;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  sflag := strupper(actor.state.params.StrVal[0]);
+
+  dojump := false;
+
+  mo := COPY_AAPTR(actor, actor.state.params.IntVal[2]);
+  if mo = nil then
+    exit;
+
+  idx := mobj_flags.IndexOf(sflag);
+  if idx < 0 then
+    idx := mobj_flags.IndexOf('MF_' + sflag);
+  if idx >= 0 then
+  begin
+    flg := 1 shl idx;
+    dojump := mo.flags and flg <> 0;
+  end;
+
+  {$IFDEF HERETIC_OR_HEXEN}
+  if not dojump then
+  begin
+    idx := mobj_flags2.IndexOf(sflag);
+    if idx < 0 then
+      idx := mobj_flags2.IndexOf('MF2_' + sflag);
+    if idx >= 0 then
+    begin
+      flg := 1 shl idx;
+      dojump := mo.flags2 and flg <> 0;
+    end;
+  end;
+  {$ENDIF}
+
+  if not dojump then
+  begin
+    idx := mobj_flags_ex.IndexOf(sflag);
+    if idx < 0 then
+      idx := mobj_flags_ex.IndexOf('MF_EX_' + sflag);
+    if idx >= 0 then
+    begin
+      flg := 1 shl idx;
+      dojump := mo.flags_ex and flg <> 0;
+    end;
+  end;
+
+  if not dojump then
+  begin
+    idx := mobj_flags2_ex.IndexOf(sflag);
+    if idx < 0 then
+      idx := mobj_flags2_ex.IndexOf('MF2_EX_' + sflag);
+    if idx >= 0 then
+    begin
+      flg := 1 shl idx;
+      dojump := mo.flags2_ex and flg <> 0;
+    end;
+  end;
+
+  if not dojump then
+  begin
+    idx := mobj_flags3_ex.IndexOf(sflag);
+    if idx < 0 then
+      idx := mobj_flags3_ex.IndexOf('MF3_EX_' + sflag);
+    if idx >= 0 then
+    begin
+      flg := 1 shl idx;
+      dojump := mo.flags3_ex and flg <> 0;
+    end;
+  end;
+
+  if not dojump then
+  begin
+    idx := mobj_flags4_ex.IndexOf(sflag);
+    if idx < 0 then
+      idx := mobj_flags4_ex.IndexOf('MF4_EX_' + sflag);
+    if idx >= 0 then
+    begin
+      flg := 1 shl idx;
+      dojump := mo.flags4_ex and flg <> 0;
+    end;
+  end;
+
+  if not dojump then
+    exit;
+
+  offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+  if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
+end;
+
 
 end.
 
