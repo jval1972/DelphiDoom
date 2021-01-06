@@ -365,6 +365,8 @@ procedure A_SetTics(actor: Pmobj_t);
 
 procedure A_DropItem(actor: Pmobj_t);
 
+procedure A_DamageSelf(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -429,6 +431,7 @@ uses
   p_aaptr,
   p_enemy,
   p_extra,
+  p_inter,
   p_mobj,
   p_pspr,
   p_map,
@@ -3079,6 +3082,12 @@ begin
   if mo.health <= 0 then
     exit;
 
+  if h <= 0 then
+  begin
+    P_DamageMobj(mo, nil, nil, 10000);
+    exit;
+  end;
+
   mo.health := h;
   p := mo.player;
   if p <> nil then
@@ -4078,13 +4087,32 @@ begin
   end;
 
   mo := P_SpawnMobj(actor.x, actor.y, actor.z, mobj_no);
+  {$IFNDEF HEXEN}
   mo.flags := mo.flags or MF_DROPPED; // special versions of items
+  {$ENDIF}
   // JVAL Dropped items fall down to floor.
   mo.z := mo.z + 32 * FRACUNIT;
   mo.momz := 4 * FRACUNIT;
   mo.momx := 64 * N_Random;
   mo.momy := 64 * N_Random;
   mo.angle := actor.angle;
+end;
+
+//
+// A_DamageSelf(const damage: integer);
+//
+procedure A_DamageSelf(actor: Pmobj_t);
+var
+  damage: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  damage := actor.state.params.IntVal[0];
+  if damage > 0 then
+    P_DamageMobj(actor, nil, nil, damage)
+  else if damage < 0 then
+    P_SetHealth(actor, actor.health - damage);
 end;
 
 end.
