@@ -367,7 +367,8 @@ uses
   r_flat32_ripple in 'Base\r_flat32_ripple.pas',
   p_easyangle in 'Base\p_easyangle.pas',
   mn_screenshot in 'Base\mn_screenshot.pas',
-  p_aaptr in 'Base\p_aaptr.pas';
+  p_aaptr in 'Base\p_aaptr.pas',
+  sc_consts in 'Base\sc_consts.pas';
 
 var
   Saved8087CW: Word;
