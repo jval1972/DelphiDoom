@@ -450,6 +450,7 @@ uses
   g_game,
   info,
   info_common,
+  info_rnd,
   p_aaptr,
   p_enemy,
   p_extra,
@@ -4198,13 +4199,16 @@ begin
     P_RemoveMobj(mo)
   else if (flags and RMVF_MISC <> 0) and not (Info_IsMonster(mo._type) and (mo.flags and MF_MISSILE <> 0)) then
     P_RemoveMobj(mo)
+  else if Info_IsMonster(mo._type) and (flags and RMVF_NOMONSTERS = 0) then
     P_RemoveMobj(mo)
+  else if (mo.flags and MF_MISSILE <> 0) and (flags and RMVF_MISSILES <> 0) then
     P_RemoveMobj(mo)
   else
     result := false;
 end;
 
 //
+// A_RemoveTarget([flags: integer]);
 // JVAL: incomplete
 //
 procedure A_RemoveTarget(actor: Pmobj_t);
@@ -4219,6 +4223,7 @@ begin
 end;
 
 //
+// A_RemoveTarget([flags: integer]);
 // JVAL: incomplete
 //
 procedure A_RemoveTracer(actor: Pmobj_t);
