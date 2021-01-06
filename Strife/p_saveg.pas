@@ -156,6 +156,7 @@ begin
     for j := 0 to Ord(NUMPSPRITES) - 1 do
       if dest.psprites[j].state <> nil then
         dest.psprites[j].state := Pstate_t(pDiff(dest.psprites[j].state, @states[0], SizeOf(dest.psprites[j].state^)));
+    dest.lastdialogtalker := Pmobj_t(dest.lastdialogtalker.key);
   end;
 end;
 
@@ -287,6 +288,7 @@ begin
         players[i].cmd.jump := p205.cmd.jump;
         players[i].cmd.lookupdown16 := p205.cmd.lookupdown16;
         players[i].nextoof := 0;
+        players[i].lastdialogtalker := nil;
       end;
       incp(pointer(save_p), SizeOf(player_t205));
     end
@@ -395,6 +397,7 @@ begin
         players[i].cmd.jump := p203.cmd.jump;
         players[i].cmd.lookupdown16 := p203.cmd.lookupdown16;
         players[i].nextoof := 0;
+        players[i].lastdialogtalker := nil;
       end;
       incp(pointer(save_p), SizeOf(player_t203));
     end
@@ -413,6 +416,7 @@ begin
         Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
         players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
         players[i].nextoof := 0;
+        players[i].lastdialogtalker := nil;
       end;
       incp(pointer(save_p), SizeOf(player_t122));
     end
@@ -431,6 +435,7 @@ begin
         Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
         players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
         players[i].nextoof := 0;
+        players[i].lastdialogtalker := nil;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
     end
@@ -888,6 +893,7 @@ var
   next: Pthinker_t;
   mobj: Pmobj_t;
   parm: mobjcustomparam_t;
+  i: integer;
 begin
   // remove all the current thinkers
   currentthinker := thinkercap.next;
@@ -927,6 +933,11 @@ begin
 
               currentthinker := next;
             end;
+
+            for i := 0 to MAXPLAYERS - 1 do
+              if playeringame[i] then
+                players[i].lastdialogtalker := P_FindMobjFromKey(integer(players[i].lastdialogtalker));
+
           end;
           exit; // end of list
         end;

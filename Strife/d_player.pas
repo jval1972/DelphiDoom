@@ -234,6 +234,7 @@ type
     cmd: ticcmd_t;      // JVAL Smooth Look Up/Down
     // Version 206
     nextoof: integer;
+    lastdialogtalker: Pmobj_t;
   end;
   Pplayer_t = ^player_t;
 
