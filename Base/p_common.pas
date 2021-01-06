@@ -363,6 +363,8 @@ procedure A_SetUserArray(actor: Pmobj_t);
 
 procedure A_SetTics(actor: Pmobj_t);
 
+procedure A_DropItem(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4044,6 +4046,45 @@ begin
     exit;
 
   actor.tics := actor.state.params.IntVal[0];
+end;
+
+//
+// A_DropItem(spawntype: string; amount: integer; chance: integer);
+//
+procedure A_DropItem(actor: Pmobj_t);
+var
+  mobj_no: integer;
+  mo: Pmobj_t;
+  propability: integer;
+begin
+  if not P_CheckStateParams(actor, 3) then
+    exit;
+
+  propability := actor.state.params.IntVal[0];
+  if N_Random >= propability then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_DropItem(): Unknown item %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
+  mo := P_SpawnMobj(actor.x, actor.y, actor.z, mobj_no);
+  mo.flags := mo.flags or MF_DROPPED; // special versions of items
+  // JVAL Dropped items fall down to floor.
+  mo.z := mo.z + 32 * FRACUNIT;
+  mo.momz := 4 * FRACUNIT;
+  mo.momx := 64 * N_Random;
+  mo.momy := 64 * N_Random;
+  mo.angle := actor.angle;
 end;
 
 end.
