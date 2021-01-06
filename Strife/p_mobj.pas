@@ -1326,7 +1326,7 @@ begin
   end;
 
   // check for apropriate skill level
-  if (not netgame) and (mthing.options and 16 <> 0) then
+  if not netgame and (mthing.options and 16 <> 0) then
   begin
     result := nil;
     exit;
