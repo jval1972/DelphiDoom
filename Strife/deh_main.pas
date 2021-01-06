@@ -54,7 +54,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 310;
+  DEHNUMACTIONS = 334;
 
 type
   deh_action_t = record
@@ -2783,6 +2783,78 @@ begin
   deh_actions[309].action.acp1 := @A_JumpIfTracerCloser;
   deh_actions[309].name := strupper('JumpIfTracerCloser');
   {$IFDEF DLL}deh_actions[309].decl := 'A_JumpIfTracerCloser(distancetotarget: float, offset: integer)';{$ENDIF}
+  deh_actions[310].action.acp1 := @A_SetMass;
+  deh_actions[310].name := strupper('SetMass');
+  {$IFDEF DLL}deh_actions[310].decl := 'A_SetMass(mass: integer)';{$ENDIF}
+  deh_actions[311].action.acp1 := @A_SetTargetMass;
+  deh_actions[311].name := strupper('SetTargetMass');
+  {$IFDEF DLL}deh_actions[311].decl := 'A_SetTargetMass(mass: integer)';{$ENDIF}
+  deh_actions[312].action.acp1 := @A_SetTracerMass;
+  deh_actions[312].name := strupper('SetTracerMass');
+  {$IFDEF DLL}deh_actions[312].decl := 'A_SetTracerMass(mass: integer)';{$ENDIF}
+  deh_actions[313].action.acp1 := @A_CheckSight;
+  deh_actions[313].name := strupper('CheckSight');
+  {$IFDEF DLL}deh_actions[313].decl := 'A_CheckSight(offset: integer)';{$ENDIF}
+  deh_actions[314].action.acp1 := @A_CheckSightOrRange;
+  deh_actions[314].name := strupper('CheckSightOrRange');
+  {$IFDEF DLL}deh_actions[314].decl := 'A_CheckSightOrRange(distance: float, offset: integer, [twodi: boolean=false])';{$ENDIF}
+  deh_actions[315].action.acp1 := @A_CheckRange;
+  deh_actions[315].name := strupper('CheckRange');
+  {$IFDEF DLL}deh_actions[315].decl := 'A_CheckRange(distance: float, offset: integer, [twodi: boolean=false])';{$ENDIF}
+  deh_actions[316].action.acp1 := @A_CountdownArg;
+  deh_actions[316].name := strupper('CountdownArg');
+  {$IFDEF DLL}deh_actions[316].decl := 'A_CountdownArg(arg: integer, offset: integer)';{$ENDIF}
+  deh_actions[317].action.acp1 := @A_SetArg;
+  deh_actions[317].name := strupper('SetArg');
+  {$IFDEF DLL}deh_actions[317].decl := 'A_SetArg(arg: integer, value: integer)';{$ENDIF}
+  deh_actions[318].action.acp1 := @A_SetSpecial;
+  deh_actions[318].name := strupper('SetSpecial');
+  {$IFDEF DLL}deh_actions[318].decl := 'A_SetSpecial(special: integer, [arg1, arg2, arg3, arg4, arg5: integer])';{$ENDIF}
+  deh_actions[319].action.acp1 := @A_CheckFlag;
+  deh_actions[319].name := strupper('CheckFlag');
+  {$IFDEF DLL}deh_actions[319].decl := 'A_CheckFlag(flag: string, offset: integer, [aaprt: AAPTR])';{$ENDIF}
+  deh_actions[320].action.acp1 := @A_SetAngle;
+  deh_actions[320].name := strupper('SetAngle');
+  {$IFDEF DLL}deh_actions[320].decl := 'A_SetAngle(angle: integer, [flags: integer], [aaprt: AAPTR])';{$ENDIF}
+  deh_actions[321].action.acp1 := @A_SetUserVar;
+  deh_actions[321].name := strupper('SetUserVar');
+  {$IFDEF DLL}deh_actions[321].decl := 'A_SetUserVar(varname: string, value: integer)';{$ENDIF}
+  deh_actions[322].action.acp1 := @A_SetUserArray;
+  deh_actions[322].name := strupper('SetUserArray');
+  {$IFDEF DLL}deh_actions[322].decl := 'A_SetUserArray(varname: string, index: integer, value: integer)';{$ENDIF}
+  deh_actions[323].action.acp1 := @A_SetTics;
+  deh_actions[323].name := strupper('SetTics');
+  {$IFDEF DLL}deh_actions[323].decl := 'A_SetTics(tics: integer)';{$ENDIF}
+  deh_actions[324].action.acp1 := @A_DropItem;
+  deh_actions[324].name := strupper('DropItem');
+  {$IFDEF DLL}deh_actions[324].decl := 'A_DropItem(spawntype: string, amount: integer, chance: integer)';{$ENDIF}
+  deh_actions[325].action.acp1 := @A_DamageSelf;
+  deh_actions[325].name := strupper('DamageSelf');
+  {$IFDEF DLL}deh_actions[325].decl := 'A_DamageSelf(actor: Pmobj_t)';{$ENDIF}
+  deh_actions[326].action.acp1 := @A_DamageTarget;
+  deh_actions[326].name := strupper('DamageTarget');
+  {$IFDEF DLL}deh_actions[326].decl := 'A_DamageTarget(const damage: integer)';{$ENDIF}
+  deh_actions[327].action.acp1 := @A_DamageTracer;
+  deh_actions[327].name := strupper('DamageTracer');
+  {$IFDEF DLL}deh_actions[327].decl := 'A_DamageTracer(const damage: integer)';{$ENDIF}
+  deh_actions[328].action.acp1 := @A_KillTarget;
+  deh_actions[328].name := strupper('KillTarget');
+  {$IFDEF DLL}deh_actions[328].decl := 'A_KillTarget()';{$ENDIF}
+  deh_actions[329].action.acp1 := @A_KillTracer;
+  deh_actions[329].name := strupper('KillTracer');
+  {$IFDEF DLL}deh_actions[329].decl := 'A_KillTracer()';{$ENDIF}
+  deh_actions[330].action.acp1 := @A_RemoveTarget;
+  deh_actions[330].name := strupper('RemoveTarget');
+  {$IFDEF DLL}deh_actions[330].decl := 'A_RemoveTarget([flags: integer])';{$ENDIF}
+  deh_actions[331].action.acp1 := @A_RemoveTracer;
+  deh_actions[331].name := strupper('RemoveTracer');
+  {$IFDEF DLL}deh_actions[331].decl := 'A_RemoveTracer([flags: integer])';{$ENDIF}
+  deh_actions[332].action.acp1 := @A_Remove;
+  deh_actions[332].name := strupper('Remove');
+  {$IFDEF DLL}deh_actions[332].decl := 'A_Remove(aaprt: AAPTR, [flags: integer])';{$ENDIF}
+  deh_actions[333].action.acp1 := @A_SetFloatBobPhase;
+  deh_actions[333].name := strupper('SetFloatBobPhase');
+  {$IFDEF DLL}deh_actions[333].decl := 'A_SetFloatBobPhase(bob: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
