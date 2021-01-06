@@ -4018,7 +4018,10 @@ end;
 
 //
 // A_SetUserArray(varname: string; index: integer; value: integer)
+// Note #1: If the variable does not exist we create a new one with the name given.
 // Note #2: No bounds check, since the array is stored as a sparse array.
+// Note #3: A variable and an array can share the same name
+// Note #4: The name is not nessesary to start with "user_"
 // In ZDoom displays an error message.
 //
 procedure A_SetUserArray(actor: Pmobj_t);
@@ -4028,6 +4031,7 @@ begin
   if not P_CheckStateParams(actor, 2) then
     exit;
 
+  sprintf(arr, '%s[%d]', [actor.state.params.StrVal[0], actor.state.params.IntVal[1]]);
   P_SetMobjCustomParam(actor, arr, actor.state.params.IntVal[2]);
 end;
 
