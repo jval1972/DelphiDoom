@@ -33,6 +33,9 @@ unit p_aaptr;
 
 interface
 
+uses
+  p_mobj_h;
+
 const
   AAPTR_DEFAULT = 0;
   AAPTR_NULL = $1;
@@ -66,8 +69,155 @@ const
     AAPTR_PLAYER5 or AAPTR_PLAYER6 or AAPTR_PLAYER7 or AAPTR_PLAYER8 or
     AAPTR_NULL;
 
+const
+  PTROP_UNSAFETARGET = 1;
+  PTROP_UNSAFEMASTER = 2;
+  PTROP_NOSAFEGUARDS = PTROP_UNSAFETARGET or PTROP_UNSAFEMASTER;
+
+function COPY_AAPTR(const origin: Pmobj_t; const selector: integer): Pmobj_t;
+
+procedure ASSIGN_AAPTR(const toActor: Pmobj_t; const toSlot: integer; const ptr: Pmobj_t; const flags: integer);
 
 implementation
 
+uses
+  d_delphi,
+  doomdef,
+  {$IFDEF HEXEN}
+  p_common,
+  {$ELSE}
+  p_pspr,
+  {$ENDIF}
+  d_player,
+  g_game,
+  p_map;
+
+function AAPTR_RESOLVE_PLAYERNUM(const playernum: integer): Pmobj_t;
+begin
+  if not IsIntegerInRange(playernum, 0, MAXPLAYERS - 1) then
+  begin
+    result := nil;
+    exit;
+  end;
+
+  if playeringame[playernum] then
+    result := players[playernum].mo
+  else
+    result := nil;
+end;
+
+function COPY_AAPTR(const origin: Pmobj_t; const selector: integer): Pmobj_t;
+var
+  i: integer;
+begin
+  if selector = AAPTR_DEFAULT then
+  begin
+    result := origin;
+    exit;
+  end;
+
+  if origin <> nil then
+  begin
+    if origin.player <> nil then
+    begin
+      case selector and AAPTR_PLAYER_SELECTORS of
+      AAPTR_PLAYER_GETTARGET:
+        begin
+          P_BulletSlope(origin);
+          result := linetarget;
+          exit;
+        end;
+      AAPTR_PLAYER_GETCONVERSATION:
+        begin
+          {$IFDEF STRIFE}
+          result := Pplayer_t(origin.player).lastdialogtalker;
+          {$ELSE}
+          result := nil;
+          {$ENDIF}
+          exit;
+        end;
+      end;
+    end;
+  end;
+
+  case selector and AAPTR_GENERAL_SELECTORS of
+  AAPTR_TARGET:
+    begin
+      result := origin.target;
+      exit;
+    end;(*  unsupported
+  AAPTR_MASTER:
+    begin
+      result := origin.master;
+      exit;
+    end;  *)
+  AAPTR_TRACER:
+    begin
+      result := origin.tracer;
+      exit;
+    end;
+  AAPTR_FRIENDPLAYER:
+    begin
+      if origin.player <> nil then
+        if netgame and (deathmatch = 0) then
+          for i := 0 to MAXPLAYERS - 1 do
+            if playeringame[i] then
+              if origin.player <> @players[i] then
+              begin
+                result := players[i].mo;
+                exit;
+              end;
+
+      {$IFDEF STRIFE}
+      if origin.flags and MF_ALLY <> 0 then
+      {$ELSE}
+      if origin.spawnpoint.flags and MTF_FRIEND then
+      //  if origin.flags3_ex and MF3_EX_FRIEND <> 0 then
+      {$ENDIF}
+        for i := 0 to MAXPLAYERS - 1 do
+          if playeringame[i] then
+          begin
+            result := players[i].mo;
+            exit;
+          end;
+
+      result := nil;
+      exit;
+    end;
+  AAPTR_GET_LINETARGET:
+    begin
+      P_BulletSlope(origin);
+      result := linetarget;
+      exit;
+    end;
+  end;
+
+  case selector and AAPTR_STATIC_SELECTORS of
+    AAPTR_PLAYER1: begin result := AAPTR_RESOLVE_PLAYERNUM(0); exit; end;
+    AAPTR_PLAYER2: begin result := AAPTR_RESOLVE_PLAYERNUM(1); exit; end;
+    AAPTR_PLAYER3: begin result := AAPTR_RESOLVE_PLAYERNUM(2); exit; end;
+    AAPTR_PLAYER4: begin result := AAPTR_RESOLVE_PLAYERNUM(3); exit; end;
+    AAPTR_PLAYER5: begin result := AAPTR_RESOLVE_PLAYERNUM(4); exit; end;
+    AAPTR_PLAYER6: begin result := AAPTR_RESOLVE_PLAYERNUM(5); exit; end;
+    AAPTR_PLAYER7: begin result := AAPTR_RESOLVE_PLAYERNUM(6); exit; end;
+    AAPTR_PLAYER8: begin result := AAPTR_RESOLVE_PLAYERNUM(7); exit; end;
+    AAPTR_NULL:
+      begin
+        result := nil;
+        exit;
+      end;
+  end;
+
+  result := origin;
+end;
+
+procedure ASSIGN_AAPTR(const toActor: Pmobj_t; const toSlot: integer; const ptr: Pmobj_t; const flags: integer);
+begin
+  case toSlot of
+  AAPTR_TARGET: toActor.target := ptr;
+  AAPTR_TRACER: toActor.tracer := ptr;
+//  AAPTR_MASTER: toActor.master := ptr;
+  end;
+end;
+
 end.
- 
