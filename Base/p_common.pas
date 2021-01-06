@@ -4016,6 +4016,7 @@ begin
 end;
 
 //
+// A_SetAngle(angle: integer: [flags: integer]; [aaprt: AAPTR]);
 //
 procedure A_SetAngle(actor: Pmobj_t);
 var
@@ -4238,6 +4239,7 @@ begin
 end;
 
 //
+// A_RemoveTracer([flags: integer]);
 // JVAL: incomplete
 //
 procedure A_RemoveTracer(actor: Pmobj_t);
