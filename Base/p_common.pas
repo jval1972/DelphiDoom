@@ -3973,12 +3973,16 @@ begin
       P_SetMobjState(actor, statenum_t(offset));
 end;
 
+//
+// A_SetAngle(angle; integer: [flags: integer]; [aaprt: AAPTR]);
+//
 procedure A_SetAngle(actor: Pmobj_t);
 var
   mo: Pmobj_t;
   ang: angle_t;
   flags: integer;
 begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
     exit;
 
   mo := COPY_AAPTR(actor, actor.state.params.IntVal[2]);
