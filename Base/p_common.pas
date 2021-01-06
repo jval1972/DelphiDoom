@@ -341,6 +341,8 @@ procedure A_SetTargetMass(actor: Pmobj_t);
 
 procedure A_SetTracerMass(actor: Pmobj_t);
 
+procedure A_CheckSight(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -393,6 +395,7 @@ uses
   p_map,
   p_maputl,
   p_params,
+  p_sight,
   psi_globals,
   r_renderstyle,
   r_main,
@@ -3631,6 +3634,29 @@ begin
     exit;
 
   actor.tracer.mass := actor.state.params.IntVal[0];
+end;
+
+//
+// A_CheckSight(offset: integer)
+// Jumps to offset if no player can see this actor
+//
+procedure A_CheckSight(actor: Pmobj_t);
+var
+  i: integer;
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      if players[i].mo <> actor then
+        if P_CheckSight(players[i].mo, actor) then
+          exit;
+
+  offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+  if @states[offset] <> actor.state then
+    P_SetMobjState(actor, statenum_t(offset));
 end;
 
 
