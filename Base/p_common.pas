@@ -347,6 +347,8 @@ procedure A_CheckSightOrRange(actor: Pmobj_t);
 
 procedure A_CheckRange(actor: Pmobj_t);
 
+procedure A_CountdownArg(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3747,6 +3749,42 @@ begin
         if distance <= range then
           exit;
       end;
+
+  offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+  if @states[offset] <> actor.state then
+    P_SetMobjState(actor, statenum_t(offset));
+end;
+
+//
+// A_CountdownArg(arg: integer; offset: integer);
+//
+procedure A_CountdownArg(actor: Pmobj_t);
+var
+  arg: integer;
+  sarg: string;
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if not actor.state.params.IsComputed[0] then
+  begin
+    sarg := strupper(actor.state.params.StrVal[0]);
+    if sarg = 'CDA_ARG1' then
+      actor.state.params.IntVal[0] := 0
+    else if sarg = 'CDA_ARG2' then
+      actor.state.params.IntVal[0] := 1
+    else if sarg = 'CDA_ARG3' then
+      actor.state.params.IntVal[0] := 2
+    else if sarg = 'CDA_ARG4' then
+      actor.state.params.IntVal[0] := 3
+    else if sarg = 'CDA_ARG5' then
+      actor.state.params.IntVal[0] := 4;
+  end;
+
+  arg := actor.state.params.IntVal[0];
+  if not IsIntegerInRange(arg, 0, 4) then
+    exit;
 
   offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
   if @states[offset] <> actor.state then
