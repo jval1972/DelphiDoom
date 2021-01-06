@@ -337,6 +337,8 @@ procedure A_JumpIfTracerCloser(actor: Pmobj_t);
 
 procedure A_SetMass(actor: Pmobj_t);
 
+procedure A_SetTargetMass(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3599,6 +3601,20 @@ begin
     exit;
 
   actor.mass := actor.state.params.IntVal[0];
+end;
+
+//
+// A_SetTargetMass(mass: integer)
+//
+procedure A_SetTargetMass(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  actor.target.mass := actor.state.params.IntVal[0];
 end;
 
 
