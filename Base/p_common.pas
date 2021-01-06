@@ -343,6 +343,8 @@ procedure A_SetTracerMass(actor: Pmobj_t);
 
 procedure A_CheckSight(actor: Pmobj_t);
 
+procedure A_CheckSightOrRange(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3655,6 +3657,54 @@ begin
           exit;
 
   offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[0]);
+  if @states[offset] <> actor.state then
+    P_SetMobjState(actor, statenum_t(offset));
+end;
+
+//
+// A_CheckSightOrRange(distance: float; offset: integer; [twodi: boolean=false])
+// Jumps to offset if no player can see this actor or out of player range
+//
+procedure A_CheckSightOrRange(actor: Pmobj_t);
+var
+  i: integer;
+  offset: integer;
+  distance: fixed64_t;
+  range: fixed64_t;
+  twodi: boolean;
+  dx, dy, dz: fixed64_t;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  distance := actor.state.params.FixedVal[0];
+  distance := FixedMul64(distance, distance);
+  twodi := actor.state.params.BoolVal[2];
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      if players[i].mo <> actor then
+      begin
+        dx := players[i].mo.x - actor.x;
+        dy := players[i].mo.y - actor.y;
+        if twodi then
+        begin
+          dz := players[i].mo.z - actor.z;
+          range := FixedMul64(dx, dx) + FixedMul64(dy, dy) + FixedMul64(dz, dz);
+        end
+        else
+          range := FixedMul64(dx, dx) + FixedMul64(dy, dy);
+        if distance <= range then
+          exit;
+      end;
+
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+      if players[i].mo <> actor then
+        if P_CheckSight(players[i].mo, actor) then
+          exit;
+
+  offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
   if @states[offset] <> actor.state then
     P_SetMobjState(actor, statenum_t(offset));
 end;
