@@ -359,6 +359,8 @@ procedure A_SetAngle(actor: Pmobj_t);
 
 procedure A_SetUserVar(actor: Pmobj_t);
 
+procedure A_SetUserArray(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4010,6 +4012,23 @@ begin
     exit;
 
   P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
+end;
+
+//
+// A_SetUserArray(varname: string; index: integer; value: integer)
+// Note: If the variable does not exist we create a new one with the name given.
+// Note #2: No bounds check, since the array is stored as a sparse array.
+// In ZDoom displays an error message.
+//
+procedure A_SetUserArray(actor: Pmobj_t);
+var
+  arr: string;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  sprintf(arr, '%s[%d]', [actor.state.params.StrVal[0], actor.state.params.IntVal[0]]);
+  P_SetMobjCustomParam(actor, arr, actor.state.params.IntVal[2]);
 end;
 
 end.
