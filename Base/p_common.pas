@@ -357,6 +357,8 @@ procedure A_CheckFlag(actor: Pmobj_t);
 
 procedure A_SetAngle(actor: Pmobj_t);
 
+procedure A_SetUserVar(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -3977,7 +3979,6 @@ var
   ang: angle_t;
   flags: integer;
 begin
-  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
     exit;
 
   mo := COPY_AAPTR(actor, actor.state.params.IntVal[2]);
@@ -3992,6 +3993,19 @@ begin
     mo.flags3_ex := mo.flags3_ex and not MF3_EX_NORENDERINTERPOLATION;
 
   mo.angle := ang;
+end;
+
+//
+// A_SetUserVar(varname: string; value: integer)
+// Note: If the variable does not exist we create a new one with the name given.
+// In ZDoom displays an error message.
+//
+procedure A_SetUserVar(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  P_SetMobjCustomParam(actor, actor.state.params.StrVal[0], actor.state.params.IntVal[1]);
 end;
 
 end.
