@@ -28,7 +28,7 @@ Added A_JumpIfTracerCloser ACTORDEF function.
 Save target & tracer in saved games.
 Mass, args and special fields for mobjs.
 Added MF3_EX_NORENDERINTERPOLATION mobj flag. When set to true, the renderer does not interpolate the mobj.
-A lot of new ACTPRDEF functions to improve ZDoom compatibility:
+A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_SetMass(mass: integer)
   - A_SetTargetMass(mass: integer)
   - A_SetTracerMass(mass: integer)
