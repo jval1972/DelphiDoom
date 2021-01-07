@@ -3189,7 +3189,7 @@ var
   flags: integer;
 begin
   flags := mobj.flags;
-  mobj.flags := mobj.flags and (not MF_PICKUP);
+  mobj.flags := mobj.flags and not MF_PICKUP;
   if P_CheckPosition(mobj, mobj.x, mobj.y) then
   begin // XY is ok, now check Z
     mobj.flags := flags;

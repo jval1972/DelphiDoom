@@ -2196,6 +2196,184 @@ begin
     mo.angle := actor.angle;
 end;
 
+function InitSpawnedItem(const self, mo: Pmobj_t; flags: integer): boolean;
+const
+  MAXLOOP = 64;
+var
+  originator: Pmobj_t;
+  loop: integer;
+begin
+  if mo = nil then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if flags and SIXF_TRANSFERTRANSLATION <> 0 then
+    mo.flags := (mo.flags and not MF_TRANSLATION) or (self.flags and MF_TRANSLATION);
+
+  if flags and SIXF_TRANSFERPOINTERS <> 0 then
+  begin
+    mo.target := self.target;
+    mo.master := self.master; // This will be overridden later if SIXF_SETMASTER is set
+    mo.tracer := self.tracer;
+  end;
+
+  originator := self;
+  
+  if flags and SIXF_ORIGINATOR = 0 then
+  begin
+    loop := 0;
+    while originator <> nil do
+    begin
+      if originator.flags and MF_MISSILE = 0 then
+        break;
+      if loop = MAXLOOP then
+        break;
+      originator := originator.target;
+      inc(loop);
+    end;
+  end;
+
+  if flags and SIXF_TELEFRAG <> 0 then
+  begin
+    P_TeleportMove(mo, mo.x, mo.y);
+    // This is needed to ensure consistent behavior.
+    // Otherwise it will only spawn if nothing gets telefragged
+    flags := flags or SIXF_NOCHECKPOSITION;
+  end;
+
+  if Info_IsMonster(mo._type) then
+  begin
+    if (flags and SIXF_NOCHECKPOSITION = 0) and not P_TestMobjLocation(mo) then
+    begin
+      // The monster is blocked so don't spawn it at all!
+      P_RemoveMobj(mo);
+      result := false;
+      exit;
+    end
+    else if (originator <> nil) and (flags and SIXF_NOPOINTERS = 0) then
+    begin
+      if Info_IsMonster(originator._type) then
+      begin
+        // If this is a monster transfer all friendliness information
+        {$IFDEF STRIFE}
+        mo.flags := (mo.flags and not MF_ALLY) or (originator.flags and MF_ALLY);
+        {$ENDIF}
+        {$IFDEF DOOM}
+        mo.flags2_ex := (mo.flags2_ex and not MF2_EX_FRIEND) or (originator.flags2_ex and MF2_EX_FRIEND);
+        {$ENDIF}
+      end
+      else if originator.player <> nil then
+      begin
+        // A player always spawns a monster friendly to him
+        {$IFDEF STRIFE}
+        mo.flags := mo.flags or MF_ALLY;
+        {$ENDIF}
+        {$IFDEF DOOM}
+        mo.flags2_ex := mo.flags2_ex or MF2_EX_FRIEND;
+        {$ENDIF}
+      end;
+    end;
+  end
+  else if flags and SIXF_TRANSFERPOINTERS <> 0 then
+  begin
+    // If this is a missile or something else set the target to the originator
+    if originator <> nil then
+      mo.target := originator
+    else
+      mo.target := self;
+  end;
+
+  if flags and SIXF_NOPOINTERS <> 0 then
+  begin
+    //[MC]Intentionally eliminate pointers. Overrides TRANSFERPOINTERS, but is overridden by SETMASTER/TARGET/TRACER.
+    mo.target := nil;
+    mo.master := nil;
+    mo.tracer := nil;
+  end;
+
+  if flags and SIXF_SETMASTER <> 0 then
+  begin
+    // don't let it attack you (optional)!
+    mo.master := originator;
+  end;
+
+  if flags and SIXF_SETTARGET <> 0 then
+  begin
+    mo.target := originator;
+  end;
+
+  if flags and SIXF_SETTRACER <> 0 then
+  begin
+    mo.tracer := originator;
+  end;
+
+  if flags and SIXF_TRANSFERSCALE <> 0 then
+  begin
+    mo.scale := self.scale;
+  end;
+
+  if flags and SIXF_TRANSFERAMBUSHFLAG <> 0 then
+  begin
+    mo.flags := (mo.flags and not MF_AMBUSH) or (self.flags and MF_AMBUSH);
+  end;
+
+  {$IFDEF HEXEN}
+  if flags and SIXF_CLEARCALLERTID <> 0 then
+  begin
+    P_RemoveMobjFromTIDList(self);
+    self.tid := 0;
+    P_InsertMobjIntoTIDList(self, 0); // ?
+  end;
+  {$ENDIF}
+
+  if flags and SIXF_TRANSFERSPECIAL <> 0 then
+  begin
+    mo.special := self.special;
+    mo.args := self.args;
+  end;
+
+  if flags and SIXF_CLEARCALLERSPECIAL <> 0 then
+  begin
+    self.special := 0;
+    FillChar(self.args, SizeOf(self.args), Chr(0));
+  end;
+
+  if flags and SIXF_TRANSFERALPHA <> 0 then
+  begin
+    mo.alpha := self.alpha;
+  end;
+
+  if flags and SIXF_TRANSFERRENDERSTYLE <> 0 then
+  begin
+    mo.RenderStyle := self.RenderStyle;
+  end;
+
+  if flags and SIXF_TRANSFERSPRITEFRAME <> 0 then
+  begin
+    mo.sprite := self.sprite;
+    mo.frame := self.frame;
+  end;
+
+  if flags and SIXF_ISTARGET <> 0 then
+  begin
+    self.target := mo;
+  end;
+
+  if flags and SIXF_ISMASTER <> 0 then
+  begin
+    self.master := mo;
+  end;
+
+  if flags and SIXF_ISTRACER <> 0 then
+  begin
+    self.tracer := mo;
+  end;
+
+  result := true;
+end;
+
 //
 // A_SpawnItemEx(type, xofs, yofs, zofs, momx, momy, momz, Angle, flags, chance)
 //
@@ -2287,8 +2465,7 @@ begin
     mo.momy := momy;
     mo.momz := momz;
     mo.angle := ang1;
-    if flags and SIXF_TRANSFERAMBUSHFLAG <> 0 then
-      mo.flags := (mo.flags and not MF_AMBUSH) or (actor.flags and MF_AMBUSH);
+    InitSpawnedItem(actor, mo, flags);
   end;
 end;
 

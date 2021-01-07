@@ -74,6 +74,8 @@ function P_ChangeSector(sector: Psector_t; crunch: boolean): boolean;
 procedure P_SlideMove(mo: Pmobj_t);
 
 function P_CheckOnmobj(thing: Pmobj_t): Pmobj_t;
+function P_TestMobjLocation(mobj: Pmobj_t): boolean;
+
 
 var
   linetarget: Pmobj_t;  // who got hit (or NULL)
@@ -2379,6 +2381,37 @@ var
 begin
   flags := mobj.flags;
   mobj.flags := mobj.flags and (not MF_PICKUP);
+  if P_CheckPosition(mobj, mobj.x, mobj.y) then
+  begin // XY is ok, now check Z
+    mobj.flags := flags;
+    if (mobj.z < mobj.floorz) or
+       (mobj.z + mobj.height > mobj.ceilingz) then
+    begin // Bad Z
+      result := false;
+      exit;
+    end;
+    result := true;
+    exit;
+  end;
+  mobj.flags := flags;
+  result := false;
+end;
+
+//----------------------------------------------------------------------------
+//
+// FUNC P_TestMobjLocation
+//
+// Returns true if the mobj is not blocked by anything at its current
+// location, otherwise returns false.
+//
+//----------------------------------------------------------------------------
+
+function P_TestMobjLocation(mobj: Pmobj_t): boolean;
+var
+  flags: integer;
+begin
+  flags := mobj.flags;
+  mobj.flags := mobj.flags and not MF_PICKUP;
   if P_CheckPosition(mobj, mobj.x, mobj.y) then
   begin // XY is ok, now check Z
     mobj.flags := flags;
