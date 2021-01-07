@@ -424,6 +424,26 @@ const
   SIXF_TELEFRAG = 64;
   // 128 is used by Skulltag!
   SIXF_TRANSFERAMBUSHFLAG = 256;
+  SIXF_TRANSFERPITCH = $200;
+  SIXF_TRANSFERPOINTERS = $400;
+  SIXF_USEBLOODCOLOR = $800;
+  SIXF_CLEARCALLERTID = $1000;
+  SIXF_MULTIPLYSPEED = $2000;
+  SIXF_TRANSFERSCALE = $4000;
+  SIXF_TRANSFERSPECIAL = $8000;
+  SIXF_CLEARCALLERSPECIAL = $10000;
+  SIXF_TRANSFERSTENCILCOL = $20000;
+  SIXF_TRANSFERALPHA = $40000;
+  SIXF_TRANSFERRENDERSTYLE = $80000;
+  SIXF_SETTARGET = $100000;
+  SIXF_SETTRACER = $200000;
+  SIXF_NOPOINTERS = $400000;
+  SIXF_ORIGINATOR = $800000;
+  SIXF_TRANSFERSPRITEFRAME = $1000000;
+  SIXF_TRANSFERROLL = $2000000;
+  SIXF_ISTARGET = $4000000;
+  SIXF_ISMASTER = $8000000;
+  SIXF_ISTRACER = $10000000;
 
 // P_DoRemoveThing
 const
@@ -2233,12 +2253,12 @@ begin
   ang1 := actor.state.params.IntVal[7];
   flags := actor.state.params.IntVal[8];
 
-  if (flags and SIXF_ABSOLUTEANGLE) = 0 then
+  if flags and SIXF_ABSOLUTEANGLE = 0 then
     ang1 := ang1 + Actor.angle;
 
   ang := ang1 shr ANGLETOFINESHIFT;
 
-  if (flags and SIXF_ABSOLUTEPOSITION) <> 0 then
+  if flags and SIXF_ABSOLUTEPOSITION <> 0 then
   begin
     x := actor.x + xofs;
     y := actor.y + yofs;
@@ -2251,7 +2271,7 @@ begin
     y := actor.y + FixedMul(xofs, finesine[ang]) - FixedMul(yofs, finecosine[ang]);
   end;
 
-  if (flags and SIXF_ABSOLUTEMOMENTUM) = 0 then
+  if flags and SIXF_ABSOLUTEMOMENTUM = 0 then
   begin
     // Same orientation issue here!
     newxmom := FixedMul(momx, finecosine[ang]) + FixedMul(momy, finesine[ang]);
@@ -2259,7 +2279,7 @@ begin
     momx := newxmom;
   end;
 
-  mo := P_SpawnMobj(x, y, actor.z{ - actor.floorz} + zofs, mobj_no);
+  mo := P_SpawnMobj(x, y, actor.z + zofs, mobj_no);
 
   if mo <> nil then
   begin
@@ -2267,7 +2287,7 @@ begin
     mo.momy := momy;
     mo.momz := momz;
     mo.angle := ang1;
-    if (flags and SIXF_TRANSFERAMBUSHFLAG) <> 0 then
+    if flags and SIXF_TRANSFERAMBUSHFLAG <> 0 then
       mo.flags := (mo.flags and not MF_AMBUSH) or (actor.flags and MF_AMBUSH);
   end;
 end;
