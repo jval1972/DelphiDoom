@@ -2254,7 +2254,7 @@ begin
     else
     begin
       dc_translation := PByteArray(integer(translationtables) - 256 +
-        (_SHR((vis.mobjflags and MF_TRANSLATION) and not MF_JUSTAPPEAR, (MF_TRANSSHIFT - 8))));
+        (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
       batchcolfunc := batchfuzztranscolfunc;
     end;
   end
@@ -2267,7 +2267,7 @@ begin
   begin
     batchcolfunc := batchtranscolfunc;
     dc_translation := PByteArray(integer(translationtables) - 256 +
-      (_SHR((vis.mobjflags and MF_TRANSLATION) and not MF_JUSTAPPEAR, (MF_TRANSSHIFT - 8))));
+      (_SHR((vis.mobjflags and MF_TRANSLATION), (MF_TRANSSHIFT - 8))));
   end
   else if usetransparentsprites and (vis.mo <> nil) and (vis.mo.renderstyle = mrs_translucent) then
   begin
