@@ -697,6 +697,8 @@ begin
 
       if mobj.tracer <> nil then
         mobj.tracer := Pmobj_t(mobj.tracer.key);
+      if mobj.master <> nil then
+        mobj.master := Pmobj_t(mobj.master.key);
       if mobj.target <> nil then
         mobj.target := Pmobj_t(mobj.target.key);
       if mobj.player <> nil then
@@ -800,6 +802,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
 
     Z_Free(mobj113);
@@ -875,6 +878,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -956,6 +960,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -1037,6 +1042,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -1118,6 +1124,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -1156,6 +1163,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -1182,6 +1190,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -1207,6 +1216,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -1223,6 +1233,7 @@ begin
 
     mobj.target := nil;
     mobj.tracer := nil;
+    mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
     mobj.args[0] := 0;
     mobj.args[1] := 0;
@@ -1280,6 +1291,7 @@ begin
             begin
               Pmobj_t(currentthinker).target := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).target));
               Pmobj_t(currentthinker).tracer := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).tracer));
+              Pmobj_t(currentthinker).master := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).master));
             end;
 
             currentthinker := next;

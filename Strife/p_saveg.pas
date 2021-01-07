@@ -861,6 +861,8 @@ begin
         mobj.tracer := Pmobj_t(mobj.tracer.key);
       if mobj.target <> nil then
         mobj.target := Pmobj_t(mobj.target.key);
+      if mobj.master <> nil then
+        mobj.master := Pmobj_t(mobj.master.key);
 
       if mobj.player <> nil then
         mobj.player := Pplayer_t(pDiff(mobj.player, @players[0], SizeOf(player_t)) + 1);
@@ -929,6 +931,7 @@ begin
               begin
                 Pmobj_t(currentthinker).target := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).target));
                 Pmobj_t(currentthinker).tracer := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).tracer));
+                Pmobj_t(currentthinker).master := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).master));
               end;
 
               currentthinker := next;
@@ -964,6 +967,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.master := nil;
           end
           else if savegameversion >= VERSION122 then
           begin
@@ -985,6 +989,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.master := nil;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -1008,6 +1013,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.master := nil;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -1041,6 +1047,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.master := nil;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
@@ -1048,7 +1055,7 @@ begin
           mobj.validcount := 0;
           mobj.lightvalidcount := 0;
           mobj.rendervalidcount := 0;
-            
+
           if mobj.key < 2 then
             mobj.key := P_GenGlobalMobjKey;
           P_NotifyMobjKey(mobj);
@@ -1059,6 +1066,7 @@ begin
           begin
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.master := nil;
           end;
           mobj.touching_sectorlist := nil;
 

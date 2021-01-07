@@ -479,6 +479,7 @@ begin
   mobj.ceilingz := P_3dCeilingHeight(mobj);
   SetMobjPtr(PInteger(@mobj.target));
   SetMobjPtr(PInteger(@mobj.tracer));
+  SetMobjPtr(PInteger(@mobj.master));
   case mobj._type of
     Ord(MT_KORAX_SPIRIT1),
     Ord(MT_KORAX_SPIRIT2),
@@ -1124,11 +1125,13 @@ begin
   begin
     mobj.target := Pmobj_t(MOBJ_NULL);
     mobj.tracer := Pmobj_t(MOBJ_NULL);
+    mobj.master := Pmobj_t(MOBJ_NULL);
   end
   else
   begin
     mobj.target := Pmobj_t(GetMobjNum(mobj.target));
     mobj.tracer := Pmobj_t(GetMobjNum(mobj.tracer));
+    mobj.master := Pmobj_t(GetMobjNum(mobj.tracer));
   end;
   case mobj._type of
     Ord(MT_KORAX_SPIRIT1),
@@ -1295,6 +1298,7 @@ begin
       mobj.rendervalidcount := 0;
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+      mobj.master := nil;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1312,6 +1316,7 @@ begin
       mobj.rendervalidcount := 0;
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+      mobj.master := nil;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1327,6 +1332,7 @@ begin
       mobj.rendervalidcount := 0;
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+      mobj.master := nil;
     end
     else if LOADVERSION <= VERSION205 then
     begin
@@ -1334,6 +1340,7 @@ begin
       incp(saveptr, SizeOf(mobj_t205));
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+      mobj.master := nil;
     end
     else
     begin

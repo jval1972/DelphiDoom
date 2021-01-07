@@ -145,12 +145,12 @@ begin
     begin
       result := origin.target;
       exit;
-    end;(*  unsupported
+    end;
   AAPTR_MASTER:
     begin
       result := origin.master;
       exit;
-    end;  *)
+    end;
   AAPTR_TRACER:
     begin
       result := origin.tracer;
@@ -218,7 +218,7 @@ begin
   case toSlot of
   AAPTR_TARGET: toActor.target := ptr;
   AAPTR_TRACER: toActor.tracer := ptr;
-//  AAPTR_MASTER: toActor.master := ptr;
+  AAPTR_MASTER: toActor.master := ptr;
   end;
 end;
 

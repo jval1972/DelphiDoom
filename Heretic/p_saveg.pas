@@ -681,6 +681,7 @@ begin
             begin
               Pmobj_t(currentthinker).target := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).target));
               Pmobj_t(currentthinker).tracer := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).tracer));
+              Pmobj_t(currentthinker).master := P_FindMobjFromKey(integer(Pmobj_t(currentthinker).master));
             end;
 
             currentthinker := next;
@@ -706,6 +707,7 @@ begin
 
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.master := nil;
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -729,6 +731,7 @@ begin
 
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.master := nil;
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -754,6 +757,7 @@ begin
 
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.master := nil;
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -791,6 +795,7 @@ begin
 
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.master := nil;
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -876,6 +881,7 @@ begin
 
             mobj.target := nil;
             mobj.tracer := nil;
+            mobj.master := nil;
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
