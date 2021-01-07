@@ -2461,11 +2461,29 @@ begin
 
   if mo <> nil then
   begin
-    mo.momx := momx;
-    mo.momy := momy;
-    mo.momz := momz;
     mo.angle := ang1;
     InitSpawnedItem(actor, mo, flags);
+    if flags and SIXF_MULTIPLYSPEED <> 0 then
+    begin
+      if mo.info.speed < 64 then
+      begin
+        mo.momx := momx * mo.info.speed;
+        mo.momy := momy * mo.info.speed;
+        mo.momz := momz * mo.info.speed;
+      end
+      else
+      begin
+        mo.momx := FixedMul(momx, mo.info.speed);
+        mo.momy := FixedMul(momy, mo.info.speed);
+        mo.momz := FixedMul(momz, mo.info.speed);
+      end;
+    end
+    else
+    begin
+      mo.momx := momx;
+      mo.momy := momy;
+      mo.momz := momz;
+    end;
   end;
 end;
 
