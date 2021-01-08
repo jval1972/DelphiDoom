@@ -55,6 +55,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_SetFloatBobPhase(bob: integer)
   - A_Detonate
   - A_Mushroom
+  - A_BetaSkullAttack
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
