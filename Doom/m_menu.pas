@@ -1329,6 +1329,26 @@ end;
 // M_DrawSaveLoadScreenShot
 // JVAL: 20200303 - Draw Game Screenshot in Load/Save screens
 //
+var
+  sspatch: integer = -2;
+
+function ss_patch: integer;
+begin
+  if sspatch <> -2 then
+  begin
+    result := sspatch;
+    exit;
+  end;
+
+  if customgame = cg_hacx then
+    result := W_CheckNumForName('M_SSHOTH')
+  else if customgame in [cg_chex, cg_chex2] then
+    result := W_CheckNumForName('M_SSHOTC')
+  else
+    result := W_CheckNumForName('M_SSHOT');
+  sspatch := result;
+end;
+
 procedure M_DrawSaveLoadScreenShot(const screenshot: Pmenuscreenbuffer_t; const mnpos: integer);
 const
   SHOT_X = 320 - MN_SCREENSHOTWIDTH - 4;
@@ -1336,6 +1356,7 @@ const
 var
   i, x, y, spos: integer;
   b: byte;
+  patchno: integer;
 begin
   if screenshot = nil then
     exit;
@@ -1352,7 +1373,9 @@ begin
         screenshot.data[i] := aprox_black;
   end;
 
-  V_DrawPatch(SHOT_X - 8, SHOT_Y + mnpos * Loaddef.itemheight + Loaddef.itemheight div 2 - 3, SCN_TMP, 'M_SSHOT', false);
+  patchno := ss_patch;
+  if patchno >= 0 then
+    V_DrawPatch(SHOT_X - 8, SHOT_Y + mnpos * Loaddef.itemheight + Loaddef.itemheight div 2 - 3, SCN_TMP, patchno, false);
 
   // Draw screenshot starting at (SHOT_X,SHOT_Y) position
   for y := 0 to MN_SCREENSHOTHEIGHT - 1 do
