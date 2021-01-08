@@ -1373,6 +1373,7 @@ function DEH_CurrentSettings: TDStringList;
 var
   i, j: integer;
   str: string;
+  cmdln: string;
 begin
   if not deh_initialized then
     DEH_Init;
@@ -1380,6 +1381,13 @@ begin
   result := TDStringList.Create;
   result.Add('Patch File for DeHackEd');
   result.Add('# Created with %s, %s', [D_Version, D_VersionBuilt]);
+
+  cmdln := fname(myargv[0]);
+  for i := 1 to myargc - 1 do
+    cmdln := cmdln + ' ' + myargv[i];
+  result.Add('# Command line options:');
+  result.Add('# %s'#13#10, [cmdln]);
+
   result.Add('');
 
   result.Add('# Note: Use the ''#'' or ''//'' (DelphiDoom specific) sign to start comment lines.');
@@ -1705,6 +1713,9 @@ var
 begin
   if deh_initialized then
     exit;
+
+  SC_FillStateNames;
+  
   deh_initialized := true;
 
   mobj_tokens := TDTextList.Create;

@@ -463,6 +463,8 @@ const
 
 function P_TicsFromState(const st: Pstate_t): integer;
 
+procedure P_SetMobjRelativeState(const mo: Pmobj_t; const offset: integer);
+
 implementation
 
 uses
@@ -4507,6 +4509,14 @@ end;
 procedure A_Detonate(actor: Pmobj_t);
 begin
   P_RadiusAttack(actor, actor.target, actor.info.damage{$IFDEF HEXEN}, actor.info.damage, true{$ENDIF});
+end;
+
+procedure P_SetMobjRelativeState(const mo: Pmobj_t; const offset: integer);
+var
+  cur: integer;
+begin
+  cur := (integer(mo.state) - integer(states)) div SizeOf(state_t);
+  P_SetMobjState(mo, statenum_t(cur + offset));
 end;
 
 end.

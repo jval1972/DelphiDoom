@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1366x768 BlackOps.wad
+RunParams=-internalgamedef -noactordef -NODEHEXTRA
 HostApplication=
 Launcher=
 UseLauncher=0

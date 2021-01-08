@@ -1438,7 +1438,8 @@ var
   th: Pmobj_t;
 begin
   z := z + _SHL(N_Random - N_Random, 10);
-  th := P_SpawnMobj(x, y, z, Ord(MT_GREENBLOOD));
+
+  th := P_SpawnMobj(x, y, z, MT_GREENBLOOD);
   th.momz := FRACUNIT * 2;
   th.tics := th.tics - (N_Random and 3);
 
@@ -1448,9 +1449,9 @@ begin
   if th.flags3_ex and MF3_EX_BLOODIGNOREDAMAGE = 0 then
   begin
     if (damage <= 12) and (damage >= 9) then
-      P_SetMobjState(th, S_GREENBLOOD2)
+      P_SetMobjRelativeState(th, 1)
     else if damage < 9 then
-      P_SetMobjState(th, S_GREENBLOOD3);
+      P_SetMobjRelativeState(th, 2);
   end;
 end;
 
@@ -1459,7 +1460,8 @@ var
   th: Pmobj_t;
 begin
   z := z + _SHL(N_Random - N_Random, 10);
-  th := P_SpawnMobj(x, y, z, Ord(MT_BLUEBLOOD));
+
+  th := P_SpawnMobj(x, y, z, MT_BLUEBLOOD);
   th.momz := FRACUNIT * 2;
   th.tics := th.tics - (N_Random and 3);
 
@@ -1469,9 +1471,9 @@ begin
   if th.flags3_ex and MF3_EX_BLOODIGNOREDAMAGE = 0 then
   begin
     if (damage <= 12) and (damage >= 9) then
-      P_SetMobjState(th, S_BLUEBLOOD2)
+      P_SetMobjRelativeState(th, 1)
     else if damage < 9 then
-      P_SetMobjState(th, S_BLUEBLOOD3);
+      P_SetMobjRelativeState(th, 2);
   end;
 end;
 

@@ -72,6 +72,8 @@ procedure Info_AddStateOwner(const st: Pstate_t; const moidx: integer);
 
 procedure Info_InitStateOwners;
 
+function Info_ResolveMobjType(const name: string; const mt: PInteger): boolean;
+
 implementation
 
 uses
@@ -574,6 +576,20 @@ begin
       Info_AddStateOwner(@states[N.Numbers[j]], i);
     N.Free;
   end;
+end;
+
+function Info_ResolveMobjType(const name: string; const mt: PInteger): boolean;
+begin
+  if mt^ >= 0 then
+  begin
+    result := true;
+    exit;
+  end;
+
+  if mt^ = -2 then
+    mt^ := Info_GetMobjNumForName(name);
+
+  result := mt^ >= 0;
 end;
 
 end.

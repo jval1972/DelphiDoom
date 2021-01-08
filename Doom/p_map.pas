@@ -2365,9 +2365,9 @@ begin
     // spray blood in a random direction
     // JVAL: player with custom blood color :)
     if thing.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
-      mo := P_SpawnMobj(thing.x, thing.y, thing.z + thing.height div 2, Ord(MT_BLUEBLOOD))
+      mo := P_SpawnMobj(thing.x, thing.y, thing.z + thing.height div 2, MT_BLUEBLOOD)
     else if thing.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
-      mo := P_SpawnMobj(thing.x, thing.y, thing.z + thing.height div 2, Ord(MT_GREENBLOOD))
+      mo := P_SpawnMobj(thing.x, thing.y, thing.z + thing.height div 2, MT_GREENBLOOD)
     else
       mo := P_SpawnMobj(thing.x, thing.y, thing.z + thing.height div 2, Ord(MT_BLOOD));
 

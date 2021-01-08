@@ -68,6 +68,7 @@ implementation
 
 uses
   i_system,
+  m_argv,
   p_enemy,
   p_pspr,
   p_mobj_h,
@@ -75,6 +76,7 @@ uses
   p_common,
   info_common,
   r_renderstyle,
+  sc_states,
   sounds;
 
 const
@@ -10714,790 +10716,1216 @@ const
     flags_ex: 0;
    ),                         // S_TECH2LAMP4
 
+   // New states
    (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 0;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASH2;     // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASH1
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 1;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASH3;     // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASH2
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 2;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASH4;     // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASH3
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 3;                 // frame
-    tics: 16;                 // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASH4
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 3;                 // frame
-    tics: 10;                 // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHX
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 4;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASHBASE2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHBASE1
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 5;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASHBASE3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHBASE2
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 6;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASHBASE4;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHBASE3
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 7;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASHBASE5;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHBASE4
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 8;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASHBASE6;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHBASE5
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 9;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SPLASHBASE7;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHBASE6
-
-   (
-    sprite: Ord(SPR_SPSH);    // sprite
-    frame: 10;                // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SPLASHBASE7
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32768;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASPLASH2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASPLASH1
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32769;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASPLASH3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASPLASH2
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32770;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASPLASH4;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASPLASH3
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32771;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASPLASH5;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASPLASH4
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32772;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASPLASH6;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASPLASH5
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32773;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASPLASH6
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32774;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASMOKE2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASMOKE1
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32775;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASMOKE3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASMOKE2
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32776;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASMOKE4;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASMOKE3
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32777;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_LAVASMOKE5;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASMOKE4
-
-   (
-    sprite: Ord(SPR_LVAS);    // sprite
-    frame: 32778;             // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_LAVASMOKE5
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 0;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SLUDGECHUNK2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGECHUNK1
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 1;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SLUDGECHUNK3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGECHUNK2
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 2;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SLUDGECHUNK4;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGECHUNK3
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 3;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGECHUNK4
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 3;                 // frame
-    tics: 6;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGECHUNKX
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 4;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SLUDGESPLASH2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGESPLASH1
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 5;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SLUDGESPLASH3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGESPLASH2
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 6;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_SLUDGESPLASH4;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_SLUDGESPLASH3
-
-   (
-    sprite: Ord(SPR_SLDG);    // sprite
-    frame: 7;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                        // S_SLUDGESPLASH4
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 0;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NUKAGECHUNK2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGECHUNK1
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 1;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NUKAGECHUNK3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGECHUNK2
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 2;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NUKAGECHUNK4;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGECHUNK3
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 3;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGECHUNK4
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 3;                 // frame
-    tics: 6;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGECHUNKX
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 4;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NUKAGESPLASH2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGESPLASH1
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 5;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NUKAGESPLASH3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGESPLASH2
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 6;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NUKAGESPLASH4;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                         // S_NUKAGESPLASH3
-
-   (
-    sprite: Ord(SPR_SLDN);    // sprite
-    frame: 7;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0                  // misc2
-   ),                        // S_NUKAGESPLASH4
-
-   (
-    sprite: Ord(SPR_DD01);    // sprite
-    frame: 2;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_GREENBLOOD2; // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
+    sprite: Ord(SPR_TNT1);
+    frame: 0;
+    tics: -1;
+    action: (acp1: nil);
+    nextstate: S_TNT1;
+    misc1: 0;
+    misc2: 0;
     flags_ex: 0;
-   ),                         // S_GREENBLOOD1
+   ),                          // S_TNT1
 
    (
-    sprite: Ord(SPR_DD01);    // sprite
-    frame: 1;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_GREENBLOOD3; // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
+    sprite: Ord(SPR_MISL);
+    frame: 32768;
+    tics: 1000;
+    action: (acp1: nil);
+    nextstate: S_GRENADE;
+    misc1: 0;
+    misc2: 0;
     flags_ex: 0;
-   ),                         // S_GREENBLOOD2
+   ),                          // S_GRENADE
 
    (
-    sprite: Ord(SPR_DD01);    // sprite
-    frame: 0;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
+    sprite: Ord(SPR_MISL);
+    frame: 32769;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_DETONATE2;
+    misc1: 0;
+    misc2: 0;
     flags_ex: 0;
-   ),                         // S_GREENBLOOD3
+   ),                          // S_DETONATE
 
    (
-    sprite: Ord(SPR_DD02);    // sprite
-    frame: 2;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_BLUEBLOOD2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
+    sprite: Ord(SPR_MISL);
+    frame: 32770;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_DETONATE3;
+    misc1: 0;
+    misc2: 0;
     flags_ex: 0;
-   ),                         // S_BLUEBLOOD1
+   ),                          // S_DETONATE2
 
    (
-    sprite: Ord(SPR_DD02);    // sprite
-    frame: 1;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_BLUEBLOOD3;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
+    sprite: Ord(SPR_MISL);
+    frame: 32771;
+    tics: 10;
+    action: (acp1: nil);
+    nextstate: S_NULL;
+    misc1: 0;
+    misc2: 0;
     flags_ex: 0;
-   ),                         // S_BLUEBLOOD2
+   ),                          // S_DETONATE3
 
    (
-    sprite: Ord(SPR_DD02);    // sprite
-    frame: 0;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_BLUEBLOOD3
-
-   (
-    sprite: Ord(SPR_TNT1);    // sprite
-    frame: 0;                 // frame
-    tics: -1;                 // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
+    sprite: Ord(SPR_DOGS);
+    frame: 0;
+    tics: 10;
+    action: (acp1: nil);
+    nextstate: S_DOGS_STND2;
+    misc1: 0;
+    misc2: 0;
     flags_ex: 0;
-   ),                         // S_TNT1
+   ),                          // S_DOGS_STND
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 0;                 // frame
-    tics: 10;                 // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_STND2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
+    sprite: Ord(SPR_DOGS);
+    frame: 1;
+    tics: 10;
+    action: (acp1: nil);
+    nextstate: S_DOGS_STND;
+    misc1: 0;
+    misc2: 0;
     flags_ex: 0;
-   ),                         // S_DOGS_STND
+   ),                          // S_DOGS_STND2
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 1;                 // frame
-    tics: 10;                 // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_STND;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_STND2
+    sprite: Ord(SPR_DOGS);
+    frame: 0;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN1
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 0;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN2;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN1
+    sprite: Ord(SPR_DOGS);
+    frame: 0;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN2
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 0;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN3;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN2
+    sprite: Ord(SPR_DOGS);
+    frame: 1;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN3
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 1;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN4;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN3
+    sprite: Ord(SPR_DOGS);
+    frame: 1;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN5;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN4
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 1;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN5;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN4
+    sprite: Ord(SPR_DOGS);
+    frame: 2;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN6;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN5
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 2;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN6;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN5
+    sprite: Ord(SPR_DOGS);
+    frame: 2;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN7;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN6
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 2;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN7;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN6
+    sprite: Ord(SPR_DOGS);
+    frame: 3;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN8;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN7
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 3;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN8;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN7
+    sprite: Ord(SPR_DOGS);
+    frame: 3;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RUN8
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 3;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN1;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RUN8
+    sprite: Ord(SPR_DOGS);
+    frame: 4;
+    tics: 8;
+    action: (acp1: nil);
+    nextstate: S_DOGS_ATK2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_ATK1
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 4;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_ATK2;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_ATK1
+    sprite: Ord(SPR_DOGS);
+    frame: 5;
+    tics: 8;
+    action: (acp1: nil);
+    nextstate: S_DOGS_ATK3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_ATK2
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 5;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_ATK3;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_ATK2
+    sprite: Ord(SPR_DOGS);
+    frame: 6;
+    tics: 8;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_ATK3
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 6;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN1;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_ATK3
+    sprite: Ord(SPR_DOGS);
+    frame: 7;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_PAIN2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_PAIN
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 7;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_PAIN2;  // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_PAIN
+    sprite: Ord(SPR_DOGS);
+    frame: 7;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_PAIN2
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 7;                 // frame
-    tics: 2;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN1;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_PAIN2
+    sprite: Ord(SPR_DOGS);
+    frame: 8;
+    tics: 8;
+    action: (acp1: nil);
+    nextstate: S_DOGS_DIE2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_DIE1
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 8;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_DIE2;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_DIE1
+    sprite: Ord(SPR_DOGS);
+    frame: 9;
+    tics: 8;
+    action: (acp1: nil);
+    nextstate: S_DOGS_DIE3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_DIE2
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 9;                 // frame
-    tics: 8;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_DIE3;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_DIE2
+    sprite: Ord(SPR_DOGS);
+    frame: 10;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_DOGS_DIE4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_DIE3
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 10;                // frame
-    tics: 4;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_DIE4;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_DIE3
+    sprite: Ord(SPR_DOGS);
+    frame: 11;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_DOGS_DIE5;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_DIE4
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 11;                // frame
-    tics: 4;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_DIE5;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_DIE4
+    sprite: Ord(SPR_DOGS);
+    frame: 12;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_DOGS_DIE6;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_DIE5
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 12;                // frame
-    tics: 4;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_DIE6;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_DIE5
+    sprite: Ord(SPR_DOGS);
+    frame: 13;
+    tics: -1;
+    action: (acp1: nil);
+    nextstate: S_NULL;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_DIE6
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 13;                // frame
-    tics: -1;                 // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_NULL;        // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_DIE6
+    sprite: Ord(SPR_DOGS);
+    frame: 13;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RAISE2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RAISE1
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 13;                // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RAISE2; // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RAISE1
+    sprite: Ord(SPR_DOGS);
+    frame: 12;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RAISE3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RAISE2
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 12;                // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RAISE3; // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RAISE2
+    sprite: Ord(SPR_DOGS);
+    frame: 11;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RAISE4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RAISE3
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 11;                // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RAISE4; // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RAISE3
+    sprite: Ord(SPR_DOGS);
+    frame: 10;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RAISE5;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RAISE4
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 10;                // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RAISE5; // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RAISE4
+    sprite: Ord(SPR_DOGS);
+    frame: 9;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RAISE6;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RAISE5
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 9;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RAISE6; // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   ),                         // S_DOGS_RAISE5
+    sprite: Ord(SPR_DOGS);
+    frame: 8;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_DOGS_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_DOGS_RAISE6
 
    (
-    sprite: Ord(SPR_DOGS);    // sprite
-    frame: 8;                 // frame
-    tics: 5;                  // tics
-    action: (acp1: nil);      // action, will be set after
-    nextstate: S_DOGS_RUN1;   // nextstate
-    misc1: 0;                 // misc1
-    misc2: 0;                 // misc2
-    flags_ex: 0;              // flags_ex
-   )                          // S_DOGS_RAISE6
+    sprite: Ord(SPR_BFGG);
+    frame: 0;
+    tics: 10;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG1
 
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG2
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG3
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG5;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG4
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG6;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG5
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG7;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG6
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG8;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG7
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG9;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG8
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG10;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG9
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG11;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG10
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG12;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG11
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG13;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG12
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG14;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG13
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG15;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG14
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG16;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG15
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG17;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG16
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG18;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG17
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG19;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG18
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG20;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG19
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG21;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG20
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG22;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG21
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG23;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG22
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG24;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG23
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG25;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG24
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG26;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG25
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG27;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG26
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG28;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG27
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG29;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG28
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG30;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG29
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG31;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG30
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG32;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG31
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG33;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG32
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG34;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG33
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG35;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG34
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG36;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG35
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG37;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG36
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG38;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG37
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG39;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG38
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG40;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG39
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG41;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG40
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG42;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG41
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 0;
+    action: (acp1: nil);
+    nextstate: S_OLDBFG43;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG42
+
+   (
+    sprite: Ord(SPR_BFGG);
+    frame: 1;
+    tics: 20;
+    action: (acp1: nil);
+    nextstate: S_BFG;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_OLDBFG43
+
+   (
+    sprite: Ord(SPR_PLS1);
+    frame: 32768;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_PLS1BALL2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS1BALL
+
+   (
+    sprite: Ord(SPR_PLS1);
+    frame: 32769;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_PLS1BALL;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS1BALL2
+
+   (
+    sprite: Ord(SPR_PLS1);
+    frame: 32770;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_PLS1EXP2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS1EXP
+
+   (
+    sprite: Ord(SPR_PLS1);
+    frame: 32771;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_PLS1EXP3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS1EXP2
+
+   (
+    sprite: Ord(SPR_PLS1);
+    frame: 32772;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_PLS1EXP4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS1EXP3
+
+   (
+    sprite: Ord(SPR_PLS1);
+    frame: 32773;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_PLS1EXP5;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS1EXP4
+
+   (
+    sprite: Ord(SPR_PLS1);
+    frame: 32774;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_NULL;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS1EXP5
+
+   (
+    sprite: Ord(SPR_PLS2);
+    frame: 32768;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_PLS2BALL2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS2BALL
+
+   (
+    sprite: Ord(SPR_PLS2);
+    frame: 32769;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_PLS2BALL;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS2BALL2
+
+   (
+    sprite: Ord(SPR_PLS2);
+    frame: 32770;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_PLS2BALLX2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS2BALLX1
+
+   (
+    sprite: Ord(SPR_PLS2);
+    frame: 32771;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_PLS2BALLX3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS2BALLX2
+
+   (
+    sprite: Ord(SPR_PLS2);
+    frame: 32772;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_NULL;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_PLS2BALLX3
+
+   (
+    sprite: Ord(SPR_BON3);
+    frame: 0;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_BON3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BON3
+
+   (
+    sprite: Ord(SPR_BON4);
+    frame: 0;
+    tics: 6;
+    action: (acp1: nil);
+    nextstate: S_BON4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BON4
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 0;
+    tics: 10;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_STND;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_STND
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 1;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_RUN2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_RUN1
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 2;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_RUN3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_RUN2
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 3;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_RUN4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_RUN3
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 0;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_RUN4
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 4;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_ATK2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_ATK1
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 5;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_ATK3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_ATK2
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 5;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_ATK3
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 6;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_PAIN2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_PAIN1
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 7;
+    tics: 2;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_PAIN2
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 8;
+    tics: 4;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_RUN1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_PAIN3
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 9;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE1
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 10;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE3;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE2
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 11;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE4;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE3
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 12;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE5;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE4
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 13;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE6;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE5
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 14;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE7;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE6
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 15;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE8;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE7
+
+   (
+    sprite: Ord(SPR_SKUL);
+    frame: 16;
+    tics: 5;
+    action: (acp1: nil);
+    nextstate: S_BSKUL_DIE8;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_BSKUL_DIE8
+
+   (
+    sprite: Ord(SPR_MISL);
+    frame: 32769;
+    tics: 8;
+    action: (acp1: nil);
+    nextstate: S_EXPLODE2;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   ),                          // S_MUSHROOM
+
+   (
+    sprite: Ord(SPR_TNT1);
+    frame: 0;
+    tics: 1;
+    action: (acp1: nil);
+    nextstate: S_TNT1;
+    misc1: 0;
+    misc2: 0;
+    flags_ex: 0;
+   )                           // S_NONE
 
   );
 
@@ -11516,8 +11944,26 @@ const // Doom Original Sprite Names
     'POL3', 'POL1', 'POL6', 'GOR2', 'GOR3', 'GOR4', 'GOR5', 'SMIT', 'COL1', 'COL2',
     'COL3', 'COL4', 'CAND', 'CBRA', 'COL6', 'TRE1', 'TRE2', 'ELEC', 'CEYE', 'FSKU',
     'COL5', 'TBLU', 'TGRN', 'TRED', 'SMBT', 'SMGT', 'SMRT', 'HDB1', 'HDB2', 'HDB3',
-    'HDB4', 'HDB5', 'HDB6', 'POB1', 'POB2', 'BRS1', 'TLMP', 'TLP2',
-    'SPSH', 'LVAS', 'SLDG', 'SLDN', 'DD01', 'DD02', 'TNT1', 'DOGS', ''
+    'HDB4', 'HDB5', 'HDB6', 'POB1', 'POB2', 'BRS1', 'TLMP', 'TLP2', 'TNT1', 'DOGS',
+
+    'PLS1',
+    'PLS2',
+    'BON3',
+    'BON4',
+    // Green blood
+    'DD01',
+    // [BH] 100 extra sprite names to use in dehacked patches
+    'SP00', 'SP01', 'SP02', 'SP03', 'SP04', 'SP05', 'SP06', 'SP07', 'SP08', 'SP09',
+    'SP10', 'SP11', 'SP12', 'SP13', 'SP14', 'SP15', 'SP16', 'SP17', 'SP18', 'SP19',
+    'SP20', 'SP21', 'SP22', 'SP23', 'SP24', 'SP25', 'SP26', 'SP27', 'SP28', 'SP29',
+    'SP30', 'SP31', 'SP32', 'SP33', 'SP34', 'SP35', 'SP36', 'SP37', 'SP38', 'SP39',
+    'SP40', 'SP41', 'SP42', 'SP43', 'SP44', 'SP45', 'SP46', 'SP47', 'SP48', 'SP49',
+    'SP50', 'SP51', 'SP52', 'SP53', 'SP54', 'SP55', 'SP56', 'SP57', 'SP58', 'SP59',
+    'SP60', 'SP61', 'SP62', 'SP63', 'SP64', 'SP65', 'SP66', 'SP67', 'SP68', 'SP69',
+    'SP70', 'SP71', 'SP72', 'SP73', 'SP74', 'SP75', 'SP76', 'SP77', 'SP78', 'SP79',
+    'SP80', 'SP81', 'SP82', 'SP83', 'SP84', 'SP85', 'SP86', 'SP87', 'SP88', 'SP89',
+    'SP90', 'SP91', 'SP92', 'SP93', 'SP94', 'SP95', 'SP96', 'SP97', 'SP98', 'SP99',
+    'NULL', ''
   );
 
 const // Doom Original mobjinfo
@@ -17005,358 +17451,6 @@ const // Doom Original mobjinfo
     flags4_ex: 0;                                                 // flags4_ex
    ),
 
-   (    // MT_SPLASH
-    name: 'Splash';                                               // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_SPLASH1);                                   // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_SPLASHX);                                   // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 2 * FRACUNIT;                                         // radius
-    height: 4 * FRACUNIT;                                         // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
-    flags_ex: MF_EX_LOWGRAVITY;                                   // flags_ex
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_SPLASHBASE
-    name: 'Splash 2';                                             // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_SPLASHBASE1);                               // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NULL);                                      // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 20 * FRACUNIT;                                        // radius
-    height: 16 * FRACUNIT;                                        // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP;                                         // flags
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_LAVASPLASH
-    name: 'Lava Splash';                                          // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_LAVASPLASH1);                               // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NULL);                                      // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 20 * FRACUNIT;                                        // radius
-    height: 16 * FRACUNIT;                                        // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP;                                         // flags
-    flags2_ex: MF2_EX_NOHITFLOOR;                                 // flags2_ex
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_LAVASMOKE
-    name: 'Lava Smoke';                                           // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_LAVASMOKE1);                                // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NULL);                                      // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 20 * FRACUNIT;                                        // radius
-    height: 16 * FRACUNIT;                                        // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
-    renderstyle: mrs_translucent;
-    alpha: 40000;
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_SLUDGECHUNK
-    name: 'Sludge Chunk';                                         // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_SLUDGECHUNK1);                              // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_SLUDGECHUNKX);                              // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 2 * FRACUNIT;                                         // radius
-    height: 4 * FRACUNIT;                                         // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
-    flags_ex: MF_EX_LOWGRAVITY;                                   // flags_ex
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_SLUDGESPLASH
-    name: 'Sludge Splash';                                        // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_SLUDGESPLASH1);                             // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NULL);                                      // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 20 * FRACUNIT;                                        // radius
-    height: 16 * FRACUNIT;                                        // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP;                                         // flags
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_NUKAGECHUNK
-    name: 'Nukage Chunk';                                         // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_NUKAGECHUNK1);                              // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NUKAGECHUNKX);                              // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 2 * FRACUNIT;                                         // radius
-    height: 4 * FRACUNIT;                                         // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
-    flags_ex: MF_EX_LOWGRAVITY;                                   // flags_ex
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_NUKAGESPLASH
-    name: 'Nukage Splash';                                        // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_NUKAGESPLASH1);                             // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NULL);                                      // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 20 * FRACUNIT;                                        // radius
-    height: 16 * FRACUNIT;                                        // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP;                                         // flags
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_GREENBLOOD
-    name: 'Green Blood';                                          // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_GREENBLOOD1);                               // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NULL);                                      // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 20 * FRACUNIT;                                        // radius
-    height: 16 * FRACUNIT;                                        // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP;                                         // flags
-    flags_ex: MF_EX_TRANSPARENT or MF_EX_GREENLIGHT;              // flags_ex
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
-    raisestate: Ord(S_NULL);                                      // raisestate
-    customsound1: 0;                                              // customsound1
-    customsound2: 0;                                              // customsound2
-    customsound3: 0;                                              // customsound3
-    explosiondamage: 0;                                           // explosiondamage
-    explosionradius: 0;                                           // explosionradius
-    meleedamage: 0;                                               // meleedamage
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-   (    // MT_BLUEBLOOD
-    name: 'Blue Blood';                                           // name
-    inheritsfrom: -1;                                             // inheritsfrom
-    doomednum: -1;                                                // doomednum
-    spawnstate: Ord(S_BLUEBLOOD1);                                // spawnstate
-    spawnhealth: 1000;                                            // spawnhealth
-    seestate: Ord(S_NULL);                                        // seestate
-    seesound: Ord(sfx_None);                                      // seesound
-    reactiontime: 8;                                              // reactiontime
-    attacksound: Ord(sfx_None);                                   // attacksound
-    painstate: Ord(S_NULL);                                       // painstate
-    painchance: 0;                                                // painchance
-    painsound: Ord(sfx_None);                                     // painsound
-    meleestate: Ord(S_NULL);                                      // meleestate
-    missilestate: Ord(S_NULL);                                    // missilestate
-    deathstate: Ord(S_NULL);                                      // deathstate
-    xdeathstate: Ord(S_NULL);                                     // xdeathstate
-    deathsound: Ord(sfx_None);                                    // deathsound
-    speed: 0;                                                     // speed
-    radius: 20 * FRACUNIT;                                        // radius
-    height: 16 * FRACUNIT;                                        // height
-    mass: 100;                                                    // mass
-    damage: 0;                                                    // damage
-    activesound: Ord(sfx_None);                                   // activesound
-    flags: MF_NOBLOCKMAP;                                         // flags
-    flags_ex: MF_EX_TRANSPARENT or MF_EX_BLUELIGHT;               // flags_ex
-    flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
-    raisestate: Ord(S_NULL);                                      // raisestate
-    customsound1: 0;                                              // customsound1
-    customsound2: 0;                                              // customsound2
-    customsound3: 0;                                              // customsound3
-    explosiondamage: 0;                                           // explosiondamage
-    explosionradius: 0;                                           // explosionradius
-    meleedamage: 0;                                               // meleedamage
-    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
-    scale: FRACUNIT;                                              // scale
-    gravity: FRACUNIT;                                            // gravity
-    flags3_ex: 0;                                                 // flags3_ex
-    flags4_ex: 0;                                                 // flags4_ex
-   ),
-
-                                                                  // For use with wind and current effects
   (   // MT_PUSH                      // phares
     name: 'Pusher';                                               // name
     inheritsfrom: -1;                                             // inheritsfrom
@@ -17469,6 +17563,178 @@ const // Doom Original mobjinfo
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
     flags4_ex: 0;                                                 // flags4_ex
+  ),
+
+  (    // MT_PLASMA1
+    name: 'MT_PLASMA1';                                           // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;
+    spawnstate: Ord(S_PLS1BALL);
+    spawnhealth: 1000;
+    seestate: Ord(S_NULL);
+    seesound: Ord(sfx_plasma);
+    reactiontime: 8;
+    attacksound: Ord(sfx_None);
+    painstate: Ord(S_NULL);
+    painchance: 0;
+    painsound: Ord(sfx_None);
+    meleestate: Ord(S_NULL);
+    missilestate: Ord(S_NULL);
+    deathstate: Ord(S_PLS1EXP);
+    xdeathstate: Ord(S_NULL);
+    deathsound: Ord(sfx_firxpl);
+    speed: 25 * FRACUNIT;
+    radius: 13 * FRACUNIT;
+    height: 8 * FRACUNIT;
+    mass: 100;
+    damage: 4;
+    activesound: Ord(sfx_None);
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
+    raisestate: Ord(S_NULL);
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
+   ),
+
+   (    // MT_PLASMA2
+    name: 'MT_PLASMA2';                                           // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;
+    spawnstate: Ord(S_PLS2BALL);
+    spawnhealth: 1000;
+    seestate: Ord(S_NULL);
+    seesound: Ord(sfx_plasma);
+    reactiontime: 8;
+    attacksound: Ord(sfx_None);
+    painstate: Ord(S_NULL);
+    painchance: 0;
+    painsound: Ord(sfx_None);
+    meleestate: Ord(S_NULL);
+    missilestate: Ord(S_NULL);
+    deathstate: Ord(S_PLS2BALLX1);
+    xdeathstate: Ord(S_NULL);
+    deathsound: Ord(sfx_firxpl);
+    speed: 25 * FRACUNIT;
+    radius: 6 * FRACUNIT;
+    height: 8 * FRACUNIT;
+    mass: 100;
+    damage: 4;
+    activesound: Ord(sfx_None);
+    flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
+    raisestate: Ord(S_NULL);
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
+   ),
+
+   (    // MT_SCEPTRE
+    name: 'MT_SCEPTRE';                                           // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2016;
+    spawnstate: Ord(S_BON3);
+    spawnhealth: 1000;
+    seestate: Ord(S_NULL);
+    seesound: Ord(sfx_None);
+    reactiontime: 8;
+    attacksound: Ord(sfx_None);
+    painstate: Ord(S_NULL);
+    painchance: 0;
+    painsound: Ord(sfx_None);
+    meleestate: Ord(S_NULL);
+    missilestate: Ord(S_NULL);
+    deathstate: Ord(S_NULL);
+    xdeathstate: Ord(S_NULL);
+    deathsound: Ord(sfx_None);
+    speed: 0;
+    radius: 10 * FRACUNIT;
+    height: 16 * FRACUNIT;
+    mass: 100;
+    damage: 0;
+    activesound: Ord(sfx_None);
+    flags: MF_SPECIAL or MF_COUNTITEM;
+    raisestate: Ord(S_NULL);
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
+   ),
+
+   (    // MT_BIBLE
+    name: 'MT_BIBLE';                                             // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: 2017;
+    spawnstate: Ord(S_BON4);
+    spawnhealth: 1000;
+    seestate: Ord(S_NULL);
+    seesound: Ord(sfx_None);
+    reactiontime: 8;
+    attacksound: Ord(sfx_None);
+    painstate: Ord(S_NULL);
+    painchance: 0;
+    painsound: Ord(sfx_None);
+    meleestate: Ord(S_NULL);
+    missilestate: Ord(S_NULL);
+    deathstate: Ord(S_NULL);
+    xdeathstate: Ord(S_NULL);
+    deathsound: Ord(sfx_None);
+    speed: 0;
+    radius: 20 * FRACUNIT;
+    height: 10 * FRACUNIT;
+    mass: 100;
+    damage: 0;
+    activesound: Ord(sfx_None);
+    flags: MF_SPECIAL or MF_COUNTITEM;
+    raisestate: Ord(S_NULL);
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
+   ),
+
+  (   // MT_NONE
+    name: 'None';                                                 // name
+    inheritsfrom: -1;                                             // inheritsfrom
+    doomednum: -1;                                                // doomednum
+    spawnstate: Ord(S_NONE);                                      // spawnstate
+    spawnhealth: 1000;                                            // spawnhealth
+    seestate: Ord(S_NULL);                                        // seestate
+    seesound: Ord(sfx_None);                                      // seesound
+    reactiontime: 8;                                              // reactiontime
+    attacksound: Ord(sfx_None);                                   // attacksound
+    painstate: Ord(S_NULL);                                       // painstate
+    painchance: 0;                                                // painchance
+    painsound: Ord(sfx_None);                                     // painsound
+    meleestate: Ord(S_NULL);                                      // meleestate
+    missilestate: Ord(S_NULL);                                    // missilestate
+    deathstate: Ord(S_NULL);                                      // deathstate
+    xdeathstate: Ord(S_NULL);                                     // xdeathstate
+    deathsound: Ord(sfx_None);                                    // deathsound
+    speed: 0;                                                     // speed
+    radius: 8 * FRACUNIT;                                         // radius
+    height: 8 * FRACUNIT;                                         // height
+    mass: 10;                                                     // mass
+    damage: 0;                                                    // damage
+    activesound: Ord(sfx_None);                                   // activesound
+    flags: MF_NOBLOCKMAP;                                         // flags
+    flags_ex: 0;                                                  // flags_ex
+    raisestate: Ord(S_NULL);                                      // raisestate
+    customsound1: 0;                                              // customsound1
+    customsound2: 0;                                              // customsound2
+    customsound3: 0;                                              // customsound3
+    explosiondamage: 0;                                           // explosiondamage
+    explosionradius: 0;                                           // explosionradius
+    meleedamage: 0;                                               // meleedamage
+    pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    scale: FRACUNIT;                                              // scale
+    gravity: FRACUNIT;                                            // gravity
+    flags3_ex: 0;                                                 // flags3_ex
+    flags4_ex: 0;                                                 // flags4_ex
   )
 
   );
@@ -17483,6 +17749,12 @@ begin
   begin
     states := malloc(Ord(DO_NUMSTATES) * SizeOf(state_t));
     memcpy(states, @DO_states, Ord(DO_NUMSTATES) * SizeOf(state_t));
+    if M_CheckParm('-NODEHEXTRA') = 0 then
+    begin
+      realloc(pointer(states), Ord(DO_NUMSTATES) * SizeOf(state_t), EXTRANUMSTATES * SizeOf(state_t));
+      ZeroMemory(@states[Ord(DO_NUMSTATES)], SizeOf(state_t) * (EXTRANUMSTATES - Ord(DO_NUMSTATES)));
+      numstates := EXTRANUMSTATES;
+    end;
   end;
 
   if sprnames = nil then
@@ -17500,6 +17772,37 @@ begin
   begin
     mobjinfo := malloc(Ord(DO_NUMMOBJTYPES) * SizeOf(mobjinfo_t));
     memcpy(mobjinfo, @DO_mobjinfo, Ord(DO_NUMMOBJTYPES) * SizeOf(mobjinfo_t));
+
+    if M_CheckParm('-NODEHEXTRA') = 0 then
+    begin
+      for i := 0 to BASEEXTRAMOBJINFO - Ord(DO_NUMMOBJTYPES) - 1 do
+        Info_SetMobjName(Info_GetNewMobjInfo, 'MT_BASEEXTRA' + IntToStrzFill(2, i));
+
+      for i := 0 to EXTRAMOBJINFO - 1 do
+        if i + Ord(DO_NUMMOBJTYPES) >= BASEEXTRAMOBJINFO then
+          Info_SetMobjName(Info_GetNewMobjInfo, 'MT_EXTRA' + IntToStrzFill(2, i));
+    end;
+
+    if not Info_ResolveMobjType('Green Blood', @MT_GREENBLOOD) then
+      MT_GREENBLOOD := Ord(MT_BLOOD);
+    if not Info_ResolveMobjType('Blue Blood', @MT_BLUEBLOOD) then
+      MT_BLUEBLOOD := Ord(MT_BLOOD);
+    if not Info_ResolveMobjType('SPLASH 2', @MT_SPLASHBASE) then
+      MT_SPLASHBASE := Ord(MT_NONE);
+    if not Info_ResolveMobjType('SPLASH', @MT_SPLASH) then
+      MT_SPLASH := Ord(MT_NONE);
+    if not Info_ResolveMobjType('LAVA SPLASH', @MT_LAVASPLASH) then
+      MT_LAVASPLASH := Ord(MT_NONE);
+    if not Info_ResolveMobjType('LAVA SMOKE', @MT_LAVASMOKE) then
+      MT_LAVASMOKE := Ord(MT_NONE);
+    if not Info_ResolveMobjType('SLUDGE SPLASH', @MT_SLUDGESPLASH) then
+      MT_SLUDGESPLASH := Ord(MT_NONE);
+    if not Info_ResolveMobjType('SLUDGE CHUNK', @MT_SLUDGECHUNK) then
+      MT_SLUDGECHUNK := Ord(MT_NONE);
+    if not Info_ResolveMobjType('NUKAGE SPLASH', @MT_NUKAGESPLASH) then
+      MT_NUKAGESPLASH := Ord(MT_NONE);
+    if not Info_ResolveMobjType('NUKAGE CHUNK', @MT_NUKAGECHUNK) then
+      MT_NUKAGECHUNK := Ord(MT_NONE);
   end;
 
   if not usethinkers then
@@ -17959,6 +18262,10 @@ begin
   states[Ord(S_BEXP2)].action.acp1 := @A_Scream; // S_BEXP2
   states[Ord(S_BEXP3)].action.acp1 := @A_FadeOut20;
   states[Ord(S_BEXP4)].action.acp1 := @A_Explode; // S_BEXP4
+  // New states
+  states[Ord(S_GRENADE)].action.acp1 := @A_Die; // S_GRENADE
+  states[Ord(S_DETONATE)].action.acp1 := @A_Scream; // S_DETONATE
+  states[Ord(S_DETONATE2)].action.acp1 := @A_Detonate; // S_DETONATE2
   states[Ord(S_DOGS_STND)].action.acp1 := @A_Look; // S_DOGS_STND
   states[Ord(S_DOGS_STND2)].action.acp1 := @A_Look; // S_DOGS_STND2
   states[Ord(S_DOGS_RUN1)].action.acp1 := @A_Chase; // S_DOGS_RUN1
@@ -17975,6 +18282,61 @@ begin
   states[Ord(S_DOGS_PAIN2)].action.acp1 := @A_Pain; // S_DOGS_PAIN2
   states[Ord(S_DOGS_DIE2)].action.acp1 := @A_Scream; // S_DOGS_DIE2
   states[Ord(S_DOGS_DIE4)].action.acp1 := @A_Fall; // S_DOGS_DIE4
+  states[Ord(S_OLDBFG1)].action.acp1 := @A_BFGsound; // S_OLDBFG1
+  states[Ord(S_OLDBFG2)].action.acp1 := @A_FireOldBFG; // S_OLDBFG2
+  states[Ord(S_OLDBFG3)].action.acp1 := @A_FireOldBFG; // S_OLDBFG3
+  states[Ord(S_OLDBFG4)].action.acp1 := @A_FireOldBFG; // S_OLDBFG4
+  states[Ord(S_OLDBFG5)].action.acp1 := @A_FireOldBFG; // S_OLDBFG5
+  states[Ord(S_OLDBFG6)].action.acp1 := @A_FireOldBFG; // S_OLDBFG6
+  states[Ord(S_OLDBFG7)].action.acp1 := @A_FireOldBFG; // S_OLDBFG7
+  states[Ord(S_OLDBFG8)].action.acp1 := @A_FireOldBFG; // S_OLDBFG8
+  states[Ord(S_OLDBFG9)].action.acp1 := @A_FireOldBFG; // S_OLDBFG9
+  states[Ord(S_OLDBFG10)].action.acp1 := @A_FireOldBFG; // S_OLDBFG10
+  states[Ord(S_OLDBFG11)].action.acp1 := @A_FireOldBFG; // S_OLDBFG11
+  states[Ord(S_OLDBFG12)].action.acp1 := @A_FireOldBFG; // S_OLDBFG12
+  states[Ord(S_OLDBFG13)].action.acp1 := @A_FireOldBFG; // S_OLDBFG13
+  states[Ord(S_OLDBFG14)].action.acp1 := @A_FireOldBFG; // S_OLDBFG14
+  states[Ord(S_OLDBFG15)].action.acp1 := @A_FireOldBFG; // S_OLDBFG15
+  states[Ord(S_OLDBFG16)].action.acp1 := @A_FireOldBFG; // S_OLDBFG16
+  states[Ord(S_OLDBFG17)].action.acp1 := @A_FireOldBFG; // S_OLDBFG17
+  states[Ord(S_OLDBFG18)].action.acp1 := @A_FireOldBFG; // S_OLDBFG18
+  states[Ord(S_OLDBFG19)].action.acp1 := @A_FireOldBFG; // S_OLDBFG19
+  states[Ord(S_OLDBFG20)].action.acp1 := @A_FireOldBFG; // S_OLDBFG20
+  states[Ord(S_OLDBFG21)].action.acp1 := @A_FireOldBFG; // S_OLDBFG21
+  states[Ord(S_OLDBFG22)].action.acp1 := @A_FireOldBFG; // S_OLDBFG22
+  states[Ord(S_OLDBFG23)].action.acp1 := @A_FireOldBFG; // S_OLDBFG23
+  states[Ord(S_OLDBFG24)].action.acp1 := @A_FireOldBFG; // S_OLDBFG24
+  states[Ord(S_OLDBFG25)].action.acp1 := @A_FireOldBFG; // S_OLDBFG25
+  states[Ord(S_OLDBFG26)].action.acp1 := @A_FireOldBFG; // S_OLDBFG26
+  states[Ord(S_OLDBFG27)].action.acp1 := @A_FireOldBFG; // S_OLDBFG27
+  states[Ord(S_OLDBFG28)].action.acp1 := @A_FireOldBFG; // S_OLDBFG28
+  states[Ord(S_OLDBFG29)].action.acp1 := @A_FireOldBFG; // S_OLDBFG29
+  states[Ord(S_OLDBFG30)].action.acp1 := @A_FireOldBFG; // S_OLDBFG30
+  states[Ord(S_OLDBFG31)].action.acp1 := @A_FireOldBFG; // S_OLDBFG31
+  states[Ord(S_OLDBFG32)].action.acp1 := @A_FireOldBFG; // S_OLDBFG32
+  states[Ord(S_OLDBFG33)].action.acp1 := @A_FireOldBFG; // S_OLDBFG33
+  states[Ord(S_OLDBFG34)].action.acp1 := @A_FireOldBFG; // S_OLDBFG34
+  states[Ord(S_OLDBFG35)].action.acp1 := @A_FireOldBFG; // S_OLDBFG35
+  states[Ord(S_OLDBFG36)].action.acp1 := @A_FireOldBFG; // S_OLDBFG36
+  states[Ord(S_OLDBFG37)].action.acp1 := @A_FireOldBFG; // S_OLDBFG37
+  states[Ord(S_OLDBFG38)].action.acp1 := @A_FireOldBFG; // S_OLDBFG38
+  states[Ord(S_OLDBFG39)].action.acp1 := @A_FireOldBFG; // S_OLDBFG39
+  states[Ord(S_OLDBFG40)].action.acp1 := @A_FireOldBFG; // S_OLDBFG40
+  states[Ord(S_OLDBFG41)].action.acp1 := @A_FireOldBFG; // S_OLDBFG41
+  states[Ord(S_OLDBFG42)].action.acp1 := @A_Light0; // S_OLDBFG42
+  states[Ord(S_OLDBFG43)].action.acp1 := @A_ReFire; // S_OLDBFG43
+  states[Ord(S_BSKUL_STND)].action.acp1 := @A_Look; // S_BSKUL_STND
+  states[Ord(S_BSKUL_RUN1)].action.acp1 := @A_Chase; // S_BSKUL_RUN1
+  states[Ord(S_BSKUL_RUN2)].action.acp1 := @A_Chase; // S_BSKUL_RUN2
+  states[Ord(S_BSKUL_RUN3)].action.acp1 := @A_Chase; // S_BSKUL_RUN3
+  states[Ord(S_BSKUL_RUN4)].action.acp1 := @A_Chase; // S_BSKUL_RUN4
+  states[Ord(S_BSKUL_ATK1)].action.acp1 := @A_FaceTarget; // S_BSKUL_ATK1
+  states[Ord(S_BSKUL_ATK2)].action.acp1 := @A_BetaSkullAttack; // S_BSKUL_ATK2
+  states[Ord(S_BSKUL_PAIN2)].action.acp1 := @A_Pain; // S_BSKUL_PAIN2
+  states[Ord(S_BSKUL_DIE5)].action.acp1 := @A_Scream; // S_BSKUL_DIE5
+  states[Ord(S_BSKUL_DIE7)].action.acp1 := @A_Fall; // S_BSKUL_DIE7
+  states[Ord(S_BSKUL_DIE8)].action.acp1 := @A_Stop; // S_BSKUL_DIE8
+  states[Ord(S_MUSHROOM)].action.acp1 := @A_Mushroom; // S_MUSHROOM
 end;
 
 end.

@@ -2156,8 +2156,8 @@ begin
   {$ENDIF}
 
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
-  DEH_Init;
   SC_DefaultStatedefLump;
+  DEH_Init;
 
   if M_CheckParm('-internalgamedef') = 0 then
     if not DEH_ParseLumpName('GAMEDEF') then
@@ -2205,8 +2205,6 @@ begin
 
   if M_CheckParm('-nowaddehacked') = 0 then
     if not DEH_ParseLumpName('DEHACKED') then
-      printf('DEH_ParseLumpName: DEHACKED lump not found.'#13#10);
-
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
