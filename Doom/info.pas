@@ -61,6 +61,8 @@ var
 
 procedure Info_Init(const usethinkers: boolean);
 
+procedure Info_ResolveActordefActors;
+
 const
   DEFPUSHFACTOR = FRACUNIT div 4;
 
@@ -17788,27 +17790,6 @@ begin
         if i + Ord(DO_NUMMOBJTYPES) >= BASEEXTRAMOBJINFO then
           Info_SetMobjName(Info_GetNewMobjInfo, 'MT_EXTRA' + IntToStrzFill(2, i));
     end;
-
-    if not Info_ResolveMobjType('Green Blood', @MT_GREENBLOOD) then
-      MT_GREENBLOOD := Ord(MT_BLOOD);
-    if not Info_ResolveMobjType('Blue Blood', @MT_BLUEBLOOD) then
-      MT_BLUEBLOOD := Ord(MT_BLOOD);
-    if not Info_ResolveMobjType('SPLASH 2', @MT_SPLASHBASE) then
-      MT_SPLASHBASE := Ord(MT_NONE);
-    if not Info_ResolveMobjType('SPLASH', @MT_SPLASH) then
-      MT_SPLASH := Ord(MT_NONE);
-    if not Info_ResolveMobjType('LAVA SPLASH', @MT_LAVASPLASH) then
-      MT_LAVASPLASH := Ord(MT_NONE);
-    if not Info_ResolveMobjType('LAVA SMOKE', @MT_LAVASMOKE) then
-      MT_LAVASMOKE := Ord(MT_NONE);
-    if not Info_ResolveMobjType('SLUDGE SPLASH', @MT_SLUDGESPLASH) then
-      MT_SLUDGESPLASH := Ord(MT_NONE);
-    if not Info_ResolveMobjType('SLUDGE CHUNK', @MT_SLUDGECHUNK) then
-      MT_SLUDGECHUNK := Ord(MT_NONE);
-    if not Info_ResolveMobjType('NUKAGE SPLASH', @MT_NUKAGESPLASH) then
-      MT_NUKAGESPLASH := Ord(MT_NONE);
-    if not Info_ResolveMobjType('NUKAGE CHUNK', @MT_NUKAGECHUNK) then
-      MT_NUKAGECHUNK := Ord(MT_NONE);
   end;
 
   if not usethinkers then
@@ -18343,6 +18324,31 @@ begin
   states[Ord(S_BSKUL_DIE7)].action.acp1 := @A_Fall; // S_BSKUL_DIE7
   states[Ord(S_BSKUL_DIE8)].action.acp1 := @A_Stop; // S_BSKUL_DIE8
   states[Ord(S_MUSHROOM)].action.acp1 := @A_Mushroom; // S_MUSHROOM
+end;
+
+// Must be called after parsing ACTORDEF lumps
+procedure Info_ResolveActordefActors;
+begin
+  if not Info_ResolveMobjType('Green Blood', @MT_GREENBLOOD) then
+    MT_GREENBLOOD := Ord(MT_BLOOD);
+  if not Info_ResolveMobjType('Blue Blood', @MT_BLUEBLOOD) then
+    MT_BLUEBLOOD := Ord(MT_BLOOD);
+  if not Info_ResolveMobjType('SPLASH 2', @MT_SPLASHBASE) then
+    MT_SPLASHBASE := Ord(MT_NONE);
+  if not Info_ResolveMobjType('SPLASH', @MT_SPLASH) then
+    MT_SPLASH := Ord(MT_NONE);
+  if not Info_ResolveMobjType('LAVA SPLASH', @MT_LAVASPLASH) then
+    MT_LAVASPLASH := Ord(MT_NONE);
+  if not Info_ResolveMobjType('LAVA SMOKE', @MT_LAVASMOKE) then
+    MT_LAVASMOKE := Ord(MT_NONE);
+  if not Info_ResolveMobjType('SLUDGE SPLASH', @MT_SLUDGESPLASH) then
+    MT_SLUDGESPLASH := Ord(MT_NONE);
+  if not Info_ResolveMobjType('SLUDGE CHUNK', @MT_SLUDGECHUNK) then
+    MT_SLUDGECHUNK := Ord(MT_NONE);
+  if not Info_ResolveMobjType('NUKAGE SPLASH', @MT_NUKAGESPLASH) then
+    MT_NUKAGESPLASH := Ord(MT_NONE);
+  if not Info_ResolveMobjType('NUKAGE CHUNK', @MT_NUKAGECHUNK) then
+    MT_NUKAGECHUNK := Ord(MT_NONE);
 end;
 
 end.

@@ -2211,6 +2211,9 @@ begin
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');
 
+  // JVAL: 20210108 - Must be called after parsing ACTORDEF lumps
+  Info_ResolveActordefActors;
+
   printf('Info_CheckStates: Check states tables'#13#10);
   Info_CheckStates;
 
