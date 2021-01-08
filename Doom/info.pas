@@ -17723,6 +17723,7 @@ const // Doom Original mobjinfo
     activesound: Ord(sfx_None);                                   // activesound
     flags: MF_NOBLOCKMAP;                                         // flags
     flags_ex: 0;                                                  // flags_ex
+    flags2_ex: NOHITFLOOR;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                      // raisestate
     customsound1: 0;                                              // customsound1
     customsound2: 0;                                              // customsound2
