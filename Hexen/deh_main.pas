@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 425;
+  DEHNUMACTIONS = 426;
 
 type
   deh_action_t = record
@@ -3127,6 +3127,9 @@ begin
   deh_actions[424].action.acp1 := @A_SetFloatBobPhase;
   deh_actions[424].name := strupper('SetFloatBobPhase');
   {$IFDEF DLL}deh_actions[424].decl := 'A_SetFloatBobPhase(bob: integer)';{$ENDIF}
+  deh_actions[425].action.acp1 := @A_Detonate;
+  deh_actions[425].name := strupper('Detonate');
+  {$IFDEF DLL}deh_actions[425].decl := 'A_Detonate()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

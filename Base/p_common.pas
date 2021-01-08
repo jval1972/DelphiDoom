@@ -383,6 +383,8 @@ procedure A_Remove(actor: Pmobj_t);
 
 procedure A_SetFloatBobPhase(actor: Pmobj_t);
 
+procedure A_Detonate(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4496,6 +4498,15 @@ begin
   bob := actor.state.params.IntVal[0];
   if IsIntegerInRange(bob, 0, FLOATBOBSIZE - 1) then
     actor.bob := bob;
+end;
+
+//
+// A_Detonate
+// killough 8/9/98: same as A_Explode, except that the damage is variable
+//
+procedure A_Detonate(actor: Pmobj_t);
+begin
+  P_RadiusAttack(actor, actor.target, actor.info.damage{$IFDEF HEXEN}, actor.info.damage, true{$ENDIF});
 end;
 
 end.

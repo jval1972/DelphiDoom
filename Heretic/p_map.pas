@@ -102,8 +102,6 @@ var
 
 function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 
-function P_TestMobjLocation(mobj: Pmobj_t): boolean;
-
 // JVAL: 3d Floors move from implementation section to interface  
 var
   tmthing: Pmobj_t;
@@ -2364,37 +2362,6 @@ begin
     end;
   end;
   result := 0;
-end;
-
-//----------------------------------------------------------------------------
-//
-// FUNC P_TestMobjLocation
-//
-// Returns true if the mobj is not blocked by anything at its current
-// location, otherwise returns false.
-//
-//----------------------------------------------------------------------------
-
-function P_TestMobjLocation(mobj: Pmobj_t): boolean;
-var
-  flags: integer;
-begin
-  flags := mobj.flags;
-  mobj.flags := mobj.flags and (not MF_PICKUP);
-  if P_CheckPosition(mobj, mobj.x, mobj.y) then
-  begin // XY is ok, now check Z
-    mobj.flags := flags;
-    if (mobj.z < mobj.floorz) or
-       (mobj.z + mobj.height > mobj.ceilingz) then
-    begin // Bad Z
-      result := false;
-      exit;
-    end;
-    result := true;
-    exit;
-  end;
-  mobj.flags := flags;
-  result := false;
 end;
 
 //----------------------------------------------------------------------------
