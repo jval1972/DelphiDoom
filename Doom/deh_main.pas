@@ -2790,10 +2790,10 @@ begin
   deh_actions[292].name := strupper('Mushroom');
   {$IFDEF DLL}deh_actions[292].decl := 'A_Mushroom()';{$ENDIF}
   deh_actions[293].action.acp1 := @A_BetaSkullAttack;
-  deh_actions[293].name := strupper('A_BetaSkullAttack');
+  deh_actions[293].name := strupper('BetaSkullAttack');
   {$IFDEF DLL}deh_actions[293].decl := 'A_BetaSkullAttack()';{$ENDIF}
   deh_actions[294].action.acp1 := @A_FireOldBFG;
-  deh_actions[294].name := strupper('A_FireOldBFG');
+  deh_actions[294].name := strupper('FireOldBFG');
   {$IFDEF DLL}deh_actions[294].decl := 'A_FireOldBFG()';{$ENDIF}
 
   deh_strings.numstrings := 0;
