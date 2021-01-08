@@ -108,6 +108,10 @@ procedure A_AnnihilatorAttack(actor: Pmobj_t);
 
 procedure A_Mushroom(actor: Pmobj_t);
 
+procedure A_BetaSkullAttack(actor: Pmobj_t);
+
+procedure A_FireOldBFG(actor: Pmobj_t);
+
 implementation
 
 uses
@@ -130,6 +134,7 @@ uses
   p_sounds,
   p_terrain,
   p_common,
+  s_sound,
   tables;
 
 //
@@ -670,6 +675,40 @@ begin
   end;
 end;
 
+//
+// A_BetaSkullAttack()
+// killough 10/98: this emulates the beta version's lost soul attacks
+//
+procedure A_BetaSkullAttack(actor: Pmobj_t);
+var
+  damage: integer;
+begin
+  if (actor.target = nil) or (actor.target._type = Ord(MT_SKULL)) then
+    exit;
+
+  S_StartSound(actor, actor.info.attacksound);
+  A_FaceTarget(actor);
+  damage := (P_Random mod 8 + 1) * actor.info.damage;
+  P_DamageMobj(actor.target, actor, actor, damage);
+end;
+
+//
+// This allows linedef effects to be activated inside deh frames.
+//
+
+//
+// A_FireOldBFG
+//
+// This function emulates Doom's Pre-Beta BFG
+// By Lee Killough 6/6/98, 7/11/98, 7/19/98, 8/20/98
+//
+// This code may not be used in other mods without appropriate credit given.
+// Code leeches will be telefragged.
+
+procedure A_FireOldBFG(actor: Pmobj_t);
+begin
+  // Hmmm?
+end;
                      {
 procedure A_PlayPlayerWalkSound(actor: Pmobj_t);
 begin
