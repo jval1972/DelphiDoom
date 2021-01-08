@@ -210,7 +210,7 @@ begin
 
   // the lump is only used for one rotation
   if sprtemp[frame].rotate = 0 then
-    I_Warning('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
+    I_DevWarning('R_InitSprites(): Sprite %s frame %s has rotations and a rot=0 lump'#13#10,
       [spritename, Chr(Ord('A') + frame)]);
 
   // JVAL: Up to 32 sprite rotations
