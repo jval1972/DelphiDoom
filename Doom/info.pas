@@ -17753,6 +17753,11 @@ begin
     begin
       realloc(pointer(states), Ord(DO_NUMSTATES) * SizeOf(state_t), EXTRANUMSTATES * SizeOf(state_t));
       ZeroMemory(@states[Ord(DO_NUMSTATES)], SizeOf(state_t) * (EXTRANUMSTATES - Ord(DO_NUMSTATES)));
+      for i := Ord(DO_NUMSTATES) to EXTRANUMSTATES - 1 do
+      begin
+        states[i].tics := -1;
+        states[i].tics2 := -1;
+      end;
       numstates := EXTRANUMSTATES;
     end;
   end;
