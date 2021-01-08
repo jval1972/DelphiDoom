@@ -2204,7 +2204,9 @@ begin
   {$ENDIF}
 
   if M_CheckParm('-nowaddehacked') = 0 then
-    if not DEH_ParseLumpName('DEHACKED') then
+    if not DEH_ParseLumpNames('DEHACKED') then
+      printf('DEH_ParseLumpName: DEHACKED lump(s) not found.'#13#10);
+
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
   D_AddDEHFiles('-bex');

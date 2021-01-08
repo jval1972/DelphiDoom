@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -40,6 +40,8 @@ function DEH_NextLine(const s: TDStringList; var str: string; var counter: integ
 procedure DEH_ParseText(const deh_tx: string);
 
 function DEH_ParseLumpName(const lumpname: string): boolean;
+
+function DEH_ParseLumpNames(const lumpname: string): boolean;
 
 procedure DEH_ParseLumpNum(const lump: integer);
 
@@ -149,6 +151,26 @@ begin
   end
   else
     result := false;
+end;
+
+function DEH_ParseLumpNames(const lumpname: string): boolean;
+var
+  i: integer;
+  cnt: integer;
+begin
+  cnt := 0;
+  for i := 0 to W_NumLumps - 1 do
+    if char8tostring(W_GetNameForNum(i)) = strupper(lumpname) then
+    begin
+      DEH_ParseText(W_TextLumpNum(i));
+      inc(cnt);
+    end;
+
+  cnt := cnt + PAK_StringIterator(lumpname, DEH_ParseText);
+  cnt := cnt + PAK_StringIterator(lumpname + '.DEH', DEH_ParseText);
+  cnt := cnt + PAK_StringIterator(lumpname + '.BEX', DEH_ParseText);
+
+  result := cnt > 0;
 end;
 
 procedure DEH_ParseLumpNum(const lump: integer);
