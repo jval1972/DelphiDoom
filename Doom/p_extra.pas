@@ -106,6 +106,8 @@ procedure A_UnSetFloorClip(actor: Pmobj_t);
 
 procedure A_AnnihilatorAttack(actor: Pmobj_t);
 
+procedure A_Mushroom(actor: Pmobj_t);
+
 implementation
 
 uses
@@ -123,6 +125,7 @@ uses
   p_inter,
   p_user,
   p_map,
+  p_maputl,
   p_local,
   p_sounds,
   p_terrain,
@@ -620,6 +623,52 @@ begin
 
 end;
 
+//
+// killough 9/98: a mushroom explosion effect, sorta :)
+// Original idea: Linguica
+//
+procedure A_Mushroom(actor: Pmobj_t);
+var
+  i, j, n: integer;
+  misc1, misc2: fixed_t;
+  target: mobj_t;
+  mo: Pmobj_t;
+begin
+  n := actor.info.damage;
+
+  // Mushroom parameters are part of code pointer's state
+  if actor.state.misc1 <> 0 then
+    misc1 := actor.state.misc1
+  else
+    misc1 := 4 * FRACUNIT;
+
+  if actor.state.misc2 <> 0 then
+    misc2 := actor.state.misc2
+  else
+    misc2 := 4 * FRACUNIT;
+
+  A_Explode(actor);  // make normal explosion
+
+  i := -n;
+  while i <= n do    // launch mushroom cloud
+  begin
+    j := -n;
+    while j <= n do
+    begin
+      target := actor^;
+      target.x := target.x + i * FRACUNIT;   // Aim in many directions from source
+      target.y := target.y + j * FRACUNIT;
+      target.z := target.z + P_AproxDistance(i, j) * misc1; // Aim fairly high
+      mo := P_SpawnMissile(actor, @target, Ord(MT_FATSHOT));    // Launch fireball
+      mo.momx := FixedMul(mo.momx, misc2);
+      mo.momy := FixedMul(mo.momy, misc2); // Slow down a bit
+      mo.momz := FixedMul(mo.momz, misc2);
+      mo.flags := mo.flags and not MF_NOGRAVITY;// Make debris fall under gravity
+      j := j + 8;
+    end;
+    i := i + 8;
+  end;
+end;
 
                      {
 procedure A_PlayPlayerWalkSound(actor: Pmobj_t);

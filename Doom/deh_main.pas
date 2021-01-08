@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 292;
+  DEHNUMACTIONS = 293;
 
 type
   deh_action_t = record
@@ -2775,7 +2775,9 @@ begin
   deh_actions[291].action.acp1 := @A_Detonate;
   deh_actions[291].name := strupper('Detonate');
   {$IFDEF DLL}deh_actions[291].decl := 'A_Detonate()';{$ENDIF}
-
+  deh_actions[292].action.acp1 := @A_Mushroom;
+  deh_actions[292].name := strupper('Mushroom');
+  {$IFDEF DLL}deh_actions[292].decl := 'A_Mushroom()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
