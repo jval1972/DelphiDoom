@@ -664,6 +664,8 @@ function firstword(const inp: string; const splitter: string = ' '): string; ove
 
 function firstword(const inp: string; const splitters: charset_t): string; overload;
 
+function parsefirstword(const inp: string): string;
+
 function secondword(const inp: string; const splitter: string = ' '): string; overload;
 
 function secondword(const inp: string; const splitters: charset_t): string; overload;
@@ -3851,6 +3853,34 @@ var
   tmp: string;
 begin
   splitstring(inp, result, tmp, splitters);
+end;
+
+function parsefirstword(const inp: string): string;
+var
+  st: string;
+  tmp: string;
+  i: integer;
+begin
+  st := strtrim(inp);
+  if st = '' then
+  begin
+    result := '';
+    exit;
+  end;
+
+  if st[1] = '"' then
+  begin
+    result := '';
+    for i := 2 to Length(st) do
+    begin
+      if st[i] = '"' then
+        break;
+      result := result + st[i];
+    end;
+    exit;
+  end;
+
+  splitstring(st, result, tmp, ' ');
 end;
 
 function secondword(const inp: string; const splitter: string = ' '): string;

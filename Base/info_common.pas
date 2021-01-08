@@ -76,6 +76,7 @@ implementation
 
 uses
   i_system,
+  m_fixed,
   info;
 
 var
@@ -458,7 +459,7 @@ begin
 
   memfree(pointer(states), numstates * SizeOf(state_t));
   memfree(pointer(mobjinfo), nummobjtypes * SizeOf(mobjinfo_t));
-  memfree(pointer(sprnames), numsprites * 4);
+  memfree(pointer(sprnames), (numsprites + 1) * 4);
 end;
 
 function Info_GetInheritance(const imo: Pmobjinfo_t): integer;

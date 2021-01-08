@@ -1296,9 +1296,9 @@ var
       Info_AddMobjNameAlias(mobj.name, Info_GetMobjName(mobj.replacesid));
     end
     else
-      AddRes('NewThing ' + mobj.name);
+      AddRes('NewThing "' + mobj.name + '"');
     if mobj.inheritsfrom <> '' then
-      AddRes('Inheritsfrom = ' + mobj.inheritsfrom)
+      AddRes('Inheritsfrom = "' + mobj.inheritsfrom + '"')
     else
       AddRes('Inheritsfrom = -1');
 {$IFDEF STRIFE}
