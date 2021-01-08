@@ -280,7 +280,6 @@ begin
 
       // Retrieve current think field index
         splitstring(str, token1, token2, '=');
-        token1 := RemoveQuotesFromString(token1);
         token2 := RemoveQuotesFromString(token2);
         mobj_idx := mobj_tokens.IndexOf(token1);
 
