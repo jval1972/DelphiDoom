@@ -491,9 +491,13 @@ uses
   p_map,
   p_maputl,
   p_params,
+  p_setup,
   p_sight,
+  p_spec,
+  p_switch,
   psi_globals,
   r_renderstyle,
+  r_defs,
   r_main,
   sc_engine,
   sc_tokens,
@@ -4648,6 +4652,31 @@ begin
   begin
     if N_Random < psp.state.misc2 then
       P_SetMobjState(mo, statenum_t(mo.state.misc1));
+  end;
+end;
+
+procedure A_LineEffect(actor: Pmobj_t);
+var
+  player: Pplayer_t;
+  oldplayer: Pplayer_t;
+  junk: line_t;
+begin
+  if actor.flags3_ex and MF3_EX_LINEDONE <> 0 then            // Unless already used up
+    exit;
+
+  junk := lines[0];                                           // Fake linedef set to 1st
+  junk.special := actor.state.misc1;                          // Linedef type
+  if junk.special <> 0 then
+  begin
+    oldplayer := actor.player;                                // Remember player status
+    player.health := 100;                                     // Alive player
+    actor.player := @player;                                  // Fake player
+    junk.tag := actor.state.misc2;                            // Sector tag for linedef
+    if not P_UseSpecialLine(actor, @junk, 0) then             // Try using it
+      P_CrossSpecialLinePtr(@junk, 0, actor);                 // Try crossing it
+    if junk.special = 0 then                                  // If type cleared,
+      actor.flags3_ex := actor.flags3_ex or MF3_EX_LINEDONE;  // no more for this thing
+    actor.player := oldplayer;
   end;
 end;
 
