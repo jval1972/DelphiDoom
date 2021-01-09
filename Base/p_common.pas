@@ -4529,4 +4529,39 @@ begin
   P_SetMobjState(mo, statenum_t(cur + offset));
 end;
 
+procedure P_TransferFriendliness(const src, dest: Pmobj_t);
+begin
+  {$IFDEF STRIFE}
+  if src.flags and MF_ALLY <> 0 then
+    dest.flags := dest.flags or MF_ALLY
+  else
+    dest.flags := dest.flags and not MF_ALLY;
+  {$ENDIF}
+  {$IFDEF DOOM}
+  if src.flags2_ex and MF2_EX_FRIEND <> 0 then
+    dest.flags2_ex := dest.flags2_ex or MF2_EX_FRIEND
+  else
+    dest.flags2_ex := dest.flags2_ex and not MF2_EX_FRIEND;
+  {$ENDIF}
+end;
+
+//
+// killough 11/98
+//
+// The following were inspired by Len Pitre
+//
+// A small set of highly-sought-after code pointers
+//
+procedure A_Spawn(actor: Pmobj_t);
+var
+  mo: Pmobj_t;
+begin
+  if actor.state.misc1 > 0 then
+  begin
+    mo := P_SpawnMobj(mo.x, mo.y, mo.state.misc2 * FRACUNIT + mo.z, mo.state.misc1 - 1);
+    if mo <> nil then
+      P_TransferFriendliness(actor, mo);
+  end;
+end;
+
 end.
