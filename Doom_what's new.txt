@@ -61,6 +61,7 @@ Multiple DEHACKED files inside WAD and PK3.
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Extra sounds for Dehacked FRE000-FREE199 (indexed at 500-699).
+Does not play menu sound on end screen.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
