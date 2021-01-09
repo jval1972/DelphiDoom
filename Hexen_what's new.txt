@@ -60,6 +60,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Corrected DEHACKED export to ACTORDEF (renderstyle field).
+Added A_Spawn, A_Face, A_Scratch & A_RandomJump functions.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

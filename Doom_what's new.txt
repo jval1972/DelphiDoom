@@ -63,6 +63,7 @@ No delay to return to desktop when finished.
 Extra sounds for Dehacked FRE000-FREE199 (indexed at 500-699).
 Does not play menu sound on end screen.
 Corrected DEHACKED export to ACTORDEF (renderstyle field).
+Added A_Spawn, A_Face, A_Scratch, A_RandomJump & A_LineEffect functions.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
