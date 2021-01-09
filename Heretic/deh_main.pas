@@ -1916,6 +1916,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NOCRASH');
   mobj_flags3_ex.Add('MF3_EX_BLOODIGNOREDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');
+  mobj_flags3_ex.Add('MF3_EX_LINEDONE');
 
   mobj_flags4_ex := TDTextList.Create;
 
