@@ -55,6 +55,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_Detonate
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
+Corrected DEHACKED export to ACTORDEF (renderstyle field).
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

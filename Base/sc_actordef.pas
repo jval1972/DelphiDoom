@@ -2711,7 +2711,7 @@ begin
   {$ENDIF}
   if m.renderstyle <> mrs_normal then
   begin
-    AddLn('Rendersyle ' + renderstyle_tokens[Ord(m.renderstyle)]);
+    AddLn('Renderstyle ' + renderstyle_tokens[Ord(m.renderstyle)]);
     if m.alpha > 0 then
       AddLn('Alpha ' + ftoafmt('2.4', m.alpha / FRACUNIT));
   end;
