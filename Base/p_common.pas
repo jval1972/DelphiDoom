@@ -4662,7 +4662,7 @@ begin
   mo := obj;
   if @mo.thinker._function.acp1 = @P_MobjThinker then
   begin
-    if N_Random < psp.state.misc2 then
+    if N_Random < mo.state.misc2 then
       P_SetMobjState(mo, statenum_t(mo.state.misc1));
   end;
 end;
