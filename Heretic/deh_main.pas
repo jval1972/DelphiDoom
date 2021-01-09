@@ -233,7 +233,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse a thing ///////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
-      stmp := firstword(token2);
+      stmp := parsefirstword(token2);
 
       if (token1 = 'NEWTHING') or (stmp = '') or (itoa(atoi(stmp)) <> stmp) then
       begin
@@ -278,6 +278,7 @@ begin
 
       // Retrieve current think field index
         splitstring(str, token1, token2, '=');
+        token2 := RemoveQuotesFromString(token2);
         mobj_idx := mobj_tokens.IndexOf(token1);
 
         if mobj_idx = -1 then
