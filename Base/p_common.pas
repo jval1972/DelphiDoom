@@ -4579,4 +4579,21 @@ begin
   actor.angle := actor.angle + actor.state.misc1 * ANG1;
 end;
 
+//
+// A_Scratch
+//
+procedure A_Scratch(actor: Pmobj_t);
+begin
+  if actor.target <> nil then
+  begin
+    A_FaceTarget(actor);
+    if P_CheckMeleeRange(actor) then
+    begin
+      if actor.state.misc2 > 0 then
+        S_StartSound(actor, actor.state.misc2);
+      P_DamageMobj(actor.target, actor, actor, actor.state.misc1);
+    end;
+  end;
+end;
+
 end.
