@@ -31,6 +31,7 @@ unit p_common;
 interface
 
 uses
+  d_player,
   m_fixed,
   info_h,
   p_mobj_h;
@@ -465,13 +466,14 @@ function P_TicsFromState(const st: Pstate_t): integer;
 
 procedure P_SetMobjRelativeState(const mo: Pmobj_t; const offset: integer);
 
+function PlayerToId(const p: Pplayer_t): integer;
+
 implementation
 
 uses
   d_delphi,
   doomdef,
   deh_main,
-  d_player,
   m_vectors,
   i_system,
   c_con,
@@ -484,6 +486,7 @@ uses
   p_extra,
   p_inter,
   p_mobj,
+  p_pspr_h,
   p_pspr,
   p_map,
   p_maputl,
@@ -4593,6 +4596,58 @@ begin
         S_StartSound(actor, actor.state.misc2);
       P_DamageMobj(actor.target, actor, actor, actor.state.misc1);
     end;
+  end;
+end;
+
+//
+// PlayerToId
+//
+function PlayerToId(const p: Pplayer_t): integer;
+var
+  i: integer;
+begin
+  for i := 0 to MAXPLAYERS - 1 do
+    if p = @players[i] then
+    begin
+      result := i;
+      exit;
+    end;
+
+  result := -1;
+end;
+
+//
+// A_RandomJump
+//
+// [crispy] this is pretty much the only action pointer that makes sense for both mobj and pspr states
+// JVAL: modified to hold both a player_t and a mobj_t in first parameter
+procedure A_RandomJump(obj: pointer; psp: Ppspdef_t);
+var
+  player: Pplayer_t;
+  mo: Pmobj_t;
+  id: integer;
+begin
+  if obj = nil then
+    exit;
+
+  // [crispy] first, try to apply to pspr states
+  // JVAL: Check if obj is a player_t
+  player := obj;
+  id := PlayerToId(player);
+  if (psp <> nil) and (id >= 0) then
+  begin
+    if N_Random < psp.state.misc2 then
+      P_SetPSprite(player, pdiff(psp, @player.psprites[0], SizeOf(pspdef_t)), statenum_t(psp.state.misc1));
+    exit;
+  end;
+
+  // [crispy] second, apply to mobj states
+  // JVAL: Check if obj is a mobj_t
+  mo := obj;
+  if @mo.thinker._function.acp1 = @P_MobjThinker then
+  begin
+    if N_Random < psp.state.misc2 then
+      P_SetMobjState(mo, statenum_t(mo.state.misc1));
   end;
 end;
 

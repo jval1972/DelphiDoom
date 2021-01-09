@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -100,6 +100,8 @@ procedure P_SetupPsprites(player: Pplayer_t);
 procedure P_MovePsprites(player: Pplayer_t);
 
 procedure P_BulletSlope(mo: Pmobj_t);
+
+procedure P_SetPsprite(player: Pplayer_t; position: integer; stnum: statenum_t);
 
 var
 // plasma cells for a bfg attack
