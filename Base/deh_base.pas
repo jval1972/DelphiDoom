@@ -157,10 +157,12 @@ function DEH_ParseLumpNames(const lumpname: string): boolean;
 var
   i: integer;
   cnt: integer;
+  uName: string;
 begin
   cnt := 0;
+  uName := strupper(lumpname);
   for i := 0 to W_NumLumps - 1 do
-    if char8tostring(W_GetNameForNum(i)) = strupper(lumpname) then
+    if char8tostring(W_GetNameForNum(i)) = uName then
     begin
       DEH_ParseText(W_TextLumpNum(i));
       inc(cnt);
