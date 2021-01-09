@@ -4571,4 +4571,12 @@ begin
   end;
 end;
 
+//
+// A_Face
+//
+procedure A_Face(actor: Pmobj_t);
+begin
+  actor.angle := actor.angle + actor.state.misc1 * ANG1;
+end;
+
 end.
