@@ -124,6 +124,7 @@ uses
   i_music,
   i_mp3,
   info_h,
+  m_argv,
   m_fixed,
   m_rnd,
   m_misc,
