@@ -1858,6 +1858,16 @@ procedure A_Playsound(actor: Pmobj_t);
 var
   sndidx: integer;
 begin
+  // JVAL: 20210109 - DEHEXTRA support
+  if actor.state.params = nil then
+  begin
+    if actor.state.misc2 <> 0 then
+      S_StartSound(nil, actor.state.misc1)
+    else
+      S_StartSound(actor, actor.state.misc1);
+    exit;
+  end;
+
   if not P_CheckStateParams(actor, 1) then
     exit;
 
