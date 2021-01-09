@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 426;
+  DEHNUMACTIONS = 430;
 
 type
   deh_action_t = record
@@ -3140,6 +3140,18 @@ begin
   deh_actions[425].action.acp1 := @A_Detonate;
   deh_actions[425].name := strupper('Detonate');
   {$IFDEF DLL}deh_actions[425].decl := 'A_Detonate()';{$ENDIF}
+  deh_actions[426].action.acp1 := @A_Spawn;
+  deh_actions[426].name := strupper('Spawn');
+  {$IFDEF DLL}deh_actions[426].decl := 'A_Spawn()';{$ENDIF}
+  deh_actions[427].action.acp1 := @A_Face;
+  deh_actions[427].name := strupper('Face');
+  {$IFDEF DLL}deh_actions[427].decl := 'A_Face()';{$ENDIF}
+  deh_actions[428].action.acp1 := @A_Scratch;
+  deh_actions[428].name := strupper('Scratch');
+  {$IFDEF DLL}deh_actions[428].decl := 'A_Scratch()';{$ENDIF}
+  deh_actions[429].action.acp1 := @A_RandomJump;
+  deh_actions[429].name := strupper('RandomJump');
+  {$IFDEF DLL}deh_actions[429].decl := 'A_RandomJump()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

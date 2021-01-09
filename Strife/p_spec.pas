@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -87,6 +87,8 @@ procedure P_UpdateSpecials;
 procedure P_ShootSpecialLine(thing: Pmobj_t; line: Pline_t);
 
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
+
+procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
 
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
@@ -1608,16 +1610,18 @@ var
 //  to cross a line with a non 0 special.
 //
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
+begin
+  P_CrossSpecialLinePtr(@lines[linenum], side, thing);
+end;
+
+procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
 var
-  line: Pline_t;
   linefunc: linefunc_t;
   ok: boolean;
   map, spot: integer;
   sidedef: Pside_t;
   flag: LongWord;
 begin
-  line := @lines[linenum];
-
   // haleyjd 09/21/10: corpses and missiles cannot activate any cross-over
   // line types, *except* 182 (which is for the sake of missiles).
   if (thing.flags and (MF_MISSILE or MF_CORPSE) <> 0) and (line.special <> 182) then

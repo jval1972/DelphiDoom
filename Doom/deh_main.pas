@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 295;
+  DEHNUMACTIONS = 300;
 
 type
   deh_action_t = record
@@ -2796,6 +2796,21 @@ begin
   deh_actions[294].action.acp1 := @A_FireOldBFG;
   deh_actions[294].name := strupper('FireOldBFG');
   {$IFDEF DLL}deh_actions[294].decl := 'A_FireOldBFG()';{$ENDIF}
+  deh_actions[295].action.acp1 := @A_Spawn;
+  deh_actions[295].name := strupper('Spawn');
+  {$IFDEF DLL}deh_actions[295].decl := 'A_Spawn()';{$ENDIF}
+  deh_actions[296].action.acp1 := @A_Face;
+  deh_actions[296].name := strupper('Face');
+  {$IFDEF DLL}deh_actions[296].decl := 'A_Face()';{$ENDIF}
+  deh_actions[297].action.acp1 := @A_Scratch;
+  deh_actions[297].name := strupper('Scratch');
+  {$IFDEF DLL}deh_actions[297].decl := 'A_Scratch()';{$ENDIF}
+  deh_actions[298].action.acp1 := @A_RandomJump;
+  deh_actions[298].name := strupper('RandomJump');
+  {$IFDEF DLL}deh_actions[298].decl := 'A_RandomJump()';{$ENDIF}
+  deh_actions[299].action.acp1 := @A_LineEffect;
+  deh_actions[299].name := strupper('LineEffect');
+  {$IFDEF DLL}deh_actions[299].decl := 'A_LineEffect()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

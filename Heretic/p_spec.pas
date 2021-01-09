@@ -71,6 +71,8 @@ procedure P_ShootSpecialLine(thing: Pmobj_t; line: Pline_t);
 
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
 
+procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
+
 procedure P_PlayerInSpecialSector(player: Pplayer_t; const sector: Psector_t; const height: fixed_t);  // JVAL: 3d Floors
 
 function twoSided(sector: integer; line: integer): integer;
@@ -805,10 +807,11 @@ end;
 //  to cross a line with a non 0 special.
 //
 procedure P_CrossSpecialLine(linenum: integer; side: integer; thing: Pmobj_t);
-var
-  line: Pline_t;
 begin
-  line := @lines[linenum];
+  P_CrossSpecialLinePtr(@lines[linenum], side, thing);
+end;
+procedure P_CrossSpecialLinePtr(line: Pline_t; side: integer; thing: Pmobj_t);
+begin
 
   //  Triggers that other things can activate
   if thing.player = nil then

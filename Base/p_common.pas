@@ -34,6 +34,7 @@ uses
   d_player,
   m_fixed,
   info_h,
+  p_pspr_h,
   p_mobj_h;
 
 const
@@ -386,6 +387,18 @@ procedure A_SetFloatBobPhase(actor: Pmobj_t);
 
 procedure A_Detonate(actor: Pmobj_t);
 
+procedure A_Spawn(actor: Pmobj_t);
+
+procedure A_Face(actor: Pmobj_t);
+
+procedure A_Scratch(actor: Pmobj_t);
+
+procedure A_RandomJump(obj: pointer; psp: Ppspdef_t);
+
+{$IFNDEF HEXEN}
+procedure A_LineEffect(actor: Pmobj_t);
+{$ENDIF}
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -486,7 +499,6 @@ uses
   p_extra,
   p_inter,
   p_mobj,
-  p_pspr_h,
   p_pspr,
   p_map,
   p_maputl,
@@ -4572,7 +4584,7 @@ var
 begin
   if actor.state.misc1 > 0 then
   begin
-    mo := P_SpawnMobj(mo.x, mo.y, mo.state.misc2 * FRACUNIT + mo.z, mo.state.misc1 - 1);
+    mo := P_SpawnMobj(actor.x, actor.y, actor.state.misc2 * FRACUNIT + actor.z, actor.state.misc1 - 1);
     if mo <> nil then
       P_TransferFriendliness(actor, mo);
   end;
@@ -4655,6 +4667,7 @@ begin
   end;
 end;
 
+{$IFNDEF HEXEN}
 procedure A_LineEffect(actor: Pmobj_t);
 var
   player: Pplayer_t;
@@ -4679,5 +4692,6 @@ begin
     actor.player := oldplayer;
   end;
 end;
+{$ENDIF}
 
 end.

@@ -577,7 +577,7 @@ end;
 
 //==================================================================
 //
-//      FIND HIGHEST CEILING IN THE SURROUNDING SECTORS
+// FIND HIGHEST CEILING IN THE SURROUNDING SECTORS
 //
 //==================================================================
 function P_FindHighestCeilingSurrounding(sec: Psector_t): fixed_t;
@@ -767,7 +767,7 @@ end;
 //
 //==============================================================================
 //
-//              EVENTS
+// EVENTS
 //
 // Events are operations triggered by using, crossing, or shooting special lines,
 // or by timed thinkers
