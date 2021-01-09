@@ -2802,6 +2802,13 @@ procedure A_Turn(actor: Pmobj_t);
 var
   ang: angle_t;
 begin
+  // JVAL: 20210109 - DEHEXTRA support
+  if actor.state.params = nil then
+  begin
+    actor.angle := actor.angle + actor.state.misc1 * ANG1;
+    exit;
+  end;
+
   if not P_CheckStateParams(actor, 1) then
     exit;
 
