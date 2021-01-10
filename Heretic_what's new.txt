@@ -63,6 +63,7 @@ Does not play menu sound on end screen.
 Corrected DEHACKED export to ACTORDEF (renderstyle field).
 Added A_Spawn, A_Face, A_Scratch, A_RandomJump & A_LineEffect functions.
 Fixed DEHACKED conflict with demo playback.
+Avoid crash in OpenGL mode if sprite frames are missing.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
