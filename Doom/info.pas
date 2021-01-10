@@ -17794,10 +17794,14 @@ begin
 
   if not usethinkers then
   begin
+    Info_SaveActions;
     for i := 0 to Ord(DO_NUMSTATES) - 1 do
       states[i].action.acp1 := nil;
     exit;
   end;
+
+  if Info_RestoreActions then
+    exit;
 
   states[Ord(S_LIGHTDONE)].action.acp1 := @A_Light0; // S_LIGHTDONE
   states[Ord(S_PUNCH)].action.acp1 := @A_WeaponReady; // S_PUNCH

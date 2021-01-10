@@ -1898,7 +1898,7 @@ begin
 
   if M_CheckParm('-nowaddehacked') = 0 then
     if not DEH_ParseLumpName('DEHACKED') then
-      printf('DEH_ParseLumpName(): DEHACKED lump not found.'#13#10);
+      printf('DEH_ParseLumpName: DEHACKED lump not found.'#13#10);
 
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');
@@ -1906,6 +1906,9 @@ begin
 
   printf('Info_CheckStates: Check states tables'#13#10);
   Info_CheckStates;
+
+  printf('Info_SaveActions: Saving state actions'#13#10);
+  Info_SaveActions;
 
   SUC_Progress(50);
 

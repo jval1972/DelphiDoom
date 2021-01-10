@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -30811,10 +30811,14 @@ begin
 
   if not usethinkers then
   begin
+    Info_SaveActions;
     for i := 0 to Ord(DO_NUMSTATES) - 1 do
       states[i].action.acp1 := nil;
     exit;
   end;
+
+  if Info_RestoreActions then
+    exit;
 
   states[Ord(S_PNCH_00)].action.acp1 := @A_Light0;                // S_PNCH_00
   states[Ord(S_PNCH_01)].action.acp1 := @A_WeaponReady;           // S_PNCH_01

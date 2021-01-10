@@ -2110,6 +2110,9 @@ begin
   printf('Info_CheckStates: Check states tables'#13#10);
   Info_CheckStates;
 
+  printf('Info_SaveActions: Saving state actions'#13#10);
+  Info_SaveActions;
+
   {$IFNDEF FPC}
   SUC_Progress(50);
   {$ENDIF}

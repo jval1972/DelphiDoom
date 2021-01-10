@@ -74,9 +74,14 @@ procedure Info_InitStateOwners;
 
 function Info_ResolveMobjType(const name: string; const mt: PInteger): boolean;
 
+procedure Info_SaveActions;
+
+function Info_RestoreActions: boolean;
+
 implementation
 
 uses
+  d_think,
   i_system,
   m_fixed,
   info;
@@ -590,6 +595,31 @@ begin
     mt^ := Info_GetMobjNumForName(name);
 
   result := mt^ >= 0;
+end;
+
+var
+  save_actions: array[0..Ord(DO_NUMSTATES) - 1] of actionf_t;
+  actions_saved: boolean = false;
+
+procedure Info_SaveActions;
+var
+  i: integer;
+begin
+  for i := 0 to Ord(DO_NUMSTATES) - 1 do
+    save_actions[i] := states[i].action;
+  actions_saved := true;
+end;
+
+function Info_RestoreActions: boolean;
+var
+  i: integer;
+begin
+  result := actions_saved;
+  if not result then
+    exit;
+
+  for i := 0 to Ord(DO_NUMSTATES) - 1 do
+    states[i].action := save_actions[i];
 end;
 
 end.

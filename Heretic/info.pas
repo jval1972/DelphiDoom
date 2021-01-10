@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -18864,10 +18864,14 @@ begin
 
   if not usethinkers then
   begin
+    Info_SaveActions;
     for i := 0 to Ord(DO_NUMSTATES) - 1 do
       states[i].action.acp1 := nil;
     exit;
   end;
+
+  if Info_RestoreActions then
+    exit;
 
   states[Ord(S_FREETARGMOBJ)].action.acp1 := @A_FreeTargMobj;
   states[Ord(S_HIDESPECIAL2)].action.acp1 := @A_RestoreSpecialThing1;
