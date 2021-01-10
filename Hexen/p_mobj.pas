@@ -235,7 +235,7 @@ begin
     begin
       if st.params <> nil then
         st.params.Actor := mobj;
-      st.action.acp1(mobj);
+      st.action.acp2(mobj, nil);
     end;
 
     state := st.nextstate;
