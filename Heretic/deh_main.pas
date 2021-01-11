@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 328;
+  DEHNUMACTIONS = 332;
 
 type
   deh_action_t = record
@@ -1917,6 +1917,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_BLOODIGNOREDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');
   mobj_flags3_ex.Add('MF3_EX_LINEDONE');
+  mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');
 
   mobj_flags4_ex := TDTextList.Create;
 
@@ -2927,6 +2928,18 @@ begin
   deh_actions[327].action.acp1 := @A_LineEffect;
   deh_actions[327].name := strupper('LineEffect');
   {$IFDEF DLL}deh_actions[327].decl := 'A_LineEffect()';{$ENDIF}
+  deh_actions[328].action.acp1 := @A_FlipSprite;
+  deh_actions[328].name := strupper('FlipSprite');
+  {$IFDEF DLL}deh_actions[328].decl := 'A_FlipSprite()';{$ENDIF}
+  deh_actions[329].action.acp1 := @A_NoFlipSprite;
+  deh_actions[329].name := strupper('NoFlipSprite');
+  {$IFDEF DLL}deh_actions[329].decl := 'A_NoFlipSprite()';{$ENDIF}
+  deh_actions[330].action.acp1 := @A_RandomFlipSprite;
+  deh_actions[330].name := strupper('RandomFlipSprite');
+  {$IFDEF DLL}deh_actions[330].decl := 'A_RandomFlipSprite(chance: integer)';{$ENDIF}
+  deh_actions[331].action.acp1 := @A_RandomNoFlipSprite;
+  deh_actions[331].name := strupper('RandomNoFlipSprite');
+  {$IFDEF DLL}deh_actions[331].decl := 'A_RandomNoFlipSprite(chance: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

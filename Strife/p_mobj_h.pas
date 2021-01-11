@@ -368,6 +368,8 @@ const
   MF3_EX_NORENDERINTERPOLATION = 64;
   // Line Activate (MBF)
   MF3_EX_LINEDONE = 128;
+  // Flip sprite
+  MF3_EX_FLIPSPRITE = 256;
 
 type
 // Map Object definition.
