@@ -187,6 +187,10 @@ begin
   baseproclist.AddWithCustomResult('procedure TActor(const key: LongWord);', '!TActor', 'function TActor(const key: LongWord): !TActor;', @PS_TActor);
   baseproclist.Add('function GetActorTarget(const key: LongWord): LongWord;', @PS_GetActorTarget);
   baseproclist.Add('procedure SetActorTarget(const key: LongWord; const targ: LongWord);', @PS_SetActorTarget);
+  baseproclist.Add('function GetActorTracer(const key: LongWord): LongWord;', @PS_GetActorTracer);
+  baseproclist.Add('procedure SetActorTracer(const key: LongWord; const targ: LongWord);', @PS_SetActorTracer);
+  baseproclist.Add('function GetActorMaster(const key: LongWord): LongWord;', @PS_GetActorMaster);
+  baseproclist.Add('procedure SetActorMaster(const key: LongWord; const targ: LongWord);', @PS_SetActorMaster);
   baseproclist.Add('function GetActorX(const key: LongWord): fixed_t;', @PS_GetActorX);
   baseproclist.Add('procedure SetActorX(const key: LongWord; const x: fixed_t);', @PS_SetActorX);
   baseproclist.Add('function GetActorY(const key: LongWord): fixed_t;', @PS_GetActorY);
