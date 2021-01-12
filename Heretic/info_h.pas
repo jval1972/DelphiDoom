@@ -1286,7 +1286,7 @@ type
   state_t = record
 {$IFDEF OPTIMIZE_FOR_SIZE}
     sprite: smallint;
-    frame: smallint;
+    frame: integer;
     tics: smallint;
     tics2: smallint;
 {$ELSE}

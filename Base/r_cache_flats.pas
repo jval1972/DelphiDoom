@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -386,7 +386,7 @@ begin
         {$I R_ReadDC32Cache_Loop1.inc}
         {$I R_ReadDC32Cache_Loop1.inc}
 {$ELSE}
-        loops := dsscalesize[MaxI(Ord(pds.scale), pds.size)];
+        loops := dsscalesize[MaxI(Ord(pds.scale), pds.size)].memsize;
       for i := 0 to loops - 1 do
       begin
         {$UNDEF LASTLOOP}

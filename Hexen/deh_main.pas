@@ -1834,6 +1834,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_WALLBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_NOMAXMOVE');
   mobj_flags3_ex.Add('MF3_EX_NOCRASH');
+  // JVAL version 206
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');
   mobj_flags3_ex.Add('MF3_EX_LINEDONE');
   mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');
