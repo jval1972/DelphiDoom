@@ -813,7 +813,7 @@ begin
 
         if not foundtext and (len1 = 4) and (len2 = 4) then
         begin
-          for j := 0 to numsprites - 1 do // First music is dummy
+          for j := 0 to numsprites - 1 do
           begin
             stmp := Chr(sprnames[j] and $FF) +
                     Chr(sprnames[j] shr 8 and $FF) +
