@@ -587,3 +587,7 @@ FLAC__bool FLAC__format_entropy_coding_method_partitioned_rice_contents_ensure_s
 
 	return true;
 }
+
+
+
+

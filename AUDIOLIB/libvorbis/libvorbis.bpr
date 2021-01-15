@@ -15,7 +15,7 @@
     <IDLGENFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value=""/>
+    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Lib\cg32.lib&quot;"/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
     <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
@@ -72,6 +72,7 @@
       <FILE FILENAME="src\vorbisenc.c" FORMNAME="" UNITNAME="vorbisenc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\vorbisfile.c" FORMNAME="" UNITNAME="vorbisfile.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\alloc.c" FORMNAME="" UNITNAME="alloc" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Lib\cg32.lib" FORMNAME="" UNITNAME="cg32.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
