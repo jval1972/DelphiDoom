@@ -49,7 +49,7 @@ typedef struct {
  * ov_open() to avoid problems with incompatible crt.o version linking
  * issues. */
 
-static int _ov_header_fseek_wrap(FILE *f,ogg_int64_t off,int whence){
+static int _ov_header_fseek_wrap(int f,ogg_int64_t off,int whence){
   if(f==NULL)return(-1);
 
 #ifdef __MINGW32__
@@ -147,11 +147,11 @@ typedef struct OggVorbis_File {
 
 extern int ov_clear(OggVorbis_File *vf);
 extern int ov_fopen(const char *path,OggVorbis_File *vf);
-extern int ov_open(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes);
+extern int ov_open(int f,OggVorbis_File *vf,const char *initial,long ibytes);
 extern int ov_open_callbacks(void *datasource, OggVorbis_File *vf,
                 const char *initial, long ibytes, ov_callbacks callbacks);
 
-extern int ov_test(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes);
+extern int ov_test(int f,OggVorbis_File *vf,const char *initial,long ibytes);
 extern int ov_test_callbacks(void *datasource, OggVorbis_File *vf,
                 const char *initial, long ibytes, ov_callbacks callbacks);
 extern int ov_test_open(OggVorbis_File *vf);

@@ -21,6 +21,7 @@
 #include <math.h>
 
 #include "../../common/vorbis/codec.h"
+#include "../../common/delphifiles.h"
 
 /* we don't need or want the static callback symbols here */
 #define OV_EXCLUDE_STATIC_CALLBACKS
@@ -872,9 +873,9 @@ static int _fetch_and_process_packet(OggVorbis_File *vf,
 
 /* if, eg, 64 bit stdio is configured by default, this will build with
    fseek64 */
-static int _fseek64_wrap(FILE *f,ogg_int64_t off,int whence){
-  if(f==NULL)return(-1);
-  return fseek(f,off,whence);
+static int _fseek64_wrap(int f,ogg_int64_t off,int whence){
+  if(!f)return(-1);
+  return fileseek(f, off, whence);
 }
 
 static int _ov_open1(void *f,OggVorbis_File *vf,const char *initial,
@@ -999,7 +1000,7 @@ int ov_open_callbacks(void *f,OggVorbis_File *vf,
   return _ov_open2(vf);
 }
 
-int ov_open(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
+int ov_open(int f,OggVorbis_File *vf,const char *initial,long ibytes){
   ov_callbacks callbacks = {
     (size_t (*)(void *, size_t, size_t, void *))  fread,
     (int (*)(void *, ogg_int64_t, int))              _fseek64_wrap,
@@ -1012,11 +1013,11 @@ int ov_open(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
 
 int ov_fopen(const char *path,OggVorbis_File *vf){
   int ret;
-  FILE *f = fopen(path,"rb");
+  int f = fileopenr(path);
   if(!f) return -1;
 
   ret = ov_open(f,vf,NULL,0);
-  if(ret) fclose(f);
+  if(ret) fileclose(f);
   return ret;
 }
 
@@ -1069,7 +1070,7 @@ int ov_test_callbacks(void *f,OggVorbis_File *vf,
   return _ov_open1(f,vf,initial,ibytes,callbacks);
 }
 
-int ov_test(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
+int ov_test(int f,OggVorbis_File *vf,const char *initial,long ibytes){
   ov_callbacks callbacks = {
     (size_t (*)(void *, size_t, size_t, void *))  fread,
     (int (*)(void *, ogg_int64_t, int))              _fseek64_wrap,
