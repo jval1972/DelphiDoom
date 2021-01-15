@@ -442,8 +442,8 @@ int vorbis_lpc_to_lsp(float *lpc,float *lsp,int m){
   Newton_Raphson(g1,g1_order,g1r); /* if it fails, it leaves g1r alone */
   Newton_Raphson(g2,g2_order,g2r); /* if it fails, it leaves g2r alone */
 
-  qsort(g1r,g1_order,sizeof(*g1r),comp);
-  qsort(g2r,g2_order,sizeof(*g2r),comp);
+  myqsort(g1r,g1_order,sizeof(*g1r),comp);
+  myqsort(g2r,g2_order,sizeof(*g2r),comp);
 
   for(i=0;i<g1_order;i++)
     lsp[i*2] = acos(g1r[i]);

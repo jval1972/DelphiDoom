@@ -361,7 +361,7 @@ int vorbis_book_init_decode(codebook *c,const static_codebook *s){
       codep[i]=codes+i;
     }
 
-    qsort(codep,n,sizeof(*codep),sort32a);
+    myqsort(codep,n,sizeof(*codep),sort32a);
 
     sortindex=alloca(n*sizeof(*sortindex));
     c->codelist=_ogg_malloc(n*sizeof(*c->codelist));

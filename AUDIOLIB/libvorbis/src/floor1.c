@@ -164,7 +164,7 @@ static vorbis_info_floor *floor1_unpack (vorbis_info *vi,oggpack_buffer *opb){
   {
     int *sortpointer[VIF_POSIT+2];
     for(j=0;j<count+2;j++)sortpointer[j]=info->postlist+j;
-    qsort(sortpointer,count+2,sizeof(*sortpointer),icomp);
+    myqsort(sortpointer,count+2,sizeof(*sortpointer),icomp);
 
     for(j=1;j<count+2;j++)
       if(*sortpointer[j-1]==*sortpointer[j])goto err_out;
@@ -203,7 +203,7 @@ static vorbis_look_floor *floor1_look(vorbis_dsp_state *vd,
 
   /* also store a sorted position index */
   for(i=0;i<n;i++)sortpointer[i]=info->postlist+i;
-  qsort(sortpointer,n,sizeof(*sortpointer),icomp);
+  myqsort(sortpointer,n,sizeof(*sortpointer),icomp);
 
   /* points from sort order back to range number */
   for(i=0;i<n;i++)look->forward_index[i]=sortpointer[i]-info->postlist;

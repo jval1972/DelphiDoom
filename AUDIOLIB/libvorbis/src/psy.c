@@ -988,7 +988,7 @@ static float noise_normalize(vorbis_look_psy *p, int limit, float *r, float *q, 
 
   if(count){
     /* noise norm to do */
-    qsort(sort,count,sizeof(*sort),apsort);
+    myqsort(sort,count,sizeof(*sort),apsort);
     for(j=0;j<count;j++){
       int k=sort[j]-q;
       if(acc>=vi->normal_thresh){

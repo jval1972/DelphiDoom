@@ -35,7 +35,6 @@
 #endif
 
 #include <stdio.h>
-#include <stdlib.h> /* for qsort() */
 #include <string.h> /* for memset() */
 #include "FLAC/assert.h"
 #include "FLAC/format.h"
@@ -280,7 +279,7 @@ FLAC_API uint32_t FLAC__format_seektable_sort(FLAC__StreamMetadata_SeekTable *se
 		return 0;
 
 	/* sort the seekpoints */
-	qsort(seek_table->points, seek_table->num_points, sizeof(FLAC__StreamMetadata_SeekPoint), (int (*)(const void *, const void *))seekpoint_compare_);
+	myqsort(seek_table->points, seek_table->num_points, sizeof(FLAC__StreamMetadata_SeekPoint), (int (*)(const void *, const void *))seekpoint_compare_);
 
 	/* uniquify the seekpoints */
 	first = true;
