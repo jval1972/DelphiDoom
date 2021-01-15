@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value=".\lib\libflac.lib"/>
+    <OBJFILES value="obj\bitmath.obj obj\bitreader.obj obj\bitwriter.obj obj\cpu.obj 
+      obj\crc.obj obj\fixed.obj obj\fixed_intrin_sse2.obj 
+      obj\fixed_intrin_ssse3.obj obj\float.obj obj\format.obj obj\lpc.obj 
+      obj\lpc_intrin_avx2.obj obj\lpc_intrin_sse2.obj obj\lpc_intrin_sse41.obj 
+      obj\lpc_intrin_sse.obj obj\lpc_intrin_vsx.obj obj\md5.obj obj\memory.obj 
+      obj\metadata_iterators.obj obj\metadata_object.obj 
+      obj\ogg_decoder_aspect.obj obj\ogg_encoder_aspect.obj obj\ogg_helper.obj 
+      obj\ogg_mapping.obj obj\stream_decoder.obj obj\stream_encoder.obj 
+      obj\stream_encoder_framing.obj obj\stream_encoder_intrin_avx2.obj 
+      obj\stream_encoder_intrin_sse2.obj obj\stream_encoder_intrin_ssse3.obj 
+      obj\window.obj obj\windows_unicode_filenames.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <PACKAGES value=""/>
+    <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value="_DEBUG;BUILDER;FLAC__NO_DLL"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <MAINSOURCE value="libflac.bpf"/>
+    <INCLUDEPATH value="src\include;src;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="src;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-Isrc\include -Isrc -I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp 
+      -D_DEBUG -DBUILDER -DFLAC__NO_DLL -boa"/>
+    <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
+    <PFLAGS value="-N2.\obj -N0.\obj -$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value=""/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value=""/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="libflac.bpf" FORMNAME="" UNITNAME="libflac" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\bitmath.c" FORMNAME="" UNITNAME="bitmath.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\bitreader.c" FORMNAME="" UNITNAME="bitreader.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\bitwriter.c" FORMNAME="" UNITNAME="bitwriter.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\cpu.c" FORMNAME="" UNITNAME="cpu.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\crc.c" FORMNAME="" UNITNAME="crc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\fixed.c" FORMNAME="" UNITNAME="fixed.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\fixed_intrin_sse2.c" FORMNAME="" UNITNAME="fixed_intrin_sse2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\fixed_intrin_ssse3.c" FORMNAME="" UNITNAME="fixed_intrin_ssse3.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\float.c" FORMNAME="" UNITNAME="float.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\format.c" FORMNAME="" UNITNAME="format.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lpc.c" FORMNAME="" UNITNAME="lpc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lpc_intrin_avx2.c" FORMNAME="" UNITNAME="lpc_intrin_avx2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lpc_intrin_sse2.c" FORMNAME="" UNITNAME="lpc_intrin_sse2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lpc_intrin_sse41.c" FORMNAME="" UNITNAME="lpc_intrin_sse41.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lpc_intrin_sse.c" FORMNAME="" UNITNAME="lpc_intrin_sse.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lpc_intrin_vsx.c" FORMNAME="" UNITNAME="lpc_intrin_vsx.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\md5.c" FORMNAME="" UNITNAME="md5.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\memory.c" FORMNAME="" UNITNAME="memory.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\metadata_iterators.c" FORMNAME="" UNITNAME="metadata_iterators.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\metadata_object.c" FORMNAME="" UNITNAME="metadata_object.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_decoder_aspect.c" FORMNAME="" UNITNAME="ogg_decoder_aspect.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_encoder_aspect.c" FORMNAME="" UNITNAME="ogg_encoder_aspect.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_helper.c" FORMNAME="" UNITNAME="ogg_helper.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_mapping.c" FORMNAME="" UNITNAME="ogg_mapping.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\stream_decoder.c" FORMNAME="" UNITNAME="stream_decoder.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\stream_encoder.c" FORMNAME="" UNITNAME="stream_encoder.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\stream_encoder_framing.c" FORMNAME="" UNITNAME="stream_encoder_framing.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\stream_encoder_intrin_avx2.c" FORMNAME="" UNITNAME="stream_encoder_intrin_avx2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\stream_encoder_intrin_sse2.c" FORMNAME="" UNITNAME="stream_encoder_intrin_sse2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\stream_encoder_intrin_ssse3.c" FORMNAME="" UNITNAME="stream_encoder_intrin_ssse3.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\window.c" FORMNAME="" UNITNAME="window.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\windows_unicode_filenames.c" FORMNAME="" UNITNAME="windows_unicode_filenames.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1032
+CodePage=1253
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=8
+Item0=src\include;src;$(BCB)\include;$(BCB)\include\vcl
+Item1=src;src\include;$(BCB)\include;$(BCB)\include\vcl
+Item2=src;$(BCB)\include;$(BCB)\include\vcl
+Item3=$(BCB)\include;$(BCB)\include\vcl
+Item4=src;.\src\include;.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
+Item5=src;.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
+Item6=.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
+Item7=E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libflac\src;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=3
+Item0=src;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+Item2=E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libflac\src;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=3
+Item0=_DEBUG;BUILDER;FLAC__NO_DLL
+Item1=_DEBUG;BUILDER
+Item2=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=1
+Item0=.\obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=.\lib\
+Item1=.\lib
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>
