@@ -63,35 +63,35 @@
 # define SIZE_MAX SIZE_T_MAX
 #endif
 
-static void *safe_malloc_(size_t size);
+void *safe_malloc_(size_t size);
 
-static void *safe_calloc_(size_t nmemb, size_t size);
+void *safe_calloc_(size_t nmemb, size_t size);
 
-static void *safe_malloc_add_2op_(size_t size1, size_t size2);
+void *safe_malloc_add_2op_(size_t size1, size_t size2);
 
-static void *safe_malloc_add_3op_(size_t size1, size_t size2, size_t size3);
+void *safe_malloc_add_3op_(size_t size1, size_t size2, size_t size3);
 
-static void *safe_malloc_add_4op_(size_t size1, size_t size2, size_t size3, size_t size4);
+void *safe_malloc_add_4op_(size_t size1, size_t size2, size_t size3, size_t size4);
 
 void *safe_malloc_mul_2op_(size_t size1, size_t size2);
 
-static void *safe_malloc_mul_3op_(size_t size1, size_t size2, size_t size3);
+void *safe_malloc_mul_3op_(size_t size1, size_t size2, size_t size3);
 
 /* size1*size2 + size3 */
-static void *safe_malloc_mul2add_(size_t size1, size_t size2, size_t size3);
+void *safe_malloc_mul2add_(size_t size1, size_t size2, size_t size3);
 
 /* size1 * (size2 + size3) */
-static void *safe_malloc_muladd2_(size_t size1, size_t size2, size_t size3);
+void *safe_malloc_muladd2_(size_t size1, size_t size2, size_t size3);
 
-static void *safe_realloc_(void *ptr, size_t size);
+void *safe_realloc_(void *ptr, size_t size);
 
-static void *safe_realloc_add_2op_(void *ptr, size_t size1, size_t size2);
+void *safe_realloc_add_2op_(void *ptr, size_t size1, size_t size2);
 
-static void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3);
+void *safe_realloc_add_3op_(void *ptr, size_t size1, size_t size2, size_t size3);
 
-static void *safe_realloc_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4);
+void *safe_realloc_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3, size_t size4);
 
 /* size1 * (size2 + size3) */
-static void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3);
+void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3);
 
 #endif
