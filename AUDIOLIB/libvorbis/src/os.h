@@ -21,7 +21,7 @@
 #endif
 
 #include <math.h>
-#include <ogg/os_types.h>
+#include <../../common/ogg/os_types_common.h>
 
 #include "misc.h"
 

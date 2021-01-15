@@ -36,9 +36,9 @@
 
 #include <math.h>
 
-#include "FLAC/assert.h"
-#include "FLAC/format.h"
-#include "share/compat.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/FLAC/format_flac.h"
+#include "../../common/share/compat.h"
 #include "private/bitmath.h"
 #include "private/lpc.h"
 #include "private/macros.h"

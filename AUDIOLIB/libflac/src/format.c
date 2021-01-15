@@ -36,10 +36,10 @@
 
 #include <stdio.h>
 #include <string.h> /* for memset() */
-#include "FLAC/assert.h"
-#include "FLAC/format.h"
-#include "share/alloc.h"
-#include "share/compat.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/FLAC/format_flac.h"
+#include "../../common/share/alloc.h"
+#include "../../common/share/compat.h"
 #include "private/format.h"
 #include "private/macros.h"
 

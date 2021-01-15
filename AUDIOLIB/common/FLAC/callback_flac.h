@@ -30,10 +30,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__CALLBACK_H
-#define FLAC__CALLBACK_H
+#ifndef FLAC__CALLBACK_FLAC_H
+#define FLAC__CALLBACK_FLAC_H
 
-#include "ordinals.h"
+#include "flac_options_flac.h"
+#include "ordinals_flac.h"
 #include <stdlib.h> /* for size_t */
 
 /** \file include/FLAC/callback.h

@@ -44,12 +44,12 @@
 
 #include "private/metadata.h"
 
-#include "FLAC/assert.h"
-#include "FLAC/stream_decoder.h"
-#include "share/alloc.h"
-#include "share/compat.h"
-#include "share/macros.h"
-#include "share/safe_str.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/FLAC/stream_decoder_flac.h"
+#include "../../common/share/alloc.h"
+#include "../../common/share/compat.h"
+#include "../../common/share/macros.h"
+#include "../../common/share/safe_str.h"
 #include "private/macros.h"
 #include "private/memory.h"
 

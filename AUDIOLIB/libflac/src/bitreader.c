@@ -40,9 +40,9 @@
 #include "private/bitreader.h"
 #include "private/crc.h"
 #include "private/macros.h"
-#include "FLAC/assert.h"
-#include "share/compat.h"
-#include "share/endswap.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/share/compat.h"
+#include "../../common/share/endswap.h"
 
 /* Things should be fastest when this matches the machine word size */
 /* WATCHOUT: if you change this you must also change the following #defines down to COUNT_ZERO_MSBS2 below to match */

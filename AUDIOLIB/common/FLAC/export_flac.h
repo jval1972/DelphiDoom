@@ -1,5 +1,5 @@
 /* libFLAC - Free Lossless Audio Codec library
- * Copyright (C) 2001-2009  Josh Coalson
+ * Copyright (C) 2000-2009  Josh Coalson
  * Copyright (C) 2011-2016  Xiph.Org Foundation
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,17 +30,54 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__ASSERT_H
-#define FLAC__ASSERT_H
+#ifndef FLAC__EXPORT_FLAC_H
+#define FLAC__EXPORT_FLAC_H
 
-/* we need this since some compilers (like MSVC) leave assert()s on release code (and we don't want to use their ASSERT) */
-#ifndef NDEBUG
-#include <assert.h>
-#define FLAC__ASSERT(x) assert(x)
-#define FLAC__ASSERT_DECLARATION(x) x
-#else
-#define FLAC__ASSERT(x)
-#define FLAC__ASSERT_DECLARATION(x)
+#include "flac_options_flac.h"
+
+/** \file include/FLAC/export.h
+ *
+ *  \brief
+ *  This module contains \#defines and symbols for exporting function
+ *  calls, and providing version information and compiled-in features.
+ *
+ *  See the \link flac_export export \endlink module.
+ */
+
+/** \defgroup flac_export FLAC/export.h: export symbols
+ *  \ingroup flac
+ *
+ *  \brief
+ *  This module contains \#defines and symbols for exporting function
+ *  calls, and providing version information and compiled-in features.
+ *
+ *  If you are compiling with MSVC and will link to the static library
+ *  (libFLAC.lib) you should define FLAC__NO_DLL in your project to
+ *  make sure the symbols are exported properly.
+ *
+ * \{
+ */
+
+#define FLAC_API
+
+/** These \#defines will mirror the libtool-based library version number, see
+ * http://www.gnu.org/software/libtool/manual/libtool.html#Libtool-versioning
+ */
+#define FLAC_API_VERSION_CURRENT 11
+#define FLAC_API_VERSION_REVISION 0 /**< see above */
+#define FLAC_API_VERSION_AGE 3 /**< see above */
+
+#ifdef __cplusplus
+extern "C" {
 #endif
+
+/** \c 1 if the library has been compiled with support for Ogg FLAC, else \c 0. */
+extern FLAC_API int FLAC_API_SUPPORTS_OGG_FLAC;
+
+#ifdef __cplusplus
+}
+#endif
+
+/* \} */
 
 #endif

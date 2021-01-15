@@ -70,9 +70,9 @@
 
 #if HAVE_EXTERNAL_XIPH_LIBS
 
-#include <ogg/ogg.h>
-#include <vorbis/codec.h>
-#include <vorbis/vorbisenc.h>
+#include <../../common/ogg/ogg_common.h>
+#include <../../common/vorbis/codec.h>
+#include <../../common/vorbis/vorbisenc.h>
 
 #include "ogg.h"
 

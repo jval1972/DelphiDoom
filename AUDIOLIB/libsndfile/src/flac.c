@@ -31,9 +31,9 @@
 
 #if HAVE_EXTERNAL_XIPH_LIBS
 
-#include	<FLAC/stream_decoder.h>
-#include	<FLAC/stream_encoder.h>
-#include	<FLAC/metadata.h>
+#include	<../../common/FLAC/stream_decoder_flac.h>
+#include	<../../common/FLAC/stream_encoder_flac.h>
+#include	<../../common/FLAC/metadata_flac.h>
 
 /*------------------------------------------------------------------------------
 ** Private static functions.

@@ -8,8 +8,8 @@
       obj\block.obj obj\codebook.obj obj\envelope.obj obj\floor0.obj 
       obj\floor1.obj obj\info.obj obj\lookup.obj obj\lpc.obj obj\lsp.obj 
       obj\mapping0.obj obj\mdct.obj obj\psy.obj obj\registry.obj obj\res0.obj 
-      obj\sharedbook.obj obj\smallft.obj obj\synthesis.obj obj\tone.obj 
-      obj\vorbisenc.obj obj\vorbisfile.obj"/>
+      obj\sharedbook.obj obj\smallft.obj obj\synthesis.obj obj\vorbisenc.obj 
+      obj\vorbisfile.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
@@ -18,7 +18,7 @@
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
-    <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
+    <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -69,7 +69,6 @@
       <FILE FILENAME="src\sharedbook.c" FORMNAME="" UNITNAME="sharedbook.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\smallft.c" FORMNAME="" UNITNAME="smallft.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\synthesis.c" FORMNAME="" UNITNAME="synthesis.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="src\tone.c" FORMNAME="" UNITNAME="tone.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\vorbisenc.c" FORMNAME="" UNITNAME="vorbisenc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\vorbisfile.c" FORMNAME="" UNITNAME="vorbisfile.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>

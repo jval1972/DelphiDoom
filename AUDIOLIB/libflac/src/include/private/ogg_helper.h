@@ -33,8 +33,8 @@
 #ifndef FLAC__PRIVATE__OGG_HELPER_H
 #define FLAC__PRIVATE__OGG_HELPER_H
 
-#include <ogg/ogg.h>
-#include "FLAC/stream_encoder.h" /* for FLAC__StreamEncoder */
+#include <../../common/ogg/ogg_common.h>
+#include "../../common/FLAC/stream_encoder_flac.h" /* for FLAC__StreamEncoder */
 
 void simple_ogg_page__init(ogg_page *page);
 void simple_ogg_page__clear(ogg_page *page);

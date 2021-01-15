@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <ogg/ogg.h>
-#include "vorbis/codec.h"
+#include <../../common/ogg/ogg_common.h>
+#include "../../common/vorbis/codec.h"
 #include "codec_internal.h"
 #include "registry.h"
 #include "scales.h"

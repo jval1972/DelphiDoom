@@ -17,7 +17,7 @@
 #ifndef _OGG_mdct_H_
 #define _OGG_mdct_H_
 
-#include "vorbis/codec.h"
+#include "../../common/vorbis/codec.h"
 
 
 

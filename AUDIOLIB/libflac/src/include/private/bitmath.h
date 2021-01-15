@@ -33,10 +33,10 @@
 #ifndef FLAC__PRIVATE__BITMATH_H
 #define FLAC__PRIVATE__BITMATH_H
 
-#include "FLAC/ordinals.h"
-#include "FLAC/assert.h"
+#include "../../common/FLAC/ordinals_flac.h"
+#include "../../common/FLAC/assert_flac.h"
 
-#include "share/compat.h"
+#include "../../common/share/compat.h"
 
 #if defined(_MSC_VER)
 #include <intrin.h> /* for _BitScanReverse* */

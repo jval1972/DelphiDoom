@@ -36,7 +36,7 @@
 
 #if HAVE_EXTERNAL_XIPH_LIBS
 
-#include <ogg/ogg.h>
+#include <../../common/ogg/ogg_common.h>
 
 #include "ogg.h"
 

@@ -13,8 +13,8 @@
  function: Define a consistent set of types on each platform.
 
  ********************************************************************/
-#ifndef _OS_TYPES_H
-#define _OS_TYPES_H
+#ifndef _OS_TYPES_COMMON_H
+#define _OS_TYPES_COMMON_H
 
 /* make it easy on the folks that want to compile the libs with a
    different malloc than stdlib */

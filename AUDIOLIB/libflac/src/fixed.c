@@ -36,11 +36,11 @@
 
 #include <math.h>
 #include <string.h>
-#include "share/compat.h"
+#include "../../common/share/compat.h"
 #include "private/bitmath.h"
 #include "private/fixed.h"
 #include "private/macros.h"
-#include "FLAC/assert.h"
+#include "../../common/FLAC/assert_flac.h"
 
 #ifdef local_abs
 #undef local_abs

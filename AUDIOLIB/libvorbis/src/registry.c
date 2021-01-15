@@ -14,7 +14,7 @@
 
  ********************************************************************/
 
-#include "vorbis/codec.h"
+#include "../../common/vorbis/codec.h"
 #include "codec_internal.h"
 #include "registry.h"
 #include "misc.h"

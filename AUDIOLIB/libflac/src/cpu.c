@@ -35,7 +35,7 @@
 #endif
 
 #include "private/cpu.h"
-#include "share/compat.h"
+#include "../../common/share/compat.h"
 #include <stdlib.h>
 #include <string.h>
 

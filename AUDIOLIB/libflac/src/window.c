@@ -35,9 +35,9 @@
 #endif
 
 #include <math.h>
-#include "share/compat.h"
-#include "FLAC/assert.h"
-#include "FLAC/format.h"
+#include "../../common/share/compat.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/FLAC/format_flac.h"
 #include "private/window.h"
 
 #ifndef FLAC__INTEGER_ONLY_LIBRARY

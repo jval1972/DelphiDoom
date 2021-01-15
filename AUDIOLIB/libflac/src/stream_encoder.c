@@ -43,9 +43,10 @@
 #include <windows.h> /* for GetFileType() */
 #include <io.h> /* for _get_osfhandle() */
 #endif
-#include "share/compat.h"
-#include "FLAC/assert.h"
-#include "FLAC/stream_decoder.h"
+#include "../../common/share/compat.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/FLAC/export_flac.h"
+#include "../../common/FLAC/stream_decoder_flac.h"
 #include "protected/stream_encoder.h"
 #include "private/bitwriter.h"
 #include "private/bitmath.h"
@@ -57,7 +58,8 @@
 #include "private/md5.h"
 #include "private/memory.h"
 #include "private/macros.h"
-#include "ogg/ogg.h"
+#include "../../common/ogg/ogg_common.h"
+#include "../../common/FLAC/flac_options_flac.h"
 #if FLAC__HAS_OGG
 #include "private/ogg_helper.h"
 #include "private/ogg_mapping.h"
@@ -65,8 +67,8 @@
 #include "private/stream_encoder.h"
 #include "private/stream_encoder_framing.h"
 #include "private/window.h"
-#include "share/alloc.h"
-#include "share/private.h"
+#include "../../common/share/alloc.h"
+#include "../../common/share/private.h"
 
 
 /* Exact Rice codeword length calculation is off by default.  The simple

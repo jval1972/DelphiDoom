@@ -6,9 +6,9 @@
 #include <string.h>		/* for memcpy() */
 
 #include "private/md5.h"
-#include "share/alloc.h"
-#include "share/compat.h"
-#include "share/endswap.h"
+#include "../../common/share/alloc.h"
+#include "../../common/share/compat.h"
+#include "../../common/share/endswap.h"
 
 /*
  * This code implements the MD5 message-digest algorithm.

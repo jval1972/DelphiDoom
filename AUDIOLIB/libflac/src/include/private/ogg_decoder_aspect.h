@@ -33,10 +33,10 @@
 #ifndef FLAC__PRIVATE__OGG_DECODER_ASPECT_H
 #define FLAC__PRIVATE__OGG_DECODER_ASPECT_H
 
-#include <ogg/ogg.h>
+#include <../../common/ogg/ogg_common.h>
 
-#include "FLAC/ordinals.h"
-#include "FLAC/stream_decoder.h" /* for FLAC__StreamDecoderReadStatus */
+#include "../../common/FLAC/ordinals_flac.h"
+#include "../../common/FLAC/stream_decoder_flac.h" /* for FLAC__StreamDecoderReadStatus */
 
 typedef struct FLAC__OggDecoderAspect {
 	/* these are storage for values that can be set through the API */

@@ -40,7 +40,7 @@
 #include <stdlib.h> /* for size_t */
 
 #include "private/float.h"
-#include "FLAC/ordinals.h" /* for FLAC__bool */
+#include "../../common/FLAC/ordinals_flac.h" /* for FLAC__bool */
 
 /* Returns the unaligned address returned by malloc.
  * Use free() on this address to deallocate.

@@ -13,15 +13,15 @@
  function: toplevel libogg include
 
  ********************************************************************/
-#ifndef _OGG_H
-#define _OGG_H
+#ifndef _OGG_COMMON_H
+#define _OGG_COMMON_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stddef.h>
-#include <ogg/os_types.h>
+#include <../../common/ogg/os_types_common.h>
 
 typedef struct {
   void *iov_base;

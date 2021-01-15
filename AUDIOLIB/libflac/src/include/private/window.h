@@ -38,7 +38,7 @@
 #endif
 
 #include "private/float.h"
-#include "FLAC/format.h"
+#include "../../common/FLAC/format_flac.h"
 
 #ifndef FLAC__INTEGER_ONLY_LIBRARY
 

@@ -40,7 +40,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "vorbis/codec.h"
+#include "../../common/vorbis/codec.h"
 #include "mdct.h"
 #include "os.h"
 #include "misc.h"

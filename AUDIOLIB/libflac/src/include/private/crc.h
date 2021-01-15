@@ -33,7 +33,7 @@
 #ifndef FLAC__PRIVATE__CRC_H
 #define FLAC__PRIVATE__CRC_H
 
-#include "FLAC/ordinals.h"
+#include "../../common/FLAC/ordinals_flac.h"
 
 /* 8 bit CRC generator, MSB shifted first
 ** polynomial = x^8 + x^2 + x^1 + x^0

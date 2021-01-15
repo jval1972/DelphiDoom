@@ -31,14 +31,14 @@
     <USERDEFINES value="_DEBUG;BUILDER;FLAC__NO_DLL"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
     <MAINSOURCE value="libflac.bpf"/>
-    <INCLUDEPATH value="src\include;src;$(BCB)\include;$(BCB)\include\vcl"/>
+    <INCLUDEPATH value="src;src\include;$(BCB)\include;$(BCB)\include\vcl"/>
     <LIBPATH value="src;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <LISTFILE value=""/>
     <OTHERFILES value=""/>
   </MACROS>
   <OPTIONS>
-    <IDLCFLAGS value="-Isrc\include -Isrc -I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp 
+    <IDLCFLAGS value="-Isrc -Isrc\include -I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp 
       -D_DEBUG -DBUILDER -DFLAC__NO_DLL -boa"/>
     <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
     <PFLAGS value="-N2.\obj -N0.\obj -$YD -$W -$O- -$A8 -v -JPHNE -M"/>
@@ -118,15 +118,16 @@ ProductVersion=1.0.0.0
 Comments=
 
 [HistoryLists\hlIncludePath]
-Count=8
-Item0=src\include;src;$(BCB)\include;$(BCB)\include\vcl
-Item1=src;src\include;$(BCB)\include;$(BCB)\include\vcl
-Item2=src;$(BCB)\include;$(BCB)\include\vcl
-Item3=$(BCB)\include;$(BCB)\include\vcl
-Item4=src;.\src\include;.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
-Item5=src;.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
-Item6=.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
-Item7=E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libflac\src;$(BCB)\include;$(BCB)\include\vcl
+Count=9
+Item0=src\include;$(BCB)\include;$(BCB)\include\vcl
+Item1=src\include;src;$(BCB)\include;$(BCB)\include\vcl
+Item2=src;src\include;$(BCB)\include;$(BCB)\include\vcl
+Item3=src;$(BCB)\include;$(BCB)\include\vcl
+Item4=$(BCB)\include;$(BCB)\include\vcl
+Item5=src;.\src\include;.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
+Item6=src;.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
+Item7=.\src\include\private;.\src\include\protected;$(BCB)\include;$(BCB)\include\vcl
+Item8=E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libflac\src;$(BCB)\include;$(BCB)\include\vcl
 
 [HistoryLists\hlLibraryPath]
 Count=3

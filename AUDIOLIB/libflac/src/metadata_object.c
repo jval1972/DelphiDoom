@@ -40,9 +40,9 @@
 #include "private/metadata.h"
 #include "private/memory.h"
 
-#include "FLAC/assert.h"
-#include "share/alloc.h"
-#include "share/compat.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/share/alloc.h"
+#include "../../common/share/compat.h"
 
 /* Alias the first (in share/alloc.h) to the second (in src/libFLAC/memory.c). */
 #define safe_malloc_mul_2op_ safe_malloc_mul_2op_p

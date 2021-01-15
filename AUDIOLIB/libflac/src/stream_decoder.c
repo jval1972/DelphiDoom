@@ -39,9 +39,11 @@
 #include <string.h> /* for memset/memcpy() */
 #include <sys/stat.h> /* for stat() */
 #include <sys/types.h> /* for off_t */
-#include "share/compat.h"
-#include "FLAC/assert.h"
-#include "share/alloc.h"
+#include "../../common/FLAC/flac_options_flac.h"
+#include "../../common/share/compat.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/FLAC/export_flac.h"
+#include "../../common/share/alloc.h"
 #include "protected/stream_decoder.h"
 #include "private/bitreader.h"
 #include "private/bitmath.h"
@@ -53,7 +55,7 @@
 #include "private/md5.h"
 #include "private/memory.h"
 #include "private/macros.h"
-#include "ogg/ogg.h"
+#include "../../common/ogg/ogg_common.h"
 #include "private/ogg_decoder_aspect.h"
 
 

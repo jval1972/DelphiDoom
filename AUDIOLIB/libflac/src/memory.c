@@ -39,9 +39,9 @@
 #endif
 
 #include "private/memory.h"
-#include "FLAC/assert.h"
-#include "share/compat.h"
-#include "share/alloc.h"
+#include "../../common/FLAC/assert_flac.h"
+#include "../../common/share/compat.h"
+#include "../../common/share/alloc.h"
 
 void *FLAC__memory_alloc_aligned(size_t bytes, void **aligned_address)
 {

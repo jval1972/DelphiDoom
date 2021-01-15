@@ -33,10 +33,11 @@
 #ifndef FLAC__STREAM_ENCODER_H
 #define FLAC__STREAM_ENCODER_H
 
+#include "flac_options_flac.h"
 #include <stdio.h> /* for FILE */
-#include "export.h"
-#include "format.h"
-#include "stream_decoder.h"
+#include "export_flac.h"
+#include "format_flac.h"
+#include "stream_decoder_flac.h"
 
 #ifdef __cplusplus
 extern "C" {

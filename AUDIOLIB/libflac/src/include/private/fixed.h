@@ -39,7 +39,7 @@
 
 #include "private/cpu.h"
 #include "private/float.h"
-#include "FLAC/format.h"
+#include "../../common/FLAC/format_flac.h"
 
 /*
  *	FLAC__fixed_compute_best_predictor()

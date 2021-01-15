@@ -35,7 +35,7 @@
 #endif
 
 #include <string.h> /* for memset() */
-#include "FLAC/assert.h"
+#include "../../common/FLAC/assert_flac.h"
 #include "private/ogg_encoder_aspect.h"
 #include "private/ogg_mapping.h"
 

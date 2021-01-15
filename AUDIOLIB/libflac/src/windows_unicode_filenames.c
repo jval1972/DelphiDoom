@@ -35,7 +35,7 @@
 
 #include <io.h>
 #include <windows.h>
-#include "share/windows_unicode_filenames.h"
+#include "../../common/share/windows_unicode_filenames.h"
 
 #if defined(_WIN32) && (HAS_UNICODE == 1)
 

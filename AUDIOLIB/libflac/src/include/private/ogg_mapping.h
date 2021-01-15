@@ -33,7 +33,7 @@
 #ifndef FLAC__PRIVATE__OGG_MAPPING_H
 #define FLAC__PRIVATE__OGG_MAPPING_H
 
-#include "FLAC/ordinals.h"
+#include "../../common/FLAC/ordinals_flac.h"
 
 /** The length of the packet type field in bytes. */
 #define FLAC__OGG_MAPPING_PACKET_TYPE_LENGTH (1u)

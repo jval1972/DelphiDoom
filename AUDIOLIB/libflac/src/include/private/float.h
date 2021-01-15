@@ -37,7 +37,7 @@
 #include <config.h>
 #endif
 
-#include "FLAC/ordinals.h"
+#include "../../common/FLAC/ordinals_flac.h"
 
 /*
  * All the code in libFLAC that uses float and double

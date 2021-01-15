@@ -33,7 +33,8 @@
 #ifndef FLAC__PROTECTED__STREAM_ENCODER_H
 #define FLAC__PROTECTED__STREAM_ENCODER_H
 
-#include "FLAC/stream_encoder.h"
+#include "../../common/FLAC/flac_options_flac.h"
+#include "../../common/FLAC/stream_encoder_flac.h"
 #if FLAC__HAS_OGG
 #include "private/ogg_encoder_aspect.h"
 #endif

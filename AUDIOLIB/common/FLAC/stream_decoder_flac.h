@@ -30,13 +30,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__STREAM_DECODER_H
-#define FLAC__STREAM_DECODER_H
+#ifndef FLAC__STREAM_DECODER_FLAC_H
+#define FLAC__STREAM_DECODER_FLAC_H
 
 #include <stdio.h> /* for FILE */
-#include "export.h"
-#include "format.h"
-#include "ogg/ogg.h"
+#include "flac_options_flac.h"
+#include "export_flac.h"
+#include "format_flac.h"
+#include "../../common/ogg/ogg_common.h"
 
 #ifdef __cplusplus
 extern "C" {

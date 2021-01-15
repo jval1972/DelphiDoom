@@ -30,11 +30,12 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__FORMAT_H
-#define FLAC__FORMAT_H
+#ifndef FLAC__FORMAT_FLAC_H
+#define FLAC__FORMAT_FLAC_H
 
-#include "export.h"
-#include "ordinals.h"
+#include "flac_options_flac.h"
+#include "export_flac.h"
+#include "ordinals_flac.h"
 
 #ifdef __cplusplus
 extern "C" {

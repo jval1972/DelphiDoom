@@ -30,18 +30,20 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__ALL_H
-#define FLAC__ALL_H
+#ifndef FLAC__ALL_FLAC_H
+#define FLAC__ALL_FLAC_H
 
-#include "export.h"
+#include "flac_options_flac.h"
 
-#include "assert.h"
-#include "callback.h"
-#include "format.h"
-#include "metadata.h"
-#include "ordinals.h"
-#include "stream_decoder.h"
-#include "stream_encoder.h"
+#include "export_flac.h"
+
+#include "assert_flac.h"
+#include "callback_flac.h"
+#include "format_flac.h"
+#include "metadata_flac.h"
+#include "ordinals_flac.h"
+#include "stream_decoder_flac.h"
+#include "stream_encoder_flac.h"
 
 /** \mainpage
  *

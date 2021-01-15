@@ -18,8 +18,8 @@
 #include <string.h>
 #include <math.h>
 
-#include "vorbis/codec.h"
-#include "vorbis/vorbisenc.h"
+#include "../../common/vorbis/codec.h"
+#include "../../common/vorbis/vorbisenc.h"
 
 #include "codec_internal.h"
 

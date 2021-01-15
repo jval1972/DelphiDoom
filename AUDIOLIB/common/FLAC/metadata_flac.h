@@ -30,13 +30,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef FLAC__METADATA_H
-#define FLAC__METADATA_H
+#ifndef FLAC__METADATA_FLAC_H
+#define FLAC__METADATA_FLAC_H
 
 #include <sys/types.h> /* for off_t */
-#include "export.h"
-#include "callback.h"
-#include "format.h"
+#include "flac_options_flac.h"
+#include "export_flac.h"
+#include "callback_flac.h"
+#include "format_flac.h"
 
 /* --------------------------------------------------------------------
    (For an example of how all these routines are used, see the source
