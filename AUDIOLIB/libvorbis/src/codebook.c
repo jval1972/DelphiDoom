@@ -131,7 +131,7 @@ int vorbis_staticbook_pack(const static_codebook *c,oggpack_buffer *opb){
 
       /* quantized values */
       for(i=0;i<quantvals;i++)
-        oggpack_write(opb,labs(c->quantlist[i]),c->q_quant);
+        oggpack_write(opb,c->quantlist[i] < 0 ? -c->quantlist[i]: c->quantlist[i],c->q_quant);
 
     }
     break;

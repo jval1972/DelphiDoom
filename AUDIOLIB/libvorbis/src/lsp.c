@@ -135,6 +135,10 @@ static const int MLOOP_2[64]={
 
 static const int MLOOP_3[8]={0,1,2,2,3,3,3,3};
 
+long mylabs(long x){
+        if (x < 0) return -x;
+        return x;
+}
 
 /* side effect: changes *lsp to cosines of lsp */
 void vorbis_lsp_to_curve(float *curve,int *map,int n,int ln,float *lsp,int m,
@@ -157,15 +161,15 @@ void vorbis_lsp_to_curve(float *curve,int *map,int n,int ln,float *lsp,int m,
     int qexp=0,shift;
     long wi=vorbis_coslook_i(k*65536/ln);
 
-    qi*=labs(ilsp[0]-wi);
-    pi*=labs(ilsp[1]-wi);
+    qi*=mylabs(ilsp[0]-wi);
+    pi*=mylabs(ilsp[1]-wi);
 
     for(j=3;j<m;j+=2){
       if(!(shift=MLOOP_1[(pi|qi)>>25]))
         if(!(shift=MLOOP_2[(pi|qi)>>19]))
           shift=MLOOP_3[(pi|qi)>>16];
-      qi=(qi>>shift)*labs(ilsp[j-1]-wi);
-      pi=(pi>>shift)*labs(ilsp[j]-wi);
+      qi=(qi>>shift)*mylabs(ilsp[j-1]-wi);
+      pi=(pi>>shift)*mylabs(ilsp[j]-wi);
       qexp+=shift;
     }
     if(!(shift=MLOOP_1[(pi|qi)>>25]))
@@ -177,7 +181,7 @@ void vorbis_lsp_to_curve(float *curve,int *map,int n,int ln,float *lsp,int m,
     if(m&1){
       /* odd order filter; slightly assymetric */
       /* the last coefficient */
-      qi=(qi>>shift)*labs(ilsp[j-1]-wi);
+      qi=(qi>>shift)*mylabs(ilsp[j-1]-wi);
       pi=(pi>>shift)<<14;
       qexp+=shift;
 
