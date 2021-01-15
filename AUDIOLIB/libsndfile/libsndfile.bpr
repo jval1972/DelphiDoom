@@ -52,7 +52,7 @@
     <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
     <PFLAGS value="-N2.\obj -N0.\obj -$YD -$W -$O- -$A8 -v -JPHNE -M"/>
     <AFLAGS value="/mx /w2 /zd"/>
-    <LFLAGS value="/P32"/>
+    <LFLAGS value="/P64"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -213,9 +213,10 @@ Item0=.\lib\
 Item1=.\lib
 
 [HistoryLists\hlTlibPageSize]
-Count=2
-Item0=0x0020
-Item1=0x0010
+Count=3
+Item0=0x0040
+Item1=0x0020
+Item2=0x0010
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

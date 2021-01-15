@@ -42,6 +42,7 @@
 #define CPU_IS_LITTLE_ENDIAN 1
 #define CPU_IS_BIG_ENDIAN 0
 #define SIZEOF_SF_COUNT_T 8
+#define HAVE_EXTERNAL_XIPH_LIBS 1
 
 /* Include the Autoconf generated file. */
 #include "config.h"

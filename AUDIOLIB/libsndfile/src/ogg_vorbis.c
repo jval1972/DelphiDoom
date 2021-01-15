@@ -493,7 +493,7 @@ ogg_vorbis_open (SF_PRIVATE *psf)
 	int	error = 0 ;
 
 	if (odata == NULL)
-	{	psf_log_printf (psf, "%s : odata is NULL???\n", __func__) ;
+	{	psf_log_printf (psf, "%s : odata is NULL???\n", "ogg_vorbis_open") ;
 		return SFE_INTERNAL ;
 		} ;
 
@@ -567,7 +567,7 @@ vorbis_command (SF_PRIVATE *psf, int command, void * data, int datasize)
 			/* Clip range. */
 			vdata->quality = SF_MAX (0.0, SF_MIN (1.0, vdata->quality)) ;
 
-			psf_log_printf (psf, "%s : Setting SFC_SET_VBR_ENCODING_QUALITY to %f.\n", __func__, vdata->quality) ;
+			psf_log_printf (psf, "%s : Setting SFC_SET_VBR_ENCODING_QUALITY to %f.\n", "vorbis_command", vdata->quality) ;
 			return SF_TRUE ;
 
 		default :

@@ -91,7 +91,7 @@ ogg_open (SF_PRIVATE *psf)
 			break ;
 		} ;
 
-	psf_log_printf (psf, "%s : bad psf->sf.format 0x%x.\n", __func__, psf->sf.format) ;
+	psf_log_printf (psf, "%s : bad psf->sf.format 0x%x.\n", "ogg_open", psf->sf.format) ;
 	return SFE_INTERNAL ;
 } /* ogg_open */
 
