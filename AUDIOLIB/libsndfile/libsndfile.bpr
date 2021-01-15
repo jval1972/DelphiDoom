@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value=".\lib\libsndfile.lib"/>
+    <OBJFILES value="obj\xi.obj obj\aiff.obj obj\alac.obj obj\alaw.obj obj\au.obj 
+      obj\audio_detect.obj obj\avr.obj obj\broadcast.obj obj\caf.obj 
+      obj\cart.obj obj\chanmap.obj obj\chunk.obj obj\command.obj obj\common.obj 
+      obj\dither.obj obj\double64.obj obj\dwd.obj obj\dwvw.obj obj\file_io.obj 
+      obj\flac.obj obj\float32.obj obj\g72x.obj obj\gsm610.obj obj\htk.obj 
+      obj\id3.obj obj\ima_adpcm.obj obj\ima_oki_adpcm.obj obj\interleave.obj 
+      obj\ircam.obj obj\macos.obj obj\mat4.obj obj\mat5.obj obj\mpc2k.obj 
+      obj\ms_adpcm.obj obj\nist.obj obj\ogg.obj obj\ogg_opus.obj obj\ogg_pcm.obj 
+      obj\ogg_speex.obj obj\ogg_vorbis.obj obj\paf.obj obj\pcm.obj obj\pvf.obj 
+      obj\raw.obj obj\rf64.obj obj\rx2.obj obj\sd2.obj obj\sds.obj 
+      obj\sfendian.obj obj\sndfile.obj obj\strings.obj obj\svx.obj obj\txw.obj 
+      obj\ulaw.obj obj\voc.obj obj\vox_adpcm.obj obj\w64.obj obj\wav.obj 
+      obj\wavlike.obj obj\windows.obj obj\wve.obj obj\matrix_enc.obj 
+      obj\ag_dec.obj obj\ag_enc.obj obj\alac_decoder.obj obj\alac_encoder.obj 
+      obj\ALACBitUtilities.obj obj\dp_dec.obj obj\dp_enc.obj obj\matrix_dec.obj 
+      obj\g723_40.obj obj\g72x_main.obj obj\g721.obj obj\g723_16.obj 
+      obj\g723_24.obj obj\table.obj obj\add.obj obj\code.obj obj\decode.obj 
+      obj\gsm_create.obj obj\gsm_decode.obj obj\gsm_destroy.obj 
+      obj\gsm_encode.obj obj\gsm_option.obj obj\long_term.obj obj\lpc.obj 
+      obj\preprocess.obj obj\rpe.obj obj\short_term.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <PACKAGES value=""/>
+    <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src\ALAC;src\ALAC;src\ALAC;src\ALAC;src\ALAC;src\ALAC;src\ALAC;src\ALAC;src\ALAC;src\G72x;src\G72x;src\G72x;src\G72x;src\G72x;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610;src\GSM610"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value="_DEBUG;BUILDER"/>
+    <SYSDEFINES value="NO_STRICT;_RTLDLL"/>
+    <MAINSOURCE value="libsndfile.bpf"/>
+    <INCLUDEPATH value=".\src\GSM610;.\src\G72x;.\src\ALAC;.\src;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="src\GSM610;src\G72x;src\ALAC;src;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-spa -w-pia -w-par"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-I.\src\GSM610 -I.\src\G72x -I.\src\ALAC -I.\src -I$(BCB)\include 
+      -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG -DBUILDER -boa"/>
+    <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
+    <PFLAGS value="-N2.\obj -N0.\obj -$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="/P32"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value=""/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="libsndfile.bpf" FORMNAME="" UNITNAME="libsndfile" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\xi.c" FORMNAME="" UNITNAME="xi.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\aiff.c" FORMNAME="" UNITNAME="aiff.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\alac.c" FORMNAME="" UNITNAME="alac.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\alaw.c" FORMNAME="" UNITNAME="alaw.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\au.c" FORMNAME="" UNITNAME="au.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\audio_detect.c" FORMNAME="" UNITNAME="audio_detect.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\avr.c" FORMNAME="" UNITNAME="avr.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\broadcast.c" FORMNAME="" UNITNAME="broadcast.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\caf.c" FORMNAME="" UNITNAME="caf.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\cart.c" FORMNAME="" UNITNAME="cart.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\chanmap.c" FORMNAME="" UNITNAME="chanmap.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\chunk.c" FORMNAME="" UNITNAME="chunk.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\command.c" FORMNAME="" UNITNAME="command.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\common.c" FORMNAME="" UNITNAME="common.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\dither.c" FORMNAME="" UNITNAME="dither.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\double64.c" FORMNAME="" UNITNAME="double64.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\dwd.c" FORMNAME="" UNITNAME="dwd.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\dwvw.c" FORMNAME="" UNITNAME="dwvw.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\file_io.c" FORMNAME="" UNITNAME="file_io.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\flac.c" FORMNAME="" UNITNAME="flac.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\float32.c" FORMNAME="" UNITNAME="float32.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\g72x.c" FORMNAME="" UNITNAME="g72x.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\gsm610.c" FORMNAME="" UNITNAME="gsm610.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\htk.c" FORMNAME="" UNITNAME="htk.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\id3.c" FORMNAME="" UNITNAME="id3.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ima_adpcm.c" FORMNAME="" UNITNAME="ima_adpcm.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ima_oki_adpcm.c" FORMNAME="" UNITNAME="ima_oki_adpcm.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\interleave.c" FORMNAME="" UNITNAME="interleave.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ircam.c" FORMNAME="" UNITNAME="ircam.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\macos.c" FORMNAME="" UNITNAME="macos.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\mat4.c" FORMNAME="" UNITNAME="mat4.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\mat5.c" FORMNAME="" UNITNAME="mat5.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\mpc2k.c" FORMNAME="" UNITNAME="mpc2k.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ms_adpcm.c" FORMNAME="" UNITNAME="ms_adpcm.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\nist.c" FORMNAME="" UNITNAME="nist.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg.c" FORMNAME="" UNITNAME="ogg.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_opus.c" FORMNAME="" UNITNAME="ogg_opus.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_pcm.c" FORMNAME="" UNITNAME="ogg_pcm.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_speex.c" FORMNAME="" UNITNAME="ogg_speex.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ogg_vorbis.c" FORMNAME="" UNITNAME="ogg_vorbis.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\paf.c" FORMNAME="" UNITNAME="paf.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\pcm.c" FORMNAME="" UNITNAME="pcm.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\pvf.c" FORMNAME="" UNITNAME="pvf.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\raw.c" FORMNAME="" UNITNAME="raw.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\rf64.c" FORMNAME="" UNITNAME="rf64.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\rx2.c" FORMNAME="" UNITNAME="rx2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\sd2.c" FORMNAME="" UNITNAME="sd2.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\sds.c" FORMNAME="" UNITNAME="sds.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\sfendian.c" FORMNAME="" UNITNAME="sfendian.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\sndfile.c" FORMNAME="" UNITNAME="sndfile.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\strings.c" FORMNAME="" UNITNAME="strings.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\svx.c" FORMNAME="" UNITNAME="svx.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\txw.c" FORMNAME="" UNITNAME="txw.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ulaw.c" FORMNAME="" UNITNAME="ulaw.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\voc.c" FORMNAME="" UNITNAME="voc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\vox_adpcm.c" FORMNAME="" UNITNAME="vox_adpcm.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\w64.c" FORMNAME="" UNITNAME="w64.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\wav.c" FORMNAME="" UNITNAME="wav.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\wavlike.c" FORMNAME="" UNITNAME="wavlike.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\windows.c" FORMNAME="" UNITNAME="windows.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\wve.c" FORMNAME="" UNITNAME="wve.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\matrix_enc.c" FORMNAME="" UNITNAME="matrix_enc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\ag_dec.c" FORMNAME="" UNITNAME="ag_dec.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\ag_enc.c" FORMNAME="" UNITNAME="ag_enc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\alac_decoder.c" FORMNAME="" UNITNAME="alac_decoder.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\alac_encoder.c" FORMNAME="" UNITNAME="alac_encoder.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\ALACBitUtilities.c" FORMNAME="" UNITNAME="ALACBitUtilities.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\dp_dec.c" FORMNAME="" UNITNAME="dp_dec.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\dp_enc.c" FORMNAME="" UNITNAME="dp_enc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\ALAC\matrix_dec.c" FORMNAME="" UNITNAME="matrix_dec.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\G72x\g723_40.c" FORMNAME="" UNITNAME="g723_40.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\G72x\g72x_main.c" FORMNAME="" UNITNAME="g72x_main.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\G72x\g721.c" FORMNAME="" UNITNAME="g721.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\G72x\g723_16.c" FORMNAME="" UNITNAME="g723_16.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\G72x\g723_24.c" FORMNAME="" UNITNAME="g723_24.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\table.c" FORMNAME="" UNITNAME="table.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\add.c" FORMNAME="" UNITNAME="add.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\code.c" FORMNAME="" UNITNAME="code.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\decode.c" FORMNAME="" UNITNAME="decode.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\gsm_create.c" FORMNAME="" UNITNAME="gsm_create.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\gsm_decode.c" FORMNAME="" UNITNAME="gsm_decode.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\gsm_destroy.c" FORMNAME="" UNITNAME="gsm_destroy.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\gsm_encode.c" FORMNAME="" UNITNAME="gsm_encode.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\gsm_option.c" FORMNAME="" UNITNAME="gsm_option.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\long_term.c" FORMNAME="" UNITNAME="long_term.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\lpc.c" FORMNAME="" UNITNAME="lpc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\preprocess.c" FORMNAME="" UNITNAME="preprocess.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\rpe.c" FORMNAME="" UNITNAME="rpe.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\GSM610\short_term.c" FORMNAME="" UNITNAME="short_term.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1032
+CodePage=1253
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=2
+Item0=.\src\GSM610;.\src\G72x;.\src\ALAC;.\src;$(BCB)\include;$(BCB)\include\vcl
+Item1=E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src\GSM610;E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src\G72x;E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src\ALAC;E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=3
+Item0=src\GSM610;src\G72x;src\ALAC;src;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+Item2=E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src\GSM610;E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src\G72x;E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src\ALAC;E:\DelphiDoom_Release\DelphiDoom_Src\Src\AUDIOLIB\libsndfile\src;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=2
+Item0=_DEBUG;BUILDER
+Item1=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=1
+Item0=.\obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=.\lib\
+Item1=.\lib
+
+[HistoryLists\hlTlibPageSize]
+Count=2
+Item0=0x0020
+Item1=0x0010
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>
