@@ -50,6 +50,7 @@ typedef struct {
  * issues. */
 
 static int _ov_header_fseek_wrap(int f,ogg_int64_t off,int whence){
+<<<<<<< Updated upstream
   if(f==NULL)return(-1);
 
 #ifdef __MINGW32__
@@ -59,6 +60,11 @@ static int _ov_header_fseek_wrap(int f,ogg_int64_t off,int whence){
 #else
   return fseek(f,off,whence);
 #endif
+=======
+  if(!f)return(-1);
+
+  return fileseek(f,off,whence);
+>>>>>>> Stashed changes
 }
 
 /* These structs below (OV_CALLBACKS_DEFAULT etc) are defined here as

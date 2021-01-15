@@ -1330,7 +1330,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_stream(
 
 static FLAC__StreamEncoderInitStatus init_FILE_internal_(
 	FLAC__StreamEncoder *encoder,
-	FILE *file,
+	int file,
 	FLAC__StreamEncoderProgressCallback progress_callback,
 	void *client_data,
 	FLAC__bool is_ogg
@@ -1358,14 +1358,6 @@ static FLAC__StreamEncoderInitStatus init_FILE_internal_(
 	if(file == stdout)
 		file = get_binary_stdout_(); /* just to be safe */
 
-#ifdef _WIN32
-	/*
-	 * Windows can suffer quite badly from disk fragmentation. This can be
-	 * reduced significantly by setting the output buffer size to be 10MB.
-	 */
-	if(GetFileType((HANDLE)_get_osfhandle(_fileno(file))) == FILE_TYPE_DISK)
-		setvbuf(file, NULL, _IOFBF, 10*1024*1024);
-#endif
 	encoder->private_->file = file;
 
 	encoder->private_->progress_callback = progress_callback;
@@ -1400,7 +1392,7 @@ static FLAC__StreamEncoderInitStatus init_FILE_internal_(
 
 FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_FILE(
 	FLAC__StreamEncoder *encoder,
-	FILE *file,
+	int file,
 	FLAC__StreamEncoderProgressCallback progress_callback,
 	void *client_data
 )
@@ -1410,7 +1402,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_FILE(
 
 FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_FILE(
 	FLAC__StreamEncoder *encoder,
-	FILE *file,
+	int file,
 	FLAC__StreamEncoderProgressCallback progress_callback,
 	void *client_data
 )
