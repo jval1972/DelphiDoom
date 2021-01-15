@@ -38,7 +38,7 @@ void gsm_init (gsm) ;
 
 void gsm_destroy (gsm) ;
 
-int gsm_print	(FILE *, gsm, gsm_byte *) ;
+int gsm_print	(int, gsm, gsm_byte *) ;
 int gsm_option	(gsm, int, int *) ;
 
 void gsm_encode	(gsm, gsm_signal *, gsm_byte *) ;

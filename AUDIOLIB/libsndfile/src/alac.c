@@ -31,6 +31,7 @@
 #include        "file_io.h"
 #include	"ALAC/alac_codec.h"
 #include	"ALAC/ALACBitUtilities.h"
+#include        "../../common/delphifiles.h"
 
 #define		ALAC_MAX_FRAME_SIZE		8192
 #define		ALAC_BYTE_BUFFER_SIZE	0x20000
