@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!-- C++Builder XML Project -->
+<PROJECT>
+  <MACROS>
+    <VERSION value="BCB.06.00"/>
+    <PROJECT value=".\lib\libvorbis.lib"/>
+    <OBJFILES value="obj\window.obj obj\analysis.obj obj\barkmel.obj obj\bitrate.obj 
+      obj\block.obj obj\codebook.obj obj\envelope.obj obj\floor0.obj 
+      obj\floor1.obj obj\info.obj obj\lookup.obj obj\lpc.obj obj\lsp.obj 
+      obj\mapping0.obj obj\mdct.obj obj\psy.obj obj\registry.obj obj\res0.obj 
+      obj\sharedbook.obj obj\smallft.obj obj\synthesis.obj obj\tone.obj 
+      obj\vorbisenc.obj obj\vorbisfile.obj"/>
+    <RESFILES value=""/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
+    <DEFFILE value=""/>
+    <RESDEPEN value="$(RESFILES)"/>
+    <LIBFILES value=""/>
+    <LIBRARIES value=""/>
+    <PACKAGES value=""/>
+    <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
+    <PATHPAS value=".;"/>
+    <PATHRC value=".;"/>
+    <PATHASM value=".;"/>
+    <LINKER value="TLib"/>
+    <USERDEFINES value="_DEBUG;BUILDER"/>
+    <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
+    <MAINSOURCE value="libvorbis.bpf"/>
+    <INCLUDEPATH value="src;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="src;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <WARNINGS value="-w-par"/>
+    <LISTFILE value=""/>
+    <OTHERFILES value=""/>
+  </MACROS>
+  <OPTIONS>
+    <IDLCFLAGS value="-Isrc -I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG 
+      -DBUILDER -boa"/>
+    <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
+    <PFLAGS value="-N2.\obj -N0.\obj -$YD -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zd"/>
+    <LFLAGS value="/P32"/>
+    <OTHERFILES value=""/>
+  </OPTIONS>
+  <LINKER>
+    <ALLOBJ value="$(OBJFILES)"/>
+    <ALLLIB value=""/>
+    <OTHERFILES value=""/>
+  </LINKER>
+  <FILELIST>
+      <FILE FILENAME="libvorbis.bpf" FORMNAME="" UNITNAME="libvorbis" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\window.c" FORMNAME="" UNITNAME="window.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\analysis.c" FORMNAME="" UNITNAME="analysis.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\barkmel.c" FORMNAME="" UNITNAME="barkmel.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\bitrate.c" FORMNAME="" UNITNAME="bitrate.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\block.c" FORMNAME="" UNITNAME="block.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\codebook.c" FORMNAME="" UNITNAME="codebook.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\envelope.c" FORMNAME="" UNITNAME="envelope.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\floor0.c" FORMNAME="" UNITNAME="floor0.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\floor1.c" FORMNAME="" UNITNAME="floor1.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\info.c" FORMNAME="" UNITNAME="info.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lookup.c" FORMNAME="" UNITNAME="lookup.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lpc.c" FORMNAME="" UNITNAME="lpc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\lsp.c" FORMNAME="" UNITNAME="lsp.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\mapping0.c" FORMNAME="" UNITNAME="mapping0.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\mdct.c" FORMNAME="" UNITNAME="mdct.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\psy.c" FORMNAME="" UNITNAME="psy.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\registry.c" FORMNAME="" UNITNAME="registry.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\res0.c" FORMNAME="" UNITNAME="res0.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\sharedbook.c" FORMNAME="" UNITNAME="sharedbook.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\smallft.c" FORMNAME="" UNITNAME="smallft.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\synthesis.c" FORMNAME="" UNITNAME="synthesis.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\tone.c" FORMNAME="" UNITNAME="tone.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\vorbisenc.c" FORMNAME="" UNITNAME="vorbisenc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\vorbisfile.c" FORMNAME="" UNITNAME="vorbisfile.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+  </FILELIST>
+  <BUILDTOOLS>
+  </BUILDTOOLS>
+
+  <IDEOPTIONS>
+[Version Info]
+IncludeVerInfo=0
+AutoIncBuild=0
+MajorVer=1
+MinorVer=0
+Release=0
+Build=0
+Debug=0
+PreRelease=0
+Special=0
+Private=0
+DLL=0
+Locale=1032
+CodePage=1253
+
+[Version Info Keys]
+CompanyName=
+FileDescription=
+FileVersion=1.0.0.0
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=
+ProductName=
+ProductVersion=1.0.0.0
+Comments=
+
+[HistoryLists\hlIncludePath]
+Count=2
+Item0=src;$(BCB)\include;$(BCB)\include\vcl
+Item1=$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=2
+Item0=src;$(BCB)\lib\obj;$(BCB)\lib
+Item1=$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlConditionals]
+Count=2
+Item0=_DEBUG;BUILDER
+Item1=_DEBUG
+
+[HistoryLists\hlIntOutputDir]
+Count=1
+Item0=.\obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=.\lib\
+Item1=.\lib
+
+[HistoryLists\hlTlibPageSize]
+Count=2
+Item0=0x0020
+Item1=0x0010
+
+[Debugging]
+DebugSourceDirs=$(BCB)\source\vcl
+
+[Parameters]
+RunParams=
+Launcher=
+UseLauncher=0
+DebugCWD=
+HostApplication=
+RemoteHost=
+RemotePath=
+RemoteLauncher=
+RemoteCWD=
+RemoteDebug=0
+
+[Compiler]
+ShowInfoMsgs=0
+LinkDebugVcl=0
+LinkCGLIB=0
+
+[CORBA]
+AddServerUnit=1
+AddClientUnit=1
+PrecompiledHeaders=1
+
+[Language]
+ActiveLang=
+ProjectLang=
+RootDir=
+  </IDEOPTIONS>
+</PROJECT>
