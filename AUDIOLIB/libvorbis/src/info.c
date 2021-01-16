@@ -21,6 +21,7 @@
 #include <string.h>
 #include <../../common/ogg/ogg_common.h>
 #include "../../common/vorbis/codec.h"
+#include "../../../C_LIB/src/mystrcpy.h"
 #include "codec_internal.h"
 #include "codebook.h"
 #include "registry.h"
@@ -61,7 +62,7 @@ void vorbis_comment_add(vorbis_comment *vc,const char *comment){
                                   (vc->comments+2)*sizeof(*vc->comment_lengths));
   vc->comment_lengths[vc->comments]=strlen(comment);
   vc->user_comments[vc->comments]=_ogg_malloc(vc->comment_lengths[vc->comments]+1);
-  strcpy(vc->user_comments[vc->comments], comment);
+  mystrcpy(vc->user_comments[vc->comments], comment);
   vc->comments++;
   vc->user_comments[vc->comments]=NULL;
 }
@@ -69,7 +70,7 @@ void vorbis_comment_add(vorbis_comment *vc,const char *comment){
 void vorbis_comment_add_tag(vorbis_comment *vc, const char *tag, const char *contents){
   /* Length for key and value +2 for = and \0 */
   char *comment=_ogg_malloc(strlen(tag)+strlen(contents)+2);
-  strcpy(comment, tag);
+  mystrcpy(comment, tag);
   strcat(comment, "=");
   strcat(comment, contents);
   vorbis_comment_add(vc, comment);
@@ -94,7 +95,7 @@ char *vorbis_comment_query(vorbis_comment *vc, const char *tag, int count){
   int taglen = strlen(tag)+1; /* +1 for the = we append */
   char *fulltag = _ogg_malloc(taglen+1);
 
-  strcpy(fulltag, tag);
+  mystrcpy(fulltag, tag);
   strcat(fulltag, "=");
 
   for(i=0;i<vc->comments;i++){
@@ -116,7 +117,7 @@ int vorbis_comment_query_count(vorbis_comment *vc, const char *tag){
   int i,count=0;
   int taglen = strlen(tag)+1; /* +1 for the = we append */
   char *fulltag = _ogg_malloc(taglen+1);
-  strcpy(fulltag,tag);
+  mystrcpy(fulltag,tag);
   strcat(fulltag, "=");
 
   for(i=0;i<vc->comments;i++){
