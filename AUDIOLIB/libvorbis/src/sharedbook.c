@@ -592,7 +592,7 @@ void run_test(static_codebook *b,float *comp){
   free(out);
 }
 
-int main(){
+int main1(){
   /* run the nine dequant tests, and compare to the hand-rolled results */
   fprintf(stderr,"Dequant test 1... ");
   run_test(&test1,test1_result);

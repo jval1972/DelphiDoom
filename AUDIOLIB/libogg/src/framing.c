@@ -1658,7 +1658,7 @@ void test_pack(const int *pl, const int **headers, int byteskip,
   fprintf(stderr,"ok.\n");
 }
 
-int main(void){
+int main1(void){
 
   ogg_stream_init(&os_en,0x04030201);
   ogg_stream_init(&os_de,0x04030201);

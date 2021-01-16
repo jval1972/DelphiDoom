@@ -797,7 +797,8 @@ void copytestB(int prefill, int copy){
 
 }
 
-int main(void){
+
+int main1(void){
   unsigned char *buffer;
   long bytes,i,j;
   static unsigned long testbuffer1[]=
