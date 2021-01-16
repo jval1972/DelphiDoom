@@ -53,6 +53,7 @@ typedef struct
 	const char	*str ;
 } ErrorStruct ;
 
+unsigned int MAKE_MARKER_FUNC(int a, int b, int c, int d)
 {
   return a + (b << 8) + (c << 16) + (d << 24);
 }
