@@ -40,7 +40,7 @@
 #include "private/crc.h"
 #include "private/macros.h"
 #include "../../common/FLAC/assert_flac.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 #include "../../common/share/compat.h"
 #include "../../common/share/endswap.h"
 

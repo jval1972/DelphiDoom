@@ -69,7 +69,7 @@
 #include "private/stream_encoder.h"
 #include "private/stream_encoder_framing.h"
 #include "private/window.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 #include "../../common/share/private.h"
 
 

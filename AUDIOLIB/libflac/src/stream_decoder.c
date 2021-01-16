@@ -43,7 +43,7 @@
 #include "../../common/share/compat.h"
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/export_flac.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 #include "../../common/FLAC/stream_decoder_flac.h"
 #include "protected/stream_decoder.h"
 #include "private/bitreader.h"

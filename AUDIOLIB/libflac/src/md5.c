@@ -6,7 +6,7 @@
 #include <string.h>		/* for memcpy() */
 
 #include "private/md5.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 #include "../../common/share/compat.h"
 #include "../../common/share/endswap.h"
 

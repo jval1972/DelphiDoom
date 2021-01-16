@@ -11,7 +11,7 @@
 #	include	<stdlib.h>
 #else
 #	ifdef	HAS_MALLOC_H
-#		include 	<malloc.h>
+#		include 	<alloc.h>
 #	else
 		extern void free () ;
 #	endif

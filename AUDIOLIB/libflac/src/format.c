@@ -38,7 +38,7 @@
 #include <string.h> /* for memset() */
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/format_flac.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 #include "../../common/share/compat.h"
 #include "../../../C_LIB/src/myqsort.h"
 #include "private/format.h"
