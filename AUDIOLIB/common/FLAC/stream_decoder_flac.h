@@ -92,7 +92,7 @@ extern "C" {
  *   - FLAC__stream_decoder_init_stream() or FLAC__stream_decoder_init_FILE()
  *     or FLAC__stream_decoder_init_file() for native FLAC,
  *   - FLAC__stream_decoder_init_ogg_stream() or FLAC__stream_decoder_init_ogg_FILE()
- *     or FLAC__stream_decoder_init_ogg_file() for Ogg FLAC
+ *     or FLAC__stream_decoder_init_ogg_filename() for Ogg FLAC
  * - The program calls the FLAC__stream_decoder_process_*() functions
  *   to decode data, which subsequently calls the callbacks.
  * - The program finishes the decoding with FLAC__stream_decoder_finish(),
@@ -1295,7 +1295,7 @@ FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_ogg_FILE(
  *    \c FLAC__STREAM_DECODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamDecoderInitStatus for the meanings of other return values.
  */
-FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_file(
+FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_filename(
 	FLAC__StreamDecoder *decoder,
 	const char *filename,
 	FLAC__StreamDecoderWriteCallback write_callback,
@@ -1341,7 +1341,7 @@ FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_file(
  *    \c FLAC__STREAM_DECODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamDecoderInitStatus for the meanings of other return values.
  */
-FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_ogg_file(
+FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_ogg_filename(
 	FLAC__StreamDecoder *decoder,
 	const char *filename,
 	FLAC__StreamDecoderWriteCallback write_callback,

@@ -606,7 +606,7 @@ static FLAC__StreamDecoderInitStatus init_file_internal_(
 	return init_FILE_internal_(decoder, file, write_callback, metadata_callback, error_callback, client_data, is_ogg);
 }
 
-FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_file(
+FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_filename(
 	FLAC__StreamDecoder *decoder,
 	const char *filename,
 	FLAC__StreamDecoderWriteCallback write_callback,
@@ -618,7 +618,7 @@ FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_file(
 	return init_file_internal_(decoder, filename, write_callback, metadata_callback, error_callback, client_data, /*is_ogg=*/false);
 }
 
-FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_ogg_file(
+FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_ogg_filename(
 	FLAC__StreamDecoder *decoder,
 	const char *filename,
 	FLAC__StreamDecoderWriteCallback write_callback,

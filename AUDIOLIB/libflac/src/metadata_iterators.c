@@ -175,7 +175,7 @@ static FLAC__StreamMetadata *get_one_metadata_block_(const char *filename, FLAC_
 	FLAC__stream_decoder_set_metadata_ignore_all(decoder);
 	FLAC__stream_decoder_set_metadata_respond(decoder, type);
 
-	if(FLAC__stream_decoder_init_file(decoder, filename, write_callback_, metadata_callback_, error_callback_, &cd) != FLAC__STREAM_DECODER_INIT_STATUS_OK || cd.got_error) {
+	if(FLAC__stream_decoder_init_filename(decoder, filename, write_callback_, metadata_callback_, error_callback_, &cd) != FLAC__STREAM_DECODER_INIT_STATUS_OK || cd.got_error) {
 		(void)FLAC__stream_decoder_finish(decoder);
 		FLAC__stream_decoder_delete(decoder);
 		return 0;
