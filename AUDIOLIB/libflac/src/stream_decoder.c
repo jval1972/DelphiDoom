@@ -3349,7 +3349,7 @@ FLAC__StreamDecoderReadStatus file_read_callback_(const FLAC__StreamDecoder *dec
 
 	if(*bytes > 0) {
 		*bytes = fileread(buffer, sizeof(FLAC__byte), *bytes, decoder->private_->file);
-		if(fileerror())
+		if(fileerror)
 			return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
 		else if(*bytes == 0)
 			return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
