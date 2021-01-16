@@ -1,6 +1,8 @@
 #ifndef _DELPHIFILES_H_
 #define _DELPHIFILES_H_
+
 // Imported file handling
+
 int fileopenw(char *fname);
 
 int fileopena(char *fname);
