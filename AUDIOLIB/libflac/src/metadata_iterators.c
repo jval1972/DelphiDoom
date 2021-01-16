@@ -46,10 +46,11 @@
 
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/stream_decoder_flac.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 #include "../../common/share/compat.h"
 #include "../../common/share/macros.h"
 #include "../../common/share/safe_str.h"
+#include "../../../C_LIB/src/mystrdup.h"
 #include "private/macros.h"
 #include "private/memory.h"
 
@@ -489,11 +490,11 @@ FLAC__bool FLAC__metadata_simple_iterator_init(FLAC__Metadata_SimpleIterator *it
 	if(!read_only && preserve_file_stats)
 		iterator->has_stats = get_file_stats_(filename, &iterator->stats);
 
-	if(0 == (iterator->filename = strdup(filename))) {
+	if(0 == (iterator->filename = mystrdup(filename))) {
 		iterator->status = FLAC__METADATA_SIMPLE_ITERATOR_STATUS_MEMORY_ALLOCATION_ERROR;
 		return false;
 	}
-	if(0 != tempfile_path_prefix && 0 == (iterator->tempfile_path_prefix = strdup(tempfile_path_prefix))) {
+	if(0 != tempfile_path_prefix && 0 == (iterator->tempfile_path_prefix = mystrdup(tempfile_path_prefix))) {
 		iterator->status = FLAC__METADATA_SIMPLE_ITERATOR_STATUS_MEMORY_ALLOCATION_ERROR;
 		return false;
 	}
@@ -1543,7 +1544,7 @@ static FLAC__bool chain_read_(FLAC__Metadata_Chain *chain, const char *filename,
 
 	chain_clear_(chain);
 
-	if(0 == (chain->filename = strdup(filename))) {
+	if(0 == (chain->filename = mystrdup(filename))) {
 		chain->status = FLAC__METADATA_CHAIN_STATUS_MEMORY_ALLOCATION_ERROR;
 		return false;
 	}

@@ -12,7 +12,7 @@
 #endif
 #include <stdlib.h> /* for size_t, malloc(), etc */
 #include "../../common/share/compat.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 
 
 /* avoid malloc()ing 0 bytes, see:

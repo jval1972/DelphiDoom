@@ -41,8 +41,9 @@
 #include "private/memory.h"
 
 #include "../../common/FLAC/assert_flac.h"
-#include "../../common/share/alloc.h"
+#include "../../common/share/alloc_common.h"
 #include "../../common/share/compat.h"
+#include "../../../C_LIB/src/mystrdup.h"
 
 /* Alias the first (in share/alloc.h) to the second (in src/libFLAC/memory.c). */
 #define safe_malloc_mul_2op_ safe_malloc_mul_2op_p
@@ -114,7 +115,7 @@ static FLAC__bool ensure_null_terminated_(FLAC__byte **entry, uint32_t length)
  */
 static FLAC__bool copy_cstring_(char **to, const char *from)
 {
-	char *copy = strdup(from);
+	char *copy = mystrdup(from);
 	FLAC__ASSERT(to != NULL);
 	if (copy) {
 		free(*to);
