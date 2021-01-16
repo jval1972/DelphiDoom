@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value=".\lib\c_lib.lib"/>
-    <OBJFILES value="obj\myqsort.obj"/>
+    <OBJFILES value="obj\myqsort.obj obj\mystrcpy.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
@@ -13,7 +13,7 @@
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
-    <PATHCPP value=".;src"/>
+    <PATHCPP value=".;src;src"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -44,6 +44,7 @@
   <FILELIST>
       <FILE FILENAME="c_lib.bpf" FORMNAME="" UNITNAME="c_lib" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\myqsort.c" FORMNAME="" UNITNAME="myqsort" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\mystrcpy.c" FORMNAME="" UNITNAME="mystrcpy" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
