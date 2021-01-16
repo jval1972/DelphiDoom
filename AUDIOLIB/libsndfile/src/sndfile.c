@@ -2918,23 +2918,23 @@ psf_close (SF_PRIVATE *psf)
 	if (psf->container_close)
 		error = psf->container_close (psf) ;
 
-	error = psf_fclose (psf) ;
-	psf_close_rsrc (psf) ;
+	error = psf_fclose (psf);
+	psf_close_rsrc (psf);
 
 	/* For an ISO C compliant implementation it is ok to free a NULL pointer. */
-	free (psf->header.ptr) ;
-	free (psf->container_data) ;
-	free (psf->codec_data) ;
-	free (psf->interleave) ;
-	free (psf->dither) ;
-	free (psf->peak_info) ;
-	free (psf->broadcast_16k) ;
-	free (psf->loop_info) ;
-	free (psf->instrument) ;
-	free (psf->cues) ;
-	free (psf->channel_map) ;
-	free (psf->format_desc) ;
-	free (psf->strings.storage) ;
+	free (psf->header.ptr);
+	free (psf->container_data);
+	free (psf->codec_data);
+	free (psf->interleave);
+	free (psf->dither);
+	free (psf->peak_info);
+	free (psf->broadcast_16k);
+	free (psf->loop_info);
+	free (psf->instrument);
+	free (psf->cues);
+	free (psf->channel_map);
+	free (psf->format_desc);
+	free (psf->strings.storage);
 
 	if (psf->wchunks.chunks)
 		for (k = 0 ; k < psf->wchunks.used ; k++)
