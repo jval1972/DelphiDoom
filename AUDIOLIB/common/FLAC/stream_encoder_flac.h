@@ -286,7 +286,7 @@ typedef enum {
  *  Using a FLAC__StreamEncoderState as the index to this array
  *  will give the string equivalent.  The contents should not be modified.
  */
-extern FLAC_API const char * const FLAC__StreamEncoderStateString[];
+extern const char * const FLAC__StreamEncoderStateString[];
 
 
 /** Possible return values for the FLAC__stream_encoder_init_*() functions.
@@ -356,7 +356,7 @@ typedef enum {
  *  Using a FLAC__StreamEncoderInitStatus as the index to this array
  *  will give the string equivalent.  The contents should not be modified.
  */
-extern FLAC_API const char * const FLAC__StreamEncoderInitStatusString[];
+extern const char * const FLAC__StreamEncoderInitStatusString[];
 
 
 /** Return values for the FLAC__StreamEncoder read callback.
@@ -382,7 +382,7 @@ typedef enum {
  *  Using a FLAC__StreamEncoderReadStatus as the index to this array
  *  will give the string equivalent.  The contents should not be modified.
  */
-extern FLAC_API const char * const FLAC__StreamEncoderReadStatusString[];
+extern const char * const FLAC__StreamEncoderReadStatusString[];
 
 
 /** Return values for the FLAC__StreamEncoder write callback.
@@ -402,7 +402,7 @@ typedef enum {
  *  Using a FLAC__StreamEncoderWriteStatus as the index to this array
  *  will give the string equivalent.  The contents should not be modified.
  */
-extern FLAC_API const char * const FLAC__StreamEncoderWriteStatusString[];
+extern const char * const FLAC__StreamEncoderWriteStatusString[];
 
 
 /** Return values for the FLAC__StreamEncoder seek callback.
@@ -425,7 +425,7 @@ typedef enum {
  *  Using a FLAC__StreamEncoderSeekStatus as the index to this array
  *  will give the string equivalent.  The contents should not be modified.
  */
-extern FLAC_API const char * const FLAC__StreamEncoderSeekStatusString[];
+extern const char * const FLAC__StreamEncoderSeekStatusString[];
 
 
 /** Return values for the FLAC__StreamEncoder tell callback.
@@ -448,7 +448,7 @@ typedef enum {
  *  Using a FLAC__StreamEncoderTellStatus as the index to this array
  *  will give the string equivalent.  The contents should not be modified.
  */
-extern FLAC_API const char * const FLAC__StreamEncoderTellStatusString[];
+extern const char * const FLAC__StreamEncoderTellStatusString[];
 
 
 /***********************************************************************
@@ -692,7 +692,7 @@ typedef void (*FLAC__StreamEncoderProgressCallback)(const FLAC__StreamEncoder *e
  * \retval FLAC__StreamEncoder*
  *    \c NULL if there was an error allocating memory, else the new instance.
  */
-FLAC_API FLAC__StreamEncoder *FLAC__stream_encoder_new(void);
+FLAC__StreamEncoder *FLAC__stream_encoder_new(void);
 
 /** Free an encoder instance.  Deletes the object pointed to by \a encoder.
  *
@@ -700,7 +700,7 @@ FLAC_API FLAC__StreamEncoder *FLAC__stream_encoder_new(void);
  * \assert
  *    \code encoder != NULL \endcode
  */
-FLAC_API void FLAC__stream_encoder_delete(FLAC__StreamEncoder *encoder);
+void FLAC__stream_encoder_delete(FLAC__StreamEncoder *encoder);
 
 
 /***********************************************************************
@@ -726,7 +726,7 @@ FLAC_API void FLAC__stream_encoder_delete(FLAC__StreamEncoder *encoder);
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_ogg_serial_number(FLAC__StreamEncoder *encoder, long serial_number);
+FLAC__bool FLAC__stream_encoder_set_ogg_serial_number(FLAC__StreamEncoder *encoder, long serial_number);
 
 /** Set the "verify" flag.  If \c true, the encoder will verify it's own
  *  encoded output by feeding it through an internal decoder and comparing
@@ -742,7 +742,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_ogg_serial_number(FLAC__StreamEncod
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_verify(FLAC__StreamEncoder *encoder, FLAC__bool value);
+FLAC__bool FLAC__stream_encoder_set_verify(FLAC__StreamEncoder *encoder, FLAC__bool value);
 
 /** Set the <A HREF="../format.html#subset">Subset</A> flag.  If \c true,
  *  the encoder will comply with the Subset and will check the
@@ -760,7 +760,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_verify(FLAC__StreamEncoder *encoder
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_streamable_subset(FLAC__StreamEncoder *encoder, FLAC__bool value);
+FLAC__bool FLAC__stream_encoder_set_streamable_subset(FLAC__StreamEncoder *encoder, FLAC__bool value);
 
 /** Set the number of channels to be encoded.
  *
@@ -772,7 +772,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_streamable_subset(FLAC__StreamEncod
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_channels(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_channels(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set the sample resolution of the input to be encoded.
  *
@@ -788,7 +788,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_channels(FLAC__StreamEncoder *encod
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_bits_per_sample(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_bits_per_sample(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set the sample rate (in Hz) of the input to be encoded.
  *
@@ -800,7 +800,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_bits_per_sample(FLAC__StreamEncoder
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_sample_rate(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_sample_rate(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set the compression level
  *
@@ -863,7 +863,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_sample_rate(FLAC__StreamEncoder *en
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_compression_level(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_compression_level(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set the blocksize to use while encoding.
  *
@@ -878,7 +878,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_compression_level(FLAC__StreamEncod
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_blocksize(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_blocksize(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set to \c true to enable mid-side encoding on stereo input.  The
  *  number of channels must be 2 for this to have any effect.  Set to
@@ -892,7 +892,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_blocksize(FLAC__StreamEncoder *enco
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_do_mid_side_stereo(FLAC__StreamEncoder *encoder, FLAC__bool value);
+FLAC__bool FLAC__stream_encoder_set_do_mid_side_stereo(FLAC__StreamEncoder *encoder, FLAC__bool value);
 
 /** Set to \c true to enable adaptive switching between mid-side and
  *  left-right encoding on stereo input.  Set to \c false to use
@@ -908,7 +908,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_do_mid_side_stereo(FLAC__StreamEnco
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_loose_mid_side_stereo(FLAC__StreamEncoder *encoder, FLAC__bool value);
+FLAC__bool FLAC__stream_encoder_set_loose_mid_side_stereo(FLAC__StreamEncoder *encoder, FLAC__bool value);
 
 /** Sets the apodization function(s) the encoder will use when windowing
  *  audio data for LPC analysis.
@@ -974,7 +974,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_loose_mid_side_stereo(FLAC__StreamE
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_apodization(FLAC__StreamEncoder *encoder, const char *specification);
+FLAC__bool FLAC__stream_encoder_set_apodization(FLAC__StreamEncoder *encoder, const char *specification);
 
 /** Set the maximum LPC order, or \c 0 to use only the fixed predictors.
  *
@@ -986,7 +986,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_apodization(FLAC__StreamEncoder *en
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_max_lpc_order(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_max_lpc_order(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set the precision, in bits, of the quantized linear predictor
  *  coefficients, or \c 0 to let the encoder select it based on the
@@ -1004,7 +1004,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_max_lpc_order(FLAC__StreamEncoder *
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_qlp_coeff_precision(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_qlp_coeff_precision(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set to \c false to use only the specified quantized linear predictor
  *  coefficient precision, or \c true to search neighboring precision
@@ -1018,7 +1018,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_qlp_coeff_precision(FLAC__StreamEnc
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_do_qlp_coeff_prec_search(FLAC__StreamEncoder *encoder, FLAC__bool value);
+FLAC__bool FLAC__stream_encoder_set_do_qlp_coeff_prec_search(FLAC__StreamEncoder *encoder, FLAC__bool value);
 
 /** Deprecated.  Setting this value has no effect.
  *
@@ -1030,7 +1030,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_do_qlp_coeff_prec_search(FLAC__Stre
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_do_escape_coding(FLAC__StreamEncoder *encoder, FLAC__bool value);
+FLAC__bool FLAC__stream_encoder_set_do_escape_coding(FLAC__StreamEncoder *encoder, FLAC__bool value);
 
 /** Set to \c false to let the encoder estimate the best model order
  *  based on the residual signal energy, or \c true to force the
@@ -1044,7 +1044,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_do_escape_coding(FLAC__StreamEncode
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_do_exhaustive_model_search(FLAC__StreamEncoder *encoder, FLAC__bool value);
+FLAC__bool FLAC__stream_encoder_set_do_exhaustive_model_search(FLAC__StreamEncoder *encoder, FLAC__bool value);
 
 /** Set the minimum partition order to search when coding the residual.
  *  This is used in tandem with
@@ -1067,7 +1067,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_do_exhaustive_model_search(FLAC__St
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_min_residual_partition_order(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_min_residual_partition_order(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set the maximum partition order to search when coding the residual.
  *  This is used in tandem with
@@ -1090,7 +1090,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_min_residual_partition_order(FLAC__
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_max_residual_partition_order(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_max_residual_partition_order(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Deprecated.  Setting this value has no effect.
  *
@@ -1102,7 +1102,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_max_residual_partition_order(FLAC__
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_rice_parameter_search_dist(FLAC__StreamEncoder *encoder, uint32_t value);
+FLAC__bool FLAC__stream_encoder_set_rice_parameter_search_dist(FLAC__StreamEncoder *encoder, uint32_t value);
 
 /** Set an estimate of the total samples that will be encoded.
  *  This is merely an estimate and may be set to \c 0 if unknown.
@@ -1118,7 +1118,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_rice_parameter_search_dist(FLAC__St
  * \retval FLAC__bool
  *    \c false if the encoder is already initialized, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_total_samples_estimate(FLAC__StreamEncoder *encoder, FLAC__uint64 value);
+FLAC__bool FLAC__stream_encoder_set_total_samples_estimate(FLAC__StreamEncoder *encoder, FLAC__uint64 value);
 
 /** Set the metadata blocks to be emitted to the stream before encoding.
  *  A value of \c NULL, \c 0 implies no metadata; otherwise, supply an
@@ -1201,7 +1201,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_total_samples_estimate(FLAC__Stream
  *    \c false if the encoder is already initialized, or if
  *    \a num_blocks > 65535 if encoding to Ogg FLAC, else \c true.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_set_metadata(FLAC__StreamEncoder *encoder, FLAC__StreamMetadata **metadata, uint32_t num_blocks);
+FLAC__bool FLAC__stream_encoder_set_metadata(FLAC__StreamEncoder *encoder, FLAC__StreamMetadata **metadata, uint32_t num_blocks);
 
 /** Get the current encoder state.
  *
@@ -1211,7 +1211,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_set_metadata(FLAC__StreamEncoder *encod
  * \retval FLAC__StreamEncoderState
  *    The current encoder state.
  */
-FLAC_API FLAC__StreamEncoderState FLAC__stream_encoder_get_state(const FLAC__StreamEncoder *encoder);
+FLAC__StreamEncoderState FLAC__stream_encoder_get_state(const FLAC__StreamEncoder *encoder);
 
 /** Get the state of the verify stream decoder.
  *  Useful when the stream encoder state is
@@ -1223,7 +1223,7 @@ FLAC_API FLAC__StreamEncoderState FLAC__stream_encoder_get_state(const FLAC__Str
  * \retval FLAC__StreamDecoderState
  *    The verify stream decoder state.
  */
-FLAC_API FLAC__StreamDecoderState FLAC__stream_encoder_get_verify_decoder_state(const FLAC__StreamEncoder *encoder);
+FLAC__StreamDecoderState FLAC__stream_encoder_get_verify_decoder_state(const FLAC__StreamEncoder *encoder);
 
 /** Get the current encoder state as a C string.
  *  This version automatically resolves
@@ -1236,7 +1236,7 @@ FLAC_API FLAC__StreamDecoderState FLAC__stream_encoder_get_verify_decoder_state(
  * \retval const char *
  *    The encoder state as a C string.  Do not modify the contents.
  */
-FLAC_API const char *FLAC__stream_encoder_get_resolved_state_string(const FLAC__StreamEncoder *encoder);
+const char *FLAC__stream_encoder_get_resolved_state_string(const FLAC__StreamEncoder *encoder);
 
 /** Get relevant values about the nature of a verify decoder error.
  *  Useful when the stream encoder state is
@@ -1255,7 +1255,7 @@ FLAC_API const char *FLAC__stream_encoder_get_resolved_state_string(const FLAC__
  * \assert
  *    \code encoder != NULL \endcode
  */
-FLAC_API void FLAC__stream_encoder_get_verify_decoder_error_stats(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_sample, uint32_t *frame_number, uint32_t *channel, uint32_t *sample, FLAC__int32 *expected, FLAC__int32 *got);
+void FLAC__stream_encoder_get_verify_decoder_error_stats(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_sample, uint32_t *frame_number, uint32_t *channel, uint32_t *sample, FLAC__int32 *expected, FLAC__int32 *got);
 
 /** Get the "verify" flag.
  *
@@ -1265,7 +1265,7 @@ FLAC_API void FLAC__stream_encoder_get_verify_decoder_error_stats(const FLAC__St
  * \retval FLAC__bool
  *    See FLAC__stream_encoder_set_verify().
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_get_verify(const FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_get_verify(const FLAC__StreamEncoder *encoder);
 
 /** Get the <A HREF="../format.html#subset>Subset</A> flag.
  *
@@ -1275,7 +1275,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_get_verify(const FLAC__StreamEncoder *e
  * \retval FLAC__bool
  *    See FLAC__stream_encoder_set_streamable_subset().
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_get_streamable_subset(const FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_get_streamable_subset(const FLAC__StreamEncoder *encoder);
 
 /** Get the number of input channels being processed.
  *
@@ -1285,7 +1285,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_get_streamable_subset(const FLAC__Strea
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_channels().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_channels(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_channels(const FLAC__StreamEncoder *encoder);
 
 /** Get the input sample resolution setting.
  *
@@ -1295,7 +1295,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_channels(const FLAC__StreamEncoder *e
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_bits_per_sample().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_bits_per_sample(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_bits_per_sample(const FLAC__StreamEncoder *encoder);
 
 /** Get the input sample rate setting.
  *
@@ -1305,7 +1305,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_bits_per_sample(const FLAC__StreamEnc
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_sample_rate().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_sample_rate(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_sample_rate(const FLAC__StreamEncoder *encoder);
 
 /** Get the blocksize setting.
  *
@@ -1315,7 +1315,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_sample_rate(const FLAC__StreamEncoder
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_blocksize().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_blocksize(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_blocksize(const FLAC__StreamEncoder *encoder);
 
 /** Get the "mid/side stereo coding" flag.
  *
@@ -1325,7 +1325,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_blocksize(const FLAC__StreamEncoder *
  * \retval FLAC__bool
  *    See FLAC__stream_encoder_get_do_mid_side_stereo().
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_get_do_mid_side_stereo(const FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_get_do_mid_side_stereo(const FLAC__StreamEncoder *encoder);
 
 /** Get the "adaptive mid/side switching" flag.
  *
@@ -1335,7 +1335,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_get_do_mid_side_stereo(const FLAC__Stre
  * \retval FLAC__bool
  *    See FLAC__stream_encoder_set_loose_mid_side_stereo().
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_get_loose_mid_side_stereo(const FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_get_loose_mid_side_stereo(const FLAC__StreamEncoder *encoder);
 
 /** Get the maximum LPC order setting.
  *
@@ -1345,7 +1345,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_get_loose_mid_side_stereo(const FLAC__S
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_max_lpc_order().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_max_lpc_order(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_max_lpc_order(const FLAC__StreamEncoder *encoder);
 
 /** Get the quantized linear predictor coefficient precision setting.
  *
@@ -1355,7 +1355,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_max_lpc_order(const FLAC__StreamEncod
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_qlp_coeff_precision().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_qlp_coeff_precision(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_qlp_coeff_precision(const FLAC__StreamEncoder *encoder);
 
 /** Get the qlp coefficient precision search flag.
  *
@@ -1365,7 +1365,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_qlp_coeff_precision(const FLAC__Strea
  * \retval FLAC__bool
  *    See FLAC__stream_encoder_set_do_qlp_coeff_prec_search().
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_get_do_qlp_coeff_prec_search(const FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_get_do_qlp_coeff_prec_search(const FLAC__StreamEncoder *encoder);
 
 /** Get the "escape coding" flag.
  *
@@ -1375,7 +1375,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_get_do_qlp_coeff_prec_search(const FLAC
  * \retval FLAC__bool
  *    See FLAC__stream_encoder_set_do_escape_coding().
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_get_do_escape_coding(const FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_get_do_escape_coding(const FLAC__StreamEncoder *encoder);
 
 /** Get the exhaustive model search flag.
  *
@@ -1385,7 +1385,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_get_do_escape_coding(const FLAC__Stream
  * \retval FLAC__bool
  *    See FLAC__stream_encoder_set_do_exhaustive_model_search().
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_get_do_exhaustive_model_search(const FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_get_do_exhaustive_model_search(const FLAC__StreamEncoder *encoder);
 
 /** Get the minimum residual partition order setting.
  *
@@ -1395,7 +1395,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_get_do_exhaustive_model_search(const FL
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_min_residual_partition_order().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_min_residual_partition_order(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_min_residual_partition_order(const FLAC__StreamEncoder *encoder);
 
 /** Get maximum residual partition order setting.
  *
@@ -1405,7 +1405,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_min_residual_partition_order(const FL
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_max_residual_partition_order().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_max_residual_partition_order(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_max_residual_partition_order(const FLAC__StreamEncoder *encoder);
 
 /** Get the Rice parameter search distance setting.
  *
@@ -1415,7 +1415,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_max_residual_partition_order(const FL
  * \retval uint32_t
  *    See FLAC__stream_encoder_set_rice_parameter_search_dist().
  */
-FLAC_API uint32_t FLAC__stream_encoder_get_rice_parameter_search_dist(const FLAC__StreamEncoder *encoder);
+uint32_t FLAC__stream_encoder_get_rice_parameter_search_dist(const FLAC__StreamEncoder *encoder);
 
 /** Get the previously set estimate of the total samples to be encoded.
  *  The encoder merely mimics back the value given to
@@ -1428,7 +1428,7 @@ FLAC_API uint32_t FLAC__stream_encoder_get_rice_parameter_search_dist(const FLAC
  * \retval FLAC__uint64
  *    See FLAC__stream_encoder_get_total_samples_estimate().
  */
-FLAC_API FLAC__uint64 FLAC__stream_encoder_get_total_samples_estimate(const FLAC__StreamEncoder *encoder);
+FLAC__uint64 FLAC__stream_encoder_get_total_samples_estimate(const FLAC__StreamEncoder *encoder);
 
 /** Initialize the encoder instance to encode native FLAC streams.
  *
@@ -1491,7 +1491,7 @@ FLAC_API FLAC__uint64 FLAC__stream_encoder_get_total_samples_estimate(const FLAC
  *    \c FLAC__STREAM_ENCODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamEncoderInitStatus for the meanings of other return values.
  */
-FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_stream(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data);
+FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_stream(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data);
 
 /** Initialize the encoder instance to encode Ogg FLAC streams.
  *
@@ -1559,7 +1559,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_stream(FLAC__St
  *    \c FLAC__STREAM_ENCODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamEncoderInitStatus for the meanings of other return values.
  */
-FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_stream(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderReadCallback read_callback, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data);
+FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_stream(FLAC__StreamEncoder *encoder, FLAC__StreamEncoderReadCallback read_callback, FLAC__StreamEncoderWriteCallback write_callback, FLAC__StreamEncoderSeekCallback seek_callback, FLAC__StreamEncoderTellCallback tell_callback, FLAC__StreamEncoderMetadataCallback metadata_callback, void *client_data);
 
 /** Initialize the encoder instance to encode native FLAC files.
  *
@@ -1594,7 +1594,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_stream(FLAC
  *    \c FLAC__STREAM_ENCODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamEncoderInitStatus for the meanings of other return values.
  */
-FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_FILE(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
+FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_FILE(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
 
 /** Initialize the encoder instance to encode Ogg FLAC files.
  *
@@ -1629,7 +1629,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_FILE(FLAC__Stre
  *    \c FLAC__STREAM_ENCODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamEncoderInitStatus for the meanings of other return values.
  */
-FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_FILE(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
+FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_FILE(FLAC__StreamEncoder *encoder, FILE *file, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
 
 /** Initialize the encoder instance to encode native FLAC files.
  *
@@ -1661,7 +1661,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_FILE(FLAC__
  *    \c FLAC__STREAM_ENCODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamEncoderInitStatus for the meanings of other return values.
  */
-FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_file(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
+FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_file(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
 
 /** Initialize the encoder instance to encode Ogg FLAC files.
  *
@@ -1693,7 +1693,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_file(FLAC__Stre
  *    \c FLAC__STREAM_ENCODER_INIT_STATUS_OK if initialization was successful;
  *    see FLAC__StreamEncoderInitStatus for the meanings of other return values.
  */
-FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_file(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
+FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_file(FLAC__StreamEncoder *encoder, const char *filename, FLAC__StreamEncoderProgressCallback progress_callback, void *client_data);
 
 /** Finish the encoding process.
  *  Flushes the encoding buffer, releases resources, resets the encoder
@@ -1721,7 +1721,7 @@ FLAC_API FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_file(FLAC__
  *    state with FLAC__stream_encoder_get_state() for more information
  *    about the error.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_finish(FLAC__StreamEncoder *encoder);
+FLAC__bool FLAC__stream_encoder_finish(FLAC__StreamEncoder *encoder);
 
 /** Submit data for encoding.
  *  This version allows you to supply the input data via an array of
@@ -1748,7 +1748,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_finish(FLAC__StreamEncoder *encoder);
  *    encoder state with FLAC__stream_encoder_get_state() to see what
  *    went wrong.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_process(FLAC__StreamEncoder *encoder, const FLAC__int32 * const buffer[], uint32_t samples);
+FLAC__bool FLAC__stream_encoder_process(FLAC__StreamEncoder *encoder, const FLAC__int32 * const buffer[], uint32_t samples);
 
 /** Submit data for encoding.
  *  This version allows you to supply the input data where the channels
@@ -1780,7 +1780,7 @@ FLAC_API FLAC__bool FLAC__stream_encoder_process(FLAC__StreamEncoder *encoder, c
  *    encoder state with FLAC__stream_encoder_get_state() to see what
  *    went wrong.
  */
-FLAC_API FLAC__bool FLAC__stream_encoder_process_interleaved(FLAC__StreamEncoder *encoder, const FLAC__int32 buffer[], uint32_t samples);
+FLAC__bool FLAC__stream_encoder_process_interleaved(FLAC__StreamEncoder *encoder, const FLAC__int32 buffer[], uint32_t samples);
 
 /* \} */
 

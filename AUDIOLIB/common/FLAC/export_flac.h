@@ -58,8 +58,6 @@
  * \{
  */
 
-#define FLAC_API
-
 /** These \#defines will mirror the libtool-based library version number, see
  * http://www.gnu.org/software/libtool/manual/libtool.html#Libtool-versioning
  */
@@ -72,7 +70,7 @@ extern "C" {
 #endif
 
 /** \c 1 if the library has been compiled with support for Ogg FLAC, else \c 0. */
-extern FLAC_API int FLAC_API_SUPPORTS_OGG_FLAC;
+extern int FLAC_API_SUPPORTS_OGG_FLAC;
 
 #ifdef __cplusplus
 }

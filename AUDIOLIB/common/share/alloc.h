@@ -48,20 +48,7 @@
 #include <stdlib.h> /* for size_t, malloc(), etc */
 #include "../../common/share/compat.h"
 
-#ifndef SIZE_MAX
-# ifndef SIZE_T_MAX
-#  ifdef _MSC_VER
-#   ifdef _WIN64
-#    define SIZE_T_MAX FLAC__U64L(0xffffffffffffffff)
-#   else
-#    define SIZE_T_MAX 0xffffffff
-#   endif
-#  else
-#    define SIZE_T_MAX 0xffffffff
-#  endif
-# endif
-# define SIZE_MAX SIZE_T_MAX
-#endif
+# define SIZE_MAX 65535
 
 void *safe_malloc_(size_t size);
 
@@ -93,5 +80,7 @@ void *safe_realloc_add_4op_(void *ptr, size_t size1, size_t size2, size_t size3,
 
 /* size1 * (size2 + size3) */
 void *safe_realloc_muladd2_(void *ptr, size_t size1, size_t size2, size_t size3);
+
+void *safe_realloc_mul_2op_(void *ptr, size_t size1, size_t size2);
 
 #endif
