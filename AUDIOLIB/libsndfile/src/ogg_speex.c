@@ -393,9 +393,9 @@ printf ("%s %d\n", __func__, __LINE__) ;
 		{	fprintf (stderr, "Invalid/corrupted comments\n") ;
 			return ;
 			}
-                #if 0
-		(void) fwrite (c, 1, len, stderr) ;
-                #endif
+//                #if 0
+//		(void) fwrite (c, 1, len, stderr) ;
+//                #endif
 		c += len ;
 		fprintf (stderr, "\n") ;
 		} ;

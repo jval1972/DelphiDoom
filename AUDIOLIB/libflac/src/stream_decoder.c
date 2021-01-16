@@ -39,6 +39,7 @@
 #include <string.h> /* for memset/memcpy() */
 #include <sys/stat.h> /* for stat() */
 #include <sys/types.h> /* for off_t */
+#include "../../common/delphifiles.h"
 #include "../../common/FLAC/flac_options_flac.h"
 #include "../../common/share/compat.h"
 #include "../../common/FLAC/assert_flac.h"
@@ -79,7 +80,7 @@ static const FLAC__byte ID3V2_TAG_[3] = { 'I', 'D', '3' };
  ***********************************************************************/
 
 static void set_defaults_(FLAC__StreamDecoder *decoder);
-static FILE *get_binary_stdin_(void);
+//static FILE *get_binary_stdin_(void);
 static FLAC__bool allocate_output_(FLAC__StreamDecoder *decoder, uint32_t size, uint32_t channels);
 static FLAC__bool has_id_filtered_(FLAC__StreamDecoder *decoder, FLAC__byte *id);
 static FLAC__bool find_metadata_(FLAC__StreamDecoder *decoder);
@@ -140,7 +141,7 @@ typedef struct FLAC__StreamDecoderPrivate {
 	/* for use when the signal is <= 16 bits-per-sample, or <= 15 bits-per-sample on a side channel (which requires 1 extra bit): */
 	void (*local_lpc_restore_signal_16bit)(const FLAC__int32 residual[], uint32_t data_len, const FLAC__int32 qlp_coeff[], uint32_t order, int lp_quantization, FLAC__int32 data[]);
 	void *client_data;
-	FILE *file; /* only used if FLAC__stream_decoder_init_file()/FLAC__stream_decoder_init_file() called, else NULL */
+	int file; /* only used if FLAC__stream_decoder_init_file()/FLAC__stream_decoder_init_file() called, else NULL */
 	FLAC__BitReader *input;
 	FLAC__int32 *output[FLAC__MAX_CHANNELS];
 	FLAC__int32 *residual[FLAC__MAX_CHANNELS]; /* WATCHOUT: these are the aligned pointers; the real pointers that should be free()'d are residual_unaligned[] below */
@@ -507,7 +508,7 @@ FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_ogg_stream(
 
 static FLAC__StreamDecoderInitStatus init_FILE_internal_(
 	FLAC__StreamDecoder *decoder,
-	FILE *file,
+	int file,
 	FLAC__StreamDecoderWriteCallback write_callback,
 	FLAC__StreamDecoderMetadataCallback metadata_callback,
 	FLAC__StreamDecoderErrorCallback error_callback,
@@ -529,17 +530,19 @@ static FLAC__StreamDecoderInitStatus init_FILE_internal_(
 	 * must assign the FILE pointer before any further error can occur in
 	 * this routine.
 	 */
-	if(file == stdin)
-		file = get_binary_stdin_(); /* just to be safe */
+
+        // remove FILE
+	//if(file == stdin)
+	//	file = get_binary_stdin_(); /* just to be safe */
 
 	decoder->private_->file = file;
 
 	return init_stream_internal_(
 		decoder,
 		file_read_callback_,
-		decoder->private_->file == stdin? 0: file_seek_callback_,
-		decoder->private_->file == stdin? 0: file_tell_callback_,
-		decoder->private_->file == stdin? 0: file_length_callback_,
+		decoder->private_->file == 0? 0: file_seek_callback_,
+		decoder->private_->file == 0? 0: file_tell_callback_,
+		decoder->private_->file == 0? 0: file_length_callback_,
 		file_eof_callback_,
 		write_callback,
 		metadata_callback,
@@ -551,7 +554,7 @@ static FLAC__StreamDecoderInitStatus init_FILE_internal_(
 
 FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_FILE(
 	FLAC__StreamDecoder *decoder,
-	FILE *file,
+	int file,
 	FLAC__StreamDecoderWriteCallback write_callback,
 	FLAC__StreamDecoderMetadataCallback metadata_callback,
 	FLAC__StreamDecoderErrorCallback error_callback,
@@ -563,7 +566,7 @@ FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_FILE(
 
 FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_ogg_FILE(
 	FLAC__StreamDecoder *decoder,
-	FILE *file,
+	int file,
 	FLAC__StreamDecoderWriteCallback write_callback,
 	FLAC__StreamDecoderMetadataCallback metadata_callback,
 	FLAC__StreamDecoderErrorCallback error_callback,
@@ -583,7 +586,7 @@ static FLAC__StreamDecoderInitStatus init_file_internal_(
 	FLAC__bool is_ogg
 )
 {
-	FILE *file;
+	int file;
 
 	FLAC__ASSERT(0 != decoder);
 
@@ -598,7 +601,7 @@ static FLAC__StreamDecoderInitStatus init_file_internal_(
 	if(0 == write_callback || 0 == error_callback)
 		return decoder->protected_->initstate = FLAC__STREAM_DECODER_INIT_STATUS_INVALID_CALLBACKS;
 
-	file = filename? flac_fopen(filename, "rb") : stdin;
+	file = filename? flac_fopenr(filename) : 0;
 
 	if(0 == file)
 		return FLAC__STREAM_DECODER_INIT_STATUS_ERROR_OPENING_FILE;
@@ -677,8 +680,8 @@ FLAC__bool FLAC__stream_decoder_finish(FLAC__StreamDecoder *decoder)
 #endif
 
 	if(0 != decoder->private_->file) {
-		if(decoder->private_->file != stdin)
-			fclose(decoder->private_->file);
+		//if(decoder->private_->file != stdin)
+			fileclose(decoder->private_->file);
 		decoder->private_->file = 0;
 	}
 
@@ -969,8 +972,8 @@ FLAC__bool FLAC__stream_decoder_reset(FLAC__StreamDecoder *decoder)
 	 * not seekable.
 	 */
 	if(!decoder->private_->internal_reset_hack) {
-		if(decoder->private_->file == stdin)
-			return false; /* can't rewind stdin, reset fails */
+		//if(decoder->private_->file == stdin)
+		//	return false; /* can't rewind stdin, reset fails */
 		if(decoder->private_->seek_callback && decoder->private_->seek_callback(decoder, 0, decoder->private_->client_data) == FLAC__STREAM_DECODER_SEEK_STATUS_ERROR)
 			return false; /* seekable and seek fails, reset fails */
 	}
@@ -1249,20 +1252,21 @@ void set_defaults_(FLAC__StreamDecoder *decoder)
 /*
  * This will forcibly set stdin to binary mode (for OSes that require it)
  */
-FILE *get_binary_stdin_(void)
-{
-	/* if something breaks here it is probably due to the presence or
-	 * absence of an underscore before the identifiers 'setmode',
-	 * 'fileno', and/or 'O_BINARY'; check your system header files.
-	 */
-#if defined _MSC_VER || defined __MINGW32__
-	_setmode(_fileno(stdin), _O_BINARY);
-#elif defined __EMX__
-	setmode(fileno(stdin), O_BINARY);
-#endif
-
-	return stdin;
-}
+// remove FILE
+//FILE *get_binary_stdin_(void)
+//{
+//	/* if something breaks here it is probably due to the presence or
+//	 * absence of an underscore before the identifiers 'setmode',
+//	 * 'fileno', and/or 'O_BINARY'; check your system header files.
+//	 */
+//#if defined _MSC_VER || defined __MINGW32__
+//	_setmode(_fileno(stdin), _O_BINARY);
+//#elif defined __EMX__
+//	setmode(fileno(stdin), O_BINARY);
+//#endif
+//
+//	return stdin;
+//}
 
 FLAC__bool allocate_output_(FLAC__StreamDecoder *decoder, uint32_t size, uint32_t channels)
 {
@@ -3344,8 +3348,8 @@ FLAC__StreamDecoderReadStatus file_read_callback_(const FLAC__StreamDecoder *dec
 	(void)client_data;
 
 	if(*bytes > 0) {
-		*bytes = fread(buffer, sizeof(FLAC__byte), *bytes, decoder->private_->file);
-		if(ferror(decoder->private_->file))
+		*bytes = fileread(buffer, sizeof(FLAC__byte), *bytes, decoder->private_->file);
+		if(fileerror())
 			return FLAC__STREAM_DECODER_READ_STATUS_ABORT;
 		else if(*bytes == 0)
 			return FLAC__STREAM_DECODER_READ_STATUS_END_OF_STREAM;
@@ -3360,7 +3364,9 @@ FLAC__StreamDecoderSeekStatus file_seek_callback_(const FLAC__StreamDecoder *dec
 {
 	(void)client_data;
 
-	if(decoder->private_->file == stdin)
+//	if(decoder->private_->file == stdin)
+//		return FLAC__STREAM_DECODER_SEEK_STATUS_UNSUPPORTED;
+	if(decoder->private_->file == 0)
 		return FLAC__STREAM_DECODER_SEEK_STATUS_UNSUPPORTED;
 	else if(fseeko(decoder->private_->file, (FLAC__off_t)absolute_byte_offset, SEEK_SET) < 0)
 		return FLAC__STREAM_DECODER_SEEK_STATUS_ERROR;
@@ -3373,7 +3379,9 @@ FLAC__StreamDecoderTellStatus file_tell_callback_(const FLAC__StreamDecoder *dec
 	FLAC__off_t pos;
 	(void)client_data;
 
-	if(decoder->private_->file == stdin)
+//	if(decoder->private_->file == stdin)
+//		return FLAC__STREAM_DECODER_TELL_STATUS_UNSUPPORTED;
+	if(decoder->private_->file == 0)
 		return FLAC__STREAM_DECODER_TELL_STATUS_UNSUPPORTED;
 	else if((pos = ftello(decoder->private_->file)) < 0)
 		return FLAC__STREAM_DECODER_TELL_STATUS_ERROR;
@@ -3387,7 +3395,7 @@ FLAC__StreamDecoderLengthStatus file_length_callback_(const FLAC__StreamDecoder 
 {
 	struct flac_stat_s filestats;
 	(void)client_data;
-
+/* remove FILE
 	if(decoder->private_->file == stdin)
 		return FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED;
 	else if(flac_fstat(fileno(decoder->private_->file), &filestats) != 0)
@@ -3396,13 +3404,20 @@ FLAC__StreamDecoderLengthStatus file_length_callback_(const FLAC__StreamDecoder 
 		*stream_length = (FLAC__uint64)filestats.st_size;
 		return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
 	}
+*/
+	if(!decoder->private_->file)
+        	return FLAC__STREAM_DECODER_LENGTH_STATUS_UNSUPPORTED;
+        if(fileerror)
+		return FLAC__STREAM_DECODER_LENGTH_STATUS_ERROR;
+        *stream_length = filesize(decoder->private_->file);
+	return FLAC__STREAM_DECODER_LENGTH_STATUS_OK;
 }
 
 FLAC__bool file_eof_callback_(const FLAC__StreamDecoder *decoder, void *client_data)
 {
 	(void)client_data;
 
-	return feof(decoder->private_->file)? true : false;
+	return fileeof(decoder->private_->file)? true : false;
 }
 
 const void *FLAC__get_decoder_client_data(FLAC__StreamDecoder *decoder)

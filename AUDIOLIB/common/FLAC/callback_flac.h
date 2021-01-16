@@ -87,7 +87,7 @@ extern "C" {
 /** This is the opaque handle type used by the callbacks.  Typically
  *  this is a \c FILE* or address of a file descriptor.
  */
-typedef void* FLAC__IOHandle;
+typedef int FLAC__IOHandle;
 
 /** Signature for the read callback.
  *  The signature and semantics match POSIX fread() implementations

@@ -77,14 +77,14 @@ FLAC__bool flac_internal_get_utf8_filenames(void)
 
 /* file functions */
 
-FILE* flac_internal_fopen_utf8(const char *filename, const char *mode)
+int flac_internal_fopen_utf8(const char *filename, const char *mode)
 {
 	if (!utf8_filenames) {
-		return fopen(filename, mode);
+		return fileopen(filename, mode);
 	} else {
 		wchar_t *wname = NULL;
 		wchar_t *wmode = NULL;
-		FILE *f = NULL;
+		int f = 0;
 
 		do {
 			if (!(wname = wchar_from_utf8(filename))) break;

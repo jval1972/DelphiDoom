@@ -50,8 +50,8 @@
 #include <sys/types.h> /* for off_t */
 #define FLAC__off_t __int64 /* use this instead of off_t to fix the 2 GB limit */
 #if !defined __MINGW32__
-#define fseeko _fseeki64
-#define ftello _ftelli64
+#define fseeko fileseek64
+#define ftello filetell64
 #else /* MinGW */
 #if !defined(HAVE_FSEEKO)
 #define fseeko fseeko64
@@ -164,10 +164,12 @@
 #define flac_fprintf fprintf
 #define flac_vfprintf vfprintf
 
-#define flac_fopen fopen
+#define flac_fopenr fileopenr
+#define flac_fopena fileopena
+#define flac_fopenw fileopenw
 #define flac_chmod chmod
 #define flac_unlink unlink
-#define flac_rename rename
+#define flac_rename filerename
 #define flac_stat stat
 
 #if defined(_POSIX_C_SOURCE) && (_POSIX_C_SOURCE >= 200809L)

@@ -43,6 +43,7 @@
 #include <windows.h> /* for GetFileType() */
 #include <io.h> /* for _get_osfhandle() */
 #endif
+#include "../../common/delphifiles.h"
 #include "../../common/share/compat.h"
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/export_flac.h"
@@ -309,7 +310,7 @@ static FLAC__StreamEncoderReadStatus file_read_callback_(const FLAC__StreamEncod
 static FLAC__StreamEncoderSeekStatus file_seek_callback_(const FLAC__StreamEncoder *encoder, FLAC__uint64 absolute_byte_offset, void *client_data);
 static FLAC__StreamEncoderTellStatus file_tell_callback_(const FLAC__StreamEncoder *encoder, FLAC__uint64 *absolute_byte_offset, void *client_data);
 static FLAC__StreamEncoderWriteStatus file_write_callback_(const FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], size_t bytes, uint32_t samples, uint32_t current_frame, void *client_data);
-static FILE *get_binary_stdout_(void);
+//static FILE *get_binary_stdout_(void);
 
 
 /***********************************************************************
@@ -382,7 +383,7 @@ typedef struct FLAC__StreamEncoderPrivate {
 	FLAC__StreamEncoderProgressCallback progress_callback;
 	void *client_data;
 	uint32_t first_seekpoint_to_check;
-	FILE *file;                            /* only used when encoding to a file */
+	int file;                            /* only used when encoding to a file */
 	FLAC__uint64 bytes_written;
 	FLAC__uint64 samples_written;
 	uint32_t frames_written;
@@ -1332,7 +1333,7 @@ FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_stream(
 
 static FLAC__StreamEncoderInitStatus init_FILE_internal_(
 	FLAC__StreamEncoder *encoder,
-	FILE *file,
+	int file,
 	FLAC__StreamEncoderProgressCallback progress_callback,
 	void *client_data,
 	FLAC__bool is_ogg
@@ -1357,16 +1358,21 @@ static FLAC__StreamEncoderInitStatus init_FILE_internal_(
 	 * must assign the FILE pointer before any further error can occur in
 	 * this routine.
 	 */
-	if(file == stdout)
-		file = get_binary_stdout_(); /* just to be safe */
+
+        // remove FILE
+        //if(file == stdout)
+	//	file = get_binary_stdout_(); /* just to be safe */
+        //
 
 #ifdef _WIN32
 	/*
 	 * Windows can suffer quite badly from disk fragmentation. This can be
 	 * reduced significantly by setting the output buffer size to be 10MB.
 	 */
+         /* remove FILE
 	if(GetFileType((HANDLE)_get_osfhandle(_fileno(file))) == FILE_TYPE_DISK)
 		setvbuf(file, NULL, _IOFBF, 10*1024*1024);
+        */
 #endif
 	encoder->private_->file = file;
 
@@ -1377,10 +1383,10 @@ static FLAC__StreamEncoderInitStatus init_FILE_internal_(
 
 	init_status = init_stream_internal_(
 		encoder,
-		encoder->private_->file == stdout? 0 : is_ogg? file_read_callback_ : 0,
+		encoder->private_->file == 0? 0 : is_ogg? file_read_callback_ : 0,
 		file_write_callback_,
-		encoder->private_->file == stdout? 0 : file_seek_callback_,
-		encoder->private_->file == stdout? 0 : file_tell_callback_,
+		encoder->private_->file == 0? 0 : file_seek_callback_,
+		encoder->private_->file == 0? 0 : file_tell_callback_,
 		/*metadata_callback=*/0,
 		client_data,
 		is_ogg
@@ -1402,7 +1408,7 @@ static FLAC__StreamEncoderInitStatus init_FILE_internal_(
 
 FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_FILE(
 	FLAC__StreamEncoder *encoder,
-	FILE *file,
+	int file,
 	FLAC__StreamEncoderProgressCallback progress_callback,
 	void *client_data
 )
@@ -1412,7 +1418,7 @@ FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_FILE(
 
 FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_ogg_FILE(
 	FLAC__StreamEncoder *encoder,
-	FILE *file,
+	int file,
 	FLAC__StreamEncoderProgressCallback progress_callback,
 	void *client_data
 )
@@ -1428,7 +1434,7 @@ static FLAC__StreamEncoderInitStatus init_file_internal_(
 	FLAC__bool is_ogg
 )
 {
-	FILE *file;
+	int file;
 
 	FLAC__ASSERT(0 != encoder);
 
@@ -1440,7 +1446,7 @@ static FLAC__StreamEncoderInitStatus init_file_internal_(
 	if(encoder->protected_->state != FLAC__STREAM_ENCODER_UNINITIALIZED)
 		return FLAC__STREAM_ENCODER_INIT_STATUS_ALREADY_INITIALIZED;
 
-	file = filename? flac_fopen(filename, "w+b") : stdout;
+	file = filename? flac_fopenw(filename) : 0;
 
 	if(file == 0) {
 		encoder->protected_->state = FLAC__STREAM_ENCODER_IO_ERROR;
@@ -1521,8 +1527,8 @@ FLAC__bool FLAC__stream_encoder_finish(FLAC__StreamEncoder *encoder)
 	}
 
 	if(0 != encoder->private_->file) {
-		if(encoder->private_->file != stdout)
-			fclose(encoder->private_->file);
+//		if(encoder->private_->file != stdout)
+			fileclose(encoder->private_->file);
 		encoder->private_->file = 0;
 	}
 
@@ -4484,11 +4490,11 @@ FLAC__StreamEncoderReadStatus file_read_callback_(const FLAC__StreamEncoder *enc
 {
 	(void)client_data;
 
-	*bytes = fread(buffer, 1, *bytes, encoder->private_->file);
+	*bytes = fileread(buffer, 1, *bytes, encoder->private_->file);
 	if (*bytes == 0) {
-		if (feof(encoder->private_->file))
+		if (fileeof(encoder->private_->file))
 			return FLAC__STREAM_ENCODER_READ_STATUS_END_OF_STREAM;
-		else if (ferror(encoder->private_->file))
+		else if (fileerror())
 			return FLAC__STREAM_ENCODER_READ_STATUS_ABORT;
 	}
 	return FLAC__STREAM_ENCODER_READ_STATUS_CONTINUE;
@@ -4522,15 +4528,17 @@ FLAC__StreamEncoderTellStatus file_tell_callback_(const FLAC__StreamEncoder *enc
 }
 
 #ifdef FLAC__VALGRIND_TESTING
-static size_t local__fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
+static size_t local__fwrite(const void *ptr, size_t size, size_t nmemb, int stream)
 {
-	size_t ret = fwrite(ptr, size, nmemb, stream);
+	size_t ret = filewrite(ptr, size, nmemb, stream);
+/* remove FILE
 	if(!ferror(stream))
 		fflush(stream);
+*/
 	return ret;
 }
 #else
-#define local__fwrite fwrite
+#define local__fwrite filewrite
 #endif
 
 FLAC__StreamEncoderWriteStatus file_write_callback_(const FLAC__StreamEncoder *encoder, const FLAC__byte buffer[], size_t bytes, uint32_t samples, uint32_t current_frame, void *client_data)
@@ -4567,17 +4575,18 @@ FLAC__StreamEncoderWriteStatus file_write_callback_(const FLAC__StreamEncoder *e
 /*
  * This will forcibly set stdout to binary mode (for OSes that require it)
  */
-FILE *get_binary_stdout_(void)
-{
-	/* if something breaks here it is probably due to the presence or
-	 * absence of an underscore before the identifiers 'setmode',
-	 * 'fileno', and/or 'O_BINARY'; check your system header files.
-	 */
-#if defined _MSC_VER || defined __MINGW32__
-	_setmode(_fileno(stdout), _O_BINARY);
-#elif defined __EMX__
-	setmode(fileno(stdout), O_BINARY);
-#endif
-
-	return stdout;
-}
+// remove FILE
+//FILE *get_binary_stdout_(void)
+//{
+//	/* if something breaks here it is probably due to the presence or
+//	 * absence of an underscore before the identifiers 'setmode',
+//	 * 'fileno', and/or 'O_BINARY'; check your system header files.
+//	 */
+//#if defined _MSC_VER || defined __MINGW32__
+//	_setmode(_fileno(stdout), _O_BINARY);
+//#elif defined __EMX__
+//	setmode(fileno(stdout), O_BINARY);
+//#endif
+//
+//	return stdout;
+//}

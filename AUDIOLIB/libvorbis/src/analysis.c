@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <../../common/delphifiles.h>
 #include <../../common/ogg/ogg_common.h>
 #include "../../common/vorbis/codec.h"
 #include "codec_internal.h"
@@ -68,11 +69,11 @@ int analysis_noisy=1;
 /* there was no great place to put this.... */
 void _analysis_output_always(char *base,int i,float *v,int n,int bark,int dB,ogg_int64_t off){
   int j;
-  FILE *of;
+  int of;
   char buffer[80];
 
   sprintf(buffer,"%s_%d.m",base,i);
-  of=fopen(buffer,"w");
+  of=fileopenw(buffer);
 
   if(!of)perror("failed to open data dump file");
 

@@ -564,6 +564,7 @@ static float test5_result[]={-3,-6,-9, 4, 1,-2, -1,-4,-7,
                               -3, 1, 0, 4, 8, 7, -1, 3, 2,
                               -3,-4,-5, 4, 3, 2, -1,-2,-3};
 
+#if 0
 void run_test(static_codebook *b,float *comp){
   float *out=_book_unquantize(b,b->entries,NULL);
   int i;
@@ -608,5 +609,6 @@ int main(){
   return(0);
 }
 
+#endif
 #endif  /* _V_SELFTEST */
 

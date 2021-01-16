@@ -24,6 +24,7 @@
 
 /* we don't need or want the static callback symbols here */
 #define OV_EXCLUDE_STATIC_CALLBACKS
+#include "../../common/delphifiles.h"
 #include "../../common/vorbis/vorbisfile.h"
 
 #include "os.h"
@@ -872,12 +873,12 @@ static int _fetch_and_process_packet(OggVorbis_File *vf,
 
 /* if, eg, 64 bit stdio is configured by default, this will build with
    fseek64 */
-static int _fseek64_wrap(FILE *f,ogg_int64_t off,int whence){
+static int _fseek64_wrap(int f,ogg_int64_t off,int whence){
   if(f==NULL)return(-1);
-  return fseek(f,off,whence);
+  return fileseek64(f,off,whence);
 }
 
-static int _ov_open1(void *f,OggVorbis_File *vf,const char *initial,
+static int _ov_open1(int f,OggVorbis_File *vf,const char *initial,
                      long ibytes, ov_callbacks callbacks){
   int offsettest=((f && callbacks.seek_func)?callbacks.seek_func(f,0,SEEK_CUR):-1);
   long *serialno_list=NULL;
@@ -992,31 +993,31 @@ int ov_clear(OggVorbis_File *vf){
             0) OK
 */
 
-int ov_open_callbacks(void *f,OggVorbis_File *vf,
+int ov_open_callbacks(int f,OggVorbis_File *vf,
     const char *initial,long ibytes,ov_callbacks callbacks){
   int ret=_ov_open1(f,vf,initial,ibytes,callbacks);
   if(ret)return ret;
   return _ov_open2(vf);
 }
 
-int ov_open(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
+int ov_open(int f,OggVorbis_File *vf,const char *initial,long ibytes){
   ov_callbacks callbacks = {
-    (size_t (*)(void *, size_t, size_t, void *))  fread,
-    (int (*)(void *, ogg_int64_t, int))              _fseek64_wrap,
-    (int (*)(void *))                             fclose,
-    (long (*)(void *))                            ftell
+    (size_t (*)(void *, size_t, size_t, int))   fileread,
+    (int (*)(int, ogg_int64_t, int))            _fseek64_wrap,
+    (int (*)(int))                              fileclose,
+    (long (*)(int))                             filetell
   };
 
-  return ov_open_callbacks((void *)f, vf, initial, ibytes, callbacks);
+  return ov_open_callbacks(f, vf, initial, ibytes, callbacks);
 }
 
 int ov_fopen(const char *path,OggVorbis_File *vf){
   int ret;
-  FILE *f = fopen(path,"rb");
+  int f = fileopenr(path);
   if(!f) return -1;
 
   ret = ov_open(f,vf,NULL,0);
-  if(ret) fclose(f);
+  if(ret) fileclose(f);
   return ret;
 }
 
@@ -1063,21 +1064,21 @@ int ov_halfrate_p(OggVorbis_File *vf){
    call fails; the calling applicaiton is responsible for closing the file
    if this call returns an error. */
 
-int ov_test_callbacks(void *f,OggVorbis_File *vf,
+int ov_test_callbacks(int f,OggVorbis_File *vf,
     const char *initial,long ibytes,ov_callbacks callbacks)
 {
   return _ov_open1(f,vf,initial,ibytes,callbacks);
 }
 
-int ov_test(FILE *f,OggVorbis_File *vf,const char *initial,long ibytes){
+int ov_test(int f,OggVorbis_File *vf,const char *initial,long ibytes){
   ov_callbacks callbacks = {
-    (size_t (*)(void *, size_t, size_t, void *))  fread,
-    (int (*)(void *, ogg_int64_t, int))              _fseek64_wrap,
-    (int (*)(void *))                             fclose,
-    (long (*)(void *))                            ftell
+    (size_t (*)(void *, size_t, size_t, int))   fileread,
+    (int (*)(int, ogg_int64_t, int))            _fseek64_wrap,
+    (int (*)(int))                              fileclose,
+    (long (*)(int))                             filetell
   };
 
-  return ov_test_callbacks((void *)f, vf, initial, ibytes, callbacks);
+  return ov_test_callbacks(f, vf, initial, ibytes, callbacks);
 }
 
 int ov_test_open(OggVorbis_File *vf){
@@ -1957,12 +1958,14 @@ long ov_read_filter(OggVorbis_File *vf,char *buffer,int length,
                     int bigendianp,int word,int sgned,int *bitstream,
                     void (*filter)(float **pcm,long channels,long samples,void *filter_param),void *filter_param){
   int i,j;
-  int host_endian = host_is_big_endian();
+  int host_endian;
   int hs;
 
   float **pcm;
   long samples;
 
+  host_endian=host_is_big_endian();
+  
   if(vf->ready_state<OPENED)return(OV_EINVAL);
   if(word<=0)return(OV_EINVAL);
 

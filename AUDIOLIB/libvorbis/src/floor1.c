@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <../../common/delphifiles.h>
 #include <../../common/ogg/ogg_common.h>
 #include "../../common/vorbis/codec.h"
 #include "../../../C_LIB/src/myqsort.h"
@@ -884,13 +885,13 @@ int floor1_encode(oggpack_buffer *opb,vorbis_block *vb,
 
 #ifdef TRAIN_FLOOR1
         {
-          FILE *of;
+          int of;
           char buffer[80];
           sprintf(buffer,"line_%dx%ld_class%d.vqd",
                   vb->pcmend/2,posts-2,class);
-          of=fopen(buffer,"a");
+          of=fileopena(buffer,"a");
           fprintf(of,"%d\n",cval);
-          fclose(of);
+          fileclose(of);
         }
 #endif
       }
@@ -908,13 +909,13 @@ int floor1_encode(oggpack_buffer *opb,vorbis_block *vb,
 
 #ifdef TRAIN_FLOOR1
           {
-            FILE *of;
+            int of;
             char buffer[80];
             sprintf(buffer,"line_%dx%ld_%dsub%d.vqd",
                     vb->pcmend/2,posts-2,class,bookas[k]);
-            of=fopen(buffer,"a");
+            of=fileopena(buffer);
             fprintf(of,"%d\n",out[j+k]);
-            fclose(of);
+            fileclose(of);
           }
 #endif
         }

@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "../../common/delphifiles.h"
 #include <../../common/ogg/ogg_common.h>
 #include "../../common/vorbis/codec.h"
 #include "codec_internal.h"
@@ -84,17 +85,17 @@ void res0_free_look(vorbis_look_residue *i){
         for(k=0;k<8;k++)
           if(look->training_data[k][j]){
             char buffer[80];
-            FILE *of;
+            int of;
             codebook *statebook=look->partbooks[j][k];
 
             /* long and short into the same bucket by current convention */
             sprintf(buffer,"res_sub%d_part%d_pass%d.vqd",look->submap,j,k);
-            of=fopen(buffer,"a");
+            of=fileopena(buffer);
 
             for(l=0;l<statebook->entries;l++)
               fprintf(of,"%d:%ld\n",l,look->training_data[k][j][l]);
 
-            fclose(of);
+            fileclose(of);
 
             /*fprintf(stderr,"%d(%.2f|%.2f) ",k,
               look->training_min[k][j],look->training_max[k][j]);*/
@@ -449,16 +450,16 @@ static long **_01class(vorbis_block *vb,vorbis_look_residue *vl,
 
 #ifdef TRAIN_RESAUX
   {
-    FILE *of;
+    int of;
     char buffer[80];
 
     for(i=0;i<ch;i++){
       sprintf(buffer,"resaux_%d.vqd",look->train_seq);
-      of=fopen(buffer,"a");
+      of=fileopen(buffer);
       for(j=0;j<partvals;j++)
         fprintf(of,"%ld, ",partword[i][j]);
       fprintf(of,"\n");
-      fclose(of);
+      fileclose(of);
     }
   }
 #endif
@@ -513,11 +514,11 @@ static long **_2class(vorbis_block *vb,vorbis_look_residue *vl,int **in,
 
 #ifdef TRAIN_RESAUX
   sprintf(buffer,"resaux_%d.vqd",look->train_seq);
-  of=fopen(buffer,"a");
+  of=fileopena(buffer);
   for(i=0;i<partvals;i++)
     fprintf(of,"%ld, ",partword[0][i]);
   fprintf(of,"\n");
-  fclose(of);
+  fileclose(of);
 #endif
 
   look->frames++;

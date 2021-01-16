@@ -37,7 +37,7 @@
 #define flac__windows_unicode_filenames_h
 
 #include <stdio.h>
-#include <sys/stat.h>
+//#include <sys/stat.h>
 #include <time.h>
 #include "../../common/FLAC/ordinals.h"
 
