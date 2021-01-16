@@ -151,7 +151,8 @@ void vorbis_lsp_to_curve(float *curve,int *map,int n,int ln,float *lsp,int m,
   int i;
   int ampoffseti=rint(ampoffset*4096.f);
   int ampi=rint(amp*16.f);
-  long *ilsp=alloca(m*sizeof(*ilsp));
+  long *ilsp=malloc(m*sizeof(*ilsp));
+
   for(i=0;i<m;i++)ilsp[i]=vorbis_coslook_i(lsp[i]/M_PI*65536.f+.5f);
 
   i=0;
@@ -241,6 +242,7 @@ void vorbis_lsp_to_curve(float *curve,int *map,int n,int ln,float *lsp,int m,
     curve[i]*=amp;
     while(map[++i]==k)curve[i]*=amp;
   }
+  free(ilsp);
 }
 
 #else
@@ -314,7 +316,8 @@ static int comp(const void *a,const void *b){
 #define EPSILON 10e-7
 static int Laguerre_With_Deflation(float *a,int ord,float *r){
   int i,m;
-  double *defl=alloca(sizeof(*defl)*(ord+1));
+  double *defl=malloc(sizeof(*defl)*(ord+1));
+
   for(i=0;i<=ord;i++)defl[i]=a[i];
 
   for(m=ord;m>0;m--){
@@ -361,6 +364,7 @@ static int Laguerre_With_Deflation(float *a,int ord,float *r){
     defl++;
 
   }
+  free(defl);
   return(0);
 }
 
@@ -369,7 +373,7 @@ static int Laguerre_With_Deflation(float *a,int ord,float *r){
 static int Newton_Raphson(float *a,int ord,float *r){
   int i, k, count=0;
   double error=1.f;
-  double *root=alloca(ord*sizeof(*root));
+  double *root=malloc(ord*sizeof(*root));
 
   for(i=0; i<ord;i++) root[i] = r[i];
 
@@ -400,6 +404,7 @@ static int Newton_Raphson(float *a,int ord,float *r){
      help, we can eliminate the bubble sort in our lifetime. --Monty */
 
   for(i=0; i<ord;i++) r[i] = root[i];
+  free(root);
   return(0);
 }
 
@@ -408,10 +413,10 @@ static int Newton_Raphson(float *a,int ord,float *r){
 int vorbis_lpc_to_lsp(float *lpc,float *lsp,int m){
   int order2=(m+1)>>1;
   int g1_order,g2_order;
-  float *g1=alloca(sizeof(*g1)*(order2+1));
-  float *g2=alloca(sizeof(*g2)*(order2+1));
-  float *g1r=alloca(sizeof(*g1r)*(order2+1));
-  float *g2r=alloca(sizeof(*g2r)*(order2+1));
+  float *g1=malloc(sizeof(*g1)*(order2+1));
+  float *g2=malloc(sizeof(*g2)*(order2+1));
+  float *g1r=malloc(sizeof(*g1r)*(order2+1));
+  float *g2r=malloc(sizeof(*g2r)*(order2+1));
   int i;
 
   /* even and odd are slightly different base cases */
@@ -441,8 +446,13 @@ int vorbis_lpc_to_lsp(float *lpc,float *lsp,int m){
 
   /* Find the roots of the 2 even polynomials.*/
   if(Laguerre_With_Deflation(g1,g1_order,g1r) ||
-     Laguerre_With_Deflation(g2,g2_order,g2r))
+     Laguerre_With_Deflation(g2,g2_order,g2r)){
+    free(g1);
+    free(g2);
+    free(g1r);
+    free(g2r);
     return(-1);
+  }
 
   Newton_Raphson(g1,g1_order,g1r); /* if it fails, it leaves g1r alone */
   Newton_Raphson(g2,g2_order,g2r); /* if it fails, it leaves g2r alone */
@@ -455,5 +465,9 @@ int vorbis_lpc_to_lsp(float *lpc,float *lsp,int m){
 
   for(i=0;i<g2_order;i++)
     lsp[i*2+1] = acos(g2r[i]);
+  free(g1);
+  free(g2);
+  free(g1r);
+  free(g2r);
   return(0);
 }

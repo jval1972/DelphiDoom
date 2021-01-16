@@ -659,7 +659,7 @@ static int _01inverse(vorbis_block *vb,vorbis_look_residue *vl,
   if(n>0){
     int partvals=n/samples_per_partition;
     int partwords=(partvals+partitions_per_word-1)/partitions_per_word;
-    int ***partword=alloca(ch*sizeof(*partword));
+    int ***partword=malloc(ch*sizeof(*partword));
 
     for(j=0;j<ch;j++)
       partword[j]=_vorbis_block_alloc(vb,partwords*sizeof(*partword[j]));
@@ -694,6 +694,7 @@ static int _01inverse(vorbis_block *vb,vorbis_look_residue *vl,
           }
       }
     }
+    free(partword);
   }
  errout:
  eopbreak:

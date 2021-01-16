@@ -51,20 +51,11 @@
 #  define FAST_HYPOT(a, b) sqrt((a)*(a) + (b)*(b))
 #endif
 
-#if defined(__SYMBIAN32__) && defined(__WINS__)
-void *_alloca(size_t size);
-#  define alloca _alloca
-#endif
-
 #ifndef FAST_HYPOT
 #  define FAST_HYPOT hypot
 #endif
 
 #endif /* _V_IFDEFJAIL_H_ */
-
-#ifdef HAVE_ALLOCA_H
-#  include <alloca.h>
-#endif
 
 #ifdef USE_MEMORY_H
 #  include <memory.h>

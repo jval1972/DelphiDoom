@@ -494,7 +494,7 @@ void mdct_forward(mdct_lookup *init, DATA_TYPE *in, DATA_TYPE *out){
   int n2=n>>1;
   int n4=n>>2;
   int n8=n>>3;
-  DATA_TYPE *w=alloca(n*sizeof(*w)); /* forward needs working space */
+  DATA_TYPE *w=malloc(n*sizeof(*w)); /* forward needs working space */
   DATA_TYPE *w2=w+n2;
 
   /* rotate */
@@ -559,4 +559,6 @@ void mdct_forward(mdct_lookup *init, DATA_TYPE *in, DATA_TYPE *out){
     w+=2;
     T+=2;
   }
+
+  free(w);
 }

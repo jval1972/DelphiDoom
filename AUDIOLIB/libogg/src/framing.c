@@ -2106,4 +2106,4 @@ int main(void){
   return(0);
 }
 
-#endif
+#endif  /* _V_SELFTEST */

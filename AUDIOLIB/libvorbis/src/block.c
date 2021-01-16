@@ -416,9 +416,11 @@ float **vorbis_analysis_buffer(vorbis_dsp_state *v, int vals){
 static void _preextrapolate_helper(vorbis_dsp_state *v){
   int i;
   int order=16;
-  float *lpc=alloca(order*sizeof(*lpc));
-  float *work=alloca(v->pcm_current*sizeof(*work));
+  float *lpc;
+  float *work;
   long j;
+  lpc=malloc(order*sizeof(*lpc));
+  work=malloc(v->pcm_current*sizeof(*work));
   v->preextrapolate=1;
 
   if(v->pcm_current-v->centerW>order*2){ /* safety */
@@ -452,6 +454,8 @@ static void _preextrapolate_helper(vorbis_dsp_state *v){
 
     }
   }
+  free(lpc);
+  free(work);
 }
 
 
@@ -464,7 +468,7 @@ int vorbis_analysis_wrote(vorbis_dsp_state *v, int vals){
   if(vals<=0){
     int order=32;
     int i;
-    float *lpc=alloca(order*sizeof(*lpc));
+    float *lpc=malloc(order*sizeof(*lpc));
 
     /* if it wasn't done earlier (very short sample) */
     if(!v->preextrapolate)
@@ -502,6 +506,7 @@ int vorbis_analysis_wrote(vorbis_dsp_state *v, int vals){
 
       }
     }
+    free(lpc);
   }else{
 
     if(v->pcm_current+vals>v->pcm_storage)
