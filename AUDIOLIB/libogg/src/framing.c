@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
+#include <../../common/delphiimport.h>
 #include <../../common/ogg/ogg_common.h>
 
 /* A complete description of Ogg framing exists in docs/framing.html */
@@ -1014,11 +1015,13 @@ void checkpacket(ogg_packet *op,long len, int no, long pos){
 
   if(op->bytes!=len){
     fprintf(stderr,"incorrect packet length (%ld != %ld)!\n",op->bytes,len);
-    exit(1);
+    myexit("framing.c::checkpacket",1);
+    return;
   }
   if(op->granulepos!=pos){
     fprintf(stderr,"incorrect packet granpos (%ld != %ld)!\n",(long)op->granulepos,pos);
-    exit(1);
+    myexit("framing.c::checkpacket",1);
+    return;
   }
 
   /* packet number just follows sequence/gap; adjust the input number
@@ -1034,7 +1037,8 @@ void checkpacket(ogg_packet *op,long len, int no, long pos){
   if(op->packetno!=sequence){
     fprintf(stderr,"incorrect packet sequence %ld != %d\n",
             (long)(op->packetno),sequence);
-    exit(1);
+    myexit("framing.c::checkpacket",1);
+    return;
   }
 
   /* Test data */
@@ -1042,7 +1046,8 @@ void checkpacket(ogg_packet *op,long len, int no, long pos){
     if(op->packet[j]!=((j+no)&0xff)){
       fprintf(stderr,"body data mismatch (1) at pos %ld: %x!=%lx!\n\n",
               j,op->packet[j],(j+no)&0xff);
-      exit(1);
+      myexit("framing.c::checkpacket",1);
+      return;
     }
 }
 
@@ -1053,7 +1058,8 @@ void check_page(unsigned char *data,const int *header,ogg_page *og){
     if(og->body[j]!=data[j]){
       fprintf(stderr,"body data mismatch (2) at pos %ld: %x!=%x!\n\n",
               j,data[j],og->body[j]);
-      exit(1);
+      myexit("framing.c::check_page",1);
+      return;
     }
 
   /* Test header */
@@ -1063,13 +1069,15 @@ void check_page(unsigned char *data,const int *header,ogg_page *og){
       for(j=0;j<header[26]+27;j++)
         fprintf(stderr," (%ld)%02x:%02x",j,header[j],og->header[j]);
       fprintf(stderr,"\n");
-      exit(1);
+      myexit("framing.c::check_page",1);
+      return;
     }
   }
   if(og->header_len!=header[26]+27){
     fprintf(stderr,"header length incorrect! (%ld!=%d)\n",
             og->header_len,header[26]+27);
-    exit(1);
+    myexit("framing.c::check_page",1);
+    return;
   }
 }
 
@@ -1115,7 +1123,7 @@ void free_page(ogg_page *og){
 
 void error(void){
   fprintf(stderr,"error!\n");
-  exit(1);
+  myexit("framing.c::error",1);
 }
 
 /* 17 only */
@@ -1530,7 +1538,8 @@ void test_pack(const int *pl, const int **headers, int byteskip,
 
         if(headers[pageno]==NULL){
           fprintf(stderr,"coded too many pages!\n");
-          exit(1);
+          myexit("framing.c::test_pack",1);
+          return;
         }
 
         check_page(data+outptr,headers[pageno],&og);
@@ -1590,7 +1599,8 @@ void test_pack(const int *pl, const int **headers, int byteskip,
               if(compare_packet(&op_de,&op_de2)){
                 fprintf(stderr,"packetout != packetpeek! pos=%ld\n",
                         depacket);
-                exit(1);
+                myexit("framing.c::test_pack",1);
+                return;
               }
 
               /* verify the packet! */
@@ -1598,16 +1608,19 @@ void test_pack(const int *pl, const int **headers, int byteskip,
               if(memcmp(data+depacket,op_de.packet,op_de.bytes)){
                 fprintf(stderr,"packet data mismatch in decode! pos=%ld\n",
                         depacket);
-                exit(1);
+                myexit("framing.c::test_pack",1);
+                return;
               }
               /* check bos flag */
               if(bosflag==0 && op_de.b_o_s==0){
                 fprintf(stderr,"b_o_s flag not set on packet!\n");
-                exit(1);
+                myexit("framing.c::test_pack",1);
+                return;
               }
               if(bosflag && op_de.b_o_s){
                 fprintf(stderr,"b_o_s flag incorrectly set on packet!\n");
-                exit(1);
+                myexit("framing.c::test_pack",1);
+                return;
               }
               bosflag=1;
               depacket+=op_de.bytes;
@@ -1615,7 +1628,8 @@ void test_pack(const int *pl, const int **headers, int byteskip,
               /* check eos flag */
               if(eosflag){
                 fprintf(stderr,"Multiple decoded packets with eos flag!\n");
-                exit(1);
+                myexit("framing.c::test_pack",1);
+                return;
               }
 
               if(op_de.e_o_s)eosflag=1;
@@ -1633,27 +1647,33 @@ void test_pack(const int *pl, const int **headers, int byteskip,
   _ogg_free(data);
   if(headers[pageno]!=NULL){
     fprintf(stderr,"did not write last page!\n");
-    exit(1);
+    myexit("framing.c::test_pack",1);
+    return;
   }
   if(headers[pageout]!=NULL){
     fprintf(stderr,"did not decode last page!\n");
-    exit(1);
+    myexit("framing.c::test_pack",1);
+    return;
   }
   if(inptr!=outptr){
     fprintf(stderr,"encoded page data incomplete!\n");
-    exit(1);
+    myexit("framing.c::test_pack",1);
+    return;
   }
   if(inptr!=deptr){
     fprintf(stderr,"decoded page data incomplete!\n");
-    exit(1);
+    myexit("framing.c::test_pack",1);
+    return;
   }
   if(inptr!=depacket){
     fprintf(stderr,"decoded packet data incomplete!\n");
-    exit(1);
+    myexit("framing.c::test_pack",1);
+    return;
   }
   if(!eosflag){
     fprintf(stderr,"Never got a packet with EOS set!\n");
-    exit(1);
+    myexit("framing.c::test_pack",1);
+    return;
   }
   fprintf(stderr,"ok.\n");
 }
@@ -1825,7 +1845,8 @@ int main1(void){
     for(i=0;i<5;i++){
       if(ogg_stream_pageout(&os_en,&og[i])==0){
         fprintf(stderr,"Too few pages output building sync tests!\n");
-        exit(1);
+        myexit("framing.c::main1",1);
+        return;
       }
       copy_page(&og[i]);
     }
@@ -1870,7 +1891,8 @@ int main1(void){
       checkpacket(&test,4079,4,5000);
       if(ogg_stream_packetout(&os_de,&test)!=-1){
         fprintf(stderr,"Error: loss of page did not return error\n");
-        exit(1);
+        myexit("framing.c::main1",1);
+        return;
       }
       if(ogg_stream_packetout(&os_de,&test)!=1)error();
       checkpacket(&test,76,9,-1);
@@ -1929,7 +1951,8 @@ int main1(void){
       checkpacket(&test,2057,8,9000);
       if(ogg_stream_packetout(&os_de,&test)!=-1){
         fprintf(stderr,"Error: loss of page did not return error\n");
-        exit(1);
+        myexit("framing.c::main1",1);
+        return;
       }
       if(ogg_stream_packetout(&os_de,&test)!=1)error();
       checkpacket(&test,300,17,18000);

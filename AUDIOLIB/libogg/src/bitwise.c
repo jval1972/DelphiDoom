@@ -20,6 +20,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <../../common/delphiimport.h>
 #include <../../common/ogg/ogg_common.h>
 
 #define BUFFER_INCREMENT 256
@@ -543,7 +544,7 @@ oggpack_buffer r;
 
 void report(char *in){
   fprintf(stderr,"%s",in);
-  exit(1);
+  myexit("bitwise.c::report", 1);
 }
 
 void cliptest(unsigned long *b,int vals,int bits,int *comp,int compsize){
@@ -642,7 +643,8 @@ void copytest(int prefill, int copy){
   dest_bytes=oggpack_bytes(&dest_write);
   if(dest_bytes!=(prefill+7)/8){
     fprintf(stderr,"wrong number of bytes after prefill! %ld!=%d\n",dest_bytes,(prefill+7)/8);
-    exit(1);
+    myexit("bitwise.c::copytest", 1);
+    return;
   }
   oggpack_readinit(&source_read,source,source_bytes);
   oggpack_readinit(&dest_read,dest,dest_bytes);
@@ -652,13 +654,15 @@ void copytest(int prefill, int copy){
     int d=oggpack_read(&dest_read,prefill-i<8?prefill-i:8);
     if(s!=d){
       fprintf(stderr,"prefill=%d mismatch! byte %d, %x!=%x\n",prefill,i/8,s,d);
-      exit(1);
+      myexit("bitwise.c::copytest", 1);
+      return;
     }
   }
   if(prefill<dest_bytes){
     if(oggpack_read(&dest_read,dest_bytes-prefill)!=0){
       fprintf(stderr,"prefill=%d mismatch! trailing bits not zero\n",prefill);
-      exit(1);
+      myexit("bitwise.c::copytest", 1);
+      return;
     }
   }
 
@@ -670,7 +674,8 @@ void copytest(int prefill, int copy){
   dest_bytes=oggpack_bytes(&dest_write);
   if(dest_bytes!=(copy+prefill+7)/8){
     fprintf(stderr,"wrong number of bytes after prefill+copy! %ld!=%d\n",dest_bytes,(copy+prefill+7)/8);
-    exit(1);
+    myexit("bitwise.c::copytest", 1);
+    return;
   }
   oggpack_readinit(&source_read,source,source_bytes);
   oggpack_readinit(&dest_read,dest,dest_bytes);
@@ -680,7 +685,8 @@ void copytest(int prefill, int copy){
     int d=oggpack_read(&dest_read,prefill-i<8?prefill-i:8);
     if(s!=d){
       fprintf(stderr,"prefill=%d mismatch! byte %d, %x!=%x\n",prefill,i/8,s,d);
-      exit(1);
+      myexit("bitwise.c::copytest", 1);
+      return;
     }
   }
 
@@ -690,14 +696,16 @@ void copytest(int prefill, int copy){
     int d=oggpack_read(&dest_read,copy-i<8?copy-i:8);
     if(s!=d){
       fprintf(stderr,"prefill=%d copy=%d mismatch! byte %d, %x!=%x\n",prefill,copy,i/8,s,d);
-      exit(1);
+      myexit("bitwise.c::copytest", 1);
+      return;
     }
   }
 
   if(copy+prefill<dest_bytes){
     if(oggpack_read(&dest_read,dest_bytes-copy-prefill)!=0){
       fprintf(stderr,"prefill=%d copy=%d mismatch! trailing bits not zero\n",prefill,copy);
-      exit(1);
+      myexit("bitwise.c::copytest", 1);
+      return;
     }
   }
 
@@ -733,7 +741,8 @@ void copytestB(int prefill, int copy){
   dest_bytes=oggpackB_bytes(&dest_write);
   if(dest_bytes!=(prefill+7)/8){
     fprintf(stderr,"wrong number of bytes after prefill! %ld!=%d\n",dest_bytes,(prefill+7)/8);
-    exit(1);
+    myexit("bitwise.c::copytestB", 1);
+    return;
   }
   oggpackB_readinit(&source_read,source,source_bytes);
   oggpackB_readinit(&dest_read,dest,dest_bytes);
@@ -743,13 +752,15 @@ void copytestB(int prefill, int copy){
     int d=oggpackB_read(&dest_read,prefill-i<8?prefill-i:8);
     if(s!=d){
       fprintf(stderr,"prefill=%d mismatch! byte %d, %x!=%x\n",prefill,i/8,s,d);
-      exit(1);
+      myexit("bitwise.c::copytestB", 1);
+      return;
     }
   }
   if(prefill<dest_bytes){
     if(oggpackB_read(&dest_read,dest_bytes-prefill)!=0){
       fprintf(stderr,"prefill=%d mismatch! trailing bits not zero\n",prefill);
-      exit(1);
+      myexit("bitwise.c::copytestB", 1);
+      return;
     }
   }
 
@@ -761,7 +772,8 @@ void copytestB(int prefill, int copy){
   dest_bytes=oggpackB_bytes(&dest_write);
   if(dest_bytes!=(copy+prefill+7)/8){
     fprintf(stderr,"wrong number of bytes after prefill+copy! %ld!=%d\n",dest_bytes,(copy+prefill+7)/8);
-    exit(1);
+    myexit("bitwise.c::copytestB", 1);
+    return;
   }
   oggpackB_readinit(&source_read,source,source_bytes);
   oggpackB_readinit(&dest_read,dest,dest_bytes);
@@ -771,7 +783,8 @@ void copytestB(int prefill, int copy){
     int d=oggpackB_read(&dest_read,prefill-i<8?prefill-i:8);
     if(s!=d){
       fprintf(stderr,"prefill=%d mismatch! byte %d, %x!=%x\n",prefill,i/8,s,d);
-      exit(1);
+      myexit("bitwise.c::copytestB", 1);
+      return;
     }
   }
 
@@ -781,14 +794,16 @@ void copytestB(int prefill, int copy){
     int d=oggpackB_read(&dest_read,copy-i<8?copy-i:8);
     if(s!=d){
       fprintf(stderr,"prefill=%d copy=%d mismatch! byte %d, %x!=%x\n",prefill,copy,i/8,s,d);
-      exit(1);
+      myexit("bitwise.c::copytestB", 1);
+      return;
     }
   }
 
   if(copy+prefill<dest_bytes){
     if(oggpackB_read(&dest_read,dest_bytes-copy-prefill)!=0){
       fprintf(stderr,"prefill=%d copy=%d mismatch! trailing bits not zero\n",prefill,copy);
-      exit(1);
+      myexit("bitwise.c::copytestB", 1);
+      return;
     }
   }
 
@@ -916,34 +931,40 @@ int main1(void){
   for(i=0;i<64;i++){
     if(oggpack_read(&r,1)!=0){
       fprintf(stderr,"failed; got -1 prematurely.\n");
-      exit(1);
+      myexit("bitwise.c::main1", 1);
+      return;
     }
   }
   if(oggpack_look(&r,1)!=-1 ||
      oggpack_read(&r,1)!=-1){
       fprintf(stderr,"failed; read past end without -1.\n");
-      exit(1);
+      myexit("bitwise.c::main1", 1);
+      return;
   }
   oggpack_readinit(&r,(unsigned char *)"\0\0\0\0\0\0\0\0",8);
   if(oggpack_read(&r,30)!=0 || oggpack_read(&r,16)!=0){
       fprintf(stderr,"failed 2; got -1 prematurely.\n");
-      exit(1);
+      myexit("bitwise.c::main1", 1);
+      return;
   }
 
   if(oggpack_look(&r,18)!=0 ||
      oggpack_look(&r,18)!=0){
     fprintf(stderr,"failed 3; got -1 prematurely.\n");
-      exit(1);
+    myexit("bitwise.c::main1", 1);
+    return;
   }
   if(oggpack_look(&r,19)!=-1 ||
      oggpack_look(&r,19)!=-1){
     fprintf(stderr,"failed; read past end without -1.\n");
-      exit(1);
+    myexit("bitwise.c::main1", 1);
+    return;
   }
   if(oggpack_look(&r,32)!=-1 ||
      oggpack_look(&r,32)!=-1){
     fprintf(stderr,"failed; read past end without -1.\n");
-      exit(1);
+    myexit("bitwise.c::main1", 1);
+    return;
   }
   oggpack_writeclear(&o);
   fprintf(stderr,"ok.");
@@ -1026,34 +1047,40 @@ int main1(void){
   for(i=0;i<64;i++){
     if(oggpackB_read(&r,1)!=0){
       fprintf(stderr,"failed; got -1 prematurely.\n");
-      exit(1);
+      myexit("bitwise.c::main1", 1);
+      return;
     }
   }
   if(oggpackB_look(&r,1)!=-1 ||
      oggpackB_read(&r,1)!=-1){
       fprintf(stderr,"failed; read past end without -1.\n");
-      exit(1);
+      myexit("bitwise.c::main1", 1);
+      return;
   }
   oggpackB_readinit(&r,(unsigned char *)"\0\0\0\0\0\0\0\0",8);
   if(oggpackB_read(&r,30)!=0 || oggpackB_read(&r,16)!=0){
       fprintf(stderr,"failed 2; got -1 prematurely.\n");
-      exit(1);
+      myexit("bitwise.c::main1", 1);
+      return;
   }
 
   if(oggpackB_look(&r,18)!=0 ||
      oggpackB_look(&r,18)!=0){
     fprintf(stderr,"failed 3; got -1 prematurely.\n");
-      exit(1);
+    myexit("bitwise.c::main1", 1);
+    return;
   }
   if(oggpackB_look(&r,19)!=-1 ||
      oggpackB_look(&r,19)!=-1){
     fprintf(stderr,"failed; read past end without -1.\n");
-      exit(1);
+    myexit("bitwise.c::main1", 1);
+    return;
   }
   if(oggpackB_look(&r,32)!=-1 ||
      oggpackB_look(&r,32)!=-1){
     fprintf(stderr,"failed; read past end without -1.\n");
-      exit(1);
+    myexit("bitwise.c::main1", 1);
+    return;
   }
   fprintf(stderr,"ok.");
   oggpackB_writeclear(&o);

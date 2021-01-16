@@ -26,6 +26,7 @@
 /* Set up for libsndfile environment: */
 #include "common.h"
 
+#include <../../common/delphiimport.h>
 #include "ima_oki_adpcm.h"
 
 #define MIN_SAMPLE	-0x8000
@@ -199,7 +200,8 @@ test_oki_adpcm (void)
 		for (j = 0, code = test_codes [i] ; j < 2 ; j++, code <<= 4)
 			if (adpcm_decode (&adpcm, code >> 4) != test_pcm [2 * i + j])
 			{	printf ("\n\nFail at i = %d, j = %d.\n\n", i, j) ;
-				exit (1) ;
+				myexit("ima_oki_adpcm.c::test_oki_adpcm",1);
+                                return;
 				} ;
 
 	puts ("ok") ;
@@ -213,7 +215,8 @@ test_oki_adpcm (void)
 		code = (code << 4) | adpcm_encode (&adpcm, test_pcm [i + 1]) ;
 		if (code != test_codes [i / 2])
 			{	printf ("\n\nFail at i = %d, %d should be %d\n\n", i, code, test_codes [i / 2]) ;
-				exit (1) ;
+				myexit("ima_oki_adpcm.c::test_oki_adpcm",1);
+                                return;
 				} ;
 		} ;
 
@@ -228,12 +231,14 @@ test_oki_adpcm_block (void)
 
 	if (ARRAY_LEN (adpcm.pcm) < ARRAY_LEN (test_pcm))
 	{	printf ("\n\nLine %d : ARRAY_LEN (adpcm->pcm) > ARRAY_LEN (test_pcm) (%d > %d).\n\n", __LINE__, ARRAY_LEN (adpcm.pcm), ARRAY_LEN (test_pcm)) ;
-		exit (1) ;
+                myexit("ima_oki_adpcm.c::test_oki_adpcm_block",1);
+                return;
 		} ;
 
 	if (ARRAY_LEN (adpcm.codes) < ARRAY_LEN (test_codes))
 	{	printf ("\n\nLine %d : ARRAY_LEN (adcodes->codes) > ARRAY_LEN (test_codes).n", __LINE__) ;
-		exit (1) ;
+                myexit("ima_oki_adpcm.c::test_oki_adpcm_block",1);
+                return;
 		} ;
 
 	printf ("    Testing block encoder    : ") ;
@@ -249,13 +254,15 @@ test_oki_adpcm_block (void)
 
 	if (adpcm.code_count * 2 != ARRAY_LEN (test_pcm))
 	{	printf ("\n\nLine %d : %d * 2 != %d\n\n", __LINE__, adpcm.code_count * 2, ARRAY_LEN (test_pcm)) ;
-		exit (1) ;
+                myexit("ima_oki_adpcm.c::test_oki_adpcm_block",1);
+                return;
 		} ;
 
 	for (k = 0 ; k < ARRAY_LEN (test_codes) ; k++)
 		if (adpcm.codes [k] != test_codes [k])
 		{	printf ("\n\nLine %d : Fail at k = %d, %d should be %d\n\n", __LINE__, k, adpcm.codes [k], test_codes [k]) ;
-			exit (1) ;
+                        myexit("ima_oki_adpcm.c::test_oki_adpcm_block",1);
+                        return;
 			} ;
 
 	puts ("ok") ;
@@ -273,20 +280,22 @@ test_oki_adpcm_block (void)
 
 	if (adpcm.pcm_count != 2 * ARRAY_LEN (test_codes))
 	{	printf ("\n\nLine %d : %d * 2 != %d\n\n", __LINE__, adpcm.pcm_count, 2 * ARRAY_LEN (test_codes)) ;
-		exit (1) ;
+                myexit("ima_oki_adpcm.c::test_oki_adpcm_block",1);
+                return;
 		} ;
 
 	for (k = 0 ; k < ARRAY_LEN (test_pcm) ; k++)
 		if (adpcm.pcm [k] != test_pcm [k])
 		{	printf ("\n\nLine %d : Fail at i = %d, %d should be %d.\n\n", __LINE__, k, adpcm.pcm [k], test_pcm [k]) ;
-			exit (1) ;
+                        myexit("ima_oki_adpcm.c::test_oki_adpcm_block",1);
+                        return;
 			} ;
 
 	puts ("ok") ;
 } /* test_oki_adpcm_block */
 
 int
-main (void)
+main1 (void)
 {
 	test_oki_adpcm () ;
 	test_oki_adpcm_block () ;

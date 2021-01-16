@@ -18,6 +18,7 @@
 #include <limits.h>
 #include <math.h>
 #include <string.h>
+#include <../../common/delphiimport.h>
 #include <../../common/ogg/ogg_common.h>
 #include "os.h"
 #include "misc.h"
@@ -572,21 +573,24 @@ void run_test(static_codebook *b,float *comp){
   if(comp){
     if(!out){
       fprintf(stderr,"_book_unquantize incorrectly returned NULL\n");
-      exit(1);
+      myexit("sharedbook.c::run_test",1);
+      return;
     }
 
     for(i=0;i<b->entries*b->dim;i++)
       if(fabs(out[i]-comp[i])>.0001){
         fprintf(stderr,"disagreement in unquantized and reference data:\n"
                 "position %d, %g != %g\n",i,out[i],comp[i]);
-        exit(1);
+        myexit("sharedbook.c::run_test",1);
+        return;
       }
 
   }else{
     if(out){
       fprintf(stderr,"_book_unquantize returned a value array: \n"
               " correct result should have been NULL\n");
-      exit(1);
+      myexit("sharedbook.c::run_test",1);
+      return;
     }
   }
   free(out);

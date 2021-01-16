@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <../../common/delphiimport.h>
 #include <../../common/delphifiles.h>
 #include <../../common/ogg/ogg_common.h>
 #include "../../common/vorbis/codec.h"
@@ -644,7 +645,7 @@ int *floor1_fit(vorbis_block *vb,vorbis_look_floor1 *look,
           int hy=post_Y(fit_valueA,fit_valueB,hn);
 
           if(ly==-1 || hy==-1){
-            //exit(1);
+            myexit("floor1.c::floor1_fit",1);
             return NULL;
           }
 

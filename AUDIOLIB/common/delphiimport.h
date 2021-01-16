@@ -5,4 +5,6 @@
 
 int mylround(double d);
 
+void myexit(char *funcname, int code);
+
 #endif
