@@ -4,12 +4,12 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value=".\lib\libvorbis.lib"/>
-    <OBJFILES value="obj\window.obj obj\analysis.obj obj\barkmel.obj obj\bitrate.obj 
-      obj\block.obj obj\codebook.obj obj\envelope.obj obj\floor0.obj 
-      obj\floor1.obj obj\info.obj obj\lookup.obj obj\lpc.obj obj\lsp.obj 
-      obj\mapping0.obj obj\mdct.obj obj\psy.obj obj\registry.obj obj\res0.obj 
-      obj\sharedbook.obj obj\smallft.obj obj\synthesis.obj obj\vorbisenc.obj 
-      obj\vorbisfile.obj obj\alloc.obj"/>
+    <OBJFILES value="obj\window.obj obj\analysis.obj obj\bitrate.obj obj\block.obj 
+      obj\codebook.obj obj\envelope.obj obj\floor0.obj obj\floor1.obj 
+      obj\info.obj obj\lookup.obj obj\lpc.obj obj\lsp.obj obj\mapping0.obj 
+      obj\mdct.obj obj\psy.obj obj\registry.obj obj\res0.obj obj\sharedbook.obj 
+      obj\smallft.obj obj\synthesis.obj obj\vorbisenc.obj obj\vorbisfile.obj 
+      obj\alloc.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
@@ -18,7 +18,7 @@
     <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Lib\cg32.lib&quot;"/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
-    <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
+    <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -50,7 +50,6 @@
       <FILE FILENAME="libvorbis.bpf" FORMNAME="" UNITNAME="libvorbis" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\window.c" FORMNAME="" UNITNAME="window.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\analysis.c" FORMNAME="" UNITNAME="analysis.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="src\barkmel.c" FORMNAME="" UNITNAME="barkmel.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\bitrate.c" FORMNAME="" UNITNAME="bitrate.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\block.c" FORMNAME="" UNITNAME="block.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\codebook.c" FORMNAME="" UNITNAME="codebook.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
