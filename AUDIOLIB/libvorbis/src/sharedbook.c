@@ -24,6 +24,7 @@
 #include "../../common/vorbis/codec.h"
 #include "codebook.h"
 #include "scales.h"
+#include "../../../C_LIB/src/myqsort.h"
 
 /**** pack/unpack helpers ******************************************/
 

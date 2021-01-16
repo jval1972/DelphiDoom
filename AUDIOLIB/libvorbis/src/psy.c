@@ -27,6 +27,7 @@
 #include "smallft.h"
 #include "scales.h"
 #include "misc.h"
+#include "../../../C_LIB/src/myqsort.h"
 
 #define NEGINF -9999.f
 static const double stereo_threshholds[]={0.0, .5, 1.0, 1.5, 2.5, 4.5, 8.5, 16.5, 9e10};

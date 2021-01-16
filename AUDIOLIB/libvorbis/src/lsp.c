@@ -40,6 +40,7 @@
 #include "misc.h"
 #include "lookup.h"
 #include "scales.h"
+#include "../../../C_LIB/src/myqsort.h"
 
 /* three possible LSP to f curve functions; the exact computation
    (float), a lookup based float implementation, and an integer

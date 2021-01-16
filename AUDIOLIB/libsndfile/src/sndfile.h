@@ -37,6 +37,9 @@
 extern "C" {
 #endif	/* __cplusplus */
 
+int lrintf(float f);
+int lrint(double d);
+
 /* The following file types can be read and written.
 ** A file type would consist of a major type (ie SF_FORMAT_WAV) bitwise
 ** ORed with a minor type (ie SF_FORMAT_PCM). SF_FORMAT_TYPEMASK and

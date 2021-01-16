@@ -32,6 +32,7 @@
 #include "sndfile.h"
 #include "sfendian.h"
 #include "common.h"
+#include "../../common/delphifiles.h"
 
 #define	INITIAL_HEADER_SIZE	256
 
