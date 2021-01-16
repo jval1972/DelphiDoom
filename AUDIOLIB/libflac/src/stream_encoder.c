@@ -47,6 +47,7 @@
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/export_flac.h"
 #include "../../common/FLAC/stream_decoder_flac.h"
+#include "../../common/FLAC/stream_encoder_flac.h"
 #include "protected/stream_encoder.h"
 #include "private/bitwriter.h"
 #include "private/bitmath.h"
