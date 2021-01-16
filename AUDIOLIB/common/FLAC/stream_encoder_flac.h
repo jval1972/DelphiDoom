@@ -105,9 +105,9 @@ extern "C" {
  * - The program initializes the instance to validate the settings and
  *   prepare for encoding using
  *   - FLAC__stream_encoder_init_stream() or FLAC__stream_encoder_init_FILE()
- *     or FLAC__stream_encoder_init_file() for native FLAC
+ *     or FLAC__stream_encoder_init_filename() for native FLAC
  *   - FLAC__stream_encoder_init_ogg_stream() or FLAC__stream_encoder_init_ogg_FILE()
- *     or FLAC__stream_encoder_init_ogg_file() for Ogg FLAC
+ *     or FLAC__stream_encoder_init_ogg_filename() for Ogg FLAC
  * - The program calls FLAC__stream_encoder_process() or
  *   FLAC__stream_encoder_process_interleaved() to encode data, which
  *   subsequently calls the callbacks when there is encoder data ready
@@ -153,7 +153,7 @@ extern "C" {
  * frame sizes, etc.
  *
  * For encoding directly to a file, use FLAC__stream_encoder_init_FILE()
- * or FLAC__stream_encoder_init_file().  Then you must only supply a
+ * or FLAC__stream_encoder_init_filename().  Then you must only supply a
  * filename or open \c FILE*; the encoder will handle all the callbacks
  * internally.  You may also supply a progress callback for periodic
  * notification of the encoding progress.
@@ -213,7 +213,7 @@ extern "C" {
  * is open for update (e.g. mode "w+" for stdio streams).  This is because
  * after the first encoding pass, the encoder will try to seek back to the
  * beginning of the stream, to the STREAMINFO block, to write some data
- * there.  (If using FLAC__stream_encoder_init*_file() or
+ * there.  (If using FLAC__stream_encoder_init*_filename() or
  * FLAC__stream_encoder_init*_FILE(), the file is managed internally.)
  *
  * \note
@@ -658,7 +658,7 @@ typedef void (*FLAC__StreamEncoderMetadataCallback)(const FLAC__StreamEncoder *e
 /** Signature for the progress callback.
  *
  *  A function pointer matching this signature may be passed to
- *  FLAC__stream_encoder_init*_file() or FLAC__stream_encoder_init*_FILE().
+ *  FLAC__stream_encoder_init*_filename() or FLAC__stream_encoder_init*_FILE().
  *  The supplied function will be called when the encoder has finished
  *  writing a frame.  The \c total_frames_estimate argument to the
  *  callback will be based on the value from
@@ -1154,7 +1154,7 @@ FLAC__bool FLAC__stream_encoder_set_total_samples_estimate(FLAC__StreamEncoder *
  * client has specified that it supports seeking by providing a seek
  * callback to FLAC__stream_encoder_init_stream() or both seek AND read
  * callback to FLAC__stream_encoder_init_ogg_stream() (or by using
- * FLAC__stream_encoder_init*_file() or FLAC__stream_encoder_init*_FILE()),
+ * FLAC__stream_encoder_init*_filename() or FLAC__stream_encoder_init*_FILE()),
  * then while it is encoding the encoder will fill the stream offsets in
  * for you and when encoding is finished, it will seek back and write the
  * real values into the SEEKTABLE block in the stream.  There are helper
@@ -1435,7 +1435,7 @@ FLAC__uint64 FLAC__stream_encoder_get_total_samples_estimate(const FLAC__StreamE
  *  This flavor of initialization sets up the encoder to encode to a
  *  native FLAC stream. I/O is performed via callbacks to the client.
  *  For encoding to a plain file via filename or open \c FILE*,
- *  FLAC__stream_encoder_init_file() and FLAC__stream_encoder_init_FILE()
+ *  FLAC__stream_encoder_init_filename() and FLAC__stream_encoder_init_FILE()
  *  provide a simpler interface.
  *
  *  This function should be called after FLAC__stream_encoder_new() and
@@ -1498,7 +1498,7 @@ FLAC__StreamEncoderInitStatus FLAC__stream_encoder_init_stream(FLAC__StreamEncod
  *  This flavor of initialization sets up the encoder to encode to a FLAC
  *  stream in an Ogg container.  I/O is performed via callbacks to the
  *  client.  For encoding to a plain file via filename or open \c FILE*,
- *  FLAC__stream_encoder_init_ogg_file() and FLAC__stream_encoder_init_ogg_FILE()
+ *  FLAC__stream_encoder_init_ogg_filename() and FLAC__stream_encoder_init_ogg_FILE()
  *  provide a simpler interface.
  *
  *  This function should be called after FLAC__stream_encoder_new() and

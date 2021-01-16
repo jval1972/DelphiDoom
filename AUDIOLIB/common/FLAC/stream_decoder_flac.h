@@ -90,7 +90,7 @@ extern "C" {
  * - The program initializes the instance to validate the settings and
  *   prepare for decoding using
  *   - FLAC__stream_decoder_init_stream() or FLAC__stream_decoder_init_FILE()
- *     or FLAC__stream_decoder_init_file() for native FLAC,
+ *     or FLAC__stream_decoder_init_filename() for native FLAC,
  *   - FLAC__stream_decoder_init_ogg_stream() or FLAC__stream_decoder_init_ogg_FILE()
  *     or FLAC__stream_decoder_init_ogg_filename() for Ogg FLAC
  * - The program calls the FLAC__stream_decoder_process_*() functions
@@ -115,7 +115,7 @@ extern "C" {
  * seeking) are optional, depending on the capabilities of the input.
  *
  * For decoding directly from a file, use FLAC__stream_decoder_init_FILE()
- * or FLAC__stream_decoder_init_file().  Then you must only supply an open
+ * or FLAC__stream_decoder_init_filename().  Then you must only supply an open
  * \c FILE* or filename and fewer callbacks; the decoder will handle
  * the other callbacks internally.
  *
@@ -272,8 +272,8 @@ typedef enum {
 	/**< An error occurred allocating memory. */
 
 	FLAC__STREAM_DECODER_INIT_STATUS_ERROR_OPENING_FILE,
-	/**< fopen() failed in FLAC__stream_decoder_init_file() or
-	 * FLAC__stream_decoder_init_ogg_file(). */
+	/**< fopen() failed in FLAC__stream_decoder_init_filename() or
+	 * FLAC__stream_decoder_init_ogg_filename(). */
 
 	FLAC__STREAM_DECODER_INIT_STATUS_ALREADY_INITIALIZED
 	/**< FLAC__stream_decoder_init_*() was called when the decoder was
@@ -1013,7 +1013,7 @@ FLAC__bool FLAC__stream_decoder_get_decode_position(const FLAC__StreamDecoder *d
  *  This flavor of initialization sets up the decoder to decode from a
  *  native FLAC stream. I/O is performed via callbacks to the client.
  *  For decoding from a plain file via filename or open FILE*,
- *  FLAC__stream_decoder_init_file() and FLAC__stream_decoder_init_FILE()
+ *  FLAC__stream_decoder_init_filename() and FLAC__stream_decoder_init_FILE()
  *  provide a simpler interface.
  *
  *  This function should be called after FLAC__stream_decoder_new() and
@@ -1090,7 +1090,7 @@ FLAC__StreamDecoderInitStatus FLAC__stream_decoder_init_stream(
  *  This flavor of initialization sets up the decoder to decode from a
  *  FLAC stream in an Ogg container. I/O is performed via callbacks to the
  *  client.  For decoding from a plain file via filename or open FILE*,
- *  FLAC__stream_decoder_init_ogg_file() and FLAC__stream_decoder_init_ogg_FILE()
+ *  FLAC__stream_decoder_init_ogg_filename() and FLAC__stream_decoder_init_ogg_FILE()
  *  provide a simpler interface.
  *
  *  This function should be called after FLAC__stream_decoder_new() and
@@ -1395,7 +1395,7 @@ FLAC__bool FLAC__stream_decoder_flush(FLAC__StreamDecoder *decoder);
  *  setting.
  *
  *  If the decoder is seekable, or was initialized with
- *  FLAC__stream_decoder_init*_FILE() or FLAC__stream_decoder_init*_file(),
+ *  FLAC__stream_decoder_init*_FILE() or FLAC__stream_decoder_init*_filename(),
  *  the decoder will also attempt to seek to the beginning of the file.
  *  If this rewind fails, this function will return \c false.  It follows
  *  that FLAC__stream_decoder_reset() cannot be used when decoding from
