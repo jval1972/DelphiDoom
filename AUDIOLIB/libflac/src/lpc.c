@@ -50,19 +50,6 @@
 #define FLAC__LPC_UNROLLED_FILTER_LOOPS
 
 #ifndef FLAC__INTEGER_ONLY_LIBRARY
-
-#if defined(_MSC_VER) && (_MSC_VER < 1800)
-#include <float.h>
-static inline long int lround(double x) {
-	return (long)(x + _copysign(0.5, x));
-}
-#elif !defined(HAVE_LROUND) && defined(__GNUC__)
-static inline long int lround(double x) {
-	return (long)(x + __builtin_copysign(0.5, x));
-}
-/* If this fails, we are in the presence of a mid 90's compiler, move along... */
-#endif
-
 void FLAC__lpc_window_data(const FLAC__int32 in[], const FLAC__real window[], FLAC__real out[], uint32_t data_len)
 {
 	uint32_t i;
