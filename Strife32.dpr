@@ -372,7 +372,14 @@ uses
   p_easyangle in 'Base\p_easyangle.pas',
   mn_screenshot in 'Base\mn_screenshot.pas',
   p_aaptr in 'Base\p_aaptr.pas',
-  sc_consts in 'Base\sc_consts.pas';
+  sc_consts in 'Base\sc_consts.pas',
+  libflac in 'AUDIOLIB\libflac.pas',
+  libogg in 'AUDIOLIB\libogg.pas',
+  libsndfile in 'AUDIOLIB\libsndfile.pas',
+  libvorbis in 'AUDIOLIB\libvorbis.pas',
+  c_lib in 'C_LIB\c_lib.pas',
+  scanf in 'C_LIB\scanf.pas',
+  scanf_c in 'C_LIB\scanf_c.pas';
 
 var
   Saved8087CW: Word;
