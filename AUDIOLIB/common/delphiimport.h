@@ -9,4 +9,6 @@ void myexit(char *funcname, int code);
 
 void myassert(int cond);
 
+void mybreakpoint(char *s);
+
 #endif
