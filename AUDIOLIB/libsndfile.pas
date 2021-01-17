@@ -32,10 +32,10 @@ unit libsndfile;
 interface
 
 uses
-  Windows, Classes;
+  d_delphi;
 
 type
-  PMemoryStream = ^TMemoryStream;
+  PDStream = ^TDStream;
 
 type
   off_t = int64;
@@ -403,27 +403,27 @@ type
  // Thanks to Phoenix
  type
  //pm_get_filelen = ^tm_get_filelen;
- tm_get_filelen =
-  function (pms: PMemoryStream): Tuos_count_t; cdecl;
+ tm_get_filelen_t =
+  function (pms: PDStream): Tuos_count_t; cdecl;
  //pm_seek = ^tm_seek;
- tm_seek =
-  function (offset: Tuos_count_t; whence: integer; pms: PMemoryStream): Tuos_count_t; cdecl;
+ tm_seek_t =
+  function (offset: Tuos_count_t; whence: integer; pms: PDStream): Tuos_count_t; cdecl;
  //pm_read = ^tm_read;
- tm_read =
-  function (const buf: Pointer; count: Tuos_count_t; pms: PMemoryStream): Tuos_count_t; cdecl;
+ tm_read_t =
+  function (const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
  //pm_write = ^tm_write;
- tm_write =
-  function (const buf: Pointer; count: Tuos_count_t; pms: PMemoryStream): Tuos_count_t; cdecl;
+ tm_write_t =
+  function (const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
  //pm_tell = ^tm_tell;
- tm_tell =
-  function (pms: PMemoryStream): Tuos_count_t; cdecl;
+ tm_tell_t =
+  function (pms: PDStream): Tuos_count_t; cdecl;
 
  TSF_VIRTUAL = packed record
-  sf_vio_get_filelen  : tm_get_filelen;
-  seek         : tm_seek;
-  read         : tm_read;
-  write        : tm_write;
-  tell         : tm_tell;
+  sf_vio_get_filelen: tm_get_filelen_t;
+  seek: tm_seek_t;
+  read: tm_read_t;
+  write: tm_write_t;
+  tell: tm_tell_t;
  end;
 
  PSF_VIRTUAL = ^TSF_VIRTUAL;

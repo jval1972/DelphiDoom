@@ -81,6 +81,7 @@ implementation
 
 uses
   d_delphi,
+  audiolib, // JVAL: 20210117 - Search for various sound formats
   MMSystem,
   z_zone,
   m_argv, 
@@ -208,7 +209,7 @@ var
   name: string;
   sfx: Psfxinfo_t;
   lump: integer;
-  strm: TPakStream;
+  strm: TDStream;
   wavfilename: string;
   externalwavfilenames: TDStringList;
   foundwav: boolean;
@@ -234,28 +235,34 @@ begin
 
   if useexternalwav and (sparm.wavestatus <> ws_wavefailed) then
   begin
-  // JVAL: Create a list with external wav filenames to check
-    externalwavfilenames := TDStringList.Create;
-    externalwavfilenames.Add('ds%s.wav', [sfx.name]);
-    externalwavfilenames.Add('%s.wav', [sfx.name]);
+    // JVAL: 20210117 - Search for various sound formats
+    foundwav := Audiolib_SearchSoundPAK(sfx.name, strm);
 
-    for i := 0 to externalwavfilenames.Count - 1 do
+    if not foundwav then
     begin
-      wavfilename := externalwavfilenames[i];
-      if preferewavnamesingamedirectory then
-        strm := TPakStream.Create(wavfilename, pm_prefered, gamedirectories)
-      else
-        strm := TPakStream.Create(wavfilename, pm_short, '', FOLDER_SOUNDS);
-      strm.OnBeginBusy := I_BeginDiskBusy;
-      foundwav := strm.IOResult = 0;
-      if foundwav then
-        break
-      else
-        strm.Free;
+      // JVAL: Create a list with external wav filenames to check
+      externalwavfilenames := TDStringList.Create;
+      externalwavfilenames.Add('ds%s.wav', [sfx.name]);
+      externalwavfilenames.Add('%s.wav', [sfx.name]);
+
+      for i := 0 to externalwavfilenames.Count - 1 do
+      begin
+        wavfilename := externalwavfilenames[i];
+        if preferewavnamesingamedirectory then
+          strm := TPakStream.Create(wavfilename, pm_prefered, gamedirectories)
+        else
+          strm := TPakStream.Create(wavfilename, pm_short, '', FOLDER_SOUNDS);
+        strm.OnBeginBusy := I_BeginDiskBusy;
+        foundwav := strm.IOResult = 0;
+        if foundwav then
+          break
+        else
+          strm.Free;
+      end;
+
+      externalwavfilenames.Free;
+
     end;
-
-    externalwavfilenames.Free;
-
   end;
 
   datalen := 0;
