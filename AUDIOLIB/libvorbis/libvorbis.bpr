@@ -4,18 +4,18 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value=".\lib\libvorbis.lib"/>
-    <OBJFILES value="obj\window.obj obj\analysis.obj obj\bitrate.obj obj\block.obj 
-      obj\codebook.obj obj\envelope.obj obj\floor0.obj obj\floor1.obj 
-      obj\info.obj obj\lookup.obj obj\lpc.obj obj\lsp.obj obj\mapping0.obj 
-      obj\mdct.obj obj\psy.obj obj\registry.obj obj\res0.obj obj\sharedbook.obj 
-      obj\smallft.obj obj\synthesis.obj obj\vorbisenc.obj obj\vorbisfile.obj 
-      obj\alloc.obj"/>
+    <OBJFILES value="obj\analysis.obj obj\bitrate.obj obj\block.obj obj\codebook.obj 
+      obj\envelope.obj obj\floor0.obj obj\floor1.obj obj\info.obj obj\lookup.obj 
+      obj\lpc.obj obj\lsp.obj obj\mapping0.obj obj\mdct.obj obj\psy.obj 
+      obj\registry.obj obj\res0.obj obj\sharedbook.obj obj\smallft.obj 
+      obj\synthesis.obj obj\vorbisenc.obj obj\vorbisfile.obj obj\alloc.obj 
+      obj\vorbiswindow.obj"/>
     <RESFILES value=""/>
     <IDLFILES value=""/>
     <IDLGENFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES)"/>
-    <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Lib\cg32.lib&quot;"/>
+    <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <PACKAGES value=""/>
     <PATHCPP value=".;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src;src"/>
@@ -48,7 +48,6 @@
   </LINKER>
   <FILELIST>
       <FILE FILENAME="libvorbis.bpf" FORMNAME="" UNITNAME="libvorbis" CONTAINERID="BPF" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="src\window.c" FORMNAME="" UNITNAME="window.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\analysis.c" FORMNAME="" UNITNAME="analysis.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\bitrate.c" FORMNAME="" UNITNAME="bitrate.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\block.c" FORMNAME="" UNITNAME="block.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -71,7 +70,7 @@
       <FILE FILENAME="src\vorbisenc.c" FORMNAME="" UNITNAME="vorbisenc.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\vorbisfile.c" FORMNAME="" UNITNAME="vorbisfile.c" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="src\alloc.c" FORMNAME="" UNITNAME="alloc" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="C:\Program Files\Borland\CBuilder6\Lib\cg32.lib" FORMNAME="" UNITNAME="cg32.lib" CONTAINERID="LibTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="src\vorbiswindow.c" FORMNAME="" UNITNAME="vorbiswindow" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
