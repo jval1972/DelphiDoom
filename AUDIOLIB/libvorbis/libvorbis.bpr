@@ -23,7 +23,7 @@
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
     <LINKER value="TLib"/>
-    <USERDEFINES value="_DEBUG;BUILDER"/>
+    <USERDEFINES value="BUILDER"/>
     <SYSDEFINES value="NO_STRICT"/>
     <MAINSOURCE value="libvorbis.bpf"/>
     <INCLUDEPATH value="&quot;C:\Program Files\Borland\CBuilder6\Projects&quot;;src;$(BCB)\include;$(BCB)\include\vcl"/>
@@ -34,10 +34,10 @@
   </MACROS>
   <OPTIONS>
     <IDLCFLAGS value="-I&quot;C:\Program Files\Borland\CBuilder6\Projects&quot; -Isrc -I$(BCB)\include 
-      -I$(BCB)\include\vcl -src_suffix cpp -D_DEBUG -DBUILDER -boa"/>
-    <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -v -vi- -c -tW -tWM"/>
-    <PFLAGS value="-N2.\obj -N0.\obj -$YD -$W -$O- -$A8 -v -JPHNE -M"/>
-    <AFLAGS value="/mx /w2 /zd"/>
+      -I$(BCB)\include\vcl -src_suffix cpp -DBUILDER -boa"/>
+    <CFLAG1 value="-O2 -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM"/>
+    <PFLAGS value="-N2.\obj -N0.\obj -$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zn"/>
     <LFLAGS value="/P32"/>
     <OTHERFILES value=""/>
   </OPTIONS>
@@ -120,9 +120,10 @@ Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=2
-Item0=_DEBUG;BUILDER
-Item1=_DEBUG
+Count=3
+Item0=BUILDER
+Item1=_DEBUG;BUILDER
+Item2=_DEBUG
 
 [HistoryLists\hlIntOutputDir]
 Count=1

@@ -28,7 +28,7 @@
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
     <LINKER value="TLib"/>
-    <USERDEFINES value="BUILDER;FLAC__NO_DLL"/>
+    <USERDEFINES value="BUILDER;FLAC__NO_DLL;_DEBUG"/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT"/>
     <MAINSOURCE value="libflac.bpf"/>
     <INCLUDEPATH value="src;src\include;$(BCB)\include;$(BCB)\include\vcl"/>
@@ -39,10 +39,10 @@
   </MACROS>
   <OPTIONS>
     <IDLCFLAGS value="-Isrc -Isrc\include -I$(BCB)\include -I$(BCB)\include\vcl -src_suffix cpp 
-      -DBUILDER -DFLAC__NO_DLL -boa"/>
-    <CFLAG1 value="-O2 -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM"/>
-    <PFLAGS value="-N2.\obj -N0.\obj -$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
-    <AFLAGS value="/mx /w2 /zn"/>
+      -DBUILDER -DFLAC__NO_DLL -D_DEBUG -boa"/>
+    <CFLAG1 value="-Od -Vx -Ve -X- -r- -a8 -b- -k -y -vi -c -tW -tWM"/>
+    <PFLAGS value="-N2.\obj -N0.\obj -$Y+ -$W -$O- -$A8 -v -JPHNE -M"/>
+    <AFLAGS value="/mx /w2 /zi"/>
     <LFLAGS value=""/>
     <OTHERFILES value=""/>
   </OPTIONS>
@@ -140,11 +140,12 @@ Count=1
 Item0=$(BCB)\source\vcl
 
 [HistoryLists\hlConditionals]
-Count=4
-Item0=BUILDER;FLAC__NO_DLL
-Item1=_DEBUG;BUILDER;FLAC__NO_DLL
-Item2=_DEBUG;BUILDER
-Item3=_DEBUG
+Count=5
+Item0=BUILDER;FLAC__NO_DLL;_DEBUG
+Item1=BUILDER;FLAC__NO_DLL
+Item2=_DEBUG;BUILDER;FLAC__NO_DLL
+Item3=_DEBUG;BUILDER
+Item4=_DEBUG
 
 [HistoryLists\hlIntOutputDir]
 Count=1

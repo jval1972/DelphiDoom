@@ -39,6 +39,7 @@
 #include <string.h> /* for memset/memcpy() */
 #include <sys/stat.h> /* for stat() */
 #include <sys/types.h> /* for off_t */
+#include "../../common/delphiimport.h"
 #include "../../common/delphifiles.h"
 #include "../../common/FLAC/flac_options_flac.h"
 #include "../../common/share/compat.h"
@@ -1399,6 +1400,8 @@ FLAC__bool read_metadata_(FLAC__StreamDecoder *decoder)
 {
 	FLAC__bool is_last;
 	FLAC__uint32 i, x, type, length;
+
+	mybreakpoint("read_metadata_");
 
 	FLAC__ASSERT(FLAC__bitreader_is_consumed_byte_aligned(decoder->private_->input));
 
