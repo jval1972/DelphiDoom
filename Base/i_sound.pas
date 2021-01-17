@@ -120,6 +120,7 @@ type
   soundparam_t = record
     length: integer;
     offset: integer;
+    wavformat: word;
     freq: LongWord;
     avgfreq: LongWord;
     samples: byte;
@@ -318,6 +319,7 @@ begin
           end;
 
           strm.Seek(dwlen - SizeOf(TWAVEFORMATEX), sFromCurrent);
+          sparm.wavformat := wavformat.wFormatTag;
           sparm.freq := wavformat.nSamplesPerSec;
           sparm.avgfreq := wavformat.nAvgBytesPerSec;
           sparm.samples := wavformat.wBitsPerSample;
@@ -438,6 +440,7 @@ begin
             end;
 
             i := i + dwlen div 4; // JVAL: skip WAVEFORMAT record
+            sparm.wavformat := wavformat.wFormatTag;
             sparm.freq := wavformat.nSamplesPerSec;
             sparm.avgfreq := wavformat.nAvgBytesPerSec;
             sparm.samples := wavformat.wBitsPerSample;
@@ -473,6 +476,7 @@ begin
     else
     begin
       sparm.length := W_LumpLength(sfx.lumpnum);
+      sparm.wavformat := WAVE_FORMAT_PCM;
       sparm.freq := Psoundheader_t(sfx.data).freq;
       sparm.avgfreq := Psoundheader_t(sfx.data).freq;
       sparm.samples := 8;
@@ -487,6 +491,7 @@ var
   sparm: Psoundparam_t;
 begin
   sparm := GetSoundParam(sfxid);
+  SampleFormat.wFormatTag := sparm.wavformat;
   SampleFormat.nSamplesPerSec := sparm.freq;
   SampleFormat.nAvgBytesPerSec := sparm.avgfreq;
   SampleFormat.wBitsPerSample := sparm.samples;
