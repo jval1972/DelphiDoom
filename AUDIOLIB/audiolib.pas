@@ -93,7 +93,9 @@ var
   sfvirtualio: TSF_VIRTUAL;
   sfinhandle: TSNDFILE_HANDLE;
   sfouthandle: TSNDFILE_HANDLE;
-  data: array[0..BUFFER_LEN - 1] of integer;
+  dataI: array[0..BUFFER_LEN - 1] of integer;
+  dataS: array[0..BUFFER_LEN - 1] of smallint;
+  dataD: array[0..BUFFER_LEN - 1] of double;
   frames, readcount: integer;
   streamin: TPakStream;
   externalsoundfilenames: TDStringList;
@@ -102,6 +104,9 @@ var
   soundfilename: string;
   totalwrite: int64;
   infileminor: integer;
+  sbuf: TDMemoryStream;
+  mx, mn: double;
+  numread: integer;
 begin
   Audiolib_InitIO(@sfvirtualio);
 
@@ -158,9 +163,14 @@ begin
 
   infileminor := sfinfo.format and SF_FORMAT_SUBMASK;
 
+{  if (infileminor = SF_FORMAT_DOUBLE) or (infileminor = SF_FORMAT_FLOAT) or
+     (infileminor = SF_FORMAT_VORBIS) then
+    sfinfo.format := SF_FORMAT_DOUBLE or SF_FORMAT_WAV or SF_ENDIAN_LITTLE
+  else
+    sfinfo.format := SF_FORMAT_PCM_16 or SF_FORMAT_WAV or SF_ENDIAN_LITTLE;}
   sfinfo.format := SF_FORMAT_PCM_16 or SF_FORMAT_WAV or SF_ENDIAN_LITTLE;
-  sfinfo.samplerate := 44100;
-  sfinfo.channels := 2;
+//  sfinfo.samplerate := 44100;
+//  sfinfo.channels := 2;
   frames := BUFFER_LEN div sfinfo.channels;
 
   streamout := TDMemoryStream.Create;
@@ -177,25 +187,82 @@ begin
     Exit;
   end;
 
-//  totalwrite := 0;
+  totalwrite := 0;
 
   if (normalize <> 0) or
      (infileminor = SF_FORMAT_DOUBLE) or (infileminor = SF_FORMAT_FLOAT) or
      {(infileminor = SF_FORMAT_OPUS) or }(infileminor = SF_FORMAT_VORBIS) then
   begin
-    totalwrite := _sf_copy_data_fp(sfouthandle, sfinhandle, sfinfo.channels, normalize);
-  end
-  else
-  begin
-    totalwrite := _sf_copy_data_int(sfouthandle, sfinhandle, sfinfo.channels);
+    sbuf := TDMemoryStream.Create;
+    mx := 0.0;
+    mn := 0.0;
+    while true do
+    begin
+      readcount := _sf_readf_double(sfinhandle, @dataD, frames);
+      if readcount > 0 then
+      begin
+        for i := 0 to readcount * sfinfo.channels - 1 do
+        begin
+          if dataD[i] > 0 then
+          begin
+            if dataD[i] > mx then
+              mx := dataD[i];
+          end
+          else
+          begin
+            if dataD[i] < mn then
+              mn := dataD[i];
+          end;
+        end;
+        sbuf.Write(dataD, readcount * sfinfo.channels * SizeOf(double));
+      end
+      else
+        break;
+    end;
+    totalwrite := sbuf.Size div SizeOf(double);
+    if (totalwrite > 0) and (mx <> mn) then
+    begin
+      if mx < -mn then
+        mx := -mn;
+      sbuf.Seek(0, sFromBeginning);
+      totalwrite := 0;
+      repeat
+        numread := sbuf.Read(dataD, BUFFER_LEN * SizeOf(double)) div SizeOf(Double);
+        if numread > 0 then
+        begin
+          for i := 0 to numread - 1 do
+//            dataI[i] := GetIntegerInRange(Round((dataD[i] + mn) / (mx - mn) * 32768), -32768, 32767);
+//            dataI[i] := GetIntegerInRange(Round(dataD[i] / mx * 32768), -32768, 32767);
+            dataS[i] := GetIntegerInRange(Round(dataD[i] / mx * 32768), -32768, 32767);
+//            dataI[i] := GetInt64InRange(Round(dataD[i] / mx * MAXINT), -MAXINT, MAXINT);
+//          totalwrite := totalwrite + _sf_writef_int(sfouthandle, @dataI, numread div sfinfo.channels);
+          totalwrite := totalwrite + _sf_writef_short(sfouthandle, @dataS, numread div sfinfo.channels);
+        end;
+      until numread = 0;
+    end;
+    sbuf.Free;
+
+
 {    while true do
     begin
-      readcount := _sf_readf_int(sfinhandle, @data, frames);
+      readcount := _sf_readf_double(sfinhandle, @dataD, frames);
       if readcount > 0 then
-        totalwrite := totalwrite + _sf_writef_int(sfouthandle, @data, readcount)
+        totalwrite := totalwrite + _sf_writef_double(sfouthandle, @dataD, readcount)
       else
         break;
     end;}
+  end
+  else
+  begin
+//    totalwrite := _sf_copy_data_int(sfouthandle, sfinhandle, sfinfo.channels);
+    while true do
+    begin
+      readcount := _sf_readf_int(sfinhandle, @dataI, frames);
+      if readcount > 0 then
+        totalwrite := totalwrite + _sf_writef_int(sfouthandle, @dataI, readcount)
+      else
+        break;
+    end;
   end;
 
   Result := (streamout.Size > 0) and (totalwrite > 0);
