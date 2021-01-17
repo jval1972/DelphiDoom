@@ -220,6 +220,10 @@ function __setargv__(argv: Pointer; argc: Pointer): Integer; cdecl;
 
 procedure _mybreakpoint(s: PChar); cdecl;
 
+function _math_isnormal(x: double): integer; cdecl;
+
+function _math_isfinite(x: double): integer; cdecl;
+
 var
   __turboFloat: LongBool = False;
   __streams: Integer;
@@ -1382,6 +1386,29 @@ var
 procedure _mybreakpoint(s: PChar); cdecl;
 begin
   _mybreakpoint_s := s;
+end;
+
+function _math_isnormal(x: double): integer; cdecl;
+begin
+  if x = 0.0 then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  if IsNan(x) or IsInfinite(x) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := 1;
+end;
+
+function _math_isfinite(x: double): integer; cdecl;
+begin
+  if IsNan(x) or IsInfinite(x) then
+    Result := 1
+  else
+    Result := 0;
 end;
 
 // C_LIB

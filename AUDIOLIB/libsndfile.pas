@@ -589,6 +589,10 @@ function _sf_read_double(sndfile: TSNDFILE_HANDLE; ptr: PDoubleArray; frames: Tu
 
 function _sf_write_double(sndfile: TSNDFILE_HANDLE; ptr: PDoubleArray; frames: Tuos_count_t): Tuos_count_t; cdecl;
 
+function _sf_copy_data_fp(outfile: TSNDFILE_HANDLE; infile: TSNDFILE_HANDLE; channels: integer; normalize: integer): int64; cdecl;
+
+function _sf_copy_data_int(outfile: TSNDFILE_HANDLE; infile: TSNDFILE_HANDLE; channels: integer): int64; cdecl;
+
 {
 ** Close the SNDFILE and clean up all memory allocations associated
 ** with this file.
@@ -799,6 +803,10 @@ function _sf_close(sndfile: TSNDFILE_HANDLE): integer; cdecl; external;
 
 function _sf_write_sync(sndfile: TSNDFILE_HANDLE): integer; cdecl; external;
 
+function _sf_copy_data_fp(outfile: TSNDFILE_HANDLE; infile: TSNDFILE_HANDLE; channels: integer; normalize: integer): int64; cdecl; external;
+
+function _sf_copy_data_int(outfile: TSNDFILE_HANDLE; infile: TSNDFILE_HANDLE; channels: integer): int64; cdecl; external;
+
 // libsndfile
 procedure _BitBufferReadSmall; external;
 procedure _BitBufferRead; external;
@@ -905,5 +913,3 @@ procedure _psf_location_string_count; external;
 procedure _cart_var_alloc; external;
 
 end.
-
-

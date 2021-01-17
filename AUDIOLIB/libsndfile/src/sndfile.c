@@ -26,6 +26,7 @@
 #include	"sndfile.h"
 #include	"sfendian.h"
 #include	"common.h"
+#include	"../../common/delphiimport.h"
 
 #define		SNDFILE_MAGICK	0x1234C0DE
 
@@ -3394,3 +3395,58 @@ sf_get_chunk_data (const SF_CHUNK_ITERATOR * iterator, SF_CHUNK_INFO * chunk_inf
 
 	return SFE_BAD_CHUNK_FORMAT ;
 } /* sf_get_chunk_data */
+
+#define BUFFER_LEN 4096
+
+__int64 sf_copy_data_fp (SNDFILE *outfile, SNDFILE *infile, int channels, int normalize)
+{	static double	data [BUFFER_LEN], max ;
+	sf_count_t      frames, readcount, k ;
+        __int64         totalwrite = 0;
+
+	frames = BUFFER_LEN / channels ;
+	readcount = frames ;
+
+	sf_command (infile, SFC_CALC_SIGNAL_MAX, &max, sizeof (max)) ;
+	if (!math_isnormal (max)) /* neither zero, subnormal, infinite, nor NaN */
+		return 0 ;
+
+	if (!normalize && max < 1.0)
+	{	while (readcount > 0)
+		{	readcount = sf_readf_double (infile, data, frames) ;
+			totalwrite+=sf_writef_double (outfile, data, readcount) ;
+			} ;
+		}
+	else
+	{	sf_command (infile, SFC_SET_NORM_DOUBLE, NULL, SF_FALSE) ;
+
+		while (readcount > 0)
+		{	readcount = sf_readf_double (infile, data, frames) ;
+			for (k = 0 ; k < readcount * channels ; k++)
+			{	data [k] /= max ;
+
+				if (!math_isfinite (data [k])) /* infinite or NaN */
+					return 0;
+				}
+			totalwrite+=sf_writef_double (outfile, data, readcount) ;
+			} ;
+		} ;
+
+	return totalwrite ;
+} /* sf_copy_data_fp */
+
+__int64 sf_copy_data_int (SNDFILE *outfile, SNDFILE *infile, int channels)
+{	static int	data [BUFFER_LEN] ;
+	int		frames, readcount ;
+        __int64         totalwrite = 0;
+
+	frames = BUFFER_LEN / channels ;
+	readcount = frames ;
+
+	while (readcount > 0)
+	{	readcount = sf_readf_int (infile, data, frames) ;
+		totalwrite+=sf_writef_int (outfile, data, readcount) ;
+		} ;
+
+	return totalwrite;
+} /* sf_copy_data_int */
+

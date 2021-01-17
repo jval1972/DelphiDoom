@@ -236,7 +236,7 @@ begin
   if useexternalwav and (sparm.wavestatus <> ws_wavefailed) then
   begin
     // JVAL: 20210117 - Search for various sound formats
-    foundwav := Audiolib_SearchSoundPAK(sfx.name, strm);
+    foundwav := Audiolib_SearchSoundPAK(sfx.name, strm, 0);
 
     if not foundwav then
     begin

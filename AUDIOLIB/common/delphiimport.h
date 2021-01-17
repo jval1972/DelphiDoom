@@ -11,4 +11,8 @@ void myassert(int cond);
 
 void mybreakpoint(char *s);
 
+int math_isnormal (double x);
+
+int math_isfinite (double x);
+
 #endif

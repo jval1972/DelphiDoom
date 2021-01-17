@@ -36,7 +36,8 @@ interface
 uses
   d_delphi;
 
-function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream): boolean;
+function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream;
+  const normalize: integer): boolean;
 
 implementation
 
@@ -85,7 +86,8 @@ begin
   psfio.tell := @tm_tell_func;
 end;
 
-function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream): boolean;
+function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream;
+  const normalize: integer): boolean;
 var
   sfinfo: TSF_INFO;
   sfvirtualio: TSF_VIRTUAL;
@@ -98,7 +100,8 @@ var
   i: integer;
   foundsound: boolean;
   soundfilename: string;
-  totalwrite: integer;
+  totalwrite: int64;
+  infileminor: integer;
 begin
   Audiolib_InitIO(@sfvirtualio);
 
@@ -153,14 +156,15 @@ begin
     Exit;
   end;
 
+  infileminor := sfinfo.format and SF_FORMAT_SUBMASK;
+
   sfinfo.format := SF_FORMAT_PCM_16 or SF_FORMAT_WAV or SF_ENDIAN_LITTLE;
   sfinfo.samplerate := 44100;
   sfinfo.channels := 2;
   frames := BUFFER_LEN div sfinfo.channels;
-  readcount := frames;
 
   streamout := TDMemoryStream.Create;
-  totalwrite := 0;
+  streamout.OnBeginBusy := I_BeginDiskBusy;
   sfouthandle := _sf_open_virtual(@sfvirtualio, SFM_WRITE, @sfinfo, @streamout);
   if sfouthandle = nil then
   begin
@@ -173,14 +177,31 @@ begin
     Exit;
   end;
 
-  while readcount > 0 do
+//  totalwrite := 0;
+
+  if (normalize <> 0) or
+     (infileminor = SF_FORMAT_DOUBLE) or (infileminor = SF_FORMAT_FLOAT) or
+     {(infileminor = SF_FORMAT_OPUS) or }(infileminor = SF_FORMAT_VORBIS) then
   begin
-    readcount := _sf_readf_int(sfinhandle, @data, frames);
-    if readcount > 0 then
-      totalwrite := totalwrite + _sf_writef_int(sfouthandle, @data, readcount);
+    totalwrite := _sf_copy_data_fp(sfouthandle, sfinhandle, sfinfo.channels, normalize);
+  end
+  else
+  begin
+    totalwrite := _sf_copy_data_int(sfouthandle, sfinhandle, sfinfo.channels);
+{    while true do
+    begin
+      readcount := _sf_readf_int(sfinhandle, @data, frames);
+      if readcount > 0 then
+        totalwrite := totalwrite + _sf_writef_int(sfouthandle, @data, readcount)
+      else
+        break;
+    end;}
   end;
 
   Result := (streamout.Size > 0) and (totalwrite > 0);
+
+  _sf_close(sfinhandle);
+  _sf_close(sfouthandle);
 
   if Result then
   begin
@@ -193,8 +214,6 @@ begin
     streamout := nil;
   end;
 
-  _sf_close(sfinhandle);
-  _sf_close(sfouthandle);
   streamin.Free;
 end;
 

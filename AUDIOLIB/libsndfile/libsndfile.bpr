@@ -49,7 +49,7 @@
   <OPTIONS>
     <IDLCFLAGS value="-I.\src\GSM610 -I.\src\G72x -I.\src\ALAC -I.\src -I$(BCB)\include 
       -I$(BCB)\include\vcl -src_suffix cpp -DBUILDER -boa"/>
-    <CFLAG1 value="-O2 -Vx -Ve -X- -r- -a8 -b- -k- -vi -c -tW -tWM"/>
+    <CFLAG1 value="-O2 -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM"/>
     <PFLAGS value="-N2.\obj -N0.\obj -$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
     <AFLAGS value="/mx /w2 /zn"/>
     <LFLAGS value="/P64"/>
