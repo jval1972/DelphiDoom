@@ -62,6 +62,7 @@ Fixed DEHACKED conflict with demo playback.
 Avoid crash in OpenGL mode if sprite frames are missing.
 Added new flag MF3_EX_FLIPSPRITE, when set it flips the mobj sprite.
 ACTORDEF functions for flipping sprite: A_FlipSprite(), A_NoFlipSprite(), A_RandomFlipSprite() &A_RandomNoFlipSprite().
+Support for various sound file formats using libsndfile, libflac, libvorbis & libogg.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
