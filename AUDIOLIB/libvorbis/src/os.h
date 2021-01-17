@@ -44,8 +44,9 @@
 #  define M_PI (3.1415926536f)
 #endif
 
+#include <stdlib.h>
 #if defined(_WIN32) && !defined(__SYMBIAN32__)
-#  include <alloc.h>
+//#  include <alloc.h>
 #  define rint(x)   (floor((x)+0.5f))
 #  define NO_FLOAT_MATH_LIB
 #  define FAST_HYPOT(a, b) sqrt((a)*(a) + (b)*(b))
