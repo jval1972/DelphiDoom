@@ -1240,12 +1240,12 @@ end;
 
 function _filetell(stream: Integer): Integer; cdecl;
 begin
-  Result := _filesize(stream);
+  Result := _filepos(stream);
 end;
 
 function _filetell64(stream: Integer): Int64; cdecl;
 begin
-  Result := _filesize(stream);
+  Result := _filepos(stream);
 end;
 
 function _fileeof(stream: Integer): Integer; cdecl;
