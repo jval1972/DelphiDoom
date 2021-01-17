@@ -163,14 +163,7 @@ begin
 
   infileminor := sfinfo.format and SF_FORMAT_SUBMASK;
 
-{  if (infileminor = SF_FORMAT_DOUBLE) or (infileminor = SF_FORMAT_FLOAT) or
-     (infileminor = SF_FORMAT_VORBIS) then
-    sfinfo.format := SF_FORMAT_DOUBLE or SF_FORMAT_WAV or SF_ENDIAN_LITTLE
-  else
-    sfinfo.format := SF_FORMAT_PCM_16 or SF_FORMAT_WAV or SF_ENDIAN_LITTLE;}
   sfinfo.format := SF_FORMAT_PCM_16 or SF_FORMAT_WAV or SF_ENDIAN_LITTLE;
-//  sfinfo.samplerate := 44100;
-//  sfinfo.channels := 2;
   frames := BUFFER_LEN div sfinfo.channels;
 
   streamout := TDMemoryStream.Create;
@@ -231,30 +224,15 @@ begin
         if numread > 0 then
         begin
           for i := 0 to numread - 1 do
-//            dataI[i] := GetIntegerInRange(Round((dataD[i] + mn) / (mx - mn) * 32768), -32768, 32767);
-//            dataI[i] := GetIntegerInRange(Round(dataD[i] / mx * 32768), -32768, 32767);
             dataS[i] := GetIntegerInRange(Round(dataD[i] / mx * 32768), -32768, 32767);
-//            dataI[i] := GetInt64InRange(Round(dataD[i] / mx * MAXINT), -MAXINT, MAXINT);
-//          totalwrite := totalwrite + _sf_writef_int(sfouthandle, @dataI, numread div sfinfo.channels);
           totalwrite := totalwrite + _sf_writef_short(sfouthandle, @dataS, numread div sfinfo.channels);
         end;
       until numread = 0;
     end;
     sbuf.Free;
-
-
-{    while true do
-    begin
-      readcount := _sf_readf_double(sfinhandle, @dataD, frames);
-      if readcount > 0 then
-        totalwrite := totalwrite + _sf_writef_double(sfouthandle, @dataD, readcount)
-      else
-        break;
-    end;}
   end
   else
   begin
-//    totalwrite := _sf_copy_data_int(sfouthandle, sfinhandle, sfinfo.channels);
     while true do
     begin
       readcount := _sf_readf_int(sfinhandle, @dataI, frames);
