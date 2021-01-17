@@ -120,8 +120,8 @@ type
   soundparam_t = record
     length: integer;
     offset: integer;
-    freq: word;
-    avgfreq: word;
+    freq: LongWord;
+    avgfreq: LongWord;
     samples: byte;
     channels: byte;
     wavestatus: wavestatus_t;
