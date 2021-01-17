@@ -1156,10 +1156,10 @@ FLAC__bool FLAC__stream_decoder_seek_absolute(FLAC__StreamDecoder *decoder, FLAC
 	if(0 == decoder->private_->seek_callback)
 		return false;
 
-	FLAC__ASSERT(decoder->private_->seek_callback);
-	FLAC__ASSERT(decoder->private_->tell_callback);
-	FLAC__ASSERT(decoder->private_->length_callback);
-	FLAC__ASSERT(decoder->private_->eof_callback);
+	FLAC__ASSERT(decoder->private_->seek_callback!=NULL);
+	FLAC__ASSERT(decoder->private_->tell_callback!=NULL);
+	FLAC__ASSERT(decoder->private_->length_callback!=NULL);
+	FLAC__ASSERT(decoder->private_->eof_callback!=NULL);
 
 	if(FLAC__stream_decoder_get_total_samples(decoder) > 0 && sample >= FLAC__stream_decoder_get_total_samples(decoder))
 		return false;

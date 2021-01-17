@@ -36,8 +36,8 @@
 
 /* we need this since some compilers (like MSVC) leave assert()s on release code (and we don't want to use their ASSERT) */
 #ifndef NDEBUG
-#include <assert.h>
-#define FLAC__ASSERT(x) assert(x)
+#include "../../common/delphiimport.h"
+#define FLAC__ASSERT(x) myassert(x)
 #define FLAC__ASSERT_DECLARATION(x) x
 #else
 #define FLAC__ASSERT(x)

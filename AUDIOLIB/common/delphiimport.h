@@ -7,4 +7,6 @@ int mylround(double d);
 
 void myexit(char *funcname, int code);
 
+void myassert(int cond);
+
 #endif
