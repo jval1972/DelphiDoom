@@ -400,33 +400,28 @@ type
     coding_history: array[0..255] of char;
   end;
 
- // Thanks to Phoenix
- type
- //pm_get_filelen = ^tm_get_filelen;
- tm_get_filelen_t =
-  function (pms: PDStream): Tuos_count_t; cdecl;
- //pm_seek = ^tm_seek;
- tm_seek_t =
-  function (offset: Tuos_count_t; whence: integer; pms: PDStream): Tuos_count_t; cdecl;
- //pm_read = ^tm_read;
- tm_read_t =
-  function (const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
- //pm_write = ^tm_write;
- tm_write_t =
-  function (const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
- //pm_tell = ^tm_tell;
- tm_tell_t =
-  function (pms: PDStream): Tuos_count_t; cdecl;
+// Thanks to Phoenix
+type
+  //pm_get_filelen = ^tm_get_filelen;
+  tm_get_filelen_t = function (pms: PDStream): Tuos_count_t; cdecl;
+  //pm_seek = ^tm_seek;
+  tm_seek_t = function (offset: Tuos_count_t; whence: integer; pms: PDStream): Tuos_count_t; cdecl;
+  //pm_read = ^tm_read;
+  tm_read_t = function (const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
+  //pm_write = ^tm_write;
+  tm_write_t = function (const buf: Pointer; count: Tuos_count_t; pms: PDStream): Tuos_count_t; cdecl;
+  //pm_tell = ^tm_tell;
+  tm_tell_t = function (pms: PDStream): Tuos_count_t; cdecl;
 
- TSF_VIRTUAL = packed record
-  sf_vio_get_filelen: tm_get_filelen_t;
-  seek: tm_seek_t;
-  read: tm_read_t;
-  write: tm_write_t;
-  tell: tm_tell_t;
- end;
+  TSF_VIRTUAL = packed record
+    sf_vio_get_filelen: tm_get_filelen_t;
+    seek: tm_seek_t;
+    read: tm_read_t;
+    write: tm_write_t;
+    tell: tm_tell_t;
+  end;
 
- PSF_VIRTUAL = ^TSF_VIRTUAL;
+  PSF_VIRTUAL = ^TSF_VIRTUAL;
 
 {
 ** Open the specified file for read, write or both. On error, this will
