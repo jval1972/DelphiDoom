@@ -86,6 +86,84 @@ begin
   psfio.tell := @tm_tell_func;
 end;
 
+function Audiolib_DoConvert(const sfinhandle, sfouthandle: TSNDFILE_HANDLE;
+  const sfinfo: PSF_INFO; const infileminor: integer; const normalize: integer): int64;
+var
+  dataI: array[0..BUFFER_LEN - 1] of integer;
+  dataS: array[0..BUFFER_LEN - 1] of smallint;
+  dataD: array[0..BUFFER_LEN - 1] of double;
+  i: integer;
+  frames, readcount: integer;
+  sbuf: TDMemoryStream;
+  mx, mn: double;
+  numread: integer;
+begin
+  Result := 0;
+
+  frames := BUFFER_LEN div sfinfo.channels;
+
+  if (normalize <> 0) or
+     (infileminor = SF_FORMAT_DOUBLE) or (infileminor = SF_FORMAT_FLOAT) or
+     {(infileminor = SF_FORMAT_OPUS) or }(infileminor = SF_FORMAT_VORBIS) then
+  begin
+    sbuf := TDMemoryStream.Create;
+    mx := 0.0;
+    mn := 0.0;
+    while true do
+    begin
+      readcount := _sf_readf_double(sfinhandle, @dataD, frames);
+      if readcount > 0 then
+      begin
+        for i := 0 to readcount * sfinfo.channels - 1 do
+        begin
+          if dataD[i] > 0 then
+          begin
+            if dataD[i] > mx then
+              mx := dataD[i];
+          end
+          else
+          begin
+            if dataD[i] < mn then
+              mn := dataD[i];
+          end;
+        end;
+        sbuf.Write(dataD, readcount * sfinfo.channels * SizeOf(double));
+      end
+      else
+        break;
+    end;
+    Result := sbuf.Size div SizeOf(double);
+    if (Result > 0) and (mx <> mn) then
+    begin
+      if mx < -mn then
+        mx := -mn;
+      sbuf.Seek(0, sFromBeginning);
+      Result := 0;
+      repeat
+        numread := sbuf.Read(dataD, BUFFER_LEN * SizeOf(double)) div SizeOf(Double);
+        if numread > 0 then
+        begin
+          for i := 0 to numread - 1 do
+            dataS[i] := GetIntegerInRange(Round(dataD[i] / mx * 32768), -32768, 32767);
+          Result := Result + _sf_writef_short(sfouthandle, @dataS, numread div sfinfo.channels);
+        end;
+      until numread = 0;
+    end;
+    sbuf.Free;
+  end
+  else
+  begin
+    while true do
+    begin
+      readcount := _sf_readf_int(sfinhandle, @dataI, frames);
+      if readcount > 0 then
+        Result := Result + _sf_writef_int(sfouthandle, @dataI, readcount)
+      else
+        break;
+    end;
+  end;
+end;
+
 function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream;
   const normalize: integer): boolean;
 var
@@ -93,10 +171,6 @@ var
   sfvirtualio: TSF_VIRTUAL;
   sfinhandle: TSNDFILE_HANDLE;
   sfouthandle: TSNDFILE_HANDLE;
-  dataI: array[0..BUFFER_LEN - 1] of integer;
-  dataS: array[0..BUFFER_LEN - 1] of smallint;
-  dataD: array[0..BUFFER_LEN - 1] of double;
-  frames, readcount: integer;
   streamin: TPakStream;
   externalsoundfilenames: TDStringList;
   i: integer;
@@ -104,9 +178,6 @@ var
   soundfilename: string;
   totalwrite: int64;
   infileminor: integer;
-  sbuf: TDMemoryStream;
-  mx, mn: double;
-  numread: integer;
 begin
   Audiolib_InitIO(@sfvirtualio);
 
@@ -164,7 +235,6 @@ begin
   infileminor := sfinfo.format and SF_FORMAT_SUBMASK;
 
   sfinfo.format := SF_FORMAT_PCM_16 or SF_FORMAT_WAV or SF_ENDIAN_LITTLE;
-  frames := BUFFER_LEN div sfinfo.channels;
 
   streamout := TDMemoryStream.Create;
   streamout.OnBeginBusy := I_BeginDiskBusy;
@@ -180,68 +250,7 @@ begin
     Exit;
   end;
 
-  totalwrite := 0;
-
-  if (normalize <> 0) or
-     (infileminor = SF_FORMAT_DOUBLE) or (infileminor = SF_FORMAT_FLOAT) or
-     {(infileminor = SF_FORMAT_OPUS) or }(infileminor = SF_FORMAT_VORBIS) then
-  begin
-    sbuf := TDMemoryStream.Create;
-    mx := 0.0;
-    mn := 0.0;
-    while true do
-    begin
-      readcount := _sf_readf_double(sfinhandle, @dataD, frames);
-      if readcount > 0 then
-      begin
-        for i := 0 to readcount * sfinfo.channels - 1 do
-        begin
-          if dataD[i] > 0 then
-          begin
-            if dataD[i] > mx then
-              mx := dataD[i];
-          end
-          else
-          begin
-            if dataD[i] < mn then
-              mn := dataD[i];
-          end;
-        end;
-        sbuf.Write(dataD, readcount * sfinfo.channels * SizeOf(double));
-      end
-      else
-        break;
-    end;
-    totalwrite := sbuf.Size div SizeOf(double);
-    if (totalwrite > 0) and (mx <> mn) then
-    begin
-      if mx < -mn then
-        mx := -mn;
-      sbuf.Seek(0, sFromBeginning);
-      totalwrite := 0;
-      repeat
-        numread := sbuf.Read(dataD, BUFFER_LEN * SizeOf(double)) div SizeOf(Double);
-        if numread > 0 then
-        begin
-          for i := 0 to numread - 1 do
-            dataS[i] := GetIntegerInRange(Round(dataD[i] / mx * 32768), -32768, 32767);
-          totalwrite := totalwrite + _sf_writef_short(sfouthandle, @dataS, numread div sfinfo.channels);
-        end;
-      until numread = 0;
-    end;
-    sbuf.Free;
-  end
-  else
-  begin
-    while true do
-    begin
-      readcount := _sf_readf_int(sfinhandle, @dataI, frames);
-      if readcount > 0 then
-        totalwrite := totalwrite + _sf_writef_int(sfouthandle, @dataI, readcount)
-      else
-        break;
-    end;
-  end;
+  totalwrite := Audiolib_DoConvert(sfinhandle, sfouthandle, @sfinfo, infileminor, normalize);
 
   Result := (streamout.Size > 0) and (totalwrite > 0);
 
