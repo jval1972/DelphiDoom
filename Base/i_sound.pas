@@ -206,6 +206,9 @@ const
   CS_data = $61746164;  // data in HEX
 
 const
+  CS_fLac = 1130450022; // fLac
+  CS_OggS = 1399285583; // OggS
+
 procedure I_CacheSFX(const sfxid: integer);
 var
   name: string;
@@ -218,6 +221,7 @@ var
   wavformat: TWAVEFORMATEX;
   i: integer;
   l: LongWord;
+  len: integer;
   datalen: integer;
   dwtype: LongWord;
   dwlen: integer;
@@ -389,12 +393,18 @@ begin
     end;
 
     sfx.data := W_CacheLumpNum(sfx.lumpnum, PU_SOUND);
+    len := W_LumpLength(sfx.lumpnum);
     PLData := sfx.data;
+    if (PLData[0] = CS_fLac) or (PLData[0] = CS_OggS) then
+      if Audiolib_DecodeSoundWAD(sfx.data, len, @sfx.data, len, 1) then
+        PLData := sfx.data;
+
     PLData2 := PLongWordArray(Integer(PLData) + 2);
     if PLData[0] = CS_RIFF then // WAVE Sound inside WAD as lump
     begin
 
       repeat
+        if len < 8 + SizeOf(TWAVEFORMATEX) then
         begin
           I_Warning('CacheSFX(): Sound %s has invalid size'#13#10, [sfx.name]);
           break;
@@ -409,6 +419,7 @@ begin
           break;
         end;
 
+        while i < (len div 4) - 2 do
         begin
           dwtype := PLData[i];
           if (dwtype <> CS_fmt) and (dwtype <> CS_data) then
@@ -447,6 +458,7 @@ begin
           end
           else if (dwtype = CS_data) and not donedata then
           begin
+            if dwlen > len - i * 4 then
             begin
               I_Warning('CacheSFX(): Sound %s has invalid data CHUNK'#13#10, [sfx.name]);
               break;
@@ -473,6 +485,7 @@ begin
     end
     else
     begin
+      sparm.length := len;
       sparm.wavformat := WAVE_FORMAT_PCM;
       sparm.freq := Psoundheader_t(sfx.data).freq;
       sparm.avgfreq := Psoundheader_t(sfx.data).freq;

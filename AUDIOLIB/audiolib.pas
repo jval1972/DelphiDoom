@@ -39,6 +39,9 @@ uses
 function Audiolib_SearchSoundPAK(const sndname: string; var streamout: TDStream;
   const normalize: integer): boolean;
 
+function Audiolib_DecodeSoundWAD(memin: Pointer; meminsize: integer;
+  memout: PPointer; var memoutsize: integer; const normalize: integer): boolean;
+
 implementation
 
 uses
@@ -47,7 +50,8 @@ uses
   i_sound,
   libsndfile,
   w_folders,
-  w_pak;
+  w_pak,
+  z_zone;
 
 const
   BUFFER_LEN = 4096;
@@ -268,6 +272,79 @@ begin
     streamout := nil;
   end;
 
+  streamin.Free;
+end;
+
+function Audiolib_DecodeSoundWAD(memin: Pointer; meminsize: integer;
+  memout: PPointer; var memoutsize: integer; const normalize: integer): boolean;
+var
+  sfinfo: TSF_INFO;
+  sfvirtualio: TSF_VIRTUAL;
+  sfinhandle: TSNDFILE_HANDLE;
+  sfouthandle: TSNDFILE_HANDLE;
+  streamin: TAttachableMemoryStream;
+  streamout: TDMemoryStream;
+  totalwrite: int64;
+  infileminor: integer;
+begin
+  Audiolib_InitIO(@sfvirtualio);
+
+  streamin := TAttachableMemoryStream.Create;
+  streamin.Attach(memin, meminsize);
+  streamin.OnBeginBusy := I_BeginDiskBusy;
+
+  sfinfo.format := 0;
+  sfinhandle := _sf_open_virtual(@sfvirtualio, SFM_READ, @sfinfo, @streamin);
+  if sfinhandle = nil then
+  begin
+    _sf_close(sfinhandle);
+    streamin.Free;
+    memout^ := nil;
+    memoutsize := 0;
+    Result := false;
+    Exit;
+  end;
+
+  infileminor := sfinfo.format and SF_FORMAT_SUBMASK;
+
+  sfinfo.format := SF_FORMAT_PCM_16 or SF_FORMAT_WAV or SF_ENDIAN_LITTLE;
+
+  streamout := TDMemoryStream.Create;
+  streamout.OnBeginBusy := I_BeginDiskBusy;
+  sfouthandle := _sf_open_virtual(@sfvirtualio, SFM_WRITE, @sfinfo, @streamout);
+  if sfouthandle = nil then
+  begin
+    _sf_close(sfinhandle);
+    _sf_close(sfouthandle);
+    streamin.Free;
+    streamout.Free;
+    memout^ := nil;
+    memoutsize := 0;
+    Result := false;
+    Exit;
+  end;
+
+  totalwrite := Audiolib_DoConvert(sfinhandle, sfouthandle, @sfinfo, infileminor, normalize);
+
+  Result := (streamout.Size > 0) and (totalwrite > 0);
+
+  _sf_close(sfinhandle);
+  _sf_close(sfouthandle);
+
+  if Result then
+  begin
+    memoutsize := streamout.Size;
+    memout^ := Z_Malloc(memoutsize, PU_SOUND, memout);
+    streamout.Seek(0, sFromBeginning);
+    streamout.Read(memout^^, memoutsize);
+  end
+  else
+  begin
+    memout^ := nil;
+    memoutsize := 0;
+  end;
+
+  streamout.Free;
   streamin.Free;
 end;
 

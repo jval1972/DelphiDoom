@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 640x400 joi_lstcv15.zip
+RunParams=-nofullscreen -geom 640x400 SWTCHN.wad
 HostApplication=
 Launcher=
 UseLauncher=0
