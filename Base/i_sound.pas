@@ -205,6 +205,7 @@ const
   CS_fmt  = $20746D66;  // fmt' ' in HEX
   CS_data = $61746164;  // data in HEX
 
+const
 procedure I_CacheSFX(const sfxid: integer);
 var
   name: string;
@@ -335,7 +336,7 @@ begin
           end;
           donedata := true;
           sparm.length := dwlen;
-          sfx.data := Z_Malloc(dwlen, PU_SOUND, sfx.data);
+          sfx.data := Z_Malloc(dwlen, PU_SOUND, @sfx.data);
           strm.Read(sfx.data^, dwlen);
           sparm.offset := 0;
         end
@@ -394,7 +395,6 @@ begin
     begin
 
       repeat
-        if W_LumpLength(sfx.lumpnum) < 8 + SizeOf(TWAVEFORMATEX) then
         begin
           I_Warning('CacheSFX(): Sound %s has invalid size'#13#10, [sfx.name]);
           break;
@@ -409,7 +409,6 @@ begin
           break;
         end;
 
-        while i < (W_LumpLength(sfx.lumpnum) div 4) - 2 do
         begin
           dwtype := PLData[i];
           if (dwtype <> CS_fmt) and (dwtype <> CS_data) then
@@ -448,7 +447,6 @@ begin
           end
           else if (dwtype = CS_data) and not donedata then
           begin
-            if dwlen > W_LumpLength(sfx.lumpnum) - i * 4 then
             begin
               I_Warning('CacheSFX(): Sound %s has invalid data CHUNK'#13#10, [sfx.name]);
               break;
@@ -475,7 +473,6 @@ begin
     end
     else
     begin
-      sparm.length := W_LumpLength(sfx.lumpnum);
       sparm.wavformat := WAVE_FORMAT_PCM;
       sparm.freq := Psoundheader_t(sfx.data).freq;
       sparm.avgfreq := Psoundheader_t(sfx.data).freq;
