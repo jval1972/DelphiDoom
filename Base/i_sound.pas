@@ -81,7 +81,9 @@ implementation
 
 uses
   d_delphi,
+{$IFNDEF DLL}
   audiolib, // JVAL: 20210117 - Search for various sound formats
+{$ENDIF}
   MMSystem,
   z_zone,
   m_argv, 
@@ -205,9 +207,11 @@ const
   CS_fmt  = $20746D66;  // fmt' ' in HEX
   CS_data = $61746164;  // data in HEX
 
+{$IFNDEF DLL}
 const
   CS_fLac = 1130450022; // fLac
   CS_OggS = 1399285583; // OggS
+{$ENDIF}  
 
 procedure I_CacheSFX(const sfxid: integer);
 var
@@ -242,9 +246,11 @@ begin
   if useexternalwav and (sparm.wavestatus <> ws_wavefailed) then
   begin
     // JVAL: 20210117 - Search for various sound formats
+{$IFNDEF DLL}
     foundwav := Audiolib_SearchSoundPAK(sfx.name, strm, 0);
 
     if not foundwav then
+{$ENDIF}
     begin
       // JVAL: Create a list with external wav filenames to check
       externalwavfilenames := TDStringList.Create;
@@ -395,10 +401,11 @@ begin
     sfx.data := W_CacheLumpNum(sfx.lumpnum, PU_SOUND);
     len := W_LumpLength(sfx.lumpnum);
     PLData := sfx.data;
+{$IFNDEF DLL}
     if (PLData[0] = CS_fLac) or (PLData[0] = CS_OggS) then
       if Audiolib_DecodeSoundWAD(sfx.data, len, @sfx.data, len, 1) then
         PLData := sfx.data;
-
+{$ENDIF}
     PLData2 := PLongWordArray(Integer(PLData) + 2);
     if PLData[0] = CS_RIFF then // WAVE Sound inside WAD as lump
     begin
