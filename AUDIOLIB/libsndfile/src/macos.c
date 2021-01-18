@@ -16,15 +16,15 @@
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include	"sfconfig.h"
+#include "sfconfig.h"
 
-#include	<stdlib.h>
-#include	<string.h>
+#include <stdlib.h>
+#include <string.h>
 //#include	<sys/stat.h>
 
-#include	"sndfile.h"
-#include	"sfendian.h"
-#include	"common.h"
+#include "sndfile.h"
+#include "sfendian.h"
+#include "common.h"
 
 #define	STR_MARKER	542266451
 #if 0

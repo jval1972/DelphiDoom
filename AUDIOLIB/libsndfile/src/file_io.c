@@ -36,7 +36,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../common/delphifiles.h"
+#include "../../../C_LIB/include/delphifiles.h"
 
 #if HAVE_UNISTD_H
 #include <unistd.h>

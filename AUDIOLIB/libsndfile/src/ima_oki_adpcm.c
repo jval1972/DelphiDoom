@@ -26,7 +26,7 @@
 /* Set up for libsndfile environment: */
 #include "common.h"
 
-#include <../../common/delphiimport.h>
+#include "../../../C_LIB/include/delphiimport.h"
 #include "ima_oki_adpcm.h"
 
 #define MIN_SAMPLE	-0x8000

@@ -43,7 +43,7 @@
 #include <windows.h> /* for GetFileType() */
 #include <io.h> /* for _get_osfhandle() */
 #endif
-#include "../../common/delphifiles.h"
+#include "../../../C_LIB/include/delphifiles.h"
 #include "../../common/share/compat.h"
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/export_flac.h"

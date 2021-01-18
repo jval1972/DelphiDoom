@@ -18,7 +18,7 @@
 #include <limits.h>
 #include <math.h>
 #include <string.h>
-#include <../../common/delphiimport.h>
+#include "../../../C_LIB/include/delphiimport.h"
 #include <../../common/ogg/ogg_common.h>
 #include "os.h"
 #include "misc.h"

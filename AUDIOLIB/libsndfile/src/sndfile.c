@@ -16,19 +16,19 @@
 ** Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
-#include	"sfconfig.h"
+#include "sfconfig.h"
 
-#include	<stdlib.h>
-#include	<string.h>
-#include	<ctype.h>
-#include	<assert.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <assert.h>
 
-#include	"sndfile.h"
-#include	"sfendian.h"
-#include	"common.h"
-#include	"../../common/delphiimport.h"
+#include "sndfile.h"
+#include "sfendian.h"
+#include "common.h"
+#include "../../../C_LIB/include/delphiimport.h"
 
-#define		SNDFILE_MAGICK	0x1234C0DE
+#define	 SNDFILE_MAGICK	0x1234C0DE
 
 #ifdef __APPLE__
 	/*

@@ -36,7 +36,7 @@
 
 #include <math.h>
 
-#include "../../common/delphiimport.h"
+#include "../../../C_LIB/include/delphiimport.h"
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/format_flac.h"
 #include "../../common/share/compat.h"

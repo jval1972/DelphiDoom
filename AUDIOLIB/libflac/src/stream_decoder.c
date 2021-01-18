@@ -39,8 +39,8 @@
 #include <string.h> /* for memset/memcpy() */
 #include <sys/stat.h> /* for stat() */
 #include <sys/types.h> /* for off_t */
-#include "../../common/delphiimport.h"
-#include "../../common/delphifiles.h"
+#include "../../../C_LIB/include/delphiimport.h"
+#include "../../../C_LIB/include/delphifiles.h"
 #include "../../common/FLAC/flac_options_flac.h"
 #include "../../common/share/compat.h"
 #include "../../common/FLAC/assert_flac.h"

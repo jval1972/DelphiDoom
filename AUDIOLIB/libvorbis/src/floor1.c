@@ -17,8 +17,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <../../common/delphiimport.h>
-#include <../../common/delphifiles.h>
+#include "../../../C_LIB/include/delphiimport.h"
+#include "../../../C_LIB/include/delphifiles.h"
 #include <../../common/ogg/ogg_common.h>
 #include "../../common/vorbis/codec.h"
 #include "../../../C_LIB/src/myqsort.h"

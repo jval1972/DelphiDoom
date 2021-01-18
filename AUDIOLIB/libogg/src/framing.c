@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
-#include <../../common/delphiimport.h>
+#include "../../../C_LIB/include/delphiimport.h"
 #include <../../common/ogg/ogg_common.h>
 
 /* A complete description of Ogg framing exists in docs/framing.html */

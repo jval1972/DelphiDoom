@@ -25,13 +25,13 @@
 #include	<math.h>
 //#include	<errno.h>
 
-#include	"sndfile.h"
-#include	"sfendian.h"
-#include	"common.h"
-#include        "file_io.h"
-#include	"ALAC/alac_codec.h"
-#include	"ALAC/ALACBitUtilities.h"
-#include        "../../common/delphifiles.h"
+#include "sndfile.h"
+#include "sfendian.h"
+#include "common.h"
+#include "file_io.h"
+#include "ALAC/alac_codec.h"
+#include "ALAC/ALACBitUtilities.h"
+#include "../../../C_LIB/include/delphifiles.h"
 
 #define		ALAC_MAX_FRAME_SIZE		8192
 #define		ALAC_BYTE_BUFFER_SIZE	0x20000

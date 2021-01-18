@@ -7,7 +7,7 @@
 #include "gsm.h"
 #include "config.h"
 
-#include	<stdlib.h>
+#include <stdlib.h>
 
 void gsm_destroy (gsm S)
 {

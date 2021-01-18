@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <../../common/delphifiles.h>
+#include "../../../C_LIB/include/delphifiles.h"
 #include <../../common/ogg/ogg_common.h>
 #include "../../common/vorbis/codec.h"
 #include "codec_internal.h"

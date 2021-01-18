@@ -44,7 +44,7 @@
 
 #include "private/metadata.h"
 
-#include "../../common/delphifiles.h"
+#include "../../../C_LIB/include/delphifiles.h"
 #include "../../common/FLAC/assert_flac.h"
 #include "../../common/FLAC/stream_decoder_flac.h"
 #include "../../common/share/alloc_common.h"

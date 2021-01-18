@@ -20,7 +20,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
-#include <../../common/delphiimport.h>
+#include "../../../C_LIB/include/delphiimport.h"
 #include <../../common/ogg/ogg_common.h>
 
 #define BUFFER_INCREMENT 256

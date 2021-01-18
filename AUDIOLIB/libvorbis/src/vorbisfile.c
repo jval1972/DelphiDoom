@@ -24,7 +24,7 @@
 
 /* we don't need or want the static callback symbols here */
 #define OV_EXCLUDE_STATIC_CALLBACKS
-#include "../../common/delphifiles.h"
+#include "../../../C_LIB/include/delphifiles.h"
 #include "../../common/vorbis/vorbisfile.h"
 
 #include "os.h"
