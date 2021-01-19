@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -45,6 +45,7 @@ uses
   c_con,
   mt_utils,
   i_video,
+  psi_overlay,
   r_main,
   r_depthbuffer,
   r_cache_main,
@@ -113,6 +114,7 @@ begin
   R_InitFuzzTable;         // Re-calculate fuzz tabble offsets
   {$ENDIF}
   R_InitNegoArray;         // Re-calculate the nego-array
+  overlay.ReCalcOverlayLookUp;
   result := true;
 end;
 

@@ -80,6 +80,7 @@ type
   private
     foverlayscreen: PByteArray;
     foverlaylookup: overlaylookup_p;
+    foverlaylookupsize: integer;
     ffirstoverlaylookup: overlayindexes_t;
     flastoverlaylookup: overlayindexes_t;
     fdrawers: Poverlaydrawer_tArray;
@@ -133,6 +134,7 @@ type
     {$IFDEF OPENGL}
     function GetOverlayHeight: Integer;
     {$ENDIF}
+    procedure ReCalcOverlayLookUp;
     property Modified: Boolean read fmodified;
     property overlayscreen: PByteArray read foverlayscreen;
     property overlaylookup: overlaylookup_p read foverlaylookup;
@@ -218,7 +220,8 @@ constructor TOverlayDrawer.Create;
 begin
   inherited Create;
   foverlayscreen := malloc(OVERLAYSIZE * SizeOf(Byte));
-  foverlaylookup := malloc(V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte));
+  foverlaylookupsize := V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte);
+  foverlaylookup := malloc(foverlaylookupsize);
   CalcOverlayLookUp;
   fdrawers := malloc(OVR_GROWSTEP * SizeOf(overlaydrawer_t));
   fnumdrawers := 0;
@@ -233,7 +236,7 @@ end;
 destructor TOverlayDrawer.Destroy;
 begin
   memfree(Pointer(fdrawers), frealnumdrawers * SizeOf(overlaydrawer_t));
-  memfree(Pointer(foverlaylookup), V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte));
+  memfree(Pointer(foverlaylookup), foverlaylookupsize);
   memfree(Pointer(foverlayscreen), OVERLAYSIZE * SizeOf(Byte));
   inherited;
 end;
@@ -274,6 +277,14 @@ begin
       Inc(idx);
     end;
   end;
+end;
+
+procedure TOverlayDrawer.ReCalcOverlayLookUp;
+begin
+  memfree(Pointer(foverlaylookup), foverlaylookupsize);
+  foverlaylookupsize := V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte);
+  foverlaylookup := malloc(foverlaylookupsize);
+  CalcOverlayLookUp;
 end;
 
 procedure TOverlayDrawer.SaveToBuffer(var buff: pointer);
