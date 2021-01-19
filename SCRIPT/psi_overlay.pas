@@ -253,12 +253,14 @@ begin
   h := V_GetScreenHeight(SCN_FG);
   for y := 0 to h - 1 do
   begin
+    th := Trunc(y / h * OVERLAYHEIGHT);
     if th >= OVERLAYHEIGHT then
       th := OVERLAYHEIGHT - 1
     else if th < 0 then
       th := 0;
     for x := 0 to w - 1 do
     begin
+      tw := Trunc(x / w * OVERLAYWIDTH);
       if tw >= OVERLAYWIDTH then
         tw := OVERLAYWIDTH - 1
       else if tw < 0 then
