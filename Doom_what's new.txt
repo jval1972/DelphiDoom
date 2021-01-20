@@ -58,6 +58,9 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_BetaSkullAttack
   - A_CustomMeleeAttack
   - A_CustomComboAttack
+  - A_SetRenderStyle
+  - A_FadeTo
+  - A_SetSize
 Support for DEHEXTRA.
 Multiple DEHACKED files inside WAD and PK3.
 DEHACKED export will add a comment with command line parameters.

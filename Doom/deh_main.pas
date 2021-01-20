@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 306;
+  DEHNUMACTIONS = 309;
 
 type
   deh_action_t = record
@@ -2830,6 +2830,15 @@ begin
   deh_actions[305].action.acp1 := @A_CustomComboAttack;
   deh_actions[305].name := strupper('CustomComboAttack');
   {$IFDEF DLL}deh_actions[305].decl := 'A_CustomComboAttack(missiletype: string, spawnheight: integer, damage: integer, meleesound: string)';{$ENDIF}
+  deh_actions[306].action.acp1 := @A_SetRenderStyle;
+  deh_actions[306].name := strupper('SetRenderStyle');
+  {$IFDEF DLL}deh_actions[306].decl := 'A_SetRenderStyle(style: renderstyle_t, alpha: float)';{$ENDIF}
+  deh_actions[307].action.acp1 := @A_FadeTo;
+  deh_actions[307].name := strupper('FadeTo');
+  {$IFDEF DLL}deh_actions[307].decl := 'A_FadeTo(targ: integer, ammount: integer, flags: integer)';{$ENDIF}
+  deh_actions[308].action.acp1 := @A_SetSize;
+  deh_actions[308].name := strupper('SetSize');
+  {$IFDEF DLL}deh_actions[308].decl := 'A_SetSize(newradius: integer, newheight: integer, testpos: boolean)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
