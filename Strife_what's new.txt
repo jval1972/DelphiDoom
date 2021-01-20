@@ -55,6 +55,9 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_Detonate
   - A_CustomMeleeAttack
   - A_CustomComboAttack
+  - A_SetRenderStyle
+  - A_FadeTo
+  - A_SetSize
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Does not play menu sound on end screen.
