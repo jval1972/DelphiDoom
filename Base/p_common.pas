@@ -4343,7 +4343,7 @@ procedure A_SetUserArray(actor: Pmobj_t);
 var
   arr: string;
 begin
-  if not P_CheckStateParams(actor, 2) then
+  if not P_CheckStateParams(actor, 3) then
     exit;
 
   sprintf(arr, '%s[%d]', [actor.state.params.StrVal[0], actor.state.params.IntVal[1]]);
