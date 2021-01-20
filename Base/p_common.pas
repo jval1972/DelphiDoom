@@ -407,6 +407,8 @@ procedure A_NoFlipSprite(actor: Pmobj_t);
 
 procedure A_RandomNoFlipSprite(actor: Pmobj_t);
 
+procedure A_CustomMeleeAttack(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4737,6 +4739,47 @@ begin
   chance := actor.state.params.IntVal[0];
   if chance < P_Random then
     actor.flags3_ex := actor.flags3_ex and not MF3_EX_FLIPSPRITE;
+end;
+
+//
+//  A_CustomMeleeAttack(damage: integer, meleesound: string, misssound: string)
+//
+procedure A_CustomMeleeAttack(actor: Pmobj_t);
+var
+  damage: integer;
+  sndidx: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  A_FaceTarget(actor);
+  if P_CheckMeleeRange(actor) then
+  begin
+    if actor.state.params.IsComputed[1] then
+      sndidx := actor.state.params.IntVal[1]
+    else
+    begin
+      sndidx := S_GetSoundNumForName(actor.state.params.StrVal[1]);
+      actor.state.params.IntVal[1] := sndidx;
+    end;
+    S_StartSound(actor, sndidx);
+    damage := actor.state.params.IntVal[0];
+    P_DamageMobj(actor.target, actor, actor, damage);
+  end
+  else
+  begin
+    if actor.state.params.IsComputed[2] then
+      sndidx := actor.state.params.IntVal[2]
+    else
+    begin
+      sndidx := S_GetSoundNumForName(actor.state.params.StrVal[2]);
+      actor.state.params.IntVal[2] := sndidx;
+    end;
+    S_StartSound(actor, sndidx);
+  end;
 end;
 
 end.
