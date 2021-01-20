@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 434;
+  DEHNUMACTIONS = 436;
 
 type
   deh_action_t = record
@@ -3166,6 +3166,12 @@ begin
   deh_actions[433].action.acp1 := @A_RandomNoFlipSprite;
   deh_actions[433].name := strupper('RandomNoFlipSprite');
   {$IFDEF DLL}deh_actions[433].decl := 'A_RandomNoFlipSprite(chance: integer)';{$ENDIF}
+  deh_actions[434].action.acp1 := @A_CustomMeleeAttack;
+  deh_actions[434].name := strupper('CustomMeleeAttack');
+  {$IFDEF DLL}deh_actions[434].decl := 'A_CustomMeleeAttack(damage: integer, meleesound: string, misssound: string)';{$ENDIF}
+  deh_actions[435].action.acp1 := @A_CustomComboAttack;
+  deh_actions[435].name := strupper('CustomComboAttack');
+  {$IFDEF DLL}deh_actions[435].decl := 'A_CustomComboAttack(missiletype: string, spawnheight: integer, damage: integer, meleesound: string)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
