@@ -57,6 +57,8 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_Remove(aaprt: AAPTR, [flags: integer])
   - A_SetFloatBobPhase(bob: integer)
   - A_Detonate
+  - A_CustomMeleeAttack
+  - A_CustomComboAttack
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Does not play menu sound on end screen.
