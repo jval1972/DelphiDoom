@@ -411,6 +411,8 @@ procedure A_CustomMeleeAttack(actor: Pmobj_t);
 
 procedure A_CustomComboAttack(actor: Pmobj_t);
 
+procedure A_SetRenderStyle(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4839,6 +4841,20 @@ begin
         missile.tracer := actor.target;
     end;
   end;
+end;
+
+//
+//  A_SetRenderStyle(style: renderstyle_t, alpha: float)
+//
+procedure A_SetRenderStyle(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  actor.renderstyle := R_GetRenderstyleForName(actor.state.params[0]);
+
+  if actor.state.params.Count > 1 then
+    actor.alpha := GetIntegerInRange(actor.state.params.FixedVal[1], 0, FRACUNIT);
 end;
 
 end.
