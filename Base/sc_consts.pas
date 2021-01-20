@@ -137,6 +137,10 @@ begin
   SC_AddConst('RMVF_EXFILTER', RMVF_EXFILTER);
   SC_AddConst('RMVF_EXSPECIES', RMVF_EXSPECIES);
   SC_AddConst('RMVF_EITHER', RMVF_EITHER);
+
+  SC_AddConst('FTF_REMOVE', FTF_REMOVE);
+  SC_AddConst('FTF_CLAMP', FTF_CLAMP);
+
 end;
 
 procedure SC_ShutDownConsts;

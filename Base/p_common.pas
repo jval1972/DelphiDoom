@@ -413,6 +413,8 @@ procedure A_CustomComboAttack(actor: Pmobj_t);
 
 procedure A_SetRenderStyle(actor: Pmobj_t);
 
+procedure A_FadeTo(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -488,6 +490,10 @@ const
 const
   SPF_FORCECLAMP = 1; // players always clamp
   SPF_INTERPOLATE = 2;
+
+const
+  FTF_REMOVE = 1;
+  FTF_CLAMP = 2;
 
 function P_TicsFromState(const st: Pstate_t): integer;
 
@@ -4851,10 +4857,53 @@ begin
   if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
     exit;
 
-  actor.renderstyle := R_GetRenderstyleForName(actor.state.params[0]);
+  actor.renderstyle := R_GetRenderstyleForName(actor.state.params.StrVal[0]);
 
   if actor.state.params.Count > 1 then
     actor.alpha := GetIntegerInRange(actor.state.params.FixedVal[1], 0, FRACUNIT);
+end;
+
+//
+// A_FadeTo(targ: integer, ammount: integer, flags: integer)
+//
+procedure A_FadeTo(actor: Pmobj_t);
+var
+  targ: fixed_t;
+  amount: fixed_t;
+  flags: integer;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  targ := actor.state.params.FixedVal[0];
+  amount := actor.state.params.FixedVal[1];
+
+  if actor.alpha > targ then
+  begin
+    actor.alpha := actor.alpha - amount;
+    if actor.alpha < targ then
+      actor.alpha := targ;
+  end
+  else if actor.alpha < targ then
+  begin
+    actor.alpha := actor.alpha + amount;
+    if actor.alpha > targ then
+      actor.alpha := targ;
+  end;
+
+  if actor.state.params.Count > 2 then
+  begin
+    if actor.state.params.BoolVal[2] then
+      flags := FTF_REMOVE
+    else
+    begin
+      flags := actor.state.params.IntVal[2];
+      if flags and FTF_CLAMP <> 0 then
+        actor.alpha := GetIntegerInRange(actor.alpha, 0, FRACUNIT);
+    end;
+    if (flags and FTF_REMOVE <> 0) and (actor.alpha = targ) then
+      P_RemoveMobj(actor);
+  end;
 end;
 
 end.
