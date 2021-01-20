@@ -415,6 +415,8 @@ procedure A_SetRenderStyle(actor: Pmobj_t);
 
 procedure A_FadeTo(actor: Pmobj_t);
 
+procedure A_SetSize(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4904,6 +4906,35 @@ begin
     if (flags and FTF_REMOVE <> 0) and (actor.alpha = targ) then
       P_RemoveMobj(actor);
   end;
+end;
+
+//
+// A_SetSize(newradius: integer, newheight: integer, testpos: boolean)
+//
+procedure A_SetSize(actor: Pmobj_t);
+var
+  newradius, newheight: fixed_t;
+  oldradius, oldheight: fixed_t;
+  testpos: boolean;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  newradius := actor.state.params.IntVal[0];
+  newheight := actor.state.params.IntVal[1];
+  oldradius := actor.radius;
+  oldheight := actor.height;
+  if newradius >= 0 then
+    actor.radius := newradius;
+  if newheight >= 0 then
+    actor.height := newheight;
+  testpos := actor.state.params.BoolVal[2];
+  if testpos then
+    if not P_TestMobjLocation(actor) then
+    begin
+      actor.radius := oldradius;
+      actor.height := oldheight;
+    end;
 end;
 
 end.
