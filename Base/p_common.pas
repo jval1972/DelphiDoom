@@ -409,6 +409,8 @@ procedure A_RandomNoFlipSprite(actor: Pmobj_t);
 
 procedure A_CustomMeleeAttack(actor: Pmobj_t);
 
+procedure A_CustomComboAttack(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -4779,6 +4781,63 @@ begin
       actor.state.params.IntVal[2] := sndidx;
     end;
     S_StartSound(actor, sndidx);
+  end;
+end;
+
+//
+//  A_CustomComboAttack(missiletype: string, spawnheight: integer, damage: integer, meleesound: string)
+//
+procedure A_CustomComboAttack(actor: Pmobj_t);
+var
+  damage: integer;
+  sndidx: integer;
+  mobj_no: integer;
+  ang: angle_t;
+  x, y, z: fixed_t;
+  missile: Pmobj_t;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  if actor.target = nil then
+    exit;
+
+  A_FaceTarget(actor);
+  if P_CheckMeleeRange(actor) then
+  begin
+    if actor.state.params.IsComputed[3] then
+      sndidx := actor.state.params.IntVal[3]
+    else
+    begin
+      sndidx := S_GetSoundNumForName(actor.state.params.StrVal[3]);
+      actor.state.params.IntVal[3] := sndidx;
+    end;
+    S_StartSound(actor, sndidx);
+    damage := actor.state.params.IntVal[2];
+    P_DamageMobj(actor.target, actor, actor, damage);
+  end
+  else
+  begin
+    if actor.state.params.IsComputed[0] then
+      mobj_no := actor.state.params.IntVal[0]
+    else
+    begin
+      mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+      actor.state.params.IntVal[0] := mobj_no;
+    end;
+    if mobj_no = -1 then
+      exit;
+
+    ang := (actor.angle - ANG90) shr ANGLETOFINESHIFT;
+    x := actor.x + 32 * finecosine[ang];
+    y := actor.y + 32 * finesine[ang];
+    z := actor.z + actor.state.params.FixedVal[1] - 32 * FRACUNIT;
+    missile := P_SpawnMissileXYZ(x, y, z, actor, actor.target, mobj_no);
+    if missile <> nil then
+    begin
+      if missile.flags_ex and MF_EX_SEEKERMISSILE <> 0 then
+        missile.tracer := actor.target;
+    end;
   end;
 end;
 
