@@ -877,6 +877,107 @@ begin
     Sender.AddConstant('DBITS', uT_longword).Value.tu32 := DBITS;
     Sender.AddConstant('DRANGE', uT_longword).Value.tu32 := DRANGE;
 
+    // Generalized constants
+    Sender.AddConstant('DAMAGE_MASK', uT_integer).Value.ts32 := $60;
+    Sender.AddConstant('DAMAGE_SHIFT', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('SECRET_MASK', uT_integer).Value.ts32 := $80;
+    Sender.AddConstant('SECRET_SHIFT', uT_integer).Value.ts32 := 7;
+    Sender.AddConstant('FRICTION_MASK', uT_integer).Value.ts32 := $100;
+    Sender.AddConstant('FRICTION_SHIFT', uT_integer).Value.ts32 := 8;
+    Sender.AddConstant('PUSH_MASK', uT_integer).Value.ts32 := $200;
+    Sender.AddConstant('PUSH_SHIFT', uT_integer).Value.ts32 := 9;
+    Sender.AddConstant('FORCEFIELD_MASK', uT_integer).Value.ts32 := $400;
+    Sender.AddConstant('FORCEFIELD_SHIFT', uT_integer).Value.ts32 := 10;
+
+    Sender.AddConstant('CGENFLOORBASE', uT_integer).Value.ts32 := $6000;
+    Sender.AddConstant('CGENCEILINGBASE', uT_integer).Value.ts32 := $4000;
+    Sender.AddConstant('CGENDOORBASE', uT_integer).Value.ts32 := $3C00;
+    Sender.AddConstant('CGENLOCKEDBASE', uT_integer).Value.ts32 := $3800;
+    Sender.AddConstant('CGENLIFTBASE', uT_integer).Value.ts32 := $3400;
+    Sender.AddConstant('CGENSTAIRSBASE', uT_integer).Value.ts32 := $3000;
+    Sender.AddConstant('CGENCRUSHERBASE', uT_integer).Value.ts32 := $2F80;
+
+    Sender.AddConstant('TriggerType', uT_integer).Value.ts32 := $0007;
+    Sender.AddConstant('TriggerTypeShift', uT_integer).Value.ts32 := 0;
+
+    Sender.AddConstant('gen_FloorCrush', uT_integer).Value.ts32 := $1000;
+    Sender.AddConstant('gen_FloorChange', uT_integer).Value.ts32 := $0C00;
+    Sender.AddConstant('gen_FloorTarget', uT_integer).Value.ts32 := $0380;
+    Sender.AddConstant('gen_FloorDirection', uT_integer).Value.ts32 := $0040;
+    Sender.AddConstant('gen_FloorModel', uT_integer).Value.ts32 := $0020;
+    Sender.AddConstant('gen_FloorSpeed', uT_integer).Value.ts32 := $0018;
+
+    Sender.AddConstant('FloorCrushShift', uT_integer).Value.ts32 := 12;
+    Sender.AddConstant('FloorChangeShift', uT_integer).Value.ts32 := 10;
+    Sender.AddConstant('FloorTargetShift', uT_integer).Value.ts32 := 7;
+    Sender.AddConstant('FloorDirectionShift', uT_integer).Value.ts32 := 6;
+    Sender.AddConstant('FloorModelShift', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('FloorSpeedShift', uT_integer).Value.ts32 := 3;
+
+    Sender.AddConstant('CeilingCrush', uT_integer).Value.ts32 := $1000;
+    Sender.AddConstant('CeilingChange', uT_integer).Value.ts32 := $0C00;
+    Sender.AddConstant('CeilingTarget', uT_integer).Value.ts32 := $0380;
+    Sender.AddConstant('CeilingDirection', uT_integer).Value.ts32 := $0040;
+    Sender.AddConstant('CeilingModel', uT_integer).Value.ts32 := $0020;
+    Sender.AddConstant('CeilingSpeed', uT_integer).Value.ts32 := $0018;
+
+    Sender.AddConstant('CeilingCrushShift', uT_integer).Value.ts32 := 12;
+    Sender.AddConstant('CeilingChangeShift', uT_integer).Value.ts32 := 10;
+    Sender.AddConstant('CeilingTargetShift', uT_integer).Value.ts32 := 7;
+    Sender.AddConstant('CeilingDirectionShift', uT_integer).Value.ts32 := 6;
+    Sender.AddConstant('CeilingModelShift', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('CeilingSpeedShift', uT_integer).Value.ts32 := 3;
+
+    Sender.AddConstant('LiftTarget', uT_integer).Value.ts32 := $0300;
+    Sender.AddConstant('LiftDelay', uT_integer).Value.ts32 := $00C0;
+    Sender.AddConstant('LiftMonster', uT_integer).Value.ts32 := $0020;
+    Sender.AddConstant('LiftSpeed', uT_integer).Value.ts32 := $0018;
+
+    Sender.AddConstant('LiftTargetShift', uT_integer).Value.ts32 := 8;
+    Sender.AddConstant('LiftDelayShift', uT_integer).Value.ts32 := 6;
+    Sender.AddConstant('LiftMonsterShift', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('LiftSpeedShift', uT_integer).Value.ts32 := 3;
+
+    Sender.AddConstant('StairIgnore', uT_integer).Value.ts32 := $0200;
+    Sender.AddConstant('StairDirection', uT_integer).Value.ts32 := $0100;
+    Sender.AddConstant('StairStep', uT_integer).Value.ts32 := $00c0;
+    Sender.AddConstant('StairMonster', uT_integer).Value.ts32 := $0020;
+    Sender.AddConstant('StairSpeed', uT_integer).Value.ts32 := $0018;
+
+    Sender.AddConstant('StairIgnoreShift', uT_integer).Value.ts32 := 9;
+    Sender.AddConstant('StairDirectionShift', uT_integer).Value.ts32 := 8;
+    Sender.AddConstant('StairStepShift', uT_integer).Value.ts32 := 6;
+    Sender.AddConstant('StairMonsterShift', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('StairSpeedShift', uT_integer).Value.ts32 := 3;
+
+    Sender.AddConstant('CrusherSilent', uT_integer).Value.ts32 := $0040;
+    Sender.AddConstant('CrusherMonster', uT_integer).Value.ts32 := $0020;
+    Sender.AddConstant('CrusherSpeed', uT_integer).Value.ts32 := $0018;
+
+    Sender.AddConstant('CrusherSilentShift', uT_integer).Value.ts32 := 6;
+    Sender.AddConstant('CrusherMonsterShift', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('CrusherSpeedShift', uT_integer).Value.ts32 := 3;
+
+    Sender.AddConstant('DoorDelay', uT_integer).Value.ts32 := $0300;
+    Sender.AddConstant('DoorMonster', uT_integer).Value.ts32 := $0080;
+    Sender.AddConstant('DoorKind', uT_integer).Value.ts32 := $0060;
+    Sender.AddConstant('DoorSpeed', uT_integer).Value.ts32 := $0018;
+
+    Sender.AddConstant('DoorDelayShift', uT_integer).Value.ts32 := 8;
+    Sender.AddConstant('DoorMonsterShift', uT_integer).Value.ts32 := 7;
+    Sender.AddConstant('DoorKindShift', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('DoorSpeedShift', uT_integer).Value.ts32 := 3;
+
+    Sender.AddConstant('LockedNKeys', uT_integer).Value.ts32 := $0200;
+    Sender.AddConstant('LockedKey', uT_integer).Value.ts32 := $01c0;
+    Sender.AddConstant('LockedKind', uT_integer).Value.ts32 := $0020;
+    Sender.AddConstant('LockedSpeed', uT_integer).Value.ts32 := $0018;
+
+    Sender.AddConstant('LockedNKeysShift', uT_integer).Value.ts32 := 9;
+    Sender.AddConstant('LockedKeyShift', uT_integer).Value.ts32 := 6;
+    Sender.AddConstant('LockedKindShift', uT_integer).Value.ts32 := 5;
+    Sender.AddConstant('LockedSpeedShift', uT_integer).Value.ts32 := 3;
+
     Result := True;
   end
   else if Name = 'ALL' then

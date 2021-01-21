@@ -74,6 +74,7 @@ Fixed problem with Overlay display after changing screen dimentions.
 Added overlaydrawpatch console command, usage is "overlaydrawpatch [ticks] [x] [y] [patch]".
 Added Overlay.DrawPatchStretched & OverlayDrawPatchStretched PascalScript functions. params -> (const ticks: Integer; const patchname: string; const x1, y1, x2, y2: Integer)
 Added overlaydrawpatchstretched console command. Usage is overlaydrawpatchstretched [ticks] [x1] [y1] [x2] [y2] [patch].
+Boom generalized lines constants available in PascalScript.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
