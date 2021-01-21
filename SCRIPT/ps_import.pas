@@ -607,8 +607,10 @@ begin
   baseproclist := TProcedureList.Create(basename);
   baseproclist.Add('procedure OverlayClear;', @PS_OverlayClear);
   baseproclist.Add('procedure OverlayDrawPatch(const ticks : Integer; const patchname : string; const x, y : Integer);', @PS_OverlayDrawPatch);
+  baseproclist.Add('procedure OverlayDrawPatchStretched(const ticks: Integer; const patchname: string; const x1, y1, x2, y2: Integer);', @PS_OverlayDrawPatchStretched);
   baseproclist.Add('procedure OverlayDrawPixel(const ticks : Integer; const red, green, blue : byte; const x, y : Integer);', @PS_OverlayDrawPixel);
   baseproclist.Add('procedure OverlayDrawRect(const ticks: Integer; const red, green, blue: byte; const x1, y1, x2, y2: Integer);', @PS_OverlayDrawRect);
+  baseproclist.Add('procedure OverlayDrawLine(const ticks: Integer; const red, green, blue: byte; const x1, y1, x2, y2: Integer);', @PS_OverlayDrawLine);
   baseproclist.Add('procedure OverlayDrawText(const ticks : Integer; const txt : string; const align : Integer; const x, y : Integer);', @PS_OverlayDrawText);
   baseproclist.Add('procedure OverlayDrawLeftText(const ticks : Integer; const txt : string; const x, y : Integer);', @PS_OverlayDrawLeftText);
   baseproclist.Add('procedure OverlayDrawRightText(const ticks : Integer; const txt : string; const x, y : Integer);', @PS_OverlayDrawRightText);

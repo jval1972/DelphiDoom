@@ -46,6 +46,10 @@ const
   OVERLAYSIZE = OVERLAYWIDTH * OVERLAYHEIGHT;
 
 type
+  overlaycast_t = packed array[0..OVERLAYHEIGHT - 1, 0..OVERLAYWIDTH - 1] of byte;
+  overlaycast_p = ^overlaycast_t;
+
+type
   overlayindexes_t = array[0..OVERLAYSIZE - 1] of Integer;
   overlayindexes_p = ^overlayindexes_t;
 
@@ -79,6 +83,7 @@ type
   TOverlayDrawer = class(TObject)
   private
     foverlayscreen: PByteArray;
+    fbackbuffer: PByteArray;
     foverlaylookup: overlaylookup_p;
     foverlaylookupsize: integer;
     ffirstoverlaylookup: overlayindexes_t;
@@ -94,6 +99,8 @@ type
     procedure Grow; virtual;
     procedure DrawPatch(const x, y: Integer; const patchlump: Integer); overload; virtual;
     procedure DrawPatch(const x, y: Integer; const patch: Ppatch_t); overload; virtual;
+    procedure DrawPatchStretched(const x1, y1, x2, y2: Integer; const patchlump: Integer); overload; virtual;
+    procedure DrawPatchStretched(const x1, y1, x2, y2: Integer; const patch: Ppatch_t); overload; virtual;
     procedure DrawPixel(const x, y: Integer; const red, green, blue: byte); virtual;
     procedure DrawRect(const x1, y1, x2, y2: Integer; const red, green, blue: byte); virtual;
     procedure DrawLine(const x1, y1, x2, y2: Integer; const red, green, blue: byte); virtual;
@@ -113,6 +120,8 @@ type
     procedure Clear; virtual;
     procedure AddPatch(const ticks: Integer; const patchname: string;
       const x, y: Integer);
+    procedure AddPatchStretched(const ticks: Integer; const patchname: string;
+      const x1, y1, x2, y2: Integer);
     procedure AddPixel(const ticks: Integer; const red, green, blue: byte;
       const x, y: Integer);
     procedure AddRect(const ticks: Integer; const red, green, blue: byte;
@@ -150,6 +159,9 @@ procedure PS_OverlayClear;
 
 procedure PS_OverlayDrawPatch(const ticks: Integer; const patchname: string;
   const x, y: Integer);
+
+procedure PS_OverlayDrawPatchStretched(const ticks: Integer; const patchname: string;
+  const x1, y1, x2, y2: Integer);
 
 procedure PS_OverlayDrawPixel(const ticks: Integer; const red, green, blue: byte;
   const x, y: Integer);
@@ -201,6 +213,7 @@ uses
   c_cmds,
   d_net,
   hu_stuff,
+  m_fixed,
   i_system,
   mt_utils,
   p_tick,
@@ -220,6 +233,7 @@ constructor TOverlayDrawer.Create;
 begin
   inherited Create;
   foverlayscreen := malloc(OVERLAYSIZE * SizeOf(Byte));
+  fbackbuffer := mallocz(OVERLAYSIZE * SizeOf(Byte));
   foverlaylookupsize := V_GetScreenWidth(SCN_FG) * V_GetScreenHeight(SCN_FG) * SizeOf(PByte);
   foverlaylookup := malloc(foverlaylookupsize);
   CalcOverlayLookUp;
@@ -238,6 +252,7 @@ begin
   memfree(Pointer(fdrawers), frealnumdrawers * SizeOf(overlaydrawer_t));
   memfree(Pointer(foverlaylookup), foverlaylookupsize);
   memfree(Pointer(foverlayscreen), OVERLAYSIZE * SizeOf(Byte));
+  memfree(Pointer(fbackbuffer), OVERLAYSIZE * SizeOf(Byte));
   inherited;
 end;
 
@@ -364,7 +379,7 @@ var
   dest: PByte;
   source: PByte;
   count: Integer;
-  astart, aend: Integer;
+  astart, aend, acurr: Integer;
   delta, prevdelta: Integer;
   tallpatch: Boolean;
 begin
@@ -376,6 +391,8 @@ begin
 
   col := 0;
   w := patch.width;
+  if w = 0 then
+    exit;
 
   while col < w do
   begin
@@ -392,19 +409,22 @@ begin
 
       astart := pDiff(dest, @foverlayscreen[0], 1);
       aend := astart + OVERLAYWIDTH * (count - 1);
-      if (astart >= 0) and (astart < OVERLAYSIZE) and
-         (aend >= 0) and (aend < OVERLAYSIZE) and
-         (fx >=0) and (fx < OVERLAYWIDTH) then
-      begin
-        while count > 0 do
+      if ((astart >= 0) and (astart < OVERLAYSIZE)) or
+         ((aend >= 0) and (aend < OVERLAYSIZE)) then
+        if (fx >=0) and (fx < OVERLAYWIDTH) then
         begin
-          dest^ := source^;
-          Inc(source);
-          Inc(dest, OVERLAYWIDTH);
-          Dec(count);
+          acurr := astart;
+          while count > 0 do
+          begin
+            if (acurr >= 0) and (acurr < OVERLAYSIZE) then
+              dest^ := source^;
+            Inc(source);
+            Inc(dest, OVERLAYWIDTH);
+            Inc(acurr, OVERLAYWIDTH);
+            Dec(count);
+          end;
+          NotifyDrawSize(astart, aend);
         end;
-        NotifyDrawSize(astart, aend);
-      end;
       if not tallpatch then
       begin
         prevdelta := column.topdelta;
@@ -421,6 +441,146 @@ begin
     Inc(fx);
     desttop := @desttop[1];
   end;
+end;
+
+procedure TOverlayDrawer.DrawPatchStretched(const x1, y1, x2, y2: Integer; const patchlump: Integer);
+var
+  patch: Ppatch_t;
+begin
+  if patchlump < 0 then
+    Exit;
+
+  patch := W_CacheLumpNum(patchlump, PU_STATIC);
+  DrawPatchStretched(x1, y1, x2, y2, patch);
+end;
+
+procedure TOverlayDrawer.DrawPatchStretched(const x1, y1, x2, y2: Integer; const patch: Ppatch_t);
+var
+  desttop: PByteArray;
+  w, col: Integer;
+  column: Pcolumn_t;
+  dest: PByte;
+  source: PByte;
+  count: Integer;
+  astart, aend: Integer;
+  delta, prevdelta: Integer;
+  tallpatch: Boolean;
+  minsize, maxsize: integer;
+  fracxstep, fracystep: fixed_t;
+  fracx, fracy: fixed_t;
+  overlaycastscreen: overlaycast_p;
+  overlaycastbuffer: overlaycast_p;
+  x, y: integer;
+  dxstep, dystep: integer;
+  b: byte;
+begin
+  if (x1 = x2) or (y1 = y2) then
+    exit;
+
+  desttop := @fbackbuffer[0];
+
+  col := 0;
+  w := patch.width;
+  if w = 0 then
+    exit;
+
+  maxsize := 0;
+  minsize := OVERLAYSIZE;
+
+  while col < w do
+  begin
+    column := Pcolumn_t(Integer(patch) + patch.columnofs[col]);
+    delta := 0;
+    tallpatch := false;
+    // step through the posts in a column
+    while column.topdelta <> $ff do
+    begin
+      source := PByte(Integer(column) + 3);
+      delta := delta + column.topdelta;
+      dest := @desttop[delta * OVERLAYWIDTH];
+      count := column.length;
+
+      astart := pDiff(dest, @fbackbuffer[0], 1);
+      aend := astart + OVERLAYWIDTH * (count - 1);
+      if (astart >= 0) and (astart < OVERLAYSIZE) and
+         (aend >= 0) and (aend < OVERLAYSIZE) then
+      begin
+        while count > 0 do
+        begin
+          dest^ := source^;
+          Inc(source);
+          Inc(dest, OVERLAYWIDTH);
+          Dec(count);
+        end;
+        if maxsize < aend then
+          maxsize := aend;
+        if minsize > astart then
+          minsize := astart;
+      end;
+      if not tallpatch then
+      begin
+        prevdelta := column.topdelta;
+        column := Pcolumn_t(Integer(column) + column.length + 4);
+        if column.topdelta > prevdelta then
+          delta := 0
+        else
+          tallpatch := true;
+      end
+      else
+        column := Pcolumn_t(Integer(column) + column.length + 4);
+    end;
+    Inc(col);
+    desttop := @desttop[1];
+  end;
+
+  if minsize > maxsize then
+    exit;
+
+  overlaycastscreen := @foverlayscreen[0];
+  overlaycastbuffer := @fbackbuffer[0];
+
+  fracxstep := (patch.width * FRACUNIT) div (x2 - x1);
+  fracystep := (patch.height * FRACUNIT) div (y2 - y1);
+
+  if x1 < x2 then
+    dxstep := 1
+  else
+  begin
+    dxstep := -1;
+    fracxstep := -fracxstep;
+  end;
+  if y1 < y2 then
+    dystep := 1
+  else
+  begin
+    dystep := -1;
+    fracystep := -fracystep;
+  end;
+
+  fracy := 0;
+  y := y1;
+  while y <> y2 do
+  begin
+    if (y >= 0) and (y < OVERLAYHEIGHT) then
+    begin
+      fracx := 0;
+      x := x1;
+      while x <> x2 do
+      begin
+        b := overlaycastbuffer[fracy div FRACUNIT, fracx div FRACUNIT];
+        if b <> 0 then
+          if (x >= 0) and (x < OVERLAYWIDTH) then
+            overlaycastscreen[y, x] := b;
+        fracx := fracx + fracxstep;
+        x := x + dxstep;
+      end;
+    end;
+    fracy := fracy + fracystep;
+    y := y + dystep;
+  end;
+
+  NotifyDrawSize(BufferPosition(minI(x1, x2), minI(y1, y2)), BufferPosition(maxI(x1, x2), maxI(y1, y2)));
+  ZeroMemory(@fbackbuffer[minsize], maxsize - minsize + 1);
 end;
 
 procedure TOverlayDrawer.DrawPixel(const x, y: Integer; const red, green, blue: byte);
@@ -659,6 +819,7 @@ const
   OVR_DRAWPIXEL = 3;
   OVR_DRAWRECT = 4;
   OVR_DRAWLINE = 5;
+  OVR_DRAWPATCHSTRETCHED = 6;
 
 procedure TOverlayDrawer.DrawDrawer(const i: Integer);
 var
@@ -676,6 +837,8 @@ begin
       DrawRect(dr.xparam, dr.yparam, dr.xparam2, dr.yparam2, dr.iparam1, dr.iparam2, dr.iparam3);
     OVR_DRAWLINE:
       DrawLine(dr.xparam, dr.yparam, dr.xparam2, dr.yparam2, dr.iparam1, dr.iparam2, dr.iparam3);
+    OVR_DRAWPATCHSTRETCHED:
+      DrawPatchStretched(dr.xparam, dr.yparam, dr.xparam2, dr.yparam2, dr.iparam1);
   else
     begin
       I_Warning('TOverlayDrawer.DrawDrawer(): Unknown drawer type "%d"'#13#10, [dr.proc]);
@@ -740,6 +903,43 @@ begin
   pdrawer.tick := leveltime + ticks;
   pdrawer.xparam := x;
   pdrawer.yparam := y;
+  pdrawer.iparam1 := lump;
+  pdrawer.sparam := patchname;
+end;
+
+procedure TOverlayDrawer.AddPatchStretched(const ticks: Integer; const patchname: string;
+  const x1, y1, x2, y2: Integer);
+var
+  pdrawer: Poverlaydrawer_t;
+  lump: Integer;
+  pname: string;
+begin
+  if ticks < 0 then
+    Exit;
+
+  pname := patchname;
+  if Length(pname) > 8 then
+  begin
+    SetLength(pname, 8);
+    I_Warning('TOverlayDrawer.AddPatch(): Patch name "%s" has more than 8 characters, truncated to "%s"'#13#10, [patchname, pname]);
+  end;
+  lump := W_CheckNumForName(pname, TYPE_PATCH or TYPE_SPRITE);
+  if lump < 0 then
+  begin
+    I_Warning('TOverlayDrawer.AddPatch(): Invalid patch "%s"'#13#10, [pname]);
+    Exit;
+  end;
+
+  Grow;
+  pdrawer := @fdrawers[fnumdrawers];
+  Inc(fnumdrawers);
+
+  pdrawer.proc := OVR_DRAWPATCHSTRETCHED;
+  pdrawer.tick := leveltime + ticks;
+  pdrawer.xparam := x1;
+  pdrawer.yparam := y1;
+  pdrawer.xparam2 := x2;
+  pdrawer.yparam2 := y2;
   pdrawer.iparam1 := lump;
   pdrawer.sparam := patchname;
 end;
@@ -1752,6 +1952,49 @@ begin
   overlay.AddPatch(ticks, patchname, x, y);
 end;
 
+procedure CmdOverlayDrawPatchStretched(const s1, s2: string);
+var
+  ticks: Integer;
+  x1, y1, x2, y2: Integer;
+  patchname: string;
+  sc: TScriptEngine;
+begin
+  if gamestate <> GS_LEVEL then
+  begin
+    printf('Overlay drawer is available only when playing the game'#13#10);
+    Exit;
+  end;
+
+  if (s1 = '') or (s2 = '') then
+  begin
+    printf('overlaydrawpatchstretched [ticks] [x1] [y1] [x2] [y2] [patch]'#13#10);
+    Exit;
+  end;
+
+  ticks := atoi(s1, -1);
+  if ticks < 0 then
+  begin
+    printf('Ticks must be a positive number'#13#10);
+    Exit;
+  end;
+
+  sc := TScriptEngine.Create(s2);
+
+  sc.MustGetInteger;
+  x1 := sc._Integer;
+  sc.MustGetInteger;
+  y1 := sc._Integer;
+  sc.MustGetInteger;
+  x2 := sc._Integer;
+  sc.MustGetInteger;
+  y2 := sc._Integer;
+  sc.MustGetString;
+  patchname := sc._String;
+  sc.Free;
+
+  overlay.AddPatchStretched(ticks, patchname, x1, y1, x2, y2);
+end;
+
 procedure PS_InitOverlay;
 begin
   overlay := TOverlayDrawer.Create;
@@ -1763,6 +2006,7 @@ begin
   C_AddCmd('overlaydrawrect', @CmdOverlayDrawRect);
   C_AddCmd('overlaydrawline', @CmdOverlayDrawLine);
   C_AddCmd('overlaydrawpatch', @CmdOverlayDrawPatch);
+  C_AddCmd('overlaydrawpatchstretched', @CmdOverlayDrawPatchStretched);
 end;
 
 procedure PS_ShutDownOverlay;
@@ -1809,6 +2053,13 @@ procedure PS_OverlayDrawPatch(const ticks: Integer; const patchname: string;
 begin
   if overlay <> nil then
     overlay.AddPatch(ticks, patchname, x, y);
+end;
+
+procedure PS_OverlayDrawPatchStretched(const ticks: Integer; const patchname: string;
+  const x1, y1, x2, y2: Integer);
+begin
+  if overlay <> nil then
+    overlay.AddPatchStretched(ticks, patchname, x1, y1, x2, y2);
 end;
 
 procedure PS_OverlayDrawPixel(const ticks: Integer; const red, green, blue: byte;
@@ -1869,6 +2120,7 @@ begin
     RegisterMethod('Constructor Create');
     RegisterMethod('Procedure Clear');
     RegisterMethod('Procedure DrawPatch( const ticks : Integer; const patchname : string; const x, y : Integer)');
+    RegisterMethod('Procedure DrawPatchStretched( const ticks : Integer; const patchname : string; const x1, y1, x2, y2 : Integer)');
     RegisterMethod('Procedure DrawPixel( const ticks : Integer; const red, green, blue : byte; const x, y : Integer)');
     RegisterMethod('Procedure DrawRect( const ticks : Integer; const red, green, blue : byte; const x1, y1, x2, y2 : Integer)');
     RegisterMethod('Procedure DrawLine( const ticks : Integer; const red, green, blue : byte; const x1, y1, x2, y2 : Integer)');
@@ -1887,6 +2139,7 @@ begin
     RegisterVirtualConstructor(@TOverlayDrawer.Create, 'Create');
     RegisterVirtualMethod(@TOverlayDrawer.Clear, 'Clear');
     RegisterMethod(@TOverlayDrawer.AddPatch, 'DrawPatch');
+    RegisterMethod(@TOverlayDrawer.AddPatchStretched, 'DrawPatchStretched');
     RegisterMethod(@TOverlayDrawer.AddPixel, 'DrawPixel');
     RegisterMethod(@TOverlayDrawer.AddRect, 'DrawRect');
     RegisterMethod(@TOverlayDrawer.AddLine, 'DrawLine');
