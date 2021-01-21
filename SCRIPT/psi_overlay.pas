@@ -1713,6 +1713,45 @@ begin
   overlay.AddLine(ticks, red, green, blue, x1, y1, x2, y2);
 end;
 
+procedure CmdOverlayDrawPatch(const s1, s2: string);
+var
+  ticks: Integer;
+  x, y: Integer;
+  patchname: string;
+  sc: TScriptEngine;
+begin
+  if gamestate <> GS_LEVEL then
+  begin
+    printf('Overlay drawer is available only when playing the game'#13#10);
+    Exit;
+  end;
+
+  if (s1 = '') or (s2 = '') then
+  begin
+    printf('overlaydrawpatch [ticks] [x] [y] [patch]'#13#10);
+    Exit;
+  end;
+
+  ticks := atoi(s1, -1);
+  if ticks < 0 then
+  begin
+    printf('Ticks must be a positive number'#13#10);
+    Exit;
+  end;
+
+  sc := TScriptEngine.Create(s2);
+
+  sc.MustGetInteger;
+  x := sc._Integer;
+  sc.MustGetInteger;
+  y := sc._Integer;
+  sc.MustGetString;
+  patchname := sc._String;
+  sc.Free;
+
+  overlay.AddPatch(ticks, patchname, x, y);
+end;
+
 procedure PS_InitOverlay;
 begin
   overlay := TOverlayDrawer.Create;
@@ -1723,6 +1762,7 @@ begin
   C_AddCmd('overlaydrawpixel, overlayputpixel', @CmdOverlayPutPixel);
   C_AddCmd('overlaydrawrect', @CmdOverlayDrawRect);
   C_AddCmd('overlaydrawline', @CmdOverlayDrawLine);
+  C_AddCmd('overlaydrawpatch', @CmdOverlayDrawPatch);
 end;
 
 procedure PS_ShutDownOverlay;

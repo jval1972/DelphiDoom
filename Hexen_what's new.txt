@@ -74,6 +74,7 @@ Support for various sound file formats using libsndfile, libflac, libvorbis & li
 Added Overlay.DrawLine & OverlayDrawLine PascalScript functions. params -> (const ticks: Integer; const red, green, blue: byte; const x1, y1, x2, y2: Integer)
 Added overlaydrawline console command. Usage is overlaydrawline [ticks] [x1] [y1] [x2] [y2] [red] [green] [blue].
 Fixed problem with Overlay display after changing screen dimentions.
+Added overlaydrawpatch console command, usage is "overlaydrawpatch [ticks] [x] [y] [patch]".
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
