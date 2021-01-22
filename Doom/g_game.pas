@@ -1503,7 +1503,7 @@ begin
     key_down := 115;
     key_strafeleft := 97;
     key_straferight := 100;
-    key_jump := 106;
+    key_jump := 101;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
