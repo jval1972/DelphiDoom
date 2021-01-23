@@ -189,7 +189,7 @@ const
    MAXBUTTONS = 32;
 
  // 1 second, in ticks.
-   BUTTONTIME = 1000 div TICRATE;
+   BUTTONTIME = 35;
 
 
 type
