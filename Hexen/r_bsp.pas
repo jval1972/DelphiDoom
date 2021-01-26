@@ -836,10 +836,15 @@ begin
   if (frontsector = sub.sector) and (frontsector.renderflags = 0) and
      (frontsector.floorangle = 0) and (frontsector.ceilingangle = 0) then
   begin
+    dummyfloorplane.angle := 0;
+    dummyfloorplane.anglex := 0;
+    dummyfloorplane.angley := 0;
     // if the sector has bottomtextures, then the floorheight will be set to the
     // highest surounding floorheight
     if frontsector.no_bottomtextures or (floorplane = nil) then
     begin
+      dummyfloorplane.picnum := frontsector.floorpic;
+
       i := frontsector.linecount;
 
       dummyfloorplane.renderflags := 0;
@@ -871,6 +876,10 @@ begin
     begin
       i := frontsector.linecount;
 
+      //e6y: this gives a huge speedup on levels with sectors which have many lines
+      dummyceilingplane.angle := 0;
+      dummyceilingplane.anglex := 0;
+      dummyceilingplane.angley := 0;
       dummyceilingplane.renderflags := 0;
       dummyceilingplane.height := MAXINT;
       while i > 0 do
@@ -977,7 +986,7 @@ begin
     if bspnum = -1 then
       R_Subsector(0)
     else
-      R_Subsector(bspnum and (not NF_SUBSECTOR_V5));
+      R_Subsector(bspnum and not NF_SUBSECTOR_V5);
     exit;
   end;
 
