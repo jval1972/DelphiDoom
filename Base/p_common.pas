@@ -417,6 +417,8 @@ procedure A_FadeTo(actor: Pmobj_t);
 
 procedure A_SetSize(actor: Pmobj_t);
 
+procedure A_RaiseMaster(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -502,6 +504,10 @@ function P_TicsFromState(const st: Pstate_t): integer;
 procedure P_SetMobjRelativeState(const mo: Pmobj_t; const offset: integer);
 
 function PlayerToId(const p: Pplayer_t): integer;
+
+procedure P_CopyFriendliness(const originator, mo: Pmobj_t);
+
+function P_RaiseActor(const thing, raiser: Pmobj_t): boolean;
 
 implementation
 
@@ -2308,28 +2314,7 @@ begin
       exit;
     end
     else if (originator <> nil) and (flags and SIXF_NOPOINTERS = 0) then
-    begin
-      if Info_IsMonster(originator._type) then
-      begin
-        // If this is a monster transfer all friendliness information
-        {$IFDEF STRIFE}
-        mo.flags := (mo.flags and not MF_ALLY) or (originator.flags and MF_ALLY);
-        {$ENDIF}
-        {$IFDEF DOOM}
-        mo.flags2_ex := (mo.flags2_ex and not MF2_EX_FRIEND) or (originator.flags2_ex and MF2_EX_FRIEND);
-        {$ENDIF}
-      end
-      else if originator.player <> nil then
-      begin
-        // A player always spawns a monster friendly to him
-        {$IFDEF STRIFE}
-        mo.flags := mo.flags or MF_ALLY;
-        {$ENDIF}
-        {$IFDEF DOOM}
-        mo.flags2_ex := mo.flags2_ex or MF2_EX_FRIEND;
-        {$ENDIF}
-      end;
-    end;
+      P_CopyFriendliness(originator, mo);
   end
   else if flags and SIXF_TRANSFERPOINTERS <> 0 then
   begin
@@ -4935,6 +4920,121 @@ begin
       actor.radius := oldradius;
       actor.height := oldheight;
     end;
+end;
+
+procedure P_CopyFriendliness(const originator, mo: Pmobj_t);
+begin
+  if Info_IsMonster(originator._type) then
+  begin
+    // If this is a monster transfer all friendliness information
+    {$IFDEF STRIFE}
+    mo.flags := (mo.flags and not MF_ALLY) or (originator.flags and MF_ALLY);
+    {$ENDIF}
+    {$IFDEF DOOM}
+    mo.flags2_ex := (mo.flags2_ex and not MF2_EX_FRIEND) or (originator.flags2_ex and MF2_EX_FRIEND);
+    {$ENDIF}
+  end
+  else if originator.player <> nil then
+  begin
+    // A player always spawns a monster friendly to him
+    {$IFDEF STRIFE}
+    mo.flags := mo.flags or MF_ALLY;
+    {$ENDIF}
+    {$IFDEF DOOM}
+    mo.flags2_ex := mo.flags2_ex or MF2_EX_FRIEND;
+    {$ENDIF}
+  end;
+end;
+
+function P_RaiseActor(const thing, raiser: Pmobj_t): boolean;
+var
+  info: Pmobjinfo_t;
+  oldheight: fixed_t;
+  oldradius: fixed_t;
+begin
+  if thing = nil then
+  begin
+    result := false; // not a monster
+    exit;
+  end;
+
+  if thing.flags and MF_CORPSE = 0 then
+  begin
+    result := false; // not a monster
+    exit;
+  end;
+
+  if thing.info.raisestate = Ord(S_NULL) then
+  begin
+    result := false;
+    exit;
+  end;
+
+  info := thing.info;
+  thing.momx := 0;
+  thing.momy := 0;
+
+  // JVAL: Mass, gravity, pushfactor ??
+  oldheight := thing.height;
+  oldradius := thing.radius;
+
+  thing.height := info.height;
+  thing.radius := info.radius;
+
+  if not P_CheckPosition(thing, thing.x, thing.y) then
+  begin
+    thing.height := oldheight;
+    thing.radius := oldradius;
+    result := false;
+    exit;
+  end;
+
+  {$IFDEF DOOM_OR_STRIFE}
+  S_StartSound(thing, Ord(sfx_slop));
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  S_StartSound(thing, Ord(sfx_respawn));
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  S_StartSound(thing, Ord(SFX_RESPAWN));
+  {$ENDIF}
+
+  P_SetMobjState(thing, statenum_t(info.raisestate));
+
+  thing.flags := info.flags;
+  {$IFDEF HERETIC_OR_HEXEN}
+  thing.flags2 := info.flags2;
+  {$ENDIF}
+  thing.flags_ex := info.flags_ex;
+  thing.flags2_ex := info.flags2_ex;
+  thing.flags3_ex := info.flags3_ex;
+  thing.flags4_ex := info.flags4_ex;
+
+  if raiser <> nil then
+    P_CopyFriendliness(raiser, thing);
+
+  thing.health := info.spawnhealth;
+  thing.target := nil;
+
+  result := true;
+end;
+
+procedure A_RaiseMaster(actor: Pmobj_t);
+var
+  copy: boolean;
+begin
+  if actor.master = nil then
+    exit;
+
+  if actor.state.params <> nil then
+    copy := actor.state.params.BoolVal[0] or (actor.state.params.IntVal[0] = 1)
+  else
+    copy := true;
+
+  if copy then
+    P_RaiseActor(actor.master, actor)
+  else
+    P_RaiseActor(actor.master, nil);
 end;
 
 end.
