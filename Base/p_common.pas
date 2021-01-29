@@ -379,6 +379,8 @@ procedure A_KillTarget(actor: Pmobj_t);
 
 procedure A_KillTracer(actor: Pmobj_t);
 
+procedure A_KillMaster(actor: Pmobj_t);
+
 procedure A_RemoveTarget(actor: Pmobj_t);
 
 procedure A_RemoveTracer(actor: Pmobj_t);
@@ -4490,6 +4492,17 @@ begin
     exit;
 
   P_DamageMobj(actor.target, actor, actor, actor.target.health);
+end;
+
+//
+// A_KillMaster
+//
+procedure A_KillMaster(actor: Pmobj_t);
+begin
+  if actor.master = nil then
+    exit;
+
+  P_DamageMobj(actor.master, actor, actor, actor.master.health);
 end;
 
 function P_DoRemoveThing(const mo: Pmobj_t; const flags: integer): boolean;

@@ -53,6 +53,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_DamageTracer(const damage: integer)
   - A_KillTarget
   - A_KillTracer
+  - A_KillMaster
   - A_RemoveTarget([flags: integer])
   - A_RemoveTracer([flags: integer])
   - A_Remove(aaprt: AAPTR, [flags: integer])

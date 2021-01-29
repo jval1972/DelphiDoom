@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 313;
+  DEHNUMACTIONS = 314;
 
 type
   deh_action_t = record
@@ -2851,6 +2851,9 @@ begin
   deh_actions[312].action.acp1 := @A_SetMasterMass;
   deh_actions[312].name := strupper('SetMasterMass');
   {$IFDEF DLL}deh_actions[312].decl := 'A_SetMasterMass(mass: integer)';{$ENDIF}
+  deh_actions[313].action.acp1 := @A_KillMaster;
+  deh_actions[313].name := strupper('KillMaster');
+  {$IFDEF DLL}deh_actions[313].decl := 'A_KillMaster()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
