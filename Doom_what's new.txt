@@ -67,6 +67,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_RaiseMaster
   - A_RaiseChildren
   - A_RaiseSiblings
+  - A_HealThing
 Support for DEHEXTRA.
 Multiple DEHACKED files inside WAD and PK3.
 DEHACKED export will add a comment with command line parameters.

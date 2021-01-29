@@ -429,6 +429,8 @@ procedure A_RaiseChildren(actor: Pmobj_t);
 
 procedure A_RaiseSiblings(actor: Pmobj_t);
 
+procedure A_HealThing(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5159,6 +5161,49 @@ begin
           P_RaiseActor(Pmobj_t(think), friend);
     end;
     think := think.next;
+  end;
+end;
+
+//
+// A_HealThing(amount: integer, max: integer)
+//
+procedure A_HealThing(actor: Pmobj_t);
+var
+  ammount: integer;
+  mx: integer;
+  p: Pplayer_t;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  ammount := actor.state.params.IntVal[0];
+  mx := actor.state.params.IntVal[1];
+
+  if mx > actor.info.spawnhealth then
+    mx := actor.info.spawnhealth;
+
+  p := actor.player;
+
+  if (mx = 0) or (actor.player = nil) then
+  begin
+    actor.health := actor.health + ammount;
+
+    if actor.health > actor.info.spawnhealth then
+      actor.health := actor.info.spawnhealth;
+    if p <> nil then
+      p.health := actor.health;
+    exit;
+  end
+  else if mx = 1 then
+    mx := {$IFDEF DOOM}p_soulspherehealth{$ELSE}100{$ENDIF};
+
+  if actor.health < mx then
+  begin
+    actor.health := actor.health + ammount;
+    if (actor.health > mx) and (mx > 0) then
+      actor.health := mx;
+    if p <> nil then
+      p.health := actor.health;
   end;
 end;
 
