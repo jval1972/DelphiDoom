@@ -569,6 +569,8 @@ function PS_GetMobjInfoSpeed(const typ: integer): integer;
 
 function PS_GetMobjInfoVSpeed(const typ: integer): integer;
 
+function PS_GetMobjInfoMinMissileChance(const typ: integer): integer;
+
 function PS_GetMobjInfoPushFactor(const typ: integer): integer;
 
 function PS_GetMobjInfoScale(const typ: integer): integer;
@@ -5390,6 +5392,16 @@ begin
   Result := mobjinfo[typ].vspeed;
 end;
 
+function PS_GetMobjInfoMinMissileChance(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].minmissilechance;
+end;
+
 function PS_GetMobjInfoPushFactor(const typ: integer): integer;
 begin
   if (typ < 0) or (typ >= nummobjtypes) then
@@ -5772,6 +5784,11 @@ end;
 procedure TRTLMobjInfoItemVSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoVSpeed(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemMinMissileChance_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoMinMissileChance(Integer(Self) - 1);
 end;
 
 procedure TRTLMobjInfoItemPushFactor_R(Self: TRTLMobjInfoItem; var T: integer);
@@ -6627,6 +6644,7 @@ begin
   cmobjinfoitem.RegisterProperty('InteractState', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('MissileHeight', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('VSpeed', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('MinMissileChance', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('PushFactor', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('Scale', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('Gravity', 'Integer', iptR);
@@ -6840,6 +6858,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemDeathSound_R, nil, 'DeathSound');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpeed_R, nil, 'Speed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemVSpeed_R, nil, 'VSpeed');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMinMissileChance_R, nil, 'MinMissileChance');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemPushFactor_R, nil, 'PushFactor');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemScale_R, nil, 'Scale');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGravity_R, nil, 'Gravity');

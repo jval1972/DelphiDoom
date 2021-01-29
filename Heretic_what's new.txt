@@ -86,6 +86,7 @@ Added Overlay.DrawPatchStretched & OverlayDrawPatchStretched PascalScript functi
 Added overlaydrawpatchstretched console command. Usage is overlaydrawpatchstretched [ticks] [x1] [y1] [x2] [y2] [patch].
 Boom generalized lines constants available in PascalScript.
 Added MF3_EX_MISSILEMORE & MF3_EX_MISSILEEVENMORE mobj flags.
+Added minmissilechance mobjinfo field.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

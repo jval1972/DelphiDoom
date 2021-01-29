@@ -599,6 +599,11 @@ begin
     dist := dist div 2;
   if actor.flags3_ex and MF3_EX_MISSILEEVENMORE <> 0 then
     dist := dist div 8;
+
+  if actor.info.minmissilechance > 0 then
+    if actor.info.minmissilechance < dist then
+      dist := actor.info.minmissilechance;
+
   // haleyjd 20110224 [STRIFE]: reversed predicate
   result := dist < P_Random;
 end;

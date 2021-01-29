@@ -488,6 +488,7 @@ begin
   baseproclist.Add('function GetMobjInfoHealState(const typ: integer): integer;', @PS_GetMobjInfoHealState);
   baseproclist.Add('function GetMobjInfoCrashState(const typ: integer): integer;', @PS_GetMobjInfoCrashState);
   baseproclist.Add('function GetMobjInfoVSpeed(const typ: integer): integer;', @PS_GetMobjInfoVSpeed);
+  baseproclist.Add('function GetMobjInfoMinMissileChance(const typ: integer): integer;', @PS_GetMobjInfoMinMissileChance);
   baseproclist.Add('function GetMobjInfoPushFactor(const typ: integer): integer;', @PS_GetMobjInfoPushFactor);
   baseproclist.Add('function GetMobjInfoScale(const typ: integer): integer;', @PS_GetMobjInfoScale);
   {$IFDEF DOOM_OR_STRIFE}

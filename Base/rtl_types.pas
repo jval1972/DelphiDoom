@@ -129,6 +129,7 @@ type
     replacesid: integer;
     scale: float;
     gravity: float;
+    minmissilechance: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

@@ -1331,6 +1331,7 @@ var
         mobj.speed := mobj.speed * FRACUNIT;
     AddRes('Speed = ' + itoa(mobj.speed));
     AddRes('VSpeed = ' + itoa(round(mobj.vspeed * FRACUNIT)));
+    AddRes('MinMissileChance = ' + itoa(round(mobj.minmissilechance)));
     AddRes('Pushfactor = ' + itoa(round(mobj.pushfactor * FRACUNIT)));
     AddRes('Width = ' + itoa(mobj.radius * FRACUNIT));
     AddRes('Height = ' + itoa(mobj.height * FRACUNIT));
@@ -1807,6 +1808,7 @@ begin
           mobj.vspeed := pinf.vspeed / FRACUNIT;
           mobj.pushfactor := pinf.pushfactor / FRACUNIT;
           mobj.scale := pinf.scale / FRACUNIT;
+          mobj.minmissilechance := pinf.minmissilechance;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -2006,6 +2008,12 @@ begin
         begin
           sc.GetFloat;
           mobj.vspeed := sc._float;
+          sc.GetString;
+        end
+        else if sc.MatchString('minmissilechance') then
+        begin
+          sc.GetInteger;
+          mobj.minmissilechance := sc._integer;
           sc.GetString;
         end
         else if sc.MatchString('pushfactor') then
@@ -2661,6 +2669,8 @@ begin
   AddLn('Height ' + itoa(m.height div FRACUNIT));
   if m.vspeed <> 0 then
     AddLn('Vspeed ' + ftoafmt('2.4', m.vspeed / FRACUNIT));
+  if m.minmissilechance <> 0 then
+    AddLn('MinMissileChance ' + itoa(m.minmissilechance));
   if m.pushfactor <> DEFPUSHFACTOR then
     AddLn('Pushfactor ' + itoa(m.pushfactor));
   if m.scale <> FRACUNIT then

@@ -558,6 +558,7 @@ begin
 
                 end;
               end;
+          47: mobjinfo[mobj_no].minmissilechance := mobj_val;
         end;
       end;
 
@@ -1491,6 +1492,7 @@ begin
     else
       result.Add('%s = %s', [capitalizedstring(mobj_tokens[46]), str]);
 
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[47]), mobjinfo[i].minmissilechance]);
 
     result.Add('');
   end;
@@ -1701,6 +1703,7 @@ begin
   mobj_tokens.Add('GRAVITY');            // .gravity                  // 44
   mobj_tokens.Add('FLAGS3_EX');          // .flags3_ex (DelphiDoom)   // 45
   mobj_tokens.Add('FLAGS4_EX');          // .flags4_ex (DelphiDoom)   // 46
+  mobj_tokens.Add('MINMISSILECHANCE');   // .minmissilechance         // 47
 
 
   mobj_flags := TDTextList.Create;

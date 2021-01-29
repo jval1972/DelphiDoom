@@ -89,6 +89,7 @@ Added overlaydrawpatchstretched console command. Usage is overlaydrawpatchstretc
 Boom generalized lines constants available in PascalScript.
 Default jump key is "E" (WASD).
 Added MF3_EX_MISSILEMORE & MF3_EX_MISSILEEVENMORE mobj flags.
+Added minmissilechance mobjinfo field.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
