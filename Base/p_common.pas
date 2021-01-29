@@ -4488,10 +4488,10 @@ end;
 //
 procedure A_KillTracer(actor: Pmobj_t);
 begin
-  if actor.target = nil then
+  if actor.tracer = nil then
     exit;
 
-  P_DamageMobj(actor.target, actor, actor, actor.target.health);
+  P_DamageMobj(actor.tracer, actor, actor, actor.tracer.health);
 end;
 
 //
