@@ -375,6 +375,8 @@ procedure A_DamageTarget(actor: Pmobj_t);
 
 procedure A_DamageTracer(actor: Pmobj_t);
 
+procedure A_DamageMaster(actor: Pmobj_t);
+
 procedure A_KillTarget(actor: Pmobj_t);
 
 procedure A_KillTracer(actor: Pmobj_t);
@@ -4468,6 +4470,23 @@ begin
 
   damage := actor.state.params.IntVal[0];
   P_DoDamage(actor.tracer, damage);
+end;
+
+//
+// A_DamageMaster(const damage: integer);
+//
+procedure A_DamageMaster(actor: Pmobj_t);
+var
+  damage: integer;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  if actor.master = nil then
+    exit;
+
+  damage := actor.state.params.IntVal[0];
+  P_DoDamage(actor.master, damage);
 end;
 
 //

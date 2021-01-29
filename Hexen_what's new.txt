@@ -51,6 +51,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_DamageSelf(actor: Pmobj_t)
   - A_DamageTarget(const damage: integer)
   - A_DamageTracer(const damage: integer)
+  - A_DamageMaster(const damage: integer)
   - A_KillTarget
   - A_KillTracer
   - A_KillMaster

@@ -54,7 +54,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 354;
+  DEHNUMACTIONS = 355;
 
 type
   deh_action_t = record
@@ -2926,6 +2926,9 @@ begin
   deh_actions[353].action.acp1 := @A_KillMaster;
   deh_actions[353].name := strupper('KillMaster');
   {$IFDEF DLL}deh_actions[353].decl := 'A_KillMaster()';{$ENDIF}
+  deh_actions[354].action.acp1 := @A_DamageMaster;
+  deh_actions[354].name := strupper('DamageMaster');
+  {$IFDEF DLL}deh_actions[354].decl := 'A_DamageMaster(const damage: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
