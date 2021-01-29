@@ -343,6 +343,8 @@ procedure A_SetTargetMass(actor: Pmobj_t);
 
 procedure A_SetTracerMass(actor: Pmobj_t);
 
+procedure A_SetMasterMass(actor: Pmobj_t);
+
 procedure A_CheckSight(actor: Pmobj_t);
 
 procedure A_CheckSightOrRange(actor: Pmobj_t);
@@ -3964,6 +3966,20 @@ begin
     exit;
 
   actor.tracer.mass := actor.state.params.IntVal[0];
+end;
+
+//
+// A_SetMasterMass(mass: integer)
+//
+procedure A_SetMasterMass(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  if actor.master = nil then
+    exit;
+
+  actor.master.mass := actor.state.params.IntVal[0];
 end;
 
 //

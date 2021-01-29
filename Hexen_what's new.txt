@@ -35,6 +35,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_SetMass(mass: integer)
   - A_SetTargetMass(mass: integer)
   - A_SetTracerMass(mass: integer)
+  - A_SetMasterMass(mass: integer)
   - A_CheckSight(offset: integer)
   - A_CheckSightOrRange(distance: float, offset: integer, [twodi: boolean=false])
   - A_CheckRange(distance: float, offset: integer, [twodi: boolean=false])
