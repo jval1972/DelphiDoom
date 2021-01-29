@@ -156,7 +156,8 @@ begin
     for j := 0 to Ord(NUMPSPRITES) - 1 do
       if dest.psprites[j].state <> nil then
         dest.psprites[j].state := Pstate_t(pDiff(dest.psprites[j].state, @states[0], SizeOf(dest.psprites[j].state^)));
-    dest.lastdialogtalker := Pmobj_t(dest.lastdialogtalker.key);
+    if dest.lastdialogtalker <> nil then
+      dest.lastdialogtalker := Pmobj_t(dest.lastdialogtalker.key);
   end;
 end;
 
@@ -939,7 +940,8 @@ begin
 
             for i := 0 to MAXPLAYERS - 1 do
               if playeringame[i] then
-                players[i].lastdialogtalker := P_FindMobjFromKey(integer(players[i].lastdialogtalker));
+                if players[i].lastdialogtalker <> nil then
+                  players[i].lastdialogtalker := P_FindMobjFromKey(integer(players[i].lastdialogtalker));
 
           end;
           exit; // end of list
