@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 439;
+  DEHNUMACTIONS = 442;
 
 type
   deh_action_t = record
@@ -3181,6 +3181,15 @@ begin
   deh_actions[438].action.acp1 := @A_SetSize;
   deh_actions[438].name := strupper('SetSize');
   {$IFDEF DLL}deh_actions[438].decl := 'A_SetSize(newradius: integer, newheight: integer, testpos: boolean)';{$ENDIF}
+  deh_actions[439].action.acp1 := @A_RaiseMaster;
+  deh_actions[439].name := strupper('RaiseMaster');
+  {$IFDEF DLL}deh_actions[439].decl := 'A_RaiseMaster(copyfriendliness: boolean)';{$ENDIF}
+  deh_actions[440].action.acp1 := @A_RaiseChildren;
+  deh_actions[440].name := strupper('RaiseChildren');
+  {$IFDEF DLL}deh_actions[440].decl := 'A_RaiseChildren(copyfriendliness: boolean)';{$ENDIF}
+  deh_actions[441].action.acp1 := @A_RaiseSiblings;
+  deh_actions[441].name := strupper('RaiseSiblings');
+  {$IFDEF DLL}deh_actions[441].decl := 'A_RaiseSiblings(copyfriendliness: boolean)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

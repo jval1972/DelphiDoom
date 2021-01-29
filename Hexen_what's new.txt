@@ -62,6 +62,9 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_SetRenderStyle
   - A_FadeTo
   - A_SetSize
+  - A_RaiseMaster
+  - A_RaiseChildren
+  - A_RaiseSiblings
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Corrected DEHACKED export to ACTORDEF (renderstyle field).
