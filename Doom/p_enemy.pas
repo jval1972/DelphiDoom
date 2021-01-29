@@ -459,6 +459,11 @@ begin
   if (actor._type = Ord(MT_CYBORG)) and (dist > 160) then
     dist := 160;
 
+  if actor.flags3_ex and MF3_EX_MISSILEMORE <> 0 then
+    dist := dist div 2;
+  if actor.flags3_ex and MF3_EX_MISSILEEVENMORE <> 0 then
+    dist := dist div 8;
+    
   if P_Random < dist then
     result := false
   else

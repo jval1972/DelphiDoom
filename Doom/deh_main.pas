@@ -1885,6 +1885,8 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');
   mobj_flags3_ex.Add('MF3_EX_LINEDONE');
   mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');
+  mobj_flags3_ex.Add('MF3_EX_MISSILEMORE');
+  mobj_flags3_ex.Add('MF3_EX_MISSILEEVENMORE');
 
   mobj_flags4_ex := TDTextList.Create;
 

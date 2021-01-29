@@ -354,6 +354,10 @@ const
   MF3_EX_LINEDONE = 128;
   // Flip sprite
   MF3_EX_FLIPSPRITE = 256;
+  // Half distance to missile
+  MF3_EX_MISSILEMORE = $200;
+  // 1/8th distance to missile
+  MF3_EX_MISSILEEVENMORE = $400;
 
 type
 // Map Object definition.
