@@ -419,6 +419,8 @@ procedure A_SetSize(actor: Pmobj_t);
 
 procedure A_RaiseMaster(actor: Pmobj_t);
 
+procedure A_RaiseChildren(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5019,6 +5021,9 @@ begin
   result := true;
 end;
 
+//
+// A_RaiseMaster(copyfriendliness: boolean)
+//
 procedure A_RaiseMaster(actor: Pmobj_t);
 var
   copy: boolean;
@@ -5035,6 +5040,38 @@ begin
     P_RaiseActor(actor.master, actor)
   else
     P_RaiseActor(actor.master, nil);
+end;
+
+//
+// A_RaiseChildren(copyfriendliness: boolean)
+//
+procedure A_RaiseChildren(actor: Pmobj_t);
+var
+  copy: boolean;
+  think: Pthinker_t;
+  mo, friend: Pmobj_t;
+begin
+  if actor.state.params <> nil then
+    copy := actor.state.params.BoolVal[0] or (actor.state.params.IntVal[0] = 1)
+  else
+    copy := true;
+
+  if copy then
+    friend := actor
+  else
+    friend := nil;
+
+  think := thinkercap.next;
+  while think <> @thinkercap do
+  begin
+    if @think._function.acp1 = @P_MobjThinker then
+    begin
+      mo := Pmobj_t(think);
+      if mo.master = actor then
+        P_RaiseActor(Pmobj_t(think), friend);
+    end;
+    think := think.next;
+  end;
 end;
 
 end.
