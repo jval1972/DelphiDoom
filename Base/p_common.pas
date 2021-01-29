@@ -421,6 +421,8 @@ procedure A_RaiseMaster(actor: Pmobj_t);
 
 procedure A_RaiseChildren(actor: Pmobj_t);
 
+procedure A_RaiseSiblings(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -517,6 +519,7 @@ uses
   d_delphi,
   doomdef,
   deh_main,
+  d_think,
   m_vectors,
   i_system,
   c_con,
@@ -537,6 +540,7 @@ uses
   p_sight,
   p_spec,
   p_switch,
+  p_tick,
   psi_globals,
   r_renderstyle,
   r_defs,
@@ -5069,6 +5073,42 @@ begin
       mo := Pmobj_t(think);
       if mo.master = actor then
         P_RaiseActor(Pmobj_t(think), friend);
+    end;
+    think := think.next;
+  end;
+end;
+
+//
+// A_RaiseSiblings(copyfriendliness: boolean)
+//
+procedure A_RaiseSiblings(actor: Pmobj_t);
+var
+  copy: boolean;
+  think: Pthinker_t;
+  mo, friend: Pmobj_t;
+begin
+  if actor.master = nil then
+    exit;
+
+  if actor.state.params <> nil then
+    copy := actor.state.params.BoolVal[0] or (actor.state.params.IntVal[0] = 1)
+  else
+    copy := true;
+
+  if copy then
+    friend := actor
+  else
+    friend := nil;
+
+  think := thinkercap.next;
+  while think <> @thinkercap do
+  begin
+    if @think._function.acp1 = @P_MobjThinker then
+    begin
+      mo := Pmobj_t(think);
+      if mo <> actor then
+        if mo.master = actor.master then
+          P_RaiseActor(Pmobj_t(think), friend);
     end;
     think := think.next;
   end;
