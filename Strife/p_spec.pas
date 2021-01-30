@@ -349,7 +349,7 @@ type
 const
   CEILSPEED = FRACUNIT;
   CEILWAIT = 150;
-  MAXCEILINGS = 30;
+  MAXCEILINGS = 128; // JVAL 20210130 - Old value was 30
 
 type
 // villsa [STRIFE] resurrected sliding doors
