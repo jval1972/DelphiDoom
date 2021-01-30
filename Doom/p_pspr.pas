@@ -609,7 +609,6 @@ end;
 var
   bulletslope: fixed_t;
 
-
 procedure P_BulletSlope(mo: Pmobj_t);
 var
   an: angle_t;
