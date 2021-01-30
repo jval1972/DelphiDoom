@@ -762,7 +762,7 @@ begin
   result := P_SpawnMobj(x, y, z, _type);
   result.flags := result.flags or MF_DROPPED; // special versions of items
   // JVAL Dropped items fall down to floor.
-  if not compatibilitymode then
+  if not G_NeedsCompatibilityMode then
   begin
     result.z := result.z + 32 * FRACUNIT;
     result.momz := 4 * FRACUNIT;
