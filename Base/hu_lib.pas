@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -523,7 +523,7 @@ var
 begin
   for i := 0 to s.height - 1 do
   begin
-    if (s.laston) and (not s._on^) then
+    if s.laston and not s._on^ then
       s.lines[i].needsupdate := 4;
     HUlib_eraseTextLine(@s.lines[i]);
   end;
@@ -594,7 +594,7 @@ end;
 
 procedure HUlib_eraseIText(it: Phu_itext_t);
 begin
-  if it.laston and (not it._on^) then
+  if it.laston and not it._on^ then
     it.line.needsupdate := 4;
   HUlib_eraseTextLine(@it.line);
   it.laston := it._on^;

@@ -188,11 +188,11 @@ begin
     exit;
 
   // pause if in menu and at least one tic has been run
-  if (not netgame) and menuactive and
-     (not demoplayback) and (players[consoleplayer].viewz <> 1) then
+  if not netgame and menuactive and
+     not demoplayback and (players[consoleplayer].viewz <> 1) then
     exit;
 
-  if (not demoplayback) and (not demorecording) and C_IsConsoleActive and (not netgame) and (leveltime <> 0) then
+  if not demoplayback and not demorecording and C_IsConsoleActive and not netgame and (leveltime <> 0) then
     exit;
 
   isgamesuspended := false;

@@ -2009,7 +2009,7 @@ begin
   //WAS can't use for than one special line in a row
   //jff 3/21/98 NOW multiple use allowed with enabling line flag
 
-  result := (not G_NeedsCompatibilityMode) and ((li.flags and ML_PASSUSE) <> 0);
+  result := not G_NeedsCompatibilityMode and (li.flags and ML_PASSUSE <> 0);
 end;
 
 // JVAL: mobjs interaction

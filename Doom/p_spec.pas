@@ -2939,7 +2939,7 @@ begin
     11:
       begin
         // EXIT SUPER DAMAGE! (for E1M8 finale)
-        player.cheats := player.cheats and (not CF_GODMODE);
+        player.cheats := player.cheats and not CF_GODMODE;
 
         if leveltime and $1f = 0 then
           P_DamageMobj(player.mo, nil, nil, 20);

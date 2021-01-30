@@ -371,7 +371,7 @@ begin
   //  the missile launcher and bfg do not auto fire
   if player.cmd.buttons and BT_ATTACK <> 0 then
   begin
-    if (not player.attackdown) or
+    if not player.attackdown or
        ((player.readyweapon <> wp_missile) and (player.readyweapon <> wp_bfg)) then
     begin
       player.attackdown := true;

@@ -222,7 +222,7 @@ begin
   if mo.tics < 1 then
     mo.tics := 1;
 
-  mo.flags := mo.flags and (not MF_MISSILE);
+  mo.flags := mo.flags and not MF_MISSILE;
 
   A_DeathSound(mo, mo);
 end;
@@ -250,7 +250,7 @@ begin
     if mo.flags and MF_SKULLFLY <> 0 then
     begin
       // the skull slammed into something
-      mo.flags := mo.flags and (not MF_SKULLFLY);
+      mo.flags := mo.flags and not MF_SKULLFLY;
       mo.momx := 0;
       mo.momy := 0;
       mo.momz := 0;
@@ -570,7 +570,7 @@ begin
     mo.z := mo.floorz;
 
     if not (G_PlayingEngineVersion in [VERSION111..VERSION118]) then
-      if (not correct_lost_soul_bounce) and (mo.flags and MF_SKULLFLY <> 0) then
+      if not correct_lost_soul_bounce and (mo.flags and MF_SKULLFLY <> 0) then
         mo.momz := -mo.momz;
 
     if (mo.flags and MF_MISSILE <> 0) and (mo.flags and MF_NOCLIP = 0) then
@@ -724,7 +724,7 @@ var
   onmo: Pmobj_t;
 begin
   // JVAL: Clear just spawned flag
-  mobj.flags := mobj.flags and (not MF_JUSTAPPEARED);
+  mobj.flags := mobj.flags and not MF_JUSTAPPEARED;
 
   // momentum movement
   if (mobj.momx <> 0) or
@@ -1229,7 +1229,7 @@ begin
   if mthing._type <= 4 then
   begin
     // save spots for respawning in network games
-    if (not netgame) and (mthing._type > 1) and (mthing._type <= dogs + 1) then
+    if not netgame and (mthing._type > 1) and (mthing._type <= dogs + 1) then
     begin
       // use secretcount to avoid multiple dogs in case of multiple starts
       players[mthing._type - 1].secretcount := 1;
@@ -1253,7 +1253,7 @@ begin
   end;
 
   // check for apropriate skill level
-  if (not netgame) and (mthing.options and 16 <> 0) then
+  if not netgame and (mthing.options and 16 <> 0) then
   begin
     result := nil;
     exit;

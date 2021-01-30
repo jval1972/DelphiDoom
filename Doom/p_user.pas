@@ -131,7 +131,7 @@ begin
 
   player.oldviewz := player.viewz;  // JVAL: Slopes
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
@@ -206,7 +206,7 @@ begin
 
   oldviewz := player.viewz;
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
@@ -824,7 +824,7 @@ begin
   begin
     player.powers[Ord(pw_invisibility)] := player.powers[Ord(pw_invisibility)] - 1;
     if player.powers[Ord(pw_invisibility)] = 0 then
-      player.mo.flags := player.mo.flags and (not MF_SHADOW);
+      player.mo.flags := player.mo.flags and not MF_SHADOW;
   end;
 
   if player.powers[Ord(pw_infrared)] <> 0 then

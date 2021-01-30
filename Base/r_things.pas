@@ -2064,10 +2064,10 @@ begin
     silhouette := ds.silhouette;
 
     if spr.gz >= ds.bsilheight then
-      silhouette := silhouette and (not SIL_BOTTOM);
+      silhouette := silhouette and not SIL_BOTTOM;
 
     if spr.gzt <= ds.tsilheight then
-      silhouette := silhouette and (not SIL_TOP);
+      silhouette := silhouette and not SIL_TOP;
 
     if silhouette = 1 then
     begin
@@ -2267,10 +2267,10 @@ begin
     silhouette := ds.silhouette;
 
     if spr.gz >= ds.bsilheight then
-      silhouette := silhouette and (not SIL_BOTTOM);
+      silhouette := silhouette and not SIL_BOTTOM;
 
     if spr.gzt <= ds.tsilheight then
-      silhouette := silhouette and (not SIL_TOP);
+      silhouette := silhouette and not SIL_TOP;
 
     if silhouette = 1 then
     begin
