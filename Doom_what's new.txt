@@ -92,6 +92,7 @@ Default jump key is "E" (WASD).
 Added MF3_EX_MISSILEMORE & MF3_EX_MISSILEEVENMORE mobj flags.
 Added minmissilechance mobjinfo field.
 MAXCEILINGS changed to 128 from 30.
+Improved vanilla demo compatibility.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

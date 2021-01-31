@@ -733,10 +733,8 @@ begin
   begin
     P_XYMovement(mobj);
 
-    if not Assigned(mobj.thinker._function.acv) then
-    begin
+    if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
-    end;
   end;
 
   if mobj.flags_ex and MF_EX_FLOATBOB <> 0 then
@@ -778,7 +776,7 @@ begin
     else
       P_ZMovement(mobj);
 
-    if not Assigned(mobj.thinker._function.acv) then
+    if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
   end;
 
@@ -1492,9 +1490,18 @@ begin
 
   // move a little forward so an angle can
   // be computed if it immediately explodes
-  th.x := th.x + th.momx div 2;
-  th.y := th.y + th.momy div 2;
-  th.z := th.z + th.momz div 2;
+  if G_PlayingEngineVersion in [VERSION122..VERSION205] then
+  begin
+    th.x := th.x + th.momx div 2;
+    th.y := th.y + th.momy div 2;
+    th.z := th.z + th.momz div 2;
+  end
+  else
+  begin
+    th.x := th.x + _SHR1(th.momx);
+    th.y := th.y + _SHR1(th.momy);
+    th.z := th.z + _SHR1(th.momz);
+  end;
 
   if not P_TryMove(th, th.x, th.y) then
   begin

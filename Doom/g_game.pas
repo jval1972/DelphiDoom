@@ -3097,7 +3097,7 @@ end;
 
 function G_PlayingEngineVersion: integer;
 begin
-  if demoplayback then
+  if demoplayback or preparingdemoplayback then
     result := demoversion
   else
     result := VERSION;

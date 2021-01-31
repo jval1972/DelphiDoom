@@ -494,6 +494,11 @@ type
     args: array[0..4] of integer;
     special: integer;
     master: Pmobj_t;
+    // JVAL: 20210130 - Vanilla demo compatibility
+    // Interaction info, by BLOCKMAP.
+    // Links in blocks (if needed).
+    bnext: Pmobj_t;
+    bprev: Pmobj_t;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

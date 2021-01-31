@@ -1121,9 +1121,104 @@ begin
     A_ActiveSound(actor, actor);
 end;
 
+procedure P_DoChaseVanilla(actor: Pmobj_t);
+var
+  delta: integer;
+  nomissile: boolean;
+begin
+  if actor.reactiontime <> 0 then
+    actor.reactiontime := actor.reactiontime - 1;
+
+  // modify target threshold
+  if actor.threshold <> 0 then
+  begin
+    if (actor.target = nil) or (actor.target.health <= 0) then
+      actor.threshold := 0
+    else
+      actor.threshold := actor.threshold - 1;
+  end;
+
+  // turn towards movement direction if not there yet
+  if actor.movedir < 8 then
+  begin
+    actor.angle := actor.angle and $E0000000;
+    delta := actor.angle - _SHLW(actor.movedir, 29);
+
+    if delta > 0 then
+      actor.angle := actor.angle - ANG90 div 2
+    else if delta < 0 then
+      actor.angle := actor.angle + ANG90 div 2;
+  end;
+
+  if (actor.target = nil) or (actor.target.flags and MF_SHOOTABLE = 0) then
+  begin
+    // look for a new target
+    if P_LookForPlayers(actor, True) then
+      exit; // got a new target
+
+    P_SetMobjState(actor, statenum_t(actor.info.spawnstate));
+    exit;
+  end;
+
+  // do not attack twice in a row
+  if actor.flags and MF_JUSTATTACKED <> 0 then
+  begin
+    actor.flags := actor.flags and not MF_JUSTATTACKED;
+    if (gameskill <> sk_nightmare) and not fastparm then
+      P_NewChaseDir(actor);
+    exit;
+  end;
+
+  // check for melee attack
+  if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
+  begin
+    if actor.info.attacksound <> 0 then
+      S_StartSound(actor, actor.info.attacksound);
+
+    P_SetMobjState(actor, statenum_t(actor.info.meleestate));
+    exit;
+  end;
+
+  nomissile := False;
+  // check for missile attack
+  if actor.info.missilestate <> 0 then
+  begin
+    if (gameskill < sk_nightmare) and (not fastparm) and (actor.movecount <> 0) then
+      nomissile := True
+    else if not P_CheckMissileRange(actor) then
+      nomissile := True;
+    if not nomissile then
+    begin
+      P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+      actor.flags := actor.flags or MF_JUSTATTACKED;
+      exit;
+    end;
+  end;
+
+  // possibly choose another target
+  if netgame and (actor.threshold = 0) and
+    (not P_CheckSight(actor, actor.target)) then
+  begin
+    if P_LookForPlayers(actor, True) then
+      exit;  // got a new target
+  end;
+
+  // chase towards player
+  actor.movecount := actor.movecount - 1;
+  if (actor.movecount < 0) or (not P_Move(actor)) then
+    P_NewChaseDir(actor);
+
+  // make active sound
+  if (actor.info.activesound <> 0) and (P_Random < 3) then
+    S_StartSound(actor, actor.info.activesound);
+end;
+
 procedure A_Chase(actor: Pmobj_t);
 begin
-  P_DoChase(actor, false);
+  if G_PlayingEngineVersion <= VERSION110 then // JVAL: 20210103 - Vanilla demo
+    P_DoChaseVanilla(actor)
+  else
+    P_DoChase(actor, false);
 end;
 
 //
@@ -1870,7 +1965,7 @@ begin
   count := 0;
 
   currentthinker := thinkercap.next;
-  while Pointer(currentthinker) <> Pointer(@thinkercap) do
+  while currentthinker <> @thinkercap do
   begin
     if (@currentthinker._function.acp1 = @P_MobjThinker) and
        (Pmobj_t(currentthinker)._type = Ord(MT_SKULL)) then

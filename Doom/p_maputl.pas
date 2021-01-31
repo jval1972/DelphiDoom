@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -82,6 +82,8 @@ implementation
 
 uses
   d_delphi,
+  doomdef,
+  g_game,
   i_system,
   p_setup,
   p_slopes,
@@ -727,6 +729,9 @@ end;
 procedure P_UnsetThingPosition(thing: Pmobj_t);
 var
   link: Pblocklinkitem_t;
+//  i: integer;
+  blockx: integer;
+  blocky: integer;
 begin
   if thing.flags and MF_NOSECTOR = 0 then
   begin
@@ -762,6 +767,33 @@ begin
   begin
     // inert things don't need to be in blockmap
     // unlink from block map
+    if G_PlayingEngineVersion < VERSION110 then // JVAL: 20210130 - Vanilla demo compatibility
+    begin
+      if thing.bnext <> nil then
+        thing.bnext.bprev := thing.bprev;
+
+      if thing.bprev <> nil then
+        thing.bprev.bnext := thing.bnext
+      else
+      begin
+        if internalblockmapformat then
+        begin
+          blockx := MapBlockIntX(int64(thing.x) - int64(bmaporgx));
+          blocky := MapBlockIntY(int64(thing.y) - int64(bmaporgy));
+        end
+        else
+        begin
+          blockx := MapBlockInt(thing.x - bmaporgx);
+          blocky := MapBlockInt(thing.y - bmaporgy);
+        end;
+
+        if (blockx >= 0) and (blockx < bmapwidth) and (blocky >= 0) and
+          (blocky < bmapheight) then
+          vanillablocklinks[blocky * bmapwidth + blockx] := thing.bnext;
+      end;
+
+    end;
+
     if (thing.bpos >= 0) and (thing.bpos < bmapsize) then
     begin
       link := @blocklinks[thing.bpos];
@@ -796,6 +828,7 @@ var
   blockx: integer;
   blocky: integer;
   link: Pblocklinkitem_t;
+  mlink: ^Pmobj_t;
 begin
   // link into subsector
   ss := R_PointInSubsector(thing.x, thing.y);
@@ -836,7 +869,6 @@ begin
   // link into blockmap
   if thing.flags and MF_NOBLOCKMAP = 0 then
   begin
-    // inert things don't need to be in blockmap
     if internalblockmapformat then
     begin
       blockx := MapBlockIntX(int64(thing.x) - int64(bmaporgx));
@@ -847,6 +879,30 @@ begin
       blockx := MapBlockInt(thing.x - bmaporgx);
       blocky := MapBlockInt(thing.y - bmaporgy);
     end;
+
+    // inert things don't need to be in blockmap
+    if G_PlayingEngineVersion < VERSION110 then // JVAL: 20210130 - Vanilla demo compatibility
+    begin
+      // inert things don't need to be in blockmap
+      if (blockx >= 0) and (blockx < bmapwidth) and (blocky >= 0) and
+        (blocky < bmapheight) then
+      begin
+        mlink := @vanillablocklinks[blocky * bmapwidth + blockx];
+        thing.bprev := nil;
+        thing.bnext := mlink^;
+        if mlink^ <> nil then
+          (mlink^).bprev := thing;
+
+        mlink^ := thing;
+      end
+      else
+      begin
+        // thing is off the map
+        thing.bnext := nil;
+        thing.bprev := nil;
+      end;
+    end;
+
     if (blockx >= 0) and (blockx < bmapwidth) and
        (blocky >= 0) and (blocky < bmapheight) then
     begin
@@ -930,6 +986,7 @@ function P_BlockThingsIterator(x, y: integer; func: ttraverser_t): boolean;
 var
   i: integer;
   link: Pblocklinkitem_t;
+  mobj: Pmobj_t;
 begin
   if (x < 0) or (y < 0) or (x >= bmapwidth) or (y >= bmapheight) then
   begin
@@ -937,13 +994,30 @@ begin
     exit;
   end;
 
-  link := @blocklinks[y * bmapwidth + x];
-  for i := 0 to link.size - 1 do
-    if not func(link.links[i]) then
+  if G_PlayingEngineVersion < VERSION110 then // JVAL: 20210130 - Vanilla demo compatibility
+  begin
+    mobj := vanillablocklinks[y * bmapwidth + x];
+
+    while mobj <> nil do
     begin
-      result := false;
-      exit;
+      if not func(mobj) then
+      begin
+        Result := False;
+        exit;
+      end;
+      mobj := mobj.bnext;
     end;
+  end
+  else
+  begin
+    link := @blocklinks[y * bmapwidth + x];
+    for i := 0 to link.size - 1 do
+      if not func(link.links[i]) then
+      begin
+        result := false;
+        exit;
+      end;
+  end;
 
   result := true;
 end;

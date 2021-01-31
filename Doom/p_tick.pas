@@ -57,6 +57,8 @@ procedure P_RemoveThinker(thinker: Pthinker_t);
 
 procedure P_Ticker;
 
+function P_ThinkerIsRemoved(thinker: Pthinker_t): boolean;
+
 var
   leveltime: integer;
   isgamesuspended: boolean = true;
@@ -118,6 +120,11 @@ begin
     mobjlist.Remove(Pmobj_t(thinker));
   // FIXME: NOP.
   @thinker._function.acv := @_removethinker;
+end;
+
+function P_ThinkerIsRemoved(thinker: Pthinker_t): boolean;
+begin
+  Result := (@thinker._function.acv = @_removethinker) or not Assigned(thinker._function.acv);
 end;
 
 //
