@@ -679,6 +679,52 @@ type
   flatPArray = array[0..$FFFF] of Pflat_t;
   PflatPArray = ^flatPArray;
 
+type
+  // A SubSector.
+  // References a Sector.
+  // Basically, this is a list of LineSegs,
+  //  indicating the visible walls that define
+  //  (all or some) sides of a convex BSP leaf.
+  vanillasubsector_t = packed record
+    sector: Psector_t;
+    numlines: smallint;
+    firstline: smallint;
+  end;
+  Pvanillasubsector_t = ^vanillasubsector_t;
+  vanillasubsector_tArray = packed array[0..$FFFF] of vanillasubsector_t;
+  Pvanillasubsector_tArray = ^vanillasubsector_tArray;
+
+  // The LineSeg.
+  vanillaseg_t = packed record
+    v1, v2: Pvertex_t;
+    offset: fixed_t;
+    angle: angle_t;
+    sidedef: Pside_t;
+    linedef: Pline_t;
+    // Sector references.
+    // Could be retrieved from linedef, too.
+    // backsector is NULL for one sided lines
+    frontsector: Psector_t;
+    backsector: Psector_t;
+  end;
+  Pvanillaseg_t = ^vanillaseg_t;
+  vanillaseg_tArray = packed array[0..$FFFF] of vanillaseg_t;
+  Pvanillaseg_tArray = ^vanillaseg_tArray;
+
+  // BSP node.
+  vanillanode_t = packed record
+    // Partition line.
+    x, y: fixed_t;
+    dx, dy: fixed_t;
+    // Bounding box for each child.
+    bbox: packed array[0..1, 0..3] of fixed_t;
+    // If NF_SUBSECTOR its a subsector.
+    children: packed array[0..1] of word;
+  end;
+  Pvanillanode_t = ^vanillanode_t;
+  vanillanode_tArray = packed array[0..$FFFF] of vanillanode_t;
+  Pvanillanode_tArray = ^vanillanode_tArray;
+
 var
   numspritelumps: integer;
 
