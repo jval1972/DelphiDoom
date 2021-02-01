@@ -917,7 +917,7 @@ begin
     if (mo.info.crashstate <> 0) and (mo.flags and MF_CORPSE <> 0) then
       exit;
   end
-  else if (mo.flags_ex and MF_EX_LOWGRAVITY <> 0) then
+  else if mo.flags_ex and MF_EX_LOWGRAVITY <> 0 then
   begin
     if mo.momz = 0 then
       mo.momz := -(P_GetMobjGravity(mo) div 8) * 2
