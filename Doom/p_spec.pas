@@ -3236,8 +3236,11 @@ begin
       48, 85, 273, 274, 275, 276, 277, 278: // JVAL: Scrolling specials
         begin
           // EFFECT FIRSTCOL SCROLL+
-          linespeciallist[numlinespecials] := @lines[i];
-          inc(numlinespecials);
+          if numlinespecials < MAXLINEANIMS then
+          begin
+            linespeciallist[numlinespecials] := @lines[i];
+            inc(numlinespecials);
+          end;
         end;
     end;
   end;

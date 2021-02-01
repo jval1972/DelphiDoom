@@ -1668,8 +1668,11 @@ begin
       48, 99, 142, 143, 144, 145, 146, 147, 148:
         begin
           // EFFECT FIRSTCOL SCROLL+
-          linespeciallist[numlinespecials] := @lines[i];
-          inc(numlinespecials);
+          if numlinespecials < MAXLINEANIMS then
+          begin
+            linespeciallist[numlinespecials] := @lines[i];
+            inc(numlinespecials);
+          end;
         end;
     end;
   end;

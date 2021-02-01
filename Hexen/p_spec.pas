@@ -1535,8 +1535,11 @@ begin
       102, // Scroll_Texture_Up
       103: // Scroll_Texture_Down
         begin
-          linespeciallist[numlinespecials] := @lines[i];
-          inc(numlinespecials);
+          if numlinespecials < MAXLINEANIMS then
+          begin
+            linespeciallist[numlinespecials] := @lines[i];
+            inc(numlinespecials);
+          end;
         end;
       121: // Line_SetIdentification
         begin

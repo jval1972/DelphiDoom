@@ -3496,8 +3496,11 @@ begin
       48, 142, 143, 149: // JVAL: Strife Scrolling specials
         begin
           // EFFECT FIRSTCOL SCROLL+
-          linespeciallist[numlinespecials] := @lines[i];
-          inc(numlinespecials);
+          if numlinespecials < MAXLINEANIMS then
+          begin
+            linespeciallist[numlinespecials] := @lines[i];
+            inc(numlinespecials);
+          end;
         end;
     end;
   end;
