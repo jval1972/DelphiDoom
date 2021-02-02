@@ -1918,7 +1918,7 @@ begin
         end
         else if sc.MatchString('projectile') or sc.MatchString('+projectile') then
         begin
-           mobj.flags := mobj.flags + 'MF_NOGRAVITY MF_DROPOFF  MF_MISSILE ';
+           mobj.flags := mobj.flags + 'MF_NOGRAVITY MF_DROPOFF MF_MISSILE ';
            sc.GetString;
         end
 
