@@ -125,6 +125,7 @@ uses
   p_tick,
   p_pspr,
   p_setup,
+  p_spec,
   p_common,
   p_terrain,
   p_sounds,
@@ -644,7 +645,7 @@ var
   x: fixed_t;
   y: fixed_t;
   z: fixed_t;
-  ss: Psubsector_t;
+  ss: Psector_t;
   mo: Pmobj_t;
   mthing: Pmapthing_t;
   h: fixed_t; // JVAL: 3d floors
@@ -667,13 +668,13 @@ begin
   S_StartSound(mo, Ord(sfx_telept));
 
   // spawn a teleport fog at the new spot
-  ss := R_PointInSubsector(x, y);
+  ss := P_PointInSector(x, y);
 
 // JVAL: 3d floors
-  h := P_FloorHeight(ss.sector, mo.x, mo.y);
-  if ss.sector.midsec >= 0 then
+  h := P_FloorHeight(ss, mo.x, mo.y);
+  if ss.midsec >= 0 then
     if mobj.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
-      h := sectors[ss.sector.midsec].ceilingheight;
+      h := sectors[ss.midsec].ceilingheight;
 
   mo := P_SpawnMobj(x, y, h, Ord(MT_TFOG));
 
@@ -977,6 +978,7 @@ begin
   mobj.momz := mobj.info.vspeed;
 
   mobj.thinker._function.acp1 := @P_MobjThinker;
+  mobj.friction := ORIG_FRICTION;
 
   P_AddThinker(@mobj.thinker);
 
@@ -1046,7 +1048,7 @@ var
   x: fixed_t;
   y: fixed_t;
   z: fixed_t;
-  ss: Psubsector_t;
+  ss: Psector_t;
   mo: Pmobj_t;
   mthing: Pmapthing_t;
   i: integer;
@@ -1069,8 +1071,8 @@ begin
   y := mthing.y * FRACUNIT;
 
   // spawn a teleport fog at the new spot
-  ss := R_PointInSubsector(x, y);
-  mo := P_SpawnMobj(x, y, ss.sector.floorheight, Ord(MT_IFOG), mthing);  // JVAL: Slopes
+  ss := P_PointInSector(x, y);
+  mo := P_SpawnMobj(x, y, ss.floorheight, Ord(MT_IFOG), mthing);  // JVAL: Slopes
   S_StartSound(mo, Ord(sfx_itmbk));
 
   // find which type to spawn
@@ -1115,7 +1117,7 @@ var
   z: fixed_t;
   i: integer;
   plnum: integer;
-  ss: Psubsector_t;
+  ss: Psector_t;
 begin
   // not playing?
   if not playeringame[mthing._type - 1] then
@@ -1135,10 +1137,10 @@ begin
   z := ONFLOORZ;
 
   // JVAL: 20191209 - 3d floors - Fixed Player spawned in 3d floor
-  ss := R_PointInSubsector(x, y);
-  if ss.sector.midsec >= 0 then
+  ss := P_PointInSector(x, y);
+  if ss.midsec >= 0 then
     if mthing.options and MTF_ONMIDSECTOR <> 0 then
-      z := sectors[ss.sector.midsec].ceilingheight;
+      z := sectors[ss.midsec].ceilingheight;
 
   result := P_SpawnMobj(x, y, z, Ord(MT_PLAYER), @mthing);
 
@@ -1195,7 +1197,7 @@ var
   x: fixed_t;
   y: fixed_t;
   z: fixed_t;
-  ss: Psubsector_t; // JVAL: 3d floors
+  ss: Psector_t; // JVAL: 3d floors
   msec: Psector_t;  // JVAL: 3d floors
   musinfoparam: integer;
 begin
@@ -1337,21 +1339,21 @@ begin
     z := ONFLOORZ;
 
 // JVAL: 3d floors
-  ss := R_PointInSubsector(x, y);
-  if ss.sector.midsec >= 0 then
+  ss := P_PointInSector(x, y);
+  if ss.midsec >= 0 then
   begin
-    msec := @sectors[ss.sector.midsec];
+    msec := @sectors[ss.midsec];
     if mthing.options and MTF_ONMIDSECTOR <> 0 then
     begin
       if z = ONFLOATZ then
-        z := (msec.ceilingheight + P_CeilingHeight(ss.sector, x, y)) div 2
+        z := (msec.ceilingheight + P_CeilingHeight(ss, x, y)) div 2
       else if z = ONFLOORZ then
         z := msec.ceilingheight;
     end
     else
     begin
       if z = ONFLOATZ then
-        z := (P_FloorHeight(ss.sector, x, y) + msec.floorheight) div 2
+        z := (P_FloorHeight(ss, x, y) + msec.floorheight) div 2
       else if z = ONCEILINGZ then
         z := msec.floorheight;
     end;

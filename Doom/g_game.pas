@@ -1586,7 +1586,7 @@ var
   x: fixed_t;
   y: fixed_t;
   z: fixed_t; // JVAL: 3d floor
-  ss: Psubsector_t;
+  ss: Psector_t;
   an: angle_t; // JVAL was u long
   mo: Pmobj_t;
   i: integer;
@@ -1611,11 +1611,11 @@ begin
   players[playernum].mo.flags2_ex := players[playernum].mo.flags2_ex and not MF2_EX_PASSMOBJ;
 
   // JVAL: 3d floors
-  ss := R_PointInSubsector(x, y);
-  z := ss.sector.floorheight;
-  if ss.sector.midsec >= 0 then
+  ss := P_PointInSector(x, y);
+  z := ss.floorheight;
+  if ss.midsec >= 0 then
     if players[playernum].mo.spawnpoint.options and MTF_ONMIDSECTOR <> 0 then
-      z := sectors[ss.sector.midsec].ceilingheight;
+      z := sectors[ss.midsec].ceilingheight;
 
   if not P_CheckPosition(players[playernum].mo, x, y) then
   begin
@@ -3087,12 +3087,12 @@ end;
 
 function G_IsOldDemoPlaying: boolean;
 begin
-  result := demoplayback and olddemo;
+  result := (preparingdemoplayback or demoplayback) and olddemo;
 end;
 
 function G_NeedsCompatibilityMode: boolean;
 begin
-  result := compatibilitymode or (demoplayback and olddemo) or forcecompatibilitymode;
+  result := compatibilitymode or ((preparingdemoplayback or demoplayback) and olddemo) or forcecompatibilitymode;
 end;
 
 function G_PlayingEngineVersion: integer;

@@ -74,6 +74,7 @@ procedure P_SlideMove(mo: Pmobj_t);
 function P_CheckOnmobj(thing: Pmobj_t): Pmobj_t;
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;
 
+function P_PointInSector(const x: fixed_t; const y: fixed_t): Psector_t;
 
 var
   linetarget: Pmobj_t;  // who got hit (or NULL)
@@ -201,7 +202,7 @@ var
   yh: integer;
   bx: integer;
   by: integer;
-  newsubsec: Psubsector_t;
+  newsec: Psector_t;
   r: fixed_t;
 begin
   // kill anything occupying the position
@@ -217,7 +218,7 @@ begin
   tmbbox[BOXRIGHT] := x + r;
   tmbbox[BOXLEFT] := x - r;
 
-  newsubsec := R_PointInSubsector(x, y);
+  newsec := P_PointInSector(x, y);
   ceilingline := nil;
 
   // The base floor/ceiling is from the subsector
@@ -225,12 +226,12 @@ begin
   // Any contacted lines the step closer together
   // will adjust them.
   //**tmdropoffz := newsubsec.sector.floorheight;
-  tmdropoffz := P_FloorHeight(newsubsec.sector, x, y); // JVAL: Slopes
+  tmdropoffz := P_FloorHeight(newsec, x, y); // JVAL: Slopes
   tmfloorz := tmdropoffz;
 
   //**tmceilingz := newsubsec.sector.ceilingheight + P_SectorJumpOverhead(newsubsec.sector);
-  tmceilingz := P_CeilingHeight(newsubsec.sector, x, y) + P_SectorJumpOverhead(newsubsec.sector);  // JVAL: Slopes
-  tmfloorpic := newsubsec.sector.floorpic;
+  tmceilingz := P_CeilingHeight(newsec, x, y) + P_SectorJumpOverhead(newsec);  // JVAL: Slopes
+  tmfloorpic := newsec.floorpic;
 
   inc(validcount);
   numspechit := 0;
@@ -767,7 +768,7 @@ var
   yh: integer;
   bx: integer;
   by: integer;
-  newsubsec: Psubsector_t;
+  newsec: Psector_t;
   r: fixed_t;
 begin
   tmthing := thing;
@@ -782,7 +783,7 @@ begin
   tmbbox[BOXRIGHT] := x + r;
   tmbbox[BOXLEFT] := x - r;
 
-  newsubsec := R_PointInSubsector(x, y);
+  newsec := P_PointInSector(x, y);
   ceilingline := nil;
 
   // The base floor / ceiling is from the subsector
@@ -790,9 +791,9 @@ begin
   // Any contacted lines the step closer together
   // will adjust them.
   // JVAL 20191209 - Fix 3d floor problems with A_SpawnItem & A_SpawnItemEx
-  tmdropoffz := P_3dFloorHeight(newsubsec.sector, x, y, thing.z); // JVAL: Slopes
+  tmdropoffz := P_3dFloorHeight(newsec, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
-  tmceilingz := P_3dCeilingHeight(newsubsec.sector, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector);
+  tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z) + P_SectorJumpOverhead(newsec);
 
   inc(validcount);
   numspechit := 0;
@@ -1008,7 +1009,7 @@ end;
 function P_CheckOnmobj(thing: Pmobj_t): Pmobj_t;
 var
   xl, xh, yl, yh, bx, by: integer;
-  newsubsec: Psubsector_t;
+  newsec: Psector_t;
   x: fixed_t;
   y: fixed_t;
   oldmo: mobj_t;
@@ -1030,16 +1031,16 @@ begin
   tmbbox[BOXRIGHT] := x + r;
   tmbbox[BOXLEFT] := x - r;
 
-  newsubsec := R_PointInSubsector(x, y);
+  newsec := P_PointInSector(x, y);
   ceilingline := nil;
 
 //
 // the base floor / ceiling is from the subsector that contains the
 // point.  Any contacted lines the step closer together will adjust them
 //
-  tmfloorz := P_FloorHeight(newsubsec.sector, x, y);  // JVAL: Slopes
+  tmfloorz := P_FloorHeight(newsec, x, y);  // JVAL: Slopes
   tmdropoffz := tmfloorz;
-  tmceilingz := P_CeilingHeight(newsubsec.sector, x, y);  // JVAL: Slopes
+  tmceilingz := P_CeilingHeight(newsec, x, y);  // JVAL: Slopes
 
   inc(validcount);
   numspechit := 0;
@@ -1754,7 +1755,7 @@ var
           exit;
         end;
       // JVAL: Spawn puff to lower textures.
-        if G_NeedsCompatibilityMode then
+        if not G_NeedsCompatibilityMode then
         begin
           P_SaveRandom;
           zoffs := (li.backsector.ceilingheight - z) * P_Random div 256;
@@ -1762,9 +1763,9 @@ var
             zoffs := dist div 2;
           P_SpawnPuff(x, y, z + zoffs);
           P_RestoreRandom;
-          result := false;
-          exit;
         end;
+        result := false;
+        exit;
       end;
     end;
     // Spawn bullet puffs.
@@ -2732,6 +2733,33 @@ begin
   end;
   mobj.flags := flags;
   result := false;
+end;
+
+function P_PointInSectorVanilla(const x: fixed_t; const y: fixed_t): Psector_t;
+var
+  node: Pvanillanode_t;
+  nodenum: LongWord;
+begin
+  nodenum := numvanillanodes - 1;
+
+  while nodenum and NF_SUBSECTOR = 0 do
+  begin
+    node := @vanillanodes[nodenum];
+    if R_PointOnSideVanilla(x, y, node) then
+      nodenum := node.children[1]
+    else
+      nodenum := node.children[0]
+  end;
+
+  result := vanillasubsectors[nodenum and not NF_SUBSECTOR].sector; // JVAL: glbsp
+end;
+
+function P_PointInSector(const x: fixed_t; const y: fixed_t): Psector_t;
+begin
+  if G_IsOldDemoPlaying and hasvanillanodes then
+    result := P_PointInSectorVanilla(x, y)
+  else
+    result := R_PointInSubSector(x, y).sector;
 end;
 
 end.

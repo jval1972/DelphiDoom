@@ -94,6 +94,8 @@ procedure R_ApplyColormap(const ofs, count: integer; const scrn: integer; const 
 
 function R_PointOnSide(const x: fixed_t; const y: fixed_t; const node: Pnode_t): boolean;
 
+function R_PointOnSideVanilla(const x: fixed_t; const y: fixed_t; const node: Pvanillanode_t): boolean;
+
 function R_PointOnSegSide(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
 
 function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
@@ -532,6 +534,47 @@ begin
     result := R_PointOnSide64(x, y, node)
   else
     result := R_PointOnSide32(x, y, node);
+end;
+
+function R_PointOnSideVanilla(const x: fixed_t; const y: fixed_t; const node: Pvanillanode_t): boolean;
+var
+  dx: fixed_t;
+  dy: fixed_t;
+  left: fixed_t;
+  right: fixed_t;
+begin
+  if node.dx = 0 then
+  begin
+    if x <= node.x then
+      result := node.dy > 0
+    else
+      result := node.dy < 0;
+    exit;
+  end;
+
+  if node.dy = 0 then
+  begin
+    if y <= node.y then
+      result := node.dx < 0
+    else
+      result := node.dx > 0;
+    exit;
+  end;
+
+  dx := x - node.x;
+  dy := y - node.y;
+
+  // Try to quickly decide by looking at sign bits.
+  if ((node.dy xor node.dx xor dx xor dy) and $80000000) <> 0 then
+  begin
+    result := ((node.dy xor dx) and $80000000) <> 0;
+    exit;
+  end;
+
+  left := IntFixedMul(node.dy, dx);
+  right := FixedIntMul(dy, node.dx);
+
+  result := right >= left;
 end;
 
 function R_PointOnSegSide32(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
@@ -2074,7 +2117,7 @@ begin
       nodenum := node.children[0]
   end;
 
-  result := @subsectors[nodenum and (not NF_SUBSECTOR_V5)]; // JVAL: glbsp
+  result := @subsectors[nodenum and not NF_SUBSECTOR_V5]; // JVAL: glbsp
 end;
 
 function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;

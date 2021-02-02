@@ -1179,25 +1179,37 @@ begin
     exit;
   end;
 
-  nomissile := False;
   // check for missile attack
   if actor.info.missilestate <> 0 then
   begin
-    if (gameskill < sk_nightmare) and (not fastparm) and (actor.movecount <> 0) then
-      nomissile := True
-    else if not P_CheckMissileRange(actor) then
-      nomissile := True;
-    if not nomissile then
+    if (G_PlayingEngineVersion <= VERSION110) or (G_PlayingEngineVersion > VERSION205) then
     begin
-      P_SetMobjState(actor, statenum_t(actor.info.missilestate));
-      actor.flags := actor.flags or MF_JUSTATTACKED;
-      exit;
+      if not ((gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0)) then
+        if P_CheckMissileRange(actor) then
+        begin
+          P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+          actor.flags := actor.flags or MF_JUSTATTACKED;
+          exit;
+        end;
+    end
+    else
+    begin
+      nomissile := False;
+      if (gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0) then
+        nomissile := True
+      else if not P_CheckMissileRange(actor) then
+        nomissile := True;
+      if not nomissile then
+      begin
+        P_SetMobjState(actor, statenum_t(actor.info.missilestate));
+        actor.flags := actor.flags or MF_JUSTATTACKED;
+        exit;
+      end;
     end;
   end;
 
   // possibly choose another target
-  if netgame and (actor.threshold = 0) and
-    (not P_CheckSight(actor, actor.target)) then
+  if netgame and (actor.threshold = 0) and not P_CheckSight(actor, actor.target) then
   begin
     if P_LookForPlayers(actor, True) then
       exit;  // got a new target
@@ -1205,7 +1217,7 @@ begin
 
   // chase towards player
   actor.movecount := actor.movecount - 1;
-  if (actor.movecount < 0) or (not P_Move(actor)) then
+  if (actor.movecount < 0) or not P_Move(actor) then
     P_NewChaseDir(actor);
 
   // make active sound
