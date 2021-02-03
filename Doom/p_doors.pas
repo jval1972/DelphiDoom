@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -60,6 +60,7 @@ implementation
 
 uses
   d_player,
+  i_system,
   g_game,
   m_fixed,
   p_genlin,
@@ -420,6 +421,7 @@ var
   player: Pplayer_t;
   sec: Psector_t;
   door: Pvldoor_t;
+  sd: integer;
 begin
   // Check for locks
   player := thing.player;
@@ -431,8 +433,8 @@ begin
         if player = nil then
           exit;
 
-        if (not player.cards[Ord(it_bluecard)]) and
-           (not player.cards[Ord(it_blueskull)]) then
+        if not player.cards[Ord(it_bluecard)] and
+           not player.cards[Ord(it_blueskull)] then
         begin
           player._message := PD_BLUEK;
           S_StartSound(nil, Ord(sfx_oof));
@@ -445,8 +447,8 @@ begin
         if player = nil then
           exit;
 
-        if (not player.cards[Ord(it_yellowcard)]) and
-           (not player.cards[Ord(it_yellowskull)]) then
+        if not player.cards[Ord(it_yellowcard)] and
+           not player.cards[Ord(it_yellowskull)] then
         begin
           player._message := PD_YELLOWK;
           S_StartSound(nil, Ord(sfx_oof));
@@ -459,8 +461,8 @@ begin
         if player = nil then
           exit;
 
-        if (not player.cards[Ord(it_redcard)]) and
-           (not player.cards[Ord(it_redskull)]) then
+        if not player.cards[Ord(it_redcard)] and
+           not player.cards[Ord(it_redskull)] then
         begin
           player._message := PD_REDK;
           S_StartSound(nil, Ord(sfx_oof));
@@ -470,8 +472,13 @@ begin
   end;
 
   // if the sector has an active thinker, use it
+
+  sd := line.sidenum[1];
+  if sd = -1 then
+    I_Error('EV_VerticalDoor(): DR special type on 1-sided linedef');
+
   // back sides
-  sec := sides[line.sidenum[1]].sector;
+  sec := sides[sd].sector;
 
   if P_SectorActive(ceiling_special, sec) then
   begin
