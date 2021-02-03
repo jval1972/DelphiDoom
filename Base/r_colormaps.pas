@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -166,7 +166,7 @@ begin
       customcolormaps[i].nummaps := lumplen div 256;
       if customcolormaps[i].nummaps < NUMCOLORMAPS then
       begin
-        Z_Realloc(customcolormaps[i].colormap, NUMCOLORMAPS * 256, PU_STATIC, nil);
+        customcolormaps[i].colormap := Z_Realloc(customcolormaps[i].colormap, NUMCOLORMAPS * 256, PU_STATIC, nil);
         for j := customcolormaps[i].nummaps to NUMCOLORMAPS - 1 do
           memmove(@customcolormaps[i].colormap[j * 256],
                   @customcolormaps[i].colormap[(customcolormaps[i].nummaps - 1) * 256],
