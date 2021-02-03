@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -1463,6 +1463,9 @@ begin
   end;
 end;
 
+var
+  wi_loaded: boolean = false;
+
 procedure WI_LoadData;
 var
   i: integer;
@@ -1470,6 +1473,9 @@ var
   a: Pwianim_t;
   name: string;
 begin
+  if wi_loaded then
+    exit;
+    
   if gamemode = commercial then
     wibackground := 'INTERPIC'
   else
@@ -1620,6 +1626,8 @@ begin
     sprintf(name, 'WIBP%d', [i + 1]);
     bp[i] := W_CacheLumpName(name, PU_STATIC);
   end;
+
+  wi_loaded := true;
 end;
 
 procedure WI_UnloadData;
@@ -1676,18 +1684,23 @@ begin
   Z_ChangeTag(victims, PU_CACHE);
   Z_ChangeTag(killers, PU_CACHE);
   Z_ChangeTag(total, PU_CACHE);
-//  Z_ChangeTag(star, PU_CACHE);
-//  Z_ChangeTag(bstar, PU_CACHE);
+  Z_ChangeTag(star, PU_CACHE);
+  Z_ChangeTag(bstar, PU_CACHE);
 
   for i := 0 to MAXPLAYERS - 1 do
     Z_ChangeTag(p[i], PU_CACHE);
 
   for i := 0 to MAXPLAYERS - 1 do
     Z_ChangeTag(bp[i], PU_CACHE);
+
+  wi_loaded := false;
 end;
 
 procedure WI_Drawer;
 begin
+  if not wi_loaded then
+    WI_LoadData;
+    
   WI_slamBackground;
 
   // draw animated background

@@ -97,6 +97,7 @@ Check overflow of animated lines. (limit is 1024).
 Improved vanilla demo playback compatibility.
 Save elevator data to saved game.
 Fixed potential memory corruption problem when allocating custom colormaps.
+Intermission screen graphics load consistancy.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
