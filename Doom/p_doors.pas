@@ -60,7 +60,6 @@ implementation
 
 uses
   d_player,
-  i_system,
   g_game,
   m_fixed,
   p_genlin,
@@ -437,7 +436,7 @@ begin
            not player.cards[Ord(it_blueskull)] then
         begin
           player._message := PD_BLUEK;
-          S_StartSound(nil, Ord(sfx_oof));
+          S_StartSound(player.mo, Ord(sfx_oof));
           exit;
         end;
       end;
@@ -451,7 +450,7 @@ begin
            not player.cards[Ord(it_yellowskull)] then
         begin
           player._message := PD_YELLOWK;
-          S_StartSound(nil, Ord(sfx_oof));
+          S_StartSound(player.mo, Ord(sfx_oof));
           exit;
         end;
       end;
@@ -465,7 +464,7 @@ begin
            not player.cards[Ord(it_redskull)] then
         begin
           player._message := PD_REDK;
-          S_StartSound(nil, Ord(sfx_oof));
+          S_StartSound(player.mo, Ord(sfx_oof));
           exit;
         end;
       end;
@@ -497,7 +496,6 @@ begin
             if thing.player = nil then
               exit; // JDC: bad guys never close doors
 
-            door.direction := -1; // start going down immediately
           end;
           exit;
         end;

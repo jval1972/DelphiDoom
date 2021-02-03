@@ -99,6 +99,7 @@ Save elevator data to saved game.
 Fixed potential memory corruption problem when allocating custom colormaps.
 Intermission screen graphics load consistancy.
 Check for 1-sided lines as doors.
+Sound org of sfx_oof sound when trying to open a locked door with key is the player.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
