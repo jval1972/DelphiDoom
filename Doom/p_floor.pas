@@ -51,6 +51,8 @@ function T_MovePlane(sector: Psector_t; speed: fixed_t; dest: fixed_t;
 
 procedure T_MoveFloor(floor: Pfloormove_t);
 
+procedure T_MoveElevator(elevator: Pelevator_t);
+
 function EV_DoFloor(line: Pline_t; floortype: floor_e): integer;
 
 function EV_BuildStairs(line: Pline_t; _type: stair_e): integer;

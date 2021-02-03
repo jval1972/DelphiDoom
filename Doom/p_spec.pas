@@ -3378,17 +3378,12 @@ end;
 // JVAL: BOOM compatibility
 function P_SectorActive(const s: special_e; const sec: Psector_t): boolean;
 begin
-  if G_PlayingEngineVersion <= VERSION115 then
-    result := (sec.floordata <> nil) or (sec.ceilingdata <> nil) or (sec.lightingdata <> nil)
+  case s of
+    floor_special: result := sec.floordata <> nil;
+    ceiling_special: result := sec.ceilingdata <> nil;
+    lighting_special:  result := sec.lightingdata <> nil;
   else
-  begin
-    case s of
-      floor_special: result := sec.floordata <> nil;
-      ceiling_special: result := sec.ceilingdata <> nil;
-      lighting_special:  result := sec.lightingdata <> nil;
-    else
-      result := false;
-    end;
+    result := false;
   end;
 end;
 

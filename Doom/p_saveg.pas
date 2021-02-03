@@ -1371,6 +1371,7 @@ type
     tc_friction,    // phares 3/18/98:  new friction effect thinker
     tc_pusher,      // phares 3/22/98:  new push/pull effect thinker
     tc_fireflicker, // JVAL correct T_FireFlicker savegame bug
+    tc_elevator,    //jff 2/22/98 new elevator type thinker
     tc_endspecials
   );
 
@@ -1402,6 +1403,7 @@ var
   friction: Pfriction_t;
   pusher: Ppusher_t;
   flicker: Pfireflicker_t;
+  elevator: Pelevator_t;
   i: integer;
 begin
   // save off the current thinkers
@@ -1561,8 +1563,20 @@ begin
       PADSAVEP;
       flicker := Pfireflicker_t(save_p);
       memcpy(flicker, th, SizeOf(fireflicker_t));
-      incp(pointer(save_p), SizeOf(fireflicker_t));
       flicker.sector := Psector_t(flicker.sector.iSectorID);
+      incp(pointer(save_p), SizeOf(fireflicker_t));
+      continue;
+    end;
+
+    if @th._function.acp1 = @T_MoveElevator then
+    begin
+      save_p[0] := Ord(tc_elevator);
+      save_p := @save_p[1];
+      PADSAVEP;
+      elevator := Pelevator_t(save_p);
+      memcpy(elevator, th, SizeOf(elevator_t));
+      incp(pointer(save_p), SizeOf(elevator_t));
+      elevator.sector := Psector_t(elevator.sector.iSectorID);
       continue;
     end;
 
@@ -1592,6 +1606,7 @@ var
   friction: Pfriction_t;
   pusher: Ppusher_t;
   flicker: Pfireflicker_t;
+  elevator: Pelevator_t;
 begin
   // read in saved thinkers
   while true do
@@ -1812,6 +1827,23 @@ begin
           @flicker.thinker._function.acp1 := @T_FireFlicker;
           flicker.sector := @sectors[integer(flicker.sector)];
           P_AddThinker(@flicker.thinker);
+        end;
+
+      Ord(tc_elevator):
+        begin
+          if savegameversion <= VERSION205 then // JVAL: tc_fireflicker = old value of tc_endspecials
+            exit;
+
+          PADSAVEP;
+          elevator := Z_Malloc(SizeOf(elevator_t), PU_LEVEL, nil);
+          memcpy(elevator, save_p, SizeOf(elevator_t));
+          incp(pointer(save_p), SizeOf(elevator_t));
+
+          @elevator.thinker._function.acp1 := @T_MoveElevator;
+          elevator.sector := @sectors[integer(elevator.sector)];
+          elevator.sector.floordata := elevator; //jff 2/22/98
+          elevator.sector.ceilingdata := elevator; //jff 2/22/98
+          P_AddThinker(@elevator.thinker);
         end;
 
       else
