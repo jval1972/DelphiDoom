@@ -64,6 +64,7 @@ uses
   m_fixed,
   p_genlin,
   p_lights,
+  p_plats,
   p_tick,
   p_setup,
   p_floor;
@@ -420,6 +421,7 @@ var
   player: Pplayer_t;
   sec: Psector_t;
   door: Pvldoor_t;
+  plat: Pplat_t;
   sd: integer;
 begin
   // Check for locks
@@ -502,6 +504,23 @@ begin
             if thing.player = nil then
               exit; // JDC: bad guys never close doors
 
+            // JVAL: 20210203 - From chocolate-doom
+            // When is a door not a door?
+            // In Vanilla, door->direction is set, even though
+            // "specialdata" might not actually point at a door.
+            if @door.thinker._function.acp1 = @ T_VerticalDoor then
+              door.direction := -1  // start going down immediately
+            else if @door.thinker._function.acp1 = @T_PlatRaise then
+            begin
+              // Erm, this is a plat, not a door.
+              // This notably causes a problem in ep1-0500.lmp where
+              // a plat and a door are cross-referenced; the door
+              // doesn't open on 64-bit.
+              // The direction field in vldoor_t corresponds to the wait
+              // field in plat_t.  Let's set that to -1 instead.
+              plat := sec.ceilingdata;
+              plat.wait := -1;
+            end;
           end;
           exit;
         end;
