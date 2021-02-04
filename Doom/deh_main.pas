@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 316;
+  DEHNUMACTIONS = 317;
 
 type
   deh_action_t = record
@@ -2865,6 +2865,9 @@ begin
   deh_actions[315].action.acp1 := @A_HealThing;
   deh_actions[315].name := strupper('HealThing');
   {$IFDEF DLL}deh_actions[315].decl := 'A_HealThing(amount: integer, max: integer)';{$ENDIF}
+  deh_actions[316].action.acp1 := @A_RemoveMaster;
+  deh_actions[316].name := strupper('RemoveMaster');
+  {$IFDEF DLL}deh_actions[316].decl := 'A_RemoveMaster([flags: integer])';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

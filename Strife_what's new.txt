@@ -65,6 +65,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_RaiseChildren
   - A_RaiseSiblings
   - A_HealThing
+  - A_RemoveMaster
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Does not play menu sound on end screen.

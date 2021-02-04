@@ -387,6 +387,8 @@ procedure A_RemoveTarget(actor: Pmobj_t);
 
 procedure A_RemoveTracer(actor: Pmobj_t);
 
+procedure A_RemoveMaster(actor: Pmobj_t);
+
 procedure A_Remove(actor: Pmobj_t);
 
 procedure A_SetFloatBobPhase(actor: Pmobj_t);
@@ -4569,6 +4571,21 @@ begin
     exit;
 
   P_DoRemoveThing(actor.tracer, actor.state.params.IntVal[0]);
+end;
+
+//
+// A_RemoveMaster[flags: integer]);
+// JVAL: incomplete
+//
+procedure A_RemoveMaster(actor: Pmobj_t);
+begin
+  if actor.master = nil then
+    exit;
+
+  if actor.master.player <> nil then // No players
+    exit;
+
+  P_DoRemoveThing(actor.master, actor.state.params.IntVal[0]);
 end;
 
 //
