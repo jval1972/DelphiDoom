@@ -988,7 +988,7 @@ begin
   begin
     ds_anglex := pl.anglex;
     ds_angley := pl.angley;
-    ds_sine := sin(-ds_angle / ANGLE_MAX * 2 * pi);    // JVAL: 20200225 - Texture angle
+    ds_sine := sin(-ds_angle / ANGLE_MAX * 2 * pi);   // JVAL: 20200225 - Texture angle
     ds_cosine := cos(ds_angle / ANGLE_MAX * 2 * pi);  // JVAL: 20200225 - Texture angle
     ds_viewsine := sin((viewangle - ds_angle) / ANGLE_MAX * 2 * pi);    // JVAL: 20200225 - Texture angle
     ds_viewcosine := cos((viewangle - ds_angle) / ANGLE_MAX * 2 * pi);  // JVAL: 20200225 - Texture angle
