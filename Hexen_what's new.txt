@@ -90,6 +90,7 @@ Added minmissilechance mobjinfo field.
 MAXCEILINGS changed to 128 from 30.
 MAXLINEANIMS changed to 1024 from 256.
 Check overflow of animated lines. (limit is 1024).
+Consistancy check of removed mobjs.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

@@ -1329,10 +1329,9 @@ begin
      (mobj.flags and MF_SKULLFLY <> 0) then
   begin
     P_XYMovement(mobj);
-    if not Assigned(mobj.thinker._function.acp1) then
-    begin
+
+    if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
-    end;
   end
   else if mobj.flags2 and MF2_BLASTED <> 0 then
   begin // Reset to not blasted when momentums are gone
@@ -1387,23 +1386,20 @@ begin
       P_ZMovement(mobj);
     end;
 
-    if not Assigned(mobj.thinker._function.acp1) then
-    begin // mobj was removed
-      exit;
-    end;
+    if P_ThinkerIsRemoved(@mobj.thinker) then
+      exit; // mobj was removed
   end;
 
   // Cycle through states, calling action functions at transitions
   if mobj.tics <> -1 then
   begin
     dec(mobj.tics);
+
     // you can cycle through multiple states in a tic
     while mobj.tics = 0 do
     begin
       if not P_SetMobjState(mobj, mobj.state.nextstate) then
-      begin // mobj was removed
-        exit;
-      end;
+        exit; // freed itself
     end;
   end;
 end;
