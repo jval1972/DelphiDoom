@@ -8,266 +8,268 @@
   resources were bound to the produced executable.
 */
 
-#define r_clipper_rsOpenPath3 65136
-#define JConsts_sChangeJPGSize 65137
-#define JConsts_sJPEGError 65138
-#define JConsts_sJPEGImageFile 65139
-#define ExtCtrls_clNameWindowText 65152
-#define WinHelpViewer_hNoKeyword 65153
-#define uPSPreProcessor_RPS_TooManyNestedInclude 65154
-#define uPSPreProcessor_RPS_IncludeNotFound 65155
-#define uPSPreProcessor_RPS_DefineTooManyParameters 65156
-#define uPSPreProcessor_RPS_NoIfdefForEndif 65157
-#define uPSPreProcessor_RPS_NoIfdefForElse 65158
-#define uPSPreProcessor_RPS_ElseTwice 65159
-#define uPSPreProcessor_RPS_UnknownCompilerDirective 65160
-#define uPSPreProcessor_RPs_DefineNotClosed 65161
-#define uPSC_dll_RPS_Invalid_External 65162
-#define uPSC_dll_RPS_InvalidCallingConvention 65163
-#define r_clipper_rsDoMaxima 65164
-#define r_clipper_rsUpdateEdgeIntoAEL 65165
-#define r_clipper_rsInvalidInt 65166
-#define r_clipper_rsOpenPath 65167
-#define ExtCtrls_clNameGrayText 65168
-#define ExtCtrls_clNameHighlight 65169
-#define ExtCtrls_clNameHighlightText 65170
-#define ExtCtrls_clNameInactiveBorder 65171
-#define ExtCtrls_clNameInactiveCaption 65172
-#define ExtCtrls_clNameInactiveCaptionText 65173
-#define ExtCtrls_clNameInfoBk 65174
-#define ExtCtrls_clNameInfoText 65175
-#define ExtCtrls_clNameMenu 65176
-#define ExtCtrls_clNameMenuText 65177
-#define ExtCtrls_clNameNone 65178
-#define ExtCtrls_clNameScrollBar 65179
-#define ExtCtrls_clName3DDkShadow 65180
-#define ExtCtrls_clName3DLight 65181
-#define ExtCtrls_clNameWindow 65182
-#define ExtCtrls_clNameWindowFrame 65183
-#define ExtCtrls_clNameAqua 65184
-#define ExtCtrls_clNameWhite 65185
-#define ExtCtrls_clNameMoneyGreen 65186
-#define ExtCtrls_clNameSkyBlue 65187
-#define ExtCtrls_clNameCream 65188
-#define ExtCtrls_clNameMedGray 65189
-#define ExtCtrls_clNameActiveBorder 65190
-#define ExtCtrls_clNameActiveCaption 65191
-#define ExtCtrls_clNameAppWorkSpace 65192
-#define ExtCtrls_clNameBackground 65193
-#define ExtCtrls_clNameBtnFace 65194
-#define ExtCtrls_clNameBtnHighlight 65195
-#define ExtCtrls_clNameBtnShadow 65196
-#define ExtCtrls_clNameBtnText 65197
-#define ExtCtrls_clNameCaptionText 65198
-#define ExtCtrls_clNameDefault 65199
-#define HelpIntfs_hNoContext 65200
-#define HelpIntfs_hNoTopics 65201
-#define ExtCtrls_clNameBlack 65202
-#define ExtCtrls_clNameMaroon 65203
-#define ExtCtrls_clNameGreen 65204
-#define ExtCtrls_clNameOlive 65205
-#define ExtCtrls_clNameNavy 65206
-#define ExtCtrls_clNamePurple 65207
-#define ExtCtrls_clNameTeal 65208
-#define ExtCtrls_clNameGray 65209
-#define ExtCtrls_clNameSilver 65210
-#define ExtCtrls_clNameRed 65211
-#define ExtCtrls_clNameLime 65212
-#define ExtCtrls_clNameYellow 65213
-#define ExtCtrls_clNameBlue 65214
-#define ExtCtrls_clNameFuchsia 65215
-#define Consts_SmkcDown 65216
-#define Consts_SmkcIns 65217
-#define Consts_SmkcDel 65218
-#define Consts_SmkcShift 65219
-#define Consts_SmkcCtrl 65220
-#define Consts_SmkcAlt 65221
-#define Consts_SOutOfRange 65222
-#define Consts_SIconToClipboard 65223
-#define Consts_SInvalidMemoSize 65224
-#define Consts_SDuplicateMenus 65225
-#define Consts_SDockedCtlNeedsName 65226
-#define Consts_SDockTreeRemoveError 65227
-#define Consts_SDockZoneNotFound 65228
-#define Consts_SDockZoneHasNoCtl 65229
-#define HelpIntfs_hNoTableOfContents 65230
-#define HelpIntfs_hNothingFound 65231
-#define Consts_SMsgDlgIgnore 65232
-#define Consts_SMsgDlgAll 65233
-#define Consts_SMsgDlgNoToAll 65234
-#define Consts_SMsgDlgYesToAll 65235
-#define Consts_SmkcBkSp 65236
-#define Consts_SmkcTab 65237
-#define Consts_SmkcEsc 65238
-#define Consts_SmkcEnter 65239
-#define Consts_SmkcSpace 65240
-#define Consts_SmkcPgUp 65241
-#define Consts_SmkcPgDn 65242
-#define Consts_SmkcEnd 65243
-#define Consts_SmkcHome 65244
-#define Consts_SmkcLeft 65245
-#define Consts_SmkcUp 65246
-#define Consts_SmkcRight 65247
-#define Consts_SCannotDragForm 65248
-#define Consts_SVMetafiles 65249
-#define Consts_SVEnhMetafiles 65250
-#define Consts_SVIcons 65251
-#define Consts_SVBitmaps 65252
-#define Consts_SMsgDlgWarning 65253
-#define Consts_SMsgDlgError 65254
-#define Consts_SMsgDlgInformation 65255
-#define Consts_SMsgDlgConfirm 65256
-#define Consts_SMsgDlgYes 65257
-#define Consts_SMsgDlgNo 65258
-#define Consts_SMsgDlgOK 65259
-#define Consts_SMsgDlgCancel 65260
-#define Consts_SMsgDlgHelp 65261
-#define Consts_SMsgDlgAbort 65262
-#define Consts_SMsgDlgRetry 65263
-#define Consts_SMenuReinserted 65264
-#define Consts_SMenuNotFound 65265
-#define Consts_SNoTimers 65266
-#define Consts_SGroupIndexTooLow 65267
-#define Consts_SNoMDIForm 65268
-#define Consts_SControlParentSetToSelf 65269
-#define Consts_SOKButton 65270
-#define Consts_SCancelButton 65271
-#define Consts_SYesButton 65272
-#define Consts_SNoButton 65273
-#define Consts_SHelpButton 65274
-#define Consts_SCloseButton 65275
-#define Consts_SIgnoreButton 65276
-#define Consts_SRetryButton 65277
-#define Consts_SAbortButton 65278
-#define Consts_SAllButton 65279
-#define Consts_SOutOfResources 65280
-#define Consts_SNoCanvasHandle 65281
-#define Consts_SInvalidImageSize 65282
-#define Consts_SInvalidImageList 65283
-#define Consts_SImageIndexError 65284
-#define Consts_SImageReadFail 65285
-#define Consts_SImageWriteFail 65286
-#define Consts_SWindowDCError 65287
-#define Consts_SWindowClass 65288
-#define Consts_SCannotFocus 65289
-#define Consts_SParentRequired 65290
-#define Consts_SMDIChildNotVisible 65291
-#define Consts_SVisibleChanged 65292
-#define Consts_SCannotShowModal 65293
-#define Consts_SPropertyOutOfRange 65294
-#define Consts_SMenuIndexError 65295
-#define ps_runtime_RPS_InterfaceNotSupported 65296
-#define ps_runtime_RPS_UnknownError 65297
-#define ps_runtime_RPS_InvalidArray 65298
-#define ps_runtime_RPS_OutOfStringRange 65299
-#define ps_runtime_RPS_CannotCastInterface 65300
-#define ps_runtime_RPS_CannotCastObject 65301
-#define ps_runtime_RPS_CapacityLength 65302
-#define ps_runtime_RPS_NILInterfaceException 65303
-#define ps_runtime_RPS_UnknownMethod 65304
-#define Consts_SInvalidBitmap 65305
-#define Consts_SInvalidIcon 65306
-#define Consts_SInvalidMetafile 65307
-#define Consts_SInvalidPixelFormat 65308
-#define Consts_SScanLine 65309
-#define Consts_SChangeIconSize 65310
-#define Consts_SUnknownClipboardFormat 65311
-#define ps_runtime_RPS_InvalidOpcodeParameter 65312
-#define ps_runtime_RPS_NoMainProc 65313
-#define ps_runtime_RPS_OutOfGlobalVarsRange 65314
-#define ps_runtime_RPS_OutOfProcRange 65315
-#define ps_runtime_RPS_OutOfRange 65316
-#define ps_runtime_RPS_OutOfStackRange 65317
-#define ps_runtime_RPS_TypeMismatch 65318
-#define ps_runtime_RPS_UnexpectedEof 65319
-#define ps_runtime_RPS_VersionError 65320
-#define ps_runtime_RPS_DivideByZero 65321
-#define ps_runtime_RPS_MathError 65322
-#define ps_runtime_RPS_CouldNotCallProc 65323
-#define ps_runtime_RPS_OutofRecordRange 65324
-#define ps_runtime_RPS_NullPointerException 65325
-#define ps_runtime_RPS_NullVariantError 65326
-#define ps_runtime_RPS_OutOfMemory 65327
-#define ps_compiler_RPS_AbstractClass 65328
-#define ps_compiler_RPS_UnknownWarning 65329
-#define ps_compiler_RPS_NotArrayProperty 65330
-#define ps_compiler_RPS_NotProperty 65331
-#define ps_compiler_RPS_UnknownProperty 65332
-#define ComConst_SOleError 65333
-#define ComConst_SNoMethod 65334
-#define ComConst_SVarNotObject 65335
-#define ComConst_STooManyParams 65336
-#define ps_runtime_RPS_Exception 65337
-#define ps_runtime_RPS_NoError 65338
-#define ps_runtime_RPS_CannotImport 65339
-#define ps_runtime_RPS_InvalidType 65340
-#define ps_runtime_RPS_InternalError 65341
-#define ps_runtime_RPS_InvalidHeader 65342
-#define ps_runtime_RPS_InvalidOpcode 65343
-#define ps_compiler_RPS_ForwardParameterMismatch 65344
-#define ps_compiler_RPS_InvalidNumberOfParameter 65345
-#define ps_compiler_RPS_InvalidEventParameters 65346
-#define ps_compiler_RPS_TaskVarParameters 65347
-#define ps_compiler_RPS_EventsCanNotBeUsedAsVariables 65348
-#define ps_compiler_RPS_UnknownError 65349
-#define ps_compiler_RPS_NotAllowed 65350
-#define ps_compiler_RPS_UnitNotFound 65351
-#define ps_compiler_RPS_CrossReference 65352
-#define ps_compiler_RPS_Hint 65353
-#define ps_compiler_RPS_VariableNotUsed 65354
-#define ps_compiler_RPS_FunctionNotUsed 65355
-#define ps_compiler_RPS_UnknownHint 65356
-#define ps_compiler_RPS_Warning 65357
-#define ps_compiler_RPS_CalculationAlwaysEvaluatesTo 65358
-#define ps_compiler_RPS_IsNotNeeded 65359
-#define ps_compiler_RPS_IsExpected 65360
-#define ps_compiler_RPS_OfExpected 65361
-#define ps_compiler_RPS_CloseBlockExpected 65362
-#define ps_compiler_RPS_VariableExpected 65363
-#define ps_compiler_RPS_StringExpected 65364
-#define ps_compiler_RPS_EndExpected 65365
-#define ps_compiler_RPS_UnSetLabel 65366
-#define ps_compiler_RPS_NotInLoop 65367
-#define ps_compiler_RPS_InvalidJump 65368
-#define ps_compiler_RPS_OpenBlockExpected 65369
-#define ps_compiler_RPS_WriteOnlyProperty 65370
-#define ps_compiler_RPS_ReadOnlyProperty 65371
-#define ps_compiler_RPS_ClassTypeExpected 65372
-#define ps_compiler_RPS_DivideByZero 65373
-#define ps_compiler_RPS_MathError 65374
-#define ps_compiler_RPS_UnsatisfiedForward 65375
-#define ps_compiler_RPS_SemiColonExpected 65376
-#define ps_compiler_RPS_BeginExpected 65377
-#define ps_compiler_RPS_PeriodExpected 65378
-#define ps_compiler_RPS_DuplicateIdent 65379
-#define ps_compiler_RPS_ColonExpected 65380
-#define ps_compiler_RPS_UnknownType 65381
-#define ps_compiler_RPS_CloseRoundExpected 65382
-#define ps_compiler_RPS_TypeMismatch 65383
-#define ps_compiler_RPS_InternalError 65384
-#define ps_compiler_RPS_AssignmentExpected 65385
-#define ps_compiler_RPS_ThenExpected 65386
-#define ps_compiler_RPS_DoExpected 65387
-#define ps_compiler_RPS_NoResult 65388
-#define ps_compiler_RPS_OpenRoundExpected 65389
-#define ps_compiler_RPS_CommaExpected 65390
-#define ps_compiler_RPS_ToExpected 65391
-#define ps_utils_RPS_InvalidFloat 65392
-#define ps_compiler_RPS_OnUseEventOnly 65393
-#define ps_compiler_RPS_UnableToRegisterFunction 65394
-#define ps_compiler_RPS_UnableToRegisterConst 65395
-#define ps_compiler_RPS_InvalidTypeForVar 65396
-#define ps_compiler_RPS_InvalidType 65397
-#define ps_compiler_RPS_UnableToRegisterType 65398
-#define ps_compiler_RPS_UnknownInterface 65399
-#define ps_compiler_RPS_Error 65400
-#define ps_compiler_RPS_UnknownIdentifier 65401
-#define ps_compiler_RPS_IdentifierExpected 65402
-#define ps_compiler_RPS_CommentError 65403
-#define ps_compiler_RPS_StringError 65404
-#define ps_compiler_RPS_CharError 65405
-#define ps_compiler_RPS_SyntaxError 65406
-#define ps_compiler_RPS_EOF 65407
+#define r_clipper_rsInvalidInt 65136
+#define r_clipper_rsOpenPath 65137
+#define r_clipper_rsOpenPath3 65138
+#define JConsts_sChangeJPGSize 65139
+#define JConsts_sJPEGError 65140
+#define JConsts_sJPEGImageFile 65141
+#define ExtCtrls_clNameWindow 65152
+#define ExtCtrls_clNameWindowFrame 65153
+#define ExtCtrls_clNameWindowText 65154
+#define WinHelpViewer_hNoKeyword 65155
+#define uPSPreProcessor_RPS_TooManyNestedInclude 65156
+#define uPSPreProcessor_RPS_IncludeNotFound 65157
+#define uPSPreProcessor_RPS_DefineTooManyParameters 65158
+#define uPSPreProcessor_RPS_NoIfdefForEndif 65159
+#define uPSPreProcessor_RPS_NoIfdefForElse 65160
+#define uPSPreProcessor_RPS_ElseTwice 65161
+#define uPSPreProcessor_RPS_UnknownCompilerDirective 65162
+#define uPSPreProcessor_RPs_DefineNotClosed 65163
+#define uPSC_dll_RPS_Invalid_External 65164
+#define uPSC_dll_RPS_InvalidCallingConvention 65165
+#define r_clipper_rsDoMaxima 65166
+#define r_clipper_rsUpdateEdgeIntoAEL 65167
+#define ExtCtrls_clNameCaptionText 65168
+#define ExtCtrls_clNameDefault 65169
+#define ExtCtrls_clNameGrayText 65170
+#define ExtCtrls_clNameHighlight 65171
+#define ExtCtrls_clNameHighlightText 65172
+#define ExtCtrls_clNameInactiveBorder 65173
+#define ExtCtrls_clNameInactiveCaption 65174
+#define ExtCtrls_clNameInactiveCaptionText 65175
+#define ExtCtrls_clNameInfoBk 65176
+#define ExtCtrls_clNameInfoText 65177
+#define ExtCtrls_clNameMenu 65178
+#define ExtCtrls_clNameMenuText 65179
+#define ExtCtrls_clNameNone 65180
+#define ExtCtrls_clNameScrollBar 65181
+#define ExtCtrls_clName3DDkShadow 65182
+#define ExtCtrls_clName3DLight 65183
+#define ExtCtrls_clNameBlue 65184
+#define ExtCtrls_clNameFuchsia 65185
+#define ExtCtrls_clNameAqua 65186
+#define ExtCtrls_clNameWhite 65187
+#define ExtCtrls_clNameMoneyGreen 65188
+#define ExtCtrls_clNameSkyBlue 65189
+#define ExtCtrls_clNameCream 65190
+#define ExtCtrls_clNameMedGray 65191
+#define ExtCtrls_clNameActiveBorder 65192
+#define ExtCtrls_clNameActiveCaption 65193
+#define ExtCtrls_clNameAppWorkSpace 65194
+#define ExtCtrls_clNameBackground 65195
+#define ExtCtrls_clNameBtnFace 65196
+#define ExtCtrls_clNameBtnHighlight 65197
+#define ExtCtrls_clNameBtnShadow 65198
+#define ExtCtrls_clNameBtnText 65199
+#define HelpIntfs_hNoTableOfContents 65200
+#define HelpIntfs_hNothingFound 65201
+#define HelpIntfs_hNoContext 65202
+#define HelpIntfs_hNoTopics 65203
+#define ExtCtrls_clNameBlack 65204
+#define ExtCtrls_clNameMaroon 65205
+#define ExtCtrls_clNameGreen 65206
+#define ExtCtrls_clNameOlive 65207
+#define ExtCtrls_clNameNavy 65208
+#define ExtCtrls_clNamePurple 65209
+#define ExtCtrls_clNameTeal 65210
+#define ExtCtrls_clNameGray 65211
+#define ExtCtrls_clNameSilver 65212
+#define ExtCtrls_clNameRed 65213
+#define ExtCtrls_clNameLime 65214
+#define ExtCtrls_clNameYellow 65215
+#define Consts_SmkcUp 65216
+#define Consts_SmkcRight 65217
+#define Consts_SmkcDown 65218
+#define Consts_SmkcIns 65219
+#define Consts_SmkcDel 65220
+#define Consts_SmkcShift 65221
+#define Consts_SmkcCtrl 65222
+#define Consts_SmkcAlt 65223
+#define Consts_SOutOfRange 65224
+#define Consts_SIconToClipboard 65225
+#define Consts_SInvalidMemoSize 65226
+#define Consts_SDuplicateMenus 65227
+#define Consts_SDockedCtlNeedsName 65228
+#define Consts_SDockTreeRemoveError 65229
+#define Consts_SDockZoneNotFound 65230
+#define Consts_SDockZoneHasNoCtl 65231
+#define Consts_SMsgDlgAbort 65232
+#define Consts_SMsgDlgRetry 65233
+#define Consts_SMsgDlgIgnore 65234
+#define Consts_SMsgDlgAll 65235
+#define Consts_SMsgDlgNoToAll 65236
+#define Consts_SMsgDlgYesToAll 65237
+#define Consts_SmkcBkSp 65238
+#define Consts_SmkcTab 65239
+#define Consts_SmkcEsc 65240
+#define Consts_SmkcEnter 65241
+#define Consts_SmkcSpace 65242
+#define Consts_SmkcPgUp 65243
+#define Consts_SmkcPgDn 65244
+#define Consts_SmkcEnd 65245
+#define Consts_SmkcHome 65246
+#define Consts_SmkcLeft 65247
+#define Consts_SAbortButton 65248
+#define Consts_SAllButton 65249
+#define Consts_SCannotDragForm 65250
+#define Consts_SVMetafiles 65251
+#define Consts_SVEnhMetafiles 65252
+#define Consts_SVIcons 65253
+#define Consts_SVBitmaps 65254
+#define Consts_SMsgDlgWarning 65255
+#define Consts_SMsgDlgError 65256
+#define Consts_SMsgDlgInformation 65257
+#define Consts_SMsgDlgConfirm 65258
+#define Consts_SMsgDlgYes 65259
+#define Consts_SMsgDlgNo 65260
+#define Consts_SMsgDlgOK 65261
+#define Consts_SMsgDlgCancel 65262
+#define Consts_SMsgDlgHelp 65263
+#define Consts_SPropertyOutOfRange 65264
+#define Consts_SMenuIndexError 65265
+#define Consts_SMenuReinserted 65266
+#define Consts_SMenuNotFound 65267
+#define Consts_SNoTimers 65268
+#define Consts_SGroupIndexTooLow 65269
+#define Consts_SNoMDIForm 65270
+#define Consts_SControlParentSetToSelf 65271
+#define Consts_SOKButton 65272
+#define Consts_SCancelButton 65273
+#define Consts_SYesButton 65274
+#define Consts_SNoButton 65275
+#define Consts_SHelpButton 65276
+#define Consts_SCloseButton 65277
+#define Consts_SIgnoreButton 65278
+#define Consts_SRetryButton 65279
+#define Consts_SChangeIconSize 65280
+#define Consts_SUnknownClipboardFormat 65281
+#define Consts_SOutOfResources 65282
+#define Consts_SNoCanvasHandle 65283
+#define Consts_SInvalidImageSize 65284
+#define Consts_SInvalidImageList 65285
+#define Consts_SImageIndexError 65286
+#define Consts_SImageReadFail 65287
+#define Consts_SImageWriteFail 65288
+#define Consts_SWindowDCError 65289
+#define Consts_SWindowClass 65290
+#define Consts_SCannotFocus 65291
+#define Consts_SParentRequired 65292
+#define Consts_SMDIChildNotVisible 65293
+#define Consts_SVisibleChanged 65294
+#define Consts_SCannotShowModal 65295
+#define ps_runtime_RPS_NullVariantError 65296
+#define ps_runtime_RPS_OutOfMemory 65297
+#define ps_runtime_RPS_InterfaceNotSupported 65298
+#define ps_runtime_RPS_UnknownError 65299
+#define ps_runtime_RPS_InvalidArray 65300
+#define ps_runtime_RPS_OutOfStringRange 65301
+#define ps_runtime_RPS_CannotCastInterface 65302
+#define ps_runtime_RPS_CannotCastObject 65303
+#define ps_runtime_RPS_CapacityLength 65304
+#define ps_runtime_RPS_NILInterfaceException 65305
+#define ps_runtime_RPS_UnknownMethod 65306
+#define Consts_SInvalidBitmap 65307
+#define Consts_SInvalidIcon 65308
+#define Consts_SInvalidMetafile 65309
+#define Consts_SInvalidPixelFormat 65310
+#define Consts_SScanLine 65311
+#define ps_runtime_RPS_InvalidHeader 65312
+#define ps_runtime_RPS_InvalidOpcode 65313
+#define ps_runtime_RPS_InvalidOpcodeParameter 65314
+#define ps_runtime_RPS_NoMainProc 65315
+#define ps_runtime_RPS_OutOfGlobalVarsRange 65316
+#define ps_runtime_RPS_OutOfProcRange 65317
+#define ps_runtime_RPS_OutOfRange 65318
+#define ps_runtime_RPS_OutOfStackRange 65319
+#define ps_runtime_RPS_TypeMismatch 65320
+#define ps_runtime_RPS_UnexpectedEof 65321
+#define ps_runtime_RPS_VersionError 65322
+#define ps_runtime_RPS_DivideByZero 65323
+#define ps_runtime_RPS_MathError 65324
+#define ps_runtime_RPS_CouldNotCallProc 65325
+#define ps_runtime_RPS_OutofRecordRange 65326
+#define ps_runtime_RPS_NullPointerException 65327
+#define ps_compiler_RPS_CalculationAlwaysEvaluatesTo 65328
+#define ps_compiler_RPS_IsNotNeeded 65329
+#define ps_compiler_RPS_AbstractClass 65330
+#define ps_compiler_RPS_UnknownWarning 65331
+#define ps_compiler_RPS_NotArrayProperty 65332
+#define ps_compiler_RPS_NotProperty 65333
+#define ps_compiler_RPS_UnknownProperty 65334
+#define ComConst_SOleError 65335
+#define ComConst_SNoMethod 65336
+#define ComConst_SVarNotObject 65337
+#define ComConst_STooManyParams 65338
+#define ps_runtime_RPS_Exception 65339
+#define ps_runtime_RPS_NoError 65340
+#define ps_runtime_RPS_CannotImport 65341
+#define ps_runtime_RPS_InvalidType 65342
+#define ps_runtime_RPS_InternalError 65343
+#define ps_compiler_RPS_MathError 65344
+#define ps_compiler_RPS_UnsatisfiedForward 65345
+#define ps_compiler_RPS_ForwardParameterMismatch 65346
+#define ps_compiler_RPS_InvalidNumberOfParameter 65347
+#define ps_compiler_RPS_InvalidEventParameters 65348
+#define ps_compiler_RPS_TaskVarParameters 65349
+#define ps_compiler_RPS_EventsCanNotBeUsedAsVariables 65350
+#define ps_compiler_RPS_UnknownError 65351
+#define ps_compiler_RPS_NotAllowed 65352
+#define ps_compiler_RPS_UnitNotFound 65353
+#define ps_compiler_RPS_CrossReference 65354
+#define ps_compiler_RPS_Hint 65355
+#define ps_compiler_RPS_VariableNotUsed 65356
+#define ps_compiler_RPS_FunctionNotUsed 65357
+#define ps_compiler_RPS_UnknownHint 65358
+#define ps_compiler_RPS_Warning 65359
+#define ps_compiler_RPS_CommaExpected 65360
+#define ps_compiler_RPS_ToExpected 65361
+#define ps_compiler_RPS_IsExpected 65362
+#define ps_compiler_RPS_OfExpected 65363
+#define ps_compiler_RPS_CloseBlockExpected 65364
+#define ps_compiler_RPS_VariableExpected 65365
+#define ps_compiler_RPS_StringExpected 65366
+#define ps_compiler_RPS_EndExpected 65367
+#define ps_compiler_RPS_UnSetLabel 65368
+#define ps_compiler_RPS_NotInLoop 65369
+#define ps_compiler_RPS_InvalidJump 65370
+#define ps_compiler_RPS_OpenBlockExpected 65371
+#define ps_compiler_RPS_WriteOnlyProperty 65372
+#define ps_compiler_RPS_ReadOnlyProperty 65373
+#define ps_compiler_RPS_ClassTypeExpected 65374
+#define ps_compiler_RPS_DivideByZero 65375
+#define ps_compiler_RPS_SyntaxError 65376
+#define ps_compiler_RPS_EOF 65377
+#define ps_compiler_RPS_SemiColonExpected 65378
+#define ps_compiler_RPS_BeginExpected 65379
+#define ps_compiler_RPS_PeriodExpected 65380
+#define ps_compiler_RPS_DuplicateIdent 65381
+#define ps_compiler_RPS_ColonExpected 65382
+#define ps_compiler_RPS_UnknownType 65383
+#define ps_compiler_RPS_CloseRoundExpected 65384
+#define ps_compiler_RPS_TypeMismatch 65385
+#define ps_compiler_RPS_InternalError 65386
+#define ps_compiler_RPS_AssignmentExpected 65387
+#define ps_compiler_RPS_ThenExpected 65388
+#define ps_compiler_RPS_DoExpected 65389
+#define ps_compiler_RPS_NoResult 65390
+#define ps_compiler_RPS_OpenRoundExpected 65391
+#define RTLConsts_SMissingDateTimeField 65392
+#define RTLConsts_SInvalidDateTime 65393
+#define ps_utils_RPS_InvalidFloat 65394
+#define ps_compiler_RPS_OnUseEventOnly 65395
+#define ps_compiler_RPS_UnableToRegisterFunction 65396
+#define ps_compiler_RPS_UnableToRegisterConst 65397
+#define ps_compiler_RPS_InvalidTypeForVar 65398
+#define ps_compiler_RPS_InvalidType 65399
+#define ps_compiler_RPS_UnableToRegisterType 65400
+#define ps_compiler_RPS_UnknownInterface 65401
+#define ps_compiler_RPS_Error 65402
+#define ps_compiler_RPS_UnknownIdentifier 65403
+#define ps_compiler_RPS_IdentifierExpected 65404
+#define ps_compiler_RPS_CommentError 65405
+#define ps_compiler_RPS_StringError 65406
+#define ps_compiler_RPS_CharError 65407
 #define RTLConsts_SInvalidPropertyValue 65408
 #define RTLConsts_SInvalidRegType 65409
 #define RTLConsts_SListCapacityError 65410
@@ -398,10 +400,14 @@
 #define SysConst_SRangeError 65535
 STRINGTABLE
 BEGIN
+	r_clipper_rsInvalidInt,	"Coordinate exceeds range bounds"
+	r_clipper_rsOpenPath,	"AddPath: Open paths must be subject."
 	r_clipper_rsOpenPath3,	"Error: TPolyTree struct is needed for open path clipping."
 	JConsts_sChangeJPGSize,	"Cannot change the size of a JPEG image"
 	JConsts_sJPEGError,	"JPEG error #%d"
 	JConsts_sJPEGImageFile,	"JPEG Image File"
+	ExtCtrls_clNameWindow,	"Window Background"
+	ExtCtrls_clNameWindowFrame,	"Window Frame"
 	ExtCtrls_clNameWindowText,	"Window Text"
 	WinHelpViewer_hNoKeyword,	"No help keyword specified."
 	uPSPreProcessor_RPS_TooManyNestedInclude,	"Too many nested include files while processing '%s' from '%s'"
@@ -416,8 +422,8 @@ BEGIN
 	uPSC_dll_RPS_InvalidCallingConvention,	"Invalid Calling Convention"
 	r_clipper_rsDoMaxima,	"DoMaxima error"
 	r_clipper_rsUpdateEdgeIntoAEL,	"UpdateEdgeIntoAEL error"
-	r_clipper_rsInvalidInt,	"Coordinate exceeds range bounds"
-	r_clipper_rsOpenPath,	"AddPath: Open paths must be subject."
+	ExtCtrls_clNameCaptionText,	"Caption Text"
+	ExtCtrls_clNameDefault,	"Default"
 	ExtCtrls_clNameGrayText,	"Gray Text"
 	ExtCtrls_clNameHighlight,	"Highlight Background"
 	ExtCtrls_clNameHighlightText,	"Highlight Text"
@@ -432,8 +438,8 @@ BEGIN
 	ExtCtrls_clNameScrollBar,	"Scroll Bar"
 	ExtCtrls_clName3DDkShadow,	"3D Dark Shadow"
 	ExtCtrls_clName3DLight,	"3D Light"
-	ExtCtrls_clNameWindow,	"Window Background"
-	ExtCtrls_clNameWindowFrame,	"Window Frame"
+	ExtCtrls_clNameBlue,	"Blue"
+	ExtCtrls_clNameFuchsia,	"Fuchsia"
 	ExtCtrls_clNameAqua,	"Aqua"
 	ExtCtrls_clNameWhite,	"White"
 	ExtCtrls_clNameMoneyGreen,	"Money Green"
@@ -448,8 +454,8 @@ BEGIN
 	ExtCtrls_clNameBtnHighlight,	"Button Highlight"
 	ExtCtrls_clNameBtnShadow,	"Button Shadow"
 	ExtCtrls_clNameBtnText,	"Button Text"
-	ExtCtrls_clNameCaptionText,	"Caption Text"
-	ExtCtrls_clNameDefault,	"Default"
+	HelpIntfs_hNoTableOfContents,	"Unable to find a Table of Contents"
+	HelpIntfs_hNothingFound,	"No help found for %s"
 	HelpIntfs_hNoContext,	"No context-sensitive help installed"
 	HelpIntfs_hNoTopics,	"No topic-based help system installed"
 	ExtCtrls_clNameBlack,	"Black"
@@ -464,8 +470,8 @@ BEGIN
 	ExtCtrls_clNameRed,	"Red"
 	ExtCtrls_clNameLime,	"Lime"
 	ExtCtrls_clNameYellow,	"Yellow"
-	ExtCtrls_clNameBlue,	"Blue"
-	ExtCtrls_clNameFuchsia,	"Fuchsia"
+	Consts_SmkcUp,	"Up"
+	Consts_SmkcRight,	"Right"
 	Consts_SmkcDown,	"Down"
 	Consts_SmkcIns,	"Ins"
 	Consts_SmkcDel,	"Del"
@@ -480,8 +486,8 @@ BEGIN
 	Consts_SDockTreeRemoveError,	"Error removing control from dock tree"
 	Consts_SDockZoneNotFound,	" - Dock zone not found"
 	Consts_SDockZoneHasNoCtl,	" - Dock zone has no control"
-	HelpIntfs_hNoTableOfContents,	"Unable to find a Table of Contents"
-	HelpIntfs_hNothingFound,	"No help found for %s"
+	Consts_SMsgDlgAbort,	"&Abort"
+	Consts_SMsgDlgRetry,	"&Retry"
 	Consts_SMsgDlgIgnore,	"&Ignore"
 	Consts_SMsgDlgAll,	"&All"
 	Consts_SMsgDlgNoToAll,	"N&o to All"
@@ -496,8 +502,8 @@ BEGIN
 	Consts_SmkcEnd,	"End"
 	Consts_SmkcHome,	"Home"
 	Consts_SmkcLeft,	"Left"
-	Consts_SmkcUp,	"Up"
-	Consts_SmkcRight,	"Right"
+	Consts_SAbortButton,	"Abort"
+	Consts_SAllButton,	"&All"
 	Consts_SCannotDragForm,	"Cannot drag a form"
 	Consts_SVMetafiles,	"Metafiles"
 	Consts_SVEnhMetafiles,	"Enhanced Metafiles"
@@ -512,8 +518,8 @@ BEGIN
 	Consts_SMsgDlgOK,	"OK"
 	Consts_SMsgDlgCancel,	"Cancel"
 	Consts_SMsgDlgHelp,	"&Help"
-	Consts_SMsgDlgAbort,	"&Abort"
-	Consts_SMsgDlgRetry,	"&Retry"
+	Consts_SPropertyOutOfRange,	"%s property out of range"
+	Consts_SMenuIndexError,	"Menu index out of range"
 	Consts_SMenuReinserted,	"Menu inserted twice"
 	Consts_SMenuNotFound,	"Sub-menu is not in menu"
 	Consts_SNoTimers,	"Not enough timers available"
@@ -528,8 +534,8 @@ BEGIN
 	Consts_SCloseButton,	"&Close"
 	Consts_SIgnoreButton,	"&Ignore"
 	Consts_SRetryButton,	"&Retry"
-	Consts_SAbortButton,	"Abort"
-	Consts_SAllButton,	"&All"
+	Consts_SChangeIconSize,	"Cannot change the size of an icon"
+	Consts_SUnknownClipboardFormat,	"Unsupported clipboard format"
 	Consts_SOutOfResources,	"Out of system resources"
 	Consts_SNoCanvasHandle,	"Canvas does not allow drawing"
 	Consts_SInvalidImageSize,	"Invalid image size"
@@ -544,8 +550,8 @@ BEGIN
 	Consts_SMDIChildNotVisible,	"Cannot hide an MDI Child Form"
 	Consts_SVisibleChanged,	"Cannot change Visible in OnShow or OnHide"
 	Consts_SCannotShowModal,	"Cannot make a visible window modal"
-	Consts_SPropertyOutOfRange,	"%s property out of range"
-	Consts_SMenuIndexError,	"Menu index out of range"
+	ps_runtime_RPS_NullVariantError,	"Null variant error"
+	ps_runtime_RPS_OutOfMemory,	"Out Of Memory"
 	ps_runtime_RPS_InterfaceNotSupported,	"Interface not supported"
 	ps_runtime_RPS_UnknownError,	"Unknown error"
 	ps_runtime_RPS_InvalidArray,	"Invalid array"
@@ -560,8 +566,8 @@ BEGIN
 	Consts_SInvalidMetafile,	"Metafile is not valid"
 	Consts_SInvalidPixelFormat,	"Invalid pixel format"
 	Consts_SScanLine,	"Scan line index out of range"
-	Consts_SChangeIconSize,	"Cannot change the size of an icon"
-	Consts_SUnknownClipboardFormat,	"Unsupported clipboard format"
+	ps_runtime_RPS_InvalidHeader,	"Invalid Header"
+	ps_runtime_RPS_InvalidOpcode,	"Invalid Opcode"
 	ps_runtime_RPS_InvalidOpcodeParameter,	"Invalid Opcode Parameter"
 	ps_runtime_RPS_NoMainProc,	"no Main Proc"
 	ps_runtime_RPS_OutOfGlobalVarsRange,	"Out of Global Vars range"
@@ -576,8 +582,8 @@ BEGIN
 	ps_runtime_RPS_CouldNotCallProc,	"Could not call proc"
 	ps_runtime_RPS_OutofRecordRange,	"Out of Record Fields Range"
 	ps_runtime_RPS_NullPointerException,	"Null Pointer Exception"
-	ps_runtime_RPS_NullVariantError,	"Null variant error"
-	ps_runtime_RPS_OutOfMemory,	"Out Of Memory"
+	ps_compiler_RPS_CalculationAlwaysEvaluatesTo,	"Calculation always evaluates to %s"
+	ps_compiler_RPS_IsNotNeeded,	"%s is not needed"
 	ps_compiler_RPS_AbstractClass,	"Abstract Class Construction"
 	ps_compiler_RPS_UnknownWarning,	"Unknown warning"
 	ps_compiler_RPS_NotArrayProperty,	"Not an array property : '%s'"
@@ -592,8 +598,8 @@ BEGIN
 	ps_runtime_RPS_CannotImport,	"Cannot Import %s"
 	ps_runtime_RPS_InvalidType,	"Invalid Type"
 	ps_runtime_RPS_InternalError,	"Internal error"
-	ps_runtime_RPS_InvalidHeader,	"Invalid Header"
-	ps_runtime_RPS_InvalidOpcode,	"Invalid Opcode"
+	ps_compiler_RPS_MathError,	"Math Error"
+	ps_compiler_RPS_UnsatisfiedForward,	"Unsatisfied Forward %s"
 	ps_compiler_RPS_ForwardParameterMismatch,	"Forward Parameter Mismatch"
 	ps_compiler_RPS_InvalidNumberOfParameter,	"Invalid number of parameters"
 	ps_compiler_RPS_InvalidEventParameters,	"Event parameters do not match template"
@@ -608,8 +614,8 @@ BEGIN
 	ps_compiler_RPS_FunctionNotUsed,	"Function '%s' never used"
 	ps_compiler_RPS_UnknownHint,	"Unknown hint"
 	ps_compiler_RPS_Warning,	"Warning"
-	ps_compiler_RPS_CalculationAlwaysEvaluatesTo,	"Calculation always evaluates to %s"
-	ps_compiler_RPS_IsNotNeeded,	"%s is not needed"
+	ps_compiler_RPS_CommaExpected,	"comma (',') expected"
+	ps_compiler_RPS_ToExpected,	"'TO' expected"
 	ps_compiler_RPS_IsExpected,	"is ('=') expected"
 	ps_compiler_RPS_OfExpected,	"'OF' expected"
 	ps_compiler_RPS_CloseBlockExpected,	"Closing square bracket (']') expected"
@@ -624,8 +630,8 @@ BEGIN
 	ps_compiler_RPS_ReadOnlyProperty,	"Read-only property"
 	ps_compiler_RPS_ClassTypeExpected,	"Class type expected"
 	ps_compiler_RPS_DivideByZero,	"Divide by Zero"
-	ps_compiler_RPS_MathError,	"Math Error"
-	ps_compiler_RPS_UnsatisfiedForward,	"Unsatisfied Forward %s"
+	ps_compiler_RPS_SyntaxError,	"Syntax error"
+	ps_compiler_RPS_EOF,	"Unexpected end of file"
 	ps_compiler_RPS_SemiColonExpected,	"Semicolon (';') expected"
 	ps_compiler_RPS_BeginExpected,	"'BEGIN' expected"
 	ps_compiler_RPS_PeriodExpected,	"period ('.') expected"
@@ -640,8 +646,8 @@ BEGIN
 	ps_compiler_RPS_DoExpected,	"'DO' expected"
 	ps_compiler_RPS_NoResult,	"No Result"
 	ps_compiler_RPS_OpenRoundExpected,	"opening parenthesis ('(')expected"
-	ps_compiler_RPS_CommaExpected,	"comma (',') expected"
-	ps_compiler_RPS_ToExpected,	"'TO' expected"
+	RTLConsts_SMissingDateTimeField,	"?"
+	RTLConsts_SInvalidDateTime,	"''%s'' is not a valid date and time"
 	ps_utils_RPS_InvalidFloat,	"Invalid float"
 	ps_compiler_RPS_OnUseEventOnly,	"This function can only be called from within the OnUses event"
 	ps_compiler_RPS_UnableToRegisterFunction,	"Unable to register function %s"
@@ -656,8 +662,6 @@ BEGIN
 	ps_compiler_RPS_CommentError,	"Comment error"
 	ps_compiler_RPS_StringError,	"String error"
 	ps_compiler_RPS_CharError,	"Char error"
-	ps_compiler_RPS_SyntaxError,	"Syntax error"
-	ps_compiler_RPS_EOF,	"Unexpected end of file"
 	RTLConsts_SInvalidPropertyValue,	"Invalid property value"
 	RTLConsts_SInvalidRegType,	"Invalid data type for '%s'"
 	RTLConsts_SListCapacityError,	"List capacity out of bounds (%d)"

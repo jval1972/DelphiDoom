@@ -781,12 +781,11 @@ begin
       exit; // mobj was removed
   end;
 
-
   // cycle through states,
   // calling action functions at transitions
   if mobj.tics <> -1 then
   begin
-    mobj.tics := mobj.tics - 1;
+    dec(mobj.tics);
 
     // you can cycle through multiple states in a tic
     if mobj.tics = 0 then
