@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -27,6 +27,8 @@
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
+{$I Doom32.inc}
+
 unit z_memmgr;
 
 interface
@@ -34,11 +36,19 @@ interface
 uses
   d_delphi;
 
+{$IFDEF DEBUG}
+const
+  MCONSISTANCY = $FACEFADE;
+{$ENDIF}
+
 type
   memmanageritem_t = record
     size: integer;
     user: PPointer;
     tag: integer;
+{$IFDEF DEBUG}
+    consistancy: LongWord;
+{$ENDIF}
     index: integer;
   end;
   Pmemmanageritem_t = ^memmanageritem_t;
@@ -69,6 +79,11 @@ type
 
 implementation
 
+{$IFDEF DEBUG}
+uses
+  i_system;
+{$ENDIF}
+
 constructor TMemManager.Create;
 begin
   fitems := nil;
@@ -88,12 +103,20 @@ end;
 
 function TMemManager.item2ptr(const id: integer): Pointer;
 begin
+{$IFDEF DEBUG}
+  if fitems[id].consistancy <> MCONSISTANCY then
+    I_Error('TMemManager.item2ptr(): Consistancy failed!');
+{$ENDIF}
   result := pointer(integer(fitems[id]) + SizeOf(memmanageritem_t));
 end;
 
 function TMemManager.ptr2item(const ptr: Pointer): integer;
 begin
   result := Pmemmanageritem_t(Integer(ptr) - SizeOf(memmanageritem_t)).index;
+{$IFDEF DEBUG}
+  if Pmemmanageritem_t(Integer(ptr) - SizeOf(memmanageritem_t)).consistancy <> MCONSISTANCY then
+    I_Error('TMemManager.ptr2item(): Consistancy failed!');
+{$ENDIF}
 end;
 
 procedure TMemManager.M_Free(ptr: Pointer);
@@ -135,7 +158,7 @@ var
 begin
   if realsize <= fnumitems then
   begin
-    realsize := (realsize * 4 div 3 + 64) and (not 7);
+    realsize := (realsize * 4 div 3 + 64) and not 7;
     realloc(pointer(fitems), fnumitems * SizeOf(Pmemmanageritem_t), realsize * SizeOf(Pmemmanageritem_t));
     for i := fnumitems + 1 to realsize - 1 do
       fitems[i] := nil;
@@ -146,6 +169,9 @@ begin
   fitems[fnumitems].tag := tag;
   fitems[fnumitems].index := fnumitems;
   fitems[fnumitems].user := user;
+{$IFDEF DEBUG}
+  fitems[fnumitems].consistancy := MCONSISTANCY;
+{$ENDIF}
   result := item2ptr(fnumitems);
   inc(fnumitems);
   if user <> nil then
@@ -160,7 +186,8 @@ var
 begin
   if size = 0 then
   begin
-    M_Free(ptr);
+    if ptr <> nil then
+      M_Free(ptr);
     result := nil;
     exit;
   end;
