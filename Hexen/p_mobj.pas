@@ -62,8 +62,6 @@ function P_SeekerMissile(actor: Pmobj_t; thresh, turnMax: angle_t): boolean;
 
 procedure P_FloorBounceMissile(mo: Pmobj_t);
 
-procedure P_MonsterFallingDamage(mo: Pmobj_t);
-
 procedure P_ZMovement(mo: Pmobj_t);
 
 procedure P_BlasterMobjThinker(mobj: Pmobj_t);
@@ -866,16 +864,20 @@ var
   damage: integer;
   mom: integer;
 begin
-  mom := abs(mo.momz);
-  if mom > 35 * FRACUNIT then
-  begin // automatic death
-    damage := 10000;
-  end
+  if G_PlayingEngineVersion >= VERSION206 then
+    damage := 10000  // always kill 'em
   else
   begin
-    damage := FixedInt((mom - (23 * FRACUNIT)) * 6);
+    mom := abs(mo.momz);
+    if mom > 35 * FRACUNIT then
+    begin // automatic death
+      damage := 10000;
+    end
+    else
+    begin
+      damage := FixedInt((mom - (23 * FRACUNIT)) * 6);
+    end;
   end;
-//  damage=10000;  // always kill 'em // JVAL SOS ????
   P_DamageMobj(mo, nil, nil, damage);
 end;
 
@@ -979,7 +981,7 @@ begin
       end;
     end;
 
-    if (mo.flags and MF_COUNTKILL <> 0) then  // Blasted mobj falling
+    if mo.flags and MF_COUNTKILL <> 0 then  // Blasted mobj falling
     begin
       if mo.momz < -(23 * FRACUNIT) then
       begin
