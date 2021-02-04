@@ -1855,7 +1855,10 @@ var
 begin
   numvanillasegs := W_LumpLength(lump) div SizeOf(mapseg_t);
   if numvanillasegs >= 32768 then
+  begin
+    numvanillasegs := 0;
     exit;
+  end;
 
   vanillasegs := Z_Malloc(numvanillasegs * SizeOf(vanillaseg_t), PU_LEVEL, nil);
   memset(vanillasegs, 0, numvanillasegs * SizeOf(vanillaseg_t));
@@ -1896,7 +1899,10 @@ var
 begin
   numvanillasubsectors := W_LumpLength(lump) div SizeOf(mapsubsector_t);
   if numvanillasubsectors >= 32768 then
+  begin
+    numvanillasubsectors := 0;
     exit;
+  end;
 
   vanillasubsectors := Z_Malloc(numvanillasubsectors * SizeOf(vanillasubsector_t), PU_LEVEL, nil);
   data := W_CacheLumpNum(lump, PU_STATIC);
@@ -1927,7 +1933,10 @@ var
 begin
   numvanillanodes := W_LumpLength(lump) div SizeOf(mapnode_t);
   if numvanillanodes >= 32768 then
+  begin
+    numvanillanodes := 0;
     exit;
+  end;
 
   vanillanodes := Z_Malloc(numvanillanodes * SizeOf(vanillanode_t), PU_LEVEL, nil);
   data := W_CacheLumpNum(lump, PU_STATIC);
