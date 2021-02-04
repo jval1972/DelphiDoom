@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 447;
+  DEHNUMACTIONS = 448;
 
 type
   deh_action_t = record
@@ -3210,6 +3210,9 @@ begin
   deh_actions[446].action.acp1 := @A_RemoveMaster;
   deh_actions[446].name := strupper('RemoveMaster');
   {$IFDEF DLL}deh_actions[446].decl := 'A_RemoveMaster([flags: integer])';{$ENDIF}
+  deh_actions[447].action.acp1 := @A_BasicAttack;
+  deh_actions[447].name := strupper('BasicAttack');
+  {$IFDEF DLL}deh_actions[447].decl := 'A_BasicAttack(MeleeDamage: integer, MeleeSound: integer, MissileType: integer, MissileHeight: float)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

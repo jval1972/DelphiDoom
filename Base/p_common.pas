@@ -433,6 +433,8 @@ procedure A_RaiseSiblings(actor: Pmobj_t);
 
 procedure A_HealThing(actor: Pmobj_t);
 
+procedure A_BasicAttack(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -2021,19 +2023,10 @@ begin
   end;
 end;
 
-//
-// JVAL
-// Custom missile, based on A_CustomMissile() of ZDoom
-// A_CustomMissile(type, height, offset, angle, aimmode, pitch)
-//
-procedure A_CustomMissile(actor: Pmobj_t);
+procedure P_CustomMissile(const actor: Pmobj_t; const missiletype: integer;
+  const spawnheight: fixed_t; const spawnoffs: fixed_t; const angle: angle_t;
+  const aimmode: integer; const pitch: angle_t);
 var
-  mobj_no: integer;
-  spawnheight: fixed_t;
-  spawnoffs: integer;
-  angle: angle_t;
-  aimmode: integer;
-  pitch: angle_t;
   missile: Pmobj_t;
   ang: angle_t;
   x, y, z: fixed_t;
@@ -2041,48 +2034,30 @@ var
   velocity: vec3_t;
   missilespeed: fixed_t;
   owner: Pmobj_t;
+  pitchang: angle_t;
 begin
-  if not P_CheckStateParams(actor) then
+  if missiletype < 0 then
     exit;
 
-  if actor.state.params.IsComputed[0] then
-    mobj_no := actor.state.params.IntVal[0]
-  else
-  begin
-    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
-    actor.state.params.IntVal[0] := mobj_no;
-  end;
-  if mobj_no = -1 then
-  begin
-    I_Warning('A_CustomMissile(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
-    exit;
-  end;
-
-  if mobjinfo[mobj_no].speed < 2048 then
-    mobjinfo[mobj_no].speed := mobjinfo[mobj_no].speed * FRACUNIT;  // JVAL fix me!!!
-  spawnheight := actor.state.params.IntVal[1];
-  spawnoffs := actor.state.params.IntVal[2];
-  angle := ANG1 * actor.state.params.IntVal[3];
-  aimmode := actor.state.params.IntVal[4] and 3;
-  pitch := ANG1 * actor.state.params.IntVal[5];
-
+  if mobjinfo[missiletype].speed < 2048 then
+    mobjinfo[missiletype].speed := mobjinfo[missiletype].speed * FRACUNIT;  // JVAL fix me!!!
   if (actor.target <> nil) or (aimmode = 2) then
   begin
     ang := (actor.angle - ANG90) shr ANGLETOFINESHIFT;
-    x := spawnoffs * finecosine[ang];
-    y := spawnoffs * finesine[ang];
+    x := FixedMul(spawnoffs, finecosine[ang]);
+    y := FixedMul(spawnoffs, finesine[ang]);
     if aimmode <> 0 then
-      z := spawnheight * FRACUNIT
+      z := spawnheight
     else
-      z := (spawnheight - 32) * FRACUNIT;
+      z := spawnheight - 32 * FRACUNIT;
     case aimmode of
       1:
         begin
-          missile := P_SpawnMissileXYZ(actor.x + x, actor.y + y, actor.z + z, actor, actor.target, mobj_no);
+          missile := P_SpawnMissileXYZ(actor.x + x, actor.y + y, actor.z + z, actor, actor.target, missiletype);
         end;
       2:
         begin
-          missile := P_SpawnMissileAngleZ(actor, actor.z + z, mobj_no, actor.angle, 0, 0);
+          missile := P_SpawnMissileAngleZ(actor, actor.z + z, missiletype, actor.angle, 0, 0);
 
           // It is not necessary to use the correct angle here.
           // The only important thing is that the horizontal momentum is correct.
@@ -2090,9 +2065,9 @@ begin
           // The actual momentum vector is set below.
           if missile <> nil then
           begin
-            pitch := pitch shr ANGLETOFINESHIFT;
-            vx := finecosine[pitch];
-            vz := finesine[pitch];
+            pitchang := pitch shr ANGLETOFINESHIFT;
+            vx := finecosine[pitchang];
+            vz := finesine[pitchang];
             missile.momx := FixedMul(vx, missile.info.speed);
             missile.momy := 0;
             missile.momz := FixedMul(vz, missile.info.speed);
@@ -2103,7 +2078,7 @@ begin
         inc(actor.x, x);
         inc(actor.y, y);
         inc(actor.z, z);
-        missile := P_SpawnMissile(actor, actor.target, mobj_no);
+        missile := P_SpawnMissile(actor, actor.target, missiletype);
         dec(actor.x, x);
         dec(actor.y, y);
         dec(actor.z, z);
@@ -2145,6 +2120,45 @@ begin
 
     end;
   end;
+end;
+
+//
+// JVAL
+// Custom missile, based on A_CustomMissile() of ZDoom
+// A_CustomMissile(type, height, offset, angle, aimmode, pitch)
+//
+procedure A_CustomMissile(actor: Pmobj_t);
+var
+  mobj_no: integer;
+  spawnheight: fixed_t;
+  spawnoffs: fixed_t;
+  angle: angle_t;
+  aimmode: integer;
+  pitch: angle_t;
+begin
+  if not P_CheckStateParams(actor) then
+    exit;
+
+  if actor.state.params.IsComputed[0] then
+    mobj_no := actor.state.params.IntVal[0]
+  else
+  begin
+    mobj_no := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+    actor.state.params.IntVal[0] := mobj_no;
+  end;
+  if mobj_no = -1 then
+  begin
+    I_Warning('A_CustomMissile(): Unknown missile %s'#13#10, [actor.state.params.StrVal[0]]);
+    exit;
+  end;
+
+  spawnheight := actor.state.params.FixedVal[1];
+  spawnoffs := actor.state.params.FixedVal[2];
+  angle := ANG1 * actor.state.params.IntVal[3];
+  aimmode := actor.state.params.IntVal[4] and 3;
+  pitch := ANG1 * actor.state.params.IntVal[5];
+
+  P_CustomMissile(actor, mobj_no, spawnheight, spawnoffs, angle, aimmode, pitch);
 end;
 
 //
@@ -4574,7 +4588,7 @@ begin
 end;
 
 //
-// A_RemoveMaster[flags: integer]);
+// A_RemoveMaster([flags: integer]);
 // JVAL: incomplete
 //
 procedure A_RemoveMaster(actor: Pmobj_t);
@@ -5222,6 +5236,64 @@ begin
     if p <> nil then
       p.health := actor.health;
   end;
+end;
+
+procedure P_DoAttack(const actor: Pmobj_t; const domelee, domissile: boolean;
+  const meleedamage: integer; const meleesound: integer; const missiletype: integer;
+  const missileheight: integer);
+var
+  damage: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  A_FaceTarget(actor);
+  if domelee and (meleedamage > 0) and P_CheckMeleeRange(actor) then
+  begin
+    damage := (P_Random mod 8 + 1) * meleedamage;
+    if meleesound > 0 then
+      S_StartSound(actor, meleesound);
+    P_DamageMobj(actor.target, actor, actor, damage);
+  end
+  else if domissile and (missiletype <> 0) then
+    P_CustomMissile(actor, missiletype, missileheight, 0, 0, 0, 0);
+end;
+
+//
+// A_BasicAttack(MeleeDamage: integer, MeleeSound: integer, MissileType: integer, MissileHeight: float)
+//
+procedure A_BasicAttack(actor: Pmobj_t);
+var
+	MeleeDamage: integer;
+	MeleeSound: integer;
+	MissileType: integer;
+	MissileHeight: fixed_t;
+begin
+  if not P_CheckStateParams(actor, 4) then
+    exit;
+
+  MeleeDamage := actor.state.params.IntVal[0];
+
+  if actor.state.params.IsComputed[1] then
+    MeleeSound := actor.state.params.IntVal[0]
+  else
+  begin
+    MeleeSound := S_GetSoundNumForName(actor.state.params.StrVal[1]);
+    actor.state.params.IntVal[1] := MeleeSound;
+  end;
+
+  if actor.state.params.IsComputed[2] then
+    MissileType := actor.state.params.IntVal[2]
+  else
+  begin
+    MissileType := Info_GetMobjNumForName(actor.state.params.StrVal[2]);
+    actor.state.params.IntVal[2] := MissileType;
+  end;
+
+  MissileHeight := actor.state.params.FixedVal[3];
+
+  P_Doattack(actor, MeleeDamage <> 0, MissileType <> -1, MeleeDamage, MeleeSound,
+    MissileType, MissileHeight);
 end;
 
 end.
