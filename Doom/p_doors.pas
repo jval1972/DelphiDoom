@@ -473,8 +473,14 @@ begin
   // if the sector has an active thinker, use it
 
   sd := line.sidenum[1];
+
+  // if the wrong side of door is pushed, give oof sound
   if sd = -1 then
-    I_Error('EV_VerticalDoor(): DR special type on 1-sided linedef');
+  begin
+    if player <> nil then                     // JVAL: 20210203
+      S_StartSound(player.mo, Ord(sfx_oof));  // killough 3/20/98
+    exit;
+  end;
 
   // back sides
   sec := sides[sd].sector;
