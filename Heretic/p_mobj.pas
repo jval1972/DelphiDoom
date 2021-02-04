@@ -900,10 +900,8 @@ begin
   begin
     P_XYMovement(mobj);
 
-    if not Assigned(mobj.thinker._function.acv) then
-    begin
+    if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
-    end;
   end;
 
   if (mobj.flags2 and MF2_FLOATBOB <> 0) or (mobj.flags_ex and MF_EX_FLOATBOB <> 0) then
@@ -945,19 +943,17 @@ begin
     else
       P_ZMovement(mobj);
 
-    if not Assigned(mobj.thinker._function.acv) then
+    if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
   end;
-
 
   // cycle through states,
   // calling action functions at transitions
   if mobj.tics <> -1 then
   begin
-    mobj.tics := mobj.tics - 1;
+    dec(mobj.tics);
 
     // you can cycle through multiple states in a tic
-    //if mobj.tics = 0 then
     while mobj.tics = 0 do
       if not P_SetMobjState(mobj, mobj.state.nextstate) then
         exit; // freed itself
