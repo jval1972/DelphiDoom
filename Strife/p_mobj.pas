@@ -285,7 +285,7 @@ begin
     else if mo.momy < -MAXMOVE then
       mo.momy := -MAXMOVE;
   end;
-  
+
   xmove := mo.momx;
   ymove := mo.momy;
 
@@ -391,7 +391,7 @@ begin
   end;
 
   // villsa [STRIFE] replace skullfly flag with MF_BOUNCE
-  if (mo.flags and (MF_MISSILE or MF_BOUNCE)) <> 0 then
+  if mo.flags and (MF_MISSILE or MF_BOUNCE) <> 0 then
     exit; // no friction for missiles ever
 
   if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then

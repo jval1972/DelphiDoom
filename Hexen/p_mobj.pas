@@ -487,7 +487,7 @@ begin
     if mo.flags and MF_SKULLFLY <> 0 then
     begin
       // the skull slammed into something
-      mo.flags := mo.flags and (not MF_SKULLFLY);
+      mo.flags := mo.flags and not MF_SKULLFLY;
       mo.momx := 0;
       mo.momy := 0;
       mo.momz := 0;
@@ -530,7 +530,7 @@ begin
     else if mo.momy < -MAXMOVE then
       mo.momy := -MAXMOVE;
   end;
-  
+
   xmove := mo.momx;
   ymove := mo.momy;
 
