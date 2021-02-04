@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -92,7 +92,7 @@ var
   var
     i: integer;
   begin
-    item.data := Z_Malloc(h2, PU_LEVEL, @item.data);
+    item.data := Z_Malloc(h2, PU_LEVEL, nil);
     memcpy(item.data, src, h1);
     for i := h1 to h2 - 1 do
       item.data[i] := item.data[i - h1];
@@ -107,7 +107,7 @@ var
     p: integer;
     srcTL: PByteArray;
   begin
-    item.data := Z_Malloc(h2, PU_LEVEL, @item.data);
+    item.data := Z_Malloc(h2, PU_LEVEL, nil);
     col := Pcolumn_t(integer(src) - 3);
     delta := 0;
     tallpatch := false;
