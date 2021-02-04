@@ -213,7 +213,7 @@ Set the default options for FastMM here.
 
   {Set this option to require the program to be run inside the IDE debugger to
    report memory leaks. This option has no effect if the option
-   "EnableMemoryLeakReporting" is not also set. Note that this option does not 
+   "EnableMemoryLeakReporting" is not also set. Note that this option does not
    work with libraries, only EXE projects.}
   {$define RequireDebuggerPresenceForLeakReporting}
 
