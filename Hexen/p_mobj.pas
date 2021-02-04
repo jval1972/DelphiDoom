@@ -270,7 +270,7 @@ begin
   begin
     st := @states[Ord(state)];
     mobj.state := st;
-    mobj.tics := st.tics;
+    mobj.tics := P_TicsFromState(st);
     mobj.sprite := st.sprite;
     mobj.frame := st.frame;
     result := true;
