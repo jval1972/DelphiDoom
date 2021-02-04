@@ -552,20 +552,18 @@ begin
 
     // JVAL: Slopes
     // JVAL 20191209 - Fix 3d floor problem
-  //  if mo.player <> nil then
-  //  begin
-      tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
-      tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
-  //  end;
+    tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
+    tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
 
     if not P_TryMove(mo, ptryx, ptryy) then
-    begin // Blocked move
+    begin
+      // Blocked move
       if mo.flags2 and MF2_SLIDE <> 0 then
       begin // Try to slide along it
         if BlockingMobj = nil then
-        begin // Slide against wall
+        begin
           if not P_LadderMove(mo) then
-            P_SlideMove(mo);
+            P_SlideMove(mo); // try to slide along it
         end
         else
         begin // Slide against mobj
@@ -1513,7 +1511,7 @@ begin
     end;
   end
   else
-      msec := nil;
+    msec := nil;
 
   if z = ONFLOORZ then
     mobj.z := mobj.floorz
@@ -1700,6 +1698,7 @@ begin
     result.angle := ANG45 * (mthing.angle div 45);
   result.player := p;
   result.health := p.health;
+  result.customparams := nil; // JVAL: Should keep the old params!
   p.mo := result;
   p.playerstate := PST_LIVE;
   p.refire := 0;
@@ -1711,6 +1710,8 @@ begin
   p.extralight := 0;
   p.fixedcolormap := 0;
   p.viewheight := PVIEWHEIGHT;
+
+  // setup gun psprite
   P_SetupPsprites(p);
   if deathmatch <> 0 then
   begin // Give all keys in death match mode
@@ -1724,7 +1725,6 @@ begin
 
     p_justspawned := true;
   end;
-
 end;
 
 //==========================================================================
@@ -2368,10 +2368,10 @@ end;
 
 function P_SpawnMissile(source: Pmobj_t; dest: Pmobj_t; _type: integer): Pmobj_t;
 var
-  z: fixed_t;
   th: Pmobj_t;
   an: angle_t;
   dist: integer;
+  z: fixed_t;
 begin
   case _type of
     Ord(MT_MNTRFX1): // Minotaur swing attack missile
@@ -2432,10 +2432,10 @@ end;
 
 function P_SpawnMissileXYZ(x, y, z: fixed_t; source: Pmobj_t; dest: Pmobj_t; _type: integer): Pmobj_t;
 var
+  flags_ex: integer;
   th: Pmobj_t;
   an: angle_t;
   dist: integer;
-  flags_ex: integer;
 begin
   flags_ex := mobjinfo[Ord(_type)].flags_ex;
 

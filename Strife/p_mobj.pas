@@ -307,19 +307,16 @@ begin
 
     // JVAL: Slopes
     // JVAL 20191209 - Fix 3d floor problem
-  //  if mo.player <> nil then
-  //  begin
-      tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
-      tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
-  //  end;
+    tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
+    tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
 
     if not P_TryMove(mo, ptryx, ptryy) then
     begin
       // blocked move
       if mo.player <> nil then
-      begin // try to slide along it
+      begin
         if not P_LadderMove(mo) then
-          P_SlideMove(mo);
+          P_SlideMove(mo); // try to slide along it
       end
       // villsa [STRIFE] check for bouncy missiles
       else if (mo.flags and MF_BOUNCE <> 0) or (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) then
@@ -960,7 +957,7 @@ begin
     end;
   end
   else
-      msec := nil;
+    msec := nil;
 
   if z = ONFLOORZ then
   begin

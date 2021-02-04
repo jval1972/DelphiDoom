@@ -363,19 +363,16 @@ begin
 
     // JVAL: Slopes
     // JVAL 20191209 - Fix 3d floor problem
-  //  if mo.player <> nil then
-  //  begin
-      tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
-      tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
-  //  end;
+    tmfloorz := P_3dFloorHeight(ptryx, ptryy, mo.z);
+    tmceilingz := P_3dCeilingHeight(ptryx, ptryy, mo.z);
 
     if not P_TryMove(mo, ptryx, ptryy) then
     begin
       // blocked move
       if mo.player <> nil then
-      begin // try to slide along it
+      begin
         if not P_LadderMove(mo) then
-          P_SlideMove(mo);
+          P_SlideMove(mo); // try to slide along it
       end
       // JVAL: 20200308 - Bounce on walls
       else if mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0 then
@@ -1310,6 +1307,7 @@ begin
     result.angle := ANG45 * (mthing.angle div 45);
   result.player := p;
   result.health := p.health;
+  result.customparams := nil; // JVAL: Should keep the old params!
 
   p.mo := result;
   p.playerstate := PST_LIVE;
