@@ -755,10 +755,8 @@ begin
   begin
     P_XYMovement(mobj);
 
-    if not Assigned(mobj.thinker._function.acv) then
-    begin
+    if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
-    end;
 
     // villsa [STRIFE] terrain clipping
     if P_GetTerrainType(mobj) = FLOOR_SOLID then
@@ -783,10 +781,8 @@ begin
   begin
     P_ZMovement(mobj);
 
-    if not Assigned(mobj.thinker._function.acv) then
-    begin
+    if P_ThinkerIsRemoved(@mobj.thinker) then
       exit; // mobj was removed
-    end;
 
     // villsa [STRIFE] terrain clipping and sounds
     if P_GetTerrainType(mobj) = FLOOR_SOLID then
@@ -804,12 +800,11 @@ begin
 
   end;
 
-
   // cycle through states,
   // calling action functions at transitions
   if mobj.tics <> -1 then
   begin
-    mobj.tics := mobj.tics - 1;
+    dec(mobj.tics);
 
     // villsa [STRIFE] stonecold cheat
     if stonecold then
@@ -834,9 +829,7 @@ begin
 
     // haleyjd [STRIFE]: respawn time increased from 12 to 16
     if mobj.movecount < 16 * TICRATE then
-    begin
       exit;
-    end;
 
     if leveltime and 31 <> 0 then
       exit;

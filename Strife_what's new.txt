@@ -88,6 +88,7 @@ MAXCEILINGS changed to 128 from 30.
 Check overflow of animated lines. (limit is 1024).
 Save elevator data to saved game.
 Fixed potential memory corruption problem when allocating custom colormaps.
+Consistancy check of removed mobjs.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

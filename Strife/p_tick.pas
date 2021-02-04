@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -63,6 +63,8 @@ procedure P_AddThinker(thinker: Pthinker_t);
 procedure P_RemoveThinker(thinker: Pthinker_t);
 
 procedure P_Ticker;
+
+function P_ThinkerIsRemoved(thinker: Pthinker_t): boolean;
 
 var
   leveltime: integer;
@@ -125,6 +127,11 @@ begin
     mobjlist.Remove(Pmobj_t(thinker));
   // FIXME: NOP.
   @thinker._function.acv := @_removethinker;
+end;
+
+function P_ThinkerIsRemoved(thinker: Pthinker_t): boolean;
+begin
+  Result := (@thinker._function.acv = @_removethinker) or not Assigned(thinker._function.acv);
 end;
 
 //
@@ -195,11 +202,11 @@ begin
     exit;
 
   // pause if in menu and at least one tic has been run
-  if (not netgame) and menuactive and
-     (not demoplayback) and (players[consoleplayer].viewz <> 1) then
+  if not netgame and menuactive and
+     not demoplayback and (players[consoleplayer].viewz <> 1) then
     exit;
 
-  if (not demoplayback) and (not demorecording) and C_IsConsoleActive and (not netgame) and (leveltime <> 0) then
+  if not demoplayback and not demorecording and C_IsConsoleActive and not netgame and (leveltime <> 0) then
     exit;
 
   isgamesuspended := false;
