@@ -477,8 +477,8 @@ begin
   if (mo.flags and MF_FLOAT <> 0) and (mo.target <> nil) then
   begin
     // float down towards target if too close
-    if ((mo.flags and MF_SKULLFLY) = 0) and
-       ((mo.flags and MF_INFLOAT) = 0) then
+    if (mo.flags and MF_SKULLFLY = 0) and
+       (mo.flags and MF_INFLOAT = 0) then
     begin
       dist := P_AproxDistance(mo.x - mo.target.x, mo.y - mo.target.y);
 
