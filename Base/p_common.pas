@@ -3194,7 +3194,7 @@ end;
 
 procedure A_DoRunScripts(actor: Pmobj_t);
 begin
-  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_DONTRUNSCRIPTS);
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_DONTRUNSCRIPTS;
 end;
 
 procedure A_SetDropItem(actor: Pmobj_t);
