@@ -87,6 +87,9 @@ var
 
   menubackgroundflat: string = 'FLOOR00';
 
+ // 1 = message to be printed
+  messageToPrint: integer;
+
 const
   DEFMENUBACKGROUNDFLAT = 'FLOOR00';
 
@@ -174,8 +177,6 @@ var
 // -1 = no quicksave slot picked!
   quickSaveSlot: integer;
 
- // 1 = message to be printed
-  messageToPrint: integer;
 // ...and here is the message string!
   messageString: string;
 

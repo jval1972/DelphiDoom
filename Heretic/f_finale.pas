@@ -61,10 +61,16 @@ implementation
 
 uses
   d_delphi,
+{$IFDEF OPENGL}
+  gl_main,
+{$ELSE}
+  i_video,
+{$ENDIF}
   am_map,
   d_player,
   d_main,
   g_game,
+  m_menu,
   info,
   p_pspr,
   r_data,
@@ -149,7 +155,19 @@ end;
 
 function F_Responder(ev: Pevent_t): boolean;
 begin
-  result := false;
+  if ev._type <> ev_keydown then
+  begin
+    result := false;
+    exit;
+  end;
+
+  if (finalestage = 1) and (gameepisode = 2) then
+  begin // we're showing the water pic, make any key kick to demo mode
+    inc(finalestage);
+    result := true;
+  end
+  else
+    result := false;
 end;
 
 //
@@ -288,6 +306,65 @@ begin
 
   V_FullScreenStretch;
 end;
+
+var
+  underwaterpic: integer = -2;
+  underwaterpal: integer = -2;
+
+procedure F_DrawUnderwaterPic;
+var
+  pal: PByteArray;
+begin
+  if underwaterpic = -2 then
+  begin
+    underwaterpic := W_CheckNumForName('E2END');
+    underwaterpal := W_CheckNumForName('E2PAL');
+    if (underwaterpic = -1) or (underwaterpal = -1) then
+    begin
+      underwaterpic := -1;
+      underwaterpal := -1;
+    end;
+  end;
+
+  if underwaterpic = -1 then
+  begin
+    V_PageDrawer(pg_CREDIT);
+  end
+  else
+  begin
+    memcpy(@screens[SCN_TMP][0], W_CacheLumpNum(underwaterpic, PU_CACHE), 320 * 200);
+    pal := W_CacheLumpNum(underwaterpal, PU_STATIC);
+    I_SetPalette(pal);
+    V_SetPalette(pal);
+    Z_ChangeTag(pal, PU_CACHE);
+    V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+    V_FullScreenStretch;
+  end;
+end;
+
+procedure F_DrawUnderwater;
+var
+  pal: PByteArray;
+begin
+  case finalestage of
+    1:
+      begin
+        menuactive := false;
+        paused := false;
+        messageToPrint := 0;
+        F_DrawUnderwaterPic;
+      end;
+    2:
+      begin
+        pal := V_ReadPalette(PU_STATIC);
+        V_SetPalette(pal);
+        I_SetPalette(pal);
+        Z_ChangeTag(pal, PU_CACHE);
+        V_PageDrawer(pg_CREDIT);
+      end;
+  end;
+end;
+
 //
 // F_Drawer
 //
@@ -307,6 +384,7 @@ begin
         else
           V_PageDrawer(pg_CREDIT);
       end;
+    2: F_DrawUnderwater;
     3: F_DemonScroll;
     else
       begin
