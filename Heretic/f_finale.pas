@@ -91,6 +91,9 @@ var
 
   finalecount: integer;
 
+  yval: integer = 0;
+  nextscroll: integer = 0;
+
 const
   TEXTSPEED = 3;
   TEXTWAIT = 250;
@@ -140,6 +143,8 @@ begin
 
   finalestage := 0;
   finalecount := 0;
+  yval := 0;
+  nextscroll := 0;
 end;
 
 function F_Responder(ev: Pevent_t): boolean;
@@ -247,6 +252,42 @@ begin
   V_FullScreenStretch;
 end;
 
+procedure F_DemonScroll;
+var
+  p1, p2: PByteArray;
+begin
+  if finalecount < nextscroll then
+    exit;
+
+  if finalecount < 70 then
+  begin
+    p1 := W_CacheLumpName('FINAL1', PU_STATIC);
+    memcpy(screens[SCN_TMP], p1, 320 * 200);
+    Z_ChangeTag(p1, PU_CACHE);
+    nextscroll := finalecount;
+  end
+  else if yval < 64000 then
+  begin
+    p1 := W_CacheLumpName('FINAL1', PU_STATIC);
+    p2 := W_CacheLumpName('FINAL2', PU_STATIC);
+    memcpy(screens[SCN_TMP], @p2[320 * 200 - yval], yval);
+    memcpy(@screens[SCN_TMP][yval], p1, 320 * 200 - yval);
+    Z_ChangeTag(p1, PU_CACHE);
+    Z_ChangeTag(p2, PU_CACHE);
+    yval := yval + 320;
+    nextscroll := finalecount + 3;
+  end
+  else  //else, we'll just sit here and wait, for now
+  begin
+    p2 := W_CacheLumpName('FINAL2', PU_STATIC);
+    memcpy(screens[SCN_TMP], p2, 320 * 200);
+    Z_ChangeTag(p2, PU_CACHE);
+  end;
+
+  V_CopyRect(0, 0, SCN_TMP, 320, 200, 0, 0, SCN_FG, true);
+
+  V_FullScreenStretch;
+end;
 //
 // F_Drawer
 //

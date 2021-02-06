@@ -94,6 +94,7 @@ MAXCEILINGS changed to 128 from 30.
 Check overflow of animated lines. (limit is 1024).
 Consistancy check of removed mobjs.
 Fixed text draw bug in finale.
+Added demon scrolling to E3M8 finale.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
