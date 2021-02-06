@@ -3858,7 +3858,7 @@ begin
       syoffs := SKULLYOFF;
     end;
     // DRAW SKULL
-    V_DrawPatch(x + sxoffs, currentMenu.y + syoffs + itemOn * LINEHEIGHT, SCN_TMP,
+    V_DrawPatch(x + sxoffs, currentMenu.y + syoffs + itemOn * currentMenu.itemheight, SCN_TMP,
       arrowname[whicharrow], false);
   end;
 
