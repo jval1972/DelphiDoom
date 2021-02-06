@@ -1131,7 +1131,7 @@ begin
   begin
     mobj.target := Pmobj_t(GetMobjNum(mobj.target));
     mobj.tracer := Pmobj_t(GetMobjNum(mobj.tracer));
-    mobj.master := Pmobj_t(GetMobjNum(mobj.tracer));
+    mobj.master := Pmobj_t(GetMobjNum(mobj.master));
   end;
   case mobj._type of
     Ord(MT_KORAX_SPIRIT1),
