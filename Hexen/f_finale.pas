@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -322,7 +322,7 @@ begin
     inc(i);
     if c = #13 then
     begin
-      cy := cy + 11;
+      cy := cy + 9;
       continue;
     end;
     if c = #10 then
@@ -334,7 +334,7 @@ begin
     c1 := Ord(toupper(c)) - Ord(HU_FONTSTART);
     if (c1 < 0) or (c1 > HU_FONTSIZE) then
     begin
-      cx := cx + 4;
+      cx := cx + 5;
       continue;
     end;
 
