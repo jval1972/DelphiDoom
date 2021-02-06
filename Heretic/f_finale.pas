@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -199,8 +199,8 @@ begin
   Z_ChangeTag(src, PU_CACHE);
   
   // draw some of the text onto the screen
-  cx := 10;
-  cy := 10;
+  cx := 20;
+  cy := 5;
   ch := finaletext;
   len := Length(ch);
 
@@ -219,19 +219,19 @@ begin
     inc(i);
     if c = #13 then
     begin
-      cy := cy + 11;
+      cy := cy + 9;
       continue;
     end;
     if c = #10 then
     begin
-      cx := 10;
+      cx := 20;
       continue;
     end;
 
     c1 := Ord(toupper(c)) - Ord(HU_FONTSTART);
     if (c1 < 0) or (c1 > HU_FONTSIZE) then
     begin
-      cx := cx + 4;
+      cx := cx + 5;
       continue;
     end;
 
@@ -266,6 +266,7 @@ begin
         else
           V_PageDrawer(pg_CREDIT);
       end;
+    3: F_DemonScroll;
     else
       begin
         V_PageDrawer(pg_CREDIT);
