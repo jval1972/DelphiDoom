@@ -1963,6 +1963,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');
   mobj_flags3_ex.Add('MF3_EX_MISSILEMORE');
   mobj_flags3_ex.Add('MF3_EX_MISSILEEVENMORE');
+  mobj_flags3_ex.Add('MF3_EX_STRIFEDAMAGE');
 
   mobj_flags4_ex := TDTextList.Create;
 

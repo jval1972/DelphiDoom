@@ -364,6 +364,8 @@ const
   MF3_EX_MISSILEMORE = $200;
   // 1/8th distance to missile
   MF3_EX_MISSILEEVENMORE = $400;
+  // Missiles use alternate damage (Strife)
+  MF3_EX_STRIFEDAMAGE = $800;
 
 type
 // Map Object definition.
