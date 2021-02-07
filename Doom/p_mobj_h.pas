@@ -360,6 +360,8 @@ const
   MF3_EX_MISSILEEVENMORE = $400;
   // Missiles use alternate damage (Strife)
   MF3_EX_STRIFEDAMAGE = $800;
+  // Melee attach check z positioning
+  MF3_EX_MELEECHECKZ = $1000;
 
 type
 // Map Object definition.
