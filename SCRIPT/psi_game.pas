@@ -617,6 +617,12 @@ function PS_GetMobjInfoHealState(const typ: integer): integer;
 
 function PS_GetMobjInfoCrashState(const typ: integer): integer;
 
+function PS_GetMobjInfoFloatSpeed(const typ: integer): integer;
+
+function PS_GetMobjInfoNormalSpeed(const typ: integer): integer;
+
+function PS_GetMobjInfoFastSpeed(const typ: integer): integer;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 
@@ -5642,6 +5648,36 @@ begin
   Result := mobjinfo[typ].crashstate;
 end;
 
+function PS_GetMobjInfoFloatSpeed(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].floatspeed;
+end;
+
+function PS_GetMobjInfoNormalSpeed(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].normalspeed;
+end;
+
+function PS_GetMobjInfoFastSpeed(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].fastspeed;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -5904,6 +5940,21 @@ end;
 procedure TRTLMobjInfoItemCrashState_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoCrashState(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemFloatSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoFloatSpeed(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemNormalSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoNormalSpeed(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemFastSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoFastSpeed(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6648,6 +6699,9 @@ begin
   cmobjinfoitem.RegisterProperty('PushFactor', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('Scale', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('Gravity', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('FloatSpeed', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('NormalSpeed', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('FastSpeed', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -6882,6 +6936,9 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemAlpha_R, nil, 'Alpha');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHealState_R, nil, 'HealState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemCrashState_R, nil, 'CrashState');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFloatSpeed_R, nil, 'FloatSpeed');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemNormalSpeed_R, nil, 'NormalSpeed');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFastSpeed_R, nil, 'FastSpeed');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');

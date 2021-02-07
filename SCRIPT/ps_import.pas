@@ -495,6 +495,9 @@ begin
   baseproclist.Add('function GetMobjInfoInteractState(const typ: integer): integer;', @PS_GetMobjInfoInteractState);
   baseproclist.Add('function GetMobjInfoMissileHeight(const typ: integer): integer;', @PS_GetMobjInfoMissileHeight);
   {$ENDIF}
+  baseproclist.Add('function GetMobjInfoFloatSpeed(const typ: integer): integer;', @PS_GetMobjInfoFloatSpeed);
+  baseproclist.Add('function GetMobjInfoNormalSpeed(const typ: integer): integer;', @PS_GetMobjInfoNormalSpeed);
+  baseproclist.Add('function GetMobjInfoFastSpeed(const typ: integer): integer;', @PS_GetMobjInfoFastSpeed);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);
