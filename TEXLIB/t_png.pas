@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -453,6 +453,9 @@ type
     {Patch offsets (from grAb chunk)}
     fLeftOffset: integer;
     fTopOffset: integer;
+    // tRNS for 256 palette image
+    fHastRNS256: boolean;
+    ftRNSArray256: packed array[0..255] of byte;
     {Clear all chunks in the list}
     procedure ClearChunks;
     {Returns if header is present}
@@ -498,6 +501,7 @@ type
     {Returns a pixel}
     function GetPixels(const X, Y: Integer): LongWord; virtual;
     procedure SetPixels(const X, Y: Integer; const Value: LongWord); virtual;
+    function GettRNSArray256: PByteArray;
   public
     PaletteTable: TPalette;
     {Gamma table array}
@@ -570,6 +574,8 @@ type
     property ErrorString: string read fError;
     property LeftOffset: integer read fLeftOffset;
     property TopOffset: integer read fTopOffset;
+    property HastRNS256: boolean read fHastRNS256;
+    property tRNSArray256: PByteArray read GettRNSArray256;
   end;
 
   {Chunk name object}
@@ -4690,7 +4696,12 @@ var
   ChunkLength: Cardinal;
   ChunkName: TChunkName;
   pi: PInteger;
+  i: integer;
+  pb: PByteArray;
 begin
+  fHastRNS256 := false;
+  for i := 0 to 255 do
+    ftRNSArray256[i] := 255;
   {Initialize before start loading chunks}
   ChunkCount := 0;
   ClearChunks();
@@ -4772,6 +4783,7 @@ begin
 
     // JVAL: Support for 'grAb' chunk (zdoom offsets)
     if ChunkName = 'grAb' then
+    begin
       if TChunk(Chunks.Item[ChunkCount - 1]).DataSize >= 8 then
       begin
         pi := TChunk(Chunks.Item[ChunkCount - 1]).Data;
@@ -4779,6 +4791,17 @@ begin
         inc(pi);
         fTopOffset := ByteSwap(pi^);
       end;
+    end
+    else if (ChunkName = 'tRNS') then // JVAL: tRNS for 256 color palette
+    begin
+      if TChunk(Chunks.Item[ChunkCount - 1]).DataSize = 256 then
+      begin
+        fHastRNS256 := true;
+        pb := TChunk(Chunks.Item[ChunkCount - 1]).Data;
+        for i := 0 to 255 do
+          ftRNSArray256[i] := pb[i];
+      end;
+    end;
 
   {Terminates when it reaches the IEND chunk}
   until (ChunkName = 'IEND');
@@ -5146,6 +5169,11 @@ end;
 function TPngObject.HeaderPresent: Boolean;
 begin
   Result := ((Chunks.Count <> 0) and (Chunks.Item[0] is TChunkIHDR))
+end;
+
+function TPngObject.GettRNSArray256: PByteArray;
+begin
+  Result := @ftRNSArray256;
 end;
 
 {Returns pixel for png using palette and grayscale}
@@ -5621,6 +5649,9 @@ var
   x, y: integer;
   buffer: LongWord;
   row: pointer;
+  pb: PByteArray;
+  pl: PLongWordArray;
+  palpha: PByteArray;
   i: integer;
   pal: TPalette;
   nearblack: Cardinal;
@@ -5629,39 +5660,97 @@ begin
     nearblack := $000100
   else
     nearblack := $010100;
+
   if (png.header.ColorType = COLOR_PALETTE) and (png.Header.BitDepth = 8) and (png.Header.HasPalette) then
-  begin    
-    FBitmap^.SetBytesPerPixel(1);
-    for i := 0 to 255 do
+  begin
+    // JVAL: tRNS palette resolve in 8 bit color images
+    if png.HastRNS256 then
     begin
-      buffer := RGBSwap(png.PaletteTable[i]);
-      if buffer = ftransparentcolor then
-        pal[i] := 0
-      else if buffer = 0 then
-        pal[i] := nearblack
-      else
-        pal[i] := buffer;
-    end;
-    FBitmap.SetPalette(@pal, 256, 0, 0);
-    row := FBitmap.GetImage;
-    for i := 0 to png.Height - 1 do
+      for i := 0 to 255 do
+      begin
+        buffer := RGBSwap(png.PaletteTable[i]);
+        if png.tRNSArray256[i] = 0 then
+          pal[i] := 0
+        else if (buffer = ftransparentcolor) or (buffer = 0) then
+          pal[i] := 0
+        else
+          pal[i] := buffer;
+      end;
+
+      FBitmap^.SetBytesPerPixel(4);
+      pl := FBitmap.GetImage;
+      for y := 0 to png.Height - 1 do
+      begin
+        pb := png.Scanline[y];
+        for i := 0 to png.Width - 1 do
+        begin
+          if png.tRNSArray256[pb[i]] = 0 then
+            pl[i] := 0
+          else
+          begin
+            pl[i] := pal[pb[i]];
+            if (pl[i] = ftransparentcolor) or (pl[i] and $FFFFFF = 0) then
+              pl[i] := nearblack;
+          end;
+        end;
+        pl := @pl[png.Width];
+      end;
+    end
+    else
     begin
-      memcpy(row, png.Scanline[i], png.Width);
-      row := pointer(integer(row) + png.Width);
+      FBitmap^.SetBytesPerPixel(1);
+      for i := 0 to 255 do
+      begin
+        buffer := RGBSwap(png.PaletteTable[i]);
+        if buffer = ftransparentcolor then
+          pal[i] := 0
+        else if buffer = 0 then
+          pal[i] := nearblack
+        else
+          pal[i] := buffer;
+      end;
+      FBitmap.SetPalette(@pal, 256, 0, 0);
+      row := FBitmap.GetImage;
+      for i := 0 to png.Height - 1 do
+      begin
+        memcpy(row, png.Scanline[i], png.Width);
+        row := pointer(integer(row) + png.Width);
+      end;
     end;
   end
   else
   begin
     FBitmap^.SetBytesPerPixel(4);
-    for x := 0 to png.Width - 1 do
-      for y := 0 to png.Height - 1 do
+    for y := 0 to png.Height - 1 do
+    begin
+      palpha := png.AlphaScanline[y];
+      if palpha <> nil then
       begin
-        buffer := RGBSwap(png.Pixels[x, y]);
-        if buffer <> ftransparentcolor then
-          if buffer and $FFFFFF = 0 then
-            buffer := nearblack;
-        FBitmap^.PutPixels(x, y, 1, @buffer, 32);
+        for x := 0 to png.Width - 1 do
+        begin
+          if palpha[x] = 0 then
+            buffer := 0
+          else
+          begin
+            buffer := RGBSwap(png.Pixels[x, y]);
+            if (buffer = ftransparentcolor) or (buffer and $FFFFFF = 0) then
+              buffer := nearblack;
+          end;
+          FBitmap^.PutPixels(x, y, 1, @buffer, 32);
+        end;
+      end
+      else
+      begin
+        for x := 0 to png.Width - 1 do
+        begin
+          buffer := RGBSwap(png.Pixels[x, y]);
+          if buffer <> ftransparentcolor then
+            if buffer and $FFFFFF = 0 then
+              buffer := nearblack;
+          FBitmap^.PutPixels(x, y, 1, @buffer, 32);
+        end;
       end;
+    end;
   end;
   Result := CheckPNGError;
 end;
