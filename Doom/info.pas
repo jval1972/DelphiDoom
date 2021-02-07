@@ -12649,6 +12649,8 @@ const // Doom Original mobjinfo
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
     flags4_ex: 0;                                                 // flags4_ex
+    normalspeed: 15 * FRACUNIT;                                   // normalspeed
+    fastspeed: 20 * FRACUNIT;                                     // fastspeed
    ),
 
    (    // MT_KNIGHT
@@ -13249,6 +13251,8 @@ const // Doom Original mobjinfo
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
     flags4_ex: 0;                                                 // flags4_ex
+    normalspeed: 10 * FRACUNIT;                                   // normalspeed
+    fastspeed: 20 * FRACUNIT;                                     // fastspeed
    ),
 
    (    // MT_HEADSHOT
@@ -13289,6 +13293,8 @@ const // Doom Original mobjinfo
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
     flags4_ex: 0;                                                 // flags4_ex
+    normalspeed: 10 * FRACUNIT;                                   // normalspeed
+    fastspeed: 20 * FRACUNIT;                                     // fastspeed
    ),
 
    (    // MT_ROCKET
@@ -17780,6 +17786,9 @@ begin
   begin
     mobjinfo := malloc(Ord(DO_NUMMOBJTYPES) * SizeOf(mobjinfo_t));
     memcpy(mobjinfo, @DO_mobjinfo, Ord(DO_NUMMOBJTYPES) * SizeOf(mobjinfo_t));
+    for i := 0 to Ord(DO_NUMMOBJTYPES) - 1 do
+      if mobjinfo[i].normalspeed <> 0 then
+        mobjinfo[i].normalspeed := mobjinfo[i].speed;
 
     if M_CheckParm('-NODEHEXTRA') = 0 then
     begin

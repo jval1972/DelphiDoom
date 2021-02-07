@@ -124,6 +124,7 @@ uses
   g_game,
   info_h,
   info_common,
+  p_common,
   p_gravity,
   p_setup,
   p_maputl,
@@ -896,9 +897,9 @@ begin
       dist := P_AproxDistance(mo.x - mo.target.x, mo.y - mo.target.y);
       delta := mo.target.z + (mo.height div 2) - mo.z;
       if (delta < 0) and (dist < -delta * 3) then
-        mo.z := mo.z - FLOATSPEED
+        mo.z := mo.z - P_FloatSpeed(mo)
       else if (delta > 0) and (dist < delta * 3) then
-        mo.z := mo.z + FLOATSPEED;
+        mo.z := mo.z + P_FloatSpeed(mo);
     end;
   end;
   if G_PlayingEngineVersion <= VERSION204 then

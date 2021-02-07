@@ -259,6 +259,7 @@ uses
   info,
   info_common,
   m_rnd,
+  p_common,
   p_map,
   p_maputl,
   p_setup,
@@ -559,9 +560,9 @@ begin
     begin
       // must adjust height
       if actor.z < tmfloorz then
-        actor.z := actor.z + FLOATSPEED
+        actor.z := actor.z + P_FloatSpeed(actor)
       else
-        actor.z := actor.z - FLOATSPEED;
+        actor.z := actor.z - P_FloatSpeed(actor);
 
       actor.flags := actor.flags or MF_INFLOAT;
       result := true;
@@ -1014,8 +1015,8 @@ begin
   // do not attack twice in a row
   if actor.flags and MF_JUSTATTACKED <> 0 then
   begin
-    actor.flags := actor.flags and (not MF_JUSTATTACKED);
-    if (gameskill <> sk_nightmare) and (not fastparm) then
+    actor.flags := actor.flags and not MF_JUSTATTACKED;
+    if (gameskill <> sk_nightmare) and not fastparm then
       P_NewChaseDir(actor);
     exit;
   end;
@@ -1032,7 +1033,7 @@ begin
   // check for missile attack
   if actor.info.missilestate <> 0 then
   begin
-    if (gameskill < sk_nightmare) and (not fastparm) and (actor.movecount <> 0) then
+    if (gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0) then
       nomissile := true
     else if not P_CheckMissileRange(actor) then
       nomissile := true;

@@ -522,9 +522,9 @@ begin
       delta := mo.target.z + (mo.height div 2) - mo.z;
 
       if (delta < 0) and (dist < -(delta * 3)) then
-        mo.z := mo.z - FLOATSPEED
+        mo.z := mo.z - P_FloatSpeed(mo)
       else if (delta > 0) and (dist < (delta * 3)) then
-        mo.z := mo.z + FLOATSPEED;
+        mo.z := mo.z + P_FloatSpeed(mo);
     end;
   end;
 

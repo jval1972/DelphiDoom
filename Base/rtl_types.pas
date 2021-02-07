@@ -130,6 +130,9 @@ type
     scale: float;
     gravity: float;
     minmissilechance: integer;
+    floatspeed: integer;
+    normalspeed: integer;
+    fastspeed: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

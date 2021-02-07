@@ -99,6 +99,7 @@ Consistancy check of removed mobjs.
 Fixed text draw bug in finale.
 Added demon scrolling to E3M8 finale.
 Draw underwater pic in E2M8 finale.
+Added floatspeed, normalspeed & fastspeed mobjinfo fields.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

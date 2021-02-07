@@ -679,9 +679,9 @@ begin
     begin
       // must adjust height
       if actor.z < tmfloorz then
-        actor.z := actor.z + FLOATSPEED
+        actor.z := actor.z + P_FloatSpeed(actor)
       else
-        actor.z := actor.z - FLOATSPEED;
+        actor.z := actor.z - P_FloatSpeed(actor);
 
       actor.flags := actor.flags or MF_INFLOAT;
       result := true;

@@ -531,6 +531,8 @@ procedure P_CopyFriendliness(const originator, mo: Pmobj_t);
 
 function P_RaiseActor(const thing, raiser: Pmobj_t): boolean;
 
+function P_FloatSpeed(const actor: Pmobj_t): fixed_t;
+
 implementation
 
 uses
@@ -549,6 +551,7 @@ uses
   p_enemy,
   p_extra,
   p_inter,
+  p_local,
   p_mobj,
   p_pspr,
   p_map,
@@ -5405,6 +5408,18 @@ begin
 
   P_Doattack(actor, MeleeDamage <> 0, MissileType <> -1, MeleeDamage, MeleeSound,
     MissileType, MissileHeight);
+end;
+
+function P_FloatSpeed(const actor: Pmobj_t): fixed_t;
+begin
+  if actor.info.floatspeed > 0 then
+  begin
+    result := actor.info.floatspeed;
+    if result < 256 then
+      result := result * FRACUNIT;
+  end
+  else
+    result := FLOATSPEED;
 end;
 
 end.

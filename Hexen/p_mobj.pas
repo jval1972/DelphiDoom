@@ -937,9 +937,9 @@ begin
       dist := P_AproxDistance(mo.x - mo.target.x, mo.y - mo.target.y);
       delta := mo.target.z + _SHR1(mo.height) - mo.z;
       if (delta < 0) and (dist < -(delta * 3)) then
-        mo.z := mo.z - FLOATSPEED
+        mo.z := mo.z - P_FloatSpeed(mo)
       else if (delta > 0) and (dist < (delta * 3)) then
-        mo.z := mo.z + FLOATSPEED;
+        mo.z := mo.z + P_FloatSpeed(mo);
     end;
   end;
   if (mo.player <> nil) and

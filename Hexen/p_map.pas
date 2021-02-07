@@ -161,6 +161,7 @@ uses
   info_h,
   info,
   info_common,
+  p_common,
   p_gravity,
   p_setup,
   p_maputl,
@@ -1276,9 +1277,9 @@ begin
       dist := P_AproxDistance(mo.x - mo.target.x, mo.y - mo.target.y);
       delta := mo.target.z + (mo.height div 2) - mo.z;
       if (delta < 0) and (dist < -delta * 3) then
-        mo.z := mo.z - FLOATSPEED
+        mo.z := mo.z - P_FloatSpeed(mo)
       else if (delta > 0) and (dist < delta * 3) then
-        mo.z := mo.z + FLOATSPEED;
+        mo.z := mo.z + P_FloatSpeed(mo);
     end;
   end;
   if (mo.player <> nil) and (mo.flags2 and MF2_FLY <> 0) and (mo.z > mo.floorz) and (leveltime and 2 <> 0) then

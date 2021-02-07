@@ -740,9 +740,9 @@ begin
     if (actor.flags and MF_FLOAT <> 0) and floatok then
     begin // must adjust height
       if actor.z < tmfloorz then
-        actor.z := actor.z + FLOATSPEED
+        actor.z := actor.z + P_FloatSpeed(actor)
       else
-        actor.z := actor.z - FLOATSPEED;
+        actor.z := actor.z - P_FloatSpeed(actor);
       actor.flags := actor.flags or MF_INFLOAT;
       result := true;
       exit;
@@ -1215,8 +1215,8 @@ begin
   // do not attack twice in a row
   if actor.flags and MF_JUSTATTACKED <> 0 then
   begin
-    actor.flags := actor.flags and (not MF_JUSTATTACKED);
-    if (gameskill <> sk_nightmare) and (not fastparm) then
+    actor.flags := actor.flags and not MF_JUSTATTACKED;
+    if (gameskill <> sk_nightmare) and not fastparm then
       P_NewChaseDir(actor);
     exit;
   end;

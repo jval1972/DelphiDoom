@@ -2277,6 +2277,20 @@ begin
   else
     respawnmonsters := false;
 
+  // JVAL: 20210207 -> Support for fast speed mobj info field
+  if fastparm or ((skill = sk_nightmare) and (gameskill <> sk_nightmare)) then
+  begin
+    for i := 0 to nummobjtypes - 1 do
+      if mobjinfo[i].fastspeed <> 0 then
+        mobjinfo[i].speed := mobjinfo[i].fastspeed;
+  end
+  else if (skill <> sk_nightmare) and (gameskill = sk_nightmare) then
+  begin
+    for i := 0 to nummobjtypes - 1 do
+      if mobjinfo[i].normalspeed <> 0 then
+        mobjinfo[i].speed := mobjinfo[i].normalspeed;
+  end;
+
   // force players to be initialized upon first level load
   for i := 0 to MAXPLAYERS - 1 do
   begin

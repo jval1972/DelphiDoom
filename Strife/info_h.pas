@@ -2352,6 +2352,9 @@ type
     flags3_ex: integer;
     flags4_ex: integer;
     minmissilechance: integer;
+    floatspeed: integer;
+    normalspeed: integer;
+    fastspeed: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

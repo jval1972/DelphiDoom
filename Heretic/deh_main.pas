@@ -557,6 +557,9 @@ begin
                 end;
               end;
           47: mobjinfo[mobj_no].minmissilechance := mobj_val;
+          48: mobjinfo[mobj_no].floatspeed := mobj_val;
+          49: mobjinfo[mobj_no].normalspeed := mobj_val;
+          50: mobjinfo[mobj_no].fastspeed := mobj_val;
         end;
       end;
 
@@ -1565,6 +1568,9 @@ begin
       result.Add('%s = %s', [capitalizedstring(mobj_tokens[46]), str]);
 
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[47]), mobjinfo[i].minmissilechance]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[48]), mobjinfo[i].floatspeed]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[49]), mobjinfo[i].normalspeed]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[50]), mobjinfo[i].fastspeed]);
 
     result.Add('');
   end;
@@ -1794,6 +1800,9 @@ begin
   mobj_tokens.Add('FLAGS3_EX');          // .flags3_ex (DelphiDoom)   // 45
   mobj_tokens.Add('FLAGS4_EX');          // .flags4_ex (DelphiDoom)   // 46
   mobj_tokens.Add('MINMISSILECHANCE');   // .minmissilechance         // 47
+  mobj_tokens.Add('FLOAT SPEED');        // .floatspeed               // 48
+  mobj_tokens.Add('NORMAL SPEED');       // .normalspeed              // 49
+  mobj_tokens.Add('FAST SPEED');         // .fastspeed                // 50
 
 
   mobj_flags := TDTextList.Create;
@@ -1918,6 +1927,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NOMAXMOVE');
   mobj_flags3_ex.Add('MF3_EX_NOCRASH');
   mobj_flags3_ex.Add('MF3_EX_BLOODIGNOREDAMAGE');
+  // JVAL version 206
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');
   mobj_flags3_ex.Add('MF3_EX_LINEDONE');
   mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');

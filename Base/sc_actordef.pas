@@ -1363,6 +1363,9 @@ var
     {$ENDIF}
     AddRes('Scale = ' + itoa(round(mobj.scale * FRACUNIT)));
     AddRes('Gravity = ' + itoa(round(mobj.gravity * FRACUNIT)));
+    Addres('Float Speed = ' + itoa(mobj.floatspeed));
+    Addres('Normal Speed = ' + itoa(mobj.normalspeed));
+    Addres('Fast Speed = ' + itoa(mobj.fastspeed));
     AddRes('');
 
     if numstates > 0 then
@@ -1809,6 +1812,9 @@ begin
           mobj.pushfactor := pinf.pushfactor / FRACUNIT;
           mobj.scale := pinf.scale / FRACUNIT;
           mobj.minmissilechance := pinf.minmissilechance;
+          mobj.floatspeed := pinf.floatspeed;
+          mobj.normalspeed := pinf.normalspeed;
+          mobj.fastspeed := pinf.fastspeed;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -2155,6 +2161,24 @@ begin
         begin
           sc.GetString;
           mobj.meleesound := sc._String;
+          sc.GetString;
+        end
+        else if sc.MatchString('floatspeed') then
+        begin
+          sc.GetInteger;
+          mobj.floatspeed := sc._integer;
+          sc.GetString;
+        end
+        else if sc.MatchString('normalspeed') then
+        begin
+          sc.GetInteger;
+          mobj.normalspeed := sc._integer;
+          sc.GetString;
+        end
+        else if sc.MatchString('fastspeed') then
+        begin
+          sc.GetInteger;
+          mobj.normalspeed := sc._integer;
           sc.GetString;
         end
         {$IFDEF DOOM_OR_STRIFE}
@@ -2715,6 +2739,12 @@ begin
     AddLn('Customsound3 ' + S_GetSoundNameForNum(m.customsound3));
   if m.meleesound > 0 then
     AddLn('Meleesound ' + S_GetSoundNameForNum(m.meleesound));
+  if m.floatspeed > 0 then
+    AddLn('Floatspeed ' + itoa(m.floatspeed));
+  if m.normalspeed > 0 then
+    AddLn('Normalspeed ' + itoa(m.normalspeed));
+  if m.fastspeed > 0 then
+    AddLn('Fastspeed ' + itoa(m.fastspeed));
   {$IFDEF DOOM_OR_STRIFE}
   if m.missileheight > 0 then
     AddLn('Missileheight ' + S_GetSoundNameForNum(m.missileheight));
