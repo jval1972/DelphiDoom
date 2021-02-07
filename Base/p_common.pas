@@ -355,6 +355,12 @@ procedure A_CountdownArg(actor: Pmobj_t);
 
 procedure A_SetArg(actor: Pmobj_t);
 
+procedure A_SetMasterArg(actor: Pmobj_t);
+
+procedure A_SetTargetArg(actor: Pmobj_t);
+
+procedure A_SetTracerArg(actor: Pmobj_t);
+
 procedure A_SetSpecial(actor: Pmobj_t);
 
 procedure A_CheckFlag(actor: Pmobj_t);
@@ -4184,6 +4190,111 @@ begin
     exit;
 
   actor.args[arg] := actor.state.params.IntVal[1];
+end;
+
+//
+// A_SetMasterArg(arg: integer; value: integer)
+//
+procedure A_SetMasterArg(actor: Pmobj_t);
+var
+  arg: integer;
+  sarg: string;
+begin
+  if actor.master = nil then
+    exit;
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if not actor.state.params.IsComputed[0] then
+  begin
+    sarg := strupper(actor.state.params.StrVal[0]);
+    if sarg = 'C_ARG1' then
+      actor.state.params.IntVal[0] := 0
+    else if sarg = 'C_ARG2' then
+      actor.state.params.IntVal[0] := 1
+    else if sarg = 'C_ARG3' then
+      actor.state.params.IntVal[0] := 2
+    else if sarg = 'C_ARG4' then
+      actor.state.params.IntVal[0] := 3
+    else if sarg = 'C_ARG5' then
+      actor.state.params.IntVal[0] := 4;
+  end;
+
+  arg := actor.state.params.IntVal[0];
+  if not IsIntegerInRange(arg, 0, 4) then
+    exit;
+
+  actor.master.args[arg] := actor.state.params.IntVal[1];
+end;
+
+//
+// A_SetTargetArg(arg: integer; value: integer)
+//
+procedure A_SetTargetArg(actor: Pmobj_t);
+var
+  arg: integer;
+  sarg: string;
+begin
+  if actor.target = nil then
+    exit;
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if not actor.state.params.IsComputed[0] then
+  begin
+    sarg := strupper(actor.state.params.StrVal[0]);
+    if sarg = 'C_ARG1' then
+      actor.state.params.IntVal[0] := 0
+    else if sarg = 'C_ARG2' then
+      actor.state.params.IntVal[0] := 1
+    else if sarg = 'C_ARG3' then
+      actor.state.params.IntVal[0] := 2
+    else if sarg = 'C_ARG4' then
+      actor.state.params.IntVal[0] := 3
+    else if sarg = 'C_ARG5' then
+      actor.state.params.IntVal[0] := 4;
+  end;
+
+  arg := actor.state.params.IntVal[0];
+  if not IsIntegerInRange(arg, 0, 4) then
+    exit;
+
+  actor.target.args[arg] := actor.state.params.IntVal[1];
+end;
+
+//
+// A_SetTracerArg(arg: integer; value: integer)
+//
+procedure A_SetTracerArg(actor: Pmobj_t);
+var
+  arg: integer;
+  sarg: string;
+begin
+  if actor.tracer = nil then
+    exit;
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  if not actor.state.params.IsComputed[0] then
+  begin
+    sarg := strupper(actor.state.params.StrVal[0]);
+    if sarg = 'C_ARG1' then
+      actor.state.params.IntVal[0] := 0
+    else if sarg = 'C_ARG2' then
+      actor.state.params.IntVal[0] := 1
+    else if sarg = 'C_ARG3' then
+      actor.state.params.IntVal[0] := 2
+    else if sarg = 'C_ARG4' then
+      actor.state.params.IntVal[0] := 3
+    else if sarg = 'C_ARG5' then
+      actor.state.params.IntVal[0] := 4;
+  end;
+
+  arg := actor.state.params.IntVal[0];
+  if not IsIntegerInRange(arg, 0, 4) then
+    exit;
+
+  actor.tracer.args[arg] := actor.state.params.IntVal[1];
 end;
 
 //
