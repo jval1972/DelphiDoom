@@ -502,6 +502,7 @@ begin
   baseproclist.Add('function GetMobjInfoObituary(const typ: integer): string;', @PS_GetMobjInfoObituary);
   baseproclist.Add('function GetMobjInfoHitObituary(const typ: integer): string;', @PS_GetMobjInfoHitObituary);
   baseproclist.Add('function GetMobjInfoGender(const typ: integer): integer;', @PS_GetMobjInfoGender);
+  baseproclist.Add('function GetMobjInfoMeleeRange(const typ: integer): integer;', @PS_GetMobjInfoMeleeRange);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);

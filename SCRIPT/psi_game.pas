@@ -629,6 +629,8 @@ function PS_GetMobjInfoHitObituary(const typ: integer): string;
 
 function PS_GetMobjInfoGender(const typ: integer): integer;
 
+function PS_GetMobjInfoMeleeRange(const typ: integer): integer;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 
@@ -5714,6 +5716,16 @@ begin
   Result := Ord(mobjinfo[typ].gender);
 end;
 
+function PS_GetMobjInfoMeleeRange(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].meleerange;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -6006,6 +6018,11 @@ end;
 procedure TRTLMobjInfoItemGender_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoGender(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemMeleeRange_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoMeleeRange(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6756,6 +6773,7 @@ begin
   cmobjinfoitem.RegisterProperty('Obituary', 'String', iptR);
   cmobjinfoitem.RegisterProperty('HitObituary', 'String', iptR);
   cmobjinfoitem.RegisterProperty('Gender', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('MeleeRange', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -6996,6 +7014,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemObituary_R, nil, 'Obituary');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHitObituary_R, nil, 'HitObituary');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGender_R, nil, 'Gender');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMeleeRange_R, nil, 'MeleeRange');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
