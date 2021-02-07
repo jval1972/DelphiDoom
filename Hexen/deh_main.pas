@@ -3023,7 +3023,7 @@ begin
   {$IFDEF DLL}deh_actions[380].decl := 'A_ChangeVelocity(velx: float, vely: float, velz: float, flags: float)';{$ENDIF}
   deh_actions[381].action.acp1 := @A_JumpIf;
   deh_actions[381].name := strupper('JumpIf');
-  {$IFDEF DLL}deh_actions[381].decl := 'A_JumpIf(propability: boolean, offset: integer)';{$ENDIF}
+  {$IFDEF DLL}deh_actions[381].decl := 'A_JumpIf(propability: boolean, offset1: integer, [offset2: integer], ...)';{$ENDIF}
   deh_actions[382].action.acp1 := @A_MusicChanger;
   deh_actions[382].name := strupper('MusicChanger');
   {$IFDEF DLL}deh_actions[383].decl := 'A_MusicChanger';{$ENDIF}
