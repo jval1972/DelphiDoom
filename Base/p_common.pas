@@ -881,16 +881,28 @@ procedure A_JumpIf(actor: Pmobj_t);
 var
   offset: integer;
   boolret: boolean;
+  N: TDNumberList;
+  i: integer;
 begin
-  if not P_CheckStateParams(actor, 2) then
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
     exit;
 
   boolret := actor.state.params.BoolVal[0];
   if boolret then
   begin
-    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
-    if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+    N := TDNumberList.Create;
+    for i := 1 to actor.state.params.Count - 1 do
+    begin
+      offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+      N.Add(offset);
+    end;
+    if N.Count > 0 then
+    begin
+      offset := N.Numbers[N_Random mod N.Count];
+      if @states[offset] <> actor.state then
+        P_SetMobjState(actor, statenum_t(offset));
+    end;
+    N.Free;
   end;
 end;
 

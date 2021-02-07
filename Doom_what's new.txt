@@ -109,6 +109,7 @@ If the wrong side of door is pushed, play the sfx_oof sound.
 Check if a door is actually a door in T_VerticaDoor.
 Added floatspeed, normalspeed & fastspeed mobjinfo fields.
 A_Jump() ACTORDEF function can take multiple labels as parameters.
+A_JumpIf() ACTORDEF function can take multiple labels as parameters.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
