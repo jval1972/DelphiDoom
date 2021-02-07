@@ -694,7 +694,10 @@ begin
     end;
 
     // damage / explode
-    damage := ((P_Random mod 8) + 1) * tmthing.info.damage;
+    if tmthing.flags3_ex and MF3_EX_STRIFEDAMAGE <> 0 then
+      damage := ((P_Random mod 4) + 1) * tmthing.info.damage
+    else
+      damage := ((P_Random mod 8) + 1) * tmthing.info.damage;
     P_DamageMobj(thing, tmthing, tmthing.target, damage);
 
     // don't traverse any more

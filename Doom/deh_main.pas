@@ -1916,6 +1916,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_JUMPUP');
   mobj_flags2_ex.Add('MF2_EX_DONTBLOCKPLAYER');
 
+
   mobj_flags3_ex := TDTextList.Create;
   mobj_flags3_ex.Add('MF3_EX_FLOORBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_CEILINGBOUNCE');
@@ -1929,6 +1930,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');
   mobj_flags3_ex.Add('MF3_EX_MISSILEMORE');
   mobj_flags3_ex.Add('MF3_EX_MISSILEEVENMORE');
+  mobj_flags3_ex.Add('MF3_EX_STRIFEDAMAGE');
 
   mobj_flags4_ex := TDTextList.Create;
 
