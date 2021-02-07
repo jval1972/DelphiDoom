@@ -99,6 +99,7 @@ Consistancy check of removed mobjs.
 Always kill monsters if falling with momz > 23 * FRACUNIT (P_MonsterFallingDamage)
 Finale text spacing changed.
 Added floatspeed, normalspeed & fastspeed mobjinfo fields.
+A_Jump() ACTORDEF function can take multiple labels as parameters.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

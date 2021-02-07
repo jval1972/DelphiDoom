@@ -2202,7 +2202,7 @@ begin
   {$IFDEF DLL}deh_actions[90].decl := 'A_Stop()';{$ENDIF}
   deh_actions[91].action.acp1 := @A_Jump;
   deh_actions[91].name := strupper('Jump');
-  {$IFDEF DLL}deh_actions[91].decl := 'A_Jump(propability: random_t, offset: integer)';{$ENDIF}
+  {$IFDEF DLL}deh_actions[91].decl := 'A_Jump(propability: random_t, offset1: integer, [offset2: integer], ...)';{$ENDIF}
   deh_actions[92].action.acp1 := @A_CustomMissile;
   deh_actions[92].name := strupper('CustomMissile');
   {$IFDEF DLL}deh_actions[92].decl := 'A_CustomMissile(missiletype: string, [height: integer], [offset: integer], [angle: integer], [aimmode: integer], [pitch: integer])';{$ENDIF}

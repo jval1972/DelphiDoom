@@ -95,6 +95,7 @@ Save elevator data to saved game.
 Fixed potential memory corruption problem when allocating custom colormaps.
 Consistancy check of removed mobjs.
 Added floatspeed, normalspeed & fastspeed mobjinfo fields.
+A_Jump() ACTORDEF function can take multiple labels as parameters.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

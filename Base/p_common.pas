@@ -2012,23 +2012,35 @@ end;
 //
 // JVAL
 // Change state offset
-// A_Jump(propability, offset)
+// A_Jump(propability, offset1, offset2, ....)
 //
 procedure A_Jump(actor: Pmobj_t);
 var
   propability: integer;
   offset: integer;
+  N: TDNumberList;
+  i: integer;
 begin
-  if not P_CheckStateParams(actor, 2) then
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
     exit;
 
   propability := actor.state.params.IntVal[0];  // JVAL simple integer values are precalculated
 
   if N_Random < propability then
   begin
-    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
-    if @states[offset] <> actor.state then
-      P_SetMobjState(actor, statenum_t(offset));
+    N := TDNumberList.Create;
+    for i := 1 to actor.state.params.Count - 1 do
+    begin
+      offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+      N.Add(offset);
+    end;
+    if N.Count > 0 then
+    begin
+      offset := N.Numbers[N_Random mod N.Count];
+      if @states[offset] <> actor.state then
+        P_SetMobjState(actor, statenum_t(offset));
+    end;
+    N.Free;
   end;
 end;
 

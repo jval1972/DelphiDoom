@@ -108,6 +108,7 @@ Sound org of sfx_oof sound when trying to open a locked door with key is the pla
 If the wrong side of door is pushed, play the sfx_oof sound.
 Check if a door is actually a door in T_VerticaDoor.
 Added floatspeed, normalspeed & fastspeed mobjinfo fields.
+A_Jump() ACTORDEF function can take multiple labels as parameters.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
