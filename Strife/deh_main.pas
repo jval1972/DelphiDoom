@@ -54,7 +54,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 358;
+  DEHNUMACTIONS = 361;
 
 type
   deh_action_t = record
@@ -2943,6 +2943,15 @@ begin
   deh_actions[357].action.acp1 := @A_BasicAttack;
   deh_actions[357].name := strupper('BasicAttack');
   {$IFDEF DLL}deh_actions[357].decl := 'A_BasicAttack(MeleeDamage: integer, MeleeSound: integer, MissileType: integer, MissileHeight: float)';{$ENDIF}
+  deh_actions[358].action.acp1 := @A_SetMasterArg;
+  deh_actions[358].name := strupper('SetMasterArg');
+  {$IFDEF DLL}deh_actions[358].decl := 'A_SetMasterArg(arg: integer; value: integer)';{$ENDIF}
+  deh_actions[359].action.acp1 := @A_SetTargetArg;
+  deh_actions[359].name := strupper('SetTargetArg');
+  {$IFDEF DLL}deh_actions[359].decl := 'A_SetTargetArg(arg: integer; value: integer)';{$ENDIF}
+  deh_actions[360].action.acp1 := @A_SetTracerArg;
+  deh_actions[360].name := strupper('SetTracerArg');
+  {$IFDEF DLL}deh_actions[360].decl := 'A_SetTracerArg(arg: integer; value: integer)';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;

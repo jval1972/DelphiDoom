@@ -67,6 +67,9 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_HealThing
   - A_RemoveMaster
   - A_BasicAttack
+  - A_SetMasterArg(arg: integer; value: integer)
+  - A_SetTargetArg(arg: integer; value: integer)
+  - A_SetTracerArg(arg: integer; value: integer)
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Does not play menu sound on end screen.
