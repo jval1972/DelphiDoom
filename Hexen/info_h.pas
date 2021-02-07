@@ -3694,6 +3694,7 @@ type
     obituary: string[64];
     hitobituary: string[64];
     gender: gender_t;
+    meleerange: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

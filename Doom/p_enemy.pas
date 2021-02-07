@@ -359,6 +359,7 @@ function P_CheckMeleeRange(actor: Pmobj_t): boolean;
 var
   pl: Pmobj_t;
   dist: fixed_t;
+  mrange: integer;
 begin
   pl := actor.target;
   if pl = nil then
@@ -376,7 +377,13 @@ begin
 
   dist := P_AproxDistance(pl.x - actor.x, pl.y - actor.y);
 
-  if dist >= MELEERANGE - 20 * FRACUNIT + pl.info.radius then
+  mrange := actor.info.meleerange;
+  if mrange = 0 then
+    mrange := MELEERANGE
+  else if mrange < FRACUNIT then
+    mrange := mrange * FRACUNIT;
+
+  if dist >= mrange - 20 * FRACUNIT + pl.info.radius then
   begin
     result := false;
     exit;

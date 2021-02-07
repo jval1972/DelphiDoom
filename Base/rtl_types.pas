@@ -136,6 +136,7 @@ type
     obituary: string;
     hitobituary: string;
     gender: string;
+    meleerange: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

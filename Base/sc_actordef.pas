@@ -1377,6 +1377,7 @@ var
       AddRes('Gender = ' + mobj.gender)
     else
       AddRes('Gender = DEFAULT');
+    AddRes('Melee Range = ' + itoa(mobj.meleerange));
 
     AddRes('');
 
@@ -1831,6 +1832,7 @@ begin
           mobj.obituary := pinf.obituary;
           mobj.hitobituary := pinf.hitobituary;
           mobj.gender := itoa(Ord(pinf.gender));
+          mobj.meleerange := pinf.meleerange;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -1957,6 +1959,13 @@ begin
           sc.GetString;
           gender := R_GetGenderForName(sc._String);
           mobj.gender := GENDERINFO[Ord(gender)].name;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('MELEERANGE') then
+        begin
+          sc.GetInteger;
+          mobj.meleerange := sc._Integer;
           sc.GetString;
         end
 
@@ -2808,6 +2817,8 @@ begin
   end;
   if m.gender <> gender_Default then
     AddLn('Gender ' + GENDERINFO[Ord(m.gender)].name);
+  if m.meleerange <> 0 then
+    AddLn('MeleeRange ' + itoa(m.meleerange));
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then
       AddLn('+' + mobj_flags[i]);

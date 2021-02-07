@@ -559,6 +559,7 @@ begin
                     I_Warning('DEH_Parse(): Wrong gender = %s (Think number = %d).'#13#10, [token2, mobj_no])
                 end;
               end;
+          56: mobjinfo[mobj_no].meleerange := mobj_val;
         end;
       end;
 
@@ -1565,6 +1566,7 @@ begin
     result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[53]), mobjinfo[i].obituary]);
     result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[54]), mobjinfo[i].hitobituary]);
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[55]), GENDERINFO[Ord(mobjinfo[i].gender)].name]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[56]), mobjinfo[i].meleerange]);
 
     result.Add('');
   end;
@@ -1807,6 +1809,7 @@ begin
   mobj_tokens.Add('OBITUARY');           // .obituary                 // 53
   mobj_tokens.Add('HIT OBITUARY');       // .hitobituary              // 54
   mobj_tokens.Add('GENDER');             // .gender                   // 55
+  mobj_tokens.Add('MELEE RANGE');        // .meleerange               // 56
 
 
   mobj_flags := TDTextList.Create;
@@ -1920,7 +1923,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NOMAXMOVE');
   mobj_flags3_ex.Add('MF3_EX_NOCRASH');
   mobj_flags3_ex.Add('MF3_EX_BLOODIGNOREDAMAGE');
-  // JVAL version 206
+  // JVAL: VERSION 206
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');
   mobj_flags3_ex.Add('MF3_EX_LINEDONE');
   mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');

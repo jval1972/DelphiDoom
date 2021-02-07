@@ -582,6 +582,7 @@ begin
                     I_Warning('DEH_Parse(): Wrong gender = %s (Think number = %d).'#13#10, [token2, mobj_no])
                 end;
               end;
+          54: mobjinfo[mobj_no].meleerange := mobj_val;
         end;
       end;
 
@@ -1522,6 +1523,7 @@ begin
     result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[51]), mobjinfo[i].obituary]);
     result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[52]), mobjinfo[i].hitobituary]);
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[53]), GENDERINFO[Ord(mobjinfo[i].gender)].name]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[54]), mobjinfo[i].meleerange]);
 
     result.Add('');
   end;
@@ -1739,6 +1741,7 @@ begin
   mobj_tokens.Add('OBITUARY');           // .obituary                 // 51
   mobj_tokens.Add('HIT OBITUARY');       // .hitobituary              // 52
   mobj_tokens.Add('GENDER');             // .gender                   // 53
+  mobj_tokens.Add('MELEE RANGE');        // .meleerange               // 54
 
 
   mobj_flags := TDTextList.Create;
@@ -1809,6 +1812,7 @@ begin
   mobj_flags2.Add('MF2_ICEDAMAGE');
   mobj_flags2.Add('MF2_SEEKERMISSILE');
 
+
   mobj_flags_ex := TDTextList.Create;
   mobj_flags_ex.Add('MF_EX_TRANSPARENT');
   mobj_flags_ex.Add('MF_EX_WHITELIGHT');
@@ -1851,7 +1855,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_DONTRUNSCRIPTS');
   mobj_flags2_ex.Add('MF2_EX_PRECISESPAWNANGLE');
   mobj_flags2_ex.Add('MF2_EX_CUSTOMDROPITEM');
-  // JVAL: VERSION204
+  // JVAL: VERSION 204
   mobj_flags2_ex.Add('MF2_EX_JUMPDOWN');
   mobj_flags2_ex.Add('MF2_EX_FULLVOLACTIVE');
   mobj_flags2_ex.Add('MF2_EX_FULLVOLDEATH');
@@ -1859,8 +1863,8 @@ begin
   mobj_flags2_ex.Add('MF2_EX_FULLVOLPAIN');
   mobj_flags2_ex.Add('MF2_EX_FULLVOLATTACK');
   mobj_flags2_ex.Add('MF2_EX_DONOTRENDERSHADOW');
+  // JVAL: VERSION 205
   mobj_flags2_ex.Add('MF2_EX_SEEINVISIBLE');
-  // JVAL version 205
   mobj_flags2_ex.Add('MF2_EX_MISSILEHURTSPECIES');
   mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
   mobj_flags2_ex.Add('MF2_EX_JUMPUP');
@@ -1872,7 +1876,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_WALLBOUNCE');
   mobj_flags3_ex.Add('MF3_EX_NOMAXMOVE');
   mobj_flags3_ex.Add('MF3_EX_NOCRASH');
-  // JVAL version 206
+  // JVAL: VERSION 206
   mobj_flags3_ex.Add('MF3_EX_NORENDERINTERPOLATION');
   mobj_flags3_ex.Add('MF3_EX_LINEDONE');
   mobj_flags3_ex.Add('MF3_EX_FLIPSPRITE');
