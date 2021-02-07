@@ -64,8 +64,6 @@ procedure PIT_ThrustSpike(actor: Pmobj_t);
 
 function PIT_CheckLine(ld: Pline_t): boolean;
 
-function PIT_CheckThing(thing: Pmobj_t): boolean;
-
 function P_CheckPosition(thing: Pmobj_t; x, y: fixed_t): boolean;
 
 procedure P_FakeZMovement(mo: Pmobj_t);
@@ -1046,7 +1044,10 @@ begin
     end;
 
     // Do damage
-    damage := ((P_Random mod 8) + 1) * tmthing.damage;
+    if tmthing.flags3_ex and MF3_EX_STRIFEDAMAGE <> 0 then
+      damage := ((P_Random mod 4) + 1) * tmthing.info.damage
+    else
+      damage := ((P_Random mod 8) + 1) * tmthing.damage;
     if damage > 0 then
     begin
       if (thing.flags and MF_NOBLOOD = 0) and
