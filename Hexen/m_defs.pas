@@ -520,6 +520,7 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
+     defaultbvalue: true;
      _type: tBoolean),
 
     (name: 'r_bltasync';
