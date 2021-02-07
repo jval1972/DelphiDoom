@@ -144,6 +144,7 @@ uses
   g_demo,
   g_game,
   p_mobj,
+  p_obituaries,
   p_pspr,
   p_pspr_h,
   p_tick,
@@ -2225,6 +2226,7 @@ begin
       target.health := -5000;
     end;
     P_KillMobj(source, target);
+    P_Obituary(target, inflictor, source);
     exit;
   end;
   if (P_Random < target.info.painchance) and
@@ -2399,6 +2401,7 @@ begin
         target.flags2 := target.flags2 or MF2_ICEDAMAGE;
     end;
     P_KillMobj(source, target);
+    P_Obituary(target, inflictor, source);
     exit;
   end;
   if (leveltime and 63 = 0) and playPainSound then

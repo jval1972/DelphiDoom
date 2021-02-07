@@ -349,7 +349,9 @@ uses
   c_lib in 'C_LIB\c_lib.pas',
   scanf in 'C_LIB\scanf.pas',
   scanf_c in 'C_LIB\scanf_c.pas',
-  audiolib in 'AUDIOLIB\audiolib.pas';
+  audiolib in 'AUDIOLIB\audiolib.pas',
+  p_obituaries in 'Base\p_obituaries.pas',
+  p_gender in 'Base\p_gender.pas';
 
 var
   Saved8087CW: Word;

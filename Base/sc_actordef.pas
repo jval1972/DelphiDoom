@@ -81,6 +81,7 @@ uses
   sc_utils,
   p_pspr,
   p_mobj_h,
+  p_gender,
   ps_main,
   w_pak,
   w_wad;
@@ -1366,6 +1367,13 @@ var
     Addres('Float Speed = ' + itoa(mobj.floatspeed));
     Addres('Normal Speed = ' + itoa(mobj.normalspeed));
     Addres('Fast Speed = ' + itoa(mobj.fastspeed));
+    Addres('Obituary = "' + mobj.obituary + '"');
+    Addres('Hit Obituary = "' + mobj.hitobituary + '"');
+    if mobj.gender <> '' then
+      AddRes('Gender = ' + mobj.gender)
+    else
+      AddRes('Gender = DEFAULT');
+
     AddRes('');
 
     if numstates > 0 then
@@ -1518,6 +1526,7 @@ var
   stmp: string;
   isreplace, isinherit: boolean;
   rstyle: mobjrenderstyle_t;
+  gender: gender_t;
 begin
   state_tokens := TDStringList.Create;
   state_tokens.Add('spawn:');
@@ -1815,6 +1824,9 @@ begin
           mobj.floatspeed := pinf.floatspeed;
           mobj.normalspeed := pinf.normalspeed;
           mobj.fastspeed := pinf.fastspeed;
+          mobj.obituary := pinf.obituary;
+          mobj.hitobituary := pinf.hitobituary;
+          mobj.gender := itoa(Ord(pinf.gender));
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -1933,6 +1945,14 @@ begin
           sc.GetString;
           rstyle := R_GetRenderstyleForName(sc._String);
           mobj.renderstyle := renderstyle_tokens[Ord(rstyle)];
+          sc.GetString;
+        end
+
+        else if sc.MatchString('GENDER') then
+        begin
+          sc.GetString;
+          gender := R_GetGenderForName(sc._String);
+          mobj.gender := GENDERINFO[Ord(gender)].name;
           sc.GetString;
         end
 
@@ -2179,6 +2199,18 @@ begin
         begin
           sc.GetInteger;
           mobj.normalspeed := sc._integer;
+          sc.GetString;
+        end
+        else if sc.MatchString('obituary') then
+        begin
+          sc.GetString;
+          mobj.obituary := sc._String;
+          sc.GetString;
+        end
+        else if sc.MatchString('hitobituary') then
+        begin
+          sc.GetString;
+          mobj.hitobituary := sc._String;
           sc.GetString;
         end
         {$IFDEF DOOM_OR_STRIFE}
@@ -2745,6 +2777,10 @@ begin
     AddLn('Normalspeed ' + itoa(m.normalspeed));
   if m.fastspeed > 0 then
     AddLn('Fastspeed ' + itoa(m.fastspeed));
+  if m.obituary <> '' then
+    AddLn('Obituary ' + '"' + m.obituary + '"');
+  if m.hitobituary <> '' then
+    AddLn('HitObituary ' + '"' + m.hitobituary + '"');
   {$IFDEF DOOM_OR_STRIFE}
   if m.missileheight > 0 then
     AddLn('Missileheight ' + S_GetSoundNameForNum(m.missileheight));
@@ -2755,6 +2791,8 @@ begin
     if m.alpha > 0 then
       AddLn('Alpha ' + ftoafmt('2.4', m.alpha / FRACUNIT));
   end;
+  if m.gender <> gender_Default then
+    AddLn('Gender ' + GENDERINFO[Ord(m.gender)].name);
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then
       AddLn('+' + mobj_flags[i]);

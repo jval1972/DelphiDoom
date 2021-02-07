@@ -127,6 +127,7 @@ uses
   p_enemy,
   p_extra,
   p_common,
+  p_gender,
   p_pspr,
   p_inter,
   p_musinfo,
@@ -566,6 +567,25 @@ begin
           51: mobjinfo[mobj_no].floatspeed := mobj_val;
           52: mobjinfo[mobj_no].normalspeed := mobj_val;
           53: mobjinfo[mobj_no].fastspeed := mobj_val;
+          54: mobjinfo[mobj_no].obituary := token2;
+          55: mobjinfo[mobj_no].hitobituary := token2;
+          56: begin
+                if mobj_val >= 0 then
+                begin
+                  if mobj_val < Ord(NUMGENDERS) then
+                    mobjinfo[mobj_no].gender := gender_t(mobj_val)
+                  else
+                    I_Warning('DEH_Parse(): Wrong gender = %s (Think number = %d).'#13#10, [token2, mobj_no]);
+                end
+                else
+                begin
+                  mobj_val := Ord(R_GetGenderForName(token2));
+                  if mobj_val >= 0 then
+                    mobjinfo[mobj_no].gender := gender_t(mobj_val)
+                  else
+                    I_Warning('DEH_Parse(): Wrong gender = %s (Think number = %d).'#13#10, [token2, mobj_no])
+                end;
+              end;
         end;
       end;
 
@@ -1517,6 +1537,9 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[51]), mobjinfo[i].floatspeed]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[52]), mobjinfo[i].normalspeed]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[53]), mobjinfo[i].fastspeed]);
+    result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[54]), mobjinfo[i].obituary]);
+    result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[55]), mobjinfo[i].hitobituary]);
+    result.Add('%s = %s', [capitalizedstring(mobj_tokens[56]), GENDERINFO[Ord(mobjinfo[i].gender)].name]);
 
     result.Add('');
   end;
@@ -1737,6 +1760,9 @@ begin
   mobj_tokens.Add('FLOAT SPEED');        // .floatspeed               // 51
   mobj_tokens.Add('NORMAL SPEED');       // .normalspeed              // 52
   mobj_tokens.Add('FAST SPEED');         // .fastspeed                // 53
+  mobj_tokens.Add('OBITUARY');           // .obituary                 // 54
+  mobj_tokens.Add('HIT OBITUARY');       // .hitobituary              // 55
+  mobj_tokens.Add('GENDER');             // .gender                   // 56
 
 
   mobj_flags := TDTextList.Create;

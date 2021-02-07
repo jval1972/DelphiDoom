@@ -133,6 +133,9 @@ type
     floatspeed: integer;
     normalspeed: integer;
     fastspeed: integer;
+    obituary: string;
+    hitobituary: string;
+    gender: string;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

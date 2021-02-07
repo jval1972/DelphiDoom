@@ -44,6 +44,7 @@ uses
   d_delphi,
   d_think,
   r_renderstyle,
+  p_gender,
   sc_params;
 
 type
@@ -2355,6 +2356,9 @@ type
     floatspeed: integer;
     normalspeed: integer;
     fastspeed: integer;
+    obituary: string[64];
+    hitobituary: string[64];
+    gender: gender_t;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

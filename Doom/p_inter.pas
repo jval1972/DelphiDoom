@@ -83,6 +83,7 @@ uses
   d_items,
   g_game,
   p_mobj,
+  p_obituaries,
   p_pspr,
   ps_main, // JVAL: Script Events
   r_defs,
@@ -1026,6 +1027,7 @@ begin
   if target.health <= 0 then
   begin
     P_KillMobj(source, target);
+    P_Obituary(target, inflictor, source);
     exit;
   end;
 

@@ -139,6 +139,7 @@ uses
   m_menu,
   g_game,
   p_mobj,
+  p_obituaries,
   p_pspr,
   p_pspr_h,
   p_tick,
@@ -1550,6 +1551,7 @@ begin
     end;
     
     P_KillMobj(source, target);
+    P_Obituary(target, inflictor, source);
     exit;
   end;
 

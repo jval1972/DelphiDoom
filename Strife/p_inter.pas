@@ -106,6 +106,7 @@ uses
   d_items,
   g_game,
   p_mobj,
+  p_obituaries,
   p_pspr,
   p_pspr_h,
   p_dialog,
@@ -1395,6 +1396,7 @@ begin
     end;
 
     P_KillMobj(source, target);
+    P_Obituary(target, inflictor, source);
     exit;
   end;
 
