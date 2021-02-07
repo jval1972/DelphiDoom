@@ -623,6 +623,12 @@ function PS_GetMobjInfoNormalSpeed(const typ: integer): integer;
 
 function PS_GetMobjInfoFastSpeed(const typ: integer): integer;
 
+function PS_GetMobjInfoObituary(const typ: integer): string;
+
+function PS_GetMobjInfoHitObituary(const typ: integer): string;
+
+function PS_GetMobjInfoGender(const typ: integer): integer;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 
@@ -5678,6 +5684,36 @@ begin
   Result := mobjinfo[typ].fastspeed;
 end;
 
+function PS_GetMobjInfoObituary(const typ: integer): string;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := mobjinfo[typ].obituary;
+end;
+
+function PS_GetMobjInfoHitObituary(const typ: integer): string;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := mobjinfo[typ].hitobituary;
+end;
+
+function PS_GetMobjInfoGender(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := Ord(mobjinfo[typ].gender);
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -5955,6 +5991,21 @@ end;
 procedure TRTLMobjInfoItemFastSpeed_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoFastSpeed(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemObituary_R(Self: TRTLMobjInfoItem; var T: string);
+begin
+  T := PS_GetMobjInfoObituary(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemHitObituary_R(Self: TRTLMobjInfoItem; var T: string);
+begin
+  T := PS_GetMobjInfoHitObituary(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemGender_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoGender(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6702,6 +6753,9 @@ begin
   cmobjinfoitem.RegisterProperty('FloatSpeed', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('NormalSpeed', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('FastSpeed', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('Obituary', 'String', iptR);
+  cmobjinfoitem.RegisterProperty('HitObituary', 'String', iptR);
+  cmobjinfoitem.RegisterProperty('Gender', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -6939,6 +6993,9 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFloatSpeed_R, nil, 'FloatSpeed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemNormalSpeed_R, nil, 'NormalSpeed');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFastSpeed_R, nil, 'FastSpeed');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemObituary_R, nil, 'Obituary');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHitObituary_R, nil, 'HitObituary');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGender_R, nil, 'Gender');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');

@@ -99,6 +99,7 @@ uses
   m_base,
   m_fixed,
   m_rnd,
+  p_gender,
   p_local,
   p_maputl,
   p_slopes,
@@ -498,6 +499,9 @@ begin
   baseproclist.Add('function GetMobjInfoFloatSpeed(const typ: integer): integer;', @PS_GetMobjInfoFloatSpeed);
   baseproclist.Add('function GetMobjInfoNormalSpeed(const typ: integer): integer;', @PS_GetMobjInfoNormalSpeed);
   baseproclist.Add('function GetMobjInfoFastSpeed(const typ: integer): integer;', @PS_GetMobjInfoFastSpeed);
+  baseproclist.Add('function GetMobjInfoObituary(const typ: integer): string;', @PS_GetMobjInfoObituary);
+  baseproclist.Add('function GetMobjInfoHitObituary(const typ: integer): string;', @PS_GetMobjInfoHitObituary);
+  baseproclist.Add('function GetMobjInfoGender(const typ: integer): integer;', @PS_GetMobjInfoGender);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);
@@ -797,6 +801,9 @@ begin
 
     for m := 0 to Ord(NUMMOBJRENDERSTYLES) do
       Sender.AddConstant(GetENumName(TypeInfo(mobjrenderstyle_t), m), uT_integer).Value.ts32 := m;
+
+    for m := 0 to Ord(NUMGENDERS) do
+      Sender.AddConstant(GetENumName(TypeInfo(gender_t), m), uT_integer).Value.ts32 := m;
 
     {$IFDEF HEXEN}
     for m := 0 to Ord(NUMMANA) do
