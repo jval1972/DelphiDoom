@@ -691,8 +691,11 @@ begin
     end;
 
     // damage / explode
+    if tmthing.flags3_ex and MF3_EX_DOOMDAMAGE <> 0 then
+      damage := ((P_Random mod 8) + 1) * tmthing.info.damage
+    else
     // haleyjd 09/01/10: [STRIFE] Modified missile damage formula
-    damage := ((P_Random and 3) + 1) * tmthing.info.damage;
+      damage := ((P_Random and 3) + 1) * tmthing.info.damage;
     P_DamageMobj(thing, tmthing, tmthing.target, damage);
 
     // don't traverse any more
