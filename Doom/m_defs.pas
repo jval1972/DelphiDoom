@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -82,9 +82,10 @@ uses
   r_draw,
 {$IFNDEF OPENGL}
   r_segs,
-{$ENDIF}  
+{$ENDIF}
   r_dynlights,
   s_sound,
+  sc_actordef,
   t_main,
   t_png,
   m_sshot_jpg,
@@ -159,7 +160,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}193{$ELSE}195{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}194{$ELSE}196{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -545,7 +546,6 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'r_bltasync';
@@ -962,6 +962,14 @@ const
 
     (name: 'allowvanillademos';
      location: @allowvanillademos;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'decorate_as_actordef';
+     location: @decorate_as_actordef;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;

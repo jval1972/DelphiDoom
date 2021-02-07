@@ -53,6 +53,9 @@ function SC_SoundAlias(const snd: string): string;
 
 function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
 
+var
+  decorate_as_actordef: boolean = true;
+
 implementation
 
 uses
@@ -263,6 +266,7 @@ end;
 const
   ORIGINALSTATEMARKER = $FFFFF;
   ACTORDEFLUMPNAME = 'ACTORDEF';
+  DECORATELUMPNAME = 'DECORATE';
   SNDINFOLUMPNAME = 'SNDINFO';
 
 procedure SC_DoParseActordefLump(const in_text: string);
@@ -2484,6 +2488,11 @@ begin
     if char8tostring(W_GetNameForNum(i)) = ACTORDEFLUMPNAME then
       lumplist.Add(i);
 
+  if decorate_as_actordef then
+    for i := 0 to W_NumLumps - 1 do
+      if char8tostring(W_GetNameForNum(i)) = DECORATELUMPNAME then
+        lumplist.Add(i);
+
   {$IFNDEF FPC}
   SUC_SecondaryProgressInit(lumplist.Count);
   {$ENDIF}
@@ -2501,6 +2510,12 @@ begin
   {$ENDIF}
   PAK_StringIterator(ACTORDEFLUMPNAME, SC_ParseActordefLump);
   PAK_StringIterator(ACTORDEFLUMPNAME + '.txt', SC_ParseActordefLump);
+
+  if decorate_as_actordef then
+  begin
+    PAK_StringIterator(DECORATELUMPNAME, SC_ParseActordefLump);
+    PAK_StringIterator(DECORATELUMPNAME + '.txt', SC_ParseActordefLump);
+  end;
 
   lumplist.Free;
 

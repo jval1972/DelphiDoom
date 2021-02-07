@@ -111,6 +111,7 @@ Added floatspeed, normalspeed & fastspeed mobjinfo fields.
 A_Jump() ACTORDEF function can take multiple labels as parameters.
 A_JumpIf() ACTORDEF function can take multiple labels as parameters.
 Added obituaries and gender to mobjinfo fields.
+Added decorate_as_actordef console variable, default value is true.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

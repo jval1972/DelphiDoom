@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -93,6 +93,7 @@ uses
 {$ENDIF}  
   r_dynlights,
   s_sound,
+  sc_actordef,
   t_main,
   t_png,
   m_sshot_jpg,
@@ -167,7 +168,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 203;
+  NUMDEFAULTS = 204;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -537,7 +538,6 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
-     defaultbvalue: false;
      _type: tBoolean),
 
     (name: 'r_bltasync';
@@ -915,6 +915,14 @@ const
     (name: 'allowterrainsplashes';
      location: @allowterrainsplashes;
      setable: DFS_SINGLEPLAYER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'decorate_as_actordef';
+     location: @decorate_as_actordef;
+     setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;
      defaultbvalue: true;
