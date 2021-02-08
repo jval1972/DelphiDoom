@@ -161,6 +161,7 @@ var
   token3: string;
   token4: string;
   token5: string;
+  fw: string;
   settext: string;
   mustnextline: boolean;
 
@@ -675,12 +676,13 @@ begin
            2: states[state_no].tics := state_val;
            3:
             begin
-              if (firstword(token2) = 'ORIGINALSTATE') or (firstword(token2) = 'ORIGINALFRAME') or (firstword(token2) = 'ORIGINAL') then
+              fw := firstword(token2);
+              if (fw = 'ORIGINALSTATE') or (fw = 'ORIGINALFRAME') or (fw = 'ORIGINAL') then
               begin
                 state_val := atoi(secondword(token2));
                 states[state_no].nextstate := statenum_t(state_val);
               end
-              else if (firstword(token2) = 'NEWSTATE') or (firstword(token2) = 'NEWFRAME') or (firstword(token2) = 'NEW') then
+              else if (fw = 'NEWSTATE') or (fw = 'NEWFRAME') or (fw = 'NEW') then
               begin
                 state_val := atoi(secondword(token2));
                 states[state_no].nextstate := statenum_t(deh_initialstates + state_val)

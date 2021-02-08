@@ -106,6 +106,7 @@ Default value of "gldefs_as_lightdef" console variable changed to true.
 Added decorate_as_actordef console variable, default value is true.
 Added MeleeRange mobjinfo field.
 Added MF3_EX_STRIFEDAMAGE mobj flag.
+Dehacked parsing speed optimizations.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

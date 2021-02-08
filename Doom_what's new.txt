@@ -117,6 +117,7 @@ Added MeleeRange mobjinfo field.
 Added MF3_EX_STRIFEDAMAGE mobj flag.
 Added MF3_EX_MELEECHECKZ mobj flag, when set checks z values for melee attack.
 Corrected A_PlayerMessage bug.
+Dehacked parsing speed optimizations.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
