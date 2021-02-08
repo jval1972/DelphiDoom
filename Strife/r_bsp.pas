@@ -752,6 +752,7 @@ begin
      (backsector.ceilinganglex = frontsector.ceilinganglex) and
      (backsector.ceilingangley = frontsector.ceilingangley) and
      (curline.sidedef.midtexture = 0) and
+     // killough 3/7/98: Take flats offsets into account
      (backsector.floor_xoffs = frontsector.floor_xoffs) and
      (backsector.floor_yoffs = frontsector.floor_yoffs) and
      (backsector.ceiling_xoffs = frontsector.ceiling_xoffs) and
@@ -1101,6 +1102,7 @@ begin
         //e6y
         frontsector.highestfloor_height := dummyfloorplane.height;
         frontsector.highestfloor_lightlevel := dummyfloorplane.lightlevel;
+        frontsector.highestfloor_picnum := dummyfloorplane.picnum;
       end;
       if dummyfloorplane.height <> MININT then
         floorplane := @dummyfloorplane;
@@ -1108,6 +1110,7 @@ begin
     // the same for ceilings. they will be set to the lowest ceilingheight
     if frontsector.no_toptextures or (ceilingplane = nil) then
     begin
+      dummyfloorplane.picnum := frontsector.ceilingpic;
       i := frontsector.linecount;
 
       //e6y: this gives a huge speedup on levels with sectors which have many lines
@@ -1119,6 +1122,7 @@ begin
       begin
         dummyceilingplane.height := frontsector.lowestceil_height;
         dummyceilingplane.lightlevel := frontsector.lowestceil_lightlevel;
+        dummyceilingplane.picnum := frontsector.lowestceil_picnum;
       end
       else
       begin
@@ -1135,6 +1139,7 @@ begin
               begin
                 dummyceilingplane.height := tmpsec.ceilingheight;
                 dummyceilingplane.lightlevel := tmpsec.lightlevel;
+                dummyceilingplane.picnum := tmpsec.ceilingpic;
               end;
           tmpsec := tmpline.frontsector;
           if tmpsec <> nil then
@@ -1143,11 +1148,13 @@ begin
               begin
                 dummyceilingplane.height := tmpsec.ceilingheight;
                 dummyceilingplane.lightlevel := tmpsec.lightlevel;
+                dummyceilingplane.lightlevel := tmpsec.ceilingpic;
               end;
         end;
         //e6y
         frontsector.lowestceil_height := dummyceilingplane.height;
         frontsector.lowestceil_lightlevel := dummyceilingplane.lightlevel;
+        frontsector.lowestceil_picnum := dummyceilingplane.picnum;
       end;
       if dummyceilingplane.height <> MAXINT then
         ceilingplane := @dummyceilingplane;
