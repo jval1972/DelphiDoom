@@ -179,7 +179,7 @@ end;
 //
 procedure A_NoBlocking(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and(not MF_SOLID;
+  actor.flags := actor.flags and not MF_SOLID;
 end;
 
 //
