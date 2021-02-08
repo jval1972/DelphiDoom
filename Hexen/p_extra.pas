@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -103,10 +103,10 @@ uses
 //
 procedure A_LowGravity(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not MF_NOGRAVITY);
+  actor.flags := actor.flags and not MF_NOGRAVITY;
   actor.flags2 := actor.flags2 or MF2_LOGRAV;
   actor.flags_ex := actor.flags_ex or MF_EX_LOWGRAVITY;
-  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_MEDIUMGRAVITY);
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_MEDIUMGRAVITY;
 end;
 
 //
@@ -116,9 +116,9 @@ end;
 procedure A_NoGravity(actor: Pmobj_t);
 begin
   actor.flags := actor.flags or MF_NOGRAVITY;
-  actor.flags2 := actor.flags2 and (not MF2_LOGRAV);
-  actor.flags_ex := actor.flags_ex and (not MF_EX_LOWGRAVITY);
-  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_MEDIUMGRAVITY);
+  actor.flags2 := actor.flags2 and not MF2_LOGRAV;
+  actor.flags_ex := actor.flags_ex and not MF_EX_LOWGRAVITY;
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_MEDIUMGRAVITY;
 end;
 
 //
@@ -127,10 +127,10 @@ end;
 //
 procedure A_Gravity(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not MF_NOGRAVITY);
-  actor.flags2 := actor.flags2 and (not MF2_LOGRAV);
-  actor.flags_ex := actor.flags_ex and (not MF_EX_LOWGRAVITY);
-  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_MEDIUMGRAVITY);
+  actor.flags := actor.flags and not MF_NOGRAVITY;
+  actor.flags2 := actor.flags2 and not MF2_LOGRAV;
+  actor.flags_ex := actor.flags_ex and not MF_EX_LOWGRAVITY;
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_MEDIUMGRAVITY;
 end;
 
 //
