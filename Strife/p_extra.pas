@@ -10,7 +10,6 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -146,9 +145,7 @@ uses
 //
 procedure A_LowGravity(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not MF_NOGRAVITY);
   actor.flags_ex := actor.flags_ex or MF_EX_LOWGRAVITY;
-  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_MEDIUMGRAVITY);
 end;
 
 //
@@ -158,8 +155,6 @@ end;
 procedure A_NoGravity(actor: Pmobj_t);
 begin
   actor.flags := actor.flags or MF_NOGRAVITY;
-  actor.flags_ex := actor.flags_ex and (not MF_EX_LOWGRAVITY);
-  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_MEDIUMGRAVITY);
 end;
 
 //
@@ -168,9 +163,6 @@ end;
 //
 procedure A_Gravity(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not MF_NOGRAVITY);
-  actor.flags_ex := actor.flags_ex and (not MF_EX_LOWGRAVITY);
-  actor.flags2_ex := actor.flags2_ex and (not MF2_EX_MEDIUMGRAVITY);
 end;
 
 //
@@ -179,7 +171,6 @@ end;
 //
 procedure A_NoBlocking(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not MF_SOLID);
 end;
 
 //
@@ -530,7 +521,7 @@ begin
   p := actor.player;
   if p = nil then
   begin
-    if actor.target <> nil then
+    if actor.target = nil then
       Exit;
     p := actor.target.player;
     if p = nil then exit;

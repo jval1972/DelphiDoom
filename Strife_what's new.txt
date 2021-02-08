@@ -102,6 +102,7 @@ Default value of "gldefs_as_lightdef" console variable changed to true.
 Added decorate_as_actordef console variable, default value is true.
 Added MeleeRange mobjinfo field.
 Added MF3_EX_DOOMDAMAGE mobj flag. When set exploding missiles use Doom calculation for damage.
+Corrected A_PlayerMessage bug.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

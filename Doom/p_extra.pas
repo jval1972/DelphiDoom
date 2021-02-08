@@ -553,7 +553,7 @@ begin
   p := actor.player;
   if p = nil then
   begin
-    if actor.target <> nil then
+    if actor.target = nil then
       Exit;
     p := actor.target.player;
     if p = nil then
