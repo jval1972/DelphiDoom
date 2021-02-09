@@ -350,8 +350,11 @@ begin
   begin
     if ld.flags and ML_BLOCKING <> 0 then
     begin
-      result := false;  // explicitly blocking everything
-      exit;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      begin
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
     end;
 
     // killough 8/9/98: monster-blockers don't affect friends
@@ -446,8 +449,11 @@ begin
   begin
     if ld.flags and ML_BLOCKING <> 0 then
     begin
-      result := false;  // explicitly blocking everything
-      exit;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      begin
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
     end;
 
     // killough 8/9/98: monster-blockers don't affect friends
