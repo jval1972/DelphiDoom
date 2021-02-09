@@ -86,18 +86,24 @@ var
   message_dontfuckwithme: boolean;
   message_nottobefuckedwith: boolean;
 
+const
+  NUM_MAPNAMES = 45;
+  NUM_MAPNAMES2 = 33;
+  NUM_MAPNAMESP = 32;
+  NUM_MAPNAMEST = 32;
+
 var
 // DOOM shareware/registered/retail (Ultimate) names.
-  mapnames: array[0..44] of string;
+  mapnames: array[0..NUM_MAPNAMES - 1] of string;
 
 // DOOM 2 map names.
-  mapnames2: array[0..32] of string;
+  mapnames2: array[0..NUM_MAPNAMES2 - 1] of string;
 
 // Plutonia WAD map names.
-  mapnamesp: array[0..31] of string;
+  mapnamesp: array[0..NUM_MAPNAMESP - 1] of string;
 
 // TNT WAD map names.
-  mapnamest: array[0..31] of string;
+  mapnamest: array[0..NUM_MAPNAMEST - 1] of string;
 
   player_names: array[0..3] of string;
 
@@ -194,23 +200,38 @@ begin
 end;
 
 function HU_TITLE: string;
+var
+  x: integer;
 begin
-  result := mapnames[(gameepisode - 1) * 9 + gamemap - 1];
+  x := (gameepisode - 1) * 9 + gamemap - 1;
+  if IsIntegerInRange(x, 0, NUM_MAPNAMES - 1) then
+    result := mapnames[x]
+  else
+    sprintf(result, 'Episode %d - Map %d', [gameepisode, gamemap]);
 end;
 
 function HU_TITLE2: string;
 begin
-  result := mapnames2[gamemap - 1];
+  if IsIntegerInRange(gamemap, 1, NUM_MAPNAMES2) then
+    result := mapnames2[gamemap - 1]
+  else
+    sprintf(result, 'Map %d', [gamemap]);
 end;
 
 function HU_TITLEP: string;
 begin
-  result := mapnamesp[gamemap - 1];
+  if IsIntegerInRange(gamemap, 1, NUM_MAPNAMESP) then
+    result := mapnamesp[gamemap - 1]
+  else
+    sprintf(result, 'Map %d', [gamemap]);
 end;
 
 function HU_TITLET: string;
 begin
-  result := mapnamest[gamemap - 1];
+  if IsIntegerInRange(gamemap, 1, NUM_MAPNAMEST) then
+    result := mapnamest[gamemap - 1]
+  else
+    sprintf(result, 'Map %d', [gamemap]);
 end;
 
 var
