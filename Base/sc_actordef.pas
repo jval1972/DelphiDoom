@@ -186,6 +186,9 @@ begin
   AddAlias('FRIENDLY', 'FRIEND');
   AddAlias('+FRIENDLY', 'FRIEND');
   AddAlias('-FRIENDLY', '-FRIEND');
+  AddAlias('SLIDESONWALLS', 'SLIDE');
+  AddAlias('+SLIDESONWALLS', 'SLIDE');
+  AddAlias('-SLIDESONWALLS', '-SLIDE');
 end;
 
 function TActordefScriptEngine.MatchFlag(const flag: string): boolean;
