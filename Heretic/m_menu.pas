@@ -150,6 +150,7 @@ uses
   p_adjust,
   r_aspect,
   r_data,
+  r_dynlights,
   r_main,
   r_hires,
   r_lights,
@@ -165,6 +166,7 @@ uses
   v_data,
   v_video,
   hu_stuff,
+  sc_actordef,
   s_sound,
   sounds,
   w_wad,
@@ -1157,6 +1159,8 @@ type
     cmp_allowplayerjumps,
     cmp_keepcheatsinplayerrebord,
     cmp_spawnrandommonsters,
+    cmp_gldefs_as_lightdef,
+    cmp_decorate_as_actordef,
     cmp_end
   );
 
@@ -5342,6 +5346,22 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @spawnrandommonsters;
   pmi.alphaKey := 's';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Treat gldefs as lightdef';
+  pmi.cmd := 'gldefs_as_lightdef';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @gldefs_as_lightdef;
+  pmi.alphaKey := 'g';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Treat decorate as actordef';
+  pmi.cmd := 'decorate_as_actordef';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @decorate_as_actordef;
+  pmi.alphaKey := 'd';
 
 ////////////////////////////////////////////////////////////////////////////////
 //CompatibilityDef
