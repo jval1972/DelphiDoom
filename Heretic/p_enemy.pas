@@ -654,6 +654,11 @@ begin
   deltax := actor.target.x - actor.x;
   deltay := actor.target.y - actor.y;
 
+  // JVAL: 20210209 - MF3_EX_CAUSEFEAR & MF3_EX_NOFEAR flags
+  if actor.target.flags3_ex and MF3_EX_CAUSEFEAR <> 0 then
+    if actor.flags3_ex and MF3_EX_NOFEAR <> 0 then
+      actor.flags2_ex := actor.flags2_ex or MF2_EX_FRIGHTENED;
+
   if actor.flags2_ex and MF2_EX_FRIGHTENED <> 0 then
   begin
     deltax := -deltax;
@@ -734,8 +739,8 @@ begin
         actor.movedir := Ord(tdir);
         if P_TryWalk(actor) then
           exit;
-      end
-    end
+      end;
+    end;
   end
   else
   begin
@@ -947,7 +952,7 @@ begin
   actor.threshold := 0; // any shot will wake up
   targ := Psubsector_t(actor.subsector).sector.soundtarget;
   seeyou := false;
-  if (targ <> nil) and ((targ.flags and MF_SHOOTABLE) <> 0) then
+  if (targ <> nil) and (targ.flags and MF_SHOOTABLE <> 0) then
   begin
     actor.target := targ;
 
