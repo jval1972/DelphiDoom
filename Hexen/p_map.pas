@@ -487,13 +487,14 @@ begin
   if tmthing.flags and MF_MISSILE = 0 then
   begin
     if ld.flags and ML_BLOCKING <> 0 then
-    begin
-      if tmthing.flags2 and MF2_BLASTED <> 0 then
-        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
-      P_CheckForPushSpecial(ld, 0, tmthing);
-      result := false;  // explicitly blocking everything
-      exit;
-    end;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      begin
+        if tmthing.flags2 and MF2_BLASTED <> 0 then
+          P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
+        P_CheckForPushSpecial(ld, 0, tmthing);
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
 
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin
@@ -590,13 +591,14 @@ begin
   if tmthing.flags and MF_MISSILE = 0 then
   begin
     if ld.flags and ML_BLOCKING <> 0 then
-    begin
-      if tmthing.flags2 and MF2_BLASTED <> 0 then
-        P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
-      P_CheckForPushSpecial(ld, 0, tmthing);
-      result := false;  // explicitly blocking everything
-      exit;
-    end;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      begin
+        if tmthing.flags2 and MF2_BLASTED <> 0 then
+          P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
+        P_CheckForPushSpecial(ld, 0, tmthing);
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
 
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin

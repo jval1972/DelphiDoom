@@ -414,6 +414,8 @@ const
   MF3_EX_THRUACTORS = $4000;
   // No collision with same species (also inheritance)
   MF3_EX_THRUSPECIES = $8000;
+  //  Can cross ML_BLOCKMONSTERS lines
+  MF3_EX_NOBLOCKMONST = $10000;
 
 type
 // Map Object definition.
