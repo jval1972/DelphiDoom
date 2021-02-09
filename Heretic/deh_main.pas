@@ -1973,6 +1973,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_SLIDE');
   mobj_flags3_ex.Add('MF3_EX_THRUACTORS');
   mobj_flags3_ex.Add('MF3_EX_THRUSPECIES');
+  mobj_flags3_ex.Add('MF3_EX_NOBLOCKMONST');
 
 
   mobj_flags4_ex := TDTextList.Create;

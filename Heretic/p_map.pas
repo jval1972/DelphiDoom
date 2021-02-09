@@ -343,8 +343,11 @@ begin
   begin
     if ld.flags and ML_BLOCKING <> 0 then
     begin
-      result := false;  // explicitly blocking everything
-      exit;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      begin
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
     end;
 
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
@@ -438,8 +441,11 @@ begin
   begin
     if ld.flags and ML_BLOCKING <> 0 then
     begin
-      result := false;  // explicitly blocking everything
-      exit;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      begin
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
     end;
 
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
