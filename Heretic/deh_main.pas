@@ -1971,6 +1971,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NOFEAR');
   mobj_flags3_ex.Add('MF3_EX_CAUSEFEAR');
   mobj_flags3_ex.Add('MF3_EX_SLIDE');
+  mobj_flags3_ex.Add('MF3_EX_THRUACTORS');
 
 
   mobj_flags4_ex := TDTextList.Create;
