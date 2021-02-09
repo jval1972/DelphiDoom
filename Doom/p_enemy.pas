@@ -625,6 +625,11 @@ begin
   deltax := actor.target.x - actor.x;
   deltay := actor.target.y - actor.y;
 
+  // JVAL: 20210209 - MF3_EX_CAUSEFEAR & MF3_EX_NOFEAR flags
+  if actor.target.flags3_ex and MF3_EX_CAUSEFEAR <> 0 then
+    if actor.flags3_ex and MF3_EX_NOFEAR <> 0 then
+      actor.flags2_ex := actor.flags2_ex or MF2_EX_FRIGHTENED;
+
   if actor.flags2_ex and MF2_EX_FRIGHTENED <> 0 then
   begin
     deltax := -deltax;
