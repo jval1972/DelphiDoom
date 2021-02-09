@@ -372,6 +372,8 @@ const
   MF3_EX_NOFEAR = $2000;
   // Cause fear if targeted
   MF3_EX_CAUSEFEAR = $4000;
+  // Actor slides against walls
+  MF3_EX_SLIDE = $8000;
 
 type
 // Map Object definition.
