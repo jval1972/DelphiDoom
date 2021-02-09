@@ -362,6 +362,8 @@ const
   MF3_EX_STRIFEDAMAGE = $800;
   // Melee attach check z positioning
   MF3_EX_MELEECHECKZ = $1000;
+  // Continue on freeze console command
+  MF3_EX_NOTIMEFREEZE = $2000;
 
 type
 // Map Object definition.

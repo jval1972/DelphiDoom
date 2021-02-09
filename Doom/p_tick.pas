@@ -153,7 +153,7 @@ begin
       begin
         if Assigned(currentthinker._function.acp1) then
           if @currentthinker._function.acp1 = @P_MobjThinker then
-            if Pmobj_t(currentthinker).player <> nil then
+            if (Pmobj_t(currentthinker).player <> nil) or (Pmobj_t(currentthinker).flags3_ex and MF3_EX_NOTIMEFREEZE <> 0) then
               currentthinker._function.acp1(currentthinker);
         currentthinker := currentthinker.next;
       end;

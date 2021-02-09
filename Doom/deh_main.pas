@@ -1934,6 +1934,8 @@ begin
   mobj_flags3_ex.Add('MF3_EX_MISSILEEVENMORE');
   mobj_flags3_ex.Add('MF3_EX_STRIFEDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_MELEECHECKZ');
+  mobj_flags3_ex.Add('MF3_EX_NOTIMEFREEZE');
+
 
   mobj_flags4_ex := TDTextList.Create;
 
