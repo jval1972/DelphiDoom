@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 349;
+  DEHNUMACTIONS = 350;
 
 type
   deh_action_t = record
@@ -3039,6 +3039,9 @@ begin
   deh_actions[348].action.acp1 := @A_SetTracerArg;
   deh_actions[348].name := strupper('SetTracerArg');
   {$IFDEF DLL}deh_actions[348].decl := 'A_SetTracerArg(arg: integer; value: integer)';{$ENDIF}
+  deh_actions[349].action.acp1 := @A_Tracer2;
+  deh_actions[349].name := strupper('Tracer2');
+  {$IFDEF DLL}deh_actions[349].decl := 'A_Tracer2()';{$ENDIF}
 
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
