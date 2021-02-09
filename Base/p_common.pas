@@ -441,6 +441,8 @@ procedure A_HealThing(actor: Pmobj_t);
 
 procedure A_BasicAttack(actor: Pmobj_t);
 
+procedure A_Tracer2(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5444,6 +5446,70 @@ begin
   end
   else
     result := FLOATSPEED;
+end;
+
+const
+  TRACEANGLE2 = $c000000;
+
+//
+// A_Tracer2
+//
+procedure A_Tracer2(actor: Pmobj_t);
+var
+  exact: angle_t;
+  dist: fixed_t;
+  slope: fixed_t;
+  dest: Pmobj_t;
+  th: Pmobj_t;
+begin
+  // adjust direction
+  dest := actor.tracer;
+
+  if (dest = nil) or (dest.health <= 0) then
+    exit;
+
+  // change angle
+  exact := R_PointToAngle2(actor.x, actor.y, dest.x, dest.y);
+
+  if exact <> actor.angle then
+  begin
+    if exact - actor.angle > ANG180 then
+    begin
+      actor.angle := actor.angle - TRACEANGLE2;
+      if exact - actor.angle < ANG180 then
+        actor.angle := exact;
+    end
+    else
+    begin
+      actor.angle := actor.angle + TRACEANGLE2;
+      if exact - actor.angle > ANG180 then
+        actor.angle := exact;
+    end;
+  end;
+
+  exact := actor.angle shr ANGLETOFINESHIFT;
+  actor.momx := FixedMul(actor.info.speed, finecosine[exact]);
+  actor.momy := FixedMul(actor.info.speed, finesine[exact]);
+
+  if actor.flags_ex and (MF_EX_FLOORHUGGER or MF_EX_CEILINGHUGGER) = 0 then
+  begin
+    // change slope
+    dist := P_AproxDistance(dest.x - actor.x, dest.y - actor.y);
+
+    dist := dist div actor.info.speed;
+
+    if dist < 1 then
+      dist := 1;
+    if dest.height >= 56 * FRACUNIT then
+      slope := (dest.z + 40 * FRACUNIT - actor.z) div dist
+    else
+      slope := (dest.z + actor.height * 2 div 3 - actor.z) div dist;
+
+    if slope < actor.momz then
+      actor.momz := actor.momz - FRACUNIT div 8
+    else
+      actor.momz := actor.momz + FRACUNIT div 8;
+  end;
 end;
 
 end.
