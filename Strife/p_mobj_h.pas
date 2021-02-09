@@ -378,6 +378,10 @@ const
   MF3_EX_DOOMDAMAGE = $800;
   // Continue on freeze console command
   MF3_EX_NOTIMEFREEZE = $1000;
+  // Not scared of frightening
+  MF3_EX_NOFEAR = $2000;
+  // Cause fear if targeted
+  MF3_EX_CAUSEFEAR = $4000;
 
 type
 // Map Object definition.
