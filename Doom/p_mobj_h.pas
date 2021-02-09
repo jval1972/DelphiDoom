@@ -370,6 +370,8 @@ const
   MF3_EX_CAUSEFEAR = $8000;
   // Actor slides against walls
   MF3_EX_SLIDE = $10000;
+  // No actor collision
+  MF3_EX_THRUACTORS = $20000;
 
 type
 // Map Object definition.

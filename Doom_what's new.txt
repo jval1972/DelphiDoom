@@ -124,6 +124,7 @@ show_obituaries console variable can be configured from the Menu (Option/Display
 Added MF3_EX_NOTIMEFREEZE mobj flag. When it's set, the actor continues on freeze console command.
 Added MF3_EX_CAUSEFEAR & MF3_EX_NOFEAR flags.
 Added MF3_EX_SLIDE mobj flag.
+Added MF3_EX_THRUACTORS mobj flag, no actor collision.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
