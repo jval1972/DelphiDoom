@@ -183,6 +183,9 @@ begin
   AddAlias('DONTSPLASH', 'NOHITFLOOR');
   AddAlias('+DONTSPLASH', 'NOHITFLOOR');
   AddAlias('-DONTSPLASH', '-NOHITFLOOR');
+  AddAlias('FRIENDLY', 'FRIEND');
+  AddAlias('+FRIENDLY', 'FRIEND');
+  AddAlias('-FRIENDLY', '-FRIEND');
 end;
 
 function TActordefScriptEngine.MatchFlag(const flag: string): boolean;
