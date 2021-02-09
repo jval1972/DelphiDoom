@@ -318,6 +318,11 @@ begin
         if not P_LadderMove(mo) then
           P_SlideMove(mo); // try to slide along it
       end
+      // JVAL: 20210209 - Sliding monsters
+      else if (mo.flags3_ex and MF3_EX_SLIDE <> 0) and (mo.flags and MF_MISSILE = 0) then
+      begin
+        P_SlideMove(mo); // try to slide along it
+      end
       // villsa [STRIFE] check for bouncy missiles
       else if (mo.flags and MF_BOUNCE <> 0) or (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) then
       begin
