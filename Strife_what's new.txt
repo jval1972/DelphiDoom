@@ -104,6 +104,7 @@ Added MeleeRange mobjinfo field.
 Added MF3_EX_DOOMDAMAGE mobj flag. When set exploding missiles use Doom calculation for damage.
 Corrected A_PlayerMessage bug.
 Dehacked parsing speed optimizations.
+gldefs_as_lightdef & decorate_as_actordef can be configured from the Compatibility Menu. Needs restart for the changes to take effect.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
