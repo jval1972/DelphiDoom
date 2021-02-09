@@ -5460,7 +5460,6 @@ var
   dist: fixed_t;
   slope: fixed_t;
   dest: Pmobj_t;
-  th: Pmobj_t;
 begin
   // adjust direction
   dest := actor.tracer;
