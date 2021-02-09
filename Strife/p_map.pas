@@ -373,8 +373,11 @@ begin
     if (ld.flags and ML_BLOCKING <> 0) and
        ((ld.flags and ML_JUMPOVER = 0) or (tmfloorz + (32 * FRACUNIT) > tmthing.z)) then
     begin
-      result := false;  // explicitly blocking everything
-      exit;
+      if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
+      begin
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
     end;
 
     // villsa [STRIFE] exclude floaters from blockmonster lines
@@ -480,8 +483,11 @@ begin
     if (ld.flags and ML_BLOCKING <> 0) and
        ((ld.flags and ML_JUMPOVER = 0) or (tmfloorz + (32 * FRACUNIT) > tmthing.z)) then
     begin
-      result := false;  // explicitly blocking everything
-      exit;
+      if ld.flags and ML_BLOCKING <> 0 then
+      begin
+        result := false;  // explicitly blocking everything
+        exit;
+      end;
     end;
 
     // villsa [STRIFE] exclude floaters from blockmonster lines
