@@ -138,6 +138,7 @@ uses
   p_mobj_h,
   p_terrain,
   p_enemy,
+  p_map,
   p_user,
   p_adjust,
   p_obituaries,
@@ -657,6 +658,7 @@ type
     od_displayendscreen,
     od_showdemoplaybackprogress,
     od_showobituaries,
+    od_confcoloredblood,
     optdispappearance_end
   );
 
@@ -4406,6 +4408,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @show_obituaries;
   pmi.alphaKey := 'o';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Colored blood for vanilla monsters';
+  pmi.cmd := 'p_confcoloredblood';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @p_confcoloredblood;
+  pmi.alphaKey := 'c';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAppearanceDef

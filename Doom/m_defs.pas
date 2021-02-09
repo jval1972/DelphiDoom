@@ -41,6 +41,7 @@ uses
   p_mobj_h,
   p_terrain,
   p_enemy,
+  p_map,
   p_setup,
   p_user,
   p_adjust,
@@ -160,7 +161,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}194{$ELSE}196{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}195{$ELSE}197{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -300,6 +301,14 @@ const
      defaultivalue: 16;
      defaultbvalue: false;
      _type: tInteger),
+
+    (name: 'p_confcoloredblood';
+     location: @p_confcoloredblood;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
 
     (name: 'drawfps';
      location: @drawfps;

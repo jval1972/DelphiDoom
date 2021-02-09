@@ -116,6 +116,9 @@ var
   tmx: fixed_t; // JVAL: Slopes - move from implementation section to interface
   tmy: fixed_t; // JVAL: Slopes - move from implementation section to interface
 
+var
+  p_confcoloredblood: boolean = true;
+
 implementation
 
 uses
@@ -1735,6 +1738,7 @@ var
   thingbottomslope: fixed_t;
   mid: Psector_t;  // JVAL: 3d Floors
   midn: integer;
+  confcoloredblood: boolean;
 
   function hitline(const check3dfloors: boolean): boolean;
   var
@@ -1948,12 +1952,30 @@ begin
   else
   begin
   // JVAL 18/09/2009 Added Blue and Green blood spawners
-    if intr.d.thing.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
-      P_SpawnBlueBlood(x, y, z, la_damage)
-    else if intr.d.thing.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
-      P_SpawnGreenBlood(x, y, z, la_damage)
+    if G_PlayingEngineVersion < VERSION110 then
+      P_SpawnBlood(x, y, z, la_damage)
+    else if G_PlayingEngineVersion < VERSION206 then
+    begin
+      if th.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
+        P_SpawnBlueBlood(x, y, z, la_damage)
+      else if th.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
+        P_SpawnGreenBlood(x, y, z, la_damage)
+      else
+        P_SpawnBlood(x, y, z, la_damage);
+    end
     else
-      P_SpawnBlood(x, y, z, la_damage);
+    begin
+      if demoplayback or demorecording then
+        confcoloredblood := true
+      else
+        confcoloredblood := p_confcoloredblood;
+      if (th.flags2_ex and MF2_EX_BLUEBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFBLUEBLOOD <> 0)) then
+        P_SpawnBlueBlood(x, y, z, la_damage)
+      else if (th.flags2_ex and MF2_EX_GREENBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFGREENBLOOD <> 0)) then
+        P_SpawnGreenBlood(x, y, z, la_damage)
+      else
+        P_SpawnBlood(x, y, z, la_damage);
+    end;
   end;
 
   if la_damage <> 0 then

@@ -1941,6 +1941,8 @@ begin
   mobj_flags3_ex.Add('MF3_EX_THRUACTORS');
   mobj_flags3_ex.Add('MF3_EX_THRUSPECIES');
   mobj_flags3_ex.Add('MF3_EX_NOBLOCKMONST');
+  mobj_flags3_ex.Add('MF3_EX_CONFGREENBLOOD');
+  mobj_flags3_ex.Add('MF3_EX_CONFBLUEBLOOD');
 
 
   mobj_flags4_ex := TDTextList.Create;

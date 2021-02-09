@@ -376,6 +376,10 @@ const
   MF3_EX_THRUSPECIES = $40000;
   //  Can cross ML_BLOCKMONSTERS lines
   MF3_EX_NOBLOCKMONST = $80000;
+  //  Configurable green blood
+  MF3_EX_CONFGREENBLOOD = $100000;
+  //  Configurable blue blood
+  MF3_EX_CONFBLUEBLOOD = $200000;
 
 type
 // Map Object definition.
