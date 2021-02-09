@@ -386,6 +386,8 @@ const
   MF3_EX_SLIDE = $8000;
   // No actor collision
   MF3_EX_THRUACTORS = $10000;
+  // No collision with same species (also inheritance)
+  MF3_EX_THRUSPECIES = $20000;
 
 type
 // Map Object definition.

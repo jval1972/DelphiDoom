@@ -185,6 +185,21 @@ begin
     exit;
   end;
 
+  // JVAL: 20210209 - MF3_EX_THRUSPECIES flag - does not colide with same species (also inheritance)
+  if tmthing.flags3_ex and MF3_EX_THRUSPECIES <> 0 then
+  begin
+    if tmthing._type = thing._type then
+    begin
+      result := true;
+      exit;
+    end;
+    if Info_GetInheritance(tmthing.info) = Info_GetInheritance(thing.info) then
+    begin
+      result := true;
+      exit;
+    end;
+  end;
+
   blockdist := thing.radius + tmthing.radius;
 
   if (abs(thing.x - tmx) >= blockdist) or (abs(thing.y - tmy) >= blockdist) then
@@ -615,6 +630,21 @@ begin
   begin
     result := true;
     exit;
+  end;
+
+  // JVAL: 20210209 - MF3_EX_THRUSPECIES flag - does not colide with same species (also inheritance)
+  if tmthing.flags3_ex and MF3_EX_THRUSPECIES <> 0 then
+  begin
+    if tmthing._type = thing._type then
+    begin
+      result := true;
+      exit;
+    end;
+    if Info_GetInheritance(tmthing.info) = Info_GetInheritance(thing.info) then
+    begin
+      result := true;
+      exit;
+    end;
   end;
 
   blockdist := thing.radius + tmthing.radius;
