@@ -376,6 +376,8 @@ const
   MF3_EX_MISSILEEVENMORE = $400;
   // Missiles use alternate damage (Doom)
   MF3_EX_DOOMDAMAGE = $800;
+  // Continue on freeze console command
+  MF3_EX_NOTIMEFREEZE = $1000;
 
 type
 // Map Object definition.
