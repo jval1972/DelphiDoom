@@ -412,6 +412,8 @@ const
   MF3_EX_CAUSEFEAR = $2000;
   // No actor collision
   MF3_EX_THRUACTORS = $4000;
+  // No collision with same species (also inheritance)
+  MF3_EX_THRUSPECIES = $8000;
 
 type
 // Map Object definition.
