@@ -148,6 +148,7 @@ uses
   e_endoom,
   p_mobj_h,
   p_adjust,
+  p_obituaries,
   r_aspect,
   r_data,
   r_dynlights,
@@ -885,6 +886,7 @@ type
     od_shademenubackground,
     od_displaydiskbusyicon,
     od_displayendscreen,
+    od_showobituaries,
     optdispappearance_end
   );
 
@@ -4463,6 +4465,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @displayendscreen;
   pmi.alphaKey := 'e';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Show obituaries';
+  pmi.cmd := 'show_obituaries';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @show_obituaries;
+  pmi.alphaKey := 'o';
 
 ////////////////////////////////////////////////////////////////////////////////
 //OptionsDisplayAppearanceDef
