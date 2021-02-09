@@ -841,8 +841,6 @@ begin
   result := false;
 end;
 
-
-
 //
 // P_LookForPlayers
 // If allaround is false, only look 180 degrees in front.
@@ -1060,7 +1058,7 @@ begin
   // possibly choose another target
   if netgame and
     (actor.threshold = 0) and
-    (not P_CheckSight(actor, actor.target)) then
+    not P_CheckSight(actor, actor.target) then
   begin
     if P_LookForPlayers(actor, true) then
       exit;  // got a new target
@@ -1068,7 +1066,7 @@ begin
 
   // chase towards player
   actor.movecount := actor.movecount - 1;
-  if (actor.movecount < 0) or (not P_Move(actor)) then
+  if (actor.movecount < 0) or not P_Move(actor) then
     P_NewChaseDir(actor);
 
   if fast then
