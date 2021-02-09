@@ -410,6 +410,8 @@ const
   MF3_EX_NOFEAR = $1000;
   // Cause fear if targeted
   MF3_EX_CAUSEFEAR = $2000;
+  // No actor collision
+  MF3_EX_THRUACTORS = $4000;
 
 type
 // Map Object definition.

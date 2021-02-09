@@ -224,6 +224,13 @@ begin
     exit;
   end;
 
+  // JVAL: 20210209 - MF3_EX_THRUACTORS flag - does not colide with actors
+  if (tmthing.flags3_ex and MF3_EX_THRUACTORS <> 0) or (thing.flags3_ex and MF3_EX_THRUACTORS <> 0) then
+  begin
+    result := true;
+    exit;
+  end;
+
   blockdist := thing.radius + tmthing.radius;
 
   if (abs(thing.x - tmx) >= blockdist) or (abs(thing.y - tmy) >= blockdist) then
@@ -708,6 +715,13 @@ begin
   end;
 
   if (tmthing.flags2_ex and MF2_EX_DONTBLOCKPLAYER <> 0) and (thing.player <> nil) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20210209 - MF3_EX_THRUACTORS flag - does not colide with actors
+  if (tmthing.flags3_ex and MF3_EX_THRUACTORS <> 0) or (thing.flags3_ex and MF3_EX_THRUACTORS <> 0) then
   begin
     result := true;
     exit;
