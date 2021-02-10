@@ -82,8 +82,6 @@ function PTR_SlideTraverse(intr: Pintercept_t): boolean;
 
 procedure P_SlideMove(mo: Pmobj_t);
 
-function PTR_AimTraverse(intr: Pintercept_t): boolean;
-
 function PTR_ShootTraverse(intr: Pintercept_t): boolean;
 
 function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
@@ -2169,6 +2167,13 @@ begin
   if th.flags and MF_SHOOTABLE = 0 then
   begin
     result := true; // corpse or something
+    exit;
+  end;
+
+  // JVAL: 20210210 - MF3_EX_NOTAUTOAIMED flag
+  if th.flags3_ex and MF3_EX_NOTAUTOAIMED <> 0 then
+  begin
+    result := true; // Do not subject actor to autoaim
     exit;
   end;
 

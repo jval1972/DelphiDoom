@@ -115,6 +115,7 @@ Added MF3_EX_CAUSEFEAR & MF3_EX_NOFEAR flags.
 Added MF3_EX_THRUACTORS mobj flag, no actor collision.
 Added MF3_EX_THRUSPECIES mobj flag, no collision with same species (also inheritance).
 Added MF3_EX_NOBLOCKMONST mobj flag, mobj can cross ML_BLOCKMONSTERS lines.
+Added MF3_EX_NOTAUTOAIMED mobj flag, do not subject actor to player autoaim.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
