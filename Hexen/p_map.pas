@@ -2795,6 +2795,7 @@ begin
     xh := MapBlockInt(spot.x + dist - bmaporgx);
     xl := MapBlockInt(spot.x - dist - bmaporgx);
   end;
+
   bombspot := spot;
   bombsource := source;
   bombdamage := damage;
@@ -2835,6 +2836,7 @@ begin
     xh := MapBlockInt(spot.x + dist - bmaporgx);
     xl := MapBlockInt(spot.x - dist - bmaporgx);
   end;
+
   bombspot := spot;
   bombsource := source;
   bombdamage := damage;
@@ -2922,7 +2924,7 @@ begin
 
   nofit := true;
 
-  if crushchange and ((leveltime and 3) = 0) then
+  if crushchange and (leveltime and 3 = 0) then
   begin
     P_DamageMobj(thing, nil, nil, 1);
 

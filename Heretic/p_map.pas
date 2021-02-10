@@ -2227,6 +2227,7 @@ begin
     xh := MapBlockInt(spot.x + dist - bmaporgx);
     xl := MapBlockInt(spot.x - dist - bmaporgx);
   end;
+
   bombspot := spot;
   bombsource := source;
   bombdamage := damage;
@@ -2265,6 +2266,7 @@ begin
     xh := MapBlockInt(spot.x + dist - bmaporgx);
     xl := MapBlockInt(spot.x - dist - bmaporgx);
   end;
+
   bombspot := spot;
   bombsource := source;
   bombdamage := damage;
@@ -2316,7 +2318,7 @@ begin
   // crunch bodies to giblets
   if thing.health <= 0 then
   begin
-    thing.flags := thing.flags and (not MF_SOLID); // JVAL: check
+    thing.flags := thing.flags and not MF_SOLID; // JVAL: check
     thing.height := 0;
     thing.radius := 0;
 
@@ -2344,7 +2346,7 @@ begin
 
   nofit := true;
 
-  if crushchange and ((leveltime and 3) = 0) then
+  if crushchange and (leveltime and 3 = 0) then
   begin
     P_DamageMobj(thing, nil, nil, 10);
 
