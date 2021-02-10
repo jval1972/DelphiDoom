@@ -137,6 +137,8 @@ type
     hitobituary: string;
     gender: string;
     meleerange: integer;
+    maxstepheight: integer;
+    maxdropoffheight: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

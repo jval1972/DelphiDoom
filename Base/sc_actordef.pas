@@ -1384,6 +1384,8 @@ var
     else
       AddRes('Gender = DEFAULT');
     AddRes('Melee Range = ' + itoa(mobj.meleerange));
+    AddRes('Max Step Height = ' + itoa(mobj.maxstepheight));
+    AddRes('Max DropOff Height = ' + itoa(mobj.maxdropoffheight));
 
     AddRes('');
 
@@ -1839,6 +1841,8 @@ begin
           mobj.hitobituary := pinf.hitobituary;
           mobj.gender := itoa(Ord(pinf.gender));
           mobj.meleerange := pinf.meleerange;
+          mobj.maxstepheight := pinf.maxstepheight;
+          mobj.maxdropoffheight := pinf.maxdropoffheight;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -1972,6 +1976,20 @@ begin
         begin
           sc.GetInteger;
           mobj.meleerange := sc._Integer;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('MAXSTEPHEIGHT') then
+        begin
+          sc.GetFloat;
+          mobj.maxstepheight := round(sc._float * FRACUNIT);
+          sc.GetString;
+        end
+
+        else if sc.MatchString('MAXDROPOFFHEIGHT') then
+        begin
+          sc.GetFloat;
+          mobj.maxdropoffheight := round(sc._float * FRACUNIT);
           sc.GetString;
         end
 
@@ -2825,6 +2843,10 @@ begin
     AddLn('Gender ' + GENDERINFO[Ord(m.gender)].name);
   if m.meleerange <> 0 then
     AddLn('MeleeRange ' + itoa(m.meleerange));
+  if m.maxstepheight <> 0 then
+    AddLn('MaxStepHeight ' + ftoafmt('2.4', m.maxstepheight / FRACUNIT));
+  if m.maxdropoffheight <> 0 then
+    AddLn('MaxDropOffHeight ' + ftoafmt('2.4', m.maxdropoffheight / FRACUNIT));
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then
       AddLn('+' + mobj_flags[i]);
