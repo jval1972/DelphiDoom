@@ -336,7 +336,7 @@ end;
 procedure A_Fall(actor: Pmobj_t);
 begin
   // actor is on ground, it can be walked over
-  actor.flags := actor.flags and (not MF_SOLID);
+  actor.flags := actor.flags and not MF_SOLID;
 
   // So change this if corpse objects
   // are meant to be obstacles.
@@ -484,7 +484,7 @@ begin
   begin
     // the target just hit the enemy,
     // so fight back!
-    actor.flags := actor.flags and (not MF_JUSTHIT);
+    actor.flags := actor.flags and not MF_JUSTHIT;
     result := true;
     exit;
   end;
@@ -602,7 +602,7 @@ begin
     exit;
   end
   else
-    actor.flags := actor.flags and (not MF_INFLOAT);
+    actor.flags := actor.flags and not MF_INFLOAT;
 
   if actor.flags and MF_FLOAT = 0 then
   begin
@@ -1114,7 +1114,7 @@ begin
   if actor.target = nil then
     exit;
 
-  actor.flags := actor.flags and (not MF_AMBUSH);
+  actor.flags := actor.flags and not MF_AMBUSH;
 
   actor.angle :=
     R_PointToAngle2(actor.x, actor.y, actor.target.x, actor.target.y);

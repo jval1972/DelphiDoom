@@ -328,13 +328,13 @@ begin
   // villsa [STRIFE] set NODIALOG flag to stop dialog
   actor.flags := actor.flags or MF_NODIALOG;
   // actor is on ground, it can be walked over
-  actor.flags := actor.flags and (not MF_SOLID);
+  actor.flags := actor.flags and not MF_SOLID;
   // So change this if corpse objects
   // are meant to be obstacles.
 
   // actor is on ground, it can be walked over
   // villsa [STRIFE] remove nogravity/shadow flags as well
-  actor.flags := actor.flags and (not MF_SHADOW);
+  actor.flags := actor.flags and not MF_SHADOW;
   A_Gravity(actor);
 end;
 
@@ -550,7 +550,7 @@ begin
   begin
     // the target just hit the enemy,
     // so fight back!
-    actor.flags := actor.flags and (not MF_JUSTHIT);
+    actor.flags := actor.flags and not MF_JUSTHIT;
     result := true;
     exit;
   end;
@@ -1366,7 +1366,7 @@ begin
   // do not attack twice in a row
   if actor.flags and MF_JUSTATTACKED <> 0 then
   begin
-    actor.flags := actor.flags and (not MF_JUSTATTACKED);
+    actor.flags := actor.flags and not MF_JUSTATTACKED;
     if not fastparm then
       P_NewChaseDir(actor);
     exit;
@@ -1384,7 +1384,7 @@ begin
   // check for missile attack
   if actor.info.missilestate <> 0 then
   begin
-    if (not fastparm) and (actor.movecount <> 0) then
+    if not fastparm and (actor.movecount <> 0) then
       nomissile := true
     else if not P_CheckMissileRange(actor) then
       nomissile := true;
@@ -1467,7 +1467,7 @@ begin
   if actor.target = nil then
     exit;
 
-  actor.flags := actor.flags and (not MF_AMBUSH);
+  actor.flags := actor.flags and not MF_AMBUSH;
 
   actor.angle :=
     R_PointToAngle2(actor.x, actor.y, actor.target.x, actor.target.y);
@@ -1876,7 +1876,7 @@ end;
 procedure A_CheckTargetVisible2(actor: Pmobj_t);
 begin
   if (actor.target = nil) or (actor.target.health <= 0) or
-     (not P_CheckSight(actor, actor.target)) then
+     not P_CheckSight(actor, actor.target) then
     P_SetMobjState(actor, statenum_t(actor.info.seestate));
 end;
 
@@ -2244,7 +2244,7 @@ end;
 //
 procedure A_ShadowOff(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not (MF_SHADOW or MF_MVIS));
+  actor.flags := actor.flags and not (MF_SHADOW or MF_MVIS);
 end;
 
 //

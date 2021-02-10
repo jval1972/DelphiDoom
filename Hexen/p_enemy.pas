@@ -1250,7 +1250,7 @@ begin
   if actor.info.missilestate <> 0 then
   begin
     nomissile := false;
-    if (gameskill < sk_nightmare) and (not fastparm) and (actor.movecount <> 0) then
+    if (gameskill < sk_nightmare) and not fastparm and (actor.movecount <> 0) then
       nomissile := true
     else if not P_CheckMissileRange(actor) then
       nomissile := true;
@@ -1305,7 +1305,7 @@ begin
   if actor.target = nil then
     exit;
 
-  actor.flags := actor.flags and (not MF_AMBUSH);
+  actor.flags := actor.flags and not MF_AMBUSH;
 
   actor.angle :=
     R_PointToAngle2(actor.x, actor.y, actor.target.x, actor.target.y);
@@ -2208,8 +2208,8 @@ begin
   mo.flags := mo.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY or MF_SOLID or MF_COUNTKILL);
   mo.flags := mo.flags or MF_CORPSE or MF_DROPOFF or MF_NOGRAVITY;
   mo.flags2 := mo.flags2 and not (MF2_PASSMOBJ or MF2_LOGRAV);
-  mo.flags_ex :=   mo.flags_ex and (not MF_EX_LOWGRAVITY);
-  mo.flags2_ex :=   mo.flags2_ex and (not MF2_EX_MEDIUMGRAVITY);
+  mo.flags_ex := mo.flags_ex and not MF_EX_LOWGRAVITY;
+  mo.flags2_ex := mo.flags2_ex and not MF2_EX_MEDIUMGRAVITY;
   mo.flags2 := mo.flags2 or MF2_DONTDRAW;
   mo.player := nil;
   mo.health := -1000;    // Don't resurrect
@@ -3926,8 +3926,8 @@ begin
   if actor.special2 = 0 then
   begin
     dec(actor.movecount);
-    if (actor.movecount < 0) or (not P_Move(actor)) then
-      P_NewChaseDir (actor);
+    if (actor.movecount < 0) or not P_Move(actor) then
+      P_NewChaseDir(actor);
   end;
 
   // Do missile attack
@@ -4874,7 +4874,7 @@ begin
 //
 // possibly choose another target
 //
-  if netgame and (actor.threshold = 0) and (not P_CheckSight(actor, actor.target)) then
+  if netgame and (actor.threshold = 0) and not P_CheckSight(actor, actor.target) then
     if P_LookForPlayers(actor,true) then
       exit;         // got a new target
 
