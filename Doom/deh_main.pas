@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 322;
+  DEHNUMACTIONS = 324;
 
 type
   deh_action_t = record
@@ -2944,6 +2944,12 @@ begin
   deh_actions[321].action.acp1 := @A_Tracer2;
   deh_actions[321].name := strupper('Tracer2');
   {$IFDEF DLL}deh_actions[321].decl := 'A_Tracer2()';{$ENDIF}
+  deh_actions[322].action.acp1 := @A_SinglePainAttack;
+  deh_actions[322].name := strupper('SinglePainAttack');
+  {$IFDEF DLL}deh_actions[322].decl := 'A_SinglePainAttack([classname: string])';{$ENDIF}
+  deh_actions[323].action.acp1 := @A_DualPainAttack;
+  deh_actions[323].name := strupper('DualPainAttack');
+  {$IFDEF DLL}deh_actions[323].decl := 'A_DualPainAttack([classname: string])';{$ENDIF}
 
   
   deh_strings.numstrings := 0;

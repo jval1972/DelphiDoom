@@ -112,6 +112,10 @@ procedure A_BetaSkullAttack(actor: Pmobj_t);
 
 procedure A_FireOldBFG(actor: Pmobj_t);
 
+procedure A_SinglePainAttack(actor: Pmobj_t);
+
+procedure A_DualPainAttack(actor: Pmobj_t);
+
 implementation
 
 uses
@@ -709,6 +713,104 @@ procedure A_FireOldBFG(actor: Pmobj_t);
 begin
   // Hmmm?
 end;
+
+procedure P_PainShootSkull(actor: Pmobj_t; angle: angle_t; typ: integer);
+var
+  x: fixed_t;
+  y: fixed_t;
+  z: fixed_t;
+
+  newmobj: Pmobj_t;
+  an: angle_t;
+  prestep: integer;
+begin
+  if typ <= 0 then
+    typ := Ord(MT_SKULL);
+
+  an := angle shr ANGLETOFINESHIFT;
+
+  prestep := 4 * FRACUNIT +
+             3 * (actor.info.radius + mobjinfo[typ].radius) div 2;
+
+  x := actor.x + FixedMul(prestep, finecosine[an]);
+  y := actor.y + FixedMul(prestep, finesine[an]);
+  z := actor.z + 8 * FRACUNIT;
+
+  newmobj := P_SpawnMobj(x, y, z, typ);
+
+  // Check for movements.
+  if not P_TryMove(newmobj, newmobj.x, newmobj.y) then
+  begin
+    // kill it immediately
+    P_DamageMobj(newmobj, actor, actor, 10000);
+    exit;
+  end;
+
+  // killough 7/20/98: PEs shoot lost souls with the same friendliness
+  if actor.flags2_ex and MF2_EX_FRIEND = 0 then
+    newmobj.flags2_ex := newmobj.flags2_ex and not MF2_EX_FRIEND
+  else
+    newmobj.flags2_ex := newmobj.flags2_ex or MF2_EX_FRIEND;
+
+  newmobj.target := actor.target;
+  A_SkullAttack(newmobj);
+end;
+
+//
+// A_SinglePainAttack([classname: string])
+//
+procedure A_SinglePainAttack(actor: Pmobj_t);
+var
+  typ: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  typ := 0;
+  if actor.state.params <> nil then
+    if actor.state.params.Count > 0 then
+    begin
+      if actor.state.params.IsComputed[0] then
+        typ := actor.state.params.IntVal[0]
+      else
+      begin
+        typ := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+        actor.state.params.IntVal[0] := typ;
+      end;
+    end;
+
+  A_FaceTarget(actor);
+  P_PainShootSkull(actor, actor.angle, typ);
+end;
+
+//
+// A_DualPainAttack([classname: string])
+//
+procedure A_DualPainAttack(actor: Pmobj_t);
+var
+  typ: integer;
+begin
+  if actor.target = nil then
+    exit;
+
+  typ := 0;
+  if actor.state.params <> nil then
+    if actor.state.params.Count > 0 then
+    begin
+      if actor.state.params.IsComputed[0] then
+        typ := actor.state.params.IntVal[0]
+      else
+      begin
+        typ := Info_GetMobjNumForName(actor.state.params.StrVal[0]);
+        actor.state.params.IntVal[0] := typ;
+      end;
+    end;
+
+  A_FaceTarget(actor);
+  P_PainShootSkull(actor, actor.angle + ANG45, typ);
+  P_PainShootSkull(actor, actor.angle - ANG45, typ);
+end;
+
                      {
 procedure A_PlayPlayerWalkSound(actor: Pmobj_t);
 begin
