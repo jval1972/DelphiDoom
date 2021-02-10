@@ -380,6 +380,8 @@ const
   MF3_EX_CONFGREENBLOOD = $100000;
   //  Configurable blue blood
   MF3_EX_CONFBLUEBLOOD = $200000;
+  // Do not subject actor to player autoaim
+  MF3_EX_NOTAUTOAIMED = $400000;
 
 type
 // Map Object definition.

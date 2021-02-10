@@ -1690,6 +1690,13 @@ begin
     exit;
   end;
 
+  // JVAL: 20210210 - MF3_EX_NOTAUTOAIMED flag
+  if th.flags3_ex and MF3_EX_NOTAUTOAIMED <> 0 then
+  begin
+    result := true; // Do not subject actor to autoaim
+    exit;
+  end;
+
   // check angles to see if the thing can be aimed at
   dist := FixedMul(attackrange, intr.frac);
   thingtopslope := FixedDiv(th.z + th.height - shootz, dist);
