@@ -2295,10 +2295,10 @@ begin
   end
   else
   begin
-    yh := MapBlockInt(spot.y + dist - int64(bmaporgy));
-    yl := MapBlockInt(spot.y - dist - int64(bmaporgy));
-    xh := MapBlockInt(spot.x + dist - int64(bmaporgx));
-    xl := MapBlockInt(spot.x - dist - int64(bmaporgx));
+    yh := MapBlockInt(spot.y + dist - bmaporgy);
+    yl := MapBlockInt(spot.y - dist - bmaporgy);
+    xh := MapBlockInt(spot.x + dist - bmaporgx);
+    xl := MapBlockInt(spot.x - dist - bmaporgx);
   end;
 
   bombspot := spot;
