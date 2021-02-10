@@ -1283,6 +1283,7 @@ type
     DO_NUMSTATES
   );
 
+
 type
   state_t = record
 {$IFDEF OPTIMIZE_FOR_SIZE}
@@ -1539,6 +1540,8 @@ type
     hitobituary: string[64];
     gender: gender_t;
     meleerange: integer;
+    maxstepheight: integer;
+    maxdropoffheight: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

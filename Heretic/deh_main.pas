@@ -582,6 +582,8 @@ begin
                 end;
               end;
           54: mobjinfo[mobj_no].meleerange := mobj_val;
+          55: mobjinfo[mobj_no].maxstepheight := DEH_FixedOrFloat(token2, 64);
+          56: mobjinfo[mobj_no].maxdropoffheight := DEH_FixedOrFloat(token2, 64);
         end;
       end;
 
@@ -1598,6 +1600,8 @@ begin
     result.Add('%s = "%s"', [capitalizedstring(mobj_tokens[52]), mobjinfo[i].hitobituary]);
     result.Add('%s = %s', [capitalizedstring(mobj_tokens[53]), GENDERINFO[Ord(mobjinfo[i].gender)].name]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[54]), mobjinfo[i].meleerange]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[55]), mobjinfo[i].maxstepheight]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[56]), mobjinfo[i].maxdropoffheight]);
 
     result.Add('');
   end;
@@ -1834,6 +1838,8 @@ begin
   mobj_tokens.Add('HIT OBITUARY');       // .hitobituary              // 52
   mobj_tokens.Add('GENDER');             // .gender                   // 53
   mobj_tokens.Add('MELEE RANGE');        // .meleerange               // 54
+  mobj_tokens.Add('MAX STEP HEIGHT');    // .maxstepheight            // 55
+  mobj_tokens.Add('MAX DROPOFF HEIGHT'); // .maxdropoffheight         // 56
 
 
   mobj_flags := TDTextList.Create;
