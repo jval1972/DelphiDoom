@@ -1195,11 +1195,20 @@ begin
           exit;
         end;
 
-    jumpupmargin := 24 * FRACUNIT;
+    // JVAL: 20210210 - maxstepheight field
+    if thing.info.maxstepheight > 0 then
+    begin
+      jumpupmargin := thing.info.maxstepheight;
+      if jumpupmargin < 64 then
+        jumpupmargin := jumpupmargin * FRACUNIT;
+    end
+    else
+      jumpupmargin := 24 * FRACUNIT;
+
     // JVAL: Version 205
     if G_PlayingEngineVersion >= VERSION205 then
       if (thing.flags2_ex and MF2_EX_JUMPUP <> 0) and (N_Random > 20) then
-        jumpupmargin := 56 * FRACUNIT;
+        jumpupmargin := jumpupmargin + 32 * FRACUNIT;
 
     if (thing.flags and MF_TELEPORT = 0) and
        (tmfloorz - thing.z > jumpupmargin) then
@@ -1208,12 +1217,20 @@ begin
       exit;
     end;
 
-    dropoffmargin := 24 * FRACUNIT;
+    // JVAL: 20210210 - maxdropoffheight field
+    if thing.info.maxdropoffheight > 0 then
+    begin
+      dropoffmargin := thing.info.maxdropoffheight;
+      if dropoffmargin < 64 then
+        dropoffmargin := dropoffmargin * FRACUNIT;
+    end
+    else
+      dropoffmargin := 24 * FRACUNIT;
 
     // JVAL: Version 204
     if G_PlayingEngineVersion >= VERSION204 then
       if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
-        dropoffmargin := 144 * FRACUNIT;
+        dropoffmargin := dropoffmargin + 120 * FRACUNIT;
 
     if ((thing.flags and (MF_DROPOFF or MF_FLOAT)) = 0) and
        (tmfloorz - tmdropoffz > dropoffmargin) then
@@ -2013,7 +2030,7 @@ begin
   shootz := t1.z + _SHR1(t1.height) + 8 * FRACUNIT;
 
   // can't shoot outside view angles
-  topslope := (100 * FRACUNIT) div 160; // JVAL maybe screenwidth / 2
+  topslope := (100 * FRACUNIT) div 160;
   bottomslope := -topslope; // JVAL
 
   attackrange := distance;
