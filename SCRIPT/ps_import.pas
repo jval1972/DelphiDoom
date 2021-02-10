@@ -503,6 +503,8 @@ begin
   baseproclist.Add('function GetMobjInfoHitObituary(const typ: integer): string;', @PS_GetMobjInfoHitObituary);
   baseproclist.Add('function GetMobjInfoGender(const typ: integer): integer;', @PS_GetMobjInfoGender);
   baseproclist.Add('function GetMobjInfoMeleeRange(const typ: integer): integer;', @PS_GetMobjInfoMeleeRange);
+  baseproclist.Add('function GetMobjInfoMaxStepHeight(const typ: integer): integer;', @PS_GetMobjInfoMaxStepHeight);
+  baseproclist.Add('function GetMobjInfoMaxDropOffHeight(const typ: integer): integer;', @PS_GetMobjInfoMaxDropOffHeight);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);

@@ -631,6 +631,10 @@ function PS_GetMobjInfoGender(const typ: integer): integer;
 
 function PS_GetMobjInfoMeleeRange(const typ: integer): integer;
 
+function PS_GetMobjInfoMaxStepHeight(const typ: integer): integer;
+
+function PS_GetMobjInfoMaxDropOffHeight(const typ: integer): integer;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 
@@ -5726,6 +5730,26 @@ begin
   Result := mobjinfo[typ].meleerange;
 end;
 
+function PS_GetMobjInfoMaxStepHeight(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].maxstepheight;
+end;
+
+function PS_GetMobjInfoMaxDropOffHeight(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].maxdropoffheight;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -6023,6 +6047,16 @@ end;
 procedure TRTLMobjInfoItemMeleeRange_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoMeleeRange(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemMaxStepHeight_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoMaxStepHeight(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemMaxDropOffHeight_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoMaxDropOffHeight(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6774,6 +6808,8 @@ begin
   cmobjinfoitem.RegisterProperty('HitObituary', 'String', iptR);
   cmobjinfoitem.RegisterProperty('Gender', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('MeleeRange', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('MaxStepHeight', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('MaxDropOffHeight', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -7015,6 +7051,8 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemHitObituary_R, nil, 'HitObituary');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGender_R, nil, 'Gender');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMeleeRange_R, nil, 'MeleeRange');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxStepHeight_R, nil, 'MaxStepHeight');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxDropOffHeight_R, nil, 'MaxDropOffHeight');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
