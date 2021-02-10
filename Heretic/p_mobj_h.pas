@@ -380,6 +380,8 @@ const
   MF3_EX_THRUSPECIES = $20000;
   //  Can cross ML_BLOCKMONSTERS lines
   MF3_EX_NOBLOCKMONST = $40000;
+  // Do not subject actor to player autoaim
+  MF3_EX_NOTAUTOAIMED = $80000;
 
 type
 // Map Object definition.
