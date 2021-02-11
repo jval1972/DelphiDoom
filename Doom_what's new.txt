@@ -75,6 +75,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_SetTracerArg(arg: integer; value: integer)
   - A_Tracer2
   - A_MonsterRefire(prob: integer, offset: state_t)
+  - A_RearrangePointers(ptr_target: integer, ptr_master: integer, ptr_tracer: integer, flags: integer)
 Support for DEHEXTRA.
 Multiple DEHACKED files inside WAD and PK3.
 DEHACKED export will add a comment with command line parameters.
