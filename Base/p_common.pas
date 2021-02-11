@@ -447,6 +447,8 @@ procedure A_MonsterRefire(actor: Pmobj_t);
 
 procedure A_RearrangePointers(actor: Pmobj_t);
 
+procedure A_TransferPointer(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5613,6 +5615,45 @@ begin
   AAPTR_NULL:
     actor.tracer := nil;
   end;
+end;
+
+//
+// A_TransferPointer(ptr_source: integer, ptr_recipient: integer, ptr_sourcefield: integer, [ptr_recipientfield: integer], [flags: integer])
+//
+procedure A_TransferPointer(actor: Pmobj_t);
+var
+  source, recipient: Pmobj_t;
+  ptr_source: integer;
+  ptr_recipient: integer;
+  ptr_sourcefield: integer;
+  ptr_recipientfield: integer;
+  flags: integer;
+begin
+  if not P_CheckStateParams(actor, 3, CSP_AT_LEAST) then
+    exit;
+
+  ptr_source := actor.state.params.IntVal[0];
+  ptr_recipient := actor.state.params.IntVal[1];
+
+  // Exchange pointers with actors to whom you have pointers (or with yourself, if you must)
+  source := COPY_AAPTR(actor, ptr_source);
+  recipient := COPY_AAPTR(actor, ptr_recipient); // pick an actor to store the provided pointer value
+  if recipient = nil then
+    exit;
+
+  ptr_sourcefield := actor.state.params.IntVal[2];
+  // convert source from dataprovider to data
+  source := COPY_AAPTR(source, ptr_sourcefield);
+
+  if source = recipient then
+    source := nil;  // The recipient should not acquire a pointer to itself; will write nil
+
+  ptr_recipientfield := actor.state.params.IntVal[3];
+  if ptr_recipientfield = AAPTR_DEFAULT then
+    ptr_recipientfield := ptr_sourcefield;  // If default: Write to same field as data was read from
+
+  flags := actor.state.params.IntVal[4];
+  ASSIGN_AAPTR(recipient, ptr_recipientfield, source, flags);
 end;
 
 end.
