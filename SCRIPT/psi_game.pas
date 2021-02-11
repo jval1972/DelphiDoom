@@ -637,6 +637,8 @@ function PS_GetMobjInfoMaxDropOffHeight(const typ: integer): integer;
 
 function PS_GetMobjInfoGibHealth(const typ: integer): integer;
 
+function PS_GetMobjInfoMaxTargetRange(const typ: integer): integer;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 
@@ -5762,6 +5764,16 @@ begin
   Result := mobjinfo[typ].gibhealth;
 end;
 
+function PS_GetMobjInfoMaxTargetRange(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].maxtargetrange;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -6074,6 +6086,11 @@ end;
 procedure TRTLMobjInfoItemGibHealth_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoGibHealth(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemMaxTargetRange_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoMaxTargetRange(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6828,6 +6845,8 @@ begin
   cmobjinfoitem.RegisterProperty('MaxStepHeight', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('MaxDropOffHeight', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('GibHealth', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('MaxTargetRange', 'Integer', iptR);
+
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -7072,6 +7091,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxStepHeight_R, nil, 'MaxStepHeight');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxDropOffHeight_R, nil, 'MaxDropOffHeight');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGibHealth_R, nil, 'GibHealth');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxTargetRange_R, nil, 'MaxTargetRange');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
