@@ -635,6 +635,8 @@ function PS_GetMobjInfoMaxStepHeight(const typ: integer): integer;
 
 function PS_GetMobjInfoMaxDropOffHeight(const typ: integer): integer;
 
+function PS_GetMobjInfoGibHealth(const typ: integer): integer;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 
@@ -5750,6 +5752,16 @@ begin
   Result := mobjinfo[typ].maxdropoffheight;
 end;
 
+function PS_GetMobjInfoGibHealth(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].gibhealth;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -6057,6 +6069,11 @@ end;
 procedure TRTLMobjInfoItemMaxDropOffHeight_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoMaxDropOffHeight(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemGibHealth_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoGibHealth(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6810,6 +6827,7 @@ begin
   cmobjinfoitem.RegisterProperty('MeleeRange', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('MaxStepHeight', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('MaxDropOffHeight', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('GibHealth', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -7053,6 +7071,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMeleeRange_R, nil, 'MeleeRange');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxStepHeight_R, nil, 'MaxStepHeight');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxDropOffHeight_R, nil, 'MaxDropOffHeight');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGibHealth_R, nil, 'GibHealth');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
