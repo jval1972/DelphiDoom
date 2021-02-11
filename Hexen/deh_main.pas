@@ -429,9 +429,9 @@ begin
 
                 end;
               end;
-          25: mobjinfo[mobj_no].customsound1 := S_GetSoundNumForName(token2); // DelphiHexen specific
-          26: mobjinfo[mobj_no].customsound2 := S_GetSoundNumForName(token2); // DelphiHexen specific
-          27: mobjinfo[mobj_no].customsound3 := S_GetSoundNumForName(token2); // DelphiHexen specific
+          25: mobjinfo[mobj_no].customsound1 := S_GetSoundNumForName(token2); // DelphiDoom specific
+          26: mobjinfo[mobj_no].customsound2 := S_GetSoundNumForName(token2); // DelphiDoom specific
+          27: mobjinfo[mobj_no].customsound3 := S_GetSoundNumForName(token2); // DelphiDoom specific
           28: mobjinfo[mobj_no].explosiondamage := mobj_val;
           29: mobjinfo[mobj_no].explosionradius := mobj_val;
           30: mobjinfo[mobj_no].meleedamage := mobj_val;
