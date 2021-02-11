@@ -449,6 +449,8 @@ procedure A_RearrangePointers(actor: Pmobj_t);
 
 procedure A_TransferPointer(actor: Pmobj_t);
 
+procedure A_AlertMonsters(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -529,6 +531,12 @@ const
   FTF_REMOVE = 1;
   FTF_CLAMP = 2;
 
+// Flags for A_AlertMonsters
+const
+  AMF_TARGETEMITTER = 1;
+  AMF_TARGETNONPLAYER = 2;
+  AMF_EMITFROMTARGET = 4;
+
 function P_TicsFromState(const st: Pstate_t): integer;
 
 procedure P_SetMobjRelativeState(const mo: Pmobj_t; const offset: integer);
@@ -541,10 +549,13 @@ function P_RaiseActor(const thing, raiser: Pmobj_t): boolean;
 
 function P_FloatSpeed(const actor: Pmobj_t): fixed_t;
 
+procedure P_NoiseAlertEx(target: Pmobj_t; emmiter: Pmobj_t; const maxdist: fixed_t);
+
 implementation
 
 uses
   d_delphi,
+  doomdata,
   doomdef,
   deh_main,
   d_think,
@@ -5654,6 +5665,102 @@ begin
 
   flags := actor.state.params.IntVal[4];
   ASSIGN_AAPTR(recipient, ptr_recipientfield, source, flags);
+end;
+
+var
+  soundtargetex: Pmobj_t;
+
+procedure P_RecursiveSoundEx(sec: Psector_t; soundblocks: integer; maxdist: fixed_t);
+var
+  i: integer;
+  check: Pline_t;
+  other: Psector_t;
+begin
+  // wake up all monsters in this sector
+  if (sec.validcount = validcount) and
+     (sec.soundtraversed <= soundblocks + 1) then
+    exit; // already flooded
+
+  sec.validcount := validcount;
+  sec.soundtraversed := soundblocks + 1;
+
+  if P_AproxDistance(soundtargetex.x - sec.soundorg.x, soundtargetex.y - sec.soundorg.y) > maxdist then
+    exit;
+
+  sec.soundtarget := soundtargetex;
+
+  for i := 0 to sec.linecount - 1 do
+  begin
+    check := sec.lines[i];
+    if check.flags and ML_TWOSIDED = 0 then
+      continue;
+    // JVAL: 20200407 - Avoid false ML_TWOSIDED flag
+    if (check.sidenum[1] < 0) or (check.sidenum[0] < 0) then
+      continue;
+
+    P_LineOpening(check, false);
+
+    if openrange <= 0 then
+      continue; // closed door
+
+    if sides[check.sidenum[0]].sector = sec then
+      other := sides[check.sidenum[1]].sector
+    else
+      other := sides[check.sidenum[0]].sector;
+
+    if check.flags and ML_SOUNDBLOCK <> 0 then
+    begin
+      if soundblocks = 0 then
+        P_RecursiveSoundEx(other, 1, maxdist);
+    end
+    else
+      P_RecursiveSoundEx(other, soundblocks, maxdist);
+  end;
+end;
+
+procedure P_NoiseAlertEx(target: Pmobj_t; emmiter: Pmobj_t; const maxdist: fixed_t);
+begin
+  soundtargetex := target;
+  inc(validcount);
+  P_RecursiveSoundEx(Psubsector_t(emmiter.subsector).sector, 0, maxdist);
+end;
+
+//
+// A_AlertMonsters(maxdist: integer, flags: integer)
+//
+procedure A_AlertMonsters(actor: Pmobj_t);
+var
+  target, emitter: Pmobj_t;
+  maxdist: fixed_t;
+  flags: integer;
+begin
+  if not P_CheckStateParams(actor, 3, CSP_AT_LEAST) then
+    exit;
+
+  target := nil;
+  emitter := actor;
+
+  maxdist := actor.state.params.FixedVal[0];
+  flags := actor.state.params.IntVal[1];
+
+  if (actor.player <> nil) or (flags and AMF_TARGETEMITTER <> 0) then
+  begin
+    target := actor;
+  end
+  else if (actor.target <> nil) and (flags and AMF_TARGETNONPLAYER <> 0) then
+  begin
+    target := actor.target;
+  end
+  else if (actor.target <> nil) and (actor.target.player <> nil) then
+  begin
+    target := actor.target;
+  end;
+
+  if flags and AMF_EMITFROMTARGET <> 0 then
+    emitter := target;
+
+  if (target <> nil) and (emitter <> nil) then
+    P_NoiseAlertEx(target, emitter, maxdist);
 end;
 
 end.
