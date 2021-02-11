@@ -897,7 +897,7 @@ begin
     N := TDNumberList.Create;
     for i := 1 to actor.state.params.Count - 1 do
     begin
-      offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+      offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[i]);
       N.Add(offset);
     end;
     if N.Count > 0 then
@@ -2047,7 +2047,7 @@ begin
     N := TDNumberList.Create;
     for i := 1 to actor.state.params.Count - 1 do
     begin
-      offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+      offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[i]);
       N.Add(offset);
     end;
     if N.Count > 0 then
