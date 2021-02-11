@@ -725,7 +725,7 @@ begin
     result := strupper(act);
 end;
 
-function dehhash(const act: string): LongWord;
+function dehactionhash(const act: string): LongWord;
 var
   i: integer;
 begin
@@ -738,7 +738,7 @@ begin
   result := 5381 * 33 + Ord(act[1]);
 
   for i := 2 to Length(act) do
-    result := result * 33 + Ord(act[1]);
+    result := result * 33 + Ord(act[i]);
 
   result := result and (DEH_ACTIONS_HASH_SIZE - 1);
 end;
@@ -749,7 +749,7 @@ var
   str: string;
 begin
   str := DEH_FixActionName(act);
-  hash := dehhash(str);
+  hash := dehactionhash(str);
   dehactionshasttable[hash].AddObject(str, TInteger.Create(idpos));
 end;
 
@@ -760,7 +760,7 @@ var
   i: integer;
 begin
   str := DEH_FixActionName(act);
-  hash := dehhash(str);
+  hash := dehactionhash(str);
   for i := 0 to dehactionshasttable[hash].Count - 1 do
     if str = dehactionshasttable[hash].Strings[i] then
     begin
