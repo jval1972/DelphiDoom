@@ -76,6 +76,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_SetTracerArg(arg: integer; value: integer)
   - A_Tracer2 (and A_Tracer alias)
   - A_MonsterRefire(prob: integer, offset: state_t)
+  - A_RearrangePointers(ptr_target: integer, ptr_master: integer, ptr_tracer: integer, flags: integer)
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Corrected DEHACKED export to ACTORDEF (renderstyle field).
