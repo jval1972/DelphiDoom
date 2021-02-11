@@ -445,6 +445,8 @@ procedure A_Tracer2(actor: Pmobj_t);
 
 procedure A_MonsterRefire(actor: Pmobj_t);
 
+procedure A_RearrangePointers(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5535,6 +5537,81 @@ begin
     offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
     if @states[offset] <> actor.state then
       P_SetMobjState(actor, statenum_t(offset));
+  end;
+end;
+
+//
+// A_RearrangePointers(ptr_target: integer, ptr_master: integer, ptr_tracer: integer, flags: integer)
+//
+procedure A_RearrangePointers(actor: Pmobj_t);
+var
+  gettarget: Pmobj_t;
+  getmaster: Pmobj_t;
+  gettracer: Pmobj_t;
+  ptr_target: integer;
+  ptr_master: integer;
+  ptr_tracer: integer;
+  flags: integer;
+begin
+  if not P_CheckStateParams(actor, 3, CSP_AT_LEAST) then
+    exit;
+
+  gettarget := actor.target;
+  getmaster := actor.master;
+  gettracer := actor.tracer;
+
+  ptr_target := actor.state.params.IntVal[0];
+  ptr_master := actor.state.params.IntVal[1];
+  ptr_tracer := actor.state.params.IntVal[2];
+  flags := actor.state.params.IntVal[3];
+
+  case ptr_target of // pick the new target
+  AAPTR_MASTER:
+    begin
+      actor.target := getmaster;
+      if flags and PTROP_UNSAFETARGET = 0 then
+        VerifyTargetChain(actor);
+    end;
+  AAPTR_TRACER:
+    begin
+      actor.target := gettracer;
+      if (flags and PTROP_UNSAFETARGET = 0) then
+        VerifyTargetChain(actor);
+    end;
+  AAPTR_NULL:
+    actor.target := nil;
+    // THIS IS NOT "A_ClearTarget", so no other targeting info is removed
+  end;
+
+  // presently permitting non-monsters to set master
+  case ptr_master of // pick the new master
+  AAPTR_TARGET:
+    begin
+      actor.master := gettarget;
+      if (flags and PTROP_UNSAFEMASTER = 0) then
+        VerifyMasterChain(actor);
+    end;
+  AAPTR_TRACER:
+    begin
+      actor.master := gettracer;
+      if (flags and PTROP_UNSAFEMASTER = 0) then
+        VerifyMasterChain(actor);
+    end;
+  AAPTR_NULL:
+    actor.master := nil;
+  end;
+
+  case ptr_tracer of // pick the new tracer
+  AAPTR_TARGET:
+    begin
+      actor.tracer := gettarget;
+    end; // no verification deemed necessary; the engine never follows a tracer chain(?)
+  AAPTR_MASTER:
+    begin
+      actor.tracer := getmaster;
+    end; // no verification deemed necessary; the engine never follows a tracer chain(?)
+  AAPTR_NULL:
+    actor.tracer := nil;
   end;
 end;
 

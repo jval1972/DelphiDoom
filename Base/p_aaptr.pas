@@ -78,6 +78,10 @@ function COPY_AAPTR(const origin: Pmobj_t; const selector: integer): Pmobj_t;
 
 procedure ASSIGN_AAPTR(const toActor: Pmobj_t; const toSlot: integer; const ptr: Pmobj_t; const flags: integer);
 
+procedure VerifyTargetChain(const self: Pmobj_t);
+
+procedure VerifyMasterChain(const self: Pmobj_t);
+
 implementation
 
 uses
@@ -213,12 +217,88 @@ begin
   result := origin;
 end;
 
+procedure VerifyTargetChain(const self: Pmobj_t);
+var
+  origin, next, compare: Pmobj_t;
+begin
+  if (self = nil) or (self.flags and MF_MISSILE = 0) then
+    exit;
+
+  origin := self;
+  next := origin.target;
+
+  // origin: the most recent actor that has been verified as appearing only once
+  // next: the next actor to be verified; will be "origin" in the next iteration
+
+  while (next <> nil) and (next.flags and MF_MISSILE <> 0) do // we only care when there are missiles involved
+  begin
+    compare := self;
+    // every new actor must prove not to be the first actor in the chain, or any subsequent actor
+    // any actor up to and including "origin" has only appeared once
+    while true do
+    begin
+      if compare = next then
+      begin
+        // if any of the actors from self to (inclusive) origin match the next actor,
+        // self has reached/created a loop
+        self.target := nil;
+        exit;
+      end;
+      if compare = origin then
+        break; // when "compare" = origin, we know that the next actor is, and should be "next"
+      compare := compare.target;
+    end;
+
+    origin := next;
+    next := next.target;
+  end;
+end;
+
+procedure VerifyMasterChain(const self: Pmobj_t);
+var
+  origin, next, compare: Pmobj_t;
+begin
+  // See VerifyTargetChain for detailed comments.
+  if self = nil then
+    exit;
+  origin := self;
+  next := origin.master;
+  while next <> nil do  // We always care (See "VerifyTargetChain")
+  begin
+    compare := self;
+    while true do
+    begin
+      if compare = next then
+      begin
+        self.master := nil;
+        exit;
+      end;
+      if compare = origin then
+        break;
+      compare := compare.master;
+    end;
+
+    origin := next;
+    next := next.master;
+  end;
+end;
+
 procedure ASSIGN_AAPTR(const toActor: Pmobj_t; const toSlot: integer; const ptr: Pmobj_t; const flags: integer);
 begin
   case toSlot of
-  AAPTR_TARGET: toActor.target := ptr;
+  AAPTR_TARGET:
+    begin
+      toActor.target := ptr;
+      if flags and PTROP_UNSAFETARGET = 0 then
+        VerifyTargetChain(toActor);
+    end;
+  AAPTR_MASTER:
+    begin
+      toActor.master := ptr;
+      if flags and PTROP_UNSAFEMASTER = 0 then
+        VerifyMasterChain(toActor);
+    end;
   AAPTR_TRACER: toActor.tracer := ptr;
-  AAPTR_MASTER: toActor.master := ptr;
   end;
 end;
 
