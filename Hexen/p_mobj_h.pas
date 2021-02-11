@@ -145,7 +145,7 @@ const
   // Player cheat. ???
   MF_NOCLIP = $1000;
   // Player: keep info about sliding along walls.
-  MF_SLIDE = $2000;
+  MF_SLIDEONWALLS = $2000;
   // Allow moves to any height, no gravity.
   // For active floaters, e.g. cacodemons, pain elementals.
   MF_FLOAT = $4000;
@@ -418,6 +418,8 @@ const
   MF3_EX_NOBLOCKMONST = $10000;
   // Do not subject actor to player autoaim
   MF3_EX_NOTAUTOAIMED = $20000;
+  // slide against walls alias
+  MF3_EX_SLIDING = $40000;
 
 type
 // Map Object definition.

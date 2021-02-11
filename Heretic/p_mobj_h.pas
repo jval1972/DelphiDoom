@@ -145,7 +145,7 @@ const
   // Player cheat. ???
   MF_NOCLIP = $1000;
   // Player: keep info about sliding along walls.
-  MF_SLIDE = $2000;
+  MF_SLIDEONWALLS = $2000;
   // Allow moves to any height, no gravity.
   // For active floaters, e.g. cacodemons, pain elementals.
   MF_FLOAT = $4000;
@@ -373,7 +373,7 @@ const
   // Cause fear if targeted
   MF3_EX_CAUSEFEAR = $4000;
   // Actor slides against walls
-  MF3_EX_SLIDE = $8000;
+  MF3_EX_SLIDING = $8000;
   // No actor collision
   MF3_EX_THRUACTORS = $10000;
   // No collision with same species (also inheritance)

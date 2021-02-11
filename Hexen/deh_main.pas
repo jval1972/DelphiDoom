@@ -1780,7 +1780,7 @@ begin
   mobj_flags.Add('MF_DROPOFF');
   mobj_flags.Add('MF_PICKUP');
   mobj_flags.Add('MF_NOCLIP');
-  mobj_flags.Add('MF_SLIDE');
+  mobj_flags.Add('MF_SLIDEONWALLS');
   mobj_flags.Add('MF_FLOAT');
   mobj_flags.Add('MF_TELEPORT');
   mobj_flags.Add('MF_MISSILE');
@@ -1913,6 +1913,7 @@ begin
   mobj_flags3_ex.Add('MF3_EX_THRUSPECIES');
   mobj_flags3_ex.Add('MF3_EX_NOBLOCKMONST');
   mobj_flags3_ex.Add('MF3_EX_NOTAUTOAIMED');
+  mobj_flags3_ex.Add('MF3_EX_SLIDING');
 
 
   mobj_flags4_ex := TDTextList.Create;

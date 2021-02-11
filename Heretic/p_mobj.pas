@@ -375,7 +375,7 @@ begin
           P_SlideMove(mo); // try to slide along it
       end
       // JVAL: 20210209 - Sliding monsters
-      else if (mo.flags3_ex and MF3_EX_SLIDE <> 0) and (mo.flags and MF_MISSILE = 0) then
+      else if (mo.flags3_ex and MF3_EX_SLIDING <> 0) or (mo.flags and MF_SLIDEONWALLS <> 0) or (mo.flags2 and MF2_SLIDE <> 0) and (mo.flags and MF_MISSILE = 0) then
       begin
         P_SlideMove(mo); // try to slide along it
       end

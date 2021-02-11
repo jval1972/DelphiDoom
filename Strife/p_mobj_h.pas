@@ -383,7 +383,7 @@ const
   // Cause fear if targeted
   MF3_EX_CAUSEFEAR = $4000;
   // Actor slides against walls
-  MF3_EX_SLIDE = $8000;
+  MF3_EX_SLIDING = $8000;
   // No actor collision
   MF3_EX_THRUACTORS = $10000;
   // No collision with same species (also inheritance)
@@ -392,6 +392,10 @@ const
   MF3_EX_NOBLOCKMONST = $40000;
   // Do not subject actor to player autoaim
   MF3_EX_NOTAUTOAIMED = $80000;
+  // Actor slides against walls alias
+  MF3_EX_SLIDE = $100000;
+  // Actor slides against walls alias
+  MF3_EX_SLIDEONWALLS = $200000;
 
 type
 // Map Object definition.

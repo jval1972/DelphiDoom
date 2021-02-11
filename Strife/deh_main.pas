@@ -1913,11 +1913,13 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NOTIMEFREEZE');
   mobj_flags3_ex.Add('MF3_EX_NOFEAR');
   mobj_flags3_ex.Add('MF3_EX_CAUSEFEAR');
-  mobj_flags3_ex.Add('MF3_EX_SLIDE');
+  mobj_flags3_ex.Add('MF3_EX_SLIDING');
   mobj_flags3_ex.Add('MF3_EX_THRUACTORS');
   mobj_flags3_ex.Add('MF3_EX_THRUSPECIES');
   mobj_flags3_ex.Add('MF3_EX_NOBLOCKMONST');
   mobj_flags3_ex.Add('MF3_EX_NOTAUTOAIMED');
+  mobj_flags3_ex.Add('MF3_EX_SLIDE');
+  mobj_flags3_ex.Add('MF3_EX_SLIDEONWALLS');
 
 
   mobj_flags4_ex := TDTextList.Create;

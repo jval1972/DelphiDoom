@@ -197,7 +197,6 @@ const
   // Just appeard - new spawn monsters or just teleported monsters
   MF_JUSTAPPEARED = $10000000;
 
-
 const
   // Sprite is transparent
   MF_EX_TRANSPARENT = 1;
@@ -369,7 +368,7 @@ const
   // Cause fear if targeted
   MF3_EX_CAUSEFEAR = $8000;
   // Actor slides against walls
-  MF3_EX_SLIDE = $10000;
+  MF3_EX_SLIDING = $10000;
   // No actor collision
   MF3_EX_THRUACTORS = $20000;
   // No collision with same species (also inheritance)
@@ -382,6 +381,8 @@ const
   MF3_EX_CONFBLUEBLOOD = $200000;
   // Do not subject actor to player autoaim
   MF3_EX_NOTAUTOAIMED = $400000;
+  // Slide along walls alias
+  MF3_EX_SLIDEONWALLS = $800000;
 
 type
 // Map Object definition.

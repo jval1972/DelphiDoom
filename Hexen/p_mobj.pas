@@ -556,7 +556,7 @@ begin
     if not P_TryMove(mo, ptryx, ptryy) then
     begin
       // Blocked move
-      if mo.flags2 and MF2_SLIDE <> 0 then
+      if (mo.flags and MF_SLIDEONWALLS <> 0) or (mo.flags2 and MF2_SLIDE <> 0) or (mo.flags3_ex and MF3_EX_SLIDING <> 0) then
       begin // Try to slide along it
         if BlockingMobj = nil then
         begin
