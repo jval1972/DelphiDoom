@@ -62,6 +62,7 @@ type
     name: string;
     {$IFDEF DLL}decl: string;{$ENDIF}
   end;
+  Pdeh_action_t = ^deh_action_t;
 
 type
   deh_string_t = record
@@ -713,13 +714,24 @@ begin
               begin
                 splitstring(token2, token3, token4, [' ', '(']);
                 foundaction := false;
-                for j := 0 to DEHNUMACTIONS - 1 do
-                  if (token3 = deh_actions[j].name) or (token3 = 'A_' + deh_actions[j].name) then
-                  begin
-                    states[state_no].action.acp1 := deh_actions[j].action.acp1;
-                    foundaction := True;
-                    break;
-                  end;
+
+                j := DEH_SearchActionFromHash(token3);
+                if j >= 0 then
+                begin
+                  states[state_no].action.acp1 := deh_actions[j].action.acp1;
+                  foundaction := True;
+                end
+                else
+                begin
+                  for j := 0 to DEHNUMACTIONS - 1 do
+                    if (token3 = deh_actions[j].name) or (token3 = 'A_' + deh_actions[j].name) then
+                    begin
+                      states[state_no].action.acp1 := deh_actions[j].action.acp1;
+                      foundaction := True;
+                      break;
+                    end;
+                end;
+
                 if foundaction then
                 begin
                   if token4 <> '' then
@@ -1241,12 +1253,20 @@ begin
         else
         begin
           splitstring(token3, token4, token5, [' ', '(']);
-          for j := 0 to DEHNUMACTIONS - 1 do
-            if (token4 = deh_actions[j].name) or (token4 = 'A_' + deh_actions[j].name) then
-            begin
-              states[state_no].action.acp1 := deh_actions[j].action.acp1;
-              break;
-            end;
+
+          j := DEH_SearchActionFromHash(token3);
+          if j >= 0 then
+            states[state_no].action.acp1 := deh_actions[j].action.acp1
+          else
+          begin
+            for j := 0 to DEHNUMACTIONS - 1 do
+              if (token4 = deh_actions[j].name) or (token4 = 'A_' + deh_actions[j].name) then
+              begin
+                states[state_no].action.acp1 := deh_actions[j].action.acp1;
+                break;
+              end;
+          end;
+
           if token5 <> '' then
             states[state_no].params := TCustomParamList.Create(SC_FixParenthesisLevel(token5));
         end;
@@ -1707,7 +1727,10 @@ var
 begin
   if deh_initialized then
     exit;
+
   deh_initialized := true;
+
+  DEH_InitActionsHash;
 
   for i := 0 to 255 do
     stringhash[i] := TDNumberList.Create;
@@ -3275,6 +3298,8 @@ begin
   FreeAndNil(sound_tokens);
   FreeAndNil(renderstyle_tokens);
   FreeAndNil(misc_tokens);
+
+  DEH_ShutDownActionsHash;
 
   realloc(pointer(deh_strings._array), deh_strings.realnumstrings * SizeOf(deh_string_t), 0);
 

@@ -81,6 +81,14 @@ procedure DEH_SaveSpritesCSV(const fname: string);
 
 function DEH_ActionName(action: actionf_t): string;
 
+procedure DEH_InitActionsHash;
+
+procedure DEH_ShutDownActionsHash;
+
+procedure DEH_AddActionToHash(const act: string; const idpos: integer);
+
+function DEH_SearchActionFromHash(const act: string): integer;
+
 implementation
 
 uses
@@ -679,6 +687,89 @@ begin
     end;
   end;
   result := '';
+end;
+
+const
+  DEH_ACTIONS_HASH_SIZE = 128;
+
+var
+  dehactionshasttable: array[0..DEH_ACTIONS_HASH_SIZE - 1] of TDStringList;
+
+procedure DEH_InitActionsHash;
+var
+  i: integer;
+begin
+  for i := 0 to DEH_ACTIONS_HASH_SIZE - 1 do
+    dehactionshasttable[i] := TDStringList.Create;
+end;
+
+procedure DEH_ShutDownActionsHash;
+var
+  i, j: integer;
+begin
+  for i := 0 to DEH_ACTIONS_HASH_SIZE - 1 do
+  begin
+    for j := 0 to dehactionshasttable[i].Count - 1 do
+      dehactionshasttable[i].Objects[j].Free;
+    dehactionshasttable[i].Free;
+  end;
+end;
+
+function DEH_FixActionName(const act: string): string;
+begin
+  if Pos('A_', act) = 1 then
+    result := strupper(Copy(act, 3, Length(act) - 2))
+  else if Pos('a_', act) = 1 then
+    result := strupper(Copy(act, 3, Length(act) - 2))
+  else
+    result := strupper(act);
+end;
+
+function dehhash(const act: string): LongWord;
+var
+  i: integer;
+  str: string;
+begin
+  if str = '' then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  result := 5381 * 33 + Ord(str[1]);
+
+  for i := 2 to Length(str) do
+    result := result * 33 + Ord(str[1]);
+
+  result := result and (DEH_ACTIONS_HASH_SIZE - 1);
+end;
+
+procedure DEH_AddActionToHash(const act: string; const idpos: integer);
+var
+  hash: LongWord;
+  str: string;
+begin
+  str := DEH_FixActionName(act);
+  hash := dehhash(str);
+  dehactionshasttable[hash].AddObject(str, TInteger.Create(idpos));
+end;
+
+function DEH_SearchActionFromHash(const act: string): integer;
+var
+  hash: LongWord;
+  str: string;
+  i: integer;
+begin
+  str := DEH_FixActionName(act);
+  hash := dehhash(str);
+  for i := 0 to dehactionshasttable[hash].Count - 1 do
+    if str = dehactionshasttable[hash].Strings[i] then
+    begin
+      result := (dehactionshasttable[hash].Objects[i] as TInteger).intnum;
+      exit;
+    end;
+
+  result := -1;
 end;
 
 end.

@@ -100,7 +100,7 @@ Conditionals=STRIFE;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=
 UsePackages=0
 [Parameters]
-RunParams=
+RunParams=-nofullscreen -geom 1366x768 
 HostApplication=
 Launcher=
 UseLauncher=0
