@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 324;
+  DEHNUMACTIONS = 325;
 
 type
   deh_action_t = record
@@ -2954,6 +2954,9 @@ begin
   deh_actions[323].action.acp1 := @A_DualPainAttack;
   deh_actions[323].name := strupper('DualPainAttack');
   {$IFDEF DLL}deh_actions[323].decl := 'A_DualPainAttack([classname: string])';{$ENDIF}
+  deh_actions[324].action.acp1 := @A_MonsterRefire;
+  deh_actions[324].name := strupper('MonsterRefire');
+  {$IFDEF DLL}deh_actions[324].decl := 'A_MonsterRefire(prob: integer, offset: state_t)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
