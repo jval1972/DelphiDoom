@@ -54,7 +54,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 365;
+  DEHNUMACTIONS = 366;
 
 type
   deh_action_t = record
@@ -3027,6 +3027,9 @@ begin
   deh_actions[364].action.acp1 := @A_TransferPointer;
   deh_actions[364].name := strupper('TransferPointer');
   {$IFDEF DLL}deh_actions[364].decl := 'A_TransferPointer(ptr_source: integer, ptr_recipient: integer, ptr_sourcefield: integer, [ptr_recipientfield: integer], [flags: integer])';{$ENDIF}
+  deh_actions[365].action.acp1 := @A_AlertMonsters;
+  deh_actions[365].name := strupper('AlertMonsters');
+  {$IFDEF DLL}deh_actions[365].decl := 'A_AlertMonsters(maxdist: integer, flags: integer)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
