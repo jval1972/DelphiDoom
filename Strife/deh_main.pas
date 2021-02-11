@@ -54,7 +54,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 364;
+  DEHNUMACTIONS = 365;
 
 type
   deh_action_t = record
@@ -3024,6 +3024,10 @@ begin
   deh_actions[363].action.acp1 := @A_RearrangePointers;
   deh_actions[363].name := strupper('RearrangePointers');
   {$IFDEF DLL}deh_actions[363].decl := 'A_RearrangePointers(ptr_target: integer, ptr_master: integer, ptr_tracer: integer, flags: integer)';{$ENDIF}
+  deh_actions[364].action.acp1 := @A_TransferPointer;
+  deh_actions[364].name := strupper('TransferPointer');
+  {$IFDEF DLL}deh_actions[364].decl := 'A_TransferPointer(ptr_source: integer, ptr_recipient: integer, ptr_sourcefield: integer, [ptr_recipientfield: integer], [flags: integer])';{$ENDIF}
+
 
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
