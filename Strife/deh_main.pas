@@ -3037,6 +3037,9 @@ begin
   deh_actions[361].name := strupper('Tracer2');
   {$IFDEF DLL}deh_actions[361].decl := 'A_Tracer2()';{$ENDIF}
 
+  for i := 0 to DEHNUMACTIONS - 1 do
+    DEH_AddActionToHash(deh_actions[i].name, i);
+
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
   deh_strings._array := nil;

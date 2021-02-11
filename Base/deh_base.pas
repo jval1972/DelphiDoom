@@ -728,18 +728,17 @@ end;
 function dehhash(const act: string): LongWord;
 var
   i: integer;
-  str: string;
 begin
-  if str = '' then
+  if act = '' then
   begin
     result := 0;
     exit;
   end;
 
-  result := 5381 * 33 + Ord(str[1]);
+  result := 5381 * 33 + Ord(act[1]);
 
-  for i := 2 to Length(str) do
-    result := result * 33 + Ord(str[1]);
+  for i := 2 to Length(act) do
+    result := result * 33 + Ord(act[1]);
 
   result := result and (DEH_ACTIONS_HASH_SIZE - 1);
 end;
