@@ -143,6 +143,10 @@ uses
   w_pak;
 
 var
+  mobj_tokens_hash: TDEHStringsHashTable;
+
+
+var
   stringhash: array[0..255] of TDNumberList;
 
 function loselose(const s: string): byte;
@@ -306,7 +310,7 @@ begin
       // Retrieve current think field index
         splitstring(str, token1, token2, '=');
         token2 := RemoveQuotesFromString(token2);
-        mobj_idx := mobj_tokens.IndexOf(token1);
+        mobj_idx := mobj_tokens_hash.IndexOf(token1);
 
         if mobj_idx = -1 then
         begin
@@ -1785,6 +1789,9 @@ begin
   mobj_tokens.Add('MAX DROPOFF HEIGHT'); // .maxdropoffheight         // 59
   mobj_tokens.Add('GIB HEALTH');         // .gibhealth                // 60
   mobj_tokens.Add('MAX TARGET RANGE');   // .maxtargetrange           // 61
+
+  mobj_tokens_hash := TDEHStringsHashTable.Create;
+  mobj_tokens_hash.AssignList(mobj_tokens);
 
 
   mobj_flags := TDTextList.Create;
@@ -3302,6 +3309,8 @@ begin
   FreeAndNil(sound_tokens);
   FreeAndNil(renderstyle_tokens);
   FreeAndNil(misc_tokens);
+
+  FreeAndNil(mobj_tokens_hash);
 
   DEH_ShutDownActionsHash;
 

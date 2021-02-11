@@ -89,6 +89,23 @@ procedure DEH_AddActionToHash(const act: string; const idpos: integer);
 
 function DEH_SearchActionFromHash(const act: string): integer;
 
+const
+  DEH_STRINGLIST_HASH_SIZE = 64;
+
+type
+  // Assuming the assigned TDStringList is in UpperCase
+  TDEHStringsHashTable = class(TObject)
+  private
+    positions: array[0..DEH_STRINGLIST_HASH_SIZE - 1] of TDNumberList;
+    fList: TDTextList;
+  public
+    constructor Create; virtual;
+    destructor Destroy; override;
+    procedure AssignList(const s: TDTextList);
+    function IndexOf(const value: string): integer;
+    property List: TDTextList read fList;
+  end;
+
 implementation
 
 uses
@@ -769,6 +786,88 @@ begin
     end;
 
   result := -1;
+end;
+
+function dehstringhash(const s: string): LongWord;
+var
+  i: integer;
+begin
+  if s = '' then
+  begin
+    result := 0;
+    exit;
+  end;
+
+  result := 5381 * 33 + Ord(toupper(s[Length(s)]));
+
+  for i := Length(s) - 1 downto 1 do
+    result := result * 33 + Ord(toupper(s[i]));
+
+  result := result and (DEH_STRINGLIST_HASH_SIZE - 1);
+end;
+
+
+constructor TDEHStringsHashTable.Create;
+var
+  i: integer;
+begin
+  Inherited Create;
+  for i := 0 to DEH_STRINGLIST_HASH_SIZE - 1 do
+    positions[i] := TDNumberList.Create;
+  fList := nil;
+end;
+
+destructor TDEHStringsHashTable.Destroy;
+var
+  i: integer;
+begin
+  for i := 0 to DEH_STRINGLIST_HASH_SIZE - 1 do
+    positions[i].Free;
+  Inherited Destroy;
+end;
+
+procedure TDEHStringsHashTable.AssignList(const s: TDTextList);
+var
+  i: integer;
+  h: LongWord;
+begin
+  for i := 0 to DEH_STRINGLIST_HASH_SIZE - 1 do
+    positions[i].Clear;
+  fList := s;
+  for i := 0 to fList.Count - 1 do
+  begin
+    h := dehstringhash(fList.Strings[i]);
+    positions[h].Add(i);
+  end;
+end;
+
+function TDEHStringsHashTable.IndexOf(const value: string): integer;
+var
+  h: integer;
+  i: integer;
+  n: integer;
+  check: string;
+begin
+  if flist = nil then
+  begin
+    result := -1;
+    exit;
+  end;
+
+  check := strupper(value);
+  h := dehstringhash(check);
+  for i := 0 to positions[h].Count - 1 do
+  begin
+    n := positions[h].Numbers[i];
+    if (n >= 0) and (n < fList.Count) then
+      if fList.Strings[n] = check then
+      begin
+        result := n;
+        exit;
+      end;
+  end;
+
+  result := fList.IndexOf(check);
 end;
 
 end.

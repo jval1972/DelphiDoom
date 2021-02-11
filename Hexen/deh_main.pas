@@ -284,7 +284,7 @@ begin
       // Retrieve current think field index
         splitstring(str, token1, token2, '=');
         token2 := RemoveQuotesFromString(token2);
-        mobj_idx := mobj_tokens.IndexOf(token1);
+        mobj_idx := mobj_tokens_hash.IndexOf(token1);
 
         if mobj_idx = -1 then
         begin
@@ -1761,6 +1761,9 @@ begin
   mobj_tokens.Add('MAX DROPOFF HEIGHT'); // .maxdropoffheight         // 56
   mobj_tokens.Add('GIB HEALTH');         // .gibhealth                // 57
   mobj_tokens.Add('MAX TARGET RANGE');   // .maxtargetrange           // 58
+
+  mobj_tokens_hash := TDEHStringsHashTable.Create;
+  mobj_tokens_hash.AssignList(mobj_tokens);
 
 
   mobj_flags := TDTextList.Create;
@@ -3589,6 +3592,8 @@ begin
   FreeAndNil(sound_tokens);
   FreeAndNil(renderstyle_tokens);
   FreeAndNil(misc_tokens);
+
+  FreeAndNil(mobj_tokens_hash);
 
   DEH_ShutDownActionsHash;
 
