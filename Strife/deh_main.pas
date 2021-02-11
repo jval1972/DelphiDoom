@@ -54,7 +54,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 363;
+  DEHNUMACTIONS = 364;
 
 type
   deh_action_t = record
@@ -3021,6 +3021,9 @@ begin
   deh_actions[362].action.acp1 := @A_MonsterRefire;
   deh_actions[362].name := strupper('MonsterRefire');
   {$IFDEF DLL}deh_actions[362].decl := 'A_MonsterRefire(prob: integer, offset: state_t)';{$ENDIF}
+  deh_actions[363].action.acp1 := @A_RearrangePointers;
+  deh_actions[363].name := strupper('RearrangePointers');
+  {$IFDEF DLL}deh_actions[363].decl := 'A_RearrangePointers(ptr_target: integer, ptr_master: integer, ptr_tracer: integer, flags: integer)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
