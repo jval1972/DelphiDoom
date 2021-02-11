@@ -1592,6 +1592,7 @@ var
   master: Pmobj_t;
   pl: Pplayer_t;
   item: integer;
+  gibhealth: integer;
 begin
   target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY or MF_NOGRAVITY);
   target.flags3_ex := target.flags3_ex and (not MF3_EX_BOUNCE);
@@ -1723,7 +1724,6 @@ begin
       end;
     end;
   end;
-  
   if target.flags2 and MF2_FIREDAMAGE <> 0 then
   begin
     if (target._type = Ord(MT_FIGHTER_BOSS)) or
@@ -1850,7 +1850,11 @@ begin
     target.height := 24 * FRACUNIT;
   end;
 
-  if (target.health < -_SHR1(target.info.spawnhealth)) and
+  gibhealth := target.info.gibhealth;
+  if gibhealth >= 0 then
+    gibhealth := -_SHR1(target.info.spawnhealth);
+
+  if (target.health < gibhealth) and
      (target.info.xdeathstate <> 0) then
   begin // Extreme death
     P_SetMobjState(target, statenum_t(target.info.xdeathstate));
@@ -1884,7 +1888,7 @@ begin
   else
     item := 0;
 
-  // JVAL: Check if dropitem is set to drop a custom item.
+// JVAL: Check if dropitem is set to drop a custom item.
   if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
     item := target.dropitem;
 

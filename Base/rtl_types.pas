@@ -139,6 +139,7 @@ type
     meleerange: integer;
     maxstepheight: integer;
     maxdropoffheight: integer;
+    gibhealth: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

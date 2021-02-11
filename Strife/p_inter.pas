@@ -855,6 +855,7 @@ end;
 procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 var
   item: integer;
+  gibhealth: integer;
   plrkilledmsg: string;
   amount, r: integer;
   mo, loot: Pmobj_t;
@@ -971,7 +972,11 @@ begin
       P_SetMobjState(target, S_DISR_00)  // 373
     else
     begin
-      if (target.health < -target.info.spawnhealth) and (target.info.xdeathstate <> 0) then
+      gibhealth := target.info.gibhealth;
+      if gibhealth >= 0 then
+        gibhealth := -target.info.spawnhealth;
+
+      if (target.health < gibhealth) and (target.info.xdeathstate <> 0) then
         P_SetMobjState(target, statenum_t(target.info.xdeathstate))
       else
         P_SetMobjState(target, statenum_t(target.info.deathstate));
@@ -985,9 +990,12 @@ begin
   // This determines the kind of object spawned
   // during the death frame of a thing.
   // villsa [STRIFE] get item from dialog target
+// JVAL: Check if dropitem is set to drop a custom item.
   if target.flags2_ex and MF2_EX_CUSTOMDROPITEM <> 0 then
   begin
     item := target.dropitem;
+
+// JVAL: 20200301 - Fix P_SpawnDroppedMobj() bug
     if item <= 0 then
       Exit;
   end

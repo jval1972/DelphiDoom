@@ -1386,6 +1386,7 @@ var
     AddRes('Melee Range = ' + itoa(mobj.meleerange));
     AddRes('Max Step Height = ' + itoa(mobj.maxstepheight));
     AddRes('Max DropOff Height = ' + itoa(mobj.maxdropoffheight));
+    AddRes('Gib Health = ' + itoa(mobj.gibhealth));
 
     AddRes('');
 
@@ -1843,6 +1844,7 @@ begin
           mobj.meleerange := pinf.meleerange;
           mobj.maxstepheight := pinf.maxstepheight;
           mobj.maxdropoffheight := pinf.maxdropoffheight;
+          mobj.gibhealth := pinf.gibhealth;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -1990,6 +1992,13 @@ begin
         begin
           sc.GetFloat;
           mobj.maxdropoffheight := round(sc._float * FRACUNIT);
+          sc.GetString;
+        end
+
+        else if sc.MatchString('GIBHEALTH') then
+        begin
+          sc.GetInteger;
+          mobj.gibhealth := sc._Integer;
           sc.GetString;
         end
 
@@ -2847,6 +2856,9 @@ begin
     AddLn('MaxStepHeight ' + ftoafmt('2.4', m.maxstepheight / FRACUNIT));
   if m.maxdropoffheight <> 0 then
     AddLn('MaxDropOffHeight ' + ftoafmt('2.4', m.maxdropoffheight / FRACUNIT));
+  if m.gibhealth <> 0 then
+    AddLn('GibHealth ' + itoa(m.gibhealth));
+
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then
       AddLn('+' + mobj_flags[i]);

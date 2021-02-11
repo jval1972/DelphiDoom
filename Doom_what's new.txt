@@ -136,6 +136,7 @@ Fixed map title bug for maps outside the range of standard names.
 Added MF3_EX_NOTAUTOAIMED mobj flag, do not subject actor to player autoaim.
 Added maxstepheight & maxdropoffheight mobjinfo fields.
 Added A_SinglePainAttack() & A_DualPainAttack() ACTORDEF functions.
+Added GibHealth mobjinfo field.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

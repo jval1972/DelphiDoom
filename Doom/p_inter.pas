@@ -778,6 +778,7 @@ end;
 procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 var
   item: integer;
+  gibhealth: integer;
 begin
   target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY);
   target.flags3_ex := target.flags3_ex and not MF3_EX_BOUNCE;
@@ -836,7 +837,11 @@ begin
 
   end;
 
-  if (target.health < -target.info.spawnhealth) and (target.info.xdeathstate <> 0) then
+  gibhealth := target.info.gibhealth;
+  if gibhealth >= 0 then
+    gibhealth := -target.info.spawnhealth;
+
+  if (target.health < gibhealth) and (target.info.xdeathstate <> 0) then
     P_SetMobjState(target, statenum_t(target.info.xdeathstate))
   else
     P_SetMobjState(target, statenum_t(target.info.deathstate));

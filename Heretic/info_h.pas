@@ -1542,6 +1542,7 @@ type
     meleerange: integer;
     maxstepheight: integer;
     maxdropoffheight: integer;
+    gibhealth: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;
