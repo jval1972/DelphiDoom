@@ -448,10 +448,6 @@ begin
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     mobj_flag := mobj_flags2_ex.IndexOf('MF2_EX_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags2_ex.IndexOf('MF_EX_' + token3);
-                    if mobj_flag = -1 then
-                      mobj_flag := mobj_flags2_ex.IndexOf('MF_' + token3);
-                    if mobj_flag = -1 then
                       mobj_flag := mobj_flags2_ex.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
@@ -484,12 +480,6 @@ begin
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     mobj_flag := mobj_flags3_ex.IndexOf('MF3_EX_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags3_ex.IndexOf('MF2_EX_' + token3);
-                    if mobj_flag = -1 then
-                      mobj_flag := mobj_flags3_ex.IndexOf('MF_EX_' + token3);
-                    if mobj_flag = -1 then
-                      mobj_flag := mobj_flags3_ex.IndexOf('MF_' + token3);
-                    if mobj_flag = -1 then
                       mobj_flag := mobj_flags3_ex.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
@@ -514,14 +504,6 @@ begin
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     mobj_flag := mobj_flags4_ex.IndexOf('MF4_EX_' + token3);
-                    if mobj_flag = -1 then
-                      mobj_flag := mobj_flags4_ex.IndexOf('MF3_EX_' + token3);
-                    if mobj_flag = -1 then
-                      mobj_flag := mobj_flags4_ex.IndexOf('MF2_EX_' + token3);
-                    if mobj_flag = -1 then
-                      mobj_flag := mobj_flags4_ex.IndexOf('MF_EX_' + token3);
-                    if mobj_flag = -1 then
-                      mobj_flag := mobj_flags4_ex.IndexOf('MF_' + token3);
                     if mobj_flag = -1 then
                       mobj_flag := mobj_flags4_ex.IndexOf(token3);
                     if mobj_flag >= 0 then
