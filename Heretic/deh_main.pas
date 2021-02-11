@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 350;
+  DEHNUMACTIONS = 351;
 
 type
   deh_action_t = record
@@ -3063,6 +3063,9 @@ begin
   deh_actions[349].action.acp1 := @A_Tracer2;
   deh_actions[349].name := strupper('Tracer2');
   {$IFDEF DLL}deh_actions[349].decl := 'A_Tracer2()';{$ENDIF}
+  deh_actions[350].action.acp1 := @A_MonsterRefire;
+  deh_actions[350].name := strupper('MonsterRefire');
+  {$IFDEF DLL}deh_actions[350].decl := 'A_MonsterRefire(prob: integer, offset: state_t)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
