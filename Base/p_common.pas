@@ -443,6 +443,8 @@ procedure A_BasicAttack(actor: Pmobj_t);
 
 procedure A_Tracer2(actor: Pmobj_t);
 
+procedure A_MonsterRefire(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5508,6 +5510,31 @@ begin
       actor.momz := actor.momz - FRACUNIT div 8
     else
       actor.momz := actor.momz + FRACUNIT div 8;
+  end;
+end;
+
+//
+// A_MonsterRefire(prob: integer, offset: state_t)
+//
+procedure A_MonsterRefire(actor: Pmobj_t);
+var
+  prob: integer;
+  offset: integer;
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  A_FaceTarget(actor);
+
+  prob := actor.state.params.IntVal[0];
+  if N_Random < prob then
+    exit;
+
+  if (actor.target = nil) or (actor.target.health <= 0) or not P_CheckSight(actor, actor.target) then
+  begin
+    offset := P_GetStateFromNameWithOffsetCheck(actor, actor.state.params.StrVal[1]);
+    if @states[offset] <> actor.state then
+      P_SetMobjState(actor, statenum_t(offset));
   end;
 end;
 
