@@ -3699,6 +3699,7 @@ type
     maxstepheight: integer;
     maxdropoffheight: integer;
     gibhealth: integer;
+    maxtargetrange: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

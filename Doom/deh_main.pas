@@ -547,6 +547,7 @@ begin
           57: mobjinfo[mobj_no].maxstepheight := DEH_FixedOrFloat(token2, 64);
           58: mobjinfo[mobj_no].maxdropoffheight := DEH_FixedOrFloat(token2, 64);
           59: mobjinfo[mobj_no].gibhealth := mobj_val;
+          60: mobjinfo[mobj_no].maxtargetrange := mobj_val;
         end;
       end;
 
@@ -1577,6 +1578,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[57]), mobjinfo[i].maxstepheight]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[58]), mobjinfo[i].maxdropoffheight]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[59]), mobjinfo[i].gibhealth]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[60]), mobjinfo[i].maxtargetrange]);
 
     result.Add('');
   end;
@@ -1825,6 +1827,7 @@ begin
   mobj_tokens.Add('MAX STEP HEIGHT');    // .maxstepheight            // 57
   mobj_tokens.Add('MAX DROPOFF HEIGHT'); // .maxdropoffheight         // 58
   mobj_tokens.Add('GIB HEALTH');         // .gibhealth                // 59
+  mobj_tokens.Add('MAX TARGET RANGE');   // .maxtargetrange           // 60
 
 
   mobj_flags := TDTextList.Create;

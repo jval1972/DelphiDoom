@@ -1091,6 +1091,10 @@ begin
     if player.health <= 0 then
       continue;   // dead
 
+    if actor.info.maxtargetrange > 0 then
+      if P_AproxDistance(actor.x - player.mo.x, actor.y - player.mo.y) > actor.info.maxtargetrange * FRACUNIT then
+        continue; // JVAL: 20210211 - Out of range
+
     if not P_CheckSight(actor, player.mo) then
       continue;   // out of sight
 

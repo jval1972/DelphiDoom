@@ -140,6 +140,7 @@ type
     maxstepheight: integer;
     maxdropoffheight: integer;
     gibhealth: integer;
+    maxtargetrange: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

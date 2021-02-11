@@ -973,6 +973,7 @@ var
   count: integer;
   mo: Pmobj_t;
   think: Pthinker_t;
+  maxrange: fixed_t;
 begin
   if not P_CheckSight(players[0].mo, actor) then
   begin // Player can't see monster
@@ -998,7 +999,12 @@ begin
       continue;
     end;
 
-    if P_AproxDistance(actor.x - mo.x, actor.y - mo.y) > MONS_LOOK_RANGE then
+    if actor.info.maxtargetrange > 0 then
+      maxrange := actor.info.maxtargetrange * FRACUNIT
+    else
+      maxrange := MONS_LOOK_RANGE;
+
+    if P_AproxDistance(actor.x - mo.x, actor.y - mo.y) > maxrange then
     begin // Out of range
       think := think.next;
       continue;
@@ -1078,6 +1084,10 @@ begin
 
     if player.health <= 0 then
       continue;   // dead
+
+    if actor.info.maxtargetrange > 0 then
+      if P_AproxDistance(actor.x - player.mo.x, actor.y - player.mo.y) > actor.info.maxtargetrange * FRACUNIT then
+        continue; // JVAL: 20210211 - Out of range
 
     if not P_CheckSight(actor, player.mo) then
       continue;   // out of sight
