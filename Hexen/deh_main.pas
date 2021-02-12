@@ -133,6 +133,9 @@ uses
   w_pak,
   z_zone;
 
+var
+  mobj_tokens_hash: TDEHStringsHashTable;
+
 procedure DEH_AddString(deh_strings: Pdeh_strings_t; pstr: PString; const name: string);
 begin
   if deh_strings.numstrings = deh_strings.realnumstrings then
