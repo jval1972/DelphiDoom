@@ -3319,7 +3319,7 @@ begin
   deh_actions[457].name := strupper('LocalEarthQuake');
   {$IFDEF DLL}deh_actions[457].decl := 'A_LocalEarthQuake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)';{$ENDIF}
 
-  
+
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
 
