@@ -242,6 +242,12 @@ begin
   end;
 
   memcpy(pointer(pp), pointer(p), SizeOf(player_t205));
+
+  if pp.quaketics > 0 then
+    pp.quakeintensity := FRACUNIT
+  else
+    pp.quakeintensity := 0;
+
   pp.nextoof := 0;  // JVAL: version 206
 end;
 

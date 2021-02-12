@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -54,7 +54,10 @@ var
   frac1, frac2: integer;
 begin
   if player.quaketics = 0 then
+  begin
+    player.quakeintensity := 0;
     exit;
+  end;
   seed1 := player.quaketics div FRACUNIT;
   seed2 := seed1 + 1;
   frac1 := player.quaketics mod FRACUNIT;
@@ -63,10 +66,10 @@ begin
   rnd1b := C_Random(seed1);
   rnd2a := C_Random(seed2);
   rnd2b := C_Random(seed2);
-  vx1 := viewx + (4 - (rnd1a mod 8)) * FRACUNIT;
-  vy1 := viewy + (4 - (rnd1b mod 8)) * FRACUNIT;
-  vx2 := viewx + (4 - (rnd2a mod 8)) * FRACUNIT;
-  vy2 := viewy + (4 - (rnd2b mod 8)) * FRACUNIT;
+  vx1 := viewx + (4 - (rnd1a mod 8)) * player.quakeintensity;
+  vy1 := viewy + (4 - (rnd1b mod 8)) * player.quakeintensity;
+  vx2 := viewx + (4 - (rnd2a mod 8)) * player.quakeintensity;
+  vy2 := viewy + (4 - (rnd2b mod 8)) * player.quakeintensity;
   viewx := Round(vx1 / FRACUNIT * frac1 + vx2 / FRACUNIT * frac2);
   viewy := Round(vy1 / FRACUNIT * frac1 + vy2 / FRACUNIT * frac2);
 end;

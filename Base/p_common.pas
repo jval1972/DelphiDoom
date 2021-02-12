@@ -451,6 +451,8 @@ procedure A_TransferPointer(actor: Pmobj_t);
 
 procedure A_AlertMonsters(actor: Pmobj_t);
 
+procedure A_LocalEarthQuake(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -550,6 +552,8 @@ function P_RaiseActor(const thing, raiser: Pmobj_t): boolean;
 function P_FloatSpeed(const actor: Pmobj_t): fixed_t;
 
 procedure P_NoiseAlertEx(target: Pmobj_t; emmiter: Pmobj_t; const maxdist: fixed_t);
+
+procedure P_LocalEarthQuake(const actor: Pmobj_t; const tics: integer; const intensity: fixed_t; const maxdist: fixed_t);
 
 implementation
 
@@ -3347,7 +3351,10 @@ begin
   qtics := actor.state.params.IntVal[0] * FRACUNIT;
   for i := 0 to MAXPLAYERS - 1 do
     if playeringame[i] then
+    begin
       players[i].quaketics := qtics;
+      players[i].quakeintensity := FRACUNIT;
+    end;
 end;
 
 // A_SetMapStr(var: string; value1: string; [value2: string],...)
@@ -5761,6 +5768,54 @@ begin
 
   if (target <> nil) and (emitter <> nil) then
     P_NoiseAlertEx(target, emitter, maxdist);
+end;
+
+procedure P_LocalEarthQuake(const actor: Pmobj_t; const tics: integer; const intensity: fixed_t; const maxdist: fixed_t);
+var
+  i: integer;
+  dist: fixed_t;
+  frac: fixed_t;
+  testintensity: fixed_t;
+begin
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+    begin
+      dist := P_AproxDistance(actor.x - players[i].mo.x, actor.y - players[i].mo.y);
+      dist := P_AproxDistance(actor.z - players[i].mo.z, dist); // 3d distance
+      if dist <= maxdist then
+      begin
+        if players[i].quaketics < tics then
+          players[i].quaketics := tics;
+        frac := FixedDiv(dist, maxdist) * (FINEANGLES div 4);
+        testintensity := FixedMul(finecosine[frac shr ANGLETOFINESHIFT], intensity); // JVAL: 20200508 - Curved
+        if players[i].quakeintensity < testintensity then
+          players[i].quakeintensity := testintensity;
+      end;
+    end;
+end;
+
+//
+// A_LocalEarthQuake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT]);
+//
+procedure A_LocalEarthQuake(actor: Pmobj_t);
+var
+  tics: integer;
+  intensity: integer;
+  maxdist: fixed_t;
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  tics := actor.state.params.FixedVal[0];
+  if actor.state.params.Count > 1 then
+    intensity := actor.state.params.FixedVal[1]
+  else
+    intensity := FRACUNIT;
+  if actor.state.params.Count > 2 then
+    maxdist := actor.state.params.FixedVal[2]
+  else
+    maxdist := MAXINT;
+  P_LocalEarthQuake(actor, tics, intensity, maxdist);
 end;
 
 end.

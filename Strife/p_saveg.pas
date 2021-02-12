@@ -290,6 +290,10 @@ begin
         players[i].cmd.lookupdown16 := p205.cmd.lookupdown16;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
+        if players[i].quaketics > 0 then
+          players[i].quakeintensity := FRACUNIT
+        else
+          players[i].quakeintensity := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t205));
     end
@@ -399,6 +403,10 @@ begin
         players[i].cmd.lookupdown16 := p203.cmd.lookupdown16;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
+        if players[i].quaketics > 0 then
+          players[i].quakeintensity := FRACUNIT
+        else
+          players[i].quakeintensity := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t203));
     end
@@ -418,6 +426,7 @@ begin
         players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
+        players[i].quakeintensity := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t122));
     end
@@ -437,6 +446,7 @@ begin
         players[i].cmd.lookupdown16 := players[i].cmd.lookupdown * 256;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
+        players[i].quakeintensity := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
     end

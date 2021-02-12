@@ -2105,7 +2105,7 @@ begin
   viewx := player.mo.x;
   viewy := player.mo.y;
 
-  if (localQuakeHappening[P_GetPlayerNum(player)] <> 0) and (not paused) then
+  if (localQuakeHappening[P_GetPlayerNum(player)] <> 0) and not paused then
   begin
     intensity := localQuakeHappening[displayplayer];
     viewx := viewx + ((P_RandomFromSeed(gametic) mod (intensity * 4)) - intensity * 2) * FRACUNIT;

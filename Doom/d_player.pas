@@ -190,6 +190,7 @@ type
     lookdir16: integer; // JVAL Smooth Look Up/Down
     cmd: ticcmd_t;      // JVAL Smooth Look Up/Down
     nextoof: integer;
+    quakeintensity: fixed_t;
   end;
   Pplayer_t = ^player_t;
 

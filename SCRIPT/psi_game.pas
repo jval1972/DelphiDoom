@@ -657,6 +657,8 @@ function PS_Game: string;
 
 procedure PS_GlobalEarthQuake(const tics: integer);
 
+procedure PS_LocalEarthQuake(const x, y, z: Integer; const tics: Integer; const intensity: Integer; const maxdist: Integer);
+
 function PS_GameSkill: integer;
 
 // ------------------ KEYBOARD CONTROL -----------------------------------------
@@ -925,6 +927,7 @@ uses
   r_sky,
   s_sound,
   sounds,
+  tables,
   w_wad;
 
 var
@@ -6132,7 +6135,34 @@ begin
   qtics := tics * FRACUNIT;
   for i := 0 to MAXPLAYERS - 1 do
     if playeringame[i] then
+    begin
       players[i].quaketics := qtics;
+      players[i].quakeintensity := FRACUNIT;
+    end;
+end;
+
+procedure PS_LocalEarthQuake(const x, y, z: Integer; const tics: Integer; const intensity: Integer; const maxdist: Integer);
+var
+  i: integer;
+  dist: fixed_t;
+  frac: fixed_t;
+  testintensity: fixed_t;
+begin
+  for i := 0 to MAXPLAYERS - 1 do
+    if playeringame[i] then
+    begin
+      dist := P_AproxDistance(x - players[i].mo.x, y - players[i].mo.y);
+      dist := P_AproxDistance(z - players[i].mo.z, dist); // 3d distance
+      if dist <= maxdist then
+      begin
+        if players[i].quaketics < tics then
+          players[i].quaketics := tics;
+        frac := FixedDiv(dist, maxdist) * (FINEANGLES div 4);
+        testintensity := FixedMul(finecosine[frac shr ANGLETOFINESHIFT], intensity); // JVAL: 20200508 - Curved
+        if players[i].quakeintensity < testintensity then
+          players[i].quakeintensity := testintensity;
+      end;
+    end;
 end;
 
 function PS_GameSkill: integer;

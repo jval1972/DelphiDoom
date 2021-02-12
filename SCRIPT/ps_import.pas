@@ -522,6 +522,7 @@ begin
   {$ENDIF}
   baseproclist.Add('function _GAME: string;', @PS_Game);
   baseproclist.Add('procedure GlobalEarthQuake(const tics: integer);', @PS_GlobalEarthQuake);
+  baseproclist.Add('procedure LocalEarthQuake(const x, y, z: fixed_t; const tics: integer; const intensity: fixed_t; const maxdist: fixed_t);', @PS_LocalEarthQuake);
   baseproclist.Add('function GameSkill: integer;', @PS_GameSkill);
   baseproclist.Add('function GameMap: integer;', @PS_GameMap);
   {$IFDEF DOOM_OR_HERETIC}

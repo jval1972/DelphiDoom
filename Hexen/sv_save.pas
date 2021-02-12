@@ -816,6 +816,7 @@ begin
       players[i].oldviewz := players[i].viewz;
       players[i].teleporttics := 0;
       players[i].quaketics := 0;
+      players[i].quakeintensity := 0;
       players[i].lookdir16 := players[i].lookdir * 16; // JVAL Smooth Look Up/Down
       Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
       players[i].cmd.lookupdown16 := (players[i].cmd.lookfly and 15) * 256;
@@ -825,10 +826,24 @@ begin
     begin
       ZeroMemory(@players[i], SizeOf(player_t));
       memcpy(@players[i], saveptr, SizeOf(player_t142));
+      if players[i].quaketics > 0 then
+        players[i].quakeintensity := FRACUNIT
+      else
+        players[i].quakeintensity := 0;
       players[i].lookdir16 := players[i].lookdir * 16; // JVAL Smooth Look Up/Down
       Pticcmd_t202(@players[i].cmd)^ := players[i].cmd202;
       players[i].cmd.lookupdown16 := (players[i].cmd.lookfly and 15) * 256;
       incp(saveptr, SizeOf(player_t142));
+    end
+    else if LOADVERSION <= VERSION205 then
+    begin
+      ZeroMemory(@players[i], SizeOf(player_t));
+      memcpy(@players[i], saveptr, SizeOf(player_t205));
+      if players[i].quaketics > 0 then
+        players[i].quakeintensity := FRACUNIT
+      else
+        players[i].quakeintensity := 0;
+      incp(saveptr, SizeOf(player_t205));
     end
     else
     begin

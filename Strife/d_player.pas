@@ -235,6 +235,7 @@ type
     // Version 206
     nextoof: integer;
     lastdialogtalker: Pmobj_t;
+    quakeintensity: fixed_t;
   end;
   Pplayer_t = ^player_t;
 

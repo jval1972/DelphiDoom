@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 328;
+  DEHNUMACTIONS = 330;
 
 type
   deh_action_t = record
@@ -2979,6 +2979,12 @@ begin
   deh_actions[327].action.acp1 := @A_AlertMonsters;
   deh_actions[327].name := strupper('AlertMonsters');
   {$IFDEF DLL}deh_actions[327].decl := 'A_AlertMonsters(maxdist: integer, flags: integer)';{$ENDIF}
+  deh_actions[328].action.acp1 := @A_LocalEarthQuake;
+  deh_actions[328].name := strupper('LocalEarthQuake');
+  {$IFDEF DLL}deh_actions[328].decl := 'A_LocalEarthQuake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)';{$ENDIF}
+  deh_actions[329].action.acp1 := @A_LocalEarthQuake;
+  deh_actions[329].name := strupper('Quake');
+  {$IFDEF DLL}deh_actions[329].decl := 'A_Quake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
