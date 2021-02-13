@@ -1814,7 +1814,7 @@ begin
     if secretexit then
     begin
       case gamemap of
-         2: if customgame = cg_bfg2 then wminfo.next := 32;
+         2: if customgame = cg_bfg2 then wminfo.next := 32 else wminfo.next := gamemap;
         15: wminfo.next := 30;
         31: wminfo.next := 31;
       end
@@ -1824,7 +1824,7 @@ begin
       case gamemap of
         31,
         32: wminfo.next := 15;
-        33: if customgame = cg_bfg2 then wminfo.next := 2;
+        33: if customgame = cg_bfg2 then wminfo.next := 2 else wminfo.next := gamemap;
       else
         wminfo.next := gamemap;
       end;
