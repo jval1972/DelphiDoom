@@ -86,7 +86,7 @@ type
   end;
 
 const
-  NUMPWADDETECTITEMS = 234;
+  NUMPWADDETECTITEMS = 237;
   pwadtbl: array[0..NUMPWADDETECTITEMS - 1] of pwaddetect_t = (
     (crc32: 'af4b83e1'; numlumps:  393; size:   6577825; nummaps1:  0; nummaps2: 22; savepath: '1killtng'),
     (crc32: '8fd0901b'; numlumps:  657; size:  23838545; nummaps1:  0; nummaps2: 25; savepath: '1monster'),
@@ -112,6 +112,8 @@ const
     (crc32: 'd484cef2'; numlumps:  631; size:   6339393; nummaps1:  0; nummaps2: 21; savepath: 'abyspe38'),
     (crc32: '918235a0'; numlumps:  601; size:   5048735; nummaps1:  0; nummaps2: 32; savepath: 'ABYSS'),
     (crc32: '9fc89325'; numlumps:  870; size:  36400197; nummaps1:  0; nummaps2: 32; savepath: 'alt'),
+    (crc32: '53cc52b3'; numlumps: 1209; size:   7565732; nummaps1: 10; nummaps2:  0; savepath: 'aoddoom1'),
+    (crc32: 'cd6fdacf'; numlumps: 1114; size:   6834740; nummaps1:  0; nummaps2: 11; savepath: 'aoddoom2'),
     (crc32: '657c8b8a'; numlumps:  811; size:  27054977; nummaps1:  0; nummaps2: 32; savepath: 'armadosia'),
     (crc32: '4c9b2923'; numlumps:  143; size:   5421209; nummaps1:  0; nummaps2: 13; savepath: 'arma-old'),
     (crc32: '1c045a58'; numlumps:  432; size:   7496303; nummaps1:  0; nummaps2: 32; savepath: 'atbb_f2'),
@@ -199,6 +201,7 @@ const
     (crc32: '19c57f79'; numlumps:  410; size:   6975569; nummaps1:  0; nummaps2: 32; savepath: 'HEROES2'),
     (crc32: '7f8e355b'; numlumps:  352; size:    173487; nummaps1:  0; nummaps2: 32; savepath: 'HoE64'),
     (crc32: 'c4d29ff0'; numlumps:  456; size:   7027154; nummaps1:  0; nummaps2: 32; savepath: 'HR'),
+    (crc32: 'c5b234f4'; numlumps:  603; size:   6588096; nummaps1:  0; nummaps2: 32; savepath: 'hr2final'),
     (crc32: '3872f4b9'; numlumps:  471; size:  14070458; nummaps1:  0; nummaps2: 33; savepath: 'ht'),
     (crc32: '618e37d1'; numlumps: 1851; size:  11777864; nummaps1: 27; nummaps2:  0; savepath: 'Hyena'),
     (crc32: '790ba1b5'; numlumps:  714; size:   8397168; nummaps1:  0; nummaps2: 32; savepath: 'ICARUS'),
