@@ -98,6 +98,7 @@ implementation
 
 uses
   d_delphi,
+  d_check,
   doomstat,
   doomdef,
   am_map,
@@ -1295,7 +1296,7 @@ var
 begin
   for i := 0 to Ord(load_end) - 1 do
   begin
-    sprintf(name, M_SaveFileName(SAVEGAMENAME) + '%d.dsg', [i]);
+    sprintf(name, M_SaveFileName(D_GetSavePath + SAVEGAMENAME) + '%d.dsg', [i]);
 
     if not fopen(handle, name, fOpenReadOnly) then
     begin
@@ -1423,7 +1424,7 @@ procedure M_LoadSelect(choice: integer);
 var
   name: string;
 begin
-  sprintf(name, M_SaveFileName(SAVEGAMENAME) + '%d.dsg', [choice]);
+  sprintf(name, M_SaveFileName(D_GetSavePath + SAVEGAMENAME) + '%d.dsg', [choice]);
   G_LoadGame(name);
   M_ClearMenus;
 end;
