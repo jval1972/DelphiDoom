@@ -325,7 +325,7 @@ const
   );
 
 var
-  savepath: string[16] = 'doom';
+  savepath: string = 'doom';
 
 function D_CheckCustomIWad(const filename: string): boolean;
 var
