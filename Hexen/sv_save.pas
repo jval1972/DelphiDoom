@@ -416,7 +416,7 @@ begin
     exit;
   end;
 
-  if (mobj.player <> nil) and (not SavingPlayers) then
+  if (mobj.player <> nil) and not SavingPlayers then
   begin
     result := MOBJ_XX_PLAYER;
     exit;
