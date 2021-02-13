@@ -86,7 +86,7 @@ type
   end;
 
 const
-  NUMPWADDETECTITEMS = 237;
+  NUMPWADDETECTITEMS = 244;
   pwadtbl: array[0..NUMPWADDETECTITEMS - 1] of pwaddetect_t = (
     (crc32: 'af4b83e1'; numlumps:  393; size:   6577825; nummaps1:  0; nummaps2: 22; savepath: '1killtng'),
     (crc32: '8fd0901b'; numlumps:  657; size:  23838545; nummaps1:  0; nummaps2: 25; savepath: '1monster'),
@@ -139,6 +139,7 @@ const
     (crc32: '090328ba'; numlumps: 1305; size:  17821348; nummaps1:  0; nummaps2: 23; savepath: 'Confinement'),
     (crc32: '6399c049'; numlumps:  770; size:  51206253; nummaps1:  0; nummaps2: 32; savepath: 'CSTLDOOM'),
     (crc32: 'd7921af0'; numlumps:  436; size:   2697956; nummaps1:  0; nummaps2: 32; savepath: 'Cyber110'),
+    (crc32: '43dcd0f5'; numlumps:  190; size:   3578875; nummaps1:  0; nummaps2: 11; savepath: 'd2dw-v1'),
     (crc32: 'fcec6a3f'; numlumps:  457; size:  19737215; nummaps1:  0; nummaps2: 33; savepath: 'D2INO'),
     (crc32: '77b8f993'; numlumps:  807; size:  19930175; nummaps1:  0; nummaps2: 32; savepath: 'D2REDUX'),
     (crc32: 'ceda72b5'; numlumps:  697; size:  15095574; nummaps1:  0; nummaps2: 32; savepath: 'D2RELOAD'),
@@ -147,6 +148,10 @@ const
     (crc32: '7affdd8f'; numlumps:  132; size:   1252536; nummaps1:  0; nummaps2: 11; savepath: 'DARKDM'),
     (crc32: 'dc01cead'; numlumps:  121; size:   1754740; nummaps1:  0; nummaps2: 11; savepath: 'DARKEN'),
     (crc32: '5a71eb57'; numlumps: 1052; size:  13495688; nummaps1:  0; nummaps2: 24; savepath: 'Darken2'),
+    (crc32: 'e0a92478'; numlumps: 2580; size:  24366899; nummaps1:  0; nummaps2: 10; savepath: 'dbp13'),
+    (crc32: '584ab10c'; numlumps: 1112; size:  17414956; nummaps1:  0; nummaps2: 11; savepath: 'DBP14ATF'),
+    (crc32: '9847886b'; numlumps: 1665; size:  13168526; nummaps1:  0; nummaps2:  9; savepath: 'dbp20_dnd'),
+    (crc32: 'af99badd'; numlumps: 1482; size:  18469518; nummaps1:  0; nummaps2:  9; savepath: 'DBP22'),
     (crc32: '28fa06ba'; numlumps:  571; size:  10324165; nummaps1:  0; nummaps2: 32; savepath: 'DCV'),
     (crc32: '9c58d95e'; numlumps:  332; size:   5270113; nummaps1: 27; nummaps2:  0; savepath: 'DDAMN0'),
     (crc32: '885c515b'; numlumps: 3090; size:  15719816; nummaps1:  0; nummaps2: 32; savepath: 'DHERETIC'),
@@ -161,12 +166,14 @@ const
     (crc32: '9302915e'; numlumps:   11; size:   3661764; nummaps1:  1; nummaps2:  0; savepath: 'Doom1OWBeta'),
     (crc32: '5d2ecc70'; numlumps:  391; size:   3368482; nummaps1:  0; nummaps2: 32; savepath: 'doomiiii'),
     (crc32: '5c229a85'; numlumps:  330; size:    438856; nummaps1:  0; nummaps2: 30; savepath: 'DOOMJR'),
+    (crc32: '2ee0abc5'; numlumps:  597; size:   7968717; nummaps1:  0; nummaps2: 32; savepath: 'DoomZero'),
     (crc32: 'f72b4744'; numlumps: 1705; size:  18047187; nummaps1:  0; nummaps2: 32; savepath: 'dsv4_rvltinE'),
     (crc32: '5ac037bd'; numlumps: 1698; size:  17914653; nummaps1:  0; nummaps2: 32; savepath: 'dsv4_rvltinL'),
     (crc32: '5d99d356'; numlumps:  398; size:   5073423; nummaps1: 27; nummaps2:  0; savepath: 'DTWID'),
     (crc32: '63e97c31'; numlumps:  152; size:   1276188; nummaps1:  9; nummaps2:  0; savepath: 'DTWID-E5'),
     (crc32: 'df6e7d10'; numlumps:  743; size:   8251802; nummaps1: 55; nummaps2:  0; savepath: 'DTWID-LE'),
     (crc32: 'dd2b05af'; numlumps:  156; size:   1490935; nummaps1: 14; nummaps2:  0; savepath: 'DTWID-LX'),
+    (crc32: '48b79e9a'; numlumps:  468; size:  15579841; nummaps1:  0; nummaps2:  5; savepath: 'DV'),
     (crc32: '4c4c207f'; numlumps: 6072; size: 177678822; nummaps1:  0; nummaps2: 32; savepath: 'DVII-1i'),
     (crc32: '108b2c82'; numlumps:  245; size:   2797304; nummaps1:  0; nummaps2: 17; savepath: 'ELMLESIN'),
     (crc32: 'd59c5237'; numlumps:  430; size:   6599128; nummaps1:  0; nummaps2: 32; savepath: 'enirvana'),
