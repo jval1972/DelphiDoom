@@ -346,7 +346,9 @@ uses
   scanf_c in 'C_LIB\scanf_c.pas',
   audiolib in 'AUDIOLIB\audiolib.pas',
   p_obituaries in 'Base\p_obituaries.pas',
-  p_gender in 'Base\p_gender.pas';
+  p_gender in 'Base\p_gender.pas',
+  d_check in 'Heretic\d_check.pas',
+  w_wadreader in 'Base\w_wadreader.pas';
 
 var
   Saved8087CW: Word;

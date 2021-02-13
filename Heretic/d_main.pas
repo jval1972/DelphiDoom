@@ -139,6 +139,7 @@ uses
   d_notifications,
   c_con,
   c_cmds,
+  d_check,
   e_endoom,
 {$IFNDEF OPENGL}
   f_wipe,
@@ -798,6 +799,7 @@ begin
     try
       wadfiles.Add(fname);
       PAK_AddFile(fname);
+      D_CheckCustomWad(fname);
     {$IFDEF OPENGL}
     // JVAL: If exists automatically loads GWA file
     // GL_xxxx lumps has lower priority from GWA files, that's for we
@@ -2191,7 +2193,7 @@ begin
   p := M_CheckParm('-loadgame');
   if (p <> 0) and (p < myargc - 1) then
   begin
-    sprintf(filename, M_SaveFileName(SAVEGAMENAME) + '%s.dsg', [myargv[p + 1][1]]);
+    sprintf(filename, M_SaveFileName(D_GetSavePath + SAVEGAMENAME) + '%s.dsg', [myargv[p + 1][1]]);
     G_LoadGame(filename);
   end;
 

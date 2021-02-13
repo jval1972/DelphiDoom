@@ -373,7 +373,9 @@ uses
   p_aaptr in 'Base\p_aaptr.pas',
   sc_consts in 'Base\sc_consts.pas',
   p_obituaries in 'Base\p_obituaries.pas',
-  p_gender in 'Base\p_gender.pas';
+  p_gender in 'Base\p_gender.pas',
+  d_check in 'Heretic\d_check.pas',
+  w_wadreader in 'Base\w_wadreader.pas';
 
 exports
   dd_compile_heretic,
