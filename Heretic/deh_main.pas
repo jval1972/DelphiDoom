@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 356;
+  DEHNUMACTIONS = 360;
 
 type
   deh_action_t = record
@@ -3093,6 +3093,18 @@ begin
   deh_actions[355].action.acp1 := @A_LocalEarthQuake;
   deh_actions[355].name := strupper('Quake');
   {$IFDEF DLL}deh_actions[355].decl := 'A_Quake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)';{$ENDIF}
+  deh_actions[356].action.acp1 := @A_RemoveChildren;
+  deh_actions[356].name := strupper('RemoveChildren');
+  {$IFDEF DLL}deh_actions[356].decl := 'A_RemoveChildren([flags: integer])';{$ENDIF}
+  deh_actions[357].action.acp1 := @A_RemoveSiblings;
+  deh_actions[357].name := strupper('RemoveSiblings');
+  {$IFDEF DLL}deh_actions[357].decl := 'A_RemoveSiblings([flags: integer])';{$ENDIF}
+  deh_actions[358].action.acp1 := @A_KillChildren;
+  deh_actions[358].name := strupper('KillChildren');
+  {$IFDEF DLL}deh_actions[358].decl := 'A_KillChildren()';{$ENDIF}
+  deh_actions[359].action.acp1 := @A_KillSiblings;
+  deh_actions[359].name := strupper('KillSiblings');
+  {$IFDEF DLL}deh_actions[359].decl := 'A_KillSiblings()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
