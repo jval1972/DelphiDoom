@@ -455,6 +455,8 @@ procedure A_LocalEarthQuake(actor: Pmobj_t);
 
 procedure A_RemoveChildren(actor: Pmobj_t);
 
+procedure A_RemoveSiblings(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5843,6 +5845,38 @@ begin
       mo := Pmobj_t(think);
       if mo.master = actor then
         P_DoRemoveThing(mo, flags);
+    end;
+    think := think.next;
+  end;
+end;
+
+//
+// A_RemoveSiblings([flags: integer]);
+// JVAL: incomplete
+//
+procedure A_RemoveSiblings(actor: Pmobj_t);
+var
+  flags: integer;
+  think: Pthinker_t;
+  mo: Pmobj_t;
+begin
+  if actor.master = nil then
+    exit;
+
+  if actor.state.params <> nil then
+    flags := actor.state.params.IntVal[0]
+  else
+    flags := 0;
+
+  think := thinkercap.next;
+  while think <> @thinkercap do
+  begin
+    if @think._function.acp1 = @P_MobjThinker then
+    begin
+      mo := Pmobj_t(think);
+      if mo <> actor then
+        if mo.master = actor.master then
+          P_DoRemoveThing(mo, flags);
     end;
     think := think.next;
   end;
