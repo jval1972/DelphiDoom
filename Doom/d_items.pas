@@ -51,7 +51,7 @@ type
   Pweaponinfo_t = ^weaponinfo_t;
 
 //
-// PSPRITE ACTIONS for waepons.
+// PSPRITE ACTIONS for weapons.
 // This struct controls the weapon animations.
 //
 // Each entry is:
