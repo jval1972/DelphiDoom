@@ -45,7 +45,8 @@ uses
   d_delphi,
   d_player,
   p_common,
-  p_gender;
+  p_gender,
+  w_wad;
 
 procedure P_Obituary(const victim, inflictor, attacker: Pmobj_t);
 var
@@ -53,6 +54,8 @@ var
   messagefmt: string;
   vname, aname: string;
   agender: gender_t;
+  lst: TDStringList;
+  lump: integer;
 begin
   if not show_obituaries then
     exit;
@@ -87,6 +90,21 @@ begin
 
   if messagefmt = '' then
     exit;
+
+  if Pos('$OB_', strupper(messagefmt)) = 1 then
+  begin
+    lst := TDStringList.Create;
+    try
+      lump := W_CheckNumForName('OBITUARY');
+      if lump >= 0 then
+      begin
+        lst.Text := strupper(W_TextLumpNum(lump));
+        messagefmt := lst.Values[strupper(Copy(messagefmt, 2, Length(messagefmt) - 1))];
+      end;
+    finally
+      lst.Free
+    end;
+  end;
 
   vname := 'Player ' + itoa(PlayerToId(pv));
 
