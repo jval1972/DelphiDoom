@@ -56,6 +56,9 @@ var
   agender: gender_t;
   lst: TDStringList;
   lump: integer;
+  i: integer;
+  s1, s2: string;
+  check: string;
 begin
   if not show_obituaries then
     exit;
@@ -99,7 +102,17 @@ begin
       if lump >= 0 then
       begin
         lst.Text := strupper(W_TextLumpNum(lump));
-        messagefmt := lst.Values[strupper(Copy(messagefmt, 2, Length(messagefmt) - 1))];
+        check := strtrim(strupper(Copy(messagefmt, 2, Length(messagefmt) - 1)));
+        for i := 0 to lst.Count - 1 do
+        begin
+          splitstring(lst.Strings[i], s1, s2);
+          s1 := strtrim(s1);
+          if s1 = check then
+          begin
+            messagefmt := s2;
+            break;
+          end;
+        end;
       end;
     finally
       lst.Free
