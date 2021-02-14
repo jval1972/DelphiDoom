@@ -457,6 +457,8 @@ procedure A_RemoveChildren(actor: Pmobj_t);
 
 procedure A_RemoveSiblings(actor: Pmobj_t);
 
+procedure A_KillChildren(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5877,6 +5879,28 @@ begin
       if mo <> actor then
         if mo.master = actor.master then
           P_DoRemoveThing(mo, flags);
+    end;
+    think := think.next;
+  end;
+end;
+
+//
+// A_KillChildren
+// JVAL: incomplete
+//
+procedure A_KillChildren(actor: Pmobj_t);
+var
+  think: Pthinker_t;
+  mo: Pmobj_t;
+begin
+  think := thinkercap.next;
+  while think <> @thinkercap do
+  begin
+    if @think._function.acp1 = @P_MobjThinker then
+    begin
+      mo := Pmobj_t(think);
+      if mo.master = actor then
+        P_DamageMobj(mo, actor, actor, mo.health);
     end;
     think := think.next;
   end;
