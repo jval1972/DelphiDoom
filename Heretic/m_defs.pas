@@ -42,6 +42,7 @@ uses
   p_mobj_h,
   p_setup,
   p_adjust,
+  p_obituaries,
   i_system,
   i_mp3,
   i_music,
@@ -158,7 +159,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 192;
+  NUMDEFAULTS = 193;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -1479,8 +1480,16 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;
-     defaultbvalue: false;
+     defaultbvalue: true;
      _type: tInteger),
+
+    (name: 'show_obituaries';
+     location: @show_obituaries;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: false;
+     _type: tBoolean),
 
     (name: 'Chat strings';
      location: nil;
