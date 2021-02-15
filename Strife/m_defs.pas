@@ -121,7 +121,7 @@ var
   preciseslopedrawing: boolean; // JVAL: Slopes
   r_drawvoxels: boolean;
   showfullhdlogo: boolean = false;
-  soft_fullscreen: integer = 0;
+  soft_fullscreen: integer = 1;
   r_uselightmaps: boolean = true;
   r_lightmapfadeoutfunc: integer = 0;
   lightmapcolorintensity: integer = 128;
@@ -202,7 +202,7 @@ const
      location: {$IFDEF OPENGL}@soft_fullscreen{$ELSE}@fullscreen{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 0;
+     defaultivalue: 1;
      defaultbvalue: true;
      _type: tInteger),
 
@@ -226,7 +226,7 @@ const
      location: {$IFDEF OPENGL}@fullscreen{$ELSE}@gl_fullscreen{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 0;
+     defaultivalue: 1;
      defaultbvalue: true;
      _type: tBoolean),
 
