@@ -145,13 +145,13 @@ procedure PS_SetActorArg4(const key: LongWord; const value: Integer);
 function PS_GetActorArg5(const key: LongWord): Integer;
 procedure PS_SetActorArg5(const key: LongWord; const value: Integer);
 
-function PS_GetActorName(const key: LongWord): string;
-
 function PS_GetActorWeaveIndexXY(const key: LongWord): Integer;
 procedure PS_SetActorWeaveIndexXY(const key: LongWord; const value: Integer);
 
 function PS_GetActorWeaveIndexZ(const key: LongWord): Integer;
 procedure PS_SetActorWeaveIndexZ(const key: LongWord; const value: Integer);
+
+function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
 function PS_GetActorName2(const key: LongWord): string;
@@ -1838,7 +1838,7 @@ begin
   mo := mobj_from_key(key);
   if mo = nil then
   begin
-    Result := '';
+    Result := 0;
     Exit;
   end;
   Result := mo.WeaveIndexXY;
@@ -1861,7 +1861,7 @@ begin
   mo := mobj_from_key(key);
   if mo = nil then
   begin
-    Result := '';
+    Result := 0;
     Exit;
   end;
   Result := mo.WeaveIndexZ;
@@ -3139,6 +3139,26 @@ end;
 procedure TRTLActorArg5_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorArg5(LongWord(Self));
+end;
+
+procedure TRTLActorWeaveIndexXY_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorWeaveIndexXY(LongWord(Self), T);
+end;
+
+procedure TRTLActorWeaveIndexXY_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorWeaveIndexXY(LongWord(Self));
+end;
+
+procedure TRTLActorWeaveIndexZ_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorWeaveIndexZ(LongWord(Self), T);
+end;
+
+procedure TRTLActorWeaveIndexZ_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorWeaveIndexZ(LongWord(Self));
 end;
 
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
@@ -6781,6 +6801,8 @@ begin
   cactor.RegisterProperty('Arg4', 'Integer', iptRW);
   cactor.RegisterProperty('Arg5', 'Integer', iptRW);
   cactor.RegisterProperty('Height', 'fixed_t', iptRW);
+  cactor.RegisterProperty('WeaveIndexXY', 'Integer', iptRW);
+  cactor.RegisterProperty('WeaveIndexZ', 'Integer', iptRW);;
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
   cactor.RegisterProperty('Flag', 'Boolean LongWord', iptRW);
@@ -7036,6 +7058,8 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorArg3_R, @TRTLActorArg3_W, 'Arg3');
   ractor.RegisterPropertyHelper(@TRTLActorArg4_R, @TRTLActorArg4_W, 'Arg4');
   ractor.RegisterPropertyHelper(@TRTLActorArg5_R, @TRTLActorArg5_W, 'Arg5');
+  ractor.RegisterPropertyHelper(@TRTLActorWeaveIndexXY_R, @TRTLActorWeaveIndexXY_W, 'WeaveIndexXY');
+  ractor.RegisterPropertyHelper(@TRTLActorWeaveIndexZ_R, @TRTLActorWeaveIndexZ_W, 'WeaveIndexZ');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');
