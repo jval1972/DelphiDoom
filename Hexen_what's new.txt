@@ -83,6 +83,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_RemoveSiblings([flags: integer])
   - A_KillChildren
   - A_KillSiblings
+  - A_Weave(xyspeed: integer, zspeed: integer, xydist: float, zdist: float)
 DEHACKED export will add a comment with command line parameters.
 No delay to return to desktop when finished.
 Corrected DEHACKED export to ACTORDEF (renderstyle field).

@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 462;
+  DEHNUMACTIONS = 463;
 
 type
   deh_action_t = record
@@ -3330,6 +3330,9 @@ begin
   deh_actions[461].action.acp1 := @A_KillSiblings;
   deh_actions[461].name := strupper('KillSiblings');
   {$IFDEF DLL}deh_actions[461].decl := 'A_KillSiblings()';{$ENDIF}
+  deh_actions[462].action.acp1 := @A_Weave;
+  deh_actions[462].name := strupper('Weave');
+  {$IFDEF DLL}deh_actions[462].decl := 'A_Weave(xyspeed: integer = 2, zspeed: integer = 2, xydist: float = 2.0, zdist: float = 1.0)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
