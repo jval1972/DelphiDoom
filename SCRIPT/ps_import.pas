@@ -507,6 +507,8 @@ begin
   baseproclist.Add('function GetMobjInfoMaxDropOffHeight(const typ: integer): integer;', @PS_GetMobjInfoMaxDropOffHeight);
   baseproclist.Add('function GetMobjInfoGibHealth(const typ: integer): integer;', @PS_GetMobjInfoGibHealth);
   baseproclist.Add('function GetMobjInfoMaxTargetRange(const typ: integer): integer;', @PS_GetMobjInfoMaxTargetRange);
+  baseproclist.Add('function GetMobjInfoWeaveIndexXY(const typ: integer): integer;', @PS_GetMobjInfoWeaveIndexXY);
+  baseproclist.Add('function GetMobjInfoWeaveIndexZ(const typ: integer): integer;', @PS_GetMobjInfoWeaveIndexZ);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);

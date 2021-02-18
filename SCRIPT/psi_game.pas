@@ -147,6 +147,12 @@ procedure PS_SetActorArg5(const key: LongWord; const value: Integer);
 
 function PS_GetActorName(const key: LongWord): string;
 
+function PS_GetActorWeaveIndexXY(const key: LongWord): Integer;
+procedure PS_SetActorWeaveIndexXY(const key: LongWord; const value: Integer);
+
+function PS_GetActorWeaveIndexZ(const key: LongWord): Integer;
+procedure PS_SetActorWeaveIndexZ(const key: LongWord; const value: Integer);
+
 {$IFDEF STRIFE}
 function PS_GetActorName2(const key: LongWord): string;
 {$ENDIF}
@@ -638,6 +644,10 @@ function PS_GetMobjInfoMaxDropOffHeight(const typ: integer): integer;
 function PS_GetMobjInfoGibHealth(const typ: integer): integer;
 
 function PS_GetMobjInfoMaxTargetRange(const typ: integer): integer;
+
+function PS_GetMobjInfoWeaveIndexXY(const typ: integer): integer;
+
+function PS_GetMobjInfoWeaveIndexZ(const typ: integer): integer;
 
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
@@ -1819,6 +1829,52 @@ end;
 procedure PS_SetActorArg5(const key: LongWord; const value: Integer);
 begin
   _SetActorArg(4, key, value);
+end;
+
+function PS_GetActorWeaveIndexXY(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := mo.WeaveIndexXY;
+end;
+
+procedure PS_SetActorWeaveIndexXY(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.WeaveIndexXY := value;
+end;
+
+function PS_GetActorWeaveIndexZ(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := '';
+    Exit;
+  end;
+  Result := mo.WeaveIndexZ;
+end;
+
+procedure PS_SetActorWeaveIndexZ(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.WeaveIndexXY := value;
 end;
 
 function PS_GetActorName(const key: LongWord): string;
@@ -5777,6 +5833,26 @@ begin
   Result := mobjinfo[typ].maxtargetrange;
 end;
 
+function PS_GetMobjInfoWeaveIndexXY(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].WeaveIndexXY;
+end;
+
+function PS_GetMobjInfoWeaveIndexZ(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].WeaveIndexZ;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -6094,6 +6170,16 @@ end;
 procedure TRTLMobjInfoItemMaxTargetRange_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoMaxTargetRange(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemWeaveIndexXY_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoWeaveIndexXY(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemWeaveIndexZ_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoWeaveIndexZ(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6876,6 +6962,8 @@ begin
   cmobjinfoitem.RegisterProperty('MaxDropOffHeight', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('GibHealth', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('MaxTargetRange', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('WeaveIndexXY', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('WeaveIndexZ', 'Integer', iptR);
 
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
@@ -7122,6 +7210,8 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxDropOffHeight_R, nil, 'MaxDropOffHeight');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemGibHealth_R, nil, 'GibHealth');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxTargetRange_R, nil, 'MaxTargetRange');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemWeaveIndexXY_R, nil, 'WeaveIndexXY');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemWeaveIndexZ_R, nil, 'WeaveIndexZ');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
