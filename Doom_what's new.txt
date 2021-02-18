@@ -82,6 +82,7 @@ A lot of new ACTORDEF functions to improve ZDoom compatibility:
   - A_RemoveSiblings([flags: integer])
   - A_KillChildren
   - A_KillSiblings
+  - A_Weave(xyspeed: integer, zspeed: integer, xydist: float, zdist: float)
 Support for DEHEXTRA.
 Multiple DEHACKED files inside WAD and PK3.
 DEHACKED export will add a comment with command line parameters.
