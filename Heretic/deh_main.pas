@@ -1154,7 +1154,8 @@ begin
           6: p_maxarmor := misc_val;
           7: p_greenarmorclass := misc_val;
           8: p_bluearmorclass := misc_val;
-          9: p_maxartifacts := misc_val;
+          9: p_maxchickenhealth := misc_val;
+         10: p_maxartifacts := misc_val;
         end;
       end;
 
@@ -1708,7 +1709,6 @@ begin
   result.Add('');
 
   result.Add('%s = %d', [capitalizedstring(misc_tokens[0]), p_maxhealth]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[9]), p_maxchickenhealth]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[1]), p_soulspherehealth]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[2]), p_megaspherehealth]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[3]), p_medikithealth]);
@@ -1717,7 +1717,8 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[6]), p_maxarmor]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[7]), p_greenarmorclass]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[8]), p_bluearmorclass]);
-  result.Add('%s = %d', [capitalizedstring(misc_tokens[9]), p_maxartifacts]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[9]), p_maxchickenhealth]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[10]), p_maxartifacts]);
 
   result.Add('');
 
