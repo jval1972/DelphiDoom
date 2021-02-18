@@ -894,6 +894,8 @@ begin
     mobj.bob := N_Random and FLOATBOBMASK;
   mobj.health := info.spawnhealth;
   mobj.mass := info.mass;
+  mobj.WeaveIndexXY := info.WeaveIndexXY;
+  mobj.WeaveIndexZ := info.WeaveIndexZ;
 
   mobj.reactiontime := info.reactiontime;
 

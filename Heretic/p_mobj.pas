@@ -1031,6 +1031,8 @@ begin
     mobj.bob := P_Random and FLOATBOBMASK;
   mobj.health := info.spawnhealth;
   mobj.mass := info.mass;
+  mobj.WeaveIndexXY := info.WeaveIndexXY;
+  mobj.WeaveIndexZ := info.WeaveIndexZ;
 
   if gameskill <> sk_nightmare then
     mobj.reactiontime := info.reactiontime;

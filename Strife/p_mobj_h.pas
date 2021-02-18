@@ -543,6 +543,8 @@ type
     args: array[0..4] of integer;
     special: integer;
     master: Pmobj_t;
+    WeaveIndexXY: integer;
+    WeaveIndexZ: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

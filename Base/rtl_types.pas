@@ -141,6 +141,8 @@ type
     maxdropoffheight: integer;
     gibhealth: integer;
     maxtargetrange: integer;
+    WeaveIndexXY: integer;
+    WeaveIndexZ: integer;
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 

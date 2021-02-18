@@ -461,6 +461,8 @@ procedure A_KillChildren(actor: Pmobj_t);
 
 procedure A_KillSiblings(actor: Pmobj_t);
 
+procedure A_Weave(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5932,6 +5934,67 @@ begin
     end;
     think := think.next;
   end;
+end;
+
+//
+// A_Weave(xyspeed: integer, zspeed: integer, xydist: float, zdist: float)
+//
+procedure A_Weave(actor: Pmobj_t);
+var
+  xyspeed: integer;
+  zspeed: integer;
+  xydist: fixed_t;
+  zdist: fixed_t;
+  newX, newY: fixed_t;
+  weaveXY, weaveZ: integer;
+  angle: angle_t;
+  dist: fixed_t;
+begin
+  xyspeed := 2;
+  zspeed := 2;
+  xydist := 2 * FRACUNIT;
+  zdist := FRACUNIT;
+  if actor.state.params <> nil then
+  begin
+    if actor.state.params.Count >= 1 then
+    begin
+      xyspeed := actor.state.params.IntVal[0];
+      if actor.state.params.Count >= 2 then
+      begin
+        zspeed := actor.state.params.IntVal[1];
+        if actor.state.params.Count >= 3 then
+        begin
+          xydist := actor.state.params.FixedVal[2];
+          if actor.state.params.Count >= 4 then
+          begin
+            zdist := actor.state.params.FixedVal[3];
+          end;
+        end;
+      end;
+    end;
+  end;
+
+  weaveXY := actor.WeaveIndexXY;
+  weaveZ := actor.WeaveIndexZ;
+  angle := (actor.angle + ANG90) shr ANGLETOFINESHIFT;
+
+  dist := FixedMul(FloatBobOffsets[weaveXY], xydist);
+  newX := actor.x - FixedMul(finecosine[angle], dist);
+  dist := FixedMul(FloatBobOffsets[weaveZ], zdist);
+  newY := actor.y - FixedMul(finesine[angle], dist);
+  weaveXY := (weaveXY + xyspeed) and FLOATBOBMASK;
+  dist := FixedMul(FloatBobOffsets[weaveXY], xydist);
+  newX := newX - FixedMul(finecosine[angle], dist);
+  dist := FixedMul(FloatBobOffsets[weaveZ], zdist);
+  newY := newY - FixedMul(finesine[angle], dist);
+  P_TryMove(actor, newX, newY);
+  dist := FixedMul(FloatBobOffsets[weaveXY], zdist);
+  actor.z := actor.z - dist;
+  weaveZ := (weaveZ + zspeed) and FLOATBOBMASK;
+  actor.z := actor.z + FloatBobOffsets[weaveZ];
+
+  actor.WeaveIndexXY := weaveXY;
+  actor.WeaveIndexZ := weaveZ;
 end;
 
 end.

@@ -551,6 +551,8 @@ begin
           58: mobjinfo[mobj_no].maxdropoffheight := DEH_FixedOrFloat(token2, 64);
           59: mobjinfo[mobj_no].gibhealth := mobj_val;
           60: mobjinfo[mobj_no].maxtargetrange := mobj_val;
+          61: mobjinfo[mobj_no].WeaveIndexXY := mobj_val;
+          62: mobjinfo[mobj_no].WeaveIndexZ := mobj_val;
         end;
       end;
 
@@ -1582,6 +1584,8 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[58]), mobjinfo[i].maxdropoffheight]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[59]), mobjinfo[i].gibhealth]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[60]), mobjinfo[i].maxtargetrange]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[61]), mobjinfo[i].WeaveIndexXY]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[62]), mobjinfo[i].WeaveIndexZ]);
 
     result.Add('');
   end;
@@ -1831,6 +1835,8 @@ begin
   mobj_tokens.Add('MAX DROPOFF HEIGHT'); // .maxdropoffheight         // 58
   mobj_tokens.Add('GIB HEALTH');         // .gibhealth                // 59
   mobj_tokens.Add('MAX TARGET RANGE');   // .maxtargetrange           // 60
+  mobj_tokens.Add('WEAVE INDEX XY');     // .WeaveIndexXY             // 61
+  mobj_tokens.Add('WEAVE INDEX Z');      // .WeaveIndexZ              // 62
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

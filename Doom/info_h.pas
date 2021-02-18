@@ -570,6 +570,8 @@ type
     maxdropoffheight: integer;
     gibhealth: integer;
     maxtargetrange: integer;
+    WeaveIndexXY: integer;
+    WeaveIndexZ: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

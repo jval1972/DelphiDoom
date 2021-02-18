@@ -1385,6 +1385,8 @@ var
     AddRes('Max DropOff Height = ' + itoa(mobj.maxdropoffheight));
     AddRes('Gib Health = ' + itoa(mobj.gibhealth));
     AddRes('Max Target Range = ' + itoa(mobj.maxtargetrange));
+    AddRes('Weave Index XY = ' + itoa(mobj.WeaveIndexXY));
+    AddRes('Weave Index Z = ' + itoa(mobj.WeaveIndexZ));
 
     AddRes('');
 
@@ -1844,6 +1846,8 @@ begin
           mobj.maxdropoffheight := pinf.maxdropoffheight;
           mobj.gibhealth := pinf.gibhealth;
           mobj.maxtargetrange := pinf.maxtargetrange;
+          mobj.WeaveIndexXY := pinf.WeaveIndexXY;
+          mobj.WeaveIndexZ := pinf.WeaveIndexZ;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -2005,6 +2009,20 @@ begin
         begin
           sc.GetInteger;
           mobj.maxtargetrange := sc._Integer;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('WEAVEINDEXXY') then
+        begin
+          sc.GetInteger;
+          mobj.WeaveIndexXY := sc._Integer;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('WEAVEINDEXZ') then
+        begin
+          sc.GetInteger;
+          mobj.WeaveIndexZ := sc._Integer;
           sc.GetString;
         end
 
@@ -2866,6 +2884,10 @@ begin
     AddLn('GibHealth ' + itoa(m.gibhealth));
   if m.maxtargetrange <> 0 then
     AddLn('MaxTargetRange ' + itoa(m.maxtargetrange));
+  if m.WeaveIndexXY <> 0 then
+    AddLn('WeaveIndexXY ' + itoa(m.WeaveIndexXY));
+  if m.WeaveIndexZ <> 0 then
+    AddLn('WeaveIndexZ ' + itoa(m.WeaveIndexZ));
 
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then
