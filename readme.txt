@@ -24,6 +24,7 @@
 //  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
+Latest version Downloads: https://sourceforge.net/projects/delphidoom/files/DelphiDoom%202.0.6/
 
 General
 -------
