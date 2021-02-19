@@ -135,6 +135,7 @@ Added A_Quake() & A_LocalEarthQuake() ACTORDEF functions.
 Savegame directories depending on IWAD/PWAD.
 Fixed 'MAX CHICKEN HEALTH' DEHACKED field under Misc session.
 Added GetActorWeaveIndexXY, SetActorWeaveIndexXY, GetActorWeaveIndexZ, SetActorWeaveIndexZ, GetMobjInfoWeaveIndexXY & GetMobjInfoWeaveIndexZ PascalScript functions.
+Added A_SetWeaveIndexXY(), A_SetWeaveIndexZ() & A_SetWeaveIndexes ACTORDEF functions.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------
