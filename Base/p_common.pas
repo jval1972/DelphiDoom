@@ -469,6 +469,8 @@ procedure A_SetWeaveIndexZ(actor: Pmobj_t);
 
 procedure A_SetWeaveIndexes(actor: Pmobj_t);
 
+procedure A_SetHeight(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -6037,5 +6039,15 @@ begin
   actor.WeaveIndexZ := actor.state.params.IntVal[1] and FLOATBOBMASK;
 end;
 
+//
+// A_SetHeight(newheight: float)
+//
+procedure A_SetHeight(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.height := actor.state.params.FixedVal[0];
+end;
 
 end.
