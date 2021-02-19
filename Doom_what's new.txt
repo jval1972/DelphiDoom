@@ -147,6 +147,7 @@ Added A_Quake() & A_LocalEarthQuake() ACTORDEF functions.
 Doom2 BFG correction - For missing level MAP33 but with secret exit in MAP02.
 Savegame directories depending on IWAD/PWAD.
 Added GetActorWeaveIndexXY, SetActorWeaveIndexXY, GetActorWeaveIndexZ, SetActorWeaveIndexZ, GetMobjInfoWeaveIndexXY & GetMobjInfoWeaveIndexZ PascalScript functions.
+Added A_SetWeaveIndexXY(), A_SetWeaveIndexZ() & A_SetWeaveIndexes ACTORDEF functions.
 
 Version 2.0.5 build 727 - (4/12/2020)
 -----------------------

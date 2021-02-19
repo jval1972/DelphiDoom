@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 335;
+  DEHNUMACTIONS = 338;
 
 type
   deh_action_t = record
@@ -3006,6 +3006,15 @@ begin
   deh_actions[334].action.acp1 := @A_Weave;
   deh_actions[334].name := strupper('Weave');
   {$IFDEF DLL}deh_actions[334].decl := 'A_Weave(xyspeed: integer = 2, zspeed: integer = 2, xydist: float = 2.0, zdist: float = 1.0)';{$ENDIF}
+  deh_actions[335].action.acp1 := @A_SetWeaveIndexXY;
+  deh_actions[335].name := strupper('SetWeaveIndexXY');
+  {$IFDEF DLL}deh_actions[335].decl := 'A_SetWeaveIndexXY(weavexy: integer)';{$ENDIF}
+  deh_actions[336].action.acp1 := @A_SetWeaveIndexZ;
+  deh_actions[336].name := strupper('SetWeaveIndexZ');
+  {$IFDEF DLL}deh_actions[336].decl := 'A_SetWeaveIndexZ(weavez: integer)';{$ENDIF}
+  deh_actions[337].action.acp1 := @A_SetWeaveIndexes;
+  deh_actions[337].name := strupper('SetWeaveIndexes');
+  {$IFDEF DLL}deh_actions[337].decl := 'A_SetWeaveIndexes(weavexy: integer, weavez: integer)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
