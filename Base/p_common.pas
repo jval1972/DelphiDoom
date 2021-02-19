@@ -463,6 +463,12 @@ procedure A_KillSiblings(actor: Pmobj_t);
 
 procedure A_Weave(actor: Pmobj_t);
 
+procedure A_SetWeaveIndexXY(actor: Pmobj_t);
+
+procedure A_SetWeaveIndexZ(actor: Pmobj_t);
+
+procedure A_SetWeaveIndexes(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -5996,5 +6002,40 @@ begin
   actor.WeaveIndexXY := weaveXY;
   actor.WeaveIndexZ := weaveZ;
 end;
+
+//
+// A_SetWeaveIndexXY(weavexy: integer)
+//
+procedure A_SetWeaveIndexXY(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.WeaveIndexXY := actor.state.params.IntVal[0] and FLOATBOBMASK;
+end;
+
+//
+// A_SetWeaveIndexZ(weavez: integer)
+//
+procedure A_SetWeaveIndexZ(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.WeaveIndexZ := actor.state.params.IntVal[0] and FLOATBOBMASK;
+end;
+
+//
+// A_SetWeaveIndexes(weavexy: integer, weavez: integer)
+//
+procedure A_SetWeaveIndexes(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 2) then
+    exit;
+
+  actor.WeaveIndexXY := actor.state.params.IntVal[0] and FLOATBOBMASK;
+  actor.WeaveIndexZ := actor.state.params.IntVal[1] and FLOATBOBMASK;
+end;
+
 
 end.
