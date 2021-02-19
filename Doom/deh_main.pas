@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 338;
+  DEHNUMACTIONS = 339;
 
 type
   deh_action_t = record
@@ -3036,6 +3036,9 @@ begin
   deh_actions[337].action.acp1 := @A_SetWeaveIndexes;
   deh_actions[337].name := strupper('SetWeaveIndexes');
   {$IFDEF DLL}deh_actions[337].decl := 'A_SetWeaveIndexes(weavexy: integer, weavez: integer)';{$ENDIF}
+  deh_actions[338].action.acp1 := @A_SetHeight;
+  deh_actions[338].name := strupper('SetHeight');
+  {$IFDEF DLL}deh_actions[338].decl := 'A_SetHeight(newheight: float)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
