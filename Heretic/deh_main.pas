@@ -134,6 +134,12 @@ uses
 
 var
   mobj_tokens_hash: TDEHStringsHashTable;
+  mobj_flags_hash: TDEHStringsHashTable;
+  mobj_flags2_hash: TDEHStringsHashTable;
+  mobj_flags_ex_hash: TDEHStringsHashTable;
+  mobj_flags2_ex_hash: TDEHStringsHashTable;
+  mobj_flags3_ex_hash: TDEHStringsHashTable;
+  mobj_flags4_ex_hash: TDEHStringsHashTable;
 
 procedure DEH_AddString(deh_strings: Pdeh_strings_t; pstr: PString; const name: string);
 begin
@@ -351,9 +357,9 @@ begin
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     token3 := strtrim(token3);
-                    mobj_flag := mobj_flags.IndexOf('MF_' + token3);
+                    mobj_flag := mobj_flags_hash.IndexOf('MF_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags.IndexOf(token3);
+                      mobj_flag := mobj_flags_hash.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
                       if mobj_flag = 31 then
@@ -382,11 +388,11 @@ begin
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     token3 := strtrim(token3);
-                    mobj_flag := mobj_flags2.IndexOf('MF2_' + token3);
+                    mobj_flag := mobj_flags2_hash.IndexOf('MF2_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags2.IndexOf('MF_' + token3);
+                      mobj_flag := mobj_flags2_hash.IndexOf('MF_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags2.IndexOf(token3);
+                      mobj_flag := mobj_flags2_hash.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
                       if mobj_setflag = -1 then
@@ -411,11 +417,11 @@ begin
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
                     token3 := strtrim(token3);
-                    mobj_flag := mobj_flags_ex.IndexOf('MF_EX_' + token3);
+                    mobj_flag := mobj_flags_ex_hash.IndexOf('MF_EX_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags_ex.IndexOf('MF_' + token3);
+                      mobj_flag := mobj_flags_ex_hash.IndexOf('MF_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags_ex.IndexOf(token3);
+                      mobj_flag := mobj_flags_ex_hash.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
                       if mobj_setflag = -1 then
@@ -472,9 +478,9 @@ begin
                   mobj_setflag := -1;
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
-                    mobj_flag := mobj_flags2_ex.IndexOf('MF2_EX_' + token3);
+                    mobj_flag := mobj_flags2_ex_hash.IndexOf('MF2_EX_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags2_ex.IndexOf(token3);
+                      mobj_flag := mobj_flags2_ex_hash.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
                       if mobj_setflag = -1 then
@@ -502,9 +508,9 @@ begin
                   mobj_setflag := -1;
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
-                    mobj_flag := mobj_flags3_ex.IndexOf('MF3_EX_' + token3);
+                    mobj_flag := mobj_flags3_ex_hash.IndexOf('MF3_EX_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags3_ex.IndexOf(token3);
+                      mobj_flag := mobj_flags3_ex_hash.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
                       if mobj_setflag = -1 then
@@ -527,9 +533,9 @@ begin
                   mobj_setflag := -1;
                   repeat
                     splitstring(token2, token3, token4, [' ', '|', ',', '+']);
-                    mobj_flag := mobj_flags4_ex.IndexOf('MF4_EX_' + token3);
+                    mobj_flag := mobj_flags4_ex_hash.IndexOf('MF4_EX_' + token3);
                     if mobj_flag = -1 then
-                      mobj_flag := mobj_flags4_ex.IndexOf(token3);
+                      mobj_flag := mobj_flags4_ex_hash.IndexOf(token3);
                     if mobj_flag >= 0 then
                     begin
                       if mobj_setflag = -1 then
@@ -1900,6 +1906,9 @@ begin
   mobj_flags.Add('MF_UNUSED4');
   mobj_flags.Add('MF_TRANSLUCENT');
 
+  mobj_flags_hash := TDEHStringsHashTable.Create;
+  mobj_flags_hash.AssignList(mobj_flags);
+
 
   mobj_flags2 := TDTextList.Create;
   mobj_flags2.Add('MF2_LOGRAV');
@@ -1923,6 +1932,9 @@ begin
   mobj_flags2.Add('MF2_TELESTOMP');
   mobj_flags2.Add('MF2_FLOATBOB');
   mobj_flags2.Add('MF2_DONTDRAW');
+
+  mobj_flags2_hash := TDEHStringsHashTable.Create;
+  mobj_flags2_hash.AssignList(mobj_flags);
 
 
   mobj_flags_ex := TDTextList.Create;
@@ -1958,6 +1970,9 @@ begin
   mobj_flags_ex.Add('MF_EX_THRUGHOST');
   mobj_flags_ex.Add('MF_EX_LOOKALLAROUND');
 
+  mobj_flags_ex_hash := TDEHStringsHashTable.Create;
+  mobj_flags_ex_hash.AssignList(mobj_flags_ex);
+
 
   mobj_flags2_ex := TDTextList.Create;
   mobj_flags2_ex.Add('MF2_EX_MEDIUMGRAVITY');
@@ -1981,6 +1996,9 @@ begin
   mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
   mobj_flags2_ex.Add('MF2_EX_JUMPUP');
   mobj_flags2_ex.Add('MF2_EX_DONTBLOCKPLAYER');
+
+  mobj_flags2_ex_hash := TDEHStringsHashTable.Create;
+  mobj_flags2_ex_hash.AssignList(mobj_flags2_ex);
 
 
   mobj_flags3_ex := TDTextList.Create;
@@ -2006,8 +2024,15 @@ begin
   mobj_flags3_ex.Add('MF3_EX_NOBLOCKMONST');
   mobj_flags3_ex.Add('MF3_EX_NOTAUTOAIMED');
 
+  mobj_flags3_ex_hash := TDEHStringsHashTable.Create;
+  mobj_flags3_ex_hash.AssignList(mobj_flags3_ex);
+
 
   mobj_flags4_ex := TDTextList.Create;
+
+  mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
+  mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
+
 
   // JVAL: 20200330 - State flags
   state_flags_ex := TDTextList.Create;
@@ -3125,7 +3150,7 @@ begin
   deh_actions[363].name := strupper('SetWeaveIndexes');
   {$IFDEF DLL}deh_actions[363].decl := 'A_SetWeaveIndexes(weavexy: integer, weavez: integer)';{$ENDIF}
 
-  
+
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
 
@@ -3416,6 +3441,12 @@ begin
   FreeAndNil(misc_tokens);
 
   FreeAndNil(mobj_tokens_hash);
+  FreeAndNil(mobj_flags_hash);
+  FreeAndNil(mobj_flags2_hash);
+  FreeAndNil(mobj_flags_ex_hash);
+  FreeAndNil(mobj_flags2_ex_hash);
+  FreeAndNil(mobj_flags3_ex_hash);
+  FreeAndNil(mobj_flags4_ex_hash);
 
   DEH_ShutDownActionsHash;
 
