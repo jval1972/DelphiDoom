@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1366x768 EXAMPLE_17_DYNAMIC_SLOPES.wad
+RunParams=-nofullscreen -geom 1920x1080 F:\DelphiDoom_2.0.6.728\Examples\DOOM_SNAKE_GAME.wad
 HostApplication=
 Launcher=
 UseLauncher=0

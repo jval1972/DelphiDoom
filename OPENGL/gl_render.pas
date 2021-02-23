@@ -3965,15 +3965,20 @@ begin
   end;
 
   last_gltexture := nil;
-  texitem := @modeltexturemanager.items[info.texture];
-  if texitem.tex = 0 then
+  if info.texture >= 0 then
   begin
-    texitem.tex := gld_LoadExternalTexture(texitem.name, true, GL_REPEAT);
+    texitem := @modeltexturemanager.items[info.texture];
     if texitem.tex = 0 then
-      I_DevError('gld_DrawModel(): Can not load texture %s'#13#10, [texitem.name]);
-  end;
+    begin
+      texitem.tex := gld_LoadExternalTexture(texitem.name, true, GL_REPEAT);
+      if texitem.tex = 0 then
+        I_DevError('gld_DrawModel(): Can not load texture %s'#13#10, [texitem.name]);
+    end;
 
-  glBindTexture(GL_TEXTURE_2D, texitem.tex);
+    glBindTexture(GL_TEXTURE_2D, texitem.tex);
+  end
+  else
+    glBindTexture(GL_TEXTURE_2D, 0);
 
   modelinf := @modelmanager.items[info.modelidx];
   if modelinf.model = nil then

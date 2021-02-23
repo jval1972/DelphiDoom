@@ -1,3 +1,5 @@
+Allow MODELDEF declarations without texture.
+
 Version 2.0.6 build 728 - (20210219)
 -----------------------
 Fixed diskbuzy height calculation in OpenGL mode. (Could crash the engine in case of a missing diskbuzy patch from WAD)
