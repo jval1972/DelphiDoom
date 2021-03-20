@@ -267,6 +267,24 @@ begin
 
 end;
 
+type
+  TExternalMusicInfo = class
+    data: pointer;
+    size: integer;
+    constructor Create(const strm: TDStream); virtual;
+  end;
+
+constructor TExternalMusicInfo.Create(const strm: TDStream);
+begin
+  size := strm.Size;
+  strm.Seek(0, sFromBeginning);
+  data := Z_Malloc(size, PU_MUSIC, @data);
+  strm.Read(data^, size);
+end;
+
+var
+  externalmusic: TDStringList;
+
 //
 // Initializes sound stuff, including volume
 // Sets channels, SFX and music volume,
@@ -276,6 +294,8 @@ procedure S_Init(sfxVolume: integer; musicVolume: integer);
 var
   i: integer;
 begin
+  externalmusic := TDStringList.Create;
+
   printf('S_Init: default sfx volume %d'#13#10, [sfxVolume]);
 
   // Whatever these did with DMX, these are rather dummies now.
@@ -328,8 +348,15 @@ begin
 end;
 
 procedure S_ShutDownSound;
+var
+  i: integer;
 begin
   S_FreeRandomSoundLists;
+
+  for i := 0 to externalmusic.Count - 1 do
+    externalmusic.Objects[i].Free;
+
+  externalmusic.Free;
 end;
 
 function S_DefaultMusicForMap(const episode, map: integer): integer;
@@ -675,6 +702,54 @@ begin
   end;
 end;
 
+const
+  NUM_MUSIC_EXTENSIONS = 4;
+  MUSIC_EXTENSIONS: array[0..NUM_MUSIC_EXTENSIONS - 1] of string[4] = (
+    '.MOD', '.S3M', '.IT', '.XM'
+  );
+
+function S_TryLoadExternalMusic(music: Pmusicinfo_t): boolean;
+var
+  i: integer;
+  mname: string;
+  idx: integer;
+  minfo: TExternalMusicInfo;
+  strm: TPakStream;
+begin
+  mname := char8tostring(lumpinfo[music.lumpnum].name);
+  idx := externalmusic.IndexOf(mname);
+  if idx >= 0 then
+  begin
+    minfo := externalmusic.Objects[idx] as TExternalMusicInfo;
+    if minfo.data <> nil then
+    begin
+      music.data := minfo.data;
+      music.handle := I_RegisterSong(music.data, minfo.size);
+      Result := True;
+`     Exit;
+    end;
+    minfo.Free;
+    externalmusic.Delete(idx);
+  end;
+
+  for i := 0 to NUM_MUSIC_EXTENSIONS - 1 do
+  begin
+    strm := TPakStream.Create(mname + MUSIC_EXTENSIONS[i], pm_prefered, gamedirectories);
+    if strm.IOResult = 0 then
+    begin
+      minfo := TExternalMusicInfo.Create(strm);
+      externalmusic.AddObject(mname, minfo);
+      music.data := minfo.data;
+      music.handle := I_RegisterSong(music.data, minfo.size);
+      Result := True;
+      strm.Free;
+      Exit;
+    end;
+    strm.Free;
+  end;
+  Result := False;
+end;
+
 procedure S_DoChangeMusic(music: Pmusicinfo_t; looping: boolean);
 var
   i: integer;
@@ -760,12 +835,18 @@ begin
     mp3header.ID := MP3MAGIC;
     mp3header.Stream := music.mp3stream;
     music.data := mp3header;
+    music.handle := I_RegisterSong(music.data, W_LumpLength(music.lumpnum));
   end
   else
-    // load & register it
-    music.data := W_CacheLumpNum(music.lumpnum, PU_MUSIC);
+  begin
+    if not S_TryLoadExternalMusic(music) then
+    begin
+      // load & register it
+      music.data := W_CacheLumpNum(music.lumpnum, PU_MUSIC);
+      music.handle := I_RegisterSong(music.data, W_LumpLength(music.lumpnum));
+    end;
+  end;
 
-  music.handle := I_RegisterSong(music.data, W_LumpLength(music.lumpnum));
 
   // play it
   I_PlaySong(music.handle, looping);
