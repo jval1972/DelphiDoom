@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -36,7 +36,7 @@ interface
 
 uses
   p_mobj_h;
-  
+
 //
 // Initializes sound stuff, including volume
 // Sets channels, SFX and music volume,
@@ -122,7 +122,7 @@ type
     priority: integer;
     name: string;
     mo: Pmobj_t;
-    distance: integer;             
+    distance: integer;
   end;
   Pchaninfo_t = ^chaninfo_t;
 
@@ -161,6 +161,7 @@ uses
   p_local,
   p_maputl,
   sounds,
+  s_externalmusic,
   s_sndseq,
   z_zone,
   w_folders,
@@ -308,6 +309,8 @@ var
 begin
   printf('S_Init: default sfx volume %d'#13#10, [sfxVolume]);
 
+  S_ExternalMusicInit;
+
   // Whatever these did with DMX, these are rather dummies now.
   I_SetChannels;
 
@@ -351,6 +354,7 @@ end;
 procedure S_ShutDownSound;
 begin
   S_FreeRandomSoundLists;
+  S_ShutDownExternalMusic;
 end;
 
 function S_DefaultMusicForMap(const map: integer): integer;
@@ -684,12 +688,18 @@ begin
     mp3header.ID := MP3MAGIC;
     mp3header.Stream := music.mp3stream;
     music.data := mp3header;
+    music.handle := I_RegisterSong(music.data, W_LumpLength(music.lumpnum));
   end
   else
-    // load & register it
-    music.data := W_CacheLumpNum(music.lumpnum, PU_MUSIC);
+  begin
+    if not S_TryLoadExternalMusic(music) then
+    begin
+      // load & register it
+      music.data := W_CacheLumpNum(music.lumpnum, PU_MUSIC);
+      music.handle := I_RegisterSong(music.data, W_LumpLength(music.lumpnum));
+    end;
+  end;
 
-  music.handle := I_RegisterSong(music.data, W_LumpLength(music.lumpnum));
 
   // play it
   I_PlaySong(music.handle, looping);

@@ -391,7 +391,8 @@ uses
   c_lib in 'C_LIB\c_lib.pas',
   scanf in 'C_LIB\scanf.pas',
   scanf_c in 'C_LIB\scanf_c.pas',
-  BTMemoryModule in 'Base\BTMemoryModule.pas';
+  BTMemoryModule in 'Base\BTMemoryModule.pas',
+  s_externalmusic in 'Base\s_externalmusic.pas';
 
 exports
   dd_compile_doom,
