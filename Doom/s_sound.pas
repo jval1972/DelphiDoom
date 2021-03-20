@@ -481,7 +481,10 @@ begin
   cnum := S_GetChannel(origin, sfx);
 
   if cnum < 0 then
+  begin
+    I_DevWarning('S_StartSoundAtVolume(): Can not find channel for sfx=%d'#13#10, [sfx_id]);
     exit;
+  end;
 
   //
   // This is supposed to handle the loading/caching.
@@ -862,7 +865,7 @@ end;
 // If the sound is not audible, returns a 0.
 // Otherwise, modifies parameters and returns 1.
 //
-function S_AdjustSoundParams(listener: Pmobj_t; source:Pmobj_t;
+function S_AdjustSoundParams(listener: Pmobj_t; source: Pmobj_t;
   vol: Pinteger; sep: Pinteger; pitch:Pinteger): boolean;
 var
   approx_dist: fixed_t;

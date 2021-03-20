@@ -455,7 +455,10 @@ begin
   cnum := S_GetChannel(origin, sfx);
 
   if cnum < 0 then
+  begin
+    I_DevWarning('S_StartSoundAtVolume(): Can not find channel for sfx=%d'#13#10, [sfx_id]);
     exit;
+  end;
 
   //
   // This is supposed to handle the loading/caching.
