@@ -81,10 +81,13 @@ procedure S_ShutDownExternalMusic;
 var
   i: integer;
 begin
-  for i := 0 to externalmusic.Count - 1 do
-    externalmusic.Objects[i].Free;
+  if externalmusic <> nil then
+  begin
+    for i := 0 to externalmusic.Count - 1 do
+      externalmusic.Objects[i].Free;
 
-  externalmusic.Free;
+    externalmusic.Free;
+  end;
 end;
 
 const
