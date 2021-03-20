@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -790,22 +790,6 @@ const
     $20, $26, $40, $4C, $80, $98, $3D, $20, $F6, $01, $68, $2F, $B7, $64, $73,
     $C2, $B3, $80, $00, $00, $00, $00, $49, $45, $4E, $44, $AE, $42, $60, $82
   );
-
-function readablestring(const s: string): string;
-var
-  i: integer;
-  h: string;
-begin
-  result := '';
-  h := '0123456789ABCDEF';
-  for i := 1 to Length(s) do
-  begin
-    if Pos(toupper(s[i]), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') > 0 then
-      result := result + toupper(s[i])
-    else
-      result := result + h[Ord(s[i]) div 16 + 1] + h[Ord(s[i]) mod 16 + 1];
-  end;
-end;
 
 procedure VX_VoxelToSprite;
 var

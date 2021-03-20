@@ -374,7 +374,16 @@ uses
   p_obituaries in 'Base\p_obituaries.pas',
   p_gender in 'Base\p_gender.pas',
   d_check in 'Heretic\d_check.pas',
-  w_wadreader in 'Base\w_wadreader.pas';
+  w_wadreader in 'Base\w_wadreader.pas',
+  libs3m in 'AUDIOLIB\libs3m.pas',
+  mikmod in 'Base\mikmod.pas',
+  i_mikplay in 'Base\i_mikplay.pas',
+  BTMemoryModule in 'Base\BTMemoryModule.pas',
+  i_s3mmusic in 'Base\i_s3mmusic.pas',
+  i_mainwindow in 'Base\i_mainwindow.pas',
+  i_itmusic in 'Base\i_itmusic.pas',
+  i_xmmusic in 'Base\i_xmmusic.pas',
+  i_modmusic in 'Base\i_modmusic.pas';
 
 var
   Saved8087CW: Word;

@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=6
-Build=728
+Build=729
 Debug=0
 PreRelease=0
 Special=0
@@ -126,12 +126,12 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=DelphiDoom Script DLL
-FileVersion=2.0.6.728
-InternalName=
+FileVersion=2.0.6.729
+InternalName=ddc_doom
 LegalCopyright=Copyright 2016-2021, Jim Valavanis
-LegalTrademarks=
+LegalTrademarks=Copyright 2016-2021, Jim Valavanis
 OriginalFilename=ddc_doom.dll
-ProductName=
+ProductName=DelphiDoom script DLL
 ProductVersion=2.0
 [HistoryLists\hlDebugSourcePath]
 Count=5

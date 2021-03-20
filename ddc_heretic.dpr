@@ -375,7 +375,19 @@ uses
   p_obituaries in 'Base\p_obituaries.pas',
   p_gender in 'Base\p_gender.pas',
   d_check in 'Heretic\d_check.pas',
-  w_wadreader in 'Base\w_wadreader.pas';
+  w_wadreader in 'Base\w_wadreader.pas',
+  i_mainwindow in 'Base\i_mainwindow.pas',
+  i_itmusic in 'Base\i_itmusic.pas',
+  i_xmmusic in 'Base\i_xmmusic.pas',
+  i_modmusic in 'Base\i_modmusic.pas',
+  i_mikplay in 'Base\i_mikplay.pas',
+  i_s3mmusic in 'Base\i_s3mmusic.pas',
+  mikmod in 'Base\mikmod.pas',
+  libs3m in 'AUDIOLIB\libs3m.pas',
+  c_lib in 'C_LIB\c_lib.pas',
+  scanf in 'C_LIB\scanf.pas',
+  scanf_c in 'C_LIB\scanf_c.pas',
+  BTMemoryModule in 'Base\BTMemoryModule.pas';
 
 exports
   dd_compile_heretic,

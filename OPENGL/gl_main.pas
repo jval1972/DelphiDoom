@@ -69,8 +69,7 @@ var
 var
   h_DC: HDC;    // Global device context
   h_RC: HGLRC;  // OpenGL rendering context
-  hMainWnd: HWND = 0;
-  
+
 var
   gl_initialized: boolean = false;
 
@@ -106,6 +105,7 @@ uses
   r_main,
   mt_utils,
   i_displaymodes,
+  i_mainwindow,
   i_input,
   i_system,
   m_argv,

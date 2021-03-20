@@ -56,11 +56,7 @@ uses
   doomdef,
   d_event,
   d_main,
-{$IFDEF OPENGL}
-  gl_main,
-{$ELSE}
-  i_main,
-{$ENDIF}
+  i_mainwindow,
   i_system;
 
 function TranslateKey(keycode: integer): integer;

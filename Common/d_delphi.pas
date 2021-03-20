@@ -61,6 +61,9 @@ type
   TByteArray = packed array[0..$7FFF] of Byte;
   PByteArray = ^TByteArray;
 
+  TShortIntArray = packed array[0..$7FFF] of ShortInt;
+  PShortIntArray = ^TShortIntArray;
+
   TBooleanArray = packed array[0..$7FFF] of boolean;
   PBooleanArray = ^TBooleanArray;
 
@@ -772,6 +775,8 @@ function wordstolist(const inp: string; const splitters: charset_t): TDStringLis
 function RemoveQuotesFromString(const s: string): string;
 
 function isdigit(const c: char): boolean;
+
+function readablestring(const s: string): string;
 
 implementation
 
@@ -4500,6 +4505,22 @@ end;
 function isdigit(const c: char): boolean;
 begin
   result := c in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+end;
+
+function readablestring(const s: string): string;
+var
+  i: integer;
+  h: string;
+begin
+  result := '';
+  h := '0123456789ABCDEF';
+  for i := 1 to Length(s) do
+  begin
+    if Pos(toupper(s[i]), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789') > 0 then
+      result := result + toupper(s[i])
+    else
+      result := result + h[Ord(s[i]) div 16 + 1] + h[Ord(s[i]) mod 16 + 1];
+  end;
 end;
 
 end.

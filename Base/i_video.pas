@@ -75,6 +75,7 @@ uses
   i_main,
   i_threads,
   i_displaymodes,
+  i_mainwindow,
   r_hires,
   v_data,
   v_video;
