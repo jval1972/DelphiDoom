@@ -1,0 +1,153 @@
+# Microsoft Developer Studio erstellte Abhängigkeitsdatei, einbezogen von mikwin.mak
+
+.\loaders\load_669.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_amf.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_dsm.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_far.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_it.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_m15.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_med.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_mod.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_mtm.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_s3m.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_stm.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_ult.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\loaders\load_xm.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\mloader.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\mlreg.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\munitrk.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\mwav.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\npertab.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\s3m_it.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\sloader.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\drivers\drv_ds_raw.c : \
+	"..\..\programme\microsoft visual studio\vc98\include\basetsd.h"\
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\drivers\drv_nos.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\mdreg.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\mdriver.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\mmio\mmalloc.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\mmio\mmerror.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\mmio\mmio.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\mikwin.c : \
+	"..\..\programme\microsoft visual studio\vc98\include\basetsd.h"\
+	".\include\mikmod.h"\
+	".\include\mikwin.h"\
+	
+
+.\playercode\mplayer.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	
+
+.\playercode\virtch.c : \
+	".\include\mikmod.h"\
+	".\include\mikmod_internals.h"\
+	

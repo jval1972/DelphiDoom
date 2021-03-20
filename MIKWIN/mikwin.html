@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>MikWin DirectSound</title>
+</head>
+<body>
+<h1>MikWin DirectSound</h1>
+<h2>Version 3.1.5.3</h2>
+This is the first release of the MikMod module-player library running on Windows. 
+It is based on MikMod Unix 3.1.5 Beta and plays via DirectSound. 
+
+<h2>Requirements</h2>
+Any Windows-version with DirectX 3 or higher.<br>
+
+<h2>Documentation</h2>
+For using the MikMod-Interface see the <a href="docs/mikmod.html">Original Unix Docs</a>.
+
+<h2>New Features</h2>
+The new function <code>Player_Start_threaded</code> behaves exactly like <code>Player_Start</code> except that
+it uses a background thread for playback. So you won't have to call <code>MikMod_update</code> -
+this is done for you! See the example program <a href="examples/mikmini/mikmini.c">mikmini.c</a>.
+<br>
+I also have added a new wrapper for MOD-playback. See the 
+<a href="examples/delphi/mikplayf.pas">Delphi example</a> for details. Perhaps I should
+write some more documentation for this... ;-)
+
+<h2>License</h2>
+The MikMod sound library is covered by the GNU Library General Public License, 
+which you can find in <a href="copying.lib">COPYING.LIB</a>. The example programs are 
+distributed under the
+GNU Public License, see <a href="examples/COPYING">examples\COPYING</a>.
+
+<h2>Contact info</h2>
+My EMail-address is: <a href="mailto:joerg.mensmann@gmx.net">joerg.mensmann@gmx.net</a><br>
+<br>
+MikWin homepage:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.bigfoot.com/~joerg.mensmann/mikwin/">http://www.bigfoot.com/~joerg.mensmann/mikwin/</a><br>
+<br>
+MikMod's official homepage:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.multimania.com/miodrag/mikmod">http://www.multimania.com/miodrag/mikmod</a><br>
+<br>
+Latest releases of MikMod'Unix can be found on the official homepage, as
+well as on <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="ftp://sunsite.unc.edu/pub/Linux/apps/sound/players">ftp://sunsite.unc.edu/pub/Linux/apps/sound/players</a><br>
+and all sunsite mirrors.<br>
+<br>
+16.02.1999<br>
+--J&ouml;rg Mensmann
+</body>
+</html>

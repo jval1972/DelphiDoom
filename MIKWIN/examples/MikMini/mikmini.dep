@@ -1,0 +1,6 @@
+# Microsoft Developer Studio erstellte Abhängigkeitsdatei, einbezogen von mikmini.mak
+
+.\mikmini.c : \
+	"..\..\..\programme\microsoft visual studio\vc98\include\basetsd.h"\
+	"..\include\mikmod.h"\
+	

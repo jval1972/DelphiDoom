@@ -1,0 +1,93 @@
+LIBRARY "mikwin.dll"
+
+EXPORTS
+	MikMod_RegisterAllDrivers
+
+	MikMod_InfoDriver
+	MikMod_RegisterDriver
+
+	MikMod_InfoLoader
+	MikMod_RegisterAllLoaders
+	MikMod_RegisterLoader
+
+	MikMod_Init
+	MikMod_Exit
+	MikMod_Reset
+	MikMod_SetNumVoices
+	MikMod_Active
+	MikMod_EnableOutput
+	MikMod_DisableOutput
+	MikMod_Update
+    MikMod_strerror
+
+	Sample_Load
+	Sample_LoadFP
+	Sample_Free
+	Sample_Play
+
+	Player_LoadFP
+	Player_Load
+	Player_LoadTitle
+	Player_Free
+	Player_Start
+	Player_Active
+	Player_Stop
+	Player_TogglePause
+	Player_Paused
+	Player_NextPosition
+	Player_PrevPosition
+	Player_SetPosition
+	Player_Muted
+	Player_SetVolume
+	Player_GetModule
+	Player_SetSpeed
+	Player_SetTempo
+	Player_Unmute
+	Player_Mute
+	Player_ToggleMute
+	Player_GetChannelVoice
+
+	MikMod_RegisterPlayer
+	MikMod_GetVersion
+
+	Player_Start_threaded
+	Player_Stop_threaded
+
+	get_MikMod_errno
+	set_MikMod_errno
+	get_md_volume
+	set_md_volume
+	get_md_musicvolume
+	set_md_musicvolume
+	get_md_sndfxvolume
+	set_md_sndfxvolume
+	get_md_reverb
+	set_md_reverb
+	get_md_pansep
+	set_md_pansep
+	get_md_device
+	set_md_device
+	get_md_mixfreq
+	set_md_mixfreq
+	get_md_mode
+	set_md_mode
+	get_drv_nos
+	get_drv_ds_raw
+
+	set_ds
+	set_dsbprimary
+	set_ds_hwnd
+	set_ds_buffersize
+
+    MikWin_Init
+	MikWin_Free
+	MikWin_Load
+	MikWin_LoadPos
+	MikWin_Play
+	MikWin_Stop
+	MikWin_Pause
+	MikWin_Paused
+	MikWin_Update
+	MikWin_Playing
+	MikWin_GetModule
+	MikWin_GetErrorText

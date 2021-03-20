@@ -1,0 +1,80 @@
+libmikmod main authors
+----------------------
+
+* Jean-Paul Mikkers (MikMak) <mikmak@via.nl>
+  wrote MikMod and maintained it until version 3
+* Jake Stine (Air Richter) <dracoirs@epix.net> [email doesn't work anymore...]
+  made decisive contributions to the code (esp. IT support) and maintained
+  MikMod version 3 until it was discontinued
+* Miodrag Vallat <miodrag@multimania.com>
+  current libmikmod maintainer (since version 3.0.4), made an audit of the
+  code resulting in many bugs fixed
+
+Previous Unix maintainers
+-------------------------
+
+* Steve McIntyre <steven@chiark.greenend.org.uk>
+  maintained MikMod'Unix version 2
+* Peter Amstutz <tetron@segfault.org>
+  maintained MikMod'Unix version 3.0
+
+Contributors on the Unix side
+-----------------------------
+
+* Arne de Bruijn <arne@knoware.nl>
+  wrote the compressed IT sample support
+* Douglas Carmichael <dcarmich@mcs.com>
+  made MikMod work under FreeBSD
+* Chris Conn <cconn@tohs.abacom.com>
+  wrote the OSS driver
+* Roine Gustaffson <e93_rog@e.kth.se>
+  wrote the Digital AudioFile driver
+* Stephan Kanthak <kanthak@informatik.rwth-aachen.de>
+  wrote the SGI driver
+* Lutz Vieweg <lkv@mania.robin.de>
+  wrote the AIX and HP-UX drivers
+* Valtteri Vuorikoski <vuori@sci.fi>
+  wrote the Sun driver
+* Andy Lo A Foe <arlafoe@cs.vu.nl>
+  wrote the Ultra driver (for the Gravis Ultrasound sound card).
+* C Ray C <crayc@xnet.com>
+  updated the Ultra driver to work with libmikmod 3.
+* "MenTaLguY" <mentalg@geocities.com>
+  autoconfized the Unix libmikmod distribution
+* Claudio Matsuoka <claudio@helllabs.org>
+  wrote the STX loader and submitted bug fixes.
+* Tobias Gloth <gloth@online.de>
+  created the new I/O interface.
+
+Contributors on the Dos side
+----------------------------
+
+Their code isn't there anymore, but they contributed to the success of
+libmikmod...
+* Jean-Philippe Ajirent wrote the EMS memory routines
+* Peter Breitling ported MikMod to DJGPP
+* Arnout Cosman wrote the PAS driver
+* Mario Koeppen wrote the WSS driver
+* Mike Leibow wrote the GUS driver
+* Jeremy McDonald wrote a fast assembly-language mixer
+* Steffen Rusitschka and Vince Vu wrote the AWE driver
+
+Contributors on other platforms
+-------------------------------
+
+* Stefan Tibus <Stefan_Tibus@ThePentagon.com>
+  ported libmikmod to OS/2
+* Thomas Neumann <tneumann@polycode.dk>
+  integrated libmikmod into his BeOS APlayer, and contributed many bug fixes
+* Jörg Mensmann <joerg.mensmann@gmx.net>
+  ported MikMod to Windows/DirectX
+
+Other contributors
+------------------
+* Paul Fisher made decisive contributions and improvements
+* Alexander Kerkhove fixed an ULT panning effect bug
+* "Kodiak" helped on the interfaces of libmikmod
+* Sylvain Marchand make MikMod more portable and GCC compilable
+
+--
+If your name is missing, don't hesitate to remind me at <miodrag@multimania.com>
