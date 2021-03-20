@@ -116,7 +116,10 @@ begin
 
   if not MikWin_Load(PChar(mikfilename)) then
   begin
-    I_PlayS3M(data, size);
+    if typ = m_s3m then
+      I_PlayS3M(data, size)
+    else if typ = m_mod then
+      I_PlayMOD(data, size);
     mik_init := False;
     Exit;
   end;
