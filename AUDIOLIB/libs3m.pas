@@ -1,8 +1,7 @@
+//------------------------------------------------------------------------------
 //
-//  RAD: Recreation of the game "Radix - beyond the void"
-//       powered by the DelphiDoom engine
-//
-//  Copyright (C) 1995 by Epic MegaGames, Inc.
+//  DelphiDoom: A modified and improved DOOM engine for Windows
+//  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2004-2021 by Jim Valavanis
 //
@@ -18,14 +17,14 @@
 //
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
-//  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+//  Foundation, inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 //
 // DESCRIPTION:
 //  S3M library
 //
 //------------------------------------------------------------------------------
-//  Site: https://sourceforge.net/projects/rad-x/
+//  Site  : http://sourceforge.net/projects/delphidoom/
 //------------------------------------------------------------------------------
 
 {$Z+}
