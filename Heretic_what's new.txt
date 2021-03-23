@@ -1,6 +1,7 @@
 Allow MODELDEF declarations without texture.
 Added MOD, S3M, IT & XM track music format support.
 Shows a I_DevWarning if sound channel can not be found.
+Fixed potential doublicate mobj key while loading saved game.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------

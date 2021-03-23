@@ -1323,7 +1323,7 @@ begin
           mobj.lightvalidcount := 0;
           mobj.rendervalidcount := 0;
 
-          if mobj.key < 2 then
+          if mobj.key < 1 then
             mobj.key := P_GenGlobalMobjKey;
           P_NotifyMobjKey(mobj);
 

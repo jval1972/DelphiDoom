@@ -1364,7 +1364,7 @@ begin
     end;
     mobj.thinker._function.acp1 := @P_MobjThinker;
 
-    if mobj.key < 2 then
+    if mobj.key < 1 then
       mobj.key := P_GenGlobalMobjKey;
     P_NotifyMobjKey(mobj);
 
