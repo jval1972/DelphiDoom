@@ -52,7 +52,7 @@ uses
 
 procedure G_DeathMatchSpawnPlayer(playernum: integer);
 
-procedure G_InitNew(skill:skill_t; map: integer);
+procedure G_InitNew(skill: skill_t; map: integer);
 
 // Can be called by the startup code or M_Responder.
 // A normal game starts at map 1,

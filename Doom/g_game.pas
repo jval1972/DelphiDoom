@@ -44,7 +44,7 @@ uses
 
 procedure G_DeathMatchSpawnPlayer(playernum: integer);
 
-procedure G_InitNew(skill:skill_t; episode: integer; map: integer);
+procedure G_InitNew(skill: skill_t; episode: integer; map: integer);
 
 // Can be called by the startup code or M_Responder.
 // A normal game starts at map 1,
