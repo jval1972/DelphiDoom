@@ -2,6 +2,17 @@ Allow MODELDEF declarations without texture.
 Added MOD, S3M, IT & XM track music format support.
 Shows a I_DevWarning if sound channel can not be found.
 Fixed potential doublicate mobj key while loading saved game.
+Overlay functions as mobj codepointers:
+  - A_OverlayClear;
+  - A_OverlayDrawPatch(ticks: Integer; patchname: string; x, y: Integer);
+  - A_OverlayDrawPatchStretched(ticks: Integer; patchname: string; x1, y1, x2, y2: Integer);
+  - A_OverlayDrawPixel(ticks: Integer; red, green, blue: byte; x, y: Integer);
+  - A_OverlayDrawRect(ticks: Integer; red, green, blue: byte; x1, y1, x2, y2: Integer);
+  - A_OverlayDrawLine(ticks: Integer; red, green, blue: byte; x1, y1, x2, y2: Integer);
+  - A_OverlayDrawText(ticks: Integer; txt: string; align: Integer; x, y: Integer);
+  - A_OverlayDrawLeftText(ticks: Integer; txt: string; x, y: Integer);
+  - A_OverlayDrawRightText(ticks: Integer; txt: string; x, y: Integer);
+  - A_OverlayDrawCenterText(ticks: Integer; txt: string; x, y: Integer);
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------
