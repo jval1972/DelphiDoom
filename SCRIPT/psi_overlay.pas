@@ -201,11 +201,33 @@ function OVR_OverlayHeight: Integer;
 var
   overlay: TOverlayDrawer;
 
+//------------ Register Overlay to PascalScript --------------------------------
 procedure SIRegister_TOverlay(CL: TPSPascalCompiler);
 
 procedure RIRegister_TOverlay(CL: TPSRuntimeClassImporter);
 
 procedure RIRegisterRTL_TOverlay(Exec: TPSExec);
+
+//------------ Mobj Codepointers -----------------------------------------------
+procedure A_OverlayClear;
+
+procedure A_OverlayDrawPatch(actor: Pmobj_t);
+
+procedure A_OverlayDrawPatchStretched(actor: Pmobj_t);
+
+procedure A_OverlayDrawPixel(actor: Pmobj_t);
+
+procedure A_OverlayDrawRect(actor: Pmobj_t);
+
+procedure A_OverlayDrawLine(actor: Pmobj_t);
+
+procedure A_OverlayDrawText(actor: Pmobj_t);
+
+procedure A_OverlayDrawLeftText(actor: Pmobj_t);
+
+procedure A_OverlayDrawRightText(actor: Pmobj_t);
+
+procedure A_OverlayDrawCenterText(actor: Pmobj_t);
 
 implementation
 
@@ -2154,6 +2176,179 @@ end;
 procedure RIRegisterRTL_TOverlay(Exec: TPSExec);
 begin
   SetVariantToClass(Exec.GetVarNo(Exec.GetVar('Overlay')), overlay);
+end;
+
+//------------ Mobj Codepointers -----------------------------------------------
+procedure A_OverlayClear;
+begin
+  PS_OverlayClear;
+end;
+
+procedure A_OverlayDrawPatch(actor: Pmobj_t);
+var
+  ticks: Integer;
+  patchname: string;
+  x, y: Integer;
+begin
+  if not P_CheckStateParams(actor, 4) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  patchname := actor.state.params.strval[1];
+  x := actor.state.params.IntVal[2];
+  y := actor.state.params.IntVal[3];
+
+  PS_OverlayDrawPatch(ticks, patchname, x, y);
+end;
+
+procedure A_OverlayDrawPatchStretched(actor: Pmobj_t);
+var
+  ticks: Integer;
+  patchname: string;
+  x1, y1, x2, y2: Integer;
+begin
+  if not P_CheckStateParams(actor, 6) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  patchname := actor.state.params.strval[1];
+  x1 := actor.state.params.IntVal[2];
+  y1 := actor.state.params.IntVal[3];
+  x2 := actor.state.params.IntVal[4];
+  y2 := actor.state.params.IntVal[5];
+
+  PS_OverlayDrawPatchStretched(ticks, patchname, x1, y1, x2, y2);
+end;
+
+procedure A_OverlayDrawPixel(actor: Pmobj_t);
+var
+  ticks: Integer;
+  red, green, blue: byte;
+  x, y: Integer;
+begin
+  if not P_CheckStateParams(actor, 6) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  red := actor.state.params.IntVal[1];
+  green := actor.state.params.IntVal[2];
+  blue := actor.state.params.IntVal[3];
+  x := actor.state.params.IntVal[4];
+  y := actor.state.params.IntVal[5];
+
+  PS_OverlayDrawPixel(ticks, red, green, blue, x, y);
+end;
+
+procedure A_OverlayDrawRect(actor: Pmobj_t);
+var
+  ticks: Integer;
+  red, green, blue: byte;
+  x1, y1, x2, y2: Integer;
+begin
+  if not P_CheckStateParams(actor, 8) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  red := actor.state.params.IntVal[1];
+  green := actor.state.params.IntVal[2];
+  blue := actor.state.params.IntVal[3];
+  x1 := actor.state.params.IntVal[4];
+  y1 := actor.state.params.IntVal[5];
+  x2 := actor.state.params.IntVal[6];
+  y2 := actor.state.params.IntVal[7];
+
+  PS_OverlayDrawRect(ticks, red, green, blue, x1, y1, x2, y2);
+end;
+
+procedure A_OverlayDrawLine(actor: Pmobj_t);
+var
+  ticks: Integer;
+  red, green, blue: byte;
+  x1, y1, x2, y2: Integer;
+begin
+  if not P_CheckStateParams(actor, 8) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  red := actor.state.params.IntVal[1];
+  green := actor.state.params.IntVal[2];
+  blue := actor.state.params.IntVal[3];
+  x1 := actor.state.params.IntVal[4];
+  y1 := actor.state.params.IntVal[5];
+  x2 := actor.state.params.IntVal[6];
+  y2 := actor.state.params.IntVal[7];
+
+  PS_OverlayDrawLine(ticks, red, green, blue, x1, y1, x2, y2);
+end;
+
+procedure A_OverlayDrawText(actor: Pmobj_t);
+var
+  ticks: Integer;
+  txt: string;
+  align: Integer;
+  x, y: Integer;
+begin
+  if not P_CheckStateParams(actor, 5) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  txt := actor.state.params.StrVal[1];
+  align := actor.state.params.IntVal[2];
+  x := actor.state.params.IntVal[3];
+  y := actor.state.params.IntVal[4];
+
+  PS_OverlayDrawText(ticks, txt, align, x, y);
+end;
+
+procedure A_OverlayDrawLeftText(actor: Pmobj_t);
+var
+  ticks: Integer;
+  txt: string;
+  x, y: Integer;
+begin
+  if not P_CheckStateParams(actor, 4) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  txt := actor.state.params.StrVal[1];
+  x := actor.state.params.IntVal[2];
+  y := actor.state.params.IntVal[3];
+
+  PS_OverlayDrawLeftText(ticks, txt, x, y);
+end;
+
+procedure A_OverlayDrawRightText(actor: Pmobj_t);
+var
+  ticks: Integer;
+  txt: string;
+  x, y: Integer;
+begin
+  if not P_CheckStateParams(actor, 4) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  txt := actor.state.params.StrVal[1];
+  x := actor.state.params.IntVal[2];
+  y := actor.state.params.IntVal[3];
+
+  PS_OverlayDrawRightText(ticks, txt, x, y);
+end;
+
+procedure A_OverlayDrawCenterText(actor: Pmobj_t);
+var
+  ticks: Integer;
+  txt: string;
+  x, y: Integer;
+begin
+  if not P_CheckStateParams(actor, 4) then
+    Exit;
+
+  ticks := actor.state.params.IntVal[0];
+  txt := actor.state.params.StrVal[1];
+  x := actor.state.params.IntVal[2];
+  y := actor.state.params.IntVal[3];
+
+  PS_OverlayDrawCenterText(ticks, txt, x, y);
 end;
 
 end.
