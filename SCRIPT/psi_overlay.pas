@@ -37,6 +37,7 @@ uses
   d_delphi,
   doomdef,
   r_defs,
+  p_mobj_h,
   ps_compiler,
   ps_runtime;
 
@@ -238,8 +239,10 @@ uses
   m_fixed,
   i_system,
   mt_utils,
+  p_common,
   p_tick,
   sc_engine,
+  sc_params,
   {$IFNDEF OPENGL}
   r_hires,
   {$ENDIF}
