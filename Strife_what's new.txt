@@ -13,6 +13,7 @@ Overlay functions as mobj codepointers:
   - A_OverlayDrawLeftText(ticks: Integer; txt: string; x, y: Integer);
   - A_OverlayDrawRightText(ticks: Integer; txt: string; x, y: Integer);
   - A_OverlayDrawCenterText(ticks: Integer; txt: string; x, y: Integer);
+Bug fix: Does not load twice default state names in case of missing STATEDEF lump.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------
