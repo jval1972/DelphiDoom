@@ -498,6 +498,7 @@ begin
   printf('GL_VENDOR: %s'#13#10 , [glGetString(GL_VENDOR)]);
   printf('GL_RENDERER: %s'#13#10, [glGetString(GL_RENDERER)]);
   printf('GL_VERSION: %s'#13#10, [glGetString(GL_VERSION)]);
+
   if devparm then
     printf('GL_EXTENSIONS:'#13#10);
 
@@ -514,7 +515,7 @@ begin
   ext_lst := TDStringList.Create;
   try
     ext_lst.Text := extensions_l;
-  if devparm then
+    if devparm then
       for i := 0 to ext_lst.count - 1 do
         printf('  %s'#13#10, [ext_lst.strings[i]]);
     gld_InitExtensions(ext_lst);
