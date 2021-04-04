@@ -2998,11 +2998,31 @@ begin
   PutObject(Index, AObject);
 end;
 
+procedure BufferUtf16ToAnsi(const inpBuf: PByteArray; const inpSize: integer;
+  var outBuf: PByteArray; var outSize: integer);
+var
+  i: integer;
+begin
+  outSize := (inpSize - 2) div 2;
+  if outSize > 0 then
+  begin
+    outBuf := malloc(outSize);
+    for i := 0 to outSize - 1 do
+      outBuf[i] := inpBuf[i * 2 + 2];
+  end
+  else
+  begin
+    outSize := 0;
+    outBuf := nil;
+  end;
+end;
+
 function TDStrings.LoadFromFile(const FileName: string): boolean;
 var
   f: file;
   Size: Integer;
-  S: string;
+  S, S2: string;
+  p: integer;
 begin
   if fopen(f, FileName, fOpenReadOnly) then
   begin
@@ -3010,6 +3030,20 @@ begin
     Size := FileSize(f);
     SetString(S, nil, Size);
     BlockRead(f, Pointer(S)^, Size);
+    if Size > 1 then
+      if S[1] = Chr($FF) then
+        if S[2] = Chr($FE) then
+        begin
+          S2 := '';
+          p := 3;
+          while p < Size do
+          begin
+            S2 := S2 + S[p];
+            inc(p, 2);
+          end;
+          S := S2;
+        end;
+
     SetTextStr(S);
     close(f);
     {$I+}
@@ -3021,16 +3055,30 @@ end;
 
 function TDStrings.LoadFromStream(const strm: TDStream): boolean;
 var
-  Size: Integer;
-  A: PByteArray;
+  SizeA, SizeB: Integer;
+  A, B: PByteArray;
+
+  isUTF16: boolean;
 begin
   {$I-}
   strm.Seek(0, sFromBeginning);
-  Size := strm.Size;
-  A := malloc(Size);
-  strm.Read(A^, Size);
-  SetByteStr(A, Size);
-  memfree(pointer(A), Size);
+  SizeA := strm.Size;
+  A := malloc(SizeA);
+  strm.Read(A^, SizeA);
+  isUTF16 := False;
+  if SizeA > 1 then
+    isUTF16 := (A[0] = $FF) and (A[1] = $FE);
+
+  if isUTF16 then
+  begin
+    BufferUtf16ToAnsi(A, SizeA, B, SizeB);
+    memfree(pointer(A), SizeA);
+    A := B;
+    SizeA := SizeB;
+  end;
+
+  SetByteStr(A, SizeA);
+  memfree(pointer(A), SizeA);
   {$I+}
   result := IOresult = 0;
 end;
