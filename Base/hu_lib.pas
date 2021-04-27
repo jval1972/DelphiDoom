@@ -36,7 +36,6 @@ uses
   r_defs;
 
 const
-
 // font stuff
   HU_CHARERASE = KEY_BACKSPACE;
 
@@ -71,26 +70,20 @@ type
 
   hu_stext_t = record
     lines: array[0..HU_MAXLINES - 1] of hu_textline_t; // text lines to draw
-    height: integer; // height in lines
-    curline: integer; // current line number
-
-    // pointer to boolean stating whether to update window
-    _on: Pboolean;
-    laston: boolean; // last value of *._on.
+    height: integer;      // height in lines
+    curline: integer;     // current line number
+    _on: Pboolean;        // pointer to boolean stating whether to update window
+    laston: boolean;      // last value of *._on.
   end;
   Phu_stext_t = ^hu_stext_t;
 
 // Input Text Line widget
 //  (child of Text Line widget)
   hu_itext_t = record
-    line: hu_textline_t; // text line to input on
-
-    // left margin past which I am not to delete characters
-    lm: integer;
-
-    // pointer to boolean stating whether to update window
-    _on: Pboolean;
-    laston: boolean; // last value of *->on;
+    line: hu_textline_t;  // text line to input on
+    lm: integer;          // left margin past which I am not to delete characters
+    _on: Pboolean;        // pointer to boolean stating whether to update window
+    laston: boolean;      // last value of *->on;
   end;
   Phu_itext_t = ^hu_itext_t;
 
