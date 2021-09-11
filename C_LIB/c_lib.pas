@@ -1412,9 +1412,9 @@ begin
 end;
 
 // C_LIB
-{$L F:\DelphiDoom_Release\DelphiDoom_Src\Src\C_LIB\obj\myqsort.obj}
-{$L F:\DelphiDoom_Release\DelphiDoom_Src\Src\C_LIB\obj\mystrcpy.obj}
-{$L F:\DelphiDoom_Release\DelphiDoom_Src\Src\C_LIB\obj\mystrcat.obj}
-{$L F:\DelphiDoom_Release\DelphiDoom_Src\Src\C_LIB\obj\mystrdup.obj}
+{$L .\obj\myqsort.obj}
+{$L .\obj\mystrcpy.obj}
+{$L .\obj\mystrcat.obj}
+{$L .\obj\mystrdup.obj}
 
 end.
