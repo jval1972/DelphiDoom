@@ -169,7 +169,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 205;
+  NUMDEFAULTS = 206;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -504,6 +504,14 @@ const
 
     (name: 'r_uselightmaps';
      location: @r_uselightmaps;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'r_lightmaponmasked';
+     location: @r_lightmaponmasked;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 1;

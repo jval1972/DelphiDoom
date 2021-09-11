@@ -59,6 +59,7 @@ const
 
 var
   r_uselightmaps: boolean = true;
+  r_lightmaponmasked: boolean = true;
   r_lightmapfadeoutfunc: integer = 0;
 
 const
