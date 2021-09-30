@@ -127,6 +127,7 @@ var
   lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
   r_bltasync: boolean = true;
+  r_lightmaponmasked: boolean = true;
 {$ELSE}
   tran_filter_pct: integer;
   use_fog: boolean;
