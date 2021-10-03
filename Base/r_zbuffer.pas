@@ -178,7 +178,7 @@ begin
   if not IsIntegerInRange(dc_yh, 0, viewwidth - 1) then
     I_Warning('R_DrawColumnToZBuffer(): ds_yh=%d not in range [0..viewheight(=%d) - 1]'#13#10, [dc_yh, viewheight]);
   if dc_yh < dc_yl then
-    I_Warning('R_DrawSpanToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
+    I_Warning('R_DrawColumnToZBuffer(): dc_yh=%d < dc_yl=%d'#13#10, [dc_yh, dc_yl]);
 {$ENDIF}
 
   item := R_NewZBufferItem(@Zcolumns[dc_x]);
