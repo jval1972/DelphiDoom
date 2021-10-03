@@ -118,6 +118,7 @@ var
   lightmapcolorintensity: integer = 128;
   lightwidthfactor: integer = 5;
   r_bltasync: boolean = true;
+  r_blitmultiplier: integer = 1;
   r_lightmaponmasked: boolean = true;
 {$ELSE}
   tran_filter_pct: integer;
@@ -160,7 +161,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 190;
+  NUMDEFAULTS = 191;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -540,6 +541,14 @@ const
      defaultivalue: 1;
      defaultbvalue: true;
      _type: tBoolean),
+
+    (name: 'r_blitmultiplier';
+     location: @r_blitmultiplier;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tInteger),
 
      // JVAL: Slopes
     (name: 'preciseslopedrawing';

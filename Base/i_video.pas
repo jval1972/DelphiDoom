@@ -64,6 +64,7 @@ procedure I_SetPalette64;
 var
   fixstallhack: boolean = true;
   r_bltasync: boolean = true;
+  r_blitmultiplier: integer = 1;
 
 implementation
 
@@ -468,6 +469,7 @@ var
   destrect: TRect;
   stretch: boolean;
   surfacelost: boolean;
+  i: integer;
 begin
   I_BlitBuffer;
   
@@ -480,6 +482,8 @@ begin
 //  if not stretch then
     stretch := (WINDOWWIDTH <> SCREENWIDTH) or (WINDOWHEIGHT <> SCREENHEIGHT);// or (fullscreen <> FULLSCREEN_EXCLUSIVE);
 
+  r_blitmultiplier := GetIntegerInRange(r_blitmultiplier, 1, 4);
+
   if stretch then
   begin
     destrect.Left := 0;
@@ -487,24 +491,35 @@ begin
     destrect.Right := WINDOWWIDTH;
     destrect.Bottom := WINDOWHEIGHT;
 
-    if r_bltasync then
-      surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_ASYNC, PDDBltFX(0)^) = DDERR_SURFACELOST
-    else
-      surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_WAIT, PDDBltFX(0)^) = DDERR_SURFACELOST;
+    for i := 0 to r_blitmultiplier - 1 do
+    begin
+      if r_bltasync then
+        surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_ASYNC, PDDBltFX(0)^) = DDERR_SURFACELOST
+      else
+        surfacelost := g_pDDSPrimary.Blt(destrect, g_pDDScreen, srcrect, DDBLT_WAIT, PDDBltFX(0)^) = DDERR_SURFACELOST;
 
-    if surfacelost then
-      g_pDDSPrimary.Restore;
-
+      if surfacelost then
+      begin
+        g_pDDSPrimary.Restore;
+        Break;
+      end;
+    end;
   end
   else
   begin
-    if r_bltasync then
-      surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST
-    else
-      surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_WAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST;
+    for i := 0 to r_blitmultiplier - 1 do
+    begin
+      if r_bltasync then
+        surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_DONOTWAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST
+      else
+        surfacelost := g_pDDSPrimary.BltFast(0, 0, g_pDDScreen, srcrect, DDBLTFAST_WAIT or DDBLTFAST_NOCOLORKEY) = DDERR_SURFACELOST;
 
-    if surfacelost then
-      g_pDDSPrimary.Restore;
+      if surfacelost then
+      begin
+        g_pDDSPrimary.Restore;
+        Break;
+      end;
+    end;
   end;
 
 end;
