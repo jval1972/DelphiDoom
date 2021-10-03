@@ -3362,10 +3362,10 @@ end;
 
 function getenv(const env: string): string;
 var
-  buf: array[0..255] of char;
+  buf: array[0..2047] of char;
 begin
   ZeroMemory(@buf, SizeOf(buf));
-  GetEnvironmentVariable(PChar(env), buf, 255);
+  GetEnvironmentVariable(PChar(env), buf, 2047);
   result := Trim(StringVal(buf));
 end;
 

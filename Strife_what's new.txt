@@ -16,6 +16,7 @@ Overlay functions as mobj codepointers:
 Bug fix: Does not load twice default state names in case of missing STATEDEF lump.
 Fixed UTF16 loading problem.
 Fixed ddmodel rendering when the game is paused.
+Holds up to 2047 bytes for enviroment variables.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------
