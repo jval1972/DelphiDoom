@@ -3407,10 +3407,10 @@ begin
   misc_tokens.Add('BLUE ARMOR CLASS');    // p_bluearmorclass
   misc_tokens.Add('INITIAL BULLETS');     // p_initialbullets
   misc_tokens.Add('BFG CELLS/SHOT');      // p_bfgcells
-  misc_tokens.Add('IDFA Armor');          // p_idfaarmor
-  misc_tokens.Add('IDFA Armor Class');    // p_idfaarmorclass
-  misc_tokens.Add('IDKFA Armor');         // p_idkfaarmor
-  misc_tokens.Add('IDKFA Armor Class');   // p_idkfaarmorclass
+  misc_tokens.Add('IDFA ARMOR');          // p_idfaarmor
+  misc_tokens.Add('IDFA ARMOR CLASS');    // p_idfaarmorclass
+  misc_tokens.Add('IDKFA ARMOR');         // p_idkfaarmor
+  misc_tokens.Add('IDKFA ARMOR CLASS');   // p_idkfaarmorclass
 
   C_AddCmd('DEH_ParseFile, BEX_ParseFile', @DEH_ParseFile);
   C_AddCmd('DEH_ParseLump, BEX_ParseLump', @DEH_ParseLumpName);
