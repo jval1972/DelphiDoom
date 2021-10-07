@@ -1144,6 +1144,8 @@ begin
          10: p_bfgcells := misc_val;
          11: p_idfaarmor := misc_val;
          12: p_idfaarmorclass := misc_val;
+         13: p_idkfaarmor := misc_val;
+         14: p_idkfaarmorclass := misc_val;
         end;
       end;
 
@@ -1699,6 +1701,8 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[10]), p_bfgcells]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[11]), p_idfaarmor]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[12]), p_idfaarmorclass]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[13]), p_idkfaarmor]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[14]), p_idkfaarmorclass]);
 
   result.Add('');
 
@@ -3405,6 +3409,8 @@ begin
   misc_tokens.Add('BFG CELLS/SHOT');      // p_bfgcells
   misc_tokens.Add('IDFA Armor');          // p_idfaarmor
   misc_tokens.Add('IDFA Armor Class');    // p_idfaarmorclass
+  misc_tokens.Add('IDKFA Armor');         // p_idkfaarmor
+  misc_tokens.Add('IDKFA Armor Class');   // p_idkfaarmorclass
 
   C_AddCmd('DEH_ParseFile, BEX_ParseFile', @DEH_ParseFile);
   C_AddCmd('DEH_ParseLump, BEX_ParseLump', @DEH_ParseLumpName);

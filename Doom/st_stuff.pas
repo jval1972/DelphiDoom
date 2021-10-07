@@ -92,6 +92,8 @@ type
 var
   p_idfaarmor: integer = 200;
   p_idfaarmorclass: integer = 2;
+  p_idkfaarmor: integer = 200;
+  p_idkfaarmorclass: integer = 2;
 
 implementation
 
@@ -696,8 +698,8 @@ begin
   if not ST_CmdCheckPlayerStatus then
     exit;
 
-  plyr.armorpoints := 200;
-  plyr.armortype := 2;
+  plyr.armorpoints := p_idkfaarmor;
+  plyr.armortype := p_idkfaarmorclass;
 
   if gamemode = shareware then
   begin
