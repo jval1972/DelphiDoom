@@ -1,6 +1,6 @@
 Allow MODELDEF declarations without texture.
 Added MOD, S3M, IT & XM track music format support.
-Shows a I_DevWarning if sound channel can not be found.
+Shows an I_DevWarning if sound channel can not be found.
 Fixed potential doublicate mobj key while loading saved game.
 Overlay functions as mobj codepointers:
   - A_OverlayClear;
@@ -17,8 +17,9 @@ Bug fix: Does not load twice default state names in case of missing STATEDEF lum
 Fixed UTF16 loading problem.
 Fixed ddmodel rendering when the game is paused.
 Holds up to 2047 bytes for enviroment variables (eg DOOMWADPATH).
-Added r_blitmultiplier console variable. Default value is 1. Higher values can correct choppy look when interpolation is disabled.
+Added r_blitmultiplier console variable. Default value is 1. Higher values can correct choppy look when interpolation is disabled but with performance penalty.
 Fixed potential memory corruption problem in R_MakeSpans().
+Support for "IDFA Armor" & "IDFA Armor Class" names in Dehacked.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------

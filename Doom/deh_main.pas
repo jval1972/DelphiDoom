@@ -126,6 +126,7 @@ uses
   p_musinfo,
   psi_overlay,
   r_renderstyle,
+  st_stuff,
   sounds,
   sc_params,
   sc_engine,
@@ -1141,6 +1142,8 @@ begin
           8: p_bluearmorclass := misc_val;
           9: p_initialbullets := misc_val;
          10: p_bfgcells := misc_val;
+         11: p_idfaarmor := misc_val;
+         12: p_idfaarmorclass := misc_val;
         end;
       end;
 
@@ -1694,6 +1697,8 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[8]), p_bluearmorclass]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[9]), p_initialbullets]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[10]), p_bfgcells]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[11]), p_idfaarmor]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[12]), p_idfaarmorclass]);
 
   result.Add('');
 
@@ -3398,7 +3403,8 @@ begin
   misc_tokens.Add('BLUE ARMOR CLASS');    // p_bluearmorclass
   misc_tokens.Add('INITIAL BULLETS');     // p_initialbullets
   misc_tokens.Add('BFG CELLS/SHOT');      // p_bfgcells
-
+  misc_tokens.Add('IDFA Armor');          // p_idfaarmor
+  misc_tokens.Add('IDFA Armor Class');    // p_idfaarmorclass
 
   C_AddCmd('DEH_ParseFile, BEX_ParseFile', @DEH_ParseFile);
   C_AddCmd('DEH_ParseLump, BEX_ParseLump', @DEH_ParseLumpName);
