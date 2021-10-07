@@ -220,6 +220,8 @@ var
   deh_initialstates: integer;
 
   code_ptrs: Pactionf_tArray;
+
+  did_max_soulsphere: boolean;
 begin
   if not deh_initialized then
     DEH_Init;
@@ -1099,6 +1101,7 @@ begin
     ////////////////////////////////////////////////////////////////////////////
     // Parse misc //////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
+      did_max_soulsphere := False;
       while true do
       begin
         if not DEH_NextLine(s, str, i) then
@@ -1131,7 +1134,12 @@ begin
         end;
 
         case misc_idx of
-          0: p_maxhealth := misc_val;
+          0:
+            begin
+              p_maxhealth := misc_val;
+              if not did_max_soulsphere then
+                p_maxsoulsphere := misc_val;
+            end;
           1: p_soulspherehealth := misc_val;
           2: p_megaspherehealth := misc_val;
           3: p_medikithealth := misc_val;
@@ -1146,6 +1154,11 @@ begin
          12: p_idfaarmorclass := misc_val;
          13: p_idkfaarmor := misc_val;
          14: p_idkfaarmorclass := misc_val;
+         15:
+          begin
+            p_maxsoulsphere := misc_val;
+            did_max_soulsphere := True;
+          end;
         end;
       end;
 
@@ -1703,6 +1716,7 @@ begin
   result.Add('%s = %d', [capitalizedstring(misc_tokens[12]), p_idfaarmorclass]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[13]), p_idkfaarmor]);
   result.Add('%s = %d', [capitalizedstring(misc_tokens[14]), p_idkfaarmorclass]);
+  result.Add('%s = %d', [capitalizedstring(misc_tokens[15]), p_maxsoulsphere]);
 
   result.Add('');
 
@@ -3411,6 +3425,7 @@ begin
   misc_tokens.Add('IDFA ARMOR CLASS');    // p_idfaarmorclass
   misc_tokens.Add('IDKFA ARMOR');         // p_idkfaarmor
   misc_tokens.Add('IDKFA ARMOR CLASS');   // p_idkfaarmorclass
+  misc_tokens.Add('MAX SOULSPHERE');      // p_maxsoulsphere
 
   C_AddCmd('DEH_ParseFile, BEX_ParseFile', @DEH_ParseFile);
   C_AddCmd('DEH_ParseLump, BEX_ParseLump', @DEH_ParseLumpName);

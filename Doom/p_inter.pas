@@ -63,6 +63,7 @@ procedure P_CmdSuicide;
 
 var
   p_maxhealth: integer = 200;
+  p_maxsoulsphere: integer = 200;
   p_soulspherehealth: integer = 100;
   p_megaspherehealth: integer = 200;
   p_medikithealth: integer = 25;
@@ -428,8 +429,8 @@ begin
     Ord(SPR_SOUL):
       begin
         player.health := player.health + p_soulspherehealth;
-        if player.health > p_maxhealth then
-          player.health := p_maxhealth;
+        if player.health > p_maxsoulsphere then
+          player.health := p_maxsoulsphere;
         player.mo.health := player.health;
         player._message := GOTSUPER;
         if not oldsharewareversion then
