@@ -83,6 +83,7 @@ uses
   sc_evaluate_actor,
   sc_utils,
   p_pspr,
+  p_spec,
   p_mobj_h,
   p_gender,
   ps_main,
@@ -1341,6 +1342,7 @@ var
     AddRes('VSpeed = ' + itoa(round(mobj.vspeed * FRACUNIT)));
     AddRes('MinMissileChance = ' + itoa(round(mobj.minmissilechance)));
     AddRes('Pushfactor = ' + itoa(round(mobj.pushfactor * FRACUNIT)));
+    AddRes('Friction = ' + itoa(round(mobj.friction * FRACUNIT)));
     AddRes('Width = ' + itoa(mobj.radius * FRACUNIT));
     AddRes('Height = ' + itoa(mobj.height * FRACUNIT));
     AddRes('Mass = ' + itoa(mobj.mass));
@@ -1741,6 +1743,7 @@ begin
       {$ENDIF}
       mobj.scale := 1.0;
       mobj.pushfactor := 0.25; {DEFPUSHFACTOR / FRACUNIT;}
+      mobj.friction := 0.90625; {ORIG_FRICTION / FRACUNIT;}
       mobj.gravity := 1.0;
       mobj.replacesid := -1;
       ismissile := false;
@@ -2121,6 +2124,17 @@ begin
           //      and 0..FRACUNIT in mobjinfo table
           if mobj.pushfactor > 64 then
             mobj.pushfactor := mobj.pushfactor / FRACUNIT;
+          sc.GetString;
+        end
+        else if sc.MatchString('friction') then
+        begin
+          sc.GetFloat;
+          mobj.friction := sc._float;
+          // JVAL In case that we encounter a fixed_t value
+          //      Normal values for pushfactor are 0..1 in ACTORDEF lumps
+          //      and 0..FRACUNIT in mobjinfo table
+          if mobj.friction > 64 then
+            mobj.friction := mobj.friction / FRACUNIT;
           sc.GetString;
         end
         else if sc.MatchString('scale') then
@@ -2810,6 +2824,8 @@ begin
     AddLn('MinMissileChance ' + itoa(m.minmissilechance));
   if m.pushfactor <> DEFPUSHFACTOR then
     AddLn('Pushfactor ' + itoa(m.pushfactor));
+  if m.friction <> ORIG_FRICTION then
+    AddLn('Friction ' + itoa(m.friction));
   if m.scale <> FRACUNIT then
     AddLn('Scale ' + ftoafmt('2.4', m.scale / FRACUNIT));
   if m.gravity <> FRACUNIT then

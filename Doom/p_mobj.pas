@@ -857,6 +857,7 @@ begin
   mobj.scale := info.scale;
   mobj.gravity := info.gravity;
   mobj.pushfactor := info.pushfactor;
+  mobj.friction := info.friction;
   mobj.renderstyle := info.renderstyle;
   mobj.alpha := info.alpha;
   if mobj.flags_ex and MF_EX_FLOATBOB <> 0 then
@@ -981,7 +982,6 @@ begin
   mobj.momz := mobj.info.vspeed;
 
   mobj.thinker._function.acp1 := @P_MobjThinker;
-  mobj.friction := ORIG_FRICTION;
 
   P_AddThinker(@mobj.thinker);
 

@@ -125,6 +125,7 @@ type
     {$ENDIF}
     vspeed: float;
     pushfactor: float;
+    friction: float;
     statesdefined: LongWord;
     replacesid: integer;
     scale: float;

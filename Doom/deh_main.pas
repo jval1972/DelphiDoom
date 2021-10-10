@@ -562,6 +562,7 @@ begin
           60: mobjinfo[mobj_no].maxtargetrange := mobj_val;
           61: mobjinfo[mobj_no].WeaveIndexXY := mobj_val;
           62: mobjinfo[mobj_no].WeaveIndexZ := mobj_val;
+          63: mobjinfo[mobj_no].friction := DEH_FixedOrFloat(token2, 64);
         end;
       end;
 
@@ -1610,6 +1611,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[60]), mobjinfo[i].maxtargetrange]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[61]), mobjinfo[i].WeaveIndexXY]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[62]), mobjinfo[i].WeaveIndexZ]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[63]), mobjinfo[i].pushfactor]);
 
     result.Add('');
   end;
@@ -1866,6 +1868,7 @@ begin
   mobj_tokens.Add('MAX TARGET RANGE');   // .maxtargetrange           // 60
   mobj_tokens.Add('WEAVE INDEX XY');     // .WeaveIndexXY             // 61
   mobj_tokens.Add('WEAVE INDEX Z');      // .WeaveIndexZ              // 62
+  mobj_tokens.Add('FRICTION');           // .Friction                 // 63
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);

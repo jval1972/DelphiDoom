@@ -84,6 +84,7 @@ uses
   d_think,
   i_system,
   m_fixed,
+  p_spec,
   info;
 
 var
@@ -260,6 +261,7 @@ begin
   mobjinfo[nummobjtypes].inheritsfrom := -1; // Set to -1
   mobjinfo[nummobjtypes].doomednum := -1; // Set to -1
   mobjinfo[nummobjtypes].pushfactor := DEFPUSHFACTOR;
+  mobjinfo[nummobjtypes].friction := ORIG_FRICTION;
   mobjinfo[nummobjtypes].scale := FRACUNIT;
   mobjinfo[nummobjtypes].gravity := FRACUNIT;
   result := nummobjtypes;
