@@ -6052,6 +6052,9 @@ begin
   actor.height := actor.state.params.FixedVal[0];
 end;
 
+//
+// A_SetFriction(newfriction: float)
+//
 procedure A_SetFriction(actor: Pmobj_t);
 begin
   if not P_CheckStateParams(actor, 1) then
