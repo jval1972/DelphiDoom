@@ -2306,7 +2306,9 @@ end;
 
 function R_GetColormap32(const cmap: PByteArray): PLongWordArray;
 begin
-  if cmap = nil then
+  if fixedcolormapnum = INVERSECOLORMAP then
+    result := @inversecolormap32
+  else if cmap = nil then
     result := @colormaps32[6 * 256] // FuzzLight
   else
     result := @colormaps32[(integer(cmap) - integer(colormaps))];

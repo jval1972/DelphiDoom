@@ -100,7 +100,7 @@ Conditionals=DOOM;OPTIMIZE_FOR_SPEED;
 DebugSourceDirs=.\Base\;F:\DelphiDoom_Release\DelphiDoom_Src\Src\Doom\
 UsePackages=0
 [Parameters]
-RunParams=-nofullscreen -geom 1920x1080 RDDVOX-0.40.zip -devparm
+RunParams=-nofullscreen -geom 1920x1080 RDDVOX-0.40.zip 
 HostApplication=
 Launcher=
 UseLauncher=0

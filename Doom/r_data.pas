@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -103,6 +103,7 @@ var
   def_colormaps: PByteArray;
   colormaps: PByteArray;
   colormaps32: PLongWordArray;
+  inversecolormap32: array[0..255] of LongWord;
 
 var
   firstflat: integer;
@@ -1084,6 +1085,8 @@ begin
     if def_colormaps[i] = 0 then
       def_colormaps[i] := aprox_black;
   v_translation := def_colormaps;
+  for i := 0 to 255 do
+    inversecolormap32[i] := cpal[def_colormaps[NUMCOLORMAPS * 256 + i]];
 end;
 
 //
