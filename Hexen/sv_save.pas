@@ -1314,6 +1314,8 @@ begin
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
       mobj.master := nil;
+
+      mobj.friction := ORIG_FRICTION;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1332,6 +1334,8 @@ begin
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
       mobj.master := nil;
+
+      mobj.friction := ORIG_FRICTION;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1348,6 +1352,8 @@ begin
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
       mobj.master := nil;
+
+      mobj.friction := ORIG_FRICTION;
     end
     else if LOADVERSION <= VERSION205 then
     begin
@@ -1356,6 +1362,8 @@ begin
 
       mobj.mass := mobjinfo[Ord(mobj._type)].mass;
       mobj.master := nil;
+
+      mobj.friction := ORIG_FRICTION;
     end
     else
     begin

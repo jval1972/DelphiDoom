@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 477;
+  DEHNUMACTIONS = 478;
 
 type
   deh_action_t = record
@@ -583,6 +583,7 @@ begin
           58: mobjinfo[mobj_no].maxtargetrange := mobj_val;
           59: mobjinfo[mobj_no].WeaveIndexXY := mobj_val;
           60: mobjinfo[mobj_no].WeaveIndexZ := mobj_val;
+          61: mobjinfo[mobj_no].friction := DEH_FixedOrFloat(token2, 64);
         end;
       end;
 
@@ -1550,6 +1551,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[58]), mobjinfo[i].maxtargetrange]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[59]), mobjinfo[i].WeaveIndexXY]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[60]), mobjinfo[i].WeaveIndexZ]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[61]), mobjinfo[i].friction]);
 
     result.Add('');
   end;
@@ -1777,6 +1779,7 @@ begin
   mobj_tokens.Add('MAX TARGET RANGE');   // .maxtargetrange           // 58
   mobj_tokens.Add('WEAVE INDEX XY');     // .WeaveIndexXY             // 59
   mobj_tokens.Add('WEAVE INDEX Z');      // .WeaveIndexZ              // 60
+  mobj_tokens.Add('FRICTION');           // .Friction                 // 63
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
@@ -3407,6 +3410,9 @@ begin
   deh_actions[476].action.acp1 := @A_OverlayDrawCenterText;
   deh_actions[476].name := strupper('OverlayDrawCenterText');
   {$IFDEF DLL}deh_actions[476].decl := 'A_OverlayDrawCenterText(ticks: Integer; txt: string; x, y: Integer ;)';{$ENDIF}
+  deh_actions[477].action.acp1 := @A_SetFriction;
+  deh_actions[477].name := strupper('SetFriction');
+  {$IFDEF DLL}deh_actions[477].decl := 'A_SetFriction(newfriction: float)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do

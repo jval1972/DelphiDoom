@@ -75,6 +75,7 @@ uses
   p_inter,
   p_extra,
   p_user,
+  p_spec,
   info_common,
   r_renderstyle,
   sounds;
@@ -31454,6 +31455,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR or MF_NOGRAVITY;          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31488,6 +31490,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: MF2_DONTDRAW;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31522,6 +31525,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31556,6 +31560,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31590,6 +31595,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31624,6 +31630,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31658,6 +31665,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_RIP;                            // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31692,6 +31700,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31726,6 +31735,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31760,6 +31770,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31794,6 +31805,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31828,6 +31840,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: MF2_NOTELEPORT or MF2_DONTDRAW;                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31862,6 +31875,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: MF2_NOTELEPORT or MF2_DONTDRAW;                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31896,6 +31910,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31930,6 +31945,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31964,6 +31980,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -31998,6 +32015,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32032,6 +32050,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32066,6 +32085,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_DROPOFF or MF_NOBLOCKMAP;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32100,6 +32120,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32134,6 +32155,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP or MF2_DONTDRAW;      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32168,6 +32190,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32202,6 +32225,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32236,6 +32260,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32270,6 +32295,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32304,6 +32330,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32338,6 +32365,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_NOBLOCKMAP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32372,6 +32400,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32406,6 +32435,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32440,6 +32470,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32474,6 +32505,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32508,6 +32540,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32542,6 +32575,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32576,6 +32610,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32610,6 +32645,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32644,6 +32680,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32678,6 +32715,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32712,6 +32750,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: MF2_DONTDRAW or MF2_FLOATBOB;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32746,6 +32785,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_FLOAT or MF_NOGRAVITY or MF_SHADOW or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32780,6 +32820,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_FLOAT or MF_NOGRAVITY or MF_SHADOW or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32814,6 +32855,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_FLOAT or MF_NOGRAVITY or MF_SHADOW or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32848,6 +32890,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: MF2_DONTDRAW;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32882,6 +32925,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32916,6 +32960,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32950,6 +32995,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -32984,6 +33030,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33018,6 +33065,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33052,6 +33100,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33086,6 +33135,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33120,6 +33170,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33154,6 +33205,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33188,6 +33240,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33222,6 +33275,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33256,6 +33310,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33290,6 +33345,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33324,6 +33380,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33358,6 +33415,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33392,6 +33450,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33426,6 +33485,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33460,6 +33520,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33494,6 +33555,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33528,6 +33590,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33562,6 +33625,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33596,6 +33660,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33630,6 +33695,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33664,6 +33730,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33698,6 +33765,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33732,6 +33800,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33766,6 +33835,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33800,6 +33870,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33834,6 +33905,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33868,6 +33940,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33902,6 +33975,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33936,6 +34010,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -33970,6 +34045,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34004,6 +34080,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOGRAVITY or MF_ALTSHADOW;                          // flags
     flags2: MF2_FIREDAMAGE;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34038,6 +34115,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34072,6 +34150,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34106,6 +34185,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOGRAVITY or MF_NOBLOCKMAP;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34140,6 +34220,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOGRAVITY or MF_NOBLOCKMAP or MF_SHADOW or MF_NOCLIP or MF_DROPOFF;// flags
     flags2: MF2_NODMGTHRUST;                                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34174,6 +34255,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_FLOORBOUNCE or MF2_FIREDAMAGE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34208,6 +34290,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34242,6 +34325,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34276,6 +34360,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34310,6 +34395,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34344,6 +34430,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34378,6 +34465,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34412,6 +34500,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34446,6 +34535,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34480,6 +34570,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34514,6 +34605,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34548,6 +34640,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34582,6 +34675,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34616,6 +34710,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34650,6 +34745,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34684,6 +34780,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34718,6 +34815,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34752,6 +34850,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34786,6 +34885,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34820,6 +34920,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34854,6 +34955,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34888,6 +34990,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34922,6 +35025,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34956,6 +35060,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -34990,6 +35095,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35024,6 +35130,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35058,6 +35165,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35092,6 +35200,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35126,6 +35235,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35160,6 +35270,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35194,6 +35305,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35228,6 +35340,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35262,6 +35375,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35296,6 +35410,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35330,6 +35445,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35364,6 +35480,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35398,6 +35515,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35432,6 +35550,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35466,6 +35585,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35500,6 +35620,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35534,6 +35655,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35568,6 +35690,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35602,6 +35725,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35636,6 +35760,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35670,6 +35795,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35704,6 +35830,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35738,6 +35865,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35772,6 +35900,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35806,6 +35935,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35840,6 +35970,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35874,6 +36005,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35908,6 +36040,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35942,6 +36075,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -35976,6 +36110,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36010,6 +36145,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36044,6 +36180,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36078,6 +36215,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36112,6 +36250,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36146,6 +36285,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36180,6 +36320,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36214,6 +36355,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36248,6 +36390,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36282,6 +36425,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36316,6 +36460,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36350,6 +36495,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36384,6 +36530,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36418,6 +36565,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36452,6 +36600,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36486,6 +36635,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36520,6 +36670,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36554,6 +36705,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36588,6 +36740,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36622,6 +36775,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36656,6 +36810,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36690,6 +36845,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36724,6 +36880,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36758,6 +36915,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36792,6 +36950,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36826,6 +36985,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36860,6 +37020,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36894,6 +37055,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36928,6 +37090,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36962,6 +37125,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -36996,6 +37160,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37030,6 +37195,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37064,6 +37230,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37098,6 +37265,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37132,6 +37300,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37166,6 +37335,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37200,6 +37370,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37234,6 +37405,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_DROPOFF;  // flags
     flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37268,6 +37440,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_DROPOFF;  // flags
     flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37302,6 +37475,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_DROPOFF;  // flags
     flags2: MF2_SLIDE or MF2_PUSHABLE or MF2_TELESTOMP or MF2_PASSMOBJ;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37336,6 +37510,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE;                                            // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37370,6 +37545,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37404,6 +37580,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37438,6 +37615,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37472,6 +37650,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: MF2_TELESTOMP;                                        // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37506,6 +37685,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE;                                            // flags
     flags2: MF2_LOGRAV;                                           // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37540,6 +37720,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37574,6 +37755,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37608,6 +37790,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: MF2_DONTDRAW;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37642,6 +37825,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE;                           // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37676,6 +37860,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE;                           // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37710,6 +37895,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37744,6 +37930,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37778,6 +37965,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_NOGRAVITY;                              // flags
     flags2: MF2_DONTDRAW;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37812,6 +38000,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37846,6 +38035,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37880,6 +38070,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37914,6 +38105,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37948,6 +38140,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -37982,6 +38175,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38016,6 +38210,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38050,6 +38245,7 @@ const // Hexen Original mobjinfo
     flags: MF_SHOOTABLE or MF_SOLID or MF_NOBLOOD;                // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38084,6 +38280,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38118,6 +38315,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38152,6 +38350,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38186,6 +38385,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38220,6 +38420,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38254,6 +38455,7 @@ const // Hexen Original mobjinfo
     flags: 0;                                                     // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38288,6 +38490,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_NOGRAVITY or MF_SPAWNCEILING;// flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38322,6 +38525,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38356,6 +38560,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38390,6 +38595,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38424,6 +38630,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38458,6 +38665,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38492,6 +38700,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;      // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38526,6 +38735,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;      // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38560,6 +38770,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;      // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38594,6 +38805,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;      // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38628,6 +38840,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;      // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38662,6 +38875,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;      // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38696,6 +38910,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SPAWNCEILING;      // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38730,6 +38945,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38764,6 +38980,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38798,6 +39015,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38832,6 +39050,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38866,6 +39085,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38900,6 +39120,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38934,6 +39155,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -38968,6 +39190,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39002,6 +39225,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39036,6 +39260,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39070,6 +39295,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39104,6 +39330,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39138,6 +39365,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39173,6 +39401,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39207,6 +39436,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39242,6 +39472,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39277,6 +39508,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39312,6 +39544,7 @@ const // Hexen Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39346,6 +39579,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39380,6 +39614,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39415,6 +39650,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39449,6 +39685,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;           // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39483,6 +39720,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39517,6 +39755,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39551,6 +39790,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;           // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39586,6 +39826,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39620,6 +39861,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39654,6 +39896,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39689,6 +39932,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39724,6 +39968,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39758,6 +40003,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39792,6 +40038,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_DONTDRAW or MF2_FIREDAMAGE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39826,6 +40073,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE;// flags
     flags2: MF2_NOTELEPORT or MF2_SEEKERMISSILE or MF2_RIP or MF2_IMPACT or MF2_PCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39860,6 +40108,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_NOCLIP or MF_ALTSHADOW;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39895,6 +40144,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39929,6 +40179,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_MISSILE;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39964,6 +40215,7 @@ const // Hexen Original mobjinfo
     flags2: MF2_NOTELEPORT;                                       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -39999,6 +40251,7 @@ const // Hexen Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;  // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40034,6 +40287,7 @@ const // Hexen Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;  // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40068,6 +40322,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_RIP or MF2_IMPACT or MF2_PCROSS or MF2_NODMGTHRUST or MF2_CANNOTPUSH;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40102,6 +40357,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40136,6 +40392,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;           // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40170,6 +40427,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;           // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40204,6 +40462,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;// flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40238,6 +40497,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_RIP or MF2_IMPACT or MF2_PCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40272,6 +40532,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS or MF2_SEEKERMISSILE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40306,6 +40567,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40340,6 +40602,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40374,6 +40637,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40408,6 +40672,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40442,6 +40707,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40476,6 +40742,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40510,6 +40777,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40544,6 +40812,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40578,6 +40847,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40613,6 +40883,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40647,6 +40918,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40681,6 +40953,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_ICEDAMAGE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40715,6 +40988,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40749,6 +41023,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40783,6 +41058,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_CORPSE;              // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40817,6 +41093,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;// flags
     flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40851,6 +41128,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                           // flags
     flags2: MF2_LOGRAV or MF2_CANNOTPUSH;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40885,6 +41163,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40919,6 +41198,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                           // flags
     flags2: MF2_LOGRAV or MF2_CANNOTPUSH or MF2_FLOORCLIP;        // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40953,6 +41233,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;// flags
     flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -40987,6 +41268,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;// flags
     flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41021,6 +41303,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOTDMATCH;// flags
     flags2: MF2_WINDTHRUST or MF2_SLIDE or MF2_PASSMOBJ or MF2_FLOORCLIP or MF2_TELESTOMP or MF2_PUSHWALL;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41055,6 +41338,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41089,6 +41373,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41123,6 +41408,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41157,6 +41443,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;           // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41191,6 +41478,7 @@ const // Hexen Original mobjinfo
     flags: MF_DROPOFF or MF_CORPSE;                               // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41225,6 +41513,7 @@ const // Hexen Original mobjinfo
     flags: MF_DROPOFF or MF_CORPSE;                               // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41259,6 +41548,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41293,6 +41583,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41327,6 +41618,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41361,6 +41653,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41395,6 +41688,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41429,6 +41723,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41463,6 +41758,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41497,6 +41793,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41531,6 +41828,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41565,6 +41863,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41599,6 +41898,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41633,6 +41933,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41667,6 +41968,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_CORPSE;// flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41701,6 +42003,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE or MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FIREDAMAGE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41735,6 +42038,7 @@ const // Hexen Original mobjinfo
     flags: MF_DROPOFF or MF_NOGRAVITY or MF_FLOAT or MF_COUNTKILL;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP or MF2_DONTDRAW;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41769,6 +42073,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF or MF_NOGRAVITY or MF_FLOAT;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41803,6 +42108,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FLOORCLIP or MF2_FIREDAMAGE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41837,6 +42143,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                           // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41871,6 +42178,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41905,6 +42213,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41939,6 +42248,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -41973,6 +42283,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW; // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42007,6 +42318,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42041,6 +42353,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42075,6 +42388,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42109,6 +42423,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42143,6 +42458,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42177,6 +42493,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_COUNTKILL or MF_NOBLOOD;                // flags
     flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE or MF2_MCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42211,6 +42528,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_COUNTKILL or MF_NOBLOOD;                // flags
     flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE or MF2_MCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42245,6 +42563,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42279,6 +42598,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: MF2_LOGRAV;                                           // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42313,6 +42633,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42347,6 +42668,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42381,6 +42703,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42415,6 +42738,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_FLOAT or MF_NOGRAVITY or MF_NOBLOOD;// flags
     flags2: MF2_PASSMOBJ or MF2_PUSHWALL or MF2_TELESTOMP;        // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42450,6 +42774,7 @@ const // Hexen Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42484,6 +42809,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42518,6 +42844,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42552,6 +42879,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_SEEKERMISSILE;                  // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42586,6 +42914,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_FLOAT or MF_NOGRAVITY or MF_NOBLOOD;// flags
     flags2: MF2_PASSMOBJ or MF2_BOSS;                             // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42620,6 +42949,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42654,6 +42984,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_DONTDRAW;     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42688,6 +43019,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42722,6 +43054,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42756,6 +43089,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42790,6 +43124,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL or MF_NOGRAVITY;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42824,6 +43159,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42858,6 +43194,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42892,6 +43229,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42926,6 +43264,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42960,6 +43299,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -42994,6 +43334,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43028,6 +43369,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43062,6 +43404,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43096,6 +43439,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43130,6 +43474,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43164,6 +43509,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43198,6 +43544,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43232,6 +43579,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43266,6 +43614,7 @@ const // Hexen Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43300,6 +43649,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43334,6 +43684,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43368,6 +43719,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43402,6 +43754,7 @@ const // Hexen Original mobjinfo
     flags: MF_DROPOFF or MF_CORPSE;                               // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43436,6 +43789,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF or MF_NOGRAVITY or MF_FLOAT;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_INVULNERABLE or MF2_MCROSS or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43470,6 +43824,7 @@ const // Hexen Original mobjinfo
     flags: MF_DROPOFF or MF_CORPSE;                               // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43504,6 +43859,7 @@ const // Hexen Original mobjinfo
     flags: MF_DROPOFF or MF_CORPSE;                               // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORCLIP;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43538,6 +43894,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43572,6 +43929,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43606,6 +43964,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43640,6 +43999,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43674,6 +44034,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43708,6 +44069,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;// flags
     flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_FLOORCLIP or MF2_FIREDAMAGE;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43742,6 +44104,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;// flags
     flags2: MF2_PASSMOBJ or MF2_PUSHWALL or MF2_ICEDAMAGE or MF2_MCROSS or MF2_TELESTOMP;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43776,6 +44139,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;// flags
     flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43811,6 +44175,7 @@ const // Hexen Original mobjinfo
     flags2: MF2_NOTELEPORT;                                       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43845,6 +44210,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_ICEDAMAGE;        // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43879,6 +44245,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                           // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43913,6 +44280,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43947,6 +44315,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -43981,6 +44350,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44015,6 +44385,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44049,6 +44420,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44083,6 +44455,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_BOSS or MF2_MCROSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44117,6 +44490,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44151,6 +44525,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44185,6 +44560,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44219,6 +44595,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE;                           // flags
     flags2: MF2_NOTELEPORT or MF2_FLOORBOUNCE;                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44253,6 +44630,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44287,6 +44665,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;         // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44321,6 +44700,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE;                           // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44355,6 +44735,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;         // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44389,6 +44770,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_NOGRAVITY;           // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44423,6 +44805,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                           // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44457,6 +44840,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOCLIP or MF_ALTSHADOW;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44491,6 +44875,7 @@ const // Hexen Original mobjinfo
     flags: MF_MISSILE;                                            // flags
     flags2: MF2_LOGRAV or MF2_NOTELEPORT;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44525,6 +44910,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FLOORCLIP or MF2_PUSHWALL or MF2_MCROSS or MF2_TELESTOMP or MF2_BOSS;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44559,6 +44945,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44593,6 +44980,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44627,6 +45015,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44661,6 +45050,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44695,6 +45085,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44729,6 +45120,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_NOGRAVITY or MF_ALTSHADOW or MF_MISSILE or MF_NOCLIP;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44763,6 +45155,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44797,6 +45190,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44831,6 +45225,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44865,6 +45260,7 @@ const // Hexen Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_ALTSHADOW or MF_NOBLOOD;// flags
     flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_MCROSS or MF2_PUSHWALL or MF2_BLASTED;// flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44899,6 +45295,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE or MF_DROPOFF;// flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44933,6 +45330,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR or MF_NOGRAVITY;          // flags
     flags2: MF2_DONTDRAW;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -44967,6 +45365,7 @@ const // Hexen Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: MF2_PASSMOBJ or MF2_NOTELEPORT;                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
