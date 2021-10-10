@@ -25,6 +25,7 @@ Support for "MAX SOULSPHERE" name in Dehacked.
 Friction field in ACTORDEF & Dehacked.
 Added A_SetFriction() ACTORDEF function.
 Friction available in PascalScript. Added GetActorFriction(), SetActorFriction() & GetMobjInfoFriction PascalScript functions.
+FastMM upgrated to ver. 4.993.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------
