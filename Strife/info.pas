@@ -79,6 +79,7 @@ uses
   p_pspr,
   p_mobj_h,
   p_extra,
+  p_spec,
   info_common,
   r_renderstyle,
   sounds;
@@ -12798,6 +12799,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12849,6 +12851,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12900,6 +12903,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12952,6 +12956,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13004,6 +13009,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13056,6 +13062,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13107,6 +13114,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13158,6 +13166,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13209,6 +13218,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13261,6 +13271,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13313,6 +13324,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13365,6 +13377,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13417,6 +13430,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13469,6 +13483,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13520,6 +13535,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13571,6 +13587,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13622,6 +13639,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13673,6 +13691,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13724,6 +13743,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13775,6 +13795,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13826,6 +13847,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13877,6 +13899,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13928,6 +13951,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13979,6 +14003,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14030,6 +14055,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14081,6 +14107,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14132,6 +14159,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14183,6 +14211,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14234,6 +14263,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14285,6 +14315,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14336,6 +14367,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14387,6 +14419,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14438,6 +14471,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14489,6 +14523,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14540,6 +14575,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14591,6 +14627,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14642,6 +14679,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14693,6 +14731,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14744,6 +14783,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14795,6 +14835,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14846,6 +14887,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14897,6 +14939,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14948,6 +14991,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14999,6 +15043,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15050,6 +15095,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15101,6 +15147,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15152,6 +15199,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15203,6 +15251,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15254,6 +15303,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15305,6 +15355,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15356,6 +15407,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15407,6 +15459,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15458,6 +15511,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15509,6 +15563,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15560,6 +15615,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15611,6 +15667,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15662,6 +15719,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15713,6 +15771,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15764,6 +15823,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15815,6 +15875,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15866,6 +15927,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15917,6 +15979,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15968,6 +16031,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16019,6 +16083,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16070,6 +16135,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16121,6 +16187,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16174,6 +16241,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16227,6 +16295,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16278,6 +16347,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16329,6 +16399,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16382,6 +16453,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16435,6 +16507,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16488,6 +16561,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16541,6 +16615,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16594,6 +16669,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16647,6 +16723,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16698,6 +16775,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16749,6 +16827,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16801,6 +16880,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16853,6 +16933,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16905,6 +16986,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16957,6 +17039,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17009,6 +17092,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17060,6 +17144,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17112,6 +17197,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17164,6 +17250,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17216,6 +17303,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17268,6 +17356,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17319,6 +17408,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17371,6 +17461,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17423,6 +17514,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17476,6 +17568,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17528,6 +17621,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17580,6 +17674,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17631,6 +17726,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17683,6 +17779,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17734,6 +17831,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17785,6 +17883,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17836,6 +17935,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17887,6 +17987,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17938,6 +18039,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17989,6 +18091,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18040,6 +18143,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18091,6 +18195,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18142,6 +18247,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18193,6 +18299,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18244,6 +18351,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18295,6 +18403,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18346,6 +18455,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18397,6 +18507,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18448,6 +18559,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18499,6 +18611,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18550,6 +18663,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18601,6 +18715,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18652,6 +18767,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18703,6 +18819,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18754,6 +18871,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18805,6 +18923,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18856,6 +18975,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18907,6 +19027,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18958,6 +19079,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19010,6 +19132,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19062,6 +19185,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19113,6 +19237,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19165,6 +19290,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19216,6 +19342,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19267,6 +19394,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19318,6 +19446,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19370,6 +19499,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19421,6 +19551,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19472,6 +19603,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19523,6 +19655,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19574,6 +19707,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19625,6 +19759,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19676,6 +19811,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19727,6 +19863,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19778,6 +19915,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19829,6 +19967,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19880,6 +20019,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19931,6 +20071,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -19982,6 +20123,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20033,6 +20175,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20084,6 +20227,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20135,6 +20279,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20186,6 +20331,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20237,6 +20383,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20288,6 +20435,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20339,6 +20487,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20390,6 +20539,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20441,6 +20591,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20492,6 +20643,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20543,6 +20695,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20594,6 +20747,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20645,6 +20799,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20696,6 +20851,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20747,6 +20903,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20798,6 +20955,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20849,6 +21007,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20900,6 +21059,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -20951,6 +21111,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21002,6 +21163,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21053,6 +21215,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21104,6 +21267,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21155,6 +21319,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21206,6 +21371,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21257,6 +21423,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21308,6 +21475,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21359,6 +21527,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21410,6 +21579,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21461,6 +21631,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21512,6 +21683,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21563,6 +21735,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21614,6 +21787,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21665,6 +21839,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21716,6 +21891,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21767,6 +21943,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21818,6 +21995,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21869,6 +22047,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21920,6 +22099,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -21971,6 +22151,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22022,6 +22203,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22073,6 +22255,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22124,6 +22307,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22175,6 +22359,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22226,6 +22411,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22277,6 +22463,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22328,6 +22515,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22379,6 +22567,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22430,6 +22619,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22481,6 +22671,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22532,6 +22723,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22583,6 +22775,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22634,6 +22827,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22685,6 +22879,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22736,6 +22931,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22787,6 +22983,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22838,6 +23035,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22889,6 +23087,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22940,6 +23139,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -22991,6 +23191,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23042,6 +23243,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23094,6 +23296,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23145,6 +23348,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23196,6 +23400,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23247,6 +23452,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23298,6 +23504,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23349,6 +23556,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23400,6 +23608,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23451,6 +23660,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23502,6 +23712,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23553,6 +23764,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23604,6 +23816,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23655,6 +23868,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23706,6 +23920,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23757,6 +23972,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23808,6 +24024,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23859,6 +24076,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23910,6 +24128,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -23961,6 +24180,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24012,6 +24232,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24063,6 +24284,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24114,6 +24336,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24165,6 +24388,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24216,6 +24440,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24267,6 +24492,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24318,6 +24544,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24369,6 +24596,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24420,6 +24648,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24471,6 +24700,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24522,6 +24752,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24573,6 +24804,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24624,6 +24856,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24675,6 +24908,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24726,6 +24960,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24777,6 +25012,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24828,6 +25064,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24879,6 +25116,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24930,6 +25168,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -24981,6 +25220,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25032,6 +25272,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25083,6 +25324,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25134,6 +25376,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25185,6 +25428,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25236,6 +25480,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25287,6 +25532,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25338,6 +25584,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25389,6 +25636,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25440,6 +25688,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25491,6 +25740,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25542,6 +25792,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25593,6 +25844,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25644,6 +25896,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25695,6 +25948,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25746,6 +26000,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25797,6 +26052,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25848,6 +26104,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25899,6 +26156,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -25950,6 +26208,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26001,6 +26260,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26052,6 +26312,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26103,6 +26364,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26154,6 +26416,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26205,6 +26468,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26256,6 +26520,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26307,6 +26572,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26358,6 +26624,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26409,6 +26676,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26460,6 +26728,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26511,6 +26780,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26562,6 +26832,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26613,6 +26884,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26664,6 +26936,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26715,6 +26988,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26766,6 +27040,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26817,6 +27092,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26868,6 +27144,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26919,6 +27196,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -26970,6 +27248,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27021,6 +27300,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27072,6 +27352,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27123,6 +27404,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27174,6 +27456,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27225,6 +27508,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27276,6 +27560,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27327,6 +27612,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27378,6 +27664,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27429,6 +27716,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27480,6 +27768,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27532,6 +27821,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27583,6 +27873,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27634,6 +27925,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27685,6 +27977,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27736,6 +28029,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27787,6 +28081,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27838,6 +28133,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27889,6 +28185,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27940,6 +28237,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -27991,6 +28289,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28042,6 +28341,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28093,6 +28393,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28144,6 +28445,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28195,6 +28497,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28246,6 +28549,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28297,6 +28601,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28348,6 +28653,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28399,6 +28705,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28450,6 +28757,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28501,6 +28809,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28552,6 +28861,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28603,6 +28913,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28654,6 +28965,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28705,6 +29017,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28756,6 +29069,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28807,6 +29121,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28858,6 +29173,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28909,6 +29225,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -28960,6 +29277,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29011,6 +29329,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29062,6 +29381,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29113,6 +29433,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29164,6 +29485,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29215,6 +29537,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29266,6 +29589,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29317,6 +29641,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29368,6 +29693,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29419,6 +29745,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29470,6 +29797,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29521,6 +29849,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29572,6 +29901,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29623,6 +29953,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29674,6 +30005,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29725,6 +30057,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29776,6 +30109,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29827,6 +30161,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29878,6 +30213,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29929,6 +30265,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -29980,6 +30317,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30031,6 +30369,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30082,6 +30421,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30133,6 +30473,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30184,6 +30525,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30235,6 +30577,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30286,6 +30629,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30337,6 +30681,7 @@ const // Doom Original mobjinfo
     interactstate: Ord(S_NULL);                                   // interactstate
     missileheight: Ord(S_NULL);                                   // missileheight
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30371,6 +30716,7 @@ const // Doom Original mobjinfo
     flags_ex: MF_EX_LOWGRAVITY;                                   // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30404,6 +30750,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30437,6 +30784,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2_ex: MF2_EX_DONOTRENDERSHADOW or MF2_EX_NOHITFLOOR;     // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30472,6 +30820,7 @@ const // Doom Original mobjinfo
     renderstyle: mrs_translucent;
     alpha: 40000;
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30506,6 +30855,7 @@ const // Doom Original mobjinfo
     flags_ex: MF_EX_LOWGRAVITY;                                   // flags_ex
     flags2_ex: MF2_EX_NOHITFLOOR;                                 // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30539,6 +30889,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2_ex: MF2_EX_NOHITFLOOR;                                 // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30573,6 +30924,7 @@ const // Doom Original mobjinfo
     flags_ex: MF_EX_LOWGRAVITY;                                   // flags_ex
     flags2_ex: MF2_EX_NOHITFLOOR;                                 // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30606,6 +30958,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2_ex: MF2_EX_NOHITFLOOR;                                 // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30647,6 +31000,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30688,6 +31042,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30730,6 +31085,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -30771,6 +31127,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex

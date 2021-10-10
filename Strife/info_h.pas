@@ -2349,6 +2349,7 @@ type
     missileheight: integer;
     vspeed: integer;  // Initial vertical speed
     pushfactor: integer; // How much can be pushed? 1..FRACUNIT
+    friction: integer; // Default is ORIG_FRICTION
     scale: integer;
     gravity: integer;
     flags3_ex: integer;
