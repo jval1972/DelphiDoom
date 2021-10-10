@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 349;
+  DEHNUMACTIONS = 350;
 
 type
   deh_action_t = record
