@@ -3096,6 +3096,9 @@ begin
   deh_actions[348].action.acp1 := @A_OverlayDrawCenterText;
   deh_actions[348].name := strupper('OverlayDrawCenterText');
   {$IFDEF DLL}deh_actions[348].decl := 'A_OverlayDrawCenterText(ticks: Integer; txt: string; x, y: Integer ;)';{$ENDIF}
+  deh_actions[349].action.acp1 := @A_SetFriction;
+  deh_actions[349].name := strupper('SetFriction');
+  {$IFDEF DLL}deh_actions[349].decl := 'A_SetFriction(newfriction: float)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
