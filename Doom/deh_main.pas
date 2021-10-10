@@ -1611,7 +1611,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[60]), mobjinfo[i].maxtargetrange]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[61]), mobjinfo[i].WeaveIndexXY]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[62]), mobjinfo[i].WeaveIndexZ]);
-    result.Add('%s = %d', [capitalizedstring(mobj_tokens[63]), mobjinfo[i].pushfactor]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[63]), mobjinfo[i].friction]);
 
     result.Add('');
   end;
