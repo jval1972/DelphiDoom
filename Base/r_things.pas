@@ -2343,7 +2343,8 @@ begin
   if vissprite_p > 0 then
   begin
     // draw all vissprites back to front
-    if uselightboost and (videomode = vm32bit) then
+    if (uselightboost and (videomode = vm32bit) and (fixedcolormapnum <> INVERSECOLORMAP)) or
+       (uselightboostgodmode and (videomode = vm32bit) and (fixedcolormapnum = INVERSECOLORMAP)) then
     begin
       // 32bit color
       for i := 0 to vissprite_p - 1 do

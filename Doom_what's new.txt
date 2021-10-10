@@ -28,6 +28,7 @@ Friction available in PascalScript. Added GetActorFriction(), SetActorFriction()
 FastMM upgrated to ver. 4.993.
 Bug fix: Corrected potential issue while loading text files.
 Corrected transparent voxel rendering in invulnerability mode.
+Added uselightboostgodmode console variable. When true (default) the glow lights are drawned in invulnerability mode. 
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------

@@ -164,7 +164,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = {$IFDEF FPC}198{$ELSE}200{$ENDIF};
+  NUMDEFAULTS = {$IFDEF FPC}199{$ELSE}201{$ENDIF};
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -411,6 +411,14 @@ const
 
     (name: 'uselightboost';
      location: @uselightboost;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'uselightboostgodmode';
+     location: @uselightboostgodmode;
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 0;

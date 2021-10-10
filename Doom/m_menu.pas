@@ -774,6 +774,7 @@ var
 type
   optionsdisplay32bit_e = (
     od_uselightboost,
+    od_uselightboostgodmode,
     od_forcecolormaps,
     od_32bittexturepaletteeffects,
     od_use32bitfuzzeffect,
@@ -4810,6 +4811,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @uselightboost;
   pmi.alphaKey := 'g';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Glow light in invulnerability';
+  pmi.cmd := 'uselightboostgodmode';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @uselightboostgodmode;
+  pmi.alphaKey := 'i';
 
   inc(pmi);
   pmi.status := 1;
