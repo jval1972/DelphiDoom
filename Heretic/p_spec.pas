@@ -169,15 +169,9 @@ type
   Pbutton_t = ^button_t;
 
 const
- // max # of wall switches in a level
-  MAXSWITCHES = 50;
-
- // 4 players, 4 buttons each at once, max.
-   MAXBUTTONS = 16;
-
- // 1 second, in ticks. 
-   BUTTONTIME = 35;
-
+  MAXSWITCHES = 50; // max # of wall switches in a level
+  MAXBUTTONS = 16;  // 4 players, 4 buttons each at once, max.
+  BUTTONTIME = 35;  // 1 second, in ticks.
 
 type
 //
