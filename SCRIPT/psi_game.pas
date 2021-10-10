@@ -151,6 +151,9 @@ procedure PS_SetActorWeaveIndexXY(const key: LongWord; const value: Integer);
 function PS_GetActorWeaveIndexZ(const key: LongWord): Integer;
 procedure PS_SetActorWeaveIndexZ(const key: LongWord; const value: Integer);
 
+function PS_GetActorFriction(const key: LongWord): Integer;
+procedure PS_SetActorFriction(const key: LongWord; const value: Integer);
+
 function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
@@ -648,6 +651,8 @@ function PS_GetMobjInfoMaxTargetRange(const typ: integer): integer;
 function PS_GetMobjInfoWeaveIndexXY(const typ: integer): integer;
 
 function PS_GetMobjInfoWeaveIndexZ(const typ: integer): integer;
+
+function PS_GetMobjInfoFriction(const typ: integer): integer;
 
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
@@ -1875,6 +1880,29 @@ begin
   if mo = nil then
     Exit;
   mo.WeaveIndexXY := value;
+end;
+
+function PS_GetActorFriction(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.friction;
+end;
+
+procedure PS_SetActorFriction(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.friction := value;
 end;
 
 function PS_GetActorName(const key: LongWord): string;
@@ -3159,6 +3187,16 @@ end;
 procedure TRTLActorWeaveIndexZ_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorWeaveIndexZ(LongWord(Self));
+end;
+
+procedure TRTLActorFriction_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorFriction(LongWord(Self), T);
+end;
+
+procedure TRTLActorFriction_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorFriction(LongWord(Self));
 end;
 
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
@@ -5873,6 +5911,16 @@ begin
   Result := mobjinfo[typ].WeaveIndexZ;
 end;
 
+function PS_GetMobjInfoFriction(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].friction;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -6200,6 +6248,11 @@ end;
 procedure TRTLMobjInfoItemWeaveIndexZ_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoWeaveIndexZ(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemFriction_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoFriction(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6802,7 +6855,8 @@ begin
   cactor.RegisterProperty('Arg5', 'Integer', iptRW);
   cactor.RegisterProperty('Height', 'fixed_t', iptRW);
   cactor.RegisterProperty('WeaveIndexXY', 'Integer', iptRW);
-  cactor.RegisterProperty('WeaveIndexZ', 'Integer', iptRW);;
+  cactor.RegisterProperty('WeaveIndexZ', 'Integer', iptRW);
+  cactor.RegisterProperty('Friction', 'fixed_t', iptRW);
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
   cactor.RegisterProperty('Flag', 'Boolean LongWord', iptRW);
@@ -6986,6 +7040,7 @@ begin
   cmobjinfoitem.RegisterProperty('MaxTargetRange', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('WeaveIndexXY', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('WeaveIndexZ', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('Friction', 'Integer', iptR);
 
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
@@ -7060,6 +7115,7 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorArg5_R, @TRTLActorArg5_W, 'Arg5');
   ractor.RegisterPropertyHelper(@TRTLActorWeaveIndexXY_R, @TRTLActorWeaveIndexXY_W, 'WeaveIndexXY');
   ractor.RegisterPropertyHelper(@TRTLActorWeaveIndexZ_R, @TRTLActorWeaveIndexZ_W, 'WeaveIndexZ');
+  ractor.RegisterPropertyHelper(@TRTLActorFriction_R, @TRTLActorFriction_W, 'Friction');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');
@@ -7236,6 +7292,7 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMaxTargetRange_R, nil, 'MaxTargetRange');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemWeaveIndexXY_R, nil, 'WeaveIndexXY');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemWeaveIndexZ_R, nil, 'WeaveIndexZ');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFriction_R, nil, 'Friction');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');

@@ -246,6 +246,8 @@ begin
   baseproclist.Add('procedure SetActorWeaveIndexXY(const key: LongWord; const value: Integer););', @PS_SetActorWeaveIndexXY);
   baseproclist.Add('function GetActorWeaveIndexZ(const key: LongWord): Integer;);', @PS_GetActorWeaveIndexZ);
   baseproclist.Add('procedure SetActorWeaveIndexZ(const key: LongWord; const value: Integer););', @PS_SetActorWeaveIndexZ);
+  baseproclist.Add('function GetActorFriction(const key: LongWord): Integer;);', @PS_GetActorFriction);
+  baseproclist.Add('procedure SetActorFriction(const key: LongWord; const value: Integer););', @PS_SetActorFriction);
   baseproclist.Add('function GetActorCustomParam(const key: LongWord; const parm: string): integer;', @PS_GetActorCustomParam);
   baseproclist.Add('procedure SetActorCustomParam(const key: LongWord; const parm: string; const value: integer);', @PS_SetActorCustomParam);
   baseproclist.Add('function CheckActorFlag(const key: LongWord; const flag: LongWord): boolean;', @PS_CheckActorFlag);
@@ -513,6 +515,7 @@ begin
   baseproclist.Add('function GetMobjInfoMaxTargetRange(const typ: integer): integer;', @PS_GetMobjInfoMaxTargetRange);
   baseproclist.Add('function GetMobjInfoWeaveIndexXY(const typ: integer): integer;', @PS_GetMobjInfoWeaveIndexXY);
   baseproclist.Add('function GetMobjInfoWeaveIndexZ(const typ: integer): integer;', @PS_GetMobjInfoWeaveIndexZ);
+  baseproclist.Add('function GetMobjInfoFriction(const typ: integer): integer;', @PS_GetMobjInfoFriction);
 // ------------------------------ GAME -----------------------------------------
   {$IFDEF HEXEN}
   baseproclist.Add('procedure G_Completed(map, position: integer);', @G_Completed);

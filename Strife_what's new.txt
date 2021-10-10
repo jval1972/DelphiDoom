@@ -21,6 +21,7 @@ Added r_blitmultiplier console variable. Default value is 1. Higher values can c
 Fixed potential memory corruption problem in R_MakeSpans().
 Friction field in ACTORDEF & Dehacked.
 Added A_SetFriction() ACTORDEF function.
+Friction available in PascalScript. Added GetActorFriction(), SetActorFriction() & GetMobjInfoFriction PascalScript functions.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------
