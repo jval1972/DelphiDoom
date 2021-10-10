@@ -23,6 +23,7 @@ Friction field in ACTORDEF & Dehacked.
 Added A_SetFriction() ACTORDEF function.
 Friction available in PascalScript. Added GetActorFriction(), SetActorFriction() & GetMobjInfoFriction PascalScript functions.
 FastMM upgrated to ver. 4.993.
+Bug fix: Corrected potential issue while loading text files.
 
 Version 2.0.6 build 728 - (20210219)
 -----------------------

@@ -3006,9 +3006,10 @@ begin
   outSize := (inpSize - 2) div 2;
   if outSize > 0 then
   begin
-    outBuf := malloc(outSize);
+    outBuf := malloc(outSize + 1);
     for i := 0 to outSize - 1 do
       outBuf[i] := inpBuf[i * 2 + 2];
+    outBuf[outsize] := 0;
   end
   else
   begin
@@ -3063,7 +3064,16 @@ begin
   {$I-}
   strm.Seek(0, sFromBeginning);
   SizeA := strm.Size;
-  A := malloc(SizeA);
+  {$I+}
+  if SizeA = 0 then
+  begin
+    Clear;
+    result := IOresult = 0;
+    Exit;
+  end;
+  {$I-}
+  A := malloc(SizeA + 1);
+  A[SizeA] := 0;
   strm.Read(A^, SizeA);
   isUTF16 := False;
   if SizeA > 1 then
@@ -3072,13 +3082,13 @@ begin
   if isUTF16 then
   begin
     BufferUtf16ToAnsi(A, SizeA, B, SizeB);
-    memfree(pointer(A), SizeA);
+    memfree(pointer(A), SizeA + 1);
     A := B;
     SizeA := SizeB;
   end;
 
   SetByteStr(A, SizeA);
-  memfree(pointer(A), SizeA);
+  memfree(pointer(A), SizeA + 1);
   {$I+}
   result := IOresult = 0;
 end;
