@@ -76,6 +76,7 @@ uses
   p_mobj_h,
   p_extra,
   p_common,
+  p_spec,
   info_common,
   r_renderstyle,
   sc_states,
@@ -12004,6 +12005,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12044,6 +12046,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12084,6 +12087,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12125,6 +12129,7 @@ const // Doom Original mobjinfo
     meleedamage: 0;                                               // meleedamage
     healstate: Ord(S_VILE_HEAL1);                                 // healstate
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12165,6 +12170,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12205,6 +12211,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12245,6 +12252,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12285,6 +12293,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12325,6 +12334,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12365,6 +12375,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12405,6 +12416,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12445,6 +12457,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12485,6 +12498,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12525,6 +12539,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12565,6 +12580,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: MF3_EX_CONFBLUEBLOOD;                              // flags3_ex
@@ -12605,6 +12621,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: MF3_EX_CONFGREENBLOOD;                             // flags3_ex
@@ -12645,6 +12662,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12687,6 +12705,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: MF3_EX_CONFGREENBLOOD;                             // flags3_ex
@@ -12727,6 +12746,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12767,6 +12787,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12807,6 +12828,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12847,6 +12869,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12887,6 +12910,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12927,6 +12951,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -12967,6 +12992,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13007,6 +13033,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13047,6 +13074,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13087,6 +13115,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13127,6 +13156,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13167,6 +13197,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13207,6 +13238,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13247,6 +13279,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13289,6 +13322,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13331,6 +13365,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13371,6 +13406,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13411,6 +13447,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13451,6 +13488,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13492,6 +13530,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13533,6 +13572,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13573,6 +13613,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13613,6 +13654,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13653,6 +13695,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13693,6 +13736,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13733,6 +13777,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13773,6 +13818,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13813,6 +13859,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13853,6 +13900,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13893,6 +13941,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13933,6 +13982,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13973,6 +14023,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14013,6 +14064,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14053,6 +14105,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14093,6 +14146,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14133,6 +14187,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14173,6 +14228,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14213,6 +14269,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14253,6 +14310,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14293,6 +14351,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14333,6 +14392,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14373,6 +14433,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14413,6 +14474,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14453,6 +14515,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14493,6 +14556,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14533,6 +14597,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14573,6 +14638,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14613,6 +14679,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14653,6 +14720,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14693,6 +14761,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14733,6 +14802,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14773,6 +14843,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14813,6 +14884,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14853,6 +14925,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14893,6 +14966,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14933,6 +15007,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14973,6 +15048,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15013,6 +15089,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15053,6 +15130,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15093,6 +15171,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15133,6 +15212,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15173,6 +15253,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15213,6 +15294,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15253,6 +15335,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15293,6 +15376,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15333,6 +15417,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15373,6 +15458,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15413,6 +15499,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15453,6 +15540,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15493,6 +15581,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15533,6 +15622,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15573,6 +15663,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15613,6 +15704,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15653,6 +15745,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15693,6 +15786,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15733,6 +15827,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15773,6 +15868,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15813,6 +15909,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15853,6 +15950,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15893,6 +15991,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15933,6 +16032,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15973,6 +16073,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16013,6 +16114,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16053,6 +16155,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16093,6 +16196,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16133,6 +16237,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16173,6 +16278,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16213,6 +16319,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16253,6 +16360,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16293,6 +16401,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16333,6 +16442,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16373,6 +16483,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16413,6 +16524,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16453,6 +16565,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16493,6 +16606,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16533,6 +16647,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16573,6 +16688,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16613,6 +16729,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16653,6 +16770,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16693,6 +16811,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16733,6 +16852,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16773,6 +16893,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16813,6 +16934,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16853,6 +16975,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16893,6 +17016,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16933,6 +17057,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16973,6 +17098,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17013,6 +17139,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17053,6 +17180,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17093,6 +17221,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17133,6 +17262,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17173,6 +17303,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17213,6 +17344,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17253,6 +17385,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17293,6 +17426,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17333,6 +17467,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17373,6 +17508,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17413,6 +17549,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17453,6 +17590,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17493,6 +17631,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17533,6 +17672,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17567,6 +17707,7 @@ const // Doom Original mobjinfo
     flags2_ex: MF2_EX_JUMPDOWN or MF2_EX_JUMPUP or MF2_EX_DONTBLOCKPLAYER;  // flags2_ex
     raisestate: Ord(S_DOGS_RAISE1);                               // raisestate
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17600,6 +17741,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
     raisestate: Ord(S_NULL);
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17633,6 +17775,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;
     raisestate: Ord(S_NULL);
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17666,6 +17809,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;
     raisestate: Ord(S_NULL);
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17699,6 +17843,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;
     raisestate: Ord(S_NULL);
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17740,6 +17885,7 @@ const // Doom Original mobjinfo
     explosionradius: 0;                                           // explosionradius
     meleedamage: 0;                                               // meleedamage
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
