@@ -73,6 +73,7 @@ uses
   p_mobj_h,
   p_inter,
   p_common,
+  p_spec,
   info_common,
   r_renderstyle,
   sounds;
@@ -13383,6 +13384,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13417,6 +13419,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13451,6 +13454,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13485,6 +13489,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13519,6 +13524,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13554,6 +13560,7 @@ const // Doom Original mobjinfo
     flags2: MF2_FLOATBOB;                                         // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13588,6 +13595,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13622,6 +13630,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13656,6 +13665,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13690,6 +13700,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13724,6 +13735,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13758,6 +13770,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13792,6 +13805,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13826,6 +13840,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13860,6 +13875,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13895,6 +13911,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13929,6 +13946,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_COUNTITEM;                            // flags
     flags2: MF2_FLOATBOB;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13963,6 +13981,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_NOBLOOD or MF_SHOOTABLE or MF_DROPOFF;    // flags
     flags2: MF2_WINDTHRUST or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;   // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -13997,6 +14016,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14031,6 +14051,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14066,6 +14087,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14101,6 +14123,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14136,6 +14159,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14171,6 +14195,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14206,6 +14231,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14241,6 +14267,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14275,6 +14302,7 @@ const // Doom Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14309,6 +14337,7 @@ const // Doom Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14343,6 +14372,7 @@ const // Doom Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14377,6 +14407,7 @@ const // Doom Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14411,6 +14442,7 @@ const // Doom Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14445,6 +14477,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14479,6 +14512,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14513,6 +14547,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14547,6 +14582,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14581,6 +14617,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14615,6 +14652,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14649,6 +14687,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14683,6 +14722,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14717,6 +14757,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14751,6 +14792,7 @@ const // Doom Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14785,6 +14827,7 @@ const // Doom Original mobjinfo
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                       // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14819,6 +14862,7 @@ const // Doom Original mobjinfo
     flags: MF_NOGRAVITY;                                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14853,6 +14897,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14887,6 +14932,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14921,6 +14967,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14955,6 +15002,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -14989,6 +15037,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_NOGRAVITY;                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15023,6 +15072,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID;                                              // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15057,6 +15107,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15092,6 +15143,7 @@ const // Doom Original mobjinfo
     flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15126,6 +15178,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15160,6 +15213,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOSECTOR;          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15194,6 +15248,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15228,6 +15283,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15263,6 +15319,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15297,6 +15354,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15332,6 +15390,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15367,6 +15426,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15402,6 +15462,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15436,6 +15497,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15471,6 +15533,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15506,6 +15569,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15540,6 +15604,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15574,6 +15639,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15609,6 +15675,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15643,6 +15710,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_RIP;                            // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15678,6 +15746,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15713,6 +15782,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15747,6 +15817,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15782,6 +15853,7 @@ const // Doom Original mobjinfo
     flags2: MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15817,6 +15889,7 @@ const // Doom Original mobjinfo
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15852,6 +15925,7 @@ const // Doom Original mobjinfo
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15887,6 +15961,7 @@ const // Doom Original mobjinfo
     flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_TELESTOMP;   // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15921,6 +15996,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15956,6 +16032,7 @@ const // Doom Original mobjinfo
     flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -15991,6 +16068,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT;                                       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16025,6 +16103,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16059,6 +16138,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16093,6 +16173,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16127,6 +16208,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16162,6 +16244,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT;                                       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16197,6 +16280,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT;                                       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16232,6 +16316,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16267,6 +16352,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16301,6 +16387,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16336,6 +16423,7 @@ const // Doom Original mobjinfo
     flags2: MF2_THRUGHOST or MF2_NOTELEPORT;                      // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16371,6 +16459,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16406,6 +16495,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16440,6 +16530,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16475,6 +16566,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT;                                       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16510,6 +16602,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT;                                       // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16545,6 +16638,7 @@ const // Doom Original mobjinfo
     flags2: MF2_WINDTHRUST or MF2_THRUGHOST or MF2_NOTELEPORT;    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16580,6 +16674,7 @@ const // Doom Original mobjinfo
     flags2: MF2_LOGRAV;                                           // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16615,6 +16710,7 @@ const // Doom Original mobjinfo
     flags2: 0;                                                    // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16650,6 +16746,7 @@ const // Doom Original mobjinfo
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                          // flags2_ex
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16684,6 +16781,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH;    // flags
     flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;   // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16718,6 +16816,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                           // flags
     flags2: MF2_LOGRAV or MF2_CANNOTPUSH;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16752,6 +16851,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOTDMATCH;    // flags
     flags2: MF2_WINDTHRUST or MF2_SLIDE or MF2_PASSMOBJ or MF2_FOOTCLIP or MF2_LOGRAV or MF2_TELESTOMP;   // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16786,6 +16886,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
     flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_PASSMOBJ;       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16820,6 +16921,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF;             // flags
     flags2: MF2_NOTELEPORT or MF2_LOGRAV or MF2_CANNOTPUSH or MF2_WINDTHRUST;   // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16854,6 +16956,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16888,6 +16991,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16922,6 +17026,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16956,6 +17061,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -16990,6 +17096,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17024,6 +17131,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17058,6 +17166,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17092,6 +17201,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17126,6 +17236,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17160,6 +17271,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17194,6 +17306,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;           // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17228,6 +17341,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17262,6 +17376,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17296,6 +17411,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17330,6 +17446,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;    // flags
     flags2: MF2_PASSMOBJ;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17364,6 +17481,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_THRUGHOST;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17398,6 +17516,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17432,6 +17551,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17466,6 +17586,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY or MF_SHADOW;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17500,6 +17621,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_NOBLOOD;    // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17534,6 +17656,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_FLOAT or MF_NOGRAVITY;    // flags
     flags2: MF2_PASSMOBJ;                                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17568,6 +17691,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17602,6 +17726,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_FLOAT or MF_NOGRAVITY or MF_COUNTKILL;    // flags
     flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17636,6 +17761,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_FLOAT or MF_NOGRAVITY or MF_COUNTKILL;    // flags
     flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17670,6 +17796,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17704,6 +17831,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17738,6 +17866,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17772,6 +17901,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17806,6 +17936,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_SHADOW;    // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                         // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17840,6 +17971,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_WINDTHRUST or MF2_NOTELEPORT or MF2_THRUGHOST;    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17874,6 +18006,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_THRUGHOST;                      // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17908,6 +18041,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;              // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;             // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17942,6 +18076,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -17976,6 +18111,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;             // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18010,6 +18146,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18044,6 +18181,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                         // flags
     flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18078,6 +18216,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT;                                       // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18112,6 +18251,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP;                                         // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18146,6 +18286,7 @@ const // Doom Original mobjinfo
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL or MF_DROPOFF;    // flags
     flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;             // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18180,6 +18321,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18214,6 +18356,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18248,6 +18391,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_MISSILE or MF_DROPOFF or MF_NOGRAVITY;    // flags
     flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18282,6 +18426,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_NOTDMATCH;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18316,6 +18461,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_NOTDMATCH;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18350,6 +18496,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL or MF_NOTDMATCH;                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18384,6 +18531,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18418,6 +18566,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18452,6 +18601,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18486,6 +18636,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18520,6 +18671,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18554,6 +18706,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18588,6 +18741,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18622,6 +18776,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18656,6 +18811,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18690,6 +18846,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18724,6 +18881,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18758,6 +18916,7 @@ const // Doom Original mobjinfo
     flags: MF_SPECIAL;                                            // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18792,6 +18951,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex
@@ -18826,6 +18986,7 @@ const // Doom Original mobjinfo
     flags: MF_NOBLOCKMAP or MF_NOSECTOR;                          // flags
     flags2: 0;                                                    // flags2
     pushfactor: DEFPUSHFACTOR;                                    // pushfactor
+    friction: ORIG_FRICTION;                                      // friction
     scale: FRACUNIT;                                              // scale
     gravity: FRACUNIT;                                            // gravity
     flags3_ex: 0;                                                 // flags3_ex

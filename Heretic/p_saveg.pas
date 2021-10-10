@@ -721,6 +721,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.friction := ORIG_FRICTION;
           end
           else if savegameversion >= VERSION115 then
           begin
@@ -745,6 +746,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.friction := ORIG_FRICTION;
           end
           else if savegameversion = VERSION114 then
           begin
@@ -771,6 +773,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.friction := ORIG_FRICTION;
           end
           else if (savegameversion = VERSION112) or (savegameversion = VERSION113) then
           begin
@@ -809,6 +812,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.friction := ORIG_FRICTION;
           end
           else if (savegameversion = VERSION110) or (savegameversion = VERSION111) then
           begin
@@ -895,6 +899,7 @@ begin
             mobj.args[3] := 0;
             mobj.args[4] := 0;
             mobj.special := 0;
+            mobj.friction := ORIG_FRICTION;
 
             Z_Free(mobj111);
           end

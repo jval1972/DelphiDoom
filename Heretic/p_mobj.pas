@@ -276,7 +276,6 @@ end;
 //
 const
   STOPSPEED = $1000;
-  FRICTION_NORMAL = $e800;
   FRICTION_LOW = $f900;
   FRICTION_FLY = $eb00;
   windTab: array[0..2] of integer = (2048 * 5, 2048 * 10, 2048 * 25);
@@ -509,8 +508,8 @@ begin
     end
     else
     begin
-      mo.momx := FixedMul(mo.momx, FRICTION_NORMAL);
-      mo.momy := FixedMul(mo.momy, FRICTION_NORMAL);
+      mo.momx := FixedMul(mo.momx, mo.friction);
+      mo.momy := FixedMul(mo.momy, mo.friction);
     end;
   end;
 end;
@@ -1024,6 +1023,7 @@ begin
   mobj.scale := info.scale;
   mobj.gravity := info.gravity;
   mobj.pushfactor := info.pushfactor;
+  mobj.friction := info.friction;
   mobj.damage := info.damage;
   mobj.renderstyle := info.renderstyle;
   mobj.alpha := info.alpha;
