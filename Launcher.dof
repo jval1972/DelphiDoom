@@ -115,7 +115,7 @@ AutoIncBuild=1
 MajorVer=1
 MinorVer=9
 Release=1
-Build=69
+Build=70
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Launcher
-FileVersion=1.9.1.69
+FileVersion=1.9.1.70
 InternalName=Launcher
 LegalCopyright=Copyright 2008 - 2020, Jim Valavanis
 LegalTrademarks=

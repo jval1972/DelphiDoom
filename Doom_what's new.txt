@@ -1,3 +1,5 @@
+Version 2.0.6 build 729 - (20211011)
+-----------------------
 Allow MODELDEF declarations without texture.
 Added MOD, S3M, IT & XM track music format support.
 Shows an I_DevWarning if sound channel can not be found.
