@@ -96,6 +96,7 @@ type
     function PF_floorclip(p: TDStrings): string;
     function PF_gravity(p: TDStrings): string;
     function PF_pushfactor(p: TDStrings): string;
+    function PF_friction(p: TDStrings): string;
     function PF_scale(p: TDStrings): string;
     function PF_mass(p: TDStrings): string;
     function PF_special(p: TDStrings): string;
@@ -185,6 +186,7 @@ begin
   AddFunc('FLOORCLIP', PF_floorclip, 0);
   AddFunc('GRAVITY', PF_gravity, 0);
   AddFunc('PUSHFACTOR', PF_pushfactor, 0);
+  AddFunc('FRICTION', PF_friction, 0);
   AddFunc('SCALE', PF_scale, 0);
   AddFunc('MASS', PF_mass, 0);
   AddFunc('SPECIAL', PF_special, 0);
@@ -455,6 +457,11 @@ end;
 function TActorEvaluator.PF_pushfactor(p: TDStrings): string;
 begin
   result := ftoa(factor.pushfactor / FRACUNIT);
+end;
+
+function TActorEvaluator.PF_friction(p: TDStrings): string;
+begin
+  result := ftoa(factor.friction / FRACUNIT);
 end;
 
 function TActorEvaluator.PF_scale(p: TDStrings): string;
