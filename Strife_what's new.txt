@@ -1,3 +1,5 @@
+Fixed flags in A_ChangeVelocity() ACTORDEF function.
+
 Version 2.0.6 build 729 - (20211011)
 -----------------------
 Allow MODELDEF declarations without texture.

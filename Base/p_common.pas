@@ -3617,7 +3617,7 @@ begin
     flags := 0;
     sc := TSCriptEngine.Create(stmp);
     while sc.GetString do
-      flags := flags or SC_EvalueateIntToken(sc._String, ['CVF_RELATIVE', 'CVF_REPLACE']);
+      flags := flags or (SC_EvalueateIntToken(sc._String, ['CVF_RELATIVE', 'CVF_REPLACE']) + 1);
     sc.Free;
     actor.state.params.IntVal[3] := flags;
   end
