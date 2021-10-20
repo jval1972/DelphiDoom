@@ -77,6 +77,7 @@ uses
   p_user,
   p_spec,
   info_common,
+  info_export,
   r_renderstyle,
   sounds;
 
@@ -45371,7 +45372,7 @@ const // Hexen Original mobjinfo
     flags3_ex: 0;                                                 // flags3_ex
     flags4_ex: 0;                                                 // flags4_ex
   )
-  
+
   );
 
 procedure Info_Init(const usethinkers: boolean);
@@ -45410,11 +45411,15 @@ begin
     Info_SaveActions;
     for i := 0 to Ord(DO_NUMSTATES) - 1 do
       states[i].action.acp1 := nil;
+    Info_InitExportCommands;
     exit;
   end;
 
   if Info_RestoreActions then
+  begin
+    Info_InitExportCommands;
     exit;
+  end;
 
   states[Ord(S_FREETARGMOBJ)].action.acp1 := @A_FreeTargMobj;
   states[Ord(S_FLAME_TSMALL3)].action.acp1 := @A_FlameCheck;
@@ -46450,6 +46455,7 @@ begin
   states[Ord(S_BAT2)].action.acp1 := @A_BatMove;
   states[Ord(S_BAT3)].action.acp1 := @A_BatMove;
 
+  Info_InitExportCommands;
 end;
 
 end.

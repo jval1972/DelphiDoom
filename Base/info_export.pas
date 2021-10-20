@@ -253,6 +253,9 @@ begin
     AddLn('mobjinfo[' + mname + '].damage := ' + itoa(mobjinfo[i].damage) + ';');
     AddLn('mobjinfo[' + mname + '].activesound := ' + _sound_name_Ord(mobjinfo[i].activesound) + ';');
     AddLn('mobjinfo[' + mname + '].flags := ' + itoa_FLAGS(mobjinfo[i].flags, mobj_flags) + ';');
+    {$IFDEF HERETIC_OR_HEXEN}
+    AddLn('mobjinfo[' + mname + '].flags2 := ' + itoa_FLAGS(mobjinfo[i].flags, mobj_flags2) + ';');
+    {$ENDIF}
     AddLn('mobjinfo[' + mname + '].flags_ex := ' + itoa_FLAGS(mobjinfo[i].flags_ex, mobj_flags_ex) + ';');
     AddLn('mobjinfo[' + mname + '].flags2_ex := ' + itoa_FLAGS(mobjinfo[i].flags2_ex, mobj_flags2_ex) + ';');
     AddLn('mobjinfo[' + mname + '].raisestate := ' + _state_name_Ord(mobjinfo[i].raisestate) + ';');
@@ -269,8 +272,10 @@ begin
     AddLn('mobjinfo[' + mname + '].alpha := ' + itoa(mobjinfo[i].alpha) + ';');
     AddLn('mobjinfo[' + mname + '].healstate := ' + _state_name_Ord(mobjinfo[i].healstate) + ';');
     AddLn('mobjinfo[' + mname + '].crashstate := ' + _state_name_Ord(mobjinfo[i].crashstate) + ';');
+    {$IFDEF DOOM_OR_STRIFE}
     AddLn('mobjinfo[' + mname + '].interactstate := ' + _state_name_Ord(mobjinfo[i].interactstate) + ';');
     AddLn('mobjinfo[' + mname + '].missileheight := ' + itoa(mobjinfo[i].missileheight) + ';');
+    {$ENDIF}
     AddLn('mobjinfo[' + mname + '].vspeed := ' + itoa(mobjinfo[i].vspeed) + ';');
     AddLn('mobjinfo[' + mname + '].pushfactor := ' + itoa(mobjinfo[i].pushfactor) + ';');
     AddLn('mobjinfo[' + mname + '].friction := ' + itoa(mobjinfo[i].friction) + ';');

@@ -81,6 +81,7 @@ uses
   p_extra,
   p_spec,
   info_common,
+  info_export,
   r_renderstyle,
   sounds;
 
@@ -31174,11 +31175,15 @@ begin
     Info_SaveActions;
     for i := 0 to Ord(DO_NUMSTATES) - 1 do
       states[i].action.acp1 := nil;
+    Info_InitExportCommands;
     exit;
   end;
 
   if Info_RestoreActions then
+  begin
+    Info_InitExportCommands;
     exit;
+  end;
 
   states[Ord(S_PNCH_00)].action.acp1 := @A_Light0;                // S_PNCH_00
   states[Ord(S_PNCH_01)].action.acp1 := @A_WeaponReady;           // S_PNCH_01
@@ -31911,6 +31916,7 @@ begin
   states[Ord(S_SPLH_07)].action.acp1 := @A_ActiveSoundSTRF;       // S_SPLH_07
   states[Ord(S_WTFT_03)].action.acp1 := @A_ActiveSoundSTRF;       // S_WTFT_03
 
+  Info_InitExportCommands;
 end;
 
 end.

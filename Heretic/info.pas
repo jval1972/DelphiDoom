@@ -75,6 +75,7 @@ uses
   p_common,
   p_spec,
   info_common,
+  info_export,
   r_renderstyle,
   sounds;
 
@@ -19031,11 +19032,15 @@ begin
     Info_SaveActions;
     for i := 0 to Ord(DO_NUMSTATES) - 1 do
       states[i].action.acp1 := nil;
+    Info_InitExportCommands;
     exit;
   end;
 
   if Info_RestoreActions then
+  begin
+    Info_InitExportCommands;
     exit;
+  end;
 
   states[Ord(S_FREETARGMOBJ)].action.acp1 := @A_FreeTargMobj;
   states[Ord(S_HIDESPECIAL2)].action.acp1 := @A_RestoreSpecialThing1;
@@ -19438,6 +19443,7 @@ begin
   states[Ord(S_SND_WIND)].action.acp1 := @A_ESound;
   states[Ord(S_SND_WATERFALL)].action.acp1 := @A_ESound;
 
+  Info_InitExportCommands;
 end;
 
 end.
