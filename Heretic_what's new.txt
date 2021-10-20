@@ -1,4 +1,7 @@
 Fixed flags in A_ChangeVelocity() ACTORDEF function.
+Export info tables to Pascal.
+Added ExportInfoPascal, InfoExportPascal, ExportInfoPascalBI, InfoExportPascalBI, ExportInfoPascalBuiltIn & InfoExportPascalBuiltIn console commands.
+Added SaveInfoPascal, InfoSavePascal, SaveInfoPascalBI, InfoSavePascalBI, SaveInfoPascalBuiltIn & InfoSavePascalBuiltIn console commands.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
