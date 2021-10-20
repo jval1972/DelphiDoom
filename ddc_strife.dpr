@@ -396,7 +396,8 @@ uses
   scanf in 'C_LIB\scanf.pas',
   scanf_c in 'C_LIB\scanf_c.pas',
   BTMemoryModule in 'Base\BTMemoryModule.pas',
-  s_externalmusic in 'Base\s_externalmusic.pas';
+  s_externalmusic in 'Base\s_externalmusic.pas',
+  info_export in 'Base\info_export.pas';
 
 exports
   dd_compile_strife,
