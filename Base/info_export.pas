@@ -425,7 +425,9 @@ begin
   if export_commands_registered then
     exit;
   C_AddCmd('ExportInfoPascal, InfoExportPascal', @CmdExportInfoPascal);
+  C_AddCmd('SaveInfoPascal, InfoSavePascal', @CmdExportInfoPascal);
   C_AddCmd('ExportInfoPascalBI, InfoExportPascalBI, ExportInfoPascalBuiltIn, InfoExportPascalBuiltIn', @CmdExportInfoPascalBI);
+  C_AddCmd('SaveInfoPascalBI, InfoSavePascalBI, SaveInfoPascalBuiltIn, InfoSavePascalBuiltIn', @CmdExportInfoPascalBI);
 
   export_commands_registered := true;
 end;
