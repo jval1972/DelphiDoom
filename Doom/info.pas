@@ -78,6 +78,7 @@ uses
   p_common,
   p_spec,
   info_common,
+  info_export,
   r_renderstyle,
   sc_states,
   sounds;
@@ -17952,11 +17953,15 @@ begin
     Info_SaveActions;
     for i := 0 to Ord(DO_NUMSTATES) - 1 do
       states[i].action.acp1 := nil;
+    Info_InitExportCommands;
     exit;
   end;
 
   if Info_RestoreActions then
+  begin
+    Info_InitExportCommands;
     exit;
+  end;
 
   states[Ord(S_LIGHTDONE)].action.acp1 := @A_Light0; // S_LIGHTDONE
   states[Ord(S_PUNCH)].action.acp1 := @A_WeaponReady; // S_PUNCH
@@ -18483,6 +18488,8 @@ begin
   states[Ord(S_BSKUL_DIE7)].action.acp1 := @A_Fall; // S_BSKUL_DIE7
   states[Ord(S_BSKUL_DIE8)].action.acp1 := @A_Stop; // S_BSKUL_DIE8
   states[Ord(S_MUSHROOM)].action.acp1 := @A_Mushroom; // S_MUSHROOM
+
+  Info_InitExportCommands;
 end;
 
 // Must be called after parsing ACTORDEF lumps
