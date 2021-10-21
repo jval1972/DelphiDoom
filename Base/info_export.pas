@@ -49,6 +49,7 @@ uses
   m_argv,
   m_fixed,
   p_gender,
+  p_spec,
   r_renderstyle,
   sounds;
 
@@ -246,7 +247,7 @@ begin
     AddLn('mobjinfo[' + mname + '].deathstate := ' + _state_name_Ord(mobjinfo[i].deathstate) + ';');
     AddLn('mobjinfo[' + mname + '].xdeathstate := ' + _state_name_Ord(mobjinfo[i].xdeathstate) + ';');
     AddLn('mobjinfo[' + mname + '].deathsound := ' + _sound_name_Ord(mobjinfo[i].deathsound) + ';');
-    AddLn('mobjinfo[' + mname + '].speed := ' + itoa(mobjinfo[i].speed) + ';');
+    AddLn('mobjinfo[' + mname + '].speed := ' + itoa_FRACUNIT(mobjinfo[i].speed) + ';');
     AddLn('mobjinfo[' + mname + '].radius := ' + itoa_FRACUNIT(mobjinfo[i].radius) + ';');
     AddLn('mobjinfo[' + mname + '].height := ' + itoa_FRACUNIT(mobjinfo[i].height) + ';');
     AddLn('mobjinfo[' + mname + '].mass := ' + itoa(mobjinfo[i].mass) + ';');
@@ -284,9 +285,9 @@ begin
     AddLn('mobjinfo[' + mname + '].flags3_ex := ' + itoa_FLAGS(mobjinfo[i].flags3_ex, mobj_flags3_ex) + ';');
     AddLn('mobjinfo[' + mname + '].flags4_ex := ' + itoa_FLAGS(mobjinfo[i].flags4_ex, mobj_flags4_ex) + ';');
     AddLn('mobjinfo[' + mname + '].minmissilechance := ' + itoa(mobjinfo[i].minmissilechance) + ';');
-    AddLn('mobjinfo[' + mname + '].floatspeed := ' + itoa(mobjinfo[i].floatspeed) + ';');
-    AddLn('mobjinfo[' + mname + '].normalspeed := ' + itoa(mobjinfo[i].normalspeed) + ';');
-    AddLn('mobjinfo[' + mname + '].fastspeed := ' + itoa(mobjinfo[i].fastspeed) + ';');
+    AddLn('mobjinfo[' + mname + '].floatspeed := ' + itoa_FRACUNIT(mobjinfo[i].floatspeed) + ';');
+    AddLn('mobjinfo[' + mname + '].normalspeed := ' + itoa_FRACUNIT(mobjinfo[i].normalspeed) + ';');
+    AddLn('mobjinfo[' + mname + '].fastspeed := ' + itoa_FRACUNIT(mobjinfo[i].fastspeed) + ';');
     AddLn('mobjinfo[' + mname + '].obituary: ''' + mobjinfo[i].obituary + ''';');
     AddLn('mobjinfo[' + mname + '].hitobituary: ''' + mobjinfo[i].hitobituary + ''';');
     AddLn('mobjinfo[' + mname + '].gender := ' + _gender_name(Ord(mobjinfo[i].gender)) + ';');
