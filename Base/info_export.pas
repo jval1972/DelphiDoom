@@ -278,8 +278,14 @@ begin
     AddLn('mobjinfo[' + mname + '].missileheight := ' + itoa(mobjinfo[i].missileheight) + ';');
     {$ENDIF}
     AddLn('mobjinfo[' + mname + '].vspeed := ' + itoa(mobjinfo[i].vspeed) + ';');
-    AddLn('mobjinfo[' + mname + '].pushfactor := ' + itoa(mobjinfo[i].pushfactor) + ';');
-    AddLn('mobjinfo[' + mname + '].friction := ' + itoa(mobjinfo[i].friction) + ';');
+    if mobjinfo[i].pushfactor = DEFPUSHFACTOR then
+      AddLn('mobjinfo[' + mname + '].pushfactor := DEFPUSHFACTOR;')
+    else
+      AddLn('mobjinfo[' + mname + '].pushfactor := ' + itoa(mobjinfo[i].pushfactor) + ';');
+    if mobjinfo[i].friction = ORIG_FRICTION then
+      AddLn('mobjinfo[' + mname + '].friction := ORIG_FRICTION;')
+    else
+      AddLn('mobjinfo[' + mname + '].friction := ' + itoa(mobjinfo[i].friction) + ';');
     AddLn('mobjinfo[' + mname + '].scale := ' + itoa_FRACUNIT(mobjinfo[i].scale) + ';');
     AddLn('mobjinfo[' + mname + '].gravity := ' + itoa_FRACUNIT(mobjinfo[i].gravity) + ';');
     AddLn('mobjinfo[' + mname + '].flags3_ex := ' + itoa_FLAGS(mobjinfo[i].flags3_ex, mobj_flags3_ex) + ';');
