@@ -383,6 +383,8 @@ const
   MF3_EX_NOTAUTOAIMED = $400000;
   // Slide along walls alias
   MF3_EX_SLIDEONWALLS = $800000;
+  // Missiles use absolute damage
+  MF3_EX_ABSOLUTEDAMAGE = $1000000;
 
 type
 // Map Object definition.
