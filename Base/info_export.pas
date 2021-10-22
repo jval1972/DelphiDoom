@@ -294,8 +294,8 @@ begin
     AddLn('mobjinfo[' + mname + '].floatspeed := ' + itoa_FRACUNIT(mobjinfo[i].floatspeed) + ';');
     AddLn('mobjinfo[' + mname + '].normalspeed := ' + itoa_FRACUNIT(mobjinfo[i].normalspeed) + ';');
     AddLn('mobjinfo[' + mname + '].fastspeed := ' + itoa_FRACUNIT(mobjinfo[i].fastspeed) + ';');
-    AddLn('mobjinfo[' + mname + '].obituary: ''' + mobjinfo[i].obituary + ''';');
-    AddLn('mobjinfo[' + mname + '].hitobituary: ''' + mobjinfo[i].hitobituary + ''';');
+    AddLn('mobjinfo[' + mname + '].obituary := ''' + mobjinfo[i].obituary + ''';');
+    AddLn('mobjinfo[' + mname + '].hitobituary := ''' + mobjinfo[i].hitobituary + ''';');
     AddLn('mobjinfo[' + mname + '].gender := ' + _gender_name(Ord(mobjinfo[i].gender)) + ';');
     AddLn('mobjinfo[' + mname + '].meleerange := ' + itoa(mobjinfo[i].meleerange) + ';');
     AddLn('mobjinfo[' + mname + '].maxstepheight := ' + itoa(mobjinfo[i].maxstepheight) + ';');
@@ -359,7 +359,7 @@ begin
     AddLn('states[' + sname + '].nextstate := ' + _state_name(Ord(states[i].nextstate)) + ';');
     AddLn('states[' + sname + '].misc1 := ' + itoa(states[i].misc1) + ';');
     AddLn('states[' + sname + '].misc2 := ' + itoa(states[i].misc2) + ';');
-    AddLn('states[' + sname + '].flags_ex: ' + itoa_FLAGS(states[i].flags_ex, state_flags_ex) + ';');
+    AddLn('states[' + sname + '].flags_ex := ' + itoa_FLAGS(states[i].flags_ex, state_flags_ex) + ';');
 
     AddLn('');
   end;
