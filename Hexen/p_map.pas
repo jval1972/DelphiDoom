@@ -1088,7 +1088,9 @@ begin
     end;
 
     // Do damage
-    if tmthing.flags3_ex and MF3_EX_STRIFEDAMAGE <> 0 then
+    if tmthing.flags3_ex and MF3_EX_ABSOLUTEDAMAGE <> 0 then
+      damage := tmthing.info.damage
+    else if tmthing.flags3_ex and MF3_EX_STRIFEDAMAGE <> 0 then
       damage := ((P_Random mod 4) + 1) * tmthing.info.damage
     else
       damage := ((P_Random mod 8) + 1) * tmthing.damage;
