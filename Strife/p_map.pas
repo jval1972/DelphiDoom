@@ -741,7 +741,9 @@ begin
     end;
 
     // damage / explode
-    if tmthing.flags3_ex and MF3_EX_DOOMDAMAGE <> 0 then
+    if tmthing.flags3_ex and MF3_EX_ABSOLUTEDAMAGE <> 0 then
+      damage := tmthing.info.damage
+    else if tmthing.flags3_ex and MF3_EX_DOOMDAMAGE <> 0 then
       damage := ((P_Random mod 8) + 1) * tmthing.info.damage
     else
     // haleyjd 09/01/10: [STRIFE] Modified missile damage formula
