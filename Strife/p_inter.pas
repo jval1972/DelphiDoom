@@ -580,14 +580,14 @@ begin
       end;
 
     // missile
-    Ord(SPR_ROKT):
+    Ord(SPR_MSSL):
       begin
         if not P_GiveAmmo(player, am_missiles, 1) then
           exit;
       end;
 
     // box of missiles
-    Ord(SPR_MSSL):
+    Ord(SPR_ROKT):
       begin
         if not P_GiveAmmo(player, am_missiles, 5) then
           exit;
