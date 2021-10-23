@@ -4,6 +4,7 @@ Added ExportInfoPascal, InfoExportPascal, ExportInfoPascalBI, InfoExportPascalBI
 Added SaveInfoPascal, InfoSavePascal, SaveInfoPascalBI, InfoSavePascalBI, SaveInfoPascalBuiltIn & InfoSavePascalBuiltIn console commands.
 Added MF3_EX_ABSOLUTEDAMAGE mobj flag.
 Added MF3_EX_NOGRAVITYDEATH mobj flag. When set, does not remove the MF_NOGRAVITY flag on death.
+Fixed MF2_EX_CANTLEAVEFLOORPIC flag behaviour.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
