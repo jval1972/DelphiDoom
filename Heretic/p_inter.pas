@@ -1194,8 +1194,11 @@ var
   item: integer;
   gibhealth: integer;
 begin
-  target.flags := target.flags and (not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY or MF_NOGRAVITY));
-  target.flags3_ex := target.flags3_ex and (not MF3_EX_BOUNCE);
+  target.flags := target.flags and (not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY));
+  if target.flags3_ex and MF3_EX_NOGRAVITYDEATH = 0 then
+    target.flags := target.flags and not MF_NOGRAVITY;
+
+  target.flags3_ex := target.flags3_ex and not MF3_EX_BOUNCE;
 
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
   target.flags2 := target.flags2 and not MF2_PASSMOBJ;
