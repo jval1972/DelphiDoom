@@ -912,8 +912,6 @@ begin
     Sender.AddConstant('FRICTION_SHIFT', uT_integer).Value.ts32 := 8;
     Sender.AddConstant('PUSH_MASK', uT_integer).Value.ts32 := $200;
     Sender.AddConstant('PUSH_SHIFT', uT_integer).Value.ts32 := 9;
-    Sender.AddConstant('FORCEFIELD_MASK', uT_integer).Value.ts32 := $400;
-    Sender.AddConstant('FORCEFIELD_SHIFT', uT_integer).Value.ts32 := 10;
 
     Sender.AddConstant('CGENFLOORBASE', uT_integer).Value.ts32 := $6000;
     Sender.AddConstant('CGENCEILINGBASE', uT_integer).Value.ts32 := $4000;
