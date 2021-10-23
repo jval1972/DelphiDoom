@@ -8,6 +8,7 @@ Corrected rockets pickup.
 Fixed A_ReaverAttack() damage.
 Fixed A_ProgrammerMelee() damage.
 Set rebel threshold in A_TeleportBeacon().
+Fixed MF2_EX_CANTLEAVEFLOORPIC flag behaviour.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
