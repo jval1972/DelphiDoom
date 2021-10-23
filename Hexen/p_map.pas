@@ -1188,6 +1188,8 @@ var
   bx: integer;
   by: integer;
   newsubsec: Psubsector_t;
+  newsec: Psector_t;
+  msec: Psector_t;
   r: fixed_t;
 begin
   tmthing := thing;
@@ -1203,6 +1205,8 @@ begin
   tmbbox[BOXLEFT] := x - r;
 
   newsubsec := R_PointInSubsector(x, y);
+  newsec := newsubsec.sector;
+
   ceilingline := nil;
 
   // The base floor / ceiling is from the subsector
@@ -1210,9 +1214,20 @@ begin
   // Any contacted lines the step closer together
   // will adjust them.
   // JVAL 20191209 - Fix 3d floor problems with A_SpawnItem & A_SpawnItemEx
-  tmdropoffz := P_3dFloorHeight(newsubsec.sector, x, y, thing.z); // JVAL: Slopes
+  tmdropoffz := P_3dFloorHeight(newsec, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
-  tmceilingz := P_3dCeilingHeight(newsubsec.sector, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+  tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+
+  if newsec.midsec >= 0 then
+  begin
+    msec := @sectors[newsec.midsec];
+    if thing.z < msec.ceilingheight then
+      tmfloorpic := newsec.floorpic
+    else
+      tmfloorpic := msec.ceilingpic
+  end
+  else
+    tmfloorpic := newsec.floorpic;
 
   inc(validcount);
   numspechit := 0;
