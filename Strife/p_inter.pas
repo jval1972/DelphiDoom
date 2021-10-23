@@ -863,8 +863,11 @@ var
   p: Pplayer_t;
   i: integer;
 begin
-  target.flags := target.flags and (not (MF_SHOOTABLE or MF_FLOAT or MF_BOUNCE));
-  target.flags3_ex := target.flags3_ex and (not MF3_EX_BOUNCE);
+  target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_BOUNCE);
+  if target.flags3_ex and MF3_EX_SETGRAVITYONDEATH <> 0 then
+    target.flags := target.flags and not MF_NOGRAVITY;
+
+  target.flags3_ex := target.flags3_ex and not MF3_EX_BOUNCE;
 
   target.flags := target.flags or (MF_CORPSE or MF_DROPOFF);
   target.height := FRACUNIT;  // villsa [STRIFE] set to fracunit instead of >>= 2
@@ -941,7 +944,7 @@ begin
       end;
     end;
 
-    target.flags := target.flags and (not MF_SOLID);
+    target.flags := target.flags and not MF_SOLID;
     p.playerstate := PST_DEAD;
     p.mo.momz := 5 * FRACUNIT;  // [STRIFE]: small hop!
 

@@ -398,6 +398,8 @@ const
   MF3_EX_SLIDEONWALLS = $200000;
   // Missiles use absolute damage
   MF3_EX_ABSOLUTEDAMAGE = $400000;
+  // Do not fall to ground on death
+  MF3_EX_SETGRAVITYONDEATH = $800000;
 
 type
 // Map Object definition.

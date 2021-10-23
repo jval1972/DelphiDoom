@@ -3,6 +3,7 @@ Export info tables to Pascal.
 Added ExportInfoPascal, InfoExportPascal, ExportInfoPascalBI, InfoExportPascalBI, ExportInfoPascalBuiltIn & InfoExportPascalBuiltIn console commands.
 Added SaveInfoPascal, InfoSavePascal, SaveInfoPascalBI, InfoSavePascalBI, SaveInfoPascalBuiltIn & InfoSavePascalBuiltIn console commands.
 Added MF3_EX_ABSOLUTEDAMAGE mobj flag.
+Added MF3_EX_SETGRAVITYONDEATH mobj flag. When set, removes the MF_NOGRAVITY flag on death.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
