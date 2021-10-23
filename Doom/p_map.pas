@@ -828,6 +828,7 @@ var
   bx: integer;
   by: integer;
   newsec: Psector_t;
+  msec: Psector_t;
   r: fixed_t;
 begin
   tmthing := thing;
@@ -853,6 +854,17 @@ begin
   tmdropoffz := P_3dFloorHeight(newsec, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
   tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z) + P_SectorJumpOverhead(newsec);
+
+  if newsec.midsec >= 0 then
+  begin
+    msec := @sectors[newsec.midsec];
+    if thing.z < msec.ceilingheight then
+      tmfloorpic := newsec.floorpic
+    else
+      tmfloorpic := msec.ceilingpic
+  end
+  else
+    tmfloorpic := newsec.floorpic;
 
   inc(validcount);
   numspechit := 0;
