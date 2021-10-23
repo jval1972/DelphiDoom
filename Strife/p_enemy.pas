@@ -2417,7 +2417,7 @@ begin
   A_FaceTarget(actor);
   if P_CheckMeleeRange(actor) then
   begin
-    damage := 8 * (P_Random mod 10 + 1);
+    damage := 6 * (P_Random mod 10 + 1);
 
     S_StartSound(actor, Ord(sfx_mtalht));
     P_DamageMobj(actor.target, actor, actor, damage);
