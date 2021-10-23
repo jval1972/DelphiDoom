@@ -1532,7 +1532,7 @@ begin
   begin
     t := P_Random;
     shootangle := actor.angle + _SHLW(t - P_Random, 20);
-    damage := (P_Random and 7) + 1;
+    damage := 3 * (P_Random and 7) + 1;
 
     P_LineAttack(actor, shootangle, 2048 * FRACUNIT, slope, damage);
   end;
