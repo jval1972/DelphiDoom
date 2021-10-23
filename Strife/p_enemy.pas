@@ -3432,6 +3432,9 @@ begin
   // beacon no longer special
   actor.flags := actor.flags and not MF_SPECIAL;
 
+  // 20160306: set rebel threshold
+  mobj.threshold := 100;
+
   // set color and flags
   mobj.flags := mobj.flags or ((actor.miscdata shl MF_TRANSSHIFT) or MF_NODIALOG);  // JVAL SOS maybe change flags to LongWord
   mobj.target := nil;
