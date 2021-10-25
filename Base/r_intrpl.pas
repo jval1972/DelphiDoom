@@ -375,7 +375,7 @@ begin
       R_AddInterpolationItem(@sec.floorheight, iinteger);
       R_AddInterpolationItem(@sec.ceilingheight, iinteger);
       R_AddInterpolationItem(@sec.lightlevel, ismallint);
-      {$IFDEF DOOM_OF_STRIFE}
+      {$IFDEF DOOM_OR_STRIFE}
       // JVAL: 30/9/2009
       // JVAL: 9/11/2015 Added strife offsets
       R_AddInterpolationItem(@sec.floor_xoffs, iinteger);
