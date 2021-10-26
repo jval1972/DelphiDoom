@@ -473,6 +473,12 @@ procedure A_SetHeight(actor: Pmobj_t);
 
 procedure A_SetFriction(actor: Pmobj_t);
 
+procedure A_PlayerHurtExplode(actor: Pmobj_t);
+
+procedure A_SetPushable(actor: Pmobj_t);
+
+procedure A_UnSetPushable(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -6072,6 +6078,51 @@ begin
     exit;
 
   actor.friction := actor.state.params.FixedVal[0];
+end;
+
+//
+//  A_PlayerHurtExplode(damage: integer; radius: integer);
+//
+procedure A_PlayerHurtExplode(actor: Pmobj_t);
+var
+  damage: integer;
+  radius: fixed_t;
+begin
+  if not P_CheckStateParams(actor, 2, CSP_AT_LEAST) then
+    exit;
+
+  damage := actor.state.params.IntVal[0];
+  radius := actor.state.params.IntVal[1];
+  P_RadiusAttackPlayer(actor, actor.target, damage, radius);
+
+  if actor.z <= actor.floorz then
+    P_HitFloor(actor);
+end;
+
+//
+// A_SetPushable
+//
+procedure A_SetPushable(actor: Pmobj_t);
+begin
+  {$IFDEF DOOM_OR_STRIFE}
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_PUSHABLE;
+  {$ENDIF}
+  {$IFDEF HERETIC_OR_HEXEN}
+  actor.flags2 := actor.flags2 or MF2_PUSHABLE;
+  {$ENDIF}
+end;
+
+//
+// A_SetPushable
+//
+procedure A_UnSetPushable(actor: Pmobj_t);
+begin
+  {$IFDEF DOOM_OR_STRIFE}
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_PUSHABLE;
+  {$ENDIF}
+  {$IFDEF HERETIC_OR_HEXEN}
+  actor.flags2 := actor.flags2 and not MF2_PUSHABLE;
+  {$ENDIF}
 end;
 
 end.

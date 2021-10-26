@@ -67,6 +67,8 @@ procedure P_RadiusAttack(spot: Pmobj_t; source: Pmobj_t; const damage: integer);
 
 procedure P_RadiusAttackEx(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
 
+procedure P_RadiusAttackPlayer(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
+
 function P_ChangeSector(sector: Psector_t; crunch: boolean): boolean;
 
 procedure P_SlideMove(mo: Pmobj_t);
@@ -2221,6 +2223,7 @@ var
   bombsource: Pmobj_t;
   bombspot: Pmobj_t;
   bombdamage: integer;
+  bombradius: integer;
 
 
 //
@@ -2380,6 +2383,91 @@ begin
       P_BlockThingsIterator(x, y, PIT_RadiusAttack);
 end;
 
+function PIT_RadiusAttackPlayer(thing: Pmobj_t): boolean;
+var
+  dx: fixed_t;
+  dy: fixed_t;
+  dist: fixed_t;
+  cl: fixed_t;
+  damage: integer;
+begin
+  if thing.player = nil then
+  begin
+    result := true;
+    exit;
+  end;
+
+  dx := abs(thing.x - bombspot.x);
+  dy := abs(thing.y - bombspot.y);
+
+  if dx > dy then
+    dist := dx
+  else
+    dist := dy;
+  dist := FixedInt(dist - thing.radius);
+
+  if dist < 0 then
+    dist := 0;
+
+  if dist >= bombradius then
+  begin
+    result := true; // out of range
+    exit;
+  end;
+
+  if P_CheckSight(thing, bombspot) then
+  begin
+    // must be in direct path
+    if bombradius = 0 then
+      P_DamageMobj(thing, bombspot, bombsource, bombdamage)
+    else
+    begin
+      cl := FixedDiv((bombradius - dist) * FRACUNIT, bombradius * FRACUNIT);
+      damage := FixedInt(FixedMul(bombdamage * FRACUNIT, cl));
+      if damage < 1 then
+        damage := 1;
+      P_DamageMobj(thing, bombspot, bombsource, damage);
+    end;
+  end;
+
+  result := true;
+end;
+
+procedure P_RadiusAttackPlayer(spot: Pmobj_t; source: Pmobj_t; const damage, distance: integer);
+var
+  x: integer;
+  y: integer;
+  xl: integer;
+  xh: integer;
+  yl: integer;
+  yh: integer;
+  dist: fixed_t;
+begin
+  dist := distance * FRACUNIT;
+  if internalblockmapformat then
+  begin
+    yh := MapBlockIntY(int64(spot.y) + int64(dist) - int64(bmaporgy));
+    yl := MapBlockIntY(int64(spot.y) - int64(dist) - int64(bmaporgy));
+    xh := MapBlockIntX(int64(spot.x) + int64(dist) - int64(bmaporgx));
+    xl := MapBlockIntX(int64(spot.x) - int64(dist) - int64(bmaporgx));
+  end
+  else
+  begin
+    yh := MapBlockInt(spot.y + dist - bmaporgy);
+    yl := MapBlockInt(spot.y - dist - bmaporgy);
+    xh := MapBlockInt(spot.x + dist - bmaporgx);
+    xl := MapBlockInt(spot.x - dist - bmaporgx);
+  end;
+
+  bombspot := spot;
+  bombsource := source;
+  bombdamage := damage;
+  bombradius := distance;
+
+  for y := yl to yh do
+    for x := xl to xh do
+      P_BlockThingsIterator(x, y, PIT_RadiusAttackPlayer);
+end;
 
 //
 // SECTOR HEIGHT CHANGING

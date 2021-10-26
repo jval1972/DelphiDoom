@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 376;
+  DEHNUMACTIONS = 379;
 
 type
   deh_action_t = record
@@ -3191,6 +3191,15 @@ begin
   deh_actions[375].action.acp1 := @A_SetFriction;
   deh_actions[375].name := strupper('SetFriction');
   {$IFDEF DLL}deh_actions[375].decl := 'A_SetFriction(newfriction: float)';{$ENDIF}
+  deh_actions[376].action.acp1 := @A_PlayerHurtExplode;
+  deh_actions[376].name := strupper('PlayerHurtExplode');
+  {$IFDEF DLL}deh_actions[376].decl := 'A_PlayerHurtExplode(damage: integer, radius: integer)';{$ENDIF}
+  deh_actions[377].action.acp1 := @A_SetPushable;
+  deh_actions[377].name := strupper('SetPushable');
+  {$IFDEF DLL}deh_actions[377].decl := 'A_SetPushable()';{$ENDIF}
+  deh_actions[378].action.acp1 := @A_UnSetPushable;
+  deh_actions[378].name := strupper('UnSetPushable');
+  {$IFDEF DLL}deh_actions[378].decl := 'A_UnSetPushable()';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do
