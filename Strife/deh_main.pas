@@ -94,6 +94,8 @@ var
   sound_tokens: TDTextList;
   renderstyle_tokens: TDTextList;
   misc_tokens: TDTextList;
+  weapontype_tokens: TDTextList;
+  ammotype_tokens: TDTextList;
 
   deh_actions: array[0..DEHNUMACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
@@ -105,6 +107,7 @@ function DEH_GetString(const s: string): string;
 implementation
 
 uses
+  TypInfo,
   c_cmds,
   doomdef,
   deh_base,
@@ -1054,6 +1057,8 @@ begin
 
       // Retrieve think number
       weapon_no := atoi(stmp, -1);
+      if weapon_no < 0 then
+        weapon_no := DEH_WeaponType(stmp);
       if (weapon_no < 0) or (weapon_no >= Ord(NUMWEAPONS)) then
       begin
         I_Warning('DEH_Parse(): Wrong weapon number = %s'#13#10, [stmp]);
@@ -1082,10 +1087,48 @@ begin
           break;
         end;
 
-        weapon_val := atoi(token2);
+        weapon_val := atoi(token2, -1);
+
+        if weapon_val < 0 then
+        begin
+          if weapon_idx in [1, 2, 3, 4, 5] then
+          begin
+            stmp := firstword(token2);
+            if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
+            begin
+              weapon_val := atoi(secondword(token2), -1);
+              if weapon_val < 0 then
+              begin
+                I_Warning('DEH_Parse(): After %s keyword found invalid numeric %s (Weapon number = %d)'#13#10, [stmp, secondword(token2), weapon_no]);
+                continue;
+              end;
+              weapon_val := weapon_val + deh_initialstates;
+            end
+            else if (stmp = 'ORIGINALFRAME') or (stmp = 'ORIGINALSTATE') then  // JVAL: an original defined state
+            begin
+              weapon_val := atoi(secondword(token2), -1);
+              if weapon_val < 0 then
+              begin
+                I_Warning('DEH_Parse(): After %s keyword found invalid numeric %s (Weapon number = %d)'#13#10, [stmp, secondword(token2), weapon_no]);
+                continue;
+              end;
+            end;
+          end
+          else
+          begin
+            I_Warning('DEH_Parse(): Invalid state number (%s) (Weapon number = %d)'#13#10, [token2, weapon_no]);
+            continue;
+          end;
+
+        end;
 
         case weapon_idx of
-           0: weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
+           0:
+            begin
+              if weapon_val < 0 then
+                weapon_val := DEH_AmmoType(token2);
+              weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
+            end;
            1: weaponinfo[weapon_no].upstate := weapon_val;
            2: weaponinfo[weapon_no].downstate := weapon_val;
            3: weaponinfo[weapon_no].readystate := weapon_val;
@@ -3158,6 +3201,14 @@ begin
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
 
+  weapontype_tokens := TDTextList.Create;
+  for i := 0 to Ord(NUMWEAPONS) do
+    weapontype_tokens.Add(strupper(GetENumName(TypeInfo(weapontype_t), i)));
+
+  ammotype_tokens := TDTextList.Create;
+  for i := 0 to Ord(NUMAMMO) do
+    ammotype_tokens.Add(strupper(GetENumName(TypeInfo(ammotype_t), i)));
+
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
   deh_strings._array := nil;
@@ -3419,6 +3470,8 @@ begin
   FreeAndNil(sound_tokens);
   FreeAndNil(renderstyle_tokens);
   FreeAndNil(misc_tokens);
+  FreeAndNil(weapontype_tokens);
+  FreeAndNil(ammotype_tokens);
 
   FreeAndNil(mobj_tokens_hash);
   FreeAndNil(mobj_flags_hash);
