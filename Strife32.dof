@@ -115,7 +115,7 @@ AutoIncBuild=0
 MajorVer=2
 MinorVer=0
 Release=6
-Build=729
+Build=730
 Debug=0
 PreRelease=0
 Special=0
@@ -126,7 +126,7 @@ CodePage=1252
 [Version Info Keys]
 CompanyName=Jim Valavanis
 FileDescription=Strife to Delphi Total Conversion
-FileVersion=2.0.6.729
+FileVersion=2.0.6.730
 InternalName=Strife
 LegalCopyright=Copyright 2005 - 2021, Jim Valavanis
 LegalTrademarks=Copyright 2005 - 2021, Jim Valavanis
