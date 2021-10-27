@@ -1073,7 +1073,7 @@ begin
         end
         else if weapon_val < 0 then
         begin
-          if weapon_idx in [1, 2, 3, 4, 5, 6] then
+          if weapon_idx in [1, 2, 3, 4, 5] then
           begin
             stmp := firstword(token2);
             if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
