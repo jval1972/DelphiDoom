@@ -895,8 +895,10 @@ begin
   end;
 
   stmp := strupper(str);
+  {$IFNDEF HEXEN}
   if Pos('AM_', stmp) <> 1 then
     stmp := stmp + 'AM_';
+  {$ENDIF}
 
   result := ammotype_tokens.IndexOf(stmp);
 end;
