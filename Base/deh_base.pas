@@ -116,7 +116,9 @@ uses
   TypInfo,
   deh_main,
   doomdef,
+  {$IFDEF DOOM_OR_STRIFE}
   d_items,
+  {$ENDIF}
   i_system,
   info,
   info_h,

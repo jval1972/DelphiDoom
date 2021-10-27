@@ -88,6 +88,8 @@ var
   sound_tokens: TDTextList;
   renderstyle_tokens: TDTextList;
   misc_tokens: TDTextList;
+  weapontype_tokens: TDTextList;
+  ammotype_tokens: TDTextList;
 
   deh_actions: array[0..DEHNUMACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
@@ -95,6 +97,7 @@ var
 implementation
 
 uses
+  TypInfo,
   c_cmds,
   doomdef,
   deh_base,
@@ -197,6 +200,8 @@ var
   weapon_no: integer;
   weapon_idx: integer;
   weapon_val: integer;
+  weapon_level: integer;
+  weaponinfo_p: Pweaponinfo_tArray;
 
   sound_no: integer;
   sound_idx: integer;
@@ -1047,11 +1052,15 @@ begin
 
       // Retrieve think number
       weapon_no := atoi(stmp, -1);
+      if weapon_no < 0 then
+        weapon_no := DEH_WeaponType(stmp);
       if (weapon_no < 0) or (weapon_no >= Ord(NUMWEAPONS)) then
       begin
         I_Warning('DEH_Parse(): Wrong weapon number = %s'#13#10, [stmp]);
         continue;
       end;
+
+      weapon_level := 1;
 
       while true do
       begin
@@ -1075,16 +1084,69 @@ begin
           break;
         end;
 
-        weapon_val := atoi(token2);
+        weapon_val := atoi(token2, -1);
+
+        if weapon_idx = 0 then
+        begin
+          if weapon_val < 0 then
+            weapon_val := DEH_AmmoType(token2);
+          if weapon_val < 0 then
+            I_Warning('DEH_Parse(): After %s keyword found invalid ammo %s (Weapon number = %d)'#13#10, [weapon_tokens.Strings[weapon_idx], token2, weapon_no]);
+        end
+        else if weapon_idx = 7 then
+        begin
+          if weapon_val in [1, 2] then
+            weapon_level := weapon_val
+          else
+            I_Warning('DEH_Parse(): After %s keyword found invalid level %s (Weapon number = %d)'#13#10, [weapon_tokens.Strings[weapon_idx], token2, weapon_no]);
+          continue;
+        end
+        else if weapon_val < 0 then
+        begin
+          if weapon_idx in [1, 2, 3, 4, 5, 6] then
+          begin
+            stmp := firstword(token2);
+            if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
+            begin
+              weapon_val := atoi(secondword(token2), -1);
+              if weapon_val < 0 then
+              begin
+                I_Warning('DEH_Parse(): After %s keyword found invalid numeric %s (Weapon number = %d)'#13#10, [stmp, secondword(token2), weapon_no]);
+                continue;
+              end;
+              weapon_val := weapon_val + deh_initialstates;
+            end
+            else if (stmp = 'ORIGINALFRAME') or (stmp = 'ORIGINALSTATE') then  // JVAL: an original defined state
+            begin
+              weapon_val := atoi(secondword(token2), -1);
+              if weapon_val < 0 then
+              begin
+                I_Warning('DEH_Parse(): After %s keyword found invalid numeric %s (Weapon number = %d)'#13#10, [stmp, secondword(token2), weapon_no]);
+                continue;
+              end;
+            end;
+          end
+          else
+          begin
+            I_Warning('DEH_Parse(): Invalid state number (%s) (Weapon number = %d)'#13#10, [token2, weapon_no]);
+            continue;
+          end;
+
+        end;
+
+        if weapon_level = 1 then
+          weaponinfo_p := @wpnlev1info
+        else
+          weaponinfo_p := @wpnlev2info;
 
         case weapon_idx of
-           0: wpnlev1info[weapon_no].ammo := ammotype_t(weapon_val);
-           1: wpnlev1info[weapon_no].upstate := weapon_val;
-           2: wpnlev1info[weapon_no].downstate := weapon_val;
-           3: wpnlev1info[weapon_no].readystate := weapon_val;
-           4: wpnlev1info[weapon_no].atkstate := weapon_val;
-           6: wpnlev1info[weapon_no].holdatkstate := weapon_val;
-           5: wpnlev1info[weapon_no].flashstate := weapon_val;
+           0: weaponinfo_p[weapon_no].ammo := ammotype_t(weapon_val);
+           1: weaponinfo_p[weapon_no].upstate := weapon_val;
+           2: weaponinfo_p[weapon_no].downstate := weapon_val;
+           3: weaponinfo_p[weapon_no].readystate := weapon_val;
+           4: weaponinfo_p[weapon_no].atkstate := weapon_val;
+           6: weaponinfo_p[weapon_no].holdatkstate := weapon_val;
+           5: weaponinfo_p[weapon_no].flashstate := weapon_val;
         end;
       end;
 
@@ -1437,6 +1499,7 @@ var
   i, j: integer;
   str: string;
   cmdln: string;
+  weaponinfo_p: Pweaponinfo_tArray;
 begin
   if not deh_initialized then
     DEH_Init;
@@ -1692,17 +1755,25 @@ begin
   result.Add('');
   result.Add('# Weapons');
   result.Add('');
-  for i := 0 to Ord(NUMWEAPONS) - 1 do
-  begin
-    result.Add('Weapon %d', [i]);
 
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[0]), Ord(wpnlev1info[i].ammo)]);
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[1]), wpnlev1info[i].upstate]);
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[2]), wpnlev1info[i].downstate]);
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[3]), wpnlev1info[i].readystate]);
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[4]), wpnlev1info[i].atkstate]);
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[6]), wpnlev1info[i].holdatkstate]);
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[5]), wpnlev1info[i].flashstate]);
+  for j := 1 to 2 do
+    for i := 0 to Ord(NUMWEAPONS) - 1 do
+    begin
+      result.Add('Weapon %s', [weapontype_tokens.Strings[i]]);
+
+      result.Add('%s = %d', [capitalizedstring(weapon_tokens[7]), j]);
+      if j = 1 then
+        weaponinfo_p := @wpnlev1info
+      else
+        weaponinfo_p := @wpnlev2info;
+
+      result.Add('%s = %s', [capitalizedstring(weapon_tokens[0]), ammotype_tokens.Strings[Ord(weaponinfo_p[i].ammo)]]);
+      result.Add('%s = %d', [capitalizedstring(weapon_tokens[1]), weaponinfo_p[i].upstate]);
+      result.Add('%s = %d', [capitalizedstring(weapon_tokens[2]), weaponinfo_p[i].downstate]);
+      result.Add('%s = %d', [capitalizedstring(weapon_tokens[3]), weaponinfo_p[i].readystate]);
+      result.Add('%s = %d', [capitalizedstring(weapon_tokens[4]), weaponinfo_p[i].atkstate]);
+      result.Add('%s = %d', [capitalizedstring(weapon_tokens[6]), weaponinfo_p[i].holdatkstate]);
+      result.Add('%s = %d', [capitalizedstring(weapon_tokens[5]), weaponinfo_p[i].flashstate]);
 
     result.Add('');
   end;
@@ -3205,6 +3276,14 @@ begin
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
 
+  weapontype_tokens := TDTextList.Create;
+  for i := 0 to Ord(NUMWEAPONS) do
+    weapontype_tokens.Add(strupper(GetENumName(TypeInfo(weapontype_t), i)));
+
+  ammotype_tokens := TDTextList.Create;
+  for i := 0 to Ord(NUMAMMO) + 1 do
+    ammotype_tokens.Add(strupper(GetENumName(TypeInfo(ammotype_t), i)));
+
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
   deh_strings._array := nil;
@@ -3429,6 +3508,7 @@ begin
   weapon_tokens.Add('SHOOTING FRAME');// .atkstate
   weapon_tokens.Add('FIRING FRAME');  // .flashstate
   weapon_tokens.Add('HOLD SHOOTING FRAME');// .holdatkstate
+  weapon_tokens.Add('LEVEL');         // level1 or level2
 
 
   sound_tokens := TDTextList.Create;
@@ -3490,6 +3570,8 @@ begin
   FreeAndNil(sound_tokens);
   FreeAndNil(renderstyle_tokens);
   FreeAndNil(misc_tokens);
+  FreeAndNil(weapontype_tokens);
+  FreeAndNil(ammotype_tokens);
 
   FreeAndNil(mobj_tokens_hash);
   FreeAndNil(mobj_flags_hash);
