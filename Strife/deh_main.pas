@@ -1089,7 +1089,14 @@ begin
 
         weapon_val := atoi(token2, -1);
 
-        if weapon_val < 0 then
+        if weapon_idx = 0 then
+        begin
+          if weapon_val < 0 then
+            weapon_val := DEH_AmmoType(token2);
+          if weapon_val < 0 then
+            I_Warning('DEH_Parse(): After %s keyword found invalid ammo %s (Weapon number = %d)'#13#10, [weapon_tokens.Strings[weapon_idx], token2, weapon_no]);
+        end
+        else if weapon_val < 0 then
         begin
           if weapon_idx in [1, 2, 3, 4, 5] then
           begin
@@ -1123,12 +1130,7 @@ begin
         end;
 
         case weapon_idx of
-           0:
-            begin
-              if weapon_val < 0 then
-                weapon_val := DEH_AmmoType(token2);
-              weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
-            end;
+           0: weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
            1: weaponinfo[weapon_no].upstate := weapon_val;
            2: weaponinfo[weapon_no].downstate := weapon_val;
            3: weaponinfo[weapon_no].readystate := weapon_val;
@@ -1682,9 +1684,9 @@ begin
   result.Add('');
   for i := 0 to Ord(NUMWEAPONS) - 1 do
   begin
-    result.Add('Weapon %d', [i]);
+    result.Add('Weapon %s', [weapontype_tokens.Strings[i]]);
 
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[0]), Ord(weaponinfo[i].ammo)]);
+    result.Add('%s = %s', [capitalizedstring(weapon_tokens[0]), ammotype_tokens.Strings[Ord(weaponinfo[i].ammo)]]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[1]), weaponinfo[i].upstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[2]), weaponinfo[i].downstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[3]), weaponinfo[i].readystate]);
@@ -3206,7 +3208,7 @@ begin
     weapontype_tokens.Add(strupper(GetENumName(TypeInfo(weapontype_t), i)));
 
   ammotype_tokens := TDTextList.Create;
-  for i := 0 to Ord(NUMAMMO) do
+  for i := 0 to Ord(NUMAMMO) + 1 do
     ammotype_tokens.Add(strupper(GetENumName(TypeInfo(ammotype_t), i)));
 
   deh_strings.numstrings := 0;
