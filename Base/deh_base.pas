@@ -916,7 +916,7 @@ begin
   end;
 
   stmp := strupper(str);
-  if Pos('_', stmp) <> 1 then
+  if Pos('WP_', stmp) <> 1 then
     stmp := stmp + 'WP_';
 
   result := weapontype_tokens.IndexOf(stmp);
