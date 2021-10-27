@@ -93,6 +93,10 @@ function DEH_AmmoType(const str: string): integer;
 
 function DEH_WeaponType(const str: string): integer;
 
+{$IFDEF  HEXEN}
+function DEH_PlayerClass(const str: string): integer;
+{$ENDIF}
+
 const
   DEH_STRINGLIST_HASH_SIZE = 64;
 
@@ -925,6 +929,31 @@ begin
 
   result := weapontype_tokens.IndexOf(stmp);
 end;
+
+{$IFDEF  HEXEN}
+function DEH_PlayerClass(const str: string): integer;
+var
+  stmp: string;
+begin
+  if playerclass_tokens = nil then
+  begin
+    result := atoi(str, -1);
+    exit;
+  end;
+
+  if StrIsInteger(str) then
+  begin
+    result := atoi(str, -1);
+    exit;
+  end;
+
+  stmp := strupper(str);
+  if Pos('PCLASS_', stmp) <> 1 then
+    stmp := stmp + 'PCLASS_';
+
+  result := playerclass_tokens.IndexOf(stmp);
+end;
+{$ENDIF}
 
 end.
 
