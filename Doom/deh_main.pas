@@ -89,6 +89,8 @@ var
   sound_tokens: TDTextList;
   renderstyle_tokens: TDTextList;
   misc_tokens: TDTextList;
+  weapontype_tokens: TDTextList;
+  ammotype_tokens: TDTextList;
 
   deh_actions: array[0..DEHNUMACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
@@ -96,6 +98,7 @@ var
 implementation
 
 uses
+  TypInfo,
   c_cmds,
   doomdef,
   deh_base,
@@ -3115,6 +3118,14 @@ begin
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
 
+  weapontype_tokens := TDTextList.Create;
+  for i := 0 to Ord(NUMWEAPONS) do
+    weapontype_tokens.Add(strupper(GetENumName(TypeInfo(weapontype_t), i)));
+
+  ammotype_tokens := TDTextList.Create;
+  for i := 0 to Ord(NUMAMMO) do
+    ammotype_tokens.Add(strupper(GetENumName(TypeInfo(ammotype_t), i)));
+
   deh_strings.numstrings := 0;
   deh_strings.realnumstrings := 0;
   deh_strings._array := nil;
@@ -3472,6 +3483,8 @@ begin
   FreeAndNil(sound_tokens);
   FreeAndNil(renderstyle_tokens);
   FreeAndNil(misc_tokens);
+  FreeAndNil(weapontype_tokens);
+  FreeAndNil(ammotype_tokens);
 
   FreeAndNil(mobj_tokens_hash);
   FreeAndNil(mobj_flags_hash);

@@ -89,6 +89,10 @@ procedure DEH_AddActionToHash(const act: string; const idpos: integer);
 
 function DEH_SearchActionFromHash(const act: string): integer;
 
+function DEH_AmmoType(const str: string): integer;
+
+function DEH_WeaponType(const str: string): integer;
+
 const
   DEH_STRINGLIST_HASH_SIZE = 64;
 
@@ -111,6 +115,8 @@ implementation
 uses
   TypInfo,
   deh_main,
+  doomdef,
+  d_items,
   i_system,
   info,
   info_h,
@@ -868,6 +874,52 @@ begin
   end;
 
   result := fList.IndexOf(check);
+end;
+
+function DEH_AmmoType(const str: string): integer;
+var
+  stmp: string;
+begin
+  if ammotype_tokens = nil then
+  begin
+    result := atoi(str, -1);
+    exit;
+  end;
+
+  if StrIsInteger(str) then
+  begin
+    result := atoi(str, -1);
+    exit;
+  end;
+
+  stmp := strupper(str);
+  if Pos('AM_', stmp) <> 1 then
+    stmp := stmp + 'AM_';
+
+  result := ammotype_tokens.IndexOf(stmp);
+end;
+
+function DEH_WeaponType(const str: string): integer;
+var
+  stmp: string;
+begin
+  if weapontype_tokens = nil then
+  begin
+    result := atoi(str, -1);
+    exit;
+  end;
+
+  if StrIsInteger(str) then
+  begin
+    result := atoi(str, -1);
+    exit;
+  end;
+
+  stmp := strupper(str);
+  if Pos('_', stmp) <> 1 then
+    stmp := stmp + 'WP_';
+
+  result := weapontype_tokens.IndexOf(stmp);
 end;
 
 end.
