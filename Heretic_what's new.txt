@@ -8,6 +8,7 @@ Fixed MF2_EX_CANTLEAVEFLOORPIC flag behaviour.
 Removed generalized sector consts for forcefields.
 Added "A_PlayerHurtExplode(damage: integer; radius: integer);" ACTORDEF function.
 Added A_SetPushable() & A_UnSetPushable() ACTORDEF functions.
+DEHACHED can use weapon & ammo mnemonic names.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
