@@ -1775,8 +1775,8 @@ begin
       result.Add('%s = %d', [capitalizedstring(weapon_tokens[6]), weaponinfo_p[i].holdatkstate]);
       result.Add('%s = %d', [capitalizedstring(weapon_tokens[5]), weaponinfo_p[i].flashstate]);
 
-    result.Add('');
-  end;
+      result.Add('');
+    end;
 
 
   //////////////////////////////////////////////////////////////////////////////
