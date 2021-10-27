@@ -1724,9 +1724,9 @@ begin
   result.Add('');
   for i := 0 to Ord(NUMWEAPONS) - 1 do
   begin
-    result.Add('Weapon %d', [i]);
+    result.Add('Weapon %s', [weapontype_tokens.Strings[i]]);
 
-    result.Add('%s = %d', [capitalizedstring(weapon_tokens[0]), Ord(weaponinfo[i].ammo)]);
+    result.Add('%s = %s', [capitalizedstring(weapon_tokens[0]), ammotype_tokens.Strings[Ord(weaponinfo[i].ammo)]]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[1]), weaponinfo[i].upstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[2]), weaponinfo[i].downstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[3]), weaponinfo[i].readystate]);
@@ -3163,7 +3163,7 @@ begin
     weapontype_tokens.Add(strupper(GetENumName(TypeInfo(weapontype_t), i)));
 
   ammotype_tokens := TDTextList.Create;
-  for i := 0 to Ord(NUMAMMO) do
+  for i := 0 to Ord(NUMAMMO) + 1 do
     ammotype_tokens.Add(strupper(GetENumName(TypeInfo(ammotype_t), i)));
 
   deh_strings.numstrings := 0;
