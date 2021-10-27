@@ -1032,6 +1032,8 @@ begin
 
       // Retrieve think number
       weapon_no := atoi(stmp, -1);
+      if weapon_no < 0 then
+        weapon_no := DEH_WeaponType(stmp);
       if (weapon_no < 0) or (weapon_no >= Ord(NUMWEAPONS)) then
       begin
         I_Warning('DEH_Parse(): Wrong weapon number = %s'#13#10, [stmp]);
@@ -1060,10 +1062,48 @@ begin
           break;
         end;
 
-        weapon_val := atoi(token2);
+        weapon_val := atoi(token2, -1);
+
+        if weapon_val < 0 then
+        begin
+          if weapon_idx in [1, 2, 3, 4, 5] then
+          begin
+            stmp := firstword(token2);
+            if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
+            begin
+              weapon_val := atoi(secondword(token2), -1);
+              if weapon_val < 0 then
+              begin
+                I_Warning('DEH_Parse(): After %s keyword found invalid numeric %s (Weapon number = %d)'#13#10, [stmp, secondword(token2), weapon_no]);
+                continue;
+              end;
+              weapon_val := weapon_val + deh_initialstates;
+            end
+            else if (stmp = 'ORIGINALFRAME') or (stmp = 'ORIGINALSTATE') then  // JVAL: an original defined state
+            begin
+              weapon_val := atoi(secondword(token2), -1);
+              if weapon_val < 0 then
+              begin
+                I_Warning('DEH_Parse(): After %s keyword found invalid numeric %s (Weapon number = %d)'#13#10, [stmp, secondword(token2), weapon_no]);
+                continue;
+              end;
+            end;
+          end
+          else
+          begin
+            I_Warning('DEH_Parse(): Invalid state number (%s) (Weapon number = %d)'#13#10, [token2, weapon_no]);
+            continue;
+          end;
+
+        end;
 
         case weapon_idx of
-           0: weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
+           0:
+            begin
+              if weapon_val < 0 then
+                weapon_val := DEH_AmmoType(token2);
+              weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
+            end;
            1: weaponinfo[weapon_no].upstate := weapon_val;
            2: weaponinfo[weapon_no].downstate := weapon_val;
            3: weaponinfo[weapon_no].readystate := weapon_val;
