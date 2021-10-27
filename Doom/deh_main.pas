@@ -1064,9 +1064,16 @@ begin
 
         weapon_val := atoi(token2, -1);
 
-        if weapon_val < 0 then
+        if weapon_idx = 0 then
         begin
-          if weapon_idx in [1, 2, 3, 4, 5] then
+          if weapon_val < 0 then
+            weapon_val := DEH_AmmoType(token2);
+          if weapon_val < 0 then
+            I_Warning('DEH_Parse(): After %s keyword found invalid ammo %s (Weapon number = %d)'#13#10, [weapon_tokens.Strings[weapon_idx], token2, weapon_no]);
+        end
+        else if weapon_val < 0 then
+        begin
+          if weapon_idx in [1, 2, 3, 4, 5, 6] then
           begin
             stmp := firstword(token2);
             if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
@@ -1098,12 +1105,7 @@ begin
         end;
 
         case weapon_idx of
-           0:
-            begin
-              if weapon_val < 0 then
-                weapon_val := DEH_AmmoType(token2);
-              weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
-            end;
+           0: weaponinfo[weapon_no].ammo := ammotype_t(weapon_val);
            1: weaponinfo[weapon_no].upstate := weapon_val;
            2: weaponinfo[weapon_no].downstate := weapon_val;
            3: weaponinfo[weapon_no].readystate := weapon_val;
