@@ -163,6 +163,9 @@ type
     {$IFDEF HERETIC}
     level: integer;
     {$ENDIF}
+    {$IFDEF HEXEN}
+    pclass: integer;
+    {$ENDIF}
     weaponno: integer;
     upstate: integer;
     downstate: integer;

@@ -1645,7 +1645,7 @@ var
     weaponpending := false;
     res := '';
 
-    AddRes('WEAPON ' + itoa(wpn.weaponno));
+    AddRes('WEAPON ' + itoa(wpn.weaponno) {$IFDEF  HEXEN} + ' ' + itoa(wpn.pclass){$ENDIF});
     {$IFDEF HERETIC}
     AddRes('Level ' + itoa(wpn.level));
     {$ENDIF}
@@ -2017,10 +2017,10 @@ begin
       end;
 
       sc.GetString;
-      
+
       foundstates := false;
       repeat
-        if sc.MatchString('ammo') then
+        if sc.MatchString('ammo') {$IFDEF HEXEN} or sc.MatchString('mana') {$ENDIF} then
         begin
           sc.GetString;
           wpn.ammo := DEH_AmmoType(sc._String);
@@ -2036,6 +2036,14 @@ begin
             wpn.level := 2
           else
             wpn.level := atoi(sc._String);
+          sc.GetString;
+        end
+        {$ENDIF}
+        {$IFDEF HEXEN}
+        else if sc.MatchString('class') or sc.MatchString('playerclass') then
+        begin
+          sc.GetString;
+          wpn.pclass := DEH_PlayerClass(sc._String);
           sc.GetString;
         end
         {$ENDIF}
