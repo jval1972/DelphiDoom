@@ -55,6 +55,9 @@ const
   RTL_WT_READY = 4;
   RTL_WT_ATTACK = 8;
   RTL_WT_FLASH = 16;
+  {$IFDEF HERETIC_OR_HEXEN}
+  RTL_WT_HOLDATTACK = 32;
+  {$ENDIF}
 
 type
   rtl_state_t = record
@@ -157,11 +160,17 @@ type
 type
   rtl_weaponinfo_t = record
     ammo: integer;
+    {$IFDEF HERETIC}
+    level: integer;
+    {$ENDIF}
     weaponno: integer;
     upstate: integer;
     downstate: integer;
     readystate: integer;
     attackstate: integer;
+    {$IFDEF HERETIC_OR_HEXEN}
+    holdattackstate: integer;
+    {$ENDIF}
     flashstate: integer;
     statesdefined: LongWord;
   end;

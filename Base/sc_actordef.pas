@@ -963,6 +963,17 @@ var
           m_states[numstates - 1].nextstate := wpn.attackstate + offs;
           m_states[numstates - 1].has_goto := true;
         end
+        {$IFDEF HERETIC_OR_HEXEN}
+        else if (wpn.statesdefined and RTL_WT_HOLDATTACK <> 0) and statecheckPos('HOLD', gotostr) then
+        begin
+          if length(gotostr) > 4 then
+            offs := atoi(strremovespaces(Copy(gotostr, 5, Length(gotostr) - 4)))
+          else
+            offs := 0;
+          m_states[numstates - 1].nextstate := wpn.holdattackstate + offs;
+          m_states[numstates - 1].has_goto := true;
+        end
+        {$ENDIF}
         else if (wpn.statesdefined and RTL_WT_FLASH <> 0) and statecheckPos('FLASH', gotostr) then
         begin
           if length(gotostr) > 5 then
@@ -1563,6 +1574,13 @@ var
         result := wpn.attackstate;
         exit;
       end
+      {$IFDEF HERETIC_OR_HEXEN}
+      else if sss1 = 'HOLD' then
+      begin
+        result := wpn.holdattackstate;
+        exit;
+      end
+      {$ENDIF}
       else
       begin
         for i := 0 to numstates - 1 do
@@ -1628,11 +1646,17 @@ var
     res := '';
 
     AddRes('WEAPON ' + itoa(wpn.weaponno));
+    {$IFDEF HERETIC}
+    AddRes('Level ' + itoa(wpn.level));
+    {$ENDIF}
     AddRes('Ammo Type = ' + itoa(wpn.ammo));
     AddStateRes(wpn.upstate, 'DESELECT');
     AddStateRes(wpn.downstate, 'SELECT');
     AddStateRes(wpn.readystate, 'BOBBING');
     AddStateRes(wpn.attackstate, 'SHOOTING');
+    {$IFDEF HERETIC_OR_HEXEN}
+    AddStateRes(wpn.holdattackstate, 'HOLD SHOOTING');
+    {$ENDIF}
     AddStateRes(wpn.flashstate, 'FIRING');
 
     AddRes('');
@@ -1808,6 +1832,9 @@ begin
   w_state_tokens.Add('down:');
   w_state_tokens.Add('ready:');
   w_state_tokens.Add('attack:');
+  {$IFDEF HERETIC_OR_HEXEN}
+  w_state_tokens.Add('hold:');
+  {$ENDIF}
   w_state_tokens.Add('flash:');
 
   if devparm then
@@ -1996,6 +2023,19 @@ begin
           wpn.ammo := DEH_AmmoType(sc._String);
           sc.GetString;
         end
+        {$IFDEF HERETIC}
+        else if sc.MatchString('level') then
+        begin
+          sc.GetString;
+          if strupper(sc._String) = 'LEVEL1' then
+            wpn.level := 1
+          else if strupper(sc._String) = 'LEVEL2' then
+            wpn.level := 2
+          else
+            wpn.level := atoi(sc._String);
+          sc.GetString;
+        end
+        {$ENDIF}
         else if sc.MatchString('states') then
         begin
           foundstates := true;
@@ -2073,6 +2113,14 @@ begin
           wpn.attackstate := numstates;
           repeat until not ParseState(wpn.attackstate);
         end
+        {$IFDEF HERETIC_OR_HEXEN}
+        else if sc.MatchString('hold:') then
+        begin
+          wpn.statesdefined := wpn.statesdefined or RTL_WT_HOLDATTACK;
+          wpn.attackstate := numstates;
+          repeat until not ParseState(wpn.holdattackstate);
+        end
+        {$ENDIF}
         else if sc.MatchString('flash:') then
         begin
           wpn.statesdefined := wpn.statesdefined or RTL_WT_FLASH;
