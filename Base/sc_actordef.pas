@@ -1581,6 +1581,11 @@ var
         exit;
       end
       {$ENDIF}
+      else if sss1 = 'FLASH' then
+      begin
+        result := wpn.flashstate;
+        exit;
+      end
       else
       begin
         for i := 0 to numstates - 1 do
