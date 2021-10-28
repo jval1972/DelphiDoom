@@ -1996,6 +1996,9 @@ begin
       weaponpending := true;
       FillChar(wpn, SizeOf(wpn), 0);
       wpn.weaponno := -1;
+      {$IFDEF HERETIC}
+      wpn.level := 1;
+      {$ENDIF}
       wpn.upstate := -1;
       wpn.downstate := -1;
       wpn.readystate := -1;
