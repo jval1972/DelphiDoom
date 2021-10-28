@@ -941,6 +941,11 @@ begin
     target.momz := 0;
   end;
 
+  if inflictor <> nil then
+    if inflictor.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+      if target.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+        exit;
+
   player := target.player;
   if (player <> nil) and (gameskill = sk_baby) then
     damage := _SHR1(damage); // take half damage in trainer mode

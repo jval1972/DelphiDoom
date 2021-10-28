@@ -1941,6 +1941,11 @@ begin
     exit;
   end;
 
+  if inflictor <> nil then
+    if inflictor.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+      if target.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+        exit;
+
   if target.health <= 0 then
   begin
     if (inflictor <> nil) and (inflictor.flags2 and MF2_ICEDAMAGE <> 0) then
