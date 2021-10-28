@@ -810,7 +810,8 @@ var
             sc.MatchString('GLOBAL') then
     begin
       if numstates > 0 then
-        m_states[numstates - 1].nextstate := -1; // S_NULL
+        if not m_states[numstates - 1].has_goto then
+          m_states[numstates - 1].nextstate := -1; // S_NULL
       sc.UnGet;
       exit;
     end
