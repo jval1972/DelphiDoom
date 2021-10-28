@@ -728,6 +728,20 @@ begin
       exit;
     end;
 
+    if thing.flags and MF_SHOOTABLE = 0 then
+    begin
+      // didn't do any damage
+      result := thing.flags and MF_SOLID = 0;
+      exit;
+    end;
+
+    if tmthing.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+      begin
+        result := thing.flags and MF_SOLID = 0;
+        exit;
+      end;
+
     if tmthing.flags2 and MF2_RIP <> 0 then
     begin
       if thing.flags and MF_NOBLOOD = 0 then
