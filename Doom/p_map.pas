@@ -2422,6 +2422,13 @@ begin
     exit;
   end;
 
+  if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+    if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+    begin
+      result := true;
+      exit;
+    end;
+
   if P_CheckSight(thing, bombspot) then
   begin
     // must be in direct path
