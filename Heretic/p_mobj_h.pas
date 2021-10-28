@@ -386,6 +386,10 @@ const
   MF3_EX_ABSOLUTEDAMAGE = $100000;
   // Do not fall to ground on death
   MF3_EX_NOGRAVITYDEATH = $200000;
+  // Missile causes freeze damage
+  MF3_EX_FREEZEDAMAGE = $400000;
+  // Actor is not hurt by freeze damage missile
+  MF3_EX_FREEZEDAMAGERESIST = $800000;
 
 type
 // Map Object definition.
