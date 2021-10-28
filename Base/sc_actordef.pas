@@ -53,6 +53,8 @@ function SC_SoundAlias(const snd: string): string;
 
 function SC_GetActordefDeclaration(const m: Pmobjinfo_t): string;
 
+function SC_GetWeapondefDeclaration(const wid: integer{$IFDEF HERETIC}; const lvl: integer{$ENDIF}{$IFDEF HEXEN}; const pcl: integer{$ENDIF}): string;
+
 var
   decorate_as_actordef: boolean = true;
 
@@ -61,6 +63,12 @@ implementation
 uses
   TypInfo,
   doomdef,
+  {$IFDEF DOOM_OR_STRIFE}
+  d_items,
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  p_pspr_h,
+  {$ENDIF}
   d_main,
   c_cmds,
   deh_base,
@@ -3049,6 +3057,8 @@ begin
   SC_InitConsts;
   C_AddCmd('DEH_PrintActordef, PrintActordef', @DEH_PrintActordef);
   C_AddCmd('DEH_SaveActordef, SaveActordef', @DEH_SaveActordef);
+  C_AddCmd('DEH_PrintWeapondef, PrintWeapondef', @DEH_PrintWeapondef);
+  C_AddCmd('DEH_SaveWeapondef, SaveWeapondef', @DEH_SaveWeapondef);
 end;
 
 procedure SC_ShutDown;
@@ -3375,6 +3385,228 @@ begin
   {$IFDEF DOOM_OR_STRIFE}
   AddState('Interact', m.interactstate);
   {$ENDIF}
+  AddLn('}');
+  AddLn('}');
+  AddLn('');
+  result := ret;
+end;
+
+function SC_GetWeapondefDeclaration(const wid: integer{$IFDEF HERETIC}; const lvl: integer{$ENDIF}{$IFDEF HEXEN}; const pcl: integer{$ENDIF}): string;
+var
+  ret: string;
+  plevel: integer;
+  aid: integer; // weapon & ammo ids
+  w: Pweaponinfo_t;
+  mxammo: integer;
+
+  procedure AddLn(const s: string);
+  var
+    blanks: string;
+    i: integer;
+  begin
+    if s = '}' then
+      dec(plevel);
+    blanks := '';
+    for i := 0 to plevel - 1 do
+      blanks := blanks + '  ';
+    if s = '{' then
+      inc(plevel);
+    ret := ret + blanks + s + #13#10;
+  end;
+
+  function OtherStateGoto(const st: integer): boolean;
+  begin
+    result := true;
+    if st = w.upstate then
+    begin
+      AddLn('Goto Up');
+      exit;
+    end;
+
+    if st = w.downstate then
+    begin
+      AddLn('Goto Down');
+      exit;
+    end;
+
+    if st = w.readystate then
+    begin
+      AddLn('Goto Ready');
+      exit;
+    end;
+
+    if st = w.atkstate then
+    begin
+      AddLn('Goto Attack');
+      exit;
+    end;
+
+    {$IFDEF HERETIC_OR_HEXEN}
+    if st = w.holdatkstate then
+    begin
+      AddLn('Goto Hold');
+      exit;
+    end;
+    {$ENDIF}
+
+    if st = w.flashstate then
+    begin
+      AddLn('Goto Flash');
+      exit;
+    end;
+
+    result := false;
+  end;
+
+  procedure AddState(const s: string; const st: integer);
+  var
+    sst: Pstate_t;
+    spr: string;
+    A: TDNumberList;
+    idx: integer;
+    act: string;
+    stics: string;
+  begin
+    if st <= 0 then
+      exit;
+
+    A := TDNumberList.Create;
+    A.Add(st);
+
+    sst := @states[st];
+
+    while true do
+    begin
+      if A.Count = 1 then
+      begin
+        AddLn(s + ':');
+        AddLn('{');
+      end;
+
+      spr :=
+        Chr(sprnames[sst.sprite] and $FF) +
+        Chr((sprnames[sst.sprite] shr 8) and $FF) +
+        Chr((sprnames[sst.sprite] shr 16) and $FF) +
+        Chr((sprnames[sst.sprite] shr 24) and $FF);
+
+      if not Assigned(sst.action.acv) then
+        act := ''
+      else
+      begin
+        act := DEH_ActionName(sst.action);
+        if act = 'NULL' then
+          act := ''
+        else
+        begin
+          act := ' ' + act;
+          if sst.params <> nil then
+            act := act + ' ' + sst.params.Declaration;  // Add the parameter list
+        end;
+      end;
+
+      if sst.flags_ex and MF_EX_STATE_RANDOM_SELECT <> 0 then
+        stics := 'RANDOMSELECT(' + itoa(sst.tics) + ',' + itoa(sst.tics2) + ')'
+      else if sst.flags_ex and MF_EX_STATE_RANDOM_RANGE <> 0 then
+        stics := 'RANDOMRANGE(' + itoa(sst.tics) + ',' + itoa(sst.tics2) + ')'
+      else
+        stics := itoa(sst.tics);
+      AddLn(
+        spr + ' ' +
+        Chr(Ord('A') + sst.frame and FF_FRAMEMASK) + ' ' +
+        stics +
+        act +
+        decide(sst.frame and FF_FULLBRIGHT <> 0, ' BRIGHT', '')
+      );
+
+      if sst.tics < 0 then
+        break;
+      if Ord(sst.nextstate) <= 0 then
+      begin
+        AddLn('Stop');
+        break;
+      end;
+      idx := A.IndexOf(Ord(sst.nextstate));
+      if idx >= 0 then
+      begin
+        if idx = 0 then
+          AddLn('Loop')
+        else
+          AddLn('Goto ' + s + '+' + itoa(idx));
+        break;
+      end;
+      if OtherStateGoto(Ord(sst.nextstate)) then
+        break;
+      A.Add(Ord(sst.nextstate));
+      sst := @states[Ord(sst.nextstate)];
+    end;
+    AddLn('}');
+    A.Free;
+  end;
+
+begin
+  if not IsIntegerInRange(wid, 0, Ord(NUMWEAPONS) - 1) then
+  begin
+    result := '';
+    exit;
+  end;
+
+  {$IFDEF HERETIC}
+  if not IsIntegerInRange(lvl, 1, 2) then
+  begin
+    result := '';
+    exit;
+  end;
+  {$ENDIF}
+
+  ret := '';
+  plevel := 0;
+
+  Addln('// ' + strupper(GetENumName(TypeInfo(weapontype_t), Ord(wid))));
+
+  {$IFDEF DOOM_OR_STRIFE}
+  w := @weaponinfo[wid];
+  {$ENDIF}
+  {$IFDEF HERETIC}
+  if lvl = 1 then
+    w := @wpnlev1info[wid]
+  else
+    w := @wpnlev2info[wid];
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  {$ENDIF}
+
+  {$IFDEF HEXEN}
+  aid := Ord(w.mana);
+  mxammo := Ord(MANA_NONE);
+  {$ELSE}
+  aid := Ord(w.ammo);
+  mxammo := Ord(NUMAMMO) + 1;
+  {$ENDIF}
+
+  AddLn('WEAPON ' + strupper(GetENumName(TypeInfo(weapontype_t), Ord(wid))));
+  AddLn('{');
+  {$IFDEF HERETIC}
+  AddLn('Level LEVEL' + itoa(lvl));
+  {$ENDIF}
+  {$IFDEF HEXEN}
+  AddLn('PlayerClass ' + strupper(GetENumName(TypeInfo(pclass_t), Ord(pcl))));
+  {$ENDIF}
+
+  AddLn('Ammo ' + decide(IsIntegerInRange(aid, 0, mxammo), strupper(GetENumName(TypeInfo({$IFDEF HEXEN}manatype_t{$ELSE}ammotype_t{$ENDIF}), Ord(aid))), itoa(aid)));
+
+  // States
+  AddLn('States');
+  AddLn('{');
+
+  AddState('Up', w.upstate);
+  AddState('Down', w.downstate);
+  AddState('Ready', w.readystate);
+  AddState('Attack', w.atkstate);
+  {$IFDEF HERETIC_OR_HEXEN}
+  AddState('Hold', w.holdatkstate);
+  {$ENDIF}
+  AddState('Flash', w.flashstate);
+
   AddLn('}');
   AddLn('}');
   AddLn('');
