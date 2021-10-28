@@ -736,7 +736,7 @@ begin
     if tmthing.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
       if thing.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
       begin
-        result := thing.flags and MF_SOLID = 0;
+        result := true;
         exit;
       end;
 
