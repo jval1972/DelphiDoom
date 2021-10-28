@@ -48,6 +48,13 @@ const
   RTL_ST_INTERACT = 1024;
   {$ENDIF}
 
+// Weapon states
+const
+  RTL_WT_UP = 1;
+  RTL_WT_DOWN = 2;
+  RTL_WT_READY = 4;
+  RTL_WT_ATTACK = 8;
+  RTL_WT_FLASH = 16;
 
 type
   rtl_state_t = record
@@ -147,6 +154,18 @@ type
   end;
   Prtl_mobjinfo_t = ^rtl_mobjinfo_t;
 
+type
+  rtl_weaponinfo_t = record
+    ammo: integer;
+    weaponno: integer;
+    upstate: integer;
+    downstate: integer;
+    readystate: integer;
+    attackstate: integer;
+    flashstate: integer;
+    statesdefined: LongWord;
+  end;
+  Prtl_weaponinfo_t = ^rtl_weaponinfo_t;
 
 implementation
 

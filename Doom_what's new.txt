@@ -10,6 +10,7 @@ Fixed uncapped framerate bug for floor & ceiling offsets.
 Added "A_PlayerHurtExplode(damage: integer; radius: integer);" ACTORDEF function.
 Added A_SetPushable() & A_UnSetPushable() ACTORDEF functions.
 DEHACHED can use weapon & ammo mnemonic names.
+ACTORDEF can override the existing weapons (WEAPON keyword).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
