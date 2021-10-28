@@ -329,7 +329,10 @@ begin
   if P_CheckAmmo(player) then
   begin
     P_SetMobjState(player.mo, S_PLAY_05); // 292
-    newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate);
+    if (player.refire > 0) and (weaponinfo[Ord(player.readyweapon)].holdatkstate > 0) then
+      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].holdatkstate)
+    else
+      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate);
     P_SetPsprite(player, Ord(ps_weapon), newstate);
     // villsa [STRIFE] exclude these weapons from causing noise
     if (Ord(player.readyweapon) > Ord(wp_elecbow)) and (player.readyweapon <> wp_poisonbow) then

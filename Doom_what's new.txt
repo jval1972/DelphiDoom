@@ -13,6 +13,7 @@ DEHACHED can use weapon & ammo mnemonic names.
 ACTORDEF can override the existing weapons (WEAPON keyword).
 Added DEH_PrintWeapondef & PrintWeapondef console commands, print current weapons as ACTORDEF script.
 Added DEH_SaveWeapondef & SaveWeapondef console commands, save current weapons as ACTORDEF script.
+Hold attack state for weapon refire.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

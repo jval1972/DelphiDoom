@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -53,6 +53,7 @@ type
     downstate: integer;
     readystate: integer;
     atkstate: integer;
+    holdatkstate: integer;
     flashstate: integer;
     availabledemo: boolean;    // villsa [STRIFE]
   end;
@@ -80,6 +81,7 @@ var
     downstate: Ord(S_PNCH_02);
     readystate: Ord(S_PNCH_01);
     atkstate: Ord(S_PNCH_04);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: true
   ),
@@ -90,6 +92,7 @@ var
     downstate: Ord(S_XBOW_01);
     readystate: Ord(S_XBOW_00);
     atkstate: Ord(S_XBOW_03);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: true
   ),
@@ -100,6 +103,7 @@ var
     downstate: Ord(S_RIFG_01);
     readystate: Ord(S_RIFG_00);
     atkstate: Ord(S_RIFF_00);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: true
   ),
@@ -110,6 +114,7 @@ var
     downstate: Ord(S_MMIS_01);
     readystate: Ord(S_MMIS_00);
     atkstate: Ord(S_MMIS_03);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: false
   ),
@@ -120,6 +125,7 @@ var
     downstate: Ord(S_GREN_01);
     readystate: Ord(S_GREN_00);
     atkstate: Ord(S_GREN_03);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_GREF_00);
     availabledemo: false
   ),
@@ -130,6 +136,7 @@ var
     downstate: Ord(S_FLMT_02);
     readystate: Ord(S_FLMT_00);
     atkstate: Ord(S_FLMF_00);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: true
   ),
@@ -140,6 +147,7 @@ var
     downstate: Ord(S_BLST_04);
     readystate: Ord(S_BLST_00);
     atkstate: Ord(S_BLSF_00);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: false
   ),
@@ -150,6 +158,7 @@ var
     downstate: Ord(S_SIGH_05);
     readystate: Ord(S_SIGH_00);
     atkstate: Ord(S_SIGH_07);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_SIGF_00);
     availabledemo: false
   ),
@@ -160,6 +169,7 @@ var
     downstate: Ord(S_XBOW_14);
     readystate: Ord(S_XBOW_13);
     atkstate: Ord(S_XBOW_16);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: true
   ),
@@ -170,6 +180,7 @@ var
     downstate: Ord(S_GREN_09);
     readystate: Ord(S_GREN_08);
     atkstate: Ord(S_GREN_11);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_GREF_03);
     availabledemo: false
   ),
@@ -180,6 +191,7 @@ var
     downstate: Ord(S_BLST_17);
     readystate: Ord(S_BLST_13);
     atkstate: Ord(S_BLST_19);
+    holdatkstate: Ord(S_NULL);
     flashstate: Ord(S_NULL);
     availabledemo: false
   )

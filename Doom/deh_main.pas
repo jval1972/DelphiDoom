@@ -1073,7 +1073,7 @@ begin
         end
         else if weapon_val < 0 then
         begin
-          if weapon_idx in [1, 2, 3, 4, 5] then
+          if weapon_idx in [1, 2, 3, 4, 5, 6] then
           begin
             stmp := firstword(token2);
             if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
@@ -1110,6 +1110,7 @@ begin
            2: weaponinfo[weapon_no].downstate := weapon_val;
            3: weaponinfo[weapon_no].readystate := weapon_val;
            4: weaponinfo[weapon_no].atkstate := weapon_val;
+           6: weaponinfo[weapon_no].holdatkstate := weapon_val;
            5: weaponinfo[weapon_no].flashstate := weapon_val;
         end;
       end;
@@ -1733,6 +1734,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[2]), weaponinfo[i].downstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[3]), weaponinfo[i].readystate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[4]), weaponinfo[i].atkstate]);
+    result.Add('%s = %d', [capitalizedstring(weapon_tokens[6]), weaponinfo[i].holdatkstate]);
     result.Add('%s = %d', [capitalizedstring(weapon_tokens[5]), weaponinfo[i].flashstate]);
 
     result.Add('');
@@ -3461,6 +3463,7 @@ begin
   weapon_tokens.Add('BOBBING FRAME'); // .readystate
   weapon_tokens.Add('SHOOTING FRAME');// .atkstate
   weapon_tokens.Add('FIRING FRAME');  // .flashstate
+  weapon_tokens.Add('HOLD SHOOTING FRAME');// .holdatkstate
 
 
   sound_tokens := TDTextList.Create;

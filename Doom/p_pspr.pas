@@ -320,7 +320,10 @@ begin
   if P_CheckAmmo(player) then
   begin
     P_SetMobjState(player.mo, S_PLAY_ATK1);
-    newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate);
+    if (player.refire > 0) and (weaponinfo[Ord(player.readyweapon)].holdatkstate > 0) then
+      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].holdatkstate)
+    else
+      newstate := statenum_t(weaponinfo[Ord(player.readyweapon)].atkstate);
     P_SetPsprite(player, Ord(ps_weapon), newstate);
     P_NoiseAlert(player.mo, player.mo);
   end;

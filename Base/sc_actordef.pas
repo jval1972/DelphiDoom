@@ -971,7 +971,6 @@ var
           m_states[numstates - 1].nextstate := wpn.attackstate + offs;
           m_states[numstates - 1].has_goto := true;
         end
-        {$IFDEF HERETIC_OR_HEXEN}
         else if (wpn.statesdefined and RTL_WT_HOLDATTACK <> 0) and statecheckPos('HOLD', gotostr) then
         begin
           if length(gotostr) > 4 then
@@ -981,7 +980,6 @@ var
           m_states[numstates - 1].nextstate := wpn.holdattackstate + offs;
           m_states[numstates - 1].has_goto := true;
         end
-        {$ENDIF}
         else if (wpn.statesdefined and RTL_WT_FLASH <> 0) and statecheckPos('FLASH', gotostr) then
         begin
           if length(gotostr) > 5 then
@@ -1582,13 +1580,11 @@ var
         result := wpn.attackstate;
         exit;
       end
-      {$IFDEF HERETIC_OR_HEXEN}
       else if sss1 = 'HOLD' then
       begin
         result := wpn.holdattackstate;
         exit;
       end
-      {$ENDIF}
       else if sss1 = 'FLASH' then
       begin
         result := wpn.flashstate;
@@ -1667,9 +1663,7 @@ var
     AddStateRes(wpn.downstate, 'SELECT');
     AddStateRes(wpn.readystate, 'BOBBING');
     AddStateRes(wpn.attackstate, 'SHOOTING');
-    {$IFDEF HERETIC_OR_HEXEN}
     AddStateRes(wpn.holdattackstate, 'HOLD SHOOTING');
-    {$ENDIF}
     AddStateRes(wpn.flashstate, 'FIRING');
 
     AddRes('');
@@ -1845,9 +1839,7 @@ begin
   w_state_tokens.Add('down:');
   w_state_tokens.Add('ready:');
   w_state_tokens.Add('attack:');
-  {$IFDEF HERETIC_OR_HEXEN}
   w_state_tokens.Add('hold:');
-  {$ENDIF}
   w_state_tokens.Add('flash:');
 
   if devparm then
@@ -2016,6 +2008,7 @@ begin
       wpn.downstate := -1;
       wpn.readystate := -1;
       wpn.attackstate := -1;
+      wpn.holdattackstate := -1;
       wpn.flashstate := -1;
 
       if not sc.GetString then
@@ -2137,14 +2130,12 @@ begin
           wpn.attackstate := numstates;
           repeat until not ParseState(wpn.attackstate);
         end
-        {$IFDEF HERETIC_OR_HEXEN}
         else if sc.MatchString('hold:') then
         begin
           wpn.statesdefined := wpn.statesdefined or RTL_WT_HOLDATTACK;
-          wpn.attackstate := numstates;
+          wpn.holdattackstate := numstates;
           repeat until not ParseState(wpn.holdattackstate);
         end
-        {$ENDIF}
         else if sc.MatchString('flash:') then
         begin
           wpn.statesdefined := wpn.statesdefined or RTL_WT_FLASH;
@@ -3441,13 +3432,11 @@ var
       exit;
     end;
 
-    {$IFDEF HERETIC_OR_HEXEN}
     if st = w.holdatkstate then
     begin
       AddLn('Goto Hold');
       exit;
     end;
-    {$ENDIF}
 
     if st = w.flashstate then
     begin
@@ -3602,9 +3591,7 @@ begin
   AddState('Down', w.downstate);
   AddState('Ready', w.readystate);
   AddState('Attack', w.atkstate);
-  {$IFDEF HERETIC_OR_HEXEN}
   AddState('Hold', w.holdatkstate);
-  {$ENDIF}
   AddState('Flash', w.flashstate);
 
   AddLn('}');
