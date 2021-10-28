@@ -2063,6 +2063,8 @@ begin
   mobj_flags3_ex.Add('MF3_EX_SLIDEONWALLS');
   mobj_flags3_ex.Add('MF3_EX_ABSOLUTEDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_NOGRAVITYDEATH');
+  mobj_flags3_ex.Add('MF3_EX_FREEZEDAMAGE');
+  mobj_flags3_ex.Add('MF3_EX_FREEZEDAMAGERESIST');
 
   mobj_flags3_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags3_ex_hash.AssignList(mobj_flags3_ex);
