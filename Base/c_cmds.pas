@@ -71,7 +71,7 @@ uses
   i_system;
 
 const
-  MAXCMDS = 256;
+  MAXCMDS = 300;
 
 var
   CMDS: array[0..MAXCMDS - 1] of cmd_t;
