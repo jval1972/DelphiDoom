@@ -774,7 +774,7 @@ begin
       Inc(flgcount);
     end;
 
-    // mobj flags3_ex
+    // mobj flags4_ex
     flgcount := 160;
     for i := 0 to mobj_flags4_ex.Count - 1 do
     begin
