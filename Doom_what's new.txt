@@ -16,6 +16,7 @@ Added DEH_SaveWeapondef & SaveWeapondef console commands, save current weapons a
 Hold attack state for weapon refire.
 Corrected ACTORDEF parsing of "goto" keyword at the end of the actor/weapon declaration.
 Added MF3_EX_FREEZEDAMAGE & MF3_EX_NOFREEZEDAMAGE mobj flags.
+Added MF3_EX_FREEZEDAMAGERESIST mobj flag. When true it takes half damage from MF3_EX_FREEZEDAMAGE missiles.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
