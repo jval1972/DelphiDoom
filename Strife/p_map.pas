@@ -740,6 +740,13 @@ begin
         exit;
       end;
 
+    if tmthing.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
+      begin
+        result := true;
+        exit;
+      end;
+
     // haleyjd 09/01/10: [STRIFE] Spectral check:
     // Missiles cannot hit SPECTRAL entities unless the missiles are also
     // flagged as SPECTRAL.
@@ -2194,6 +2201,13 @@ begin
         exit;
       end;
 
+    if bombsource.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
+      begin
+        result := true;
+        exit;
+      end;
+
     if thing.player = nil then
       if bombsource.info.doomednum > 0 then
       begin
@@ -2366,6 +2380,13 @@ begin
 
   if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
     if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
+    begin
+      result := true;
+      exit;
+    end;
+
+  if bombsource.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+    if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
     begin
       result := true;
       exit;
