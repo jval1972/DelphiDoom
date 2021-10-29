@@ -1356,7 +1356,7 @@ begin
 
   if inflictor <> nil then
     if inflictor.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
-      if target.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+      if target.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
         exit;
 
   player := target.player;

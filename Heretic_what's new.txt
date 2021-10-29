@@ -13,7 +13,7 @@ ACTORDEF can override the existing weapons (WEAPON keyword).
 Added DEH_PrintWeapondef & PrintWeapondef console commands, print current weapons as ACTORDEF script.
 Added DEH_SaveWeapondef & SaveWeapondef console commands, save current weapons as ACTORDEF script.
 Corrected ACTORDEF parsing of "goto" keyword at the end of the actor/weapon declaration.
-Added MF3_EX_FREEZEDAMAGE & MF3_EX_FREEZEDAMAGERESIST mobj flags.
+Added MF3_EX_FREEZEDAMAGE & MF3_EX_NOFREEZEDAMAGE mobj flags.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
