@@ -1601,7 +1601,7 @@ var
           end;
       end;
 
-      sss1 := 'S_WEAPON_' + itoa(wpn.weaponno) + '_' + sss;
+      sss1 := 'S_WEAPON' + itoa(wpn.weaponno) + '_' + sss;
       result := statenames.IndexOfToken(sss1);
     end;
 
