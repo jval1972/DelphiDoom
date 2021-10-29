@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -37,6 +37,9 @@ type
   vec_t = float;
   Pvec_t = ^vec_t;
 
+  vec2_t = array[0..1] of vec_t;
+  Pvec2_t = ^vec2_t;
+
   vec3_t = array[0..2] of vec_t;
   Pvec3_t = ^vec3_t;
 
@@ -68,6 +71,14 @@ function VectorNormalize(v: Pvec3_t): float;
 procedure VectorInverse(v: Pvec3_t);
 procedure VectorScale(_in: Pvec3_t; const scale: vec_t; _out: Pvec3_t);
 procedure ConcatRotations(in1, in2: Pmat3_t; _out: Pmat3_t);
+
+function DotProduct2(v1, v2: vec2_t): float;
+function VectorSubtract2(veca, vecb: vec2_t): vec2_t;
+function VectorAdd2(veca, vecb: vec2_t): vec2_t;
+function VectorScale2(veca: vec2_t; scale: float): vec2_t;
+function VectorLength2(v: vec2_t): float;
+function VectorNormalize2(var v: vec2_t): float;
+procedure CalculateReflect2(const d, wall: vec2_t; var reflect: vec2_t);
 
 implementation
 
@@ -313,6 +324,66 @@ begin
         in1[2][2] * in2[2][1];
   _out[2][2] := in1[2][0] * in2[0][2] + in1[2][1] * in2[1][2] +
         in1[2][2] * in2[2][2];
+end;
+
+
+
+function DotProduct2(v1, v2: vec2_t): float;
+begin
+  result := v1[0] * v2[0] + v1[1] * v2[1];
+end;
+
+function VectorSubtract2(veca, vecb: vec2_t): vec2_t;
+begin
+  result[0] := veca[0] - vecb[0];
+  result[1] := veca[1] - vecb[1];
+end;
+
+function VectorAdd2(veca, vecb: vec2_t): vec2_t;
+begin
+  result[0] := veca[0] + vecb[0];
+  result[1] := veca[1] + vecb[1];
+end;
+
+function VectorScale2(veca: vec2_t; scale: float): vec2_t;
+begin
+  result[0] := veca[0] * scale;
+  result[1] := veca[1] * scale;
+end;
+
+function VectorLength2(v: vec2_t): float;
+begin
+  result := v[0] * v[0] + v[1] * v[1];
+  result := sqrt(result);    // FIXME
+end;
+
+function VectorNormalize2(var v: vec2_t): float;
+var
+  ilength: float;
+begin
+  result := v[0] * v[0] + v[1] * v[1];
+  result := sqrt(result);    // FIXME
+
+  if result > 0.0 then
+  begin
+    ilength := 1 / result;
+    v[0] := v[0] * ilength;
+    v[1] := v[1] * ilength;
+  end;
+end;
+
+procedure CalculateReflect2(const d, wall: vec2_t; var reflect: vec2_t);
+var
+  n: vec2_t;
+begin
+  n[0] := -wall[1];
+  n[1] := wall[0];
+
+  VectorNormalize2(n);
+
+  reflect := VectorSubtract2(d, VectorScale2(n, 2 * DotProduct2(d, n)));
+  VectorNormalize2(reflect);
+  reflect := VectorScale2(reflect, VectorLength2(d));
 end;
 
 end.
