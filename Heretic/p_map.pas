@@ -735,6 +735,13 @@ begin
         exit;
       end;
 
+    if tmthing.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
+      begin
+        result := true;
+        exit;
+      end;
+
     if tmthing.flags2 and MF2_RIP <> 0 then
     begin
       if thing.flags and MF_NOBLOOD = 0 then
@@ -2209,6 +2216,13 @@ begin
         exit;
       end;
 
+    if bombsource.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+      if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
+      begin
+        result := true;
+        exit;
+      end;
+
     if thing.player = nil then
       if bombsource.info.doomednum > 0 then
       begin
@@ -2360,6 +2374,13 @@ begin
 
   if bombsource.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
     if thing.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
+    begin
+      result := true;
+      exit;
+    end;
+
+  if bombsource.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+    if thing.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
     begin
       result := true;
       exit;

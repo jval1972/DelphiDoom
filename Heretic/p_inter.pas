@@ -1355,6 +1355,7 @@ begin
   end;
 
   if inflictor <> nil then
+  begin
     if inflictor.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
     begin
       if target.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
@@ -1363,6 +1364,15 @@ begin
         if damage > 1 then
           damage := _SHR1(damage);
     end;
+    if inflictor.flags3_ex and MF3_EX_FLAMEDAMAGE <> 0 then
+    begin
+      if target.flags3_ex and MF3_EX_NOFLAMEDAMAGE <> 0 then
+        exit;
+      if target.flags4_ex and MF4_EX_FLAMEDAMAGERESIST <> 0 then
+        if damage > 1 then
+          damage := _SHR1(damage);
+    end;
+  end;
 
   player := target.player;
   if (player <> nil) and (gameskill = sk_baby) then

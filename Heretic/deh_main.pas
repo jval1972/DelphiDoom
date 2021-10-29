@@ -2103,12 +2103,15 @@ begin
   mobj_flags3_ex.Add('MF3_EX_FREEZEDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_NOFREEZEDAMAGE');
   mobj_flags3_ex.Add('MF3_EX_FREEZEDAMAGERESIST');
+  mobj_flags3_ex.Add('MF3_EX_FLAMEDAMAGE');
+  mobj_flags3_ex.Add('MF3_EX_NOFLAMEDAMAGE');
 
   mobj_flags3_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags3_ex_hash.AssignList(mobj_flags3_ex);
 
 
   mobj_flags4_ex := TDTextList.Create;
+  mobj_flags4_ex.Add('MF4_EX_FLAMEDAMAGERESIST');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);

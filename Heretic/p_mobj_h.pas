@@ -392,6 +392,14 @@ const
   MF3_EX_NOFREEZEDAMAGE = $800000;
   // Actor is hurt less by freeze damage missile
   MF3_EX_FREEZEDAMAGERESIST = $1000000;
+  // Missile causes flame damage
+  MF3_EX_FLAMEDAMAGE = $2000000;
+  // Actor is not hurt by flame damage missile
+  MF3_EX_NOFLAMEDAMAGE = $4000000;
+
+const
+  // Actor is hurt less by flame damage missile
+  MF4_EX_FLAMEDAMAGERESIST = 1;
 
 type
 // Map Object definition.
