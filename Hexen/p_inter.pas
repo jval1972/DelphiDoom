@@ -1943,8 +1943,13 @@ begin
 
   if inflictor <> nil then
     if inflictor.flags3_ex and MF3_EX_FREEZEDAMAGE <> 0 then
+    begin
       if target.flags3_ex and MF3_EX_NOFREEZEDAMAGE <> 0 then
         exit;
+      if target.flags3_ex and MF3_EX_FREEZEDAMAGERESIST <> 0 then
+        if damage > 1 then
+          damage := _SHR1(damage);
+    end;
 
   if target.health <= 0 then
   begin
