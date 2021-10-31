@@ -2008,6 +2008,7 @@ begin
 
   mobj_flags4_ex := TDTextList.Create;
   mobj_flags4_ex.Add('MF4_EX_FLAMEDAMAGERESIST');
+  mobj_flags4_ex.Add('MF4_EX_THRUMONSTERS');
 
   mobj_flags4_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags4_ex_hash.AssignList(mobj_flags4_ex);
