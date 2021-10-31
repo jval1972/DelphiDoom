@@ -119,6 +119,7 @@ uses
   info_h,
   info,
   info_common,
+  info_rnd,
   p_common,
   p_gravity,
   p_setup,
@@ -161,6 +162,20 @@ begin
 
   // JVAL: 20210209 - MF3_EX_THRUACTORS flag - does not colide with actors
   if (tmthing.flags3_ex and MF3_EX_THRUACTORS <> 0) or (thing.flags3_ex and MF3_EX_THRUACTORS <> 0) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20211031 - MF4_EX_THRUMONSTERS flag - does not colide with monsters
+  if (tmthing.flags4_ex and MF4_EX_THRUMONSTERS <> 0) and Info_IsMonster(thing._type) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20211031 - MF4_EX_THRUMONSTERS flag - does not colide with monsters
+  if (thing.flags4_ex and MF4_EX_THRUMONSTERS <> 0) and Info_IsMonster(tmthing._type) then
   begin
     result := true;
     exit;
