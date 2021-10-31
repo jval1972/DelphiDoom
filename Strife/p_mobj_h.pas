@@ -414,6 +414,8 @@ const
 const
   // Actor is hurt less by flame damage missile
   MF4_EX_FLAMEDAMAGERESIST = 1;
+  // No monster collision
+  MF4_EX_THRUMONSTERS = 2;
 
 type
 // Map Object definition.
