@@ -146,7 +146,7 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
-  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+  if (player.mo.flags2 and MF2_FLY <> 0) and not onground then
     player.bob := FRACUNIT div 2
   else
   begin
@@ -185,7 +185,7 @@ begin
     end;
   end;
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
@@ -252,7 +252,7 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
-  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+  if (player.mo.flags2 and MF2_FLY <> 0) and not onground then
     player.bob := FRACUNIT div 2
   else
   begin
@@ -266,7 +266,7 @@ begin
 
   player.oldviewz := player.viewz;  // JVAL: Slopes
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
@@ -349,7 +349,7 @@ begin
     exit;
   end;
 
-  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+  if (player.mo.flags2 and MF2_FLY <> 0) and not onground then
     player.bob := FRACUNIT div 2
   else
   begin
@@ -363,7 +363,7 @@ begin
   
   oldviewz := player.viewz;
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
@@ -954,7 +954,7 @@ begin
   begin
     player.powers[Ord(pw_invisibility)] := player.powers[Ord(pw_invisibility)] - 1;
     if player.powers[Ord(pw_invisibility)] = 0 then
-      player.mo.flags := player.mo.flags and (not MF_SHADOW);
+      player.mo.flags := player.mo.flags and not MF_SHADOW;
   end;
 
   if player.powers[Ord(pw_infrared)] <> 0 then
@@ -968,8 +968,8 @@ begin
       if player.mo.z <> player.mo.floorz then
         player.centering := true;
 
-      player.mo.flags2 := player.mo.flags2 and (not MF2_FLY);
-      player.mo.flags := player.mo.flags and (not MF_NOGRAVITY);
+      player.mo.flags2 := player.mo.flags2 and not MF2_FLY;
+      player.mo.flags := player.mo.flags and not MF_NOGRAVITY;
     end;
   end;
 
