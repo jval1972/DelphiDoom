@@ -328,6 +328,7 @@ function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
 
 const
   ORIG_FRICTION = $E800;          // original value
+  CROUCH_FRICTION_FACTOR = 1536;  // JVAL: 20211101 - Crouch
 
 implementation
 

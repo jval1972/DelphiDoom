@@ -197,9 +197,138 @@ type
     cmd: ticcmd_t;
     nextoof: integer;
     quakeintensity: integer;
+
+    // JVAL: 20211101 - Crouch
+    oldcrouch: integer;
+    lastongroundtime: integer;
+    lastautocrouchtime: integer;
+    crouchheight: fixed_t;
   end;
   Pplayer_t = ^player_t;
 
+  player_t206 = record
+    mo: Pmobj_t;
+    playerstate: playerstate_t;
+    cmd202: ticcmd_t202;
+
+    // Determine POV,
+    //  including viewpoint bobbing during movement.
+    // Focal origin above r.z
+    viewz: fixed_t;
+    // Base height above floor for viewz.
+    viewheight: fixed_t;
+    // Bob/squat speed.
+    deltaviewheight: fixed_t;
+    // bounded/scaled total momentum.
+    bob: fixed_t;
+
+    flyheight: integer;
+    // Look UP/DOWN support
+    lookdir: integer;
+    centering: boolean;
+    // Look LEFT/RIGHT support
+    lookdir2: byte;
+    oldlook2: integer;
+    forwarding: boolean;
+
+    // jump
+    oldjump: integer;
+
+    // This is only used between levels,
+    // mo->health is used during levels.
+    health: integer;
+    armorpoints: integer;
+    // Armor type is 0-2.
+    armortype: integer;
+
+    inventory: array[0..NUMINVENTORYSLOTS - 1] of inventory_t;
+    readyArtifact: artitype_t;
+    artifactCount: integer;
+    inventorySlotNum: integer;
+    // Power ups. invinc and invis are tic counters.
+    powers: array[0..Ord(NUMPOWERS) - 1] of integer;
+    keys: array[0..Ord(NUMKEYCARDS) - 1] of boolean;
+    backpack: boolean;
+
+    // Frags, kills of other players.
+    frags: array[0..MAXPLAYERS - 1] of integer;
+    readyweapon: weapontype_t;
+
+    // Is wp_nochange if not changing.
+    pendingweapon: weapontype_t;
+
+    weaponowned: array[0..Ord(NUMWEAPONS) - 1] of integer;
+    ammo: array[0..Ord(NUMAMMO) - 1] of integer;
+    maxammo: array[0..Ord(NUMAMMO) - 1] of integer;
+
+    // True if button down last tic.
+    attackdown: boolean;
+    usedown: boolean;
+
+    // Bit flags, for cheats and debug.
+    // See cheat_t, above.
+    cheats: integer;
+
+    // Refired shots are less accurate.
+    refire: integer;
+
+    // For intermission stats.
+    killcount: integer;
+    itemcount: integer;
+    secretcount: integer;
+
+    // Hint messages.
+    _message: string[255];
+
+    // For screen flashing (red or bright).
+    damagecount: integer;
+    bonuscount: integer;
+
+    // for flame thrower duration
+    flamecount: integer;
+
+    // Who did damage (NULL for floors/ceilings).
+    attacker: Pmobj_t;
+
+    // So gun flashes light up areas.
+    extralight: integer;
+
+    // Current PLAYPAL, ???
+    //  can be set to REDCOLORMAP for pain, etc.
+    fixedcolormap: integer;
+
+    // Player skin colorshift,
+    //  0-3 for which color to draw player.
+    colormap: integer;
+
+    // Overlay view sprites (gun, etc).
+    psprites: array[0..Ord(NUMPSPRITES) - 1] of pspdef_t;
+
+    // True if secret level has been done.
+    didsecret: boolean;
+
+    chickenTics: integer; // player is a chicken if > 0
+    chickenPeck: integer; // chicken peck countdown
+    rain1: Pmobj_t; // active rain maker 1
+    rain2: Pmobj_t; // active rain maker 2
+
+    attackerx: fixed_t;
+    attackery: fixed_t;
+
+    laddertics: integer;
+    viewbob: fixed_t; // JVAL: Slopes
+    slopetics: integer; // JVAL: Slopes
+    oldviewz: fixed_t; // JVAL: Slopes
+    teleporttics: integer;
+    quaketics: integer;
+    lookdir16: integer; // JVAL Smooth Look Up/Down
+    cmd: ticcmd_t;
+    nextoof: integer;
+    quakeintensity: integer;
+  end;
+  Pplayer_t206 = ^player_t206;
+
+type
   player_t205 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;

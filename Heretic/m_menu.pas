@@ -1160,6 +1160,7 @@ type
 //
   compatibility_e = (
     cmp_allowplayerjumps,
+    cmp_allowplayercrouch,
     cmp_keepcheatsinplayerrebord,
     cmp_spawnrandommonsters,
     cmp_gldefs_as_lightdef,
@@ -1228,6 +1229,8 @@ type
     kb_strafeleft,
     kb_straferight,
     kb_jump,
+    // JVAL: 20211101 - Crouch
+    kb_crouch,
     kb_fire,
     kb_use,
     kb_strafe,
@@ -1276,6 +1279,7 @@ const
     (text: 'Strafe left'; pkey: @key_strafeleft),
     (text: 'Strafe right'; pkey: @key_straferight),
     (text: 'Jump'; pkey: @key_jump),
+    (text: 'Crouch'; pkey: @key_crouch),  // JVAL: 20211101 - Crouch
     (text: 'Fire'; pkey: @key_fire),
     (text: 'Use'; pkey: @key_use),
     (text: 'Strafe'; pkey: @key_strafe),
@@ -1854,6 +1858,7 @@ begin
      (key_strafeleft = 44) and
      (key_straferight = 46) and
      (key_jump = 97) and
+     (key_crouch = 122) and // JVAL: 20211101 - Crouch
      (key_fire = 157) and
      (key_use = 32) and
      (key_strafe = 184) and
@@ -1889,6 +1894,7 @@ begin
      (key_strafeleft = 97) and
      (key_straferight = 100) and
      (key_jump = 101) and
+     (key_crouch = 113) and // JVAL: 20211101 - Crouch
      (key_fire = 157) and
      (key_use = 32) and
      (key_strafe = 184) and
@@ -1924,6 +1930,7 @@ begin
      (key_strafeleft = 115) and
      (key_straferight = 102) and
      (key_jump = 97) and
+     (key_crouch = 122) and // JVAL: 20211101 - Crouch
      (key_fire = 157) and
      (key_use = 32) and
      (key_strafe = 184) and
@@ -5341,6 +5348,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @allowplayerjumps;
   pmi.alphaKey := 'j';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Allow player crouching';
+  pmi.cmd := 'allowplayercrouch';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @allowplayercrouch;
+  pmi.alphaKey := 'c';
 
   inc(pmi);
   pmi.status := 1;
