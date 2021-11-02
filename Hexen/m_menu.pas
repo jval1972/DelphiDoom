@@ -1321,9 +1321,9 @@ type
   );
 
 var
-  KeyBindingsMenu1: array[0..Ord(kb_flyup) - 1] of menuitem_t;
+  KeyBindingsMenu1: array[0..Ord(kb_lookup) - 1] of menuitem_t;
   KeyBindingsDef1: menu_t;
-  KeyBindingsMenu2: array[0..Ord(kb_weapon0) - Ord(kb_flyup) - 1] of menuitem_t;
+  KeyBindingsMenu2: array[0..Ord(kb_weapon0) - Ord(kb_lookup) - 1] of menuitem_t;
   KeyBindingsDef2: menu_t;
   KeyBindingsMenu3: array[0..Ord(kb_end) - Ord(kb_weapon0) - 1] of menuitem_t;
   KeyBindingsDef3: menu_t;
@@ -1492,12 +1492,12 @@ end;
 
 procedure M_DrawBindings1;
 begin
-  M_DrawBindings(KeyBindingsDef1, 0, Ord(kb_flyup));
+  M_DrawBindings(KeyBindingsDef1, 0, Ord(kb_lookup));
 end;
 
 procedure M_DrawBindings2;
 begin
-  M_DrawBindings(KeyBindingsDef2, Ord(kb_flyup), Ord(kb_weapon0));
+  M_DrawBindings(KeyBindingsDef2, Ord(kb_lookup), Ord(kb_weapon0));
 end;
 
 procedure M_DrawBindings3;
@@ -1531,7 +1531,6 @@ begin
         end;
     end;
 
-
   M_DrawBindings(KeyBindingsDef3, Ord(kb_weapon0), Ord(kb_end));
 end;
 
@@ -1551,16 +1550,16 @@ procedure M_KeyBindingSelect2(choice: integer);
 begin
   bindkeyEnter := true;
 
-  bindkeySlot := Ord(kb_flyup) + choice;
+  bindkeySlot := Ord(kb_lookup) + choice;
 
-  saveOldkey := KeyBindingsInfo[Ord(kb_flyup) + choice].pkey^;
+  saveOldkey := KeyBindingsInfo[Ord(kb_lookup) + choice].pkey^;
 end;
 
 procedure M_KeyBindingSelect3(choice: integer);
 begin
   bindkeyEnter := true;
 
-  bindkeySlot := Ord(kb_flyup) + choice;
+  bindkeySlot := Ord(kb_lookup) + choice;
 
   saveOldkey := KeyBindingsInfo[Ord(kb_weapon0) + choice].pkey^;
 end;
@@ -5830,7 +5829,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsMenu1
   pmi := @KeyBindingsMenu1[0];
-  for i := 0 to Ord(kb_flyup) - 1 do
+  for i := 0 to Ord(kb_lookup) - 1 do
   begin
     pmi.status := 1;
     pmi.name := '!' + KeyBindingsInfo[i].text + ': ';
@@ -5843,7 +5842,7 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsDef1
-  KeyBindingsDef1.numitems := Ord(kb_flyup); // # of menu items
+  KeyBindingsDef1.numitems := Ord(kb_lookup); // # of menu items
   KeyBindingsDef1.prevMenu := @ControlsDef; // previous menu
   KeyBindingsDef1.leftmenu := nil; // left menu
   KeyBindingsDef1.rightmenu := @KeyBindingsDef2; // right menu
@@ -5859,10 +5858,10 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsMenu2
   pmi := @KeyBindingsMenu2[0];
-  for i := 0 to Ord(kb_weapon0) - Ord(kb_flyup) - 1 do
+  for i := 0 to Ord(kb_weapon0) - Ord(kb_lookup) - 1 do
   begin
     pmi.status := 1;
-    pmi.name := '!' + KeyBindingsInfo[Ord(kb_flyup) + i].text + ': ';
+    pmi.name := '!' + KeyBindingsInfo[Ord(kb_lookup) + i].text + ': ';
     pmi.cmd := '';
     pmi.routine := @M_KeyBindingSelect2;
     pmi.pBoolVal := nil;
@@ -5872,7 +5871,7 @@ begin
 
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsDef2
-  KeyBindingsDef2.numitems := Ord(kb_weapon0) - Ord(kb_flyup); // # of menu items
+  KeyBindingsDef2.numitems := Ord(kb_weapon0) - Ord(kb_lookup); // # of menu items
   KeyBindingsDef2.prevMenu := @ControlsDef; // previous menu
   KeyBindingsDef2.leftmenu := @KeyBindingsDef1; // left menu
   KeyBindingsDef2.lefttext := '<< prev';
@@ -5889,7 +5888,7 @@ begin
 ////////////////////////////////////////////////////////////////////////////////
 //KeyBindingsMenu3
   pmi := @KeyBindingsMenu3[0];
-  for i := 0 to Ord(kb_weapon0) - Ord(kb_flyup) - 1 do
+  for i := 0 to Ord(kb_end) - Ord(kb_weapon0) - 1 do
   begin
     pmi.status := 1;
     pmi.name := '';
