@@ -915,7 +915,7 @@ begin
   if (pl <> nil) and (mo.z < mo.floorz) and (laddertics = 0) then
   begin
     pl.viewheight := pl.viewheight - mo.floorz - mo.z;
-    pl.deltaviewheight := _SHR3(PVIEWHEIGHT - pl.viewheight);
+    pl.deltaviewheight := _SHR3(PVIEWHEIGHT - pl.crouchheight - pl.viewheight);
   end;
 
   // adjust height
@@ -1010,7 +1010,10 @@ begin
         if (mo.momz < -P_GetMobjGravity(mo) * 8) and (mo.flags2 and MF2_FLY = 0) then
         begin // squat down
           pl.deltaviewheight := _SHR3(mo.momz);
-          if mo.momz < -23 * FRACUNIT then
+          // JVAL: 20211101 - Crouch
+          if G_PlayingEngineVersion >= VERSION207 then
+            pl.deltaviewheight := FixedMul(pl.deltaviewheight, FixedDiv(mo.height, mo.info.height));
+	  if mo.momz < -23 * FRACUNIT then
           begin
             P_FallingDamage(mo.player);
             P_NoiseAlert(mo, mo);

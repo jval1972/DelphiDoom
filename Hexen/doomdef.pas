@@ -51,7 +51,8 @@ const
   VERSION204 = 204;
   VERSION205 = 205;
   VERSION206 = 206;
-  VERSION = VERSION206;
+  VERSION207 = 207;
+  VERSION = VERSION207;
   VERSIONSLOPES = VERSION142;
   HXS_VERSION_TEXT_140 = 'DelphiHexen Saved Game (HXS)';
   HXS_VERSION_TEXT_141 = 'DelphiHexen Saved Game (HXS) 141';
@@ -60,7 +61,8 @@ const
   HXS_VERSION_TEXT_204 = 'DelphiHexen Saved Game (HXS) 204';
   HXS_VERSION_TEXT_205 = 'DelphiHexen Saved Game (HXS) 205';
   HXS_VERSION_TEXT_206 = 'DelphiHexen Saved Game (HXS) 206';
-  HXS_VERSION_TEXT = HXS_VERSION_TEXT_206;
+  HXS_VERSION_TEXT_207 = 'DelphiHexen Saved Game (HXS) 207';
+  HXS_VERSION_TEXT = HXS_VERSION_TEXT_207;
 
 type
 // Game mode handling - identify IWAD version

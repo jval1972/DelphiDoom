@@ -1834,7 +1834,7 @@ var
     cht_ret := cht_CheckCheat(cht, key);
     result := cht_ret = cht_acquired;
     if not ateit then
-      ateit := (cht_ret in [cht_pending, cht_acquired])
+      ateit := (cht_ret in [{cht_pending, }cht_acquired]) // JVAL: 20211101 - Crouch
   end;
 
 begin

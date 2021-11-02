@@ -192,6 +192,114 @@ end;
 procedure P_CalcHeight(player: Pplayer_t);
 var
   angle: integer;
+  clheight: fixed_t; // JVAL: 20211101 - Crouch
+  flheight: fixed_t; // JVAL: 20211101 - Crouch
+  range: fixed_t; // JVAL: 20211101 - Crouch
+begin
+  // Regular movement bobbing
+  // (needs to be calculated for gun swing
+  // even if not on ground)
+  // OPTIMIZE: tablify angle
+  // Note: a LUT allows for effects
+  //  like a ramp with low health.
+
+  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+    player.bob := FRACUNIT div 2
+  else
+  begin
+    player.bob := FixedMul(player.mo.momx, player.mo.momx) +
+                  FixedMul(player.mo.momy, player.mo.momy);
+    player.bob := player.bob div 4;
+
+    if player.bob > MAXBOB then
+      player.bob := MAXBOB;
+  end;
+
+  player.oldviewz := player.viewz;  // JVAL: Slopes
+
+  if player.morphTics <> 0 then
+    player.crouchheight := 0
+  else
+  begin
+    player.mo.height := player.mo.info.height - player.crouchheight;
+    clheight := P_3dCeilingHeight(player.mo);
+    if player.mo.z + player.mo.height > clheight then
+    begin
+      flheight := P_3dFloorHeight(player.mo);
+      player.mo.z := clheight - player.mo.height;
+      if player.mo.z < flheight then
+      begin
+        player.mo.z := flheight;
+        player.lastautocrouchtime := leveltime;
+        player.lastongroundtime := leveltime;
+        range := clheight - flheight;
+        player.crouchheight := player.mo.info.height - range;
+        if player.crouchheight > PMAXCROUCHHEIGHT then
+          player.crouchheight := PMAXCROUCHHEIGHT;
+        player.mo.height := player.mo.info.height - player.crouchheight;
+      end;
+    end;
+  end;
+
+  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  begin
+    player.viewz := player.mo.z + PVIEWHEIGHT - player.crouchheight;  // JVAL: 20211101 - Crouch
+
+    if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
+      player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+
+//    player.viewz := player.mo.z + player.viewheight;  JVAL removed!
+    exit;
+  end;
+
+  angle := (FINEANGLES div 20 * leveltime) and FINEMASK;
+  player.viewbob := FixedMul(player.bob div 2, finesine[angle]);
+
+  // move viewheight
+  if player.playerstate = PST_LIVE then
+  begin
+    player.viewheight := player.viewheight + player.deltaviewheight;
+
+    if player.viewheight > PVIEWHEIGHT then
+    begin
+      player.viewheight := PVIEWHEIGHT;
+      player.deltaviewheight := 0;
+    end;
+
+    if player.viewheight < PVIEWHEIGHT div 2 then
+    begin
+      player.viewheight := PVIEWHEIGHT div 2;
+      if player.deltaviewheight <= 0 then
+        player.deltaviewheight := 1;
+    end;
+
+    if player.deltaviewheight <> 0 then
+    begin
+      player.deltaviewheight := player.deltaviewheight + FRACUNIT div 4;
+      if player.deltaviewheight = 0 then
+        player.deltaviewheight := 1;
+    end;
+  end;
+
+  if player.morphTics <> 0 then
+    player.viewz := player.mo.z + player.viewheight - (20 * FRACUNIT)
+  else
+    player.viewz := player.mo.z + player.viewheight + player.viewbob - player.crouchheight; // JVAL: 20211101 - Crouch
+
+  if (player.mo.floorclip <> 0) and
+     (player.playerstate <> PST_DEAD) and
+     (player.mo.z <= player.mo.floorz) then
+    player.viewz := player.viewz - player.mo.floorclip;
+
+  if player.viewz > player.mo.ceilingz - 4 * FRACUNIT then
+    player.viewz := player.mo.ceilingz - 4 * FRACUNIT;
+  if player.viewz < player.mo.floorz + 4 * FRACUNIT then
+    player.viewz := player.mo.floorz + 4 * FRACUNIT;
+end;
+
+procedure P_CalcHeight205(player: Pplayer_t);
+var
+  angle: integer;
 begin
   // Regular movement bobbing
   // (needs to be calculated for gun swing
@@ -284,10 +392,16 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
+  if G_PlayingEngineVersion >= VERSION207 then
+  begin
+    P_CalcHeight(player);
+    exit;
+  end;
+
   if (G_PlayingEngineVersion < VERSION142) or
      (G_PlayingEngineVersion >= VERSION205) then
   begin
-    P_CalcHeight(player);
+    P_CalcHeight205(player);
     exit;
   end;
 
@@ -402,6 +516,7 @@ var
   look2: integer;
   fly: integer;
   onair: boolean;
+  cmd_crouch, cmd_jump: byte;
 begin
   cmd := @player.cmd;
 
@@ -410,14 +525,20 @@ begin
   // Do not let the player control movement
   //  if not onground.
   onground := (player.mo.z <= player.mo.floorz) or (player.mo.flags2 and MF2_ONMOBJ <> 0);
+
+  if onground then
+    player.lastongroundtime := leveltime; // JVAL: 20211101 - Crouch
+  cmd_jump := (cmd.jump_crouch and CMD_JUMP_MASK) shr CMD_JUMP_SHIFT;
+  cmd_crouch := (cmd.jump_crouch and CMD_CROUCH_MASK) shr CMD_CROUCH_SHIFT;
+
   onair := (player.cheats and CF_LOWGRAVITY <> 0) or (player.mo.flags2 and MF2_FLY <> 0);
 
   if (cmd.forwardmove <> 0) and
-     (onground or (onair and (player.powers[Ord(pw_flight)] > 0)) or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0))) then
+     (onground or (onair and (player.powers[Ord(pw_flight)] > 0)) or ((cmd_jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0))) then
     P_Thrust(player, player.mo.angle, cmd.forwardmove * 2048);
 
   if (cmd.sidemove <> 0) and
-     (onground or (onair and (player.powers[Ord(pw_flight)] > 0)) or ((cmd.jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0))) then
+     (onground or (onair and (player.powers[Ord(pw_flight)] > 0)) or ((cmd_jump > 0) and (player.mo.momx = 0) and (player.mo.momy = 0))) then
     P_Thrust(player, player.mo.angle - ANG90, cmd.sidemove * 2048);
 
   // JVAL: Adjust speed while flying, bye-bye compatibility :(
@@ -573,8 +694,35 @@ begin
 
     player.oldlook2 := look2;
 
-    if (onground or (player.cheats and CF_LOWGRAVITY <> 0)) and (cmd.jump > 1) then
-      player.mo.momz := 8 * FRACUNIT;
+    if (onground or (player.cheats and CF_LOWGRAVITY <> 0)) and (cmd_jump > 1) then
+    begin
+      // JVAL: 20211101 - Crouch
+      if cmd_crouch > 0 then
+        player.mo.momz := 4 * FRACUNIT
+      else
+        player.mo.momz := 8 * FRACUNIT;
+    end;
+
+    // JVAL: 20211101 - Crouch
+    if (leveltime - player.lastongroundtime < TICRATE) and (cmd_crouch <> 0) then
+    begin
+      player.crouchheight := player.crouchheight + cmd_crouch * FRACUNIT;
+      if player.crouchheight > PMAXCROUCHHEIGHT then
+        player.crouchheight := PMAXCROUCHHEIGHT;
+    end
+    else if (leveltime - player.lastautocrouchtime > TICRATE) and (player.crouchheight <> 0) then
+    begin
+      player.crouchheight := player.crouchheight - 2 * FRACUNIT;
+      if player.crouchheight < 0 then
+        player.crouchheight := 0;
+    end;
+    if not onground and (cmd_crouch <> 0) then
+      if player.mo.momz > -4 * FRACUNIT then
+      begin
+        player.mo.momz := player.mo.momz - FRACUNIT div 2;
+        if player.mo.momz < -4 * FRACUNIT then
+          player.mo.momz := -4 * FRACUNIT;
+      end;
   end
   else
     player.lookdir2 := 0;
