@@ -560,6 +560,8 @@ begin
   baseproclist.Add('function key_strafe: integer;', @PS_key_strafe);
   baseproclist.Add('function key_speed: integer;', @PS_key_speed);
   baseproclist.Add('function key_jump: integer;', @PS_key_jump);
+  // JVAL: 20211101 - Crouch
+  baseproclist.Add('function key_crouch: integer;', @PS_key_crouch);
   baseproclist.Add('function key_weapon0: integer;', @PS_key_weapon0);
   baseproclist.Add('function key_weapon1: integer;', @PS_key_weapon1);
   baseproclist.Add('function key_weapon2: integer;', @PS_key_weapon2);
@@ -601,6 +603,8 @@ begin
   baseproclist.Add('function joybuse: integer;', @PS_joybuse);
   baseproclist.Add('function joybspeed: integer;', @PS_joybspeed);
   baseproclist.Add('function joybjump: integer;', @PS_joybjump);
+  // JVAL: 20211101 - Crouch
+  baseproclist.Add('function joybcrouch: integer;', @PS_joybcrouch);
   baseproclist.Add('function joyblleft: integer;', @PS_joyblleft);
   baseproclist.Add('function joyblright: integer;', @PS_joyblright);
 // ------------------------------- MAP -----------------------------------------

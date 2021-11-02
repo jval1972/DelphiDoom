@@ -719,6 +719,9 @@ function PS_key_speed: integer;
 
 function PS_key_jump: integer;
 
+// JVAL: 20211101 - Crouch
+function PS_key_crouch: integer;
+
 function PS_key_weapon0: integer;
 
 function PS_key_weapon1: integer;
@@ -794,6 +797,9 @@ function PS_joybuse: integer;
 function PS_joybspeed: integer;
 
 function PS_joybjump: integer;
+
+// JVAL: 20211101 - Crouch
+function PS_joybcrouch: integer;
 
 function PS_joyblleft: integer;
 
@@ -6498,6 +6504,15 @@ begin
     Result := key_jump;
 end;
 
+// JVAL: 20211101 - Crouch
+function PS_key_crouch: integer;
+begin
+  if demoplayback or demorecording or netgame then
+    Result := 0
+  else
+    Result := key_crouch;
+end;
+
 function PS_key_weapon0: integer;
 begin
   if demoplayback or demorecording or netgame then
@@ -6779,6 +6794,15 @@ begin
     Result := 0
   else
     Result := joybjump;
+end;
+
+// JVAL: 20211101 - Crouch
+function PS_joybcrouch: integer;
+begin
+  if demoplayback or demorecording or netgame then
+    Result := 0
+  else
+    Result := joybcrouch;
 end;
 
 function PS_joyblleft: integer;

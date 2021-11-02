@@ -129,6 +129,8 @@ var
   key_speed: integer;
 // JVAL Jump
   key_jump: integer;
+// JVAL: 20211101 - Crouch
+  key_crouch: integer;
 
 // JVAL 20191207 Key bindings for weapon change
   key_weapon0: integer = Ord('1');
@@ -155,6 +157,7 @@ var
   joybuse: integer;
   joybspeed: integer;
   joybjump: integer;
+  joybcrouch: integer;  // JVAL: 20211101 - Crouch
   joyblleft: integer;
   joyblright: integer;
 
@@ -241,6 +244,7 @@ var
   autorunmode: boolean = false;
   keepcheatsinplayerreborn: boolean = false;
   allowplayerjumps: boolean = true;
+  allowplayercrouch: boolean = true;
   majorbossdeathendsdoom1level: boolean = false;
 
 var
@@ -438,6 +442,7 @@ var
   base: Pticcmd_t;
   imousex: integer;
   imousey: integer;
+  cmd_jump, cmd_crouch: byte;
 begin
   base := I_BaseTiccmd;    // empty, or external driver
 
@@ -725,13 +730,34 @@ begin
     if allowplayerjumps and (gamekeydown[key_jump] or (usejoystick and joybuttons[joybjump])) then
     begin
       if players[consoleplayer].oldjump <> 0 then
-        cmd.jump := 1
+        cmd_jump := 1
       else
-        cmd.jump := 2
+        cmd_jump := 2
       end
     else
-      cmd.jump := 0;
-    players[consoleplayer].oldjump := cmd.jump;
+      cmd_jump := 0;
+    players[consoleplayer].oldjump := cmd_jump;
+    // JVAL: 20211101 - Crouch
+    // allowplayercrouch variable controls if we accept input for crouching
+    if cmd_jump = 0 then
+    begin
+      if allowplayercrouch and (gamekeydown[key_crouch] or (usejoystick and joybuttons[joybcrouch])) then
+      begin
+        if players[consoleplayer].oldcrouch <> 0 then
+          cmd_crouch := 2
+        else
+          cmd_crouch := 1
+        end
+      else
+        cmd_crouch := 0;
+    end
+    else
+      cmd_crouch := 0;
+    players[consoleplayer].oldcrouch := cmd_crouch;
+
+    cmd.jump_crouch :=
+      ((cmd_jump shl CMD_JUMP_SHIFT) and CMD_JUMP_MASK) +
+      ((cmd_crouch shl CMD_CROUCH_SHIFT) and CMD_CROUCH_MASK);
   end;
 
   // special buttons
@@ -1477,6 +1503,8 @@ begin
     key_strafeleft := 44;
     key_straferight := 46;
     key_jump := 97;
+    // JVAL: 20211101 - Crouch
+    key_crouch := 122;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -1505,6 +1533,8 @@ begin
     key_strafeleft := 97;
     key_straferight := 100;
     key_jump := 101;
+    // JVAL: 20211101 - Crouch
+    key_crouch := 113;
     key_fire := 157;
     key_use := 32;
     key_strafe := 184;
@@ -2562,7 +2592,7 @@ begin
     cmd.lookupdown := 0;
     cmd.lookupdown16 := 0; // JVAL Smooth Look Up/Down
     cmd.lookleftright := 0;
-    cmd.jump := 0;
+    cmd.jump_crouch := 0; // JVAL: 20211101 - Crouch
   end
   else
   begin
@@ -2580,7 +2610,7 @@ begin
 
     cmd.lookleftright := demo_p[0];
     demo_p := @demo_p[1];
-    cmd.jump := demo_p[0];
+    cmd.jump_crouch := demo_p[0];
     demo_p := @demo_p[1];
   end;
 end;
@@ -2656,7 +2686,7 @@ begin
   demo_p[0] := cmd.lookleftright;
   demo_p := @demo_p[1];
 
-  demo_p[0] := cmd.jump;
+  demo_p[0] := cmd.jump_crouch;
 
   demo_p := demo_start;
 

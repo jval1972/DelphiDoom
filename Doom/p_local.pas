@@ -48,6 +48,9 @@ const
 // Player VIEWHEIGHT
   PVIEWHEIGHT = 41 * FRACUNIT;
 
+// JVAL: 20211101 - Crouch
+  PMAXCROUCHHEIGHT = 18 * FRACUNIT;
+
 // mapblocks are used to check movement
 // against lines and things
   MAPBLOCKUNITS = 128;

@@ -464,7 +464,7 @@ begin
     begin
       player.viewheight := player.viewheight - (mo.floorz - mo.z);
       player.deltaviewheight :=
-        _SHR((PVIEWHEIGHT - player.viewheight), 3);
+        _SHR((PVIEWHEIGHT - player.crouchheight - player.viewheight), 3); // JVAL: 20211101 - Crouch
     end;
   end;
 
@@ -556,6 +556,11 @@ begin
         // after hitting the ground (hard),
         // and utter appropriate sound.
         player.deltaviewheight := _SHR(mo.momz, 3);
+
+        // JVAL: 20211101 - Crouch
+        if G_PlayingEngineVersion >= VERSION207 then
+          player.deltaviewheight := FixedMul(player.deltaviewheight, FixedDiv(mo.height, mo.info.height));
+
         if leveltime > player.nextoof then
         begin
           S_StartSound(mo, Ord(sfx_oof));

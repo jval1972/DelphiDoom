@@ -546,6 +546,7 @@ const
   MORE_FRICTION_MOMENTUM = 15000; // mud factor based on momentum
   ORIG_FRICTION = $E800;          // original value
   ORIG_FRICTION_FACTOR = 2048;    // original value
+  CROUCH_FRICTION_FACTOR = 1536;  // JVAL: 20211101 - Crouch
 
 procedure P_SpawnFriction;
 
