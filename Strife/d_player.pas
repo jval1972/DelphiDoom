@@ -236,9 +236,150 @@ type
     nextoof: integer;
     lastdialogtalker: Pmobj_t;
     quakeintensity: fixed_t;
+
+    // JVAL: 20211101 - Crouch
+    oldcrouch: integer;
+    lastongroundtime: integer;
+    lastautocrouchtime: integer;
+    crouchheight: fixed_t;
   end;
   Pplayer_t = ^player_t;
 
+type
+  player_t206 = record
+    mo: Pmobj_t;
+    playerstate: playerstate_t;
+    cmd202: ticcmd_t202;
+
+    // Determine POV,
+    //  including viewpoint bobbing during movement.
+    // Focal origin above r.z
+    viewz: fixed_t;
+    // Base height above floor for viewz.
+    viewheight: fixed_t;
+    // Bob/squat speed.
+    deltaviewheight: fixed_t;
+    // bounded/scaled total momentum.
+    bob: fixed_t;
+
+    // Look UP/DOWN support
+    lookdir: integer;
+    centering: boolean;
+    // Look LEFT/RIGHT support
+    lookdir2: byte;
+    oldlook2: integer;
+    forwarding: boolean;
+
+    // jump
+    oldjump: integer;
+
+    // This is only used between levels,
+    // mo->health is used during levels.
+    health: integer;
+    armorpoints: integer;
+    // Armor type is 0-2.
+    armortype: integer;
+
+    // Power ups. invinc and invis are tic counters.
+    powers: array[0..Ord(NUMPOWERS) - 1] of integer;
+
+    // [STRIFE] Additions:
+    sigiltype: integer;               // Type of Sigil carried
+    nukagecount: integer;             // Nukage exposure counter
+    questflags: LongWord;             // Quest bit flags
+    centerview: boolean;              // True if view should be centered
+    inventory: inventory_a;           // Player inventory items
+    st_update: boolean;               // If true, update status bar
+    numinventory: integer;            // Num. active inventory items
+    inventorycursor: integer;         // Selected inventory item
+    accuracy: integer;                // Accuracy stat
+    stamina: integer;                 // Stamina stat
+
+    cards: array[0..Ord(NUMCARDS) - 1] of boolean;
+    backpack: boolean;
+
+    // Frags, kills of other players.
+    frags: array[0..MAXPLAYERS - 1] of integer;
+    readyweapon: weapontype_t;
+
+    // Is wp_nochange if not changing.
+    pendingweapon: weapontype_t;
+
+    weaponowned: array[0..Ord(NUMWEAPONS) - 1] of boolean;
+    ammo: array[0..Ord(NUMAMMO) - 1] of integer;
+    maxammo: array[0..Ord(NUMAMMO) - 1] of integer;
+
+    // True if button down last tic.
+    attackdown: boolean;
+    usedown: boolean;
+    inventorydown: boolean; // STRIFE
+
+    // Bit flags, for cheats and debug.
+    // See cheat_t, above.
+    cheats: integer;
+
+    // Refired shots are less accurate.
+    refire: integer;
+
+    // For intermission stats.
+    killcount: integer;
+
+    // Hint messages.
+    _message: string[255];
+
+    // For screen flashing (red or bright).
+    damagecount: integer;
+    bonuscount: integer;
+
+    // Who did damage (NULL for floors/ceilings).
+    attacker: Pmobj_t;
+
+    // So gun flashes light up areas.
+    extralight: integer;
+
+    // Current PLAYPAL, ???
+    //  can be set to REDCOLORMAP for pain, etc.
+    fixedcolormap: integer;
+
+    // Player skin colorshift,
+    //  0-3 for which color to draw player.
+    colormap: integer; // JVAL: is it used somewhere?
+
+    // Overlay view sprites (gun, etc).
+    psprites: array[0..Ord(NUMPSPRITES) - 1] of pspdef_t;
+
+    attackerx: fixed_t;
+    attackery: fixed_t;
+
+    lastbreath: integer;
+    hardbreathtics: integer;
+
+    angletargetx: fixed_t;
+    angletargety: fixed_t;
+    angletargetticks: integer;
+
+    // STRIFE
+    allegiance: integer;
+
+    // [STRIFE] Inefficient means of tracking automap state on all maps
+    mapstate: array[0..39] of boolean;
+
+    laddertics: integer;
+    viewbob: fixed_t;   // JVAL: Slopes
+    slopetics: integer; // JVAL: Slopes
+    oldviewz: fixed_t;  // JVAL: Slopes
+    teleporttics: integer;
+    quaketics: integer;
+    lookdir16: integer; // JVAL Smooth Look Up/Down
+    cmd: ticcmd_t;      // JVAL Smooth Look Up/Down
+    // Version 206
+    nextoof: integer;
+    lastdialogtalker: Pmobj_t;
+    quakeintensity: fixed_t;
+  end;
+  Pplayer_t206 = ^player_t206;
+
+type
   player_t205 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;
@@ -368,6 +509,7 @@ type
   end;
   Pplayer_t205 = ^player_t205;
 
+type
   player_t203 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;

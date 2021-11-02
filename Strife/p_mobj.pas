@@ -493,7 +493,7 @@ begin
   begin
     player.viewheight := player.viewheight - (mo.floorz - mo.z);
     player.deltaviewheight :=
-      _SHR3(PVIEWHEIGHT - player.viewheight);
+      _SHR3(PVIEWHEIGHT - player.crouchheight - player.viewheight);
   end;
 
   // adjust height
@@ -560,6 +560,9 @@ begin
         // after hitting the ground (hard),
         // and utter appropriate sound.
         player.deltaviewheight := _SHR3(mo.momz);
+        // JVAL: 20211101 - Crouch
+        if G_PlayingEngineVersion >= VERSION207 then
+          player.deltaviewheight := FixedMul(player.deltaviewheight, FixedDiv(mo.height, mo.info.height));
 
         // villsa [STRIFE] fall damage
         // haleyjd 09/18/10: Repaired calculation

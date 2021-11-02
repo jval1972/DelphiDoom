@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -592,7 +592,7 @@ var
     cht_ret := cht_CheckCheat(cht, key);
     result := cht_ret = cht_acquired;
     if not ateit then
-      ateit := (cht_ret in [cht_pending, cht_acquired])
+      ateit := (cht_ret in [{cht_pending,} cht_acquired]) // JVAL: 20211101 - Crouch
   end;
 
 begin

@@ -286,7 +286,7 @@ begin
         players[i].cmd.commands := p205.cmd.commands;
         players[i].cmd.lookupdown := p205.cmd.lookupdown;
         players[i].cmd.lookleftright := p205.cmd.lookleftright;
-        players[i].cmd.jump := p205.cmd.jump;
+        players[i].cmd.jump_crouch := p205.cmd.jump_crouch;
         players[i].cmd.lookupdown16 := p205.cmd.lookupdown16;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
@@ -316,7 +316,7 @@ begin
         players[i].cmd202.commands := p203.cmd202.commands;
         players[i].cmd202.lookupdown := p203.cmd202.lookupdown;
         players[i].cmd202.lookleftright := p203.cmd202.lookleftright;
-        players[i].cmd202.jump := p203.cmd202.jump;
+        players[i].cmd202.jump := p203.cmd202.jump_crouch;
         players[i].viewz := p203.viewz;
         players[i].viewheight := p203.viewheight;
         players[i].deltaviewheight := p203.deltaviewheight;
@@ -399,7 +399,7 @@ begin
         players[i].cmd.commands := p203.cmd.commands;
         players[i].cmd.lookupdown := p203.cmd.lookupdown;
         players[i].cmd.lookleftright := p203.cmd.lookleftright;
-        players[i].cmd.jump := p203.cmd.jump;
+        players[i].cmd.jump_crouch := p203.cmd.jump_crouch;
         players[i].cmd.lookupdown16 := p203.cmd.lookupdown16;
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;

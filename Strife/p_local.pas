@@ -55,6 +55,9 @@ const
 // Player VIEWHEIGHT
   PVIEWHEIGHT = 41 * FRACUNIT;
 
+// JVAL: 20211101 - Crouch
+  PMAXCROUCHHEIGHT = 18 * FRACUNIT;
+
 // mapblocks are used to check movement
 // against lines and things
   MAPBLOCKUNITS = 128;
@@ -67,7 +70,7 @@ const
 // MAXRADIUS is for precalculated sector block boxes
 // the spider demon is larger,
 // but we do not have any moving sectors nearby
-  MAXRADIUS  = 32 * FRACUNIT;
+  MAXRADIUS = 32 * FRACUNIT;
 
   GRAVITY = FRACUNIT;
   MAXMOVE = 30 * FRACUNIT;

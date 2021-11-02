@@ -1131,6 +1131,7 @@ type
 //
   compatibility_e = (
     cmp_allowplayerjumps,
+    cmp_allowplayercrouch,
     cmp_keepcheatsinplayerrebord,
     cmp_spawnrandommonsters,
     cmp_gldefs_as_lightdef,
@@ -1196,6 +1197,8 @@ type
     kb_strafeleft,
     kb_straferight,
     kb_jump,
+    // JVAL: 20211101 - Crouch
+    kb_crouch,
     kb_fire,
     kb_use,
     kb_strafe,
@@ -1252,6 +1255,7 @@ const
     (text: 'Strafe left'; pkey: @key_strafeleft),
     (text: 'Strafe right'; pkey: @key_straferight),
     (text: 'Jump'; pkey: @key_jump),
+    (text: 'Crouch'; pkey: @key_crouch),  // JVAL: 20211101 - Crouch
     (text: 'Fire'; pkey: @key_fire),
     (text: 'Use'; pkey: @key_use),
     (text: 'Strafe'; pkey: @key_strafe),
@@ -1905,6 +1909,7 @@ begin
     key_right := KEY_RIGHTARROW;
     key_left := KEY_LEFTARROW;
     key_jump := Ord('a');
+    key_crouch := Ord('s');
     key_fire := KEY_RCTRL;
     key_use := Ord(' ');
     key_strafe := KEY_RALT;
@@ -1935,6 +1940,7 @@ begin
     key_right := KEY_RIGHTARROW;
     key_left := KEY_LEFTARROW;
     key_jump := Ord('e');
+    key_crouch := Ord('r');
     key_fire := KEY_RCTRL;
     key_use := Ord(' ');
     key_strafe := KEY_RALT;
@@ -1964,7 +1970,8 @@ begin
     key_straferight := 102;
     key_right := KEY_RIGHTARROW;
     key_left := KEY_LEFTARROW;
-    key_jump := Ord('a');
+    key_jump := Ord('r');
+    key_crouch := Ord('t');
     key_fire := KEY_RCTRL;
     key_use := Ord(' ');
     key_strafe := KEY_RALT;
@@ -1997,6 +2004,7 @@ begin
      (key_right = KEY_RIGHTARROW) and
      (key_left = KEY_LEFTARROW) and
      (key_jump = Ord('a')) and
+     (key_crouch = Ord('s')) and // JVAL: 20211101 - Crouch
      (key_fire = KEY_RCTRL) and
      (key_use = Ord(' ')) and
      (key_strafe = KEY_RALT) and
@@ -2029,6 +2037,7 @@ begin
      (key_right = KEY_RIGHTARROW) and
      (key_left = KEY_LEFTARROW) and
      (key_jump = Ord('e')) and
+     (key_crouch = Ord('r')) and // JVAL: 20211101 - Crouch
      (key_fire = KEY_RCTRL) and
      (key_use = Ord(' ')) and
      (key_strafe = KEY_RALT) and
@@ -2060,7 +2069,8 @@ begin
      (key_straferight = 102) and
      (key_right = KEY_RIGHTARROW) and
      (key_left = KEY_LEFTARROW) and
-     (key_jump = Ord('a')) and
+     (key_jump = Ord('r')) and
+     (key_crouch = Ord('t')) and // JVAL: 20211101 - Crouch
      (key_fire = KEY_RCTRL) and
      (key_use = Ord(' ')) and
      (key_strafe = KEY_RALT) and
@@ -5432,6 +5442,14 @@ begin
   pmi.routine := @M_BoolCmd;
   pmi.pBoolVal := @allowplayerjumps;
   pmi.alphaKey := 'j';
+
+  inc(pmi);
+  pmi.status := 1;
+  pmi.name := '!Allow player crouching';
+  pmi.cmd := 'allowplayercrouch';
+  pmi.routine := @M_BoolCmd;
+  pmi.pBoolVal := @allowplayercrouch;
+  pmi.alphaKey := 'c';
 
   inc(pmi);
   pmi.status := 1;

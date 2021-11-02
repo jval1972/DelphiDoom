@@ -171,7 +171,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 207;
+  NUMDEFAULTS = 210;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -924,6 +924,15 @@ const
      defaultbvalue: true;
      _type: tBoolean),
 
+     // JVAL: 20211101 - Crouch
+    (name: 'allowplayercrouch';
+     location: @allowplayercrouch;
+     setable: DFS_SINGLEPLAYER;
+     defaultsvalue: '';
+     defaultivalue: 0;
+     defaultbvalue: true;
+     _type: tBoolean),
+
     (name: 'allowplayerbreath';
      location: @allowplayerbreath;
      setable: DFS_ALWAYS;
@@ -1051,6 +1060,15 @@ const
      setable: DFS_NEVER;
      defaultsvalue: '';
      defaultivalue: Ord('a');
+     defaultbvalue: false;
+     _type: tInteger),
+
+     // JVAL: 20211101 - Crouch
+    (name: 'key_crouch';
+     location: @key_crouch;
+     setable: DFS_NEVER;
+     defaultsvalue: '';
+     defaultivalue: Ord('s');
      defaultbvalue: false;
      _type: tInteger),
 
@@ -1433,6 +1451,15 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '';
      defaultivalue: 4;
+     defaultbvalue: false;
+     _type: tInteger),
+
+     // JVAL: 20211101 - Crouch
+    (name: 'joyb_crouch';
+     location: @joybcrouch;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 5;
      defaultbvalue: false;
      _type: tInteger),
 

@@ -185,11 +185,11 @@ type
   Pbutton_t = ^button_t;
 
 const
- // 8 players, 4 buttons each at once, max.
-   MAXBUTTONS = 32;
+  // 8 players, 4 buttons each at once, max.
+  MAXBUTTONS = 32;
 
- // 1 second, in ticks.
-   BUTTONTIME = 35;
+  // 1 second, in ticks.
+  BUTTONTIME = 35;
 
 
 type
@@ -593,6 +593,7 @@ const
   MORE_FRICTION_MOMENTUM = 15000; // mud factor based on momentum
   ORIG_FRICTION = $E800;          // original value
   ORIG_FRICTION_FACTOR = 2048;    // original value
+  CROUCH_FRICTION_FACTOR = 1536;  // JVAL: 20211101 - Crouch
 
 procedure P_SpawnFriction;
 
