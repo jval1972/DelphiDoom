@@ -1057,7 +1057,7 @@ begin
     exit;
   end;
 
-  if (P_Random < target.info.painchance) and
+  if (P_Random < target.painchance) and
      ((target.flags and MF_SKULLFLY) = 0) then
   begin
     target.flags := target.flags or MF_JUSTHIT; // fight back!

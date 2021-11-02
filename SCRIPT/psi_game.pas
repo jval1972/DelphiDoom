@@ -154,6 +154,9 @@ procedure PS_SetActorWeaveIndexZ(const key: LongWord; const value: Integer);
 function PS_GetActorFriction(const key: LongWord): Integer;
 procedure PS_SetActorFriction(const key: LongWord; const value: Integer);
 
+function PS_GetActorPainChance(const key: LongWord): Integer;
+procedure PS_SetActorPainChance(const key: LongWord; const value: Integer);
+
 function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
@@ -1911,6 +1914,29 @@ begin
   mo.friction := value;
 end;
 
+function PS_GetActorPainChance(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.painchance;
+end;
+
+procedure PS_SetActorPainChance(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.painchance := value;
+end;
+
 function PS_GetActorName(const key: LongWord): string;
 var
   mo: Pmobj_t;
@@ -3203,6 +3229,16 @@ end;
 procedure TRTLActorFriction_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorFriction(LongWord(Self));
+end;
+
+procedure TRTLActorPainChance_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorPainChance(LongWord(Self), T);
+end;
+
+procedure TRTLActorPainChance_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorPainChance(LongWord(Self));
 end;
 
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
@@ -6881,6 +6917,7 @@ begin
   cactor.RegisterProperty('WeaveIndexXY', 'Integer', iptRW);
   cactor.RegisterProperty('WeaveIndexZ', 'Integer', iptRW);
   cactor.RegisterProperty('Friction', 'fixed_t', iptRW);
+  cactor.RegisterProperty('PainChance', 'fixed_t', iptRW);
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
   cactor.RegisterProperty('Flag', 'Boolean LongWord', iptRW);
@@ -7066,7 +7103,6 @@ begin
   cmobjinfoitem.RegisterProperty('WeaveIndexZ', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('Friction', 'Integer', iptR);
 
-
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
   cmobjinfo.RegisterProperty('Count', 'Integer', iptR);
@@ -7140,6 +7176,7 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorWeaveIndexXY_R, @TRTLActorWeaveIndexXY_W, 'WeaveIndexXY');
   ractor.RegisterPropertyHelper(@TRTLActorWeaveIndexZ_R, @TRTLActorWeaveIndexZ_W, 'WeaveIndexZ');
   ractor.RegisterPropertyHelper(@TRTLActorFriction_R, @TRTLActorFriction_W, 'Friction');
+  ractor.RegisterPropertyHelper(@TRTLActorPainChance_R, @TRTLActorPainChance_W, 'PainChance');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');

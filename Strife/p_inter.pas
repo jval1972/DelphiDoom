@@ -1439,7 +1439,7 @@ begin
   end;
 
   if damage <> 0 then
-    if P_Random < target.info.painchance then
+    if P_Random < target.painchance then
     begin
       target.flags := target.flags or MF_JUSTHIT; // fight back!
       P_SetMobjState(target, statenum_t(target.info.painstate));

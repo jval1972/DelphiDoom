@@ -475,6 +475,8 @@ procedure A_SetFriction(actor: Pmobj_t);
 
 procedure A_PlayerHurtExplode(actor: Pmobj_t);
 
+procedure A_SetPainChance(actor: Pmobj_t);
+
 procedure A_SetPushable(actor: Pmobj_t);
 
 procedure A_UnSetPushable(actor: Pmobj_t);
@@ -6097,6 +6099,17 @@ begin
 
   if actor.z <= actor.floorz then
     P_HitFloor(actor);
+end;
+
+//
+//  A_SetPainChance(value: integer);
+//
+procedure A_SetPainChance(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1, CSP_AT_LEAST) then
+    exit;
+
+  actor.painchance := actor.state.params.IntVal[0];
 end;
 
 //

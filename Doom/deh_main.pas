@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 353;
+  DEHNUMACTIONS = 354;
 
 type
   deh_action_t = record
@@ -3164,6 +3164,9 @@ begin
   deh_actions[352].action.acp1 := @A_UnSetPushable;
   deh_actions[352].name := strupper('UnSetPushable');
   {$IFDEF DLL}deh_actions[352].decl := 'A_UnSetPushable()';{$ENDIF}
+  deh_actions[353].action.acp1 := @A_SetPainChance;
+  deh_actions[353].name := strupper('SetPainChance');
+  {$IFDEF DLL}deh_actions[353].decl := 'A_SetPainChance(newchance: integer)';{$ENDIF}
 
 
   for i := 0 to DEHNUMACTIONS - 1 do

@@ -900,6 +900,7 @@ begin
   mobj.mass := info.mass;
   mobj.WeaveIndexXY := info.WeaveIndexXY;
   mobj.WeaveIndexZ := info.WeaveIndexZ;
+  mobj.painchance := info.painchance;
 
   mobj.reactiontime := info.reactiontime;
 

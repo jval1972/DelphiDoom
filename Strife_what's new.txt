@@ -24,6 +24,9 @@ Added MF3_EX_FREEZEDAMAGERESIST mobj flag. When true it takes half damage from M
 Added MF3_EX_FLAMEDAMAGE, MF3_EX_NOFLAMEDAMAGE & MF4_EX_FLAMEDAMAGERESIST mobj flags.
 Added MF4_EX_THRUMONSTERS flag, does not collide with monsters.
 Player crouching.
+Variable mobj painchance.
+Added A_SetPainChance() ACTORDEF function.
+Added GetActorPainChance() & SetActorPainChance() PascalScript functions.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

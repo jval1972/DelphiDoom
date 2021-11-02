@@ -2254,7 +2254,7 @@ begin
     P_Obituary(target, inflictor, source);
     exit;
   end;
-  if (P_Random < target.info.painchance) and
+  if (P_Random < target.painchance) and
      (target.flags and MF_SKULLFLY = 0) then
   begin
     if (inflictor <> nil) and
