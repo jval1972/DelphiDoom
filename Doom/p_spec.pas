@@ -165,11 +165,11 @@ type
   Pbutton_t = ^button_t;
 
 const
- // 4 players, 4 buttons each at once, max.
-   MAXBUTTONS = 16;
+  // 4 players, 4 buttons each at once, max.
+  MAXBUTTONS = 16;
 
- // 1 second, in ticks.
-   BUTTONTIME = 35;
+  // 1 second, in ticks.
+  BUTTONTIME = 35;
 
 
 type

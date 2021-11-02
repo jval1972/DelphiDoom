@@ -63,7 +63,7 @@ const
 // MAXRADIUS is for precalculated sector block boxes
 // the spider demon is larger,
 // but we do not have any moving sectors nearby
-  MAXRADIUS  = 32 * FRACUNIT;
+  MAXRADIUS = 32 * FRACUNIT;
 
   GRAVITY = FRACUNIT;
   MAXMOVE = 30 * FRACUNIT;

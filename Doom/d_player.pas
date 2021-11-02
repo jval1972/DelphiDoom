@@ -317,6 +317,7 @@ type
   end;
   Pplayer_t206 = ^player_t206;
 
+type
   player_t205 = record
     mo: Pmobj_t;
     playerstate: playerstate_t;

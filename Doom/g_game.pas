@@ -772,6 +772,7 @@ begin
     sendsave := false;
     cmd.buttons := BT_SPECIAL or BTS_SAVEGAME or _SHL(savegameslot, BTS_SAVESHIFT);
   end;
+
   if sendcmdsave then
   begin
     sendcmdsave := false;
@@ -1077,6 +1078,7 @@ begin
     sendsave := false;
     cmd.buttons := BT_SPECIAL or BTS_SAVEGAME or _SHL(savegameslot, BTS_SAVESHIFT);
   end;
+
   if sendcmdsave then
   begin
     sendcmdsave := false;
