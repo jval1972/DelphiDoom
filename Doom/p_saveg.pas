@@ -66,10 +66,10 @@ procedure P_ArchiveOverlay;
 
 procedure P_UnArchiveOverlay;
 
-
 procedure P_ArchiveScreenShot;
 
 procedure P_UnArchiveScreenShot;
+
 var
   save_p: PByteArray;
   savegameversion: integer;
@@ -153,12 +153,8 @@ end;
 //
 // P_UnArchivePlayers
 //
-function P_UnArchiveOldPlayer205(pp: Pplayer_t): boolean;
-var
-  p1: player_t205;
-  p: Pplayer_t205;
+function P_UnArchiveOldPlayer(p: Pplayer_t): boolean;
 begin
-  p := @p1;
   if savegameversion <= VERSION114 then
   begin
     memcpy(pointer(p), save_p, SizeOf(player_t114));
@@ -181,6 +177,17 @@ begin
     p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
     Pticcmd_t202(@p.cmd)^ := p.cmd202;
     p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
+
+    // ver 206
+    p.quakeintensity := 0;
+    p.nextoof := 0;
+
+    // ver 207
+    p.oldcrouch := 0;
+    p.lastongroundtime := 0;
+    p.lastautocrouchtime := 0;
+    p.crouchheight := 0;
+
     result := true;
   end
   else if savegameversion <= VERSION118 then
@@ -203,6 +210,17 @@ begin
     p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
     Pticcmd_t202(@p.cmd)^ := p.cmd202;
     p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
+
+    // ver 206
+    p.quakeintensity := 0;
+    p.nextoof := 0;  // JVAL: version 206
+
+    // ver 207
+    p.oldcrouch := 0;
+    p.lastongroundtime := 0;
+    p.lastautocrouchtime := 0;
+    p.crouchheight := 0;
+
     result := true;
   end
   else if savegameversion <= VERSION121 then
@@ -218,21 +236,67 @@ begin
     p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
     Pticcmd_t202(@p.cmd)^ := p.cmd202;
     p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
+
+    // ver 206
+    p.quakeintensity := 0;
+    p.nextoof := 0;  // JVAL: version 206
+
+    // ver 207
+    p.oldcrouch := 0;
+    p.lastongroundtime := 0;
+    p.lastautocrouchtime := 0;
+    p.crouchheight := 0;
+
     result := true;
   end
   else if savegameversion <= VERSION122 then
   begin
     memcpy(pointer(p), save_p, SizeOf(player_t122));
     incp(pointer(save_p), SizeOf(player_t122));
-    pp.lookdir16 := pp.lookdir * 16; // JVAL Smooth Look Up/Down
-    Pticcmd_t202(@pp.cmd)^ := pp.cmd202;
-    pp.cmd.lookupdown16 := pp.cmd.lookupdown * 256;
+    p.lookdir16 := p.lookdir * 16; // JVAL Smooth Look Up/Down
+    Pticcmd_t202(@p.cmd)^ := p.cmd202;
+    p.cmd.lookupdown16 := p.cmd.lookupdown * 256;
+
+    // ver 206
+    if p.quaketics > 0 then
+      p.quakeintensity := FRACUNIT
+    else
+      p.quakeintensity := 0;
+    p.nextoof := 0;  // JVAL: version 206
+
+    // ver 207
+    p.oldcrouch := 0;
+    p.lastongroundtime := 0;
+    p.lastautocrouchtime := 0;
+    p.crouchheight := 0;
+
     result := true;
   end
   else if savegameversion <= VERSION205 then
   begin
     memcpy(pointer(p), save_p, SizeOf(player_t205));
     incp(pointer(save_p), SizeOf(player_t205));
+
+    // ver 206
+    if p.quaketics > 0 then
+      p.quakeintensity := FRACUNIT
+    else
+      p.quakeintensity := 0;
+    p.nextoof := 0;  // JVAL: version 206
+
+    result := true;
+  end
+  else if savegameversion <= VERSION206 then
+  begin
+    memcpy(pointer(p), save_p, SizeOf(player_t206));
+    incp(pointer(save_p), SizeOf(player_t206));
+
+    // ver 207
+    p.oldcrouch := 0;
+    p.lastongroundtime := 0;
+    p.lastautocrouchtime := 0;
+    p.crouchheight := 0;
+
     result := true;
   end
   else
@@ -240,15 +304,6 @@ begin
     result := false;
     exit;
   end;
-
-  memcpy(pointer(pp), pointer(p), SizeOf(player_t205));
-
-  if pp.quaketics > 0 then
-    pp.quakeintensity := FRACUNIT
-  else
-    pp.quakeintensity := 0;
-
-  pp.nextoof := 0;  // JVAL: version 206
 end;
 
 procedure P_UnArchivePlayers;
@@ -263,12 +318,12 @@ begin
 
     PADSAVEP;
 
-    if savegameversion >= VERSION206 then
+    if savegameversion >= VERSION207 then
     begin
       memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
     end
-    else if not P_UnArchiveOldPlayer205(@players[i]) then
+    else if not P_UnArchiveOldPlayer(@players[i]) then
       I_Error('P_UnArchivePlayers(): Unsupported saved game version: %d', [savegameversion]);
 
     // will be set when unarc thinker
@@ -806,10 +861,22 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
     mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+    mobj.args[0] := 0;
+    mobj.args[1] := 0;
+    mobj.args[2] := 0;
+    mobj.args[3] := 0;
+    mobj.args[4] := 0;
+    mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     Z_Free(mobj113);
     result := true
@@ -882,6 +949,7 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -892,6 +960,11 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     Z_Free(mobj114);
     result := true
@@ -964,6 +1037,7 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -974,6 +1048,11 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     Z_Free(mobj115);
     result := true
@@ -1046,6 +1125,7 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -1056,6 +1136,11 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     Z_Free(mobj117);
     result := true
@@ -1128,6 +1213,7 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -1138,6 +1224,11 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     Z_Free(mobj118);
     result := true;
@@ -1167,6 +1258,7 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -1177,6 +1269,11 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     result := true;
   end
@@ -1194,6 +1291,7 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -1204,6 +1302,11 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     result := true;
   end
@@ -1220,6 +1323,7 @@ begin
     mobj.flags4_ex := 0;
     mobj.rendervalidcount := 0;
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -1230,13 +1334,20 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     result := true;
   end
   else if savegameversion = VERSION205 then
   begin
     memcpy(mobj, save_p, SizeOf(mobj_t205));
+    incp(pointer(save_p), SizeOf(mobj_t205));
 
+    // ver 206
     mobj.target := nil;
     mobj.tracer := nil;
     mobj.master := nil;
@@ -1247,6 +1358,21 @@ begin
     mobj.args[3] := 0;
     mobj.args[4] := 0;
     mobj.special := 0;
+    mobj.WeaveIndexXY := 0;
+    mobj.WeaveIndexZ := 0;
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
+
+    result := true;
+  end
+  else if savegameversion = VERSION206 then
+  begin
+    memcpy(mobj, save_p, SizeOf(mobj_t206));
+    incp(pointer(save_p), SizeOf(mobj_t206));
+
+    // ver 207
+    mobj.painchance := mobjinfo[mobj._type].painchance;
 
     result := true;
   end
@@ -1311,7 +1437,7 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION206 then
+          if savegameversion >= VERSION207 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));

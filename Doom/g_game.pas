@@ -2044,6 +2044,8 @@ begin
         savegameversion := VERSION204
       else if vsaved = 'version 205' then
         savegameversion := VERSION205
+      else if vsaved = 'version 206' then
+        savegameversion := VERSION206
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
