@@ -82,6 +82,7 @@ procedure P_ArchiveScreenShot(const fname: string);
 var
   save_p: PByteArray;
   savegameversion: integer;
+  savegameversionhack: integer;
 
 implementation
 
@@ -170,6 +171,7 @@ var
   j: integer;
   p203: Pplayer_t203;
   p205: Pplayer_t205;
+  p206: Pplayer_t206;
 begin
   for i := 0 to MAXPLAYERS - 1 do
   begin
@@ -178,11 +180,140 @@ begin
 
     PADSAVEP;
 
-    if savegameversion >= VERSION206 then
+    if savegameversion >= VERSION207 then
     begin
       if userload then
         memcpy(@players[i], save_p, SizeOf(player_t));
       incp(pointer(save_p), SizeOf(player_t));
+    end
+    else if savegameversion >= VERSION206 then
+    begin
+      if userload then
+      begin
+        p206 := Pplayer_t206(save_p);
+
+        players[i].mo := p206.mo;
+        players[i].playerstate := p206.playerstate;
+        players[i].cmd202.forwardmove := p206.cmd202.forwardmove;
+        players[i].cmd202.sidemove := p206.cmd202.sidemove;
+        players[i].cmd202.angleturn := p206.cmd202.angleturn;
+        players[i].cmd202.consistancy := p206.cmd202.consistancy;
+        players[i].cmd202.chatchar := p206.cmd202.chatchar;
+        players[i].cmd202.buttons := p206.cmd202.buttons;
+        players[i].cmd202.buttons2 := p206.cmd202.buttons2;
+        players[i].cmd202.inventory := p206.cmd202.inventory;
+        players[i].cmd202.commands := p206.cmd202.commands;
+        players[i].cmd202.lookupdown := p206.cmd202.lookupdown;
+        players[i].cmd202.lookleftright := p206.cmd202.lookleftright;
+        players[i].cmd202.jump := p206.cmd202.jump;
+        players[i].viewz := p206.viewz;
+        players[i].viewheight := p206.viewheight;
+        players[i].deltaviewheight := p206.deltaviewheight;
+        players[i].bob := p206.bob;
+        players[i].lookdir := p206.lookdir;
+        players[i].centering := p206.centering;
+        players[i].lookdir2 := p206.lookdir2;
+        players[i].oldlook2 := p206.oldlook2;
+        players[i].forwarding := p206.forwarding;
+        players[i].oldjump := p206.oldjump;
+        players[i].health := p206.health;
+        players[i].armorpoints := p206.armorpoints;
+        players[i].armortype := p206.armortype;
+        for j := 0 to Ord(NUMPOWERS) - 1 do
+          players[i].powers[j] := p206.powers[j];
+        players[i].sigiltype := p206.sigiltype;
+        players[i].nukagecount := p206.nukagecount;
+        players[i].questflags := p206.questflags;
+        players[i].centerview := p206.centerview;
+        players[i].inventory := p206.inventory;
+        players[i].st_update := p206.st_update;
+        players[i].numinventory := p206.numinventory;
+        players[i].inventorycursor := p206.inventorycursor;
+        players[i].accuracy := p206.accuracy;
+        players[i].stamina := p206.stamina;
+        for j := 0 to Ord(NUMCARDS) - 1 do
+          players[i].cards[j] := p206.cards[j];
+        players[i].backpack := p206.backpack;
+        for j := 0 to MAXPLAYERS - 1 do
+          players[i].frags[j] := p206.frags[j];
+        players[i].readyweapon := p206.readyweapon;
+        players[i].pendingweapon := p206.pendingweapon;
+        for j := 0 to Ord(NUMWEAPONS) - 1 do
+          players[i].weaponowned[j] := p206.weaponowned[j];
+        for j := 0 to Ord(NUMAMMO) - 1 do
+        begin
+          players[i].ammo[j] := p206.ammo[j];
+          players[i].maxammo[j] := p206.maxammo[j];
+        end;
+        players[i].attackdown := p206.attackdown;
+        players[i].usedown := p206.usedown;
+        players[i].inventorydown := p206.inventorydown;
+        players[i].cheats := p206.cheats;
+        players[i].refire := p206.refire;
+        players[i].killcount := p206.killcount;
+        players[i]._message := p206._message;
+        players[i].damagecount := p206.damagecount;
+        players[i].bonuscount := p206.bonuscount;
+        players[i].attacker := p206.attacker;
+        players[i].extralight := p206.extralight;
+        players[i].fixedcolormap := p206.fixedcolormap;
+        players[i].colormap := p206.colormap;
+        for j := 0 to Ord(NUMPSPRITES) - 1 do
+          players[i].psprites[j] := p206.psprites[j];
+        players[i].attackerx := p206.attackerx;
+        players[i].attackery := p206.attackery;
+        players[i].lastbreath := p206.lastbreath;
+        players[i].hardbreathtics := p206.hardbreathtics;
+        players[i].angletargetx := p206.angletargetx;
+        players[i].angletargety := p206.angletargety;
+        players[i].angletargetticks := p206.angletargetticks;
+        players[i].allegiance := p206.allegiance;
+        for j := 0 to 39 do
+          players[i].mapstate[j] := p206.mapstate[j];
+        players[i].laddertics := p206.laddertics;
+        players[i].viewbob := p206.viewbob;
+        players[i].slopetics := p206.slopetics;
+        players[i].oldviewz := p206.oldviewz;
+        players[i].teleporttics := p206.teleporttics;
+        players[i].quaketics := p206.quaketics;
+        players[i].lookdir16 := p206.lookdir16;
+        players[i].cmd.forwardmove := p206.cmd.forwardmove;
+        players[i].cmd.sidemove := p206.cmd.sidemove;
+        players[i].cmd.angleturn := p206.cmd.angleturn;
+        players[i].cmd.consistancy := p206.cmd.consistancy;
+        players[i].cmd.chatchar := p206.cmd.chatchar;
+        players[i].cmd.buttons := p206.cmd.buttons;
+        players[i].cmd.buttons2 := p206.cmd.buttons2;
+        players[i].cmd.inventory := p206.cmd.inventory;
+        players[i].cmd.commands := p206.cmd.commands;
+        players[i].cmd.lookupdown := p206.cmd.lookupdown;
+        players[i].cmd.lookleftright := p206.cmd.lookleftright;
+        players[i].cmd.jump_crouch := p206.cmd.jump_crouch;
+        players[i].cmd.lookupdown16 := p206.cmd.lookupdown16;
+        if savegameversionhack = 0 then
+        begin
+          players[i].nextoof := p206.nextoof;
+          players[i].lastdialogtalker := p206.lastdialogtalker;
+          players[i].quakeintensity := p206.quakeintensity;
+        end
+        else if savegameversionhack = 1 then
+        begin
+          players[i].nextoof := 0;
+          players[i].lastdialogtalker := nil;
+          if p206.quaketics > 0 then
+            players[i].quakeintensity := FRACUNIT
+          else
+            players[i].quakeintensity := 0;
+          incp(pointer(save_p), -12);
+        end;
+
+        // version 207
+        players[i].oldcrouch := 0;
+        players[i].lastongroundtime := 0;
+        players[i].lastautocrouchtime := 0;
+        players[i].crouchheight := 0;
+      end;
+      incp(pointer(save_p), SizeOf(player_t206));
     end
     else if savegameversion >= VERSION204 then
     begin
@@ -294,6 +425,12 @@ begin
           players[i].quakeintensity := FRACUNIT
         else
           players[i].quakeintensity := 0;
+
+        // version 207
+        players[i].oldcrouch := 0;
+        players[i].lastongroundtime := 0;
+        players[i].lastautocrouchtime := 0;
+        players[i].crouchheight := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t205));
     end
@@ -407,6 +544,12 @@ begin
           players[i].quakeintensity := FRACUNIT
         else
           players[i].quakeintensity := 0;
+
+        // version 207
+        players[i].oldcrouch := 0;
+        players[i].lastongroundtime := 0;
+        players[i].lastautocrouchtime := 0;
+        players[i].crouchheight := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t203));
     end
@@ -427,6 +570,12 @@ begin
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
         players[i].quakeintensity := 0;
+
+        // version 207
+        players[i].oldcrouch := 0;
+        players[i].lastongroundtime := 0;
+        players[i].lastautocrouchtime := 0;
+        players[i].crouchheight := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t122));
     end
@@ -447,6 +596,12 @@ begin
         players[i].nextoof := 0;
         players[i].lastdialogtalker := nil;
         players[i].quakeintensity := 0;
+
+        // version 207
+        players[i].oldcrouch := 0;
+        players[i].lastongroundtime := 0;
+        players[i].lastautocrouchtime := 0;
+        players[i].crouchheight := 0;
       end;
       incp(pointer(save_p), SizeOf(player_t121));
     end
@@ -962,16 +1117,45 @@ begin
           PADSAVEP;
           mobj := Z_Malloc(SizeOf(mobj_t), PU_LEVEL, nil);
 
-          if savegameversion >= VERSION206 then
+          if savegameversion >= VERSION207 then
           begin
             memcpy(mobj, save_p, SizeOf(mobj_t));
             incp(pointer(save_p), SizeOf(mobj_t));
           end
+          else if savegameversion >= VERSION206 then
+          begin
+            if savegameversionhack = 0 then
+            begin
+              memcpy(mobj, save_p, SizeOf(mobj_t206));
+              incp(pointer(save_p), SizeOf(mobj_t206));
+            end
+            else
+            begin
+              memcpy(mobj, save_p, SizeOf(mobj_t205));
+              incp(pointer(save_p), SizeOf(mobj_t205));
+
+              // version 206
+              mobj.mass := mobjinfo[Ord(mobj._type)].mass;
+              mobj.args[0] := 0;
+              mobj.args[1] := 0;
+              mobj.args[2] := 0;
+              mobj.args[3] := 0;
+              mobj.args[4] := 0;
+              mobj.special := 0;
+              mobj.master := nil;
+              mobj.WeaveIndexXY := 0;
+              mobj.WeaveIndexZ := 0;
+            end;
+
+            // version 207
+            mobj.painchance := mobjinfo[mobj._type].painchance;
+          end
           else if savegameversion >= VERSION205 then
           begin
-            memcpy(mobj, save_p, SizeOf(mobj_t));
-            incp(pointer(save_p), SizeOf(mobj_t));
+            memcpy(mobj, save_p, SizeOf(mobj_t205));
+            incp(pointer(save_p), SizeOf(mobj_t205));
 
+            // version 206
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -980,6 +1164,11 @@ begin
             mobj.args[4] := 0;
             mobj.special := 0;
             mobj.master := nil;
+            mobj.WeaveIndexXY := 0;
+            mobj.WeaveIndexZ := 0;
+
+            // version 207
+            mobj.painchance := mobjinfo[mobj._type].painchance;
           end
           else if savegameversion >= VERSION122 then
           begin
@@ -994,6 +1183,7 @@ begin
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
 
+            // version 206
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -1002,6 +1192,11 @@ begin
             mobj.args[4] := 0;
             mobj.special := 0;
             mobj.master := nil;
+            mobj.WeaveIndexXY := 0;
+            mobj.WeaveIndexZ := 0;
+
+            // version 207
+            mobj.painchance := mobjinfo[mobj._type].painchance;
           end
           else if savegameversion = VERSION121 then
           begin
@@ -1018,6 +1213,7 @@ begin
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
 
+            // version 206
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -1026,6 +1222,11 @@ begin
             mobj.args[4] := 0;
             mobj.special := 0;
             mobj.master := nil;
+            mobj.WeaveIndexXY := 0;
+            mobj.WeaveIndexZ := 0;
+
+            // version 207
+            mobj.painchance := mobjinfo[mobj._type].painchance;
           end
           else if savegameversion = VERSION120 then
           begin
@@ -1052,6 +1253,7 @@ begin
             mobj.flags4_ex := 0;
             mobj.rendervalidcount := 0;
 
+            // version 206
             mobj.mass := mobjinfo[Ord(mobj._type)].mass;
             mobj.args[0] := 0;
             mobj.args[1] := 0;
@@ -1060,6 +1262,11 @@ begin
             mobj.args[4] := 0;
             mobj.special := 0;
             mobj.master := nil;
+            mobj.WeaveIndexXY := 0;
+            mobj.WeaveIndexZ := 0;
+
+            // version 207
+            mobj.painchance := mobjinfo[mobj._type].painchance;
           end
           else
             I_Error('P_UnArchiveThinkers(): Unsupported saved game version: %d', [savegameversion]);
@@ -1557,7 +1764,10 @@ begin
 
       Ord(tc_elevator):
         begin
-          if savegameversion <= VERSION205 then // JVAL: tc_fireflicker = old value of tc_endspecials
+          if savegameversion <= VERSION205 then // JVAL: tc_elevator = old value of tc_endspecials
+            exit;
+
+          if (savegameversion = VERSION206) and (savegameversionhack = 1) then // JVAL: tc_fireflicker = old value of tc_endspecials
             exit;
 
           PADSAVEP;

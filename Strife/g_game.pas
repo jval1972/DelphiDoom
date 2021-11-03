@@ -1792,6 +1792,7 @@ begin
   end;
 
   savegameversion := VERSION; // Assume current version
+  savegameversionhack := 0;
 
   len := M_ReadFile(loadpath, pointer(savebuffer));
   save_p := PByteArray(integer(savebuffer) + SAVESTRINGSIZE);
@@ -1827,6 +1828,13 @@ begin
         savegameversion := VERSION204
       else if vsaved = 'version 205' then
         savegameversion := VERSION205
+      else if vsaved = 'version 206' then
+        savegameversion := VERSION206
+      else if vsaved = 'version 001' then
+      begin
+        savegameversion := VERSION206;
+        savegameversionhack := 1;
+      end
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
@@ -1866,12 +1874,12 @@ begin
 
   // STRIFE-TODO: ????
   if userload then
-    G_InitNew(gameskill, gamemap)
-  else
-    G_DoLoadLevel();
 
   leveltime := savedleveltime;
 
+    G_InitNew(gameskill, gamemap)
+  else
+    G_DoLoadLevel();
   // dearchive all the modifications
   P_UnArchivePlayers(userload);
   P_UnArchiveWorld;
