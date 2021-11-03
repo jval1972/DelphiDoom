@@ -231,6 +231,9 @@ begin
 
     mname := _mobjinfo_name_Ord(i);
     AddLn('mobjinfo[' + mname + '].name := ''' + mobjinfo[i].name + ''';');
+    {$IFDEF STRIFE}
+    AddLn('mobjinfo[' + mname + '].name2 := ''' + mobjinfo[i].name2 + ''';');
+    {$ENDIF}
     AddLn('mobjinfo[' + mname + '].inheritsfrom := ' + itoa(mobjinfo[i].inheritsfrom) + ';');
     AddLn('mobjinfo[' + mname + '].doomednum := ' + itoa(mobjinfo[i].doomednum) + ';');
     AddLn('mobjinfo[' + mname + '].spawnstate := ' + _state_name_Ord(mobjinfo[i].spawnstate) + ';');
