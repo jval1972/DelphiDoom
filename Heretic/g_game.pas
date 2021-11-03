@@ -2218,6 +2218,8 @@ begin
         savegameversion := 204
       else if vsaved = 'heretic 205' then
         savegameversion := 205
+      else if vsaved = 'heretic 206' then
+        savegameversion := 206
       else
       begin
         I_Warning('G_DoLoadGame(): Saved game is from an unsupported version: %s!'#13#10, [vsaved]);
