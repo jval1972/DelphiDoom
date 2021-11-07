@@ -1108,16 +1108,22 @@ begin
      (gamemission = pack_plutonia) then
   begin
     if gamemap < 12 then
-      skytexture := R_TextureNumForName('SKY1')
+      skytexture := R_CheckTextureNumForName('SKY1')
     else if gamemap < 21 then
-      skytexture := R_TextureNumForName('SKY2')
+      skytexture := R_CheckTextureNumForName('SKY2')
     else
-      skytexture := R_TextureNumForName('SKY3');
+      skytexture := R_CheckTextureNumForName('SKY3');
+    if skytexture < 0 then
+      skytexture := R_TextureNumForName('SKY1');
   end
   else
   begin
     if gameepisode < 5 then
-      skytexture := R_TextureNumForName('SKY' + Chr(Ord('0') + gameepisode))
+    begin
+      skytexture := R_CheckTextureNumForName('SKY' + Chr(Ord('0') + gameepisode));
+      if skytexture < 0 then
+        skytexture := R_TextureNumForName('SKY1');
+    end
     else
       skytexture := R_TextureNumForName('SKY1');
   end;
