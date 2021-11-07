@@ -1207,7 +1207,11 @@ begin
   if gameepisode > 5 then
     skytexture := R_TextureNumForName(skyLumpNames[0]) // ???
   else
-    skytexture := R_TextureNumForName(skyLumpNames[gameepisode - 1]);
+  begin
+    skytexture := R_CheckTextureNumForName(skyLumpNames[gameepisode - 1]);
+    if skytexture < 0 then
+      skytexture := R_TextureNumForName(skyLumpNames[0]);
+  end;
 
   levelstarttic := gametic;        // for time calculation
 
