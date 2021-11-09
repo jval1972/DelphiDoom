@@ -1874,12 +1874,12 @@ begin
 
   // STRIFE-TODO: ????
   if userload then
-
-  leveltime := savedleveltime;
-
     G_InitNew(gameskill, gamemap)
   else
     G_DoLoadLevel();
+
+  leveltime := savedleveltime;
+
   // dearchive all the modifications
   P_UnArchivePlayers(userload);
   P_UnArchiveWorld;
