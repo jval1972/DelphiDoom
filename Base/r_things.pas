@@ -1022,7 +1022,7 @@ begin
   spryscale := vis.scale;
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-  if (vis.footclip <> 0) and (not playerweapon) then
+  if (vis.footclip <> 0) and not playerweapon then
     baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
   else
     baseclip := viewheight - 1;

@@ -2073,7 +2073,7 @@ begin
   //WAS can't use for than one special line in a row
   //jff 3/21/98 NOW multiple use allowed with enabling line flag
 
-  result := (not G_NeedsCompatibilityMode) and ((li.flags and ML_PASSUSE) <> 0);
+  result := not G_NeedsCompatibilityMode and ((li.flags and ML_PASSUSE) <> 0);
 end;
 
 // JVAL: mobjs interaction
@@ -2530,7 +2530,7 @@ begin
 
     A_BodyParts(thing); // villsa [STRIFE] spit out meat/junk stuff
 
-    thing.flags := thing.flags and (not MF_SOLID);
+    thing.flags := thing.flags and not MF_SOLID;
     thing.height := 0;
     thing.radius := 0;
 

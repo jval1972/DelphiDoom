@@ -891,7 +891,7 @@ begin
       end;
     end;
   end
-  else if (not netgame) and (target.flags and MF_COUNTKILL <> 0) then
+  else if not netgame and (target.flags and MF_COUNTKILL <> 0) then
   begin
     // count all monster deaths,
     // even those caused by other monsters

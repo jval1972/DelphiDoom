@@ -438,7 +438,7 @@ begin
             AM_Drawer;
           if {$IFNDEF OPENGL}wipe or {$ENDIF}((viewheight <> SCREENHEIGHT) and viewfullscreen) then
             redrawsbar := true
-          else if menuactivestate or (inhelpscreensstate and (not inhelpscreens)) then
+          else if menuactivestate or (inhelpscreensstate and not inhelpscreens) then
             redrawsbar := true; // just put away the help screen
           viewfullscreen := viewheight = SCREENHEIGHT;
           if viewfullscreen then
@@ -495,7 +495,7 @@ begin
     begin
       if scaledviewwidth <> SCREENWIDTH then
       begin
-        if menuactive or menuactivestate or (not viewactivestate) or C_IsConsoleActive then
+        if menuactive or menuactivestate or not viewactivestate or C_IsConsoleActive then
         begin
           borderdrawcount := 3;
           popupactivestate := false;
@@ -2238,7 +2238,7 @@ begin
   // Check for -file in shareware
   // JVAL
   // Allow modified games if -devparm is specified, for debuging reasons
-  if modifiedgame and (not devparm) then
+  if modifiedgame and not devparm then
   begin
     err_shown := false;
     if gamemode = shareware then

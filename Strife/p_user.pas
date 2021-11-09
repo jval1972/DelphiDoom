@@ -177,7 +177,7 @@ begin
     end;
   end;
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT - player.crouchheight;  // JVAL: 20211101 - Crouch
 
@@ -250,7 +250,7 @@ begin
 
   player.oldviewz := player.viewz;  // JVAL: Slopes
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
@@ -339,7 +339,7 @@ begin
 
   oldviewz := player.viewz;
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 

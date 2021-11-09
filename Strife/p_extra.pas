@@ -369,8 +369,8 @@ end;
 //
 procedure A_MediumGravity(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not MF_NOGRAVITY);
-  actor.flags_ex := actor.flags_ex and (not MF_EX_LOWGRAVITY);
+  actor.flags := actor.flags and not MF_NOGRAVITY;
+  actor.flags_ex := actor.flags_ex and not MF_EX_LOWGRAVITY;
   actor.flags2_ex := actor.flags2_ex or MF2_EX_MEDIUMGRAVITY;
 end;
 
@@ -512,7 +512,7 @@ end;
 
 procedure A_UnSetShootable(actor: Pmobj_t);
 begin
-  actor.flags := actor.flags and (not MF_SHOOTABLE);
+  actor.flags := actor.flags and not MF_SHOOTABLE;
 end;
 
 //

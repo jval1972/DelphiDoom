@@ -237,7 +237,7 @@ begin
   if mo.tics < 1 then
     mo.tics := 1;
 
-  mo.flags := mo.flags and (not MF_MISSILE);
+  mo.flags := mo.flags and not MF_MISSILE;
 
   A_DeathSound(mo);
 end;
@@ -752,7 +752,7 @@ end;
 procedure P_MobjThinker(mobj: Pmobj_t);
 begin
   // JVAL: Clear just spawned flag
-  mobj.flags2_ex := mobj.flags2_ex and (not MF2_EX_JUSTAPPEARED);
+  mobj.flags2_ex := mobj.flags2_ex and not MF2_EX_JUSTAPPEARED;
 
   // momentum movement
   if (mobj.momx <> 0) or

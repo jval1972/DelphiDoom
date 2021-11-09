@@ -10,7 +10,7 @@
 //  Copyright (C) 1993-1996 by id Software, Inc.
 //  Copyright (C) 2005 Simon Howard
 //  Copyright (C) 2010 James Haley, Samuel Villarreal
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -769,7 +769,7 @@ begin
       if secline.special <> 148 then
         continue;
 
-      secline.flags := secline.flags and (not ML_BLOCKING);
+      secline.flags := secline.flags and not ML_BLOCKING;
       secline.special := 0;
 
       sn := secline.sidenum[0];
