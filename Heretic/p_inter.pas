@@ -1194,7 +1194,7 @@ var
   item: integer;
   gibhealth: integer;
 begin
-  target.flags := target.flags and (not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY));
+  target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY);
   if target.flags3_ex and MF3_EX_NOGRAVITYDEATH = 0 then
     target.flags := target.flags and not MF_NOGRAVITY;
 
@@ -1226,7 +1226,7 @@ begin
       end;
     end;
   end
-  else if (not netgame) and (target.flags and MF_COUNTKILL <> 0) then
+  else if not netgame and (target.flags and MF_COUNTKILL <> 0) then
   begin
     // count all monster deaths,
     // even those caused by other monsters
@@ -1240,8 +1240,8 @@ begin
       Pplayer_t(target.player).frags[pDiff(target.player, @players[0], SizeOf(players[0]))] :=
         Pplayer_t(target.player).frags[pDiff(target.player, @players[0], SizeOf(players[0]))] - 1;
 
-    target.flags := target.flags and (not MF_SOLID);
-    target.flags2 := target.flags2 and (not MF2_FLY);
+    target.flags := target.flags and not MF_SOLID;
+    target.flags2 := target.flags2 and not MF2_FLY;
     Pplayer_t(target.player).powers[Ord(pw_flight)] := 0;
     Pplayer_t(target.player).powers[Ord(pw_weaponlevel2)] := 0;
     Pplayer_t(target.player).playerstate := PST_DEAD;

@@ -260,7 +260,7 @@ begin
   if mo.tics < 1 then
     mo.tics := 1;
 
-  mo.flags := mo.flags and (not MF_MISSILE);
+  mo.flags := mo.flags and not MF_MISSILE;
 
   if mo.info.deathsound <> 0 then
   begin
@@ -423,7 +423,7 @@ begin
   until not ((xmove <> 0) or (ymove <> 0));
 
   // slow down
-  if (player <> nil) and  (player.cheats and CF_NOMOMENTUM <> 0) then
+  if (player <> nil) and (player.cheats and CF_NOMOMENTUM <> 0) then
   begin
     // debug option for no sliding at all
     mo.momx := 0;
@@ -571,8 +571,8 @@ begin
   if (mo.flags and MF_FLOAT <> 0) and (mo.target <> nil) then
   begin
     // float down towards target if too close
-    if ((mo.flags and MF_SKULLFLY) = 0) and
-       ((mo.flags and MF_INFLOAT) = 0) then
+    if (mo.flags and MF_SKULLFLY = 0) and
+       (mo.flags and MF_INFLOAT = 0) then
     begin
       dist := P_AproxDistance(mo.x - mo.target.x, mo.y - mo.target.y);
 
@@ -897,7 +897,7 @@ var
   onmo: Pmobj_t;
 begin
   // JVAL: Clear just spawned flag
-  mobj.flags := mobj.flags and (not MF_JUSTAPPEARED);
+  mobj.flags := mobj.flags and not MF_JUSTAPPEARED;
 
   // momentum movement
   if (mobj.momx <> 0) or
@@ -1402,7 +1402,7 @@ begin
   end;
 
   // check for apropriate skill level
-  if (not netgame) and (mthing.options and 16 <> 0) then
+  if not netgame and (mthing.options and 16 <> 0) then
     exit;
 
   if gameskill = sk_baby then

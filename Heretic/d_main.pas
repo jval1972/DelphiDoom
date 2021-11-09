@@ -452,7 +452,7 @@ begin
     begin
       if scaledviewwidth <> SCREENWIDTH then
       begin
-        if menuactive or menuactivestate or (not viewactivestate) or C_IsConsoleActive then
+        if menuactive or menuactivestate or not viewactivestate or C_IsConsoleActive then
           borderdrawcount := 3;
         if borderdrawcount > 0 then
         begin
@@ -2001,7 +2001,7 @@ begin
   // Check for -file in shareware
   // JVAL
   // Allow modified games if -devparm is specified, for debuging reasons
-  if modifiedgame and (not devparm) then
+  if modifiedgame and not devparm then
   begin
     if gamemode = shareware then
       I_DevError(#13#10 + 'D_DoomMain(): You cannot use external files with the shareware version. Register!')
