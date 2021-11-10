@@ -29,7 +29,7 @@ Added A_SetPainChance() ACTORDEF function.
 Added GetActorPainChance() & SetActorPainChance() PascalScript functions.
 ACTORDEF does not require the "Stop" keyword in states.
 Added the TICRATE const in states parameters evaluation.
-Added the LEVELTIME variable in states parameters evaluation.
+Added the LEVELTIME, GAMEMAP & LEVELNAME variables in states parameters evaluation.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -48,12 +48,14 @@ implementation
 uses
   d_delphi,
   Math,
+  g_game,
   m_fixed,
   i_system,
   {$IFDEF HERETIC}
   r_defs,
   {$ENDIF}
   p_params,
+  p_setup,
   p_tick,
   psi_globals,
   sc_evaluate,
@@ -77,6 +79,11 @@ type
     function PF_randompick(p: TDStrings): string;
     // General
     function PF_leveltime(p: TDStrings): string;
+    {$IFDEF DOOM_OR_HERETIC}
+    function PF_gameepisode(p: TDStrings): string;
+    {$ENDIF}
+    function PF_gamemap(p: TDStrings): string;
+    function PF_levelname(p: TDStrings): string;
     // Actor position and movement
     function PF_X(p: TDStrings): string;
     function PF_Y(p: TDStrings): string;
@@ -166,6 +173,11 @@ begin
   AddFunc('FRANDOMPICK', PF_randompick, -1);
   // General
   AddFunc('LEVELTIME', PF_leveltime, -1);
+  {$IFDEF DOOM_OR_HERETIC}
+  AddFunc('GAMEEPISODE', PF_gameepisode, -1);
+  {$ENDIF}
+  AddFunc('GAMEMAP', PF_gamemap, -1);
+  AddFunc('LEVELNAME', PF_levelname, -1);
   // Actor position and movement
   AddFunc('X', PF_X, 0);
   AddFunc('Y', PF_Y, 0);
@@ -358,6 +370,23 @@ end;
 function TActorEvaluator.PF_leveltime(p: TDStrings): string;
 begin
   result := itoa(leveltime);
+end;
+
+{$IFDEF DOOM_OR_HERETIC}
+function TActorEvaluator.PF_gameepisode(p: TDStrings): string;
+begin
+  result := itoa(gameepisode);
+end;
+{$ENDIF}
+
+function TActorEvaluator.PF_gamemap(p: TDStrings): string;
+begin
+  result := itoa(gamemap);
+end;
+
+function TActorEvaluator.PF_levelname(p: TDStrings): string;
+begin
+  result := P_GetMapName({$IFDEF DOOM_OR_HERETIC}gameepisode, {$ENDIF}gamemap);
 end;
 
 // Actor position and movement
