@@ -118,7 +118,7 @@ function V_ReadPalette(tag: integer): PByteArray;
 begin
   if playpalnum < 0 then
     playpalnum := W_GetNumForName(PLAYPAL);
-  result := PByteArray(W_CacheLumpNum(playpalnum, tag));
+  result := W_CacheLumpNum(playpalnum, tag);
 end;
 
 end.

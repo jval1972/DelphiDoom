@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -365,20 +365,20 @@ begin
   for i := 1 to HU_FONTSIZE do
   begin
     buffer := 'FONTA' + IntToStrZfill(2, i);
-    hu_font[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+    hu_font[i - 1] := W_CacheLumpName(buffer, PU_STATIC);
   end;
 
   // Yellow bold fonts
   for i := 1 to HU_FONTSIZE - 1 do
   begin
     buffer := 'FONTAY' + IntToStrZfill(2, i);
-    hu_fonty[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+    hu_fonty[i - 1] := W_CacheLumpName(buffer, PU_STATIC);
   end;
 
   for i := 1 to HU_FONTSIZE - 1 do
   begin
     buffer := 'FONTB' + IntToStrZfill(2, i);
-    hu_font2[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+    hu_font2[i - 1] := W_CacheLumpName(buffer, PU_STATIC);
   end;
 
   for i := 1 to HU_CFONTSIZE do
@@ -386,7 +386,7 @@ begin
     buffer := 'FONTC' + IntToStrZfill(2, i);
     lump := W_CheckNumForName(buffer);
     if lump >= 0 then
-      hu_font3[i - 1] := Ppatch_t(W_CacheLumpNum(lump, PU_STATIC))
+      hu_font3[i - 1] := W_CacheLumpNum(lump, PU_STATIC)
     else if i < Ord(HU_FONTSIZE) then
       hu_font3[i - 1] := hu_font[i - 1]
     else if i = 59 then

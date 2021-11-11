@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -117,7 +117,7 @@ function V_ReadPalette(tag: integer): PByteArray;
 begin
   if playpalnum < 0 then
     playpalnum := W_GetNumForName(PLAYPAL);
-  result := PByteArray(W_CacheLumpNum(playpalnum, tag))
+  result := W_CacheLumpNum(playpalnum, tag);
 end;
 
 end.

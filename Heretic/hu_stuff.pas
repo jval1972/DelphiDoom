@@ -366,13 +366,13 @@ begin
   for i := 1 to HU_FONTSIZE do
   begin
     buffer := 'FONTA' + IntToStrZfill(2, i);
-    hu_font[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+    hu_font[i - 1] := W_CacheLumpName(buffer, PU_STATIC);
   end;
 
   for i := 1 to HU_FONTSIZE - 1 do
   begin
     buffer := 'FONTB' + IntToStrZfill(2, i);
-    hu_font2[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+    hu_font2[i - 1] := W_CacheLumpName(buffer, PU_STATIC);
   end;
 
   for i := 1 to HU_CFONTSIZE do
@@ -380,7 +380,7 @@ begin
     buffer := 'FONTC' + IntToStrZfill(2, i);
     lump := W_CheckNumForName(buffer);
     if lump >= 0 then
-      hu_font3[i - 1] := Ppatch_t(W_CacheLumpNum(lump, PU_STATIC))
+      hu_font3[i - 1] := W_CacheLumpNum(lump, PU_STATIC)
     else if i < Ord(HU_FONTSIZE) then
       hu_font3[i - 1] := hu_font[i - 1]
     else if i = 59 then
@@ -396,7 +396,7 @@ begin
   for i := 1 to HU_FONTSIZE4 do
   begin
     buffer := 'STCFN' + IntToStrZfill(3, i + 32);
-    hu_font4[i - 1] := Ppatch_t(W_CacheLumpName(buffer, PU_STATIC));
+    hu_font4[i - 1] := W_CacheLumpName(buffer, PU_STATIC);
   end;
 
   for i := 0 to FPSSIZE - 1 do
