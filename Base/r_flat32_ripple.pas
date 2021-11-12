@@ -58,6 +58,7 @@ var
   ds_xstep: fixed_t;
   ds_ystep: fixed_t;
   ds_scale: dsscale_t;
+  ds_size: integer; // JVAL: 20211112 - Fix size bug
   xfrac: fixed_t;
   yfrac: fixed_t;
   xstep: fixed_t;
