@@ -393,6 +393,8 @@ begin
   baseproclist.Add('procedure SetSectorRippleFloor(const sec: Integer; const rpl: Boolean);', @PS_SetSectorRippleFloor);
   baseproclist.Add('function GetSectorRippleCeiling(const sec: Integer): Boolean;', @PS_GetSectorRippleCeiling);
   baseproclist.Add('procedure SetSectorRippleCeiling(const sec: Integer; const rpl: Boolean);', @PS_SetSectorRippleCeiling);
+  baseproclist.Add('function GetSectorInterpolate(const sec: Integer): Boolean;', @PS_GetSectorInterpolate);
+  baseproclist.Add('procedure SetSectorInterpolate(const sec: Integer; const intpl: Boolean);', @PS_SetSectorInterpolate);
   baseproclist.Add('function GetSectorGravity(const sec: Integer): fixed_t;', @PS_GetSectorGravity);  // JVAL: sector gravity (VERSION 204)
   baseproclist.Add('procedure SetSectorGravity(const sec: Integer; const grav: fixed_t);', @PS_SetSectorGravity); // JVAL: sector gravity (VERSION 204)
   baseproclist.Add('function GetSectorMidSector(const sec: Integer): Integer;', @PS_GetSectorMidSector);
