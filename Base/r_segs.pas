@@ -1442,6 +1442,7 @@ begin
 
       dc_llindex := lightnum;
 
+      // JVAL: 3d Floors
       if frontsector.midsec >= 0 then
       begin
         lightnum2 := _SHR(sectors[frontsector.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
@@ -1512,8 +1513,8 @@ begin
   //  of the view plane, it is definitely invisible
   //  and doesn't need to be marked.
 
-  // killough 3/7/98: add deep water check
   {$IFDEF DOOM_OR_STRIFE}
+  // killough 3/7/98: add deep water check
   if frontsector.heightsec = -1 then
   {$ENDIF}
   begin
@@ -1595,7 +1596,7 @@ begin
 
   if pds.midvis <> nil then
   begin
-    if (pds.midsec <> nil) then
+    if pds.midsec <> nil then
     begin
       f_RenderSegLoop_3dFloors_Vis(pds); // version 205
     end
@@ -1606,7 +1607,7 @@ begin
   end
   else
   begin
-    if (pds.midsec <> nil) then
+    if pds.midsec <> nil then
     begin
       f_RenderSegLoop_3dFloors(pds); // version 205
     end
