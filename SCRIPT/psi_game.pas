@@ -439,6 +439,9 @@ procedure PS_SetSectorRippleCeiling(const sec: Integer; const rpl: Boolean);
 function PS_GetSectorInterpolate(const sec: Integer): Boolean;
 procedure PS_SetSectorInterpolate(const sec: Integer; const intpl: Boolean);
 
+function PS_GetSectorFog(const sec: Integer): Boolean;
+procedure PS_SetSectorFog(const sec: Integer; const fog: Boolean);
+
 // JVAL: sector gravity (VERSION 204)
 function PS_GetSectorGravity(const sec: Integer): Integer;
 procedure PS_SetSectorGravity(const sec: Integer; const grav: Integer);
@@ -4551,6 +4554,25 @@ begin
   end;
 end;
 
+function PS_GetSectorFog(const sec: Integer): Boolean;
+begin
+  if (sec >= 0) and (sec < numsectors) then
+    Result := sectors[sec].renderflags and SRF_FOG = 0
+  else
+    Result := False;
+end;
+
+procedure PS_SetSectorFog(const sec: Integer; const fog: Boolean);
+begin
+  if (sec >= 0) and (sec < numsectors) then
+  begin
+    if fog then
+      sectors[sec].renderflags := sectors[sec].renderflags and not SRF_FOG
+    else
+      sectors[sec].renderflags := sectors[sec].renderflags or SRF_FOG
+  end;
+end;
+
 function PS_GetSectorGravity(const sec: Integer): Integer;
 begin
   if (sec >= 0) and (sec < numsectors) then
@@ -4897,6 +4919,17 @@ end;
 procedure TRTLSectorInterpolate_R(Self: TRTLSector; var T: Boolean);
 begin
   T := PS_GetSectorInterpolate(Integer(Self) - 1);
+end;
+
+// JVAL: Sector fog (VERSION 207)
+procedure TRTLSectorFog_W(Self: TRTLSector; const T: Boolean);
+begin
+  PS_SetSectorFog(Integer(Self) - 1, T);
+end;
+
+procedure TRTLSectorFog_R(Self: TRTLSector; var T: Boolean);
+begin
+  T := PS_GetSectorFog(Integer(Self) - 1);
 end;
 
 // JVAL: sector gravity (VERSION 204)
@@ -7032,6 +7065,7 @@ begin
   csector.RegisterProperty('RippleFloor', 'boolean', iptRW);
   csector.RegisterProperty('RippleCeiling', 'boolean', iptRW);
   csector.RegisterProperty('Interpolate', 'boolean', iptRW);
+  csector.RegisterProperty('Fog', 'boolean', iptRW);
   csector.RegisterProperty('Gravity', 'fixed_t', iptRW);
   csector.RegisterMethod('procedure PlaySound(const snd: string);');
   csector.RegisterMethod('procedure MoveZ(const dz: fixed_t);');
@@ -7285,6 +7319,7 @@ begin
   rsector.RegisterPropertyHelper(@TRTLSectorRippleFloor_R, @TRTLSectorRippleFloor_W, 'RippleFloor');
   rsector.RegisterPropertyHelper(@TRTLSectorRippleCeiling_R, @TRTLSectorRippleCeiling_W, 'RippleCeiling');
   rsector.RegisterPropertyHelper(@TRTLSectorInterpolate_R, @TRTLSectorInterpolate_W, 'Interpolate');
+  rsector.RegisterPropertyHelper(@TRTLSectorFog_R, @TRTLSectorFog_W, 'Fog');
   rsector.RegisterPropertyHelper(@TRTLSectorGravity_R, @TRTLSectorGravity_W, 'Gravity');
   rsector.RegisterMethod(@TRTLSector.PlaySound, 'PlaySound');
   rsector.RegisterMethod(@TRTLSector.MoveZ, 'MoveZ');
