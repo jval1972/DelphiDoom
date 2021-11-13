@@ -619,10 +619,20 @@ begin
         cmap := 31
       else if cmap < 0 then
         cmap := 0;
-      if videomode = vm32bit then
-        amcolormap := @colormaps32[(31 - cmap) * 256]
+      if ssector.sector.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+      begin
+        if videomode = vm32bit then
+          amcolormap := @fog_colormaps32[(31 - cmap) * 256]
+        else
+          amcolormap := @fog_colormaps[(31 - cmap) * 256];
+      end
       else
-        amcolormap := @colormaps[(31 - cmap) * 256];
+      begin
+        if videomode = vm32bit then
+          amcolormap := @colormaps32[(31 - cmap) * 256]
+        else
+          amcolormap := @colormaps[(31 - cmap) * 256];
+      end;
       {$ENDIF}
 
       seg := @segs[ssector.firstline];

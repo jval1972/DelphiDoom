@@ -40,7 +40,7 @@ begin
 
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);  // JVAL: Mars fog sectors
     while count > 0 do
     begin
       spot := (LongWord(frac) shr FRACBITS) and and_mask;

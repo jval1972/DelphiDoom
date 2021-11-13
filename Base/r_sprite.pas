@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -49,6 +49,7 @@ type
     dc_texturemid: integer;
     dc_source: PByteArray;
     dc_alpha: integer;
+    dc_fog: boolean;  // JVAL: Mars fog sectors
     num_batch_columns: integer;
     dc_colormap32: PLongWordArray;
     proc: spritefunc_t;
@@ -137,7 +138,7 @@ begin
   {$ENDIF}
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF CUSTOMCOLORMAP}
       {$I R_DrawMaskedColumnNormalMT.inc}
@@ -154,7 +155,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);  // JVAL: Mars fog sectors
       {$UNDEF INVERSECOLORMAPS}
       {$DEFINE CUSTOMCOLORMAP}
       {$I R_DrawMaskedColumnNormalMT.inc}
@@ -1253,7 +1254,7 @@ begin
     deststopX4 := PLongWord(integer(deststop) - 4 * SizeOf(pointer));
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);  // JVAL: Mars fog sectors
       while count >= 0 do
       begin
         spot := (LongWord(frac) shr FRACBITS) and 127;
@@ -1330,7 +1331,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, p.dc_fog);  // JVAL: Mars fog sectors
       while count >= 0 do
       begin
         spot := (LongWord(frac) shr FRACBITS) and 127;

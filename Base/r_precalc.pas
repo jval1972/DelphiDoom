@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@ procedure R_InitPrecalc;
 
 procedure R_ShutDownPrecalc;
 
-procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
+procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray; const fog: boolean);  // JVAL: Mars fog sectors
 
 {$IFDEF HEXEN}
 procedure R_GetFogPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
@@ -55,11 +55,9 @@ var
   precal8_tolong: array[0..255] of LongWord;
   precal8_toword: array[0..255] of LongWord;
   precal_light: array[0..255] of byte;
-{$IFDEF HEXEN}
   precalc_fog_r: array[0..255] of PIntegerArray;
   precalc_fog_g: array[0..255] of PIntegerArray;
   precalc_fog_b: array[0..255] of PIntegerArray;
-{$ENDIF}
 
 implementation
 
@@ -75,10 +73,8 @@ var
   l: LongWord;
   buf2: twobytes_t;
   buf4: fourbytes_t;
-{$IFDEF HEXEN}
   f1, f2: integer;
   p2: PIntegerArray;
-{$ENDIF}
 begin
   for i := 0 to 255 do
   begin
@@ -105,7 +101,6 @@ begin
     buf2.byte2 := i;
     precal8_toword[i] := PWord(@buf2)^;
 
-    {$IFDEF HEXEN}
     f1 := i;
     f2 := 256 - f1;
 
@@ -126,7 +121,6 @@ begin
     precalc_fog_b[i] := p;
     for j := 0 to 255 do
       p[j] := precalc_fog_r[i][j] shl 16;
-    {$ENDIF}
   end;
 
   for i := 0 to 767 do
@@ -146,24 +140,31 @@ begin
     memfree(pointer(precalc32_r[i]), 256 * SizeOf(Integer));
     memfree(pointer(precalc32_g[i]), 256 * SizeOf(Integer));
     memfree(pointer(precalc32_b[i]), 256 * SizeOf(Integer));
-    {$IFDEF HEXEN}
     memfree(pointer(precalc_fog_r[i]), 256 * SizeOf(Integer));
     memfree(pointer(precalc_fog_g[i]), 256 * SizeOf(Integer));
     memfree(pointer(precalc_fog_b[i]), 256 * SizeOf(Integer));
-    {$ENDIF}
   end;
 end;
 
-procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray);
+procedure R_GetPrecalc32Tables(const f: fixed_t; var tr, tg, tb: PIntegerArray; const fog: boolean);  // JVAL: Mars fog sectors
 var
   lf: Integer;
 begin
   lf := f shr 8;
   if lf > 255 then
     lf := 255;
-  tr := precalc32_r[lf];
-  tg := precalc32_g[lf];
-  tb := precalc32_b[lf];
+  if fog then
+  begin
+    tr := precalc_fog_r[lf];
+    tg := precalc_fog_g[lf];
+    tb := precalc_fog_b[lf];
+  end
+  else
+  begin
+    tr := precalc32_r[lf];
+    tg := precalc32_g[lf];
+    tb := precalc32_b[lf];
+  end;
 end;
 
 {$IFDEF HEXEN}

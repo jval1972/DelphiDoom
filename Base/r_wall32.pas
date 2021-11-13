@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -46,6 +46,7 @@ type
     dc_iscale: fixed_t;
     dc_texturemid: fixed_t;
     dc_lightlevel: fixed_t;
+    dc_fog: boolean;  // JVAL: Mars fog sectors
   end;
   Pwallrenderinfo32_t = ^wallrenderinfo32_t;
 
@@ -157,6 +158,7 @@ begin
   dc_iscale := w.dc_iscale;
   dc_texturemid := w.dc_texturemid;
   dc_lightlevel := w.dc_lightlevel;
+  dc_fog := w.dc_fog; // JVAL: Mars fog sectors
   wallcolfunc;
 end;
 
@@ -315,6 +317,7 @@ begin
   w.dc_iscale := dc_iscale;
   w.dc_texturemid := dc_texturemid;
   w.dc_lightlevel := dc_lightlevel;
+  w.dc_fog := dc_fog; // JVAL: Mars fog sectors
   walls.dc_height := w_height;
   inc(walls.numwalls);
   if walls.numwalls = MAXBATCHWALLS then

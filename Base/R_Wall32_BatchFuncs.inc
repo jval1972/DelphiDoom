@@ -115,7 +115,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors  
   inc(w);
 
   fracstep2 := w.dc_iscale;
@@ -133,7 +133,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep3 := w.dc_iscale;
@@ -151,7 +151,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
+    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep4 := w.dc_iscale;
@@ -169,7 +169,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4);
+    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep5 := w.dc_iscale;
@@ -187,7 +187,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5);
+    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep6 := w.dc_iscale;
@@ -205,7 +205,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6);
+    R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep7 := w.dc_iscale;
@@ -223,7 +223,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7);
+    R_GetPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep8 := w.dc_iscale;
@@ -241,7 +241,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor8, bf_r8, bf_g8, bf_b8)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor8, bf_r8, bf_g8, bf_b8);
+    R_GetPrecalc32Tables(lfactor8, bf_r8, bf_g8, bf_b8, w.dc_fog);  // JVAL: Mars fog sectors
 
   swidth := SCREENWIDTH32PITCH - (MAXBATCHWALLS - 1) * SizeOf(LongWord);
 
@@ -412,7 +412,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep2 := w.dc_iscale;
@@ -430,7 +430,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep3 := w.dc_iscale;
@@ -448,7 +448,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
+    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep4 := w.dc_iscale;
@@ -466,7 +466,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4);
+    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep5 := w.dc_iscale;
@@ -484,7 +484,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5);
+    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep6 := w.dc_iscale;
@@ -502,7 +502,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6);
+    R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep7 := w.dc_iscale;
@@ -520,7 +520,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7);
+    R_GetPrecalc32Tables(lfactor7, bf_r7, bf_g7, bf_b7, w.dc_fog);  // JVAL: Mars fog sectors
 
   swidth := SCREENWIDTH32PITCH - 6 * SizeOf(LongWord);
 
@@ -688,7 +688,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep2 := w.dc_iscale;
@@ -706,7 +706,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep3 := w.dc_iscale;
@@ -724,7 +724,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
+    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep4 := w.dc_iscale;
@@ -742,7 +742,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4);
+    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep5 := w.dc_iscale;
@@ -760,7 +760,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5);
+    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep6 := w.dc_iscale;
@@ -778,7 +778,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6);
+    R_GetPrecalc32Tables(lfactor6, bf_r6, bf_g6, bf_b6, w.dc_fog);  // JVAL: Mars fog sectors
 
   swidth := SCREENWIDTH32PITCH - 5 * SizeOf(LongWord);
 
@@ -944,7 +944,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep2 := w.dc_iscale;
@@ -962,7 +962,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep3 := w.dc_iscale;
@@ -980,7 +980,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
+    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep4 := w.dc_iscale;
@@ -998,7 +998,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4);
+    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep5 := w.dc_iscale;
@@ -1016,7 +1016,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5);
+    R_GetPrecalc32Tables(lfactor5, bf_r5, bf_g5, bf_b5, w.dc_fog);  // JVAL: Mars fog sectors
 
   swidth := SCREENWIDTH32PITCH - 4 * SizeOf(LongWord);
 
@@ -1180,7 +1180,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep2 := w.dc_iscale;
@@ -1198,7 +1198,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep3 := w.dc_iscale;
@@ -1216,7 +1216,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
+    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep4 := w.dc_iscale;
@@ -1234,7 +1234,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4);
+    R_GetPrecalc32Tables(lfactor4, bf_r4, bf_g4, bf_b4, w.dc_fog);  // JVAL: Mars fog sectors
 
   swidth := SCREENWIDTH32PITCH - 3 * SizeOf(LongWord);
 
@@ -1403,7 +1403,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep2 := w.dc_iscale;
@@ -1421,7 +1421,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep3 := w.dc_iscale;
@@ -1439,7 +1439,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3);
+    R_GetPrecalc32Tables(lfactor3, bf_r3, bf_g3, bf_b3, w.dc_fog);  // JVAL: Mars fog sectors
 
   swidth := SCREENWIDTH32PITCH - 2 * SizeOf(LongWord);
 
@@ -1595,7 +1595,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors
   inc(w);
 
   fracstep2 := w.dc_iscale;
@@ -1613,7 +1613,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2);
+    R_GetPrecalc32Tables(lfactor2, bf_r2, bf_g2, bf_b2, w.dc_fog);  // JVAL: Mars fog sectors);
 
   swidth := SCREENWIDTH32PITCH - SizeOf(LongWord);
 
@@ -1740,7 +1740,7 @@ begin
       R_GetFogPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1)
     else
   {$ENDIF}
-    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1);
+    R_GetPrecalc32Tables(lfactor1, bf_r1, bf_g1, bf_b1, w.dc_fog);  // JVAL: Mars fog sectors);
 
   swidth := SCREENWIDTH32PITCH;
 

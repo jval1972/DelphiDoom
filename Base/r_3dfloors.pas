@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -137,9 +137,15 @@ begin
         ds.midsiderange.ceilingheight[0] := ceil1;
         ds.midsiderange.floorheight[0] := floor1;
         if ceil1 <= frontmidsec.floorheight then
-          ds.midsiderange.lightlevel[0] := frontmidsec.lightlevel
+        begin
+          ds.midsiderange.lightlevel[0] := frontmidsec.lightlevel;
+          ds.midsiderange.fog[0] := frontmidsec.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
+        end
         else
+        begin
           ds.midsiderange.lightlevel[0] := frontsector.lightlevel;
+          ds.midsiderange.fog[0] := frontsector.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
+        end;
       end
       else if (frontmidsec.ceilingheight > floor1) and (frontmidsec.floorheight < ceil1) then
       begin
@@ -150,12 +156,14 @@ begin
           ds.midsiderange.ceilingheight[0] := ceil1;
           ds.midsiderange.floorheight[0] := frontmidsec.ceilingheight;
           ds.midsiderange.lightlevel[0] := frontsector.lightlevel;
+          ds.midsiderange.fog[0] := frontsector.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
         end;
         if frontmidsec.floorheight > floor1 then
         begin
           ds.midsiderange.ceilingheight[ds.midsiderange.count] := frontmidsec.floorheight;
           ds.midsiderange.floorheight[ds.midsiderange.count] := floor1;
           ds.midsiderange.lightlevel[ds.midsiderange.count] := frontmidsec.lightlevel;
+          ds.midsiderange.fog[ds.midsiderange.count] := frontmidsec.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
           inc(ds.midsiderange.count);
         end;
       end
@@ -167,12 +175,14 @@ begin
           ds.midsiderange.ceilingheight[0] := frontmidsec.floorheight;
           ds.midsiderange.floorheight[0] := floor1;
           ds.midsiderange.lightlevel[0] := frontmidsec.lightlevel;
+          ds.midsiderange.fog[0] := frontmidsec.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
         end
         else
         begin
           ds.midsiderange.ceilingheight[0] := ceil1;
           ds.midsiderange.floorheight[0] := frontmidsec.ceilingheight;
           ds.midsiderange.lightlevel[0] := frontsector.lightlevel;
+          ds.midsiderange.fog[0] := frontsector.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
         end;
       end;
     end;
@@ -193,6 +203,7 @@ begin
       ds.midsiderange.ceilingheight[0] := MaxI(frontsector.ceilingheight, backmidsec.ceilingheight);
       ds.midsiderange.floorheight[0] := MinI(frontsector.floorheight, backmidsec.floorheight);
       ds.midsiderange.lightlevel[0] := frontsector.lightlevel;
+      ds.midsiderange.fog[0] := frontsector.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
     end;
   end;
 end;
@@ -246,7 +257,11 @@ begin
   else if lightnum >= LIGHTLEVELS then
     lightnum := LIGHTLEVELS - 1;
 
-  walllights := @scalelight[lightnum];
+  dc_fog := ds.midsiderange.fog[0]; // JVAL: Mars fog sectors
+  if dc_fog then // JVAL: Mars fog sectors
+    walllights := @fog_scalelight[lightnum]
+  else
+    walllights := @scalelight[lightnum];
 
   dc_llindex := lightnum;
 
@@ -425,8 +440,15 @@ begin
   else if lightnum[1] >= LIGHTLEVELS then
     lightnum[1] := LIGHTLEVELS - 1;
 
-  walllights := @scalelight[lightnum[0]];
-  walllights2 := @scalelight[lightnum[1]];
+  if ds.midsiderange.fog[0] then  // JVAL: Mars fog sectors
+    walllights := @fog_scalelight[lightnum[0]]
+  else
+    walllights := @scalelight[lightnum[0]];
+
+  if ds.midsiderange.fog[1] then  // JVAL: Mars fog sectors
+    walllights2 := @fog_scalelight[lightnum[1]]
+  else
+    walllights2 := @scalelight[lightnum[1]];
 
   dc_llindex := lightnum[0];
   dc_llindex2 := lightnum[1];
@@ -555,6 +577,7 @@ begin
         dc_yh := 0;
       if dc_yl <= dc_yh then
       begin
+        dc_fog := ds.midsiderange.fog[0]; // JVAL: Mars fog sectors
         if depthbufferactive then
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
@@ -580,6 +603,7 @@ begin
       if dc_yl <= dc_yh then
       begin
         dc_texturemid := texturemid[1];
+        dc_fog := ds.midsiderange.fog[1]; // JVAL: Mars fog sectors
         if depthbufferactive then
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
@@ -645,7 +669,11 @@ begin
   else if lightnum >= LIGHTLEVELS then
     lightnum := LIGHTLEVELS - 1;
 
-  walllights := @scalelight[lightnum];
+  dc_fog := ds.midsiderange.fog[0]; // JVAL: Mars fog sectors
+  if dc_fog then // JVAL: Mars fog sectors
+    walllights := @fog_scalelight[lightnum]
+  else
+    walllights := @scalelight[lightnum];
 
   dc_llindex := lightnum;
 
@@ -808,8 +836,15 @@ begin
   else if lightnum[1] >= LIGHTLEVELS then
     lightnum[1] := LIGHTLEVELS - 1;
 
-  walllights := @scalelight[lightnum[0]];
-  walllights2 := @scalelight[lightnum[1]];
+  if ds.midsiderange.fog[0] then  // JVAL: Mars fog sectors
+    walllights := @fog_scalelight[lightnum[0]]
+  else
+    walllights := @scalelight[lightnum[0]];
+
+  if ds.midsiderange.fog[1] then  // JVAL: Mars fog sectors
+    walllights2 := @fog_scalelight[lightnum[1]]
+  else
+    walllights2 := @scalelight[lightnum[1]];
 
   dc_llindex := lightnum[0];
   dc_llindex2 := lightnum[1];
@@ -917,6 +952,7 @@ begin
         dc_yh := 0;
       if dc_yl <= dc_yh then
       begin
+        dc_fog := ds.midsiderange.fog[0]; // JVAL: Mars fog sectors
         if depthbufferactive then
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
@@ -943,6 +979,7 @@ begin
       if dc_yl <= dc_yh then
       begin
         dc_texturemid := texturemid[1];
+        dc_fog := ds.midsiderange.fog[1]; // JVAL: Mars fog sectors
         if depthbufferactive then
           R_DrawColumnWithDepthBufferCheckWrite(wallcolfunc)
         else
@@ -1209,9 +1246,13 @@ begin
 
   vis.renderflags := mid.renderflags or SRF_FFLOOR;
   if virtualfloor then
-    vis.renderflags := mid.renderflags and not SRF_RIPPLE_FLOOR
+  begin
+    vis.renderflags := vis.renderflags and not (SRF_RIPPLE_FLOOR or SRF_FOG);
+    if ssector.sector.renderflags and SRF_FOG <> 0 then
+      vis.renderflags := vis.renderflags or SRF_FOG;  // JVAL: Mars fog sectors
+  end
   else
-    vis.renderflags := mid.renderflags and not SRF_RIPPLE_CEILING;
+    vis.renderflags := vis.renderflags and not SRF_RIPPLE_CEILING;
 
   if not dodraw then
     vis.renderflags := vis.renderflags or SRF_DONOTDRAW;
@@ -1405,6 +1446,7 @@ begin
         floorclip[x1] := vis.top[x1];
   end;
 
+  plane.ssector := ssector; // JVAL: Mars fog sectors
   curmidvis := plane;
 end;
 

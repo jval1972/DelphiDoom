@@ -26,6 +26,7 @@ ACTORDEF does not require the "Stop" keyword in states.
 Added the TICRATE const in states parameters evaluation.
 Added the LEVELTIME, GAMEMAP & LEVELNAME variables in states parameters evaluation.
 Fixed glitch in large flats multithreading software rendering.
+Fog sectors (lightlevel > 255).
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

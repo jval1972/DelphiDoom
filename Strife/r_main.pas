@@ -247,6 +247,7 @@ type
 
 var
   def_scalelight: scalelight_t;
+  fog_scalelight: scalelight_t; // JVAL: Mars fog sectors
   scalelight: Pscalelight_t;
 
 var
@@ -259,6 +260,7 @@ type
 
 var
   def_zlight: zlight_t;
+  fog_zlight: zlight_t;
   zlight: Pzlight_t;
 
 var
@@ -955,6 +957,7 @@ begin
         level := NUMCOLORMAPS - 1;
 
       def_zlight[i][j] := PByteArray(integer(def_colormaps) + level * 256);
+      fog_zlight[i][j] := PByteArray(integer(fog_colormaps) + level * 256);
     end;
 
     startmaphi := ((LIGHTLEVELS - 1 - i) * 2 * FRACUNIT) div LIGHTLEVELS;
@@ -1781,6 +1784,7 @@ begin
       end;
 
       def_scalelight[i][j] := PByteArray(integer(def_colormaps) + level * 256);
+      fog_scalelight[i][j] := PByteArray(integer(fog_colormaps) + level * 256);
     end;
   end;
 
@@ -2254,19 +2258,40 @@ begin
 end;
 
 function R_GetColormapLightLevel(const cmap: PByteArray): fixed_t;
+var
+  m: integer;
 begin
   if cmap = nil then
     result := -1
   else
-    result := FRACUNIT - (integer(cmap) - integer(colormaps)) div 256 * FRACUNIT div NUMCOLORMAPS;
+  begin
+    // JVAL: Mars fog sectors
+    m := (integer(cmap) - integer(colormaps));
+    if (m >= 0) and (m <= NUMCOLORMAPS * 256) then
+      result := FRACUNIT - (integer(cmap) - integer(colormaps)) div 256 * FRACUNIT div NUMCOLORMAPS
+    else
+      result := FRACUNIT - (integer(cmap) - integer(fog_colormaps)) div 256 * FRACUNIT div NUMCOLORMAPS;
+  end;
 end;
 
 function R_GetColormap32(const cmap: PByteArray): PLongWordArray;
+var
+  m: integer;
 begin
   if cmap = nil then
     result := @colormaps32[6 * 256] // FuzzLight
   else
-    result := @colormaps32[(integer(cmap) - integer(colormaps))];
+  begin
+    // JVAL: Mars fog sectors
+    m := (integer(cmap) - integer(colormaps));
+    if (m >= 0) and (m <= NUMCOLORMAPS * 256) then
+      result := @colormaps32[m]
+    else
+    begin
+      m := (integer(cmap) - integer(fog_colormaps));
+      result := @fog_colormaps[m];
+    end;
+  end;
 end;
 
 //

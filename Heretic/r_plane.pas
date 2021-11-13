@@ -937,7 +937,16 @@ begin
   if light < 0 then
     light := 0;
 
-  planezlight := @zlight[light];
+  if pl.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+  begin
+    planezlight := @fog_zlight[light];
+    ds_fog := true;
+  end
+  else
+  begin
+    planezlight := @zlight[light];
+    ds_fog := false;
+  end;
   ds_llzindex := light;
 
   stop := pl.maxx + 1;

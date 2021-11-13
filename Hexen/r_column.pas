@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -54,6 +54,8 @@ var
   dc_colormap32: PLongWordArray;
   dc_lightlevel: fixed_t;
   dc_llindex: integer;
+  dc_fog: boolean;  // JVAL: Mars fog sectors
+  dc_fog2: boolean;  // JVAL: Mars fog sectors
 
   dc_iscale: fixed_t;
   dc_texturemid: fixed_t;
@@ -67,7 +69,7 @@ var
   dc_alpha: fixed_t;
 
 const
-  MAXTEXTUREFACTORBITS = 3; // JVAL: Allow hi resolution textures x 8 
+  MAXTEXTUREFACTORBITS = 3; // JVAL: Allow hi resolution textures x 8
 
 var
 // first pixel in a column (possibly virtual)
@@ -380,7 +382,7 @@ begin
   begin
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF FOG}
@@ -402,7 +404,7 @@ begin
     ldest := 0;
     if lfactor >= 0 then
     begin
-      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+      R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
       {$UNDEF INVERSECOLORMAPS}
       {$UNDEF MASKEDCOLUMN}
       {$UNDEF FOG}
@@ -467,7 +469,7 @@ begin
   lfactor := dc_lightlevel;
   if lfactor >= 0 then
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, dc_fog);
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF MASKEDCOLUMN}
     {$UNDEF FOG}

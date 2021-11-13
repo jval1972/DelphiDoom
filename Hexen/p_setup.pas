@@ -712,7 +712,7 @@ begin
     ss.ceilingheight := ms.ceilingheight * FRACUNIT;
     ss.floorpic := R_FlatNumForName(ms.floorpic);
     ss.ceilingpic := R_FlatNumForName(ms.ceilingpic);
-    ss.lightlevel := ms.lightlevel;
+    ss.lightlevel := ms.lightlevel and $FF; // JVAL: Mars fog sectors
     ss.special := ms.special;
     ss.tag := ms.tag;
     ss.thinglist := nil;
@@ -720,6 +720,8 @@ begin
     ss.midsec := -1;    // JVAL: 3d floors
     ss.midline := -1;
     ss.renderflags := 0;
+    if ms.lightlevel > $FF then // JVAL: Mars fog sectors
+      ss.renderflags := ss.renderflags or SRF_FOG;
     ss.flags := 0;
     ss.gravity := GRAVITY;  // JVAL: sector gravity (VERSION 204)
     ss.floorangle := 0;     // JVAL: 20200221 - Texture angle

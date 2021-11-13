@@ -740,6 +740,7 @@ var
   i_line: integer;
   sub: Psubsector_t;
   floorlightlevel: smallint;  // JVAL: 3d Floors
+  floorrenderflags: LongWord;
 {$IFDEF OPENGL}
   i: integer;
   dummyfloorplane: visplane_t;
@@ -762,11 +763,21 @@ begin
 
   if (P_FloorHeight(frontsector, viewx, viewy) < viewz) then  // JVAL: Slopes
   begin
+    if frontsector.midsec >= 0 then // JVAL: Mars fog sectors
+    begin
+      // Transfer fog in lower floor from control sector (midsec).
+      floorrenderflags := frontsector.renderflags and not SRF_FOG;
+      if sectors[frontsector.midsec].renderflags and SRF_FOG <> 0 then
+        floorrenderflags := floorrenderflags or SRF_FOG;
+    end
+    else
+      floorrenderflags := frontsector.renderflags;
+
     if frontsector.renderflags and SRF_SLOPEFLOOR <> 0 then // JVAL: Slopes
       floorplane := R_FindPlane(frontsector.floorheight,
                                 frontsector.floorpic,
                                 floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
-                                frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                floorrenderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
                                 true,
                                 frontsector.floorangle, // JVAL: 20200221 - Texture angle
                                 frontsector.flooranglex,// JVAL: 20201229 - Texture angle rover
@@ -779,7 +790,7 @@ begin
       floorplane := R_FindPlane(frontsector.floorheight,
                                 frontsector.floorpic,
                                 floorlightlevel,  // JVAL: 3d Floors: Floor light level from mid sector
-                                frontsector.renderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
+                                floorrenderflags and not (SRF_RIPPLE_CEILING or SRF_SLOPECEILING),
                                 true,
                                 frontsector.floorangle, // JVAL: 20200221 - Texture angle
                                 frontsector.flooranglex,// JVAL: 20201229 - Texture angle rover

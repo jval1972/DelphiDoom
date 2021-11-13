@@ -107,8 +107,10 @@ var
   spritepresent: PBooleanArray;
 
   def_colormaps: PByteArray;
+  fog_colormaps: PByteArray;  // JVAL: Mars fog sectors
   colormaps: PByteArray;
   colormaps32: PLongWordArray;
+  fog_colormaps32: PLongWordArray;  // JVAL: Mars fog sectors
 
 var
   firstflat: integer;
@@ -1278,6 +1280,21 @@ begin
     if def_colormaps[i] = 0 then
       def_colormaps[i] := aprox_black;
   v_translation := def_colormaps;
+
+  // JVAL: Mars fog sectors
+  lump := W_GetNumForName('FOGMAP');
+  length := W_LumpLength(lump);
+  fog_colormaps := Z_Malloc(length, PU_STATIC, nil);
+  fog_colormaps32 := Z_Malloc(length * SizeOf(LongWord), PU_STATIC, nil);
+  W_ReadLump(lump, fog_colormaps);
+  for i := 0 to length - 1 do
+  begin
+    if fog_colormaps[i] = 0 then
+      fog_colormaps[i] := aprox_black;
+    if def_colormaps[i] = aprox_black then
+      fog_colormaps[i] := aprox_black;
+    fog_colormaps32[i] := cpal[fog_colormaps[i]]; // JVAL: Mars fog sectors
+  end;
 end;
 
 //

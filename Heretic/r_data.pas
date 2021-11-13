@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Heretic source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -98,8 +98,10 @@ var
   spritetopoffset: Pfixed_tArray;
   spritepresent: PBooleanArray;
 
+  fog_colormaps: PByteArray;  // JVAL: Mars fog sectors
   colormaps: PByteArray;
   colormaps32: PLongWordArray;
+  fog_colormaps32: PLongWordArray;  // JVAL: Mars fog sectors
 
 var
   firstflat: integer;
@@ -1000,6 +1002,21 @@ begin
     if colormaps[i] = 0 then
       colormaps[i] := aprox_black;
   v_translation := colormaps;
+
+  // JVAL: Mars fog sectors
+  lump := W_GetNumForName('FOGMAP');
+  length := W_LumpLength(lump);
+  fog_colormaps := Z_Malloc(length, PU_STATIC, nil);
+  fog_colormaps32 := Z_Malloc(length * SizeOf(LongWord), PU_STATIC, nil);
+  W_ReadLump(lump, fog_colormaps);
+  for i := 0 to length - 1 do
+  begin
+    if fog_colormaps[i] = 0 then
+      fog_colormaps[i] := aprox_black;
+    if colormaps[i] = aprox_black then
+      fog_colormaps[i] := aprox_black;
+    fog_colormaps32[i] := cpal[fog_colormaps[i]]; // JVAL: Mars fog sectors
+  end;
 end;
 
 //

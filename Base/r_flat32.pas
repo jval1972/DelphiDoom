@@ -50,6 +50,7 @@ type
     ds_ripple: PIntegerArray;
     ds_scale: dsscale_t;
     ds_size: integer;
+    ds_fog: boolean;  // JVAL: Mars fog sectors
     func: PPointerParmProcedure;
   end;
   Pflatrenderinfo32_t = ^flatrenderinfo32_t;
@@ -122,6 +123,7 @@ begin
   flat.ds_ripple := ds_ripple;
   flat.ds_scale := ds_scale;
   flat.ds_size := ds_size;
+  flat.ds_fog := ds_fog;  // JVAL: Mars fog sectors
   flat.func := spanfuncMT;
   inc(flatcachesize32);
 end;
@@ -675,6 +677,7 @@ var
   ds_ystep: fixed_t;
   ds_scale: dsscale_t;
   ds_size: integer; // JVAL: 20211112 - Fix size bug
+  ds_fog: boolean;  // JVAL: Mars fog sectors
   xfrac: fixed_t;
   yfrac: fixed_t;
   xstep: fixed_t;
@@ -701,6 +704,7 @@ begin
   ds_ystep := Pflatrenderinfo32_t(fi).ds_ystep;
   ds_scale := Pflatrenderinfo32_t(fi).ds_scale;
   ds_size := Pflatrenderinfo32_t(fi).ds_size;
+  ds_fog := Pflatrenderinfo32_t(fi).ds_fog;  // JVAL: Mars fog sectors
 
   destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
 
@@ -710,7 +714,7 @@ begin
 
   if lfactor >= 0 then // Use hi detail lightlevel
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, ds_fog);
     {$UNDEF RIPPLE}
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF TRANSPARENTFLAT}

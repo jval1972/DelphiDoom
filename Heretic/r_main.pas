@@ -233,10 +233,27 @@ var
 // bumped light from gun blasts
   extralight: integer;
 
-  scalelight: array[0..LIGHTLEVELS - 1, 0..MAXLIGHTSCALE - 1] of PByteArray;
+type
+  scalelight_t = array[0..LIGHTLEVELS - 1, 0..MAXLIGHTSCALE - 1] of PByteArray;
+  Pscalelight_t = ^scalelight_t;
+
+var
+  fog_scalelight: scalelight_t; // JVAL: Mars fog sectors
+  scalelight: Pscalelight_t;
+
+var
   scalelightlevels: array[0..LIGHTLEVELS - 1, 0..HLL_MAXLIGHTSCALE - 1] of fixed_t;
   scalelightfixed: array[0..MAXLIGHTSCALE - 1] of PByteArray;
-  zlight: array[0..LIGHTLEVELS - 1, 0..MAXLIGHTZ - 1] of PByteArray;
+
+type
+  zlight_t = array[0..LIGHTLEVELS - 1, 0..MAXLIGHTZ - 1] of PByteArray;
+  Pzlight_t = ^zlight_t;
+
+var
+  fog_zlight: zlight_t;
+  zlight: Pzlight_t;
+
+var
   zlightlevels: array[0..LIGHTLEVELS - 1, 0..HLL_MAXLIGHTZ - 1] of fixed_t;
 
 
@@ -931,6 +948,7 @@ begin
         level := NUMCOLORMAPS - 1;
 
       zlight[i][j] := PByteArray(integer(colormaps) + level * 256);
+      fog_zlight[i][j] := PByteArray(integer(fog_colormaps) + level * 256);
     end;
 
     startmaphi := ((LIGHTLEVELS - 1 - i) * 2 * FRACUNIT) div LIGHTLEVELS;
@@ -1706,6 +1724,7 @@ begin
       end;
 
       scalelight[i][j] := PByteArray(integer(colormaps) + level * 256);
+      fog_scalelight[i][j] := PByteArray(integer(fog_colormaps) + level * 256);
     end;
   end;
 
@@ -2125,19 +2144,40 @@ begin
 end;
 
 function R_GetColormapLightLevel(const cmap: PByteArray): fixed_t;
+var
+  m: integer;
 begin
   if cmap = nil then
     result := -1
   else
-    result := FRACUNIT - (integer(cmap) - integer(colormaps)) div 256 * FRACUNIT div NUMCOLORMAPS;
+  begin
+    // JVAL: Mars fog sectors
+    m := (integer(cmap) - integer(colormaps));
+    if (m >= 0) and (m <= NUMCOLORMAPS * 256) then
+      result := FRACUNIT - (integer(cmap) - integer(colormaps)) div 256 * FRACUNIT div NUMCOLORMAPS
+    else
+      result := FRACUNIT - (integer(cmap) - integer(fog_colormaps)) div 256 * FRACUNIT div NUMCOLORMAPS;
+  end;
 end;
 
 function R_GetColormap32(const cmap: PByteArray): PLongWordArray;
+var
+  m: integer;
 begin
   if cmap = nil then
     result := @colormaps32[6 * 256] // FuzzLight
   else
-    result := @colormaps32[(integer(cmap) - integer(colormaps))];
+  begin
+    // JVAL: Mars fog sectors
+    m := (integer(cmap) - integer(colormaps));
+    if (m >= 0) and (m <= NUMCOLORMAPS * 256) then
+      result := @colormaps32[m]
+    else
+    begin
+      m := (integer(cmap) - integer(fog_colormaps));
+      result := @fog_colormaps[m];
+    end;
+  end;
 end;
 
 //

@@ -59,6 +59,7 @@ var
   ds_ystep: fixed_t;
   ds_scale: dsscale_t;
   ds_size: integer; // JVAL: 20211112 - Fix size bug
+  ds_fog: boolean;
   xfrac: fixed_t;
   yfrac: fixed_t;
   xstep: fixed_t;
@@ -86,6 +87,7 @@ begin
   ds_ystep := Pflatrenderinfo32_t(fi).ds_ystep;
   ds_scale := Pflatrenderinfo32_t(fi).ds_scale;
   ds_size := Pflatrenderinfo32_t(fi).ds_size;
+  ds_fog := Pflatrenderinfo32_t(fi).ds_fog;
 
   destl := @((ylookupl[ds_y]^)[columnofs[ds_x1]]);
 
@@ -96,7 +98,7 @@ begin
   lfactor := Pflatrenderinfo32_t(fi).ds_lightlevel;
   if lfactor >= 0 then // Use hi detail lightlevel
   begin
-    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b);
+    R_GetPrecalc32Tables(lfactor, bf_r, bf_g, bf_b, ds_fog);  // JVAL: Mars fog sectors
     {$DEFINE RIPPLE}
     {$UNDEF INVERSECOLORMAPS}
     {$UNDEF TRANSPARENTFLAT}

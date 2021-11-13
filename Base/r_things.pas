@@ -712,6 +712,7 @@ begin
   parms.dc_texturemid := dc_texturemid;
   parms.dc_source := dc_source;
   parms.dc_alpha := dc_alpha;
+  parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
   parms.dc_colormap32 := dc_colormap32;
   parms.proc := spritefunc_mt;
@@ -726,6 +727,7 @@ begin
   parms.dc_texturemid := dc_texturemid;
   parms.dc_source := dc_source;
   parms.dc_alpha := dc_alpha;
+  parms.dc_fog := dc_fog; // JVAL: Mars fog sectors
   parms.num_batch_columns := num_batch_columns;
   parms.dc_colormap32 := dc_colormap32;
   parms.proc := batchspritefunc_mt;
@@ -1017,12 +1019,14 @@ begin
   dc_iscale := FixedDivEx(FRACUNIT, vis.scale);
   dbscale := trunc((FRACUNIT / dc_iscale) * (FRACUNIT / vis.infoscale) * FRACUNIT);
 
+  dc_fog := vis.fog; // JVAL: Mars fog sectors
+
   dc_texturemid := vis.texturemid;
   frac := vis.startfrac;
   spryscale := vis.scale;
   sprtopscreen := centeryfrac - FixedMul(dc_texturemid, spryscale);
 
-  if (vis.footclip <> 0) and not playerweapon then
+  if (vis.footclip <> 0) and (not playerweapon) then
     baseclip := FixedInt((sprtopscreen + FixedMul(patch.height * FRACUNIT, spryscale) - FixedMul(vis.footclip, spryscale)))
   else
     baseclip := viewheight - 1;
@@ -1133,6 +1137,11 @@ begin
 
   if fixedcolormapnum = INVERSECOLORMAP then
   // JVAL: if in invulnerability mode use white color
+  begin
+    lightcolfunc := whitelightcolfunc;
+    batchlightcolfunc := batchwhitelightcolfunc;
+  end
+  else if vis.fog then  // JVAL: Mars fog sectors
   begin
     lightcolfunc := whitelightcolfunc;
     batchlightcolfunc := batchwhitelightcolfunc;
@@ -1655,6 +1664,8 @@ begin
 {$ENDIF}
   vis.patch := lump;
 
+  vis.fog := {$IFDEF OPENGL}Psubsector_t(thing.subsector).sector.renderflags and SRF_FOG <> 0{$ELSE}dc_fog{$ENDIF}; // JVAL: Mars fog sectors
+
 {$IFNDEF OPENGL}  // JVAL: 3d Floors
   // get light level
   {$IFDEF DOOM_OR_HERETIC}
@@ -1671,7 +1682,13 @@ begin
   else if thing.frame and FF_FULLBRIGHT <> 0 then
   begin
     // full bright
-    vis.colormap := colormaps;
+    if Psubsector_t(thing.subsector).sector.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+    begin
+      vis.colormap := fog_colormaps;
+      vis.fog := true;
+    end
+    else
+      vis.colormap := colormaps;
   end
   else
   begin
@@ -1731,24 +1748,54 @@ begin
 
   lightnum := _SHR(sec.lightlevel, LIGHTSEGSHIFT) + extralight;
 
-  if lightnum <= 0 then
-    spritelights := @scalelight[0]
-  else if lightnum >= LIGHTLEVELS then
-    spritelights := @scalelight[LIGHTLEVELS - 1]
+  if sec.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+  begin
+    {$IFNDEF OPENGL}
+    dc_fog := true;
+    {$ENDIF}
+    if lightnum <= 0 then
+      spritelights := @fog_scalelight[0]
+    else if lightnum >= LIGHTLEVELS then
+      spritelights := @fog_scalelight[LIGHTLEVELS - 1]
+    else
+      spritelights := @fog_scalelight[lightnum];
+  end
   else
-    spritelights := @scalelight[lightnum];
+  begin
+    {$IFNDEF OPENGL}
+    dc_fog := false;
+    {$ENDIF}
+    if lightnum <= 0 then
+      spritelights := @scalelight[0]
+    else if lightnum >= LIGHTLEVELS then
+      spritelights := @scalelight[LIGHTLEVELS - 1]
+    else
+      spritelights := @scalelight[lightnum];
+  end;
 
   // JVAL: 3d Floors
   {$IFNDEF OPENGL}
   if sec.midsec >= 0 then
   begin
     lightnum2 := _SHR(sectors[sec.midsec].lightlevel, LIGHTSEGSHIFT) + extralight;
-    if lightnum2 <= 0 then
-      spritelights2 := @scalelight[0]
-    else if lightnum2 >= LIGHTLEVELS then
-      spritelights2 := @scalelight[LIGHTLEVELS - 1]
+    if sectors[sec.midsec].renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
+    begin
+      if lightnum2 <= 0 then
+        spritelights2 := @fog_scalelight[0]
+      else if lightnum2 >= LIGHTLEVELS then
+        spritelights2 := @fog_scalelight[LIGHTLEVELS - 1]
+      else
+        spritelights2 := @fog_scalelight[lightnum2];
+    end
     else
-      spritelights2 := @scalelight[lightnum2];
+    begin
+      if lightnum2 <= 0 then
+        spritelights2 := @scalelight[0]
+      else if lightnum2 >= LIGHTLEVELS then
+        spritelights2 := @scalelight[LIGHTLEVELS - 1]
+      else
+        spritelights2 := @scalelight[lightnum2];
+    end;
   end;
   {$ENDIF}
 
@@ -1880,6 +1927,8 @@ begin
     vis.startfrac := vis.startfrac + vis.xiscale * (vis.x1 - x1);
 {$ENDIF}
   vis.patch := lump;
+
+  vis.fog := false; // JVAL: Mars fog sectors
 
 {$IFNDEF OPENGL}{$IFDEF DOOM_OR_HERETIC}
   if (viewplayer.powers[Ord(pw_invisibility)] > 4 * 32) or
