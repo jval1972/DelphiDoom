@@ -1622,7 +1622,7 @@ begin
     if setblocks = 10 then
       scaledviewwidth := SCREENWIDTH
     else
-      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
+      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and not 7;
     if setblocks = 10 then
     {$IFDEF OPENGL}
       viewheight := trunc(SB_Y * SCREENHEIGHT / 200)
@@ -1631,9 +1631,9 @@ begin
     {$ENDIF}
     else
     {$IFDEF OPENGL}
-      viewheight := (setblocks * trunc(SB_Y * SCREENHEIGHT / 2000)) and (not 7);
+      viewheight := (setblocks * trunc(SB_Y * SCREENHEIGHT / 2000)) and not 7;
     {$ELSE}
-      viewheight := (setblocks * V_PreserveY(SB_Y) div 10) and (not 7);
+      viewheight := (setblocks * V_PreserveY(SB_Y) div 10) and not 7;
     {$ENDIF}
   end;
 
@@ -2011,7 +2011,7 @@ begin
       nodenum := node.children[0]
   end;
 
-  result := @subsectors[nodenum and (not NF_SUBSECTOR_V5)]; // JVAL: glbsp
+  result := @subsectors[nodenum and not NF_SUBSECTOR_V5]; // JVAL: glbsp
 end;
 
 function R_PointInSubsector(const x: fixed_t; const y: fixed_t): Psubsector_t;

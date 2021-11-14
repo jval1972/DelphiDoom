@@ -1703,7 +1703,7 @@ begin
     if setblocks = 10 then
       scaledviewwidth := SCREENWIDTH
     else
-      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and (not 7);
+      scaledviewwidth := (setblocks * SCREENWIDTH div 10) and not 7;
     if setblocks = 10 then
     {$IFDEF OPENGL}
       viewheight := trunc(ST_Y * SCREENHEIGHT / 200)
@@ -1712,9 +1712,9 @@ begin
     {$ENDIF}
     else
     {$IFDEF OPENGL}
-      viewheight := (setblocks * trunc(ST_Y * SCREENHEIGHT / 2000)) and (not 7);
+      viewheight := (setblocks * trunc(ST_Y * SCREENHEIGHT / 2000)) and not 7;
     {$ELSE}
-      viewheight := (setblocks * V_PreserveY(ST_Y) div 10) and (not 7);
+      viewheight := (setblocks * V_PreserveY(ST_Y) div 10) and not 7;
     {$ENDIF}
   end;
 

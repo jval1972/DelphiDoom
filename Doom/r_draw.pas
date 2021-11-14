@@ -138,7 +138,7 @@ var
   lump: integer;
 begin
   translationtables := Z_Malloc(256 * 3 + 255, PU_STATIC, nil);
-  translationtables := PByteArray((integer(translationtables) + 255 ) and (not 255));
+  translationtables := PByteArray((integer(translationtables) + 255 ) and not 255);
 
   // translate just the 16 green colors
   for i := 0 to 255 do
