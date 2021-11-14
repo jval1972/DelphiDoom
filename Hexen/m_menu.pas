@@ -2355,7 +2355,7 @@ end;
 
 procedure M_NewGame(choice: integer);
 begin
-  if netgame and (not demoplayback) then
+  if netgame and not demoplayback then
   begin
     M_StartMessage(SNEWGAME + #13#10 + PRESSKEY, nil, false);
     exit;

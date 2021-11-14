@@ -201,7 +201,7 @@ begin
 
   if actor.args[0] <> 0 then
   begin // Spawn an item
-    if (not nomonsters) or
+    if not nomonsters or
        (mobjinfo[Ord(TranslateThingType[actor.args[0]])].flags and MF_COUNTKILL = 0) then
     begin // Only spawn monsters if not -nomonsters
       P_SpawnMobj(actor.x, actor.y, actor.z, Ord(TranslateThingType[actor.args[0]]));
@@ -1140,7 +1140,7 @@ begin
 
   if actor.args[0] <> 0 then
   begin // Spawn an item
-    if (not nomonsters) or (mobjinfo[Ord(TranslateThingType[actor.args[0]])].flags and MF_COUNTKILL = 0) then
+    if not nomonsters or (mobjinfo[Ord(TranslateThingType[actor.args[0]])].flags and MF_COUNTKILL = 0) then
     begin // Only spawn monsters if not -nomonsters
       P_SpawnMobj(actor.x, actor.y, actor.z, Ord(TranslateThingType[actor.args[0]]));
     end;

@@ -2014,7 +2014,7 @@ begin
   // Check for -file in shareware
   // JVAL
   // Allow modified games if -devparm is specified, for debuging reasons
-  if modifiedgame and (not devparm) then
+  if modifiedgame and not devparm then
   begin
     if gamemode = shareware then
       I_DevError(#13#10 + 'D_DoomMain(): You cannot use external files with the shareware version. Register!');

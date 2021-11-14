@@ -256,7 +256,7 @@ begin
   poly := GetPolyobj(polyNum);
   if poly <> nil then
   begin
-    if (poly.specialdata <> nil) and (not overriden) then
+    if (poly.specialdata <> nil) and not overriden then
     begin // poly is already moving
       result := false;
       exit;
@@ -285,7 +285,7 @@ begin
   while GetPolyobjMirror(polyNum, @mirror) <> 0 do
   begin
     poly := GetPolyobj(mirror);
-    if (poly <> nil) and (poly.specialdata <> nil) and (not overriden) then
+    if (poly <> nil) and (poly.specialdata <> nil) and not overriden then
     begin // mirroring poly is already in motion
       break;
     end;
@@ -383,7 +383,7 @@ begin
   poly := GetPolyobj(polyNum);
   if poly <> nil then
   begin
-    if (poly.specialdata <> nil) and (not overriden) then
+    if (poly.specialdata <> nil) and not overriden then
     begin // poly is already moving
       result := false;
       exit;
@@ -412,7 +412,7 @@ begin
   while GetPolyobjMirror(polyNum, @mirror) <> 0 do
   begin
     poly := GetPolyobj(mirror);
-    if (poly <> nil) and (poly.specialdata <> nil) and (not overriden) then
+    if (poly <> nil) and (poly.specialdata <> nil) and not overriden then
     begin // mirroring poly is already in motion
       break;
     end;

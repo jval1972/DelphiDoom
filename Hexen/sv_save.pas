@@ -1114,7 +1114,7 @@ begin
     if @thinker._function.acp1 = @P_MobjThinker then
     begin
       mobj := Pmobj_t(thinker);
-      if (mobj.player <> nil) and (not SavingPlayers) then
+      if (mobj.player <> nil) and not SavingPlayers then
       begin // Skipping player mobjs
         thinker := thinker.next;
         continue;

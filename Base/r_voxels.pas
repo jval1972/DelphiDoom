@@ -2101,10 +2101,10 @@ begin
     silhouette := ds.silhouette;
 
     if vis.gz >= ds.bsilheight then
-      silhouette := silhouette and (not SIL_BOTTOM);
+      silhouette := silhouette and not SIL_BOTTOM;
 
     if vis.gzt <= ds.tsilheight then
-      silhouette := silhouette and (not SIL_TOP);
+      silhouette := silhouette and not SIL_TOP;
 
     if silhouette = 1 then
     begin

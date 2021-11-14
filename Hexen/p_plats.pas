@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -76,7 +76,7 @@ begin
     PLAT_UP:
       begin
         res := T_MovePlane(plat.sector, plat.speed, plat.high, plat.crush, 0, 1);
-        if (res = RES_CRUSHED) and (not plat.crush) then
+        if (res = RES_CRUSHED) and not plat.crush then
         begin
           plat.count := plat.wait;
           plat.status := PLAT_DOWN;

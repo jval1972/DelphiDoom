@@ -286,7 +286,7 @@ begin
 
   P_SetMobjState(mo, statenum_t(mobjinfo[Ord(mo._type)].deathstate));
 
-  mo.flags := mo.flags and (not MF_MISSILE);
+  mo.flags := mo.flags and not MF_MISSILE;
 
   case mo._type of
     Ord(MT_SORCBALL1),
@@ -1322,7 +1322,7 @@ var
   pl: Pplayer_t;
 begin
   // JVAL: Clear just spawned flag
-  mobj.flags := mobj.flags and (not MF_JUSTAPPEARED);
+  mobj.flags := mobj.flags and not MF_JUSTAPPEARED;
 
   // Handle X and Y momentums
   BlockingMobj := nil;

@@ -203,7 +203,7 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
-  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+  if (player.mo.flags2 and MF2_FLY <> 0) and not onground then
     player.bob := FRACUNIT div 2
   else
   begin
@@ -241,7 +241,7 @@ begin
     end;
   end;
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT - player.crouchheight;  // JVAL: 20211101 - Crouch
 
@@ -308,7 +308,7 @@ begin
   // Note: a LUT allows for effects
   //  like a ramp with low health.
 
-  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+  if (player.mo.flags2 and MF2_FLY <> 0) and not onground then
     player.bob := FRACUNIT div 2
   else
   begin
@@ -322,7 +322,7 @@ begin
 
   player.oldviewz := player.viewz;  // JVAL: Slopes
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
@@ -405,7 +405,7 @@ begin
     exit;
   end;
 
-  if (player.mo.flags2 and MF2_FLY <> 0) and (not onground) then
+  if (player.mo.flags2 and MF2_FLY <> 0) and not onground then
     player.bob := FRACUNIT div 2
   else
   begin
@@ -419,7 +419,7 @@ begin
 
   oldviewz := player.viewz;
 
-  if (player.cheats and CF_NOMOMENTUM <> 0) or (not onground) then
+  if (player.cheats and CF_NOMOMENTUM <> 0) or not onground then
   begin
     player.viewz := player.mo.z + PVIEWHEIGHT;
 
