@@ -877,6 +877,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     Z_Free(mobj113);
     result := true
@@ -965,6 +967,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     Z_Free(mobj114);
     result := true
@@ -1053,6 +1057,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     Z_Free(mobj115);
     result := true
@@ -1141,6 +1147,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     Z_Free(mobj117);
     result := true
@@ -1229,6 +1237,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     Z_Free(mobj118);
     result := true;
@@ -1274,6 +1284,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     result := true;
   end
@@ -1307,6 +1319,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     result := true;
   end
@@ -1339,6 +1353,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     result := true;
   end
@@ -1363,6 +1379,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     result := true;
   end
@@ -1373,6 +1391,8 @@ begin
 
     // ver 207
     mobj.painchance := mobjinfo[mobj._type].painchance;
+    mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+    mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
 
     result := true;
   end

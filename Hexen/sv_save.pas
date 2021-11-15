@@ -1327,6 +1327,8 @@ begin
 
       // version 207
       mobj.painchance := mobjinfo[Ord(mobj._type)].painchance;
+      mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+      mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
     end
     else if LOADVERSION = VERSION141 then
     begin
@@ -1352,6 +1354,8 @@ begin
 
       // version 207
       mobj.painchance := mobjinfo[Ord(mobj._type)].painchance;
+      mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+      mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
     end
     else if LOADVERSION <= VERSION204 then
     begin
@@ -1375,6 +1379,8 @@ begin
 
       // version 207
       mobj.painchance := mobjinfo[Ord(mobj._type)].painchance;
+      mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+      mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
     end
     else if LOADVERSION <= VERSION205 then
     begin
@@ -1388,6 +1394,8 @@ begin
 
       // version 207
       mobj.painchance := mobjinfo[Ord(mobj._type)].painchance;
+      mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+      mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
     end
     else if LOADVERSION <= VERSION206 then
     begin
@@ -1396,6 +1404,8 @@ begin
 
       // version 207
       mobj.painchance := mobjinfo[Ord(mobj._type)].painchance;
+      mobj.spriteDX := mobjinfo[Ord(mobj._type)].spriteDX;
+      mobj.spriteDY := mobjinfo[Ord(mobj._type)].spriteDY;
     end
     else
     begin

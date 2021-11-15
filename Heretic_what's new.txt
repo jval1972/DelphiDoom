@@ -31,6 +31,10 @@ Fog sectors (lightlevel > 255).
 Added GetSectorInterpolate() & SetSectorInterpolate() PascalScript functions.
 Added GetSectorFog() & SetSectorFog() PascalScript functions. Added ::fog property in sector class.
 Fixed Integer/float tolerance examines negative values in DEHACKED & ACTORDEF.
+SpriteDX & SpriteDY mobj fields. Can be accessed by ACTORDEF & PascalScript.
+Added A_SetSpriteDX & A_SetSpriteDY ACTORDEF function.
+::spriteDX & ::spriteDY fields are available in ACTORDEF function parameters evaluation.
+Added GetActorSpriteDX, SetActorSpriteDX, GetActorSpriteDY, SetActorSpriteDY, GetMobjInfoSpriteDX & GetMobjInfoSpriteDY Pascalscript functions.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

@@ -307,6 +307,8 @@ begin
     AddLn('mobjinfo[' + mname + '].maxtargetrange := ' + itoa(mobjinfo[i].maxtargetrange) + ';');
     AddLn('mobjinfo[' + mname + '].WeaveIndexXY := ' + itoa(mobjinfo[i].WeaveIndexXY) + ';');
     AddLn('mobjinfo[' + mname + '].WeaveIndexZ := ' + itoa(mobjinfo[i].WeaveIndexZ) + ';');
+    AddLn('mobjinfo[' + mname + '].spriteDX := ' + itoa_FRACUNIT(mobjinfo[i].spriteDX) + ';');
+    AddLn('mobjinfo[' + mname + '].spriteDY := ' + itoa_FRACUNIT(mobjinfo[i].spriteDY) + ';');
     AddLn('');
   end;
 

@@ -538,6 +538,8 @@ type
 
     // version 207
     painchance: integer;
+    spriteDX: integer;
+    spriteDY: integer;
   end;
   Tmobj_tPArray = array[0..$FFFF] of Pmobj_t;
   Pmobj_tPArray = ^Tmobj_tPArray;

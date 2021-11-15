@@ -872,6 +872,8 @@ begin
   mobj.WeaveIndexXY := info.WeaveIndexXY;
   mobj.WeaveIndexZ := info.WeaveIndexZ;
   mobj.painchance := info.painchance;
+  mobj.spriteDX := info.spriteDX;
+  mobj.spriteDY := info.spriteDY;
 
   if gameskill <> sk_nightmare then
     mobj.reactiontime := info.reactiontime;

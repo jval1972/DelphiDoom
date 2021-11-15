@@ -1547,6 +1547,8 @@ type
     maxtargetrange: integer;
     WeaveIndexXY: integer;
     WeaveIndexZ: integer;
+    spriteDX: integer;
+    spriteDY: integer;
   end;
 
   Pmobjinfo_t = ^mobjinfo_t;

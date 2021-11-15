@@ -157,6 +157,12 @@ procedure PS_SetActorFriction(const key: LongWord; const value: Integer);
 function PS_GetActorPainChance(const key: LongWord): Integer;
 procedure PS_SetActorPainChance(const key: LongWord; const value: Integer);
 
+function PS_GetActorSpriteDX(const key: LongWord): Integer;
+procedure PS_SetActorSpriteDX(const key: LongWord; const value: Integer);
+
+function PS_GetActorSpriteDY(const key: LongWord): Integer;
+procedure PS_SetActorSpriteDY(const key: LongWord; const value: Integer);
+
 function PS_GetActorName(const key: LongWord): string;
 
 {$IFDEF STRIFE}
@@ -657,6 +663,10 @@ function PS_GetMobjInfoMaxTargetRange(const typ: integer): integer;
 function PS_GetMobjInfoWeaveIndexXY(const typ: integer): integer;
 
 function PS_GetMobjInfoWeaveIndexZ(const typ: integer): integer;
+
+function PS_GetMobjInfoSpriteDX(const typ: integer): integer;
+
+function PS_GetMobjInfoSpriteDY(const typ: integer): integer;
 
 function PS_GetMobjInfoFriction(const typ: integer): integer;
 
@@ -1938,6 +1948,52 @@ begin
   if mo = nil then
     Exit;
   mo.painchance := value;
+end;
+
+function PS_GetActorSpriteDX(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.spriteDX;
+end;
+
+procedure PS_SetActorSpriteDX(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.spriteDX := value;
+end;
+
+function PS_GetActorSpriteDY(const key: LongWord): Integer;
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mo.spriteDY;
+end;
+
+procedure PS_SetActorSpriteDY(const key: LongWord; const value: Integer);
+var
+  mo: Pmobj_t;
+begin
+  mo := mobj_from_key(key);
+  if mo = nil then
+    Exit;
+  mo.spriteDY := value;
 end;
 
 function PS_GetActorName(const key: LongWord): string;
@@ -3242,6 +3298,26 @@ end;
 procedure TRTLActorPainChance_R(Self: TRTLActor; var T: Integer);
 begin
   T := PS_GetActorPainChance(LongWord(Self));
+end;
+
+procedure TRTLActorSpriteDX_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorSpriteDX(LongWord(Self), T);
+end;
+
+procedure TRTLActorSpriteDX_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorSpriteDX(LongWord(Self));
+end;
+
+procedure TRTLActorSpriteDY_W(Self: TRTLActor; const T: Integer);
+begin
+  PS_SetActorSpriteDY(LongWord(Self), T);
+end;
+
+procedure TRTLActorSpriteDY_R(Self: TRTLActor; var T: Integer);
+begin
+  T := PS_GetActorSpriteDY(LongWord(Self));
 end;
 
 procedure TRTLActorFlags_W(Self: TRTLActor; const T: Boolean; const t1: LongWord);
@@ -5996,6 +6072,26 @@ begin
   Result := mobjinfo[typ].friction;
 end;
 
+function PS_GetMobjInfoSpriteDX(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].spriteDX;
+end;
+
+function PS_GetMobjInfoSpriteDY(const typ: integer): integer;
+begin
+  if (typ < 0) or (typ >= nummobjtypes) then
+  begin
+    Result := 0;
+    Exit;
+  end;
+  Result := mobjinfo[typ].spriteDY;
+end;
+
 {$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
@@ -6328,6 +6424,16 @@ end;
 procedure TRTLMobjInfoItemFriction_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoFriction(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemSpriteDX_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoSpriteDX(Integer(Self) - 1);
+end;
+
+procedure TRTLMobjInfoItemSpriteDY_R(Self: TRTLMobjInfoItem; var T: integer);
+begin
+  T := PS_GetMobjInfoSpriteDY(Integer(Self) - 1);
 end;
 
 {$IFDEF DOOM_OR_STRIFE}
@@ -6951,6 +7057,8 @@ begin
   cactor.RegisterProperty('WeaveIndexZ', 'Integer', iptRW);
   cactor.RegisterProperty('Friction', 'fixed_t', iptRW);
   cactor.RegisterProperty('PainChance', 'fixed_t', iptRW);
+  cactor.RegisterProperty('SpriteDX', 'fixed_t', iptRW);
+  cactor.RegisterProperty('SpriteDY', 'fixed_t', iptRW);
   cactor.RegisterProperty('CustomDropItem', 'Integer', iptRW);
   cactor.RegisterProperty('CustomParams', 'Integer String', iptRW);
   cactor.RegisterProperty('Flag', 'Boolean LongWord', iptRW);
@@ -7136,6 +7244,8 @@ begin
   cmobjinfoitem.RegisterProperty('WeaveIndexXY', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('WeaveIndexZ', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('Friction', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('SpriteDX', 'Integer', iptR);
+  cmobjinfoitem.RegisterProperty('SpriteDY', 'Integer', iptR);
 
   cmobjinfo.RegisterProperty('Item', '!TMobjInfoItem integer', iptR);
   cmobjinfo.SetDefaultPropery('Item');
@@ -7211,6 +7321,8 @@ begin
   ractor.RegisterPropertyHelper(@TRTLActorWeaveIndexZ_R, @TRTLActorWeaveIndexZ_W, 'WeaveIndexZ');
   ractor.RegisterPropertyHelper(@TRTLActorFriction_R, @TRTLActorFriction_W, 'Friction');
   ractor.RegisterPropertyHelper(@TRTLActorPainChance_R, @TRTLActorPainChance_W, 'PainChance');
+  ractor.RegisterPropertyHelper(@TRTLActorSpriteDX_R, @TRTLActorSpriteDX_W, 'SpriteDX');
+  ractor.RegisterPropertyHelper(@TRTLActorSpriteDY_R, @TRTLActorSpriteDY_W, 'SpriteDY');
   ractor.RegisterPropertyHelper(@TRTLActorCustomParams_R, @TRTLActorCustomParams_W, 'CustomParams');
   ractor.RegisterPropertyHelper(@TRTLActorFlags_R, @TRTLActorFlags_W, 'Flag');
   ractor.RegisterPropertyHelper(@TRTLActorName_R, nil, 'Name');
@@ -7389,6 +7501,8 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemWeaveIndexXY_R, nil, 'WeaveIndexXY');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemWeaveIndexZ_R, nil, 'WeaveIndexZ');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFriction_R, nil, 'Friction');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpriteDX_R, nil, 'SpriteDX');
+  rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpriteDY_R, nil, 'SpriteDY');
   {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');

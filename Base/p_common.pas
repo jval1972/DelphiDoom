@@ -469,6 +469,10 @@ procedure A_SetWeaveIndexZ(actor: Pmobj_t);
 
 procedure A_SetWeaveIndexes(actor: Pmobj_t);
 
+procedure A_SetSpriteDX(actor: Pmobj_t);
+
+procedure A_SetSpriteDY(actor: Pmobj_t);
+
 procedure A_SetHeight(actor: Pmobj_t);
 
 procedure A_SetFriction(actor: Pmobj_t);
@@ -6058,6 +6062,22 @@ begin
 
   actor.WeaveIndexXY := actor.state.params.IntVal[0] and FLOATBOBMASK;
   actor.WeaveIndexZ := actor.state.params.IntVal[1] and FLOATBOBMASK;
+end;
+
+procedure A_SetSpriteDX(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.spriteDX := actor.state.params.FixedVal[0];
+end;
+
+procedure A_SetSpriteDY(actor: Pmobj_t);
+begin
+  if not P_CheckStateParams(actor, 1) then
+    exit;
+
+  actor.spriteDY := actor.state.params.FixedVal[0];
 end;
 
 //

@@ -47,7 +47,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 354;
+  DEHNUMACTIONS = 356;
 
 type
   deh_action_t = record
@@ -566,6 +566,8 @@ begin
           61: mobjinfo[mobj_no].WeaveIndexXY := mobj_val;
           62: mobjinfo[mobj_no].WeaveIndexZ := mobj_val;
           63: mobjinfo[mobj_no].friction := DEH_FixedOrFloat(token2, 64);
+          64: mobjinfo[mobj_no].spriteDX := DEH_FixedOrFloat(token2, 256);
+          65: mobjinfo[mobj_no].spriteDY := DEH_FixedOrFloat(token2, 256);
         end;
       end;
 
@@ -1658,6 +1660,8 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[61]), mobjinfo[i].WeaveIndexXY]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[62]), mobjinfo[i].WeaveIndexZ]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[63]), mobjinfo[i].friction]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[64]), mobjinfo[i].spriteDX]);
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[65]), mobjinfo[i].spriteDY]);
 
     result.Add('');
   end;
@@ -1916,6 +1920,8 @@ begin
   mobj_tokens.Add('WEAVE INDEX XY');     // .WeaveIndexXY             // 61
   mobj_tokens.Add('WEAVE INDEX Z');      // .WeaveIndexZ              // 62
   mobj_tokens.Add('FRICTION');           // .Friction                 // 63
+  mobj_tokens.Add('SPRITE DX');          // .spriteDX                 // 64
+  mobj_tokens.Add('SPRITE DY');          // .spriteDY                 // 65
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
@@ -3167,7 +3173,12 @@ begin
   deh_actions[353].action.acp1 := @A_SetPainChance;
   deh_actions[353].name := strupper('SetPainChance');
   {$IFDEF DLL}deh_actions[353].decl := 'A_SetPainChance(newchance: integer)';{$ENDIF}
-
+  deh_actions[354].action.acp1 := @A_SetSpriteDX;
+  deh_actions[354].name := strupper('SetSpriteDX');
+  {$IFDEF DLL}deh_actions[354].decl := 'A_SetSpriteDX(dx: float)';{$ENDIF}
+  deh_actions[355].action.acp1 := @A_SetSpriteDY;
+  deh_actions[355].name := strupper('SetSpriteDY');
+  {$IFDEF DLL}deh_actions[355].decl := 'A_SetSpriteDY(dy: float)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);

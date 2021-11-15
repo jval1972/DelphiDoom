@@ -1486,6 +1486,8 @@ var
     AddRes('Max Target Range = ' + itoa(mobj.maxtargetrange));
     AddRes('Weave Index XY = ' + itoa(mobj.WeaveIndexXY));
     AddRes('Weave Index Z = ' + itoa(mobj.WeaveIndexZ));
+    AddRes('Sprite DX = ' + itoa(round(mobj.spriteDX * FRACUNIT)));
+    AddRes('Sprite DY = ' + itoa(round(mobj.spriteDY * FRACUNIT)));
 
     AddRes('');
 
@@ -2287,6 +2289,8 @@ begin
           mobj.maxtargetrange := pinf.maxtargetrange;
           mobj.WeaveIndexXY := pinf.WeaveIndexXY;
           mobj.WeaveIndexZ := pinf.WeaveIndexZ;
+          mobj.spriteDX := pinf.spriteDX;
+          mobj.spriteDY := pinf.spriteDY;
 
           mobj.spawnstate := ORIGINALSTATEMARKER + pinf.spawnstate;
           mobj.seestate := ORIGINALSTATEMARKER + pinf.seestate;
@@ -2462,6 +2466,24 @@ begin
         begin
           sc.GetInteger;
           mobj.WeaveIndexZ := sc._Integer;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('spritedx') then
+        begin
+          sc.GetFloat;
+          mobj.spriteDX := sc._float;
+          if fabs(mobj.spriteDX) > 256 then
+            mobj.spriteDX := mobj.spriteDX / FRACUNIT;
+          sc.GetString;
+        end
+
+        else if sc.MatchString('spritedy') then
+        begin
+          sc.GetFloat;
+          mobj.spriteDY := sc._float;
+          if fabs(mobj.spriteDY) > 256 then
+            mobj.spriteDY := mobj.spriteDY / FRACUNIT;
           sc.GetString;
         end
 
@@ -3347,6 +3369,10 @@ begin
     AddLn('WeaveIndexXY ' + itoa(m.WeaveIndexXY));
   if m.WeaveIndexZ <> 0 then
     AddLn('WeaveIndexZ ' + itoa(m.WeaveIndexZ));
+  if m.spriteDX <> 0 then
+    AddLn('spriteDX ' + itoa(m.spriteDX));
+  if m.spriteDY <> 0 then
+    AddLn('spriteDY ' + itoa(m.spriteDY));
 
   for i := 0 to mobj_flags.Count - 1 do
     if m.flags and (1 shl i) <> 0 then
