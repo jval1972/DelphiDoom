@@ -535,7 +535,7 @@ begin
   if (Pos('.', token) > 0) or (Pos(',', token) > 0) then
   begin
     fv := atof(token, 0);
-    if fv > tolerance then
+    if fabs(fv) > tolerance then
       result := round(fv)
     else
       result := round(fv * FRACUNIT);
