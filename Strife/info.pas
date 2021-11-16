@@ -63,6 +63,7 @@ var
   sprnames: PIntegerArray = nil;
   numsprites: integer = Ord(DO_NUMSPRITES);
   mobjinfo: PmobjinfoArray_t = nil;
+  pDO_mobjinfo: PmobjinfoArray_t = nil;
   originalmobjinfo: PmobjinfoArray_t = nil;
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
@@ -37683,6 +37684,8 @@ var
   i: integer;
 begin
   Info_InitDnLookUp;
+
+  pDO_mobjinfo := @DO_mobjinfo;
   originalstates := @DO_states;
   if states = nil then
   begin
