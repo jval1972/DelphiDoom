@@ -103,6 +103,20 @@ begin
     Result := 'gender_t(' + itoa(x) + ')';
 end;
 
+function _pascal_name(const s: string): string;
+var
+  i: integer;
+begin
+  Result := '';
+  for i := 1 to length(s) do
+  begin
+    if s[i] = '''' then
+      Result := Result + s[i] + s[i]
+    else
+      Result := Result + s[i];
+  end;
+end;
+
 function _renderstyle_name(const x: Integer): string;
 begin
   if x < 0 then
@@ -230,9 +244,9 @@ begin
       AddLn('// #' + itoa(i));
 
     mname := _mobjinfo_name_Ord(i);
-    AddLn('mobjinfo[' + mname + '].name := ''' + mobjinfo[i].name + ''';');
+    AddLn('mobjinfo[' + mname + '].name := ''' + _pascal_name(mobjinfo[i].name) + ''';');
     {$IFDEF STRIFE}
-    AddLn('mobjinfo[' + mname + '].name2 := ''' + mobjinfo[i].name2 + ''';');
+    AddLn('mobjinfo[' + mname + '].name2 := ''' + _pascal_name(mobjinfo[i].name2) + ''';');
     {$ENDIF}
     AddLn('mobjinfo[' + mname + '].inheritsfrom := ' + itoa(mobjinfo[i].inheritsfrom) + ';');
     AddLn('mobjinfo[' + mname + '].doomednum := ' + itoa(mobjinfo[i].doomednum) + ';');
@@ -297,8 +311,8 @@ begin
     AddLn('mobjinfo[' + mname + '].floatspeed := ' + itoa_FRACUNIT(mobjinfo[i].floatspeed) + ';');
     AddLn('mobjinfo[' + mname + '].normalspeed := ' + itoa_FRACUNIT(mobjinfo[i].normalspeed) + ';');
     AddLn('mobjinfo[' + mname + '].fastspeed := ' + itoa_FRACUNIT(mobjinfo[i].fastspeed) + ';');
-    AddLn('mobjinfo[' + mname + '].obituary := ''' + mobjinfo[i].obituary + ''';');
-    AddLn('mobjinfo[' + mname + '].hitobituary := ''' + mobjinfo[i].hitobituary + ''';');
+    AddLn('mobjinfo[' + mname + '].obituary := ''' + _pascal_name(mobjinfo[i].obituary) + ''';');
+    AddLn('mobjinfo[' + mname + '].hitobituary := ''' + _pascal_name(mobjinfo[i].hitobituary) + ''';');
     AddLn('mobjinfo[' + mname + '].gender := ' + _gender_name(Ord(mobjinfo[i].gender)) + ';');
     AddLn('mobjinfo[' + mname + '].meleerange := ' + itoa(mobjinfo[i].meleerange) + ';');
     AddLn('mobjinfo[' + mname + '].maxstepheight := ' + itoa(mobjinfo[i].maxstepheight) + ';');
