@@ -57,6 +57,7 @@ var
   sprnames: PIntegerArray = nil;
   numsprites: integer = Ord(DO_NUMSPRITES);
   mobjinfo: PmobjinfoArray_t = nil;
+  pDO_mobjinfo: PmobjinfoArray_t = nil;
   nummobjtypes: integer = Ord(DO_NUMMOBJTYPES);
 
 procedure Info_Init(const usethinkers: boolean);
@@ -17901,6 +17902,7 @@ var
 begin
   Info_InitDnLookUp;
 
+  pDO_mobjinfo := @DO_mobjinfo;
   if states = nil then
   begin
     states := malloc(Ord(DO_NUMSTATES) * SizeOf(state_t));

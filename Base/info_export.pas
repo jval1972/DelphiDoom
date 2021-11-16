@@ -32,6 +32,8 @@ interface
 
 function Info_GetMobjinfoPascal(const astart: integer = 0; const afinish: integer = -1): string;
 
+function Info_GetMobjinfoPascalConst(const astart: integer = 0; const afinish: integer = -1): string;
+
 function Info_GetStatesPascal(const astart: integer = 0; const afinish: integer = -1): string;
 
 procedure Info_InitExportCommands;
@@ -329,6 +331,153 @@ begin
   Result := ret;
 end;
 
+function Info_GetMobjinfoPascalConst(const astart: integer = 0; const afinish: integer = -1): string;
+var
+  ret: string;
+  i: integer;
+  start, finish: integer;
+  fmobjinfo: PmobjinfoArray_t;
+
+  procedure AddLn(const s: string);
+  begin
+    if s <> '' then
+      ret := ret + '  ' + s + #13#10
+    else
+      ret := ret + #13#10;
+  end;
+
+  procedure AddField(const s1, s2: string);
+  var
+    s: string;
+  begin
+    s := '    ' + s1 + ': ' + s2 + ';';
+    while length(s) < 79 do
+      s := s + ' ';
+    s := s + ' // ' + s1 + #13#10;
+    ret := ret + s;
+  end;
+
+begin
+  ret := '';
+
+  start := astart;
+  if start < 0 then
+    start := 0;
+
+  if afinish < 0 then
+    finish := nummobjtypes - 1
+  else
+    finish := afinish;
+
+  if (start = 0) and (finish = Ord(DO_NUMMOBJTYPES) - 1) then
+    fmobjinfo := pDO_mobjinfo
+  else
+    fmobjinfo := mobjinfo;
+
+  AddLn('////////////////////////////////////////////////////////////////////////////////');
+  AddLn('// mobjinfo');
+  AddLn('////////////////////////////////////////////////////////////////////////////////');
+  AddLn('');
+  AddLn('(');
+  AddLn('');
+  for i := start to finish do
+  begin
+    AddLn('////////////////////////////////////////////////////////////////////////////////');
+    if i < Ord(DO_NUMMOBJTYPES) then
+      AddLn(' ( // ' + strupper(GetENumName(TypeInfo(mobjtype_t), i)))
+    else
+      AddLn(' ( // #' + itoa(i) + ' (' + _mobjinfo_name_Ord(i) + ')');
+
+    AddField('name', '''' + _pascal_name(fmobjinfo[i].name) + '''');
+    {$IFDEF STRIFE}
+    AddField('name2', '''' + _pascal_name(fmobjinfo[i].name2) + '''');
+    {$ENDIF}
+    AddField('inheritsfrom', itoa(fmobjinfo[i].inheritsfrom));
+    AddField('doomednum', itoa(fmobjinfo[i].doomednum));
+    AddField('spawnstate', _state_name_Ord(fmobjinfo[i].spawnstate));
+    AddField('spawnhealth', itoa(fmobjinfo[i].spawnhealth));
+    AddField('seestate', _state_name_Ord(fmobjinfo[i].seestate));
+    AddField('seesound', _sound_name_Ord(fmobjinfo[i].seesound));
+    AddField('reactiontime', itoa(fmobjinfo[i].reactiontime));
+    AddField('attacksound', _sound_name_Ord(fmobjinfo[i].attacksound));
+    AddField('painstate', _state_name_Ord(fmobjinfo[i].painstate));
+    AddField('painchance', itoa(fmobjinfo[i].painchance));
+    AddField('painsound', _sound_name_Ord(fmobjinfo[i].painsound));
+    AddField('meleestate', _state_name_Ord(fmobjinfo[i].meleestate));
+    AddField('missilestate', _state_name_Ord(fmobjinfo[i].missilestate));
+    AddField('deathstate', _state_name_Ord(fmobjinfo[i].deathstate));
+    AddField('xdeathstate', _state_name_Ord(fmobjinfo[i].xdeathstate));
+    AddField('deathsound', _sound_name_Ord(fmobjinfo[i].deathsound));
+    AddField('speed', itoa_FRACUNIT(fmobjinfo[i].speed));
+    AddField('radius', itoa_FRACUNIT(fmobjinfo[i].radius));
+    AddField('height', itoa_FRACUNIT(fmobjinfo[i].height));
+    AddField('mass', itoa(fmobjinfo[i].mass));
+    AddField('damage', itoa(fmobjinfo[i].damage));
+    AddField('activesound', _sound_name_Ord(fmobjinfo[i].activesound));
+    AddField('flags', itoa_FLAGS(fmobjinfo[i].flags, mobj_flags));
+    {$IFDEF HERETIC_OR_HEXEN}
+    AddField('flags2', itoa_FLAGS(fmobjinfo[i].flags, mobj_flags2));
+    {$ENDIF}
+    AddField('flags_ex', itoa_FLAGS(fmobjinfo[i].flags_ex, mobj_flags_ex));
+    AddField('flags2_ex', itoa_FLAGS(fmobjinfo[i].flags2_ex, mobj_flags2_ex));
+    AddField('raisestate', _state_name_Ord(fmobjinfo[i].raisestate));
+    AddField('customsound1', _sound_name_Ord(fmobjinfo[i].customsound1));
+    AddField('customsound2', _sound_name_Ord(fmobjinfo[i].customsound2));
+    AddField('customsound3', _sound_name_Ord(fmobjinfo[i].customsound3));
+    AddField('meleesound', _sound_name_Ord(fmobjinfo[i].meleesound));
+    AddField('dropitem', itoa(fmobjinfo[i].dropitem));
+    AddField('missiletype', itoa(fmobjinfo[i].missiletype));
+    AddField('explosiondamage', itoa(fmobjinfo[i].explosiondamage));
+    AddField('explosionradius', itoa(fmobjinfo[i].explosionradius));
+    AddField('meleedamage', itoa(fmobjinfo[i].meleedamage));
+    AddField('renderstyle', _renderstyle_name(Ord(fmobjinfo[i].renderstyle)));
+    AddField('alpha', itoa(fmobjinfo[i].alpha));
+    AddField('healstate', _state_name_Ord(fmobjinfo[i].healstate));
+    AddField('crashstate', _state_name_Ord(fmobjinfo[i].crashstate));
+    {$IFDEF DOOM_OR_STRIFE}
+    AddField('interactstate', _state_name_Ord(fmobjinfo[i].interactstate));
+    AddField('missileheight', itoa(fmobjinfo[i].missileheight));
+    {$ENDIF}
+    AddField('vspeed', itoa(fmobjinfo[i].vspeed));
+    if fmobjinfo[i].pushfactor = DEFPUSHFACTOR then
+      AddField('pushfactor', 'DEFPUSHFACTOR')
+    else
+      AddField('pushfactor', itoa(fmobjinfo[i].pushfactor));
+    if fmobjinfo[i].friction = ORIG_FRICTION then
+      AddField('friction', 'ORIG_FRICTION')
+    else
+      AddField('friction', itoa(fmobjinfo[i].friction));
+    AddField('scale', itoa_FRACUNIT(fmobjinfo[i].scale));
+    AddField('gravity', itoa_FRACUNIT(fmobjinfo[i].gravity));
+    AddField('flags3_ex', itoa_FLAGS(fmobjinfo[i].flags3_ex, mobj_flags3_ex));
+    AddField('flags4_ex', itoa_FLAGS(fmobjinfo[i].flags4_ex, mobj_flags4_ex));
+    AddField('minmissilechance', itoa(fmobjinfo[i].minmissilechance));
+    AddField('floatspeed', itoa_FRACUNIT(fmobjinfo[i].floatspeed));
+    AddField('normalspeed', itoa_FRACUNIT(fmobjinfo[i].normalspeed));
+    AddField('fastspeed', itoa_FRACUNIT(fmobjinfo[i].fastspeed));
+    AddField('obituary', '''' + _pascal_name(fmobjinfo[i].obituary) + '''');
+    AddField('hitobituary', '''' + _pascal_name(fmobjinfo[i].hitobituary) + '''');
+    AddField('gender', _gender_name(Ord(fmobjinfo[i].gender)));
+    AddField('meleerange', itoa(fmobjinfo[i].meleerange));
+    AddField('maxstepheight', itoa(fmobjinfo[i].maxstepheight));
+    AddField('maxdropoffheight', itoa(fmobjinfo[i].maxdropoffheight));
+    AddField('gibhealth', itoa(fmobjinfo[i].gibhealth));
+    AddField('maxtargetrange', itoa(fmobjinfo[i].maxtargetrange));
+    AddField('WeaveIndexXY', itoa(fmobjinfo[i].WeaveIndexXY));
+    AddField('WeaveIndexZ', itoa(fmobjinfo[i].WeaveIndexZ));
+    AddField('spriteDX', itoa_FRACUNIT(fmobjinfo[i].spriteDX));
+    AddField('spriteDY', itoa_FRACUNIT(fmobjinfo[i].spriteDY));
+    if i = finish then
+      AddLn(' )')
+    else
+      AddLn(' ),');
+    AddLn('');
+  end;
+  AddLn(')');
+
+  Result := ret;
+end;
+
 function Info_GetStatesPascal(const astart: integer = 0; const afinish: integer = -1): string;
 var
   ret: string;
@@ -448,6 +597,68 @@ begin
   end;
 end;
 
+procedure CmdExportInfoPascalConst(const fname: string);
+var
+  fname1: string;
+  s: string;
+  sl: TDStringList;
+begin
+  if fname = '' then
+  begin
+    printf('Please specify the filename to save info export'#13#10);
+    exit;
+  end;
+
+  if Pos('.', fname) = 0 then
+    fname1 := fname + '.txt'
+  else
+    fname1 := fname;
+
+  fname1 := M_SaveFileName(fname1);
+
+  s := Info_GetMobjinfoPascalConst;
+
+  sl := TDStringList.Create;
+  try
+    sl.Text := s;
+    sl.SaveToFile(fname1);
+    printf('Info settings saved to %s'#13#10, [fname1]);
+  finally
+    sl.Free;
+  end;
+end;
+
+procedure CmdExportInfoPascalConstBI(const fname: string);
+var
+  fname1: string;
+  s: string;
+  sl: TDStringList;
+begin
+  if fname = '' then
+  begin
+    printf('Please specify the filename to save info export'#13#10);
+    exit;
+  end;
+
+  if Pos('.', fname) = 0 then
+    fname1 := fname + '.txt'
+  else
+    fname1 := fname;
+
+  fname1 := M_SaveFileName(fname1);
+
+  s := Info_GetMobjinfoPascalConst(0, Ord(DO_NUMMOBJTYPES) - 1);
+
+  sl := TDStringList.Create;
+  try
+    sl.Text := s;
+    sl.SaveToFile(fname1);
+    printf('Info settings saved to %s'#13#10, [fname1]);
+  finally
+    sl.Free;
+  end;
+end;
+
 var
   export_commands_registered: boolean = false;
 
@@ -459,6 +670,8 @@ begin
   C_AddCmd('SaveInfoPascal, InfoSavePascal', @CmdExportInfoPascal);
   C_AddCmd('ExportInfoPascalBI, InfoExportPascalBI, ExportInfoPascalBuiltIn, InfoExportPascalBuiltIn', @CmdExportInfoPascalBI);
   C_AddCmd('SaveInfoPascalBI, InfoSavePascalBI, SaveInfoPascalBuiltIn, InfoSavePascalBuiltIn', @CmdExportInfoPascalBI);
+  C_AddCmd('ExportInfoPascalConst, InfoExportPascalConst, SaveInfoPascalConst, InfoSavePascalConst', @CmdExportInfoPascalConst);
+  C_AddCmd('ExportInfoPascalConstBI, InfoExportPascalConstBI, SaveInfoPascalConstBI, InfoSavePascalConstBI', @CmdExportInfoPascalConstBI);
 
   export_commands_registered := true;
 end;
