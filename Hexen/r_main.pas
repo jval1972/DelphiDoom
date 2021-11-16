@@ -242,7 +242,7 @@ type
 
 var
   fog_scalelight: scalelight_t; // JVAL: Mars fog sectors
-  scalelight: Pscalelight_t;
+  scalelight: scalelight_t;
 
 var
   scalelightlevels: array[0..LIGHTLEVELS - 1, 0..HLL_MAXLIGHTSCALE - 1] of fixed_t;
@@ -254,7 +254,7 @@ type
 
 var
   fog_zlight: zlight_t;
-  zlight: Pzlight_t;
+  zlight: zlight_t;
 
 var
   zlightlevels: array[0..LIGHTLEVELS - 1, 0..HLL_MAXLIGHTZ - 1] of fixed_t;
