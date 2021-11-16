@@ -1893,7 +1893,7 @@ begin
   mobj_flags2.Add('MF2_ONMOBJ');
   mobj_flags2.Add('MF2_PASSMOBJ');
   mobj_flags2.Add('MF2_CANNOTPUSH');
-  mobj_flags2.Add('MF2_FEETARECLIPPED');
+  mobj_flags2.Add('MF2_DROPPED');
   mobj_flags2.Add('MF2_BOSS');
   mobj_flags2.Add('MF2_FIREDAMAGE');
   mobj_flags2.Add('MF2_NODMGTHRUST');
