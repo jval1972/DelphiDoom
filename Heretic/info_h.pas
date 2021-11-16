@@ -1499,7 +1499,6 @@ type
     painsound: integer;
     meleestate: integer;
     missilestate: integer;
-    crashstate: integer;
     deathstate: integer;
     xdeathstate: integer;
     deathsound: integer;
@@ -1526,6 +1525,7 @@ type
     renderstyle: mobjrenderstyle_t;
     alpha: integer;
     healstate: integer;
+    crashstate: integer;
     vspeed: integer;  // Initial vertical speed
     pushfactor: integer; // How much can be pushed? 1..FRACUNIT
     friction: Integer; // Default is ORIG_FRICTION
