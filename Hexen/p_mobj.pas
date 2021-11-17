@@ -1719,6 +1719,16 @@ begin
   p.extralight := 0;
   p.fixedcolormap := 0;
   p.viewheight := PVIEWHEIGHT;
+  // JVAL: 20211117 -
+  p.laddertics := 0;
+  p.slopetics := 0;
+  p.teleporttics := 0;
+  p.quakeintensity := 0;
+  p.quaketics := 0;
+  p.oldcrouch := 0;
+  p.lastongroundtime := 0;
+  p.lastautocrouchtime := 0;
+  p.crouchheight := 0;
 
   // setup gun psprite
   P_SetupPsprites(p);
