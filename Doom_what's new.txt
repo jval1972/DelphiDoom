@@ -39,6 +39,7 @@ Added A_SetSpriteDX & A_SetSpriteDY ACTORDEF function.
 Added GetActorSpriteDX, SetActorSpriteDX, GetActorSpriteDY, SetActorSpriteDY, GetMobjInfoSpriteDX & GetMobjInfoSpriteDY Pascalscript functions.
 Added ExportInfoPascalConstBI, InfoExportPascalConstBI, SaveInfoPascalConstBI, InfoSavePascalConstBI console commands. Save mobjinfo as Pascal const declaration.
 Added ExportInfoPascalConst, InfoExportPascalConst, SaveInfoPascalConst, InfoSavePascalConst console commands. Save mobjinfo as Pascal const declaration.
+Bug fix: Reset extra player fields when spawning player.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
