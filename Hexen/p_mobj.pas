@@ -1719,7 +1719,7 @@ begin
   p.extralight := 0;
   p.fixedcolormap := 0;
   p.viewheight := PVIEWHEIGHT;
-  // JVAL: 20211117 -
+  // JVAL: 20211117 - Reset extra player fields when spawning player
   p.laddertics := 0;
   p.slopetics := 0;
   p.teleporttics := 0;
