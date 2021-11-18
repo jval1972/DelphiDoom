@@ -2402,7 +2402,11 @@ begin
 
   // JVAL: 20211118 - Dropped flag
   if flags and SIXF_DROPPED <> 0 then
+  {$IFDEF HEXEN}
+    mo.flags2 := mo.flags2 or MF2_DROPPED;
+  {$ELSE}
     mo.flags := mo.flags or MF_DROPPED;
+  {$ENDIF}
 
   if flags and SIXF_TRANSFERTRANSLATION <> 0 then
     mo.flags := (mo.flags and not MF_TRANSLATION) or (self.flags and MF_TRANSLATION);
