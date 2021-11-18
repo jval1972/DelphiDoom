@@ -38,6 +38,7 @@ Added GetActorSpriteDX, SetActorSpriteDX, GetActorSpriteDY, SetActorSpriteDY, Ge
 Added ExportInfoPascalConstBI, InfoExportPascalConstBI, SaveInfoPascalConstBI, InfoSavePascalConstBI console commands. Save mobjinfo as Pascal const declaration.
 Added ExportInfoPascalConst, InfoExportPascalConst, SaveInfoPascalConst, InfoSavePascalConst console commands. Save mobjinfo as Pascal const declaration.
 Bug fix: Reset extra player fields when spawning player.
+Added SXF_DROPPED/SIXF_DROPPED flag in A_SpawnItemXX ACTORDEF functions. Mark spawned items as MF_DROPPED. 
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

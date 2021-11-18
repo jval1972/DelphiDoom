@@ -546,6 +546,7 @@ const
   SIXF_ISTARGET = $4000000;
   SIXF_ISMASTER = $8000000;
   SIXF_ISTRACER = $10000000;
+  SIXF_DROPPED = $20000000;
 
 // A_CustomMissile
 const
@@ -2398,6 +2399,10 @@ begin
     result := false;
     exit;
   end;
+
+  // JVAL: 20211118 - Dropped flag
+  if flags and SIXF_DROPPED <> 0 then
+    mo.flags := mo.flags or MF_DROPPED;
 
   if flags and SIXF_TRANSFERTRANSLATION <> 0 then
     mo.flags := (mo.flags and not MF_TRANSLATION) or (self.flags and MF_TRANSLATION);
