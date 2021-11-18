@@ -59,7 +59,7 @@ var
 
 function _hash(const s: string): integer;
 begin
-  result := Ord(s[1]) and (CONSTSHASHSIZE - 1);
+  result := (Ord(s[1]) + Ord(s[Length(s)])) and (CONSTSHASHSIZE - 1);
 end;
 
 procedure SC_InitConsts;
