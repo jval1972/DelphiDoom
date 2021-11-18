@@ -402,6 +402,8 @@ const
   MF4_EX_FLAMEDAMAGERESIST = 1;
   // No monster collision
   MF4_EX_THRUMONSTERS = 2;
+  // Drop item in actual z
+  MF4_EX_ABSOLUTEDROPITEMPOS = 4;
 
 type
 // Map Object definition.
