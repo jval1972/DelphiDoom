@@ -107,6 +107,7 @@ uses
   g_game,
   p_mobj,
   p_obituaries,
+  p_3dfloors,
   p_pspr,
   p_pspr_h,
   p_dialog,
@@ -862,6 +863,7 @@ var
   junk: line_t;
   p: Pplayer_t;
   i: integer;
+  zpos: integer;
 begin
   target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_BOUNCE);
   if target.flags3_ex and MF3_EX_SETGRAVITYONDEATH <> 0 then
@@ -1170,7 +1172,12 @@ begin
   // villsa [STRIFE] toss out item
   if (deathmatch = 0) or (mobjinfo[item].flags and MF_NOTDMATCH = 0) then
   begin
-    mo := P_SpawnMobj(target.x, target.y, target.z + (24 * FRACUNIT), item);
+    if target.flags4_ex and MF4_EX_ABSOLUTEDROPITEMPOS <> 0 then
+      zpos := target.z
+    else
+      zpos := target.z + 24 * FRACUNIT;
+
+    mo := P_SpawnMobj(target.x, target.y, zpos, item);
     r := P_Random;
     mo.momx := mo.momx + ((r and 7) - (P_Random and 7)) * FRACUNIT;
     r := P_Random;
