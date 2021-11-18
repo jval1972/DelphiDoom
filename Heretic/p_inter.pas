@@ -1186,6 +1186,11 @@ begin
   begin
     result.z := result.z + 32 * FRACUNIT;
     result.momz := 4 * FRACUNIT;
+    if G_PlayingEngineVersion >= VERSION207 then
+    begin
+      result.momx := 64 * N_Random;
+      result.momy := 64 * N_Random;
+    end;
   end;
 end;
 
