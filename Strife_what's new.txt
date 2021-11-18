@@ -44,6 +44,7 @@ Added ExportInfoPascalConst, InfoExportPascalConst, SaveInfoPascalConst, InfoSav
 Bug fix: Reset extra player fields when spawning player.
 Added SXF_DROPPED/SIXF_DROPPED flag in A_SpawnItemXX ACTORDEF functions. Mark spawned items as MF_DROPPED. 
 Improved hash efficiency for string evaluation in ACTORDEF function parameters.
+Fixed behavior of A_CountdownArg() ACTORDEF function.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
