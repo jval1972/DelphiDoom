@@ -4272,8 +4272,17 @@ begin
         P_ExplodeMissile(actor);
         Exit;
       end
+      else if actor.flags and MF_SHOOTABLE <> 0 then
+      begin
+        P_DamageMobj(actor, nil, nil, 10000);
+        Exit;
+      end
       else
+      begin
         offset := actor.info.deathstate;
+        if offset < 0 then
+          offset := Ord(S_NULL);
+      end;
     end;
     if @states[offset] <> actor.state then
       P_SetMobjState(actor, statenum_t(offset));
