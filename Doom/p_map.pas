@@ -2203,7 +2203,7 @@ begin
     result := true;
     exit;
   end;
-  if (mobj.flags2_ex and MF2_EX_INTERACTIVE) = 0 then
+  if mobj.flags2_ex and MF2_EX_INTERACTIVE = 0 then
   begin
     result := true;
     exit;
