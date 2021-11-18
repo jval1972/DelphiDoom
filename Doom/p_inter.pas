@@ -85,6 +85,7 @@ uses
   g_game,
   p_mobj,
   p_obituaries,
+  p_3dfloors,
   p_pspr,
   ps_main, // JVAL: Script Events
   r_defs,
@@ -780,6 +781,7 @@ procedure P_KillMobj(source: Pmobj_t; target: Pmobj_t);
 var
   item: integer;
   gibhealth: integer;
+  zpos: integer;
 begin
   target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY);
   target.flags3_ex := target.flags3_ex and not MF3_EX_BOUNCE;
@@ -891,8 +893,13 @@ begin
   if item <= 0 then
     Exit;
 
-  if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
+  if target.flags4_ex and MF4_EX_ABSOLUTEDROPITEMPOS <> 0 then
     P_SpawnDroppedMobj(target.x, target.y, target.z, item)
+  else if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
+  begin
+    zpos := P_3dFloorHeight(target);
+    P_SpawnDroppedMobj(target.x, target.y, zpos, item)
+  end
   else
     P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, item);
 end;
