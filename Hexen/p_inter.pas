@@ -143,6 +143,7 @@ uses
   g_game,
   p_mobj,
   p_obituaries,
+  p_3dfloors,
   p_pspr,
   p_pspr_h,
   p_tick,
@@ -1591,6 +1592,7 @@ var
   pl: Pplayer_t;
   item: integer;
   gibhealth: integer;
+  zpos: integer;
 begin
   target.flags := target.flags and not (MF_SHOOTABLE or MF_FLOAT or MF_SKULLFLY);
   if target.flags3_ex and MF3_EX_NOGRAVITYDEATH = 0 then
@@ -1897,8 +1899,13 @@ begin
   if item <= 0 then
     Exit;
 
-  if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
+  if target.flags4_ex and MF4_EX_ABSOLUTEDROPITEMPOS <> 0 then
     P_SpawnDroppedMobj(target.x, target.y, target.z, item)
+  else if Psubsector_t(target.subsector).sector.midsec >= 0 then // JVAL: 3d Floors
+  begin
+    zpos := P_3dFloorHeight(target);
+    P_SpawnDroppedMobj(target.x, target.y, zpos, item)
+  end
   else
     P_SpawnDroppedMobj(target.x, target.y, ONFLOORZ, item);
 end;
