@@ -1664,7 +1664,7 @@ begin
 {$ENDIF}
   vis.patch := lump;
 
-  vis.fog := {$IFDEF OPENGL}Psubsector_t(thing.subsector).sector.renderflags and SRF_FOG <> 0{$ELSE}dc_fog{$ENDIF}; // JVAL: Mars fog sectors
+  vis.fog := Psubsector_t(thing.subsector).sector.renderflags and SRF_FOG <> 0; // JVAL: Mars fog sectors
 
 {$IFNDEF OPENGL}  // JVAL: 3d Floors
   // get light level
@@ -1682,11 +1682,8 @@ begin
   else if thing.frame and FF_FULLBRIGHT <> 0 then
   begin
     // full bright
-    if Psubsector_t(thing.subsector).sector.renderflags and SRF_FOG <> 0 then // JVAL: Mars fog sectors
-    begin
-      vis.colormap := fog_colormaps;
-      vis.fog := true;
-    end
+    if vis.fog then // JVAL: Mars fog sectors
+      vis.colormap := fog_colormaps
     else
       vis.colormap := colormaps;
   end

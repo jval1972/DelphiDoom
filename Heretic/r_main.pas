@@ -2175,7 +2175,7 @@ begin
     else
     begin
       m := (integer(cmap) - integer(fog_colormaps));
-      result := @fog_colormaps[m];
+      result := @fog_colormaps32[m];
     end;
   end;
 end;
