@@ -1506,7 +1506,7 @@ begin
   KeyBindingsInfo[Ord(kb_weapon1)].text := 'WEAPON 2';
   KeyBindingsInfo[Ord(kb_weapon2)].text := 'WEAPON 3';
   KeyBindingsInfo[Ord(kb_weapon3)].text := 'WEAPON 4';
-  if gamestate = gs_level then
+  if gamestate = GS_LEVEL then
     case players[consoleplayer]._class of
       PCLASS_FIGHTER:
         begin
