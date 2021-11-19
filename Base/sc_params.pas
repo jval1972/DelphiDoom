@@ -576,7 +576,7 @@ begin
   if (index >= 0) and (index < fNumItems) then
   begin
     ret := SC_EvaluateActorExpression(fActor, fList[index].s_param);
-    result := ret = 'TRUE';
+    result := RemoveQuotesFromString(ret) = 'TRUE';
   end
   else
     result := false;

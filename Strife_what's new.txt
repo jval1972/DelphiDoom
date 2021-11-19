@@ -46,6 +46,7 @@ Added SXF_DROPPED/SIXF_DROPPED flag in A_SpawnItemXX ACTORDEF functions. Mark sp
 Improved hash efficiency for string evaluation in ACTORDEF function parameters.
 Fixed behavior of A_CountdownArg() ACTORDEF function.
 Added MF4_EX_ABSOLUTEDROPITEMPOS mobj flag. Spawns dropped item in actual z of the actor.
+ACTORDEF can accept boolean values in quotes.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
