@@ -158,7 +158,7 @@ begin
   A_FaceTarget(actor);
   if P_CheckMeleeRange(actor) then
   begin
-    A_MeleeSound(actor);
+    A_MeleeSound1(actor);
     if actor.state.params = nil then
       damage := actor.info.meleedamage
     else
@@ -229,7 +229,7 @@ begin
 
   slope := P_AimLineAttack(actor, bangle, range);
 
-  A_AttackSound(actor);
+  A_AttackSound1(actor);
 
   spread_xy := spread_xy div 256;
   for i := 0 to numbullets - 1 do
@@ -299,7 +299,7 @@ begin
 
   if P_CheckMeleeRange(actor) then
   begin
-    A_MeleeSound(actor);
+    A_MeleeSound1(actor);
     P_DamageMobj(actor.target, actor, actor, actor.info.meleedamage);
   end
   else
@@ -343,7 +343,7 @@ begin
 
   slope := P_AimLineAttack(actor, bangle, MISSILERANGE);
 
-  A_AttackSound(actor);
+  A_AttackSound1(actor);
 
 // Attack with a customizable amount of bullets (specified in damage)
   numbullets := actor.info.damage;
