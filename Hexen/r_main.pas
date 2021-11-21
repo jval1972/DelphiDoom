@@ -99,6 +99,8 @@ function R_PointOnSide(const x: fixed_t; const y: fixed_t; const node: Pnode_t):
 
 function R_PointOnSegSide(x: fixed_t; y: fixed_t; line: Pseg_t): boolean;
 
+function R_PointOnLineSide(x: fixed_t; y: fixed_t; line: Pline_t): boolean;
+
 function R_PointToAngle(x: fixed_t; y: fixed_t): angle_t;
 
 function R_PointToAngleEx(const x: fixed_t; const y: fixed_t): angle_t;
@@ -651,6 +653,102 @@ begin
     result := R_PointOnSegSide64(x, y, line)
   else
     result := R_PointOnSegSide32(x, y, line);
+end;
+
+function R_PointOnLineSide32(x: fixed_t; y: fixed_t; line: Pline_t): boolean;
+var
+  lx: fixed_t;
+  ly: fixed_t;
+  ldx: fixed_t;
+  ldy: fixed_t;
+  dx: fixed_t;
+  dy: fixed_t;
+  left: fixed_t;
+  right: fixed_t;
+begin
+  lx := line.v1.x;
+  ly := line.v1.y;
+
+  ldx := line.v2.x - lx;
+  ldy := line.v2.y - ly;
+
+  if ldx = 0 then
+  begin
+    if x <= lx then
+      result := ldy > 0
+    else
+      result := ldy < 0;
+    exit;
+  end;
+
+  if ldy = 0 then
+  begin
+    if y <= ly then
+      result := ldx < 0
+    else
+      result := ldx > 0;
+    exit;
+  end;
+
+  dx := x - lx;
+  dy := y - ly;
+
+  left := IntFixedMul(ldy, dx);
+  right := FixedIntMul(dy, ldx);
+
+  result := left <= right;
+end;
+
+function R_PointOnLineSide64(x: fixed_t; y: fixed_t; line: Pline_t): boolean;
+var
+  lx: fixed_t;
+  ly: fixed_t;
+  ldx: fixed_t;
+  ldy: fixed_t;
+  dx64: int64;
+  dy64: int64;
+  left64: int64;
+  right64: int64;
+begin
+  lx := line.v1.x;
+  ly := line.v1.y;
+
+  ldx := line.v2.x - lx;
+  ldy := line.v2.y - ly;
+
+  if ldx = 0 then
+  begin
+    if x <= lx then
+      result := ldy > 0
+    else
+      result := ldy < 0;
+    exit;
+  end;
+
+  if ldy = 0 then
+  begin
+    if y <= ly then
+      result := ldx < 0
+    else
+      result := ldx > 0;
+    exit;
+  end;
+
+  dx64 := int64(x) - int64(lx);
+  dy64 := int64(y) - int64(ly);
+
+  left64 := int64(ldy div 256) * (dx64 div 256);
+  right64 := (dy64 div 256) * int64(ldx div 256);
+
+  result := left64 <= right64;
+end;
+
+function R_PointOnLineSide(x: fixed_t; y: fixed_t; line: Pline_t): boolean;
+begin
+  if largemap then
+    result := R_PointOnLineSide64(x, y, line)
+  else
+    result := R_PointOnLineSide32(x, y, line)
 end;
 
 //
