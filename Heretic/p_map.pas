@@ -603,6 +603,20 @@ begin
     exit;
   end;
 
+  // JVAL: 20211121 - MF4_EX_THRUMONSTERS flag - does not colide with monsters
+  if (tmthing.flags4_ex and MF4_EX_THRUMONSTERS <> 0) and Info_IsMonster(thing._type) then
+  begin
+    result := true;
+    exit;
+  end;
+
+  // JVAL: 20211121 - MF4_EX_THRUMONSTERS flag - does not colide with monsters
+  if (thing.flags4_ex and MF4_EX_THRUMONSTERS <> 0) and Info_IsMonster(tmthing._type) then
+  begin
+    result := true;
+    exit;
+  end;
+
   // JVAL: 20210209 - MF3_EX_THRUSPECIES flag - does not colide with same species (also inheritance)
   if tmthing.flags3_ex and MF3_EX_THRUSPECIES <> 0 then
   begin
