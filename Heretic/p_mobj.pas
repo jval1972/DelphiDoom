@@ -147,6 +147,7 @@ uses
   p_params,
   p_ladder,
   p_musinfo,
+  p_bouncing,
   r_defs,
   r_sky,
   r_main,
@@ -377,6 +378,13 @@ begin
       else if (mo.flags3_ex and MF3_EX_SLIDING <> 0) or (mo.flags and MF_SLIDEONWALLS <> 0) or (mo.flags2 and MF2_SLIDE <> 0) and (mo.flags and MF_MISSILE = 0) then
       begin
         P_SlideMove(mo); // try to slide along it
+      end
+      // JVAL: 20211121 - New bounch on walls mechanics
+      else if (G_PlayingEngineVersion >= VERSION207) and (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) and (tmbounceline <> nil) then
+      begin
+        P_WallBounceMobj(mo, tmbounceline);
+        xmove := 0;
+        ymove := 0;
       end
       // JVAL: 20200308 - Bounce on walls
       else if mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0 then

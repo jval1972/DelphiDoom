@@ -90,6 +90,7 @@ var
   tmceilingz: fixed_t;
   tmdropoffz: fixed_t;
   tmfloorpic: integer;
+  tmbounceline: Pline_t;
 
 var
   spechit: Pline_tPArray = nil;  // JVAL Now spechit is dynamic
@@ -353,6 +354,7 @@ begin
   if ld.backsector = nil then
   begin
     result := false;  // one sided line
+    tmbounceline := ld;
     exit;
   end;
 
@@ -363,6 +365,7 @@ begin
       if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
       begin
         result := false;  // explicitly blocking everything
+        tmbounceline := ld;
         exit;
       end;
     end;
@@ -370,6 +373,7 @@ begin
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin
       result := false;  // block monsters only
+      tmbounceline := ld;
       exit;
     end;
   end;
@@ -451,6 +455,7 @@ begin
   if ld.backsector = nil then
   begin
     result := false;  // one sided line
+    tmbounceline := ld;
     exit;
   end;
 
@@ -461,6 +466,7 @@ begin
       if tmthing.flags3_ex and MF3_EX_NOBLOCKMONST = 0 then
       begin
         result := false;  // explicitly blocking everything
+        tmbounceline := ld;
         exit;
       end;
     end;
@@ -468,6 +474,7 @@ begin
     if (tmthing.player = nil) and ((ld.flags and ML_BLOCKMONSTERS) <> 0) then
     begin
       result := false;  // block monsters only
+      tmbounceline := ld;
       exit;
     end;
   end;
@@ -915,6 +922,8 @@ begin
   tmdropoffz := P_3dFloorHeight(newsec, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
   tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+
+  tmbounceline := nil;
 
   if newsec.midsec >= 0 then
   begin
