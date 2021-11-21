@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 382;
+  DEHNUMACTIONS = 388;
 
 type
   deh_action_t = record
@@ -124,6 +124,7 @@ uses
   p_pspr_h,
   p_inter,
   p_musinfo,
+  p_sounds,
   psi_overlay,
   r_renderstyle,
   sounds,
@@ -3294,6 +3295,24 @@ begin
   deh_actions[381].action.acp1 := @A_SetSpriteDY;
   deh_actions[381].name := strupper('SetSpriteDY');
   {$IFDEF DLL}deh_actions[381].decl := 'A_SetSpriteDY(dy: float)';{$ENDIF}
+  deh_actions[382].action.acp1 := @A_SeeSound1;
+  deh_actions[382].name := strupper('SeeSound');
+  {$IFDEF DLL}deh_actions[382].decl := 'A_SeeSound()';{$ENDIF}
+  deh_actions[383].action.acp1 := @A_PainSound1;
+  deh_actions[383].name := strupper('PainSound');
+  {$IFDEF DLL}deh_actions[383].decl := 'A_PainSound()';{$ENDIF}
+  deh_actions[384].action.acp1 := @A_AttackSound1;
+  deh_actions[384].name := strupper('AttackSound');
+  {$IFDEF DLL}deh_actions[384].decl := 'A_AttackSound()';{$ENDIF}
+  deh_actions[385].action.acp1 := @A_MeleeSound1;
+  deh_actions[385].name := strupper('MeleeSound');
+  {$IFDEF DLL}deh_actions[385].decl := 'A_MeleeSound()';{$ENDIF}
+  deh_actions[386].action.acp1 := @A_DeathSound1;
+  deh_actions[386].name := strupper('DeathSound');
+  {$IFDEF DLL}deh_actions[386].decl := 'A_DeathSound()';{$ENDIF}
+  deh_actions[387].action.acp1 := @A_ActiveSound1;
+  deh_actions[387].name := strupper('ActiveSound');
+  {$IFDEF DLL}deh_actions[387].decl := 'A_ActiveSound()';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
