@@ -435,13 +435,13 @@ begin
     exit;
   end;
 
-  // JVAL: VERSION 206 
+  // JVAL: VERSION 206
   if ld.flags and ML_NOCLIP <> 0 then
   begin
     result := true;
     exit;
   end;
-  
+
   if P_BoxOnLineSide(@tmbbox, ld) <> -1 then
   begin
     result := true;
@@ -790,7 +790,7 @@ begin
         result := true;
         exit;
       end;
-      
+
     // damage / explode
     if tmthing.flags3_ex and MF3_EX_ABSOLUTEDAMAGE <> 0 then
       damage := tmthing.info.damage
@@ -2485,7 +2485,7 @@ begin
       result := true;
       exit;
     end;
-    
+
   if P_CheckSight(thing, bombspot) then
   begin
     // must be in direct path

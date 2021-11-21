@@ -424,13 +424,13 @@ begin
     exit;
   end;
 
-  // JVAL: VERSION 206 
+  // JVAL: VERSION 206
   if ld.flags and ML_NOCLIP <> 0 then
   begin
     result := true;
     exit;
   end;
-  
+
   if P_BoxOnLineSide(@tmbbox, ld) <> -1 then
   begin
     result := true;
@@ -824,7 +824,7 @@ begin
   // check for special pickup
   if thing.flags and MF_SPECIAL <> 0 then
   begin
-    solid := (thing.flags and MF_SOLID) <> 0;
+    solid := thing.flags and MF_SOLID <> 0;
     if tmflags and MF_PICKUP <> 0 then
     begin
       // can remove thing
@@ -833,7 +833,7 @@ begin
     result := not solid;
   end
   else
-    result := (thing.flags and MF_SOLID) = 0;
+    result := thing.flags and MF_SOLID = 0;
 end;
 
 //
