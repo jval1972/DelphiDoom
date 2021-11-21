@@ -132,6 +132,7 @@ var
   tmceilingz: fixed_t;
   tmdropoffz: fixed_t;
   tmfloorpic: integer;
+  tmbounceline: Pline_t;
 
 var
   spechit: Pline_tPArray = nil;  // JVAL Now spechit is dynamic
@@ -496,6 +497,7 @@ begin
       P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
     P_CheckForPushSpecial(ld, 0, tmthing);
     result := false;
+    tmbounceline := ld;
     exit;
   end;
 
@@ -508,6 +510,7 @@ begin
           P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
         P_CheckForPushSpecial(ld, 0, tmthing);
         result := false;  // explicitly blocking everything
+        tmbounceline := ld;
         exit;
       end;
 
@@ -516,6 +519,7 @@ begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
         P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
       result := false;  // block monsters only
+      tmbounceline := ld;
       exit;
     end;
   end;
@@ -600,6 +604,7 @@ begin
       P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
     P_CheckForPushSpecial(ld, 0, tmthing);
     result := false;
+    tmbounceline := ld;
     exit;
   end;
 
@@ -612,6 +617,7 @@ begin
           P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
         P_CheckForPushSpecial(ld, 0, tmthing);
         result := false;  // explicitly blocking everything
+        tmbounceline := ld;
         exit;
       end;
 
@@ -620,6 +626,7 @@ begin
       if tmthing.flags2 and MF2_BLASTED <> 0 then
         P_DamageMobj(tmthing, nil, nil, _SHR(tmthing.mass, 5));
       result := false;  // block monsters only
+      tmbounceline := ld;
       exit;
     end;
   end;
@@ -1269,6 +1276,8 @@ begin
   tmdropoffz := P_3dFloorHeight(newsec, x, y, thing.z); // JVAL: Slopes
   tmfloorz := tmdropoffz;
   tmceilingz := P_3dCeilingHeight(newsec, x, y, thing.z) + P_SectorJumpOverhead(newsubsec.sector, thing.player);
+
+  tmbounceline := nil;
 
   if newsec.midsec >= 0 then
   begin

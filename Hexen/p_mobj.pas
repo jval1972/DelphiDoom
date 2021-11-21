@@ -177,6 +177,7 @@ uses
   p_params,
   p_ladder,
   p_musinfo,
+  p_bouncing,
   r_defs,
   r_sky,
   r_main,
@@ -583,7 +584,15 @@ begin
       end
       else if mo.flags and MF_MISSILE <> 0 then
       begin
-        if (mo.flags2 and MF2_FLOORBOUNCE <> 0) or (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) then
+        // JVAL: 20211121 - New bounch on walls mechanics
+        if (G_PlayingEngineVersion >= VERSION207) and (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) and (tmbounceline <> nil) and
+          (mo.flags2 and MF2_FLOORBOUNCE = 0) and (BlockingMobj = nil) then
+        begin
+          P_WallBounceMobj(mo, tmbounceline);
+          xmove := 0;
+          ymove := 0;
+        end
+        else if (mo.flags2 and MF2_FLOORBOUNCE <> 0) or (mo.flags3_ex and MF3_EX_WALLBOUNCE <> 0) then
         begin
           if BlockingMobj <> nil then
           begin
@@ -713,7 +722,7 @@ begin
     exit;
   end;
 
-  if (mo.flags3_ex and MF3_EX_BOUNCE) <> 0 then
+  if mo.flags3_ex and MF3_EX_BOUNCE <> 0 then
     exit; // no friction for bouncing objects
 
   if (mo.z > mo.floorz) and (mo.flags2 and MF2_FLY = 0) and (mo.flags2 and MF2_ONMOBJ = 0) then
