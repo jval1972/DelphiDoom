@@ -424,7 +424,7 @@ begin
   begin
     bystander.target := puncher;
     if bystander.info.seesound <> 0 then
-      A_SeeSound(bystander);
+      A_SeeSound1(bystander);
     P_SetMobjState(bystander, statenum_t(bystander.info.seestate));
   end;
 end;
@@ -1310,7 +1310,7 @@ begin
 
       if (actor.flags and MF_AMBUSH = 0) or P_CheckSight(actor, actor.target) then
       begin
-        A_SeeSound(actor);
+        A_SeeSound1(actor);
         actor.threshold := 10;
         P_SetMobjState(actor, statenum_t(actor.info.seestate));
       end;
@@ -1379,7 +1379,7 @@ begin
   // check for melee attack
   if (actor.info.meleestate <> 0) and P_CheckMeleeRange(actor) then
   begin
-    A_AttackSound(actor);
+    A_AttackSound1(actor);
     P_SetMobjState(actor, statenum_t(actor.info.meleestate));
     exit;
   end;
@@ -1451,7 +1451,7 @@ begin
        (actor.info.activesound <= Ord(sfx_agrac4)) then
       S_StartSound(actor, Ord(sfx_agrac1) + P_Random mod 4)
     else
-      A_ActiveSound(actor);
+      A_ActiveSound1(actor);
   end;
 end;
 
@@ -2484,7 +2484,7 @@ end;
 
 procedure A_Scream(actor: Pmobj_t);
 begin
-  A_DeathSound(actor);
+  A_DeathSound1(actor);
 end;
 
 procedure A_XScream(actor: Pmobj_t);
@@ -2492,7 +2492,7 @@ begin
   if actor.flags and MF_NOBLOOD <> 0 then
     if actor.info.deathsound <> 0 then
     begin
-      A_DeathSound(actor);
+      A_DeathSound1(actor);
       exit;
     end;
 
@@ -2523,7 +2523,7 @@ begin
     exit;
   end;
 
-  A_PainSound(actor);
+  A_PainSound1(actor);
 end;
 
 //

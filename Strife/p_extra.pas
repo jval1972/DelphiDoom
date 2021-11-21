@@ -268,7 +268,7 @@ begin
 
   slope := P_AimLineAttack(actor, bangle, range);
 
-  A_AttackSound(actor);
+  A_AttackSound1(actor);
 
   spread_xy := spread_xy div 256;
   for i := 0 to numbullets - 1 do

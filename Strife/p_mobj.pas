@@ -239,7 +239,7 @@ begin
 
   mo.flags := mo.flags and not MF_MISSILE;
 
-  A_DeathSound(mo);
+  A_DeathSound1(mo);
 end;
 
 //
@@ -1620,7 +1620,7 @@ begin
   else
     th := P_SpawnMobj(source.x, source.y, source.z + source.info.missileheight, _type);
 
-  A_SeeSound(th);
+  A_SeeSound1(th);
 
   th.target := source;  // where it came from
   an := R_PointToAngle2(source.x, source.y, dest.x, dest.y);
@@ -1690,7 +1690,7 @@ begin
 
   th := P_SpawnMobj(x, y, z, _type);
 
-  A_SeeSound(th);
+  A_SeeSound1(th);
 
   th.target := source;  // record missile's originator
 
@@ -1762,7 +1762,7 @@ begin
 
   mo := P_SpawnMobj(source.x, source.y, z, _type);
 
-  A_SeeSound(mo);
+  A_SeeSound1(mo);
 
   if owner <> nil then
     mo.target := owner
@@ -1800,7 +1800,7 @@ var
 begin
   result := P_SpawnMobj(source.x, source.y, source.z + (32 * FRACUNIT), _type);
 
-  A_SeeSound(result);
+  A_SeeSound1(result);
 
   result.target := source;    // where it came from
   result.angle := source.angle; // haleyjd 09/06/10: fix0red
@@ -1898,7 +1898,7 @@ begin
 
   th := P_SpawnMobj(x, y, z, _type);
 
-  A_SeeSound(th);
+  A_SeeSound1(th);
 
   th.target := source;
   th.angle := an;
