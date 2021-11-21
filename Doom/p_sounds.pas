@@ -3,7 +3,7 @@
 //  DelphiDoom: A modified and improved DOOM engine for Windows
 //  based on original Linux Doom as published by "id Software"
 //  Copyright (C) 1993-1996 by id Software, Inc.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -33,23 +33,23 @@ interface
 uses
   p_mobj_h;
 
-procedure A_SeeSound(actor: Pmobj_t; origin: Pmobj_t); overload;
-procedure A_SeeSound(actor: Pmobj_t); overload;
+procedure A_SeeSound(actor: Pmobj_t; origin: Pmobj_t);
+procedure A_SeeSound1(actor: Pmobj_t);
 
-procedure A_PainSound(actor: Pmobj_t; origin: Pmobj_t); overload;
-procedure A_PainSound(actor: Pmobj_t); overload;
+procedure A_PainSound(actor: Pmobj_t; origin: Pmobj_t);
+procedure A_PainSound1(actor: Pmobj_t);
 
-procedure A_AttackSound(actor: Pmobj_t; origin: Pmobj_t); overload;
-procedure A_AttackSound(actor: Pmobj_t); overload;
+procedure A_AttackSound(actor: Pmobj_t; origin: Pmobj_t);
+procedure A_AttackSound1(actor: Pmobj_t);
 
-procedure A_MeleeSound(actor: Pmobj_t; origin: Pmobj_t); overload;
-procedure A_MeleeSound(actor: Pmobj_t); overload;
+procedure A_MeleeSound(actor: Pmobj_t; origin: Pmobj_t);
+procedure A_MeleeSound1(actor: Pmobj_t);
 
-procedure A_DeathSound(actor: Pmobj_t; origin: Pmobj_t); overload;
-procedure A_DeathSound(actor: Pmobj_t); overload;
+procedure A_DeathSound(actor: Pmobj_t; origin: Pmobj_t);
+procedure A_DeathSound1(actor: Pmobj_t);
 
-procedure A_ActiveSound(actor: Pmobj_t; origin: Pmobj_t); overload;
-procedure A_ActiveSound(actor: Pmobj_t); overload;
+procedure A_ActiveSound(actor: Pmobj_t; origin: Pmobj_t);
+procedure A_ActiveSound1(actor: Pmobj_t);
 
 implementation
 
@@ -69,7 +69,7 @@ begin
     S_StartSound(origin, actor.info.seesound);
 end;
 
-procedure A_SeeSound(actor: Pmobj_t);
+procedure A_SeeSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_SPIDER)) or (actor._type = Ord(MT_CYBORG)) or (actor.info.flags_ex and MF_EX_BOSS <> 0) then
     A_SeeSound(actor, nil)
@@ -88,7 +88,7 @@ begin
     S_StartSound(origin, actor.info.painsound);
 end;
 
-procedure A_PainSound(actor: Pmobj_t);
+procedure A_PainSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_SPIDER)) or
      (actor._type = Ord(MT_CYBORG)) or
@@ -110,7 +110,7 @@ begin
     S_StartSound(origin, actor.info.attacksound);
 end;
 
-procedure A_AttackSound(actor: Pmobj_t);
+procedure A_AttackSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_SPIDER)) or
      (actor._type = Ord(MT_CYBORG)) or
@@ -132,7 +132,7 @@ begin
     S_StartSound(origin, actor.info.meleesound);
 end;
 
-procedure A_MeleeSound(actor: Pmobj_t);
+procedure A_MeleeSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_SPIDER)) or
      (actor._type = Ord(MT_CYBORG)) or
@@ -154,7 +154,7 @@ begin
     S_StartSound(origin, actor.info.deathsound);
 end;
 
-procedure A_DeathSound(actor: Pmobj_t);
+procedure A_DeathSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_SPIDER)) or
      (actor._type = Ord(MT_CYBORG)) or
@@ -176,7 +176,7 @@ begin
     S_StartSound(origin, actor.info.activesound);
 end;
 
-procedure A_ActiveSound(actor: Pmobj_t);
+procedure A_ActiveSound1(actor: Pmobj_t);
 begin
   if (actor._type = Ord(MT_SPIDER)) or
      (actor._type = Ord(MT_CYBORG)) or
