@@ -77,6 +77,9 @@ uses
   d_delphi,
   c_cmds,
   doomdef,
+  {$IFDEF  DOOM}
+  doomstat,
+  {$ENDIF}
   d_main,
   d_player,
   g_game,
@@ -254,6 +257,7 @@ var
   basetganame: string;
   jpgname: string;
   pngname: string;
+  gstr: string;
   l: integer;
   ret: boolean;
   dir: string;
@@ -270,7 +274,16 @@ begin
   MkDir(dir + '\SCREENSHOTS\PNG');
   if filename = '' then
   begin
-    basetganame := 'SSHOT_' + _GAME + '_';
+    {$IFDEF DOOM}
+    if customgame in [cg_chex, cg_chex2] then
+      gstr := 'CHEX'
+    else if customgame = cg_hacx then
+      gstr := 'HACX'
+    else
+    {$ENDIF}
+    gstr := _GAME;
+
+    basetganame := 'SSHOT_' + gstr + '_';
 
     tganame := M_SaveFileName('DATA\SCREENSHOTS\TGA\' + basetganame);
     jpgname := M_SaveFileName('DATA\SCREENSHOTS\JPG\' + basetganame);
