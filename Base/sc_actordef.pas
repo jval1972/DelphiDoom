@@ -1099,12 +1099,12 @@ var
       if strupper(firstword(stmp)) = 'BRIGHT' then
       begin
         bright := true;
-        action := secondword(stmp);
+        action := strtrim(Copy(stmp, 7, length(stmp) - 6));
       end
       else if strupper(lastword(stmp)) = 'BRIGHT' then
       begin
         bright := true;
-        action := Copy(stmp, 1, length(stmp) - 7);
+        action := strtrim(Copy(stmp, 1, length(stmp) - 6));
       end
       else
         action := stmp;
