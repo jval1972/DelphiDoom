@@ -485,6 +485,8 @@ procedure A_SetPushable(actor: Pmobj_t);
 
 procedure A_UnSetPushable(actor: Pmobj_t);
 
+procedure A_MatchTargetZ(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -6194,6 +6196,79 @@ begin
   {$IFDEF HERETIC_OR_HEXEN}
   actor.flags2 := actor.flags2 and not MF2_PUSHABLE;
   {$ENDIF}
+end;
+
+//  A_MatchTargetZ(const zspeed, threshold, [maxmomz])
+procedure A_MatchTargetZ(actor: Pmobj_t);
+var
+  speed: fixed_t;
+  threshold: fixed_t;
+  maxmomz: fixed_t;
+begin
+  if actor.target = nil then
+    exit;
+
+  if actor.state.params = nil then
+  begin
+    speed := FRACUNIT;
+    threshold := FRACUNIT;
+    maxmomz := actor.info.speed;
+  end
+  else
+  begin
+    if actor.state.params.Count > 0 then
+    begin
+      speed := actor.state.params.FixedVal[0];
+      if speed = 0 then
+        exit;
+    end
+    else
+      speed := FRACUNIT;
+
+    if actor.state.params.Count > 1 then
+      threshold := actor.state.params.FixedVal[1]
+    else
+      threshold := FRACUNIT;
+
+    if actor.state.params.Count > 2 then
+      maxmomz := actor.state.params.FixedVal[2]
+    else
+      maxmomz := actor.info.speed;
+  end;
+
+  if maxmomz < 256 then
+    maxmomz := maxmomz * FRACUNIT;
+
+  if actor.z + actor.momz < actor.target.z - threshold then
+  begin
+    actor.momz := actor.momz + speed;
+    if actor.momz > maxmomz then
+      actor.momz := maxmomz;
+    if actor.momz < 0 then
+      actor.momz := 0;
+  end
+  else if actor.z + actor.momz > actor.target.z + threshold then
+  begin
+    actor.momz := actor.momz - speed;
+    if actor.momz < -maxmomz then
+      actor.momz := -maxmomz;
+    if actor.momz > 0 then
+      actor.momz := 0;
+  end
+  else
+  begin
+    actor.momz := actor.momz * 15 div 16;
+    if actor.momz > maxmomz then
+      actor.momz := maxmomz
+    else if actor.momz < -maxmomz then
+      actor.momz := -maxmomz;
+  end;
+
+  // JVAL: 20200421 - Do not slam to floor - ceiling
+  if actor.z + actor.momz + actor.height >= actor.ceilingz then
+    actor.momz := (actor.ceilingz - actor.z - actor.height) div 2
+  else if actor.z + actor.momz <= actor.floorz then
+    actor.momz := actor.floorz - actor.z;
 end;
 
 end.

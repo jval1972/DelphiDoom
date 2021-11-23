@@ -54,6 +54,7 @@ Added ACTORDEF functions to play predefined sounds:
  -A_ActiveSound
 Distinct screenshot filenames for Chex Quest & Hacx.
 Accurate MF3_EX_WALLBOUNCE mechanics.
+Added "A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)" ACTORDEF function.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

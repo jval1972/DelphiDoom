@@ -48,7 +48,7 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 490;
+  DEHNUMACTIONS = 491;
 
 type
   deh_action_t = record
@@ -3515,6 +3515,9 @@ begin
   deh_actions[489].action.acp1 := @A_ActiveSound1;
   deh_actions[489].name := strupper('ActiveSound');
   {$IFDEF DLL}deh_actions[489].decl := 'A_ActiveSound()';{$ENDIF}
+  deh_actions[490].action.acp1 := @A_MatchTargetZ;
+  deh_actions[490].name := strupper('MatchTargetZ');
+  {$IFDEF DLL}deh_actions[490].decl := 'A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)';{$ENDIF}
 
   for i := 0 to DEHNUMACTIONS - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
