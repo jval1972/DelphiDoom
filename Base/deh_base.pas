@@ -69,6 +69,12 @@ procedure DEH_PrintWeapondef;
 
 procedure DEH_SaveWeapondef(const fname: string);
 
+function DEH_CurrentStateOwners: string;
+
+procedure DEH_PrintStateOwners;
+
+procedure DEH_SaveStateOwners(const fname: string);
+
 procedure DEH_PrintActions;
 
 function DEH_FixedOrFloat(const token: string; const tolerance: integer): fixed_t;
@@ -134,6 +140,7 @@ uses
   info_h,
   m_argv,
   sc_actordef,
+  sc_states,
   w_folders,
   w_pak,
   w_wad;
@@ -515,6 +522,69 @@ begin
     s.Text := DEH_CurrentWeapondef;
     s.SaveToFile(fname1);
     printf('WEAPONDEF settings saved to %s'#13#10, [fname1]);
+  finally
+    s.Free;
+  end;
+end;
+
+function DEH_CurrentStateOwners: string;
+var
+  i, j: integer;
+  s1, s2: string;
+begin
+  result := '';
+  for i := 0 to numstates - 1 do
+  begin
+    s1 := statenames.Strings[i];
+    s2 := '';
+    if states[i].owners <> nil then
+    begin
+      for j := 0 to states[i].owners.Count - 1 do
+        s2 := s2 + '"' + strtrim(mobjinfo[states[i].owners.Numbers[j]].name) + '" ';
+      s2 := strtrim(s2);
+    end;
+    result := result + s1 + '=' + s2 + #13#10;
+  end;
+end;
+
+procedure DEH_PrintStateOwners;
+var
+  s: TDSTringList;
+  i: integer;
+begin
+  s := TDSTringList.Create;
+  try
+    s.Text := DEH_CurrentStateOwners;
+    for i := 0 to s.Count - 1 do
+      printf('%s'#13#10, [s[i]]);
+  finally
+    s.Free;
+  end;
+end;
+
+procedure DEH_SaveStateOwners(const fname: string);
+var
+  s: TDSTringList;
+  fname1: string;
+begin
+  if fname = '' then
+  begin
+    printf('Please specify the filename to save current state owners'#13#10);
+    exit;
+  end;
+
+  if Pos('.', fname) = 0 then
+    fname1 := fname + '.txt'
+  else
+    fname1 := fname;
+
+  fname1 := M_SaveFileName(fname1);
+
+  s := TDSTringList.Create;
+  try
+    s.Text := DEH_CurrentStateOwners;
+    s.SaveToFile(fname1);
+    printf('State owners saved to %s'#13#10, [fname1]);
   finally
     s.Free;
   end;

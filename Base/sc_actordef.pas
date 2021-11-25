@@ -3076,6 +3076,8 @@ begin
   C_AddCmd('DEH_SaveActordef, SaveActordef', @DEH_SaveActordef);
   C_AddCmd('DEH_PrintWeapondef, PrintWeapondef', @DEH_PrintWeapondef);
   C_AddCmd('DEH_SaveWeapondef, SaveWeapondef', @DEH_SaveWeapondef);
+  C_AddCmd('DEH_PrintStateOwners, PrintStateOwners', @DEH_PrintStateOwners);
+  C_AddCmd('DEH_SaveStateOwners, SaveStateOwners', @DEH_SaveStateOwners);
 end;
 
 procedure SC_ShutDown;
