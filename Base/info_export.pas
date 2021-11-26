@@ -274,7 +274,7 @@ begin
     AddLn('mobjinfo[' + mname + '].activesound := ' + _sound_name_Ord(mobjinfo[i].activesound) + ';');
     AddLn('mobjinfo[' + mname + '].flags := ' + itoa_FLAGS(mobjinfo[i].flags, mobj_flags) + ';');
     {$IFDEF HERETIC_OR_HEXEN}
-    AddLn('mobjinfo[' + mname + '].flags2 := ' + itoa_FLAGS(mobjinfo[i].flags, mobj_flags2) + ';');
+    AddLn('mobjinfo[' + mname + '].flags2 := ' + itoa_FLAGS(mobjinfo[i].flags2, mobj_flags2) + ';');
     {$ENDIF}
     AddLn('mobjinfo[' + mname + '].flags_ex := ' + itoa_FLAGS(mobjinfo[i].flags_ex, mobj_flags_ex) + ';');
     AddLn('mobjinfo[' + mname + '].flags2_ex := ' + itoa_FLAGS(mobjinfo[i].flags2_ex, mobj_flags2_ex) + ';');
@@ -416,7 +416,7 @@ begin
     AddField('activesound', _sound_name_Ord(fmobjinfo[i].activesound));
     AddField('flags', itoa_FLAGS(fmobjinfo[i].flags, mobj_flags));
     {$IFDEF HERETIC_OR_HEXEN}
-    AddField('flags2', itoa_FLAGS(fmobjinfo[i].flags, mobj_flags2));
+    AddField('flags2', itoa_FLAGS(fmobjinfo[i].flags2, mobj_flags2));
     {$ENDIF}
     AddField('flags_ex', itoa_FLAGS(fmobjinfo[i].flags_ex, mobj_flags_ex));
     AddField('flags2_ex', itoa_FLAGS(fmobjinfo[i].flags2_ex, mobj_flags2_ex));
