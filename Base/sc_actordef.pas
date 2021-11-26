@@ -1523,9 +1523,7 @@ var
         AddRes('Codep Frame = ' + m_states[cnt].action);
         AddRes('Unknown 1 = 0');
         AddRes('Unknown 2 = 0');
-        {$IFNDEF STRIFE}
         AddRes('Flags_ex = ' + itoa(m_states[cnt].flags_ex));
-        {$ENDIF}
         AddRes('Owner = ' + mobj.name);
         AddRes('');
       end;
