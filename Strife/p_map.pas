@@ -746,7 +746,10 @@ begin
     end;
 
     // villsa [STRIFE] updated to strife version
-    if (tmthing.target <> nil) and (tmthing.target._type = thing._type) then
+    if (tmthing.target <> nil) and (
+       (tmthing.target._type = thing._type) or
+       // JVAL: 20211126 - Inherited actors do not hurt each other
+       (Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
     begin
       // Don't hit same species as originator.
       if thing = tmthing.target then

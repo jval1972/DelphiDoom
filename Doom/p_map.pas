@@ -759,7 +759,9 @@ begin
     if (tmthing.target <> nil) and (
         (tmthing.target._type = thing._type) or
         ((tmthing.target._type = Ord(MT_KNIGHT)) and (thing._type = Ord(MT_BRUISER))) or
-        ((tmthing.target._type = Ord(MT_BRUISER)) and (thing._type = Ord(MT_KNIGHT)))) then
+        ((tmthing.target._type = Ord(MT_BRUISER)) and (thing._type = Ord(MT_KNIGHT))) or
+        // JVAL: 20211126 - Inherited actors do not hurt each other
+		(Info_GetInheritance(tmthing.target.info) = Info_GetInheritance(thing.info))) then
     begin
       // Don't hit same species as originator.
       if thing = tmthing.target then
