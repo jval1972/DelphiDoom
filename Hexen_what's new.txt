@@ -53,6 +53,7 @@ Added ACTORDEF functions to play predefined sounds:
 Accurate MF3_EX_WALLBOUNCE mechanics.
 Added "A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)" ACTORDEF function.
 Added DEH_PrintStateOwners, PrintStateOwners, DEH_SaveStateOwners & SaveStateOwners console commands.
+Fixed bug that could rarely cause infinite loop in DEHACKED lumps, also now recognizes correctly multiple SUBMITNEWFRAMES commands in DEHACKED.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
