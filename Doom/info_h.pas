@@ -596,6 +596,8 @@ var
   MT_NUKAGESPLASH: integer = -2;
   MT_GREENBLOOD: integer = -2;
   MT_BLUEBLOOD: integer = -2;
+  MT_GREENGIBS: integer = -2;
+  MT_BLUEGIBS: integer = -2;
 
 implementation
 

@@ -22602,6 +22602,10 @@ begin
     MT_NUKAGESPLASH := Ord(MT_NONE);
   if not Info_ResolveMobjType('NUKAGE CHUNK', @MT_NUKAGECHUNK) then
     MT_NUKAGECHUNK := Ord(MT_NONE);
+  if not Info_ResolveMobjType('MT_GREENGIBS', @MT_GREENGIBS) then
+    MT_GREENGIBS := Ord(MT_NONE);
+  if not Info_ResolveMobjType('MT_BLUEGIBS', @MT_BLUEGIBS) then
+    MT_BLUEGIBS := Ord(MT_NONE);
 end;
 
 end.
