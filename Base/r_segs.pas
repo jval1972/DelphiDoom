@@ -888,10 +888,13 @@ begin
       begin
         sec2 := @sectors[frontsector.midsec];
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum2)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum2);
+        if r_fakecontrast then
+        begin
+          if curline.v1.y = curline.v2.y then
+            dec(lightnum2)
+          else if curline.v1.x = curline.v2.x then
+            inc(lightnum2);
+        end;
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -915,10 +918,13 @@ begin
       begin
         sec2 := pds.midsec;
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum2)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum2);
+        if r_fakecontrast then
+        begin
+          if curline.v1.y = curline.v2.y then
+            dec(lightnum2)
+          else if curline.v1.x = curline.v2.x then
+            inc(lightnum2);
+        end;
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -958,10 +964,13 @@ begin
           sec2 := PSubsector_t(pds.midvis.ssector).sector; // JVAL: 20211112 - Fix lightlevel
           lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         end;
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum2)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum2);
+        if r_fakecontrast then
+        begin
+          if curline.v1.y = curline.v2.y then
+            dec(lightnum2)
+          else if curline.v1.x = curline.v2.x then
+            inc(lightnum2);
+        end;
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -1518,10 +1527,13 @@ begin
       begin
         sec2 := @sectors[frontsector.midsec];
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum2)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum2);
+        if r_fakecontrast then
+        begin
+          if curline.v1.y = curline.v2.y then
+            dec(lightnum2)
+          else if curline.v1.x = curline.v2.x then
+            inc(lightnum2);
+        end;
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -1548,10 +1560,13 @@ begin
       begin
         sec2 := pds.midsec;
         lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum2)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum2);
+        if r_fakecontrast then
+        begin
+          if curline.v1.y = curline.v2.y then
+            dec(lightnum2)
+          else if curline.v1.x = curline.v2.x then
+            inc(lightnum2);
+        end;
 
         if lightnum2 < 0 then
           lightnum2 := 0
@@ -1591,10 +1606,13 @@ begin
           sec2 := PSubsector_t(pds.midvis.ssector).sector; // JVAL: 20211112 - Fix lightlevel
           lightnum2 := _SHR(sec2.lightlevel, LIGHTSEGSHIFT) + extralight;
         end;
-        if curline.v1.y = curline.v2.y then
-          dec(lightnum2)
-        else if curline.v1.x = curline.v2.x then
-          inc(lightnum2);
+        if r_fakecontrast then
+        begin
+          if curline.v1.y = curline.v2.y then
+            dec(lightnum2)
+          else if curline.v1.x = curline.v2.x then
+            inc(lightnum2);
+        end;
 
         if lightnum2 < 0 then
           lightnum2 := 0
