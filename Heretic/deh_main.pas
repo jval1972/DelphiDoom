@@ -2016,7 +2016,7 @@ begin
   mobj_flags2.Add('MF2_DONTDRAW');
 
   mobj_flags2_hash := TDEHStringsHashTable.Create;
-  mobj_flags2_hash.AssignList(mobj_flags);
+  mobj_flags2_hash.AssignList(mobj_flags2);
 
 
   mobj_flags_ex := TDTextList.Create;

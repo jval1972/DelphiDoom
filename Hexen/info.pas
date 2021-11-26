@@ -31432,7 +31432,7 @@ const // Hexen Original mobjinfo
   DO_mobjinfo: array[0..Ord(DO_NUMMOBJTYPES) - 1] of mobjinfo_t = (
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MAPSPOT
-    name: 'Map Spot';                                                           // name
+    name: 'MAP SPOT';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9001;                                                            // doomednum
     spawnstate: Ord(S_MAPSPOT);                                                 // spawnstate
@@ -31456,7 +31456,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP or MF_NOGRAVITY;                        // flags
-    flags2: MF2_BLASTED or MF2_FLY or MF2_PUSHABLE;                             // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -31500,7 +31500,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MAPSPOTGRAVITY
-    name: 'Gravity Map Spot';                                                   // name
+    name: 'GRAVITY MAP SPOT';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9013;                                                            // doomednum
     spawnstate: Ord(S_MAPSPOT);                                                 // spawnstate
@@ -31524,7 +31524,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: 0;                                                                   // flags
-    flags2: 0;                                                                  // flags2
+    flags2: MF2_DONTDRAW;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -31592,7 +31592,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -31660,7 +31660,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -31728,7 +31728,7 @@ const // Hexen Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -31796,7 +31796,7 @@ const // Hexen Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -31864,7 +31864,7 @@ const // Hexen Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_RIP;                                          // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -31932,7 +31932,7 @@ const // Hexen Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32000,7 +32000,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32044,7 +32044,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FLAME_SMALL_TEMP
-    name: 'Small Timed Flame';                                                  // name
+    name: 'SMALL TIMED FLAME';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10500;                                                           // doomednum
     spawnstate: Ord(S_FLAME_TSMALL1);                                           // spawnstate
@@ -32068,7 +32068,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: 0;                                                                   // flags
-    flags2: 0;                                                                  // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32112,7 +32112,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FLAME_LARGE_TEMP
-    name: 'Large Timed Flame';                                                  // name
+    name: 'LARGE TIMED FLAME';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10502;                                                           // doomednum
     spawnstate: Ord(S_FLAME_TLARGE1);                                           // spawnstate
@@ -32136,7 +32136,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: 0;                                                                   // flags
-    flags2: 0;                                                                  // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32180,7 +32180,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FLAME_SMALL
-    name: 'Small Flame';                                                        // name
+    name: 'SMALL FLAME';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10501;                                                           // doomednum
     spawnstate: Ord(S_FLAME_SMALL1);                                            // spawnstate
@@ -32204,7 +32204,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: 0;                                                                   // flags
-    flags2: 0;                                                                  // flags2
+    flags2: MF2_NOTELEPORT or MF2_DONTDRAW;                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32248,7 +32248,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FLAME_LARGE
-    name: 'Large Flame';                                                        // name
+    name: 'LARGE FLAME';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10503;                                                           // doomednum
     spawnstate: Ord(S_FLAME_LARGE1);                                            // spawnstate
@@ -32272,7 +32272,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: 0;                                                                   // flags
-    flags2: 0;                                                                  // flags2
+    flags2: MF2_NOTELEPORT or MF2_DONTDRAW;                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32316,7 +32316,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_HEALINGBOTTLE
-    name: 'Crystal Vial';                                                       // name
+    name: 'CRYSTAL VIAL';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 81;                                                              // doomednum
     spawnstate: Ord(S_ITEM_PTN1_1);                                             // spawnstate
@@ -32340,7 +32340,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32384,7 +32384,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_HEALTHFLASK
-    name: 'Quartz Flask';                                                       // name
+    name: 'QUARTZ FLASK';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 82;                                                              // doomednum
     spawnstate: Ord(S_ARTI_PTN2_1);                                             // spawnstate
@@ -32408,7 +32408,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32452,7 +32452,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIFLY
-    name: 'Wings Of Wrath';                                                     // name
+    name: 'WINGS OF WRATH';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 83;                                                              // doomednum
     spawnstate: Ord(S_ARTI_SOAR1);                                              // spawnstate
@@ -32476,7 +32476,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32520,7 +32520,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIINVULNERABILITY
-    name: 'Icon Of The Defender';                                               // name
+    name: 'ICON OF THE DEFENDER';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 84;                                                              // doomednum
     spawnstate: Ord(S_ARTI_INVU1);                                              // spawnstate
@@ -32544,7 +32544,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32588,7 +32588,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SUMMONMAULATOR
-    name: 'Dark Servant';                                                       // name
+    name: 'DARK SERVANT';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 86;                                                              // doomednum
     spawnstate: Ord(S_ARTI_SUMMON);                                             // spawnstate
@@ -32612,7 +32612,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32680,7 +32680,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32724,7 +32724,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_THRUSTFLOOR_UP
-    name: 'Spike Up';                                                           // name
+    name: 'SPIKE UP';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10091;                                                           // doomednum
     spawnstate: Ord(S_THRUSTINIT2_1);                                           // spawnstate
@@ -32748,7 +32748,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32792,7 +32792,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_THRUSTFLOOR_DOWN
-    name: 'Spike Down';                                                         // name
+    name: 'SPIKE DOWN';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10090;                                                           // doomednum
     spawnstate: Ord(S_THRUSTINIT1_1);                                           // spawnstate
@@ -32816,7 +32816,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: 0;                                                                   // flags
-    flags2: 0;                                                                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT or MF2_DONTDRAW;                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32860,7 +32860,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TELEPORTOTHER
-    name: 'Banishment Device';                                                  // name
+    name: 'BANISHMENT DEVICE';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10040;                                                           // doomednum
     spawnstate: Ord(S_ARTI_TELOTHER1);                                          // spawnstate
@@ -32884,7 +32884,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -32952,7 +32952,7 @@ const // Hexen Original mobjinfo
     damage: 10001;                                                              // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33020,7 +33020,7 @@ const // Hexen Original mobjinfo
     damage: 10001;                                                              // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33088,7 +33088,7 @@ const // Hexen Original mobjinfo
     damage: 10001;                                                              // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33156,7 +33156,7 @@ const // Hexen Original mobjinfo
     damage: 10001;                                                              // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33224,7 +33224,7 @@ const // Hexen Original mobjinfo
     damage: 10001;                                                              // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33292,7 +33292,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33360,7 +33360,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33428,7 +33428,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33496,7 +33496,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33564,7 +33564,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33632,7 +33632,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33700,7 +33700,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33768,7 +33768,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33836,7 +33836,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33904,7 +33904,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -33948,7 +33948,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FOGSPAWNER
-    name: 'For Spawner';                                                        // name
+    name: 'FOR SPAWNER';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10000;                                                           // doomednum
     spawnstate: Ord(S_SPAWNFOG1);                                               // spawnstate
@@ -33972,7 +33972,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_BLASTED or MF2_FLY;                                             // flags2
+    flags2: MF2_FLOATBOB or MF2_DONTDRAW;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34016,7 +34016,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FOGPATCHS
-    name: 'Small Fog Patch';                                                    // name
+    name: 'SMALL FOG PATCH';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10001;                                                           // doomednum
     spawnstate: Ord(S_FOGPATCHS1);                                              // spawnstate
@@ -34040,7 +34040,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOCLIP or MF_FLOAT or MF_SHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_PASSMOBJ or MF2_DROPPED or MF2_TELESTOMP; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34084,7 +34084,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FOGPATCHM
-    name: 'Medium Fog Patch';                                                   // name
+    name: 'MEDIUM FOG PATCH';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10002;                                                           // doomednum
     spawnstate: Ord(S_FOGPATCHM1);                                              // spawnstate
@@ -34108,7 +34108,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOCLIP or MF_FLOAT or MF_SHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_PASSMOBJ or MF2_DROPPED or MF2_TELESTOMP; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34152,7 +34152,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FOGPATCHL
-    name: 'Large Fog Patch';                                                    // name
+    name: 'LARGE FOG PATCH';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10003;                                                           // doomednum
     spawnstate: Ord(S_FOGPATCHL1);                                              // spawnstate
@@ -34176,7 +34176,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOCLIP or MF_FLOAT or MF_SHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_PASSMOBJ or MF2_DROPPED or MF2_TELESTOMP; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34244,7 +34244,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_BLASTED or MF2_FLY;                                             // flags2
+    flags2: MF2_DONTDRAW;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34312,7 +34312,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34380,7 +34380,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34448,7 +34448,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34516,7 +34516,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34584,7 +34584,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34652,7 +34652,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34720,7 +34720,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34788,7 +34788,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34856,7 +34856,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34924,7 +34924,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -34968,7 +34968,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIEGG
-    name: 'Porkalator';                                                         // name
+    name: 'PORKALATOR';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 30;                                                              // doomednum
     spawnstate: Ord(S_ARTI_EGGC1);                                              // spawnstate
@@ -34992,7 +34992,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35060,7 +35060,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35104,7 +35104,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTISUPERHEAL
-    name: 'Mystic Urn';                                                         // name
+    name: 'MYSTIC URN';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 32;                                                              // doomednum
     spawnstate: Ord(S_ARTI_SPHL1);                                              // spawnstate
@@ -35128,7 +35128,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35172,7 +35172,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZWINGEDSTATUENOSKULL
-    name: 'Yorick''s Statue';                                                   // name
+    name: 'YORICK''S STATUE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9011;                                                            // doomednum
     spawnstate: Ord(S_ZWINGEDSTATUENOSKULL);                                    // spawnstate
@@ -35196,7 +35196,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35240,7 +35240,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZGEMPEDESTAL
-    name: 'Pedestal Of D''Sparil';                                              // name
+    name: 'PEDESTAL OF D''SPARIL';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9012;                                                            // doomednum
     spawnstate: Ord(S_ZGEMPEDESTAL1);                                           // spawnstate
@@ -35264,7 +35264,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35308,7 +35308,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZSKULL
-    name: 'Yorick''s Skull';                                                    // name
+    name: 'YORICK''S SKULL';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9002;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZSKULL);                                           // spawnstate
@@ -35332,7 +35332,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35376,7 +35376,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEMBIG
-    name: 'Heart Of D''Sparil';                                                 // name
+    name: 'HEART OF D''SPARIL';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9003;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEMBIG);                                          // spawnstate
@@ -35400,7 +35400,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35444,7 +35444,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEMRED
-    name: 'Ruby Planet';                                                        // name
+    name: 'RUBY PLANET';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9004;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEMRED);                                          // spawnstate
@@ -35468,7 +35468,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35512,7 +35512,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEMGREEN1
-    name: 'Emerald Planet 1';                                                   // name
+    name: 'EMERALD PLANET 1';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9005;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEMGREEN1);                                       // spawnstate
@@ -35536,7 +35536,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35580,7 +35580,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEMGREEN2
-    name: 'Emerald Planet 2';                                                   // name
+    name: 'EMERALD PLANET 2';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9009;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEMGREEN2);                                       // spawnstate
@@ -35604,7 +35604,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35648,7 +35648,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEMBLUE1
-    name: 'Sapphire Planet 1';                                                  // name
+    name: 'SAPPHIRE PLANET 1';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9006;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEMBLUE1);                                        // spawnstate
@@ -35672,7 +35672,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35716,7 +35716,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEMBLUE2
-    name: 'Sapphire Planet 2';                                                  // name
+    name: 'SAPPHIRE PLANET 2';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9010;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEMBLUE2);                                        // spawnstate
@@ -35740,7 +35740,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35784,7 +35784,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZBOOK1
-    name: 'Daemon Codex';                                                       // name
+    name: 'DAEMON CODEX';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9007;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZBOOK1);                                           // spawnstate
@@ -35808,7 +35808,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35852,7 +35852,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZBOOK2
-    name: 'Liber Obscura';                                                      // name
+    name: 'LIBER OBSCURA';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9008;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZBOOK2);                                           // spawnstate
@@ -35876,7 +35876,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -35944,7 +35944,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36012,7 +36012,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36080,7 +36080,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36148,7 +36148,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36192,7 +36192,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEAR
-    name: 'Steel Clock Gear';                                                   // name
+    name: 'STEEL CLOCK GEAR';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9018;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEAR_1);                                          // spawnstate
@@ -36216,7 +36216,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36260,7 +36260,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEAR2
-    name: 'Bronze Clock Gear';                                                  // name
+    name: 'BRONZE CLOCK GEAR';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9019;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEAR2_1);                                         // spawnstate
@@ -36284,7 +36284,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36328,7 +36328,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEAR3
-    name: 'Steel and Bronze Clock Gear';                                        // name
+    name: 'STEEL AND BRONZE CLOCK GEAR';                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9020;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEAR3_1);                                         // spawnstate
@@ -36352,7 +36352,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36396,7 +36396,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPUZZGEAR4
-    name: 'Bronze and Steel Clock Gear';                                        // name
+    name: 'BRONZE AND STEEL CLOCK GEAR';                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9021;                                                            // doomednum
     spawnstate: Ord(S_ARTIPUZZGEAR4_1);                                         // spawnstate
@@ -36420,7 +36420,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36464,7 +36464,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTITORCH
-    name: 'Torch';                                                              // name
+    name: 'TORCH';                                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 33;                                                              // doomednum
     spawnstate: Ord(S_ARTI_TRCH1);                                              // spawnstate
@@ -36488,7 +36488,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36556,7 +36556,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOGRAVITY or MF_ALTSHADOW;                                        // flags
-    flags2: MF2_PUSHABLE or MF2_NODMGTHRUST;                                    // flags2
+    flags2: MF2_FIREDAMAGE;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36600,7 +36600,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTITELEPORT
-    name: 'Chaos Device';                                                       // name
+    name: 'CHAOS DEVICE';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 36;                                                              // doomednum
     spawnstate: Ord(S_ARTI_ATLP1);                                              // spawnstate
@@ -36624,7 +36624,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36668,7 +36668,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIPOISONBAG
-    name: 'Flechette';                                                          // name
+    name: 'FLECHETTE';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8000;                                                            // doomednum
     spawnstate: Ord(S_ARTI_PSBG1);                                              // spawnstate
@@ -36692,7 +36692,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36760,7 +36760,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36828,7 +36828,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_SHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP; // flags2
+    flags2: MF2_NODMGTHRUST;                                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36896,7 +36896,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_FIREDAMAGE;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -36940,7 +36940,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SPEEDBOOTS
-    name: 'Boots Of Speed';                                                     // name
+    name: 'BOOTS OF SPEED';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8002;                                                            // doomednum
     spawnstate: Ord(S_ARTI_BOOTS1);                                             // spawnstate
@@ -36964,7 +36964,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37008,7 +37008,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BOOSTMANA
-    name: 'Crater Of Might';                                                    // name
+    name: 'CRATER OF MIGHT';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8003;                                                            // doomednum
     spawnstate: Ord(S_ARTI_MANA);                                               // spawnstate
@@ -37032,7 +37032,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37076,7 +37076,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BOOSTARMOR
-    name: 'Dragonskin Bracers';                                                 // name
+    name: 'DRAGONSKIN BRACERS';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8041;                                                            // doomednum
     spawnstate: Ord(S_ARTI_ARMOR1);                                             // spawnstate
@@ -37100,7 +37100,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37144,7 +37144,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BLASTRADIUS
-    name: 'Disc Of Repulsion';                                                  // name
+    name: 'DISC OF REPULSION';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10110;                                                           // doomednum
     spawnstate: Ord(S_ARTI_BLAST1);                                             // spawnstate
@@ -37168,7 +37168,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37212,7 +37212,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_HEALRADIUS
-    name: 'Mystic Ambit Incant';                                                // name
+    name: 'MYSTIC AMBIT INCANT';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10120;                                                           // doomednum
     spawnstate: Ord(S_ARTI_HEALRAD1);                                           // spawnstate
@@ -37236,7 +37236,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37304,7 +37304,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37372,7 +37372,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37440,7 +37440,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37508,7 +37508,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37576,7 +37576,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37644,7 +37644,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37688,7 +37688,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC0
-    name: 'Winged Statue';                                                      // name
+    name: 'WINGED STATUE';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 5;                                                               // doomednum
     spawnstate: Ord(S_ZWINGEDSTATUE1);                                          // spawnstate
@@ -37712,7 +37712,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -37756,7 +37756,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC1
-    name: 'Tiny Mossy Rock';                                                    // name
+    name: 'TINY MOSSY ROCK';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 6;                                                               // doomednum
     spawnstate: Ord(S_ZROCK1_1);                                                // spawnstate
@@ -37824,7 +37824,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC2
-    name: 'Small Mossy Rock';                                                   // name
+    name: 'SMALL MOSSY ROCK';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 7;                                                               // doomednum
     spawnstate: Ord(S_ZROCK2_1);                                                // spawnstate
@@ -37892,7 +37892,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC3
-    name: 'Medium Mossy Rock';                                                  // name
+    name: 'MEDIUM MOSSY ROCK';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9;                                                               // doomednum
     spawnstate: Ord(S_ZROCK3_1);                                                // spawnstate
@@ -37960,7 +37960,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC4
-    name: 'Big Mossy Rock';                                                     // name
+    name: 'BIG MOSSY ROCK';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 15;                                                              // doomednum
     spawnstate: Ord(S_ZROCK4_1);                                                // spawnstate
@@ -37984,7 +37984,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38028,7 +38028,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC5
-    name: 'Lit Chandelier';                                                     // name
+    name: 'LIT CHANDELIER';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 17;                                                              // doomednum
     spawnstate: Ord(S_ZCHANDELIER1);                                            // spawnstate
@@ -38052,7 +38052,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38096,7 +38096,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC6
-    name: 'Unlit Chandelier';                                                   // name
+    name: 'UNLIT CHANDELIER';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8063;                                                            // doomednum
     spawnstate: Ord(S_ZCHANDELIER_U);                                           // spawnstate
@@ -38120,7 +38120,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38164,7 +38164,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC7
-    name: 'Dead Tree';                                                          // name
+    name: 'DEAD TREE';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 24;                                                              // doomednum
     spawnstate: Ord(S_ZTREEDEAD1);                                              // spawnstate
@@ -38188,7 +38188,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38232,7 +38232,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC8
-    name: 'Destructable Dead Tree';                                             // name
+    name: 'DESTRUCTABLE DEAD TREE';                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 25;                                                              // doomednum
     spawnstate: Ord(S_ZTREE);                                                   // spawnstate
@@ -38256,7 +38256,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38300,7 +38300,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TREEDESTRUCTIBLE
-    name: 'Leafless Tree';                                                      // name
+    name: 'LEAFLESS TREE';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8062;                                                            // doomednum
     spawnstate: Ord(S_ZTREEDESTRUCTIBLE1);                                      // spawnstate
@@ -38324,7 +38324,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38368,7 +38368,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC9
-    name: 'Mossy Tree 1';                                                       // name
+    name: 'MOSSY TREE 1';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 26;                                                              // doomednum
     spawnstate: Ord(S_ZTREESWAMP182_1);                                         // spawnstate
@@ -38392,7 +38392,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38436,7 +38436,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC10
-    name: 'Mossy Tree 2';                                                       // name
+    name: 'MOSSY TREE 2';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 27;                                                              // doomednum
     spawnstate: Ord(S_ZTREESWAMP172_1);                                         // spawnstate
@@ -38460,7 +38460,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38504,7 +38504,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC11
-    name: 'Burned Tree Stump';                                                  // name
+    name: 'BURNED TREE STUMP';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 28;                                                              // doomednum
     spawnstate: Ord(S_ZSTUMPBURNED1);                                           // spawnstate
@@ -38528,7 +38528,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38572,7 +38572,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC12
-    name: 'Bare Tree Stump';                                                    // name
+    name: 'BARE TREE STUMP';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 29;                                                              // doomednum
     spawnstate: Ord(S_ZSTUMPBARE1);                                             // spawnstate
@@ -38596,7 +38596,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -38640,7 +38640,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC13
-    name: 'Tree Stump 1';                                                       // name
+    name: 'TREE STUMP 1';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 37;                                                              // doomednum
     spawnstate: Ord(S_ZSTUMPSWAMP1_1);                                          // spawnstate
@@ -38708,7 +38708,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC14
-    name: 'Tree Stump 2';                                                       // name
+    name: 'TREE STUMP 2';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 38;                                                              // doomednum
     spawnstate: Ord(S_ZSTUMPSWAMP2_1);                                          // spawnstate
@@ -38776,7 +38776,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC15
-    name: 'Large Mushroom 1';                                                   // name
+    name: 'LARGE MUSHROOM 1';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 39;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMLARGE1_1);                                         // spawnstate
@@ -38844,7 +38844,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC16
-    name: 'Large Mushroom 2';                                                   // name
+    name: 'LARGE MUSHROOM 2';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 40;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMLARGE2_1);                                         // spawnstate
@@ -38912,7 +38912,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC17
-    name: 'Medium Mushroom';                                                    // name
+    name: 'MEDIUM MUSHROOM';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 41;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMLARGE3_1);                                         // spawnstate
@@ -38980,7 +38980,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC18
-    name: 'Small Mushroom 1';                                                   // name
+    name: 'SMALL MUSHROOM 1';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 42;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMSMALL1_1);                                         // spawnstate
@@ -39048,7 +39048,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC19
-    name: 'Small Mushroom 2';                                                   // name
+    name: 'SMALL MUSHROOM 2';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 44;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMSMALL2_1);                                         // spawnstate
@@ -39116,7 +39116,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC20
-    name: 'Small Mushroom 3';                                                   // name
+    name: 'SMALL MUSHROOM 3';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 45;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMSMALL3_1);                                         // spawnstate
@@ -39184,7 +39184,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC21
-    name: 'Small Mushroom 4';                                                   // name
+    name: 'SMALL MUSHROOM 4';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 46;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMSMALL4_1);                                         // spawnstate
@@ -39252,7 +39252,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC22
-    name: 'Small Mushroom 5';                                                   // name
+    name: 'SMALL MUSHROOM 5';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 47;                                                              // doomednum
     spawnstate: Ord(S_ZSHROOMSMALL5_1);                                         // spawnstate
@@ -39320,7 +39320,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC23
-    name: 'Pillar Stalagmite';                                                  // name
+    name: 'PILLAR STALAGMITE';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 48;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITEPILLAR1);                                      // spawnstate
@@ -39344,7 +39344,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39388,7 +39388,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC24
-    name: 'Large Stalagmite';                                                   // name
+    name: 'LARGE STALAGMITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 49;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITELARGE1);                                       // spawnstate
@@ -39412,7 +39412,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39456,7 +39456,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC25
-    name: 'Medium Stalagmite';                                                  // name
+    name: 'MEDIUM STALAGMITE';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 50;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITEMEDIUM1);                                      // spawnstate
@@ -39480,7 +39480,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39524,7 +39524,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC26
-    name: 'Small Stalagmite';                                                   // name
+    name: 'SMALL STALAGMITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 51;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITESMALL1);                                       // spawnstate
@@ -39548,7 +39548,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39592,7 +39592,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC27
-    name: ' Large Stalactite';                                                  // name
+    name: 'LARGE STALACTITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 52;                                                              // doomednum
     spawnstate: Ord(S_ZSTALACTITELARGE1);                                       // spawnstate
@@ -39616,7 +39616,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39660,7 +39660,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC28
-    name: 'Medium Stalactite';                                                  // name
+    name: 'MEDIUM STALACTITE';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 56;                                                              // doomednum
     spawnstate: Ord(S_ZSTALACTITEMEDIUM1);                                      // spawnstate
@@ -39684,7 +39684,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39728,7 +39728,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC29
-    name: 'Small Stalactite';                                                   // name
+    name: 'SMALL STALACTITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 57;                                                              // doomednum
     spawnstate: Ord(S_ZSTALACTITESMALL1);                                       // spawnstate
@@ -39752,7 +39752,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39796,7 +39796,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC30
-    name: 'Hanging Moss 1';                                                     // name
+    name: 'HANGING MOSS 1';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 58;                                                              // doomednum
     spawnstate: Ord(S_ZMOSSCEILING1_1);                                         // spawnstate
@@ -39820,7 +39820,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39864,7 +39864,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC31
-    name: 'Hanging Moss 2';                                                     // name
+    name: 'HANGING MOSS 2';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 59;                                                              // doomednum
     spawnstate: Ord(S_ZMOSSCEILING2_1);                                         // spawnstate
@@ -39888,7 +39888,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -39932,7 +39932,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC32
-    name: 'Mossy Dead Tree';                                                    // name
+    name: 'MOSSY DEAD TREE';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 60;                                                              // doomednum
     spawnstate: Ord(S_ZSWAMPVINE1);                                             // spawnstate
@@ -39956,7 +39956,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40000,7 +40000,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC33
-    name: 'Impaled Corpse';                                                     // name
+    name: 'IMPALED CORPSE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 61;                                                              // doomednum
     spawnstate: Ord(S_ZCORPSEKABOB1);                                           // spawnstate
@@ -40024,7 +40024,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40068,7 +40068,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC34
-    name: 'Sleeping Corpse';                                                    // name
+    name: 'SLEEPING CORPSE';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 62;                                                              // doomednum
     spawnstate: Ord(S_ZCORPSESLEEPING1);                                        // spawnstate
@@ -40136,7 +40136,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC35
-    name: 'RIP Tombstone';                                                      // name
+    name: 'RIP TOMBSTONE';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 63;                                                              // doomednum
     spawnstate: Ord(S_ZTOMBSTONERIP1);                                          // spawnstate
@@ -40160,7 +40160,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40204,7 +40204,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC36
-    name: 'Shane Tombstone';                                                    // name
+    name: 'SHANE TOMBSTONE';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 64;                                                              // doomednum
     spawnstate: Ord(S_ZTOMBSTONESHANE1);                                        // spawnstate
@@ -40228,7 +40228,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40272,7 +40272,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC37
-    name: 'Slimy Tombstone';                                                    // name
+    name: 'SLIMY TOMBSTONE';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 65;                                                              // doomednum
     spawnstate: Ord(S_ZTOMBSTONEBIGCROSS1);                                     // spawnstate
@@ -40296,7 +40296,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40340,7 +40340,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC38
-    name: 'Brian R Tombstone';                                                  // name
+    name: 'BRIAN R TOMBSTONE';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 66;                                                              // doomednum
     spawnstate: Ord(S_ZTOMBSTONEBRIANR1);                                       // spawnstate
@@ -40364,7 +40364,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40408,7 +40408,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC39
-    name: 'Cross Circle Tombstone';                                             // name
+    name: 'CROSS CIRCLE TOMBSTONE';                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 67;                                                              // doomednum
     spawnstate: Ord(S_ZTOMBSTONECROSSCIRCLE1);                                  // spawnstate
@@ -40432,7 +40432,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40476,7 +40476,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC40
-    name: 'Small Cross Tombstone';                                              // name
+    name: 'SMALL CROSS TOMBSTONE';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 68;                                                              // doomednum
     spawnstate: Ord(S_ZTOMBSTONESMALLCROSS1);                                   // spawnstate
@@ -40500,7 +40500,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40544,7 +40544,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC41
-    name: 'Brian P Tombstone';                                                  // name
+    name: 'BRIAN P TOMBSTONE';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 69;                                                              // doomednum
     spawnstate: Ord(S_ZTOMBSTONEBRIANP1);                                       // spawnstate
@@ -40568,7 +40568,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40612,7 +40612,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC42
-    name: 'Hanging Corpse';                                                     // name
+    name: 'HANGING CORPSE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 71;                                                              // doomednum
     spawnstate: Ord(S_CORPSEHANGING_1);                                         // spawnstate
@@ -40636,7 +40636,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40680,7 +40680,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC43
-    name: 'Tall Stone Gargoyle';                                                // name
+    name: 'TALL STONE GARGOYLE';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 72;                                                              // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEGREENTALL_1);                              // spawnstate
@@ -40704,7 +40704,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40748,7 +40748,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC44
-    name: 'Tall Ice Gargoyle';                                                  // name
+    name: 'TALL ICE GARGOYLE';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 73;                                                              // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEBLUETALL_1);                               // spawnstate
@@ -40772,7 +40772,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40816,7 +40816,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC45
-    name: 'Short Stone Gargoyle';                                               // name
+    name: 'SHORT STONE GARGOYLE';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 74;                                                              // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEGREENSHORT_1);                             // spawnstate
@@ -40840,7 +40840,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40884,7 +40884,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC46
-    name: 'Short Ice Gargoyle';                                                 // name
+    name: 'SHORT ICE GARGOYLE';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 76;                                                              // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEBLUESHORT_1);                              // spawnstate
@@ -40908,7 +40908,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -40952,7 +40952,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC47
-    name: 'Tall Rusty Gargoyle';                                                // name
+    name: 'TALL RUSTY GARGOYLE';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8044;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLESTRIPETALL_1);                             // spawnstate
@@ -40976,7 +40976,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41020,7 +41020,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC48
-    name: 'Tall Dark Lava Gargoyle';                                            // name
+    name: 'TALL DARK LAVA GARGOYLE';                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8045;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEDARKREDTALL_1);                            // spawnstate
@@ -41044,7 +41044,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41088,7 +41088,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC49
-    name: 'Tall Lava Gargoyle';                                                 // name
+    name: 'TALL LAVA GARGOYLE';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8046;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEREDTALL_1);                                // spawnstate
@@ -41112,7 +41112,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41156,7 +41156,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC50
-    name: 'Tall Bronze Gargoyle';                                               // name
+    name: 'TALL BRONZE GARGOYLE';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8047;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLETANTALL_1);                                // spawnstate
@@ -41180,7 +41180,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41224,7 +41224,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC51
-    name: 'Tall Steel Gargoyle';                                                // name
+    name: 'TALL STEEL GARGOYLE';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8048;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLERUSTTALL_1);                               // spawnstate
@@ -41248,7 +41248,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41292,7 +41292,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC52
-    name: 'Short Dark Lava Gargoyle';                                           // name
+    name: 'SHORT DARK LAVA GARGOYLE';                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8049;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEDARKREDSHORT_1);                           // spawnstate
@@ -41316,7 +41316,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41360,7 +41360,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC53
-    name: 'Short Lava Gargoyle';                                                // name
+    name: 'SHORT LAVA GARGOYLE';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8050;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLEREDSHORT_1);                               // spawnstate
@@ -41384,7 +41384,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41428,7 +41428,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC54
-    name: 'Short Bronze Gargoyle';                                              // name
+    name: 'SHORT BRONZE GARGOYLE';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8051;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLETANSHORT_1);                               // spawnstate
@@ -41452,7 +41452,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41496,7 +41496,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC55
-    name: 'Short Steel Gargoyle';                                               // name
+    name: 'SHORT STEEL GARGOYLE';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8052;                                                            // doomednum
     spawnstate: Ord(S_ZSTATUEGARGOYLERUSTSHORT_1);                              // spawnstate
@@ -41520,7 +41520,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41564,7 +41564,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC56
-    name: 'Battle Rag Banner';                                                  // name
+    name: 'BATTLE RAG BANNER';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 77;                                                              // doomednum
     spawnstate: Ord(S_ZBANNERTATTERED_1);                                       // spawnstate
@@ -41588,7 +41588,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41632,7 +41632,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC57
-    name: 'Tall Tree 1';                                                        // name
+    name: 'TALL TREE 1';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 78;                                                              // doomednum
     spawnstate: Ord(S_ZTREELARGE1);                                             // spawnstate
@@ -41656,7 +41656,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41700,7 +41700,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC58
-    name: 'Tall Tree 2';                                                        // name
+    name: 'TALL TREE 2';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 79;                                                              // doomednum
     spawnstate: Ord(S_ZTREELARGE2);                                             // spawnstate
@@ -41724,7 +41724,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41768,7 +41768,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC59
-    name: 'Gnarled Tree 1';                                                     // name
+    name: 'GNARLED TREE 1';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 80;                                                              // doomednum
     spawnstate: Ord(S_ZTREEGNARLED1);                                           // spawnstate
@@ -41792,7 +41792,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41836,7 +41836,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC60
-    name: 'Gnarled Tree 2';                                                     // name
+    name: 'GNARLED TREE 2';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 87;                                                              // doomednum
     spawnstate: Ord(S_ZTREEGNARLED2);                                           // spawnstate
@@ -41860,7 +41860,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41904,7 +41904,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC61
-    name: 'Log';                                                                // name
+    name: 'LOG';                                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 88;                                                              // doomednum
     spawnstate: Ord(S_ZLOG);                                                    // spawnstate
@@ -41928,7 +41928,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -41972,7 +41972,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC62
-    name: 'Large Icicle';                                                       // name
+    name: 'LARGE ICICLE';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 89;                                                              // doomednum
     spawnstate: Ord(S_ZSTALACTITEICELARGE);                                     // spawnstate
@@ -41996,7 +41996,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42040,7 +42040,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC63
-    name: 'Medium Icicle';                                                      // name
+    name: 'MEDIUM ICICLE';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 90;                                                              // doomednum
     spawnstate: Ord(S_ZSTALACTITEICEMEDIUM);                                    // spawnstate
@@ -42064,7 +42064,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42108,7 +42108,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC64
-    name: 'Small Icicle';                                                       // name
+    name: 'SMALL ICICLE';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 91;                                                              // doomednum
     spawnstate: Ord(S_ZSTALACTITEICESMALL);                                     // spawnstate
@@ -42132,7 +42132,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42176,7 +42176,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC65
-    name: 'Tiny Icicle';                                                        // name
+    name: 'TINY ICICLE';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 92;                                                              // doomednum
     spawnstate: Ord(S_ZSTALACTITEICETINY);                                      // spawnstate
@@ -42200,7 +42200,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42244,7 +42244,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC66
-    name: 'Large Ice Spike';                                                    // name
+    name: 'LARGE ICE SPIKE';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 93;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITEICELARGE);                                     // spawnstate
@@ -42268,7 +42268,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42312,7 +42312,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC67
-    name: 'Medium Ice Spike';                                                   // name
+    name: 'MEDIUM ICE SPIKE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 94;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITEICEMEDIUM);                                    // spawnstate
@@ -42336,7 +42336,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42380,7 +42380,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC68
-    name: 'Small Ice Spike';                                                    // name
+    name: 'SMALL ICE SPIKE';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 95;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITEICESMALL);                                     // spawnstate
@@ -42404,7 +42404,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42448,7 +42448,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC69
-    name: 'Tiny Ice Spike';                                                     // name
+    name: 'TINY ICE SPIKE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 96;                                                              // doomednum
     spawnstate: Ord(S_ZSTALAGMITEICETINY);                                      // spawnstate
@@ -42472,7 +42472,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42516,7 +42516,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC70
-    name: 'Big Brown Rock';                                                     // name
+    name: 'BIG BROWN ROCK';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 97;                                                              // doomednum
     spawnstate: Ord(S_ZROCKBROWN1);                                             // spawnstate
@@ -42540,7 +42540,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42584,7 +42584,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC71
-    name: 'Small Brown Rock ';                                                  // name
+    name: 'SMALL BROWN ROCK';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 98;                                                              // doomednum
     spawnstate: Ord(S_ZROCKBROWN2);                                             // spawnstate
@@ -42608,7 +42608,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42652,7 +42652,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC72
-    name: 'Big Grey Rock';                                                      // name
+    name: 'BIG GREY ROCK';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 99;                                                              // doomednum
     spawnstate: Ord(S_ZROCKBLACK);                                              // spawnstate
@@ -42676,7 +42676,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42720,7 +42720,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC73
-    name: 'Large Brick Rubble';                                                 // name
+    name: 'LARGE BRICK RUBBLE';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 100;                                                             // doomednum
     spawnstate: Ord(S_ZRUBBLE1);                                                // spawnstate
@@ -42788,7 +42788,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC74
-    name: 'Small Brick Rubble';                                                 // name
+    name: 'SMALL BRICK RUBBLE';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 101;                                                             // doomednum
     spawnstate: Ord(S_ZRUBBLE2);                                                // spawnstate
@@ -42856,7 +42856,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC75
-    name: 'Medium Brick Rubble';                                                // name
+    name: 'MEDIUM BRICK RUBBLE';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 102;                                                             // doomednum
     spawnstate: Ord(S_ZRUBBLE3);                                                // spawnstate
@@ -42924,7 +42924,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC76
-    name: 'Pillar With Vase';                                                   // name
+    name: 'PILLAR WITH VASE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 103;                                                             // doomednum
     spawnstate: Ord(S_ZVASEPILLAR);                                             // spawnstate
@@ -42948,7 +42948,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -42992,7 +42992,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_POTTERY1
-    name: 'Tall Pot';                                                           // name
+    name: 'TALL POT';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 104;                                                             // doomednum
     spawnstate: Ord(S_ZPOTTERY1);                                               // spawnstate
@@ -43016,7 +43016,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOBLOOD;                // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_FLOATBOB;     // flags2
+    flags2: MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43060,7 +43060,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_POTTERY2
-    name: 'Medium Pot';                                                         // name
+    name: 'MEDIUM POT';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 105;                                                             // doomednum
     spawnstate: Ord(S_ZPOTTERY2);                                               // spawnstate
@@ -43084,7 +43084,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOBLOOD;                // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_FLOATBOB;     // flags2
+    flags2: MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43128,7 +43128,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_POTTERY3
-    name: 'Short Pot';                                                          // name
+    name: 'SHORT POT';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 106;                                                             // doomednum
     spawnstate: Ord(S_ZPOTTERY3);                                               // spawnstate
@@ -43152,7 +43152,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOBLOOD;                // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_FLOATBOB;     // flags2
+    flags2: MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP;         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43220,7 +43220,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_MISSILE;                                                          // flags
-    flags2: MF2_FIREDAMAGE;                                                     // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43264,7 +43264,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC77
-    name: 'Lynched Corpse';                                                     // name
+    name: 'LYNCHED CORPSE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 108;                                                             // doomednum
     spawnstate: Ord(S_ZCORPSELYNCHED1);                                         // spawnstate
@@ -43288,7 +43288,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43332,7 +43332,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZLYNCHED_NOHEART
-    name: 'Heartless Lynched Corpse';                                           // name
+    name: 'HEARTLESS LYNCHED CORPSE';                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 109;                                                             // doomednum
     spawnstate: Ord(S_ZCORPSELYNCHED2);                                         // spawnstate
@@ -43356,7 +43356,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43400,7 +43400,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC78
-    name: 'Sitting Corpse';                                                     // name
+    name: 'SITTING CORPSE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 110;                                                             // doomednum
     spawnstate: Ord(S_ZCORPSESITTING);                                          // spawnstate
@@ -43424,7 +43424,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43492,7 +43492,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: MF2_TELESTOMP;                                                      // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43560,7 +43560,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_MISSILE;                                                          // flags
-    flags2: MF2_FIREDAMAGE;                                                     // flags2
+    flags2: MF2_LOGRAV;                                                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43604,7 +43604,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BLOODPOOL
-    name: 'Pool Of Blood';                                                      // name
+    name: 'POOL OF BLOOD';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 111;                                                             // doomednum
     spawnstate: Ord(S_BLOODPOOL);                                               // spawnstate
@@ -43628,7 +43628,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43672,7 +43672,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC79
-    name: '3 Lit Candles';                                                      // name
+    name: '3 LIT CANDLES';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 119;                                                             // doomednum
     spawnstate: Ord(S_ZCANDLE1);                                                // spawnstate
@@ -43696,7 +43696,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43740,7 +43740,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC80
-    name: 'Leaf Spawner';                                                       // name
+    name: 'LEAF SPAWNER';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 113;                                                             // doomednum
     spawnstate: Ord(S_ZLEAFSPAWNER);                                            // spawnstate
@@ -43764,7 +43764,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_BLASTED or MF2_FLY;                                             // flags2
+    flags2: MF2_DONTDRAW;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43832,7 +43832,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE;                                         // flags
-    flags2: MF2_FLY or MF2_FIREDAMAGE;                                          // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43900,7 +43900,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE;                                         // flags
-    flags2: MF2_FLY or MF2_FIREDAMAGE;                                          // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -43944,7 +43944,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZTWINEDTORCH
-    name: 'Lit Twined Torch';                                                   // name
+    name: 'LIT TWINED TORCH';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 116;                                                             // doomednum
     spawnstate: Ord(S_ZTWINEDTORCH_1);                                          // spawnstate
@@ -43968,7 +43968,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44012,7 +44012,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZTWINEDTORCH_UNLIT
-    name: 'Unlit Twined Torch';                                                 // name
+    name: 'UNLIT TWINED TORCH';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 117;                                                             // doomednum
     spawnstate: Ord(S_ZTWINEDTORCH_UNLIT);                                      // spawnstate
@@ -44036,7 +44036,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44080,7 +44080,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BRIDGE
-    name: 'Glitter Bridge';                                                     // name
+    name: 'GLITTER BRIDGE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 118;                                                             // doomednum
     spawnstate: Ord(S_BRIDGE1);                                                 // spawnstate
@@ -44104,7 +44104,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_NOGRAVITY;                                            // flags
-    flags2: MF2_WINDTHRUST or MF2_PUSHABLE;                                     // flags2
+    flags2: MF2_DONTDRAW;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44172,7 +44172,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44216,7 +44216,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZWALLTORCH
-    name: 'Lit Wall Torch';                                                     // name
+    name: 'LIT WALL TORCH';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 54;                                                              // doomednum
     spawnstate: Ord(S_ZWALLTORCH1);                                             // spawnstate
@@ -44240,7 +44240,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44284,7 +44284,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZWALLTORCH_UNLIT
-    name: 'Unlit Wall Torch';                                                   // name
+    name: 'UNLIT WALL TORCH';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 55;                                                              // doomednum
     spawnstate: Ord(S_ZWALLTORCH_U);                                            // spawnstate
@@ -44308,7 +44308,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44352,7 +44352,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZBARREL
-    name: 'Barrel';                                                             // name
+    name: 'BARREL';                                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8100;                                                            // doomednum
     spawnstate: Ord(S_ZBARREL1);                                                // spawnstate
@@ -44376,7 +44376,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44420,7 +44420,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZSHRUB1
-    name: 'Shrub';                                                              // name
+    name: 'SHRUB';                                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8101;                                                            // doomednum
     spawnstate: Ord(S_ZSHRUB1);                                                 // spawnstate
@@ -44444,7 +44444,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44488,7 +44488,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZSHRUB2
-    name: 'Shrub 2';                                                            // name
+    name: 'SHRUB 2';                                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8102;                                                            // doomednum
     spawnstate: Ord(S_ZSHRUB2);                                                 // spawnstate
@@ -44512,7 +44512,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44556,7 +44556,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZBUCKET
-    name: 'Hanging Bucket';                                                     // name
+    name: 'HANGING BUCKET';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8103;                                                            // doomednum
     spawnstate: Ord(S_ZBUCKET1);                                                // spawnstate
@@ -44580,7 +44580,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44624,7 +44624,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZPOISONSHROOM
-    name: 'Large Mushroom Explodes';                                            // name
+    name: 'LARGE MUSHROOM EXPLODES';                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8104;                                                            // doomednum
     spawnstate: Ord(S_ZPOISONSHROOM1);                                          // spawnstate
@@ -44648,7 +44648,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44692,7 +44692,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZFIREBULL
-    name: 'Lit Minotaur Statue';                                                // name
+    name: 'LIT MINOTAUR STATUE';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8042;                                                            // doomednum
     spawnstate: Ord(S_ZFIREBULL1);                                              // spawnstate
@@ -44716,7 +44716,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44760,7 +44760,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZFIREBULL_UNLIT
-    name: 'Unlit Minotaur Statue';                                              // name
+    name: 'UNLIT MINOTAUR STATUE';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8043;                                                            // doomednum
     spawnstate: Ord(S_ZFIREBULL_U);                                             // spawnstate
@@ -44784,7 +44784,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44828,7 +44828,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FIRETHING
-    name: 'Skull With Flame';                                                   // name
+    name: 'SKULL WITH FLAME';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8060;                                                            // doomednum
     spawnstate: Ord(S_ZFIRETHING1);                                             // spawnstate
@@ -44852,7 +44852,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44896,7 +44896,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BRASSTORCH
-    name: 'Brazier With Flame';                                                 // name
+    name: 'BRAZIER WITH FLAME';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8061;                                                            // doomednum
     spawnstate: Ord(S_ZBRASSTORCH1);                                            // spawnstate
@@ -44920,7 +44920,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -44964,7 +44964,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZSUITOFARMOR
-    name: 'Suit Of Armor';                                                      // name
+    name: 'SUIT OF ARMOR';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8064;                                                            // doomednum
     spawnstate: Ord(S_ZSUITOFARMOR);                                            // spawnstate
@@ -44988,7 +44988,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45100,7 +45100,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZBELL
-    name: 'Bell';                                                               // name
+    name: 'BELL';                                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8065;                                                            // doomednum
     spawnstate: Ord(S_ZBELL);                                                   // spawnstate
@@ -45124,7 +45124,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_SPAWNCEILING or MF_NOGRAVITY or MF_NOBLOOD; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_RIP or MF2_PUSHABLE or MF2_FLOATBOB; // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45168,7 +45168,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZBLUE_CANDLE
-    name: 'Lit Blue Candle';                                                    // name
+    name: 'LIT BLUE CANDLE';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8066;                                                            // doomednum
     spawnstate: Ord(S_ZBLUE_CANDLE1);                                           // spawnstate
@@ -45192,7 +45192,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45236,7 +45236,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZIRON_MAIDEN
-    name: 'Iron Maiden';                                                        // name
+    name: 'IRON MAIDEN';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8067;                                                            // doomednum
     spawnstate: Ord(S_ZIRON_MAIDEN);                                            // spawnstate
@@ -45260,7 +45260,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45304,7 +45304,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZXMAS_TREE
-    name: 'Evergreen Tree';                                                     // name
+    name: 'EVERGREEN TREE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8068;                                                            // doomednum
     spawnstate: Ord(S_ZXMAS_TREE);                                              // spawnstate
@@ -45328,7 +45328,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45372,7 +45372,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCAULDRON
-    name: 'Lit Cauldron';                                                       // name
+    name: 'LIT CAULDRON';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8069;                                                            // doomednum
     spawnstate: Ord(S_ZCAULDRON1);                                              // spawnstate
@@ -45396,7 +45396,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45440,7 +45440,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCAULDRON_UNLIT
-    name: 'Unlit Cauldron';                                                     // name
+    name: 'UNLIT CAULDRON';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8070;                                                            // doomednum
     spawnstate: Ord(S_ZCAULDRON_U);                                             // spawnstate
@@ -45464,7 +45464,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45508,7 +45508,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCHAINBIT32
-    name: 'Short Chain';                                                        // name
+    name: 'SHORT CHAIN';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8071;                                                            // doomednum
     spawnstate: Ord(S_ZCHAINBIT32);                                             // spawnstate
@@ -45532,7 +45532,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_SPAWNCEILING or MF_NOGRAVITY;                    // flags
-    flags2: MF2_FLY or MF2_RIP or MF2_PUSHABLE;                                 // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45576,7 +45576,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCHAINBIT64
-    name: 'Long Chain';                                                         // name
+    name: 'LONG CHAIN';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8072;                                                            // doomednum
     spawnstate: Ord(S_ZCHAINBIT64);                                             // spawnstate
@@ -45600,7 +45600,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_SPAWNCEILING or MF_NOGRAVITY;                    // flags
-    flags2: MF2_FLY or MF2_RIP or MF2_PUSHABLE;                                 // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45644,7 +45644,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCHAINEND_HEART
-    name: 'Hook With Heart';                                                    // name
+    name: 'HOOK WITH HEART';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8073;                                                            // doomednum
     spawnstate: Ord(S_ZCHAINEND_HEART);                                         // spawnstate
@@ -45668,7 +45668,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_SPAWNCEILING or MF_NOGRAVITY;                    // flags
-    flags2: MF2_FLY or MF2_RIP or MF2_PUSHABLE;                                 // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45712,7 +45712,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCHAINEND_HOOK1
-    name: 'Chain With Large Hook';                                              // name
+    name: 'CHAIN WITH LARGE HOOK';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8074;                                                            // doomednum
     spawnstate: Ord(S_ZCHAINEND_HOOK1);                                         // spawnstate
@@ -45736,7 +45736,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_SPAWNCEILING or MF_NOGRAVITY;                    // flags
-    flags2: MF2_FLY or MF2_RIP or MF2_PUSHABLE;                                 // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45780,7 +45780,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCHAINEND_HOOK2
-    name: 'Chain With Small Hook"';                                             // name
+    name: 'CHAIN WITH SMALL HOOK';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8075;                                                            // doomednum
     spawnstate: Ord(S_ZCHAINEND_HOOK2);                                         // spawnstate
@@ -45804,7 +45804,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_SPAWNCEILING or MF_NOGRAVITY;                    // flags
-    flags2: MF2_FLY or MF2_RIP or MF2_PUSHABLE;                                 // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45848,7 +45848,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCHAINEND_SPIKE
-    name: 'Chain with Spike Ball';                                              // name
+    name: 'CHAIN WITH SPIKE BALL';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8076;                                                            // doomednum
     spawnstate: Ord(S_ZCHAINEND_SPIKE);                                         // spawnstate
@@ -45872,7 +45872,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_SPAWNCEILING or MF_NOGRAVITY;                    // flags
-    flags2: MF2_FLY or MF2_RIP or MF2_PUSHABLE;                                 // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45916,7 +45916,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ZCHAINEND_SKULL
-    name: 'Hook With Skull';                                                    // name
+    name: 'HOOK WITH SKULL';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8077;                                                            // doomednum
     spawnstate: Ord(S_ZCHAINEND_SKULL);                                         // spawnstate
@@ -45940,7 +45940,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_SPAWNCEILING or MF_NOGRAVITY;                    // flags
-    flags2: MF2_FLY or MF2_RIP or MF2_PUSHABLE;                                 // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -45984,7 +45984,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT1
-    name: 'Large Brown Stein';                                                  // name
+    name: 'LARGE BROWN STEIN';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8500;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT1);                                             // spawnstate
@@ -46008,7 +46008,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46052,7 +46052,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT2
-    name: 'Small Silver Stein';                                                 // name
+    name: 'SMALL SILVER STEIN';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8501;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT2);                                             // spawnstate
@@ -46076,7 +46076,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46120,7 +46120,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT3
-    name: 'Unlit Candle With Web';                                              // name
+    name: 'UNLIT CANDLE WITH WEB';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8502;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT3);                                             // spawnstate
@@ -46144,7 +46144,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46188,7 +46188,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT4
-    name: 'Unlit Small Gray Candle';                                            // name
+    name: 'UNLIT SMALL GRAY CANDLE';                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8503;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT4);                                             // spawnstate
@@ -46212,7 +46212,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46256,7 +46256,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT5
-    name: 'Unlit Small Candle';                                                 // name
+    name: 'UNLIT SMALL CANDLE';                                                 // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8504;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT5);                                             // spawnstate
@@ -46280,7 +46280,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46324,7 +46324,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT6
-    name: 'Spilled Goblet';                                                     // name
+    name: 'SPILLED GOBLET';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8505;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT6);                                             // spawnstate
@@ -46348,7 +46348,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46392,7 +46392,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT7
-    name: 'Tall Goblet';                                                        // name
+    name: 'TALL GOBLET';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8506;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT7);                                             // spawnstate
@@ -46416,7 +46416,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46460,7 +46460,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT8
-    name: 'Small Goblet';                                                       // name
+    name: 'SMALL GOBLET';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8507;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT8);                                             // spawnstate
@@ -46484,7 +46484,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46528,7 +46528,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT9
-    name: 'Silver Goblet';                                                      // name
+    name: 'SILVER GOBLET';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8508;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT9);                                             // spawnstate
@@ -46552,7 +46552,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46596,7 +46596,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TABLE_SHIT10
-    name: 'Meat Cleaver';                                                       // name
+    name: 'MEAT CLEAVER';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8509;                                                            // doomednum
     spawnstate: Ord(S_TABLE_SHIT10);                                            // spawnstate
@@ -46620,7 +46620,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46688,7 +46688,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46732,7 +46732,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC81
-    name: 'Teleport Smoke';                                                     // name
+    name: 'TELEPORT SMOKE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 140;                                                             // doomednum
     spawnstate: Ord(S_TELESMOKE1);                                              // spawnstate
@@ -46756,7 +46756,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46800,7 +46800,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TELEPORTMAN
-    name: 'Teleport Landing';                                                   // name
+    name: 'TELEPORT LANDING';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 14;                                                              // doomednum
     spawnstate: Ord(S_NULL);                                                    // spawnstate
@@ -46824,7 +46824,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_BLASTED or MF2_FLY;                                             // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46892,7 +46892,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -46936,7 +46936,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FW_AXE
-    name: 'Timon''s Axe';                                                       // name
+    name: 'TIMON''S AXE';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8010;                                                            // doomednum
     spawnstate: Ord(S_AXE);                                                     // spawnstate
@@ -46960,7 +46960,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47028,7 +47028,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47096,7 +47096,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47164,7 +47164,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE;                               // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47208,7 +47208,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FW_HAMMER
-    name: 'Hammer Of Retribution';                                              // name
+    name: 'HAMMER OF RETRIBUTION';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 123;                                                             // doomednum
     spawnstate: Ord(S_HAMM);                                                    // spawnstate
@@ -47232,7 +47232,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47300,7 +47300,7 @@ const // Hexen Original mobjinfo
     damage: 10;                                                                 // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS;       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47368,7 +47368,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47436,7 +47436,7 @@ const // Hexen Original mobjinfo
     damage: 8;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47504,7 +47504,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47548,7 +47548,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CW_SERPSTAFF
-    name: 'Serpent Staff';                                                      // name
+    name: 'SERPENT STAFF';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10;                                                              // doomednum
     spawnstate: Ord(S_CSTAFF);                                                  // spawnstate
@@ -47572,7 +47572,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47640,7 +47640,7 @@ const // Hexen Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47708,7 +47708,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47752,7 +47752,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CW_FLAME
-    name: 'Firestorm';                                                          // name
+    name: 'FIRESTORM';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8009;                                                            // doomednum
     spawnstate: Ord(S_CFLAME1);                                                 // spawnstate
@@ -47776,7 +47776,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47844,7 +47844,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47912,7 +47912,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -47980,7 +47980,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48048,7 +48048,7 @@ const // Hexen Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48116,7 +48116,7 @@ const // Hexen Original mobjinfo
     damage: 8;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_DONTDRAW or MF2_IMPACT or MF2_PCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48184,7 +48184,7 @@ const // Hexen Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT or MF2_RIP or MF2_IMPACT or MF2_PCROSS or MF2_SEEKERMISSILE; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48252,7 +48252,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48320,7 +48320,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48388,7 +48388,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48456,7 +48456,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_ALTSHADOW;         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_NODMGTHRUST;            // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48524,7 +48524,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;                // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48592,7 +48592,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH or MF2_NODMGTHRUST;                // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48660,7 +48660,7 @@ const // Hexen Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_RIP or MF2_CANNOTPUSH or MF2_NODMGTHRUST or MF2_IMPACT or MF2_PCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48704,7 +48704,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MW_LIGHTNING
-    name: 'Arc Of Death';                                                       // name
+    name: 'ARC OF DEATH';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8040;                                                            // doomednum
     spawnstate: Ord(S_MW_LIGHTNING1);                                           // spawnstate
@@ -48728,7 +48728,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48796,7 +48796,7 @@ const // Hexen Original mobjinfo
     damage: 8;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48864,7 +48864,7 @@ const // Hexen Original mobjinfo
     damage: 8;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -48932,7 +48932,7 @@ const // Hexen Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49000,7 +49000,7 @@ const // Hexen Original mobjinfo
     damage: 6;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_RIP or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49068,7 +49068,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS or MF2_SEEKERMISSILE; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49112,7 +49112,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FW_SWORD1
-    name: 'Quietus Piece 1';                                                    // name
+    name: 'QUIETUS PIECE 1';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 12;                                                              // doomednum
     spawnstate: Ord(S_FSWORD1);                                                 // spawnstate
@@ -49136,7 +49136,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49180,7 +49180,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FW_SWORD2
-    name: 'Quietus Piece 2';                                                    // name
+    name: 'QUIETUS PIECE 2';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 13;                                                              // doomednum
     spawnstate: Ord(S_FSWORD2);                                                 // spawnstate
@@ -49204,7 +49204,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49248,7 +49248,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FW_SWORD3
-    name: 'Quietus Piece 3';                                                    // name
+    name: 'QUIETUS PIECE 3';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 16;                                                              // doomednum
     spawnstate: Ord(S_FSWORD3);                                                 // spawnstate
@@ -49272,7 +49272,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49316,7 +49316,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CW_HOLY1
-    name: 'Wraithverge Piece 1';                                                // name
+    name: 'WRAITHVERGE PIECE 1';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 18;                                                              // doomednum
     spawnstate: Ord(S_CHOLY1);                                                  // spawnstate
@@ -49340,7 +49340,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49384,7 +49384,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CW_HOLY2
-    name: 'Wraithverge Piece 2';                                                // name
+    name: 'WRAITHVERGE PIECE 2';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 19;                                                              // doomednum
     spawnstate: Ord(S_CHOLY2);                                                  // spawnstate
@@ -49408,7 +49408,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49452,7 +49452,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CW_HOLY3
-    name: 'Wraithverge Piece 3';                                                // name
+    name: 'WRAITHVERGE PIECE 3';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 20;                                                              // doomednum
     spawnstate: Ord(S_CHOLY3);                                                  // spawnstate
@@ -49476,7 +49476,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49520,7 +49520,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MW_STAFF1
-    name: 'BloodScourge Piece 1';                                               // name
+    name: 'BLOODSCOURGE PIECE 1';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 21;                                                              // doomednum
     spawnstate: Ord(S_MSTAFF1);                                                 // spawnstate
@@ -49544,7 +49544,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49588,7 +49588,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MW_STAFF2
-    name: 'BloodScourge Piece 2';                                               // name
+    name: 'BLOODSCOURGE PIECE 2';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 22;                                                              // doomednum
     spawnstate: Ord(S_MSTAFF2);                                                 // spawnstate
@@ -49612,7 +49612,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49656,7 +49656,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MW_STAFF3
-    name: 'BloodScourge Piece 3';                                               // name
+    name: 'BLOODSCOURGE PIECE 3';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 23;                                                              // doomednum
     spawnstate: Ord(S_MSTAFF3);                                                 // spawnstate
@@ -49680,7 +49680,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49748,7 +49748,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49792,7 +49792,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MW_CONE
-    name: 'Frost Shards';                                                       // name
+    name: 'FROST SHARDS';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 53;                                                              // doomednum
     spawnstate: Ord(S_COS1);                                                    // spawnstate
@@ -49816,7 +49816,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49884,7 +49884,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS or MF2_ICEDAMAGE;        // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -49952,7 +49952,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50020,7 +50020,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50088,7 +50088,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_CORPSE;                            // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_DONTDRAW;                               // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50156,7 +50156,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_ONMOBJ or MF2_CANTLEAVEFLOORPIC; // flags2
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50224,7 +50224,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                                         // flags
-    flags2: MF2_FLY or MF2_SLIDE;                                               // flags2
+    flags2: MF2_LOGRAV or MF2_CANNOTPUSH;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50292,7 +50292,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_NODMGTHRUST;                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50360,7 +50360,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                                         // flags
-    flags2: MF2_FLY or MF2_SLIDE;                                               // flags2
+    flags2: MF2_LOGRAV or MF2_FLOORCLIP or MF2_CANNOTPUSH;                      // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50428,7 +50428,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_ONMOBJ or MF2_CANTLEAVEFLOORPIC; // flags2
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50496,7 +50496,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_ONMOBJ or MF2_CANTLEAVEFLOORPIC; // flags2
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50564,7 +50564,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOTDMATCH;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_CANTLEAVEFLOORPIC; // flags2
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50632,7 +50632,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 125;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_WINDTHRUST or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50676,7 +50676,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CENTAUR
-    name: 'Centaur';                                                            // name
+    name: 'CENTAUR';                                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 107;                                                             // doomednum
     spawnstate: Ord(S_CENTAUR_LOOK1);                                           // spawnstate
@@ -50700,7 +50700,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_CENTAUR_ACTIVE);                                       // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50744,7 +50744,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CENTAURLEADER
-    name: 'Slaughtar';                                                          // name
+    name: 'SLAUGHTAR';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 115;                                                             // doomednum
     spawnstate: Ord(S_CENTAUR_LOOK1);                                           // spawnstate
@@ -50768,7 +50768,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_CENTAUR_ACTIVE);                                       // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50836,7 +50836,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_IMPACT or MF2_PCROSS;                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50904,7 +50904,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_DROPOFF or MF_CORPSE;                                             // flags
-    flags2: MF2_SLIDE or MF2_DONTDRAW;                                          // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -50972,7 +50972,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_DROPOFF or MF_CORPSE;                                             // flags
-    flags2: MF2_SLIDE or MF2_DONTDRAW;                                          // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51016,7 +51016,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_DEMON
-    name: 'Green Chaos Serpent';                                                // name
+    name: 'GREEN CHAOS SERPENT';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 31;                                                              // doomednum
     spawnstate: Ord(S_DEMN_LOOK1);                                              // spawnstate
@@ -51040,7 +51040,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 112;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_MCROSS;       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51108,7 +51108,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51176,7 +51176,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51244,7 +51244,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51312,7 +51312,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51380,7 +51380,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51448,7 +51448,7 @@ const // Hexen Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS;       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51492,7 +51492,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_DEMON2
-    name: 'Brown Chaos Serpent';                                                // name
+    name: 'BROWN CHAOS SERPENT';                                                // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8080;                                                            // doomednum
     spawnstate: Ord(S_DEMN2_LOOK1);                                             // spawnstate
@@ -51516,7 +51516,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 112;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_MCROSS;       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51584,7 +51584,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51652,7 +51652,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51720,7 +51720,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51788,7 +51788,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51856,7 +51856,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE or MF_CORPSE;              // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE or MF2_DONTDRAW;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51924,7 +51924,7 @@ const // Hexen Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS;       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -51968,7 +51968,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_WRAITHB
-    name: 'Buried Reiver';                                                      // name
+    name: 'BURIED REIVER';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10011;                                                           // doomednum
     spawnstate: Ord(S_WRAITH_LOOK1);                                            // spawnstate
@@ -51992,7 +51992,7 @@ const // Hexen Original mobjinfo
     damage: 10;                                                                 // damage
     activesound: 119;                                                           // activesound
     flags: MF_NOGRAVITY or MF_DROPOFF or MF_FLOAT or MF_COUNTKILL;              // flags
-    flags2: MF2_PUSHABLE or MF2_SLIDE or MF2_DROPPED or MF2_PUSHWALL;           // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_DONTDRAW or MF2_PUSHWALL; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52036,7 +52036,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_WRAITH
-    name: 'Reiver';                                                             // name
+    name: 'REIVER';                                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 34;                                                              // doomednum
     spawnstate: Ord(S_WRAITH_INIT1);                                            // spawnstate
@@ -52060,7 +52060,7 @@ const // Hexen Original mobjinfo
     damage: 10;                                                                 // damage
     activesound: 119;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOGRAVITY or MF_DROPOFF or MF_FLOAT or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHABLE or MF2_SLIDE or MF2_DROPPED or MF2_PUSHWALL; // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52128,7 +52128,7 @@ const // Hexen Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52196,7 +52196,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                                         // flags
-    flags2: MF2_FLY or MF2_SLIDE;                                               // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52264,7 +52264,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52332,7 +52332,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52400,7 +52400,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52468,7 +52468,7 @@ const // Hexen Original mobjinfo
     damage: 7;                                                                  // damage
     activesound: 131;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_SHADOW or MF_COUNTKILL;               // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_TELESTOMP or MF2_PUSHWALL; // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52536,7 +52536,7 @@ const // Hexen Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52604,7 +52604,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52672,7 +52672,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52740,7 +52740,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52808,7 +52808,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52852,7 +52852,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SERPENT
-    name: 'Stalker';                                                            // name
+    name: 'STALKER';                                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 121;                                                             // doomednum
     spawnstate: Ord(S_SERPENT_LOOK1);                                           // spawnstate
@@ -52876,7 +52876,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_NOBLOOD or MF_COUNTKILL;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOATBOB or MF2_PUSHWALL;                     // flags2
+    flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_MCROSS or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -52920,7 +52920,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SERPENTLEADER
-    name: 'Stalker Boss';                                                       // name
+    name: 'STALKER BOSS';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 120;                                                             // doomednum
     spawnstate: Ord(S_SERPENT_LOOK1);                                           // spawnstate
@@ -52944,7 +52944,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_NOBLOOD or MF_COUNTKILL;                              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOATBOB or MF2_PUSHWALL;                     // flags2
+    flags2: MF2_PASSMOBJ or MF2_DONTDRAW or MF2_MCROSS or MF2_CANTLEAVEFLOORPIC or MF2_NONSHOOTABLE; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53012,7 +53012,7 @@ const // Hexen Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53080,7 +53080,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: MF2_LOGRAV;                                                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53148,7 +53148,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53216,7 +53216,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53284,7 +53284,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53328,7 +53328,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BISHOP
-    name: 'Dark Bishop';                                                        // name
+    name: 'DARK BISHOP';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 114;                                                             // doomednum
     spawnstate: Ord(S_BISHOP_LOOK1);                                            // spawnstate
@@ -53352,7 +53352,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 105;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOGRAVITY or MF_FLOAT or MF_NOBLOOD or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHABLE or MF2_DROPPED or MF2_FLOATBOB or MF2_PUSHWALL; // flags2
+    flags2: MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL;                      // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53420,7 +53420,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53488,7 +53488,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53556,7 +53556,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53624,7 +53624,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_SEEKERMISSILE;                                // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53668,7 +53668,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_DRAGON
-    name: 'Dragon Lich';                                                        // name
+    name: 'DRAGON LICH';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 254;                                                             // doomednum
     spawnstate: Ord(S_DRAGON_LOOK1);                                            // spawnstate
@@ -53692,7 +53692,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 167;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOGRAVITY or MF_FLOAT or MF_NOBLOOD or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHABLE or MF2_DROPPED or MF2_FLOATBOB or MF2_PUSHWALL; // flags2
+    flags2: MF2_PASSMOBJ or MF2_BOSS;                                           // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53760,7 +53760,7 @@ const // Hexen Original mobjinfo
     damage: 6;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53828,7 +53828,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_DONTDRAW;                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53872,7 +53872,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARMOR_1
-    name: 'Mesh Armor';                                                         // name
+    name: 'MESH ARMOR';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8005;                                                            // doomednum
     spawnstate: Ord(S_ARMOR_1);                                                 // spawnstate
@@ -53896,7 +53896,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -53940,7 +53940,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARMOR_2
-    name: 'Falcon Shield';                                                      // name
+    name: 'FALCON SHIELD';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8006;                                                            // doomednum
     spawnstate: Ord(S_ARMOR_2);                                                 // spawnstate
@@ -53964,7 +53964,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54008,7 +54008,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARMOR_3
-    name: 'Platinum Helm';                                                      // name
+    name: 'PLATINUM HELM';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8007;                                                            // doomednum
     spawnstate: Ord(S_ARMOR_3);                                                 // spawnstate
@@ -54032,7 +54032,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54076,7 +54076,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARMOR_4
-    name: 'Amulet Of Warding';                                                  // name
+    name: 'AMULET OF WARDING';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8008;                                                            // doomednum
     spawnstate: Ord(S_ARMOR_4);                                                 // spawnstate
@@ -54100,7 +54100,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL or MF_NOGRAVITY;                                          // flags
-    flags2: MF2_LOGRAV or MF2_PUSHABLE;                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54144,7 +54144,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MANA1
-    name: 'Blue Mana';                                                          // name
+    name: 'BLUE MANA';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 122;                                                             // doomednum
     spawnstate: Ord(S_MANA1_1);                                                 // spawnstate
@@ -54168,7 +54168,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54212,7 +54212,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MANA2
-    name: 'Green Mana';                                                         // name
+    name: 'GREEN MANA';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 124;                                                             // doomednum
     spawnstate: Ord(S_MANA2_1);                                                 // spawnstate
@@ -54236,7 +54236,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54280,7 +54280,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MANA3
-    name: 'Combine Mana';                                                       // name
+    name: 'COMBINE MANA';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8004;                                                            // doomednum
     spawnstate: Ord(S_MANA3_1);                                                 // spawnstate
@@ -54304,7 +54304,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54348,7 +54348,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY1
-    name: 'Steel Key';                                                          // name
+    name: 'STEEL KEY';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8030;                                                            // doomednum
     spawnstate: Ord(S_KEY1);                                                    // spawnstate
@@ -54372,7 +54372,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54416,7 +54416,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY2
-    name: 'Cave Key';                                                           // name
+    name: 'CAVE KEY';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8031;                                                            // doomednum
     spawnstate: Ord(S_KEY2);                                                    // spawnstate
@@ -54440,7 +54440,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54484,7 +54484,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY3
-    name: 'Axe Key';                                                            // name
+    name: 'AXE KEY';                                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8032;                                                            // doomednum
     spawnstate: Ord(S_KEY3);                                                    // spawnstate
@@ -54508,7 +54508,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54552,7 +54552,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY4
-    name: 'Fire Key';                                                           // name
+    name: 'FIRE KEY';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8033;                                                            // doomednum
     spawnstate: Ord(S_KEY4);                                                    // spawnstate
@@ -54576,7 +54576,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54620,7 +54620,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY5
-    name: 'Emerald Key';                                                        // name
+    name: 'EMERALD KEY';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8034;                                                            // doomednum
     spawnstate: Ord(S_KEY5);                                                    // spawnstate
@@ -54644,7 +54644,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54688,7 +54688,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY6
-    name: 'Dungeon Key';                                                        // name
+    name: 'DUNGEON KEY';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8035;                                                            // doomednum
     spawnstate: Ord(S_KEY6);                                                    // spawnstate
@@ -54712,7 +54712,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54756,7 +54756,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY7
-    name: 'Silver Key';                                                         // name
+    name: 'SILVER KEY';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8036;                                                            // doomednum
     spawnstate: Ord(S_KEY7);                                                    // spawnstate
@@ -54780,7 +54780,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54824,7 +54824,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY8
-    name: 'Rusty Key';                                                          // name
+    name: 'RUSTY KEY';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8037;                                                            // doomednum
     spawnstate: Ord(S_KEY8);                                                    // spawnstate
@@ -54848,7 +54848,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54892,7 +54892,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEY9
-    name: 'Horn Key';                                                           // name
+    name: 'HORN KEY';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8038;                                                            // doomednum
     spawnstate: Ord(S_KEY9);                                                    // spawnstate
@@ -54916,7 +54916,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -54960,7 +54960,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEYA
-    name: 'Swamp Key';                                                          // name
+    name: 'SWAMP KEY';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8039;                                                            // doomednum
     spawnstate: Ord(S_KEYA);                                                    // spawnstate
@@ -54984,7 +54984,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55028,7 +55028,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEYB
-    name: 'Castle Key';                                                         // name
+    name: 'CASTLE KEY';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8200;                                                            // doomednum
     spawnstate: Ord(S_KEYB);                                                    // spawnstate
@@ -55052,7 +55052,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55120,7 +55120,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_BLASTED or MF2_FLY;                                             // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55188,7 +55188,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_BLASTED or MF2_FLY;                                             // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55232,7 +55232,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ETTIN
-    name: 'Ettin';                                                              // name
+    name: 'ETTIN';                                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10030;                                                           // doomednum
     spawnstate: Ord(S_ETTIN_LOOK1);                                             // spawnstate
@@ -55256,7 +55256,7 @@ const // Hexen Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: 140;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS;       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55324,7 +55324,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_DROPOFF or MF_CORPSE;                                             // flags
-    flags2: MF2_SLIDE or MF2_DONTDRAW;                                          // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55368,7 +55368,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FIREDEMON
-    name: 'Affrit';                                                             // name
+    name: 'AFFRIT';                                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10060;                                                           // doomednum
     spawnstate: Ord(S_FIRED_SPAWN1);                                            // spawnstate
@@ -55392,7 +55392,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: 145;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOGRAVITY or MF_DROPOFF or MF_FLOAT or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHABLE or MF2_SLIDE or MF2_DROPPED or MF2_PUSHWALL; // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS or MF2_INVULNERABLE; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55460,7 +55460,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_DROPOFF or MF_CORPSE;                                             // flags
-    flags2: MF2_SLIDE or MF2_DONTDRAW;                                          // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55528,7 +55528,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_DROPOFF or MF_CORPSE;                                             // flags
-    flags2: MF2_SLIDE or MF2_DONTDRAW;                                          // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55596,7 +55596,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55664,7 +55664,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55732,7 +55732,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55800,7 +55800,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55868,7 +55868,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55936,7 +55936,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORCLIP or MF2_NOTELEPORT or MF2_FIREDAMAGE or MF2_IMPACT or MF2_PCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -55980,7 +55980,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ICEGUY
-    name: 'Wendigo';                                                            // name
+    name: 'WENDIGO';                                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8020;                                                            // doomednum
     spawnstate: Ord(S_ICEGUY_LOOK);                                             // spawnstate
@@ -56004,7 +56004,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 151;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_COUNTKILL;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB or MF2_PUSHWALL;  // flags2
+    flags2: MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS or MF2_ICEDAMAGE; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56072,7 +56072,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_ICEDAMAGE;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56140,7 +56140,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_SHADOW;            // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_TELESTOMP;              // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56208,7 +56208,7 @@ const // Hexen Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_ICEDAMAGE;                      // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56276,7 +56276,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                                         // flags
-    flags2: MF2_FLY or MF2_SLIDE;                                               // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56344,7 +56344,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56412,7 +56412,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56456,7 +56456,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_FIGHTER_BOSS
-    name: 'Zedek';                                                              // name
+    name: 'ZEDEK';                                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10100;                                                           // doomednum
     spawnstate: Ord(S_FIGHTER);                                                 // spawnstate
@@ -56480,7 +56480,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56524,7 +56524,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CLERIC_BOSS
-    name: 'Traductus';                                                          // name
+    name: 'TRADUCTUS';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10101;                                                           // doomednum
     spawnstate: Ord(S_CLERIC);                                                  // spawnstate
@@ -56548,7 +56548,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56592,7 +56592,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MAGE_BOSS
-    name: 'Menelkir';                                                           // name
+    name: 'MENELKIR';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10102;                                                           // doomednum
     spawnstate: Ord(S_MAGE);                                                    // spawnstate
@@ -56616,7 +56616,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56660,7 +56660,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SORCBOSS
-    name: 'Heresiarch';                                                         // name
+    name: 'HERESIARCH';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10080;                                                           // doomednum
     spawnstate: Ord(S_SORC_SPAWN1);                                             // spawnstate
@@ -56684,7 +56684,7 @@ const // Hexen Original mobjinfo
     damage: 9;                                                                  // damage
     activesound: 155;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_COUNTKILL;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB or MF2_PUSHWALL;  // flags2
+    flags2: MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_BOSS or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56752,7 +56752,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56820,7 +56820,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56888,7 +56888,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -56956,7 +56956,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE;                                         // flags
-    flags2: MF2_FLY or MF2_FIREDAMAGE;                                          // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_NOTELEPORT;                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57024,7 +57024,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57092,7 +57092,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_NODMGTHRUST;                         // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57160,7 +57160,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_MISSILE;                                         // flags
-    flags2: MF2_FLY or MF2_FIREDAMAGE;                                          // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57228,7 +57228,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_ALTSHADOW;                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_NODMGTHRUST;                         // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57296,7 +57296,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57364,7 +57364,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                                         // flags
-    flags2: MF2_FLY or MF2_SLIDE;                                               // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57432,7 +57432,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_NOCLIP or MF_ALTSHADOW;          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_PASSMOBJ or MF2_NODMGTHRUST;         // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57500,7 +57500,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_MISSILE;                                                          // flags
-    flags2: MF2_FIREDAMAGE;                                                     // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57544,7 +57544,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KORAX
-    name: 'Korax';                                                              // name
+    name: 'KORAX';                                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10200;                                                           // doomednum
     spawnstate: Ord(S_KORAX_LOOK1);                                             // spawnstate
@@ -57568,7 +57568,7 @@ const // Hexen Original mobjinfo
     damage: 15;                                                                 // damage
     activesound: 174;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHWALL;                  // flags2
+    flags2: MF2_FLOORCLIP or MF2_BOSS or MF2_TELESTOMP or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57636,7 +57636,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57704,7 +57704,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57772,7 +57772,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57840,7 +57840,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57908,7 +57908,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -57976,7 +57976,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_NOCLIP or MF_MISSILE or MF_ALTSHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_FIREDAMAGE or MF2_NODMGTHRUST; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -58044,7 +58044,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 112;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_ALTSHADOW or MF_NOBLOOD or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_NODMGTHRUST or MF2_FLOATBOB or MF2_PUSHWALL; // flags2
+    flags2: MF2_BLASTED or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -58112,7 +58112,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 112;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_ALTSHADOW or MF_NOBLOOD or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_NODMGTHRUST or MF2_FLOATBOB or MF2_PUSHWALL; // flags2
+    flags2: MF2_BLASTED or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -58180,7 +58180,7 @@ const // Hexen Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: 140;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_ALTSHADOW or MF_NOBLOOD or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_NODMGTHRUST or MF2_FLOATBOB or MF2_PUSHWALL; // flags2
+    flags2: MF2_BLASTED or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -58248,7 +58248,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_CENTAUR_ACTIVE);                                       // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_ALTSHADOW or MF_NOBLOOD or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_NODMGTHRUST or MF2_FLOATBOB or MF2_PUSHWALL; // flags2
+    flags2: MF2_BLASTED or MF2_FLOORCLIP or MF2_PASSMOBJ or MF2_PUSHWALL or MF2_MCROSS; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -58316,7 +58316,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -58360,7 +58360,7 @@ const // Hexen Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BAT_SPAWNER
-    name: 'Bat Spawner';                                                        // name
+    name: 'BAT SPAWNER';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10225;                                                           // doomednum
     spawnstate: Ord(S_SPAWNBATS1);                                              // spawnstate
@@ -58384,7 +58384,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP or MF_NOGRAVITY;                        // flags
-    flags2: MF2_BLASTED or MF2_FLY or MF2_PUSHABLE;                             // flags2
+    flags2: MF2_DONTDRAW;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -58452,7 +58452,7 @@ const // Hexen Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(SFX_NONE);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_NOTELEPORT or MF2_PASSMOBJ;                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate

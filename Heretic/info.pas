@@ -13361,7 +13361,7 @@ const // Heretic Original mobjinfo
   DO_mobjinfo: array[0..Ord(DO_NUMMOBJTYPES) - 1] of mobjinfo_t = (
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC0
-    name: 'Crystal Vial';                                                       // name
+    name: 'CRYSTAL VIAL';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 81;                                                              // doomednum
     spawnstate: Ord(S_ITEM_PTN1_1);                                             // spawnstate
@@ -13385,7 +13385,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13429,7 +13429,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ITEMSHIELD1
-    name: 'Silver Shield';                                                      // name
+    name: 'SILVER SHIELD';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 85;                                                              // doomednum
     spawnstate: Ord(S_ITEM_SHLD1);                                              // spawnstate
@@ -13453,7 +13453,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13497,7 +13497,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ITEMSHIELD2
-    name: 'Enchanted Shield';                                                   // name
+    name: 'ENCHANTED SHIELD';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 31;                                                              // doomednum
     spawnstate: Ord(S_ITEM_SHD2_1);                                             // spawnstate
@@ -13521,7 +13521,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13565,7 +13565,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC1
-    name: 'Bag Of Holding';                                                     // name
+    name: 'BAG OF HOLDING';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 8;                                                               // doomednum
     spawnstate: Ord(S_ITEM_BAGH1);                                              // spawnstate
@@ -13589,7 +13589,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13633,7 +13633,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC2
-    name: 'Map Scroll';                                                         // name
+    name: 'MAP SCROLL';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 35;                                                              // doomednum
     spawnstate: Ord(S_ITEM_SPMP1);                                              // spawnstate
@@ -13657,7 +13657,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13701,7 +13701,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIINVISIBILITY
-    name: 'Shadowsphere';                                                       // name
+    name: 'SHADOWSPHERE';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 75;                                                              // doomednum
     spawnstate: Ord(S_ARTI_INVS1);                                              // spawnstate
@@ -13725,7 +13725,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_SHADOW or MF_COUNTITEM;                             // flags
-    flags2: MF2_LOGRAV or MF2_TELESTOMP;                                        // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13769,7 +13769,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC3
-    name: 'Quartz Flask';                                                       // name
+    name: 'QUARTZ FLASK';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 82;                                                              // doomednum
     spawnstate: Ord(S_ARTI_PTN2_1);                                             // spawnstate
@@ -13793,7 +13793,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13837,7 +13837,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIFLY
-    name: 'Wings Of Wrath';                                                     // name
+    name: 'WINGS OF WRATH';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 83;                                                              // doomednum
     spawnstate: Ord(S_ARTI_SOAR1);                                              // spawnstate
@@ -13861,7 +13861,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13905,7 +13905,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIINVULNERABILITY
-    name: 'Ring of Invulnerability';                                            // name
+    name: 'RING OF INVULNERABILITY';                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 84;                                                              // doomednum
     spawnstate: Ord(S_ARTI_INVU1);                                              // spawnstate
@@ -13929,7 +13929,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -13973,7 +13973,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTITOMEOFPOWER
-    name: 'Tome of Power';                                                      // name
+    name: 'TOME OF POWER';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 86;                                                              // doomednum
     spawnstate: Ord(S_ARTI_PWBK1);                                              // spawnstate
@@ -13997,7 +13997,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14041,7 +14041,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTIEGG
-    name: 'Morph Ovum';                                                         // name
+    name: 'MORPH OVUM';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 30;                                                              // doomednum
     spawnstate: Ord(S_ARTI_EGGC1);                                              // spawnstate
@@ -14065,7 +14065,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14133,7 +14133,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14177,7 +14177,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTISUPERHEAL
-    name: 'Mystic Urn';                                                         // name
+    name: 'MYSTIC URN';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 32;                                                              // doomednum
     spawnstate: Ord(S_ARTI_SPHL1);                                              // spawnstate
@@ -14201,7 +14201,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14245,7 +14245,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC4
-    name: 'Torch';                                                              // name
+    name: 'TORCH';                                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 33;                                                              // doomednum
     spawnstate: Ord(S_ARTI_TRCH1);                                              // spawnstate
@@ -14269,7 +14269,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14313,7 +14313,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC5
-    name: 'Time Bomb Of The Ancients';                                          // name
+    name: 'TIME BOMB OF THE ANCIENTS';                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 34;                                                              // doomednum
     spawnstate: Ord(S_ARTI_FBMB1);                                              // spawnstate
@@ -14337,7 +14337,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14405,7 +14405,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOGRAVITY or MF_SHADOW;                                           // flags
-    flags2: MF2_PUSHABLE or MF2_TELESTOMP;                                      // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14449,7 +14449,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_ARTITELEPORT
-    name: 'Chaos Device';                                                       // name
+    name: 'CHAOS DEVICE';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 36;                                                              // doomednum
     spawnstate: Ord(S_ARTI_ATLP1);                                              // spawnstate
@@ -14473,7 +14473,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_COUNTITEM;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: MF2_FLOATBOB;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14517,7 +14517,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_POD
-    name: 'Gasbag';                                                             // name
+    name: 'GASBAG';                                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 2035;                                                            // doomednum
     spawnstate: Ord(S_POD_WAIT1);                                               // spawnstate
@@ -14541,7 +14541,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOBLOOD;                // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_FLOATBOB;     // flags2
+    flags2: MF2_WINDTHRUST or MF2_PUSHABLE or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14609,7 +14609,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14653,7 +14653,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_PODGENERATOR
-    name: 'Gasbag Generator';                                                   // name
+    name: 'GASBAG GENERATOR';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 43;                                                              // doomednum
     spawnstate: Ord(S_PODGENERATOR);                                            // spawnstate
@@ -14677,7 +14677,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_THRUGHOST or MF2_FLY;                                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14745,7 +14745,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14813,7 +14813,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14881,7 +14881,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -14949,7 +14949,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15017,7 +15017,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_CANNOTPUSH;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15085,7 +15085,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15129,7 +15129,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SKULLHANG70
-    name: 'Hanging Skull';                                                      // name
+    name: 'HANGING SKULL';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 17;                                                              // doomednum
     spawnstate: Ord(S_SKULLHANG70_1);                                           // spawnstate
@@ -15153,7 +15153,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15197,7 +15197,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SKULLHANG60
-    name: 'Hanging Skull 2';                                                    // name
+    name: 'HANGING SKULL 2';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 24;                                                              // doomednum
     spawnstate: Ord(S_SKULLHANG60_1);                                           // spawnstate
@@ -15221,7 +15221,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15265,7 +15265,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SKULLHANG45
-    name: 'Hanging Skull 3';                                                    // name
+    name: 'HANGING SKULL 3';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 25;                                                              // doomednum
     spawnstate: Ord(S_SKULLHANG45_1);                                           // spawnstate
@@ -15289,7 +15289,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15333,7 +15333,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SKULLHANG35
-    name: 'Hanging Skull 4';                                                    // name
+    name: 'HANGING SKULL 4';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 26;                                                              // doomednum
     spawnstate: Ord(S_SKULLHANG35_1);                                           // spawnstate
@@ -15357,7 +15357,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15401,7 +15401,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CHANDELIER
-    name: 'Chandelier';                                                         // name
+    name: 'CHANDELIER';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 28;                                                              // doomednum
     spawnstate: Ord(S_CHANDELIER1);                                             // spawnstate
@@ -15425,7 +15425,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15469,7 +15469,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SERPTORCH
-    name: 'Serpent Torch';                                                      // name
+    name: 'SERPENT TORCH';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 27;                                                              // doomednum
     spawnstate: Ord(S_SERPTORCH1);                                              // spawnstate
@@ -15493,7 +15493,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15537,7 +15537,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SMALLPILLAR
-    name: 'Small Pillar';                                                       // name
+    name: 'SMALL PILLAR';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 29;                                                              // doomednum
     spawnstate: Ord(S_SMALLPILLAR);                                             // spawnstate
@@ -15561,7 +15561,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15605,7 +15605,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_STALAGMITESMALL
-    name: 'Small Stalagmite';                                                   // name
+    name: 'SMALL STALAGMITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 37;                                                              // doomednum
     spawnstate: Ord(S_STALAGMITESMALL);                                         // spawnstate
@@ -15629,7 +15629,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15673,7 +15673,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_STALAGMITELARGE
-    name: 'Large Stalagmite';                                                   // name
+    name: 'LARGE STALAGMITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 38;                                                              // doomednum
     spawnstate: Ord(S_STALAGMITELARGE);                                         // spawnstate
@@ -15697,7 +15697,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15741,7 +15741,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_STALACTITESMALL
-    name: 'Small Stalactite';                                                   // name
+    name: 'SMALL STALACTITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 39;                                                              // doomednum
     spawnstate: Ord(S_STALACTITESMALL);                                         // spawnstate
@@ -15765,7 +15765,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15809,7 +15809,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_STALACTITELARGE
-    name: 'Large Stalactite';                                                   // name
+    name: 'LARGE STALACTITE';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 40;                                                              // doomednum
     spawnstate: Ord(S_STALACTITELARGE);                                         // spawnstate
@@ -15833,7 +15833,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15877,7 +15877,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC6
-    name: 'Fire Brazier';                                                       // name
+    name: 'FIRE BRAZIER';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 76;                                                              // doomednum
     spawnstate: Ord(S_FIREBRAZIER1);                                            // spawnstate
@@ -15901,7 +15901,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -15945,7 +15945,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BARREL
-    name: 'Barrel';                                                             // name
+    name: 'BARREL';                                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 44;                                                              // doomednum
     spawnstate: Ord(S_BARREL);                                                  // spawnstate
@@ -15969,7 +15969,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16013,7 +16013,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC7
-    name: 'Brown Pillar';                                                       // name
+    name: 'BROWN PILLAR';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 47;                                                              // doomednum
     spawnstate: Ord(S_BRPILLAR);                                                // spawnstate
@@ -16037,7 +16037,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16081,7 +16081,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC8
-    name: 'Moss';                                                               // name
+    name: 'MOSS';                                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 48;                                                              // doomednum
     spawnstate: Ord(S_MOSS1);                                                   // spawnstate
@@ -16105,7 +16105,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16149,7 +16149,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC9
-    name: 'Moss 2';                                                             // name
+    name: 'MOSS 2';                                                             // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 49;                                                              // doomednum
     spawnstate: Ord(S_MOSS2);                                                   // spawnstate
@@ -16173,7 +16173,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPAWNCEILING or MF_NOGRAVITY;                                     // flags
-    flags2: MF2_RIP or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16217,7 +16217,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC10
-    name: 'Wall Torch';                                                         // name
+    name: 'WALL TORCH';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 50;                                                              // doomednum
     spawnstate: Ord(S_WALLTORCH1);                                              // spawnstate
@@ -16241,7 +16241,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOGRAVITY;                                                        // flags
-    flags2: MF2_PUSHABLE;                                                       // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16285,7 +16285,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC11
-    name: 'Hanging Corpse';                                                     // name
+    name: 'HANGING CORPSE';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 51;                                                              // doomednum
     spawnstate: Ord(S_HANGINGCORPSE);                                           // spawnstate
@@ -16309,7 +16309,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID or MF_SPAWNCEILING or MF_NOGRAVITY;                         // flags
-    flags2: MF2_WINDTHRUST or MF2_RIP or MF2_PUSHABLE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16353,7 +16353,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEYGIZMOBLUE
-    name: 'Blue Key Marker';                                                    // name
+    name: 'BLUE KEY MARKER';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 94;                                                              // doomednum
     spawnstate: Ord(S_KEYGIZMO1);                                               // spawnstate
@@ -16377,7 +16377,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16421,7 +16421,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEYGIZMOGREEN
-    name: 'Green Key Marker';                                                   // name
+    name: 'GREEN KEY MARKER';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 95;                                                              // doomednum
     spawnstate: Ord(S_KEYGIZMO1);                                               // spawnstate
@@ -16445,7 +16445,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16489,7 +16489,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KEYGIZMOYELLOW
-    name: 'Yellow Key Marker';                                                  // name
+    name: 'YELLOW KEY MARKER';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 96;                                                              // doomednum
     spawnstate: Ord(S_KEYGIZMO1);                                               // spawnstate
@@ -16513,7 +16513,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16581,7 +16581,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID or MF_NOGRAVITY;                                            // flags
-    flags2: MF2_WINDTHRUST or MF2_PUSHABLE;                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16625,7 +16625,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC12
-    name: 'Volcano';                                                            // name
+    name: 'VOLCANO';                                                            // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 87;                                                              // doomednum
     spawnstate: Ord(S_VOLCANO1);                                                // spawnstate
@@ -16649,7 +16649,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID;                                                            // flags
-    flags2: MF2_WINDTHRUST;                                                     // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16717,7 +16717,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16785,7 +16785,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_NOTELEPORT or MF2_FIREDAMAGE;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16829,7 +16829,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TELEGLITGEN
-    name: 'Teleport Glitter';                                                   // name
+    name: 'TELEPORT GLITTER';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 74;                                                              // doomednum
     spawnstate: Ord(S_TELEGLITGEN1);                                            // spawnstate
@@ -16853,7 +16853,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP or MF_NOGRAVITY;                        // flags
-    flags2: MF2_THRUGHOST or MF2_FLY or MF2_PUSHABLE;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16897,7 +16897,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TELEGLITGEN2
-    name: 'Teleport Glitter Exit';                                              // name
+    name: 'TELEPORT GLITTER EXIT';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 52;                                                              // doomednum
     spawnstate: Ord(S_TELEGLITGEN2);                                            // spawnstate
@@ -16921,7 +16921,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP or MF_NOGRAVITY;                        // flags
-    flags2: MF2_THRUGHOST or MF2_FLY or MF2_PUSHABLE;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -16989,7 +16989,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17057,7 +17057,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17125,7 +17125,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17169,7 +17169,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_TELEPORTMAN
-    name: 'Teleport Landing';                                                   // name
+    name: 'TELEPORT LANDING';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 14;                                                              // doomednum
     spawnstate: Ord(S_NULL);                                                    // spawnstate
@@ -17193,7 +17193,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_THRUGHOST or MF2_FLY;                                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17261,7 +17261,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17329,7 +17329,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17397,7 +17397,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17441,7 +17441,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC13
-    name: 'Gauntlets Of The Necromancer';                                       // name
+    name: 'GAUNTLETS OF THE NECROMANCER';                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 2005;                                                            // doomednum
     spawnstate: Ord(S_WGNT);                                                    // spawnstate
@@ -17465,7 +17465,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17533,7 +17533,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17601,7 +17601,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17645,7 +17645,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC14
-    name: 'Dragon Claw';                                                        // name
+    name: 'DRAGON CLAW';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 53;                                                              // doomednum
     spawnstate: Ord(S_BLSR);                                                    // spawnstate
@@ -17669,7 +17669,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17737,7 +17737,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17805,7 +17805,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17873,7 +17873,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_RIP;                                          // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -17941,7 +17941,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18009,7 +18009,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18053,7 +18053,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_WMACE
-    name: 'Firemace';                                                           // name
+    name: 'FIREMACE';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 2002;                                                            // doomednum
     spawnstate: Ord(S_WMCE);                                                    // spawnstate
@@ -18077,7 +18077,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18145,7 +18145,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;                 // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18213,7 +18213,7 @@ const // Heretic Original mobjinfo
     damage: 6;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18281,7 +18281,7 @@ const // Heretic Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_NOTELEPORT;   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18349,7 +18349,7 @@ const // Heretic Original mobjinfo
     damage: 18;                                                                 // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_FLOORBOUNCE or MF2_THRUGHOST or MF2_TELESTOMP;    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18393,7 +18393,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_WSKULLROD
-    name: 'Hellstaff';                                                          // name
+    name: 'HELLSTAFF';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 2004;                                                            // doomednum
     spawnstate: Ord(S_WSKL);                                                    // spawnstate
@@ -18417,7 +18417,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18485,7 +18485,7 @@ const // Heretic Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18553,7 +18553,7 @@ const // Heretic Original mobjinfo
     damage: 10;                                                                 // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18621,7 +18621,7 @@ const // Heretic Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18689,7 +18689,7 @@ const // Heretic Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18757,7 +18757,7 @@ const // Heretic Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18825,7 +18825,7 @@ const // Heretic Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18893,7 +18893,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -18961,7 +18961,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19029,7 +19029,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19097,7 +19097,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19141,7 +19141,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_WPHOENIXROD
-    name: 'Phoenix Rod';                                                        // name
+    name: 'PHOENIX ROD';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 2003;                                                            // doomednum
     spawnstate: Ord(S_WPHX);                                                    // spawnstate
@@ -19165,7 +19165,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19233,7 +19233,7 @@ const // Heretic Original mobjinfo
     damage: 20;                                                                 // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_THRUGHOST or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19301,7 +19301,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_SHADOW;                          // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_TELESTOMP;                           // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19369,7 +19369,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19413,7 +19413,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MISC15
-    name: 'Ethereal Crossbow';                                                  // name
+    name: 'ETHEREAL CROSSBOW';                                                  // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 2001;                                                            // doomednum
     spawnstate: Ord(S_WBOW);                                                    // spawnstate
@@ -19437,7 +19437,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19505,7 +19505,7 @@ const // Heretic Original mobjinfo
     damage: 10;                                                                 // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19573,7 +19573,7 @@ const // Heretic Original mobjinfo
     damage: 6;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19641,7 +19641,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_WINDTHRUST or MF2_THRUGHOST or MF2_NOTELEPORT;                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19709,7 +19709,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: MF2_LOGRAV;                                                         // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19777,7 +19777,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19845,7 +19845,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: MF2_EX_DONOTRENDERSHADOW;                                        // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19913,7 +19913,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_PICKUP or MF_NOTDMATCH; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE or MF2_ONMOBJ;       // flags2
+    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -19981,7 +19981,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF;                                         // flags
-    flags2: MF2_FLY or MF2_SLIDE;                                               // flags2
+    flags2: MF2_LOGRAV or MF2_CANNOTPUSH;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20049,7 +20049,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_NOTDMATCH;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE;                     // flags2
+    flags2: MF2_LOGRAV or MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_SLIDE or MF2_PASSMOBJ or MF2_TELESTOMP; // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20117,7 +20117,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 109;                                                           // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_COUNTKILL;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE;                     // flags2
+    flags2: MF2_WINDTHRUST or MF2_FOOTCLIP or MF2_PASSMOBJ;                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20185,7 +20185,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_DROPOFF or MF_MISSILE;                           // flags
-    flags2: MF2_FLY or MF2_SLIDE or MF2_FIREDAMAGE;                             // flags2
+    flags2: MF2_LOGRAV or MF2_WINDTHRUST or MF2_NOTELEPORT or MF2_CANNOTPUSH;   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20229,7 +20229,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MUMMY
-    name: 'Golem';                                                              // name
+    name: 'GOLEM';                                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 68;                                                              // doomednum
     spawnstate: Ord(S_MUMMY_LOOK1);                                             // spawnstate
@@ -20253,7 +20253,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_mumact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE;                                  // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20297,7 +20297,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MUMMYLEADER
-    name: 'Nitrogolem';                                                         // name
+    name: 'NITROGOLEM';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 45;                                                              // doomednum
     spawnstate: Ord(S_MUMMY_LOOK1);                                             // spawnstate
@@ -20321,7 +20321,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_mumact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE;                                  // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20365,7 +20365,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MUMMYGHOST
-    name: 'Golem Ghost';                                                        // name
+    name: 'GOLEM GHOST';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 69;                                                              // doomednum
     spawnstate: Ord(S_MUMMY_LOOK1);                                             // spawnstate
@@ -20389,7 +20389,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_mumact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_SHADOW or MF_COUNTKILL;               // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_TELESTOMP;                 // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20433,7 +20433,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MUMMYLEADERGHOST
-    name: 'Nitrogolem Ghost';                                                   // name
+    name: 'NITROGOLEM GHOST';                                                   // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 46;                                                              // doomednum
     spawnstate: Ord(S_MUMMY_LOOK1);                                             // spawnstate
@@ -20457,7 +20457,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_mumact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_SHADOW or MF_COUNTKILL;               // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_TELESTOMP;                 // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20525,7 +20525,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20593,7 +20593,7 @@ const // Heretic Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20637,7 +20637,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BEAST
-    name: 'Weredragon';                                                         // name
+    name: 'WEREDRAGON';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 70;                                                              // doomednum
     spawnstate: Ord(S_BEAST_LOOK1);                                             // spawnstate
@@ -20661,7 +20661,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_bstact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE;                                  // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20729,7 +20729,7 @@ const // Heretic Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20797,7 +20797,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20865,7 +20865,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20933,7 +20933,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_MISSILE;                         // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_FIREDAMAGE;                          // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -20977,7 +20977,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SNAKE
-    name: 'Ophidian';                                                           // name
+    name: 'OPHIDIAN';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 92;                                                              // doomednum
     spawnstate: Ord(S_SNAKE_LOOK1);                                             // spawnstate
@@ -21001,7 +21001,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_snkact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE;                                  // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21069,7 +21069,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21137,7 +21137,7 @@ const // Heretic Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21181,7 +21181,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_HEAD
-    name: 'Iron Lich';                                                          // name
+    name: 'IRON LICH';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 6;                                                               // doomednum
     spawnstate: Ord(S_HEAD_LOOK);                                               // spawnstate
@@ -21205,7 +21205,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 73;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_COUNTKILL;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: MF2_PASSMOBJ;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21273,7 +21273,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_THRUGHOST or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21341,7 +21341,7 @@ const // Heretic Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21409,7 +21409,7 @@ const // Heretic Original mobjinfo
     damage: 5;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21477,7 +21477,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE or MF_SHADOW; // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE or MF2_TELESTOMP; // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21521,7 +21521,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CLINK
-    name: 'Sabreclaw';                                                          // name
+    name: 'SABRECLAW';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 90;                                                              // doomednum
     spawnstate: Ord(S_CLINK_LOOK1);                                             // spawnstate
@@ -21545,7 +21545,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_clkact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOBLOOD or MF_COUNTKILL;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_FLOATBOB;                  // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21589,7 +21589,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_WIZARD
-    name: 'Disciple Of D''Sparil';                                              // name
+    name: 'DISCIPLE OF D''SPARIL';                                              // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 15;                                                              // doomednum
     spawnstate: Ord(S_WIZARD_LOOK1);                                            // spawnstate
@@ -21613,7 +21613,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 59;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOGRAVITY or MF_FLOAT or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHABLE or MF2_FEETARECLIPPED; // flags2
+    flags2: MF2_PASSMOBJ;                                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21681,7 +21681,7 @@ const // Heretic Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21725,7 +21725,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_IMP
-    name: 'Gargoyle';                                                           // name
+    name: 'GARGOYLE';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 66;                                                              // doomednum
     spawnstate: Ord(S_IMP_LOOK1);                                               // spawnstate
@@ -21749,7 +21749,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_impact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOGRAVITY or MF_FLOAT or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHABLE or MF2_FEETARECLIPPED; // flags2
+    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21793,7 +21793,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_IMPLEADER
-    name: 'Fire Gargoyle';                                                      // name
+    name: 'FIRE GARGOYLE';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 5;                                                               // doomednum
     spawnstate: Ord(S_IMP_LOOK1);                                               // spawnstate
@@ -21817,7 +21817,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_impact);                                               // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_NOGRAVITY or MF_FLOAT or MF_COUNTKILL; // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_PUSHABLE or MF2_FEETARECLIPPED; // flags2
+    flags2: MF2_SPAWNFLOAT or MF2_PASSMOBJ;                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21885,7 +21885,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -21953,7 +21953,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22021,7 +22021,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_WINDTHRUST or MF2_NOTELEPORT;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22065,7 +22065,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KNIGHT
-    name: 'Undead Warrior';                                                     // name
+    name: 'UNDEAD WARRIOR';                                                     // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 64;                                                              // doomednum
     spawnstate: Ord(S_KNIGHT_STND1);                                            // spawnstate
@@ -22089,7 +22089,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 54;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE;                                  // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22133,7 +22133,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_KNIGHTGHOST
-    name: 'Undead Warrior Ghost';                                               // name
+    name: 'UNDEAD WARRIOR GHOST';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 65;                                                              // doomednum
     spawnstate: Ord(S_KNIGHT_STND1);                                            // spawnstate
@@ -22157,7 +22157,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 54;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_SHADOW or MF_COUNTKILL;               // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_TELESTOMP;                 // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ;                                       // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22225,7 +22225,7 @@ const // Heretic Original mobjinfo
     damage: 2;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_WINDTHRUST or MF2_THRUGHOST or MF2_NOTELEPORT;                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22293,7 +22293,7 @@ const // Heretic Original mobjinfo
     damage: 7;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_THRUGHOST or MF2_NOTELEPORT;                                    // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22337,7 +22337,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SORCERER1
-    name: 'D''Sparil';                                                          // name
+    name: 'D''SPARIL';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 7;                                                               // doomednum
     spawnstate: Ord(S_SRCR1_LOOK1);                                             // spawnstate
@@ -22361,7 +22361,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 87;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_COUNTKILL;                            // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE;                                  // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;                           // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22429,7 +22429,7 @@ const // Heretic Original mobjinfo
     damage: 10;                                                                 // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22497,7 +22497,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: 79;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_COUNTKILL;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE;                     // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;                           // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22565,7 +22565,7 @@ const // Heretic Original mobjinfo
     damage: 1;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22633,7 +22633,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY;                                       // flags
-    flags2: MF2_FLY or MF2_PUSHABLE;                                            // flags2
+    flags2: MF2_NOTELEPORT or MF2_CANNOTPUSH;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22701,7 +22701,7 @@ const // Heretic Original mobjinfo
     damage: 10;                                                                 // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT;                                                     // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22769,7 +22769,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP;                                                       // flags
-    flags2: MF2_FLY;                                                            // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22813,7 +22813,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MINOTAUR
-    name: 'Maulotaur';                                                          // name
+    name: 'MAULOTAUR';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 9;                                                               // doomednum
     spawnstate: Ord(S_MNTR_LOOK1);                                              // spawnstate
@@ -22837,7 +22837,7 @@ const // Heretic Original mobjinfo
     damage: 7;                                                                  // damage
     activesound: 66;                                                            // activesound
     flags: MF_SOLID or MF_SHOOTABLE or MF_DROPOFF or MF_COUNTKILL;              // flags
-    flags2: MF2_WINDTHRUST or MF2_FLOORBOUNCE or MF2_SLIDE;                     // flags2
+    flags2: MF2_FOOTCLIP or MF2_PASSMOBJ or MF2_BOSS;                           // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22881,7 +22881,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MNTRFX1
-    name: 'Flaming Pellets ranged attack';                                      // name
+    name: 'FLAMING PELLETS RANGED ATTACK';                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: -1;                                                              // doomednum
     spawnstate: Ord(S_MNTRFX1_1);                                               // spawnstate
@@ -22905,7 +22905,7 @@ const // Heretic Original mobjinfo
     damage: 3;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -22949,7 +22949,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_MNTRFX2
-    name: 'Ground Flame ranged attack';                                         // name
+    name: 'GROUND FLAME RANGED ATTACK';                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: -1;                                                              // doomednum
     spawnstate: Ord(S_MNTRFX2_1);                                               // spawnstate
@@ -22973,7 +22973,7 @@ const // Heretic Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23041,7 +23041,7 @@ const // Heretic Original mobjinfo
     damage: 4;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOBLOCKMAP or MF_NOGRAVITY or MF_DROPOFF or MF_MISSILE;           // flags
-    flags2: MF2_FLY or MF2_PUSHABLE or MF2_SLIDE or MF2_FIREDAMAGE;             // flags2
+    flags2: MF2_NOTELEPORT or MF2_FIREDAMAGE;                                   // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23085,7 +23085,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AKYY
-    name: 'Green Key';                                                          // name
+    name: 'GREEN KEY';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 73;                                                              // doomednum
     spawnstate: Ord(S_AKYY1);                                                   // spawnstate
@@ -23109,7 +23109,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_NOTDMATCH;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23153,7 +23153,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_BKYY
-    name: 'Blue Key';                                                           // name
+    name: 'BLUE KEY';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 79;                                                              // doomednum
     spawnstate: Ord(S_BKYY1);                                                   // spawnstate
@@ -23177,7 +23177,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_NOTDMATCH;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23221,7 +23221,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_CKEY
-    name: 'Yellow Key';                                                         // name
+    name: 'YELLOW KEY';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 80;                                                              // doomednum
     spawnstate: Ord(S_CKYY1);                                                   // spawnstate
@@ -23245,7 +23245,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL or MF_NOTDMATCH;                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23289,7 +23289,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMGWNDWIMPY
-    name: 'Wand Crystal';                                                       // name
+    name: 'WAND CRYSTAL';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 10;                                                              // doomednum
     spawnstate: Ord(S_AMG1);                                                    // spawnstate
@@ -23313,7 +23313,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23357,7 +23357,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMGWNDHEFTY
-    name: 'Crystal Geode';                                                      // name
+    name: 'CRYSTAL GEODE';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 12;                                                              // doomednum
     spawnstate: Ord(S_AMG2_1);                                                  // spawnstate
@@ -23381,7 +23381,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23425,7 +23425,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMMACEWIMPY
-    name: 'Mace Spheres';                                                       // name
+    name: 'MACE SPHERES';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 13;                                                              // doomednum
     spawnstate: Ord(S_AMM1);                                                    // spawnstate
@@ -23449,7 +23449,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23493,7 +23493,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMMACEHEFTY
-    name: 'Pile Of Mace Spheres';                                               // name
+    name: 'PILE OF MACE SPHERES';                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 16;                                                              // doomednum
     spawnstate: Ord(S_AMM2);                                                    // spawnstate
@@ -23517,7 +23517,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23561,7 +23561,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMCBOWWIMPY
-    name: 'Ethereal Arrows';                                                    // name
+    name: 'ETHEREAL ARROWS';                                                    // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 18;                                                              // doomednum
     spawnstate: Ord(S_AMC1);                                                    // spawnstate
@@ -23585,7 +23585,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23629,7 +23629,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMCBOWHEFTY
-    name: 'Quiver Of Ethereal Arrows';                                          // name
+    name: 'QUIVER OF ETHEREAL ARROWS';                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 19;                                                              // doomednum
     spawnstate: Ord(S_AMC2_1);                                                  // spawnstate
@@ -23653,7 +23653,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23697,7 +23697,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMSKRDWIMPY
-    name: 'Lesser Runes';                                                       // name
+    name: 'LESSER RUNES';                                                       // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 20;                                                              // doomednum
     spawnstate: Ord(S_AMS1_1);                                                  // spawnstate
@@ -23721,7 +23721,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23765,7 +23765,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMSKRDHEFTY
-    name: 'Greater Runes';                                                      // name
+    name: 'GREATER RUNES';                                                      // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 21;                                                              // doomednum
     spawnstate: Ord(S_AMS2_1);                                                  // spawnstate
@@ -23789,7 +23789,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23833,7 +23833,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMPHRDWIMPY
-    name: 'Flame Orb';                                                          // name
+    name: 'FLAME ORB';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 22;                                                              // doomednum
     spawnstate: Ord(S_AMP1_1);                                                  // spawnstate
@@ -23857,7 +23857,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23901,7 +23901,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMPHRDHEFTY
-    name: 'Inferno Orb';                                                        // name
+    name: 'INFERNO ORB';                                                        // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 23;                                                              // doomednum
     spawnstate: Ord(S_AMP2_1);                                                  // spawnstate
@@ -23925,7 +23925,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -23969,7 +23969,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMBLSRWIMPY
-    name: 'Claw Orb';                                                           // name
+    name: 'CLAW ORB';                                                           // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 54;                                                              // doomednum
     spawnstate: Ord(S_AMB1_1);                                                  // spawnstate
@@ -23993,7 +23993,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -24037,7 +24037,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_AMBLSRHEFTY
-    name: 'Energy Orb';                                                         // name
+    name: 'ENERGY ORB';                                                         // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 55;                                                              // doomednum
     spawnstate: Ord(S_AMB2_1);                                                  // spawnstate
@@ -24061,7 +24061,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_SPECIAL;                                                          // flags
-    flags2: MF2_LOGRAV;                                                         // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -24105,7 +24105,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SOUNDWIND
-    name: 'Wind';                                                               // name
+    name: 'WIND';                                                               // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 42;                                                              // doomednum
     spawnstate: Ord(S_SND_WIND);                                                // spawnstate
@@ -24129,7 +24129,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_THRUGHOST or MF2_FLY;                                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
@@ -24173,7 +24173,7 @@ const // Heretic Original mobjinfo
 
   ////////////////////////////////////////////////////////////////////////////////
    ( // MT_SOUNDWATERFALL
-    name: 'Waterfall';                                                          // name
+    name: 'WATERFALL';                                                          // name
     inheritsfrom: -1;                                                           // inheritsfrom
     doomednum: 41;                                                              // doomednum
     spawnstate: Ord(S_SND_WATERFALL);                                           // spawnstate
@@ -24197,7 +24197,7 @@ const // Heretic Original mobjinfo
     damage: 0;                                                                  // damage
     activesound: Ord(sfx_None);                                                 // activesound
     flags: MF_NOSECTOR or MF_NOBLOCKMAP;                                        // flags
-    flags2: MF2_THRUGHOST or MF2_FLY;                                           // flags2
+    flags2: 0;                                                                  // flags2
     flags_ex: 0;                                                                // flags_ex
     flags2_ex: 0;                                                               // flags2_ex
     raisestate: Ord(S_NULL);                                                    // raisestate
