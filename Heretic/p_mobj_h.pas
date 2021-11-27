@@ -338,6 +338,8 @@ const
   MF2_EX_JUMPUP = $20000;
   // Does not block player
   MF2_EX_DONTBLOCKPLAYER = $40000;
+  // Interactive mobj - can be set to interactstate
+  MF2_EX_INTERACTIVE = $80000;
 
 const
   // Bounce on floor

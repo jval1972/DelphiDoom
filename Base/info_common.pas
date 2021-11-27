@@ -547,9 +547,7 @@ begin
   _AddStates(mobjinfo[mobjno].raisestate);
   _AddStates(mobjinfo[mobjno].healstate);
   _AddStates(mobjinfo[mobjno].crashstate);
-  {$IFDEF DOOM_OR_STRIFE}
   _AddStates(mobjinfo[mobjno].interactstate);
-  {$ENDIF}
 
   for st := 0 to numstates - 1 do
     if states[st].owners <> nil then

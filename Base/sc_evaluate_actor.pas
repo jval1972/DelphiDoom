@@ -139,9 +139,7 @@ type
     function PF_XDEATH(p: TDStrings): string;
     function PF_HEAL(p: TDStrings): string;
     function PF_CRASH(p: TDStrings): string;
-    {$IFDEF DOOM_OR_STRIFE}
     function PF_INTERACT(p: TDStrings): string;
-    {$ENDIF}
     function PF_RAISE(p: TDStrings): string;
   public
     constructor Create; override;
@@ -240,9 +238,7 @@ begin
   AddFunc('XDEATH', PF_XDEATH, 0);
   AddFunc('HEAL', PF_HEAL, 0);
   AddFunc('CRASH', PF_CRASH, 0);
-  {$IFDEF DOOM_OR_STRIFE}
   AddFunc('INTERACT', PF_INTERACT, 0);
-  {$ENDIF}
   AddFunc('RAISE', PF_RAISE, 0);
 end;
 
@@ -673,12 +669,10 @@ begin
   result := itoa(factor.info.crashstate);
 end;
 
-{$IFDEF DOOM_OR_STRIFE}
 function TActorEvaluator.PF_INTERACT(p: TDStrings): string;
 begin
   result := itoa(factor.info.interactstate);
 end;
-{$ENDIF}
 
 function TActorEvaluator.PF_RAISE(p: TDStrings): string;
 begin

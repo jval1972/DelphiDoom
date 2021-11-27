@@ -292,8 +292,8 @@ begin
     AddLn('mobjinfo[' + mname + '].alpha := ' + itoa(mobjinfo[i].alpha) + ';');
     AddLn('mobjinfo[' + mname + '].healstate := ' + _state_name_Ord(mobjinfo[i].healstate) + ';');
     AddLn('mobjinfo[' + mname + '].crashstate := ' + _state_name_Ord(mobjinfo[i].crashstate) + ';');
-    {$IFDEF DOOM_OR_STRIFE}
     AddLn('mobjinfo[' + mname + '].interactstate := ' + _state_name_Ord(mobjinfo[i].interactstate) + ';');
+    {$IFDEF DOOM_OR_STRIFE}
     AddLn('mobjinfo[' + mname + '].missileheight := ' + itoa(mobjinfo[i].missileheight) + ';');
     {$ENDIF}
     AddLn('mobjinfo[' + mname + '].vspeed := ' + itoa(mobjinfo[i].vspeed) + ';');
@@ -434,8 +434,8 @@ begin
     AddField('alpha', itoa(fmobjinfo[i].alpha));
     AddField('healstate', _state_name_Ord(fmobjinfo[i].healstate));
     AddField('crashstate', _state_name_Ord(fmobjinfo[i].crashstate));
-    {$IFDEF DOOM_OR_STRIFE}
     AddField('interactstate', _state_name_Ord(fmobjinfo[i].interactstate));
+    {$IFDEF DOOM_OR_STRIFE}
     AddField('missileheight', itoa(fmobjinfo[i].missileheight));
     {$ENDIF}
     AddField('vspeed', itoa(fmobjinfo[i].vspeed));

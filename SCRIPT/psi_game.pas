@@ -670,9 +670,9 @@ function PS_GetMobjInfoSpriteDY(const typ: integer): integer;
 
 function PS_GetMobjInfoFriction(const typ: integer): integer;
 
-{$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 
+{$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoMissileHeight(const typ: integer): integer;
 {$ENDIF}
 
@@ -6092,7 +6092,6 @@ begin
   Result := mobjinfo[typ].spriteDY;
 end;
 
-{$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoInteractState(const typ: integer): integer;
 begin
   if (typ < 0) or (typ >= nummobjtypes) then
@@ -6103,6 +6102,7 @@ begin
   Result := mobjinfo[typ].interactstate;
 end;
 
+{$IFDEF DOOM_OR_STRIFE}
 function PS_GetMobjInfoMissileHeight(const typ: integer): integer;
 begin
   if (typ < 0) or (typ >= nummobjtypes) then
@@ -6436,12 +6436,12 @@ begin
   T := PS_GetMobjInfoSpriteDY(Integer(Self) - 1);
 end;
 
-{$IFDEF DOOM_OR_STRIFE}
 procedure TRTLMobjInfoItemInteractState_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoInteractState(Integer(Self) - 1);
 end;
 
+{$IFDEF DOOM_OR_STRIFE}
 procedure TRTLMobjInfoItemMissileHeight_R(Self: TRTLMobjInfoItem; var T: integer);
 begin
   T := PS_GetMobjInfoMissileHeight(Integer(Self) - 1);
@@ -7224,7 +7224,9 @@ begin
   cmobjinfoitem.RegisterProperty('HealState', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('CrashState', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('InteractState', 'Integer', iptR);
+{$IFDEF DOOM_OR_STRIFE}
   cmobjinfoitem.RegisterProperty('MissileHeight', 'Integer', iptR);
+{$ENDIF}
   cmobjinfoitem.RegisterProperty('VSpeed', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('MinMissileChance', 'Integer', iptR);
   cmobjinfoitem.RegisterProperty('PushFactor', 'Integer', iptR);
@@ -7503,8 +7505,8 @@ begin
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemFriction_R, nil, 'Friction');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpriteDX_R, nil, 'SpriteDX');
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemSpriteDY_R, nil, 'SpriteDY');
-  {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemInteractState_R, nil, 'InteractState');
+  {$IFDEF DOOM_OR_STRIFE}
   rmobjinfoitem.RegisterPropertyHelper(@TRTLMobjInfoItemMissileHeight_R, nil, 'MissileHeight');
   {$ENDIF}
 

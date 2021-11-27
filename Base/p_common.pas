@@ -487,6 +487,10 @@ procedure A_UnSetPushable(actor: Pmobj_t);
 
 procedure A_MatchTargetZ(actor: Pmobj_t);
 
+procedure A_SetInteractive(actor: Pmobj_t);
+
+procedure A_UnSetInteractive(actor: Pmobj_t);
+
 const
   FLOATBOBSIZE = 64;
   FLOATBOBMASK = FLOATBOBSIZE - 1;
@@ -6271,4 +6275,15 @@ begin
     actor.momz := actor.floorz - actor.z;
 end;
 
+procedure A_SetInteractive(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex or MF2_EX_INTERACTIVE;
+end;
+
+procedure A_UnSetInteractive(actor: Pmobj_t);
+begin
+  actor.flags2_ex := actor.flags2_ex and not MF2_EX_INTERACTIVE;
+end;
+
 end.
+

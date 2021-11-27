@@ -57,6 +57,9 @@ Added DEH_PrintStateOwners, PrintStateOwners, DEH_SaveStateOwners & SaveStateOwn
 Fixed bug that could rarely cause infinite loop in DEHACKED lumps, also now recognizes correctly multiple SUBMITNEWFRAMES commands in DEHACKED.
 Inherited actors do not hurt each other.
 r_fakecontrast console variable will add contrast to ALL perpendicular lines.
+Added interact state for mobjs
+Added MF2_EX_INTERACTIVE mobj flag
+Added A_SetInteractive and A_UnSetInteractive mobj functions
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

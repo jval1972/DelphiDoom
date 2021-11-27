@@ -313,7 +313,7 @@ begin
 
         mobj_val := atoi(token2, -1);
 
-        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38] then
+        if mobj_idx in [1, 3, 7, 10, 11, 12, 13, 23, 38, 64] then
         begin
           stmp := firstword(token2);
           if (stmp = 'NEWFRAME') or (stmp = 'NEWSTATE') then  // JVAL: a new defined state
@@ -594,6 +594,7 @@ begin
           61: mobjinfo[mobj_no].friction := DEH_FixedOrFloat(token2, 64);
           62: mobjinfo[mobj_no].spriteDX := DEH_FixedOrFloat(token2, 256);
           63: mobjinfo[mobj_no].spriteDY := DEH_FixedOrFloat(token2, 256);
+          64: mobjinfo[mobj_no].interactstate := mobj_val;
         end;
       end;
 
@@ -1697,7 +1698,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[61]), mobjinfo[i].friction]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[62]), mobjinfo[i].spriteDX]);
     result.Add('%s = %d', [capitalizedstring(mobj_tokens[63]), mobjinfo[i].spriteDY]);
-
+    result.Add('%s = %d', [capitalizedstring(mobj_tokens[64]), mobjinfo[i].interactstate]);
     result.Add('');
   end;
 
@@ -1953,6 +1954,7 @@ begin
   mobj_tokens.Add('FRICTION');           // .Friction                 // 61
   mobj_tokens.Add('SPRITE DX');          // .spriteDX                 // 62
   mobj_tokens.Add('SPRITE DY');          // .spriteDY                 // 63
+  mobj_tokens.Add('INTERACT FRAME');     // .interactstate (DelphiDoom) // 64
 
   mobj_tokens_hash := TDEHStringsHashTable.Create;
   mobj_tokens_hash.AssignList(mobj_tokens);
@@ -2082,6 +2084,7 @@ begin
   mobj_flags2_ex.Add('MF2_EX_NOHITFLOOR');
   mobj_flags2_ex.Add('MF2_EX_JUMPUP');
   mobj_flags2_ex.Add('MF2_EX_DONTBLOCKPLAYER');
+  mobj_flags2_ex.Add('MF2_EX_INTERACTIVE'); // JVAL: VERSION 207
 
   mobj_flags2_ex_hash := TDEHStringsHashTable.Create;
   mobj_flags2_ex_hash.AssignList(mobj_flags2_ex);
@@ -2548,6 +2551,8 @@ begin
   DEH_AddAction(@A_DeathSound1, 'A_DeathSound()'); // 386
   DEH_AddAction(@A_ActiveSound1, 'A_ActiveSound()'); // 387
   DEH_AddAction(@A_MatchTargetZ, 'A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)'); // 388
+  DEH_AddAction(@A_SetInteractive, 'A_SetInteractive()'); // 144
+  DEH_AddAction(@A_UnSetInteractive, 'A_UnSetInteractive()'); // 145
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);

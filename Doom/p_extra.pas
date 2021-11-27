@@ -82,10 +82,6 @@ procedure A_SpawnSmokeDown(actor: Pmobj_t);
 
 procedure A_SpawnSmokeHorz(actor: Pmobj_t);
 
-procedure A_SetInteractive(actor: Pmobj_t);
-
-procedure A_UnSetInteractive(actor: Pmobj_t);
-
 procedure A_SetMonsterInfight(actor: Pmobj_t);
 
 procedure A_UnSetMonsterInfight(actor: Pmobj_t);
@@ -500,16 +496,6 @@ begin
   speed := (5 - (N_Random mod 3)) * FRACUNIT;
   mo.momx := FixedMul(speed, finecosine[an]);
   mo.momy := FixedMul(speed, finesine[an]);
-end;
-
-procedure A_SetInteractive(actor: Pmobj_t);
-begin
-  actor.flags2_ex := actor.flags2_ex or MF2_EX_INTERACTIVE;
-end;
-
-procedure A_UnSetInteractive(actor: Pmobj_t);
-begin
-  actor.flags2_ex := actor.flags2_ex and not MF2_EX_INTERACTIVE;
 end;
 
 procedure A_SetMonsterInfight(actor: Pmobj_t);

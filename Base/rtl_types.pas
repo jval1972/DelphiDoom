@@ -44,9 +44,7 @@ const
   RTL_ST_RAISE = 128;
   RTL_ST_HEAL = 256;
   RTL_ST_CRASH = 512;
-  {$IFDEF DOOM_OR_STRIFE}
   RTL_ST_INTERACT = 1024;
-  {$ENDIF}
 
 // Weapon states
 const
@@ -127,8 +125,8 @@ type
     alpha: integer;
     healstate: integer;
     crashstate: integer;
-    {$IFDEF DOOM_OR_STRIFE}
     interactstate: integer;
+    {$IFDEF DOOM_OR_STRIFE}
     missileheight: integer;
     {$ENDIF}
     vspeed: float;

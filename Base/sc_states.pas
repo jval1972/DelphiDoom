@@ -219,13 +219,11 @@ var
         result := inf.crashstate;
         exit;
       end
-      {$IFDEF DOOM_OR_STRIFE}
       else if sss1 = 'INTERACT' then
       begin
         result := inf.interactstate;
         exit;
       end
-      {$ENDIF};
     end;
 
     sss1 := 'S_' + strupper(actor.info.name) + '_' + sss;
