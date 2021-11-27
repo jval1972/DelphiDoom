@@ -375,9 +375,9 @@ const
   // No P_HitFloor call
   MF2_EX_NOHITFLOOR = $10000;
   // Actor can jump up
-  MF2_EX_JUMPUP = $10000;
+  MF2_EX_JUMPUP = $20000;
   // Does not block player
-  MF2_EX_DONTBLOCKPLAYER = $20000;
+  MF2_EX_DONTBLOCKPLAYER = $40000;
   // Interactive mobj - can be set to interactstate
   MF2_EX_INTERACTIVE = $40000;
 
