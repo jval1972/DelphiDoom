@@ -3355,7 +3355,7 @@ begin
           result := true;
           exit;
         end;
-      KEY_F10:  // Quit Heretic
+      KEY_F10:  // Quit Hexen
         begin
           S_StartSound(nil, Ord(SFX_CHAT));
           M_QuitGame(0);
