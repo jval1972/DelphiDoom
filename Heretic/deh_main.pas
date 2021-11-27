@@ -2552,8 +2552,8 @@ begin
   DEH_AddAction(@A_DeathSound1, 'A_DeathSound()'); // 386
   DEH_AddAction(@A_ActiveSound1, 'A_ActiveSound()'); // 387
   DEH_AddAction(@A_MatchTargetZ, 'A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)'); // 388
-  DEH_AddAction(@A_SetInteractive, 'A_SetInteractive()'); // 144
-  DEH_AddAction(@A_UnSetInteractive, 'A_UnSetInteractive()'); // 145
+  DEH_AddAction(@A_SetInteractive, 'A_SetInteractive()'); // 389
+  DEH_AddAction(@A_UnSetInteractive, 'A_UnSetInteractive()'); // 390
   DEH_AddAction(@A_SimpleDialog, 'A_SimpleDialog(dialog1: string; [dialog2...])'); // 391
 
   for i := 0 to dehnumactions - 1 do
