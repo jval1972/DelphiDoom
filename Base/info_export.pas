@@ -194,7 +194,7 @@ function _action_name(const action: actionf_t): string;
 var
   i: integer;
 begin
-  for i := 0 to DEHNUMACTIONS - 1 do
+  for i := 0 to dehnumactions - 1 do
     if @deh_actions[i].action.acp1 = @action.acp1 then
     begin
       Result := '@A_' + capitalizedstring(deh_actions[i].name);

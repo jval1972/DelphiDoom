@@ -48,11 +48,15 @@ procedure DEH_Init;
 procedure DEH_ShutDown;
 
 const
-  DEHNUMACTIONS = 389;
+  DEHMAXACTIONS = 400;
+
+var
+  dehnumactions: integer = 0;
 
 type
   deh_action_t = record
     action: actionf_t;
+    originalname: string;
     name: string;
     {$IFDEF DLL}decl: string;{$ENDIF}
   end;
@@ -91,7 +95,7 @@ var
   weapontype_tokens: TDTextList;
   ammotype_tokens: TDTextList;
 
-  deh_actions: array[0..DEHNUMACTIONS - 1] of deh_action_t;
+  deh_actions: array[0..DEHMAXACTIONS - 1] of deh_action_t;
   deh_strings: deh_strings_t;
 
 implementation
@@ -704,10 +708,10 @@ begin
             begin
               if state_val >= 0 then
               begin
-                if state_val < DEHNUMACTIONS then
+                if state_val < dehnumactions then
                   states[state_no].action.acp1 := deh_actions[state_val].action.acp1
                 else
-                  I_Warning('DEH_Parse(): Wrong action number = %d in state %d (Must be in [0..%d])'#13#10, [state_val, state_no, DEHNUMACTIONS]);
+                  I_Warning('DEH_Parse(): Wrong action number = %d in state %d (Must be in [0..%d])'#13#10, [state_val, state_no, dehnumactions]);
               end
               else
               begin
@@ -722,7 +726,7 @@ begin
                 end
                 else
                 begin
-                  for j := 0 to DEHNUMACTIONS - 1 do
+                  for j := 0 to dehnumactions - 1 do
                     if (token3 = deh_actions[j].name) or (token3 = 'A_' + deh_actions[j].name) then
                     begin
                       states[state_no].action.acp1 := deh_actions[j].action.acp1;
@@ -1364,7 +1368,7 @@ begin
             states[state_no].action.acp1 := deh_actions[j].action.acp1
           else
           begin
-            for j := 0 to DEHNUMACTIONS - 1 do
+            for j := 0 to dehnumactions - 1 do
               if (token4 = deh_actions[j].name) or (token4 = 'A_' + deh_actions[j].name) then
               begin
                 states[state_no].action.acp1 := deh_actions[j].action.acp1;
@@ -1716,7 +1720,7 @@ begin
     result.Add('%s = %d', [capitalizedstring(state_tokens[3]), Ord(states[i].nextstate)]);
 
     str := '';
-    for j := 0 to DEHNUMACTIONS - 1 do
+    for j := 0 to dehnumactions - 1 do
       if @states[i].action.acp1 = @deh_actions[j].action.acp1 then
       begin
         str := deh_actions[j].name;
@@ -2149,1175 +2153,403 @@ begin
   state_tokens.Add('OWNER');            // 8 //.Add an owner (DelphiDoom)
   state_tokens.Add('DURATION 2');       // 9 //.tics2
 
-  deh_actions[0].action.acp1 := @A_AccTeleGlitter;
-  deh_actions[0].name := strupper('AccTeleGlitter');
-  {$IFDEF DLL}deh_actions[0].decl := 'A_AccTeleGlitter()';{$ENDIF}
-  deh_actions[1].action.acp1 := @A_AddPlayerCorpse;
-  deh_actions[1].name := strupper('AddPlayerCorpse');
-  {$IFDEF DLL}deh_actions[1].decl := 'A_AddPlayerCorpse()';{$ENDIF}
-  deh_actions[2].action.acp1 := @A_AddPlayerRain;
-  deh_actions[2].name := strupper('AddPlayerRain');
-  {$IFDEF DLL}deh_actions[2].decl := 'A_AddPlayerRain()';{$ENDIF}
-  deh_actions[3].action.acp1 := @A_BeakAttackPL1;
-  deh_actions[3].name := strupper('BeakAttackPL1');
-  {$IFDEF DLL}deh_actions[3].decl := 'A_BeakAttackPL1()';{$ENDIF}
-  deh_actions[4].action.acp1 := @A_BeakAttackPL2;
-  deh_actions[4].name := strupper('BeakAttackPL2');
-  {$IFDEF DLL}deh_actions[4].decl := 'A_BeakAttackPL2()';{$ENDIF}
-  deh_actions[5].action.acp1 := @A_BeakRaise;
-  deh_actions[5].name := strupper('BeakRaise');
-  {$IFDEF DLL}deh_actions[5].decl := 'A_BeakRaise()';{$ENDIF}
-  deh_actions[6].action.acp1 := @A_BeakReady;
-  deh_actions[6].name := strupper('BeakReady');
-  {$IFDEF DLL}deh_actions[6].decl := 'A_BeakReady()';{$ENDIF}
-  deh_actions[7].action.acp1 := @A_BeastAttack;
-  deh_actions[7].name := strupper('BeastAttack');
-  {$IFDEF DLL}deh_actions[7].decl := 'A_BeastAttack()';{$ENDIF}
-  deh_actions[8].action.acp1 := @A_BeastPuff;
-  deh_actions[8].name := strupper('BeastPuff');
-  {$IFDEF DLL}deh_actions[8].decl := 'A_BeastPuff()';{$ENDIF}
-  deh_actions[9].action.acp1 := @A_BlueSpark;
-  deh_actions[9].name := strupper('BlueSpark');
-  {$IFDEF DLL}deh_actions[9].decl := 'A_BlueSpark()';{$ENDIF}
-  deh_actions[10].action.acp1 := @A_BoltSpark;
-  deh_actions[10].name := strupper('BoltSpark');
-  {$IFDEF DLL}deh_actions[10].decl := 'A_BoltSpark()';{$ENDIF}
-  deh_actions[11].action.acp1 := @A_BossDeath;
-  deh_actions[11].name := strupper('BossDeath');
-  {$IFDEF DLL}deh_actions[11].decl := 'A_BossDeath()';{$ENDIF}
-  deh_actions[12].action.acp1 := @A_Chase;
-  deh_actions[12].name := strupper('Chase');
-  {$IFDEF DLL}deh_actions[12].decl := 'A_Chase()';{$ENDIF}
-  deh_actions[13].action.acp1 := @A_CheckBurnGone;
-  deh_actions[13].name := strupper('CheckBurnGone');
-  {$IFDEF DLL}deh_actions[13].decl := 'A_CheckBurnGone()';{$ENDIF}
-  deh_actions[14].action.acp1 := @A_CheckSkullDone;
-  deh_actions[14].name := strupper('CheckSkullDone');
-  {$IFDEF DLL}deh_actions[14].decl := 'A_CheckSkullDone()';{$ENDIF}
-  deh_actions[15].action.acp1 := @A_CheckSkullFloor;
-  deh_actions[15].name := strupper('CheckSkullFloor');
-  {$IFDEF DLL}deh_actions[15].decl := 'A_CheckSkullFloor()';{$ENDIF}
-  deh_actions[16].action.acp1 := @A_ChicAttack;
-  deh_actions[16].name := strupper('ChicAttack');
-  {$IFDEF DLL}deh_actions[16].decl := 'A_ChicAttack()';{$ENDIF}
-  deh_actions[17].action.acp1 := @A_ChicChase;
-  deh_actions[17].name := strupper('ChicChase');
-  {$IFDEF DLL}deh_actions[17].decl := 'A_ChicChase()';{$ENDIF}
-  deh_actions[18].action.acp1 := @A_ChicLook;
-  deh_actions[18].name := strupper('ChicLook');
-  {$IFDEF DLL}deh_actions[18].decl := 'A_ChicLook()';{$ENDIF}
-  deh_actions[19].action.acp1 := @A_ChicPain;
-  deh_actions[19].name := strupper('ChicPain');
-  {$IFDEF DLL}deh_actions[19].decl := 'A_ChicPain()';{$ENDIF}
-  deh_actions[20].action.acp1 := @A_ClinkAttack;
-  deh_actions[20].name := strupper('ClinkAttack');
-  {$IFDEF DLL}deh_actions[20].decl := 'A_ClinkAttack()';{$ENDIF}
-  deh_actions[21].action.acp1 := @A_ContMobjSound;
-  deh_actions[21].name := strupper('ContMobjSound');
-  {$IFDEF DLL}deh_actions[21].decl := 'A_ContMobjSound()';{$ENDIF}
-  deh_actions[22].action.acp1 := @A_DeathBallImpact;
-  deh_actions[22].name := strupper('DeathBallImpact');
-  {$IFDEF DLL}deh_actions[22].decl := 'A_DeathBallImpact()';{$ENDIF}
-  deh_actions[23].action.acp1 := @A_DripBlood;
-  deh_actions[23].name := strupper('DripBlood');
-  {$IFDEF DLL}deh_actions[23].decl := 'A_DripBlood()';{$ENDIF}
-  deh_actions[24].action.acp1 := @A_ESound;
-  deh_actions[24].name := strupper('ESound');
-  {$IFDEF DLL}deh_actions[24].decl := 'A_ESound()';{$ENDIF}
-  deh_actions[25].action.acp1 := @A_Explode;
-  deh_actions[25].name := strupper('Explode');
-  {$IFDEF DLL}deh_actions[25].decl := 'A_Explode()';{$ENDIF}
-  deh_actions[26].action.acp1 := @A_FaceTarget;
-  deh_actions[26].name := strupper('FaceTarget');
-  {$IFDEF DLL}deh_actions[26].decl := 'A_FaceTarget()';{$ENDIF}
-  deh_actions[27].action.acp1 := @A_Feathers;
-  deh_actions[27].name := strupper('Feathers');
-  {$IFDEF DLL}deh_actions[27].decl := 'A_Feathers()';{$ENDIF}
-  deh_actions[28].action.acp1 := @A_FireBlasterPL1;
-  deh_actions[28].name := strupper('FireBlasterPL1');
-  {$IFDEF DLL}deh_actions[28].decl := 'A_FireBlasterPL1()';{$ENDIF}
-  deh_actions[29].action.acp1 := @A_FireBlasterPL2;
-  deh_actions[29].name := strupper('FireBlasterPL2');
-  {$IFDEF DLL}deh_actions[29].decl := 'A_FireBlasterPL2()';{$ENDIF}
-  deh_actions[30].action.acp1 := @A_FireCrossbowPL1;
-  deh_actions[30].name := strupper('FireCrossbowPL1');
-  {$IFDEF DLL}deh_actions[30].decl := 'A_FireCrossbowPL1()';{$ENDIF}
-  deh_actions[31].action.acp1 := @A_FireCrossbowPL2;
-  deh_actions[31].name := strupper('FireCrossbowPL2');
-  {$IFDEF DLL}deh_actions[31].decl := 'A_FireCrossbowPL2()';{$ENDIF}
-  deh_actions[32].action.acp1 := @A_FireGoldWandPL1;
-  deh_actions[32].name := strupper('FireGoldWandPL1');
-  {$IFDEF DLL}deh_actions[32].decl := 'A_FireGoldWandPL1()';{$ENDIF}
-  deh_actions[33].action.acp1 := @A_FireGoldWandPL2;
-  deh_actions[33].name := strupper('FireGoldWandPL2');
-  {$IFDEF DLL}deh_actions[33].decl := 'A_FireGoldWandPL2()';{$ENDIF}
-  deh_actions[34].action.acp1 := @A_FireMacePL1;
-  deh_actions[34].name := strupper('FireMacePL1');
-  {$IFDEF DLL}deh_actions[34].decl := 'A_FireMacePL1()';{$ENDIF}
-  deh_actions[35].action.acp1 := @A_FireMacePL2;
-  deh_actions[35].name := strupper('FireMacePL2');
-  {$IFDEF DLL}deh_actions[35].decl := 'A_FireMacePL2()';{$ENDIF}
-  deh_actions[36].action.acp1 := @A_FirePhoenixPL1;
-  deh_actions[36].name := strupper('FirePhoenixPL1');
-  {$IFDEF DLL}deh_actions[36].decl := 'A_FirePhoenixPL1()';{$ENDIF}
-  deh_actions[37].action.acp1 := @A_FirePhoenixPL2;
-  deh_actions[37].name := strupper('FirePhoenixPL2');
-  {$IFDEF DLL}deh_actions[37].decl := 'A_FirePhoenixPL2()';{$ENDIF}
-  deh_actions[38].action.acp1 := @A_FireSkullRodPL1;
-  deh_actions[38].name := strupper('FireSkullRodPL1');
-  {$IFDEF DLL}deh_actions[38].decl := 'A_FireSkullRodPL1()';{$ENDIF}
-  deh_actions[39].action.acp1 := @A_FireSkullRodPL2;
-  deh_actions[39].name := strupper('FireSkullRodPL2');
-  {$IFDEF DLL}deh_actions[39].decl := 'A_FireSkullRodPL2()';{$ENDIF}
-  deh_actions[40].action.acp1 := @A_FlameEnd;
-  deh_actions[40].name := strupper('FlameEnd');
-  {$IFDEF DLL}deh_actions[40].decl := 'A_FlameEnd()';{$ENDIF}
-  deh_actions[41].action.acp1 := @A_FlameSnd;
-  deh_actions[41].name := strupper('FlameSnd');
-  {$IFDEF DLL}deh_actions[41].decl := 'A_FlameSnd()';{$ENDIF}
-  deh_actions[42].action.acp1 := @A_FloatPuff;
-  deh_actions[42].name := strupper('FloatPuff');
-  {$IFDEF DLL}deh_actions[42].decl := 'A_FloatPuff()';{$ENDIF}
-  deh_actions[43].action.acp1 := @A_FreeTargMobj;
-  deh_actions[43].name := strupper('FreeTargMobj');
-  {$IFDEF DLL}deh_actions[43].decl := 'A_FreeTargMobj()';{$ENDIF}
-  deh_actions[44].action.acp1 := @A_GauntletAttack;
-  deh_actions[44].name := strupper('GauntletAttack');
-  {$IFDEF DLL}deh_actions[44].decl := 'A_GauntletAttack()';{$ENDIF}
-  deh_actions[45].action.acp1 := @A_GenWizard;
-  deh_actions[45].name := strupper('GenWizard');
-  {$IFDEF DLL}deh_actions[45].decl := 'A_GenWizard()';{$ENDIF}
-  deh_actions[46].action.acp1 := @A_GhostOff;
-  deh_actions[46].name := strupper('GhostOff');
-  {$IFDEF DLL}deh_actions[46].decl := 'A_GhostOff()';{$ENDIF}
-  deh_actions[47].action.acp1 := @A_HeadAttack;
-  deh_actions[47].name := strupper('HeadAttack');
-  {$IFDEF DLL}deh_actions[47].decl := 'A_HeadAttack()';{$ENDIF}
-  deh_actions[48].action.acp1 := @A_HeadFireGrow;
-  deh_actions[48].name := strupper('HeadFireGrow');
-  {$IFDEF DLL}deh_actions[48].decl := 'A_HeadFireGrow()';{$ENDIF}
-  deh_actions[49].action.acp1 := @A_HeadIceImpact;
-  deh_actions[49].name := strupper('HeadIceImpact');
-  {$IFDEF DLL}deh_actions[49].decl := 'A_HeadIceImpact()';{$ENDIF}
-  deh_actions[50].action.acp1 := @A_HideInCeiling;
-  deh_actions[50].name := strupper('HideInCeiling');
-  {$IFDEF DLL}deh_actions[50].decl := 'A_HideInCeiling()';{$ENDIF}
-  deh_actions[51].action.acp1 := @A_HideThing;
-  deh_actions[51].name := strupper('HideThing');
-  {$IFDEF DLL}deh_actions[51].decl := 'A_HideThing()';{$ENDIF}
-  deh_actions[52].action.acp1 := @A_ImpDeath;
-  deh_actions[52].name := strupper('ImpDeath');
-  {$IFDEF DLL}deh_actions[52].decl := 'A_ImpDeath()';{$ENDIF}
-  deh_actions[53].action.acp1 := @A_ImpExplode;
-  deh_actions[53].name := strupper('ImpExplode');
-  {$IFDEF DLL}deh_actions[53].decl := 'A_ImpExplode()';{$ENDIF}
-  deh_actions[54].action.acp1 := @A_ImpMeAttack;
-  deh_actions[54].name := strupper('ImpMeAttack');
-  {$IFDEF DLL}deh_actions[54].decl := 'A_ImpMeAttack()';{$ENDIF}
-  deh_actions[55].action.acp1 := @A_ImpMsAttack;
-  deh_actions[55].name := strupper('ImpMsAttack');
-  {$IFDEF DLL}deh_actions[55].decl := 'A_ImpMsAttack()';{$ENDIF}
-  deh_actions[56].action.acp1 := @A_ImpMsAttack2;
-  deh_actions[56].name := strupper('ImpMsAttack2');
-  {$IFDEF DLL}deh_actions[56].decl := 'A_ImpMsAttack2()';{$ENDIF}
-  deh_actions[57].action.acp1 := @A_ImpXDeath1;
-  deh_actions[57].name := strupper('ImpXDeath1');
-  {$IFDEF DLL}deh_actions[57].decl := 'A_ImpXDeath1()';{$ENDIF}
-  deh_actions[58].action.acp1 := @A_ImpXDeath2;
-  deh_actions[58].name := strupper('ImpXDeath2');
-  {$IFDEF DLL}deh_actions[58].decl := 'A_ImpXDeath2()';{$ENDIF}
-  deh_actions[59].action.acp1 := @A_InitKeyGizmo;
-  deh_actions[59].name := strupper('InitKeyGizmo');
-  {$IFDEF DLL}deh_actions[59].decl := 'A_InitKeyGizmo()';{$ENDIF}
-  deh_actions[60].action.acp1 := @A_InitPhoenixPL2;
-  deh_actions[60].name := strupper('InitPhoenixPL2');
-  {$IFDEF DLL}deh_actions[60].decl := 'A_InitPhoenixPL2()';{$ENDIF}
-  deh_actions[61].action.acp1 := @A_KnightAttack;
-  deh_actions[61].name := strupper('KnightAttack');
-  {$IFDEF DLL}deh_actions[61].decl := 'A_KnightAttack()';{$ENDIF}
-  deh_actions[62].action.acp1 := @A_Light0;
-  deh_actions[62].name := strupper('Light0');
-  {$IFDEF DLL}deh_actions[62].decl := 'A_Light0()';{$ENDIF}
-  deh_actions[63].action.acp1 := @A_Look;
-  deh_actions[63].name := strupper('Look');
-  {$IFDEF DLL}deh_actions[63].decl := 'A_Look()';{$ENDIF}
-  deh_actions[64].action.acp1 := @A_Lower;
-  deh_actions[64].name := strupper('Lower');
-  {$IFDEF DLL}deh_actions[64].decl := 'A_Lower()';{$ENDIF}
-  deh_actions[65].action.acp1 := @A_MaceBallImpact;
-  deh_actions[65].name := strupper('MaceBallImpact');
-  {$IFDEF DLL}deh_actions[65].decl := 'A_MaceBallImpact()';{$ENDIF}
-  deh_actions[66].action.acp1 := @A_MaceBallImpact2;
-  deh_actions[66].name := strupper('MaceBallImpact2');
-  {$IFDEF DLL}deh_actions[66].decl := 'A_MaceBallImpact2()';{$ENDIF}
-  deh_actions[67].action.acp1 := @A_MacePL1Check;
-  deh_actions[67].name := strupper('MacePL1Check');
-  {$IFDEF DLL}deh_actions[67].decl := 'A_MacePL1Check()';{$ENDIF}
-  deh_actions[68].action.acp1 := @A_MakePod;
-  deh_actions[68].name := strupper('MakePod');
-  {$IFDEF DLL}deh_actions[68].decl := 'A_MakePod()';{$ENDIF}
-  deh_actions[69].action.acp1 := @A_MinotaurAtk1;
-  deh_actions[69].name := strupper('MinotaurAtk1');
-  {$IFDEF DLL}deh_actions[69].decl := 'A_MinotaurAtk1()';{$ENDIF}
-  deh_actions[70].action.acp1 := @A_MinotaurAtk2;
-  deh_actions[70].name := strupper('MinotaurAtk2');
-  {$IFDEF DLL}deh_actions[70].decl := 'A_MinotaurAtk2()';{$ENDIF}
-  deh_actions[71].action.acp1 := @A_MinotaurAtk3;
-  deh_actions[71].name := strupper('MinotaurAtk3');
-  {$IFDEF DLL}deh_actions[71].decl := 'A_MinotaurAtk3()';{$ENDIF}
-  deh_actions[72].action.acp1 := @A_MinotaurCharge;
-  deh_actions[72].name := strupper('MinotaurCharge');
-  {$IFDEF DLL}deh_actions[72].decl := 'A_MinotaurCharge()';{$ENDIF}
-  deh_actions[73].action.acp1 := @A_MinotaurDecide;
-  deh_actions[73].name := strupper('MinotaurDecide');
-  {$IFDEF DLL}deh_actions[73].decl := 'A_MinotaurDecide()';{$ENDIF}
-  deh_actions[74].action.acp1 := @A_MntrFloorFire;
-  deh_actions[74].name := strupper('MntrFloorFire');
-  {$IFDEF DLL}deh_actions[74].decl := 'A_MntrFloorFire()';{$ENDIF}
-  deh_actions[75].action.acp1 := @A_MummyAttack;
-  deh_actions[75].name := strupper('MummyAttack');
-  {$IFDEF DLL}deh_actions[75].decl := 'A_MummyAttack()';{$ENDIF}
-  deh_actions[76].action.acp1 := @A_MummyAttack2;
-  deh_actions[76].name := strupper('MummyAttack2');
-  {$IFDEF DLL}deh_actions[76].decl := 'A_MummyAttack2()';{$ENDIF}
-  deh_actions[77].action.acp1 := @A_MummyFX1Seek;
-  deh_actions[77].name := strupper('MummyFX1Seek');
-  {$IFDEF DLL}deh_actions[77].decl := 'A_MummyFX1Seek()';{$ENDIF}
-  deh_actions[78].action.acp1 := @A_MummySoul;
-  deh_actions[78].name := strupper('MummySoul');
-  {$IFDEF DLL}deh_actions[78].decl := 'A_MummySoul()';{$ENDIF}
-  deh_actions[79].action.acp1 := @A_NoBlocking;
-  deh_actions[79].name := strupper('NoBlocking');
-  {$IFDEF DLL}deh_actions[79].decl := 'A_NoBlocking()';{$ENDIF}
-  deh_actions[80].action.acp1 := @A_Pain;
-  deh_actions[80].name := strupper('Pain');
-  {$IFDEF DLL}deh_actions[80].decl := 'A_Pain()';{$ENDIF}
-  deh_actions[81].action.acp1 := @A_PhoenixPuff;
-  deh_actions[81].name := strupper('PhoenixPuff');
-  {$IFDEF DLL}deh_actions[81].decl := 'A_PhoenixPuff()';{$ENDIF}
-  deh_actions[82].action.acp1 := @A_PodPain;
-  deh_actions[82].name := strupper('PodPain');
-  {$IFDEF DLL}deh_actions[82].decl := 'A_PodPain()';{$ENDIF}
-  deh_actions[83].action.acp1 := @A_RainImpact;
-  deh_actions[83].name := strupper('RainImpact');
-  {$IFDEF DLL}deh_actions[83].decl := 'A_RainImpact()';{$ENDIF}
-  deh_actions[84].action.acp1 := @A_Raise;
-  deh_actions[84].name := strupper('Raise');
-  {$IFDEF DLL}deh_actions[84].decl := 'A_Raise()';{$ENDIF}
-  deh_actions[85].action.acp1 := @A_ReFire;
-  deh_actions[85].name := strupper('ReFire');
-  {$IFDEF DLL}deh_actions[85].decl := 'A_ReFire()';{$ENDIF}
-  deh_actions[86].action.acp1 := @A_RemovePod;
-  deh_actions[86].name := strupper('RemovePod');
-  {$IFDEF DLL}deh_actions[86].decl := 'A_RemovePod()';{$ENDIF}
-  deh_actions[87].action.acp1 := @A_RestoreArtifact;
-  deh_actions[87].name := strupper('RestoreArtifact');
-  {$IFDEF DLL}deh_actions[87].decl := 'A_RestoreArtifact()';{$ENDIF}
-  deh_actions[88].action.acp1 := @A_RestoreSpecialThing1;
-  deh_actions[88].name := strupper('RestoreSpecialThing1');
-  {$IFDEF DLL}deh_actions[88].decl := 'A_RestoreSpecialThing1()';{$ENDIF}
-  deh_actions[89].action.acp1 := @A_RestoreSpecialThing2;
-  deh_actions[89].name := strupper('RestoreSpecialThing2');
-  {$IFDEF DLL}deh_actions[89].decl := 'A_RestoreSpecialThing2()';{$ENDIF}
-  deh_actions[90].action.acp1 := @A_Scream;
-  deh_actions[90].name := strupper('Scream');
-  {$IFDEF DLL}deh_actions[90].decl := 'A_Scream()';{$ENDIF}
-  deh_actions[91].action.acp1 := @A_ShutdownPhoenixPL2;
-  deh_actions[91].name := strupper('ShutdownPhoenixPL2');
-  {$IFDEF DLL}deh_actions[91].decl := 'A_ShutdownPhoenixPL2()';{$ENDIF}
-  deh_actions[92].action.acp1 := @A_SkullPop;
-  deh_actions[92].name := strupper('SkullPop');
-  {$IFDEF DLL}deh_actions[92].decl := 'A_SkullPop()';{$ENDIF}
-  deh_actions[93].action.acp1 := @A_SkullRodPL2Seek;
-  deh_actions[93].name := strupper('SkullRodPL2Seek');
-  {$IFDEF DLL}deh_actions[93].decl := 'A_SkullRodPL2Seek()';{$ENDIF}
-  deh_actions[94].action.acp1 := @A_SkullRodStorm;
-  deh_actions[94].name := strupper('SkullRodStorm');
-  {$IFDEF DLL}deh_actions[94].decl := 'A_SkullRodStorm()';{$ENDIF}
-  deh_actions[95].action.acp1 := @A_SnakeAttack;
-  deh_actions[95].name := strupper('SnakeAttack');
-  {$IFDEF DLL}deh_actions[95].decl := 'A_SnakeAttack()';{$ENDIF}
-  deh_actions[96].action.acp1 := @A_SnakeAttack2;
-  deh_actions[96].name := strupper('SnakeAttack2');
-  {$IFDEF DLL}deh_actions[96].decl := 'A_SnakeAttack2()';{$ENDIF}
-  deh_actions[97].action.acp1 := @A_Sor1Chase;
-  deh_actions[97].name := strupper('Sor1Chase');
-  {$IFDEF DLL}deh_actions[97].decl := 'A_Sor1Chase()';{$ENDIF}
-  deh_actions[98].action.acp1 := @A_Sor1Pain;
-  deh_actions[98].name := strupper('Sor1Pain');
-  {$IFDEF DLL}deh_actions[98].decl := 'A_Sor1Pain()';{$ENDIF}
-  deh_actions[99].action.acp1 := @A_Sor2DthInit;
-  deh_actions[99].name := strupper('Sor2DthInit');
-  {$IFDEF DLL}deh_actions[99].decl := 'A_Sor2DthInit()';{$ENDIF}
-  deh_actions[100].action.acp1 := @A_Sor2DthLoop;
-  deh_actions[100].name := strupper('Sor2DthLoop');
-  {$IFDEF DLL}deh_actions[100].decl := 'A_Sor2DthLoop()';{$ENDIF}
-  deh_actions[101].action.acp1 := @A_SorcererRise;
-  deh_actions[101].name := strupper('SorcererRise');
-  {$IFDEF DLL}deh_actions[101].decl := 'A_SorcererRise()';{$ENDIF}
-  deh_actions[102].action.acp1 := @A_SorDBon;
-  deh_actions[102].name := strupper('SorDBon');
-  {$IFDEF DLL}deh_actions[102].decl := 'A_SorDBon()';{$ENDIF}
-  deh_actions[103].action.acp1 := @A_SorDExp;
-  deh_actions[103].name := strupper('SorDExp');
-  {$IFDEF DLL}deh_actions[103].decl := 'A_SorDExp()';{$ENDIF}
-  deh_actions[104].action.acp1 := @A_SorDSph;
-  deh_actions[104].name := strupper('SorDSph');
-  {$IFDEF DLL}deh_actions[104].decl := 'A_SorDSph()';{$ENDIF}
-  deh_actions[105].action.acp1 := @A_SorRise;
-  deh_actions[105].name := strupper('SorRise');
-  {$IFDEF DLL}deh_actions[105].decl := 'A_SorRise()';{$ENDIF}
-  deh_actions[106].action.acp1 := @A_SorSightSnd;
-  deh_actions[106].name := strupper('SorSightSnd');
-  {$IFDEF DLL}deh_actions[106].decl := 'A_SorSightSnd()';{$ENDIF}
-  deh_actions[107].action.acp1 := @A_SorZap;
-  deh_actions[107].name := strupper('SorZap');
-  {$IFDEF DLL}deh_actions[107].decl := 'A_SorZap()';{$ENDIF}
-  deh_actions[108].action.acp1 := @A_SpawnRippers;
-  deh_actions[108].name := strupper('SpawnRippers');
-  {$IFDEF DLL}deh_actions[108].decl := 'A_SpawnRippers()';{$ENDIF}
-  deh_actions[109].action.acp1 := @A_SpawnTeleGlitter;
-  deh_actions[109].name := strupper('SpawnTeleGlitter');
-  {$IFDEF DLL}deh_actions[109].decl := 'A_SpawnTeleGlitter()';{$ENDIF}
-  deh_actions[110].action.acp1 := @A_SpawnTeleGlitter2;
-  deh_actions[110].name := strupper('SpawnTeleGlitter2');
-  {$IFDEF DLL}deh_actions[110].decl := 'A_SpawnTeleGlitter2()';{$ENDIF}
-  deh_actions[111].action.acp1 := @A_Srcr1Attack;
-  deh_actions[111].name := strupper('Srcr1Attack');
-  {$IFDEF DLL}deh_actions[111].decl := 'A_Srcr1Attack()';{$ENDIF}
-  deh_actions[112].action.acp1 := @A_Srcr2Attack;
-  deh_actions[112].name := strupper('Srcr2Attack');
-  {$IFDEF DLL}deh_actions[112].decl := 'A_Srcr2Attack()';{$ENDIF}
-  deh_actions[113].action.acp1 := @A_Srcr2Decide;
-  deh_actions[113].name := strupper('Srcr2Decide');
-  {$IFDEF DLL}deh_actions[113].decl := 'A_Srcr2Decide()';{$ENDIF}
-  deh_actions[114].action.acp1 := @A_StaffAttackPL1;
-  deh_actions[114].name := strupper('StaffAttackPL1');
-  {$IFDEF DLL}deh_actions[114].decl := 'A_StaffAttackPL1()';{$ENDIF}
-  deh_actions[115].action.acp1 := @A_StaffAttackPL2;
-  deh_actions[115].name := strupper('StaffAttackPL2');
-  {$IFDEF DLL}deh_actions[115].decl := 'A_StaffAttackPL2()';{$ENDIF}
-  deh_actions[116].action.acp1 := @A_UnHideThing;
-  deh_actions[116].name := strupper('UnHideThing');
-  {$IFDEF DLL}deh_actions[116].decl := 'A_UnHideThing()';{$ENDIF}
-  deh_actions[117].action.acp1 := @A_VolcanoBlast;
-  deh_actions[117].name := strupper('VolcanoBlast');
-  {$IFDEF DLL}deh_actions[117].decl := 'A_VolcanoBlast()';{$ENDIF}
-  deh_actions[118].action.acp1 := @A_VolcanoSet;
-  deh_actions[118].name := strupper('VolcanoSet');
-  {$IFDEF DLL}deh_actions[118].decl := 'A_VolcanoSet()';{$ENDIF}
-  deh_actions[119].action.acp1 := @A_VolcBallImpact;
-  deh_actions[119].name := strupper('VolcBallImpact');
-  {$IFDEF DLL}deh_actions[119].decl := 'A_VolcBallImpact()';{$ENDIF}
-  deh_actions[120].action.acp1 := @A_WeaponReady;
-  deh_actions[120].name := strupper('WeaponReady');
-  {$IFDEF DLL}deh_actions[120].decl := 'A_WeaponReady()';{$ENDIF}
-  deh_actions[121].action.acp1 := @A_WhirlwindSeek;
-  deh_actions[121].name := strupper('WhirlwindSeek');
-  {$IFDEF DLL}deh_actions[121].decl := 'A_WhirlwindSeek()';{$ENDIF}
-  deh_actions[122].action.acp1 := @A_WizAtk1;
-  deh_actions[122].name := strupper('WizAtk1');
-  {$IFDEF DLL}deh_actions[122].decl := 'A_WizAtk1()';{$ENDIF}
-  deh_actions[123].action.acp1 := @A_WizAtk2;
-  deh_actions[123].name := strupper('WizAtk2');
-  {$IFDEF DLL}deh_actions[123].decl := 'A_WizAtk2()';{$ENDIF}
-  deh_actions[124].action.acp1 := @A_WizAtk3;
-  deh_actions[124].name := strupper('WizAtk3');
-  {$IFDEF DLL}deh_actions[124].decl := 'A_WizAtk3()';{$ENDIF}
-  deh_actions[125].action.acp1 := nil;
-  deh_actions[125].name := 'NULL';
-  {$IFDEF DLL}deh_actions[125].decl := 'A_NULL()';{$ENDIF}
-  deh_actions[126].action.acp1 := @A_CustomSound1;
-  deh_actions[126].name := strupper('CustomSound1');
-  {$IFDEF DLL}deh_actions[126].decl := 'A_CustomSound1()';{$ENDIF}
-  deh_actions[127].action.acp1 := @A_CustomSound2;
-  deh_actions[127].name := strupper('CustomSound2');
-  {$IFDEF DLL}deh_actions[127].decl := 'A_CustomSound2()';{$ENDIF}
-  deh_actions[128].action.acp1 := @A_CustomSound3;
-  deh_actions[128].name := strupper('CustomSound3');
-  {$IFDEF DLL}deh_actions[128].decl := 'A_CustomSound3()';{$ENDIF}
-  deh_actions[129].action.acp1 := @A_RandomPainSound;
-  deh_actions[129].name := strupper('RandomPainSound');
-  {$IFDEF DLL}deh_actions[129].decl := 'A_RandomPainSound()';{$ENDIF}
-  deh_actions[130].action.acp1 := @A_RandomSeeSound;
-  deh_actions[130].name := strupper('RandomSeeSound');
-  {$IFDEF DLL}deh_actions[130].decl := 'A_RandomSeeSound()';{$ENDIF}
-  deh_actions[131].action.acp1 := @A_RandomAttackSound;
-  deh_actions[131].name := strupper('RandomAttackSound');
-  {$IFDEF DLL}deh_actions[131].decl := 'A_RandomAttackSound()';{$ENDIF}
-  deh_actions[132].action.acp1 := @A_RandomDeathSound;
-  deh_actions[132].name := strupper('RandomDeathSound');
-  {$IFDEF DLL}deh_actions[132].decl := 'A_RandomDeathSound()';{$ENDIF}
-  deh_actions[133].action.acp1 := @A_RandomActiveSound;
-  deh_actions[133].name := strupper('RandomActiveSound');
-  {$IFDEF DLL}deh_actions[133].decl := 'A_RandomActiveSound()';{$ENDIF}
-  deh_actions[134].action.acp1 := @A_RandomCustomSound1;
-  deh_actions[134].name := strupper('RandomCustomSound1');
-  {$IFDEF DLL}deh_actions[134].decl := 'A_RandomCustomSound1()';{$ENDIF}
-  deh_actions[135].action.acp1 := @A_RandomCustomSound2;
-  deh_actions[135].name := strupper('RandomCustomSound2');
-  {$IFDEF DLL}deh_actions[135].decl := 'A_RandomCustomSound2()';{$ENDIF}
-  deh_actions[136].action.acp1 := @A_RandomCustomSound3;
-  deh_actions[136].name := strupper('RandomCustomSound3');
-  {$IFDEF DLL}deh_actions[136].decl := 'A_RandomCustomSound3()';{$ENDIF}
-  deh_actions[137].action.acp1 := @A_RandomCustomSound;
-  deh_actions[137].name := strupper('RandomCustomSound');
-  {$IFDEF DLL}deh_actions[137].decl := 'A_RandomCustomSound)';{$ENDIF}
-  deh_actions[138].action.acp1 := @A_Wander;
-  deh_actions[138].name := strupper('Wander');
-  {$IFDEF DLL}deh_actions[138].decl := 'A_Wander()';{$ENDIF}
-  deh_actions[139].action.acp1 := @A_Playsound;
-  deh_actions[139].name := strupper('Playsound');
-  {$IFDEF DLL}deh_actions[139].decl := 'A_Playsound(sound: string)';{$ENDIF}
-  deh_actions[140].action.acp1 := @A_RandomSound;
-  deh_actions[140].name := strupper('RandomSound');
-  {$IFDEF DLL}deh_actions[140].decl := 'A_RandomSound(sound1: string, [sound2: string], ...)';{$ENDIF}
-  deh_actions[141].action.acp1 := @A_Stop;
-  deh_actions[141].name := strupper('Stop');
-  {$IFDEF DLL}deh_actions[141].decl := 'A_Stop()';{$ENDIF}
-  deh_actions[142].action.acp1 := @A_Jump;
-  deh_actions[142].name := strupper('Jump');
-  {$IFDEF DLL}deh_actions[142].decl := 'A_Jump(propability: random_t, offset1: integer, [offset2: integer], ...)';{$ENDIF}
-  deh_actions[143].action.acp1 := @A_CustomMissile;
-  deh_actions[143].name := strupper('CustomMissile');
-  {$IFDEF DLL}deh_actions[143].decl := 'A_CustomMissile(missiletype: string, [height: integer], [offset: integer], [angle: integer], [aimmode: integer], [pitch: integer])';{$ENDIF}
-  deh_actions[144].action.acp1 := @A_NoGravity;
-  deh_actions[144].name := strupper('NoGravity');
-  {$IFDEF DLL}deh_actions[144].decl := 'A_NoGravity()';{$ENDIF}
-  deh_actions[145].action.acp1 := @A_Gravity;
-  deh_actions[145].name := strupper('Gravity');
-  {$IFDEF DLL}deh_actions[145].decl := 'A_Gravity()';{$ENDIF}
-  deh_actions[146].action.acp1 := @A_NoBlocking;
-  deh_actions[146].name := strupper('NoBlocking');
-  {$IFDEF DLL}deh_actions[146].decl := 'A_NoBlocking()';{$ENDIF}
-  deh_actions[147].action.acp1 := @A_MeleeAttack;
-  deh_actions[147].name := strupper('MeleeAttack');
-  {$IFDEF DLL}deh_actions[147].decl := 'A_MeleeAttack([mindamage: integer], [maxdamage: integer])';{$ENDIF}
-  deh_actions[148].action.acp1 := @A_SpawnItem;
-  deh_actions[148].name := strupper('SpawnItem');
-  {$IFDEF DLL}deh_actions[148].decl := 'A_SpawnItem(type: string, [distance: float], [zheight: float], [angle: angle])';{$ENDIF}
-  deh_actions[149].action.acp1 := @A_SeekerMissile;
-  deh_actions[149].name := strupper('SeekerMissile');
-  {$IFDEF DLL}deh_actions[149].decl := 'A_SeekerMissile(threshold_angle: angle, [turnMax_angle: angle])';{$ENDIF}
-  deh_actions[150].action.acp1 := @A_CStaffMissileSlither;
-  deh_actions[150].name := strupper('CStaffMissileSlither');
-  {$IFDEF DLL}deh_actions[150].decl := 'A_CStaffMissileSlither()';{$ENDIF}
-  deh_actions[151].action.acp1 := @A_SetTranslucent;
-  deh_actions[151].name := strupper('SetTranslucent');
-  {$IFDEF DLL}deh_actions[151].decl := 'A_SetTranslucent(alpha: float, [style: integer])';{$ENDIF}
-  deh_actions[152].action.acp1 := @A_Die;
-  deh_actions[152].name := strupper('Die');
-  {$IFDEF DLL}deh_actions[152].decl := 'A_Die()';{$ENDIF}
-  deh_actions[153].action.acp1 := @A_CustomBulletAttack;
-  deh_actions[153].name := strupper('CustomBulletAttack');
-  {$IFDEF DLL}deh_actions[153].decl := 'A_CustomBulletAttack(spread_xy: angle, numbullets: integer, damageperbullet: integer, [range: integer])';{$ENDIF}
-  deh_actions[154].action.acp1 := @A_FadeOut;
-  deh_actions[154].name := strupper('FadeOut');
-  {$IFDEF DLL}deh_actions[154].decl := 'A_FadeOut(fade: float)';{$ENDIF}
-  deh_actions[155].action.acp1 := @A_FadeIn;
-  deh_actions[155].name := strupper('FadeIn');
-  {$IFDEF DLL}deh_actions[155].decl := 'A_FadeIn(fade: float)';{$ENDIF}
-  deh_actions[156].action.acp1 := @A_MissileAttack;
-  deh_actions[156].name := strupper('MissileAttack');
-  {$IFDEF DLL}deh_actions[156].decl := 'A_MissileAttack([missiletype: string])';{$ENDIF}
-  deh_actions[157].action.acp1 := @A_AdjustSideSpot;
-  deh_actions[157].name := strupper('AdjustSideSpot');
-  {$IFDEF DLL}deh_actions[157].decl := 'A_AdjustSideSpot(sideoffset: float)';{$ENDIF}
-  deh_actions[158].action.acp1 := @A_Countdown;
-  deh_actions[158].name := strupper('Countdown');
-  {$IFDEF DLL}deh_actions[158].decl := 'A_Countdown()';{$ENDIF}
-  deh_actions[159].action.acp1 := @A_FastChase;
-  deh_actions[159].name := strupper('FastChase');
-  {$IFDEF DLL}deh_actions[159].decl := 'A_FastChase()';{$ENDIF}
-  deh_actions[160].action.acp1 := @A_LowGravity;
-  deh_actions[160].name := strupper('LowGravity');
-  {$IFDEF DLL}deh_actions[160].decl := 'A_LowGravity()';{$ENDIF}
-  deh_actions[161].action.acp1 := @A_ThrustZ;
-  deh_actions[161].name := strupper('ThrustZ');
-  {$IFDEF DLL}deh_actions[161].decl := 'A_ThrustZ(momz: float)';{$ENDIF}
-  deh_actions[162].action.acp1 := @A_ThrustXY;
-  deh_actions[162].name := strupper('ThrustXY');
-  {$IFDEF DLL}deh_actions[162].decl := 'A_ThrustXY(mom: float, ang: angle)';{$ENDIF}
-  deh_actions[163].action.acp1 := @A_Turn;
-  deh_actions[163].name := strupper('Turn');
-  {$IFDEF DLL}deh_actions[163].decl := 'A_Turn(value: angle)';{$ENDIF}
-  deh_actions[164].action.acp1 := @A_JumpIfCloser;
-  deh_actions[164].name := strupper('JumpIfCloser');
-  {$IFDEF DLL}deh_actions[164].decl := 'A_JumpIfCloser(distancetotarget: float, offset: integer)';{$ENDIF}
-  deh_actions[165].action.acp1 := @A_JumpIfHealthLower;
-  deh_actions[165].name := strupper('JumpIfHealthLower');
-  {$IFDEF DLL}deh_actions[165].decl := 'A_JumpIfHealthLower(health: integer, offset: integer)';{$ENDIF}
-  deh_actions[166].action.acp1 := @A_ScreamAndUnblock;
-  deh_actions[166].name := strupper('ScreamAndUnblock');
-  {$IFDEF DLL}deh_actions[166].decl := 'A_ScreamAndUnblock()';{$ENDIF}
-  deh_actions[167].action.acp1 := @A_PlayWeaponsound;
-  deh_actions[167].name := strupper('PlayWeaponsound');
-  {$IFDEF DLL}deh_actions[167].decl := 'A_PlayWeaponsound(sound: string)';{$ENDIF}
-  deh_actions[168].action.acp1 := @A_SetInvulnerable;
-  deh_actions[168].name := strupper('SetInvulnerable');
-  {$IFDEF DLL}deh_actions[168].decl := 'A_SetInvulnerable()';{$ENDIF}
-  deh_actions[169].action.acp1 := @A_UnSetInvulnerable;
-  deh_actions[169].name := strupper('UnSetInvulnerable');
-  {$IFDEF DLL}deh_actions[169].decl := 'A_UnSetInvulnerable()';{$ENDIF}
-  deh_actions[170].action.acp1 := @A_RandomMeleeSound;
-  deh_actions[170].name := strupper('RandomMeleeSound');
-  {$IFDEF DLL}deh_actions[170].decl := 'A_RandomMeleeSound()';{$ENDIF}
-  deh_actions[171].action.acp1 := @A_FloatBob;
-  deh_actions[171].name := strupper('FloatBob');
-  {$IFDEF DLL}deh_actions[171].decl := 'A_FloatBob()';{$ENDIF}
-  deh_actions[172].action.acp1 := @A_NoFloatBob;
-  deh_actions[172].name := strupper('NoFloatBob');
-  {$IFDEF DLL}deh_actions[172].decl := 'A_NoFloatBob()';{$ENDIF}
-  deh_actions[173].action.acp1 := @A_Missile;
-  deh_actions[173].name := strupper('Missile');
-  {$IFDEF DLL}deh_actions[173].decl := 'A_Missile()';{$ENDIF}
-  deh_actions[174].action.acp1 := @A_NoMissile;
-  deh_actions[174].name := strupper('NoMissile');
-  {$IFDEF DLL}deh_actions[174].decl := 'A_NoMissile()';{$ENDIF}
-  deh_actions[175].action.acp1 := @A_ComboAttack;
-  deh_actions[175].name := strupper('ComboAttack');
-  {$IFDEF DLL}deh_actions[175].decl := 'A_ComboAttack()';{$ENDIF}
-  deh_actions[176].action.acp1 := @A_BulletAttack;
-  deh_actions[176].name := strupper('BulletAttack');
-  {$IFDEF DLL}deh_actions[176].decl := 'A_BulletAttack([numbullets: integer])';{$ENDIF}
-  deh_actions[177].action.acp1 := @A_MediumGravity;
-  deh_actions[177].name := strupper('MediumGravity');
-  {$IFDEF DLL}deh_actions[177].decl := 'A_MediumGravity()';{$ENDIF}
-  deh_actions[178].action.acp1 := @A_FadeOut10;
-  deh_actions[178].name := strupper('FadeOut10');
-  {$IFDEF DLL}deh_actions[178].decl := 'A_FadeOut10()';{$ENDIF}
-  deh_actions[179].action.acp1 := @A_FadeOut20;
-  deh_actions[179].name := strupper('FadeOut20');
-  {$IFDEF DLL}deh_actions[179].decl := 'A_FadeOut20()';{$ENDIF}
-  deh_actions[180].action.acp1 := @A_FadeOut30;
-  deh_actions[180].name := strupper('FadeOut30');
-  {$IFDEF DLL}deh_actions[180].decl := 'A_FadeOut30()';{$ENDIF}
-  deh_actions[181].action.acp1 := @A_FadeIn10;
-  deh_actions[181].name := strupper('FadeIn10');
-  {$IFDEF DLL}deh_actions[181].decl := 'A_FadeIn10()';{$ENDIF}
-  deh_actions[182].action.acp1 := @A_FadeIn20;
-  deh_actions[182].name := strupper('FadeIn20');
-  {$IFDEF DLL}deh_actions[182].decl := 'A_FadeIn20()';{$ENDIF}
-  deh_actions[183].action.acp1 := @A_FadeIn30;
-  deh_actions[183].name := strupper('FadeIn30');
-  {$IFDEF DLL}deh_actions[183].decl := 'A_FadeIn30()';{$ENDIF}
-  deh_actions[184].action.acp1 := @A_SpawnItemEx;
-  deh_actions[184].name := strupper('SpawnItemEx');
-  {$IFDEF DLL}deh_actions[184].decl := 'A_SpawnItemEx(itemtype: string, [xofs: float], [yofs: float], [zofs: float], [momx: float], [momy: float], [momz: float], [ang: angle], [flags: integer], [chance: integer])';{$ENDIF}
-  deh_actions[185].action.acp1 := @A_RandomMissile;
-  deh_actions[185].name := strupper('RandomMissile');
-  {$IFDEF DLL}deh_actions[185].decl := 'A_RandomMissile(missile1: string, [missile2: string], ...)';{$ENDIF}
-  deh_actions[186].action.acp1 := @P_RemoveMobj;
-  deh_actions[186].name := strupper('RemoveSelf');
-  {$IFDEF DLL}deh_actions[186].decl := 'A_RemoveSelf()';{$ENDIF}
-  deh_actions[187].action.acp1 := @A_GoTo;
-  deh_actions[187].name := strupper('GoTo');
-  {$IFDEF DLL}deh_actions[187].decl := 'A_GoTo(propability: random_t, state: state_t)';{$ENDIF}
-  deh_actions[188].action.acp1 := @A_GoToIfCloser;
-  deh_actions[188].name := strupper('GoToIfCloser');
-  {$IFDEF DLL}deh_actions[188].decl := 'A_GoToIfCloser(distancetotarget: float, state: state_t)';{$ENDIF}
-  deh_actions[189].action.acp1 := @A_GoToIfHealthLower;
-  deh_actions[189].name := strupper('GoToIfHealthLower');
-  {$IFDEF DLL}deh_actions[189].decl := 'A_GoToIfHealthLower(health: integer, state: state_t)';{$ENDIF}
-  deh_actions[190].action.acp1 := @A_ConsoleCommand;
-  deh_actions[190].name := strupper('ConsoleCommand');
-  {$IFDEF DLL}deh_actions[190].decl := 'A_ConsoleCommand(cmd: string, [parm1: string], [parm2: string], ...)';{$ENDIF}
-  deh_actions[191].action.acp1 := @A_SetFrightened;
-  deh_actions[191].name := strupper('SetFrightened');
-  {$IFDEF DLL}deh_actions[191].decl := 'A_SetFrightened()';{$ENDIF}
-  deh_actions[192].action.acp1 := @A_UnSetFrightened;
-  deh_actions[192].name := strupper('UnSetFrightened');
-  {$IFDEF DLL}deh_actions[192].decl := 'A_UnSetFrightened()';{$ENDIF}
-  deh_actions[193].action.acp1 := @A_SetCustomParam;
-  deh_actions[193].name := strupper('SetCustomParam');
-  {$IFDEF DLL}deh_actions[193].decl := 'A_SetCustomParam(param: string, value: integer)';{$ENDIF}
-  deh_actions[194].action.acp1 := @A_AddCustomParam;
-  deh_actions[194].name := strupper('AddCustomParam');
-  {$IFDEF DLL}deh_actions[194].decl := 'A_AddCustomParam(param: string, value: integer)';{$ENDIF}
-  deh_actions[195].action.acp1 := @A_SubtractCustomParam;
-  deh_actions[195].name := strupper('SubtractCustomParam');
-  {$IFDEF DLL}deh_actions[195].decl := 'A_SubtractCustomParam(param: string, value: integer)';{$ENDIF}
-  deh_actions[196].action.acp1 := @A_SetTargetCustomParam;
-  deh_actions[196].name := strupper('SetTargetCustomParam');
-  {$IFDEF DLL}deh_actions[196].decl := 'A_SetTargetCustomParam(param: string, value: integer)';{$ENDIF}
-  deh_actions[197].action.acp1 := @A_AddTargetCustomParam;
-  deh_actions[197].name := strupper('AddTargetCustomParam');
-  {$IFDEF DLL}deh_actions[197].decl := 'A_AddTargetCustomParam(param: string, value: integer)';{$ENDIF}
-  deh_actions[198].action.acp1 := @A_SubtractTargetCustomParam;
-  deh_actions[198].name := strupper('SubtractTargetCustomParam');
-  {$IFDEF DLL}deh_actions[198].decl := 'A_SubtractTargetCustomParam(param: string, value: integer)';{$ENDIF}
-  deh_actions[199].action.acp1 := @A_JumpIfCustomParam;
-  deh_actions[199].name := strupper('JumpIfCustomParam');
-  {$IFDEF DLL}deh_actions[199].decl := 'A_JumpIfCustomParam(param: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[200].action.acp1 := @A_JumpIfCustomParamLess;
-  deh_actions[200].name := strupper('JumpIfCustomParamLess');
-  {$IFDEF DLL}deh_actions[200].decl := 'A_JumpIfCustomParamLess(param: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[201].action.acp1 := @A_JumpIfCustomParamGreater;
-  deh_actions[201].name := strupper('JumpIfCustomParamGreater');
-  {$IFDEF DLL}deh_actions[201].decl := 'A_JumpIfCustomParamGreater(param: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[202].action.acp1 := @A_JumpIfTargetCustomParam;
-  deh_actions[202].name := strupper('JumpIfTargetCustomParam');
-  {$IFDEF DLL}deh_actions[202].decl := 'A_JumpIfTargetCustomParam(param: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[203].action.acp1 := @A_JumpIfTargetCustomParamLess;
-  deh_actions[203].name := strupper('JumpIfTargetCustomParamLess');
-  {$IFDEF DLL}deh_actions[203].decl := 'A_JumpIfTargetCustomParamLess(param: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[204].action.acp1 := @A_JumpIfTargetCustomParamGreater;
-  deh_actions[204].name := strupper('JumpIfTargetCustomParamGreater');
-  {$IFDEF DLL}deh_actions[204].decl := 'A_JumpIfTargetCustomParamGreater(param: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[205].action.acp1 := @A_GoToIfCustomParam;
-  deh_actions[205].name := strupper('GoToIfCustomParam');
-  {$IFDEF DLL}deh_actions[205].decl := 'A_GoToIfCustomParam(param: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[206].action.acp1 := @A_GoToIfCustomParamLess;
-  deh_actions[206].name := strupper('GoToIfCustomParamLess');
-  {$IFDEF DLL}deh_actions[206].decl := 'A_GoToIfCustomParamLess(param: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[207].action.acp1 := @A_GoToIfCustomParamGreater;
-  deh_actions[207].name := strupper('GoToIfCustomParamGreater');
-  {$IFDEF DLL}deh_actions[207].decl := 'A_GoToIfCustomParamGreater(param: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[208].action.acp1 := @A_GoToIfTargetCustomParam;
-  deh_actions[208].name := strupper('GoToIfTargetCustomParam');
-  {$IFDEF DLL}deh_actions[208].decl := 'A_GoToIfTargetCustomParam(param: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[209].action.acp1 := @A_GoToIfTargetCustomParamLess;
-  deh_actions[209].name := strupper('GoToIfTargetCustomParamLess');
-  {$IFDEF DLL}deh_actions[209].decl := 'A_GoToIfTargetCustomParamLess(param: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[210].action.acp1 := @A_GoToIfTargetCustomParamGreater;
-  deh_actions[210].name := strupper('GoToIfTargetCustomParamGreater');
-  {$IFDEF DLL}deh_actions[210].decl := 'A_GoToIfTargetCustomParamGreater(param: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[211].action.acp1 := @A_GhostOn;
-  deh_actions[211].name := strupper('GhostOn');
-  {$IFDEF DLL}deh_actions[211].decl := 'A_GhostOn()';{$ENDIF}
-  deh_actions[212].action.acp1 := @A_RunScript;
-  deh_actions[212].name := strupper('RunScript');
-  {$IFDEF DLL}deh_actions[212].decl := 'A_RunScript(script1: string, [script2: string], ...)';{$ENDIF}
-  deh_actions[213].action.acp1 := @A_Turn5;
-  deh_actions[213].name := strupper('Turn5');
-  {$IFDEF DLL}deh_actions[213].decl := 'A_Turn5()';{$ENDIF}
-  deh_actions[214].action.acp1 := @A_Turn10;
-  deh_actions[214].name := strupper('Turn10');
-  {$IFDEF DLL}deh_actions[214].decl := 'A_Turn10()';{$ENDIF}
-  deh_actions[215].action.acp1 := @A_Blocking;
-  deh_actions[215].name := strupper('Blocking');
-  {$IFDEF DLL}deh_actions[215].decl := 'A_Blocking()';{$ENDIF}
-  deh_actions[216].action.acp1 := @A_DoNotRunScripts;
-  deh_actions[216].name := strupper('DoNotRunScripts');
-  {$IFDEF DLL}deh_actions[216].decl := 'A_DoNotRunScripts()';{$ENDIF}
-  deh_actions[217].action.acp1 := @A_DoRunScripts;
-  deh_actions[217].name := strupper('DoRunScripts');
-  {$IFDEF DLL}deh_actions[217].decl := 'A_DoRunScripts()';{$ENDIF}
-  deh_actions[218].action.acp1 := @A_TargetDropItem;
-  deh_actions[218].name := strupper('TargetDropItem');
-  {$IFDEF DLL}deh_actions[218].decl := 'A_TargetDropItem(dropitemtype: string)';{$ENDIF}
-  deh_actions[219].action.acp1 := @A_DefaultTargetDropItem;
-  deh_actions[219].name := strupper('DefaultTargetDropItem');
-  {$IFDEF DLL}deh_actions[219].decl := 'A_DefaultTargetDropItem()';{$ENDIF}
-  deh_actions[220].action.acp1 := @A_SetDropItem;
-  deh_actions[220].name := strupper('SetDropItem');
-  {$IFDEF DLL}deh_actions[220].decl := 'A_SetDropItem(dropitemtype: string)';{$ENDIF}
-  deh_actions[221].action.acp1 := @A_SetDefaultDropItem;
-  deh_actions[221].name := strupper('SetDefaultDropItem');
-  {$IFDEF DLL}deh_actions[221].decl := 'A_SetDefaultDropItem()';{$ENDIF}
-  deh_actions[222].action.acp1 := @A_GlobalEarthQuake;
-  deh_actions[222].name := strupper('GlobalEarthQuake');
-  {$IFDEF DLL}deh_actions[222].decl := 'A_GlobalEarthQuake(tics: integer)';{$ENDIF}
-  deh_actions[223].action.acp1 := @A_JumpIfMapStringEqual;
-  deh_actions[223].name := strupper('JumpIfMapStringEqual');
-  {$IFDEF DLL}deh_actions[223].decl := 'A_JumpIfMapStringEqual(parm: string, value: string, offset; integer)';{$ENDIF}
-  deh_actions[224].action.acp1 := @A_JumpIfMapStringLess;
-  deh_actions[224].name := strupper('JumpIfMapStringLess');
-  {$IFDEF DLL}deh_actions[224].decl := 'A_JumpIfMapStringLess(parm: string, value: string, offset; integer)';{$ENDIF}
-  deh_actions[225].action.acp1 := @A_JumpIfMapStringGreater;
-  deh_actions[225].name := strupper('JumpIfMapStringGreater');
-  {$IFDEF DLL}deh_actions[225].decl := 'A_JumpIfMapStringGreater(parm: string, value: string, offset; integer)';{$ENDIF}
-  deh_actions[226].action.acp1 := @A_JumpIfMapIntegerEqual;
-  deh_actions[226].name := strupper('JumpIfMapIntegerEqual');
-  {$IFDEF DLL}deh_actions[226].decl := 'A_JumpIfMapIntegerEqual(parm: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[227].action.acp1 := @A_JumpIfMapIntegerLess;
-  deh_actions[227].name := strupper('JumpIfMapIntegerLess');
-  {$IFDEF DLL}deh_actions[227].decl := 'A_JumpIfMapIntegerLess(parm: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[228].action.acp1 := @A_JumpIfMapIntegerGreater;
-  deh_actions[228].name := strupper('JumpIfMapIntegerGreater');
-  {$IFDEF DLL}deh_actions[228].decl := 'A_JumpIfMapIntegerGreater(parm: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[229].action.acp1 := @A_JumpIfMapFloatEqual;
-  deh_actions[229].name := strupper('JumpIfMapFloatEqual');
-  {$IFDEF DLL}deh_actions[229].decl := 'A_JumpIfMapFloatEqual(parm: string, value: float, offset: integer)';{$ENDIF}
-  deh_actions[230].action.acp1 := @A_JumpIfMapFloatLess;
-  deh_actions[230].name := strupper('JumpIfMapFloatLess');
-  {$IFDEF DLL}deh_actions[230].decl := 'A_JumpIfMapFloatLess(parm: string, value: float, offset: integer)';{$ENDIF}
-  deh_actions[231].action.acp1 := @A_JumpIfMapFloatGreater;
-  deh_actions[231].name := strupper('JumpIfMapFloatGreater');
-  {$IFDEF DLL}deh_actions[231].decl := 'A_JumpIfMapFloatGreater(parm: string, value: float, offset: integer)';{$ENDIF}
-  deh_actions[232].action.acp1 := @A_JumpIfWorldStringEqual;
-  deh_actions[232].name := strupper('JumpIfWorldStringEqual');
-  {$IFDEF DLL}deh_actions[232].decl := 'A_JumpIfWorldStringEqual(parm: string, value: string, offset: integer)';{$ENDIF}
-  deh_actions[233].action.acp1 := @A_JumpIfWorldStringLess;
-  deh_actions[233].name := strupper('JumpIfWorldStringLess');
-  {$IFDEF DLL}deh_actions[233].decl := 'A_JumpIfWorldStringLess(parm: string, value: string, offset: integer)';{$ENDIF}
-  deh_actions[234].action.acp1 := @A_JumpIfWorldStringGreater;
-  deh_actions[234].name := strupper('JumpIfWorldStringGreater');
-  {$IFDEF DLL}deh_actions[234].decl := 'A_JumpIfWorldStringGreater(parm: string, value: string, offset: integer)';{$ENDIF}
-  deh_actions[235].action.acp1 := @A_JumpIfWorldIntegerEqual;
-  deh_actions[235].name := strupper('JumpIfWorldIntegerEqual');
-  {$IFDEF DLL}deh_actions[235].decl := 'A_JumpIfWorldIntegerEqual(parm: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[236].action.acp1 := @A_JumpIfWorldIntegerLess;
-  deh_actions[236].name := strupper('JumpIfWorldIntegerLess');
-  {$IFDEF DLL}deh_actions[236].decl := 'A_JumpIfWorldIntegerLess(parm: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[237].action.acp1 := @A_JumpIfWorldIntegerGreater;
-  deh_actions[237].name := strupper('JumpIfWorldIntegerGreater');
-  {$IFDEF DLL}deh_actions[237].decl := 'A_JumpIfWorldIntegerGreater(parm: string, value: integer, offset: integer)';{$ENDIF}
-  deh_actions[238].action.acp1 := @A_JumpIfWorldFloatEqual;
-  deh_actions[238].name := strupper('JumpIfWorldFloatEqual');
-  {$IFDEF DLL}deh_actions[238].decl := 'A_JumpIfWorldFloatEqual(parm: string, value: float, offset: integer)';{$ENDIF}
-  deh_actions[239].action.acp1 := @A_JumpIfWorldFloatLess;
-  deh_actions[239].name := strupper('JumpIfWorldFloatLess');
-  {$IFDEF DLL}deh_actions[239].decl := 'A_JumpIfWorldFloatLess(parm: string, value: float, offset: integer)';{$ENDIF}
-  deh_actions[240].action.acp1 := @A_JumpIfWorldFloatGreater;
-  deh_actions[240].name := strupper('JumpIfWorldFloatGreater');
-  {$IFDEF DLL}deh_actions[240].decl := 'A_JumpIfWorldFloatGreater(parm: string, value: float, offset: integer)';{$ENDIF}
-  deh_actions[241].action.acp1 := @A_GoToIfMapStringEqual;
-  deh_actions[241].name := strupper('GoToIfMapStringEqual');
-  {$IFDEF DLL}deh_actions[241].decl := 'A_GoToIfMapStringEqual(parm: string, value: string, state: state_t)';{$ENDIF}
-  deh_actions[242].action.acp1 := @A_GoToIfMapStringLess;
-  deh_actions[242].name := strupper('GoToIfMapStringLess');
-  {$IFDEF DLL}deh_actions[242].decl := 'A_GoToIfMapStringLess(parm: string, value: string, state: state_t)';{$ENDIF}
-  deh_actions[243].action.acp1 := @A_GoToIfMapStringGreater;
-  deh_actions[243].name := strupper('GoToIfMapStringGreater');
-  {$IFDEF DLL}deh_actions[243].decl := 'A_GoToIfMapStringGreater(parm: string, value: string, state: state_t)';{$ENDIF}
-  deh_actions[244].action.acp1 := @A_GoToIfMapIntegerEqual;
-  deh_actions[244].name := strupper('GoToIfMapIntegerEqual');
-  {$IFDEF DLL}deh_actions[244].decl := 'A_GoToIfMapIntegerEqual(parm: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[245].action.acp1 := @A_GoToIfMapIntegerLess;
-  deh_actions[245].name := strupper('GoToIfMapIntegerLess');
-  {$IFDEF DLL}deh_actions[245].decl := 'A_GoToIfMapIntegerLess(parm: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[246].action.acp1 := @A_GoToIfMapIntegerGreater;
-  deh_actions[246].name := strupper('GoToIfMapIntegerGreater');
-  {$IFDEF DLL}deh_actions[246].decl := 'A_GoToIfMapIntegerGreater(parm: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[247].action.acp1 := @A_GoToIfMapFloatEqual;
-  deh_actions[247].name := strupper('GoToIfMapFloatEqual');
-  {$IFDEF DLL}deh_actions[247].decl := 'A_GoToIfMapFloatEqual(parm: string, value: float, state: state_t)';{$ENDIF}
-  deh_actions[248].action.acp1 := @A_GoToIfMapFloatLess;
-  deh_actions[248].name := strupper('GoToIfMapFloatLess');
-  {$IFDEF DLL}deh_actions[248].decl := 'A_GoToIfMapFloatLess(parm: string, value: float, state: state_t)';{$ENDIF}
-  deh_actions[249].action.acp1 := @A_GoToIfMapFloatGreater;
-  deh_actions[249].name := strupper('GoToIfMapFloatGreater');
-  {$IFDEF DLL}deh_actions[249].decl := 'A_GoToIfMapFloatGreater(parm: string, value: float, state: state_t)';{$ENDIF}
-  deh_actions[250].action.acp1 := @A_GoToIfWorldStringEqual;
-  deh_actions[250].name := strupper('GoToIfWorldStringEqual');
-  {$IFDEF DLL}deh_actions[250].decl := 'A_GoToIfWorldStringEqual(parm: string, value: string, state: state_t)';{$ENDIF}
-  deh_actions[251].action.acp1 := @A_GoToIfWorldStringLess;
-  deh_actions[251].name := strupper('GoToIfWorldStringLess');
-  {$IFDEF DLL}deh_actions[251].decl := 'A_GoToIfWorldStringLess(parm: string, value: string, state: state_t)';{$ENDIF}
-  deh_actions[252].action.acp1 := @A_GoToIfWorldStringGreater;
-  deh_actions[252].name := strupper('GoToIfWorldStringGreater');
-  {$IFDEF DLL}deh_actions[252].decl := 'A_GoToIfWorldStringGreater(parm: string, value: string, state: state_t)';{$ENDIF}
-  deh_actions[253].action.acp1 := @A_GoToIfWorldIntegerEqual;
-  deh_actions[253].name := strupper('GoToIfWorldIntegerEqual');
-  {$IFDEF DLL}deh_actions[253].decl := 'A_GoToIfWorldIntegerEqual(parm: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[254].action.acp1 := @A_GoToIfWorldIntegerLess;
-  deh_actions[254].name := strupper('GoToIfWorldIntegerLess');
-  {$IFDEF DLL}deh_actions[254].decl := 'A_GoToIfWorldIntegerLess(parm: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[255].action.acp1 := @A_GoToIfWorldIntegerGreater;
-  deh_actions[255].name := strupper('GoToIfWorldIntegerGreater');
-  {$IFDEF DLL}deh_actions[255].decl := 'A_GoToIfWorldIntegerGreater(parm: string, value: integer, state: state_t)';{$ENDIF}
-  deh_actions[256].action.acp1 := @A_GoToIfWorldFloatEqual;
-  deh_actions[256].name := strupper('GoToIfWorldFloatEqual');
-  {$IFDEF DLL}deh_actions[256].decl := 'A_GoToIfWorldFloatEqual(parm: string, value: float, state: state_t)';{$ENDIF}
-  deh_actions[257].action.acp1 := @A_GoToIfWorldFloatLess;
-  deh_actions[257].name := strupper('GoToIfWorldFloatLess');
-  {$IFDEF DLL}deh_actions[257].decl := 'A_GoToIfWorldFloatLess(parm: string, value: float, state: state_t)';{$ENDIF}
-  deh_actions[258].action.acp1 := @A_GoToIfWorldFloatGreater;
-  deh_actions[258].name := strupper('GoToIfWorldFloatGreater');
-  {$IFDEF DLL}deh_actions[258].decl := 'A_GoToIfWorldFloatGreater(parm: string, value: float, state: state_t)';{$ENDIF}
-  deh_actions[259].action.acp1 := @A_PlayerMessage;
-  deh_actions[259].name := strupper('PlayerMessage');
-  {$IFDEF DLL}deh_actions[259].decl := 'A_PlayerMessage(msg1: string, [msg2: string], ...)';{$ENDIF}
-  deh_actions[260].action.acp1 := @A_SetMapStr;
-  deh_actions[260].name := strupper('SetMapStr');
-  {$IFDEF DLL}deh_actions[260].decl := 'A_SetMapStr(mvar: string; value1: string; [value2: string],...)';{$ENDIF}
-  deh_actions[261].action.acp1 := @A_SetWorldStr;
-  deh_actions[261].name := strupper('SetWorldStr');
-  {$IFDEF DLL}deh_actions[261].decl := 'A_SetWorldStr(wvar: string; value1: string; [value2: string],...)';{$ENDIF}
-  deh_actions[262].action.acp1 := @A_SetMapInt;
-  deh_actions[262].name := strupper('SetMapInt');
-  {$IFDEF DLL}deh_actions[262].decl := 'A_SetMapInt(mvar: string; value: integer)';{$ENDIF}
-  deh_actions[263].action.acp1 := @A_SetWorldInt;
-  deh_actions[263].name := strupper('SetWorldInt');
-  {$IFDEF DLL}deh_actions[263].decl := 'A_SetWorldInt(wvar: string; value: integer)';{$ENDIF}
-  deh_actions[264].action.acp1 := @A_SetMapFloat;
-  deh_actions[264].name := strupper('SetMapFloat');
-  {$IFDEF DLL}deh_actions[264].decl := 'A_SetMapFloat(mvar: string; value: float)';{$ENDIF}
-  deh_actions[265].action.acp1 := @A_SetWorldFloat;
-  deh_actions[265].name := strupper('SetWorldFloat');
-  {$IFDEF DLL}deh_actions[265].decl := 'A_SetWorldFloat(wvar: string; value: float)';{$ENDIF}
-  deh_actions[266].action.acp1 := @A_RandomGoto;
-  deh_actions[266].name := strupper('RandomGoto');
-  {$IFDEF DLL}deh_actions[266].decl := 'A_RandomGoto(state1: state_t; [state2: state_t],...)';{$ENDIF}
-  deh_actions[267].action.acp1 := @A_ResetHealth;
-  deh_actions[267].name := strupper('ResetHealth');
-  {$IFDEF DLL}deh_actions[267].decl := 'A_ResetHealth';{$ENDIF}
-  deh_actions[268].action.acp1 := @A_Recoil;
-  deh_actions[268].name := strupper('Recoil');
-  {$IFDEF DLL}deh_actions[268].decl := 'A_Recoil(xymom: float)';{$ENDIF}
-  deh_actions[269].action.acp1 := @A_SetSolid;
-  deh_actions[269].name := strupper('SetSolid');
-  {$IFDEF DLL}deh_actions[269].decl := 'A_SetSolid()';{$ENDIF}
-  deh_actions[270].action.acp1 := @A_UnSetSolid;
-  deh_actions[270].name := strupper('UnSetSolid');
-  {$IFDEF DLL}deh_actions[270].decl := 'A_UnSetSolid()';{$ENDIF}
-  deh_actions[271].action.acp1 := @A_SetFloat;
-  deh_actions[271].name := strupper('SetFloat');
-  {$IFDEF DLL}deh_actions[271].decl := 'A_SetFloat()';{$ENDIF}
-  deh_actions[272].action.acp1 := @A_UnSetFloat;
-  deh_actions[272].name := strupper('UnSetFloat');
-  {$IFDEF DLL}deh_actions[272].decl := 'A_UnSetFloat()';{$ENDIF}
-  deh_actions[273].action.acp1 := @A_SetHealth;
-  deh_actions[273].name := strupper('SetHealth');
-  {$IFDEF DLL}deh_actions[273].decl := 'A_SetHealth(h: integer)';{$ENDIF}
-  deh_actions[274].action.acp1 := @A_ResetTargetHealth;
-  deh_actions[274].name := strupper('ResetTargetHealth');
-  {$IFDEF DLL}deh_actions[274].decl := 'A_ResetTargetHealth()';{$ENDIF}
-  deh_actions[275].action.acp1 := @A_SetTargetHealth;
-  deh_actions[275].name := strupper('SetTargetHealth');
-  {$IFDEF DLL}deh_actions[275].decl := 'A_SetTargetHealth(h: integer)';{$ENDIF}
-  deh_actions[276].action.acp1 := @A_ScaleVelocity;
-  deh_actions[276].name := strupper('ScaleVelocity');
-  {$IFDEF DLL}deh_actions[276].decl := 'ScaleVelocity(scale: float)';{$ENDIF}
-  deh_actions[277].action.acp1 := @A_ChangeVelocity;
-  deh_actions[277].name := strupper('ChangeVelocity');
-  {$IFDEF DLL}deh_actions[277].decl := 'A_ChangeVelocity(velx: float, vely: float, velz: float, flags: float)';{$ENDIF}
-  deh_actions[278].action.acp1 := @A_JumpIf;
-  deh_actions[278].name := strupper('JumpIf');
-  {$IFDEF DLL}deh_actions[278].decl := 'A_JumpIf(propability: boolean, offset1: integer, [offset2: integer], ...)';{$ENDIF}
-  deh_actions[279].action.acp1 := @A_MusicChanger;
-  deh_actions[279].name := strupper('MusicChanger');
-  {$IFDEF DLL}deh_actions[279].decl := 'A_MusicChanger';{$ENDIF}
-  deh_actions[280].action.acp1 := @A_SetPushFactor;
-  deh_actions[280].name := strupper('SetPushFactor');
-  {$IFDEF DLL}deh_actions[280].decl := 'A_SetPushFactor(f: float)';{$ENDIF}
-  deh_actions[281].action.acp1 := @A_SetScale;
-  deh_actions[281].name := strupper('SetScale');
-  {$IFDEF DLL}deh_actions[281].decl := 'A_SetScale(s: float)';{$ENDIF}
-  deh_actions[282].action.acp1 := @A_SetGravity;
-  deh_actions[282].name := strupper('SetGravity');
-  {$IFDEF DLL}deh_actions[282].decl := 'A_SetGravity(g: float)';{$ENDIF}
-  deh_actions[283].action.acp1 := @A_SetFloorBounce;
-  deh_actions[283].name := strupper('SetFloorBounce');
-  {$IFDEF DLL}deh_actions[283].decl := 'A_SetFloorBounce()';{$ENDIF}
-  deh_actions[284].action.acp1 := @A_UnSetFloorBounce;
-  deh_actions[284].name := strupper('UnSetFloorBounce');
-  {$IFDEF DLL}deh_actions[284].decl := 'A_UnSetFloorBounce()';{$ENDIF}
-  deh_actions[285].action.acp1 := @A_SetCeilingBounce;
-  deh_actions[285].name := strupper('SetCeilingBounce');
-  {$IFDEF DLL}deh_actions[285].decl := 'A_SetCeilingBounce()';{$ENDIF}
-  deh_actions[286].action.acp1 := @A_UnSetCeilingBounce;
-  deh_actions[286].name := strupper('UnSetCeilingBounce');
-  {$IFDEF DLL}deh_actions[286].decl := 'A_UnSetCeilingBounce()';{$ENDIF}
-  deh_actions[287].action.acp1 := @A_SetWallBounce;
-  deh_actions[287].name := strupper('SetWallBounce');
-  {$IFDEF DLL}deh_actions[287].decl := 'A_SetWallBounce()';{$ENDIF}
-  deh_actions[288].action.acp1 := @A_UnSetWallBounce;
-  deh_actions[288].name := strupper('UnSetWallBounce');
-  {$IFDEF DLL}deh_actions[288].decl := 'A_UnSetWallBounce()';{$ENDIF}
-  deh_actions[289].action.acp1 := @A_GlowLight;
-  deh_actions[289].name := strupper('GlowLight');
-  {$IFDEF DLL}deh_actions[289].decl := 'A_GlowLight(color: string)';{$ENDIF}
-  deh_actions[290].action.acp1 := @A_TraceNearestPlayer;
-  deh_actions[290].name := strupper('TraceNearestPlayer');
-  {$IFDEF DLL}deh_actions[290].decl := 'A_TraceNearestPlayer(pct: integer, [maxturn: angle_t])';{$ENDIF}
-  deh_actions[291].action.acp1 := @A_ChangeFlag;
-  deh_actions[291].name := strupper('ChangeFlag');
-  {$IFDEF DLL}deh_actions[291].decl := 'A_ChangeFlag(flag: string, onoff: boolean)';{$ENDIF}
-  deh_actions[292].action.acp1 := @A_CheckFloor;
-  deh_actions[292].name := strupper('CheckFloor');
-  {$IFDEF DLL}deh_actions[292].decl := 'A_CheckFloor(offset: integer)';{$ENDIF}
-  deh_actions[293].action.acp1 := @A_CheckCeiling;
-  deh_actions[293].name := strupper('CheckCeiling');
-  {$IFDEF DLL}deh_actions[293].decl := 'A_CheckCeiling(offset: integer)';{$ENDIF}
-  deh_actions[294].action.acp1 := @A_StopSound;
-  deh_actions[294].name := strupper('StopSound');
-  {$IFDEF DLL}deh_actions[294].decl := 'A_StopSound()';{$ENDIF}
-  deh_actions[295].action.acp1 := @A_JumpIfTargetOutsideMeleeRange;
-  deh_actions[295].name := strupper('JumpIfTargetOutsideMeleeRange');
-  {$IFDEF DLL}deh_actions[295].decl := 'A_JumpIfTargetOutsideMeleeRange(offset: integer)';{$ENDIF}
-  deh_actions[296].action.acp1 := @A_JumpIfTargetInsideMeleeRange;
-  deh_actions[296].name := strupper('JumpIfTargetInsideMeleeRange');
-  {$IFDEF DLL}deh_actions[296].decl := 'A_JumpIfTargetInsideMeleeRange(offset: integer)';{$ENDIF}
-  deh_actions[297].action.acp1 := @A_JumpIfTracerCloser;
-  deh_actions[297].name := strupper('JumpIfTracerCloser');
-  {$IFDEF DLL}deh_actions[297].decl := 'A_JumpIfTracerCloser(distancetotarget: float, offset: integer)';{$ENDIF}
-  deh_actions[298].action.acp1 := @A_SetMass;
-  deh_actions[298].name := strupper('SetMass');
-  {$IFDEF DLL}deh_actions[298].decl := 'A_SetMass(mass: integer)';{$ENDIF}
-  deh_actions[299].action.acp1 := @A_SetTargetMass;
-  deh_actions[299].name := strupper('SetTargetMass');
-  {$IFDEF DLL}deh_actions[299].decl := 'A_SetTargetMass(mass: integer)';{$ENDIF}
-  deh_actions[300].action.acp1 := @A_SetTracerMass;
-  deh_actions[300].name := strupper('SetTracerMass');
-  {$IFDEF DLL}deh_actions[300].decl := 'A_SetTracerMass(mass: integer)';{$ENDIF}
-  deh_actions[301].action.acp1 := @A_CheckSight;
-  deh_actions[301].name := strupper('CheckSight');
-  {$IFDEF DLL}deh_actions[301].decl := 'A_CheckSight(offset: integer)';{$ENDIF}
-  deh_actions[302].action.acp1 := @A_CheckSightOrRange;
-  deh_actions[302].name := strupper('CheckSightOrRange');
-  {$IFDEF DLL}deh_actions[302].decl := 'A_CheckSightOrRange(distance: float, offset: integer, [twodi: boolean=false])';{$ENDIF}
-  deh_actions[303].action.acp1 := @A_CheckRange;
-  deh_actions[303].name := strupper('CheckRange');
-  {$IFDEF DLL}deh_actions[303].decl := 'A_CheckRange(distance: float, offset: integer, [twodi: boolean=false])';{$ENDIF}
-  deh_actions[304].action.acp1 := @A_CountdownArg;
-  deh_actions[304].name := strupper('CountdownArg');
-  {$IFDEF DLL}deh_actions[304].decl := 'A_CountdownArg(arg: integer, offset: integer)';{$ENDIF}
-  deh_actions[305].action.acp1 := @A_SetArg;
-  deh_actions[305].name := strupper('SetArg');
-  {$IFDEF DLL}deh_actions[305].decl := 'A_SetArg(arg: integer, value: integer)';{$ENDIF}
-  deh_actions[306].action.acp1 := @A_SetSpecial;
-  deh_actions[306].name := strupper('SetSpecial');
-  {$IFDEF DLL}deh_actions[306].decl := 'A_SetSpecial(special: integer, [arg1, arg2, arg3, arg4, arg5: integer])';{$ENDIF}
-  deh_actions[307].action.acp1 := @A_CheckFlag;
-  deh_actions[307].name := strupper('CheckFlag');
-  {$IFDEF DLL}deh_actions[307].decl := 'A_CheckFlag(flag: string, offset: integer, [aaprt: AAPTR])';{$ENDIF}
-  deh_actions[308].action.acp1 := @A_SetAngle;
-  deh_actions[308].name := strupper('SetAngle');
-  {$IFDEF DLL}deh_actions[308].decl := 'A_SetAngle(angle: integer, [flags: integer], [aaprt: AAPTR])';{$ENDIF}
-  deh_actions[309].action.acp1 := @A_SetUserVar;
-  deh_actions[309].name := strupper('SetUserVar');
-  {$IFDEF DLL}deh_actions[309].decl := 'A_SetUserVar(varname: string, value: integer)';{$ENDIF}
-  deh_actions[310].action.acp1 := @A_SetUserArray;
-  deh_actions[310].name := strupper('SetUserArray');
-  {$IFDEF DLL}deh_actions[310].decl := 'A_SetUserArray(varname: string, index: integer, value: integer)';{$ENDIF}
-  deh_actions[311].action.acp1 := @A_SetTics;
-  deh_actions[311].name := strupper('SetTics');
-  {$IFDEF DLL}deh_actions[311].decl := 'A_SetTics(tics: integer)';{$ENDIF}
-  deh_actions[312].action.acp1 := @A_DropItem;
-  deh_actions[312].name := strupper('DropItem');
-  {$IFDEF DLL}deh_actions[312].decl := 'A_DropItem(spawntype: string, amount: integer, chance: integer)';{$ENDIF}
-  deh_actions[313].action.acp1 := @A_DamageSelf;
-  deh_actions[313].name := strupper('DamageSelf');
-  {$IFDEF DLL}deh_actions[313].decl := 'A_DamageSelf(actor: Pmobj_t)';{$ENDIF}
-  deh_actions[314].action.acp1 := @A_DamageTarget;
-  deh_actions[314].name := strupper('DamageTarget');
-  {$IFDEF DLL}deh_actions[314].decl := 'A_DamageTarget(const damage: integer)';{$ENDIF}
-  deh_actions[315].action.acp1 := @A_DamageTracer;
-  deh_actions[315].name := strupper('DamageTracer');
-  {$IFDEF DLL}deh_actions[315].decl := 'A_DamageTracer(const damage: integer)';{$ENDIF}
-  deh_actions[316].action.acp1 := @A_KillTarget;
-  deh_actions[316].name := strupper('KillTarget');
-  {$IFDEF DLL}deh_actions[316].decl := 'A_KillTarget()';{$ENDIF}
-  deh_actions[317].action.acp1 := @A_KillTracer;
-  deh_actions[317].name := strupper('KillTracer');
-  {$IFDEF DLL}deh_actions[317].decl := 'A_KillTracer()';{$ENDIF}
-  deh_actions[318].action.acp1 := @A_RemoveTarget;
-  deh_actions[318].name := strupper('RemoveTarget');
-  {$IFDEF DLL}deh_actions[318].decl := 'A_RemoveTarget([flags: integer])';{$ENDIF}
-  deh_actions[319].action.acp1 := @A_RemoveTracer;
-  deh_actions[319].name := strupper('RemoveTracer');
-  {$IFDEF DLL}deh_actions[319].decl := 'A_RemoveTracer([flags: integer])';{$ENDIF}
-  deh_actions[320].action.acp1 := @A_Remove;
-  deh_actions[320].name := strupper('Remove');
-  {$IFDEF DLL}deh_actions[320].decl := 'A_Remove(aaprt: AAPTR, [flags: integer])';{$ENDIF}
-  deh_actions[321].action.acp1 := @A_SetFloatBobPhase;
-  deh_actions[321].name := strupper('SetFloatBobPhase');
-  {$IFDEF DLL}deh_actions[321].decl := 'A_SetFloatBobPhase(bob: integer)';{$ENDIF}
-  deh_actions[322].action.acp1 := @A_Detonate;
-  deh_actions[322].name := strupper('Detonate');
-  {$IFDEF DLL}deh_actions[322].decl := 'A_Detonate()';{$ENDIF}
-  deh_actions[323].action.acp1 := @A_Spawn;
-  deh_actions[323].name := strupper('Spawn');
-  {$IFDEF DLL}deh_actions[323].decl := 'A_Spawn()';{$ENDIF}
-  deh_actions[324].action.acp1 := @A_Face;
-  deh_actions[324].name := strupper('Face');
-  {$IFDEF DLL}deh_actions[324].decl := 'A_Face()';{$ENDIF}
-  deh_actions[325].action.acp1 := @A_Scratch;
-  deh_actions[325].name := strupper('Scratch');
-  {$IFDEF DLL}deh_actions[325].decl := 'A_Scratch()';{$ENDIF}
-  deh_actions[326].action.acp1 := @A_RandomJump;
-  deh_actions[326].name := strupper('RandomJump');
-  {$IFDEF DLL}deh_actions[326].decl := 'A_RandomJump()';{$ENDIF}
-  deh_actions[327].action.acp1 := @A_LineEffect;
-  deh_actions[327].name := strupper('LineEffect');
-  {$IFDEF DLL}deh_actions[327].decl := 'A_LineEffect()';{$ENDIF}
-  deh_actions[328].action.acp1 := @A_FlipSprite;
-  deh_actions[328].name := strupper('FlipSprite');
-  {$IFDEF DLL}deh_actions[328].decl := 'A_FlipSprite()';{$ENDIF}
-  deh_actions[329].action.acp1 := @A_NoFlipSprite;
-  deh_actions[329].name := strupper('NoFlipSprite');
-  {$IFDEF DLL}deh_actions[329].decl := 'A_NoFlipSprite()';{$ENDIF}
-  deh_actions[330].action.acp1 := @A_RandomFlipSprite;
-  deh_actions[330].name := strupper('RandomFlipSprite');
-  {$IFDEF DLL}deh_actions[330].decl := 'A_RandomFlipSprite(chance: integer)';{$ENDIF}
-  deh_actions[331].action.acp1 := @A_RandomNoFlipSprite;
-  deh_actions[331].name := strupper('RandomNoFlipSprite');
-  {$IFDEF DLL}deh_actions[331].decl := 'A_RandomNoFlipSprite(chance: integer)';{$ENDIF}
-  deh_actions[332].action.acp1 := @A_CustomMeleeAttack;
-  deh_actions[332].name := strupper('CustomMeleeAttack');
-  {$IFDEF DLL}deh_actions[332].decl := 'A_CustomMeleeAttack(damage: integer, meleesound: string, misssound: string)';{$ENDIF}
-  deh_actions[333].action.acp1 := @A_CustomComboAttack;
-  deh_actions[333].name := strupper('CustomComboAttack');
-  {$IFDEF DLL}deh_actions[333].decl := 'A_CustomComboAttack(missiletype: string, spawnheight: integer, damage: integer, meleesound: string)';{$ENDIF}
-  deh_actions[334].action.acp1 := @A_SetRenderStyle;
-  deh_actions[334].name := strupper('SetRenderStyle');
-  {$IFDEF DLL}deh_actions[334].decl := 'A_SetRenderStyle(style: renderstyle_t, alpha: float)';{$ENDIF}
-  deh_actions[335].action.acp1 := @A_FadeTo;
-  deh_actions[335].name := strupper('FadeTo');
-  {$IFDEF DLL}deh_actions[335].decl := 'A_FadeTo(targ: integer, ammount: integer, flags: integer)';{$ENDIF}
-  deh_actions[336].action.acp1 := @A_SetSize;
-  deh_actions[336].name := strupper('SetSize');
-  {$IFDEF DLL}deh_actions[336].decl := 'A_SetSize(newradius: integer, newheight: integer, testpos: boolean)';{$ENDIF}
-  deh_actions[337].action.acp1 := @A_RaiseMaster;
-  deh_actions[337].name := strupper('RaiseMaster');
-  {$IFDEF DLL}deh_actions[337].decl := 'A_RaiseMaster(copyfriendliness: boolean)';{$ENDIF}
-  deh_actions[338].action.acp1 := @A_RaiseChildren;
-  deh_actions[338].name := strupper('RaiseChildren');
-  {$IFDEF DLL}deh_actions[338].decl := 'A_RaiseChildren(copyfriendliness: boolean)';{$ENDIF}
-  deh_actions[339].action.acp1 := @A_RaiseSiblings;
-  deh_actions[339].name := strupper('RaiseSiblings');
-  {$IFDEF DLL}deh_actions[339].decl := 'A_RaiseSiblings(copyfriendliness: boolean)';{$ENDIF}
-  deh_actions[340].action.acp1 := @A_SetMasterMass;
-  deh_actions[340].name := strupper('SetMasterMass');
-  {$IFDEF DLL}deh_actions[340].decl := 'A_SetMasterMass(mass: integer)';{$ENDIF}
-  deh_actions[341].action.acp1 := @A_KillMaster;
-  deh_actions[341].name := strupper('KillMaster');
-  {$IFDEF DLL}deh_actions[341].decl := 'A_KillMaster()';{$ENDIF}
-  deh_actions[342].action.acp1 := @A_DamageMaster;
-  deh_actions[342].name := strupper('DamageMaster');
-  {$IFDEF DLL}deh_actions[342].decl := 'A_DamageMaster(const damage: integer)';{$ENDIF}
-  deh_actions[343].action.acp1 := @A_HealThing;
-  deh_actions[343].name := strupper('HealThing');
-  {$IFDEF DLL}deh_actions[343].decl := 'A_HealThing(amount: integer, max: integer)';{$ENDIF}
-  deh_actions[344].action.acp1 := @A_RemoveMaster;
-  deh_actions[344].name := strupper('RemoveMaster');
-  {$IFDEF DLL}deh_actions[344].decl := 'A_RemoveMaster([flags: integer])';{$ENDIF}
-  deh_actions[345].action.acp1 := @A_BasicAttack;
-  deh_actions[345].name := strupper('BasicAttack');
-  {$IFDEF DLL}deh_actions[345].decl := 'A_BasicAttack(MeleeDamage: integer, MeleeSound: integer, MissileType: integer, MissileHeight: float)';{$ENDIF}
-  deh_actions[346].action.acp1 := @A_SetMasterArg;
-  deh_actions[346].name := strupper('SetMasterArg');
-  {$IFDEF DLL}deh_actions[346].decl := 'A_SetMasterArg(arg: integer; value: integer)';{$ENDIF}
-  deh_actions[347].action.acp1 := @A_SetTargetArg;
-  deh_actions[347].name := strupper('SetTargetArg');
-  {$IFDEF DLL}deh_actions[347].decl := 'A_SetTargetArg(arg: integer; value: integer)';{$ENDIF}
-  deh_actions[348].action.acp1 := @A_SetTracerArg;
-  deh_actions[348].name := strupper('SetTracerArg');
-  {$IFDEF DLL}deh_actions[348].decl := 'A_SetTracerArg(arg: integer; value: integer)';{$ENDIF}
-  deh_actions[349].action.acp1 := @A_Tracer2;
-  deh_actions[349].name := strupper('Tracer2');
-  {$IFDEF DLL}deh_actions[349].decl := 'A_Tracer2()';{$ENDIF}
-  deh_actions[350].action.acp1 := @A_MonsterRefire;
-  deh_actions[350].name := strupper('MonsterRefire');
-  {$IFDEF DLL}deh_actions[350].decl := 'A_MonsterRefire(prob: integer, offset: state_t)';{$ENDIF}
-  deh_actions[351].action.acp1 := @A_RearrangePointers;
-  deh_actions[351].name := strupper('RearrangePointers');
-  {$IFDEF DLL}deh_actions[351].decl := 'A_RearrangePointers(ptr_target: integer, ptr_master: integer, ptr_tracer: integer, flags: integer)';{$ENDIF}
-  deh_actions[352].action.acp1 := @A_TransferPointer;
-  deh_actions[352].name := strupper('TransferPointer');
-  {$IFDEF DLL}deh_actions[352].decl := 'A_TransferPointer(ptr_source: integer, ptr_recipient: integer, ptr_sourcefield: integer, [ptr_recipientfield: integer], [flags: integer])';{$ENDIF}
-  deh_actions[353].action.acp1 := @A_AlertMonsters;
-  deh_actions[353].name := strupper('AlertMonsters');
-  {$IFDEF DLL}deh_actions[353].decl := 'A_AlertMonsters(maxdist: integer, flags: integer)';{$ENDIF}
-  deh_actions[354].action.acp1 := @A_LocalEarthQuake;
-  deh_actions[354].name := strupper('LocalEarthQuake');
-  {$IFDEF DLL}deh_actions[354].decl := 'A_LocalEarthQuake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)';{$ENDIF}
-  deh_actions[355].action.acp1 := @A_LocalEarthQuake;
-  deh_actions[355].name := strupper('Quake');
-  {$IFDEF DLL}deh_actions[355].decl := 'A_Quake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)';{$ENDIF}
-  deh_actions[356].action.acp1 := @A_RemoveChildren;
-  deh_actions[356].name := strupper('RemoveChildren');
-  {$IFDEF DLL}deh_actions[356].decl := 'A_RemoveChildren([flags: integer])';{$ENDIF}
-  deh_actions[357].action.acp1 := @A_RemoveSiblings;
-  deh_actions[357].name := strupper('RemoveSiblings');
-  {$IFDEF DLL}deh_actions[357].decl := 'A_RemoveSiblings([flags: integer])';{$ENDIF}
-  deh_actions[358].action.acp1 := @A_KillChildren;
-  deh_actions[358].name := strupper('KillChildren');
-  {$IFDEF DLL}deh_actions[358].decl := 'A_KillChildren()';{$ENDIF}
-  deh_actions[359].action.acp1 := @A_KillSiblings;
-  deh_actions[359].name := strupper('KillSiblings');
-  {$IFDEF DLL}deh_actions[359].decl := 'A_KillSiblings()';{$ENDIF}
-  deh_actions[360].action.acp1 := @A_Weave;
-  deh_actions[360].name := strupper('Weave');
-  {$IFDEF DLL}deh_actions[360].decl := 'A_Weave(xyspeed: integer = 2, zspeed: integer = 2, xydist: float = 2.0, zdist: float = 1.0)';{$ENDIF}
-  deh_actions[361].action.acp1 := @A_SetWeaveIndexXY;
-  deh_actions[361].name := strupper('SetWeaveIndexXY');
-  {$IFDEF DLL}deh_actions[361].decl := 'A_SetWeaveIndexXY(weavexy: integer)';{$ENDIF}
-  deh_actions[362].action.acp1 := @A_SetWeaveIndexZ;
-  deh_actions[362].name := strupper('SetWeaveIndexZ');
-  {$IFDEF DLL}deh_actions[362].decl := 'A_SetWeaveIndexZ(weavez: integer)';{$ENDIF}
-  deh_actions[363].action.acp1 := @A_SetWeaveIndexes;
-  deh_actions[363].name := strupper('SetWeaveIndexes');
-  {$IFDEF DLL}deh_actions[363].decl := 'A_SetWeaveIndexes(weavexy: integer, weavez: integer)';{$ENDIF}
-  deh_actions[364].action.acp1 := @A_SetHeight;
-  deh_actions[364].name := strupper('SetHeight');
-  {$IFDEF DLL}deh_actions[364].decl := 'A_SetHeight(newheight: float)';{$ENDIF}
-  deh_actions[365].action.acp1 := @A_OverlayClear;
-  deh_actions[365].name := strupper('OverlayClear');
-  {$IFDEF DLL}deh_actions[365].decl := 'A_OverlayClear()';{$ENDIF}
-  deh_actions[366].action.acp1 := @A_OverlayDrawPatch;
-  deh_actions[366].name := strupper('OverlayDrawPatch');
-  {$IFDEF DLL}deh_actions[366].decl := 'A_OverlayDrawPatch(ticks: Integer; patchname: string; x, y: Integer ;)';{$ENDIF}
-  deh_actions[367].action.acp1 := @A_OverlayDrawPatchStretched;
-  deh_actions[367].name := strupper('OverlayDrawPatchStretched');
-  {$IFDEF DLL}deh_actions[367].decl := 'A_OverlayDrawPatchStretched(ticks: Integer; patchname: string; x1, y1, x2, y2: Integer ;)';{$ENDIF}
-  deh_actions[368].action.acp1 := @A_OverlayDrawPixel;
-  deh_actions[368].name := strupper('OverlayDrawPixel');
-  {$IFDEF DLL}deh_actions[368].decl := 'A_OverlayDrawPixel(ticks: Integer; red, green, blue: byte; x, y: Integer ;)';{$ENDIF}
-  deh_actions[369].action.acp1 := @A_OverlayDrawRect;
-  deh_actions[369].name := strupper('OverlayDrawRect');
-  {$IFDEF DLL}deh_actions[369].decl := 'A_OverlayDrawRect(ticks: Integer; red, green, blue: byte; x1, y1, x2, y2: Integer ;)';{$ENDIF}
-  deh_actions[370].action.acp1 := @A_OverlayDrawLine;
-  deh_actions[370].name := strupper('OverlayDrawLine');
-  {$IFDEF DLL}deh_actions[370].decl := 'A_OverlayDrawLine(ticks: Integer; red, green, blue: byte; x1, y1, x2, y2: Integer ;)';{$ENDIF}
-  deh_actions[371].action.acp1 := @A_OverlayDrawText;
-  deh_actions[371].name := strupper('OverlayDrawText');
-  {$IFDEF DLL}deh_actions[371].decl := 'A_OverlayDrawText(ticks: Integer; txt: string; align: Integer; x, y: Integer ;)';{$ENDIF}
-  deh_actions[372].action.acp1 := @A_OverlayDrawLeftText;
-  deh_actions[372].name := strupper('OverlayDrawLeftText');
-  {$IFDEF DLL}deh_actions[372].decl := 'A_OverlayDrawLeftText(ticks: Integer; txt: string; x, y: Integer ;)';{$ENDIF}
-  deh_actions[373].action.acp1 := @A_OverlayDrawRightText;
-  deh_actions[373].name := strupper('OverlayDrawRightText');
-  {$IFDEF DLL}deh_actions[373].decl := 'A_OverlayDrawRightText(ticks: Integer; txt: string; x, y: Integer ;)';{$ENDIF}
-  deh_actions[374].action.acp1 := @A_OverlayDrawCenterText;
-  deh_actions[374].name := strupper('OverlayDrawCenterText');
-  {$IFDEF DLL}deh_actions[374].decl := 'A_OverlayDrawCenterText(ticks: Integer; txt: string; x, y: Integer ;)';{$ENDIF}
-  deh_actions[375].action.acp1 := @A_SetFriction;
-  deh_actions[375].name := strupper('SetFriction');
-  {$IFDEF DLL}deh_actions[375].decl := 'A_SetFriction(newfriction: float)';{$ENDIF}
-  deh_actions[376].action.acp1 := @A_PlayerHurtExplode;
-  deh_actions[376].name := strupper('PlayerHurtExplode');
-  {$IFDEF DLL}deh_actions[376].decl := 'A_PlayerHurtExplode(damage: integer, radius: integer)';{$ENDIF}
-  deh_actions[377].action.acp1 := @A_SetPushable;
-  deh_actions[377].name := strupper('SetPushable');
-  {$IFDEF DLL}deh_actions[377].decl := 'A_SetPushable()';{$ENDIF}
-  deh_actions[378].action.acp1 := @A_UnSetPushable;
-  deh_actions[378].name := strupper('UnSetPushable');
-  {$IFDEF DLL}deh_actions[378].decl := 'A_UnSetPushable()';{$ENDIF}
-  deh_actions[379].action.acp1 := @A_SetPainChance;
-  deh_actions[379].name := strupper('SetPainChance');
-  {$IFDEF DLL}deh_actions[379].decl := 'A_SetPainChance(newchance: integer)';{$ENDIF}
-  deh_actions[380].action.acp1 := @A_SetSpriteDX;
-  deh_actions[380].name := strupper('SetSpriteDX');
-  {$IFDEF DLL}deh_actions[380].decl := 'A_SetSpriteDX(dx: float)';{$ENDIF}
-  deh_actions[381].action.acp1 := @A_SetSpriteDY;
-  deh_actions[381].name := strupper('SetSpriteDY');
-  {$IFDEF DLL}deh_actions[381].decl := 'A_SetSpriteDY(dy: float)';{$ENDIF}
-  deh_actions[382].action.acp1 := @A_SeeSound1;
-  deh_actions[382].name := strupper('SeeSound');
-  {$IFDEF DLL}deh_actions[382].decl := 'A_SeeSound()';{$ENDIF}
-  deh_actions[383].action.acp1 := @A_PainSound1;
-  deh_actions[383].name := strupper('PainSound');
-  {$IFDEF DLL}deh_actions[383].decl := 'A_PainSound()';{$ENDIF}
-  deh_actions[384].action.acp1 := @A_AttackSound1;
-  deh_actions[384].name := strupper('AttackSound');
-  {$IFDEF DLL}deh_actions[384].decl := 'A_AttackSound()';{$ENDIF}
-  deh_actions[385].action.acp1 := @A_MeleeSound1;
-  deh_actions[385].name := strupper('MeleeSound');
-  {$IFDEF DLL}deh_actions[385].decl := 'A_MeleeSound()';{$ENDIF}
-  deh_actions[386].action.acp1 := @A_DeathSound1;
-  deh_actions[386].name := strupper('DeathSound');
-  {$IFDEF DLL}deh_actions[386].decl := 'A_DeathSound()';{$ENDIF}
-  deh_actions[387].action.acp1 := @A_ActiveSound1;
-  deh_actions[387].name := strupper('ActiveSound');
-  {$IFDEF DLL}deh_actions[387].decl := 'A_ActiveSound()';{$ENDIF}
-  deh_actions[388].action.acp1 := @A_MatchTargetZ;
-  deh_actions[388].name := strupper('MatchTargetZ');
-  {$IFDEF DLL}deh_actions[388].decl := 'A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)';{$ENDIF}
+  deh_actions[0].action.acp1 := nil;
+  deh_actions[0].name := 'NULL';
+  deh_actions[0].originalname := 'NULL';
+  {$IFDEF DLL}deh_actions[0].decl := '';{$ENDIF}
 
-  for i := 0 to DEHNUMACTIONS - 1 do
+  dehnumactions := 1;
+
+  DEH_AddAction(@A_AccTeleGlitter, 'A_AccTeleGlitter()'); // 1
+  DEH_AddAction(@A_AddPlayerCorpse, 'A_AddPlayerCorpse()'); // 2
+  DEH_AddAction(@A_AddPlayerRain, 'A_AddPlayerRain()'); // 3
+  DEH_AddAction(@A_BeakAttackPL1, 'A_BeakAttackPL1()'); // 4
+  DEH_AddAction(@A_BeakAttackPL2, 'A_BeakAttackPL2()'); // 5
+  DEH_AddAction(@A_BeakRaise, 'A_BeakRaise()'); // 6
+  DEH_AddAction(@A_BeakReady, 'A_BeakReady()'); // 7
+  DEH_AddAction(@A_BeastAttack, 'A_BeastAttack()'); // 8
+  DEH_AddAction(@A_BeastPuff, 'A_BeastPuff()'); // 9
+  DEH_AddAction(@A_BlueSpark, 'A_BlueSpark()'); // 10
+  DEH_AddAction(@A_BoltSpark, 'A_BoltSpark()'); // 11
+  DEH_AddAction(@A_BossDeath, 'A_BossDeath()'); // 12
+  DEH_AddAction(@A_Chase, 'A_Chase()'); // 13
+  DEH_AddAction(@A_CheckBurnGone, 'A_CheckBurnGone()'); // 14
+  DEH_AddAction(@A_CheckSkullDone, 'A_CheckSkullDone()'); // 15
+  DEH_AddAction(@A_CheckSkullFloor, 'A_CheckSkullFloor()'); // 16
+  DEH_AddAction(@A_ChicAttack, 'A_ChicAttack()'); // 17
+  DEH_AddAction(@A_ChicChase, 'A_ChicChase()'); // 18
+  DEH_AddAction(@A_ChicLook, 'A_ChicLook()'); // 19
+  DEH_AddAction(@A_ChicPain, 'A_ChicPain()'); // 20
+  DEH_AddAction(@A_ClinkAttack, 'A_ClinkAttack()'); // 21
+  DEH_AddAction(@A_ContMobjSound, 'A_ContMobjSound()'); // 22
+  DEH_AddAction(@A_DeathBallImpact, 'A_DeathBallImpact()'); // 23
+  DEH_AddAction(@A_DripBlood, 'A_DripBlood()'); // 24
+  DEH_AddAction(@A_ESound, 'A_ESound()'); // 25
+  DEH_AddAction(@A_Explode, 'A_Explode()'); // 26
+  DEH_AddAction(@A_FaceTarget, 'A_FaceTarget()'); // 27
+  DEH_AddAction(@A_Feathers, 'A_Feathers()'); // 28
+  DEH_AddAction(@A_FireBlasterPL1, 'A_FireBlasterPL1()'); // 29
+  DEH_AddAction(@A_FireBlasterPL2, 'A_FireBlasterPL2()'); // 30
+  DEH_AddAction(@A_FireCrossbowPL1, 'A_FireCrossbowPL1()'); // 31
+  DEH_AddAction(@A_FireCrossbowPL2, 'A_FireCrossbowPL2()'); // 32
+  DEH_AddAction(@A_FireGoldWandPL1, 'A_FireGoldWandPL1()'); // 33
+  DEH_AddAction(@A_FireGoldWandPL2, 'A_FireGoldWandPL2()'); // 34
+  DEH_AddAction(@A_FireMacePL1, 'A_FireMacePL1()'); // 35
+  DEH_AddAction(@A_FireMacePL2, 'A_FireMacePL2()'); // 36
+  DEH_AddAction(@A_FirePhoenixPL1, 'A_FirePhoenixPL1()'); // 37
+  DEH_AddAction(@A_FirePhoenixPL2, 'A_FirePhoenixPL2()'); // 38
+  DEH_AddAction(@A_FireSkullRodPL1, 'A_FireSkullRodPL1()'); // 39
+  DEH_AddAction(@A_FireSkullRodPL2, 'A_FireSkullRodPL2()'); // 40
+  DEH_AddAction(@A_FlameEnd, 'A_FlameEnd()'); // 41
+  DEH_AddAction(@A_FlameSnd, 'A_FlameSnd()'); // 42
+  DEH_AddAction(@A_FloatPuff, 'A_FloatPuff()'); // 43
+  DEH_AddAction(@A_FreeTargMobj, 'A_FreeTargMobj()'); // 44
+  DEH_AddAction(@A_GauntletAttack, 'A_GauntletAttack()'); // 45
+  DEH_AddAction(@A_GenWizard, 'A_GenWizard()'); // 46
+  DEH_AddAction(@A_GhostOff, 'A_GhostOff()'); // 47
+  DEH_AddAction(@A_HeadAttack, 'A_HeadAttack()'); // 48
+  DEH_AddAction(@A_HeadFireGrow, 'A_HeadFireGrow()'); // 49
+  DEH_AddAction(@A_HeadIceImpact, 'A_HeadIceImpact()'); // 50
+  DEH_AddAction(@A_HideInCeiling, 'A_HideInCeiling()'); // 51
+  DEH_AddAction(@A_HideThing, 'A_HideThing()'); // 52
+  DEH_AddAction(@A_ImpDeath, 'A_ImpDeath()'); // 53
+  DEH_AddAction(@A_ImpExplode, 'A_ImpExplode()'); // 54
+  DEH_AddAction(@A_ImpMeAttack, 'A_ImpMeAttack()'); // 55
+  DEH_AddAction(@A_ImpMsAttack, 'A_ImpMsAttack()'); // 56
+  DEH_AddAction(@A_ImpMsAttack2, 'A_ImpMsAttack2()'); // 57
+  DEH_AddAction(@A_ImpXDeath1, 'A_ImpXDeath1()'); // 58
+  DEH_AddAction(@A_ImpXDeath2, 'A_ImpXDeath2()'); // 59
+  DEH_AddAction(@A_InitKeyGizmo, 'A_InitKeyGizmo()'); // 60
+  DEH_AddAction(@A_InitPhoenixPL2, 'A_InitPhoenixPL2()'); // 61
+  DEH_AddAction(@A_KnightAttack, 'A_KnightAttack()'); // 62
+  DEH_AddAction(@A_Light0, 'A_Light0()'); // 63
+  DEH_AddAction(@A_Look, 'A_Look()'); // 64
+  DEH_AddAction(@A_Lower, 'A_Lower()'); // 65
+  DEH_AddAction(@A_MaceBallImpact, 'A_MaceBallImpact()'); // 66
+  DEH_AddAction(@A_MaceBallImpact2, 'A_MaceBallImpact2()'); // 67
+  DEH_AddAction(@A_MacePL1Check, 'A_MacePL1Check()'); // 68
+  DEH_AddAction(@A_MakePod, 'A_MakePod()'); // 69
+  DEH_AddAction(@A_MinotaurAtk1, 'A_MinotaurAtk1()'); // 70
+  DEH_AddAction(@A_MinotaurAtk2, 'A_MinotaurAtk2()'); // 71
+  DEH_AddAction(@A_MinotaurAtk3, 'A_MinotaurAtk3()'); // 72
+  DEH_AddAction(@A_MinotaurCharge, 'A_MinotaurCharge()'); // 73
+  DEH_AddAction(@A_MinotaurDecide, 'A_MinotaurDecide()'); // 74
+  DEH_AddAction(@A_MntrFloorFire, 'A_MntrFloorFire()'); // 75
+  DEH_AddAction(@A_MummyAttack, 'A_MummyAttack()'); // 76
+  DEH_AddAction(@A_MummyAttack2, 'A_MummyAttack2()'); // 77
+  DEH_AddAction(@A_MummyFX1Seek, 'A_MummyFX1Seek()'); // 78
+  DEH_AddAction(@A_MummySoul, 'A_MummySoul()'); // 79
+  DEH_AddAction(@A_NoBlocking, 'A_NoBlocking()'); // 80
+  DEH_AddAction(@A_Pain, 'A_Pain()'); // 81
+  DEH_AddAction(@A_PhoenixPuff, 'A_PhoenixPuff()'); // 82
+  DEH_AddAction(@A_PodPain, 'A_PodPain()'); // 83
+  DEH_AddAction(@A_RainImpact, 'A_RainImpact()'); // 84
+  DEH_AddAction(@A_Raise, 'A_Raise()'); // 85
+  DEH_AddAction(@A_ReFire, 'A_ReFire()'); // 86
+  DEH_AddAction(@A_RemovePod, 'A_RemovePod()'); // 87
+  DEH_AddAction(@A_RestoreArtifact, 'A_RestoreArtifact()'); // 88
+  DEH_AddAction(@A_RestoreSpecialThing1, 'A_RestoreSpecialThing1()'); // 89
+  DEH_AddAction(@A_RestoreSpecialThing2, 'A_RestoreSpecialThing2()'); // 90
+  DEH_AddAction(@A_Scream, 'A_Scream()'); // 91
+  DEH_AddAction(@A_ShutdownPhoenixPL2, 'A_ShutdownPhoenixPL2()'); // 92
+  DEH_AddAction(@A_SkullPop, 'A_SkullPop()'); // 93
+  DEH_AddAction(@A_SkullRodPL2Seek, 'A_SkullRodPL2Seek()'); // 94
+  DEH_AddAction(@A_SkullRodStorm, 'A_SkullRodStorm()'); // 95
+  DEH_AddAction(@A_SnakeAttack, 'A_SnakeAttack()'); // 96
+  DEH_AddAction(@A_SnakeAttack2, 'A_SnakeAttack2()'); // 97
+  DEH_AddAction(@A_Sor1Chase, 'A_Sor1Chase()'); // 98
+  DEH_AddAction(@A_Sor1Pain, 'A_Sor1Pain()'); // 99
+  DEH_AddAction(@A_Sor2DthInit, 'A_Sor2DthInit()'); // 100
+  DEH_AddAction(@A_Sor2DthLoop, 'A_Sor2DthLoop()'); // 101
+  DEH_AddAction(@A_SorcererRise, 'A_SorcererRise()'); // 102
+  DEH_AddAction(@A_SorDBon, 'A_SorDBon()'); // 103
+  DEH_AddAction(@A_SorDExp, 'A_SorDExp()'); // 104
+  DEH_AddAction(@A_SorDSph, 'A_SorDSph()'); // 105
+  DEH_AddAction(@A_SorRise, 'A_SorRise()'); // 106
+  DEH_AddAction(@A_SorSightSnd, 'A_SorSightSnd()'); // 107
+  DEH_AddAction(@A_SorZap, 'A_SorZap()'); // 108
+  DEH_AddAction(@A_SpawnRippers, 'A_SpawnRippers()'); // 109
+  DEH_AddAction(@A_SpawnTeleGlitter, 'A_SpawnTeleGlitter()'); // 110
+  DEH_AddAction(@A_SpawnTeleGlitter2, 'A_SpawnTeleGlitter2()'); // 111
+  DEH_AddAction(@A_Srcr1Attack, 'A_Srcr1Attack()'); // 112
+  DEH_AddAction(@A_Srcr2Attack, 'A_Srcr2Attack()'); // 113
+  DEH_AddAction(@A_Srcr2Decide, 'A_Srcr2Decide()'); // 114
+  DEH_AddAction(@A_StaffAttackPL1, 'A_StaffAttackPL1()'); // 115
+  DEH_AddAction(@A_StaffAttackPL2, 'A_StaffAttackPL2()'); // 116
+  DEH_AddAction(@A_UnHideThing, 'A_UnHideThing()'); // 117
+  DEH_AddAction(@A_VolcanoBlast, 'A_VolcanoBlast()'); // 118
+  DEH_AddAction(@A_VolcanoSet, 'A_VolcanoSet()'); // 119
+  DEH_AddAction(@A_VolcBallImpact, 'A_VolcBallImpact()'); // 120
+  DEH_AddAction(@A_WeaponReady, 'A_WeaponReady()'); // 121
+  DEH_AddAction(@A_WhirlwindSeek, 'A_WhirlwindSeek()'); // 122
+  DEH_AddAction(@A_WizAtk1, 'A_WizAtk1()'); // 123
+  DEH_AddAction(@A_WizAtk2, 'A_WizAtk2()'); // 124
+  DEH_AddAction(@A_WizAtk3, 'A_WizAtk3()'); // 125
+  DEH_AddAction(@A_CustomSound1, 'A_CustomSound1()'); // 126
+  DEH_AddAction(@A_CustomSound2, 'A_CustomSound2()'); // 127
+  DEH_AddAction(@A_CustomSound3, 'A_CustomSound3()'); // 128
+  DEH_AddAction(@A_RandomPainSound, 'A_RandomPainSound()'); // 129
+  DEH_AddAction(@A_RandomSeeSound, 'A_RandomSeeSound()'); // 130
+  DEH_AddAction(@A_RandomAttackSound, 'A_RandomAttackSound()'); // 131
+  DEH_AddAction(@A_RandomDeathSound, 'A_RandomDeathSound()'); // 132
+  DEH_AddAction(@A_RandomActiveSound, 'A_RandomActiveSound()'); // 133
+  DEH_AddAction(@A_RandomCustomSound1, 'A_RandomCustomSound1()'); // 134
+  DEH_AddAction(@A_RandomCustomSound2, 'A_RandomCustomSound2()'); // 135
+  DEH_AddAction(@A_RandomCustomSound3, 'A_RandomCustomSound3()'); // 136
+  DEH_AddAction(@A_RandomCustomSound, 'A_RandomCustomSound()'); // 137
+  DEH_AddAction(@A_Wander, 'A_Wander()'); // 138
+  DEH_AddAction(@A_Playsound, 'A_Playsound(sound: string)'); // 139
+  DEH_AddAction(@A_RandomSound, 'A_RandomSound(sound1: string, [sound2: string], ...)'); // 140
+  DEH_AddAction(@A_Stop, 'A_Stop()'); // 141
+  DEH_AddAction(@A_Jump, 'A_Jump(propability: random_t, offset1: integer, [offset2: integer], ...)'); // 142
+  DEH_AddAction(@A_CustomMissile, 'A_CustomMissile(missiletype: string, [height: integer], [offset: integer], [angle: integer], [aimmode: integer], [pitch: integer])'); // 143
+  DEH_AddAction(@A_NoGravity, 'A_NoGravity()'); // 144
+  DEH_AddAction(@A_Gravity, 'A_Gravity()'); // 145
+  DEH_AddAction(@A_NoBlocking, 'A_NoBlocking()'); // 146
+  DEH_AddAction(@A_MeleeAttack, 'A_MeleeAttack([mindamage: integer], [maxdamage: integer])'); // 147
+  DEH_AddAction(@A_SpawnItem, 'A_SpawnItem(type: string, [distance: float], [zheight: float], [angle: angle])'); // 148
+  DEH_AddAction(@A_SeekerMissile, 'A_SeekerMissile(threshold_angle: angle, [turnMax_angle: angle])'); // 149
+  DEH_AddAction(@A_CStaffMissileSlither, 'A_CStaffMissileSlither()'); // 150
+  DEH_AddAction(@A_SetTranslucent, 'A_SetTranslucent(alpha: float, [style: integer])'); // 151
+  DEH_AddAction(@A_Die, 'A_Die()'); // 152
+  DEH_AddAction(@A_CustomBulletAttack, 'A_CustomBulletAttack(spread_xy: angle, numbullets: integer, damageperbullet: integer, [range: integer])'); // 153
+  DEH_AddAction(@A_FadeOut, 'A_FadeOut(fade: float)'); // 154
+  DEH_AddAction(@A_FadeIn, 'A_FadeIn(fade: float)'); // 155
+  DEH_AddAction(@A_MissileAttack, 'A_MissileAttack([missiletype: string])'); // 156
+  DEH_AddAction(@A_AdjustSideSpot, 'A_AdjustSideSpot(sideoffset: float)'); // 157
+  DEH_AddAction(@A_Countdown, 'A_Countdown()'); // 158
+  DEH_AddAction(@A_FastChase, 'A_FastChase()'); // 159
+  DEH_AddAction(@A_LowGravity, 'A_LowGravity()'); // 160
+  DEH_AddAction(@A_ThrustZ, 'A_ThrustZ(momz: float)'); // 161
+  DEH_AddAction(@A_ThrustXY, 'A_ThrustXY(mom: float, ang: angle)'); // 162
+  DEH_AddAction(@A_Turn, 'A_Turn(value: angle)'); // 163
+  DEH_AddAction(@A_JumpIfCloser, 'A_JumpIfCloser(distancetotarget: float, offset: integer)'); // 164
+  DEH_AddAction(@A_JumpIfHealthLower, 'A_JumpIfHealthLower(health: integer, offset: integer)'); // 165
+  DEH_AddAction(@A_ScreamAndUnblock, 'A_ScreamAndUnblock()'); // 166
+  DEH_AddAction(@A_PlayWeaponsound, 'A_PlayWeaponsound(sound: string)'); // 167
+  DEH_AddAction(@A_SetInvulnerable, 'A_SetInvulnerable()'); // 168
+  DEH_AddAction(@A_UnSetInvulnerable, 'A_UnSetInvulnerable()'); // 169
+  DEH_AddAction(@A_RandomMeleeSound, 'A_RandomMeleeSound()'); // 170
+  DEH_AddAction(@A_FloatBob, 'A_FloatBob()'); // 171
+  DEH_AddAction(@A_NoFloatBob, 'A_NoFloatBob()'); // 172
+  DEH_AddAction(@A_Missile, 'A_Missile()'); // 173
+  DEH_AddAction(@A_NoMissile, 'A_NoMissile()'); // 174
+  DEH_AddAction(@A_ComboAttack, 'A_ComboAttack()'); // 175
+  DEH_AddAction(@A_BulletAttack, 'A_BulletAttack([numbullets: integer])'); // 176
+  DEH_AddAction(@A_MediumGravity, 'A_MediumGravity()'); // 177
+  DEH_AddAction(@A_FadeOut10, 'A_FadeOut10()'); // 178
+  DEH_AddAction(@A_FadeOut20, 'A_FadeOut20()'); // 179
+  DEH_AddAction(@A_FadeOut30, 'A_FadeOut30()'); // 180
+  DEH_AddAction(@A_FadeIn10, 'A_FadeIn10()'); // 181
+  DEH_AddAction(@A_FadeIn20, 'A_FadeIn20()'); // 182
+  DEH_AddAction(@A_FadeIn30, 'A_FadeIn30()'); // 183
+  DEH_AddAction(@A_SpawnItemEx, 'A_SpawnItemEx(itemtype: string, [xofs: float], [yofs: float], [zofs: float], [momx: float], [momy: float], [momz: float], [ang: angle], [flags: integer], [chance: integer])'); // 184
+  DEH_AddAction(@A_RandomMissile, 'A_RandomMissile(missile1: string, [missile2: string], ...)'); // 185
+  DEH_AddAction(@P_RemoveMobj, 'A_RemoveSelf()'); // 186
+  DEH_AddAction(@A_GoTo, 'A_GoTo(propability: random_t, state: state_t)'); // 187
+  DEH_AddAction(@A_GoToIfCloser, 'A_GoToIfCloser(distancetotarget: float, state: state_t)'); // 188
+  DEH_AddAction(@A_GoToIfHealthLower, 'A_GoToIfHealthLower(health: integer, state: state_t)'); // 189
+  DEH_AddAction(@A_ConsoleCommand, 'A_ConsoleCommand(cmd: string, [parm1: string], [parm2: string], ...)'); // 190
+  DEH_AddAction(@A_SetFrightened, 'A_SetFrightened()'); // 191
+  DEH_AddAction(@A_UnSetFrightened, 'A_UnSetFrightened()'); // 192
+  DEH_AddAction(@A_SetCustomParam, 'A_SetCustomParam(param: string, value: integer)'); // 193
+  DEH_AddAction(@A_AddCustomParam, 'A_AddCustomParam(param: string, value: integer)'); // 194
+  DEH_AddAction(@A_SubtractCustomParam, 'A_SubtractCustomParam(param: string, value: integer)'); // 195
+  DEH_AddAction(@A_SetTargetCustomParam, 'A_SetTargetCustomParam(param: string, value: integer)'); // 196
+  DEH_AddAction(@A_AddTargetCustomParam, 'A_AddTargetCustomParam(param: string, value: integer)'); // 197
+  DEH_AddAction(@A_SubtractTargetCustomParam, 'A_SubtractTargetCustomParam(param: string, value: integer)'); // 198
+  DEH_AddAction(@A_JumpIfCustomParam, 'A_JumpIfCustomParam(param: string, value: integer, offset: integer)'); // 199
+  DEH_AddAction(@A_JumpIfCustomParamLess, 'A_JumpIfCustomParamLess(param: string, value: integer, offset: integer)'); // 200
+  DEH_AddAction(@A_JumpIfCustomParamGreater, 'A_JumpIfCustomParamGreater(param: string, value: integer, offset: integer)'); // 201
+  DEH_AddAction(@A_JumpIfTargetCustomParam, 'A_JumpIfTargetCustomParam(param: string, value: integer, offset: integer)'); // 202
+  DEH_AddAction(@A_JumpIfTargetCustomParamLess, 'A_JumpIfTargetCustomParamLess(param: string, value: integer, offset: integer)'); // 203
+  DEH_AddAction(@A_JumpIfTargetCustomParamGreater, 'A_JumpIfTargetCustomParamGreater(param: string, value: integer, offset: integer)'); // 204
+  DEH_AddAction(@A_GoToIfCustomParam, 'A_GoToIfCustomParam(param: string, value: integer, state: state_t)'); // 205
+  DEH_AddAction(@A_GoToIfCustomParamLess, 'A_GoToIfCustomParamLess(param: string, value: integer, state: state_t)'); // 206
+  DEH_AddAction(@A_GoToIfCustomParamGreater, 'A_GoToIfCustomParamGreater(param: string, value: integer, state: state_t)'); // 207
+  DEH_AddAction(@A_GoToIfTargetCustomParam, 'A_GoToIfTargetCustomParam(param: string, value: integer, state: state_t)'); // 208
+  DEH_AddAction(@A_GoToIfTargetCustomParamLess, 'A_GoToIfTargetCustomParamLess(param: string, value: integer, state: state_t)'); // 209
+  DEH_AddAction(@A_GoToIfTargetCustomParamGreater, 'A_GoToIfTargetCustomParamGreater(param: string, value: integer, state: state_t)'); // 210
+  DEH_AddAction(@A_GhostOn, 'A_GhostOn()'); // 211
+  DEH_AddAction(@A_RunScript, 'A_RunScript(script1: string, [script2: string], ...)'); // 212
+  DEH_AddAction(@A_Turn5, 'A_Turn5()'); // 213
+  DEH_AddAction(@A_Turn10, 'A_Turn10()'); // 214
+  DEH_AddAction(@A_Blocking, 'A_Blocking()'); // 215
+  DEH_AddAction(@A_DoNotRunScripts, 'A_DoNotRunScripts()'); // 216
+  DEH_AddAction(@A_DoRunScripts, 'A_DoRunScripts()'); // 217
+  DEH_AddAction(@A_TargetDropItem, 'A_TargetDropItem(dropitemtype: string)'); // 218
+  DEH_AddAction(@A_DefaultTargetDropItem, 'A_DefaultTargetDropItem()'); // 219
+  DEH_AddAction(@A_SetDropItem, 'A_SetDropItem(dropitemtype: string)'); // 220
+  DEH_AddAction(@A_SetDefaultDropItem, 'A_SetDefaultDropItem()'); // 221
+  DEH_AddAction(@A_GlobalEarthQuake, 'A_GlobalEarthQuake(tics: integer)'); // 222
+  DEH_AddAction(@A_JumpIfMapStringEqual, 'A_JumpIfMapStringEqual(parm: string, value: string, offset; integer)'); // 223
+  DEH_AddAction(@A_JumpIfMapStringLess, 'A_JumpIfMapStringLess(parm: string, value: string, offset; integer)'); // 224
+  DEH_AddAction(@A_JumpIfMapStringGreater, 'A_JumpIfMapStringGreater(parm: string, value: string, offset; integer)'); // 225
+  DEH_AddAction(@A_JumpIfMapIntegerEqual, 'A_JumpIfMapIntegerEqual(parm: string, value: integer, offset: integer)'); // 226
+  DEH_AddAction(@A_JumpIfMapIntegerLess, 'A_JumpIfMapIntegerLess(parm: string, value: integer, offset: integer)'); // 227
+  DEH_AddAction(@A_JumpIfMapIntegerGreater, 'A_JumpIfMapIntegerGreater(parm: string, value: integer, offset: integer)'); // 228
+  DEH_AddAction(@A_JumpIfMapFloatEqual, 'A_JumpIfMapFloatEqual(parm: string, value: float, offset: integer)'); // 229
+  DEH_AddAction(@A_JumpIfMapFloatLess, 'A_JumpIfMapFloatLess(parm: string, value: float, offset: integer)'); // 230
+  DEH_AddAction(@A_JumpIfMapFloatGreater, 'A_JumpIfMapFloatGreater(parm: string, value: float, offset: integer)'); // 231
+  DEH_AddAction(@A_JumpIfWorldStringEqual, 'A_JumpIfWorldStringEqual(parm: string, value: string, offset: integer)'); // 232
+  DEH_AddAction(@A_JumpIfWorldStringLess, 'A_JumpIfWorldStringLess(parm: string, value: string, offset: integer)'); // 233
+  DEH_AddAction(@A_JumpIfWorldStringGreater, 'A_JumpIfWorldStringGreater(parm: string, value: string, offset: integer)'); // 234
+  DEH_AddAction(@A_JumpIfWorldIntegerEqual, 'A_JumpIfWorldIntegerEqual(parm: string, value: integer, offset: integer)'); // 235
+  DEH_AddAction(@A_JumpIfWorldIntegerLess, 'A_JumpIfWorldIntegerLess(parm: string, value: integer, offset: integer)'); // 236
+  DEH_AddAction(@A_JumpIfWorldIntegerGreater, 'A_JumpIfWorldIntegerGreater(parm: string, value: integer, offset: integer)'); // 237
+  DEH_AddAction(@A_JumpIfWorldFloatEqual, 'A_JumpIfWorldFloatEqual(parm: string, value: float, offset: integer)'); // 238
+  DEH_AddAction(@A_JumpIfWorldFloatLess, 'A_JumpIfWorldFloatLess(parm: string, value: float, offset: integer)'); // 239
+  DEH_AddAction(@A_JumpIfWorldFloatGreater, 'A_JumpIfWorldFloatGreater(parm: string, value: float, offset: integer)'); // 240
+  DEH_AddAction(@A_GoToIfMapStringEqual, 'A_GoToIfMapStringEqual(parm: string, value: string, state: state_t)'); // 241
+  DEH_AddAction(@A_GoToIfMapStringLess, 'A_GoToIfMapStringLess(parm: string, value: string, state: state_t)'); // 242
+  DEH_AddAction(@A_GoToIfMapStringGreater, 'A_GoToIfMapStringGreater(parm: string, value: string, state: state_t)'); // 243
+  DEH_AddAction(@A_GoToIfMapIntegerEqual, 'A_GoToIfMapIntegerEqual(parm: string, value: integer, state: state_t)'); // 244
+  DEH_AddAction(@A_GoToIfMapIntegerLess, 'A_GoToIfMapIntegerLess(parm: string, value: integer, state: state_t)'); // 245
+  DEH_AddAction(@A_GoToIfMapIntegerGreater, 'A_GoToIfMapIntegerGreater(parm: string, value: integer, state: state_t)'); // 246
+  DEH_AddAction(@A_GoToIfMapFloatEqual, 'A_GoToIfMapFloatEqual(parm: string, value: float, state: state_t)'); // 247
+  DEH_AddAction(@A_GoToIfMapFloatLess, 'A_GoToIfMapFloatLess(parm: string, value: float, state: state_t)'); // 248
+  DEH_AddAction(@A_GoToIfMapFloatGreater, 'A_GoToIfMapFloatGreater(parm: string, value: float, state: state_t)'); // 249
+  DEH_AddAction(@A_GoToIfWorldStringEqual, 'A_GoToIfWorldStringEqual(parm: string, value: string, state: state_t)'); // 250
+  DEH_AddAction(@A_GoToIfWorldStringLess, 'A_GoToIfWorldStringLess(parm: string, value: string, state: state_t)'); // 251
+  DEH_AddAction(@A_GoToIfWorldStringGreater, 'A_GoToIfWorldStringGreater(parm: string, value: string, state: state_t)'); // 252
+  DEH_AddAction(@A_GoToIfWorldIntegerEqual, 'A_GoToIfWorldIntegerEqual(parm: string, value: integer, state: state_t)'); // 253
+  DEH_AddAction(@A_GoToIfWorldIntegerLess, 'A_GoToIfWorldIntegerLess(parm: string, value: integer, state: state_t)'); // 254
+  DEH_AddAction(@A_GoToIfWorldIntegerGreater, 'A_GoToIfWorldIntegerGreater(parm: string, value: integer, state: state_t)'); // 255
+  DEH_AddAction(@A_GoToIfWorldFloatEqual, 'A_GoToIfWorldFloatEqual(parm: string, value: float, state: state_t)'); // 256
+  DEH_AddAction(@A_GoToIfWorldFloatLess, 'A_GoToIfWorldFloatLess(parm: string, value: float, state: state_t)'); // 257
+  DEH_AddAction(@A_GoToIfWorldFloatGreater, 'A_GoToIfWorldFloatGreater(parm: string, value: float, state: state_t)'); // 258
+  DEH_AddAction(@A_PlayerMessage, 'A_PlayerMessage(msg1: string, [msg2: string], ...)'); // 259
+  DEH_AddAction(@A_SetMapStr, 'A_SetMapStr(mvar: string; value1: string; [value2: string],...)'); // 260
+  DEH_AddAction(@A_SetWorldStr, 'A_SetWorldStr(wvar: string; value1: string; [value2: string],...)'); // 261
+  DEH_AddAction(@A_SetMapInt, 'A_SetMapInt(mvar: string; value: integer)'); // 262
+  DEH_AddAction(@A_SetWorldInt, 'A_SetWorldInt(wvar: string; value: integer)'); // 263
+  DEH_AddAction(@A_SetMapFloat, 'A_SetMapFloat(mvar: string; value: float)'); // 264
+  DEH_AddAction(@A_SetWorldFloat, 'A_SetWorldFloat(wvar: string; value: float)'); // 265
+  DEH_AddAction(@A_RandomGoto, 'A_RandomGoto(state1: state_t; [state2: state_t],...)'); // 266
+  DEH_AddAction(@A_ResetHealth, 'A_ResetHealth()'); // 267
+  DEH_AddAction(@A_Recoil, 'A_Recoil(xymom: float)'); // 268
+  DEH_AddAction(@A_SetSolid, 'A_SetSolid()'); // 269
+  DEH_AddAction(@A_UnSetSolid, 'A_UnSetSolid()'); // 270
+  DEH_AddAction(@A_SetFloat, 'A_SetFloat()'); // 271
+  DEH_AddAction(@A_UnSetFloat, 'A_UnSetFloat()'); // 272
+  DEH_AddAction(@A_SetHealth, 'A_SetHealth(h: integer)'); // 273
+  DEH_AddAction(@A_ResetTargetHealth, 'A_ResetTargetHealth()'); // 274
+  DEH_AddAction(@A_SetTargetHealth, 'A_SetTargetHealth(h: integer)'); // 275
+  DEH_AddAction(@A_ScaleVelocity, 'A_ScaleVelocity(scale: float)'); // 276
+  DEH_AddAction(@A_ChangeVelocity, 'A_ChangeVelocity(velx: float, vely: float, velz: float, flags: float)'); // 277
+  DEH_AddAction(@A_JumpIf, 'A_JumpIf(propability: boolean, offset1: integer, [offset2: integer], ...)'); // 278
+  DEH_AddAction(@A_MusicChanger, 'A_MusicChanger()'); // 279
+  DEH_AddAction(@A_SetPushFactor, 'A_SetPushFactor(f: float)'); // 280
+  DEH_AddAction(@A_SetScale, 'A_SetScale(s: float)'); // 281
+  DEH_AddAction(@A_SetGravity, 'A_SetGravity(g: float)'); // 282
+  DEH_AddAction(@A_SetFloorBounce, 'A_SetFloorBounce()'); // 283
+  DEH_AddAction(@A_UnSetFloorBounce, 'A_UnSetFloorBounce()'); // 284
+  DEH_AddAction(@A_SetCeilingBounce, 'A_SetCeilingBounce()'); // 285
+  DEH_AddAction(@A_UnSetCeilingBounce, 'A_UnSetCeilingBounce()'); // 286
+  DEH_AddAction(@A_SetWallBounce, 'A_SetWallBounce()'); // 287
+  DEH_AddAction(@A_UnSetWallBounce, 'A_UnSetWallBounce()'); // 288
+  DEH_AddAction(@A_GlowLight, 'A_GlowLight(color: string)'); // 289
+  DEH_AddAction(@A_TraceNearestPlayer, 'A_TraceNearestPlayer(pct: integer, [maxturn: angle_t])'); // 290
+  DEH_AddAction(@A_ChangeFlag, 'A_ChangeFlag(flag: string, onoff: boolean)'); // 291
+  DEH_AddAction(@A_CheckFloor, 'A_CheckFloor(offset: integer)'); // 292
+  DEH_AddAction(@A_CheckCeiling, 'A_CheckCeiling(offset: integer)'); // 293
+  DEH_AddAction(@A_StopSound, 'A_StopSound()'); // 294
+  DEH_AddAction(@A_JumpIfTargetOutsideMeleeRange, 'A_JumpIfTargetOutsideMeleeRange(offset: integer)'); // 295
+  DEH_AddAction(@A_JumpIfTargetInsideMeleeRange, 'A_JumpIfTargetInsideMeleeRange(offset: integer)'); // 296
+  DEH_AddAction(@A_JumpIfTracerCloser, 'A_JumpIfTracerCloser(distancetotarget: float, offset: integer)'); // 297
+  DEH_AddAction(@A_SetMass, 'A_SetMass(mass: integer)'); // 298
+  DEH_AddAction(@A_SetTargetMass, 'A_SetTargetMass(mass: integer)'); // 299
+  DEH_AddAction(@A_SetTracerMass, 'A_SetTracerMass(mass: integer)'); // 300
+  DEH_AddAction(@A_CheckSight, 'A_CheckSight(offset: integer)'); // 301
+  DEH_AddAction(@A_CheckSightOrRange, 'A_CheckSightOrRange(distance: float, offset: integer, [twodi: boolean=false])'); // 302
+  DEH_AddAction(@A_CheckRange, 'A_CheckRange(distance: float, offset: integer, [twodi: boolean=false])'); // 303
+  DEH_AddAction(@A_CountdownArg, 'A_CountdownArg(arg: integer, offset: integer)'); // 304
+  DEH_AddAction(@A_SetArg, 'A_SetArg(arg: integer, value: integer)'); // 305
+  DEH_AddAction(@A_SetSpecial, 'A_SetSpecial(special: integer, [arg1, arg2, arg3, arg4, arg5: integer])'); // 306
+  DEH_AddAction(@A_CheckFlag, 'A_CheckFlag(flag: string, offset: integer, [aaprt: AAPTR])'); // 307
+  DEH_AddAction(@A_SetAngle, 'A_SetAngle(angle: integer, [flags: integer], [aaprt: AAPTR])'); // 308
+  DEH_AddAction(@A_SetUserVar, 'A_SetUserVar(varname: string, value: integer)'); // 309
+  DEH_AddAction(@A_SetUserArray, 'A_SetUserArray(varname: string, index: integer, value: integer)'); // 310
+  DEH_AddAction(@A_SetTics, 'A_SetTics(tics: integer)'); // 311
+  DEH_AddAction(@A_DropItem, 'A_DropItem(spawntype: string, amount: integer, chance: integer)'); // 312
+  DEH_AddAction(@A_DamageSelf, 'A_DamageSelf(actor: Pmobj_t)'); // 313
+  DEH_AddAction(@A_DamageTarget, 'A_DamageTarget(const damage: integer)'); // 314
+  DEH_AddAction(@A_DamageTracer, 'A_DamageTracer(const damage: integer)'); // 315
+  DEH_AddAction(@A_KillTarget, 'A_KillTarget()'); // 316
+  DEH_AddAction(@A_KillTracer, 'A_KillTracer()'); // 317
+  DEH_AddAction(@A_RemoveTarget, 'A_RemoveTarget([flags: integer])'); // 318
+  DEH_AddAction(@A_RemoveTracer, 'A_RemoveTracer([flags: integer])'); // 319
+  DEH_AddAction(@A_Remove, 'A_Remove(aaprt: AAPTR, [flags: integer])'); // 320
+  DEH_AddAction(@A_SetFloatBobPhase, 'A_SetFloatBobPhase(bob: integer)'); // 321
+  DEH_AddAction(@A_Detonate, 'A_Detonate()'); // 322
+  DEH_AddAction(@A_Spawn, 'A_Spawn()'); // 323
+  DEH_AddAction(@A_Face, 'A_Face()'); // 324
+  DEH_AddAction(@A_Scratch, 'A_Scratch()'); // 325
+  DEH_AddAction(@A_RandomJump, 'A_RandomJump()'); // 326
+  DEH_AddAction(@A_LineEffect, 'A_LineEffect()'); // 327
+  DEH_AddAction(@A_FlipSprite, 'A_FlipSprite()'); // 328
+  DEH_AddAction(@A_NoFlipSprite, 'A_NoFlipSprite()'); // 329
+  DEH_AddAction(@A_RandomFlipSprite, 'A_RandomFlipSprite(chance: integer)'); // 330
+  DEH_AddAction(@A_RandomNoFlipSprite, 'A_RandomNoFlipSprite(chance: integer)'); // 331
+  DEH_AddAction(@A_CustomMeleeAttack, 'A_CustomMeleeAttack(damage: integer, meleesound: string, misssound: string)'); // 332
+  DEH_AddAction(@A_CustomComboAttack, 'A_CustomComboAttack(missiletype: string, spawnheight: integer, damage: integer, meleesound: string)'); // 333
+  DEH_AddAction(@A_SetRenderStyle, 'A_SetRenderStyle(style: renderstyle_t, alpha: float)'); // 334
+  DEH_AddAction(@A_FadeTo, 'A_FadeTo(targ: integer, ammount: integer, flags: integer)'); // 335
+  DEH_AddAction(@A_SetSize, 'A_SetSize(newradius: integer, newheight: integer, testpos: boolean)'); // 336
+  DEH_AddAction(@A_RaiseMaster, 'A_RaiseMaster(copyfriendliness: boolean)'); // 337
+  DEH_AddAction(@A_RaiseChildren, 'A_RaiseChildren(copyfriendliness: boolean)'); // 338
+  DEH_AddAction(@A_RaiseSiblings, 'A_RaiseSiblings(copyfriendliness: boolean)'); // 339
+  DEH_AddAction(@A_SetMasterMass, 'A_SetMasterMass(mass: integer)'); // 340
+  DEH_AddAction(@A_KillMaster, 'A_KillMaster()'); // 341
+  DEH_AddAction(@A_DamageMaster, 'A_DamageMaster(const damage: integer)'); // 342
+  DEH_AddAction(@A_HealThing, 'A_HealThing(amount: integer, max: integer)'); // 343
+  DEH_AddAction(@A_RemoveMaster, 'A_RemoveMaster([flags: integer])'); // 344
+  DEH_AddAction(@A_BasicAttack, 'A_BasicAttack(MeleeDamage: integer, MeleeSound: integer, MissileType: integer, MissileHeight: float)'); // 345
+  DEH_AddAction(@A_SetMasterArg, 'A_SetMasterArg(arg: integer; value: integer)'); // 346
+  DEH_AddAction(@A_SetTargetArg, 'A_SetTargetArg(arg: integer; value: integer)'); // 347
+  DEH_AddAction(@A_SetTracerArg, 'A_SetTracerArg(arg: integer; value: integer)'); // 348
+  DEH_AddAction(@A_Tracer2, 'A_Tracer2()'); // 349
+  DEH_AddAction(@A_MonsterRefire, 'A_MonsterRefire(prob: integer, offset: state_t)'); // 350
+  DEH_AddAction(@A_RearrangePointers, 'A_RearrangePointers(ptr_target: integer, ptr_master: integer, ptr_tracer: integer, flags: integer)'); // 351
+  DEH_AddAction(@A_TransferPointer, 'A_TransferPointer(ptr_source: integer, ptr_recipient: integer, ptr_sourcefield: integer, [ptr_recipientfield: integer], [flags: integer])'); // 352
+  DEH_AddAction(@A_AlertMonsters, 'A_AlertMonsters(maxdist: integer, flags: integer)'); // 353
+  DEH_AddAction(@A_LocalEarthQuake, 'A_LocalEarthQuake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)'); // 354
+  DEH_AddAction(@A_LocalEarthQuake, 'A_Quake(tics: integer; [intensity: float = 1.0]; [maxdist: float = MAXINT] ;)'); // 355
+  DEH_AddAction(@A_RemoveChildren, 'A_RemoveChildren([flags: integer])'); // 356
+  DEH_AddAction(@A_RemoveSiblings, 'A_RemoveSiblings([flags: integer])'); // 357
+  DEH_AddAction(@A_KillChildren, 'A_KillChildren()'); // 358
+  DEH_AddAction(@A_KillSiblings, 'A_KillSiblings()'); // 359
+  DEH_AddAction(@A_Weave, 'A_Weave(xyspeed: integer = 2, zspeed: integer = 2, xydist: float = 2.0, zdist: float = 1.0)'); // 360
+  DEH_AddAction(@A_SetWeaveIndexXY, 'A_SetWeaveIndexXY(weavexy: integer)'); // 361
+  DEH_AddAction(@A_SetWeaveIndexZ, 'A_SetWeaveIndexZ(weavez: integer)'); // 362
+  DEH_AddAction(@A_SetWeaveIndexes, 'A_SetWeaveIndexes(weavexy: integer, weavez: integer)'); // 363
+  DEH_AddAction(@A_SetHeight, 'A_SetHeight(newheight: float)'); // 364
+  DEH_AddAction(@A_OverlayClear, 'A_OverlayClear()'); // 365
+  DEH_AddAction(@A_OverlayDrawPatch, 'A_OverlayDrawPatch(ticks: Integer; patchname: string; x, y: Integer ;)'); // 366
+  DEH_AddAction(@A_OverlayDrawPatchStretched, 'A_OverlayDrawPatchStretched(ticks: Integer; patchname: string; x1, y1, x2, y2: Integer ;)'); // 367
+  DEH_AddAction(@A_OverlayDrawPixel, 'A_OverlayDrawPixel(ticks: Integer; red, green, blue: byte; x, y: Integer ;)'); // 368
+  DEH_AddAction(@A_OverlayDrawRect, 'A_OverlayDrawRect(ticks: Integer; red, green, blue: byte; x1, y1, x2, y2: Integer ;)'); // 369
+  DEH_AddAction(@A_OverlayDrawLine, 'A_OverlayDrawLine(ticks: Integer; red, green, blue: byte; x1, y1, x2, y2: Integer ;)'); // 370
+  DEH_AddAction(@A_OverlayDrawText, 'A_OverlayDrawText(ticks: Integer; txt: string; align: Integer; x, y: Integer ;)'); // 371
+  DEH_AddAction(@A_OverlayDrawLeftText, 'A_OverlayDrawLeftText(ticks: Integer; txt: string; x, y: Integer ;)'); // 372
+  DEH_AddAction(@A_OverlayDrawRightText, 'A_OverlayDrawRightText(ticks: Integer; txt: string; x, y: Integer ;)'); // 373
+  DEH_AddAction(@A_OverlayDrawCenterText, 'A_OverlayDrawCenterText(ticks: Integer; txt: string; x, y: Integer ;)'); // 374
+  DEH_AddAction(@A_SetFriction, 'A_SetFriction(newfriction: float)'); // 375
+  DEH_AddAction(@A_PlayerHurtExplode, 'A_PlayerHurtExplode(damage: integer, radius: integer)'); // 376
+  DEH_AddAction(@A_SetPushable, 'A_SetPushable()'); // 377
+  DEH_AddAction(@A_UnSetPushable, 'A_UnSetPushable()'); // 378
+  DEH_AddAction(@A_SetPainChance, 'A_SetPainChance(newchance: integer)'); // 379
+  DEH_AddAction(@A_SetSpriteDX, 'A_SetSpriteDX(dx: float)'); // 380
+  DEH_AddAction(@A_SetSpriteDY, 'A_SetSpriteDY(dy: float)'); // 381
+  DEH_AddAction(@A_SeeSound1, 'A_SeeSound()'); // 382
+  DEH_AddAction(@A_PainSound1, 'A_PainSound()'); // 383
+  DEH_AddAction(@A_AttackSound1, 'A_AttackSound()'); // 384
+  DEH_AddAction(@A_MeleeSound1, 'A_MeleeSound()'); // 385
+  DEH_AddAction(@A_DeathSound1, 'A_DeathSound()'); // 386
+  DEH_AddAction(@A_ActiveSound1, 'A_ActiveSound()'); // 387
+  DEH_AddAction(@A_MatchTargetZ, 'A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)'); // 388
+
+  for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);
 
   weapontype_tokens := TDTextList.Create;
