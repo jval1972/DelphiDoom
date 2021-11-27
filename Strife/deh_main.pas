@@ -140,6 +140,7 @@ uses
   p_inter,
   p_musinfo,
   p_sounds,
+  p_simpledialog,
   psi_overlay,
   r_renderstyle,
   sounds,
@@ -2453,6 +2454,7 @@ begin
   DEH_AddAction(@A_DeathSound1, 'A_DeathSound()'); // 398
   DEH_AddAction(@A_ActiveSound1, 'A_ActiveSound()'); // 399
   DEH_AddAction(@A_MatchTargetZ, 'A_MatchTargetZ(zspeed: integer; threshold: integer; maxmomz: integer)'); // 400
+  DEH_AddAction(@A_SimpleDialog, 'A_SimpleDialog(dialog1: string; [dialog2...])'); // 401
 
   for i := 0 to dehnumactions - 1 do
     DEH_AddActionToHash(deh_actions[i].name, i);

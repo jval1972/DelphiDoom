@@ -61,6 +61,7 @@ Fixed bug that could rarely cause infinite loop in DEHACKED lumps, also now reco
 Fixed bug that didn't recognize the random state tics (RANDOMSELECT & RANDOMRANGE keywords).
 Inherited actors do not hurt each other.
 r_fakecontrast console variable will add contrast to ALL perpendicular lines.
+Added A_SimpleDialog(dialoglump1: string; dialoglump2..) ACTORDEF function.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

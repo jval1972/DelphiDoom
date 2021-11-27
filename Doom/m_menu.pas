@@ -34,6 +34,7 @@ unit m_menu;
 interface
 
 uses
+  d_delphi,
   d_event;
 
 //
@@ -94,10 +95,63 @@ procedure M_InitMenus;
 
 procedure M_SetKeyboardMode(const mode: integer);
 
+type
+  PmessageRoutine = function(i: integer): pointer;
+
+type
+  menuitem_t = record
+    // 0 = no cursor here, 1 = ok, 2 = arrows ok
+    status: smallint;
+
+    name: string;
+    cmd: string;
+
+    // choice = menu item #.
+    // if status = 2,
+    //   choice=0:leftarrow,1:rightarrow
+    routine: PmessageRoutine;
+
+    // Yes/No location
+    pBoolVal: PBoolean;
+    // hotkey in menu
+    alphaKey: char;
+  end;
+  Pmenuitem_t = ^menuitem_t;
+  menuitem_tArray = packed array[0..$FFFF] of menuitem_t;
+  Pmenuitem_tArray = ^menuitem_tArray;
+
+  Pmenu_t = ^menu_t;
+  menu_t = record
+    numitems: smallint;         // # of menu items
+    prevMenu: Pmenu_t;          // previous menu
+    leftMenu: Pmenu_t;          // left menu
+    rightMenu: Pmenu_t;         // right menu
+    menuitems: Pmenuitem_tArray;// menu items
+    drawproc: PProcedure;       // draw routine
+    x: smallint;
+    y: smallint;                // x,y of menu
+    lastOn: smallint;           // last item user was on in menu
+    itemheight: integer;
+    texturebk: boolean;
+    runonselect: boolean; 
+  end;
+
+procedure M_SetupNextMenu(menudef: Pmenu_t);
+
+type
+  menupos_t = record
+    x, y: integer;
+  end;
+
+function M_WriteText(x, y: integer; const str: string): menupos_t;
+
+var
+// current menudef
+  currentMenu: Pmenu_t;
+
 implementation
 
 uses
-  d_delphi,
   d_check,
   doomstat,
   doomdef,
@@ -184,9 +238,6 @@ var
 // timed message = no input from user
   messageNeedsInput: boolean;
 
-type
-  PmessageRoutine = function(i: integer): pointer;
-
 var
   messageRoutine: PmessageRoutine;
 
@@ -214,43 +265,6 @@ var
   savegameshots: array[0..Ord(load_end) - 1] of menuscreenbuffer_t;
   endstring: string;
 
-type
-  menuitem_t = record
-    // 0 = no cursor here, 1 = ok, 2 = arrows ok
-    status: smallint;
-
-    name: string;
-    cmd: string;
-
-    // choice = menu item #.
-    // if status = 2,
-    //   choice=0:leftarrow,1:rightarrow
-    routine: PmessageRoutine;
-
-    // Yes/No location
-    pBoolVal: PBoolean;
-    // hotkey in menu
-    alphaKey: char;
-  end;
-  Pmenuitem_t = ^menuitem_t;
-  menuitem_tArray = packed array[0..$FFFF] of menuitem_t;
-  Pmenuitem_tArray = ^menuitem_tArray;
-
-  Pmenu_t = ^menu_t;
-  menu_t = record
-    numitems: smallint;         // # of menu items
-    prevMenu: Pmenu_t;          // previous menu
-    leftMenu: Pmenu_t;          // left menu
-    rightMenu: Pmenu_t;         // right menu
-    menuitems: Pmenuitem_tArray;// menu items
-    drawproc: PProcedure;       // draw routine
-    x: smallint;
-    y: smallint;                // x,y of menu
-    lastOn: smallint;           // last item user was on in menu
-    itemheight: integer;
-    texturebk: boolean;
-  end;
-
 var
   itemOn: smallint;             // menu item skull is on
   skullAnimCounter: smallint;   // skull animation counter
@@ -259,9 +273,6 @@ var
 // graphic name of skulls
 // warning: initializer-string for array of chars is too long
   skullName: array[0..1] of string;
-
-// current menudef
-  currentMenu: Pmenu_t;
 
 //
 //      Menu Functions
@@ -360,11 +371,6 @@ begin
     if str[i] = #13 then
       result := result + height;
 end;
-
-type
-  menupos_t = record
-    x, y: integer;
-  end;
 
 //
 // Write a string using the hu_font
@@ -3415,6 +3421,17 @@ begin
         if currentMenu.menuitems[i].alphaKey = Chr(ch) then
         begin
           itemOn := i;
+
+          // JVAL: 20211126 - Handle runonselect flag
+          // This is for simple dialogs, or any other use in the future
+          if currentMenu.runonselect then
+            if Assigned(currentMenu.menuitems[itemOn].routine) and
+              (currentMenu.menuitems[itemOn].status = 1) then
+            begin
+              currentMenu.lastOn := itemOn;
+              currentMenu.menuitems[itemOn].routine(itemOn);
+            end;
+
           M_StartSound(nil, Ord(sfx_pstop));
           result := true;
           exit;
@@ -3423,6 +3440,17 @@ begin
         if currentMenu.menuitems[i].alphaKey = Chr(ch) then
         begin
           itemOn := i;
+
+          // JVAL: 20211126 - Handle runonselect flag
+          // This is for simple dialogs, or any other use in the future
+          if currentMenu.runonselect then
+            if Assigned(currentMenu.menuitems[itemOn].routine) and
+              (currentMenu.menuitems[itemOn].status = 1) then
+            begin
+              currentMenu.lastOn := itemOn;
+              currentMenu.menuitems[itemOn].routine(itemOn);
+            end;
+
           M_StartSound(nil, Ord(sfx_pstop));
           result := true;
           exit;

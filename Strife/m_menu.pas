@@ -164,6 +164,7 @@ type
     lastOn: smallint;           // last item user was on in menu
     itemheight: integer;
     texturebk: boolean;
+    runonselect: boolean;
   end;
 
 procedure M_ClearMenus;
@@ -195,6 +196,8 @@ var
 procedure M_SizeDisplay(choice: integer);
 
 procedure M_SetKeyboardMoveMode(const mode: integer);
+
+procedure M_SetupNextMenu(menudef: Pmenu_t);
 
 implementation
 
@@ -3551,6 +3554,17 @@ begin
         if currentMenu.menuitems[i].alphaKey = Chr(ch) then
         begin
           itemOn := i;
+
+          // JVAL: 20211126 - Handle runonselect flag
+          // This is for simple dialogs, or any other use in the future
+          if currentMenu.runonselect then
+            if Assigned(currentMenu.menuitems[itemOn].routine) and
+              (currentMenu.menuitems[itemOn].status = 1) then
+            begin
+              currentMenu.lastOn := itemOn;
+              currentMenu.menuitems[itemOn].routine(itemOn);
+            end;
+
           M_StartSound(nil, Ord(sfx_swtchn));
           result := true;
           exit;
@@ -3559,6 +3573,17 @@ begin
         if currentMenu.menuitems[i].alphaKey = Chr(ch) then
         begin
           itemOn := i;
+
+          // JVAL: 20211126 - Handle runonselect flag
+          // This is for simple dialogs, or any other use in the future
+          if currentMenu.runonselect then
+            if Assigned(currentMenu.menuitems[itemOn].routine) and
+              (currentMenu.menuitems[itemOn].status = 1) then
+            begin
+              currentMenu.lastOn := itemOn;
+              currentMenu.menuitems[itemOn].routine(itemOn);
+            end;
+
           M_StartSound(nil, Ord(sfx_swtchn));
           result := true;
           exit;
