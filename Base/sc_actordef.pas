@@ -2784,7 +2784,7 @@ begin
         mobj.flags := '0';
       {$IFDEF HERETIC_OR_HEXEN}
       if strtrim(mobj.flags2) = '' then
-        mobj.flags := '0';
+        mobj.flags2 := '0';
       {$ENDIF}
       if strtrim(mobj.flags_ex) = '' then
         mobj.flags_ex := '0';

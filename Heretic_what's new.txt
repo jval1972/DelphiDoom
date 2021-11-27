@@ -60,6 +60,7 @@ r_fakecontrast console variable will add contrast to ALL perpendicular lines.
 Added interact state for mobjs
 Added MF2_EX_INTERACTIVE mobj flag
 Added A_SetInteractive and A_UnSetInteractive mobj functions
+Fixed bug that didn't recognize flags in ACTORDEF when the actor haven't got flags2 defined.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
