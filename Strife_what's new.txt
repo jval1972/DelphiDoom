@@ -62,6 +62,7 @@ Fixed bug that didn't recognize the random state tics (RANDOMSELECT & RANDOMRANG
 Inherited actors do not hurt each other.
 r_fakecontrast console variable will add contrast to ALL perpendicular lines.
 Added A_SimpleDialog(dialoglump1: string; dialoglump2..) ACTORDEF function.
+Display correctly character #0 in end text.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

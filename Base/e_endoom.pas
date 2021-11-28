@@ -215,7 +215,9 @@ begin
         fp := cx * 8 + (cy * 8 + iy) * 128;
         for ix := 0 to 7 do
         begin
-          if dosfont[fp] = 0 then
+          if pe_char.code = 0 then
+            e_screen[sp] := bcolor
+          else if dosfont[fp] = 0 then
             e_screen[sp] := bcolor
           else
           begin
