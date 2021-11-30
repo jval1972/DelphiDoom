@@ -84,6 +84,7 @@ type
     {$ENDIF}
     function PF_gamemap(p: TDStrings): string;
     function PF_levelname(p: TDStrings): string;
+    function PF_gameskill(p: TDStrings): string;
     // Actor position and movement
     function PF_X(p: TDStrings): string;
     function PF_Y(p: TDStrings): string;
@@ -178,6 +179,7 @@ begin
   {$ENDIF}
   AddFunc('GAMEMAP', PF_gamemap, -1);
   AddFunc('LEVELNAME', PF_levelname, -1);
+  AddFunc('GAMESKILL', PF_gameskill, -1);
   // Actor position and movement
   AddFunc('X', PF_X, 0);
   AddFunc('Y', PF_Y, 0);
@@ -387,6 +389,11 @@ end;
 function TActorEvaluator.PF_levelname(p: TDStrings): string;
 begin
   result := P_GetMapName({$IFDEF DOOM_OR_HERETIC}gameepisode, {$ENDIF}gamemap);
+end;
+
+function TActorEvaluator.PF_gameskill(p: TDStrings): string;
+begin
+  result := itoa(Ord(gameskill));
 end;
 
 // Actor position and movement

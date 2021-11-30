@@ -187,6 +187,12 @@ begin
   SC_AddConst('AMF_EMITFROMTARGET', AMF_EMITFROMTARGET);
 
   SC_AddConst('TICRATE', TICRATE);
+
+  SC_AddConst('SK_BABY', Ord(sk_baby));
+  SC_AddConst('SK_EASY', Ord(sk_easy));
+  SC_AddConst('SK_MEDIUM', Ord(sk_medium));
+  SC_AddConst('SK_HARD', Ord(sk_hard));
+  SC_AddConst('SK_NIGHTMARE', Ord(sk_nightmare));
 end;
 
 procedure SC_ShutDownConsts;

@@ -63,6 +63,7 @@ r_fakecontrast console variable will add contrast to ALL perpendicular lines.
 Added A_SimpleDialog(dialoglump1: string; dialoglump2..) ACTORDEF function.
 Display correctly character #0 in end text.
 Safe check for light columns in software rendering.
+The "gameskill" can be accessed by ACTORDEF parameters evaluation.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
