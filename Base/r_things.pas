@@ -1186,32 +1186,35 @@ begin
     while dc_x <= x2 do
     begin
       texturecolumn := LongWord(frac) shr FRACBITS;
-      ltopdelta := lighboostlookup[texturecolumn].topdelta;
-      llength := lighboostlookup[texturecolumn].length;
-      dc_source32 := @lightboost[texturecolumn * LIGHTBOOSTSIZE + ltopdelta];
+      if IsIntegerInRange(texturecolumn, 0, LIGHTBOOSTSIZE - 1) then
+      begin
+        ltopdelta := lighboostlookup[texturecolumn].topdelta;
+        llength := lighboostlookup[texturecolumn].length;
+        dc_source32 := @lightboost[texturecolumn * LIGHTBOOSTSIZE + ltopdelta];
 
-      basetexturemid := dc_texturemid;
+        basetexturemid := dc_texturemid;
 
-      topscreen := sprtopscreen + int64(spryscale * ltopdelta);
-      bottomscreen := topscreen + int64(spryscale * llength);
+        topscreen := sprtopscreen + int64(spryscale * ltopdelta);
+        bottomscreen := topscreen + int64(spryscale * llength);
 
-      dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-      dc_texturemid := (centery - dc_yl) * dc_iscale;
-      if dc_yl <= mceilingclip[dc_x] then
-        dc_yl := mceilingclip[dc_x] + 1;
+        dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+        dc_texturemid := (centery - dc_yl) * dc_iscale;
+        if dc_yl <= mceilingclip[dc_x] then
+          dc_yl := mceilingclip[dc_x] + 1;
 
-      dc_yh := FixedInt64(bottomscreen - 1);
-      if dc_yh >= mfloorclip[dc_x] then
-        dc_yh := mfloorclip[dc_x] - 1;
+        dc_yh := FixedInt64(bottomscreen - 1);
+        if dc_yh >= mfloorclip[dc_x] then
+          dc_yh := mfloorclip[dc_x] - 1;
 
-      if frac < 256 * FRACUNIT then
-        if dc_yl <= dc_yh then
-          if depthbufferactive then                             // JVAL: 3d Floors
-            R_DrawColumnWithDepthBufferCheckOnly(lightcolfunc)  // JVAL: 3d Floors
-          else
-            lightcolfunc;
+        if frac < 256 * FRACUNIT then
+          if dc_yl <= dc_yh then
+            if depthbufferactive then                             // JVAL: 3d Floors
+              R_DrawColumnWithDepthBufferCheckOnly(lightcolfunc)  // JVAL: 3d Floors
+            else
+              lightcolfunc;
 
-      dc_texturemid := basetexturemid;
+        dc_texturemid := basetexturemid;
+      end;
 
       frac := frac + fracstep;
       inc(dc_x);
@@ -1239,36 +1242,40 @@ begin
         save_dc_x := last_dc_x;
         last_dc_x := dc_x;
 
-        ltopdelta := lighboostlookup[texturecolumn].topdelta;
-        llength := lighboostlookup[texturecolumn].length;
-        dc_source32 := @lightboost[texturecolumn * LIGHTBOOSTSIZE + ltopdelta];
+        if IsIntegerInRange(texturecolumn, 0, LIGHTBOOSTSIZE - 1) then
+        begin
+          ltopdelta := lighboostlookup[texturecolumn].topdelta;
+          llength := lighboostlookup[texturecolumn].length;
+          dc_source32 := @lightboost[texturecolumn * LIGHTBOOSTSIZE + ltopdelta];
 
-        basetexturemid := dc_texturemid;
+          basetexturemid := dc_texturemid;
 
-        topscreen := sprtopscreen + int64(spryscale * ltopdelta);
-        bottomscreen := topscreen + int64(spryscale * llength);
+          topscreen := sprtopscreen + int64(spryscale * ltopdelta);
+          bottomscreen := topscreen + int64(spryscale * llength);
 
-        dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
-        dc_texturemid := (centery - dc_yl) * dc_iscale;
-        if dc_yl <= mceilingclip[dc_x] then
-          dc_yl := mceilingclip[dc_x] + 1;
+          dc_yl := FixedInt64(topscreen + (FRACUNIT - 1));
+          dc_texturemid := (centery - dc_yl) * dc_iscale;
+          if dc_yl <= mceilingclip[dc_x] then
+            dc_yl := mceilingclip[dc_x] + 1;
 
-        dc_yh := FixedInt64(bottomscreen - 1);
-        if dc_yh >= mfloorclip[dc_x] then
-          dc_yh := mfloorclip[dc_x] - 1;
+          dc_yh := FixedInt64(bottomscreen - 1);
+          if dc_yh >= mfloorclip[dc_x] then
+            dc_yh := mfloorclip[dc_x] - 1;
 
-        if frac < 256 * FRACUNIT then
-          if dc_yl <= dc_yh then
-          begin
-            dc_x := save_dc_x;
-            if num_batch_columns > 1 then
-              batchlightcolfunc
-            else
-              lightcolfunc;
-            dc_x := last_dc_x;
-          end;
+          if frac < 256 * FRACUNIT then
+            if dc_yl <= dc_yh then
+            begin
+              dc_x := save_dc_x;
+              if num_batch_columns > 1 then
+                batchlightcolfunc
+              else
+                lightcolfunc;
+              dc_x := last_dc_x;
+            end;
 
-        dc_texturemid := basetexturemid;
+          dc_texturemid := basetexturemid;
+        end;
+
       end;
 
       frac := frac + fracstep;

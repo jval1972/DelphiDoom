@@ -63,6 +63,7 @@ Added A_SetInteractive and A_UnSetInteractive mobj functions
 Fixed bug that didn't recognize flags in ACTORDEF when the actor haven't got flags2 defined.
 Added A_SimpleDialog(dialoglump1: string; dialoglump2..) ACTORDEF function.
 Display correctly character #0 in end text.
+Safe check for light columns in software rendering.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
