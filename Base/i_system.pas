@@ -792,13 +792,13 @@ begin
     usemultithread := numcpus > 1;
 
   if usemultithread then
-    printf(' Multithreding mode ON'#13#10)
+    printf(' Multithreading mode ON'#13#10)
   else
   begin
     if numcpus > 1 then
-      printf(' Multithreding mode OFF (will not use all cores)'#13#10)
+      printf(' Multithreading mode OFF (will not use all cores)'#13#10)
     else
-      printf(' Multithreding mode OFF'#13#10);
+      printf(' Multithreading mode OFF'#13#10);
   end;
 end;
 
