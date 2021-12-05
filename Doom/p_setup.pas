@@ -177,6 +177,7 @@ uses
   z_zone,
   m_argv,
   m_bbox,
+  m_sha1,
   g_game,
   i_system,
   w_wad,
@@ -977,13 +978,32 @@ var
   ld: Pline_t;
   v1: Pvertex_t;
   v2: Pvertex_t;
+  sz: integer;
+  sha: string;
 begin
-  numlines := W_LumpLength(lump) div SizeOf(maplinedef_t);
+  sz := W_LumpLength(lump);
+  numlines := sz div SizeOf(maplinedef_t);
   lines := Z_Malloc(numlines * SizeOf(line_t), PU_LEVEL, nil);
   ZeroMemory(lines, numlines * SizeOf(line_t));
   data := W_CacheLumpNum(lump, PU_STATIC);
 
   mld := Pmaplinedef_t(data);
+
+  if numlines = 1764 then
+  begin
+    sha := strupper(readablestring(SHA1_CalcSHA1Buf(data^, sz)));
+    if (sha = '86C7KC17C14E1B684A49A2481S9AA9LFB8FF4') or // ver 1.2 - 1.9
+       (sha = 'SAF04WA061FB7AF3E2BF5KC89349D25F5A9') then // ver 1.1
+    begin
+      for i := 0 to numlines - 1 do
+      begin
+        PWord(@mld.flags)^ := PWord(@mld.flags)^ and 511;
+        Inc(mld);
+      end;
+      mld := Pmaplinedef_t(data);
+    end;
+  end;
+
   ld := @lines[0];
   for i := 0 to numlines - 1 do
   begin
