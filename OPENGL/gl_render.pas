@@ -937,7 +937,25 @@ begin
         extra_green := 1.0;
         extra_blue := 0.0;
         extra_alpha := 0.2;
-      end;
+      end
+      {$IFDEF  HEXEN}
+      else if palette < 21 then
+      begin
+        palette := palette - 8;
+        extra_red := 0.0;
+        extra_green := palette / 2.0;
+        extra_blue := 0.0;
+        extra_alpha := palette / 10.0;
+      end
+      else if palette = 21 then
+      begin
+        extra_red := 0.0;
+        extra_green := 0.0;
+        extra_blue := 1.0;
+        extra_alpha := 0.8;
+      end
+      {$ENDIF}
+      ;
     end;
     if extra_red > 1.0 then
       extra_red := 1.0;
@@ -5004,7 +5022,7 @@ begin
 
   // Floors and ceilings
   glDisable(GL_BLEND);
-  for i := gld_drawinfo.num_drawitems - 1 downto 0 do
+  for i := gld_drawinfo.num_drawitems downto 0 do
   begin
     pglitem := @gld_drawinfo.drawitems[i];
     if pglitem.itemtype = GLDIT_FLAT then
