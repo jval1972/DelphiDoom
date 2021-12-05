@@ -64,7 +64,6 @@ Fixed bug that didn't recognize flags in ACTORDEF when the actor haven't got fla
 Added A_SimpleDialog(dialoglump1: string; dialoglump2..) ACTORDEF function.
 Safe check for light columns in software rendering.
 The "gameskill" can be accessed by ACTORDEF parameters evaluation.
-Fixed OpenGL drawing bug, it was trying to render 1 extra wall/floor.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
