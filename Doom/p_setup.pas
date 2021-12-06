@@ -889,28 +889,31 @@ begin
     think := think.next;
   end;
 
-  mobjs := Z_Malloc(count * SizeOf(Pmobj_t), PU_STATIC, nil);
-  i := 0;
-  think := thinkercap.next;
-  while think <> @thinkercap do
+  if count > 0 then
   begin
-    if @think._function.acp1 = @P_MobjThinker then
-      if Pmobj_t(think)._type = _type then
-      begin
-        mobjs[i] := Pmobj_t(think);
-        inc(i);
-      end;
-    think := think.next;
+    mobjs := Z_Malloc(count * SizeOf(Pmobj_t), PU_STATIC, nil);
+    i := 0;
+    think := thinkercap.next;
+    while think <> @thinkercap do
+    begin
+      if @think._function.acp1 = @P_MobjThinker then
+        if Pmobj_t(think)._type = _type then
+        begin
+          mobjs[i] := Pmobj_t(think);
+          inc(i);
+        end;
+      think := think.next;
+    end;
+
+    for i := 1 to count - 1 do
+      for j := 0 to i - 1 do
+        if (mobjs[j].x = mobjs[i].x) and
+           (mobjs[j].y = mobjs[i].y) and
+           (mobjs[j].z = mobjs[i].z) then
+           mobjs[j].flags2_ex := mobjs[j].flags2_ex or MF2_EX_DONTDRAW;
+
+    Z_Free(mobjs);
   end;
-
-  for i := 1 to count - 1 do
-    for j := 0 to i - 1 do
-      if (mobjs[j].x = mobjs[i].x) and
-         (mobjs[j].y = mobjs[i].y) and
-         (mobjs[j].z = mobjs[i].z) then
-         mobjs[j].flags2_ex := mobjs[j].flags2_ex or MF2_EX_DONTDRAW;
-
-  Z_Free(mobjs);
 end;
 
 
