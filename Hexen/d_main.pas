@@ -1920,8 +1920,8 @@ begin
   SUC_Progress(45);
 
   if M_CheckParm('-nowaddehacked') = 0 then
-    if not DEH_ParseLumpName('DEHACKED') then
-      printf('DEH_ParseLumpName: DEHACKED lump not found.'#13#10);
+    if not DEH_ParseLumpNames('DEHACKED') then
+      printf('DEH_ParseLumpName: DEHACKED lump(s) not found.'#13#10);
 
   // JVAL Adding dehached files
   D_AddDEHFiles('-deh');

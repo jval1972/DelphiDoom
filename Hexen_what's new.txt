@@ -66,6 +66,7 @@ Safe check for light columns in software rendering.
 The "gameskill" can be accessed by ACTORDEF parameters evaluation.
 Poison and ice damage color palette in OpenGL mode and in software 32 bit mode.
 Fixed potential crash when no IWADs found.
+Multiple DEHACKED files inside WAD and PK3.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
