@@ -2148,11 +2148,22 @@ begin
     end;
   end;
 
+  {$IFNDEF FPC}
+  SUC_Progress(39);
+  {$ENDIF}
+
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
   {$IFNDEF FPC}
   SUC_Progress(40);
+  {$ENDIF}
+
+  printf('SC_Init: Initializing script engine.'#13#10);
+  SC_Init;
+
+  {$IFNDEF FPC}
+  SUC_Progress(41);
   {$ENDIF}
 
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
@@ -2172,11 +2183,9 @@ begin
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump for HACX not found, using defaults.'#13#10);
 
   {$IFNDEF FPC}
-  SUC_Progress(41);
+  SUC_Progress(42);
   {$ENDIF}
 
-  printf('SC_Init: Initializing script engine.'#13#10);
-  SC_Init;
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;

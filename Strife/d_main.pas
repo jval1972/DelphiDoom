@@ -2035,8 +2035,10 @@ begin
     //  and we use the first WAD we find
     filename := findfile('*.wad');
     if filename <> '' then
+    begin
       I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
-    D_AddFile(filename);
+      D_AddFile(filename);
+    end;
     if W_InitMultipleFiles(wadfiles) = 0 then
       I_Error('W_InitMultipleFiles(): no files found');
   end;
@@ -2052,6 +2054,10 @@ begin
     isdemoversion := true;
   end;
 
+  {$IFNDEF FPC}
+  SUC_Progress(39);
+  {$ENDIF}
+
   printf('W_AutoLoadPakFiles: Autoload required pak files.'#13#10);
   W_AutoLoadPakFiles;
 
@@ -2059,20 +2065,25 @@ begin
   SUC_Progress(40);
   {$ENDIF}
 
+  printf('SC_Init: Initializing script engine.'#13#10);
+  SC_Init;
+
+  {$IFNDEF FPC}
+  SUC_Progress(41);
+  {$ENDIF}
+
   printf('DEH_Init: Initializing dehacked subsystem.'#13#10);
-  DEH_Init;
   SC_DefaultStatedefLump;
+  DEH_Init;
 
   if M_CheckParm('-internalgamedef') = 0 then
     if not DEH_ParseLumpName('GAMEDEF') then
       I_Warning('DEH_ParseLumpName(): GAMEDEF lump not found, using defaults.'#13#10);
 
   {$IFNDEF FPC}
-  SUC_Progress(41);
+  SUC_Progress(42);
   {$ENDIF}
 
-  printf('SC_Init: Initializing script engine.'#13#10);
-  SC_Init;
   // JVAL: PascalScript
   printf('PS_Init: Initializing pascal script compiler.'#13#10);
   PS_Init;
