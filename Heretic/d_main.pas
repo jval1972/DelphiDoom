@@ -1855,8 +1855,10 @@ begin
   //  and we use the first WAD we find
     filename := findfile('*.wad');
     if filename <> '' then
+    begin
       I_Warning('Loading unspecified wad file: %s'#13#10, [filename]);
-    D_AddFile(filename);
+      D_AddFile(filename);
+    end;
     if W_InitMultipleFiles(wadfiles) = 0 then
       I_Error('W_InitMultipleFiles(): no files found');
   end;
