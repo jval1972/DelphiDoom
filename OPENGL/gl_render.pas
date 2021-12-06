@@ -941,7 +941,7 @@ begin
       {$IFDEF  HEXEN}
       else if palette < 21 then
       begin
-        palette := palette - 8;
+        palette := palette - 13;
         extra_red := 0.0;
         extra_green := palette / 2.0;
         extra_blue := 0.0;
