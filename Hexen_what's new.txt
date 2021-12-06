@@ -65,6 +65,7 @@ Added A_SimpleDialog(dialoglump1: string; dialoglump2..) ACTORDEF function.
 Safe check for light columns in software rendering.
 The "gameskill" can be accessed by ACTORDEF parameters evaluation.
 Poison and ice damage color palette in OpenGL mode.
+Fixed potential crash when no IWADs found.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------
