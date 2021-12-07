@@ -67,6 +67,7 @@ Display correctly character #0 in end text.
 Safe check for light columns in software rendering.
 The "gameskill" can be accessed by ACTORDEF parameters evaluation.
 Multiple DEHACKED files inside WAD and PK3.
+Use the native monitor resolution as default in software rendering mode.
 
 Version 2.0.6 build 729 - (20211011)
 -----------------------

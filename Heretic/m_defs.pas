@@ -180,7 +180,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENWIDTH{$ELSE}SCREENWIDTH{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 640;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
@@ -188,7 +188,7 @@ const
      location: @{$IFDEF OPENGL}soft_SCREENHEIGHT{$ELSE}SCREENHEIGHT{$ENDIF};
      setable: DFS_NEVER;
      defaultsvalue: '';
-     defaultivalue: 400;
+     defaultivalue: -1;
      defaultbvalue: false;
      _type: tInteger),
 
