@@ -1816,6 +1816,45 @@ begin
   result := false; // don't go any farther
 end;
 
+type
+  bloodtype_t = (bt_puff, bt_red, bt_blue, bt_green);
+
+function P_BloodType(const th: Pmobj_t): bloodtype_t;
+var
+  confcoloredblood: boolean;
+begin
+  if th.flags and MF_NOBLOOD <> 0 then
+    result := bt_puff
+  else
+  begin
+    // JVAL 18/09/2009 Added Blue and Green blood spawners
+    if G_PlayingEngineVersion < VERSION110 then
+      result := bt_red
+    else if G_PlayingEngineVersion < VERSION206 then
+    begin
+      if th.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
+        result := bt_blue
+      else if th.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
+        result := bt_green
+      else
+        result := bt_red;
+    end
+    else
+    begin
+      if demoplayback or demorecording then
+        confcoloredblood := true
+      else
+        confcoloredblood := p_confcoloredblood;
+      if (th.flags2_ex and MF2_EX_BLUEBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFBLUEBLOOD <> 0)) then
+        result := bt_blue
+      else if (th.flags2_ex and MF2_EX_GREENBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFGREENBLOOD <> 0)) then
+        result := bt_green
+      else
+        result := bt_red
+    end;
+  end;
+end;
+
 //
 // PTR_ShootTraverse
 //
@@ -1833,7 +1872,6 @@ var
   thingbottomslope: fixed_t;
   mid: Psector_t;  // JVAL: 3d Floors
   midn: integer;
-  confcoloredblood: boolean;
 
   function hitline(const check3dfloors: boolean): boolean;
   var
@@ -2042,35 +2080,11 @@ begin
 
   // Spawn bullet puffs or blood spots,
   // depending on target type.
-  if intr.d.thing.flags and MF_NOBLOOD <> 0 then
-    P_SpawnPuff(x, y, z)
-  else
-  begin
-  // JVAL 18/09/2009 Added Blue and Green blood spawners
-    if G_PlayingEngineVersion < VERSION110 then
-      P_SpawnBlood(x, y, z, la_damage)
-    else if G_PlayingEngineVersion < VERSION206 then
-    begin
-      if th.flags2_ex and MF2_EX_BLUEBLOOD <> 0 then
-        P_SpawnBlueBlood(x, y, z, la_damage)
-      else if th.flags2_ex and MF2_EX_GREENBLOOD <> 0 then
-        P_SpawnGreenBlood(x, y, z, la_damage)
-      else
-        P_SpawnBlood(x, y, z, la_damage);
-    end
-    else
-    begin
-      if demoplayback or demorecording then
-        confcoloredblood := true
-      else
-        confcoloredblood := p_confcoloredblood;
-      if (th.flags2_ex and MF2_EX_BLUEBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFBLUEBLOOD <> 0)) then
-        P_SpawnBlueBlood(x, y, z, la_damage)
-      else if (th.flags2_ex and MF2_EX_GREENBLOOD <> 0) or (confcoloredblood and (th.flags3_ex and MF3_EX_CONFGREENBLOOD <> 0)) then
-        P_SpawnGreenBlood(x, y, z, la_damage)
-      else
-        P_SpawnBlood(x, y, z, la_damage);
-    end;
+  case P_BloodType(intr.d.thing) of
+    bt_puff: P_SpawnPuff(x, y, z);
+    bt_red: P_SpawnBlood(x, y, z, la_damage);
+    bt_blue: P_SpawnBlueBlood(x, y, z, la_damage);
+    bt_green: P_SpawnGreenBlood(x, y, z, la_damage);
   end;
 
   if la_damage <> 0 then
@@ -2577,6 +2591,7 @@ var
   mo: Pmobj_t;
   plr: Pplayer_t;
   st: integer;
+  bt: bloodtype_t;
 begin
   if P_ThingHeightClip(thing) then
   begin
@@ -2597,9 +2612,10 @@ begin
   begin
     if G_PlayingEngineVersion >= VERSION207 then
     begin
-      if (thing.flags2_ex and MF2_EX_GREENBLOOD <> 0) and (MT_GREENGIBS <> Ord(MT_NONE)) then
+      bt := P_BloodType(thing);
+      if (bt = bt_green) and (MT_GREENGIBS <> Ord(MT_NONE)) then
         st := mobjinfo[MT_GREENGIBS].spawnstate
-      else if (thing.flags2_ex and MF2_EX_BLUEBLOOD <> 0) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
+      else if (bt = bt_blue) and (MT_BLUEGIBS <> Ord(MT_NONE)) then
         st := mobjinfo[MT_GREENGIBS].spawnstate
       else
         st := Ord(S_GIBS);
