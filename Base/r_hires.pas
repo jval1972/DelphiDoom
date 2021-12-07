@@ -1274,6 +1274,12 @@ begin
       r_extra_green := 0;
       r_extra_blue := 128;
     end
+    else
+    begin
+      r_extra_red := 0;
+      r_extra_green := 0;
+      r_extra_blue := 0;
+    end
     {$ENDIF}
     ;
     pal_color := r_extra_red shl 16 + r_extra_green shl 8 + r_extra_blue;
