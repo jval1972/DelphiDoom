@@ -124,6 +124,8 @@ var
   tran_filter_pct: integer;
   use_fog: boolean;
   fog_density: integer;
+  use_white_fog: boolean;
+  white_fog_density: integer;
   gl_nearclip: integer;
   gl_tex_filter_string: string;
   gl_texture_filter_anisotropic: boolean;
@@ -161,7 +163,7 @@ type
   Pdefault_t = ^default_t;
 
 const
-  NUMDEFAULTS = 198;
+  NUMDEFAULTS = 200;
 
 // JVAL
 // Note: All setable defaults must be in lowercase, don't ask why. Just do it. :)
@@ -596,6 +598,22 @@ const
      setable: DFS_ALWAYS;
      defaultsvalue: '100';
      defaultivalue: 100;
+     defaultbvalue: true;
+     _type: tInteger),
+
+    (name: 'use_white_fog';
+     location: @use_white_fog;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '';
+     defaultivalue: 1;
+     defaultbvalue: true;
+     _type: tBoolean),
+
+    (name: 'white_fog_density';
+     location: @fog_density;
+     setable: DFS_ALWAYS;
+     defaultsvalue: '200';
+     defaultivalue: 200;
      defaultbvalue: true;
      _type: tInteger),
 
