@@ -136,7 +136,6 @@ var
   gl_screensync: boolean;
   gl_linear_hud: boolean;
   gl_add_all_lines: boolean;
-  gl_reflectsky: boolean;
   gl_SCREENWIDTH,
   gl_SCREENHEIGHT: integer;
   gl_drawmodels: boolean;
