@@ -1267,11 +1267,9 @@ begin
   end;
 end;
 
-//===========================================================================
 //
 // P_PlayerLandedOnThing
 //
-//===========================================================================
 
 procedure P_PlayerLandedOnThing(mo: Pmobj_t; onmobj: Pmobj_t);
 var
@@ -1415,11 +1413,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // P_SpawnMobj
 //
-//==========================================================================
 
 function P_SpawnMobj(x: fixed_t; y: fixed_t; z: fixed_t; _type: integer; const mthing: Pmapthing_t = nil): Pmobj_t;
 var
@@ -1600,11 +1596,9 @@ begin
   result := mobj;
 end;
 
-//==========================================================================
 //
 // P_RemoveMobj
 //
-//==========================================================================
 
 procedure P_RemoveMobj(mobj: Pmobj_t);
 begin
@@ -1630,14 +1624,12 @@ begin
   P_RemoveThinker(Pthinker_t(mobj));
 end;
 
-//==========================================================================
 //
 // P_SpawnPlayer
 //
 // Called when a player is spawned on the level.  Most of the player
 // structure stays unchanged between levels.
 //
-//==========================================================================
 
 function P_SpawnPlayer(mthing: Pmapthing_t): Pmobj_t;
 var
@@ -1755,13 +1747,11 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // P_SpawnMapThing
 //
 // The fields of the mapthing should already be in host byte order.
 //
-//==========================================================================
 const
   classFlags: array[0..2] of integer = (
     MTF_FIGHTER,
@@ -2010,11 +2000,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // P_CreateTIDList
 //
-//==========================================================================
 
 const
   MAX_TID_COUNT = 200;
@@ -2054,11 +2042,9 @@ begin
   TIDList[i] := 0;
 end;
 
-//==========================================================================
 //
 // P_InsertMobjIntoTIDList
 //
-//==========================================================================
 
 procedure P_InsertMobjIntoTIDList(mobj: Pmobj_t; tid: integer);
 var
@@ -2089,11 +2075,9 @@ begin
   TIDMobj[index] := mobj;
 end;
 
-//==========================================================================
 //
 // P_RemoveMobjFromTIDList
 //
-//==========================================================================
 
 procedure P_RemoveMobjFromTIDList(mobj: Pmobj_t);
 var
@@ -2114,11 +2098,9 @@ begin
   mobj.tid := 0;
 end;
 
-//==========================================================================
 //
 // P_FindMobjFromTID
 //
-//==========================================================================
 
 function P_FindMobjFromTID(tid: integer; searchPosition: PInteger): Pmobj_t;
 var
@@ -2199,11 +2181,9 @@ begin
   mo.momz := 3 * FRACUNIT;
 end;
 
-//===========================================================================
 //
 //  P_BloodSplatter2
 //
-//===========================================================================
 
 procedure P_BloodSplatter2(x, y, z: fixed_t; originator: Pmobj_t);
 var
@@ -2820,11 +2800,9 @@ begin
     result := nil;
 end;
 
-//===========================================================================
 //
 // P_SPMAngleXYZ
 //
-//===========================================================================
 
 function P_SPMAngleXYZ(source: Pmobj_t; x, y, z: fixed_t; _type: integer;
   angle: angle_t): Pmobj_t;

@@ -63,11 +63,9 @@ uses
   s_sndseq,
   z_zone;
 
-//==================================================================
 //
 //      Move a plat up and down
 //
-//==================================================================
 procedure T_PlatRaise(plat: Pplat_t);
 var
   res: result_e;
@@ -118,12 +116,10 @@ begin
   end;
 end;
 
-//==================================================================
 //
 //      Do Platforms
 //      "amount" is only used for SOME platforms.
 //
-//==================================================================
 function EV_DoPlat(line: Pline_t; args: PByteArray; _type: plattype_e; amount: integer): boolean;
 var
   plat: Pplat_t;

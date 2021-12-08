@@ -421,11 +421,9 @@ begin
   LavaInflictor.flags2 := MF2_FIREDAMAGE or MF2_NODMGTHRUST;
 end;
 
-//==================================================================
 //
 //      Return sector_t * of sector next to current. NULL if not two-sided line
 //
-//==================================================================
 function getNextSector(line: Pline_t; sec: Psector_t): Psector_t;
 begin
   if (line.flags and ML_TWOSIDED) = 0 then
@@ -440,11 +438,9 @@ begin
 end;
 
 
-//==================================================================
 //
 //      FIND LOWEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
-//==================================================================
 function P_FindLowestFloorSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -464,11 +460,9 @@ begin
   end;
 end;
 
-//==================================================================
 //
 //      FIND HIGHEST FLOOR HEIGHT IN SURROUNDING SECTORS
 //
-//==================================================================
 function P_FindHighestFloorSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -490,11 +484,9 @@ end;
 
 
 
-//==================================================================
 //
 //      FIND NEXT HIGHEST FLOOR IN SURROUNDING SECTORS
 //
-//==================================================================
 
 // 20 adjoining sectors max!  // JVAL changed to 64
 const
@@ -555,11 +547,9 @@ begin
 end;
 
 
-//==================================================================
 //
 //      FIND LOWEST CEILING IN THE SURROUNDING SECTORS
 //
-//==================================================================
 function P_FindLowestCeilingSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -579,11 +569,9 @@ begin
   end;
 end;
 
-//==================================================================
 //
 // FIND HIGHEST CEILING IN THE SURROUNDING SECTORS
 //
-//==================================================================
 function P_FindHighestCeilingSurrounding(sec: Psector_t): fixed_t;
 var
   i: integer;
@@ -607,11 +595,9 @@ begin
 end;
 
 
-//=========================================================================
 //
 // P_FindSectorFromTag
 //
-//=========================================================================
 function P_FindSectorFromTag(tag: integer; start: integer): integer;
 var
   i: integer;
@@ -647,11 +633,9 @@ var
   TaggedLines: array[0..MAX_TAGGED_LINES - 1] of taggedlineitem_t;
   TaggedLineCount: integer = 0;
 
-//=========================================================================
 //
 // EV_SectorSoundChange
 //
-//=========================================================================
 
 function EV_SectorSoundChange(args: PByteArray): boolean;
 var
@@ -673,11 +657,9 @@ begin
   end;
 end;
 
-//============================================================================
 //
 // CheckedLockedDoor
 //
-//============================================================================
 
 function CheckedLockedDoor(mo: Pmobj_t; lock: byte): boolean;
 var
@@ -708,11 +690,9 @@ begin
 end;
 
 
-//==========================================================================
 //
 // EV_LineSearchForPuzzleItem
 //
-//==========================================================================
 
 function EV_LineSearchForPuzzleItem(line: Pline_t; args: PByteArray; mo: Pmobj_t): boolean;
 var
@@ -769,21 +749,17 @@ end;
 
 
 //
-//==============================================================================
 //
 // EVENTS
 //
 // Events are operations triggered by using, crossing, or shooting special lines,
 // or by timed thinkers
 //
-//==============================================================================
 //
 
-//============================================================================
 //
 // P_ExecuteLineSpecial
 //
-//============================================================================
 
 function P_ExecuteLineSpecial(special: integer; args: PByteArray; line: Pline_t;
   side: integer; mo: Pmobj_t): boolean;
@@ -1262,11 +1238,9 @@ begin
   end;
 end;
 
-//============================================================================
 //
 // P_ActivateLine
 //
-//============================================================================
 
 function P_ActivateLine(line: Pline_t; mo: Pmobj_t; side: integer; activationType: integer): boolean;
 var
@@ -1400,11 +1374,9 @@ begin
   end;
 end;
 
-//============================================================================
 //
 // P_PlayerOnSpecialFlat
 //
-//============================================================================
 
 procedure P_PlayerOnSpecialFlat(player: Pplayer_t; floorType: integer);
 begin
@@ -1465,11 +1437,9 @@ end;
 
 
 //
-//==============================================================================
 //
 //              SPECIAL SPAWNING
 //
-//==============================================================================
 //
 function P_FindSectorFromLineTag2(line: Pline_t; var start: integer): integer;
 var
@@ -1606,11 +1576,9 @@ begin
     end;
 end;
 
-//==========================================================================
 //
 // P_FindLine
 //
-//==========================================================================
 
 function P_FindLine(lineTag: integer; searchPosition: PInteger): Pline_t;
 var

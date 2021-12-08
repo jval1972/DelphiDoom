@@ -315,11 +315,9 @@ uses
   tables;
 
 
-//==========================================================================
 //
 // G_StartNewInit
 //
-//==========================================================================
 
 var
   RebornPosition: integer;
@@ -334,11 +332,9 @@ begin
 end;
 
 
-//==========================================================================
 //
 // G_StartNewGame
 //
-//==========================================================================
 var
   TempSkill: skill_t;
 
@@ -354,11 +350,9 @@ begin
 end;
 
 
-//==========================================================================
 //
 // G_DoNewGame
 //
-//==========================================================================
 
 procedure G_DoNewGame;
 begin
@@ -1571,13 +1565,11 @@ end;
 // also see P_SpawnPlayer in P_Things
 //
 
-//==========================================================================
 //
 // G_PlayerExitMap
 //
 // Called when the player leaves a map.
 //
-//==========================================================================
 
 procedure G_PlayerExitMap(playerNumber: integer);
 var
@@ -1918,11 +1910,9 @@ begin
   P_SpawnPlayer(@playerstarts[playernum]);
 end;
 
-//==========================================================================
 //
 // G_DoReborn
 //
-//==========================================================================
 
 procedure G_DoReborn(playernum: integer);
 var
@@ -2021,14 +2011,12 @@ begin
   gameaction := ga_screenshot;
 end;
 
-//==========================================================================
 //
 // G_TeleportNewMap
 //
 // Only called by the warp cheat code.  Works just like normal map to map
 // teleporting, but doesn't do any interlude stuff.
 //
-//==========================================================================
 
 procedure G_TeleportNewMap(map: integer;  position: integer);
 begin
@@ -2037,11 +2025,9 @@ begin
   LeavePosition := position;
 end;
 
-//==========================================================================
 //
 // G_DoTeleportNewMap
 //
-//==========================================================================
 
 procedure G_DoTeleportNewMap;
 begin
@@ -2051,13 +2037,11 @@ begin
   RebornPosition := LeavePosition;
 end;
 
-//==========================================================================
 //
 // G_Completed
 //
 // Starts intermission routine, which is used only during hub exits,
 // and DeathMatch games.
-//==========================================================================
 
 procedure G_Completed(map, position: integer);
 begin
@@ -2109,14 +2093,12 @@ begin
   viewactive := true;
 end;
 
-//==========================================================================
 //
 // G_DoSingleReborn
 //
 // Called by G_Ticker based on gameaction.  Loads a game from the reborn
 // save slot.
 //
-//==========================================================================
 
 procedure G_DoSingleReborn;
 begin
@@ -2126,13 +2108,11 @@ begin
 end;
 
 
-//==========================================================================
 //
 // G_LoadGame
 //
 // Can be called by the startup code or the menu task.
 //
-//==========================================================================
 
 var
   GameLoadSlot: integer;
@@ -2143,13 +2123,11 @@ begin
   gameaction := ga_loadgame;
 end;
 
-//==========================================================================
 //
 // G_DoLoadGame
 //
 // Called by G_Ticker based on gameaction.
 //
-//==========================================================================
 
 procedure G_DoLoadGame;
 begin
@@ -2164,13 +2142,11 @@ begin
   borderneedsrefresh := true;
 end;
 
-//==========================================================================
 //
 // G_SaveGame
 //
 // Called by the menu task.  <description> is a 24 byte text string.
 //
-//==========================================================================
 
 procedure G_SaveGame(slot: integer; description: string);
 begin
@@ -2179,13 +2155,11 @@ begin
   sendsave := true;
 end;
 
-//==========================================================================
 //
 // G_DoSaveGame
 //
 // Called by G_Ticker based on gameaction.
 //
-//==========================================================================
 
 procedure G_DoSaveGame;
 begin

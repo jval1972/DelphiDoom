@@ -185,11 +185,9 @@ var
   tsthing: Pmobj_t;
   tmflags: integer;
 
-//===========================================================================
 //
 // CheckForPushSpecial
 //
-//===========================================================================
 
 procedure P_CheckForPushSpecial(line: Pline_t; side: integer; mobj: Pmobj_t);
 begin
@@ -202,18 +200,14 @@ begin
   end;
 end;
 
-//==============================================================================
 //
 // TELEPORT MOVE
 //
-//==============================================================================
 
 
-//==============================================================================
 //
 // PIT_StompThing
 //
-//==============================================================================
 
 function PIT_StompThing(thing: Pmobj_t): boolean;
 var
@@ -290,11 +284,9 @@ begin
 end;
 
 
-//==============================================================================
 //
 // P_TeleportMove
 //
-//==============================================================================
 
 function P_TeleportMove(thing: Pmobj_t; x, y: fixed_t): boolean;
 var
@@ -384,11 +376,9 @@ end;
 
 
 
-//==============================================================================
 //
 // MOVEMENT ITERATOR FUNCTIONS
 //
-//==============================================================================
 
 function PIT_ThrustStompThing(thing: Pmobj_t): boolean;
 var
@@ -456,12 +446,10 @@ begin
 end;
 
 
-//==============================================================================
 //
 // PIT_CheckLine
 // Adjusts tmfloorz and tmceilingz as lines are contacted
 //
-//==============================================================================
 
 function PIT_CheckLine(ld: Pline_t): boolean;
 begin
@@ -711,11 +699,9 @@ begin
     IsIntegerInRange(Bz2, Az1, Az2);
 end;
 
-//==============================================================================
 //
 // PIT_CheckThing
 //
-//==============================================================================
 
 function PIT_CheckThing(thing: Pmobj_t): boolean;
 var
@@ -1208,7 +1194,6 @@ begin
 end;
 
 
-//==============================================================================
 //
 // MOVEMENT CLIPPING
 //
@@ -1239,7 +1224,6 @@ end;
 //  BlockingMobj = pointer to thing that blocked position (NULL if not blocked,
 //                                                         or blocked by a line).
 //
-//==============================================================================
 
 function P_CheckPosition(thing: Pmobj_t; x, y: fixed_t): boolean;
 var
@@ -1380,12 +1364,10 @@ begin
 end;
 
 
-//=============================================================================
 //
 // P_FakeZMovement
 //
 //     Fake the zmovement so that we can check if a move is legal
-//=============================================================================
 
 procedure P_FakeZMovement(mo: Pmobj_t);
 var
@@ -1459,11 +1441,9 @@ end;
 var
   onmobj: Pmobj_t; //generic global onmobj...used for landing on pods/players
 
-//==============================================================================
 //
 // PIT_CheckOnmobjZ
 //
-//==============================================================================
 
 function PIT_CheckOnmobjZ(thing: Pmobj_t): boolean;
 var
@@ -1505,12 +1485,10 @@ begin
 
 end;
 
-//=============================================================================
 //
 // P_CheckOnmobj(mobj_t *thing)
 //
 //     Checks if the new Z position is legal
-//=============================================================================
 
 function P_CheckOnmobj(thing: Pmobj_t): Pmobj_t;
 var
@@ -1592,13 +1570,11 @@ begin
 end;
 
 
-//==============================================================================
 //
 // P_TryMove
 // Attempt to move to a new position,
 // crossing special lines unless MF_TELEPORT is set.
 //
-//==============================================================================
 
 function P_TryMove(thing: Pmobj_t; x, y: fixed_t): boolean;
 var
@@ -1853,7 +1829,6 @@ begin
 end;
 
 
-//==============================================================================
 //
 // P_ThingHeightClip
 // Takes a valid thing and adjusts the thing->floorz,
@@ -1864,7 +1839,6 @@ end;
 // the z will be set to the lowest value
 // and false will be returned.
 //
-//==============================================================================
 
 function P_ThingHeightClip(thing: Pmobj_t): boolean;
 var
@@ -1897,12 +1871,10 @@ begin
 end;
 
 
-//==============================================================================
 //
 // SLIDE MOVE
 // Allows the player to slide along any angled walls.
 //
-//==============================================================================
 
 var
   bestslidefrac: fixed_t;
@@ -1917,13 +1889,11 @@ var
   tmymove: fixed_t;
 
 
-//==============================================================================
 //
 // P_HitSlideLine
 // Adjusts the xmove / ymove
 // so that the next move will slide along the wall.
 //
-//==============================================================================
 
 procedure P_HitSlideLine(ld: Pline_t);
 var
@@ -1976,11 +1946,9 @@ begin
 end;
 
 
-//==============================================================================
 //
 // PTR_SlideTraverse
 //
-//==============================================================================
 
 function PTR_SlideTraverse(intr: Pintercept_t): boolean;
 var
@@ -2057,7 +2025,6 @@ begin
 end;
 
 
-//==============================================================================
 //
 // P_SlideMove
 // The momx / momy move is bad, so try to slide
@@ -2067,7 +2034,6 @@ end;
 //
 // This is a kludgy mess.
 //
-//==============================================================================
 
 procedure P_SlideMove(mo: Pmobj_t);
 var
@@ -2193,12 +2159,10 @@ var
 //  topslope: fixed_t;
 
 
-//==============================================================================
 //
 // PTR_AimTraverse
 // Sets linetaget and aimslope when a target is aimed at.
 //
-//==============================================================================
 
 function PTR_AimTraverse(intr: Pintercept_t): boolean;
 var
@@ -2321,11 +2285,9 @@ begin
 end;
 
 
-//==============================================================================
 //
 // PTR_ShootTraverse
 //
-//==============================================================================
 
 function PTR_ShootTraverse(intr: Pintercept_t): boolean;
 var
@@ -2571,11 +2533,9 @@ begin
 end;
 
 
-//==============================================================================
 //
 // P_AimLineAttack
 //
-//==============================================================================
 
 function P_AimLineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t): fixed_t;
 var
@@ -2609,13 +2569,11 @@ begin
 end;
 
 
-//==============================================================================
 //
 // P_LineAttack
 // If damage == 0, it is just a test trace
 // that will leave linetarget set.
 //
-//==============================================================================
 
 procedure P_LineAttack(t1: Pmobj_t; angle: angle_t; distance: fixed_t;
   slope: fixed_t; damage: integer);
@@ -2651,11 +2609,9 @@ begin
   end;
 end;
 
-//==============================================================================
 //
 // USE LINES
 //
-//==============================================================================
 
 var
   usething: Pmobj_t;
@@ -2782,12 +2738,10 @@ begin
   result := false;
 end;
 
-//==============================================================================
 //
 // P_UseLines
 // Looks for special lines in front of the player to activate.
 //
-//==============================================================================
 
 procedure P_UseLines(player: Pplayer_t);
 var
@@ -2831,13 +2785,11 @@ var
   damagesource: boolean;
 
 
-//==============================================================================
 //
 // PIT_RadiusAttack
 // "bombsource" is the creature
 // that caused the explosion at "bombspot".
 //
-//==============================================================================
 
 function PIT_RadiusAttack(thing: Pmobj_t): boolean;
 var
@@ -2943,12 +2895,10 @@ begin
 end;
 
 
-//==============================================================================
 //
 // P_RadiusAttack
 // Source is the creature that caused the explosion at spot.
 //
-//==============================================================================
 procedure P_RadiusAttack(spot: Pmobj_t; source: Pmobj_t; const damage: integer;
   const distance: integer; const dmsource: boolean);
 var
@@ -3126,7 +3076,6 @@ begin
       P_BlockThingsIterator(x, y, PIT_RadiusAttackPlayer);
 end;
 
-//==============================================================================
 //
 //            SECTOR HEIGHT CHANGING
 //
@@ -3138,7 +3087,6 @@ end;
 // If crunch is true, they will take damage as they are being crushed
 // If Crunch is false, you should set the sector height back the way it
 // was and call P_ChangeSector again to undo the changes
-//==============================================================================
 
 var
   crushchange: boolean;
@@ -3258,11 +3206,9 @@ begin
   result := nofit;
 end;
 
-//==========================================================================
 //
 // PTR_PuzzleItemTraverse
 //
-//==========================================================================
 
 const
   USE_PUZZLE_ITEM_SPECIAL = 129;
@@ -3344,13 +3290,11 @@ begin
   result := false; // Stop searching
 end;
 
-//==========================================================================
 //
 // P_UsePuzzleItem
 //
 // Returns true if the puzzle item was used on a line or a thing.
 //
-//==========================================================================
 
 function P_UsePuzzleItem(player: Pplayer_t; itemType: integer): boolean;
 var
@@ -3369,11 +3313,9 @@ begin
   result := PuzzleActivated;
 end;
 
-//============================================================================
 //
 // PTR_BounceTraverse
 //
-//============================================================================
 
 function PTR_BounceTraverse(intr: Pintercept_t): boolean;
 var
@@ -3426,11 +3368,9 @@ begin
   result := true; // this line doesn't block movement
 end;
 
-//============================================================================
 //
 // P_BounceWall
 //
-//============================================================================
 
 procedure P_BounceWall(mo: Pmobj_t);
 var
@@ -3473,13 +3413,11 @@ begin
   mo.momy := FixedMul(movelen, finesine[deltaangle]);
 end;
 
-//==========================================================================
 //
 // P_SectorJumpOverhead
 //
 // JVAL Allow jumps in sectors with sky ceiling.... (7/8/2007)
 //
-//==========================================================================
 
 function P_SectorJumpOverhead(const s: Psector_t; const p: Pplayer_t = nil): integer;
 begin

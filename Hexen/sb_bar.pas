@@ -903,13 +903,11 @@ begin
   Z_ChangeTag(patch, PU_CACHE);
 end;
 
-//==========================================================================
 //
 // SB_DrINumber
 //
 // Draws a three digit number.
 //
-//==========================================================================
 
 procedure SB_DrINumber(val: integer; x, y: integer);
 var
@@ -953,13 +951,11 @@ begin
   SB_DrawPatch(x + 16, y, patch);
 end;
 
-//==========================================================================
 //
 // SB_DrRedINumber
 //
 // Draws a three digit number using the red font
 //
-//==========================================================================
 
 procedure SB_DrRedINumber(val: integer; x, y: integer);
 var
@@ -985,13 +981,11 @@ begin
   SB_DrawPatch(x + 16, y, patch);
 end;
 
-//==========================================================================
 //
 // SB_DrBNumber
 //
 // Draws a three digit number using FontB
 //
-//==========================================================================
 
 procedure SB_DrBNumber(val: integer; x, y: integer);
 var
@@ -1021,13 +1015,11 @@ begin
   SB_DrawPatch(xpos + 6 - patch.width div 2, y, patch); // V_DrawShadowedPatch
 end;
 
-//==========================================================================
 //
 // SB_DrSmallNumber
 //
 // Draws a small two digit number.
 //
-//==========================================================================
 
 procedure SB_DrSmallNumber(val: integer; x, y: integer);
 var
@@ -1223,11 +1215,9 @@ const
     'ARTIGER4'  // arti_puzzgear4
   );
 
-//==========================================================================
 //
 // SB_DrawAnimatedIcons
 //
-//==========================================================================
 
 var
   hitCenterFrame: boolean = false;
@@ -1310,14 +1300,12 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // SB_PaletteFlash
 //
 // Sets the new palette based upon the current values of
 // consoleplayer.damagecount and consoleplayer.bonuscount.
 //
-//==========================================================================
 
 var
   sb_palette: integer = 0;
@@ -1390,11 +1378,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // SB_DrawCommonBar
 //
-//==========================================================================
 
 procedure SB_DrawCommonBar;
 var
@@ -1413,11 +1399,9 @@ begin
   SB_DrawPatch(277, 193, PatchRTEDGE);
 end;
 
-//==========================================================================
 //
 // SB_DrawWeaponPieces
 //
-//==========================================================================
 
 const
   PieceX: array[0..Ord(NUMCLASSES) - 1, 0..2] of integer = (
@@ -1452,11 +1436,9 @@ begin
 end;
 
 
-//==========================================================================
 //
 // SB_DrawMainBar
 //
-//==========================================================================
 
 procedure SB_DrawMainBar;
 var
@@ -1602,11 +1584,9 @@ begin
   SB_DrawWeaponPieces;
 end;
 
-//==========================================================================
 //
 // SB_DrawInventoryBar
 //
-//==========================================================================
 
 procedure SB_DrawInventoryBar;
 var
@@ -1643,11 +1623,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // SB_DrawKeyBar
 //
-//==========================================================================
 
 procedure SB_DrawKeyBar;
 var
@@ -1688,11 +1666,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // SB_DrawFullScreenStuff
 //
-//==========================================================================
 
 procedure SB_DrawFullScreenStuff;
 var
@@ -1813,13 +1789,11 @@ begin
 end;
 
 
-//==========================================================================
 //
 // SB_Responder
 //  Respond to keyboard input events,
 //  intercept cheats.
 //
-//==========================================================================
 function SB_Responder(ev: Pevent_t): boolean;
 var
   buf: string;

@@ -690,11 +690,9 @@ begin
   player.mo.health := player.health;
 end;
 
-//==========================================================================
 //
 // P_TryPickupWeapon
 //
-//==========================================================================
 
 procedure P_TryPickupWeapon(player: Pplayer_t; weaponClass: pclass_t;
   weaponType: weapontype_t; weapon: Pmobj_t; const _message: string);
@@ -797,11 +795,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // P_TryPickupWeaponPiece
 //
-//==========================================================================
 
 var
   pieceValueTrans: array[0..4] of integer = (
@@ -1037,14 +1033,12 @@ begin
 end;
 
 
-//==========================================================================
 //
 // SetDormantArtifact
 //
 // Removes the MF_SPECIAL flag and initiates the artifact pickup
 // animation.
 //
-//==========================================================================
 
 procedure P_SetDormantArtifact(arti: Pmobj_t);
 begin
@@ -1071,11 +1065,9 @@ begin
 end;
 
 
-//==========================================================================
 //
 // P_TryPickupArtifact
 //
-//==========================================================================
 
 procedure P_TryPickupArtifact(player: Pplayer_t; artifactType: artitype_t;
   artifact: Pmobj_t);
@@ -2328,11 +2320,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // P_FallingDamage
 //
-//==========================================================================
 
 procedure P_FallingDamage(player: Pplayer_t);
 var
@@ -2358,11 +2348,9 @@ begin
   P_DamageMobj(player.mo, nil, nil, damage);
 end;
 
-//==========================================================================
 //
 // P_PoisonPlayer - Sets up all data concerning poisoning
 //
-//==========================================================================
 
 procedure P_PoisonPlayer(player: Pplayer_t; poisoner: Pmobj_t; poison: integer);
 begin
@@ -2375,11 +2363,9 @@ begin
     player.poisoncount := 100;
 end;
 
-//==========================================================================
 //
 // P_PoisonDamage - Similar to P_DamageMobj
 //
-//==========================================================================
 
 procedure P_PoisonDamage(player: Pplayer_t; source: Pmobj_t; damage: integer;
   playPainSound: boolean);
@@ -2495,11 +2481,9 @@ begin
 end;
 
 
-//==========================================================================
 //
 // P_ClearMessage
 //
-//==========================================================================
 
 procedure P_ClearMessage(player: Pplayer_t);
 begin

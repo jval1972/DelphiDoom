@@ -4,7 +4,7 @@
 //  based on original Linux Doom as published by "id Software", on
 //  Hexen source as published by "Raven" software and DelphiDoom
 //  as published by Jim Valavanis.
-//  Copyright (C) 2004-2020 by Jim Valavanis
+//  Copyright (C) 2004-2021 by Jim Valavanis
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -195,13 +195,11 @@ var
 
 // CODE --------------------------------------------------------------------
 
-//==========================================================================
 //
 // VerifySequencePtr
 //
 //   Verifies the integrity of the temporary ptr, and ensures that the ptr
 //     isn't exceeding the size of the temporary buffer
-//==========================================================================
 
 procedure VerifySequencePtr(base: PIntegerArray; ptr: PInteger);
 begin
@@ -209,11 +207,9 @@ begin
     I_Error('VerifySequencePtr:  tempPtr >= %d', [SS_TEMPBUFFER_SIZE]);
 end;
 
-//==========================================================================
 //
 // GetSoundOffset
 //
-//==========================================================================
 
 function GetSoundOffset(const name: string): integer;
 var
@@ -233,11 +229,9 @@ begin
   result := 0;
 end;
 
-//==========================================================================
 //
 // S_InitSequenceScript
 //
-//==========================================================================
 
 procedure S_InitSequenceScript;
 var
@@ -398,11 +392,9 @@ begin
   sc.Free;
 end;
 
-//==========================================================================
 //
 //  S_StartSequence
 //
-//==========================================================================
 
 procedure S_StartSequence(mobj: Pmobj_t; sequence: integer);
 var
@@ -433,11 +425,9 @@ begin
   inc(ActiveSequences);
 end;
 
-//==========================================================================
 //
 //  S_StartSequenceName
 //
-//==========================================================================
 
 procedure S_StartSequenceName(mobj: Pmobj_t; name: string);
 var
@@ -454,11 +444,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 //  S_StopSequence
 //
-//==========================================================================
 
 procedure S_StopSequence(mobj: Pmobj_t);
 var
@@ -489,11 +477,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 //  S_UpdateActiveSequences
 //
-//==========================================================================
 
 procedure S_UpdateActiveSequences;
 var
@@ -579,11 +565,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 //  S_StopAllSequences
 //
-//==========================================================================
 
 procedure S_StopAllSequences;
 var
@@ -598,23 +582,19 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 //  S_GetSequenceOffset
 //
-//==========================================================================
 
 function S_GetSequenceOffset(sequence: integer; sequencePtr: PInteger): integer;
 begin
   result := (integer(sequencePtr) - integer(SequenceData[SequenceTranslate[sequence].scriptNum])) div SizeOf(integer);
 end;
 
-//==========================================================================
 //
 //  S_ChangeNodeData
 //
 //   nodeNum zero is the first node
-//==========================================================================
 
 procedure S_ChangeNodeData(nodeNum: integer; seqOffset: integer; delayTics: integer;
   volume: integer; currentSoundID: integer);

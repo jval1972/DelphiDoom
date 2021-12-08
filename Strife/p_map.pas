@@ -82,6 +82,7 @@ procedure P_SlideMove(mo: Pmobj_t);
 
 function P_TestMobjLocation(mobj: Pmobj_t): boolean;
 
+
 var
   linetarget: Pmobj_t;  // who got hit (or NULL)
 

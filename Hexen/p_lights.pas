@@ -97,11 +97,9 @@ const
   LIGHT_SEQUENCE_ALT = 4;
 
 
-//============================================================================
 //
 //  T_Light
 //
-//============================================================================
 
 procedure T_Light(light: Plight_t);
 begin
@@ -177,11 +175,9 @@ begin
   end;
 end;
 
-//============================================================================
 //
 //  EV_SpawnLight
 //
-//============================================================================
 
 function EV_SpawnLight(line: Pline_t; arg: PByteArray; _type: lighttype_t): boolean;
 var
@@ -282,11 +278,9 @@ begin
   end;
 end;
 
-//============================================================================
 //
 //  T_Phase
 //
-//============================================================================
 
 const
   PhaseTable: array[0..63] of integer = (
@@ -306,11 +300,9 @@ begin
   phase.sector.lightlevel := phase.base + PhaseTable[phase.index];
 end;
 
-//==========================================================================
 //
 // P_SpawnPhasedLight
 //
-//==========================================================================
 
 procedure P_SpawnPhasedLight(sector: Psector_t; base: integer; index: integer);
 var
@@ -334,11 +326,9 @@ begin
   sector.special := 0;
 end;
 
-//==========================================================================
 //
 // P_SpawnLightSequence
 //
-//==========================================================================
 
 procedure P_SpawnLightSequence(sector: Psector_t; indexStep: integer);
 var

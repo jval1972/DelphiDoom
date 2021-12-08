@@ -1938,13 +1938,11 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // P_UseArtifact
 //
 // Returns true if the artifact was used.
 //
-//==========================================================================
 
 function P_UseArtifact(player: Pplayer_t; arti: artitype_t): boolean;
 var
@@ -2172,11 +2170,9 @@ begin
   result := true;
 end;
 
-//============================================================================
 //
 // A_SpeedFade
 //
-//============================================================================
 
 procedure A_SpeedFade(actor: Pmobj_t);
 begin

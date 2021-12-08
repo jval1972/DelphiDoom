@@ -1450,11 +1450,9 @@ begin
     result := P_PathTraverse32(x1, y1, x2, y2, flags, trav)
 end;
 
-//===========================================================================
 //
 // P_RoughBlockCheck
 //
-//===========================================================================
 
 function P_RoughBlockCheck(mo: Pmobj_t; index: integer): Pmobj_t;
 var
@@ -1602,13 +1600,11 @@ begin
   result := nil;
 end;
 
-//===========================================================================
 //
 // P_RoughMonsterSearch
 //
 // Searches though the surrounding mapblocks for monsters/players
 //    distance is in MAPBLOCKUNITS
-//===========================================================================
 
 function P_RoughMonsterSearch(mo: Pmobj_t; distance: integer): Pmobj_t;
 var

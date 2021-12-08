@@ -281,11 +281,9 @@ begin
 
 end;
 
-//==================================================================
 //
 //      HANDLE FLOOR TYPES
 //
-//==================================================================
 function EV_DoFloor(line: Pline_t; args: PByteArray; floortype: floor_e): boolean;
 var
   secnum: integer;
@@ -412,11 +410,9 @@ begin
   end;
 end;
 
-//============================================================================
 //
 // EV_DoFloorAndCeiling
 //
-//============================================================================
 
 function EV_DoFloorAndCeiling(line: Pline_t; args: PByteArray; doraise: boolean): boolean;
 var
@@ -485,11 +481,9 @@ var
   TextureChange: integer;
   StartHeight: integer;
 
-//==========================================================================
 //
 // QueueStairSector
 //
-//==========================================================================
 
 procedure QueueStairSector(sec: Psector_t; _type: integer; height: integer);
 begin
@@ -503,11 +497,9 @@ begin
   QueueTail := (QueueTail + 1) mod STAIR_QUEUE_SIZE;
 end;
 
-//==========================================================================
 //
 // DequeueStairSector
 //
-//==========================================================================
 
 function DequeueStairSector(_type: PInteger; height: PInteger): Psector_t;
 begin
@@ -523,11 +515,9 @@ begin
   QueueHead := (QueueHead + 1) mod STAIR_QUEUE_SIZE;
 end;
 
-//==========================================================================
 //
 // ProcessStairSector
 //
-//==========================================================================
 
 procedure ProcessStairSector(sec: Psector_t; _type: integer; height: integer;
   stairsType: stairs_e; delay: integer; resetDelay: integer);
@@ -599,13 +589,11 @@ begin
   end;
 end;
 
-//==================================================================
 //
 //      BUILD A STAIRCASE!
 //
 // Direction is either positive or negative, denoting build stairs
 //      up or down.
-//==================================================================
 
 function EV_BuildStairs(line: Pline_t; args: PByteArray; dir: integer;
   stairsType: stairs_e): boolean;
@@ -671,11 +659,9 @@ begin
   result := true;
 end;
 
-//=========================================================================
 //
 // T_BuildPillar
 //
-//=========================================================================
 
 procedure T_BuildPillar(pillar: Ppillar_t);
 var
@@ -696,11 +682,9 @@ begin
   end;
 end;
 
-//=========================================================================
 //
 // EV_BuildPillar
 //
-//=========================================================================
 
 function EV_BuildPillar(line: Pline_t; args: PByteArray; crush: boolean): boolean;
 var
@@ -763,11 +747,9 @@ begin
   end;
 end;
 
-//=========================================================================
 //
 // EV_OpenPillar
 //
-//=========================================================================
 
 function EV_OpenPillar(line: Pline_t; args: PByteArray): boolean;
 var
@@ -829,11 +811,9 @@ begin
   end;
 end;
 
-//=========================================================================
 //
 // EV_FloorCrushStop
 //
-//=========================================================================
 
 function EV_FloorCrushStop(line: Pline_t; args: PByteArray): boolean;
 var
@@ -868,11 +848,9 @@ begin
   end;
 end;
 
-//==========================================================================
 //
 // T_FloorWaggle
 //
-//==========================================================================
 
 const
   WGLSTATE_EXPAND = 1;
@@ -921,11 +899,9 @@ begin
   P_ChangeSector(waggle.sector, true);
 end;
 
-//==========================================================================
 //
 // EV_StartFloorWaggle
 //
-//==========================================================================
 
 function EV_StartFloorWaggle(tag: integer; height: integer; speed: integer;
   offset: integer; timer: integer): boolean;

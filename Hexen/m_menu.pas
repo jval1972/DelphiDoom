@@ -3694,22 +3694,18 @@ begin
   teleloadticks := M_ICON_TICKS;
 end;
 
-//==========================================================================
 //
 // M_DoDrawSaveIcon
 //
-//==========================================================================
 procedure M_DoDrawSaveIcon;
 begin
   if telesaveticks > 0 then
     V_DrawPatch(100, 68, SCN_TMP, 'saveicon', false);
 end;
 
-//==========================================================================
 //
 // M_DoDrawLoadIcon
 //
-//==========================================================================
 procedure M_DoDrawLoadIcon;
 begin
   if teleloadticks > 0 then
