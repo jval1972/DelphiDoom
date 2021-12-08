@@ -1317,7 +1317,7 @@ begin
       if (thing.flags2_ex and MF2_EX_JUMPDOWN <> 0) and (N_Random > 20) then
         dropoffmargin := dropoffmargin + 120 * FRACUNIT;
 
-    if ((thing.flags and (MF_DROPOFF or MF_FLOAT)) = 0) and
+    if (thing.flags and (MF_DROPOFF or MF_FLOAT) = 0) and
        (tmfloorz - tmdropoffz > dropoffmargin) then
     begin
       result := false;  // don't stand over a dropoff
