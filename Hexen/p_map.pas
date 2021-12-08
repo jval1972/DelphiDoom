@@ -1813,9 +1813,7 @@ begin
       thing.floorclip := 0;
   end;
 
-//
-// if any special lines were hit, do the effect
-//
+  // if any special lines were hit, do the effect
   if thing.flags and (MF_TELEPORT or MF_NOCLIP) = 0 then
   begin
     while numspechit > 0 do
@@ -1823,8 +1821,8 @@ begin
       // see if the line was crossed
       dec(numspechit);
       ld := spechit[numspechit];
-      side := P_PointOnLineSide (thing.x, thing.y, ld);
-      oldside := P_PointOnLineSide (oldx, oldy, ld);
+      side := P_PointOnLineSide(thing.x, thing.y, ld);
+      oldside := P_PointOnLineSide(oldx, oldy, ld);
       if side <> oldside then
       begin
         // JVAL: Script Events
@@ -1850,8 +1848,8 @@ begin
       end;
     end;
   end;
-  result := true;
 
+  result := true;
 end;
 
 
